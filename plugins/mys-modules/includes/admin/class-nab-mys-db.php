@@ -502,22 +502,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			//ne_temp disabled
-			//$this->nab_mys_master_confirmed( $item->DataID );
+			$this->nab_mys_master_confirmed( $item->DataID );
 
 			return $post_detail;
 		}
