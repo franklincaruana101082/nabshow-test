@@ -105,6 +105,9 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 		}
 
 		public function nab_mys_curl_fetch_image( $url ) {
+
+			//ne_info
+			// please use `wpcom_vip_file_get_contents()` or `vip_safe_wp_remote_get()` instead
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );

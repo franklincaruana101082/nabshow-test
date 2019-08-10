@@ -319,13 +319,13 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				), array( 'HistoryID' => $this->history_id ) );
 
 
-				if ( "speakers" === $current_request ) {
+				/*if ( "speakers" === $current_request ) {
 //				if( "sessions" === $current_request ) {
 
 					echo '<pre>';
 					print_r( get_defined_vars() );
 					die( '<br><---died here' );
-				}
+				}*/
 
 				return $sql;
 			}
