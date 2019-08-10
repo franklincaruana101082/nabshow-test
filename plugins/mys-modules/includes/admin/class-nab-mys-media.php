@@ -19,7 +19,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 		 */
 		public function __construct() {
 
-			$image_url    = 'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg';
+			$image_url = 'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg';
 
 			//$this->nab_mys_upload_media( 15, $image_url);
 
@@ -59,15 +59,26 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						throw new Exception( "The file cannot be saved." );
 					}
 
+					$media_title = preg_replace( '/\.[^.]+$/', '', $filename );
+
+					$media_title     = 'FB127_LX_Front45 ';
+					$attachmend_data = get_page_by_title( $media_title, OBJECT, 'attachment' );
+					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) ) {
+
+						set_post_thumbnail( $post_id, $attachmend_data->ID);
+
+						return true;
+					}
+
 					$attachment = array(
 						'post_mime_type' => $wp_filetype['type'],
-						'post_title'     => preg_replace( '/\.[^.]+$/', '', $filename ),
+						'post_title'     => $media_title,
 						'post_content'   => '',
 						'post_status'    => 'inherit',
 						'guid'           => $uploads['url'] . "/" . $filename
 					);
 
-					$attach_id  = wp_insert_attachment( $attachment, $fullpathfilename, $post_id );
+					$attach_id = wp_insert_attachment( $attachment, $fullpathfilename, $post_id );
 					if ( ! $attach_id ) {
 						throw new Exception( "Failed to save record into database." );
 					}
@@ -81,16 +92,15 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					set_post_thumbnail( $post_id, $attach_id );
 
 
-
 				} catch ( Exception $e ) {
 					$error = '<div id="message" class="error"><p>' . $e->getMessage() . '</p></div>';
 				}
 
 				return true;
 
-					echo '<pre>';
-					print_r(get_defined_vars());
-					die('<br><---died here');
+				echo '<pre>';
+				print_r( get_defined_vars() );
+				die( '<br><---died here' );
 
 			}
 
@@ -122,7 +132,6 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 			return $image;
 		}
-
 
 
 	}
