@@ -28,7 +28,7 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
 </div>
 <div class="mys-section-left">
     <div id="mys-sync-wrapper" class="mys-main-table res-cl">
-        <div class="mys-head mys-message-container"></div>
+        <div class="mys-head mys-message-container" style="display: none"></div>
         <div class="mys-head">
             <h2><?php echo esc_html($pagetitle); ?></h2>
             <p>There is no data synced from MYS yet, please click pull button to start syncing.</p>

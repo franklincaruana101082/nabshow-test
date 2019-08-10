@@ -19,7 +19,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 		 */
 		public function __construct() {
 
-			$image_url = 'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg';
+			/*$image_url = 'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg';*/
 
 			//$this->nab_mys_upload_media( 15, $image_url);
 
@@ -41,7 +41,10 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 				require_once( ABSPATH . '/wp-includes/pluggable.php' );
 
-				$filename    = wp_unique_filename( $uploads['path'], $newfilename, $unique_filename_callback = null );
+				//ne_updating code to prevent unique name generation
+				//$filename    = wp_unique_filename( $uploads['path'], $newfilename, $unique_filename_callback = null );
+				$filename    = $newfilename;
+
 				$wp_filetype = wp_check_filetype( $filename, null );
 
 				$fullpathfilename = $uploads['path'] . "/" . $filename;
@@ -51,23 +54,23 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						throw new Exception( basename( $imageurl ) . ' is not a valid image. ' . $wp_filetype['type'] . '' );
 					}
 
+					$media_title = preg_replace( '/\.[^.]+$/', '', $filename );
+
+					$attachmend_data = get_page_by_title( $media_title, OBJECT, 'attachment' );
+
+					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) ) {
+
+						set_post_thumbnail( $post_id, $attachmend_data->ID);
+
+						return true;
+					}
+
 
 					$image_string = $this->nab_mys_fetch_image( $imageurl );
 
 					$fileSaved = file_put_contents( $uploads['path'] . "/" . $filename, $image_string );
 					if ( ! $fileSaved ) {
 						throw new Exception( "The file cannot be saved." );
-					}
-
-					$media_title = preg_replace( '/\.[^.]+$/', '', $filename );
-
-					$media_title     = 'FB127_LX_Front45 ';
-					$attachmend_data = get_page_by_title( $media_title, OBJECT, 'attachment' );
-					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) ) {
-
-						set_post_thumbnail( $post_id, $attachmend_data->ID);
-
-						return true;
 					}
 
 					$attachment = array(
@@ -97,10 +100,6 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 				}
 
 				return true;
-
-				echo '<pre>';
-				print_r( get_defined_vars() );
-				die( '<br><---died here' );
 
 			}
 

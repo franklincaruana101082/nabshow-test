@@ -406,15 +406,16 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$default_fields = array(
 				'title',
-				'description'
+				'description',
+				'sessionid'
 			);
 
-			$title                = $data['title'];
-			$description          = $data['description'];
+			$title       = $data['title'];
+			$description = $data['description'];
 			//$image_url            = $data['image_url'];
-			$sessionid            = $data['sessionid'];
-			$sessionid_meta_value = "session#" . $sessionid;
-			$data['sessionid']    = $sessionid_meta_value;
+			$sessionid = $data['sessionid'];
+			//$sessionid_meta_value = "session#" . $sessionid;
+			//$data['sessionid']    = $sessionid_meta_value;
 
 			/**
 			 * 0 - Deleted
@@ -425,7 +426,9 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'sessionid' AND meta_value = %s", $sessionid_meta_value ) );
+			//$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'sessionid' AND meta_value = %s", $sessionid_meta_value ) );
+
+			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s", $sessionid ) );
 
 			/*if ( isset( $already_available_id[0] ) && "2973" === $already_available_id[0] ) {
 				$item_status = 0;
@@ -452,6 +455,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						'ID'           => $update_post_id,
 						'post_title'   => "faisal-testing-" . $title,
 						'post_content' => $description,
+						'post_excerpt' => $sessionid,
 						'post_status'  => 'publish',
 					);
 
@@ -472,6 +476,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						'post_title'   => "faisal-testing-" . $title,
 						'post_type'    => 'sessions',
 						'post_content' => $description,
+						'post_excerpt' => $sessionid,
 						'post_status'  => 'publish',
 					) );
 
@@ -488,15 +493,17 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				}
 
 
+				$image_url_array = array(
+					'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
+					'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
+					'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
+					'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
+					'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
+					'http://wallperio.com/data/out/184/images_605127984.jpg'
+				);
 
-
-
-
-
-
-
-				//$image_url    = 'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg';
-				$image_url    = 'https://nab20.mapyourshow.com/mys_shared/NAB20/showfeatures/562/FB127_LX_Front45.png';
+				$random_image_key = array_rand($image_url_array);
+				$image_url = $image_url_array[$random_image_key];
 
 				$image_uploaded = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 
@@ -525,8 +532,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			unset( $data['schedules'] );
 			$data                 = array_merge( $data, $schedules );
 			$sessionid            = $schedules['sessionid'];
-			$sessionid_meta_value = "speaker#" . $sessionid;
-			$data['sessionid']    = $sessionid_meta_value;
+			//$sessionid_meta_value = "speaker#" . $sessionid;
+			//$data['sessionid']    = $sessionid_meta_value;
 
 			/**
 			 * 0 - Deleted
@@ -537,15 +544,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$already_available_id = $wpdb->get_col(
-				$wpdb->prepare(
-					"SELECT post_id FROM $wpdb->postmeta
-								WHERE meta_key = 'sessionid'
-								AND meta_value = %s", $sessionid_meta_value ) );
-
-			/*if ( isset( $already_available_id[0] ) && "2973" === $already_available_id[0] ) {
-				$item_status = 0;
-			}*/
+			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s", $sessionid ) );
+			//$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'sessionid' AND meta_value = %s", $sessionid_meta_value ) );
 
 			if ( 0 === $item_status ) {
 
@@ -568,6 +568,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						'ID'           => $update_post_id,
 						'post_title'   => "faisal-testing-" . $title,
 						'post_content' => $description,
+						'post_excerpt' => $sessionid,
 						'post_status'  => 'publish',
 					);
 
@@ -588,6 +589,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						'post_title'   => "faisal-testing-" . $title,
 						'post_type'    => 'speakers',
 						'post_content' => $description,
+						'post_excerpt' => $sessionid,
 						'post_status'  => 'publish',
 					) );
 
@@ -604,7 +606,17 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				}
 
 
-				$image_url    = 'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg';
+				$image_url_array = array(
+					'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
+					'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
+					'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
+					'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
+					'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
+					'http://wallperio.com/data/out/184/images_605127984.jpg'
+				);
+
+				$random_image_key = array_rand($image_url_array);
+				$image_url = $image_url_array[$random_image_key];
 
 				$image_uploaded = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 			}

@@ -28,6 +28,7 @@ jQuery(document).ready(function ($) {
 
         $('.process').addClass('in-progress').width('35px');
         $('#progress-percent').text('0%');
+        $('.mys-message-container').slideDown();
         $('.mys-message-container').html('<p>Fetching the data from MYS Server..</p>');
 
         requestedFor = $(this).data('sync');
