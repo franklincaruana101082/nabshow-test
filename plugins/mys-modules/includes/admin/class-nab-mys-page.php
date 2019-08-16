@@ -46,53 +46,38 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 			);
 //die("omg");
 
-			add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys__login_page_fun' ) );
-			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys__history_page_fun' ) );
-			add_submenu_page( 'null', 'MYS Setting', 'MYS Setting', 'manage_options', 'mys-setting', array( $this, 'nab_mys__setting_page_fun' ) );
-			add_submenu_page( 'null', 'MYS About', 'MYS About', 'manage_options', 'mys-about', array( $this, 'nab_mys__about_page_fun' ) );
-			add_submenu_page( 'null', 'MYS Dashboard', 'MYS Dashboard', 'manage_options', 'mys-dashboard', array( $this, 'nab_mys__dashboard_page_fun' ) );
-			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys__history_page_fun' ) );
-			add_submenu_page( 'null', 'MYS Exhibitors', 'MYS Exhibitors', 'manage_options', 'mys-exhibitors', array( $this, 'nab_mys__exhibitors_page_fun' ) );
+			add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys_login_page_fun' ) );
+			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys_history_page_fun' ) );
+			add_submenu_page( 'null', 'MYS Setting', 'MYS Setting', 'manage_options', 'mys-setting', array( $this, 'nab_mys_setting_page_fun' ) );
+			add_submenu_page( 'null', 'MYS About', 'MYS About', 'manage_options', 'mys-about', array( $this, 'nab_mys_about_page_fun' ) );
+			add_submenu_page( 'null', 'MYS Dashboard', 'MYS Dashboard', 'manage_options', 'mys-dashboard', array( $this, 'nab_mys_dashboard_page_fun' ) );
+			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys_history_page_fun' ) );
+			add_submenu_page( 'null', 'MYS Exhibitors', 'MYS Exhibitors', 'manage_options', 'mys-exhibitors', array( $this, 'nab_mys_exhibitors_page_fun' ) );
 
 		}
 
-		public function nab_mys__login_page_fun() {
+		public function nab_mys_login_page_fun() {
 			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-login-page.php' );
 		}
 
-		public function nab_mys__setting_page_fun() {
-
-			//$this->my_custom_redirect();
-			//add_action( 'wp_loaded', array( $this, 'my_custom_redirect' ) );
-
+		public function nab_mys_setting_page_fun() {
 			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-setting-page.php' );
 		}
 
-		public function nab_mys__about_page_fun() {
+		public function nab_mys_about_page_fun() {
 			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-about-page.php' );
 		}
 
-		public function nab_mys__dashboard_page_fun() {
+		public function nab_mys_dashboard_page_fun() {
 			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-dashbord-page.php' );
 		}
 
-		public function nab_mys__history_page_fun() {
+		public function nab_mys_history_page_fun() {
 			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-history-page.php' );
 		}
 
-		public function nab_mys__exhibitors_page_fun() {
+		public function nab_mys_exhibitors_page_fun() {
 			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-exhibitors-page.php' );
-		}
-
-		public function my_custom_redirect() {
-			die('adsf');
-			if ( "1" === get_option( 'nab_mys_show_wizard' )
-			     && "0" === get_option( 'nab_mys_credentails_valid' )
-			     && "mys-login" !== $_GET['page'] ) {
-				$redirect = admin_url( 'admin.php?page=mys-login' );
-				wp_redirect( $redirect );
-				exit;
-			}
 		}
 
 		/**
@@ -102,9 +87,6 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 		 * @since 1.0.0
 		 */
 		public function nab_mys_page_html() {
-
-			//$this->my_custom_redirect();
-			//add_action( 'wp_loaded', array( $this, 'my_custom_redirect' ) );
 
 			//Generate a New MYS API Token on load if expired after 1 hour
 			( new NAB_MYS_Endpoints() )->nab_mys_get_token_from_cache();

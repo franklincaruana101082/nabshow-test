@@ -117,15 +117,11 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			$this->history_id      = $history_id;
 			$this->data_array      = $data;
 			$this->data_json       = wp_json_encode( $data );
-			//ne_quetion => use below?
-			//$this->data_json = str_replace( "'", "\'", $this->data_json);
 
 			//Insert entry in wp_mys_api_history
-			$history_insertion_status = $this->nab_mys_update_history_data( $current_request, "update", $this->group_id ); //ne_info here passing parameters is meaning less
+			$history_insertion_status = $this->nab_mys_update_history_data( $current_request, "update", $this->group_id );
 
 			if ( "modified-sessions" === $current_request ) {
-
-				//make actions...
 
 				$session_modified_array = $data[0]->sessions;
 
@@ -142,7 +138,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				 * Get all other 1 by 1 and save as json and row wise if available in modified array!
 				 * and also keep making the status from 0 to 1
 				 */
-
 
 				//1 by 1 covert json to rows only if session id available in Modified Array.
 				//Then make 1 by 1 History status to 1 = success
@@ -170,6 +165,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				global $wpdb;
 
+				$rows = array();
+
 				foreach ( $all_items as $item ) {
 
 					$item_session_id = isset ( $item->sessionid ) ? $item->sessionid : "";
@@ -180,7 +177,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						//Insert the $item_session_id
 						$item_status = $this->session_modified_array[ $item_session_id ];
 
-						//$inserted = $this->nab_mys_update_custom_table( $item, $item_status, $item_session_id );
 						$single_item_json = wp_json_encode( $item );
 						switch ( $item_status ) {
 
@@ -215,7 +211,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 							'DataJson'      => $single_item_json
 						);
 
-						if ( 2 === $total_items_inserted ) {
+						if ( 10 === $total_items_inserted ) {
 							break;
 						}
 
@@ -223,7 +219,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					}
 				}
 
-				$inserted_ids = $this->nab_mys_wpdb_bulk_insert( 'wp_mys_data', $rows );
+				$this->nab_mys_wpdb_bulk_insert( 'wp_mys_data', $rows );
 			}
 
 			return true;
@@ -295,47 +291,15 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			} else {
 
-
-				/*if( "speakers" === $current_request ) {
-					echo $this->data_json;
-
-					$this->data_json = str_replace( "'", "\'", $this->data_json );
-					echo "\n\n\n";
-
-					echo $this->data_json;
-
-					die;
-				}
-
-				$this->data_json = "testing faisal";*/
-
-				if ( "speakers" === $current_request ) {
-					//$this->data_json = "testing faisal";
-				}
 				$sql = $wpdb->update( $wpdb->prefix . 'mys_history', array(
 					/*'HistoryStatus'  => 1,*/
 					'HistoryEndTime' => date( 'Y-m-d H:i:s' ),
 					'HistoryData'    => $this->data_json
 				), array( 'HistoryID' => $this->history_id ) );
 
-
-				/*if ( "speakers" === $current_request ) {
-//				if( "sessions" === $current_request ) {
-
-					echo '<pre>';
-					print_r( get_defined_vars() );
-					die( '<br><---died here' );
-				}*/
-
 				return $sql;
 			}
 
-			//SQL Operation Status
-			/*if ( $sql ) {
-				return $wpdb->insert_id;
-			} else {
-				return false;
-			}*/
 		}
 
 		/**
@@ -414,8 +378,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			$description = $data['description'];
 			//$image_url            = $data['image_url'];
 			$sessionid = $data['sessionid'];
-			//$sessionid_meta_value = "session#" . $sessionid;
-			//$data['sessionid']    = $sessionid_meta_value;
 
 			/**
 			 * 0 - Deleted
@@ -426,13 +388,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			//$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'sessionid' AND meta_value = %s", $sessionid_meta_value ) );
-
 			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s", $sessionid ) );
-
-			/*if ( isset( $already_available_id[0] ) && "2973" === $already_available_id[0] ) {
-				$item_status = 0;
-			}*/
 
 			if ( 0 === $item_status ) {
 
@@ -453,7 +409,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 					$update_post = array(
 						'ID'           => $update_post_id,
-						'post_title'   => "faisal-testing-" . $title,
+						'post_title'   => "testing-" . $title,
 						'post_content' => $description,
 						'post_excerpt' => $sessionid,
 						'post_status'  => 'publish',
@@ -473,7 +429,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					//NEW POST
 
 					$post_id = wp_insert_post( array(
-						'post_title'   => "faisal-testing-" . $title,
+						'post_title'   => "testing-" . $title,
 						'post_type'    => 'sessions',
 						'post_content' => $description,
 						'post_excerpt' => $sessionid,
@@ -502,8 +458,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					'http://wallperio.com/data/out/184/images_605127984.jpg'
 				);
 
-				$random_image_key = array_rand($image_url_array);
-				$image_url = $image_url_array[$random_image_key];
+				$random_image_key = array_rand( $image_url_array );
+				$image_url        = $image_url_array[ $random_image_key ];
 
 				$image_uploaded = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 
@@ -530,10 +486,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$schedules = $data['schedules'][0];
 			unset( $data['schedules'] );
-			$data                 = array_merge( $data, $schedules );
-			$sessionid            = $schedules['sessionid'];
-			//$sessionid_meta_value = "speaker#" . $sessionid;
-			//$data['sessionid']    = $sessionid_meta_value;
+			$data      = array_merge( $data, $schedules );
+			$sessionid = $schedules['sessionid'];
 
 			/**
 			 * 0 - Deleted
@@ -545,7 +499,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			global $wpdb;
 
 			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s", $sessionid ) );
-			//$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'sessionid' AND meta_value = %s", $sessionid_meta_value ) );
 
 			if ( 0 === $item_status ) {
 
@@ -566,7 +519,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 					$update_post = array(
 						'ID'           => $update_post_id,
-						'post_title'   => "faisal-testing-" . $title,
+						'post_title'   => "testing-" . $title,
 						'post_content' => $description,
 						'post_excerpt' => $sessionid,
 						'post_status'  => 'publish',
@@ -586,7 +539,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					//NEW POST
 
 					$post_id = wp_insert_post( array(
-						'post_title'   => "faisal-testing-" . $title,
+						'post_title'   => "testing-" . $title,
 						'post_type'    => 'speakers',
 						'post_content' => $description,
 						'post_excerpt' => $sessionid,
@@ -615,8 +568,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					'http://wallperio.com/data/out/184/images_605127984.jpg'
 				);
 
-				$random_image_key = array_rand($image_url_array);
-				$image_url = $image_url_array[$random_image_key];
+				$random_image_key = array_rand( $image_url_array );
+				$image_url        = $image_url_array[ $random_image_key ];
 
 				$image_uploaded = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 			}

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-    wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+    wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
 }
 require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
 ?>

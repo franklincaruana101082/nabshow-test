@@ -15,18 +15,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 	class NAB_MYS_MEDIA {
 
 		/**
-		 * Class Constructor
-		 */
-		public function __construct() {
-
-			/*$image_url = 'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg';*/
-
-			//$this->nab_mys_upload_media( 15, $image_url);
-
-		}
-
-		/**
-		 * Create Custom DB Tables if not alread created
+		 * Create Custom DB Tables if not already created
 		 *
 		 * @package MYS Modules
 		 * @since 1.0.0
@@ -41,12 +30,8 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 				require_once( ABSPATH . '/wp-includes/pluggable.php' );
 
-				//ne_updating code to prevent unique name generation
-				//$filename    = wp_unique_filename( $uploads['path'], $newfilename, $unique_filename_callback = null );
-				$filename    = $newfilename;
-
-				$wp_filetype = wp_check_filetype( $filename, null );
-
+				$filename         = $newfilename;
+				$wp_filetype      = wp_check_filetype( $filename, null );
 				$fullpathfilename = $uploads['path'] . "/" . $filename;
 
 				try {
@@ -60,7 +45,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) ) {
 
-						set_post_thumbnail( $post_id, $attachmend_data->ID);
+						set_post_thumbnail( $post_id, $attachmend_data->ID );
 
 						return true;
 					}
@@ -96,7 +81,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 
 				} catch ( Exception $e ) {
-					$error = '<div id="message" class="error"><p>' . $e->getMessage() . '</p></div>';
+					echo '<div id="message" class="error"><p>' . esc_html( $e->getMessage() ) . '</p></div>';
 				}
 
 				return true;
@@ -127,7 +112,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 		}
 
 		public function nab_mys_fopen_fetch_image( $url ) {
-			$image = file_get_contents( $url, false, $context );
+			$image = file_get_contents( $url, false );
 
 			return $image;
 		}

@@ -76,11 +76,11 @@ jQuery(document).ready(function ($) {
 
                 if ('' !== pastItem) {
 
-                    pastItemName = pastItem.toLowerCase().replace(/\b[a-z]/g, function(txtVal) {
+                    pastItemName = pastItem.toLowerCase().replace(/\b[a-z]/g, function (txtVal) {
                         return txtVal.toUpperCase();
                     });
 
-                    $('.mys-message-container').append('<p>' + pastItemName + ' fetched successfully..</p>');
+                    $('.mys-message-container').append(pastItemName + ' fetched successfully.');
 
                     //$('body').removeClass('autoProgress');
 
@@ -96,7 +96,7 @@ jQuery(document).ready(function ($) {
                     setTimeout(function () {
                         $('.mys-message-container').append(
                             '<p class="highlighted-para">The migration process is started now, please check your inbox soon.</p>');
-                    },2000);
+                    }, 2000);
 
 
                     $('.process').removeClass('in-progress');

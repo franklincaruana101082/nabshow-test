@@ -12,13 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( esc_html(__( 'You do not have sufficient permissions to access this page.' )) );
+	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
 }
 update_option( 'nab_mys_wizard_step', 2 );
 
 require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
-
-	$pagetitle = ("1" === get_option( 'nab_mys_show_wizard' )) ? "Welcome Valerie, Its a Big Bang Moment!" : "MYS Sync";
 ?>
 
 
@@ -30,10 +28,15 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
     <div id="mys-sync-wrapper" class="mys-main-table res-cl">
         <div class="mys-head mys-message-container" style="display: none"></div>
         <div class="mys-head">
-            <h2><?php echo esc_html($pagetitle); ?></h2>
-            <p>There is no data synced from MYS yet, please click pull button to start syncing.</p>
-            <p>Click pull button will pull Sessions, Tracks, Sponsors, Speakers from MYS Server and start syncing to out database.</p>
-            <p>On a successful sync, you will get a notifying email about the status of Sync process.</p>
+			<?php
+			if ( "1" === get_option( 'nab_mys_show_wizard' ) ) { ?>
+                <h2>Sync Sessions</h2>
+                <p>There is no session data from MYS on our website yet.</p>
+                <p>Please click the pull button to pull in the latest Session, Speaker, Track and Sponsor/Partner data from the API.</p>
+			<?php } else { ?>
+                <h2>Sync Sessions and Exhibitors</h2>
+                <p>Use the buttons below to pull in the latest Session and Exhibitor data from the API.</p>
+			<?php } ?>
         </div>
         <table class="table-outer syn-table">
             <tbody>
@@ -43,8 +46,7 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
                 </td>
                 <td>
                     <div>
-                        <span>Fetch from MYS</span>
-                        <input type="hidden" name="syncSessions" id="syncSessions" value="yes" />
+                        <p>Fetch Session, Speaker, Track and Sponsor/Partner data from MYS.</p>
                     </div>
                 </td>
             </tr>
@@ -59,11 +61,11 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
                         <strong>Exhibitors</strong>
                     </td>
                     <td>
-                        <input type="file" name="">
+                        <p>Fetch Exhibitor and Exhib-itor Category data from MYS.</p>
                     </td>
                 </tr>
                 <tr>
-                    <td class="import-data" colspan="2">
+                    <td class="pull-data" colspan="2">
                         <span class="button-primary button import-exhibitors">Import</span>
                     </td>
                 </tr>
@@ -75,6 +77,7 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
 <?php if ( "1" === get_option( 'nab_mys_show_wizard' ) ) {
 	?>
     <div class="next-bottom-btn">
-        <a class="button-primary button" id="nextstep" href="<?php echo esc_url(admin_url( 'admin.php?page=mys-exhibitors' )); ?>">Next</a>
+        <a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a>
+        <br><a id="nextstep" class="skip" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">skip</a>
     </div>
 <?php } ?>

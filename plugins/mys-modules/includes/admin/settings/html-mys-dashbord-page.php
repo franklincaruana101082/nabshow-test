@@ -13,20 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 update_option('nab_mys_show_wizard', 0);
 
 if( isset($_GET['setup-success']) && 'true' == $_GET['setup-success'] ) {
-    $title = "Your Wizard Setup Completed Successfully! Welcome to Dashboard.";
+    $pagetitle = "Your Wizard Setup Completed Successfully! Welcome to Dashboard.";
 } else {
-    $title = "Welcome to Dashboard";
+    $pagetitle = "Welcome to Dashboard";
 }
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-    wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+    wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
 }
 require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
 ?>
 <div class="mys-section-left dashboard-page">
     <div class="mys-main-table res-cl">
-        <h1><?php echo $title; ?></h1>
+        <h1><?php echo esc_html($pagetitle); ?></h1>
         <div class="dashboard-main">
             <div class="dashboard-box">
                 <div class="title">

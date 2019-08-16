@@ -1,6 +1,7 @@
 @charset "utf-8";
 #mysstoremain .all-pad{margin:15px}
 header.mys-header{background:#d9d9d9;display:inline-block;margin-bottom:20px;vertical-align:top;width:100%;margin-top:20px}
+.datails ul {list-style: unset;margin-left: 20px}
 .mys-menu-main ul li a{text-decoration:none;-webkit-transition:all 200ms ease-in;transition:all 200ms ease-in;font-size:14px;display:block;line-height:28px;color:#000;padding:12px 20px}
 span.upgrade_pro_image{margin-right:20px}
 span.upgrade_pro_image a, span.support_mysstore_image a{display:inline-block}
@@ -13,7 +14,7 @@ span.upgrade_pro_image a, span.support_mysstore_image a{display:inline-block}
 .show-labels #save_master_settings{display:inline-block}
 .show-labels label{display:inline-block}
 .highlighted-para{color:green;font-weight:700}
-.mys-head.mys-message-container{margin-bottom: 20px;background: #fff}
+.mys-head.mys-message-container{margin-bottom:20px;background:#fff}
 .show-labels .regular-text, .show-labels #save_master_settings{display:none}
 .mys-menu-main{width:100%;display:inline-block;background:rgba(152, 152, 152, 0.5);box-sizing:border-box;vertical-align:bottom}
 .mys-menu-main ul li{display:inline-block;position:relative;float:left;margin:0}

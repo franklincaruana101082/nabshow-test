@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Map Your Show Modules
+ * Plugin Name: Custom MapYourShow Plugin
  * Plugin URI:  https://nabshow.com
- * Description: Includes NABShow LV modules as Gutenberg Blocks and their Required Post Types which are dependent on Map Your Show (MYS) API.
+ * Description: Pull the API for Session, Speaker, Track, Sponsor/Partner, Exhibitor and Exhibitor Category data from MapYourShow (MYS), including the creation of associated Gutenberg Blocks and Custom Post Types.
  * Version:     1.0.0
  * Author:      Multidots
  * Author URI:  multidots.com
@@ -44,31 +44,7 @@ if ( ! defined( 'MYS_PLUGIN_API' ) ) {
  * @package MYS Modules
  * @since 1.0.0
  */
-register_activation_hook( __FILE__, 'mys_modules_install' );
-
-/**
- * Plugin Setup (On Activation)
- *
- * @package MYS Modules
- * @since 1.0.0
- */
-/*function mys_modules_install() {
-
-	add_option( 'nab_mys_show_wizard', "1" );
-
-	//ne_temp below code for wizard test
-	//update_option('nab_mys_show_wizard', 1);
-	//update_option( 'nab_mys_credentials_valid', 'no' );
-
-
-	delete_option( 'nab_mys_credentials_valid' );
-	exit( wp_redirect( admin_url( 'admin.php?page=mys-login' ) ) );
-
-
-}*/
-/*update_option('nab_mys_show_wizard', 0);
-update_option( 'nab_mys_credentials_valid', 'yes' );*/
-function cyb_activation_redirect( $plugin ) {
+function mys_modules_install( $plugin ) {
 
 	delete_option( 'nab_mys_credentials_valid' );
 	update_option( 'nab_mys_show_wizard', 1 );
@@ -79,7 +55,7 @@ function cyb_activation_redirect( $plugin ) {
 	}
 }
 
-add_action( 'activated_plugin', 'cyb_activation_redirect' );
+add_action( 'activated_plugin', 'mys_modules_install' );
 
 
 /**
