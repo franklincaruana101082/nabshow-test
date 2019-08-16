@@ -62,7 +62,7 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
                         <strong>Exhibitors</strong>
                     </td>
                     <td>
-                        <p>Fetch Exhibitor and Exhib-itor Category data from MYS.</p>
+                        <p>Fetch Exhibitor and Exhibitor Category data from MYS.</p>
                     </td>
                 </tr>
                 <tr>

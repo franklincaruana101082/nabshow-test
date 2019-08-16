@@ -31,7 +31,7 @@ $mys_username = get_option( 'nab_mys_credentials_u' );
 $mys_password = get_option( 'nab_mys_credentials_p' );
 $notice       = '';
 
-if ( $_POST['mys-cred-nonce'] && wp_verify_nonce( $_POST['mys-cred-nonce'], 'mys-cred-nonce' ) ) {
+if ( $_POST && wp_verify_nonce( $_POST['mys-cred-nonce'], 'mys-cred-nonce' ) ) {
 
 	$mys_username = filter_input( INPUT_POST, 'mys_username', FILTER_SANITIZE_STRING );
 	$mys_password = filter_input( INPUT_POST, 'mys_password', FILTER_SANITIZE_STRING );
