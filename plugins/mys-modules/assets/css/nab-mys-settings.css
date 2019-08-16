@@ -3,7 +3,7 @@
 header.mys-header{background:#d9d9d9;display:inline-block;margin-bottom:20px;vertical-align:top;width:100%;margin-top:20px}
 .datails ul {list-style: unset;margin-left: 20px}
 .mys-menu-main ul li a{text-decoration:none;-webkit-transition:all 200ms ease-in;transition:all 200ms ease-in;font-size:14px;display:block;line-height:28px;color:#000;padding:12px 20px}
-span.upgrade_pro_image{margin-right:20px}
+span.upgrade_pro_image{margin-right:20px}.fr-2 {width: 25%}
 span.upgrade_pro_image a, span.support_mysstore_image a{display:inline-block}
 .mys-logo-main{float:left;width:auto;display:inline-block;padding:20px}
 .mys-header-right{display:inline-block;padding:24px 0;width:90%}

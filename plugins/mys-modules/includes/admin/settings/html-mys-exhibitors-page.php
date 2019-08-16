@@ -18,6 +18,10 @@ update_option('nab_mys_wizard_step', 3);
 
 require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
 ?>
+<div class="mys-process-bar">
+    <span class="process"></span>
+    <strong>Process (<span id="progress-percent">0%</span>)</strong>
+</div>
 <div class="mys-section-left">
     <div class="mys-main-table res-cl">
         <div class="mys-head">
@@ -29,7 +33,7 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
         <table class="table-outer syn-table">
             <tbody>
                 <tr>
-                    <td class="fr-1">
+                    <td class="fr-2">
                         <strong>Exhibitors</strong>
                     </td>
                     <td>
@@ -39,6 +43,19 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
                 <tr>
                     <td class="pull-data" colspan="2">
                         <span class="button-primary button">Import</span>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="fr-2">
+                        <strong>Exhibitor Categories</strong>
+                    </td>
+                    <td>
+                        <p>Exhibitor Categories from MYS.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pull-data" colspan="2">
+                        <span class="button-primary button">Pull</span>
                     </td>
                 </tr>
             </tbody>
