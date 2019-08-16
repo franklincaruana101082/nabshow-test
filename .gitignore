@@ -33,3 +33,6 @@ Thumbs.db
 
 # phpstorm
 .idea
+
+# node modules
+node_modules

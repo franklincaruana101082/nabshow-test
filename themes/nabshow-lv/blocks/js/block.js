@@ -1,0 +1,14 @@
+import './block/multipurpose-gutenberg-block/block';
+import './block/slider/block';
+import './block/button/block';
+import './block/Heading/block';
+import './block/image/block';
+import './block/image-with-text/block';
+import './block/schedule-block/block';
+import './block/quotes/block';
+import './block/not-to-be-missed/block';
+import './block/latest-show-news/block';
+import './block/accordion/block';
+import './block/meet-the-team/block';
+import './block/awards-block/block';
+import './block/advertisement/block';
