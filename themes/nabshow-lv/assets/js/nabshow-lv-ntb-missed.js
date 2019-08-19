@@ -56,32 +56,33 @@ function nabAjaxForLoadMoreAndCategoryClickEvent(eventName, pageNumber, dataCate
             dataObj = jQuery.parseJSON(getData);
 
             jQuery.each(dataObj.result_post, function (key, value) {
+                if (value.post_thumbnail) {
+                    cardsDiv = document.getElementsByClassName('cards');
+                    cloneCardsDiv = cardsDiv[0].cloneNode(true);
 
-                cardsDiv = document.getElementsByClassName('cards');
-                cloneCardsDiv = cardsDiv[0].cloneNode(true);
+                    innerATag = cloneCardsDiv.querySelector('a');
+                    innerATag.setAttribute('href', value.post_permalink);
 
-                innerATag = cloneCardsDiv.querySelector('a');
-                innerATag.setAttribute('href', value.post_permalink);
+                    innerH2Tag = cloneCardsDiv.querySelector('h2');
+                    innerH2Tag.innerText = value.post_title;
 
-                innerH2Tag = cloneCardsDiv.querySelector('h2');
-                innerH2Tag.innerText = value.post_title;
+                    innerImgTag = cloneCardsDiv.querySelector('img');
+                    innerImgTag.setAttribute('src', value.post_thumbnail);
 
-                innerImgTag = cloneCardsDiv.querySelector('img');
-                innerImgTag.setAttribute('src', value.post_thumbnail);
+                    innerCategory = cloneCardsDiv.querySelector('span');
+                    innerCategory.innerText = value.post_category;
 
-                innerCategory = cloneCardsDiv.querySelector('span');
-                innerCategory.innerText = value.post_category;
+                    const mylist = document.getElementById('card_section');
 
-                const mylist = document.getElementById('card_section');
+                    if ('categoryClick' === eventName && 0 === key) {
+                        jQuery('#card_section').empty();
+                    }
 
-                if ('categoryClick' === eventName && 0 === key) {
-                    jQuery('#card_section').empty();
-                }
+                    mylist.appendChild(cloneCardsDiv);
 
-                mylist.appendChild(cloneCardsDiv);
-
-                if (key === (dataObj.result_post.length - 1)) {
-                    masonryGrids();
+                    if (key === (dataObj.result_post.length - 1)) {
+                        masonryGrids();
+                    }
                 }
 
             });

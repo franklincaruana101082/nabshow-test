@@ -203,6 +203,10 @@ function nabshow_lv_scripts() {
     //wp_enqueue_script( 'nabshow-gutenberg-block', get_stylesheet_directory_uri() . '/dist/bundled.js' );
 
     wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), null, true );
+	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
+		'ajax_url'                    => admin_url( 'admin-ajax.php' ),
+		'nabshow_lv_custom_ads_nonce' => wp_create_nonce( 'nabshow_lv_custom_ads_nonce' )
+	) );
 
     if ( has_block( 'nab/not-to-be-missed-slider' ) ) {
         wp_localize_script( 'nabshow-lv-custom', 'nabshowNtbMissed', array(

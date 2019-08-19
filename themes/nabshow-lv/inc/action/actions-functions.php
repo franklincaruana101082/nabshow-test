@@ -8,8 +8,10 @@
 
 /**
  * Enqueue gutenberg custom block script.
+ *
  * @param $column
  * @param $post_id
+ *
  * @since 1.0.0
  */
 function nabshow_lv_add_block_editor_assets() {
@@ -44,45 +46,60 @@ function nabshow_lv_add_block_editor_assets() {
  */
 function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 
-    $values = array(
-        'Post Title'           => 'post_title',
-        'Blank Featured Image' => 'blank_featured_image',
-    );
-    ?>
+	$values = array(
+		'Post Title'           => 'post_title',
+		'Blank Featured Image' => 'blank_featured_image',
+	);
+	?>
     <select name="additional_filter">
         <option value=""><?php esc_html_e( 'Additional Filter', 'nabshow-lv' ); ?></option>
-        <?php
-        $additional_filter = filter_input( INPUT_GET, 'additional_filter', FILTER_SANITIZE_STRING );
-        $current_v         = isset( $additional_filter ) ? $additional_filter : '';
-        foreach ( $values as $label => $value ) { ?>
+		<?php
+		$additional_filter = filter_input( INPUT_GET, 'additional_filter', FILTER_SANITIZE_STRING );
+		$current_v         = isset( $additional_filter ) ? $additional_filter : '';
+		foreach ( $values as $label => $value ) { ?>
 
             <option value="<?php echo esc_attr( $value ) ?>" <?php selected( $current_v, $value ); ?>><?php echo esc_html( $label ); ?></option>
 
-        <?php }
-        ?>
+		<?php }
+		?>
     </select>
-    <?php
+	<?php
 
 }
 
 /**
  * Show the post thumbnail in the featured image column.
+ *
  * @param $column
  * @param $post_id
+ *
  * @since 1.0.0
  */
 function nabshow_lv_custom_columns_data( $column, $post_id ) {
+
 	switch ( $column ) {
 		case 'featured_image':
-			the_post_thumbnail( 'thumbnail' );
+		    if ( has_post_thumbnail() ) {
+                the_post_thumbnail('thumbnail');
+            } else {
+		    ?>
+                <span aria-hidden="true">—</span>
+            <?php
+            }
 			break;
         case 'featured_term':
-            if (has_category('event',$post_id)){ ?>
-                <img src="<?php echo esc_url( get_template_directory_uri().'/assets/images/featured-true.png' )?>">
+
+            $taxonomies  = get_taxonomies('','names');
+            $all_terms   = wp_get_post_terms($post_id, $taxonomies);
+            $final_terms = wp_list_pluck($all_terms, 'slug');
+
+            if ( in_array('featured', $final_terms, true ) ){ ?>
+                <img height="25px" width="25px" alt="featured" src="<?php echo esc_url( get_template_directory_uri().'/assets/images/check.svg' )?>">
             <?php } else { ?>
-                <img src="<?php echo esc_url( get_template_directory_uri().'/assets/images/no-featured.png' )?>">
+                <span aria-hidden="true">—</span>
             <?php }
         break;
+
 	}
 }
 
@@ -119,7 +136,7 @@ function nabshow_lv_move_scripts_to_footer() {
  * @since 1.0.0
  */
 function nabshow_lv_enqueue_styles_to_footer() {
-    wp_enqueue_style( 'wp-block-library' );
+	wp_enqueue_style( 'wp-block-library' );
 	wp_enqueue_style( 'nabshow-lv-style', get_stylesheet_uri() );
 	wp_enqueue_style( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css' );
 	wp_enqueue_style( 'nabshow-lv-font-awesome', get_template_directory_uri() . '/assets/fonts/font-awesome.min.css' );
@@ -134,51 +151,52 @@ function nabshow_lv_enqueue_styles_to_footer() {
  */
 function nabshow_lv_add_critical_css() {
 
-    if ( is_front_page() ) {
-        $csspath = esc_url(get_stylesheet_directory_uri() . '/assets/css/critical/home.css');
-        $criticalcss = wpcom_vip_file_get_contents(esc_url($csspath));
-        wp_add_inline_style('nabshow-lv-fonts', $criticalcss);
-    }
+	if ( is_front_page() ) {
+		$csspath     = esc_url( get_stylesheet_directory_uri() . '/assets/css/critical/home.css' );
+		$criticalcss = wpcom_vip_file_get_contents( esc_url( $csspath ) );
+		wp_add_inline_style( 'nabshow-lv-fonts', $criticalcss );
+	}
 }
 
 /**
  * Add/update post meta to thoughts gallery post for most popular posts.
  *
+ * @param $postID
+ *
  * @since 1.0
  *
- * @param $postID
  */
-function nabshow_lv_set_thought_gallery_views($postID) {
-    $count_key = 'nab_thought_gallery_views_count';
-    $count = get_post_meta($postID, $count_key, true);
-    if(empty($count)){
-        $count = 0;
-        delete_post_meta($postID, $count_key);
-        add_post_meta($postID, $count_key, '0');
-    }else{
-        $count++;
-        update_post_meta($postID, $count_key, $count);
-    }
+function nabshow_lv_set_thought_gallery_views( $postID ) {
+	$count_key = 'nab_thought_gallery_views_count';
+	$count     = get_post_meta( $postID, $count_key, true );
+	if ( empty( $count ) ) {
+		$count = 0;
+		delete_post_meta( $postID, $count_key );
+		add_post_meta( $postID, $count_key, '0' );
+	} else {
+		$count ++;
+		update_post_meta( $postID, $count_key, $count );
+	}
 }
 
 /**
  * Thoughts gallery post views count for popular posts.
  *
+ * @param $post_id
+ *
  * @since 1.0
  *
- * @param $post_id
  */
-function nabshow_lv_track_thought_gallery_views ($post_id) {
-    if ( !is_singular('thought-gallery') )
-        {
-            return;
-        }
+function nabshow_lv_track_thought_gallery_views( $post_id ) {
+	if ( ! is_singular( 'thought-gallery' ) ) {
+		return;
+	}
 
-    if ( empty ( $post_id) ) {
-        global $post;
-        $post_id = $post->ID;
-    }
-    nabshow_lv_set_thought_gallery_views($post_id);
+	if ( empty ( $post_id ) ) {
+		global $post;
+		$post_id = $post->ID;
+	}
+	nabshow_lv_set_thought_gallery_views( $post_id );
 }
 
 /**
@@ -187,11 +205,63 @@ function nabshow_lv_track_thought_gallery_views ($post_id) {
  * @since 1.0
  *
  */
-function nabshow_lv_custom_type_to_author(){
-	if (! is_admin() ){
+function nabshow_lv_custom_type_to_author() {
+	if ( ! is_admin() ) {
 		global $wp_query;
-		if ( is_author() || is_home() ){
-			$wp_query->set( 'post_type',  array( 'post', 'thought-gallery', 'ntb-missed' ) );
+		if ( is_author() || is_home() ) {
+			$wp_query->set( 'post_type', array( 'post', 'thought-gallery', 'ntb-missed' ) );
 		}
 	}
+}
+
+/**
+
+ * Make posts hierarchical
+ * @param $post_type
+ */
+function nabshow_lv_make_posts_hierarchical( $post_type ) {
+    // Return, if not post type posts
+    if ($post_type !== 'post') return;
+
+    // access $wp_post_types global variable
+    global $wp_post_types;
+
+    // Set post type "post" to be hierarchical
+    $wp_post_types['post']->hierarchical = 1;
+
+    // Add page attributes to post backend
+    // This adds the box to set up parent and menu order on edit posts.
+    add_post_type_support( 'post', 'page-attributes' );
+}
+
+ /*
+ *  Add custom menu for Ads statistics.
+ * @since 1.0
+ *
+ */
+function nabshow_lv_ad_stats_menu() {
+	add_menu_page(
+		__( 'Ads stats', 'nabshow-lv' ),
+		'Ads stats',
+		'manage_options',
+		'nabshow-lv-ads-stats',
+		'nabshow_lv_ads_stats_callback',
+		'dashicons-media-text'
+	);
+}
+
+/**
+ * Display ads views/clicks page
+ *
+ * @return Void
+ */
+function nabshow_lv_ads_stats_callback() {
+    $ads_view_lists = new Ads_View_List_Table();
+    $ads_view_lists->prepare_items();
+    ?>
+    <div class="wrap">
+        <h2>Ads view stats</h2>
+        <?php $ads_view_lists->display(); ?>
+    </div>
+    <?php
 }

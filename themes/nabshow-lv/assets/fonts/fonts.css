@@ -4,7 +4,9 @@
     font-family: "Gotham Book";
     font-style: normal;
     font-weight: normal;
-    src: url('gotham/Gotham Book Regular.otf') format('opentype');
+     src: local("Gotham Book"), url('gotham/Gotham-Book-Regular.otf') format('opentype'), /* IE6-IE8 */
+       url('gotham/GothamBook.woff') format('woff'), /* Super Modern Browsers */
+       url('gotham/GothamBook.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
 @font-face {

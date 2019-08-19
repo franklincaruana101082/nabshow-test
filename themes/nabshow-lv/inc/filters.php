@@ -21,6 +21,12 @@ add_filter( 'bulk_actions-edit-post', 'nabshow_lv_custom_bulk_actions' );
 
 add_filter( 'handle_bulk_actions-edit-post', 'nabshow_lv_set_and_remove_as_featured_bulk_actions_handler', 10, 3 );
 
+add_filter( 'bulk_actions-edit-exhibitors', 'nabshow_lv_custom_bulk_actions' );
+
+add_filter( 'handle_bulk_actions-edit-exhibitors', 'nabshow_lv_set_and_remove_as_featured_bulk_exhibitors_handler', 10, 3 );
+
+add_filter( 'bulk_actions-edit-page', 'nabshow_lv_custom_bulk_actions' );
+
 add_filter( 'excerpt_length', 'nabshow_lv_custom_excerpt_length', 999 );
 
 add_filter( 'excerpt_more', 'nabshow_lv_custom_excerpt_more' );

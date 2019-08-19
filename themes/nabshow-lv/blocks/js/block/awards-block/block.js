@@ -155,30 +155,35 @@ var allowedBlocks = [
             details: {
                 type: 'string'
             },
+            showPopup: {
+                type: 'boolean',
+                default: false,
+            },
             modelClass: {
                 type: 'string'
-            },
+            }
         },
         edit: (props) => {
             const { attributes, setAttributes, className } = props;
-            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, imageID, modelClass } = attributes;
+            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, imageID, modelClass, showPopup } = attributes;
 
-            // if (document.getElementById('wpwrap').classList.contains('brick_body_model_open')) {
-            //     setAttributes({ modelClass: 'brick_model_open' });
-            // } else {
-            //     setAttributes({ modelClass: '' });
-            // }
 
-            // function modelopen() {
-            //     var ele = document.getElementById('wpwrap');
-            //     ele.classList.add('brick_body_model_open');
-            //     setAttributes({ modelClass: 'brick_model_open' });
-            // }
-            // function modelclose() {
-            //     var ele = document.getElementById('wpwrap');
-            //     ele.classList.remove('brick_body_model_open');
-            //     setAttributes({ modelClass: '' });
-            // }
+            if (document.getElementById('wpwrap').classList.contains('nab_body_model_open')) {
+                setAttributes({ modelClass: 'nab_model_open' });
+            } else {
+                setAttributes({ modelClass: '' });
+            }
+
+            function modelopen() {
+                var ele = document.getElementById('wpwrap');
+                ele.classList.add('nab_body_model_open');
+                setAttributes({ modelClass: 'nab_model_open' });
+            }
+            function modelclose() {
+                var ele = document.getElementById('wpwrap');
+                ele.classList.remove('nab_body_model_open');
+                setAttributes({ modelClass: '' });
+            }
 
             return (
                 <Fragment>
@@ -198,6 +203,13 @@ var allowedBlocks = [
                                     label={__('Open in New Window')}
                                     checked={newWindow}
                                     onChange={() => setAttributes({ newWindow: ! newWindow })}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Popup')}
+                                    checked={showPopup}
+                                    onChange={() => setAttributes({ showPopup: ! showPopup })}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -279,20 +291,22 @@ var allowedBlocks = [
                                     value={details}
                                     placeholder={__('Lorem ipsum dolor sit amet, consectetur adipiscing elit. In viverra et eros nec ultricies. Etiam tincidunt diam orci, sit amet lacinia tellus rhoncus sed.')}
                                 />
-                                {/* <div className="brick_model_head">
-                                    <input type="button" className={'brick_popup_btn '} value='Click Here' />
-                                    <div className={`brick_model_main ${modelClass}`}>
-                                        <div className="brick_model_inner">
-                                            <div className="brick_close_btn" onClick={modelclose}>×</div>
-                                            <div className="brick_model_wrap">
-                                                <div className="brick_pop_up_content_wrap">
-                                                    <InnerBlocks />
+                                {showPopup ?
+                                    <div className="nab_model_head">
+                                        <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Click Here' />
+                                        <div className={`nab_model_main ${modelClass}`}>
+                                            <div className="nab_model_inner">
+                                                <div className="nab_close_btn" onClick={modelclose}>×</div>
+                                                <div className="nab_model_wrap">
+                                                    <div className="nab_pop_up_content_wrap">
+                                                        <InnerBlocks templateLock={false} />
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className="nab_bg_overlay" onClick={modelclose} />
                                         </div>
-                                        <div className="brick_bg_overlay" onClick={modelclose} />
-                                    </div>
-                                </div> */}
+                                    </div> : ''
+                                }
                             </div>
                         </div>
                     </div>
@@ -301,7 +315,7 @@ var allowedBlocks = [
         },
         save: (props) => {
             const { attributes, className } = props;
-            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details } = attributes;
+            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, showPopup } = attributes;
             return (
                 <div className='col-lg-6 col-md-6 col-sm-12'>
                     <div className='awards-row'>
@@ -330,21 +344,22 @@ var allowedBlocks = [
                                 tagName="p"
                                 value={details === undefined ? '-' : details}
                             />
-                            {/* <input type="button" className={`brick_popup_btn ${ActiveClass}`} value='Click Here' /> */}
-                            {/* <div className="brick_model_head">
-                                <input type="button" className={'brick_popup_btn '} value='Click Here' />
-                                <div className="brick_model_main">
-                                    <div className="brick_model_inner">
-                                        <div className="brick_close_btn">×</div>
-                                        <div className="brick_model_wrap">
-                                            <div className="brick_pop_up_content_wrap">
-                                                <InnerBlocks.Content />
+                            {showPopup ?
+                                <div className="nab_model_head">
+                                    <input type="button" className={'nab_popup_btn btn-primary'} value='Click Here' />
+                                    <div className="nab_model_main">
+                                        <div className="nab_model_inner">
+                                            <div className="nab_close_btn">×</div>
+                                            <div className="nab_model_wrap">
+                                                <div className="nab_pop_up_content_wrap">
+                                                    <InnerBlocks.Content />
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="nab_bg_overlay" />
                                     </div>
-                                    <div className="brick_bg_overlay" />
-                                </div>
-                            </div> */}
+                                </div> : ''
+                            }
                         </div>
                     </div>
                 </div>

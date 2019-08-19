@@ -183,18 +183,47 @@ function nabshow_lv_set_and_remove_as_featured_bulk_actions_handler( $redirect_t
 
 	foreach ( $post_ids as $post_id ) {
 
-		$terms = array( 4 );
-
 		if ( $doaction === 'nabshow_set_as_featured' ) {
-			wp_set_post_terms( $post_id, $terms, 'category', true );
+            wp_set_object_terms( $post_id, 'featured', 'category', true );
 		} elseif ( $doaction === 'nabshow_remove_from_featured' ) {
-			wp_remove_object_terms( $post_id, $terms, 'category' );
+			wp_remove_object_terms( $post_id, 'featured', 'category' );
 		}
 
 	}
 
 	return $redirect_to;
 }
+
+/**
+ * Seat as featured exhibitors handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ *
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_exhibitors_handler( $redirect_to, $doaction, $post_ids ) {
+
+    if ( $doaction !== 'nabshow_set_as_featured' && $doaction !== 'nabshow_remove_from_featured' ) {
+
+        return $redirect_to;
+    }
+
+    foreach ( $post_ids as $post_id ) {
+
+        if ( $doaction === 'nabshow_set_as_featured' ) {
+            wp_set_object_terms( $post_id, 'featured', 'exhibitors-category', true );
+        } elseif ( $doaction === 'nabshow_remove_from_featured' ) {
+            wp_remove_object_terms( $post_id, 'featured', 'exhibitors-category' );
+        }
+
+    }
+
+    return $redirect_to;
+}
+
+
 
 /**
  * Set custom excerpt length

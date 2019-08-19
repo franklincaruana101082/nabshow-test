@@ -341,8 +341,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                                         value={mode}
                                         options={[
                                             { label: __('Horizontal'), value: 'horizontal' },
-                                            { label: __('Vertical'), value: 'vertical' },
-                                            { label: __('Fade'), value: 'fade' },
+                                            { label: __('Fade'), value: 'fade' }
                                         ]}
                                         onChange={(value) => setAttributes({ mode: value })}
                                     />

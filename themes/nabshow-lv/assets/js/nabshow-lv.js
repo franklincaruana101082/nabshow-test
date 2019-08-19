@@ -86,6 +86,17 @@
 
   // nab-media-slider End
 
+  // Adding Row in Session Masonry Js
+  jQuery('.session.with-masonry').parent('div').addClass('row');
+
+  // Award Section Popup Js
+  jQuery('.nab_popup_btn').on('click', function () {
+    jQuery(this).siblings('.nab_model_main').addClass('nab_model_open');
+  });
+  jQuery('.nab_close_btn, .nab_bg_overlay').on('click touch', function () {
+    jQuery('.nab_model_main').removeClass('nab_model_open');
+  });
+
   // accordion
   $(document).on(
     'click',
@@ -217,33 +228,35 @@
           .find('.nab-not-to-be-missed-slider .cards')
           .removeClass('bx-clone');
         jQuery.each(dataObj.result_post, function (key, value) {
-          cardsDiv = document.getElementsByClassName('cards');
-          cloneCardsDiv = cardsDiv[0].cloneNode(true);
+          if (value.post_thumbnail) {
+            cardsDiv = document.getElementsByClassName('cards');
+            cloneCardsDiv = cardsDiv[0].cloneNode(true);
 
-          innerH2Tag = cloneCardsDiv.querySelector('h2');
-          innerH2Tag.innerText = value.post_title;
+            innerH2Tag = cloneCardsDiv.querySelector('h2');
+            innerH2Tag.innerText = value.post_title;
 
-          innerImgTag = cloneCardsDiv.querySelector('img');
-          innerImgTag.setAttribute('src', value.post_thumbnail);
+            innerImgTag = cloneCardsDiv.querySelector('img');
+            innerImgTag.setAttribute('src', value.post_thumbnail);
 
-          innerCategory = cloneCardsDiv.querySelector('span');
-          innerCategory.innerText = value.post_category;
+            innerCategory = cloneCardsDiv.querySelector('span');
+            innerCategory.innerText = value.post_category;
 
-          let sliderElement = document.getElementById(
-            _this
-              .parents('.slider-arrow-main')
-              .find('.nab-not-to-be-missed-slider')
-              .attr('id')
-          );
+            let sliderElement = document.getElementById(
+              _this
+                .parents('.slider-arrow-main')
+                .find('.nab-not-to-be-missed-slider')
+                .attr('id')
+            );
 
-          if (0 === key) {
-            _this
-              .parents('.slider-arrow-main')
-              .find('.nab-not-to-be-missed-slider')
-              .empty();
+            if (0 === key) {
+              _this
+                .parents('.slider-arrow-main')
+                .find('.nab-not-to-be-missed-slider')
+                .empty();
+            }
+
+            sliderElement.appendChild(cloneCardsDiv);
           }
-
-          sliderElement.appendChild(cloneCardsDiv);
         });
 
         $('.nab-not-to-be-missed-slider').each(function (index) {
@@ -293,6 +306,7 @@
     }
   }
 
+  // Schedule at a glance filter
   if (0 < $('.schedule-glance-filter div select#date').length) {
     $('.schedule-main').each(function () {
       insertOptions(
@@ -343,7 +357,7 @@
     );
   }
 
-  // meet the team
+  // meet the team filter
   if (0 < $('.team-main .team-box').length) {
     $('.team-main .team-box').each(function () {
       if (
@@ -376,6 +390,21 @@
     );
   }
 
+  // Awards Filter
+  if (0 < $('.schedule-glance-filter select#award-name').length) {
+    $('.awards-main').each(function () {
+      insertOptions($(this).find('h2').text(), 'award-name');
+    });
+
+    $(document).on('change', '.schedule-glance-filter .schedule-select #award-name', function () {
+      filterAwards();
+    });
+
+    $(document).on('keyup', '.schedule-glance-filter .schedule-search', function () {
+      filterAwards();
+    });
+  }
+
   /**
    * Set visible slide according to width
    * @returns {number}
@@ -390,8 +419,6 @@
       numberOfVisibleSlides = 2;
     } else if (1250 > windowWidth && 990 < windowWidth) {
       numberOfVisibleSlides = 3;
-    } else if (1300 > windowWidth && 1250 < windowWidth) {
-      numberOfVisibleSlides = 4;
     }
 
     return numberOfVisibleSlides;
@@ -436,6 +463,27 @@
       speed: parseInt(elementHandler.attr('data-speed')),
       mode: elementHandler.attr('data-mode')
     };
+  }
+
+  if (0 < $('.nabshow-lv-custom-ads').length) {
+    let slug = window.location.pathname;
+    jQuery.ajax({
+      type: 'GET',
+      data: 'action=nabshow_lv_custom_ads_view'+'&nabshow_lv_custom_ads_nonce=' + nabshowLvCustom.nabshow_lv_custom_ads_nonce + '&slug=' +slug,
+      url: nabshowLvCustom.ajax_url,
+      success: function(getData) {
+      }
+    });
+
+    $(document).on('click', '.nabshow-lv-custom-ads', function() {
+      jQuery.ajax({
+        type: 'GET',
+        data: 'action=nabshow_lv_custom_ads_click'+'&nabshow_lv_custom_ads_nonce=' + nabshowLvCustom.nabshow_lv_custom_ads_nonce + '&slug=' +slug,
+        url: nabshowLvCustom.ajax_url,
+        success: function(getData) {
+        }
+      });
+    });
   }
 })(jQuery);
 
@@ -664,6 +712,53 @@ function filterSelectTeam() {
   if (0 === jQuery('.team-main .team-box:visible').length) {
     if (0 === jQuery('.no-data').length) {
       createResultNotFoundNode('.team-box');
+    } else {
+      jQuery('.no-data').show();
+    }
+  }
+}
+
+function filterAwards() {
+  jQuery('.awards-main, .wp-block-nab-awards-item').show();
+  jQuery('.no-data').hide();
+
+  let filterAwardName =
+    0 <
+      jQuery('#award-name')[0].selectedIndex ?
+      jQuery('#award-name').val() :
+      null;
+
+  if (null !== filterAwardName) {
+    jQuery('.awards-header h2:not(:contains("' + filterAwardName + '"))')
+      .parents('.awards-main')
+      .hide();
+  }
+
+  let filterSearch = jQuery('.awards-filtering .awards-search').val();
+
+  if ('' !== filterSearch) {
+    jQuery('.wp-block-nab-awards-item:visible')
+      .filter(function () {
+        return (
+          0 >
+          jQuery('.winnerName', this)
+            .text()
+            .toLowerCase()
+            .indexOf(filterSearch.toLowerCase())
+        );
+      })
+      .hide();
+  }
+
+  jQuery('.awards-main')
+    .not(function () {
+      return 0 < jQuery(this).find('.wp-block-nab-awards-item:visible').length;
+    })
+    .hide();
+
+  if (0 === jQuery('.awards-main:visible').length) {
+    if (0 === jQuery('.no-data').length) {
+      createResultNotFoundNode('.awards-main');
     } else {
       jQuery('.no-data').show();
     }
