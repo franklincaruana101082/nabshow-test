@@ -16,7 +16,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 }
 update_option('nab_mys_wizard_step', 3);
 
-require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 ?>
 <div class="mys-process-bar">
     <span class="process"></span>

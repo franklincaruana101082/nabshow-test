@@ -43,8 +43,8 @@ if ( ! class_exists( 'Mys_Scripts' ) ) {
 					'nab-mys-sync-script',
 					'mysHandler',
 					array(
-						'ajaxurl' => admin_url( 'admin-ajax.php' ),
-						'security' => wp_create_nonce('mys-ajax-nonce')
+						'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+						'security' => wp_create_nonce( 'mys-ajax-nonce' )
 					) );
 
 				wp_enqueue_script( 'nab-mys-sync-script' );

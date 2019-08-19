@@ -41,10 +41,9 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 				__( 'MYS Sync', 'mys-modules' ),
 				__( 'MYS Sync', 'mys-modules' ),
 				'manage_options',
-				'mys-syn',
+				'mys-sync',
 				array( $this, 'nab_mys_page_html' ) //call back fun
 			);
-//die("omg");
 
 			add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys_login_page_fun' ) );
 			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys_history_page_fun' ) );
@@ -57,27 +56,27 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 		}
 
 		public function nab_mys_login_page_fun() {
-			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-login-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-login-page.php' );
 		}
 
 		public function nab_mys_setting_page_fun() {
-			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-setting-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-setting-page.php' );
 		}
 
 		public function nab_mys_about_page_fun() {
-			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-about-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-about-page.php' );
 		}
 
 		public function nab_mys_dashboard_page_fun() {
-			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-dashbord-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-dashbord-page.php' );
 		}
 
 		public function nab_mys_history_page_fun() {
-			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-history-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-page.php' );
 		}
 
 		public function nab_mys_exhibitors_page_fun() {
-			require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-exhibitors-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-exhibitors-page.php' );
 		}
 
 		/**
@@ -91,7 +90,7 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 			//Generate a New MYS API Token on load if expired after 1 hour
 			( new NAB_MYS_Endpoints() )->nab_mys_get_token_from_cache();
 
-			include_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-plugin-page.php' );
+			include_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-sync-page.php' );
 		}
 	}
 }

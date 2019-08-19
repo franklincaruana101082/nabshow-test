@@ -23,9 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'MYS_PLUGIN_URL' ) ) {
 	define( 'MYS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
-if ( ! defined( 'MYS_PLUGIN_DIR' ) ) {
-	define( 'MYS_PLUGIN_DIR', dirname( __FILE__ ) );
-}
 if ( ! defined( 'MYS_PLUGIN_DIR_PATH' ) ) {
 	define( 'MYS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 }
@@ -49,7 +46,7 @@ function mys_modules_install( $plugin ) {
 	delete_option( 'nab_mys_credentials_valid' );
 	update_option( 'nab_mys_show_wizard', 1 );
 
-	if ( $plugin == plugin_basename( __FILE__ ) ) {
+	if ( $plugin === plugin_basename( __FILE__ ) ) {
 		wp_redirect( esc_url( admin_url( 'admin.php?page=mys-login' ) ) );
 		exit();
 	}
@@ -84,27 +81,13 @@ function mys_modules_uninstall() {
 }
 
 //Class File - Admin Page
-require_once( MYS_PLUGIN_DIR . '/includes/admin/class-nab-mys-page.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-page.php' );
 
 //Class File - Endpoints
-require_once( MYS_PLUGIN_DIR . '/includes/admin/class-nab-mys-endpoints.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-endpoints.php' );
 
 //Class File - Scripts & Styles
-require_once( MYS_PLUGIN_DIR . '/includes/class-nab-scripts.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-scripts.php' );
 
 //Register MYS Dependent Post Types
-require_once( MYS_PLUGIN_DIR . '/includes/nab-post-types.php' );
-
-/**
- * Temporarily Setting Custom Timeout for the HTTP request to prevent 500 errors of MYS Responses.
- *
- * @param $timeout_value Default Timeout (i.e. 5 seconds)
- *
- * @return int Allowed Custom Timeout in Seconds
- */
-/*function sar_custom_http_request_timeout( $timeout_value ) {
-	return 20; // 30 seconds. Too much for production, only for testing.
-}
-add_filter( 'http_request_timeout', 'sar_custom_http_request_timeout', 9999 );*/
-
-add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );

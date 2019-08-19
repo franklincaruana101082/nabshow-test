@@ -1,28 +1,17 @@
 jQuery(document).ready(function ($) {
 
     var requestedFor = '';
-    var autoProgress = 0;
-    var autoProgressLoop = '';
+    var currentProgress = 0;
+    var progressJump = 50;
     var data = '';
-    var pastItem = '';
     var pastItemName = '';
-    var groupID = '';
+    var para = document.createElement('p');
+    var adsText = '';
 
     $('.mys-cred-edit').on('click', function () {
         $('.login-inner').toggleClass('show-labels');
         $(this).hide();
     });
-
-    /*$('#mys-sync-form').on('submit', function (e) {
-        e.preventDefault();
-
-        var formData = $(this).serialize();
-
-        if('yes' === $(this).find('#syncSessions').val() ) {
-            var requestedFor = 'sessions';
-            recurringAjax('', requestedFor, '');
-        }
-    });*/
 
     $('.button-sync').on('click', function () {
 
@@ -32,17 +21,6 @@ jQuery(document).ready(function ($) {
         $('.mys-message-container').html('<p>Fetching the data from MYS Server..</p>');
 
         requestedFor = $(this).data('sync');
-
-        /*autoProgress = 0;
-        $('body').addClass('autoProgress');
-        autoProgressLoop = setInterval(function () {
-            autoProgress = autoProgress + 10;
-            $('.process').addClass('in-progress').width(autoProgress + '%');
-            $('#progress-percent').text(autoProgress + '%');
-            if (50 <= autoProgress || ! $('body').hasClass('autoProgress')) {
-                clearInterval(autoProgressLoop);
-            }
-        }, 3000);*/
 
         recurringAjax('', requestedFor, '');
 
@@ -65,28 +43,29 @@ jQuery(document).ready(function ($) {
             data: data,
             success: function (response) {
 
-                //$('.mys_message_container').html(response);
-
                 pastItem = response.pastItem;
                 requestedFor = response.requestedFor;
                 groupID = response.groupID;
 
-                //alert('result - ' + pastItem + ' // ' + requestedFor + ' // ' + groupID);
-                //alert('all in one - ' + response);
-
                 if ('' !== pastItem) {
+
+                    currentProgress = currentProgress + progressJump;
 
                     pastItemName = pastItem.toLowerCase().replace(/\b[a-z]/g, function (txtVal) {
                         return txtVal.toUpperCase();
                     });
 
-                    $('.mys-message-container').append(pastItemName + ' fetched successfully.');
+                    para = document.createElement('p');
+                    adsText = document.createTextNode(pastItemName + ' fetched successfully.');
+                    para.appendChild(adsText);
 
-                    //$('body').removeClass('autoProgress');
+                    $(para).appendTo('.mys-message-container');
 
-                    $('.mys-process-bar .process').width('50%');
-                    $('#progress-percent').text('50%');
+                    $('.mys-process-bar .process').width(currentProgress + '%');
+                    $('#progress-percent').text(currentProgress + '%');
+
                     recurringAjax(pastItem, requestedFor, groupID);
+
                     return false;
 
                 } else {
@@ -106,7 +85,7 @@ jQuery(document).ready(function ($) {
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('.mys_message_container').html(jqXHR + ' :: ' + textStatus + ' :: ' + errorThrown);
+                $('.mys_message_container').text(jqXHR + ' :: ' + textStatus + ' :: ' + errorThrown);
             }
 
         });

@@ -11,13 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //Class File - DataBase Queries
-require_once( MYS_PLUGIN_DIR . '/includes/admin/class-nab-mys-db.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-db.php' );
 
 if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 	class NAB_MYS_Endpoints {
-
-		//Declare Class Varaiables
 
 		private $flow;
 
@@ -86,17 +84,22 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			add_action( 'rest_api_init', array( $this, 'nab_mys_rest_end_points' ) );
 		}
 
-		/**
-		 * http://nabshow.md-staging.com/wp-json/mys/get-data?datatype=1
-		 * http://nabshow.md-staging.com/wp-json/mys/get-data?datatype=2
-		 */
 		public function nab_mys_rest_end_points() {
+
+			/**
+			 * http://nabshow.md-staging.com/wp-json/mys/get-data?datatype=1
+			 * http://nabshow.md-staging.com/wp-json/mys/get-data?datatype=2
+			 */
 			register_rest_route( 'mys', '/get-data', array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'nab_mys_restapi_sessions' )
 				)
 			);
 
+			/**
+			 * http://nabshow.md-staging.com/wp-json/mys/migrate-data?limit=2
+			 * http://nabshow.md-staging.com/wp-json/mys/migrate-data?limit=5
+			 */
 			register_rest_route( 'mys', '/migrate-data', array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'nab_mys_restapi_start_migration' )
@@ -168,7 +171,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 			$past_request = $this->past_request;
 
-			$index = array_search( $past_request, $requested_for_stack );
+			$index = array_search( $past_request, $requested_for_stack, true );
 
 			if ( $index !== false && $index < count( $requested_for_stack ) - 1 ) {
 				$next = $requested_for_stack[ $index + 1 ];
@@ -212,7 +215,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			$randomString     = '';
 
 			for ( $i = 0; $i < $length; $i ++ ) {
-				$randomString .= $characters[ rand( 0, $charactersLength - 1 ) ];
+				$randomString .= $characters[ wp_rand( 0, $charactersLength - 1 ) ];
 			}
 
 			return $randomString;
@@ -228,13 +231,13 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 */
 		public function nab_mys_sync_data() {
 
+			check_ajax_referer( 'mys-ajax-nonce', 'security' );
+
 			$requested_for = filter_input( INPUT_POST, 'requested_for', FILTER_SANITIZE_STRING );
 			$group_id      = filter_input( INPUT_POST, 'group_id', FILTER_SANITIZE_STRING );
 			$past_request  = filter_input( INPUT_POST, 'past_request', FILTER_SANITIZE_STRING );
 
 			if ( isset( $requested_for ) ) {
-
-				check_ajax_referer( 'mys-ajax-nonce', 'security' );
 
 				$this->requested_for = sanitize_text_field( $requested_for );
 				$this->group_id      = ( "" !== sanitize_text_field( $group_id ) ) ? sanitize_text_field( $group_id ) : "";
@@ -245,7 +248,6 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 				$this->requested_for = $this->nab_mys_get_datatype_name();
 				$this->flow          = 'restapi';
-				//$this->group_id = $this->past_request = '';
 
 			}
 			$this->final_stack_item = $this->requested_for;
@@ -340,6 +342,9 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 */
 		public function nab_mys_storing_in_db( $nab_mys_token_response ) {
 
+			//Initialize the response status
+			$mys_response_status = '';
+
 			//Authorization string for the API Call.
 			$authorization = "Bearer " . $nab_mys_token_response;
 
@@ -391,8 +396,6 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				 * If the stack is still not empty, re call main function to fetch their data.
 				 */
 				if ( "wpajax" === $this->flow ) {
-					//return to ajax and recall from begenning
-					//$next_request = $this->nab_mys_requested_for_stack();
 
 					if ( $this->final_stack_item === $this->current_request ) {
 						$this->current_request = ''; //this will stop recurring ajax
@@ -500,13 +503,13 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 */
 		public function nab_mys_get_token_from_cache() {
 
-			if ( false === ( $nab_mys_token = get_transient( 'nab_mys_token' ) ) ) {
+			$nab_mys_token = get_transient( 'nab_mys_token' );
 
+			if ( false === $nab_mys_token ) {
 				//If Cachced Token expired, Generate a New Token.
 				$nab_mys_token_data = $this->nab_mys_generate_token();
 
 			} else {
-
 				//Return Token from Cache.
 				$nab_mys_token_data = array( 'token_response' => $nab_mys_token, 'token_status_code' => 200 );
 			}

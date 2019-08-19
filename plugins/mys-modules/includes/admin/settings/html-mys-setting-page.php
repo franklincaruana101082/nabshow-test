@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! current_user_can( 'manage_options' ) ) {
     wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
 }
-require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 ?>
 <div class="mys-section-left settings-page">
     <div class="mys-main-table res-cl">

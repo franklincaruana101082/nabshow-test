@@ -80,7 +80,6 @@ function nab_mys_session_fun() {
 			'editor',
 			'author',
 			'thumbnail',
-			'excerpt',
 			'menu_order',
 			'custom-fields'
 		)
@@ -137,7 +136,6 @@ function nab_mys_speaker_fun() {
 			'editor',
 			'author',
 			'thumbnail',
-			'excerpt',
 			'menu_order',
 			'custom-fields'
 		)
@@ -194,7 +192,6 @@ function nab_mys_sponsor_fun() {
 			'editor',
 			'author',
 			'thumbnail',
-			'excerpt',
 			'menu_order',
 			'custom-fields'
 		)
@@ -271,7 +268,6 @@ function nab_mys_exhibitor_fun() {
 			'editor',
 			'author',
 			'thumbnail',
-			'excerpt',
 			'menu_order',
 			'custom-fields'
 		)

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //Class File - Media
-require_once( MYS_PLUGIN_DIR . '/includes/admin/class-nab-mys-media.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-media.php' );
 
 if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
@@ -119,7 +119,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			$this->data_json       = wp_json_encode( $data );
 
 			//Insert entry in wp_mys_api_history
-			$history_insertion_status = $this->nab_mys_update_history_data( $current_request, "update", $this->group_id );
+			$this->nab_mys_update_history_data( $current_request, "update", $this->group_id );
 
 			if ( "modified-sessions" === $current_request ) {
 
@@ -162,8 +162,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
 
 				delete_option( 'modified_sessions_' . $this->group_id );
-
-				global $wpdb;
 
 				$rows = array();
 
@@ -211,7 +209,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 							'DataJson'      => $single_item_json
 						);
 
-						if ( 10 === $total_items_inserted ) {
+						if ( 3 === $total_items_inserted ) {
 							break;
 						}
 
@@ -228,6 +226,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		// Bulk inserts records into a table using WPDB.  All rows must contain the same keys.
 		// Returns number of affected (inserted) rows.
 		public function nab_mys_wpdb_bulk_insert( $table, $rows ) {
+
 			global $wpdb;
 
 			// Extract column list from first row of data
@@ -246,7 +245,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				foreach ( $rows as $row ) {
 					ksort( $row );
 					$rowPlaceholders = array();
-					foreach ( $row as $key => $value ) {
+					foreach ( $row as $value ) {
 						$data[]            = $value;
 						$rowPlaceholders[] = is_numeric( $value ) ? '%d' : '%s';
 					}
@@ -285,17 +284,16 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					'HistoryMigrationType' => 1,
 					'HistoryDataType'      => $current_request,
 					'HistoryStartTime'     => date( 'Y-m-d H:i:s' )
-				), array( '%d', '%s', '%d', '%s', '%s' ) );
+				), array( '%d', '%s', '%d', '%s', '%s' ) ); //db call ok; no-cache ok
 
 				return $wpdb->insert_id;
 
 			} else {
 
 				$sql = $wpdb->update( $wpdb->prefix . 'mys_history', array(
-					/*'HistoryStatus'  => 1,*/
 					'HistoryEndTime' => date( 'Y-m-d H:i:s' ),
 					'HistoryData'    => $this->data_json
-				), array( 'HistoryID' => $this->history_id ) );
+				), array( 'HistoryID' => $this->history_id ) ); //db call ok; no-cache ok
 
 				return $sql;
 			}
@@ -316,7 +314,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$sql = $wpdb->update( $wpdb->prefix . 'mys_history', array(
 				'HistoryStatus' => $status
-			), array( 'HistoryID' => $this->history_id ) );
+			), array( 'HistoryID' => $this->history_id ) ); //db call ok; no-cache ok
 
 			return $sql;
 
@@ -326,7 +324,9 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$data_to_migrate = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM wp_mys_data WHERE AddedStatus = 0 ORDER BY DataID ASC LIMIT %d", $limit ) );
+			$data_to_migrate = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}mys_data WHERE AddedStatus = 0 ORDER BY DataID ASC LIMIT %d", $limit )
+			); //db call ok; no-cache ok
 
 			if ( count( $data_to_migrate ) > 0 ) {
 				$result = $this->nab_mys_insert_to_master( $data_to_migrate );
@@ -367,6 +367,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$data_json = str_replace( "\'", "'", $item->DataJson );
 			$data      = json_decode( $data_json, true );
+			$post_type = 'sessions';
 
 			$default_fields = array(
 				'title',
@@ -376,8 +377,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$title       = $data['title'];
 			$description = $data['description'];
-			//$image_url            = $data['image_url'];
-			$sessionid = $data['sessionid'];
+			$sessionid   = $data['sessionid'];
 
 			/**
 			 * 0 - Deleted
@@ -388,14 +388,22 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s", $sessionid ) );
+			$already_available_id = wp_cache_get( $post_type . '_sessionid_' . $sessionid );
+
+			if ( false === $already_available_id ) {
+				$already_available_id = $wpdb->get_col(
+					$wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s AND post_type = %s", $sessionid, $post_type )
+				); //db call ok
+
+				wp_cache_set( $post_type . '_sessionid_' . $sessionid, $already_available_id );
+			}
 
 			if ( 0 === $item_status ) {
 
 				if ( isset( $already_available_id[0] ) ) {
 
 					$update_post_id = $already_available_id[0];
-					wp_trash_post( $update_post_id ); //or use wp_delete_post ?
+					wp_trash_post( $update_post_id );
 
 					$post_detail = "trash-session-" . $update_post_id;
 				}
@@ -461,7 +469,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$random_image_key = array_rand( $image_url_array );
 				$image_url        = $image_url_array[ $random_image_key ];
 
-				$image_uploaded = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
+				//Upload Third Party Image to WP Media Library
+				$this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 
 			}
 
@@ -474,6 +483,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$data_json = str_replace( "\'", "'", $item->DataJson );
 			$data      = json_decode( $data_json, true );
+			$post_type = 'speakers';
 
 			$default_fields = array(
 				'firstname',
@@ -498,14 +508,22 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$already_available_id = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s", $sessionid ) );
+			$already_available_id = wp_cache_get( $post_type . '_sessionid_' . $sessionid );
+
+			if ( false === $already_available_id ) {
+				$already_available_id = $wpdb->get_col(
+					$wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s AND post_type = %s", $sessionid, $post_type )
+				); //db call ok
+
+				wp_cache_set( $post_type . '_sessionid_' . $sessionid, $already_available_id );
+			}
 
 			if ( 0 === $item_status ) {
 
 				if ( isset( $already_available_id[0] ) ) {
 
 					$update_post_id = $already_available_id[0];
-					wp_trash_post( $update_post_id ); //or use wp_delete_post ?
+					wp_trash_post( $update_post_id );
 
 					$post_detail = "trash-speaker-" . $update_post_id;
 				}
@@ -571,7 +589,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$random_image_key = array_rand( $image_url_array );
 				$image_url        = $image_url_array[ $random_image_key ];
 
-				$image_uploaded = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
+				//Upload Third Party Image to WP Media Library
+				$this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 			}
 
 			$this->nab_mys_master_confirmed( $item->DataID );
@@ -584,12 +603,10 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			global $wpdb;
 
 			$update_status = $wpdb->query(
-				$wpdb->prepare(
-					"UPDATE wp_mys_data
-											SET AddedStatus = %d
-											WHERE DataID = %d"
-					, 1, $data_id ) );
+				$wpdb->prepare( "UPDATE {$wpdb->prefix}mys_data SET AddedStatus = %d WHERE DataID = %d", 1, $data_id )
+			); //db call ok; no-cache ok
 
+			return $update_status;
 		}
 
 		/**
@@ -622,7 +639,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$sql = $wpdb->insert( $wpdb->prefix . 'mys_data', array(
+			$wpdb->insert( $wpdb->prefix . 'mys_data', array(
 				'DataGroupID'   => $this->group_id,
 				'HistoryID'     => $this->history_id,
 				'AddedStatus'   => 0,
@@ -631,7 +648,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				'ModifiedID'    => $item_session_id,
 				'DataStartTime' => date( 'Y-m-d H:i:s' ),
 				'DataJson'      => $single_item_json
-			), array( '%s', '%d', '%d', '%d', '%s', '%s', '%s' ) );
+			), array( '%s', '%d', '%d', '%d', '%s', '%s', '%s' ) ); //db call ok; no-cache ok
 
 			return $wpdb->insert_id;
 		}

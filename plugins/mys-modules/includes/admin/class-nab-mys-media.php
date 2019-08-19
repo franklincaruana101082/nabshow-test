@@ -41,7 +41,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 					$media_title = preg_replace( '/\.[^.]+$/', '', $filename );
 
-					$attachmend_data = get_page_by_title( $media_title, OBJECT, 'attachment' );
+					$attachmend_data = wpcom_vip_get_page_by_title( $media_title, OBJECT, 'attachment' );
 
 					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) ) {
 
@@ -50,10 +50,11 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						return true;
 					}
 
+					$image_string = wpcom_vip_file_get_contents( $imageurl );
 
-					$image_string = $this->nab_mys_fetch_image( $imageurl );
+					//The below line is ignored on the basis of https://wpvip.com/documentation/vip-go/writing-files-on-vip-go/
+					$fileSaved = file_put_contents( $uploads['path'] . "/" . $filename, $image_string ); //phpcs:ignore
 
-					$fileSaved = file_put_contents( $uploads['path'] . "/" . $filename, $image_string );
 					if ( ! $fileSaved ) {
 						throw new Exception( "The file cannot be saved." );
 					}
@@ -89,34 +90,6 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 			}
 
 		}
-
-		public function nab_mys_fetch_image( $url ) {
-			if ( function_exists( "curl_init" ) ) {
-				return $this->nab_mys_curl_fetch_image( $url );
-			} elseif ( ini_get( "allow_url_fopen" ) ) {
-				return $this->nab_mys_fopen_fetch_image( $url );
-			}
-		}
-
-		public function nab_mys_curl_fetch_image( $url ) {
-
-			//ne_info
-			// please use `wpcom_vip_file_get_contents()` or `vip_safe_wp_remote_get()` instead
-			$ch = curl_init();
-			curl_setopt( $ch, CURLOPT_URL, $url );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			$image = curl_exec( $ch );
-			curl_close( $ch );
-
-			return $image;
-		}
-
-		public function nab_mys_fopen_fetch_image( $url ) {
-			$image = file_get_contents( $url, false );
-
-			return $image;
-		}
-
 
 	}
 }

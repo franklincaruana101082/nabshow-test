@@ -10,7 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( isset( $_GET['resetmys'] ) && "1" === $_GET['resetmys'] ) {
+$resetmys = filter_input( INPUT_GET, 'resetmys', FILTER_SANITIZE_STRING );
+
+if ( isset( $resetmys ) && "1" === $resetmys ) {
 	update_option( 'nab_mys_show_wizard', "1" );
 	delete_transient( 'nab_mys_token' );
 	delete_option( 'nab_mys_credentials_valid' );
@@ -23,7 +25,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 update_option( 'nab_mys_wizard_step', 1 );
 
-require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 
 //
 
@@ -31,7 +33,9 @@ $mys_username = get_option( 'nab_mys_credentials_u' );
 $mys_password = get_option( 'nab_mys_credentials_p' );
 $notice       = '';
 
-if ( $_POST && wp_verify_nonce( $_POST['mys-cred-nonce'], 'mys-cred-nonce' ) ) {
+$mys_cred_nonce = filter_input( INPUT_POST, 'mys-cred-nonce', FILTER_SANITIZE_STRING );
+
+if ( isset( $mys_cred_nonce ) && wp_verify_nonce( $mys_cred_nonce, 'mys-cred-nonce' ) ) {
 
 	$mys_username = filter_input( INPUT_POST, 'mys_username', FILTER_SANITIZE_STRING );
 	$mys_password = filter_input( INPUT_POST, 'mys_password', FILTER_SANITIZE_STRING );
@@ -73,7 +77,7 @@ $nab_mys_credentials_valid = get_option( 'nab_mys_credentials_valid' );
             <p>MapYourShow (MYS) credentials are required to create the bearer token to pull data from the MYS Server to our website. Please enter the details below. If you don't know these credentials, please open a MYS ZenDesk ticket.</p>
         </div>
         <form method="post" action="">
-            <input type="hidden" name="mys-cred-nonce" value="<?php echo wp_create_nonce( 'mys-cred-nonce' ) ?>"/>
+            <input type="hidden" name="mys-cred-nonce" value="<?php echo esc_attr( wp_create_nonce( 'mys-cred-nonce' ) ) ?>"/>
             <div class="login-inner <?php echo ( "yes" === $nab_mys_credentials_valid ) ? 'show-labels' : ''; ?>">
                 <div class="login-row">
                     <strong>User Name</strong>
@@ -103,6 +107,6 @@ $nab_mys_credentials_valid = get_option( 'nab_mys_credentials_valid' );
 if ( "1" === get_option( 'nab_mys_show_wizard' ) && "yes" === $nab_mys_credentials_valid ) {
 	?>
     <div class="next-bottom-btn">
-        <a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-syn' ) ); ?>">Next</a>
+        <a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-sync' ) ); ?>">Next</a>
     </div>
 <?php } ?>

@@ -7,26 +7,27 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+	exit; // Exit if accessed directly.
 }
 
-update_option('nab_mys_show_wizard', 0);
+$setup_success = filter_input( INPUT_GET, 'setup-success', FILTER_SANITIZE_STRING );
 
-if( isset($_GET['setup-success']) && 'true' == $_GET['setup-success'] ) {
+if ( isset( $setup_success ) && 'true' === $setup_success ) {
     $pagetitle = "Your Wizard Setup Completed Successfully! Welcome to Dashboard.";
+	update_option( 'nab_mys_show_wizard', 0 );
 } else {
-    $pagetitle = "Welcome to Dashboard";
+	$pagetitle = "Welcome to Dashboard";
 }
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-    wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
 }
-require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 ?>
 <div class="mys-section-left dashboard-page">
     <div class="mys-main-table res-cl">
-        <h1><?php echo esc_html($pagetitle); ?></h1>
+        <h1><?php echo esc_html( $pagetitle ); ?></h1>
         <div class="dashboard-main">
             <div class="dashboard-box">
                 <div class="title">
@@ -40,7 +41,7 @@ require_once( MYS_PLUGIN_DIR . '/includes/admin/settings/html-mys-header-page.ph
                             <li class="page-count"><a href="edit.php?post_type=page">266 Pages</a></li>
                         </ul>
                         <p id="wp-version-message"><span id="wp-version">MYS 5.2.2 running</p>
-                        <p><a href="options-reading.php">Search Engines Discouraged</a></p>   
+                        <p><a href="options-reading.php">Search Engines Discouraged</a></p>
                     </div>
                 </div>
             </div>
