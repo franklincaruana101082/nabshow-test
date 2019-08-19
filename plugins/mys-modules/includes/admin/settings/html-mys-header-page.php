@@ -38,7 +38,7 @@ $pagename = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
                     
                 </li>
                 <li>
-                    <a class="mystore_plugin <?php echo ( "mys-syn" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-syn">Sync</a>
+                    <a class="mystore_plugin <?php echo ( "mys-sync" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-sync">Sync</a>
                 </li>
                 <li>
                     <a class="mystore_plugin <?php echo ( "mys-history" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-history">History</a>

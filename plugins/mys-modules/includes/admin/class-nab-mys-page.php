@@ -42,7 +42,8 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 				__( 'MYS Sync', 'mys-modules' ),
 				'manage_options',
 				'mys-sync',
-				array( $this, 'nab_mys_page_html' ) //call back fun
+				array( $this, 'nab_mys_page_html' ),
+				WP_PLUGIN_URL . '/mys-modules/assets/images/icon.svg'
 			);
 
 			add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys_login_page_fun' ) );

@@ -87,8 +87,8 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		public function nab_mys_rest_end_points() {
 
 			/**
-			 * http://nabshow.md-staging.com/wp-json/mys/get-data?datatype=1
-			 * http://nabshow.md-staging.com/wp-json/mys/get-data?datatype=2
+			 * wp-json/mys/get-data?datatype=1
+			 * wp-json/mys/get-data?datatype=2
 			 */
 			register_rest_route( 'mys', '/get-data', array(
 					'methods'  => 'GET',
@@ -97,8 +97,8 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			);
 
 			/**
-			 * http://nabshow.md-staging.com/wp-json/mys/migrate-data?limit=2
-			 * http://nabshow.md-staging.com/wp-json/mys/migrate-data?limit=5
+			 * wp-json/mys/migrate-data?limit=2
+			 * wp-json/mys/migrate-data?limit=5
 			 */
 			register_rest_route( 'mys', '/migrate-data', array(
 					'methods'  => 'GET',
