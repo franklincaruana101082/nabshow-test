@@ -34169,18 +34169,7 @@ var ReusableBlocksList = function (_Component) {
                 }) : wp.element.createElement('span', {
                   'data-title': block.blocktitle,
                   className: 'No-image-found'
-                }),
-                block.custom_fields.block_icon ? wp.element.createElement(
-                  'span',
-                  { className: 'blockIcon' },
-                  wp.element.createElement('img', {
-                    src: block.custom_fields.block_icon ? block.custom_fields.block_icon : undefined
-                  })
-                ) : wp.element.createElement(
-                  'span',
-                  { className: 'No-icon-found' },
-                  'No Block Icon found'
-                )
+                })
               ),
               wp.element.createElement(
                 'div',
