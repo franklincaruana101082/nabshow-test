@@ -591,15 +591,28 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $slider_layout  = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : '';
             $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
-            $query          = get_transient( 'mys-get-session-slider-post-cache' . $post_type );
+            if ( 'rand' === $order_by ) {
+                $query  = get_transient( 'mys-get-session-slider-rand-post-cache' . $post_type );
+            } else {
+                $query  = get_transient( 'mys-get-session-slider-post-cache' . $post_type );
+            }
+
 
             if ( false === $query || is_user_logged_in() ) {
                 $query_args = array(
                     'post_type'      => $post_type,
-                    'posts_per_page' => $posts_per_page,
-                    'orderby'        => $order_by,
-                    'order'          => $order,
                 );
+
+                if ( 'rand' !== $order_by ) {
+                    $query_args['posts_per_page']       = $posts_per_page;
+                    $query_args['orderby']              = $order_by;
+                    $query_args['order']                = $order;
+                } else {
+                    $query_args['posts_per_page']       = 100;
+                    $query_args['fields']               = 'ids';
+                    $query_args['no_found_rows']        = true;
+                    $query_args['ignore_sticky_posts']  = true;
+                }
 
                 $tax_query_args = array('relation' => 'OR');
 
@@ -621,7 +634,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query($query_args);
 
-                set_transient( 'mys-get-session-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( 'rand' !== $order_by ) {
+                    set_transient( 'mys-get-session-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                } else {
+                    set_transient( 'mys-get-session-slider-rand-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                }
+            }
+
+            if ( 'rand' === $order_by ) {
+                $post_ids = $query->posts;
+                shuffle( $post_ids );
+                $post_ids = array_splice( $post_ids, 0, $posts_per_page );
+                $query = new WP_Query( array( 'post_type' => $post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
             }
 
             ob_start();
