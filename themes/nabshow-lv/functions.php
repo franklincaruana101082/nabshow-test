@@ -86,6 +86,11 @@ require get_template_directory() . '/inc/shortcode-functions.php';
  */
 require get_template_directory() . '/inc/common-functions.php';
 
+/**
+ * All the shortcode functions.
+ */
+require get_template_directory() . '/inc/ads-view-list-data.php';
+
 
 
 /**

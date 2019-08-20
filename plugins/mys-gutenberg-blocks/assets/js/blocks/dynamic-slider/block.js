@@ -29,7 +29,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             const { taxonomies } = this.props.attributes;
             let postTypeKey,
                 postOptions = [],
-                excludePostTypes = ['attachment', 'page', 'wp_block'];
+                excludePostTypes = ['attachment', 'wp_block'];
 
             // Fetch all post types
             wp.apiFetch({ path: '/wp/v2/types' }).then((postTypes) => {
@@ -389,16 +389,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
                                         />
                                     </div>
-                                    <SelectControl
-                                        label={__('Slider Mode/Effect')}
-                                        value={sliderMode}
-                                        options={[
-                                            { label: __('Horizontal'), value: 'horizontal' },
-                                            { label: __('Vertical'), value: 'vertical' },
-                                            { label: __('Fade'), value: 'fade' },
-                                        ]}
-                                        onChange={(value) => setAttributes({ sliderMode: value })}
-                                    />
                                 </Fragment>
                             }
                             <SelectControl
@@ -425,23 +415,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </Fragment>
                             }
                         </PanelBody>
-                        <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
-                            <ul className="slider-arrow-main">
-                                {names.map((item, index) => (
-                                    < Fragment key={index} >
-                                        <li
-                                            className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
-                                            key={index}
-                                            onClick={e => {
-                                                setAttributes({ arrowIcons: item.classnames });
-                                                this.setState({ bxinit: true });
-                                            }}
-                                        >{item.name}</li>
-                                    </Fragment>
-                                ))
-                                }
-                            </ul>
-                        </PanelBody>
+                        {
+                            controls ? (
+                                <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
+                                    <ul className="slider-arrow-main">
+                                        {names.map((item, index) => (
+                                            < Fragment key={index} >
+                                                <li
+                                                    className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
+                                                    key={index}
+                                                    onClick={e => {
+                                                        setAttributes({ arrowIcons: item.classnames });
+                                                        this.setState({ bxinit: true });
+                                                    }}
+                                                >{item.name}</li>
+                                            </Fragment>
+                                        ))
+                                        }
+                                    </ul>
+                                </PanelBody>
+                            ):''
+                        }
+
                     </InspectorControls>
                     <div className={arrowIcons}>
                         <ServerSideRender

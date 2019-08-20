@@ -289,42 +289,31 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 value={mode}
                                 options={[
                                     { label: __('Horizontal'), value: 'horizontal' },
-                                    { label: __('Vertical'), value: 'vertical' },
-                                    { label: __('Fade'), value: 'fade' },
+                                    { label: __('Fade'), value: 'fade' }
                                 ]}
                                 onChange={(value) => setAttributes({ mode: value })}
                             />
                         </PanelBody>
-                        <PanelBody title={__('Slider Arrow')} initialOpen={false}>
-                            <ul className="slider-arrow-main">
-                                {arrowNames.map((item, index) => (
-                                    < Fragment key={index} >
-                                        <li
-                                            className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
-                                            key={index}
-                                            onClick={e => {
-                                                setAttributes({ arrowIcons: item.classnames });
-
-                                                // this.setState({ bxinit: true });
-                                            }}
-                                        >{item.name}</li>
-                                    </Fragment>
-                                ))
-                                }
-                                {/* {arrowNames.map((name, index) => (
-                                    <Fragment key={index}>
-                                        <li
-                                            className={`${name} ${arrowIcons === name ? 'active' : ''}`}
-                                            key={index}
-                                            onClick={e => {
-                                                setAttributes({ arrowIcons: name });
-                                            }}
-                                        ></li>
-                                    </Fragment>
-                                ))
-                                } */}
-                            </ul>
-                        </PanelBody>
+                        {
+                            controls ? (
+                                 <PanelBody title={__('Slider Arrow')} initialOpen={false}>
+                                    <ul className="slider-arrow-main">
+                                        {arrowNames.map((item, index) => (
+                                            < Fragment key={index} >
+                                                <li
+                                                    className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
+                                                    key={index}
+                                                    onClick={e => {
+                                                        setAttributes({ arrowIcons: item.classnames });
+                                                    }}
+                                                >{item.name}</li>
+                                            </Fragment>
+                                        ))
+                                        }
+                                    </ul>
+                                </PanelBody>
+                            ) : ''
+                        }
                         <PanelBody title={__('Image Settings')} initialOpen={false}>
                             <ToggleControl
                                 label={__('Full width')}

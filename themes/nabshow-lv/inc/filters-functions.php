@@ -129,11 +129,32 @@ function nabshow_lv_custom_columns( $columns ) {
 		'featured_term'  => 'Featured Posts',
 		'author'         => 'Author',
 		'tags'           => 'Tags',
-		'comments'       => '<span class="vers"><div title="Comments" class="comment-grey-bubble"></div></span>',
+		'comments'       => '<span class="vers"><div title="Comments" class="comment-grey-bubble">Comment</div></span>',
 		'date'           => 'Date'
 	);
 
 	return $columns;
+}
+
+/**
+ * Add new columns image and featured post to page post type
+ * @param $columns
+ * @return array
+ * @since 1.0.0
+ *
+ */
+function nabshow_lv_page_custom_columns( $columns ) {
+    $columns = array(
+        'cb'             => '<input type="checkbox" />',
+        'featured_image' => 'Image',
+        'title'          => 'Title',
+        'featured_term'  => 'Featured Posts',
+        'author'         => 'Author',
+        'comments'       => '<span class="vers"><div title="Comments" class="comment-grey-bubble">Comment</div></span>',
+        'date'           => 'Date'
+    );
+
+    return $columns;
 }
 
 /**
@@ -166,35 +187,71 @@ function nabshow_lv_custom_bulk_actions( $bulk_actions ) {
 }
 
 /**
- * Seat as featured handler.
+ * Set as featured post handler.
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_post_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'category');
+
+}
+
+/**
+ * Set as featured exhibitors handler.
  *
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
- *
  * @return string
  */
-function nabshow_lv_set_and_remove_as_featured_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
+function nabshow_lv_set_and_remove_as_featured_bulk_exhibitors_handler( $redirect_to, $doaction, $post_ids ) {
 
-	if ( $doaction !== 'nabshow_set_as_featured' && $doaction !== 'nabshow_remove_from_featured' ) {
-
-		return $redirect_to;
-	}
-
-	foreach ( $post_ids as $post_id ) {
-
-		$terms = array( 4 );
-
-		if ( $doaction === 'nabshow_set_as_featured' ) {
-			wp_set_post_terms( $post_id, $terms, 'category', true );
-		} elseif ( $doaction === 'nabshow_remove_from_featured' ) {
-			wp_remove_object_terms( $post_id, $terms, 'category' );
-		}
-
-	}
-
-	return $redirect_to;
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'exhibitors-category');
 }
+
+/**
+ * Set as featured page handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_page_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'page-category');
+}
+
+/**
+ * Common function for multiple post type to set as featured post.
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, $taxonomy ) {
+
+    if ( $doaction !== 'nabshow_set_as_featured' && $doaction !== 'nabshow_remove_from_featured' ) {
+
+        return $redirect_to;
+    }
+
+    foreach ( $post_ids as $post_id ) {
+
+        if ( $doaction === 'nabshow_set_as_featured' ) {
+            wp_set_object_terms( $post_id, 'featured', $taxonomy, true );
+        } elseif ( $doaction === 'nabshow_remove_from_featured' ) {
+            wp_remove_object_terms( $post_id, 'featured', $taxonomy );
+        }
+
+    }
+
+    return $redirect_to;
+}
+
 
 /**
  * Set custom excerpt length

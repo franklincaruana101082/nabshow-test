@@ -36,7 +36,7 @@ add_action( 'admin_init', function () {
 	$post_types = get_post_types( array( 'public' => true ), 'names' );
 
 	foreach ( $post_types as $post_type ) {
-		if ( "wp_block" !== $post_type || "post" !== $post_type || "page" !== $post_type ) {
+		if ( "wp_block" !== $post_type || "post" !== $post_type ) {
 			nabshow_lv_register_action( $post_type );
 		}
 	}
@@ -84,3 +84,15 @@ add_action( 'wp_head', 'nabshow_lv_track_thought_gallery_views' );
 
 // Action to get custom post types values in author template.
 add_action('pre_get_posts', 'nabshow_lv_custom_type_to_author');
+
+// Action to make posts hierarchical
+add_action('registered_post_type', 'nabshow_lv_make_posts_hierarchical', 10, 2 );
+
+// Action to add taxonomy in page post type
+add_action( 'init', 'nabshow_lv_page_category_taxonomy', 0 );
+
+// Action to add the custom Ads post type.
+add_action( 'init', 'nabshow_lv_custom_ads' );
+
+// Action to add the custom menu for Ads states on admin side.
+add_action( 'admin_menu', 'nabshow_lv_ad_stats_menu' );

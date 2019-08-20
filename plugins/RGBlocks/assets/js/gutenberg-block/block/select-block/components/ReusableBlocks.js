@@ -47,17 +47,6 @@ class ReusableBlocksList extends Component {
                           className="No-image-found"
                       />
                   )}
-                  {block.custom_fields.block_icon ? (
-                      <span className="blockIcon">
-                        <img
-                            src={block.custom_fields.block_icon ? block.custom_fields.block_icon : undefined }
-                        />
-                      </span>
-                  ) : (
-                      <span className="No-icon-found">
-                        No Block Icon found
-                      </span>
-                  )}
                 </div>
                 <div className="title-info">
                   <a
