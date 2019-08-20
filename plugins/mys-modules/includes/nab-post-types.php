@@ -50,7 +50,7 @@ function nab_mys_session_fun() {
 		'add_new_item'       => __( 'Add New Session', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
 		'new_item'           => __( 'New Session', 'mys-modules' ),
-		'all_items'          => __( 'All Sessions', 'mys-modules' ),
+		'all_items'          => __( 'Sessions', 'mys-modules' ),
 		'view_item'          => __( 'View Sessions', 'mys-modules' ),
 		'search_items'       => __( 'Search Sessions', 'mys-modules' ),
 		'not_found'          => __( 'No Sessions found', 'mys-modules' ),
@@ -66,7 +66,7 @@ function nab_mys_session_fun() {
 		'publicly_queryable'  => true,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
-		'show_in_menu'        => true,
+		'show_in_menu'        => 'mys-sync',
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
 		'show_in_rest'        => true,
@@ -80,6 +80,9 @@ function nab_mys_session_fun() {
 			'editor',
 			'author',
 			'thumbnail',
+			'revisions',
+			'trackbacks',
+			'page-attributes',
 			'menu_order',
 			'custom-fields'
 		)
@@ -108,7 +111,7 @@ function nab_mys_speaker_fun() {
 		'add_new_item'       => __( 'Add New Speaker', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
 		'new_item'           => __( 'New Speaker', 'mys-modules' ),
-		'all_items'          => __( 'All Speakers', 'mys-modules' ),
+		'all_items'          => __( 'Speakers', 'mys-modules' ),
 		'view_item'          => __( 'View Speakers', 'mys-modules' ),
 		'search_items'       => __( 'Search Speakers', 'mys-modules' ),
 		'not_found'          => __( 'No Speakers found', 'mys-modules' ),
@@ -124,7 +127,7 @@ function nab_mys_speaker_fun() {
 		'publicly_queryable'  => true,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
-		'show_in_menu'        => true,
+		'show_in_menu'        => 'mys-sync',
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
 		'has_archive'         => true,
@@ -136,6 +139,9 @@ function nab_mys_speaker_fun() {
 			'editor',
 			'author',
 			'thumbnail',
+			'revisions',
+			'trackbacks',
+			'page-attributes',
 			'menu_order',
 			'custom-fields'
 		)
@@ -164,7 +170,7 @@ function nab_mys_sponsor_fun() {
 		'add_new_item'       => __( 'Add New Sponsor', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
 		'new_item'           => __( 'New Sponsor', 'mys-modules' ),
-		'all_items'          => __( 'All Sponsors', 'mys-modules' ),
+		'all_items'          => __( 'Sponsors', 'mys-modules' ),
 		'view_item'          => __( 'View Sponsors', 'mys-modules' ),
 		'search_items'       => __( 'Search Sponsors', 'mys-modules' ),
 		'not_found'          => __( 'No Sponsors found', 'mys-modules' ),
@@ -180,7 +186,7 @@ function nab_mys_sponsor_fun() {
 		'publicly_queryable'  => true,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
-		'show_in_menu'        => true,
+		'show_in_menu'        => 'mys-sync',
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
 		'has_archive'         => true,
@@ -192,6 +198,9 @@ function nab_mys_sponsor_fun() {
 			'editor',
 			'author',
 			'thumbnail',
+			'revisions',
+			'trackbacks',
+			'page-attributes',
 			'menu_order',
 			'custom-fields'
 		)
@@ -239,7 +248,7 @@ function nab_mys_exhibitor_fun() {
 		'add_new_item'       => __( 'Add New Exhibitor', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
 		'new_item'           => __( 'New Exhibitor', 'mys-modules' ),
-		'all_items'          => __( 'All Exhibitors', 'mys-modules' ),
+		'all_items'          => __( 'Exhibitors', 'mys-modules' ),
 		'view_item'          => __( 'View Exhibitors', 'mys-modules' ),
 		'search_items'       => __( 'Search Exhibitors', 'mys-modules' ),
 		'not_found'          => __( 'No Exhibitors found', 'mys-modules' ),
@@ -256,7 +265,7 @@ function nab_mys_exhibitor_fun() {
 		'publicly_queryable'  => true,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
-		'show_in_menu'        => true,
+		'show_in_menu'        => 'mys-sync',
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
 		'has_archive'         => true,
@@ -268,6 +277,9 @@ function nab_mys_exhibitor_fun() {
 			'editor',
 			'author',
 			'thumbnail',
+			'revisions',
+			'trackbacks',
+			'page-attributes',
 			'menu_order',
 			'custom-fields'
 		)
@@ -279,3 +291,11 @@ function nab_mys_exhibitor_fun() {
 
 //Action to register exhibitors Post Type
 add_action( 'init', 'nab_mys_exhibitor_fun' );
+
+
+function add_your_menu() {
+	//add_menu_page( 'Multiple Post Types Page', 'Multiple Post Types', 'manage_options', 'mys-post-types.php', 'your_menu_function');
+
+	//add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys_login_page_fun' ) );
+}
+add_action('admin_menu', 'add_your_menu');

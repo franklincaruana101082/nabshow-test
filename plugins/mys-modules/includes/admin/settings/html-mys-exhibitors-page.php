@@ -20,6 +20,8 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 ?>
 <div class="mys-process-bar">
     <span class="process"></span>
+</div>
+<div id="progress-percent-outer">
     <strong>Process (<span id="progress-percent">0%</span>)</strong>
 </div>
 <div class="mys-section-left">

@@ -33,40 +33,11 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 		private $datatype;
 
-		//History ID of recently added History record. This will use to upate the same record.
 		private $history_id;
 
-		//Same Group ID to assign in all records of all tables of Database.
 		private $group_id;
 
-		private $final_stack_item = "speakers";
-
-		/**
-		 * Test Cases - On/Off
-		 *
-		 * If $enable_test_case = 0 ; Disable Test Case
-		 * If $enable_test_case = 1 ; Enable Test Case
-		 *
-		 */
-		private $enable_test_case = 0;
-
-		/**
-		 * Test Case - Token Status
-		 *
-		 * If $test_token_status = 0 ; Token Failed
-		 * If $test_token_status = 1 ; Token Successful
-		 *
-		 */
-		private $test_token_status = 1;
-
-		/**
-		 * Test Case - Token Status
-		 *
-		 * If $test_token_status = 0 ; Token Failed
-		 * If $test_token_status = 1 ; Token Successful
-		 *
-		 */
-		private $test_data_status = 1;
+		private $final_stack_item;
 
 		/**
 		 * Class Constructor
@@ -74,151 +45,14 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		public function __construct() {
 
 			//Action for the Ajax Call from ( /assets/js/nab-mys-script.js ).
-			add_action( 'wp_ajax_nab_mys_sync_data', array( $this, 'nab_mys_sync_data' ) );
-			add_action( 'wp_ajax_nopriv_nab_mys_sync_data', array( $this, 'nab_mys_sync_data' ) );
+			add_action( 'wp_ajax_nab_mys_sync_data', array( $this, 'nab_mys_sync_api' ) );
+			add_action( 'wp_ajax_nopriv_nab_mys_sync_data', array( $this, 'nab_mys_sync_api' ) );
 
 			//Initialize Database Class Instance to store the Response Data.
 			$this->nab_mys_db = new NAB_MYS_DB();
 
 			//Intitialize the Rest End Point
-			add_action( 'rest_api_init', array( $this, 'nab_mys_rest_end_points' ) );
-		}
-
-		public function nab_mys_rest_end_points() {
-
-			/**
-			 * wp-json/mys/get-data?datatype=1
-			 * wp-json/mys/get-data?datatype=2
-			 */
-			register_rest_route( 'mys', '/get-data', array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_restapi_sessions' )
-				)
-			);
-
-			/**
-			 * wp-json/mys/migrate-data?limit=2
-			 * wp-json/mys/migrate-data?limit=5
-			 */
-			register_rest_route( 'mys', '/migrate-data', array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_restapi_start_migration' )
-				)
-			);
-		}
-
-		public function nab_mys_restapi_sessions( WP_REST_Request $request ) {
-			$parameters = $request->get_params();
-
-			$this->datatype = $parameters['datatype'];
-
-			return $this->nab_mys_sync_data();
-		}
-
-		public function nab_mys_restapi_start_migration( WP_REST_Request $request ) {
-
-			$parameters = $request->get_params();
-
-			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : 3;
-
-			$result = $this->nab_mys_db->nab_mys_migrate_data( $limit );
-
-			return $result;
-		}
-
-		/**
-		 * @return string returns the next pending data name
-		 */
-		public function nab_mys_requested_for_stack() {
-
-			if ( strpos( $this->requested_for, "exhibitors" ) === false ) {
-				$modified_item = "modified-sessions";
-				$queue         = "sessions";
-			} else {
-				$modified_item = "modified-exhibitors";
-				$queue         = "exhibitors";
-			}
-
-			$queue = ( "restapi" === $this->flow ) ? "single" : $queue;
-
-			if ( "single" === $queue ) {
-
-				$requested_for_stack = array(
-					$modified_item,
-					$this->requested_for
-				);
-			} else if ( "sessions" === $queue ) {
-				$requested_for_stack = array(
-					"modified-sessions",
-					"sessions",
-					"speakers",
-					"tracks",
-					"sponsors"
-				);
-
-			} else if ( "exhibitors" === $queue ) {
-				$requested_for_stack = array(
-					"modified-exhibitors",
-					"exhibitors",
-					"exhibitors-category"
-				);
-			}
-
-			//If its the begenning, the first item from above array should be fethed.
-			if ( ! isset( $this->past_request ) || "" === $this->past_request ) {
-				return $requested_for_stack[0];
-			}
-
-			$past_request = $this->past_request;
-
-			$index = array_search( $past_request, $requested_for_stack, true );
-
-			if ( $index !== false && $index < count( $requested_for_stack ) - 1 ) {
-				$next = $requested_for_stack[ $index + 1 ];
-			}
-
-			return $next;
-		}
-
-		public function nab_mys_get_datatype_name() {
-
-			$requested_for_stack = array(
-				0 => "modified-sessions",
-				1 => "sessions",
-				2 => "speakers",
-				3 => "tracks",
-				4 => "sponsors",
-				5 => "exhibitors",
-				6 => "exhibitors-category"
-			);
-
-			if ( isset( $this->datatype ) ) {
-				return $requested_for_stack[ $this->datatype ];
-			}
-
-		}
-
-		/**
-		 * Generates a uniqe 10 digit alphanumeric string for Group ID.
-		 *
-		 * @param int $length Length of the Token
-		 *
-		 * @return array Contains the database action status and error code.
-		 * @since 1.0.0
-		 *
-		 * @package MYS Modules
-		 */
-		function nab_mys_random_id( $length = 10 ) {
-
-			$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-			$charactersLength = strlen( $characters );
-			$randomString     = '';
-
-			for ( $i = 0; $i < $length; $i ++ ) {
-				$randomString .= $characters[ wp_rand( 0, $charactersLength - 1 ) ];
-			}
-
-			return $randomString;
+			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_rest_end_points' ) );
 		}
 
 		/**
@@ -229,7 +63,8 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function nab_mys_sync_data() {
+		public function nab_mys_sync_api() {
+
 
 			check_ajax_referer( 'mys-ajax-nonce', 'security' );
 
@@ -246,7 +81,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 			} else {
 
-				$this->requested_for = $this->nab_mys_get_datatype_name();
+				$this->requested_for = $this->nab_mys_cron_get_datatype_name();
 				$this->flow          = 'restapi';
 
 			}
@@ -257,42 +92,19 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				$this->group_id = $this->nab_mys_random_id();
 			}
 
+
 			$this->current_request = $this->nab_mys_requested_for_stack();
 
 			//Insert a pending row in History table
-			$this->history_id = $this->nab_mys_db->nab_mys_update_history_data( $this->current_request, "insert", $this->group_id );
+			$this->history_id = $this->nab_mys_db->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id );
+
 
 			//Get MYS API Request URL.
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
 
-			//Test Cases Code - Used to prevent API Calls by passing static responses.
-			if ( 1 === $this->enable_test_case ) {
+			//Get Token from Cache, If not available, Generate New and Store in the Cache.
+			$nab_mys_token_data = $this->nab_mys_api_token_from_cache();
 
-				//Initialize Token Array for Testing Purpose
-				$nab_mys_token_data = array();
-
-				if ( 0 === $this->test_token_status ) {
-
-					//Testing Purpose - Force Token Failed
-					$nab_mys_token_data['token_status_code'] = 401;
-					$nab_mys_token_data['token_response']    = 'Dummy Error Msg - Failed Token';
-
-				} else {
-
-					//Testing Purpose - Force Token Successful
-					$nab_mys_token_data['token_status_code'] = 200;
-					$nab_mys_token_data['token_response']    = 'Dummy-Token-5A623AB5-D785-83A0-DD8DF9228D00EC65';
-				}
-				//End - Test Cases Code
-
-			} else {
-
-				//Actual Call - No Testing code
-
-				//Get Token from Cache, If not available, Generate New and Store in the Cache.
-				$nab_mys_token_data = $this->nab_mys_get_token_from_cache();
-
-			}
 
 			//If Cached token expired and New token generation failed, throw error.
 			if ( 200 !== $nab_mys_token_data['token_status_code'] ) {
@@ -306,7 +118,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			}
 
 			//1st Attempt to fetch and store MYS Data (This will use cached token if not experied.)
-			$mys_message_html = $this->nab_mys_storing_in_db( $nab_mys_token_data['token_response'] );
+			$mys_message_html = $this->nab_mys_sync_db( $nab_mys_token_data['token_response'] );
 
 
 			if ( strpos( $mys_message_html, "notice-error" ) !== false ) {
@@ -314,11 +126,11 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				//1st Attempt failed, Maybe Cached token not worked, Generate a New Token and Try again.
 
 				//Generate a New Token for 2nd Attempt.
-				$nab_mys_new_token_data = $this->nab_mys_generate_token();
+				$nab_mys_new_token_data = $this->nab_mys_api_generate_token();
 
 
 				//2nd Attempt to fetch and store MYS Data (This will use a Fresh New Token)
-				$mys_message_html = $this->nab_mys_storing_in_db( $nab_mys_new_token_data['token_response'] );
+				$mys_message_html = $this->nab_mys_sync_db( $nab_mys_new_token_data['token_response'] );
 
 				/**
 				 * 2nd Attempt was Successul or Failed? The answer ($mys_message_html)
@@ -340,61 +152,30 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function nab_mys_storing_in_db( $nab_mys_token_response ) {
-
-			//Initialize the response status
-			$mys_response_status = '';
+		public function nab_mys_sync_db( $nab_mys_token_response ) {
 
 			//Authorization string for the API Call.
 			$authorization = "Bearer " . $nab_mys_token_response;
 
-			//Test Cases Code - Used to prevent API Calls by passing static responses.
-			if ( 1 === $this->enable_test_case ) {
+			//Attempt to Fetch Data from MYS
+			$mys_response = $this->nab_mys_api_call( $this->mys_request_url, $authorization );
 
-				//Initialize Response Body for Testing Purpose
-				$mys_response_body = array();
+			$mys_response_body = $mys_response['body'];
 
-				if ( 0 === $this->test_data_status ) {
-
-					//Testing Purpose - Force Data Failed
-					$mys_response_body[0]->error    = "This is an error!";
-					$mys_response_status['code']    = 501;
-					$mys_response_status['message'] = "Dummy Msg - MYS fetch failed";
-
-				} else {
-
-					//Testing Purpose - Force Data Successful
-					$mys_response_body[0]           = "IamDATA";
-					$mys_response_status['code']    = 200;
-					$mys_response_status['message'] = "OK";
-				}
-				//End - Test Cases Code
-
-			} else {
-
-				//Actual Call - No Testing code
-
-				//Attempt to Fetch Data from MYS
-				$mys_response = $this->nab_mys_api_call( $this->mys_request_url, $authorization );
-
-				$mys_response_body = $mys_response['body'];
-
-				$mys_response_status = $mys_response['status'];
-			}
+			$mys_response_status = $mys_response['status'];
 
 			if ( 200 === $mys_response_status['code'] ) {
 
-				//Attempt Success - Response Data Received.
-
-				//Insert the Response data in Database.
-				$inser_status = $this->nab_mys_db->nab_mys_insert_data( $this->current_request, $mys_response_body, $this->history_id );
+				/**
+				 * Attempt Success - Response Data Received.
+				 * Insert the Response data in Database.
+				 */
+				$this->nab_mys_db->nab_mys_db_insert_data_to_custom( $this->current_request, $mys_response_body, $this->history_id );
 
 				//Now everything is done for the current request so making it a past request
 				$this->past_request = $this->current_request;
 
-				/**
-				 * If the stack is still not empty, re call main function to fetch their data.
-				 */
+				//If the stack is still not empty, re call main function to fetch next data.
 				if ( "wpajax" === $this->flow ) {
 
 					if ( $this->final_stack_item === $this->current_request ) {
@@ -411,39 +192,125 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 					if ( $this->final_stack_item !== $this->current_request ) {
 
-						$this->nab_mys_sync_data();
+						$this->nab_mys_sync_api();
 
 					} else {
+						//CRON
 						echo "Data fetched successfully";
 						die();
 					}
 				}
 
-				if ( true === $inser_status ) {
-
-					$message = $this->current_request_text . " Successfully Synced.";
-
-				} else {
-
-					$message = "Database Insertion Unsuccessful";
-				}
-
-				$message_class = 'notice-success';
-
 			} else {
 
 				//Attempt Failed - Response Data NOT Received.
 
-				$message = "Error " . $mys_response_status['code'] . ": " . $mys_response_status['message'];
-				$message .= isset ( $mys_response_body[0]->error ) ? " - " . $mys_response_body[0]->error : '';
+				$error_message = "Error " . $mys_response_status['code'] . ": " . $mys_response_status['message'];
+				$error_message .= isset ( $mys_response_body[0]->error ) ? " - " . $mys_response_body[0]->error : '';
 
-				$message_class = 'notice-error';
+				//Create a HTML Paragraph for Message to display via Ajax
+				$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
+
+				if ( "wpajax" === $this->flow ) {
+					return array(
+						"apiError" => $error_message_html
+					);
+				} else {
+					//CRON
+					echo esc_html( $error_message_html );
+					die();
+				}
 			}
 
-			//Create a HTML for Message to display
-			$mys_message_html = '<div class="notice ' . $message_class . ' is-dismissible"><p>' . $message . '</p><button class="mys-notice-dismiss notice-dismiss" type="button"></button></div>';
+		}
 
-			return $mys_message_html;
+		/**
+		 * Rest End Points
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		public function nab_mys_cron_rest_end_points() {
+
+			/**
+			 * wp-json/mys/get-data?datatype=1
+			 * wp-json/mys/get-data?datatype=2
+			 */
+			register_rest_route( 'mys', '/get-data', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_api_to_custom' )
+				)
+			);
+
+			/**
+			 * wp-json/mys/migrate-data?limit=2
+			 * wp-json/mys/migrate-data?limit=5
+			 */
+			register_rest_route( 'mys', '/migrate-data', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_custom_to_master' )
+				)
+			);
+		}
+
+		/**
+		 * Call back for API to Custom Table CRON
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return array
+		 */
+		public function nab_mys_cron_api_to_custom( WP_REST_Request $request ) {
+			$parameters = $request->get_params();
+
+			$this->datatype = $parameters['datatype'];
+
+			return $this->nab_mys_sync_api();
+		}
+
+		/**
+		 * Call back for Custom Table to Master Table CRON
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return array    List of DataID -> PostID
+		 *         string   Message to show that No more data available to migrate.
+		 */
+		public function nab_mys_cron_custom_to_master( WP_REST_Request $request ) {
+
+			$parameters = $request->get_params();
+
+			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : 3;
+
+			$result = $this->nab_mys_db->nab_mys_corn_migrate_data( $limit );
+
+			return $result;
+		}
+
+		/**
+		 * Conveting Data Type (int) from CRON's parameter to its name (string)
+		 *
+		 * @return mixed
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
+		public function nab_mys_cron_get_datatype_name() {
+
+			$requested_for_stack = array(
+				0 => "modified-sessions",
+				1 => "sessions",
+				2 => "speakers",
+				3 => "tracks",
+				4 => "sponsors",
+				5 => "exhibitors",
+				6 => "exhibitors - category"
+			);
+
+			if ( isset( $this->datatype ) ) {
+				return $requested_for_stack[ $this->datatype ];
+			}
+
 		}
 
 		/**
@@ -501,13 +368,13 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function nab_mys_get_token_from_cache() {
+		public function nab_mys_api_token_from_cache() {
 
 			$nab_mys_token = get_transient( 'nab_mys_token' );
 
 			if ( false === $nab_mys_token ) {
 				//If Cachced Token expired, Generate a New Token.
-				$nab_mys_token_data = $this->nab_mys_generate_token();
+				$nab_mys_token_data = $this->nab_mys_api_generate_token();
 
 			} else {
 				//Return Token from Cache.
@@ -525,7 +392,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		private function nab_mys_generate_token() {
+		private function nab_mys_api_generate_token() {
 
 			//Get MYS API Request URL
 			$mys_request_url = MYS_PLUGIN_API . 'Authorize';
@@ -570,7 +437,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		/**
 		 * Get MYS API URL
 		 *
-		 * @param string $requested_for MYS API Data Requested For: Sessions / Speakers / Exhibitors / etc.
+		 * @param string $current_request Session/Speakers/etc.
 		 *
 		 * @return string
 		 * @since 1.0.0
@@ -619,6 +486,87 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			return $mys_request_url;
 		}
 
+		/**
+		 * Stack of data to migrate in sequence.
+		 *
+		 * @return string returns the next pending data name
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
+		public function nab_mys_requested_for_stack() {
+
+			if ( strpos( $this->requested_for, "exhibitors" ) === false ) {
+				$modified_item = "modified-sessions";
+				$queue         = "sessions";
+			} else {
+				$modified_item = "modified-exhibitors";
+				$queue         = "exhibitors";
+			}
+
+			$queue = ( "restapi" === $this->flow ) ? "single" : $queue;
+
+			if ( "single" === $queue ) {
+
+				$requested_for_stack = array(
+					$modified_item,
+					$this->requested_for
+				);
+			} else if ( "sessions" === $queue ) {
+				$requested_for_stack = array(
+					"modified-sessions",
+					"sessions",
+					"speakers",
+					"tracks",
+					"sponsors"
+				);
+
+			} else if ( "exhibitors" === $queue ) {
+				$requested_for_stack = array(
+					"modified-exhibitors",
+					"exhibitors",
+					"exhibitors - category"
+				);
+			}
+
+			//If its the begenning, the first item from above array should be fethed.
+			if ( ! isset( $this->past_request ) || "" === $this->past_request ) {
+				return $requested_for_stack[0];
+			}
+
+			$past_request = $this->past_request;
+
+			$index = array_search( $past_request, $requested_for_stack, true );
+
+			if ( $index !== false && $index < count( $requested_for_stack ) - 1 ) {
+				$next = $requested_for_stack[ $index + 1 ];
+			}
+
+			return $next;
+		}
+
+		/**
+		 * Generates a uniqe 10 digit alphanumeric string for Group ID.
+		 *
+		 * @param int $length Length of the Token
+		 *
+		 * @return array Contains the database action status and error code.
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
+		public function nab_mys_random_id( $length = 10 ) {
+
+			$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$charactersLength = strlen( $characters );
+			$randomString     = '';
+
+			for ( $i = 0; $i < $length; $i ++ ) {
+				$randomString .= $characters[ wp_rand( 0, $charactersLength - 1 ) ];
+			}
+
+			return $randomString;
+		}
 	}
 }
 new NAB_MYS_Endpoints();

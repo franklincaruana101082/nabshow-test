@@ -59,7 +59,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         */
         public function mysgb_add_menu_page() {
 
-			add_menu_page(__( 'MYS Blocks', 'mys-gutenberg-blocks' ), __( 'MYS Blocks', 'mys-gutenberg-blocks' ), 'manage_options', 'mysgb-settings', array( $this, 'mysgb_settings_page' ) );
+			add_submenu_page( 'mys-sync', __( 'MYS Blocks', 'mys-gutenberg-blocks' ), __( 'MYS Blocks', 'mys-gutenberg-blocks' ), 'manage_options', 'mysgb-settings', array( $this, 'mysgb_settings_page' ) );
 
 			add_submenu_page( null, 'About Plugin', 'About Plugin', 'manage_options', 'mysgb-about', array( $this, 'mysgb_about_plugin_page' ) );
 		}
@@ -98,6 +98,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * Register new category for MYS custom block
          *
          * @param array $categories
+         *
          * @return array
          * @since 1.0.0
          */
@@ -438,7 +439,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         /**
          * Fetch dynamic slider slide according to block attributes
+         *
          * @param $attributes
+         *
          * @return string
          * @since 1.0.0
          */
@@ -561,7 +564,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         /**
          * Fetch dynamic session slider item/slide according to attributes
+         *
          * @param $attributes
+         *
          * @return string
          * @since 1.0.0
          */
@@ -772,7 +777,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         /**
          * Fetch dynamic Exhibitors slider item/slide according to attributes
+         *
          * @param $attributes
+         *
          * @return string
          * @since 1.0.0
          */

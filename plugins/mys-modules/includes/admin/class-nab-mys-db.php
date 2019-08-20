@@ -37,7 +37,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		public function __construct() {
 
 			//Create Custom DB Tables if not alread created
-			$this->nab_mys_create_custom_tables();
+			$this->nab_mys_db_create_custom_tables();
 
 			$this->nab_mys_media = new NAB_MYS_MEDIA();
 
@@ -49,7 +49,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
-		public function nab_mys_create_custom_tables() {
+		public function nab_mys_db_create_custom_tables() {
 
 			global $wpdb;
 
@@ -103,15 +103,13 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		/**
 		 * Insert MYS API Data in the Database.
 		 *
-		 * @param string $current_request MYS API Data Requested For: Sessions / Speakers / Exhibitors / etc.
-		 * @param array|mixed|object $data Response Body from MYS API
+		 * @param string $current_request = Session/Speakers/etc.
+		 * @param array $data The full data coming from API.
+		 * @param int $history_id The same history ID which is stored in the begining.
 		 *
-		 * @return string
-		 * @since 1.0.0
-		 *
-		 * @package MYS Modules
+		 * @return bool true
 		 */
-		public function nab_mys_insert_data( $current_request, $data, $history_id ) {
+		public function nab_mys_db_insert_data_to_custom( $current_request, $data, $history_id ) {
 
 			$this->current_request = $current_request;
 			$this->history_id      = $history_id;
@@ -119,7 +117,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			$this->data_json       = wp_json_encode( $data );
 
 			//Insert entry in wp_mys_api_history
-			$this->nab_mys_update_history_data( $current_request, "update", $this->group_id );
+			$this->nab_mys_db_history_data( $current_request, "update", $this->group_id );
 
 			if ( "modified-sessions" === $current_request ) {
 
@@ -209,23 +207,29 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 							'DataJson'      => $single_item_json
 						);
 
-						if ( 3 === $total_items_inserted ) {
+						/*if ( 3 === $total_items_inserted ) {
 							break;
-						}
+						}*/
 
 						$total_items_inserted ++;
 					}
 				}
 
-				$this->nab_mys_wpdb_bulk_insert( 'wp_mys_data', $rows );
+				$this->nab_mys_db_bulk_insert( 'wp_mys_data', $rows );
 			}
 
 			return true;
 		}
 
-		// Bulk inserts records into a table using WPDB.  All rows must contain the same keys.
-		// Returns number of affected (inserted) rows.
-		public function nab_mys_wpdb_bulk_insert( $table, $rows ) {
+		/**
+		 * Bulk inserts records into a table using WPDB.  All rows must contain the same keys.
+		 *
+		 * @param string $table Table name
+		 * @param array $rows Individual Full Data for Session/Speakers/etc.
+		 *
+		 * @return int Returns number of affected (inserted) rows.
+		 */
+		public function nab_mys_db_bulk_insert( $table, $rows ) {
 
 			global $wpdb;
 
@@ -263,12 +267,13 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		/**
 		 * Insert/Update MYS History Table.
 		 *
-		 * @return int status of the query
-		 * @since 1.0.0
+		 * @param string $current_request Session/Speakers/etc.
+		 * @param string $query_type "insert" or "update"
+		 * @param string $group_id a unique Group ID used in whole process.
 		 *
-		 * @package MYS Modules
+		 * @return false|int returns inserted ID or record update status
 		 */
-		public function nab_mys_update_history_data( $current_request, $query_type, $group_id ) {
+		public function nab_mys_db_history_data( $current_request, $query_type, $group_id ) {
 
 			global $wpdb;
 
@@ -301,26 +306,14 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		}
 
 		/**
-		 * Update MYS History with Success Flag.
+		 * CRON: Migration from Custom to Master
 		 *
-		 * @return int status of update query
-		 * @since 1.0.0
+		 * @param int $limit the limit of rows to migrate in single call.
 		 *
-		 * @package MYS Modules
+		 * @return array    List of DataID -> PostID
+		 *         string   Message to show that No more data available to migrate.
 		 */
-		public function nab_mys_update_history_status( $status ) {
-
-			global $wpdb;
-
-			$sql = $wpdb->update( $wpdb->prefix . 'mys_history', array(
-				'HistoryStatus' => $status
-			), array( 'HistoryID' => $this->history_id ) ); //db call ok; no-cache ok
-
-			return $sql;
-
-		}
-
-		public function nab_mys_migrate_data( $limit ) {
+		public function nab_mys_corn_migrate_data( $limit ) {
 
 			global $wpdb;
 
@@ -329,17 +322,23 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			); //db call ok; no-cache ok
 
 			if ( count( $data_to_migrate ) > 0 ) {
-				$result = $this->nab_mys_insert_to_master( $data_to_migrate );
+				$result = $this->nab_mys_cron_master_flow( $data_to_migrate );
 			} else {
 				$result = "All data migrated successfully to the master table.";
 			}
-
 
 			return $result;
 
 		}
 
-		public function nab_mys_insert_to_master( $data_to_migrate ) {
+		/**
+		 * Separating the migration flow according to the type of data.
+		 *
+		 * @param array $data_to_migrate the data to migrate.
+		 *
+		 * @return array List of DataID -> PostID
+		 */
+		public function nab_mys_cron_master_flow( $data_to_migrate ) {
 
 			$result = array();
 
@@ -347,37 +346,67 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				$data_id   = $item->DataID;
 				$data_type = $item->DataType;
+				$data_json = str_replace( "\'", "'", $item->DataJson );
+				$data      = json_decode( $data_json, true );
+
+				$prepared_data         = array();
+				$prepared_data['item'] = $item;
 
 				switch ( $data_type ) {
 					case 'sessions':
-						$result[ "DataID-" . $data_id ] = $this->nab_mys_master_sessions( $item );
+
+						$prepared_data['post_type']         = 'sessions';
+						$prepared_data['exclude_from_meta'] = array( 'title', 'description', 'sessionid' );
+						$prepared_data['title']             = $data['title'];
+						$prepared_data['description']       = $data['description'];
+						$prepared_data['sessionid']         = $data['sessionid'];
+						$prepared_data['data']              = $data;
+
 						break;
 
 					case 'speakers':
-						$result[ "DataID-" . $data_id ] = $this->nab_mys_master_speakers( $item );
+
+						$prepared_data['post_type']         = 'speakers';
+						$prepared_data['exclude_from_meta'] = array( 'firstname', 'lastname', 'bio', 'sessionid' );
+						$prepared_data['title']             = $data['firstname'] . " " . $data['lastname'];
+						$prepared_data['description']       = $data['bio'];
+
+						//removing inner array and merging to its parent
+						$schedules = $data['schedules'][0];
+						unset( $data['schedules'] );
+						$data = array_merge( $data, $schedules );
+
+						$prepared_data['sessionid'] = $schedules['sessionid'];
+						$prepared_data['data']      = $data;
+
 						break;
 				}
+
+				$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_insert_to_master( $prepared_data );
+
 			}
 
 			return $result;
-
 		}
 
-		public function nab_mys_master_sessions( $item ) {
+		/**
+		 * CRON: Migration from Custom table to Master table.
+		 *
+		 * @param array $prepared_data Required data for migration.
+		 *
+		 * @return string Dispalys the status of the migration with migrated IDs in the form of DataID -> PostID.
+		 */
+		public function nab_mys_cron_insert_to_master( $prepared_data ) {
 
-			$data_json = str_replace( "\'", "'", $item->DataJson );
-			$data      = json_decode( $data_json, true );
-			$post_type = 'sessions';
+			global $wpdb;
 
-			$default_fields = array(
-				'title',
-				'description',
-				'sessionid'
-			);
-
-			$title       = $data['title'];
-			$description = $data['description'];
-			$sessionid   = $data['sessionid'];
+			$data              = $prepared_data['data'];
+			$item              = $prepared_data['item'];
+			$post_type         = $prepared_data['post_type'];
+			$exclude_from_meta = $prepared_data['exclude_from_meta'];
+			$title             = $prepared_data['title'];
+			$description       = $prepared_data['description'];
+			$sessionid         = $prepared_data['sessionid'];
 
 			/**
 			 * 0 - Deleted
@@ -385,8 +414,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			 * 2 - Updated
 			 */
 			$item_status = $item->ItemStatus;
-
-			global $wpdb;
 
 			$already_available_id = wp_cache_get( $post_type . '_sessionid_' . $sessionid );
 
@@ -405,12 +432,12 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					$update_post_id = $already_available_id[0];
 					wp_trash_post( $update_post_id );
 
-					$post_detail = "trash-session-" . $update_post_id;
+					$post_detail = "trash-$post_type-" . $update_post_id;
 				}
 
 			} else {
 
-				//If Session Already Available
+				//If Item Already Available
 				if ( isset( $already_available_id[0] ) ) {
 
 					$update_post_id = $already_available_id[0];
@@ -420,43 +447,47 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						'post_title'   => "testing-" . $title,
 						'post_content' => $description,
 						'post_excerpt' => $sessionid,
+						'post_author'  => 6,
 						'post_status'  => 'publish',
 					);
 
 					$post_id = wp_update_post( $update_post );
 
 					foreach ( $data as $name => $value ) {
-						if ( ! in_array( $name, $default_fields, true ) ) {
+						if ( ! in_array( $name, $exclude_from_meta, true ) ) {
 							update_post_meta( $update_post_id, $name, $value );
 						}
 					}
 
-					$post_detail = "update-session-" . $post_id;
+					$post_detail = "update-$post_type-" . $post_id;
 
 				} else {
-					//NEW POST
+					//NEW
 
 					$post_id = wp_insert_post( array(
 						'post_title'   => "testing-" . $title,
-						'post_type'    => 'sessions',
+						'post_type'    => $post_type,
 						'post_content' => $description,
 						'post_excerpt' => $sessionid,
+						'post_author'  => 6,
 						'post_status'  => 'publish',
 					) );
 
 					if ( $post_id ) {
 						// insert post meta
 						foreach ( $data as $name => $value ) {
-							if ( ! in_array( $name, $default_fields, true ) ) {
+							if ( ! in_array( $name, $exclude_from_meta, true ) ) {
 								add_post_meta( $post_id, $name, $value );
 							}
 						}
 					}
 
-					$post_detail = "new-session-" . $post_id;
+					$post_detail = "new-$post_type-" . $post_id;
 				}
 
-
+				/**
+				 * This is a dummy third party image array for testing.
+				 */
 				$image_url_array = array(
 					'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
 					'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
@@ -474,131 +505,19 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			}
 
-			$this->nab_mys_master_confirmed( $item->DataID );
+			$this->nab_mys_cron_master_confirmed( $item->DataID );
 
 			return $post_detail;
 		}
 
-		public function nab_mys_master_speakers( $item ) {
-
-			$data_json = str_replace( "\'", "'", $item->DataJson );
-			$data      = json_decode( $data_json, true );
-			$post_type = 'speakers';
-
-			$default_fields = array(
-				'firstname',
-				'lastname',
-				'bio'
-			);
-
-			$title       = $data['firstname'] . " " . $data['lastname'];
-			$description = $data['bio'];
-
-			$schedules = $data['schedules'][0];
-			unset( $data['schedules'] );
-			$data      = array_merge( $data, $schedules );
-			$sessionid = $schedules['sessionid'];
-
-			/**
-			 * 0 - Deleted
-			 * 1 - Added
-			 * 2 - Updated
-			 */
-			$item_status = $item->ItemStatus;
-
-			global $wpdb;
-
-			$already_available_id = wp_cache_get( $post_type . '_sessionid_' . $sessionid );
-
-			if ( false === $already_available_id ) {
-				$already_available_id = $wpdb->get_col(
-					$wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_excerpt = %s AND post_type = %s", $sessionid, $post_type )
-				); //db call ok
-
-				wp_cache_set( $post_type . '_sessionid_' . $sessionid, $already_available_id );
-			}
-
-			if ( 0 === $item_status ) {
-
-				if ( isset( $already_available_id[0] ) ) {
-
-					$update_post_id = $already_available_id[0];
-					wp_trash_post( $update_post_id );
-
-					$post_detail = "trash-speaker-" . $update_post_id;
-				}
-
-			} else {
-
-				//If Session Already Available
-				if ( isset( $already_available_id[0] ) ) {
-
-					$update_post_id = $already_available_id[0];
-
-					$update_post = array(
-						'ID'           => $update_post_id,
-						'post_title'   => "testing-" . $title,
-						'post_content' => $description,
-						'post_excerpt' => $sessionid,
-						'post_status'  => 'publish',
-					);
-
-					$post_id = wp_update_post( $update_post );
-
-					foreach ( $data as $name => $value ) {
-						if ( ! in_array( $name, $default_fields, true ) ) {
-							update_post_meta( $update_post_id, $name, $value );
-						}
-					}
-
-					$post_detail = "update-speaker-" . $post_id;
-
-				} else {
-					//NEW POST
-
-					$post_id = wp_insert_post( array(
-						'post_title'   => "testing-" . $title,
-						'post_type'    => 'speakers',
-						'post_content' => $description,
-						'post_excerpt' => $sessionid,
-						'post_status'  => 'publish',
-					) );
-
-					if ( $post_id ) {
-						// insert post meta
-						foreach ( $data as $name => $value ) {
-							if ( ! in_array( $name, $default_fields, true ) ) {
-								add_post_meta( $post_id, $name, $value );
-							}
-						}
-					}
-
-					$post_detail = "new-speaker-" . $post_id;
-				}
-
-
-				$image_url_array = array(
-					'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
-					'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
-					'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
-					'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
-					'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
-					'http://wallperio.com/data/out/184/images_605127984.jpg'
-				);
-
-				$random_image_key = array_rand( $image_url_array );
-				$image_url        = $image_url_array[ $random_image_key ];
-
-				//Upload Third Party Image to WP Media Library
-				$this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
-			}
-
-			$this->nab_mys_master_confirmed( $item->DataID );
-
-			return $post_detail;
-		}
-
-		public function nab_mys_master_confirmed( $data_id ) {
+		/**
+		 * Update AddedStatus from 0 to 1 after migration process completes.
+		 *
+		 * @param int $data_id Primary Key of the wp_mys_data table.
+		 *
+		 * @return bool|false|int The status of the update query.
+		 */
+		public function nab_mys_cron_master_confirmed( $data_id ) {
 
 			global $wpdb;
 
@@ -607,50 +526,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			); //db call ok; no-cache ok
 
 			return $update_status;
-		}
-
-		/**
-		 * Insert/Update MYS History Table.
-		 *
-		 * @return string
-		 * @since 1.0.0
-		 *
-		 * @package MYS Modules
-		 */
-		public function nab_mys_update_custom_table( $single_item_array, $item_status, $item_session_id ) {
-
-			$single_item_json = wp_json_encode( $single_item_array );
-
-			switch ( $item_status ) {
-
-				case "Deleted":
-					$item_status_int = 0;
-					break;
-
-				case "Added":
-					$item_status_int = 1;
-					break;
-
-				case "Updated":
-					$item_status_int = 2;
-					break;
-
-			}
-
-			global $wpdb;
-
-			$wpdb->insert( $wpdb->prefix . 'mys_data', array(
-				'DataGroupID'   => $this->group_id,
-				'HistoryID'     => $this->history_id,
-				'AddedStatus'   => 0,
-				'ItemStatus'    => $item_status_int,
-				'DataType'      => $this->current_request,
-				'ModifiedID'    => $item_session_id,
-				'DataStartTime' => date( 'Y-m-d H:i:s' ),
-				'DataJson'      => $single_item_json
-			), array( '%s', '%d', '%d', '%d', '%s', '%s', '%s' ) ); //db call ok; no-cache ok
-
-			return $wpdb->insert_id;
 		}
 	}
 }

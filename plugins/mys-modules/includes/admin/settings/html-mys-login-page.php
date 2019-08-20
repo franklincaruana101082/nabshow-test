@@ -42,7 +42,7 @@ if ( isset( $mys_cred_nonce ) && wp_verify_nonce( $mys_cred_nonce, 'mys-cred-non
 
 	update_option( 'nab_mys_credentials_u', $mys_username );
 	update_option( 'nab_mys_credentials_p', $mys_password );
-	$result = ( new NAB_MYS_Endpoints() )->nab_mys_get_token_from_cache();
+	$result = ( new NAB_MYS_Endpoints() )->nab_mys_api_token_from_cache();
 
 	$token_status_code = $result['token_status_code'];
 	$token_response    = $result['token_response'];

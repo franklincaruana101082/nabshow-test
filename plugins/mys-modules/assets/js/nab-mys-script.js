@@ -6,7 +6,8 @@ jQuery(document).ready(function ($) {
     var data = '';
     var pastItemName = '';
     var para = document.createElement('p');
-    var adsText = '';
+    var paraText = '';
+    var apiError = '';
 
     $('.mys-cred-edit').on('click', function () {
         $('.login-inner').toggleClass('show-labels');
@@ -15,13 +16,19 @@ jQuery(document).ready(function ($) {
 
     $('.button-sync').on('click', function () {
 
-        $('.process').addClass('in-progress').width('35px');
+        $('.button-sync, .button-sync-exhibitors').addClass('disabled');
+        $('.process').removeClass('remove-animation').addClass('in-progress').width('30px');
         $('#progress-percent').text('0%');
-        $('.mys-message-container').slideDown();
-        $('.mys-message-container').html('<p>Fetching the data from MYS Server..</p>');
+        $('.mys-process-bar').show();
+        $('#progress-percent-outer').slideDown('500');
+        $('.mys-message-container').slideDown('500', function () {
+            $('.mys-message-container').addClass('show-log-text');
+        });
+        $('.mys-message-container').html('<p>- Fetching the data from MYS Server..</p>');
 
         requestedFor = $(this).data('sync');
 
+        //Start Syncing
         recurringAjax('', requestedFor, '');
 
     });
@@ -43,9 +50,22 @@ jQuery(document).ready(function ($) {
             data: data,
             success: function (response) {
 
-                pastItem = response.pastItem;
-                requestedFor = response.requestedFor;
-                groupID = response.groupID;
+                pastItem = (undefined !== response.pastItem) ? response.pastItem : '';
+                requestedFor = (undefined !== response.requestedFor) ? response.requestedFor : '';
+                groupID = (undefined !== response.pastItem) ? response.groupID : '';
+                apiError = (undefined !== response.apiError) ? response.apiError : '';
+
+                if ('' !== apiError) {
+
+                    $(apiError).appendTo('.mys-message-container');
+                    $('.process').addClass('remove-animation').removeClass('in-progress').width('30px');
+                    $('#progress-percent').text('0%');
+                    $('.button-sync, .button-sync-exhibitors').removeClass('disabled');
+
+                    currentProgress = 0;
+
+                    return false;
+                }
 
                 if ('' !== pastItem) {
 
@@ -54,10 +74,11 @@ jQuery(document).ready(function ($) {
                     pastItemName = pastItem.toLowerCase().replace(/\b[a-z]/g, function (txtVal) {
                         return txtVal.toUpperCase();
                     });
+                    pastItemName = pastItemName.replace('-', ' ');
 
                     para = document.createElement('p');
-                    adsText = document.createTextNode(pastItemName + ' fetched successfully.');
-                    para.appendChild(adsText);
+                    paraText = document.createTextNode('- ' + pastItemName + ' data fetched successfully.');
+                    para.appendChild(paraText);
 
                     $(para).appendTo('.mys-message-container');
 
@@ -70,17 +91,19 @@ jQuery(document).ready(function ($) {
 
                 } else {
 
-                    $('.mys-message-container').append('<p>Sessions data fetched successfully.</p>');
+                    $('.mys-message-container').append('<p>- Sessions data fetched successfully.</p>');
 
                     setTimeout(function () {
                         $('.mys-message-container').append(
-                            '<p class="highlighted-para">The migration process is started now, please check your inbox soon.</p>');
+                            '<p class="highlighted-para">- The migration process is started now, please check your inbox soon.</p>');
                     }, 2000);
 
+                    currentProgress = 0;
 
-                    $('.process').removeClass('in-progress');
+                    $('.process').removeClass('in-progress').addClass('remove-animation');
                     $('.mys-process-bar .process').width('100%');
                     $('#progress-percent').text('100%');
+                    $('#nextstep').fadeIn();
                 }
 
             },

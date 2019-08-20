@@ -22,6 +22,8 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 
 <div class="mys-process-bar">
     <span class="process"></span>
+</div>
+<div id="progress-percent-outer">
     <strong>Process (<span id="progress-percent">0%</span>)</strong>
 </div>
 <div class="mys-section-left">
@@ -67,7 +69,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
                 </tr>
                 <tr>
                     <td class="pull-data" colspan="2">
-                        <span class="button-primary button import-exhibitors">Pull</span>
+                        <span class="button-primary button button-sync-exhibitors">Pull</span>
                     </td>
                 </tr>
 			<?php } ?>
@@ -78,7 +80,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <?php if ( "1" === get_option( 'nab_mys_show_wizard' ) ) {
 	?>
     <div class="next-bottom-btn">
-        <a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a>
+        <a class="button-primary button" id="nextstep" style="display:none" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a>
         <br><a id="nextstep" class="skip" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">skip</a>
     </div>
 <?php } ?>

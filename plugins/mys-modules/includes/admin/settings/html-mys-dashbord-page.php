@@ -13,10 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $setup_success = filter_input( INPUT_GET, 'setup-success', FILTER_SANITIZE_STRING );
 
 if ( isset( $setup_success ) && 'true' === $setup_success ) {
-    $pagetitle = "Your Wizard Setup Completed Successfully! Welcome to Dashboard.";
+	$pagetitle = "Your Wizard Setup Completed Successfully! Welcome to Dashboard.";
 	update_option( 'nab_mys_show_wizard', 0 );
-} else {
-	$pagetitle = "Welcome to Dashboard";
 }
 
 //Prevent  unauthorized users
@@ -27,7 +25,9 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 ?>
 <div class="mys-section-left dashboard-page">
     <div class="mys-main-table res-cl">
-        <h1><?php echo esc_html( $pagetitle ); ?></h1>
+		<?php if ( isset( $pagetitle ) ) { ?>
+            <h1 style='margin-bottom:30px;'><?php echo esc_html( $pagetitle ); ?></h1>
+		<?php } ?>
         <div class="dashboard-main">
             <div class="dashboard-box">
                 <div class="title">

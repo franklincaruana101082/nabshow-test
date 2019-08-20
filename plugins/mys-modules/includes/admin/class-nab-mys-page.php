@@ -17,7 +17,7 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 		public function __construct() {
 
 			//Register MYS Plugin Page
-			add_action( 'admin_menu', array( $this, 'nab_mys_page_fun' ) );
+			add_action( 'admin_menu', array( $this, 'nab_mys_page_fun' ), 9 );
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_css' ) );
 
@@ -38,13 +38,15 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 		public function nab_mys_page_fun() {
 
 			add_menu_page(
-				__( 'MYS Sync', 'mys-modules' ),
-				__( 'MYS Sync', 'mys-modules' ),
+				__( 'MYS Modules', 'mys-modules' ),
+				__( 'MYS Modules', 'mys-modules' ),
 				'manage_options',
 				'mys-sync',
 				array( $this, 'nab_mys_page_html' ),
 				WP_PLUGIN_URL . '/mys-modules/assets/images/icon.svg'
 			);
+
+			add_submenu_page( 'mys-sync', 'MYS Sync', 'MYS Sync', 'manage_options', 'mys-sync', array( $this, 'nab_mys_page_html' ) );
 
 			add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys_login_page_fun' ) );
 			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys_history_page_fun' ) );
@@ -89,7 +91,7 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 		public function nab_mys_page_html() {
 
 			//Generate a New MYS API Token on load if expired after 1 hour
-			( new NAB_MYS_Endpoints() )->nab_mys_get_token_from_cache();
+			( new NAB_MYS_Endpoints() )->nab_mys_api_token_from_cache();
 
 			include_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-sync-page.php' );
 		}
