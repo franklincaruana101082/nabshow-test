@@ -501,8 +501,9 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$image_url        = $image_url_array[ $random_image_key ];
 
 				//Upload Third Party Image to WP Media Library
-				$this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
+				$attach_id = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url );
 
+				$post_detail .= '-attach_id-'.$attach_id;
 			}
 
 			$this->nab_mys_cron_master_confirmed( $item->DataID );

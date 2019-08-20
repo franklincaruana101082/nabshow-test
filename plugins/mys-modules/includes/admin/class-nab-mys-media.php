@@ -47,7 +47,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 						set_post_thumbnail( $post_id, $attachmend_data->ID );
 
-						return true;
+						return "old:$attachmend_data->ID";
 					}
 
 					$image_string = wpcom_vip_file_get_contents( $imageurl );
@@ -85,7 +85,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					echo '<div id="message" class="error"><p>' . esc_html( $e->getMessage() ) . '</p></div>';
 				}
 
-				return true;
+				return "new:$attach_id";
 
 			}
 
