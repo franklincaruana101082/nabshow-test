@@ -36,7 +36,7 @@ add_action( 'admin_init', function () {
 	$post_types = get_post_types( array( 'public' => true ), 'names' );
 
 	foreach ( $post_types as $post_type ) {
-		if ( "wp_block" !== $post_type || "post" !== $post_type || "page" !== $post_type ) {
+		if ( "wp_block" !== $post_type || "post" !== $post_type ) {
 			nabshow_lv_register_action( $post_type );
 		}
 	}
