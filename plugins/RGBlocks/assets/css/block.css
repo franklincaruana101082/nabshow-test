@@ -27,7 +27,7 @@
 .select_block_popup .select_block_data ul li{margin-bottom:20px;display:inline-block;vertical-align:top;box-sizing:border-box;width:25%;float:left}
 .select_block_popup .select_block_data ul li:nth-child(3n + 1){clear:both}
 .select_block_popup .select_block_data ul li .block-grid-inner{margin:0 10px}
-.select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block{position:relative;overflow:hidden;background-color:#fff;padding:8px;box-sizing:border-box;box-shadow:0 0 8px 0 #33333333;clear:both;min-height:320px}
+.select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block{position:relative;overflow:hidden;background-color:#fff;padding:8px;box-sizing:border-box;box-shadow:0 0 8px 0 #33333333;clear:both;min-height:220px}
 .select_block_popup .select_block_data ul li .block-grid-inner .title-info{position:relative;padding:15px 8px;box-sizing:border-box}
 .popup-section>div>div>div{max-width:100%;height:100%}
 .select_block_popup .select_block_data ul li .block-grid-inner .title-info a{text-align:center;font-size:18px;margin:0;color:#23282d;cursor:pointer;font-weight:700}
@@ -38,12 +38,12 @@
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block a i{background:#073a63;color:#fff;padding:20px 0;border-radius:50%;font-size:20px;transition:0.3s all;margin:0 5px;width:60px;cursor:pointer}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block span.pro{border:none!important;background:#f15524;color:#fff;padding:7px 0;margin-bottom:0!important;display:block;font-size:12px;position:absolute;top:6px;width:100px;text-transform:uppercase;transform:rotate(-50deg);left:-31px;text-align:center;font-weight:bold;z-index:2;opacity:0.9}
 .select_block_popup .select_block_data{padding:30px 30px;display:block;float:left;background:#f1f1f1;position:absolute;top:136px;width:100%}
-.select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block .block-image{width:100%;object-fit:cover;object-position:top;height:220px;transition:5s all;transition-timing-function:ease-in-out;float:left}
+.select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block .block-image{width:100%;object-fit:cover;object-position:top;transition:5s all;transition-timing-function:ease-in-out;float:left}
 .popup-section .close_icon{position:absolute;z-index:99;top:25px;right:25px;font-size:25px;cursor:pointer;color:#23282d}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block:hover .block-image{object-position:bottom}
 .select_block_popup .popup-top{display:table;width:100%;text-align:left;border-bottom:1px solid #e3e3e3;padding:14px 20px}
 .select_block_popup .popup-top .logo{display:table-cell;vertical-align:middle;padding-right:15px;border-right:1px solid #e3e3e3;width:71px}
-.select_block_popup .popup-top .right-tabs{display:table-cell;vertical-align:middle;padding-left:20px}
+.select_block_popup .popup-top .right-tabs{display:table-cell;vertical-align:middle}
 .select_block_popup .popup-top .right-tabs ul{list-style:none}
 .select_block_popup .popup-top .right-tabs ul li{display:inline-block;vertical-align:middle;cursor:pointer;margin:0 20px;font-family:Muli, sans-serif;font-weight:600}
 .select_block_popup .popup-top .right-tabs ul li.react-tabs__tab--selected{color:#073a63}
