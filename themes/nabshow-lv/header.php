@@ -27,17 +27,7 @@
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
 		?>
     </a>
-    <?php
-    global $wpdb;
-    $mytables=$wpdb->get_results("SHOW TABLES");
-    foreach ($mytables as $mytable)
-    {
-        foreach ($mytable as $t)
-        {
-            echo $t . "<br>";
-        }
-    }
-    ?>
+
     <header id="masthead" class="site-header">
         <div class="container">
             <div class="row">
