@@ -183,6 +183,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOn1, sessionSliderOn
                                 options={[
                                     { label: __('Newest to Oldest'), value: 'date' },
                                     { label: __('Menu Order'), value: 'menu_order' },
+                                    { label: __('Random'), value: 'rand' },
                                 ]}
                                 onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                             />
@@ -383,36 +384,30 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOn1, sessionSliderOn
                                         onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
                                     />
                                 </div>
-                                <SelectControl
-                                    label={__('Slider Mode/Effect')}
-                                    value={sliderMode}
-                                    options={[
-                                        { label: __('Horizontal'), value: 'horizontal' },
-                                        { label: __('Vertical'), value: 'vertical' },
-                                        { label: __('Fade'), value: 'fade' },
-                                    ]}
-                                    onChange={(value) => setAttributes({ sliderMode: value })}
-                                />
                             </Fragment>
                             }
                         </PanelBody>
-                        <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
-                            <ul className="slider-arrow-main">
-                                {names.map((item, index) => (
-                                    < Fragment key={index} >
-                                        <li
-                                            className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
-                                            key={index}
-                                            onClick={e => {
-                                                setAttributes({ arrowIcons: item.classnames });
-                                                this.setState({ bxinit: true });
-                                            }}
-                                        >{item.name}</li>
-                                    </Fragment>
-                                ))
-                                }
-                            </ul>
-                        </PanelBody>
+                        {
+                            controls ? (
+                                <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
+                                    <ul className="slider-arrow-main">
+                                        {names.map((item, index) => (
+                                            < Fragment key={index} >
+                                                <li
+                                                    className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
+                                                    key={index}
+                                                    onClick={e => {
+                                                        setAttributes({ arrowIcons: item.classnames });
+                                                        this.setState({ bxinit: true });
+                                                    }}
+                                                >{item.name}</li>
+                                            </Fragment>
+                                        ))
+                                        }
+                                    </ul>
+                                </PanelBody>
+                            ) : ''
+                        }
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
