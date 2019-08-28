@@ -141,3 +141,12 @@ table.history-table tbody tr td:first-child, table.history-table tbody tr th:fir
 .mys-section-left.about-page .about-plugin .datails{padding:25px 25px;border:1px solid #ddd;border-top:0}
 .mys-section-left.about-page .about-plugin p:last-child{margin-bottom:0}
 .column-featured_image img.wp-post-image{width:50px}
+
+/* mys-login-outer */
+.mys-login-outer{display:flex;align-items:flex-start}
+.mys-login-outer .login-page{flex-basis:50%;margin-right:40px}
+.mys-login-outer .dashboard-box{flex-basis:50%;margin:0}
+.mys-login-outer .dashboard-box .inside form .mys-url{display:flex;align-items:center;margin-bottom:20px}
+.mys-login-outer .dashboard-box .inside form .mys-url label{flex-basis:200px;font-weight:700}
+.mys-login-outer .dashboard-box .inside form .mys-url input{flex-basis:calc(100% - 200px);height:40px;padding:0 10px}
+.mys-login-outer .dashboard-box .inside form .input-div input{background:#0083c1;text-align:center;padding:10px 20px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-left:200px}

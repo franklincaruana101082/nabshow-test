@@ -10,9 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-//Class File - DataBase Queries
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-db.php' );
-
 if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 	class NAB_MYS_Endpoints {
@@ -30,6 +27,10 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		private $current_request_text;
 
 		private $mys_request_url;
+
+		private $show_code;
+
+		private $nab_mys_urls;
 
 		private $datatype;
 
@@ -51,6 +52,11 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			//Initialize Database Class Instance to store the Response Data.
 			$this->nab_mys_db = new NAB_MYS_DB();
 
+			//Get MYS URLs added in backend.
+			$this->nab_mys_urls = get_option( 'nab_mys_urls' );
+
+			$this->show_code = isset ( $this->nab_mys_urls['show_code'] ) ? $this->nab_mys_urls['show_code'] : '';
+
 			//Intitialize the Rest End Point
 			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_rest_end_points' ) );
 		}
@@ -65,14 +71,14 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 */
 		public function nab_mys_sync_api() {
 
-
-			check_ajax_referer( 'mys-ajax-nonce', 'security' );
-
 			$requested_for = filter_input( INPUT_POST, 'requested_for', FILTER_SANITIZE_STRING );
 			$group_id      = filter_input( INPUT_POST, 'group_id', FILTER_SANITIZE_STRING );
 			$past_request  = filter_input( INPUT_POST, 'past_request', FILTER_SANITIZE_STRING );
+			$check_lock    = 1;
 
 			if ( isset( $requested_for ) ) {
+
+				check_ajax_referer( 'mys-ajax-nonce', 'security' );
 
 				$this->requested_for = sanitize_text_field( $requested_for );
 				$this->group_id      = ( "" !== sanitize_text_field( $group_id ) ) ? sanitize_text_field( $group_id ) : "";
@@ -84,7 +90,67 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				$this->requested_for = $this->nab_mys_cron_get_datatype_name();
 				$this->flow          = 'restapi';
 
+				if ( "sessions" !== $this->requested_for ) {
+					// Get previous group_id from modified_session to link the cron types and maintain sequence..
+
+					$this->group_id = $this->nab_mys_db->nab_mys_cron_get_latest_groupid( $this->requested_for );
+
+					if ( 0 === $this->group_id ) {
+
+						echo esc_html( "The new CRON sequence is not started yet. Please wait for the new CRON." );
+						die();
+
+					} else if ( 1 === $this->group_id ) {
+
+						echo esc_html( "This data already pulled for current CRON, Please wait for the next CRON." );
+						die();
+
+					} else {
+
+						$this->past_request = "modified-sessions";
+
+					}
+
+					$check_lock = 0;
+
+				}
+
 			}
+
+
+
+
+			//ne_temp remove before PR
+			$check_lock = 0;
+
+
+
+
+
+			if ( 1 === $check_lock ) {
+
+				$lock_status = $this->nab_mys_db->nab_mys_db_check_lock( $this->group_id );
+
+				if ( "open" !== $lock_status && ( null === $this->past_request || "" === $this->past_request ) ) {
+
+					$error_message = "New pull request is locked because already 1 request in progress, Please wait until it finishes.";
+
+					$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
+
+					if ( "wpajax" === $this->flow ) {
+
+						echo wp_json_encode( array( "apiError" => $error_message_html ) );
+						wp_die();
+
+					} else {
+						//CRON
+						echo esc_html( $error_message );
+						die();
+					}
+
+				}
+			}
+
 			$this->final_stack_item = $this->requested_for;
 
 			//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
@@ -92,12 +158,10 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				$this->group_id = $this->nab_mys_random_id();
 			}
 
-
 			$this->current_request = $this->nab_mys_requested_for_stack();
 
 			//Insert a pending row in History table
-			$this->history_id = $this->nab_mys_db->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id );
-
+			$this->history_id = $this->nab_mys_db->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, $this->flow );
 
 			//Get MYS API Request URL.
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
@@ -105,41 +169,27 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			//Get Token from Cache, If not available, Generate New and Store in the Cache.
 			$nab_mys_token_data = $this->nab_mys_api_token_from_cache();
 
-
 			//If Cached token expired and New token generation failed, throw error.
 			if ( 200 !== $nab_mys_token_data['token_status_code'] ) {
 
-				$message = "Error " . $nab_mys_token_data['token_status_code'] . ": " . $nab_mys_token_data['token_response'];
+				$error_message = "Error " . $nab_mys_token_data['token_status_code'] . ": " . $nab_mys_token_data['token_response'];
 
-				$mys_message_html = '<div class="notice notice-error is-dismissible"><p>' . $message . '</p></div>';
+				//Create a HTML Paragraph for Message to display via Ajax
+				$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
 
-				echo wp_json_encode( $mys_message_html );
-				wp_die();
+				if ( "wpajax" === $this->flow ) {
+
+					echo wp_json_encode( array( "apiError" => $error_message_html ) );
+					wp_die();
+				} else {
+					//CRON
+					echo esc_html( $error_message_html );
+					die();
+				}
+
+			} else {
+				$this->nab_mys_sync_db( $nab_mys_token_data['token_response'] );
 			}
-
-			//1st Attempt to fetch and store MYS Data (This will use cached token if not experied.)
-			$mys_message_html = $this->nab_mys_sync_db( $nab_mys_token_data['token_response'] );
-
-
-			if ( strpos( $mys_message_html, "notice-error" ) !== false ) {
-
-				//1st Attempt failed, Maybe Cached token not worked, Generate a New Token and Try again.
-
-				//Generate a New Token for 2nd Attempt.
-				$nab_mys_new_token_data = $this->nab_mys_api_generate_token();
-
-
-				//2nd Attempt to fetch and store MYS Data (This will use a Fresh New Token)
-				$mys_message_html = $this->nab_mys_sync_db( $nab_mys_new_token_data['token_response'] );
-
-				/**
-				 * 2nd Attempt was Successul or Failed? The answer ($mys_message_html)
-				 * will be returned to the Javascript file ( /assets/js/nab-mys-script.js ).
-				 */
-			}
-
-			echo wp_json_encode( $mys_message_html );
-			wp_die();
 		}
 
 		/**
@@ -170,7 +220,24 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				 * Attempt Success - Response Data Received.
 				 * Insert the Response data in Database.
 				 */
-				$this->nab_mys_db->nab_mys_db_insert_data_to_custom( $this->current_request, $mys_response_body, $this->history_id );
+
+				$custom_status = $this->nab_mys_db->nab_mys_db_insert_data_to_custom( $this->current_request, $mys_response_body, $this->history_id, $this->flow );
+
+				if ( false === $custom_status ) {
+
+					$error_message = "Modifed Sessions array is empty";
+					$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
+
+					if ( "wpajax" === $this->flow ) {
+
+						echo wp_json_encode( array( "apiError" => $error_message_html ) );
+						wp_die();
+					} else {
+						//CRON
+						echo esc_html( $error_message );
+						die();
+					}
+				}
 
 				//Now everything is done for the current request so making it a past request
 				$this->past_request = $this->current_request;
@@ -182,11 +249,15 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 						$this->current_request = ''; //this will stop recurring ajax
 					}
 
-					return array(
-						"pastItem"     => $this->current_request,
-						"requestedFor" => $this->requested_for,
-						"groupID"      => $this->group_id
+					echo wp_json_encode(
+						array(
+							"pastItem"     => $this->current_request,
+							"requestedFor" => $this->requested_for,
+							"groupID"      => $this->group_id
+						)
 					);
+					wp_die();
+
 
 				} else {
 
@@ -196,30 +267,41 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 					} else {
 						//CRON
-						echo "Data fetched successfully";
+
+						if ( "sessions" === $this->requested_for ) {
+							echo esc_html( "New CRON sequence ($this->group_id) started. " );
+						}
+
+						echo esc_html( "$this->current_request_text fetched successfully." );
+
+						if ( "done" === $custom_status ) {
+							echo esc_html( " CRON sequence ($this->group_id) is now completed successfully." );
+						}
 						die();
 					}
 				}
 
 			} else {
-
 				//Attempt Failed - Response Data NOT Received.
 
-				$error_message = "Error " . $mys_response_status['code'] . ": " . $mys_response_status['message'];
-				$error_message .= isset ( $mys_response_body[0]->error ) ? " - " . $mys_response_body[0]->error : '';
+				$mys_response_message = isset ( $mys_response_status['message']->error ) ? $mys_response_status['message']->error : $mys_response_status['message'];
+				$mys_response_message = isset ( $mys_response_message ) ? $mys_response_message : "Something went wrong.";
+
+				$error_message = "Error " . $mys_response_status['code'] . ": " . $mys_response_message;
 
 				//Create a HTML Paragraph for Message to display via Ajax
 				$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
 
 				if ( "wpajax" === $this->flow ) {
-					return array(
-						"apiError" => $error_message_html
-					);
+
+					echo wp_json_encode( array( "apiError" => $error_message_html ) );
+					wp_die();
 				} else {
 					//CRON
-					echo esc_html( $error_message_html );
+					echo esc_html( $error_message );
 					die();
 				}
+
 			}
 
 		}
@@ -282,7 +364,12 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : 3;
 
-			$result = $this->nab_mys_db->nab_mys_corn_migrate_data( $limit );
+			//ne_temp remove before PR
+			$dataids = isset( $parameters['dataids'] ) ? $parameters['dataids'] : '';
+
+			$groupid = isset( $parameters['groupid'] ) ? $parameters['groupid'] : '';
+
+			$result = $this->nab_mys_db->nab_mys_corn_migrate_data( $limit, $dataids, $groupid );
 
 			return $result;
 		}
@@ -326,7 +413,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 */
 		private function nab_mys_api_call( $mys_request_url, $authorization ) {
 
-			$args    = array( 'showCode' => "nab19" );
+			$args    = array( 'showCode' => $this->show_code );
 			$method  = 'GET';
 			$headers = array(
 				'Authorization' => $authorization,
@@ -348,11 +435,25 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			//An Actual Call
 			$mys_response = wp_remote_request( $mys_request_url, $request );
 
-			//Response Body
-			$mys_response_body = json_decode( $mys_response['body'] );
+			if ( isset ( $mys_response->errors ) ) {
 
-			//Response Code ( 200 - OK / 401 - Unauthorized / 500 - General Error / etc. )
-			$mys_response_status = $mys_response['response'];
+				$mys_response_status = $mys_response_body = array();
+
+				$mys_response_status['code'] = 404;
+
+				$mys_response_message = (object) array( 'error' => $mys_response->errors['http_request_failed'][0] );
+
+				$mys_response_body[] = $mys_response_status['message'] = $mys_response_message;
+
+			} else {
+				//This part can also have error response in body array.
+
+				//Response Body
+				$mys_response_body = json_decode( $mys_response['body'] );
+
+				//Response Code ( 200 - OK / 401 - Unauthorized / 500 - General Error / etc. )
+				$mys_response_status = $mys_response['response'];
+			}
 
 			//Merge Body and Status Code of the Response.
 			$mys_response_merged = array_merge( array( 'body' => $mys_response_body ), array( 'status' => $mys_response_status ) );
@@ -374,7 +475,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 			if ( false === $nab_mys_token ) {
 				//If Cachced Token expired, Generate a New Token.
-				$nab_mys_token_data = $this->nab_mys_api_generate_token();
+				$nab_mys_token_data = $this->nab_mys_api_token_generation();
 
 			} else {
 				//Return Token from Cache.
@@ -392,10 +493,15 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		private function nab_mys_api_generate_token() {
+		private function nab_mys_api_token_generation() {
 
 			//Get MYS API Request URL
-			$mys_request_url = MYS_PLUGIN_API . 'Authorize';
+			$mys_request_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] . '/Authorize' : '';
+
+			//Stop the flow if Main URL is empty.
+			if ( "" === $mys_request_url ) {
+				return false;
+			}
 
 			$mys_username = get_option( 'nab_mys_credentials_u' );
 			$mys_password = get_option( 'nab_mys_credentials_p' );
@@ -446,40 +552,54 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 */
 		private function nab_mys_get_request_url( $current_request ) {
 
+			$main_url                = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
+
+			$fromDate   = isset ( $this->nab_mys_urls['datepicker'] ) ? $this->nab_mys_urls['datepicker'] : '';
+			$fromDate = date("Y-m-d", strtotime($fromDate));
+			$toDate = current_time('Y-m-d');
+			$modified_sessions_url   = isset ( $this->nab_mys_urls['modified_sessions_url'] ) ? $this->nab_mys_urls['modified_sessions_url'] : '';
+			$modified_sessions_url   = $modified_sessions_url . '?fromDate=' . $fromDate . '&toDate=' . $toDate;
+
+			$sessions_url            = isset ( $this->nab_mys_urls['sessions_url'] ) ? $this->nab_mys_urls['sessions_url'] : '';
+			$tracks_url              = isset ( $this->nab_mys_urls['tracks_url'] ) ? $this->nab_mys_urls['tracks_url'] : '';
+			$sponsors_url            = isset ( $this->nab_mys_urls['sponsors_url'] ) ? $this->nab_mys_urls['sponsors_url'] : '';
+			$speakers_url            = isset ( $this->nab_mys_urls['speakers_url'] ) ? $this->nab_mys_urls['speakers_url'] : '';
+			$exhibitors_url          = isset ( $this->nab_mys_urls['exhibitors_url'] ) ? $this->nab_mys_urls['exhibitors_url'] : '';
+			$exhibitors_category_url = isset ( $this->nab_mys_urls['exhibitors_category_url'] ) ? $this->nab_mys_urls['exhibitors_category_url'] : '';
+
 			switch ( $current_request ) {
+				case "modified-sessions":
+					$mys_request_url            = $main_url . $modified_sessions_url;
+					$this->current_request_text = "Sessions Modified";
+					break;
 				case "sessions":
-					$mys_request_url            = MYS_PLUGIN_API . "Sessions/List?showCode=nab19";
+					$mys_request_url            = $main_url . $sessions_url;
 					$this->current_request_text = "Sessions";
 					break;
 
 				case "tracks":
-					$mys_request_url            = MYS_PLUGIN_API . "Sessions/Tracks/?showCode=nab19";
+					$mys_request_url            = $main_url . $tracks_url;
 					$this->current_request_text = "Tracks";
 					break;
 
 				case "sponsors":
-					$mys_request_url            = MYS_PLUGIN_API . "Sessions/Sponsors/?showCode=nab19";
+					$mys_request_url            = $main_url . $sponsors_url;
 					$this->current_request_text = "Sponsors";
 					break;
 
 				case "speakers":
-					$mys_request_url            = MYS_PLUGIN_API . "Sessions/Speakers/?showCode=nab19";
+					$mys_request_url            = $main_url . $speakers_url;
 					$this->current_request_text = "Speakers";
 					break;
 
 				case "exhibitors":
-					$mys_request_url            = MYS_PLUGIN_API . "Exhibitors/?showCode=nab19&exhid=5171131";
+					$mys_request_url            = $main_url . $exhibitors_url;
 					$this->current_request_text = "Exhibitors";
 					break;
 
 				case "exhibitors-category":
-					$mys_request_url            = MYS_PLUGIN_API . "Categories/?showCode=nab19";
+					$mys_request_url            = $main_url . $exhibitors_category_url;
 					$this->current_request_text = "Exhibitors Categgory";
-					break;
-
-				case "modified-sessions":
-					$mys_request_url            = MYS_PLUGIN_API . "Sessions/Modified?fromDate=2019-02-20&toDate=2019-04-21";
-					$this->current_request_text = "Sessions Modified";
 					break;
 			}
 
@@ -514,11 +634,11 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				);
 			} else if ( "sessions" === $queue ) {
 				$requested_for_stack = array(
-					"modified-sessions",
+					"modified-sessions", // ne_test commented to skip and jump to next
 					"sessions",
-					"speakers",
 					"tracks",
-					"sponsors"
+					"speakers",
+					"sponsors",
 				);
 
 			} else if ( "exhibitors" === $queue ) {

@@ -26,7 +26,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <div class="mys-section-left dashboard-page">
     <div class="mys-main-table res-cl">
 		<?php if ( isset( $pagetitle ) ) { ?>
-            <h1 style='margin-bottom:30px;'><?php echo esc_html( $pagetitle ); ?></h1>
+            <h1 style='margin-bottom:30px'><?php echo esc_html( $pagetitle ); ?></h1>
 		<?php } ?>
         <div class="dashboard-main">
             <div class="dashboard-box">
