@@ -41,27 +41,23 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 					$media_title = preg_replace( '/\.[^.]+$/', '', $filename );
 
-					/*$attachmend_data = wpcom_vip_get_page_by_title( $media_title, OBJECT, 'attachment' );
+					$attachmend_data = wpcom_vip_get_page_by_title( $media_title, OBJECT, 'attachment' );
 
 					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) && "tracks" !== $post_type ) {
 
 						set_post_thumbnail( $post_id, $attachmend_data->ID );
 
 						return "old:$attachmend_data->ID";
-					}*/
+					}
 
 					$image_string = wpcom_vip_file_get_contents( $imageurl );
 
-					if ( ! empty( $image_string ) ) {
-						//The below line is ignored on the basis of https://wpvip.com/documentation/vip-go/writing-files-on-vip-go/
-						$fileSaved = file_put_contents( $uploads['path'] . "/" . $filename, $image_string ); //phpcs:ignore
-
-					}
+					//The below line is ignored on the basis of https://wpvip.com/documentation/vip-go/writing-files-on-vip-go/
+					$fileSaved = file_put_contents( $uploads['path'] . "/" . $filename, $image_string ); //phpcs:ignore
 
 					if ( ! $fileSaved ) {
 						throw new Exception( "The file cannot be saved." );
 					}
-
 
 					$attachment = array(
 						'post_mime_type' => $wp_filetype['type'],
@@ -71,7 +67,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						'guid'           => $uploads['url'] . "/" . $filename
 					);
 
-					if ( "tracks" !== $post_type ) {
+					if ("tracks" !== $post_type) {
 						$attach_id = wp_insert_attachment( $attachment, $fullpathfilename, $post_id );
 					} else {
 						$attach_id = wp_insert_attachment( $attachment, $fullpathfilename );
@@ -85,7 +81,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					$attach_data = wp_generate_attachment_metadata( $attach_id, $fullpathfilename );
 					wp_update_attachment_metadata( $attach_id, $attach_data );
 
-					if ( "tracks" !== $post_type ) {
+					if ("tracks" !== $post_type) {
 						//ne_coded
 						set_post_thumbnail( $post_id, $attach_id );
 					} else {
