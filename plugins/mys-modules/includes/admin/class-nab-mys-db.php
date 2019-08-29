@@ -605,7 +605,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					$title = $individual_item[ $title_name ];
 				}
 				$description = ( '' !== $description_name ) ? $individual_item[ $description_name ] : '';
-				//$image_url   = $individual_item[ $image_name ];
+				$image       = $individual_item[ $image_name ];
 				$typeid      = $individual_item[ $typeidname ];
 
 				//If session status is not to "delete", get exisitng Post ID
@@ -703,23 +703,21 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					// Upload image if (1) item was new and added status was new OR (2) Item needs to be updated
 					if ( ( ! isset( $already_available_id ) && 1 === $item_status ) || 2 === $item_status ) {
 
-						//if ( empty( $image_url ) ) {
+						/**
+						 * This is a dummy third party image array for testing.
+						 */
+						$image_url_array = array(
+							'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
+							'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
+							'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
+							'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
+							'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
+							'http://wallperio.com/data/out/184/images_605127984.jpg'
+						);
 
-							/**
-							 * This is a dummy third party image array for testing.
-							 */
-							$image_url_array = array(
-								'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
-								'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
-								'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
-								'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
-								'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
-								'http://wallperio.com/data/out/184/images_605127984.jpg'
-							);
+						$random_image_key = array_rand( $image_url_array );
+						$image_url        = $image_url_array[ $random_image_key ];
 
-							$random_image_key = array_rand( $image_url_array );
-							$image_url        = $image_url_array[ $random_image_key ];
-						//}
 
 						//Upload Third Party Image to WP Media Library
 						$attach_id = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url, $post_type );
@@ -770,7 +768,9 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				}
 			}
 
-			$this->nab_mys_cron_master_confirmed( $item->DataID );
+
+			//$this->nab_mys_cron_master_confirmed( $item->DataID );
+
 
 			return $post_detail;
 		}
@@ -869,7 +869,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				$title       = $track['title'];
 				$description = $track['description'];
-				//$image_url   = $track['icon'];
+				$icon        = $track['icon'];
 				$trackid     = $track['trackid'];
 
 				//get tracks wp id from trackid of mys
@@ -928,22 +928,21 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				// Upload image if (1) item was new and added status was new OR (2) Item needs to be updated
 				if ( ( ! isset( $terms[0] ) && 1 === $item_status ) || 2 === $item_status ) {
 
-					//if ( empty( $image_url ) ) {
-						/**
-						 * This is a dummy third party image array for testing.
-						 */
-						$image_url_array = array(
-							'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
-							'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
-							'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
-							'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
-							'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
-							'http://wallperio.com/data/out/184/images_605127984.jpg'
-						);
+					/**
+					 * This is a dummy third party image array for testing.
+					 */
+					$image_url_array = array(
+						'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
+						'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
+						'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
+						'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
+						'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
+						'http://wallperio.com/data/out/184/images_605127984.jpg'
+					);
 
-						$random_image_key = array_rand( $image_url_array );
-						$image_url        = $image_url_array[ $random_image_key ];
-					//}
+					$random_image_key = array_rand( $image_url_array );
+					$image_url        = $image_url_array[ $random_image_key ];
+
 
 					//Upload Third Party Image to WP Media Library
 					$attach_id = $this->nab_mys_media->nab_mys_upload_media( $track_post_id, $image_url, "tracks" );
@@ -979,7 +978,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$return_detail .= $assigned_session;
 			}
 
-			$this->nab_mys_cron_master_confirmed( $item->DataID );
+
+			//$this->nab_mys_cron_master_confirmed( $item->DataID );
 
 			return $return_detail;
 		}
