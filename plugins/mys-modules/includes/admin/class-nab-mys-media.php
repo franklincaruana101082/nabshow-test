@@ -20,7 +20,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
-		public function nab_mys_upload_media( $post_id, $imageurl, $post_type ) {
+		public function nab_mys_upload_media( $post_id, $imageurl ) {
 
 			if ( $imageurl ) {
 				$imageurl    = stripslashes( $imageurl );
@@ -30,7 +30,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 				require_once( ABSPATH . '/wp-includes/pluggable.php' );
 
-				$filename         = $post_type . '-' . $newfilename;
+				$filename         = $newfilename;
 				$wp_filetype      = wp_check_filetype( $filename, null );
 				$fullpathfilename = $uploads['path'] . "/" . $filename;
 
@@ -43,7 +43,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 					$attachmend_data = wpcom_vip_get_page_by_title( $media_title, OBJECT, 'attachment' );
 
-					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) && "tracks" !== $post_type ) {
+					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) ) {
 
 						set_post_thumbnail( $post_id, $attachmend_data->ID );
 
@@ -67,12 +67,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						'guid'           => $uploads['url'] . "/" . $filename
 					);
 
-					if ("tracks" !== $post_type) {
-						$attach_id = wp_insert_attachment( $attachment, $fullpathfilename, $post_id );
-					} else {
-						$attach_id = wp_insert_attachment( $attachment, $fullpathfilename );
-					}
-
+					$attach_id = wp_insert_attachment( $attachment, $fullpathfilename, $post_id );
 					if ( ! $attach_id ) {
 						throw new Exception( "Failed to save record into database." );
 					}
@@ -81,12 +76,10 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					$attach_data = wp_generate_attachment_metadata( $attach_id, $fullpathfilename );
 					wp_update_attachment_metadata( $attach_id, $attach_data );
 
-					if ("tracks" !== $post_type) {
-						//ne_coded
-						set_post_thumbnail( $post_id, $attach_id );
-					} else {
-						update_term_meta( $post_id, 'tracks-image-id', $attach_id );
-					}
+
+					//ne_coded
+					set_post_thumbnail( $post_id, $attach_id );
+
 
 				} catch ( Exception $e ) {
 					echo '<div id="message" class="error"><p>' . esc_html( $e->getMessage() ) . '</p></div>';

@@ -19,28 +19,14 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 			//Register MYS Plugin Page
 			add_action( 'admin_menu', array( $this, 'nab_mys_page_fun' ), 9 );
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_assets' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_css' ) );
 
 		}
 
-		public function nab_mys_page_assets() {
+		public function nab_mys_page_css() {
 
-			// CSS
 			wp_register_style( 'mys-settings-css', MYS_PLUGIN_URL . '/assets/css/nab-mys-settings.css', array(), '20130608' );
 			wp_enqueue_style( 'mys-settings-css' );
-
-			// JS
-			wp_enqueue_script( 'jquery-ui-datepicker' );
-
-			if ( ! wp_style_is( 'jquery-ui', 'registered' ) ) {
-				wp_register_style(
-					'jquery-ui',
-					MYS_PLUGIN_URL . 'assets/css/jquery-ui.min.css'
-					/*'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'*/
-				);
-				wp_enqueue_style( 'jquery-ui' );
-			}
-
 		}
 
 		/**
