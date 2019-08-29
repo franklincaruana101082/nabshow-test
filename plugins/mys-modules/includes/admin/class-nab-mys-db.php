@@ -581,7 +581,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			$sessionid         = $prepared_data['sessionid'];
 			$typeidname        = $prepared_data['typeidname'];
 
-
 			$title_name       = $prepared_data['title_name'];
 			$description_name = $prepared_data['description_name'];
 			$image_name       = $prepared_data['image_name'];
