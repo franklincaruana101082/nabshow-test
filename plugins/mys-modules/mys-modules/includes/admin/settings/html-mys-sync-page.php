@@ -10,6 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+//ne_temp remove before PR. This is for testing purpose only.
+$reset_sequence = filter_input( INPUT_GET, 'reset_sequence', FILTER_SANITIZE_STRING );
+if ( isset( $reset_sequence ) && "yes" === $reset_sequence ) {
+
+	global $wpdb;
+
+	$wpdb->query( "UPDATE {$wpdb->prefix}mys_history SET HistoryStatus = 2 WHERE HistoryStatus = 0" ); //db call ok; no-cache ok
+
+	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. All HistoryStatus are updated from 0 to 2.</p>";
+
+}
+
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
@@ -28,7 +40,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 </div>
 <div class="mys-section-left">
     <div id="mys-sync-wrapper" class="mys-main-table res-cl">
-        <div class="mys-head mys-message-container" style="display: none"></div>
+        <div class="mys-head mys-message-container" style="display:none"></div>
         <div class="mys-head">
 			<?php
 			if ( "1" === get_option( 'nab_mys_show_wizard' ) ) { ?>
@@ -55,7 +67,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
             </tr>
             <tr>
                 <td class="pull-data" colspan="2">
-                    <span class="button-primary button pull-sessions button-sync" data-sync="sessions">Pull</span>
+                    <span class="button-primary button pull-sessions button-sync" data-sync="sponsors">Pull</span>
                 </td>
             </tr>
 			<?php if ( "0" === get_option( 'nab_mys_show_wizard' ) ) { ?>
