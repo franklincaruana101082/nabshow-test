@@ -117,16 +117,6 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 			}
 
-
-
-
-			//ne_temp remove before PR
-			$check_lock = 0;
-
-
-
-
-
 			if ( 1 === $check_lock ) {
 
 				$lock_status = $this->nab_mys_db->nab_mys_db_check_lock( $this->group_id );
