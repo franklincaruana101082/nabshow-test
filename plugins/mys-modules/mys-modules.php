@@ -29,6 +29,9 @@ if ( ! defined( 'MYS_PLUGIN_DIR_PATH' ) ) {
 if ( ! defined( 'MYS_PLUGIN_BASENAME' ) ) {
 	define( 'MYS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
+if ( ! defined( 'MYS_PLUGIN_API' ) ) {
+	define( 'MYS_PLUGIN_API', 'https://api.mapyourshow.com/mysRest/v2/' );
+}
 
 /**
  * Activation Hook
@@ -80,9 +83,6 @@ function mys_modules_uninstall() {
 //Class File - Admin Page
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-page.php' );
 
-//Class File - DataBase Queries
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-db.php' );
-
 //Class File - Endpoints
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-endpoints.php' );
 
@@ -91,6 +91,3 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-scripts.php' );
 
 //Register MYS Dependent Post Types
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
-
-//Develop Tracks Custom Fields
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-tracks.php' );
