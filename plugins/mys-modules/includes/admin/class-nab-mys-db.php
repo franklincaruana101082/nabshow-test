@@ -229,7 +229,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				//ne_testing purpose only.. remove beore PR.
 				$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
-				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] - 1 : 10000;
+				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] - 1 : 1000;
 
 				foreach ( $master_array as $item_session_id => $item ) {
 
