@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
 
     var requestedFor = '';
     var currentProgress = 0;
-    var progressJump = 50;
+    var progressJump = 20;
     var data = '';
     var pastItemName = '';
     var para = document.createElement('p');
@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
 
                 } else {
 
-                    $('.mys-message-container').append('<p>- Sessions data fetched successfully.</p>');
+                    $('.mys-message-container').append('<p>- Sponsors data fetched successfully.</p>');
 
                     setTimeout(function () {
                         $('.mys-message-container').append(
@@ -127,5 +127,7 @@ jQuery(document).ready(function ($) {
     $('.mys-popup .mys-popup-inner .dashicons.dashicons-no').on('click', function () {
         $(this).parent().parent().removeClass('active');
     });
+
+    $('#datepicker').datepicker({ dateFormat: 'mm-dd-yy' });
 
 });

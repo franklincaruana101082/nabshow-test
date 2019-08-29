@@ -11,29 +11,123 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register Tracks Taxonomy for Sessions.
+ * Register Taxonomies for Sessions.
  *
  * @package MYS Modules
  * @since 1.0.0
  */
-function sessions_tracks_taxonomy() {
-	register_taxonomy(
-		'tracks',
-		array( 'sessions' ),
-		array(
-			'hierarchical' => true,
-			'label'        => 'Tracks',
-			'query_var'    => true,
-			'show_in_rest' => true,
-			'rewrite'      => array(
-				'slug'       => 'track',
-				'with_front' => false
-			)
-		)
-	);
-}
+function nab_mys_sessions_taxonomies() {
 
-add_action( 'init', 'sessions_tracks_taxonomy', 0 );
+	// Taxonomy - tracks
+	$tracks_labels = array(
+		'name'              => _x( 'Tracks', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Tracks', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Tracks', 'mys-modules' ),
+		'all_items'         => __( 'All Tracks', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Track', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Track:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Track', 'mys-modules' ),
+		'update_item'       => __( 'Update Track', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Track', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Track', 'mys-modules' ),
+		'menu_name'         => __( 'Tracks', 'mys-modules' ),
+	);
+
+	$tracks_args = array(
+		'hierarchical'      => true,
+		'labels'            => $tracks_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'tracks' ),
+	);
+
+	register_taxonomy( 'tracks', array( 'sessions' ), $tracks_args );
+
+	// Taxonomy - session-categories
+	$category_labels = array(
+		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Categories', 'mys-modules' ),
+		'all_items'         => __( 'All Categories', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Category:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Category', 'mys-modules' ),
+		'update_item'       => __( 'Update Category', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Category', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Category', 'mys-modules' ),
+		'menu_name'         => __( 'Categories', 'mys-modules' ),
+	);
+
+	$category_args = array(
+		'hierarchical'      => true,
+		'labels'            => $category_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session-categories' ),
+	);
+
+	register_taxonomy( 'session-categories', array( 'sessions' ), $category_args );
+
+	// Taxonomy - session-levels
+	$level_labels = array(
+		'name'              => _x( 'Levels', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Levels', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Levels', 'mys-modules' ),
+		'all_items'         => __( 'All Levels', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Level', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Level:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Level', 'mys-modules' ),
+		'update_item'       => __( 'Update Level', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Level', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Level', 'mys-modules' ),
+		'menu_name'         => __( 'Levels', 'mys-modules' ),
+	);
+
+	$level_args = array(
+		'hierarchical'      => true,
+		'labels'            => $level_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session-levels' ),
+	);
+
+	register_taxonomy( 'session-levels', array( 'sessions' ), $level_args );
+
+	// Taxonomy - session-types
+	$type_labels = array(
+		'name'              => _x( 'Types', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Types', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Types', 'mys-modules' ),
+		'all_items'         => __( 'All Types', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Type', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Type:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Type', 'mys-modules' ),
+		'update_item'       => __( 'Update Type', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Type', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Type', 'mys-modules' ),
+		'menu_name'         => __( 'Types', 'mys-modules' ),
+	);
+
+	$type_args = array(
+		'hierarchical'      => true,
+		'labels'            => $type_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session-types' ),
+	);
+
+	register_taxonomy( 'session-types', array( 'sessions' ), $type_args );
+
+}
+add_action( 'init', 'nab_mys_sessions_taxonomies', 0 );
 
 /**
  * Register Session Post Type
@@ -41,7 +135,7 @@ add_action( 'init', 'sessions_tracks_taxonomy', 0 );
  * @package MYS Modules
  * @since 1.0.0
  */
-function nab_mys_session_fun() {
+function nab_mys_sessions_post_type() {
 
 	$labels = array(
 		'name'               => _x( 'Sessions', 'mys-modules' ),
@@ -75,6 +169,7 @@ function nab_mys_session_fun() {
 		'query_var'           => true,
 		'capability_type'     => 'post',
 		'hierarchical'        => true,
+		'menu_icon'           => 'dashicons-money',
 		'supports'            => array(
 			'title',
 			'editor',
@@ -92,9 +187,72 @@ function nab_mys_session_fun() {
 	register_taxonomy_for_object_type( 'tracks', 'sessions' );
 
 }
+add_action( 'init', 'nab_mys_sessions_post_type' );
 
-//Action to register Sessions Post Type
-add_action( 'init', 'nab_mys_session_fun' );
+/**
+ * Register Taxonomies for Speakers.
+ *
+ * @package MYS Modules
+ * @since 1.0.0
+ */
+function nab_mys_speakers_taxonomies() {
+
+	// Taxonomy - speaker-categories
+	$category_labels = array(
+		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Categories', 'mys-modules' ),
+		'all_items'         => __( 'All Categories', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Category:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Category', 'mys-modules' ),
+		'update_item'       => __( 'Update Category', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Category', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Category', 'mys-modules' ),
+		'menu_name'         => __( 'Categories', 'mys-modules' ),
+	);
+
+	$category_args = array(
+		'hierarchical'      => true,
+		'labels'            => $category_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'speaker-categories' ),
+	);
+
+	register_taxonomy( 'speaker-categories', array( 'speakers' ), $category_args );
+
+	// Taxonomy - speaker-companies
+	$company_labels = array(
+		'name'              => _x( 'Companies', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Companies', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Companies', 'mys-modules' ),
+		'all_items'         => __( 'All Companies', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Company', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Company:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Company', 'mys-modules' ),
+		'update_item'       => __( 'Update Company', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Company', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Company', 'mys-modules' ),
+		'menu_name'         => __( 'Companies', 'mys-modules' ),
+	);
+
+	$company_args = array(
+		'hierarchical'      => true,
+		'labels'            => $company_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'speaker-companies' ),
+	);
+
+	register_taxonomy( 'speaker-companies', array( 'speakers' ), $company_args );
+
+}
+add_action( 'init', 'nab_mys_speakers_taxonomies', 0 );
 
 /**
  * Register Speakers Post Type
@@ -102,7 +260,7 @@ add_action( 'init', 'nab_mys_session_fun' );
  * @package MYS Modules
  * @since 1.0.0
  */
-function nab_mys_speaker_fun() {
+function nab_mys_speakers_post_type() {
 
 	$labels = array(
 		'name'               => _x( 'Speakers', 'mys-modules' ),
@@ -134,6 +292,7 @@ function nab_mys_speaker_fun() {
 		'query_var'           => true,
 		'capability_type'     => 'post',
 		'hierarchical'        => true,
+		'menu_icon'           => 'dashicons-megaphone',
 		'supports'            => array(
 			'title',
 			'editor',
@@ -150,10 +309,43 @@ function nab_mys_speaker_fun() {
 	register_post_type( 'speakers', $args );
 
 }
+add_action( 'init', 'nab_mys_speakers_post_type' );
 
-//Action to register speakers Post Type
-add_action( 'init', 'nab_mys_speaker_fun' );
+/**
+ * Register Taxonomies for Speakers.
+ *
+ * @package MYS Modules
+ * @since 1.0.0
+ */
+function nab_mys_sponsors_taxonomies() {
 
+	$category_labels = array(
+		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Categories', 'mys-modules' ),
+		'all_items'         => __( 'All Categories', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Category:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Category', 'mys-modules' ),
+		'update_item'       => __( 'Update Category', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Category', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Category', 'mys-modules' ),
+		'menu_name'         => __( 'Categories', 'mys-modules' ),
+	);
+
+	$category_args = array(
+		'hierarchical'      => true,
+		'labels'            => $category_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'sponsors-category' ),
+	);
+
+	register_taxonomy( 'sponsors-category', array( 'sponsors' ), $category_args );
+}
+add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
 
 /**
  * Register Sponsors Post Type
@@ -161,7 +353,7 @@ add_action( 'init', 'nab_mys_speaker_fun' );
  * @package MYS Modules
  * @since 1.0.0
  */
-function nab_mys_sponsor_fun() {
+function nab_mys_sponsor_post_type() {
 
 	$labels = array(
 		'name'               => _x( 'Sponsors', 'mys-modules' ),
@@ -193,6 +385,7 @@ function nab_mys_sponsor_fun() {
 		'query_var'           => true,
 		'capability_type'     => 'post',
 		'hierarchical'        => true,
+		'menu_icon'           => 'dashicons-groups',
 		'supports'            => array(
 			'title',
 			'editor',
@@ -209,29 +402,43 @@ function nab_mys_sponsor_fun() {
 	register_post_type( 'sponsors', $args );
 
 }
+add_action( 'init', 'nab_mys_sponsor_post_type' );
 
-//Action to register sponsors Post Type
-add_action( 'init', 'nab_mys_sponsor_fun' );
+/**
+ * Register Taxonomies for Exhibitors.
+ *
+ * @package MYS Modules
+ * @since 1.0.0
+ */
+function nab_mys_exhibitors_taxonomies() {
 
-function exhibitors_category_taxonomy() {
-	register_taxonomy(
-		'exhibitors-category',
-		array( 'exhibitors' ),
-		array(
-			'hierarchical' => true,
-			'label'        => 'Categories',
-			'query_var'    => true,
-			'show_in_rest' => true,
-			'rewrite'      => array(
-				'slug'       => 'exhibitors-category',
-				'with_front' => false
-			)
-		)
+	$category_labels = array(
+		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Categories', 'mys-modules' ),
+		'all_items'         => __( 'All Categories', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Category:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Category', 'mys-modules' ),
+		'update_item'       => __( 'Update Category', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Category', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Category', 'mys-modules' ),
+		'menu_name'         => __( 'Categories', 'mys-modules' ),
 	);
+
+	$category_args = array(
+		'hierarchical'      => true,
+		'labels'            => $category_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'exhibitors-category' ),
+	);
+
+	register_taxonomy( 'exhibitors-category', array( 'exhibitors' ), $category_args );
 }
-
-add_action( 'init', 'exhibitors_category_taxonomy', 0 );
-
+add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );
 
 /**
  * Register Exhibitors Post Type
@@ -239,7 +446,7 @@ add_action( 'init', 'exhibitors_category_taxonomy', 0 );
  * @package MYS Modules
  * @since 1.0.0
  */
-function nab_mys_exhibitor_fun() {
+function nab_mys_exhibitor_post_type() {
 
 	$labels = array(
 		'name'               => _x( 'Exhibitors', 'mys-modules' ),
@@ -272,6 +479,7 @@ function nab_mys_exhibitor_fun() {
 		'query_var'           => true,
 		'capability_type'     => 'post',
 		'hierarchical'        => true,
+		'menu_icon'           => 'dashicons-store',
 		'supports'            => array(
 			'title',
 			'editor',
@@ -288,6 +496,4 @@ function nab_mys_exhibitor_fun() {
 	register_post_type( 'exhibitors', $args );
 
 }
-
-//Action to register exhibitors Post Type
-add_action( 'init', 'nab_mys_exhibitor_fun' );
+add_action( 'init', 'nab_mys_exhibitor_post_type' );
