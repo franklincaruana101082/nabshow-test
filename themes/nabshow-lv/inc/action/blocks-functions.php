@@ -404,34 +404,36 @@ function nabshow_lv_advertisement_render_callback( $attributes ) {
     <?php
     } else {
         if( isset( $attributes['startDate'] ) && isset( $attributes['endDate'] ) ) {
-            $class_name           = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-            $img_source           = isset( $attributes['imgSource'] ) && ! empty( $attributes['imgSource'] ) ? $attributes['imgSource'] : '';
-            $img_width            = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? $attributes['imgWidth'] . 'px' : '';
-            $img_height           = isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? $attributes['imgHeight'] . 'px' : '';
+            $class_name   = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+            $img_source   = isset( $attributes['imgSource'] ) && ! empty( $attributes['imgSource'] ) ? $attributes['imgSource'] : '';
+            $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
+            $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
 
-            $start_date           = new DateTime( $attributes['startDate'] );
-            $start_date           = $start_date->format( 'Y-m-d H:i:s' );
-            $end_date             = new DateTime( $attributes['endDate'] );
-            $end_date             = $end_date->format( 'Y-m-d H:i:s' );
-	        $current_date         = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
+            $start_date   = new DateTime( $attributes['startDate'] );
+            $start_date   = $start_date->format( 'Y-m-d H:i:s' );
+            $end_date     = new DateTime( $attributes['endDate'] );
+            $end_date     = $end_date->format( 'Y-m-d H:i:s' );
+	        $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 
             if ( $start_date <= $current_date && $current_date <= $end_date ) {
             ?>
                 <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>">
+                    <p class="banner-text">Advertisement</p>
                     <?php
+
                     if ( isset( $attributes['linkURL'] ) && ! empty( $attributes['linkURL'] ) ) {
                         $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
                         $event_category    = isset( $attributes['eventCategory'] ) && ! empty( $attributes['eventCategory'] ) ? $attributes['eventCategory'] : '';
                         $event_action      = isset( $attributes['eventAction'] ) && ! empty( $attributes['eventAction'] ) ? $attributes['eventAction'] : '';
                         $event_label       = isset( $attributes['eventLabel'] ) && ! empty( $attributes['eventLabel'] ) ? $attributes['eventLabel'] : '';
                     ?>
-                        <a href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
-                            <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" width="<?php echo esc_attr( $img_width ); ?>" height="<?php echo esc_attr( $img_height ); ?>" />
+                        <a class="nab-banner-link" href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
+                            <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
                         </a>
                     <?php
                     } else {
                     ?>
-                        <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" width="<?php echo esc_attr( $img_width ); ?>" height="<?php echo esc_attr( $img_height ); ?>" />
+                        <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
                     <?php
                     }
                     ?>
