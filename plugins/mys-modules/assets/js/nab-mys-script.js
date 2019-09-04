@@ -10,7 +10,7 @@ jQuery(document).ready(function ($) {
     var apiError = '';
 
     $('.mys-cred-edit').on('click', function () {
-        $('.login-inner').toggleClass('show-labels');
+        $('.show-hide-fields').toggleClass('show-labels');
         $(this).hide();
     });
 

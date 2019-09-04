@@ -126,7 +126,35 @@ function nab_mys_sessions_taxonomies() {
 
 	register_taxonomy( 'session-types', array( 'sessions' ), $type_args );
 
+	// Taxonomy - session-locations
+	$location_labels = array(
+		'name'              => _x( 'Locations', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Locations', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Locations', 'mys-modules' ),
+		'all_items'         => __( 'All Locations', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Location', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Location:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Location', 'mys-modules' ),
+		'update_item'       => __( 'Update Location', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Location', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Location', 'mys-modules' ),
+		'menu_name'         => __( 'Locations', 'mys-modules' ),
+	);
+
+	$location_args = array(
+		'hierarchical'      => true,
+		'labels'            => $location_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session-locations' ),
+	);
+
+	register_taxonomy( 'session-locations', array( 'sessions' ), $location_args );
+
 }
+
 add_action( 'init', 'nab_mys_sessions_taxonomies', 0 );
 
 /**
@@ -187,6 +215,7 @@ function nab_mys_sessions_post_type() {
 	register_taxonomy_for_object_type( 'tracks', 'sessions' );
 
 }
+
 add_action( 'init', 'nab_mys_sessions_post_type' );
 
 /**
@@ -252,6 +281,7 @@ function nab_mys_speakers_taxonomies() {
 	register_taxonomy( 'speaker-companies', array( 'speakers' ), $company_args );
 
 }
+
 add_action( 'init', 'nab_mys_speakers_taxonomies', 0 );
 
 /**
@@ -309,6 +339,7 @@ function nab_mys_speakers_post_type() {
 	register_post_type( 'speakers', $args );
 
 }
+
 add_action( 'init', 'nab_mys_speakers_post_type' );
 
 /**
@@ -345,6 +376,7 @@ function nab_mys_sponsors_taxonomies() {
 
 	register_taxonomy( 'sponsors-category', array( 'sponsors' ), $category_args );
 }
+
 add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
 
 /**
@@ -402,6 +434,7 @@ function nab_mys_sponsor_post_type() {
 	register_post_type( 'sponsors', $args );
 
 }
+
 add_action( 'init', 'nab_mys_sponsor_post_type' );
 
 /**
@@ -438,6 +471,7 @@ function nab_mys_exhibitors_taxonomies() {
 
 	register_taxonomy( 'exhibitors-category', array( 'exhibitors' ), $category_args );
 }
+
 add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );
 
 /**
@@ -496,4 +530,5 @@ function nab_mys_exhibitor_post_type() {
 	register_post_type( 'exhibitors', $args );
 
 }
+
 add_action( 'init', 'nab_mys_exhibitor_post_type' );

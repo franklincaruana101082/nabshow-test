@@ -10,6 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+//Prevent  unauthorized users
+if ( ! current_user_can( 'manage_options' ) ) {
+	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+}
+
 //ne_temp remove before PR. This is for testing purpose only.
 $reset_sequence = filter_input( INPUT_GET, 'reset_sequence', FILTER_SANITIZE_STRING );
 if ( isset( $reset_sequence ) && "yes" === $reset_sequence ) {
@@ -20,14 +25,20 @@ if ( isset( $reset_sequence ) && "yes" === $reset_sequence ) {
 
 	$wpdb->query( "UPDATE {$wpdb->prefix}mys_data SET AddedStatus = 2 WHERE AddedStatus = 0" ); //db call ok; no-cache ok
 
-	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. All HistoryStatus are updated from 0 to 2.</p>";
+	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. All statuses are updated from 0 to 2.</p>";
 
 }
 
-//Prevent  unauthorized users
-if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+if ( "1" === get_option( 'mys_login_form_success' ) ) {
+	$logged_in = 1;
+	$msg_style = "display:none";
+	$error_msg = "";
+} else {
+	$logged_in  = 0;
+	$msg_style  = "display:block";
+	$error_msg  = "Please <a href='". esc_url( admin_url( 'admin.php?page=mys-login' ) ) ."'>click here</a> to complete the login first.";
 }
+
 update_option( 'nab_mys_wizard_step', 2 );
 
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
@@ -42,7 +53,9 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 </div>
 <div class="mys-section-left">
     <div id="mys-sync-wrapper" class="mys-main-table res-cl">
-        <div class="mys-head mys-message-container" style="display:none"></div>
+        <div class="mys-head mys-message-container" style="<?php echo esc_attr( $msg_style ); ?>">
+            <p class="red-notice mys-error-notice"><?php echo wp_kses( $error_msg, array( 'a' => array ( 'href' => array() ) ) ); ?></p>
+        </div>
         <div class="mys-head">
 			<?php
 			if ( "1" === get_option( 'nab_mys_show_wizard' ) ) { ?>

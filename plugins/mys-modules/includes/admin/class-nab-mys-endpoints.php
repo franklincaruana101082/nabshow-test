@@ -16,7 +16,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 		private $flow;
 
-		private $nab_mys_db;
+		public $nab_mys_db;
 
 		private $requested_for;
 

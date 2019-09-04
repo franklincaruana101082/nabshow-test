@@ -54,8 +54,8 @@ a.mysstore_plugin.active{color:#fff;background:hsla(280, 1%, 54%, 0.3)}
 .login-page{width:700px;background:#fff;margin:0;box-sizing:border-box;max-width:100%;position:relative;border:1px solid #ddd}
 .login-page .mastersettings-title h2{padding-bottom:0;display:inline-block;text-transform:uppercase;letter-spacing:2px;margin:0}
 .login-page .login-inner .login-row{margin-bottom:20px;display:flex;align-items:center}
-.login-page .login-inner .login-row strong{width:130px;display:inline-block;font-weight:700}
-.login-page .login-inner .login-row .input-div{width:70%;width:calc(100% - 130px)}
+.login-page .login-inner .login-row strong{width:200px;display:inline-block;font-weight:700}
+.login-page .login-inner .login-row .input-div{width:70%;width:calc(100% - 200px)}
 .login-page .login-inner .login-row .input-div input{width:100%;height:40px;padding:0 10px}
 .login-page .login-inner .login-row .button{background:#0083c1;text-align:center;padding:10px 30px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600}
 .toplevel_page_mys-sync a div img{max-width:20px}
@@ -68,7 +68,7 @@ table.table-outer.syn-table tr td.fr-1{width:10%}
 table.table-outer.syn-table tr td strong{font-weight:700;letter-spacing:1px;font-size:15px}
 .highlight-text{margin-bottom:40px}
 .highlight-text p{color:#000}
-.mys-main-table table.table-outer tr td.pull-data span{background:#0083c1;text-align:center;padding:10px 30px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.mys-main-table table.table-outer .import-exhibitors,.mys-main-table table.table-outer tr td.pull-data span{background:#0083c1;text-align:center;padding:10px 30px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600}
 .mys-main-table table.table-outer tr td>div{margin-bottom:10px}
 .mys-main-table table.table-outer tr td>div:last-child{margin-bottom:0}
 div#wpbody-content{padding-right:20px;box-sizing:border-box}
@@ -122,11 +122,12 @@ table.history-table tbody tr td:first-child, table.history-table tbody tr th:fir
 .mys-head h2{background:none;border:none;padding:0;margin:0 0 15px 0}
 .mys-head p{margin:0 0 15px 0}.mys-head h1{margin-top:0}.mys-head p:last-child{margin-bottom:0}
 .login-page .login-inner .login-row .input-div input[type="submit"]{width:auto;padding:0 20px}
-.next-bottom-btn a#nextstep{background:#f32d51;text-align:center;padding:10px 30px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;text-shadow:initial;border:none;box-shadow:initial}
+.submit-mys-login,.next-bottom-btn a#nextstep{background:#f32d51;text-align:center;padding:10px 30px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;text-shadow:initial;border:none;box-shadow:initial}
+.next-bottom-btn .submit-mys-login#nextstep{background:#0085ba;margin-right:15px;color:#FFF;cursor:pointer;border-radius:3px}
 .next-bottom-btn{width:100%;text-align:center;margin-top:30px;border-top:1px dotted #ccc;padding-top:20px;clear:both}
 .login-page .mastersettings-title{background:#e9e9e9;border:1px solid #ddd;color:#333;margin:0;padding:20px}
 .login-page .wrap{padding:0 20px}
-.login-page form{padding:0 20px 20px 20px}
+.login-inner{padding:0 25px 20px 25px}.login-inner-form{width:100%}
 .next-bottom-btn br{display:none}
 .next-bottom-btn a.skip{box-shadow:0 1px 1px #73a027;color:#fff;text-decoration:none;background:#91ca30!important;margin-left:10px}
 .dashboard-box{width:50%;margin:0 10px;background:#fff;vertical-align:top;border:1px solid #e5e5e5;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04)}
@@ -144,9 +145,9 @@ table.history-table tbody tr td:first-child, table.history-table tbody tr th:fir
 
 /* mys-login-outer */
 .mys-login-outer{display:flex;align-items:flex-start}
-.mys-login-outer .login-page{flex-basis:50%;margin-right:40px}
-.mys-login-outer .dashboard-box{flex-basis:50%;margin:0}
-.mys-login-outer .dashboard-box .inside form .mys-url{display:flex;align-items:center;margin-bottom:20px}
-.mys-login-outer .dashboard-box .inside form .mys-url label{flex-basis:200px;font-weight:700}
-.mys-login-outer .dashboard-box .inside form .mys-url input{flex-basis:calc(100% - 200px);height:40px;padding:0 10px}
-.mys-login-outer .dashboard-box .inside form .input-div input{background:#0083c1;text-align:center;padding:10px 20px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-left:200px}
+.mys-login-outer .login-page{flex-basis:100%;margin-right:40px;width:100%}
+.mys-login-outer .dashboard-box{flex-basis:100%;margin:0;width:100%}
+.mys-login-outer .dashboard-box .inside .mys-url{display:flex;align-items:center;margin-bottom:20px}
+.mys-login-outer .dashboard-box .inside .mys-url label{flex-basis:200px;font-weight:700}
+.mys-login-outer .dashboard-box .inside .mys-url input{flex-basis:calc(100% - 200px);height:40px;padding:0 10px}
+.mys-login-outer .dashboard-box .inside .input-div input{background:#0083c1;text-align:center;padding:10px 20px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-left:200px}

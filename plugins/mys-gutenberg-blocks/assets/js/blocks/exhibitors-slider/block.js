@@ -357,20 +357,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
                                     />
                                 </div>
-                                <SelectControl
-                                    label={__('Slider Mode/Effect')}
-                                    value={sliderMode}
-                                    options={[
-                                        { label: __('Horizontal'), value: 'horizontal' },
-                                        { label: __('Vertical'), value: 'vertical' },
-                                        { label: __('Fade'), value: 'fade' },
-                                    ]}
-                                    onChange={(value) => setAttributes({ sliderMode: value })}
-                                />
                             </Fragment>
                             }
                         </PanelBody>
-                        { sliderActive &&
+                        { sliderActive && controls &&
                             <Fragment>
                                 {controls &&
                                 <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">

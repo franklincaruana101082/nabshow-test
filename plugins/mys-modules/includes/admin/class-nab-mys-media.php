@@ -41,14 +41,14 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 					$media_title = preg_replace( '/\.[^.]+$/', '', $filename );
 
-					/*$attachmend_data = wpcom_vip_get_page_by_title( $media_title, OBJECT, 'attachment' );
+					$attachmend_data = wpcom_vip_get_page_by_title( $media_title, OBJECT, 'attachment' );
 
 					if ( isset( $attachmend_data ) && isset( $attachmend_data->ID ) && "tracks" !== $post_type ) {
 
 						set_post_thumbnail( $post_id, $attachmend_data->ID );
 
 						return "old:$attachmend_data->ID";
-					}*/
+					}
 
 					$image_string = wpcom_vip_file_get_contents( $imageurl );
 

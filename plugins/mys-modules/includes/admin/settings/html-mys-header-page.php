@@ -1,8 +1,5 @@
 <?php
 $pagename = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
-
-$admin_url = get_admin_url();
-
 ?>
 <header class="mys-header">
     <div class="mys-logo-main">
@@ -32,25 +29,25 @@ $admin_url = get_admin_url();
 	            } else {
 	            ?>
                 <li>
-                    <a class="mystore_plugin <?php echo ( "mys-about" === $pagename ) ? 'active' : ''; ?>" href="<?php echo esc_url ($admin_url) ?>admin.php?page=mys-about">About Plugin</a>
+                    <a class="mystore_plugin <?php echo ( "mys-about" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-about">About Plugin</a>
                 </li>
                 <li>
-                    <a class="mystore_plugin <?php echo ( "mys-dashboard" === $pagename ) ? 'active' : ''; ?>" href="<?php echo esc_url ($admin_url) ?>admin.php?page=mys-dashboard">Dashboard</a>
+                    <a class="mystore_plugin <?php echo ( "mys-dashboard" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-dashboard">Dashboard</a>
                 </li>
                 <li>
-
+                    
                 </li>
                 <li>
-                    <a class="mystore_plugin <?php echo ( "mys-sync" === $pagename ) ? 'active' : ''; ?>" href="<?php echo esc_url ($admin_url) ?>admin.php?page=mys-sync">Sync</a>
+                    <a class="mystore_plugin <?php echo ( "mys-sync" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-sync">Sync</a>
                 </li>
                 <li>
-                    <a class="mystore_plugin <?php echo ( "mys-history" === $pagename ) ? 'active' : ''; ?>" href="<?php echo esc_url ($admin_url) ?>admin.php?page=mys-history">History</a>
+                    <a class="mystore_plugin <?php echo ( "mys-history" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-history">History</a>
                 </li>
                 <li>
-                    <a class="mystore_plugin <?php echo ( "mys-setting" === $pagename || "mys-login" === $pagename ) ? 'active' : ''; ?>" href="<?php echo esc_url ($admin_url) ?>admin.php?page=mys-setting">Settings</a>
+                    <a class="mystore_plugin <?php echo ( "mys-setting" === $pagename || "mys-login" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-setting">Settings</a>
                     <ul class="sub-menu">
                         <li>
-                            <a class="mystore_plugin <?php echo ( "mys-login" === $pagename ) ? 'active' : ''; ?>" href="<?php echo esc_url ($admin_url) ?>admin.php?page=mys-login">Configuration</a>
+                            <a class="mystore_plugin <?php echo ( "mys-login" === $pagename ) ? 'active' : ''; ?>" href="/wp-admin/admin.php?page=mys-login">Configuration</a>
                         </li>
                     </ul>
                 </li>
