@@ -50,6 +50,10 @@
 .accordionParentWrapper h2{color:#000}
 .accordionWrapper .accordionBody .block-editor-block-list__block{padding-left:0;padding-right:0}
 .accordionWrapper .accordionBody .block-editor-block-list__block-edit{padding-top:10px!important;padding-bottom:10px!important}
+.accordionWrapper span.remove-button{top:-20px;right:-10px}
+.accordionWrapper span.remove-button button{width:25px;height:25px}
+.accordionWrapper span.remove-button button svg{padding:0;height:100%;width:100%}
+.editor-styles-wrapper p{font-size:16px}
 
 /* accordion css */
 
@@ -85,13 +89,15 @@ p{font-family:"Gotham Book", sans-serif;font-size:14px;line-height:20px;color:#3
 
 /* default btn color */
 .btn-primary{background-color:#0f6cb6!important;color:#fff!important}
-.btn-primary:hover{background-color:#89c0e2!important;color:#363636!important}
+.btn-primary:hover{background-color:#09416d!important;color:#363636!important}
 .btn-default{background-color:#9a9a9a!important;color:#fff!important}
-.btn-default:hover{background-color:#0f6cb6!important;color:#fff!important}
+.btn-default:hover{background-color:#454545!important;color:#fff!important}
 .btn-alt{background-color:#89c0e2!important;color:#363636!important}
 .btn-alt:hover{background-color:#0f6cb6!important;color:#fff!important}
 .btn-light{background-color:#f1f7fc!important;color:#363636!important}
 .btn-light:hover{background-color:#89c0e2!important;color:#363636!important}
+.btn-white{background-color:#fff!important;color:#32373c!important;border:2px solid #d9d9d9}
+.btn-white:hover{background-color:#d9d9d9!important}
 
 /* default btn color */
 
@@ -433,6 +439,7 @@ ul.control-list li.control-opt-7{background-position:10px -156px!important;backg
 
 ul.button-prev{display:flex;flex-wrap:wrap;width:100%}
 ul.button-prev li{width:50%;padding:5px;height:51px;cursor:pointer}
+ul.button-prev li.with-arrow{padding-left:20px}
 ul.button-prev li svg{width:100%}
 ul.button-prev li svg text{font-family:'Gotham Bold'}
 ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
@@ -451,7 +458,7 @@ ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
 .white-box ul.event-list{margin-bottom:20px}
 .white-box .title{margin-bottom:0;font-size:20px;font-family:"Gotham Bold"}
 .white-box a{color:#404040;text-decoration:none;border-bottom:1px solid #404040}
-.schedule-main .schedule-data{border:3px solid #d9d9d9;padding:15px 0}
+.schedule-main .schedule-data{border:3px solid #d9d9d9;padding:15px 0;position:relative;padding-bottom:70px}
 .schedule-main .schedule-data .schedule-row{border-bottom:0;padding:15px 0;display:flex;align-items:center}
 .schedule-main .schedule-data .schedule-row>div{padding:0 20px}
 .schedule-main .schedule-data .schedule-row:last-child{border-bottom:0}
@@ -471,13 +478,16 @@ ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
 .schedule-main .schedule-data .schedule-row span.remove-button{position:absolute;right:5px;top:50%;margin-top:-10px}
 .schedule-main .schedule-data .schedule-row span.remove-button button{width:20px;height:20px;padding:0;display:block!important}
 .schedule-main .schedule-data .schedule-row span.remove-button button svg{width:20px;height:20px;padding:3px}
+.schedule-main .schedule-data .schedule-row.hide-row{display:none}
+.schedule-main .schedule-data .row-expand{position:absolute;bottom:0;width:100%;padding:15px 0;text-align:center}
+.schedule-main .schedule-data .row-expand a{text-transform:capitalize;cursor:pointer;font-family:"Gotham Bold";margin-bottom:0;font-size:16px;padding:5px 20px;color:#363636;border:2px solid #363636;display:inline-block;text-decoration:none;outline:none}
 
 /* add-remove-btn css */
 .add-remove-btn{display:block;width:100%;text-align:center;padding:20px 0;box-sizing:border-box;line-height:1}
 .add-remove-btn button{background:#38ba7d!important;color:#fff!important;margin:0 5px;width:80px;text-align:center;cursor:pointer;height:40px;border-radius:5px;outline:none;border:0}
 .add-remove-btn button.remove{background:#f34541!important}
 .add-remove-btn button.current{background:#0f6cb6!important}
-.add-remove-btn button span{margin:0 auto}
+.add-remove-btn button span{margin:0 auto;line-height:20px}
 
 /* add-remove-btn css */
 
@@ -565,9 +575,9 @@ ul.quote-color li.active{box-shadow:0 0 5px 0 #0085ba}
 .middle-quotes-home{position:relative;overflow:hidden}
 .middle-quotes-home::before{content:" ";position:absolute;display:block;width:42vw;height:100%;top:0;left:0;background:rgba(142, 165, 181, 0.74);transform-origin:top left;-ms-transform:skew(-15deg, 0deg);-webkit-transform:skew(-30deg, 0deg);transform:skew(-18deg, 0deg);z-index:1}
 .middle-quotes-home .has-fixed{position:relative;z-index:1}
-.middle-quotes-home .row .col-lg-5:first-of-type{padding-right:25px}
+.middle-quotes-home .has-2-columns .col-lg-5:first-of-type{padding-right:25px}
 .middle-quotes-home::after{content:'';display:inline-block;width:100%;height:100%;background-color:rgba(7, 58, 99, 0.82);position:absolute;top:0;left:0}
-.middle-quotes-home .row{align-items:center}
+.middle-quotes-home .has-2-columns{align-items:center}
 
 /* Not To Be Missed CSS */
 .nab-not-to-be-missed-slider .cards.item{float:left;opacity:1;transform:scale(1, 1);padding:0}
@@ -587,7 +597,7 @@ ul.quote-color li.active{box-shadow:0 0 5px 0 #0085ba}
 
 /* news-block css */
 .news-block{margin-bottom:30px}
-.news-block .news-datas{padding:25px 30px;background:#fff;border:4px solid #d9d9d9;margin-bottom:10px}
+.news-block .news-datas{padding:25px 30px;background:#fff;border:2px solid #d9d9d9;margin-bottom:10px}
 .news-block h4{margin:0 0 10px 0;font-size:18px}
 .news-block .news-datas p{margin:0 0 5px 0;font-size:14px}
 .news-block .news-datas a.read-more{color:#0f6cb6;font-size:18px;font-family:Gotham Bold;text-decoration:none;text-align:center;display:inline-block;cursor:pointer}

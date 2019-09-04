@@ -159,8 +159,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 isCheckedTerms = JSON.parse(terms);
             }
 
-            let input = <div class="inspector-field inspector-field-Numberofitems ">
-                <label class="inspector-mb-0">Number of items</label>
+            let input = <div className="inspector-field inspector-field-Numberofitems ">
+                <label className="inspector-mb-0">Number of items</label>
                 <RangeControl
                     value={itemToFetch}
                     min={1}
@@ -327,8 +327,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         checked={infiniteLoop}
                                         onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
                                     />
-                                    <div class="inspector-field inspector-field-fontsize ">
-                                        <label class="inspector-mb-0">Slide Speed</label>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Slide Speed</label>
                                         <RangeControl
                                             value={sliderSpeed}
                                             min={100}
@@ -337,8 +337,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
                                         />
                                     </div>
-                                    <div class="inspector-field inspector-field-fontsize ">
-                                        <label class="inspector-mb-0">Items to Display</label>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Items to Display</label>
                                         <RangeControl
                                             value={minSlides}
                                             min={1}
@@ -347,8 +347,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
                                         />
                                     </div>
-                                    <div class="inspector-field inspector-field-fontsize ">
-                                        <label class="inspector-mb-0">Slide Width</label>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Slide Width</label>
                                         <RangeControl
                                             value={slideWidth}
                                             min={50}
@@ -357,8 +357,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
                                         />
                                     </div>
-                                    <div class="inspector-field inspector-field-fontsize ">
-                                        <label class="inspector-mb-0">Slide Margin</label>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Slide Margin</label>
                                         <RangeControl
                                             value={slideMargin}
                                             min={0}

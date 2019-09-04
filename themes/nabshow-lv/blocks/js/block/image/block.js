@@ -202,30 +202,30 @@
                 </div>
               </PanelRow>
               <PanelRow>
-                <div class="inspector-field-alignment inspector-field inspector-responsive">
+                <div className="inspector-field-alignment inspector-field inspector-responsive">
                   <label>Image Alignment</label>
-                  <div class="inspector-field-button-list inspector-field-button-list-fluid">
-                    <button class=" inspector-button" onClick={() => setAttributes({ ImgAlignment: 'left' })} >
+                  <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                    <button className={'left' === ImgAlignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ ImgAlignment: 'left' })} >
                       <svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(-29 -4) translate(29 4)" fill="none">
-                          <path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                          <rect class="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
+                          <path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                          <rect className="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
                         </g>
                       </svg>
                     </button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ ImgAlignment: 'center' })} >
+                    <button className={'center' === ImgAlignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ ImgAlignment: 'center' })} >
                       <svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(-115 -4) translate(115 4)" fill="none">
-                          <path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                          <rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+                          <path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                          <rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
                         </g>
                       </svg>
                     </button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ ImgAlignment: 'Right' })} >
+                    <button className={'Right' === ImgAlignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ ImgAlignment: 'Right' })} >
                       <svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(0 1) rotate(-180 10.5 8.5)" fill="none">
-                          <path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                          <rect class="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
+                          <path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                          <rect className="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
                         </g>
                       </svg>
                     </button>
@@ -237,12 +237,12 @@
               <PanelRow>
                 <div className="inspector-field inspector-border-style" >
                   <label>Border Style</label>
-                  <div class="inspector-field-button-list inspector-field-button-list-fluid">
-                    <button class=" inspector-button" onClick={() => setAttributes({ BorderType: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ BorderType: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ BorderType: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ BorderType: 'double' })}><span class="inspector-field-border-type inspector-field-border-type-double"></span></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ BorderType: 'none' })}><i class="fa fa-ban"></i></button>
+                  <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                    <button className={'solid' === BorderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ BorderType: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+                    <button className={'dotted' === BorderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ BorderType: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+                    <button className={'dashed' === BorderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ BorderType: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+                    <button className={'double' === BorderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ BorderType: 'double' })}><span className="inspector-field-border-type inspector-field-border-type-double"></span></button>
+                    <button className={'none' === BorderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ BorderType: 'none' })}><i className="fa fa-ban"></i></button>
                   </div>
                 </div>
               </PanelRow>
@@ -267,9 +267,9 @@
                 </div>
               </PanelRow>
               <PanelRow>
-                <div class="inspector-field inspector-field-color ">
-                  <label class="inspector-mb-0">Color</label>
-                  <div class="inspector-ml-auto">
+                <div className="inspector-field inspector-field-color ">
+                  <label className="inspector-mb-0">Color</label>
+                  <div className="inspector-ml-auto">
                     <ColorPalette
                       value={BorderColor}
                       onChange={BorderColor => setAttributes({ BorderColor: BorderColor })}
@@ -280,7 +280,7 @@
             </PanelBody>
             <PanelBody title="Spacing" initialOpen={false}>
               <PanelRow>
-                <div class="inspector-field inspector-field-padding">
+                <div className="inspector-field inspector-field-padding">
                   <label className="mt10">Padding</label>
                   <div className="padding-setting">
                     <div className="col-main-4">
@@ -325,7 +325,7 @@
                 </div>
               </PanelRow>
               <PanelRow>
-                <div class="inspector-field inspector-field-margin">
+                <div className="inspector-field inspector-field-margin">
                   <label className="mt10">Margin</label>
                   <div className="margin-setting">
                     <div className="col-main-4">

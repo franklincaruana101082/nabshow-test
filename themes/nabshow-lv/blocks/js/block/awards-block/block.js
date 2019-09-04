@@ -12,6 +12,89 @@ var allowedBlocks = [
     const { RichText, MediaUpload, AlignmentToolbar, BlockControls, InspectorControls, PanelColorSettings, InnerBlocks } = wp.editor;
     const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, Button, Toolbar, IconButton } = wp.components;
 
+    const allAttributes = {
+        blockId: {
+            type: 'string'
+        },
+        noOfAwards: {
+            type: 'number',
+            default: 1
+        },
+        noOfAwardsInner: {
+            type: 'number',
+            default: 1
+        },
+        title: {
+            type: 'string',
+            default: 'Award Name'
+        },
+        captionText: {
+            type: 'string',
+            default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.'
+        },
+        showTitle: {
+            type: 'boolean',
+            default: false
+        },
+        imageAlt: {
+            attribute: 'alt'
+        },
+        imageUrl: {
+            attribute: 'src'
+        },
+        imageID: {
+            type: 'number',
+        },
+        winnerName: {
+            type: 'string',
+            source: 'html',
+            selector: 'a',
+            default: 'Winner Name'
+        },
+        Link: {
+            type: 'string',
+            default: '#'
+        },
+        newWindow: {
+            type: 'boolean',
+            default: false,
+        },
+        jobLocation: {
+            type: 'string'
+        },
+        details: {
+            type: 'string'
+        },
+        showPopup: {
+            type: 'boolean',
+            default: false,
+        },
+        modelClass: {
+            type: 'string'
+        }
+    };
+
+    const ALLOWBLOCKS = ['nab/awards-item'];
+
+
+    const getChildawardsBlock = memoize((awards) => {
+        return (
+            times(
+                awards,
+                (n) => ['nab/awards-item', { id: n + 1 }]
+            )
+        );
+    });
+
+    const removehildawardsBlock = memoize((awards) => {
+        return (
+            times(
+                awards,
+                (n) => ['nab/awards-item', { id: n - 1 }]
+            )
+        );
+    });
+
     /* Parent awards Block */
     registerBlockType('nab/awards', {
         title: __('awards'),
@@ -19,32 +102,17 @@ var allowedBlocks = [
         icon: 'welcome-learn-more',
         category: 'nabshow',
         keywords: [__('awards'), __('gutenberg'), __('nab')],
-        attributes: {
-            blockId: {
-                type: 'string'
-            },
-            noOfAwards: {
-                type: 'number',
-                default: 1
-            },
-            title: {
-                type: 'string',
-                default: 'Award Name'
-            },
-            captionText: {
-                type: 'string',
-                default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.'
-            }
-        },
+        attributes: allAttributes,
         edit: (props, attributes) => {
-            const { attributes: { title, captionText, noOfAwards }, className, setAttributes, clientId } = props;
+            const { attributes: { title, captionText, showTitle, noOfAwards }, className, setAttributes, clientId } = props;
 
-            const ALLOWBLOCKS = ['nab/awards-item'];
+            $(document).on('click', `#block-${clientId} .col-lg-6 .remove-item`, function (e) {
+                if ('' !== $(this).parents(`#block-${clientId}`)) {
 
-            const getChildawardsBlock = memoize((awards) => {
-                return (
-                    times(awards, (n) => ['nab/awards-item', { id: n + 1 }])
-                );
+                    // let noOfAwardsIn = $(`#block-${clientId} .awards-data.row .editor-block-list__layout > div`).length - 1;
+                    setAttributes({ noOfAwards: noOfAwards - 1 });
+                    removehildawardsBlock(noOfAwards);
+                }
             });
 
             return (
@@ -52,18 +120,25 @@ var allowedBlocks = [
                     <InspectorControls>
                         <PanelBody title="General Settings">
                             <PanelRow>
-
+                                <ToggleControl
+                                    label={__('Show Title of Award')}
+                                    checked={showTitle}
+                                    onChange={() => setAttributes({ showTitle: ! showTitle })}
+                                />
                             </PanelRow>
                         </PanelBody>
                     </InspectorControls>
                     <Fragment>
                         <div className="awards-header">
-                            <RichText
-                                tagName="h2"
-                                onChange={(value) => setAttributes({ title: value })}
-                                placeholder={__('Title')}
-                                value={title}
-                            />
+                            {! showTitle ? (
+                                <RichText
+                                    tagName="h2"
+                                    onChange={(value) => setAttributes({ title: value })}
+                                    placeholder={__('Title')}
+                                    value={title}
+                                    className="awards-winner-title"
+                                />) : ''
+                            }
                             <RichText
                                 tagName="p"
                                 onChange={(value) => setAttributes({ captionText: value })}
@@ -78,17 +153,10 @@ var allowedBlocks = [
                                 allowedBlocks={ALLOWBLOCKS}
                             />
                             <div className="add-remove-btn">
-                                <Button className="add" onClick={() => setAttributes({ noOfAwards: noOfAwards + 1 })}>
+                                <Button className="add" onClick={() => {
+                                    setAttributes({ noOfAwards: noOfAwards + 1 });
+                                }}>
                                     <span className="dashicons dashicons-plus" />
-                                </Button>
-                                <Button
-                                    className="remove"
-                                    onClick={() =>
-                                        setAttributes({
-                                            noOfAwards: 1 === noOfAwards ? 1 : noOfAwards - 1
-                                        })}
-                                >
-                                    <span className="dashicons dashicons-minus" />
                                 </Button>
                             </div>
                         </div>
@@ -97,14 +165,17 @@ var allowedBlocks = [
             );
         },
         save: (props) => {
-            const { attributes: { title, captionText }, className } = props;
+            const { attributes: { title, captionText, showTitle }, className } = props;
             return (
                 <div className={`awards-main ${className}`}>
                     <div className="awards-header">
-                        <RichText.Content
-                            tagName="h2"
-                            value={title}
-                        />
+                        {! showTitle ? (
+                            <RichText.Content
+                                tagName="h2"
+                                value={title}
+                                className="awards-winner-title"
+                            />) : ''
+                        }
                         <RichText.Content
                             tagName="p"
                             value={captionText}
@@ -125,47 +196,10 @@ var allowedBlocks = [
         icon: 'welcome-learn-more',
         category: 'nabshow',
         parent: ['nab/awards'],
-        attributes: {
-            imageAlt: {
-                attribute: 'alt'
-            },
-            imageUrl: {
-                attribute: 'src'
-            },
-            imageID: {
-                type: 'number',
-            },
-            winnerName: {
-                type: 'string',
-                source: 'html',
-                selector: 'a',
-                default: 'Winner Name'
-            },
-            Link: {
-                type: 'string',
-                default: '#'
-            },
-            newWindow: {
-                type: 'boolean',
-                default: false,
-            },
-            jobLocation: {
-                type: 'string'
-            },
-            details: {
-                type: 'string'
-            },
-            showPopup: {
-                type: 'boolean',
-                default: false,
-            },
-            modelClass: {
-                type: 'string'
-            }
-        },
+        attributes: allAttributes,
         edit: (props) => {
-            const { attributes, setAttributes, className } = props;
-            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, imageID, modelClass, showPopup } = attributes;
+            const { attributes, setAttributes, clientId } = props;
+            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, imageID, modelClass, showPopup, noOfAwards, noOfAwardsInner } = attributes;
 
 
             if (document.getElementById('wpwrap').classList.contains('nab_body_model_open')) {
@@ -184,11 +218,10 @@ var allowedBlocks = [
                 ele.classList.remove('nab_body_model_open');
                 setAttributes({ modelClass: '' });
             }
-
             return (
                 <Fragment>
                     <InspectorControls>
-                        <PanelBody title="Link" initialOpen={true}>
+                        <PanelBody title="Winner Name Link Settings" initialOpen={true}>
                             <PanelRow>
                                 <TextControl
                                     type="text"
@@ -205,6 +238,8 @@ var allowedBlocks = [
                                     onChange={() => setAttributes({ newWindow: ! newWindow })}
                                 />
                             </PanelRow>
+                        </PanelBody>
+                        <PanelBody title="Popup Settings" initialOpen={false}>
                             <PanelRow>
                                 <ToggleControl
                                     label={__('Show Popup')}
@@ -215,6 +250,16 @@ var allowedBlocks = [
                         </PanelBody>
                     </InspectorControls>
                     <div className='col-lg-6 col-md-6 col-sm-12'>
+                        <span class="remove-item">
+                            <IconButton
+                                className="components-toolbar__control"
+                                label={__('Remove image')}
+                                icon="no"
+                                onClick={() => {
+                                    wp.data.dispatch('core/editor').removeBlocks(clientId);
+                                }}
+                            />
+                        </span>
                         <div className='awards-row'>
                             <div className="winnerSide">
                                 <div className="winnerImage">
@@ -296,7 +341,7 @@ var allowedBlocks = [
                                         <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Click Here' />
                                         <div className={`nab_model_main ${modelClass}`}>
                                             <div className="nab_model_inner">
-                                                <div className="nab_close_btn" onClick={modelclose}>×</div>
+                                                <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
                                                 <div className="nab_model_wrap">
                                                     <div className="nab_pop_up_content_wrap">
                                                         <InnerBlocks templateLock={false} />
@@ -349,7 +394,7 @@ var allowedBlocks = [
                                     <input type="button" className={'nab_popup_btn btn-primary'} value='Click Here' />
                                     <div className="nab_model_main">
                                         <div className="nab_model_inner">
-                                            <div className="nab_close_btn">×</div>
+                                            <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
                                             <div className="nab_model_wrap">
                                                 <div className="nab_pop_up_content_wrap">
                                                     <InnerBlocks.Content />

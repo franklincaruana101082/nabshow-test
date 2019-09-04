@@ -1,4 +1,4 @@
-import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
+import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '../icons';
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents) {
   const { __ } = wpI18n;
@@ -57,12 +57,10 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
         default: 'Left'
       },
       BorderWidth: {
-        type: 'number',
-        default: 1
+        type: 'number'
       },
       BorderRadius: {
-        type: 'number',
-        default: 1
+        type: 'number'
       },
       FontFamily: {
         type: 'string',
@@ -152,7 +150,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
       marginRight && (ButtonStyle.marginRight = marginRight + 'px');
       TextUppercase && (ButtonStyle.textTransform = TextUppercase);
       BorderWidth && BorderColor &&
-        (ButtonStyle.border = `${BorderWidth}px solid ${BorderColor}`);
+        (ButtonStyle.border = `${BorderWidth}px solid #${BorderColor}`);
       BorderRadius && (ButtonStyle.borderRadius = BorderRadius + 'px');
       FontFamily && (ButtonStyle.fontFamily = `${FontFamily}`);
       ButtonStyle.textDecoration = 'none';
@@ -172,7 +170,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
       const ButtonMain = {};
       ButtonAlignment && (ButtonMain.textAlign = ButtonAlignment);
 
-      const finaleStyle = arrow ? arrowStyle : ButtonStyle;
+      const finaleStyle = 'with-arrow' === btnStyle ? arrowStyle : ButtonStyle;
       const finaleClass = arrow ? `title ${arrow ? 'with-arrow' : ''}` : `title ${btnStyle} ${arrow ? 'with-arrow' : ''}`;
 
       return (
@@ -205,19 +203,27 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                 />
               </PanelRow>
             </PanelBody>
-            <PanelBody title="Design" initialOpen={false}>
+            <PanelBody title="Design">
               <PanelRow>
                 <div className="inspector-field inspector-buttons">
-                  <ToggleControl
-                    label={__('Arrow Button')}
-                    checked={arrow}
-                    onChange={() => setAttributes({ arrow: ! arrow })}
-                  />
+                  <PanelRow>
+                    <div className="inspector-field inspector-btn-styles ">
+                      <label className="inspector-mb-0">Button Styles</label>
+                      <ul className="button-prev inspector-field">
+                        <li className={'btn-primary' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-primary' })}>{btnPrimary}</li>
+                        <li className={'btn-default' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-default' })}>{btnDefault}</li>
+                        <li className={'btn-alt' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-alt' })}>{btnAlt}</li>
+                        <li className={'btn-light' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-light' })}>{btnLight}</li>
+                        <li className={'btn-white' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-white' })}>{btnWhite}</li>
+                        <li className={'with-arrow' === btnStyle ? 'active with-arrow' : 'with-arrow'} onClick={() => setAttributes({ btnStyle: 'with-arrow' })}>{arrowBtn}</li>
+                      </ul>
+                    </div>
+                  </PanelRow>
                   {
-                    arrow ? (
-                      <div class="inspector-field inspector-field-color ">
-                        <label class="inspector-mb-0">Color</label>
-                        <div class="inspector-ml-auto">
+                    'with-arrow' === btnStyle ? (
+                      <div className="inspector-field inspector-field-color ">
+                        <label className="inspector-mb-0">Color</label>
+                        <div className="inspector-ml-auto">
                           <ColorPalette
                             value={arrowBtnColor}
                             onChange={(arrowBtnColor) =>
@@ -230,19 +236,8 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                     ) : ''
                   }
                   {
-                    false === arrow ? (
+                    'with-arrow' !== btnStyle ? (
                       <div>
-                        <PanelRow>
-                          <div class="inspector-field inspector-btn-styles ">
-                            <label class="inspector-mb-0">Button Styles</label>
-                            <ul className="button-prev inspector-field">
-                              <li className={'btn-primary' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-primary' })}>{btnPrimary}</li>
-                              <li className={'btn-default' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-default' })}>{btnDefault}</li>
-                              <li className={'btn-alt' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-alt' })}>{btnAlt}</li>
-                              <li className={'btn-light' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-light' })}>{btnLight}</li>
-                            </ul>
-                          </div>
-                        </PanelRow>
                         <PanelRow>
                           <div className="inspector-field inspector-border-width" >
                             <label>Border Width</label>
@@ -264,9 +259,9 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                           </div>
                         </PanelRow>
                         <PanelRow>
-                          <div class="inspector-field inspector-field-color ">
-                            <label class="inspector-mb-0">Color</label>
-                            <div class="inspector-ml-auto"><ColorPalette
+                          <div className="inspector-field inspector-field-color ">
+                            <label className="inspector-mb-0">Color</label>
+                            <div className="inspector-ml-auto"><ColorPalette
                               value={BorderColor}
                               onChange={(BorderColor) =>
                                 setAttributes({
@@ -284,8 +279,8 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
             </PanelBody>
             <PanelBody title="Typography" initialOpen={false}>
               <PanelRow>
-                <div class="inspector-field inspector-field-fontsize ">
-                  <label class="inspector-mb-0">Font Size</label>
+                <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Font Size</label>
                   <RangeControl
                     value={FontSize}
                     min={8}
@@ -295,8 +290,8 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                 </div>
               </PanelRow>
               <PanelRow>
-                <div class="inspector-field inspector-field-fontfamily ">
-                  <label class="inspector-mb-0">Font Family</label>
+                <div className="inspector-field inspector-field-fontfamily ">
+                  <label className="inspector-mb-0">Font Family</label>
                   <SelectControl
                     value={FontFamily}
                     options={[
@@ -329,30 +324,30 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                 </div>
               </PanelRow>
               <PanelRow>
-                <div class="inspector-field-alignment inspector-field inspector-responsive">
+                <div className="inspector-field-alignment inspector-field inspector-responsive">
                   <label>Alignment</label>
-                  <div class="inspector-field-button-list inspector-field-button-list-fluid">
-                    <button class=" inspector-button" onClick={() => setAttributes({ ButtonAlignment: 'left' })} >
+                  <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                    <button className={'left' === ButtonAlignment ? 'active inspector-button' : 'inspector-button'} onClick={() => setAttributes({ ButtonAlignment: 'left' })} >
                       <svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(-29 -4) translate(29 4)" fill="none">
-                          <path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                          <rect class="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
+                          <path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                          <rect className="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
                         </g>
                       </svg>
                     </button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ ButtonAlignment: 'center' })} >
+                    <button className={'center' === ButtonAlignment ? 'active inspector-button' : 'inspector-button'} onClick={() => setAttributes({ ButtonAlignment: 'center' })} >
                       <svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(-115 -4) translate(115 4)" fill="none">
-                          <path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                          <rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+                          <path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                          <rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
                         </g>
                       </svg>
                     </button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ ButtonAlignment: 'Right' })} >
+                    <button className={'Right' === ButtonAlignment ? 'active inspector-button' : 'inspector-button'} onClick={() => setAttributes({ ButtonAlignment: 'Right' })} >
                       <svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(0 1) rotate(-180 10.5 8.5)" fill="none">
-                          <path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                          <rect class="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
+                          <path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                          <rect className="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
                         </g>
                       </svg>
                     </button>
@@ -360,13 +355,13 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                 </div>
               </PanelRow>
               <PanelRow>
-                <div class="inspector-field inspector-field-transform">
+                <div className="inspector-field inspector-field-transform">
                   <label className="mt10">Text Transform</label>
-                  <div class="inspector-field-button-list inspector-field-button-list-fluid inspector-ml-auto">
-                    <button class=" inspector-button" onClick={() => setAttributes({ TextUppercase: 'none' })}><i class="fa fa-ban"></i></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ TextUppercase: 'lowercase' })}><span>aa</span></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ TextUppercase: 'capitalize' })}><span>Aa</span></button>
-                    <button class=" inspector-button" onClick={() => setAttributes({ TextUppercase: 'uppercase' })}><span>AA</span></button>
+                  <div className="inspector-field-button-list inspector-field-button-list-fluid inspector-ml-auto">
+                    <button className={'none' === TextUppercase ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ TextUppercase: 'none' })}><i className="fa fa-ban"></i></button>
+                    <button className={'lowercase' === TextUppercase ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ TextUppercase: 'lowercase' })}><span>aa</span></button>
+                    <button className={'capitalize' === TextUppercase ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ TextUppercase: 'capitalize' })}><span>Aa</span></button>
+                    <button className={'uppercase' === TextUppercase ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ TextUppercase: 'uppercase' })}><span>AA</span></button>
                   </div>
                 </div>
               </PanelRow>
@@ -375,7 +370,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
               false === arrow ? (
                 <PanelBody title="Spacing" initialOpen={false}>
                   <PanelRow>
-                    <div class="inspector-field inspector-field-padding">
+                    <div className="inspector-field inspector-field-padding">
                       <label className="mt10">Padding</label>
                       <div className="padding-setting">
                         <div className="col-main-4">
@@ -420,7 +415,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
                     </div>
                   </PanelRow>
                   <PanelRow>
-                    <div class="inspector-field inspector-field-margin">
+                    <div className="inspector-field inspector-field-margin">
                       <label className="mt10">Margin</label>
                       <div className="margin-setting">
                         <div className="col-main-4">
@@ -510,7 +505,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
       marginRight && (ButtonStyle.marginRight = marginRight + 'px');
       TextUppercase && (ButtonStyle.textTransform = TextUppercase);
       BorderWidth &&
-        (ButtonStyle.border = `${BorderWidth}px solid ${BorderColor}`);
+        (ButtonStyle.border = `${BorderWidth}px solid #${BorderColor}`);
       BorderRadius && (ButtonStyle.borderRadius = BorderRadius + 'px');
       ButtonStyle.textDecoration = 'none';
       ButtonStyle.textAlign = 'center';
@@ -531,7 +526,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight } from '../icons';
 
       const blockID = `block-${saveId}`;
 
-      const finaleStyle = arrow ? arrowStyle : ButtonStyle;
+      const finaleStyle = 'with-arrow' === btnStyle ? arrowStyle : ButtonStyle;
       const finaleClass = arrow ? `title ${arrow ? 'with-arrow' : ''}` : `title ${btnStyle} ${arrow ? 'with-arrow' : ''}`;
 
       return (

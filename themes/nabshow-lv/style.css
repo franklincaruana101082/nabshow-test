@@ -43,9 +43,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	## Galleries
 -------------------------------------------------------------- */
 
-/* @import url('assets/css/custom.css');
-@import url('assets/css/media.css'); */
-
 /* --------------------------------------------------------------
 # Normalize
 -------------------------------------------------------------- */
@@ -259,8 +256,6 @@ ol{list-style:decimal}
 li>ul,li>ol{margin-bottom:0;margin-left:1.5em}
 dt{font-weight:bold}
 dd{margin:0 1.5em 1.5em}
-
-/* img{height:auto;max-width:100%} */
 
 figure{margin:1em 0}
 table{margin:0 0 1.5em;width:100%}

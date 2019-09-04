@@ -101,3 +101,9 @@ require get_template_directory() . '/inc/ads-view-list-data.php';
 if ( function_exists( 'gutenberg_ramp_load_gutenberg' ) ) {
     gutenberg_ramp_load_gutenberg();
 }
+
+/**
+ *
+ * @todo can't upload to VIP server it's use for internal server only.
+ */
+add_filter( 'allow_subdirectory_install', '__return_true' );

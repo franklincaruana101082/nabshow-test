@@ -28,7 +28,7 @@ global $wp_query;
 				?>
             </div>
             <div class="row">
-                <div class="col-lg-9 col-md-12 col-sm-12 content-with-sidebar">
+                <div class="col-lg-8 col-md-12 col-sm-12 content-with-sidebar">
                     <div class="" id="tg_wrapper">
 						<?php
 						if ( have_posts() ) {
@@ -47,7 +47,7 @@ global $wp_query;
                         </div>
 					<?php } ?>
                 </div>
-                <div id="sidebar" class="sidebar-wrap col-lg-3 col-md-12 col-sm-12">
+                <div id="sidebar" class="sidebar-wrap col-lg-4 col-md-12 col-sm-12">
 					<?php get_sidebar( 'thoughts-gallery' ); ?>
                 </div>
             </div>

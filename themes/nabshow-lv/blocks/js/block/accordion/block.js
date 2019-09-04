@@ -7,7 +7,7 @@ import memoize from 'memize';
 	const { Fragment } = wpElement;
 	const { registerBlockType } = wp.blocks;
 	const { RichText, AlignmentToolbar, BlockControls, InspectorControls, PanelColorSettings, InnerBlocks } = wp.editor;
-	const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, Button, ColorPalette } = wp.components;
+	const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, Button, ColorPalette, IconButton } = wp.components;
 
 	$(document).on('click', '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons', function (e) {
 		e.stopImmediatePropagation();
@@ -19,6 +19,16 @@ import memoize from 'memize';
 		} else {
 			$(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
 		}
+	});
+
+	const ALLOWBLOCKS = ['nab/accordion-item'];
+
+	const getChildAccordionBlock = memoize((accordion) => {
+		return times(accordion, (n) => ['nab/accordion-item', { id: n + 1 }]);
+	});
+
+	const removehildawardsBlock = memoize((accordion) => {
+		return times(accordion, (n) => ['nab/accordion-item', { id: n - 1 }]);
 	});
 
 
@@ -50,11 +60,14 @@ import memoize from 'memize';
 
 			setAttributes({ blockId: clientId });
 
-			const ALLOWBLOCKS = ['nab/accordion-item'];
-
-			const getChildAccordionBlock = memoize((accordion) => {
-				return times(accordion, (n) => ['nab/accordion-item', { id: n + 1 }]);
+			$(document).on('click', `#block-${clientId} .remove-button`, function (e) {
+				if ('' !== $(this).parents(`#block-${clientId}`)) {
+					setAttributes({ noOfAccordion: noOfAccordion - 1 });
+					removehildawardsBlock(noOfAccordion);
+				}
 			});
+
+
 			const removeButton = 1 === noOfAccordion ? 'hideButton' : '';
 
 			return (
@@ -77,7 +90,7 @@ import memoize from 'memize';
 								onChange={(value) => setAttributes({ title: value })}
 								placeholder={__('Category')}
 								value={title}
-								class="title"
+								className="title"
 							/>) : ''
 					}
 					<InnerBlocks
@@ -85,9 +98,8 @@ import memoize from 'memize';
 						templateLock="all"
 						allowedBlocks={ALLOWBLOCKS}
 					/>
-					<div class="add-remove-btn">
-						<button type="button" class="components-button add" onClick={() => setAttributes({ noOfAccordion: noOfAccordion + 1 })}><span class="dashicons fa fa-plus"></span></button>
-						<button type="button" class="components-button remove" onClick={() => setAttributes({ noOfAccordion: 1 === noOfAccordion ? 1 : noOfAccordion - 1 })}><span class="dashicons fa fa-minus"></span></button>
+					<div className="add-remove-btn">
+						<button type="button" className="components-button add" onClick={() => setAttributes({ noOfAccordion: noOfAccordion + 1 })}><span className="dashicons fa fa-plus"></span></button>
 					</div>
 				</div>
 			);
@@ -101,7 +113,7 @@ import memoize from 'memize';
 							<RichText.Content
 								tagName="h2"
 								value={title}
-								class="title"
+								className="title"
 							/>) : ''
 					}
 					<InnerBlocks.Content />
@@ -132,7 +144,7 @@ import memoize from 'memize';
 			},
 			headerTextFontSize: {
 				type: 'number',
-				default: 20
+				default: 16
 			},
 			headerTextColor: {
 				type: 'string',
@@ -200,7 +212,7 @@ import memoize from 'memize';
 			}
 		},
 		edit: (props) => {
-			const { attributes, setAttributes, className } = props;
+			const { attributes, setAttributes, className, clientId } = props;
 			const {
 				title,
 				open,
@@ -233,6 +245,16 @@ import memoize from 'memize';
 							borderRadius: borderRadius + 'px'
 						}}
 					>
+						<span class="remove-button">
+							<IconButton
+								className="components-toolbar__control"
+								label={__('Remove image')}
+								icon="no"
+								onClick={() => {
+									wp.data.dispatch('core/editor').removeBlocks(clientId);
+								}}
+							/>
+						</span>
 						<div
 							className="accordionHeader"
 							style={{
@@ -287,7 +309,7 @@ import memoize from 'memize';
 								/>
 							</PanelRow>
 						</PanelBody>
-						<PanelBody title="Typography" initialOpen={false}>
+						<PanelBody title="Typography">
 							<PanelRow>
 								<div className="inspector-field inspector-border-width">
 									<RangeControl
@@ -301,8 +323,8 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-fontfamily ">
-									<label class="inspector-mb-0">Font Family</label>
+								<div className="inspector-field inspector-field-fontfamily ">
+									<label className="inspector-mb-0">Font Family</label>
 									<SelectControl
 										value={fontFamily}
 										options={[
@@ -335,30 +357,30 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field-alignment inspector-field inspector-responsive">
+								<div className="inspector-field-alignment inspector-field inspector-responsive">
 									<label>Alignment</label>
-									<div class="inspector-field-button-list inspector-field-button-list-fluid">
-										<button class=" inspector-button" onClick={() => setAttributes({ alignment: 'left' })} >
+									<div className="inspector-field-button-list inspector-field-button-list-fluid">
+										<button className={'left' === alignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ alignment: 'left' })} >
 											<svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(-29 -4) translate(29 4)" fill="none">
-													<path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
-										<button class=" inspector-button" onClick={() => setAttributes({ alignment: 'center' })} >
+										<button className={'center' === alignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ alignment: 'center' })} >
 											<svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(-115 -4) translate(115 4)" fill="none">
-													<path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
-										<button class=" inspector-button" onClick={() => setAttributes({ alignment: 'Right' })} >
+										<button className={'Right' === alignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ alignment: 'Right' })} >
 											<svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(0 1) rotate(-180 10.5 8.5)" fill="none">
-													<path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
@@ -366,9 +388,9 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-color ">
-									<label class="inspector-mb-0">Text Color</label>
-									<div class="inspector-ml-auto">
+								<div className="inspector-field inspector-field-color ">
+									<label className="inspector-mb-0">Text Color</label>
+									<div className="inspector-ml-auto">
 										<ColorPalette
 											value={headerTextColor}
 											onChange={(value) =>
@@ -380,9 +402,9 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-color ">
-									<label class="inspector-mb-0">Background Color</label>
-									<div class="inspector-ml-auto">
+								<div className="inspector-field inspector-field-color ">
+									<label className="inspector-mb-0">Background Color</label>
+									<div className="inspector-ml-auto">
 										<ColorPalette
 											value={titleBackgroundColor}
 											onChange={(value) =>
@@ -394,9 +416,9 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-color ">
-									<label class="inspector-mb-0">Body Background</label>
-									<div class="inspector-ml-auto">
+								<div className="inspector-field inspector-field-color ">
+									<label className="inspector-mb-0">Body Background</label>
+									<div className="inspector-ml-auto">
 										<ColorPalette
 											value={bodyBgColor}
 											onChange={(value) =>
@@ -424,12 +446,12 @@ import memoize from 'memize';
 							<PanelRow>
 								<div className="inspector-field inspector-border-style" >
 									<label>Border Style</label>
-									<div class="inspector-field-button-list inspector-field-button-list-fluid">
-										<button class=" inspector-button" onClick={() => setAttributes({ borderType: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-										<button class=" inspector-button" onClick={() => setAttributes({ borderType: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-										<button class=" inspector-button" onClick={() => setAttributes({ borderType: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-										<button class=" inspector-button" onClick={() => setAttributes({ borderType: 'double' })}><span class="inspector-field-border-type inspector-field-border-type-double"></span></button>
-										<button class=" inspector-button" onClick={() => setAttributes({ borderType: 'none' })}><i class="fa fa-ban"></i></button>
+									<div className="inspector-field-button-list inspector-field-button-list-fluid">
+										<button className={'solid' === borderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderType: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+										<button className={'dotted' === borderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderType: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+										<button className={'dashed' === borderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderType: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+										<button className={'double' === borderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderType: 'double' })}><span className="inspector-field-border-type inspector-field-border-type-double"></span></button>
+										<button className={'none' === borderType ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderType: 'none' })}><i className="fa fa-ban"></i></button>
 									</div>
 								</div>
 							</PanelRow>
@@ -446,9 +468,9 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-color ">
-									<label class="inspector-mb-0">Border Color</label>
-									<div class="inspector-ml-auto"><ColorPalette
+								<div className="inspector-field inspector-field-color ">
+									<label className="inspector-mb-0">Border Color</label>
+									<div className="inspector-ml-auto"><ColorPalette
 										value={borderColor}
 										onChange={(value) =>
 											setAttributes({
@@ -462,7 +484,7 @@ import memoize from 'memize';
 
 						<PanelBody title="Spacing" initialOpen={false}>
 							<PanelRow>
-								<div class="inspector-field inspector-field-padding">
+								<div className="inspector-field inspector-field-padding">
 									<label className="mt10">Heading Padding</label>
 									<div className="padding-setting">
 										<div className="col-main-4">
@@ -507,7 +529,7 @@ import memoize from 'memize';
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-padding">
+								<div className="inspector-field inspector-field-padding">
 									<label className="mt10">Body Padding</label>
 									<div className="padding-setting">
 										<div className="col-main-4">

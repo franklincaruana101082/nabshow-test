@@ -17,11 +17,11 @@
  * Add a dropdown icon to top-level menu items
  */
 function nabshow_lv_nav_description( $item_output, $item, $depth, $args ) {
-	if ( ! empty( $item->description ) ) {
-		$item_output = str_replace( $args->link_after . '</a>', '<p class="menu-item-description">' . $item->description . '</p>' . $args->link_after . '</a>', $item_output );
-	}
+    if ( ! empty( $item->description ) ) {
+        $item_output = str_replace( $args->link_after . '</a>', '<p class="menu-item-description">' . $item->description . '</p>' . $args->link_after . '</a>', $item_output );
+    }
 
-	return $item_output;
+    return $item_output;
 }
 
 /**
@@ -32,15 +32,15 @@ function nabshow_lv_nav_description( $item_output, $item, $depth, $args ) {
  * @return array
  */
 function nabshow_lv_custom_block_category( $categories ) {
-	return array_merge(
-		$categories,
-		array(
-			array(
-				'slug'  => 'nabshow',
-				'title' => __( 'NAB Show', 'nabshow-lv' ),
-			),
-		)
-	);
+    return array_merge(
+        $categories,
+        array(
+            array(
+                'slug'  => 'nabshow',
+                'title' => __( 'NAB Show', 'nabshow-lv' ),
+            ),
+        )
+    );
 }
 
 /**
@@ -57,24 +57,24 @@ function nabshow_lv_custom_block_category( $categories ) {
  *
  */
 function nabshow_lv_posts_filter( $query ) {
-	global $pagenow;
+    global $pagenow;
 
-	$additional_filter = filter_input( INPUT_GET, 'additional_filter', FILTER_SANITIZE_STRING );
+    $additional_filter = filter_input( INPUT_GET, 'additional_filter', FILTER_SANITIZE_STRING );
 
-	if ( is_admin() && 'edit.php' === $pagenow && isset( $additional_filter ) && $additional_filter !== '' ) {
-		if ( 'post_title' === $additional_filter ) {
-			add_filter( 'posts_search', 'nabshow_lv_search_by_title', 10, 2 );
-		} elseif ( 'blank_featured_image' === $additional_filter ) {
+    if ( is_admin() && 'edit.php' === $pagenow && isset( $additional_filter ) && $additional_filter !== '' ) {
+        if ( 'post_title' === $additional_filter ) {
+            add_filter( 'posts_search', 'nabshow_lv_search_by_title', 10, 2 );
+        } elseif ( 'blank_featured_image' === $additional_filter ) {
 
-			$query->query_vars['meta_key']     = '_thumbnail_id';
-			$query->query_vars['meta_value']   = 'N/A';
-			$query->query_vars['meta_compare'] = 'NOT EXISTS';
+            $query->query_vars['meta_key']     = '_thumbnail_id';
+            $query->query_vars['meta_value']   = 'N/A';
+            $query->query_vars['meta_compare'] = 'NOT EXISTS';
 
-		}
+        }
 
-	}
+    }
 
-	return $query;
+    return $query;
 }
 
 /**
@@ -89,26 +89,26 @@ function nabshow_lv_posts_filter( $query ) {
  */
 function nabshow_lv_search_by_title( $search, $wp_query ) {
 
-	if ( ! empty( $search ) && ! empty( $wp_query->query_vars['search_terms'] ) ) {
-		global $wpdb;
+    if ( ! empty( $search ) && ! empty( $wp_query->query_vars['search_terms'] ) ) {
+        global $wpdb;
 
-		$q = $wp_query->query_vars;
-		$n = ! empty( $q['exact'] ) ? '' : '%';
+        $q = $wp_query->query_vars;
+        $n = ! empty( $q['exact'] ) ? '' : '%';
 
-		$search = array();
+        $search = array();
 
-		foreach ( ( array ) $q['search_terms'] as $term ) {
-			$search[] = $wpdb->prepare( "$wpdb->posts.post_title LIKE %s", $n . $wpdb->esc_like( $term ) . $n );
-		}
+        foreach ( ( array ) $q['search_terms'] as $term ) {
+            $search[] = $wpdb->prepare( "$wpdb->posts.post_title LIKE %s", $n . $wpdb->esc_like( $term ) . $n );
+        }
 
-		if ( ! is_user_logged_in() ) {
-			$search[] = "$wpdb->posts.post_password = ''";
-		}
+        if ( ! is_user_logged_in() ) {
+            $search[] = "$wpdb->posts.post_password = ''";
+        }
 
-		$search = ' AND ' . implode( ' AND ', $search );
-	}
+        $search = ' AND ' . implode( ' AND ', $search );
+    }
 
-	return $search;
+    return $search;
 }
 
 /**
@@ -121,40 +121,20 @@ function nabshow_lv_search_by_title( $search, $wp_query ) {
  *
  */
 function nabshow_lv_custom_columns( $columns ) {
-	$columns = array(
-		'cb'             => '<input type="checkbox" />',
-		'featured_image' => 'Image',
-		'title'          => 'Title',
-		'categories'     => 'Categories',
-		'featured_term'  => 'Featured Posts',
-		'author'         => 'Author',
-		'tags'           => 'Tags',
-		'comments'       => '<span class="vers"><div title="Comments" class="comment-grey-bubble">Comment</div></span>',
-		'date'           => 'Date'
-	);
 
-	return $columns;
-}
+    $manage_columns = array();
 
-/**
- * Add new columns image and featured post to page post type
- * @param $columns
- * @return array
- * @since 1.0.0
- *
- */
-function nabshow_lv_page_custom_columns( $columns ) {
-    $columns = array(
-        'cb'             => '<input type="checkbox" />',
-        'featured_image' => 'Image',
-        'title'          => 'Title',
-        'featured_term'  => 'Featured Posts',
-        'author'         => 'Author',
-        'comments'       => '<span class="vers"><div title="Comments" class="comment-grey-bubble">Comment</div></span>',
-        'date'           => 'Date'
-    );
+    foreach( $columns as $key => $value ) {
+        if ( 'title' === $key ) {
+            $manage_columns['featured_image'] = 'Image';
+            $manage_columns[$key] = $value;
+            $manage_columns['featured_term'] = 'Featured Posts';
+        }
+        $manage_columns[$key] = $value;
 
-    return $columns;
+    }
+
+    return $manage_columns;
 }
 
 /**
@@ -167,9 +147,9 @@ function nabshow_lv_page_custom_columns( $columns ) {
  * @return string
  */
 function nabshow_lv_remove_thumbnail_dimensions( $html, $post_id, $post_image_id ) {
-	$html = preg_replace( '/(width|height)=\"\d*\"\s/', "", $html );
+    $html = preg_replace( '/(width|height)=\"\d*\"\s/', "", $html );
 
-	return $html;
+    return $html;
 }
 
 /**
@@ -180,10 +160,10 @@ function nabshow_lv_remove_thumbnail_dimensions( $html, $post_id, $post_image_id
  * @return mixed
  */
 function nabshow_lv_custom_bulk_actions( $bulk_actions ) {
-	$bulk_actions['nabshow_set_as_featured']      = __( 'Set as Featured', 'nabshow-lv' );
-	$bulk_actions['nabshow_remove_from_featured'] = __( 'Remove from Featured', 'nabshow-lv' );
+    $bulk_actions['nabshow_set_as_featured']      = __( 'Set as Featured', 'nabshow-lv' );
+    $bulk_actions['nabshow_remove_from_featured'] = __( 'Remove from Featured', 'nabshow-lv' );
 
-	return $bulk_actions;
+    return $bulk_actions;
 }
 
 /**
@@ -226,10 +206,76 @@ function nabshow_lv_set_and_remove_as_featured_bulk_page_handler( $redirect_to, 
 }
 
 /**
+ * Set as featured not to be missed handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_ntb_missed_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'portfolio-category');
+}
+
+/**
+ * Set as featured thought gallery handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_thought_gallery_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'thought-gallery-category');
+}
+
+/**
+ * Set as featured sessions handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_sessions_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'session-categories');
+}
+
+/**
+ * Set as featured speakers handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_speakers_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'speaker-categories');
+}
+
+/**
+ * Set as featured sponsors handler.
+ *
+ * @param $redirect_to
+ * @param $doaction
+ * @param $post_ids
+ * @return string
+ */
+function nabshow_lv_set_and_remove_as_featured_bulk_sponsors_handler( $redirect_to, $doaction, $post_ids ) {
+
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'sponsors-category');
+}
+
+/**
  * Common function for multiple post type to set as featured post.
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ * @param $taxonomy
  * @return string
  */
 function nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, $taxonomy ) {
@@ -258,7 +304,7 @@ function nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redi
  * @return int
  */
 function nabshow_lv_custom_excerpt_length() {
-	return 20;
+    return 20;
 }
 
 /**
@@ -266,21 +312,7 @@ function nabshow_lv_custom_excerpt_length() {
  * @return string
  */
 function nabshow_lv_custom_excerpt_more() {
-	return '...';
-}
-
-/**
- * Append noscript tag and modified relation attribute
- *
- * @param $tag
- *
- * @return string
- */
-function nabshow_lv_append_noscript_tag( $tag ) {
-
-	$replace_tag = str_replace( "rel='stylesheet'", "rel='preload'", $tag );
-
-	return '<noscript>' . $tag . '</noscript>' . str_replace( ' href', ' as="style" onload="this.onload=null;this.rel=\'stylesheet\'" href', $replace_tag );
+    return '...';
 }
 
 /**
@@ -291,11 +323,11 @@ function nabshow_lv_append_noscript_tag( $tag ) {
  * @return string
  */
 function nabshow_lv_remove_wp_ver_script( $src ) {
-	if ( strpos( $src, 'ver=' ) ) {
-		$src = remove_query_arg( 'ver', $src );
-	}
+    if ( strpos( $src, 'ver=' ) ) {
+        $src = remove_query_arg( 'ver', $src );
+    }
 
-	return $src;
+    return $src;
 }
 
 /**
@@ -306,11 +338,11 @@ function nabshow_lv_remove_wp_ver_script( $src ) {
  * @return array
  */
 function nabshow_lv_thought_gallery_search_template( $template ) {
-	global $wp_query;
-	$post_type = get_query_var( 'post_type' );
-	if ( $wp_query->is_search && $post_type === 'thought-gallery' ) {
-		return locate_template( 'archive-search.php' );
-	}
+    global $wp_query;
+    $post_type = get_query_var( 'post_type' );
+    if ( $wp_query->is_search && $post_type === 'thought-gallery' ) {
+        return locate_template( 'archive-search.php' );
+    }
 
-	return $template;
+    return $template;
 }

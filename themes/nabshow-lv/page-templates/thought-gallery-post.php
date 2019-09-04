@@ -41,7 +41,7 @@ get_header();
                     <div class="author-section">
                         <div class="author-info">
                             <div class="author-avatar">
-                                <img alt="" src="http://nabshow.md-staging.com/wp-content/uploads/2019/07/related-content-logo.jpg"
+                                <img alt="" src="http://nabshow.md-develop.com/wp-content/uploads/2019/07/related-content-logo.jpg"
                                     class="avatar photo" width="160"> 
                             </div>
                             <div class="author-user">

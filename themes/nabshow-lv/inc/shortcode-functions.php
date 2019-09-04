@@ -15,6 +15,7 @@ function nabshow_lv_dropdown_func( $atts ) {
     $atts = shortcode_atts( array(
         'first_option' => '',
         'is_faq'       => false,
+        'parent_slug'  => '',
     ), $atts );
     ob_start();
     ?>
@@ -25,15 +26,22 @@ function nabshow_lv_dropdown_func( $atts ) {
                 <option value=""><?php echo esc_html( $atts['first_option'] ); ?></option>
             <?php
             }
-            if ( ! $atts['is_faq'] ) {
-            ?>        
-                <option value="/not-to-be-missed-archive/">Options 1</option>
-                <option value="/not-to-be-missed-archive/">Options 2</option>
-                <option value="/not-to-be-missed-archive/">Options 3</option>
-                <option value="/not-to-be-missed-archive/">Options 4</option>
-                <option value="/not-to-be-missed-archive/">Options 5</option>
-            <?php
-            }?>
+            if ( ! $atts['is_faq'] && ! empty( $atts['parent_slug'] ) ) {
+                $page = get_page_by_path( $atts['parent_slug'] );
+                if ( $page ){
+
+                    $children = get_pages( array( 'child_of' => $page->ID, 'parent' => $page->ID ) );
+
+                    if ( ! empty( $children ) ) {
+                        foreach ( $children as $child ) {
+                        ?>
+                            <option value="<?php echo esc_url( get_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></option>
+                        <?php
+                        }
+                    }
+                }
+            }
+            ?>
         </select>
     <?php
     $html = ob_get_clean();
@@ -64,7 +72,7 @@ $atts = shortcode_atts( array(
 	}
 ob_start();
 ?>
-    <div><img src="<?php echo esc_url($latest_image_url); ?>" class="insta-latest"/></div>
+    <div><a href="https://www.instagram.com/nabshow/" target="_blank"><img src="<?php echo esc_url($latest_image_url); ?>" alt="instagram-img" class="insta-latest"/></a></div>
 <?php
 	$html = ob_get_clean();
     return $html;

@@ -9,8 +9,6 @@ global $wpdb;
 			<?php
 			$image = get_field('banner_featured_image');
 
-//			echo "<pre>"; print_r($image); echo "</pre>";
-
 			if( $image ) { ?>
 
 				<img src="<?php echo esc_url($image['url'] )?>">

@@ -39,10 +39,10 @@ function nabshow_lv_not_to_be_missed_archive() {
         'has_archive'        => true,
         'hierarchical'       => true,
         'menu_position'      => null,
+        'menu_icon'          => 'dashicons-buddicons-topics',
         'supports'           => array(
             'title',
             'editor',
-            'comments',
             'revisions',
             'trackbacks',
             'author',
@@ -123,6 +123,7 @@ function nabshow_lv_thought_gallery_archive() {
         'has_archive'        => true,
         'hierarchical'       => true,
         'menu_position'      => null,
+        'menu_icon'          => 'dashicons-format-gallery',
         'show_in_rest' => true,
         'supports'           => array(
             'title',
@@ -246,20 +247,33 @@ function nabshow_lv_thought_gallery_tags_taxonomies() {
 }
 
 function nabshow_lv_page_category_taxonomy() {
-    register_taxonomy(
-        'page-category',
-        array( 'page' ),
-        array(
-            'hierarchical' => true,
-            'label'        => 'Categories',
-            'query_var'    => true,
-            'show_in_rest' => true,
-            'rewrite'      => array(
-                'slug'       => 'page-category',
-                'with_front' => false
-            )
-        )
+
+    $labels = array(
+        'name'              => _x( 'Category', 'taxonomy general name', 'nabshow-lv' ),
+        'singular_name'     => _x( 'Category', 'taxonomy singular name', 'nabshow-lv' ),
+        'search_items'      => __( 'Search Categories', 'nabshow-lv' ),
+        'all_items'         => __( 'All Categories', 'nabshow-lv' ),
+        'parent_item'       => __( 'Parent Category', 'nabshow-lv' ),
+        'parent_item_colon' => __( 'Parent Category:', 'nabshow-lv' ),
+        'edit_item'         => __( 'Edit Category', 'nabshow-lv' ),
+        'update_item'       => __( 'Update Category', 'nabshow-lv' ),
+        'add_new_item'      => __( 'Add New Category', 'nabshow-lv' ),
+        'new_item_name'     => __( 'New Genre Category', 'nabshow-lv' ),
+        'menu_name'         => __( 'Categories', 'nabshow-lv' ),
     );
+
+    $args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_in_rest'      => true,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'page-category' ),
+    );
+
+    register_taxonomy( 'page-category', array( 'page' ), $args );
+
 }
 
 /**

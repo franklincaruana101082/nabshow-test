@@ -474,9 +474,9 @@ import classnames from 'classnames';
 												]}
 												onChange={(value) => setAttributes({ backgroundPosition: value })}
 											/>
-											<div class="inspector-field inspector-field-color components-base-control">
-												<label class="inspector-mb-0">Overlay</label>
-												<div class="inspector-ml-auto">
+											<div className="inspector-field inspector-field-color components-base-control">
+												<label className="inspector-mb-0">Overlay</label>
+												<div className="inspector-ml-auto">
 													<ColorPalette
 														value={overlayColor}
 														onChange={(value) => setAttributes({ overlayColor: value })}
@@ -499,9 +499,9 @@ import classnames from 'classnames';
 								{(
 									<PanelBody title={__('Background Color')} initialOpen={false} className="bg-setting">
 										<PanelRow>
-											<div class="inspector-field inspector-field-color ">
-												<label class="inspector-mb-0">Background Color</label>
-												<div class="inspector-ml-auto">
+											<div className="inspector-field inspector-field-color ">
+												<label className="inspector-mb-0">Background Color</label>
+												<div className="inspector-ml-auto">
 													<ColorPalette
 														value={backgroundColor}
 														onChange={(value) => setAttributes({ backgroundColor: value ? value : '', opacity: 0 })}
@@ -531,9 +531,9 @@ import classnames from 'classnames';
 									{gradientType && (
 										<Fragment>
 											<h3>{__('Gradient Fill 1')}</h3>
-											<div class="inspector-field inspector-field-color components-base-control gradientcolor">
-												<label class="inspector-mb-0">Color</label>
-												<div class="inspector-ml-auto">
+											<div className="inspector-field inspector-field-color components-base-control gradientcolor">
+												<label className="inspector-mb-0">Color</label>
+												<div className="inspector-ml-auto">
 													<ColorPalette
 														value={color1}
 														onChange={(value) => setAttributes({ color1: value ? value : '#fff' })}
@@ -551,9 +551,9 @@ import classnames from 'classnames';
 												/>
 											</div>
 											<h3>{__('Gradient Fill 2')}</h3>
-											<div class="inspector-field inspector-field-color components-base-control gradientcolor">
-												<label class="inspector-mb-0">Color</label>
-												<div class="inspector-ml-auto">
+											<div className="inspector-field inspector-field-color components-base-control gradientcolor">
+												<label className="inspector-mb-0">Color</label>
+												<div className="inspector-ml-auto">
 													<ColorPalette
 														value={color2}
 														onChange={(value) => setAttributes({ color2: value ? value : '#fff' })}
@@ -571,9 +571,9 @@ import classnames from 'classnames';
 												/>
 											</div>
 											<h3>{__('Gradient Fill 3')}</h3>
-											<div class="inspector-field inspector-field-color components-base-control gradientcolor">
-												<label class="inspector-mb-0">Color</label>
-												<div class="inspector-ml-auto">
+											<div className="inspector-field inspector-field-color components-base-control gradientcolor">
+												<label className="inspector-mb-0">Color</label>
+												<div className="inspector-ml-auto">
 													<ColorPalette
 														value={color3}
 														onChange={(value) => setAttributes({ color3: value ? value : '#fff' })}
@@ -599,20 +599,20 @@ import classnames from 'classnames';
 									<PanelRow>
 										<div className="inspector-field inspector-border-style" >
 											<label>Border Style</label>
-											<div class="inspector-field-button-list inspector-field-button-list-fluid">
-												<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-												<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-												<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-												<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'none' })}><span class="inspector-field-border-type inspector-field-border-type-none"><i class="fa fa-ban"></i></span></button>
+											<div className="inspector-field-button-list inspector-field-button-list-fluid">
+												<button className={'solid' === borderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+												<button className={'dotted' === borderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+												<button className={'dashed' === borderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+												<button className={'none' === borderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'none' })}><span className="inspector-field-border-type inspector-field-border-type-none"><i className="fa fa-ban"></i></span></button>
 											</div>
 										</div>
 									</PanelRow>
 									{borderStyle && (
 										<Fragment>
 											<PanelRow>
-												<div class="inspector-field inspector-field-color ">
-													<label class="inspector-mb-0">Color</label>
-													<div class="inspector-ml-auto">
+												<div className="inspector-field inspector-field-color ">
+													<label className="inspector-mb-0">Color</label>
+													<div className="inspector-ml-auto">
 														<ColorPalette
 															value={borderColor}
 															onChange={borderColor => setAttributes({ borderColor: borderColor })}
@@ -650,20 +650,20 @@ import classnames from 'classnames';
 										<PanelRow>
 											<div className="inspector-field inspector-border-style" >
 												<label>Border Style</label>
-												<div class="inspector-field-button-list inspector-field-button-list-fluid">
-													<button class=" inspector-button" onClick={() => setAttributes({ topBorderStyle: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ topBorderStyle: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ topBorderStyle: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'none' })}><span class="inspector-field-border-type inspector-field-border-type-none"><i class="fa fa-ban"></i></span></button>
+												<div className="inspector-field-button-list inspector-field-button-list-fluid">
+													<button className={'solid' === topBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ topBorderStyle: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+													<button className={'dotted' === topBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ topBorderStyle: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+													<button className={'dashed' === topBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ topBorderStyle: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+													<button className={'none' === topBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'none' })}><span className="inspector-field-border-type inspector-field-border-type-none"><i className="fa fa-ban"></i></span></button>
 												</div>
 											</div>
 										</PanelRow>
 										{topBorderStyle && (
 											<Fragment>
 												<PanelRow>
-													<div class="inspector-field inspector-field-color ">
-														<label class="inspector-mb-0">Color</label>
-														<div class="inspector-ml-auto">
+													<div className="inspector-field inspector-field-color ">
+														<label className="inspector-mb-0">Color</label>
+														<div className="inspector-ml-auto">
 															<ColorPalette
 																value={topBorderColor}
 																onChange={topBorderColor => setAttributes({ topBorderColor: topBorderColor })}
@@ -702,20 +702,20 @@ import classnames from 'classnames';
 										<PanelRow>
 											<div className="inspector-field inspector-border-style" >
 												<label>Border Style</label>
-												<div class="inspector-field-button-list inspector-field-button-list-fluid">
-													<button class=" inspector-button" onClick={() => setAttributes({ rightBorderStyle: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ rightBorderStyle: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ rightBorderStyle: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'none' })}><span class="inspector-field-border-type inspector-field-border-type-none"><i class="fa fa-ban"></i></span></button>
+												<div className="inspector-field-button-list inspector-field-button-list-fluid">
+													<button className={'solid' === rightBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ rightBorderStyle: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+													<button className={'dotted' === rightBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ rightBorderStyle: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+													<button className={'dashed' === rightBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ rightBorderStyle: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+													<button className={'none' === rightBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'none' })}><span className="inspector-field-border-type inspector-field-border-type-none"><i className="fa fa-ban"></i></span></button>
 												</div>
 											</div>
 										</PanelRow>
 										{rightBorderStyle && (
 											<Fragment>
 												<PanelRow>
-													<div class="inspector-field inspector-field-color ">
-														<label class="inspector-mb-0">Color</label>
-														<div class="inspector-ml-auto">
+													<div className="inspector-field inspector-field-color ">
+														<label className="inspector-mb-0">Color</label>
+														<div className="inspector-ml-auto">
 															<ColorPalette
 																value={rightBorderColor}
 																onChange={rightBorderColor => setAttributes({ rightBorderColor: rightBorderColor })}
@@ -754,20 +754,20 @@ import classnames from 'classnames';
 										<PanelRow>
 											<div className="inspector-field inspector-border-style" >
 												<label>Border Style</label>
-												<div class="inspector-field-button-list inspector-field-button-list-fluid">
-													<button class=" inspector-button" onClick={() => setAttributes({ bottomBorderStyle: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ bottomBorderStyle: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ bottomBorderStyle: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'none' })}><span class="inspector-field-border-type inspector-field-border-type-none"><i class="fa fa-ban"></i></span></button>
+												<div className="inspector-field-button-list inspector-field-button-list-fluid">
+													<button className={'solid' === bottomBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ bottomBorderStyle: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+													<button className={'dotted' === bottomBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ bottomBorderStyle: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+													<button className={'dashed' === bottomBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ bottomBorderStyle: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+													<button className={'none' === bottomBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'none' })}><span className="inspector-field-border-type inspector-field-border-type-none"><i className="fa fa-ban"></i></span></button>
 												</div>
 											</div>
 										</PanelRow>
 										{bottomBorderStyle && (
 											<Fragment>
 												<PanelRow>
-													<div class="inspector-field inspector-field-color ">
-														<label class="inspector-mb-0">Color</label>
-														<div class="inspector-ml-auto">
+													<div className="inspector-field inspector-field-color ">
+														<label className="inspector-mb-0">Color</label>
+														<div className="inspector-ml-auto">
 															<ColorPalette
 																value={bottomBorderColor}
 																onChange={bottomBorderColor => setAttributes({ bottomBorderColor: bottomBorderColor })}
@@ -806,20 +806,20 @@ import classnames from 'classnames';
 										<PanelRow>
 											<div className="inspector-field inspector-border-style" >
 												<label>Border Style</label>
-												<div class="inspector-field-button-list inspector-field-button-list-fluid">
-													<button class=" inspector-button" onClick={() => setAttributes({ leftBorderStyle: 'solid' })}><span class="inspector-field-border-type inspector-field-border-type-solid"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ leftBorderStyle: 'dotted' })}><span class="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ leftBorderStyle: 'dashed' })}><span class="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
-													<button class=" inspector-button" onClick={() => setAttributes({ borderStyle: 'none' })}><span class="inspector-field-border-type inspector-field-border-type-none"><i class="fa fa-ban"></i></span></button>
+												<div className="inspector-field-button-list inspector-field-button-list-fluid">
+													<button className={'solid' === leftBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ leftBorderStyle: 'solid' })}><span className="inspector-field-border-type inspector-field-border-type-solid"></span></button>
+													<button className={'dotted' === leftBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ leftBorderStyle: 'dotted' })}><span className="inspector-field-border-type inspector-field-border-type-dotted"></span></button>
+													<button className={'dashed' === leftBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ leftBorderStyle: 'dashed' })}><span className="inspector-field-border-type inspector-field-border-type-dashed"></span></button>
+													<button className={'none' === leftBorderStyle ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ borderStyle: 'none' })}><span className="inspector-field-border-type inspector-field-border-type-none"><i className="fa fa-ban"></i></span></button>
 												</div>
 											</div>
 										</PanelRow>
 										{leftBorderStyle && (
 											<Fragment>
 												<PanelRow>
-													<div class="inspector-field inspector-field-color ">
-														<label class="inspector-mb-0">Color</label>
-														<div class="inspector-ml-auto">
+													<div className="inspector-field inspector-field-color ">
+														<label className="inspector-mb-0">Color</label>
+														<div className="inspector-ml-auto">
 															<ColorPalette
 																value={leftBorderColor}
 																onChange={leftBorderColor => setAttributes({ leftBorderColor: leftBorderColor })}
@@ -882,30 +882,30 @@ import classnames from 'classnames';
 									</div>
 								</PanelRow>
 								<PanelRow>
-									<div class="inspector-field inspector-field-transform">
+									<div className="inspector-field inspector-field-transform">
 										<label className="mt10">Text Transform</label>
-										<div class="inspector-field-button-list inspector-field-button-list-fluid inspector-ml-auto">
-											<button class=" inspector-button" onClick={() => setAttributes({ blockAlign: 'none' })}><i class="fa fa-ban"></i></button>
-											<button class=" inspector-button" onClick={() => setAttributes({ blockAlign: 'lowercase' })}><span>aa</span></button>
-											<button class=" inspector-button" onClick={() => setAttributes({ blockAlign: 'capitalize' })}><span>Aa</span></button>
-											<button class=" inspector-button" onClick={() => setAttributes({ blockAlign: 'uppercase' })}><span>AA</span></button>
+										<div className="inspector-field-button-list inspector-field-button-list-fluid inspector-ml-auto">
+											<button className={'none' === blockAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ blockAlign: 'none' })}><i className="fa fa-ban"></i></button>
+											<button className={'lowercase' === blockAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ blockAlign: 'lowercase' })}><span>aa</span></button>
+											<button className={'capitalize' === blockAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ blockAlign: 'capitalize' })}><span>Aa</span></button>
+											<button className={'uppercase' === blockAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ blockAlign: 'uppercase' })}><span>AA</span></button>
 										</div>
 									</div>
 								</PanelRow>
 								<PanelRow>
-									<div class="inspector-field inspector-field-alignment">
-										<label class="inspector-mb-0">Alignment</label>
-										<div class="inspector-field-button-list inspector-field-button-list-fluid">
-											<button class="inspector-button" onClick={() => setAttributes({ textAlign: 'left' })}><i class="fa fa-align-left"></i></button>
-											<button class="inspector-button" onClick={() => setAttributes({ textAlign: 'center' })}><i class="fa fa-align-center"></i></button>
-											<button class="inspector-button" onClick={() => setAttributes({ textAlign: 'right' })}><i class="fa fa-align-right"></i></button>
+									<div className="inspector-field inspector-field-alignment">
+										<label className="inspector-mb-0">Alignment</label>
+										<div className="inspector-field-button-list inspector-field-button-list-fluid">
+											<button className={'left' === textAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ textAlign: 'left' })}><i className="fa fa-align-left"></i></button>
+											<button className={'center' === textAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ textAlign: 'center' })}><i className="fa fa-align-center"></i></button>
+											<button className={'right' === textAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ textAlign: 'right' })}><i className="fa fa-align-right"></i></button>
 										</div>
 									</div>
 								</PanelRow>
 							</PanelBody>
 							<PanelBody title="Spacing" initialOpen={false}>
 								<PanelRow>
-									<div class="inspector-field inspector-field-padding">
+									<div className="inspector-field inspector-field-padding">
 										<label className="mt10">Padding</label>
 										<div className="padding-setting">
 											<div className="col-main-4">
@@ -950,7 +950,7 @@ import classnames from 'classnames';
 									</div>
 								</PanelRow>
 								<PanelRow>
-									<div class="inspector-field inspector-field-margin">
+									<div className="inspector-field inspector-field-margin">
 										<label className="mt10">Margin</label>
 										<div className="margin-setting">
 											<div className="col-main-4">

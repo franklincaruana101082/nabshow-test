@@ -57,16 +57,6 @@ add_action( 'get_header', 'nabshow_lv_remove_wp_emoji' );
  */
 add_action( 'get_header', 'nabshow_lv_move_scripts_to_footer' );
 
-/**
- * Action for add style in footer
- */
-add_action( 'get_footer', 'nabshow_lv_enqueue_styles_to_footer' );
-
-/**
- * Action for add critical css in header
- */
-add_action( 'wp_enqueue_scripts', 'nabshow_lv_add_critical_css' );
-
 // Action to add tag taxonomy in ntb-missed post type.
 add_action( 'init', 'nabshow_lv_create_tag_taxonomies', 0 );
 

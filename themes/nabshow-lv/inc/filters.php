@@ -13,24 +13,27 @@ add_filter( 'block_categories', 'nabshow_lv_custom_block_category', 10, 2 );
 
 add_filter( 'parse_query', 'nabshow_lv_posts_filter' );
 
-add_filter( 'manage_posts_columns', 'nabshow_lv_custom_columns' );
-
-add_filter( 'manage_page_posts_columns', 'nabshow_lv_page_custom_columns' );
-
 add_filter( 'post_thumbnail_html', 'nabshow_lv_remove_thumbnail_dimensions', 10, 3 );
 
+add_filter('admin_init', function () {
 
-$post_types_list = array( 'post', 'exhibitors', 'page');
-foreach ( $post_types_list as $current_post_type ) {
-    add_filter( 'bulk_actions-edit-'.$current_post_type, 'nabshow_lv_custom_bulk_actions' );
-    add_filter( 'handle_bulk_actions-edit-'.$current_post_type, 'nabshow_lv_set_and_remove_as_featured_bulk_' . $current_post_type . '_handler', 10, 3 );
-}
+    $post_types = get_post_types( array( 'public' => true ), 'names' );
+
+    foreach ( $post_types as $post_type ) {
+        $post_type_function = str_replace( '-', '_', $post_type );
+        if ( 'attachment' !== $post_type && function_exists( 'nabshow_lv_set_and_remove_as_featured_bulk_' . $post_type_function . '_handler' ) ) {
+            add_filter( 'manage_' . $post_type . '_posts_columns', 'nabshow_lv_custom_columns' );
+            add_filter( 'bulk_actions-edit-'.$post_type, 'nabshow_lv_custom_bulk_actions' );
+            add_filter( 'handle_bulk_actions-edit-'.$post_type, 'nabshow_lv_set_and_remove_as_featured_bulk_' . $post_type_function . '_handler', 10, 3 );
+        }
+    }
+    return true;
+} );
 
 add_filter( 'excerpt_length', 'nabshow_lv_custom_excerpt_length', 999 );
 
 add_filter( 'excerpt_more', 'nabshow_lv_custom_excerpt_more' );
 
-add_filter( 'style_loader_tag', 'nabshow_lv_append_noscript_tag', 9999 );
 
 /*
  * Remove version parameter from the script and style

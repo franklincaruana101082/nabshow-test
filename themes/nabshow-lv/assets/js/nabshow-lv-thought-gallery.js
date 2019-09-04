@@ -126,31 +126,32 @@
 
     });
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         if (0 < $('.thought-gallery-slider').length) {
             $('.thought-gallery-slider').bxSlider({
-                slideWidth: 900,
+                slideWidth: 830,
+                slideMargin: 30,
                 mode: 'horizontal',
                 auto: 'true',
-                minSlides: 3,
-                maxSlides: 3,
+                minSlides: 1,
+                maxSlides: 1,
                 moveSlides: 1,
                 speed: 500,
                 controls: 'true',
                 infiniteLoop: 'true',
-                pager: 'true',
+                pager: false,
                 stopAutoOnClick: true,
                 autoHover: true,
-                onSlideBefore: function($slideElement){
+                onSlideBefore: function ($slideElement) {
                     $('.thought-gallery-slider .item').removeClass('thought-active-slide thought-previous-slide thought-next-slide');
                     $slideElement.next().addClass('thought-active-slide');
                     $slideElement.addClass('thought-previous-slide');
                     $slideElement.next().next().addClass('thought-next-slide');
                 },
-                onSliderLoad: function(){
-                    $('.thought-gallery-slider .item').eq(1+$('.thought-gallery-slider .bx-clone').length/2).addClass('thought-active-slide');
-                    $('.thought-gallery-slider .item').eq(1+$('.thought-gallery-slider .bx-clone').length/2).next().addClass('thought-next-slide');
-                    $('.thought-gallery-slider .item').eq(1+$('.thought-gallery-slider .bx-clone').length/2).prev().addClass('thought-previous-slide');
+                onSliderLoad: function () {
+                    $('.thought-gallery-slider .item').eq(1 + $('.thought-gallery-slider .bx-clone').length / 2).addClass('thought-active-slide');
+                    $('.thought-gallery-slider .item').eq(1 + $('.thought-gallery-slider .bx-clone').length / 2).next().addClass('thought-next-slide');
+                    $('.thought-gallery-slider .item').eq(1 + $('.thought-gallery-slider .bx-clone').length / 2).prev().addClass('thought-previous-slide');
                 }
             });
         }

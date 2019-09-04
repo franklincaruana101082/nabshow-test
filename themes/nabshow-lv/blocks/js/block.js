@@ -12,3 +12,5 @@ import './block/accordion/block';
 import './block/meet-the-team/block';
 import './block/awards-block/block';
 import './block/advertisement/block';
+import './block/custom-block/block';
+import './block/related-content/block';

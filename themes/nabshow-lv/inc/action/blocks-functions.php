@@ -148,6 +148,10 @@ function nabshow_lv_register_dynamic_blocks() {
                     'type'      => 'boolean',
                     'default'   => true
                 ),
+                'scheduleAd' => array(
+                    'type'      => 'boolean',
+                    'default'   => false
+                ),
                 'startDate'  => array(
                     'type'      => 'string'
                 ),
@@ -165,6 +169,20 @@ function nabshow_lv_register_dynamic_blocks() {
                 )
             ),
             'render_callback' => 'nabshow_lv_advertisement_render_callback',
+        )
+    );
+
+	register_block_type( 'nab/related-content', array(
+            'attributes' => array(
+                'postId'  => array(
+                    'type' => 'number'
+                ),
+                'itemToFetch'  => array(
+                    'type' => 'number',
+                    'default' => 10
+                ),
+            ),
+            'render_callback' => 'nabshow_lv_related_content_render_callback',
         )
     );
 }
@@ -241,11 +259,11 @@ function nabshow_lv_no_to_be_missed_slider_render_callback( $attributes ) {
                 <div class='loader'>
                     <div class='loader--dot'></div>
                     <div class='loader--dot'></div>
+                    <!-- <div class='loader--dot'></div>
                     <div class='loader--dot'></div>
                     <div class='loader--dot'></div>
                     <div class='loader--dot'></div>
-                    <div class='loader--dot'></div>
-                    <div class='loader--text'></div>
+                    <div class='loader--text'></div> -->
                 </div>
             </div>
 	<?php
@@ -403,44 +421,86 @@ function nabshow_lv_advertisement_render_callback( $attributes ) {
         <p style="display:none">Advertisement</p>
     <?php
     } else {
-        if( isset( $attributes['startDate'] ) && isset( $attributes['endDate'] ) ) {
-            $class_name   = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-            $img_source   = isset( $attributes['imgSource'] ) && ! empty( $attributes['imgSource'] ) ? $attributes['imgSource'] : '';
-            $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
-            $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
+        $class_name   = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+        $img_source   = isset( $attributes['imgSource'] ) && ! empty( $attributes['imgSource'] ) ? $attributes['imgSource'] : '';
+        $schedule_ad  = isset( $attributes['scheduleAd'] ) ? $attributes['scheduleAd'] : false;
+        $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
+        $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
 
-            $start_date   = new DateTime( $attributes['startDate'] );
-            $start_date   = $start_date->format( 'Y-m-d H:i:s' );
-            $end_date     = new DateTime( $attributes['endDate'] );
-            $end_date     = $end_date->format( 'Y-m-d H:i:s' );
-	        $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
+        $start_date   = new DateTime( $attributes['startDate'] );
+        $start_date   = $start_date->format( 'Y-m-d H:i:s' );
+        $end_date     = new DateTime( $attributes['endDate'] );
+        $end_date     = $end_date->format( 'Y-m-d H:i:s' );
+        $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 
-            if ( $start_date <= $current_date && $current_date <= $end_date ) {
-            ?>
-                <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>">
-                    <p class="banner-text">Advertisement</p>
-                    <?php
+        if ( ( ! $schedule_ad ) || ( $start_date <= $current_date && $current_date <= $end_date ) ) {
+        ?>
+            <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>">
+                <p class="banner-text">Advertisement</p>
+                <?php
 
-                    if ( isset( $attributes['linkURL'] ) && ! empty( $attributes['linkURL'] ) ) {
-                        $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
-                        $event_category    = isset( $attributes['eventCategory'] ) && ! empty( $attributes['eventCategory'] ) ? $attributes['eventCategory'] : '';
-                        $event_action      = isset( $attributes['eventAction'] ) && ! empty( $attributes['eventAction'] ) ? $attributes['eventAction'] : '';
-                        $event_label       = isset( $attributes['eventLabel'] ) && ! empty( $attributes['eventLabel'] ) ? $attributes['eventLabel'] : '';
-                    ?>
-                        <a class="nab-banner-link" href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
-                            <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
-                        </a>
-                    <?php
-                    } else {
-                    ?>
+                if ( isset( $attributes['linkURL'] ) && ! empty( $attributes['linkURL'] ) ) {
+                    $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
+                    $event_category    = isset( $attributes['eventCategory'] ) && ! empty( $attributes['eventCategory'] ) ? $attributes['eventCategory'] : '';
+                    $event_action      = isset( $attributes['eventAction'] ) && ! empty( $attributes['eventAction'] ) ? $attributes['eventAction'] : '';
+                    $event_label       = isset( $attributes['eventLabel'] ) && ! empty( $attributes['eventLabel'] ) ? $attributes['eventLabel'] : '';
+                ?>
+                    <a class="nab-banner-link" href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
                         <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
-                    <?php
-                    }
-                    ?>
+                    </a>
+                <?php
+                } else {
+                ?>
+                    <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
+                <?php
+                }
+                ?>
+            </div>
+        <?php
+        }
+    }
+
+    $html = ob_get_clean();
+    return $html;
+}
+
+/**
+ * Get related page according to postId attributes
+ * @param $attributes
+ * @return string
+ */
+function nabshow_lv_related_content_render_callback( $attributes ) {
+    $post_id    = isset( $attributes['postId'] ) && ! empty( $attributes['postId'] ) ? $attributes['postId'] : 0;
+    $post_limit = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
+    $class_name = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+
+    $children = get_pages( array( 'child_of' => $post_id, 'parent' => $post_id, 'number' => $post_limit ) );
+
+    ob_start();
+    if ( count( $children ) ) {
+    ?>
+        <div class="row related-content-rowbox <?php echo esc_attr( $class_name ); ?>">
+            <?php
+            foreach ( $children as $child ) {
+            ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="related-content-box">
+                        <img class="logo" src="<?php echo has_post_thumbnail( $child->ID ) ? esc_url( get_the_post_thumbnail_url( $child->ID ) ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="Related Logo">
+                        <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
+                        <span class="sub-title">Booth Number</span>
+                        <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
+                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                    </div>
                 </div>
             <?php
             }
-        }
+            ?>
+        </div>
+    <?php
+    } else {
+    ?>
+           <p>Page not found</p>
+    <?php
     }
 
     $html = ob_get_clean();

@@ -24,8 +24,7 @@ if ( false === $related_posts_query ) {
 	$related_posts_query = new WP_Query(
 		array(
 			'post_type'      => 'thought-gallery',
-			'posts_per_page' => 3,
-			'post__not_in'   => array( get_the_ID() ),
+			'posts_per_page' => 4,
 			'tax_query'      => array(
 				array(
 					'taxonomy' => 'thought-gallery-tags',
@@ -40,13 +39,20 @@ if ( false === $related_posts_query ) {
 }
 ?>
 <h2>You May Also Like</h2>
-<ul class="related-list row">
+<ul class="related-list">
 	<?php
 	if ( $related_posts_query->have_posts() ) {
+	    $cnt = 1;
+	    $exclude_id = get_the_ID();
+	    $is_exclude = true;
 		while ( $related_posts_query->have_posts() ) {
 			$related_posts_query->the_post();
+            if ( $is_exclude && ( $exclude_id === get_the_ID() || 4 === $cnt ) ) {
+                $is_exclude = false;
+                continue;
+            }
 			?>
-            <li class="col-md-4">
+            <li>
                 <div class="image-effect-wrapper">
                     <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="related-posts-img">
                         <img width="300" height="200"
@@ -62,6 +68,7 @@ if ( false === $related_posts_query ) {
                 </div>
             </li>
 			<?php
+            $cnt++;
 		}
 	}
 	?>

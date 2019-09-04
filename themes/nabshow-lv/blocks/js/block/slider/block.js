@@ -296,7 +296,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         </PanelBody>
                         {
                             controls ? (
-                                 <PanelBody title={__('Slider Arrow')} initialOpen={false}>
+                                <PanelBody title={__('Slider Arrow')} initialOpen={false}>
                                     <ul className="slider-arrow-main">
                                         {arrowNames.map((item, index) => (
                                             < Fragment key={index} >
@@ -355,9 +355,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             {
                                 alwaysShowOverlay ? (
                                     <Fragment>
-                                        <div class="inspector-field inspector-field-color ">
-                                            <label class="inspector-mb-0">Color</label>
-                                            <div class="inspector-ml-auto">
+                                        <div className="inspector-field inspector-field-color ">
+                                            <label className="inspector-mb-0">Color</label>
+                                            <div className="inspector-ml-auto">
                                                 <ColorPalette
                                                     value={hoverColor}
                                                     onChange={(hoverColor) => setAttributes({ hoverColor })}
@@ -423,9 +423,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             </div>
                                         </PanelRow>
                                         <PanelRow>
-                                            <div class="inspector-field inspector-field-color ">
-                                                <label class="inspector-mb-0">Title Text Color</label>
-                                                <div class="inspector-ml-auto">
+                                            <div className="inspector-field inspector-field-color ">
+                                                <label className="inspector-mb-0">Title Text Color</label>
+                                                <div className="inspector-ml-auto">
                                                     <ColorPalette
                                                         value={titleColor}
                                                         onChange={(titleColor) => setAttributes({ titleColor: titleColor })}
@@ -434,9 +434,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             </div>
                                         </PanelRow>
                                         <PanelRow>
-                                            <div class="inspector-field inspector-field-color ">
-                                                <label class="inspector-mb-0">Caption Text Color</label>
-                                                <div class="inspector-ml-auto">
+                                            <div className="inspector-field inspector-field-color ">
+                                                <label className="inspector-mb-0">Caption Text Color</label>
+                                                <div className="inspector-ml-auto">
                                                     <ColorPalette
                                                         value={textColor}
                                                         onChange={(textColor) => setAttributes({ textColor: textColor })}
@@ -460,30 +460,30 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             </div>
                                         </PanelRow>
                                         <PanelRow>
-                                            <div class="inspector-field-alignment inspector-field inspector-responsive inspector-bottom-20">
+                                            <div className="inspector-field-alignment inspector-field inspector-responsive inspector-bottom-20">
                                                 <label>Vertical  Alignment</label>
-                                                <div class="inspector-field-button-list inspector-field-button-list-fluid">
-                                                    <button class=" inspector-button" onClick={() => setAttributes({ vAlign: 'flex-start' })} >
+                                                <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                                                    <button className={'flex-start' === vAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ vAlign: 'flex-start' })} >
                                                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                                             <g transform="translate(1)" fill="none">
-                                                                <rect class="inspector-svg-fill" x="4" y="4" width="6" height="12" rx="1"></rect>
-                                                                <path class="inspector-svg-stroke" d="M0 1h14" stroke-width="2" stroke-linecap="square"></path>
+                                                                <rect className="inspector-svg-fill" x="4" y="4" width="6" height="12" rx="1"></rect>
+                                                                <path className="inspector-svg-stroke" d="M0 1h14" stroke-width="2" stroke-linecap="square"></path>
                                                             </g>
                                                         </svg>
                                                     </button>
-                                                    <button class=" inspector-button" onClick={() => setAttributes({ vAlign: 'center' })} >
+                                                    <button className={'center' === vAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ vAlign: 'center' })} >
                                                         <svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
                                                             <g transform="translate(-115 -4) translate(115 4)" fill="none">
-                                                                <path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                                                                <rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+                                                                <path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                                                                <rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
                                                             </g>
                                                         </svg>
                                                     </button>
-                                                    <button class=" inspector-button" onClick={() => setAttributes({ vAlign: 'flex-end' })} >
+                                                    <button className={'flex-end' === vAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ vAlign: 'flex-end' })} >
                                                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                                             <g transform="translate(1)" fill="none">
-                                                                <rect class="inspector-svg-fill" x="4" width="6" height="12" rx="1"></rect>
-                                                                <path d="M0 15h14" class="inspector-svg-stroke" stroke-width="2" stroke-linecap="square"></path>
+                                                                <rect className="inspector-svg-fill" x="4" width="6" height="12" rx="1"></rect>
+                                                                <path d="M0 15h14" className="inspector-svg-stroke" stroke-width="2" stroke-linecap="square"></path>
                                                             </g>
                                                         </svg>
                                                     </button>
@@ -491,30 +491,30 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             </div>
                                         </PanelRow>
                                         <PanelRow>
-                                            <div class="inspector-field-alignment inspector-field inspector-responsive">
+                                            <div className="inspector-field-alignment inspector-field inspector-responsive">
                                                 <label>Horizontal Alignment</label>
-                                                <div class="inspector-field-button-list inspector-field-button-list-fluid">
-                                                    <button class=" inspector-button" onClick={() => setAttributes({ hAlign: 'flex-start' })} >
+                                                <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                                                    <button className={'flex-start' === hAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ hAlign: 'flex-start' })} >
                                                         <svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
                                                             <g transform="translate(-29 -4) translate(29 4)" fill="none">
-                                                                <path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                                                                <rect class="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
+                                                                <path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                                                                <rect className="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
                                                             </g>
                                                         </svg>
                                                     </button>
-                                                    <button class=" inspector-button" onClick={() => setAttributes({ hAlign: 'center' })} >
+                                                    <button className={'center' === hAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ hAlign: 'center' })} >
                                                         <svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
                                                             <g transform="translate(-115 -4) translate(115 4)" fill="none">
-                                                                <path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                                                                <rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+                                                                <path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                                                                <rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
                                                             </g>
                                                         </svg>
                                                     </button>
-                                                    <button class=" inspector-button" onClick={() => setAttributes({ hAlign: 'flex-end' })} >
+                                                    <button className={'flex-end' === hAlign ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ hAlign: 'flex-end' })} >
                                                         <svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
                                                             <g transform="translate(0 1) rotate(-180 10.5 8.5)" fill="none">
-                                                                <path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-                                                                <rect class="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
+                                                                <path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+                                                                <rect className="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
                                                             </g>
                                                         </svg>
                                                     </button>

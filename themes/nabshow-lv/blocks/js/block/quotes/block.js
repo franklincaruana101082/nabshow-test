@@ -278,12 +278,12 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                             </PanelRow>
                             <label>Text Color</label>
                             <ul className="quote-color">
-                                <li class={`white-slider ${'white-slider' === sliderBgColor ? 'active' : ''}`}
+                                <li className={`white-slider ${'white-slider' === sliderBgColor ? 'active' : ''}`}
                                     onClick={e => {
                                         setAttributes({ sliderBgColor: 'white-slider' });
                                     }}
                                 ></li>
-                                <li class={`black-slider ${'black-slider' === sliderBgColor ? 'active' : ''}`}
+                                <li className={`black-slider ${'black-slider' === sliderBgColor ? 'active' : ''}`}
                                     onClick={e => {
                                         setAttributes({ sliderBgColor: 'black-slider' });
                                     }}
@@ -354,7 +354,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                         {quotesList}
                     </div>
 
-                    <div class="add-remove-btn">
+                    <div className="add-remove-btn">
                         {
                             1 < quotes.length && false === sliderActive ? (
                                 <button
@@ -363,7 +363,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                                         setAttributes({ sliderActive: true });
                                     }}
                                 >
-                                    <span class="dashicons dashicons-yes"></span>
+                                    <span className="dashicons dashicons-yes"></span>
                                 </button>
                             ) : ''
                         }
@@ -388,7 +388,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                             }
                             }
                         >
-                            <span class="dashicons dashicons-plus"></span>
+                            <span className="dashicons dashicons-plus"></span>
                         </button>
 
                     </div>

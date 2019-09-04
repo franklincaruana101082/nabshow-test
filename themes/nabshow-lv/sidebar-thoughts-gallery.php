@@ -107,14 +107,49 @@ if ( false === $popularposts ) {
         <div class="widget-title">
             <h2>Contributors</h2>
         </div>
-        <ul>
-            <li><a href="#"> Headshots </a></li>
-            <li><a href="#"> Headshots </a></li>
-            <li><a href="#"> Headshots </a></li>
-            <li><a href="#"> Headshots </a></li>
-            <li><a href="#"> Headshots </a></li>
-            <li><a href="#"> Headshots </a></li>
-            <li><a href="#"> Headshots </a></li>
+        <ul class="sidebar-contributors">
+            <li>
+                <div class="item-inner">
+                    <a href="">
+                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-d91e4c4de9ce-feda-dda4-6630-85286ace-283697.jpg" alt="crontest-James Southern">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <a href="">
+                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-67c80d51853c-79cb-3a04-7c03-050c4c04-611957.jpg" alt="crontest-James Southern">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <a href="">
+                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-e464b7f63729-20db-04d4-9df0-fb2d0099-497787.jpg" alt="crontest-James Southern">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <a href="">
+                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-47de73d7c34f-b41a-fd54-82a5-0bee03d6-975597.jpg" alt="crontest-James Southern">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <a href="">
+                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-9822434eaf52-8c99-6764-7dcc-44a2a1b6-868847.jpg" alt="crontest-James Southern">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="item-inner">
+                    <a href="">
+                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-5bb0973c987f-d599-d0b4-424a-6f535219-407407.jpg" alt="crontest-James Southern">
+                    </a>
+                </div>
+            </li>
         </ul>
         <a href="#" class="btn-default">View all</a>
     </aside>

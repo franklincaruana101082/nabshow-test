@@ -15,7 +15,7 @@
 
     const allAttr = {
         imgSource: {
-            type: 'string'
+            type: 'string',
         },
         imgID: {
             type: 'number',
@@ -27,30 +27,34 @@
             type: 'number',
         },
         linkURL: {
-            type: 'string'
+            type: 'string',
         },
         linkTarget: {
             type: 'boolean',
-            default: true
+            default: true,
+        },
+        scheduleAd: {
+            type: 'boolean',
+            default: false,
         },
         startDate: {
-            type: 'string'
+            type: 'string',
         },
         endDate: {
-            type: 'string'
+            type: 'string',
         },
         eventCategory: {
-            type: 'string'
+            type: 'string',
         },
         eventAction: {
-            type: 'string'
+            type: 'string',
         },
         eventLabel: {
-            type: 'string'
+            type: 'string',
         },
         showCal: {
             type: 'boolean',
-            default: false
+            default: false,
         }
     };
 
@@ -62,7 +66,7 @@
         keywords: [__('ad'), __('advertisement')],
         attributes: allAttr,
         edit(props) {
-            const { attributes: { imgSource, imgID, imgWidth, imgHeight, linkURL, linkTarget, startDate, endDate, eventCategory, eventAction, eventLabel, showCal }, setAttributes } = props;
+            const { attributes: { imgSource, imgID, imgWidth, imgHeight, linkURL, linkTarget, scheduleAd, startDate, endDate, eventCategory, eventAction, eventLabel, showCal }, setAttributes } = props;
 
             const style = {};
             imgWidth && (style.width = imgWidth + 'px');
@@ -104,37 +108,51 @@
                     </Placeholder>
                 );
             }
+
+            if ( ! startDate ) {
+                setAttributes({startDate: moment().format('YYYY-MM-DDTHH:mm:ss')});
+            }
             return (
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Schedule Display Settings')}>
-                            <div className="inspector-field inspector-field-toggleCal components-base-control">
-                                <div className="toggleCalender" >
-                                    <span className="cal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg></span>
-                                    <span className="text">Toggle Calendar</span>
-                                </div>
-                                <ToggleControl
-                                    checked={showCal}
-                                />
-                            </div>
-                            <div className="inspector-field inspector-field-datetime components-base-control">
-                                <label className="inspector-mb-0">Select Date time to start display</label>
-                                <div className="inspector-ml-auto">
-                                    <DateTimePicker
-                                        currentDate={startDate}
-                                        onChange={(date) => setAttributes({ startDate: date })}
-                                    />
-                                </div>
-                            </div>
-                            <div className="inspector-field inspector-field-datetime components-base-control">
-                                <label className="inspector-mb-0">Select Date time to remove</label>
-                                <div className="inspector-ml-auto">
-                                    <DateTimePicker
-                                        currentDate={endDate}
-                                        onChange={(date) => setAttributes({ endDate: date })}
-                                    />
-                                </div>
-                            </div>
+                            <ToggleControl
+                                label={__('Display According to Date time')}
+                                checked={scheduleAd}
+                                onChange={() => setAttributes({ scheduleAd: ! scheduleAd })}
+                            />
+                            { scheduleAd &&
+                                <Fragment>
+                                    <div className="inspector-field inspector-field-toggleCal components-base-control">
+                                        <div className="toggleCalender">
+                                            <span className="cal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path
+                                                d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg></span>
+                                            <span className="text">Toggle Calendar</span>
+                                        </div>
+                                        <ToggleControl
+                                            checked={showCal}
+                                        />
+                                    </div>
+                                    <div className="inspector-field inspector-field-datetime components-base-control">
+                                        <label className="inspector-mb-0">Select Date time to start display</label>
+                                        <div className="inspector-ml-auto">
+                                            <DateTimePicker
+                                                currentDate={startDate}
+                                                onChange={(date) => setAttributes({startDate: date})}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="inspector-field inspector-field-datetime components-base-control">
+                                        <label className="inspector-mb-0">Select Date time to remove</label>
+                                        <div className="inspector-ml-auto">
+                                            <DateTimePicker
+                                                currentDate={endDate}
+                                                onChange={(date) => setAttributes({endDate: date})}
+                                            />
+                                        </div>
+                                    </div>
+                                </Fragment>
+                            }
                         </PanelBody>
                         <PanelBody title={__('Image Settings')} initialOpen={false}>
                             <PanelRow>
@@ -224,9 +242,9 @@
                     <div className="nab-banner-main">
                         <p className="banner-text">Advertisement</p>
                         <img src={imgSource}
-                             className="banner-img"
-                             alt={__('image')}
-                             style={style}
+                            className="banner-img"
+                            alt={__('image')}
+                            style={style}
 
                         />
                     </div>

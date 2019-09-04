@@ -171,30 +171,30 @@
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field-alignment inspector-field inspector-responsive inspector-bottom-20">
+								<div className="inspector-field-alignment inspector-field inspector-responsive inspector-bottom-20">
 									<label>Column  Alignment</label>
-									<div class="inspector-field-button-list inspector-field-button-list-fluid">
-										<button class=" inspector-button" onClick={() => setAttributes({ ColumnAlignment: 'flex-start' })} >
+									<div className="inspector-field-button-list inspector-field-button-list-fluid">
+										<button className={'flex-start' === ColumnAlignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ ColumnAlignment: 'flex-start' })} >
 											<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(1)" fill="none">
-													<rect class="inspector-svg-fill" x="4" y="4" width="6" height="12" rx="1"></rect>
-													<path class="inspector-svg-stroke" d="M0 1h14" stroke-width="2" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" x="4" y="4" width="6" height="12" rx="1"></rect>
+													<path className="inspector-svg-stroke" d="M0 1h14" stroke-width="2" stroke-linecap="square"></path>
 												</g>
 											</svg>
 										</button>
-										<button class=" inspector-button" onClick={() => setAttributes({ ColumnAlignment: 'center' })} >
+										<button className={'center' === ColumnAlignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ ColumnAlignment: 'center' })} >
 											<svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(-115 -4) translate(115 4)" fill="none">
-													<path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
-										<button class=" inspector-button" onClick={() => setAttributes({ ColumnAlignment: 'flex-end' })} >
+										<button className={'flex-end' === ColumnAlignment ? 'active inspector-button' : ' inspector-button'} onClick={() => setAttributes({ ColumnAlignment: 'flex-end' })} >
 											<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(1)" fill="none">
-													<rect class="inspector-svg-fill" x="4" width="6" height="12" rx="1"></rect>
-													<path d="M0 15h14" class="inspector-svg-stroke" stroke-width="2" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" x="4" width="6" height="12" rx="1"></rect>
+													<path d="M0 15h14" className="inspector-svg-stroke" stroke-width="2" stroke-linecap="square"></path>
 												</g>
 											</svg>
 										</button>
@@ -202,9 +202,9 @@
 								</div>
 							</PanelRow>
 							<PanelRow>
-								<div class="inspector-field inspector-field-color ">
-									<label class="inspector-mb-0">Background Color</label>
-									<div class="inspector-ml-auto">
+								<div className="inspector-field inspector-field-color ">
+									<label className="inspector-mb-0">Background Color</label>
+									<div className="inspector-ml-auto">
 										<ColorPalette
 											value={BackgroundColor}
 											onChange={BackgroundColor => setAttributes({ BackgroundColor: BackgroundColor })}
@@ -232,30 +232,30 @@
 								/>
 							</PanelRow>
 							{/* <PanelRow>
-								<div class="inspector-field-alignment inspector-field inspector-responsive">
+								<div className="inspector-field-alignment inspector-field inspector-responsive">
 									<label>Image Alignment</label>
-									<div class="inspector-field-button-list inspector-field-button-list-fluid">
-										<button class=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'left' })} >
+									<div className="inspector-field-button-list inspector-field-button-list-fluid">
+										<button className=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'left' })} >
 											<svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(-29 -4) translate(29 4)" fill="none">
-													<path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
-										<button class=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'center' })} >
+										<button className=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'center' })} >
 											<svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(-115 -4) translate(115 4)" fill="none">
-													<path d="M8 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
-										<button class=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'Right' })} >
+										<button className=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'Right' })} >
 											<svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
 												<g transform="translate(0 1) rotate(-180 10.5 8.5)" fill="none">
-													<path d="M1 .708v15.851" class="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect class="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
+													<path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
+													<rect className="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
 												</g>
 											</svg>
 										</button>
@@ -265,7 +265,7 @@
 						</PanelBody>
 						<PanelBody title="Content Box Spacing" initialOpen={false}>
 							<PanelRow>
-								<div class="inspector-field inspector-field-padding">
+								<div className="inspector-field inspector-field-padding">
 									<label className="mt10">Padding</label>
 									<div className="padding-setting">
 										<div className="col-main-4">

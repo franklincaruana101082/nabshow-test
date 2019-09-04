@@ -10,7 +10,17 @@ var allowedBlocks = [
     const { registerBlockType } = wp.blocks;
     const { Fragment, Component } = wp.element;
     const { RichText, AlignmentToolbar, BlockControls, InspectorControls, PanelColorSettings, InnerBlocks } = wp.editor;
-    const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, Button } = wp.components;
+    const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, IconButton, ToggleControl, Button } = wp.components;
+
+    const ALLOWBLOCKS = ['nab/schedule-item'];
+
+    const getChildscheduleBlock = memoize(schedule => {
+        return times(schedule, n => ['nab/schedule-item', { id: n + 1 }]);
+    });
+
+    const removehildawardsBlock = memoize((schedule) => {
+        return times(schedule, (n) => ['nab/schedule-item', { id: n - 1 }]);
+    });
 
     /* Parent schedule Block */
     registerBlockType('nab/schedule', {
@@ -39,13 +49,12 @@ var allowedBlocks = [
         edit: (props, attributes) => {
             const { attributes: { noOfschedule, title, showTitle }, className, setAttributes, clientId } = props;
 
-            const ALLOWBLOCKS = ['nab/schedule-item'];
-
-            const getChildscheduleBlock = memoize((schedule) => {
-                return (
-                    times(schedule, (n) => ['nab/schedule-item', { id: n + 1 }])
-                );
-            });
+            $(document).on('click', `#block-${clientId} .schedule-row .remove-button`, function (e) {
+                if ('' !== $(this).parents(`#block-${clientId}`)) {
+                    setAttributes({ noOfschedule: noOfschedule - 1 });
+                    removehildawardsBlock(noOfschedule);
+                }
+              });
 
             return (
                 <div className={`schedule-main ${className ? className : ''}`}>
@@ -78,15 +87,6 @@ var allowedBlocks = [
                         <div className="add-remove-btn">
                             <Button className="add" onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}>
                                 <span className="dashicons dashicons-plus" />
-                            </Button>
-                            <Button
-                                className="remove"
-                                onClick={() =>
-                                    setAttributes({
-                                        noOfschedule: 1 === noOfschedule ? 1 : noOfschedule - 1
-                                    })}
-                            >
-                                <span className="dashicons dashicons-minus" />
                             </Button>
                         </div>
                     </div>
@@ -134,7 +134,7 @@ var allowedBlocks = [
             }
         },
         edit: (props) => {
-            const { attributes, setAttributes, className } = props;
+            const { attributes, setAttributes, className, clientId } = props;
             const { date, name, location, details } = attributes;
             return (
                 <div className='schedule-row'>
@@ -170,6 +170,16 @@ var allowedBlocks = [
                             placeholder={__('All-Badge Access')}
                         />
                     </div>
+                    <span class="remove-button">
+                        <IconButton
+                            className="components-toolbar__control"
+                            label={__('Remove image')}
+                            icon="no"
+                            onClick={() => {
+                                wp.data.dispatch('core/editor').removeBlocks(clientId);
+                            }}
+                        />
+                    </span>
                 </div>
             );
         },

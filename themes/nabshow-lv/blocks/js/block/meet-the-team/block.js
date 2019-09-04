@@ -1,29 +1,22 @@
 import times from 'lodash/times';
 import memoize from 'memize';
 
-(function(wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wp.i18n;
   const { registerBlockType } = wp.blocks;
-  const { Fragment, Component } = wp.element;
-  const {
-    RichText,
-    AlignmentToolbar,
-    BlockControls,
-    InspectorControls,
-    PanelColorSettings,
-    InnerBlocks,
-    MediaUpload
-  } = wp.editor;
-  const {
-    TextControl,
-    PanelBody,
-    PanelRow,
-    RangeControl,
-    SelectControl,
-    ToggleControl,
-    Button,
-    CheckboxControl
-  } = wp.components;
+  const { Fragment } = wp.element;
+  const {RichText, InspectorControls, InnerBlocks, MediaUpload } = wp.editor;
+  const {TextControl, PanelBody, PanelRow, Button, CheckboxControl, IconButton, ToggleControl} = wp.components;
+
+  const ALLOWBLOCKS = ['nab/meet-the-team-item'];
+
+  const getChildscheduleBlock = memoize(schedule => {
+    return times(schedule, n => ['nab/meet-the-team-item', { id: n + 1 }]);
+  });
+
+  const removehildawardsBlock = memoize((schedule) => {
+    return times(schedule, (n) => ['nab/meet-the-team-item', { id: n - 1 }]);
+  });
 
   /* Parent schedule Block */
   registerBlockType('nab/meet-the-team', {
@@ -43,16 +36,13 @@ import memoize from 'memize';
     },
     edit: (props, attributes) => {
       const {
-        attributes: { noOfschedule },
-        className,
-        setAttributes,
-        clientId
-      } = props;
+        attributes: { noOfschedule }, className, setAttributes, clientId } = props;
 
-      const ALLOWBLOCKS = ['nab/meet-the-team-item'];
-
-      const getChildscheduleBlock = memoize(schedule => {
-        return times(schedule, n => ['nab/meet-the-team-item', { id: n + 1 }]);
+      $(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
+        if ('' !== $(this).parents(`#block-${clientId}`)) {
+            setAttributes({ noOfschedule: noOfschedule - 1 });
+            removehildawardsBlock(noOfschedule);
+        }
       });
 
       return (
@@ -69,25 +59,12 @@ import memoize from 'memize';
             >
               <span className="dashicons dashicons-plus" />
             </Button>
-            <Button
-              className="remove"
-              onClick={() =>
-                setAttributes({
-                  noOfschedule: 1 === noOfschedule ? 1 : noOfschedule - 1
-                })
-              }
-            >
-              <span className="dashicons dashicons-minus" />
-            </Button>
           </div>
         </div>
       );
     },
     save: props => {
-      const {
-        attributes: { title, showTitle },
-        className
-      } = props;
+      const { className } = props;
       return (
         <div className={`team-main ${className ? className : ''}`}>
           <InnerBlocks.Content />
@@ -122,6 +99,12 @@ import memoize from 'memize';
       imageUrl: {
         attribute: 'src'
       },
+      swapImage: {
+        attribute: 'src'
+      },
+      swapAlt: {
+        attribute: 'alt'
+      },
       InsertUrl: {
         type: 'string',
         default: ''
@@ -153,38 +136,71 @@ import memoize from 'memize';
       taxonomies: {
         type: 'array',
         default: []
+      },
+      showPopup: {
+          type: 'boolean',
+          default: true
+      },
+      modelClass: {
+          type: 'string'
       }
     },
     edit: props => {
-      const { attributes, setAttributes } = props;
-      const {
-        name,
-        title,
-        email,
-        phone,
-        imageAlt,
-        imageUrl,
-        department,
-        category,
-        categoryList,
-        taxonomies
-      } = attributes;
+      const { attributes, setAttributes, clientId } = props;
+      const {name, title, email, phone, imageAlt, imageUrl, department, category, categoryList, taxonomies, swapImage, swapAlt, showPopup, modelClass} = attributes;
 
       const getImageButton = openEvent => {
         if (attributes.imageUrl) {
           return (
-            <img src={attributes.imageUrl} alr={imageAlt} className="image" />
+            <img src={attributes.imageUrl} alr={imageAlt} className="main-img" />
           );
         } else {
           return (
             <div className="button-container">
               <Button onClick={openEvent} className="button button-large">
-                <span class="dashicons dashicons-upload"></span> Upload Headshot
+                <span className="dashicons dashicons-upload"></span> Upload Headshot
               </Button>
             </div>
           );
         }
       };
+
+      const getHoverImage = openEvent => {
+        if (swapImage) {
+          return (
+            <div>
+              <div className="remove-img">
+                <span
+                  onClick={value =>
+                    setAttributes({ swapImage: '', swapAlt: '' })
+                  }
+                  className="dashicons dashicons-trash"
+                />
+              </div>
+              <img src={swapImage} alr={swapAlt} className="hover-img" />
+            </div>
+          );
+        } else {
+          return (
+            <div className="button-container">
+              <Button onClick={openEvent} className="button button-large">
+                <span className="dashicons dashicons-upload"></span> Upload Hover Image
+              </Button>
+            </div>
+          );
+        }
+      };
+
+      function modelopen() {
+          var ele = document.getElementById('wpwrap');
+          ele.classList.add('nab_body_model_open');
+          setAttributes({ modelClass: 'nab_model_open' });
+      }
+      function modelclose() {
+          var ele = document.getElementById('wpwrap');
+          ele.classList.remove('nab_body_model_open');
+          setAttributes({ modelClass: '' });
+      }
 
       return (
         <div
@@ -199,9 +215,16 @@ import memoize from 'memize';
               className="range-setting"
             >
               <PanelRow>
+                <ToggleControl
+                    label={__('Show Popup')}
+                    checked={showPopup}
+                    onChange={() => setAttributes({ showPopup: ! showPopup })}
+                />
+              </PanelRow>
+              <PanelRow>
                 <TextControl
                   type="string"
-                  label="Add Department"
+                  label="Department"
                   name={department}
                   value={department}
                   placeHolder="Department"
@@ -219,12 +242,14 @@ import memoize from 'memize';
                   />
                   <Button
                     onClick={value => {
-                      let newCat = [...categoryList];
-                      newCat.push(category);
-                      setAttributes({ categoryList: newCat });
+                      if (undefined !== category){
+                        let newCat = [...categoryList];
+                        newCat.push(category);
+                        setAttributes({ categoryList: newCat });
+                      }
                     }}
                   >
-                    <span class="dashicons dashicons-plus"></span>
+                    <span className="dashicons dashicons-plus"></span>
                   </Button>
                 </div>
               </PanelRow>
@@ -255,16 +280,39 @@ import memoize from 'memize';
                   ))}
                 </div>
               </PanelRow>
+              <PanelRow>
+                <div className="hover-upload">
+                <label className="mt20">Hover Image</label>
+                  <MediaUpload
+                    onSelect={media => {
+                      setAttributes({ swapAlt: media.alt, swapImage: media.url });
+                    }}
+                    type="image"
+                    value={attributes.imageID}
+                    render={({ open }) => getHoverImage(open)}
+                  />
+                </div>
+              </PanelRow>
             </PanelBody>
           </InspectorControls>
           <div className="team-box-inner">
+            <span class="remove-button">
+                <IconButton
+                    className="components-toolbar__control"
+                    label={__('Remove image')}
+                    icon="no"
+                    onClick={() => {
+                        wp.data.dispatch('core/editor').removeBlocks(clientId);
+                    }}
+                />
+            </span>
             <div className="feature-img">
               <div className="remove-img">
                 <span
                   onClick={value =>
-                    setAttributes({ imageUrl: '', imageAlt: '', InsertUrl: '' })
+                    setAttributes({ imageUrl: '', imageAlt: '' })
                   }
-                  className="dashicons dashicons-edit"
+                  className="dashicons dashicons-trash"
                 />
               </div>
               <MediaUpload
@@ -305,68 +353,101 @@ import memoize from 'memize';
                 className="phone"
                 placeholder={__('Phone')}
               />
+              {showPopup ?
+                <div className="nab_model_head">
+                    <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary bio-btn'} value='Bio' />
+                    <div className={`nab_model_main ${modelClass}`}>
+                        <div className="nab_model_inner">
+                            <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
+                            <div className="nab_model_wrap">
+                                <div className="nab_pop_up_content_wrap">
+                                    <InnerBlocks templateLock={false} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="nab_bg_overlay" onClick={modelclose} />
+                    </div>
+                </div> : ''
+              }
             </div>
           </div>
         </div>
       );
     },
     save: props => {
-      const {
-        name,
-        title,
-        email,
-        phone,
-        imageAlt,
-        imageUrl,
-        department,
-        taxonomies
-      } = props.attributes;
+      const {name, title, email, phone, imageAlt, imageUrl, department, taxonomies, swapImage, swapAlt, showPopup} = props.attributes;
       const catData = taxonomies.toString();
-      return (
-        <div
-          className="team-box"
-          data-department={department ? department : ''}
-          data-category={catData ? catData : ''}
-        >
-          <div className="team-box-inner">
-            <div className="feature-img">
-              {imageUrl ? (
-                <img src={imageUrl} alt={imageAlt} />
-              ) : (
-                <div className="no-image">No Headshot</div>
-              )}
-            </div>
-            <div className="team-details">
-              {name ? (
-                <RichText.Content tagName="h3" value={name} className="name" />
-              ) : (
-                ''
-              )}
-              {title ? (
-                <RichText.Content
-                  tagName="strong"
-                  value={title}
-                  className="title"
-                />
-              ) : (
-                ''
-              )}
-              {email ? (
-                <a className="email" href={`mailto:${email}`}>
-                  Email
-                </a>
-              ) : (
-                ''
-              )}
-              {phone ? (
-                <RichText.Content tagName="p" value={phone} className="phone" />
-              ) : (
-                ''
-              )}
+
+      if (undefined !== name || undefined !== title || undefined !== email || undefined !== phone ){
+        return (
+          <div
+            className="team-box"
+            data-department={department ? department : ''}
+            data-category={catData ? catData : ''}
+          >
+            <div className="team-box-inner">
+              <div className={`feature-img ${swapImage ? 'with-hover-img' : ''}`}>
+                {imageUrl ? (
+                  <Fragment>
+                    <img src={imageUrl} alt={imageAlt} className="main-img" />
+                    {
+                      swapImage ? (
+                        <img src={swapImage} alr={swapAlt} className="hover-img" />
+                      ) : ''
+                    }
+                  </Fragment>
+                ) : (
+                    <div className="no-image">No Headshot</div>
+                  )}
+              </div>
+              <div className="team-details">
+                {name ? (
+                  <RichText.Content tagName="h3" value={name} className="name" />
+                ) : (
+                    ''
+                  )}
+                {title ? (
+                  <RichText.Content
+                    tagName="strong"
+                    value={title}
+                    className="title"
+                  />
+                ) : (
+                    ''
+                  )}
+                {email ? (
+                  <a className="email" href={`mailto:${email}`}>
+                    Email
+                  </a>
+                ) : (
+                    ''
+                  )}
+                {phone ? (
+                  <RichText.Content tagName="p" value={phone} className="phone" />
+                ) : (
+                    ''
+                  )}
+                {showPopup ?
+                    <div className="nab_model_head">
+                        <input type="button" className={'nab_popup_btn btn-primary bio-btn'} value='Bio' />
+                        <div className="nab_model_main">
+                            <div className="nab_model_inner">
+                                <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
+                                <div className="nab_model_wrap">
+                                    <div className="nab_pop_up_content_wrap">
+                                        <InnerBlocks.Content />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="nab_bg_overlay" />
+                        </div>
+                    </div> : ''
+                }
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
+      }
     }
   });
 })(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);

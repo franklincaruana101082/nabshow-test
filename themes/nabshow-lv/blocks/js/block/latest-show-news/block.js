@@ -131,8 +131,8 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                 isCheckedTerms = JSON.parse(terms);
             }
 
-            let input = <div class="inspector-field inspector-field-Numberofitems ">
-                <label class="inspector-mb-0">Number of items</label>
+            let input = <div className="inspector-field inspector-field-Numberofitems ">
+                <label className="inspector-mb-0">Number of items</label>
                 <RangeControl
                     value={itemToFetch}
                     min={1}

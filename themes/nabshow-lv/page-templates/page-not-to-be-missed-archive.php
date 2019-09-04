@@ -5,6 +5,7 @@
  * @package  NABShow_LV
  * */
 get_header();
+$ntb_class = get_post_meta($post->ID, 'ltbclass', true);
 
 $post_type_args  = array(
 	'post_type' => 'ntb-missed',
@@ -12,7 +13,7 @@ $post_type_args  = array(
 $post_type_query = new WP_Query( $post_type_args );
 
 ?>
-    <div id="primary" class="container">
+    <div id="primary" class="container <?php echo esc_attr($ntb_class); ?>">
         <div class="page-main not-to-be-missed">
             <h1><?php wp_title( '' ); ?></h1>
 
@@ -38,11 +39,11 @@ $post_type_query = new WP_Query( $post_type_args );
                     <div class='loader'>
                         <div class='loader--dot'></div>
                         <div class='loader--dot'></div>
+                        <!-- <div class='loader--dot'></div>
                         <div class='loader--dot'></div>
                         <div class='loader--dot'></div>
                         <div class='loader--dot'></div>
-                        <div class='loader--dot'></div>
-                        <div class='loader--text'></div>
+                        <div class='loader--text'></div> -->
                     </div>
                 </div>
                 <div class="card-columns-box row" id="card_section">

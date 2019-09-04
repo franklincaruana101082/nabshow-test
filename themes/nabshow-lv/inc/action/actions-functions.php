@@ -132,33 +132,6 @@ function nabshow_lv_move_scripts_to_footer() {
 }
 
 /**
- * Load style in footer.
- * @since 1.0.0
- */
-function nabshow_lv_enqueue_styles_to_footer() {
-	wp_enqueue_style( 'wp-block-library' );
-	wp_enqueue_style( 'nabshow-lv-style', get_stylesheet_uri() );
-	wp_enqueue_style( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css' );
-	wp_enqueue_style( 'nabshow-lv-font-awesome', get_template_directory_uri() . '/assets/fonts/font-awesome.min.css' );
-	wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
-	wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css' );
-	wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css' );
-}
-
-/**
- * Add critical css.
- * @since 1.0.0
- */
-function nabshow_lv_add_critical_css() {
-
-	if ( is_front_page() ) {
-		$csspath     = esc_url( get_stylesheet_directory_uri() . '/assets/css/critical/home.css' );
-		$criticalcss = wpcom_vip_file_get_contents( esc_url( $csspath ) );
-		wp_add_inline_style( 'nabshow-lv-fonts', $criticalcss );
-	}
-}
-
-/**
  * Add/update post meta to thoughts gallery post for most popular posts.
  *
  * @param $postID
