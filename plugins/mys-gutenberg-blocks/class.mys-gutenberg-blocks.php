@@ -133,7 +133,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         public static function mysgb_get_all_terms()
         {
             //get data from the cache
-            $response = get_transient( 'mysgb-get-all-terms-cache' );
+            $response = get_transient( 'mysgb-get-alldd-terms-cache' );
 
             if ( false === $response ) {
 
