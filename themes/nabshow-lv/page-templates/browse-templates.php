@@ -80,7 +80,7 @@ get_header();
 				<div class="box-item featured">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -91,7 +91,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -102,7 +102,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -113,7 +113,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -124,7 +124,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -135,7 +135,7 @@ get_header();
 				<div class="box-item featured">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -146,7 +146,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -157,7 +157,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -168,7 +168,7 @@ get_header();
 				<div class="box-item">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
@@ -179,7 +179,7 @@ get_header();
 				<div class="box-item featured">
 					<div class="item-inner">
 						<div class="media">
-							<img src="/wp-content/uploads/2019/08/browse-img.png">
+							<img src="/wp-content/uploads/sites/3/2019/09/browse-img.png">
 						</div>
 						<h3 class="title">Verizon</h3>
 						<strong class="sub-title">Booth Number</strong>
