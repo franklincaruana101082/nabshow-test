@@ -857,8 +857,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         $start_time = get_post_meta( get_the_ID(), 'starttime', true );
                         $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
 
-                        $start_time = str_replace( array('am','pm'), array('a.m','p.m'), date_format( date_create( $start_time ), 'g:i a' ) );
-                        $end_time   = str_replace( array('am','pm'), array('a.m','p.m'), date_format( date_create( $end_time ), 'g:i a' ) );
+                        $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+                        $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
 
                         if ( $date_group !== $date ) {
                             $date_group = $date;
@@ -961,8 +961,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         $start_time = get_post_meta( get_the_ID(), 'starttime', true );
                         $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
                         $date       = date_format( date_create( $date ), 'M d' );
-                        $start_time = str_replace( array('am','pm'), array('a.m','p.m'), date_format( date_create( $start_time ), 'g:i a' ) );
-                        $end_time   = str_replace( array('am','pm'), array('a.m','p.m'), date_format( date_create( $end_time ), 'g:i a' ) );
+                        $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+                        $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
 
                         $date_display_format = 'layout-1' === $slider_layout || ! $slider_active ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
                      ?>
