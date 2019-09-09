@@ -551,15 +551,17 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 $csv_content = '1,hello,admin';
 
-$upload_dir = wp_get_upload_dir()['basedir'];
+$upload_dir = wp_get_upload_dir()['basedir'] . '/mys-uploads/';
 //$upload_dir = 'vip://wp-content/plugins/mys-modules/assets/uploads/';
 //$upload_dir = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
 
-$file_path = $upload_dir . 'updated.csv';
+$file_path = $upload_dir . $filename;
 
-$uploadedStatus = file_put_contents( $file_path, $exh_data );
+//$uploadedStatus = file_put_contents( $file_path, $exh_data );
 
-$test = "006";
+move_uploaded_file( $exh_target_temp_file, $file_path );
+
+$test = "007";
 
 			echo '<pre>';
 			print_r(get_defined_vars());
