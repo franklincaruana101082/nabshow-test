@@ -97,13 +97,3 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
 
 //Develop Tracks Custom Fields
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-tracks.php' );
-
-
-//ne_temp remove this before PR.
-add_filter( 'http_request_args', 'fergcorp_debug_url_request_args', 10, 2 );
-function fergcorp_debug_url_request_args( $r, $url ) {
-	$r["timeout"] = 20; //phpcs:ignore
-	return $r;
-}
-
-
