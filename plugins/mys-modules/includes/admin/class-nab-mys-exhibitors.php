@@ -450,6 +450,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					exit();
 				}
 
+				echo '<pre>';
+				print_r(get_defined_vars());
+				die('<br><---died here');
+
 				if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 
 					$row      = 0;
