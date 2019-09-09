@@ -451,6 +451,16 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				}
 
 				if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos($_SERVER['HTTP_REFERER'], 'testing' ) !== false ) {
+
+					$csv_content = '1,hello,admin';
+
+					$upload_dir = wp_get_upload_dir()['basedir'];
+
+					$file_path = $upload_dir . '/csv/updated.csv';
+
+					file_put_contents( $file_path, $csv_content );
+
+
 					echo '<pre>';
 					print_r(get_defined_vars());
 					die('<br><---died here');
