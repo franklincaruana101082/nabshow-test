@@ -450,9 +450,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					exit();
 				}
 
-				echo '<pre>';
-				print_r(get_defined_vars());
-				die('<br><---died here');
+				if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos('testing', $_SERVER['HTTP_REFERER'] ) !== false ) {
+					echo '<pre>';
+					print_r(get_defined_vars());
+					die('<br><---died here');
+				}
 
 				if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 
