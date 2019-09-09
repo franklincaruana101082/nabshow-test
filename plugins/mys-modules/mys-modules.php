@@ -98,6 +98,10 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
 //Develop Tracks Custom Fields
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-tracks.php' );
 
+
+
+
+
 add_filter( 'mime_types', 'wpse_mime_types' );
 function wpse_mime_types( $existing_mimes ) {
 	// Add csv to the list of allowed mime types
@@ -105,3 +109,7 @@ function wpse_mime_types( $existing_mimes ) {
 
 	return $existing_mimes;
 }
+
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
