@@ -473,7 +473,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					die('<br><---died here');
 				}
 
-				if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
+				$csv_content = '1,hello,admin';
+				$upload_status = file_put_contents( $exh_target_file, $csv_content );
+
+				/*if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {*/
+				if ( $upload_status ) {
 
 					$row      = 0;
 					$exh_data = $columns = array();
