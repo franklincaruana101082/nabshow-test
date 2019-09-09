@@ -471,8 +471,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					die('<br><---died here');
 				}
 
-				$csv_content = '1,hello,admin';
-				$upload_status = file_put_contents( $exh_target_file, $csv_content );
+				copy($_FILES['file']['tmp_name'], $exh_target_file);
+
+
+				/*$csv_content = '1,hello,admin';
+				$upload_status = file_put_contents( $exh_target_file, $csv_content );*/
 
 				//if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 				//if ( $upload_status ) {
@@ -543,6 +546,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			}
 
 
+			//ne_rems
+			//Use unlink() to remove those temp files
+
 $csv_content = '1,hello,admin';
 
 //$upload_dir = wp_get_upload_dir()['basedir'];
@@ -553,7 +559,7 @@ $file_path = $upload_dir . 'updated.csv';
 
 $uploadedStatus = file_put_contents( $file_path, $csv_content );
 
-$test = "003";
+$test = "004";
 
 			echo '<pre>';
 			print_r(get_defined_vars());
