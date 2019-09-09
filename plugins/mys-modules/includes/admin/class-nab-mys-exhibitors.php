@@ -68,9 +68,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 		public function nab_mys_exh_api() {
 
-			$requested_for  = filter_input( INPUT_POST, 'requested_for', FILTER_SANITIZE_STRING );
-			$group_id       = filter_input( INPUT_POST, 'group_id', FILTER_SANITIZE_STRING );
-			$past_request   = filter_input( INPUT_POST, 'past_request', FILTER_SANITIZE_STRING );
+			$requested_for = filter_input( INPUT_POST, 'requested_for', FILTER_SANITIZE_STRING );
+			$group_id      = filter_input( INPUT_POST, 'group_id', FILTER_SANITIZE_STRING );
+			$past_request  = filter_input( INPUT_POST, 'past_request', FILTER_SANITIZE_STRING );
 			//$this->total_counts    = filter_input( INPUT_POST, 'totalCounts', FILTER_SANITIZE_STRING );
 			$this->finished_counts = (int) filter_input( INPUT_POST, 'finished_counts', FILTER_SANITIZE_STRING );
 
@@ -99,9 +99,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//checking lock
 			if ( "exhibitors" === $requested_for ) {
 
-				$pending_data         = $this->obj_endpoints->nab_mys_db->nab_mys_cron_get_latest_groupid( $requested_for );
+				$pending_data = $this->obj_endpoints->nab_mys_db->nab_mys_cron_get_latest_groupid( $requested_for );
 
-				if( 0 !== $pending_data) {
+				if ( 0 !== $pending_data ) {
 
 					$this->group_id       = $pending_data[0]->HistoryGroupID;
 					$history_pending_data = $pending_data[0]->HistoryData;
@@ -132,7 +132,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 						//Previous sequence will be forced to continue with current request = 'single-exhibitor' and old group id
 
 						$this->finished_counts = $this->obj_endpoints->nab_mys_db->nab_mys_db_row_finished_counts( $this->group_id );
-						$this->requested_for = $requested_for         = 'single-exhibitor';
+						$this->requested_for   = $requested_for = 'single-exhibitor';
 
 					}
 				}
@@ -215,8 +215,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 				}
-				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
-				$exhibitor_modified_array = array_slice($exhibitor_modified_array, 0, $total_rows);
+				$total_rows               = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
+				$exhibitor_modified_array = array_slice( $exhibitor_modified_array, 0, $total_rows );
 
 				if ( 0 === count( $exhibitor_modified_array ) ) {
 
@@ -245,11 +245,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					}*/
 
 
-
 					//ne_think
 					//update_option( 'modified_exhibitors_' . $this->group_id, $this->exhibitor_modified_array );
-
-
 
 
 					//set data_json in DB Class to pass modified data to update in db indirectly.
@@ -266,7 +263,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			} else {
 
 				$this->data_array[0] = $this->data_array[0]->exhibitor;
-				$this->data_json  = wp_json_encode( $this->data_array );
+				$this->data_json     = wp_json_encode( $this->data_array );
 
 				$this->obj_endpoints->nab_mys_db->nab_mys_db_row_filler( $this->dataid, $this->data_json );
 
@@ -437,17 +434,14 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					wp_mkdir_p( WP_PLUGIN_DIR . '/mys-modules/assets/uploads' );
 				}
 
-				$filename             = 'exhibitors-' . time() . '.csv';
+				$group_id = $this->obj_endpoints->nab_mys_random_id();
 
+				$filename = 'exhibitors-' . $group_id . '.csv';
 
-
-				$exh_target_dir       = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
-				/*$exh_target_dir       = 'vip://wp-content/plugins/mys-modules/assets/uploads/';*/
-
+				$exh_target_dir       = wp_get_upload_dir()['basedir'] . '/mys-uploads/';
 				$exh_target_file      = $exh_target_dir . $filename;
 				$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
 				$exh_fileType         = strtolower( pathinfo( $exh_target_file, PATHINFO_EXTENSION ) );
-
 
 				if ( $exh_fileType !== "csv" ) {
 					set_transient( 'exh_error_message', __( 'Sorry, this file type is not allowed.', 'mys-modules' ), 45 );
@@ -455,42 +449,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					exit();
 				}
 
-				if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos($_SERVER['HTTP_REFERER'], 'testing' ) !== false ) {
-
-					/*$csv_content = '1,hello,admin';
-
-					$upload_dir = wp_get_upload_dir()['basedir'];
-
-					$file_path = $upload_dir . '/csv/updated.csv';
-
-					file_put_contents( $file_path, $csv_content );*/
-
-
-					echo '<pre>';
-					print_r(get_defined_vars());
-					die('<br><---died here');
-				}
-
-				//copy($_FILES['file']['tmp_name'], $exh_target_file);
-
-
-				/*$csv_content = '1,hello,admin';
-				$upload_status = file_put_contents( $exh_target_file, $csv_content );*/
-
-				//if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
-				//if ( $upload_status ) {
+				if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 
 					$row      = 0;
 					$exh_data = $columns = array();
 
-
-
-					/*if ( ( $handle = fopen( $exh_target_file, "r" ) ) !== false ) {*/
-					if ( ( $handle = fopen( $exh_target_temp_file, "r" ) ) !== false ) {
-
-
-
-
+					if ( ( $handle = fopen( $exh_target_file, "r" ) ) !== false ) {
 
 						while ( ( $data = fgetcsv( $handle, 0, "," ) ) !== false ) {
 
@@ -518,8 +482,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 					if ( isset( $exh_data ) && is_array( $exh_data ) ) {
 
-						$group_id = $this->obj_endpoints->nab_mys_random_id();
-
 						//Insert a pending row in History table
 						$history_id = $this->obj_endpoints->nab_mys_db->nab_mys_db_history_data( "modified-exhibitors-csv", "insert", $group_id );
 
@@ -538,35 +500,15 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					} else {
 						$success = 4;
 					}
-				/*} else {
+				} else {
 					$success = 3;
-				}*/
+				}
 			} else {
 				$success = 2;
 			}
 
-
 			//ne_rems
 			//Use unlink() to remove those temp files
-
-$csv_content = '1,hello,admin';
-
-$upload_dir = wp_get_upload_dir()['basedir'] . '/mys-uploads/';
-//$upload_dir = 'vip://wp-content/plugins/mys-modules/assets/uploads/';
-//$upload_dir = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
-
-$file_path = $upload_dir . $filename;
-
-//$uploadedStatus = file_put_contents( $file_path, $exh_data );
-
-move_uploaded_file( $exh_target_temp_file, $file_path );
-
-$test = "007";
-
-			echo '<pre>';
-			print_r(get_defined_vars());
-			die('<br><---died here');
-
 			wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=' . $success ) );
 			exit();
 
