@@ -17,7 +17,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 	class NAB_MYS_DB {
 
-		private $data_array;
+		//private $data_array;
 
 		private $data_json = "";
 
@@ -114,8 +114,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$this->current_request = $current_request;
 			$this->history_id      = $history_id;
-			$this->data_array      = $data;
-			$this->data_json       = wp_json_encode( $data );
+			//$this->data_array      = $data;
+			$this->data_json = wp_json_encode( $data );
 
 			if ( "modified-sessions" === $current_request ) {
 
@@ -125,18 +125,23 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 1 );
 
-					return false;
+					return array( 'total_counts' => 0, 'status' => false );
 
 				} else {
 
 					//simplifiying modified array to make easy execution.
 					$this->session_modified_array = array();
 					foreach ( $session_modified_array as $single_modified ) {
+
 						$this->session_modified_array[ $single_modified->sessionid ] = $single_modified->sessionstatus;
+						$total_item_statuses[ $single_modified->sessionstatus ][]    = '';
 					}
 					update_option( 'modified_sessions_' . $this->group_id, $this->session_modified_array );
 					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id );
 
+					$total_counts = count( $session_modified_array );
+
+					return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
 				}
 
 				/**
@@ -167,6 +172,10 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					case "sponsors":
 						$all_items = $data[0]->sponsors;
 						break;
+
+					case "exhibitors-csv":
+						$all_items = $data;
+						break;
 				}
 
 				//check which session ids from $data are available in $this->session_modified_array
@@ -179,17 +188,23 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
 
 				// If somehow the option does not exist, return false.
-				if ( false === $session_modified_array ) {
-					return false;
+				if ( false === $session_modified_array && "exhibitors-csv" !== $current_request ) {
+					return array( 'total_counts' => 0, 'status' => false );
 				}
 
 				$rows = $master_array = array();
 
+				$affected_items      = 0;
+				$total_item_statuses = array();
+
 				foreach ( $all_items as $item ) {
+
 
 					//Tracks
 					if ( "tracks" === $current_request ) {
 						$item_sessions_array = isset( $item->sessions ) ? $item->sessions : "";
+
+						$track_affected = 0;
 
 						foreach ( $item_sessions_array as $session ) {
 
@@ -197,61 +212,116 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 							//ne_test remove ! sign
 							if ( array_key_exists( $session->sessionid, $this->session_modified_array ) ) {
 
-								$item_session_id = $session->sessionid;
+								$item_mys_id = $session->sessionid;
 
 								$item_to_add = $item;
 								unset( $item_to_add->sessions );
 
 								$master_array[ $session->sessionid ][] = $item_to_add;
 
+								$track_affected = 1;
+
 							}
 						}
 
-					} else {
-						$item_session_id = isset( $item->sessionid ) ? $item->sessionid : "";
-						$item_session_id = isset( $item->schedules[0]->sessionid ) ? $item->schedules[0]->sessionid : $item_session_id;
+						if ( 1 === $track_affected ) {
+
+							$total_item_statuses[ $this->session_modified_array[ $item_mys_id ] ][] = '';
+
+							$affected_items ++;
+						}
+
+					} else if ( "exhibitors-csv" !== $current_request ) {
+						$item_mys_id = isset( $item->sessionid ) ? $item->sessionid : "";
+						$item_mys_id = isset( $item->schedules[0]->sessionid ) ? $item->schedules[0]->sessionid : $item_mys_id;
 
 
 						//ne_test remove comment from  condition
 
 
-						if ( array_key_exists( $item_session_id, $this->session_modified_array ) ) {
+						if ( array_key_exists( $item_mys_id, $this->session_modified_array ) ) {
 							$item_to_add = $item;
 							if ( isset ( $item_to_add->schedules ) ) {
 								unset( $item_to_add->schedules );
 							}
-							$master_array[ $item_session_id ][] = $item_to_add;
-						}
-					}
+							$master_array[ $item_mys_id ][] = $item_to_add;
 
+							$total_item_statuses[ $this->session_modified_array[ $item_mys_id ] ][] = '';
+
+							$affected_items ++;
+
+						}
+
+					} else {
+
+						/**
+						 * CSV Exhibitors
+						 */
+
+						$item_mys_id = isset( $item['exhid'] ) ? $item['exhid'] : "";
+
+						$item_to_add                    = $item;
+						$master_array[ $item_mys_id ][] = $item_to_add;
+						$affected_items ++;
+					}
 
 				}
 
-				//ne_testing purpose only.. remove beore PR.
-				$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
-				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] - 1 : 1000;
 
-				foreach ( $master_array as $item_session_id => $item ) {
+				//add sessions to delete which are in modifed array and not returned sessions array
 
-					$item_status = $this->session_modified_array[ $item_session_id ];
+				if ( 'sessions' === $current_request ) {
 
-					$single_item_json = wp_json_encode( $item );
-					switch ( $item_status ) {
+					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
 
-						case "Deleted":
-							$item_status_int = 0;
-							break;
+					foreach ( $sessions_to_delete as $item_mys_id => $status ) {
 
-						case "Added":
-							$item_status_int = 1;
-							break;
+						$master_array[ $item_mys_id ][] = $status;
 
-						case "Updated":
-							$item_status_int = 2;
-							break;
+						$total_item_statuses['Deleted'][] = '';
 
+						$affected_items ++;
 					}
 
+				}
+
+
+				//ne_testing purpose only.. remove beore PR.
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
+				}
+				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] - 1 : 10000;
+
+				foreach ( $master_array as $item_mys_id => $item ) {
+
+					if ( "exhibitors-csv" === $current_request ) {
+						$item_status_int = 1;
+					} else {
+
+						$item_status = $this->session_modified_array[ $item_mys_id ];
+
+						switch ( $item_status ) {
+
+							case "Deleted":
+								$item_status_int = 0;
+								break;
+
+							case "Added":
+								$item_status_int = 1;
+								break;
+
+							case "Updated":
+								$item_status_int = 2;
+								break;
+
+						}
+					}
+
+					if ( "sessions" !== $current_request && 0 === $item_status_int ) {
+						continue;
+					}
+
+					$single_item_json = wp_json_encode( $item );
 					$single_item_json = str_replace( "'", "\'", $single_item_json );
 
 					if ( 0 !== $total_items_inserted ) {
@@ -264,7 +334,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						'AddedStatus'   => 0,
 						'ItemStatus'    => $item_status_int,
 						'DataType'      => $this->current_request,
-						'ModifiedID'    => $item_session_id,
+						'ModifiedID'    => $item_mys_id,
 						'DataStartTime' => date( 'Y-m-d H:i:s' ),
 						'DataJson'      => $single_item_json
 					);
@@ -280,6 +350,8 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				global $wpdb;
 
 				$this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+
+				$total_counts = $affected_items;
 
 				//Insert entry in wp_mys_api_history
 				$this->nab_mys_db_history_data( $current_request, "update", $this->group_id, 1 );
@@ -311,12 +383,13 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 					delete_option( 'modified_sessions_' . $this->group_id );
 					update_option( 'mys_data_attempt', 0 );
 
-					return "done";
+					return array( 'total_counts' => $total_counts, 'status' => 'done', 'total_item_statuses' => $total_item_statuses );
+
 				}
 
 			}
 
-			return true;
+			return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
 		}
 
 		/**
@@ -386,7 +459,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				$sql = $wpdb->insert(
 					$wpdb->prefix . 'mys_history', array(
 					'HistoryStatus'        => 0,
-					'HistoryGroupID'       => $this->group_id,
+					'HistoryGroupID'       => $group_id,
 					'HistoryMigrationType' => $request_type,
 					'HistoryDataType'      => $current_request,
 					'HistoryStartTime'     => date( 'Y-m-d H:i:s' )
@@ -395,7 +468,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				return $wpdb->insert_id;
 
-			} else {
+			} else if ( "update" === $query_type ) {
 
 				$sql = $wpdb->update(
 					$wpdb->prefix . 'mys_history', array(
@@ -409,7 +482,141 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				); //db call ok; no-cache ok
 
 				return $sql;
+
+			} else if ( "finish" === $query_type ) {
+
+				$sql = $wpdb->update(
+					$wpdb->prefix . 'mys_history', array(
+					'HistoryEndTime' => date( 'Y-m-d H:i:s' ),
+					'HistoryStatus'  => 1,
+				), array(
+						'HistoryGroupID'  => $this->group_id,
+						'HistoryDataType' => $current_request,
+					)
+				); //db call ok; no-cache ok
+
+				return $sql;
 			}
+
+		}
+
+		public function nab_mys_db_set_data_json( $data_json ) {
+			$this->data_json = $data_json;
+		}
+
+		public function nab_mys_db_row_finished_counts( $group_id ) {
+
+			global $wpdb;
+
+			$finished_exh_data = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DataID FROM {$wpdb->prefix}mys_data
+						WHERE AddedStatus = 0
+						AND DataGroupID = '%s'
+						", $group_id )
+			); //db call ok; no-cache ok
+
+			return count( $finished_exh_data );
+		}
+
+		public function nab_mys_db_row_getter( $group_id ) {
+
+			global $wpdb;
+
+			$single_exh_data = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DataID, ModifiedID FROM {$wpdb->prefix}mys_data
+						WHERE AddedStatus = 3
+						AND DataGroupID = '%s'
+						AND DataJson = ''
+						ORDER BY DataID ASC
+						LIMIT 1", $group_id )
+			); //db call ok; no-cache ok
+
+			if ( count( $single_exh_data ) > 0 ) {
+
+				return $single_exh_data;
+
+			} else {
+
+				return "finished";
+
+			}
+		}
+
+		public function nab_mys_db_rows_maker( $data_type, $history_id, $group_id, $exhibitor_modified_array, $added_status ) {
+
+			foreach ( $exhibitor_modified_array as $item ) {
+
+				$data_json = wp_json_encode( $item );
+				//$item = $item[0];
+
+				if ( isset( $item->exhid ) ) {
+					// Request via Button
+					$exh_id     = isset( $item->exhid ) ? (int) $item->exhid : "";
+					$exh_status = isset( $item->exhstatus ) ? $item->exhstatus : 'Added';
+					$data_json  = '';
+				} else {
+					// Request via CSV
+					$exh_id     = isset( $item[0]['exhid'] ) ? (int) $item[0]['exhid'] : "";
+					$exh_status = 'Added';
+				}
+
+				if ( empty( $exh_id ) ) {
+					continue;
+				}
+
+				switch ( $exh_status ) {
+
+					case 'Inactive':
+						$exh_id_int = 0;
+						break;
+
+					case 'Added':
+						$exh_id_int = 1;
+						break;
+
+					case 'Updated':
+						$exh_id_int = 2;
+						break;
+
+				}
+
+				$rows[] = array(
+					'DataGroupID'   => $group_id,
+					'HistoryID'     => $history_id,
+					'AddedStatus'   => $added_status,
+					'ItemStatus'    => $exh_id_int,
+					'DataType'      => $data_type,
+					'ModifiedID'    => $exh_id,
+					'DataStartTime' => date( 'Y-m-d H:i:s' ),
+					'DataJson'      => $data_json
+				);
+			}
+
+			global $wpdb;
+
+			$this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+
+			return true;
+
+		}
+
+		public function nab_mys_db_row_filler( $dataid, $data_json ) {
+
+			global $wpdb;
+
+			$sql = $wpdb->update(
+				$wpdb->prefix . 'mys_data', array(
+				'AddedStatus' => 0,
+				'DataEndTime' => date( 'Y-m-d H:i:s' ),
+				'DataJson'    => $data_json
+			), array(
+					'DataID' => $dataid,
+				)
+			); //db call ok; no-cache ok
+
+			return $sql;
 
 		}
 
@@ -417,10 +624,16 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
-			$pending_data = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}mys_history WHERE HistoryStatus = '0'" ); //db call ok; no-cache ok
+			$pending_data = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->prefix}mys_history
+							WHERE HistoryStatus = '0'
+							AND HistoryGroupID != %s"
+					, $group_id )
+			); //db call ok; no-cache ok
 
 			// Equal to 1, there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if thre request type is not 1.
-			if ( count( $pending_data ) > 0 && $group_id !== $pending_data[0]->HistoryGroupID ) {
+			if ( count( $pending_data ) > 0 ) {
 
 				$mys_data_attempt = get_option( 'mys_data_attempt' );
 
@@ -440,6 +653,27 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				return "open";
 
 			}
+		}
+
+		public function nab_mys_db_exh_categories( $exhibitor_categories ) {
+
+			foreach ( $exhibitor_categories as $single_cat ) {
+
+				$category_mys_id = $single_cat->categoryid;
+				$categoryname    = $single_cat->categoryname;
+
+				$args                  = array();
+				$args['mys_item_id']   = $category_mys_id;
+				$args['mys_item_name'] = 'categoryid';
+				$args['mys_parent_id'] = $single_cat->parentcategoryid;
+				$args['description']   = $single_cat->categorydisplay;
+
+				if ( "" !== $categoryname ) {
+					$this->nab_mys_cron_assign_single_term_by_name( $categoryname, "exhibitor-categories", 0, $args );
+				}
+
+			}
+
 		}
 
 		/**
@@ -492,25 +726,23 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				$data_id   = $item->DataID;
 				$data_type = $item->DataType;
-				$sessionid = $item->ModifiedID;
 				$data_json = str_replace( "\'", "'", $item->DataJson );
 				$data      = json_decode( $data_json, true );
 
-				$prepared_data         = array();
-				$prepared_data['item'] = $item;
+				$prepared_data                   = array();
+				$prepared_data['item']           = $item;
+				$prepared_data['main_mys_value'] = $item->ModifiedID;
+				$prepared_data['data']           = $data;
 
 				switch ( $data_type ) {
 					case 'sessions':
 
 						$prepared_data['post_type']         = 'sessions';
-						$prepared_data['exclude_from_meta'] = array( 'title', 'description' );
+						$prepared_data['exclude_from_meta'] = array( 'sessionid', 'title', 'description' );
 						$prepared_data['typeidname']        = 'sessionid';
-						$prepared_data['sessionid']         = $sessionid;
-						$prepared_data['data']              = $data;
 
 						$prepared_data['title_name']       = 'title';
 						$prepared_data['description_name'] = 'description';
-						$prepared_data['image_name']       = 'image';
 
 						$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_insert_to_master( $prepared_data );
 						break;
@@ -519,8 +751,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 						$prepared_data['post_type']         = 'tracks';
 						$prepared_data['exclude_from_meta'] = array( 'title', 'description' );
-						$prepared_data['sessionid']         = $sessionid;
-						$prepared_data['data']              = $data;
 						$prepared_data['typeidname']        = 'trackid';
 
 						$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_master_tracks( $prepared_data );
@@ -533,8 +763,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						$prepared_data['post_type']         = 'speakers';
 						$prepared_data['exclude_from_meta'] = array( 'firstname', 'lastname', 'bio', 'photo' );
 						$prepared_data['typeidname']        = 'speakerid';
-						$prepared_data['sessionid']         = $sessionid;
-						$prepared_data['data']              = $data;
 
 						$prepared_data['title_name']       = 'firstname';
 						$prepared_data['description_name'] = 'bio';
@@ -548,11 +776,21 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						$prepared_data['post_type']         = 'sponsors';
 						$prepared_data['exclude_from_meta'] = array( 'sponsorname', 'logo' );
 						$prepared_data['typeidname']        = 'sponsorid';
-						$prepared_data['sessionid']         = $sessionid;
-						$prepared_data['data']              = $data;
 
-						$prepared_data['title_name']       = 'sponsorname';
-						$prepared_data['description_name'] = '';
+						$prepared_data['title_name'] = 'sponsorname';
+						$prepared_data['image_name'] = 'logo';
+
+						$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_insert_to_master( $prepared_data );
+						break;
+
+					case stristr( $data_type, 'single-exhibitor' ):
+
+						$prepared_data['post_type']         = 'exhibitors';
+						$prepared_data['exclude_from_meta'] = array( 'exhid', 'exhname', 'logo', 'description' );
+						$prepared_data['typeidname']        = 'exhid';
+
+						$prepared_data['title_name']       = 'exhname';
+						$prepared_data['description_name'] = 'description';
 						$prepared_data['image_name']       = 'logo';
 
 						$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_insert_to_master( $prepared_data );
@@ -578,12 +816,14 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			$item              = $prepared_data['item'];
 			$post_type         = $prepared_data['post_type'];
 			$exclude_from_meta = $prepared_data['exclude_from_meta'];
-			$sessionid         = $prepared_data['sessionid'];
+			$main_mys_value    = isset ( $prepared_data['main_mys_value'] ) ? $prepared_data['main_mys_value'] : '';
+			$main_mys_key      = ( 'exhibitors' !== $post_type ) ? 'sessionid' : 'exhid';
 			$typeidname        = $prepared_data['typeidname'];
 
+
 			$title_name       = $prepared_data['title_name'];
-			$description_name = $prepared_data['description_name'];
-			$image_name       = $prepared_data['image_name'];
+			$description_name = isset( $prepared_data['description_name'] ) ? $prepared_data['description_name'] : "";
+			$image_name       = isset( $prepared_data['image_name'] ) ? $prepared_data['image_name'] : '';
 
 
 			/**
@@ -603,46 +843,36 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				} else {
 					$title = $individual_item[ $title_name ];
 				}
-				$description = ( '' !== $description_name ) ? $individual_item[ $description_name ] : '';
-				$image_url   = $individual_item[ $image_name ];
+				$description = "" !== $description_name ? $individual_item[ $description_name ] : '';
 				$typeid      = $individual_item[ $typeidname ];
+
+				$image_url =
+					isset( $individual_item[ $image_name ] ) &&
+					strpos( $individual_item[ $image_name ], 'http' ) !== false
+						? $individual_item[ $image_name ] : "";
+
+				$args = array(
+					'post_type'  => array( $post_type ),
+					'meta_query' => array(
+						array(
+							'key'   => $typeidname,
+							'value' => $typeid,
+						),
+					),
+				);
+
+				//The Query
+				$already_available = new WP_Query( $args );
+
+				if ( isset( $already_available->posts[0]->ID ) ) {
+					$already_available_id = $already_available->posts[0]->ID;
+				}
+
+				// Restore original Post Data
+				wp_reset_postdata();
 
 				//If session status is not to "delete", get exisitng Post ID
 				if ( 0 !== $item_status ) {
-					$args = array(
-						'post_type'  => array( $post_type ),
-						'meta_query' => array(
-							array(
-								'key'   => $typeidname,
-								'value' => $typeid,
-							),
-						),
-					);
-
-					//The Query
-					$already_available = new WP_Query( $args );
-
-					if ( isset( $already_available->posts[0]->ID ) ) {
-						$already_available_id = $already_available->posts[0]->ID;
-					}
-
-					// Restore original Post Data
-					wp_reset_postdata();
-				}
-
-				if ( 0 === $item_status ) {
-					// This is for sessions only
-
-					if ( isset( $already_available_id ) ) {
-
-						$update_post_id = $already_available_id;
-						wp_trash_post( $update_post_id );
-
-						$post_detail .= "trash-$post_type-" . $update_post_id;
-					}
-
-				} else {
-
 					// session to add, so tracks maybe already there, if yes, no need to update them; if no, add them but..
 					// session to update, so tracks should be checked if available, if yes, update them otherwise add them.
 
@@ -663,13 +893,14 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 						foreach ( $individual_item as $name => $value ) {
 							if ( ! in_array( $name, $exclude_from_meta, true ) ) {
+								if ( is_array( $value ) ) {
+									$value = json_encode( $value, true );
+								}
 								update_post_meta( $update_post_id, $name, $value );
 							}
 						}
 
-						if ( "sessions" === $post_type ) {
-							update_post_meta( $update_post_id, 'sessionid', $sessionid );
-						}
+						update_post_meta( $update_post_id, $main_mys_key, $main_mys_value );
 
 						$post_detail .= "update-$post_type-" . $post_id;
 
@@ -690,35 +921,26 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 							// insert post meta
 							foreach ( $individual_item as $name => $value ) {
 								if ( ! in_array( $name, $exclude_from_meta, true ) ) {
+									if ( is_array( $value ) ) {
+										$value = json_encode( $value, true );
+									}
 									add_post_meta( $post_id, $name, $value );
 								}
 							}
-							update_post_meta( $post_id, 'sessionid', $sessionid );
+
+							update_post_meta( $post_id, $main_mys_key, $main_mys_value );
 						}
 
 						$post_detail .= "new-$post_type-" . $post_id;
+					} else {
+						$post_detail .= "already-added-$post_type-" . $already_available_id;
 					}
 
 					// Upload image if (1) item was new and added status was new OR (2) Item needs to be updated
-					if ( ( ! isset( $already_available_id ) && 1 === $item_status ) || 2 === $item_status ) {
-
-						if ( empty( $image_url ) ) {
-						/**
-						 * This is a dummy third party image array for testing.
-						 */
-						$image_url_array = array(
-							'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
-							'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
-							'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
-							'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
-							'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
-							'http://wallperio.com/data/out/184/images_605127984.jpg'
-						);
-
-						$random_image_key = array_rand( $image_url_array );
-						$image_url        = $image_url_array[ $random_image_key ];
-
-						}
+					if ( "sessions" !== $post_type &&
+					     ( ( ! isset( $already_available_id ) && 1 === $item_status ) || 2 === $item_status ) &&
+					     ! empty( $image_url )
+					) {
 
 						//Upload Third Party Image to WP Media Library
 						$attach_id = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url, $post_type );
@@ -726,52 +948,68 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 						$post_detail .= '-attach_id-' . $attach_id;
 					}
 
+					//Save or Update taxonomies.
+					if ( "sessions" === $post_type ) {
+
+						$level = $individual_item['level'];
+						if ( "" !== $level ) {
+							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $level, "session-levels", $post_id );
+						}
+
+						$type = $individual_item['type'];
+						if ( "" !== $type ) {
+							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $type, "session-types", $post_id );
+						}
+
+						$location = $individual_item['location'];
+						if ( "" !== $location ) {
+							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $location, "session-locations", $post_id );
+						}
+
+					} else if ( "speakers" === $post_type ) {
+
+						$company = $individual_item['company'];
+						if ( "" !== $company ) {
+							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $company, "speaker-companies", $post_id );
+						}
+
+					}
+
+					$post_ids_to_save_in_session .= $post_id . ',';
+					$post_detail                 .= '|';
+
+				} else if ( isset( $already_available_id ) && ( "sessions" === $post_type || "exhibitors" === $post_type ) ) {
+
+					// Deleteing session.
+					// This is for sessions only
+
+					$update_post_id = $already_available_id;
+					wp_trash_post( $update_post_id );
+
+					$post_detail .= "trash-$post_type-" . $update_post_id;
+
 				}
-
-				//Save taxonomies.
-				if ( "sessions" === $post_type ) {
-
-					$level = $individual_item['level'];
-					if ( "" !== $level ) {
-						$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $level, "session-levels", $post_id );
-					}
-
-					$type = $individual_item['type'];
-					if ( "" !== $type ) {
-						$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $type, "session-types", $post_id );
-					}
-
-				} else if ( "speakers" === $post_type ) {
-
-					$company = $individual_item['company'];
-					if ( "" !== $company ) {
-						$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $company, "speaker-companies", $post_id );
-					}
-
-				}
-
-				$post_ids_to_save_in_session .= $post_id . ',';
-				$post_detail                 .= '|';
 
 			}
 
-			if ( "sessions" !== $post_type ) {
+			// flush previous comma separated relations and add new once.
+			if ( "sessions" !== $post_type && "exhibitors" !== $post_type && null !== $data ) {
 				$post_ids_to_save_in_session = rtrim( $post_ids_to_save_in_session, ',' );
 
 				// Reseting sessions meta where (speaker/sponsors) are comma separated and adding new ids.
-				$session_post_id = $this->nab_mys_cron_get_session_postid( $sessionid );
+				$session_post_id = $this->nab_mys_cron_get_session_postid( $main_mys_value );
 				update_post_meta( $session_post_id, $post_type, $post_ids_to_save_in_session );
 
 				if ( '' !== $session_post_id ) {
 					$post_detail .= "to_session-$session_post_id";
 				} else {
-					$post_detail .= "not-found-sessionid-$sessionid";
+					$post_detail .= "not-found-sessionid-$main_mys_value";
 				}
+			} else if ( null == $data ) {
+				$post_detail .= 'JSON data is not in correct format';
 			}
 
-
 			$this->nab_mys_cron_master_confirmed( $item->DataID );
-
 
 			return $post_detail;
 		}
@@ -795,8 +1033,31 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 		}
 
 
-		public function nab_mys_cron_assign_single_term_by_name( $title, $taxonomy, $post_id ) {
+		public function nab_mys_cron_assign_single_term_by_name( $title, $taxonomy, $post_id, $args = array() ) {
 
+			$mys_item_id   = isset( $args['mys_item_id'] ) ? $args['mys_item_id'] : 0;
+			$mys_item_name = isset( $args['mys_item_name'] ) ? $args['mys_item_name'] : 0;
+			$mys_parent_id = isset( $args['mys_parent_id'] ) ? $args['mys_parent_id'] : 0;
+			$wp_parent_id  = 0;
+			$description   = isset( $args['description'] ) ? $args['description'] : '';
+
+			//get parent's wp/term id
+			if ( 0 !== $mys_parent_id ) {
+				//get tracks wp id from trackid of mys
+				$args        = array(
+					'hide_empty' => false, // also retrieve terms which are not used yet
+					'meta_query' => array(
+						array(
+							'key'   => $mys_item_name,
+							'value' => $mys_parent_id
+						)
+					),
+					'taxonomy'   => $taxonomy,
+				);
+				$parent_term = get_terms( $args );
+
+				$wp_parent_id = isset ( $parent_term[0]->term_id ) ? $parent_term[0]->term_id : 0;
+			}
 
 			$post_detail = '';
 
@@ -816,7 +1077,11 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				$term_id_data = wp_insert_term(
 					$title,
-					$taxonomy
+					$taxonomy,
+					array(
+						'description' => $description,
+						'parent'      => $wp_parent_id,
+					)
 				);
 
 				//Term already available on this point, then use it.
@@ -826,6 +1091,11 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				} else {
 					$term_post_id = $term_id_data['term_id'];
 					$post_detail  .= "new";
+				}
+
+				//insert term meta
+				if ( 0 !== $mys_item_id ) {
+					update_term_meta( $term_post_id, $mys_item_name, $mys_item_id );
 				}
 
 			}
@@ -841,7 +1111,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			$data      = $data_to_migrate['data'];
 			$item      = $data_to_migrate['item'];
-			$sessionid = $data_to_migrate['sessionid'];
+			$sessionid = $data_to_migrate['main_mys_value'];
 
 			/**
 			 * 0 - Deleted (This type will only available in Sessions)
@@ -929,24 +1199,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 				// Upload image if (1) item was new and added status was new OR (2) Item needs to be updated
 				if ( ( ! isset( $terms[0] ) && 1 === $item_status ) || 2 === $item_status ) {
 
-					if ( empty( $image_url ) ) {
-					/**
-					 * This is a dummy third party image array for testing.
-					 */
-					$image_url_array = array(
-						'https://thumbs.dreamstime.com/z/tragic-actor-theater-stage-man-medieval-suit-retro-cartoon-character-design-vector-illustration-77130060.jpg',
-						'http://1.bp.blogspot.com/_Nyiipr-yxiQ/TRwwhhYxv1I/AAAAAAAAOo0/FrI3FQno2M0/s400/Cartoon_voice_actors_05.jpg',
-						'https://image.shutterstock.com/image-photo/beautiful-water-drop-on-dandelion-260nw-789676552.jpg',
-						'https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-577160911.jpg',
-						'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg',
-						'http://wallperio.com/data/out/184/images_605127984.jpg'
-					);
-
-					$random_image_key = array_rand( $image_url_array );
-					$image_url        = $image_url_array[ $random_image_key ];
-
-					}
-
 					//Upload Third Party Image to WP Media Library
 					$attach_id = $this->nab_mys_media->nab_mys_upload_media( $track_post_id, $image_url, "tracks" );
 
@@ -980,7 +1232,6 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 			} else {
 				$return_detail .= $assigned_session;
 			}
-
 
 			$this->nab_mys_cron_master_confirmed( $item->DataID );
 
@@ -1019,17 +1270,26 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 			global $wpdb;
 
+			$data_type = 'exhibitors' === $requested_for ? 'modified-exhibitors' : 'modified-sessions';
+
 			$pending_data = $wpdb->get_results(
-				"SELECT HistoryGroupID FROM {$wpdb->prefix}mys_history
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->prefix}mys_history
 						WHERE HistoryStatus = '0'
-						AND HistoryDataType = 'modified-sessions'
+						AND HistoryDataType = '%s'
 						ORDER BY HistoryID
-						DESC LIMIT 1
-						"
+						ASC LIMIT 1
+						", $data_type )
 			); //db call ok; no-cache ok
 
 			if ( 0 === count( $pending_data ) ) {
+
 				return 0;
+
+			} else if ( 'exhibitors' === $requested_for ) {
+
+				return $pending_data;
+
 			}
 
 			$group_id = $pending_data[0]->HistoryGroupID;

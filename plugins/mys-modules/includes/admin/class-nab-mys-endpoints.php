@@ -16,7 +16,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 		private $flow;
 
-		private $nab_mys_db;
+		public $nab_mys_db;
 
 		private $requested_for;
 
@@ -46,8 +46,8 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		public function __construct() {
 
 			//Action for the Ajax Call from ( /assets/js/nab-mys-script.js ).
-			add_action( 'wp_ajax_nab_mys_sync_data', array( $this, 'nab_mys_sync_api' ) );
-			add_action( 'wp_ajax_nopriv_nab_mys_sync_data', array( $this, 'nab_mys_sync_api' ) );
+			add_action( 'wp_ajax_nab_mys_session_data', array( $this, 'nab_mys_sync_api' ) );
+			add_action( 'wp_ajax_nopriv_nab_mys_session_data', array( $this, 'nab_mys_sync_api' ) );
 
 			//Initialize Database Class Instance to store the Response Data.
 			$this->nab_mys_db = new NAB_MYS_DB();
@@ -123,7 +123,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 				if ( "open" !== $lock_status && ( null === $this->past_request || "" === $this->past_request ) ) {
 
-					$error_message = "New pull request is locked because already 1 request in progress, Please wait until it finishes.";
+					$error_message = "New pull request is locked because already 1 request in progress, please wait until it finishes.";
 
 					$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
 
@@ -151,7 +151,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 			$this->current_request = $this->nab_mys_requested_for_stack();
 
 			//Insert a pending row in History table
-			$this->history_id = $this->nab_mys_db->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, $this->flow );
+			$this->history_id = $this->nab_mys_db->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0, $this->flow );
 
 			//Get MYS API Request URL.
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
@@ -173,7 +173,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 					wp_die();
 				} else {
 					//CRON
-					echo esc_html( $error_message_html );
+					echo esc_html( $error_message );
 					die();
 				}
 
@@ -213,9 +213,9 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 				$custom_status = $this->nab_mys_db->nab_mys_db_insert_data_to_custom( $this->current_request, $mys_response_body, $this->history_id, $this->flow );
 
-				if ( false === $custom_status ) {
+				if ( false === $custom_status['status'] ) {
 
-					$error_message = "Modifed Sessions array is empty";
+					$error_message      = "Modifed Sessions array is empty";
 					$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
 
 					if ( "wpajax" === $this->flow ) {
@@ -243,7 +243,9 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 						array(
 							"pastItem"     => $this->current_request,
 							"requestedFor" => $this->requested_for,
-							"groupID"      => $this->group_id
+							"groupID"      => $this->group_id,
+							"totalCounts"  => $custom_status['total_counts'],
+							"totalItemStatuses"  => $custom_status['total_item_statuses']
 						)
 					);
 					wp_die();
@@ -264,7 +266,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 
 						echo esc_html( "$this->current_request_text fetched successfully." );
 
-						if ( "done" === $custom_status ) {
+						if ( "done" === $custom_status['status'] ) {
 							echo esc_html( " CRON sequence ($this->group_id) is now completed successfully." );
 						}
 						die();
@@ -381,7 +383,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				3 => "tracks",
 				4 => "sponsors",
 				5 => "exhibitors",
-				6 => "exhibitors - category"
+				6 => "exhibitor-categories"
 			);
 
 			if ( isset( $this->datatype ) ) {
@@ -401,7 +403,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @package MYS Modules
 		 */
-		private function nab_mys_api_call( $mys_request_url, $authorization ) {
+		public function nab_mys_api_call( $mys_request_url, $authorization ) {
 
 			$args    = array( 'showCode' => $this->show_code );
 			$method  = 'GET';
@@ -540,21 +542,28 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 		 *
 		 * @package MYS Modules
 		 */
-		private function nab_mys_get_request_url( $current_request ) {
+		public function nab_mys_get_request_url( $current_request ) {
 
-			$main_url                = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
+			$main_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
 
-			$fromDate   = isset ( $this->nab_mys_urls['datepicker'] ) ? $this->nab_mys_urls['datepicker'] : '';
-			$fromDate = date("Y-m-d", strtotime($fromDate));
-			$toDate = current_time('Y-m-d');
-			$modified_sessions_url   = isset ( $this->nab_mys_urls['modified_sessions_url'] ) ? $this->nab_mys_urls['modified_sessions_url'] : '';
-			$modified_sessions_url   = $modified_sessions_url . '?fromDate=' . $fromDate . '&toDate=' . $toDate;
+			$fromDate       = isset ( $this->nab_mys_urls['datepicker'] ) ? $this->nab_mys_urls['datepicker'] : '';
+			$fromDate       = date( "Y-m-d", strtotime( $fromDate ) );
+			$toDate         = current_time( 'Y-m-d' );
+			$modified_dates = '?fromDate=' . $fromDate . '&toDate=' . $toDate;
 
-			$sessions_url            = isset ( $this->nab_mys_urls['sessions_url'] ) ? $this->nab_mys_urls['sessions_url'] : '';
-			$tracks_url              = isset ( $this->nab_mys_urls['tracks_url'] ) ? $this->nab_mys_urls['tracks_url'] : '';
-			$sponsors_url            = isset ( $this->nab_mys_urls['sponsors_url'] ) ? $this->nab_mys_urls['sponsors_url'] : '';
-			$speakers_url            = isset ( $this->nab_mys_urls['speakers_url'] ) ? $this->nab_mys_urls['speakers_url'] : '';
+			$modified_sessions_url = isset ( $this->nab_mys_urls['modified_sessions_url'] ) ? $this->nab_mys_urls['modified_sessions_url'] : '';
+			$modified_sessions_url = $modified_sessions_url . $modified_dates;
+			$sessions_url          = isset ( $this->nab_mys_urls['sessions_url'] ) ? $this->nab_mys_urls['sessions_url'] : '';
+			$tracks_url            = isset ( $this->nab_mys_urls['tracks_url'] ) ? $this->nab_mys_urls['tracks_url'] : '';
+			$sponsors_url          = isset ( $this->nab_mys_urls['sponsors_url'] ) ? $this->nab_mys_urls['sponsors_url'] : '';
+			$speakers_url          = isset ( $this->nab_mys_urls['speakers_url'] ) ? $this->nab_mys_urls['speakers_url'] : '';
+
 			$exhibitors_url          = isset ( $this->nab_mys_urls['exhibitors_url'] ) ? $this->nab_mys_urls['exhibitors_url'] : '';
+			$modified_exhibitors_url = $exhibitors_url . $modified_dates;
+
+			$single_exhibitors_url = explode( '/Modified', $exhibitors_url );
+			$single_exhibitors_url = $single_exhibitors_url[0];
+
 			$exhibitors_category_url = isset ( $this->nab_mys_urls['exhibitors_category_url'] ) ? $this->nab_mys_urls['exhibitors_category_url'] : '';
 
 			switch ( $current_request ) {
@@ -583,11 +592,16 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 					break;
 
 				case "exhibitors":
-					$mys_request_url            = $main_url . $exhibitors_url;
+					$mys_request_url            = $main_url . $modified_exhibitors_url;
 					$this->current_request_text = "Exhibitors";
 					break;
 
-				case "exhibitors-category":
+				case "single-exhibitor":
+					$mys_request_url            = $main_url . $single_exhibitors_url;
+					$this->current_request_text = "Single Exhibitor";
+					break;
+
+				case "exhibitor-categories":
 					$mys_request_url            = $main_url . $exhibitors_category_url;
 					$this->current_request_text = "Exhibitors Categgory";
 					break;
@@ -635,7 +649,7 @@ if ( ! class_exists( 'NAB_MYS_Endpoints' ) ) {
 				$requested_for_stack = array(
 					"modified-exhibitors",
 					"exhibitors",
-					"exhibitors - category"
+					"exhibitor-categories"
 				);
 			}
 

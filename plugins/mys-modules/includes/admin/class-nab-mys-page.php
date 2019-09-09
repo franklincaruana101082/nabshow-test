@@ -19,6 +19,7 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 			//Register MYS Plugin Page
 			add_action( 'admin_menu', array( $this, 'nab_mys_page_fun' ), 9 );
 
+			//Register Assets
 			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_assets' ) );
 
 		}
@@ -36,7 +37,7 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 				wp_register_style(
 					'jquery-ui',
 					MYS_PLUGIN_URL . 'assets/css/jquery-ui.min.css'
-					/*'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'*/
+				/*'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'*/
 				);
 				wp_enqueue_style( 'jquery-ui' );
 			}
@@ -93,7 +94,9 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 		}
 
 		public function nab_mys_exhibitors_page_fun() {
+
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-exhibitors-page.php' );
+
 		}
 
 		/**
@@ -107,7 +110,7 @@ if ( ! class_exists( 'NAB_MYS_Sync' ) ) {
 			//Generate a New MYS API Token on load if expired after 1 hour
 			( new NAB_MYS_Endpoints() )->nab_mys_api_token_from_cache();
 
-			include_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-sync-page.php' );
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-sync-page.php' );
 		}
 	}
 }

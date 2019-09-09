@@ -77,7 +77,7 @@ function mys_modules_uninstall() {
 
 }
 
-//Class File - Admin Page
+//Class File - Admin Pages
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-page.php' );
 
 //Class File - DataBase Queries
@@ -85,6 +85,9 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-db.php'
 
 //Class File - Endpoints
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-endpoints.php' );
+
+//Class File - Exhibitors
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-exhibitors.php' );
 
 //Class File - Scripts & Styles
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-scripts.php' );
@@ -96,5 +99,9 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-tracks.php' );
 
 
-
-
+//ne_temp remove this before PR.
+add_filter( 'http_request_args', 'fergcorp_debug_url_request_args', 10, 2 );
+function fergcorp_debug_url_request_args( $r, $url ) {
+	$r["timeout"] = 20; //phpcs:ignore
+	return $r;
+}
