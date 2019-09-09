@@ -450,7 +450,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					exit();
 				}
 
-				if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos('testing', $_SERVER['HTTP_REFERER'] ) !== false ) {
+				if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos($_SERVER['HTTP_REFERER'], 'testing' ) !== false ) {
 					echo '<pre>';
 					print_r(get_defined_vars());
 					die('<br><---died here');
