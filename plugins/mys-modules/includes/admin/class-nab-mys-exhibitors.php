@@ -443,7 +443,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 				$exh_target_dir       = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
 				/*$exh_target_dir       = 'vip://wp-content/plugins/mys-modules/assets/uploads/';*/
-
+				$get_temp_dir = get_temp_dir();
+				$wp_tempnam = wp_tempnam();
 
 
 				$exh_target_file      = $exh_target_dir . $filename;
