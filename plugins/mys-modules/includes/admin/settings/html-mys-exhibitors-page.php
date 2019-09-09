@@ -17,6 +17,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 update_option( 'nab_mys_wizard_step', 3 );
 
 $success   = filter_input( INPUT_GET, 'success', FILTER_SANITIZE_STRING );
+$csvlink   = filter_input( INPUT_GET, 'csvlink', FILTER_SANITIZE_STRING );
 $msg_style = "display:none";
 $msg_html  = "";
 if ( isset ( $success ) ) {
@@ -24,7 +25,7 @@ if ( isset ( $success ) ) {
 
 	if ( 1 === (int) $success ) {
 		$msg_class = "highlighted-para";
-		$msg_html  = "The file is successfully uploaded and the exhibitor's migration process is started now, please check your inbox soon.";
+		$msg_html  = "The file is successfully uploaded <a href='$csvlink'>here</a> and the exhibitor's migration process is started now, please check your inbox soon.";
 
 	} else {
 
