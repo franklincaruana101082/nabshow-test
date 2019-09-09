@@ -105,3 +105,13 @@ function fergcorp_debug_url_request_args( $r, $url ) {
 	$r["timeout"] = 20; //phpcs:ignore
 	return $r;
 }
+
+
+// Function to allow .csv uploads
+function drick_custom_upload_mimes($mimes = array()) {
+
+	// Add a key and value for the CSV file type
+	$mimes['csv'] = "text/csv";
+	return $mimes;
+}
+add_filter('upload_mimes', 'drick_custom_upload_mimes');
