@@ -870,6 +870,7 @@ if ( ! class_exists( 'NAB_MYS_DB' ) ) {
 
 				// Restore original Post Data
 				wp_reset_postdata();
+					wp_reset_postdata();
 
 				//If session status is not to "delete", get exisitng Post ID
 				if ( 0 !== $item_status ) {

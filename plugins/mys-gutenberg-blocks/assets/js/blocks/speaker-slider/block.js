@@ -1,19 +1,18 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sqrImgOption, circleImgOption } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
-    class MYSDynamicSlider extends Component {
+    class MYSSpeakerSlider extends Component {
         constructor() {
             super(...arguments);
             this.state = {
                 bxSliderObj: {},
                 bxinit: false,
-                postTypeList: [],
                 taxonomiesList: [],
                 taxonomies: [],
                 taxonomiesObj: {},
@@ -27,18 +26,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         componentWillMount() {
             const { taxonomies } = this.props.attributes;
-            let postTypeKey,
-                postOptions = [],
-                excludePostTypes = ['attachment', 'wp_block'];
-
-            // Fetch all post types
-            wp.apiFetch({ path: '/wp/v2/types' }).then((postTypes) => {
-                postTypeKey = Object.keys(postTypes).filter(postType => ! excludePostTypes.includes(postType));
-                postTypeKey.forEach(function (key) {
-                    postOptions.push({ label: __(postTypes[key].name), value: __(postTypes[key].slug) });
-                });
-                this.setState({ postTypeList: postOptions });
-            });
 
             // Fetch all taxonomies
             wp.apiFetch({ path: '/wp/v2/taxonomies' }).then((taxonomies) => {
@@ -84,7 +71,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentDidUpdate(prevProps) {
-            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, postType, slideWidth, sliderActive, slideMargin } } = this.props;
+            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
@@ -108,10 +95,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 }
                             );
                         }, 1000);
-                    }
-                    if (postType !== prevProps.attributes.postType) {
-                        this.filterTaxonomy();
-                        this.setState({ bxinit: true });
                     }
                 }
             }
@@ -149,6 +132,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 pager,
                 controls,
                 sliderSpeed,
+                slideShape,
                 sliderActive,
                 postType,
                 taxonomies,
@@ -156,7 +140,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideWidth,
                 orderBy,
                 slideMargin,
-                displayTitle,
                 arrowIcons
             } = attributes;
 
@@ -201,12 +184,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     { label: __('Menu Order'), value: 'menu_order' },
                                 ]}
                                 onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                            />
-                            <SelectControl
-                                label={__('Select Post Type')}
-                                value={postType}
-                                options={this.state.postTypeList}
-                                onChange={(value) => { setAttributes({ postType: value, taxonomies: [], terms: {} }); this.setState({ taxonomies: [] }); }}
                             />
 
                             {0 < this.state.taxonomiesList.length &&
@@ -314,15 +291,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             }
                         </PanelBody>
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
+                            {/* <SelectControl
+                                label={__('Shape')}
+                                value={slideShape}
+                                options={[
+                                    { label: __('Rectangle'), value: 'rectangle' },
+                                    { label: __('Circle'), value: 'circle' },
+                                ]}
+                                onChange={(value) => { setAttributes({ slideShape: value }); this.setState({ bxinit: true }); }}
+                            /> */}
+                            <div>
+                                <label>Shape</label>
+                                <PanelRow>
+                                    <ul className="ss-off-options">
+                                        <li className={'rectangle' === slideShape ? 'active ' : ''} onClick={() => { setAttributes({ slideShape: 'rectangle' }); this.setState({ bxinit: true }); }}>{sqrImgOption}</li>
+                                        <li className={'circle' === slideShape ? 'active ' : ''} onClick={() => { setAttributes({ slideShape: 'circle' }); this.setState({ bxinit: true }); }}>{circleImgOption}</li>
+                                    </ul>
+                                </PanelRow>
+                            </div>
                             <ToggleControl
                                 label={__('Slider On/Off')}
                                 checked={sliderActive}
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
-                            />
-                            <ToggleControl
-                                label={__('Display Details')}
-                                checked={displayTitle}
-                                onChange={() => { setAttributes({ displayTitle: ! displayTitle }); this.setState({ bxinit: true }); }}
                             />
                             {sliderActive &&
                                 <Fragment>
@@ -389,7 +379,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </Fragment>
                             }
                         </PanelBody>
-                        { sliderActive && controls &&
+
+                        {sliderActive && controls &&
                             <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
                                 <ul className="slider-arrow-main">
                                     {names.map((item, index) => (
@@ -408,12 +399,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </ul>
                             </PanelBody>
                         }
-
                     </InspectorControls>
                     <div className={arrowIcons}>
                         <ServerSideRender
-                            block="mys/dynamic-slider"
-                            attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, displayTitle: displayTitle, arrowIcons: arrowIcons }}
+                            block="mys/speaker-slider"
+                            attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons }}
                         />
                     </div>
                 </Fragment >
@@ -449,13 +439,17 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'number',
             default: 500
         },
+        slideShape: {
+            type: 'string',
+            default: 'circle'
+        },
         sliderActive: {
             type: 'boolean',
             default: true
         },
         postType: {
             type: 'string',
-            default: 'post'
+            default: 'speakers'
         },
         taxonomies: {
             type: 'array',
@@ -477,22 +471,18 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'number',
             default: 30
         },
-        displayTitle: {
-            type: 'boolean',
-            default: false
-        },
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
         }
     };
-    registerBlockType('mys/dynamic-slider', {
-        title: __('Dynamic Slider'),
-        icon: 'lock',
+    registerBlockType('mys/speaker-slider', {
+        title: __('Speaker Slider'),
+        icon: 'megaphone',
         category: 'mysgb',
-        keywords: [__('dynamic'), __('slider')],
+        keywords: [__('speaker'), __('slider')],
         attributes: blockAttrs,
-        edit: MYSDynamicSlider,
+        edit: MYSSpeakerSlider,
         save() {
             return null;
         },

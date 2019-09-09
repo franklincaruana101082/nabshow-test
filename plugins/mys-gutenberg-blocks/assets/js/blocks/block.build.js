@@ -68,16 +68,19 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sessionSliderOff1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return sessionSliderOff2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return sessionSliderOn1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return sessionSliderOn2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return sliderArrow1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return sliderArrow2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return sliderArrow3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return sliderArrow4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return sliderArrow5; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return sliderArrow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return sessionSliderOff1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return sessionSliderOff2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return sessionSliderOff3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return sessionSliderOn1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return sessionSliderOn2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return sliderArrow1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return sliderArrow2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return sliderArrow3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return sliderArrow4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return sliderArrow5; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return sliderArrow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return sqrImgOption; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return circleImgOption; });
 var sessionSliderOff1 = wp.element.createElement(
   "svg",
   { version: "1.1", id: "sessionSliderOff1", x: "0px", y: "0px", width: "334px", height: "318px", viewBox: "-2.23 0 334 318", enableBackground: "new -2.23 0 334 318" },
@@ -155,6 +158,228 @@ var sessionSliderOff2 = wp.element.createElement(
       )
     )
   )
+);
+
+var sessionSliderOff3 = wp.element.createElement(
+  "svg",
+  { version: "1.1", id: "sessionSliderOff3", x: "0px", y: "0px", width: "676.334px", height: "306.833px", viewBox: "0 0 676.334 306.833", enableBackground: "new 0 0 676.334 306.833" },
+  wp.element.createElement("rect", { x: "1.5", y: "1.5", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "673.334", height: "303.833" }),
+  wp.element.createElement("rect", { x: "1.5", y: "1.5", fill: "#7B8080", width: "673.334", height: "59.167" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M53.233,37.639l-3.425,4.918l-2.418-1.985c-0.257-0.216-0.646-0.177-0.855,0.084 c-0.213,0.259-0.181,0.644,0.079,0.862l2.927,2.403c0.109,0.086,0.245,0.135,0.389,0.135c0.03,0,0.057,0,0.086-0.004 c0.162-0.023,0.319-0.116,0.418-0.25l3.802-5.467c0.19-0.282,0.127-0.662-0.15-0.85C53.802,37.29,53.426,37.359,53.233,37.639z" }),
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M53.734,33.997V22.07v-6.121c0-0.336-0.271-0.607-0.606-0.607h-3.059v-1.838 c0-0.341-0.275-0.612-0.615-0.612h-4.283c-0.34,0-0.611,0.271-0.611,0.612v1.838H31.099v-1.838c0-0.341-0.281-0.612-0.612-0.612 h-4.296c-0.335,0-0.6,0.271-0.6,0.612v1.838h-3.065c-0.339,0-0.611,0.271-0.611,0.607v6.121v25.094 c0,0.338,0.271,0.612,0.611,0.612h23.321C47.071,48.546,48.516,49,50.073,49c4.379,0,7.954-3.57,7.954-7.955 C58.018,37.986,56.273,35.32,53.734,33.997z M45.777,14.116h3.063v1.84v1.836h-3.063v-1.836V14.116z M26.811,14.116h3.06v1.84 v1.836h-3.06v-1.836V14.116z M23.131,16.57h2.453v1.835c0,0.339,0.269,0.612,0.604,0.612h4.296c0.331,0,0.611-0.273,0.611-0.612 V16.57h13.462v1.835c0,0.339,0.271,0.612,0.611,0.612h4.283c0.34,0,0.613-0.273,0.613-0.612V16.57h2.448v4.897H23.131V16.57 L23.131,16.57z M23.131,46.555V22.688h29.382v10.793c-0.121-0.04-0.241-0.071-0.368-0.097c-0.115-0.04-0.23-0.063-0.345-0.088 c-0.103-0.029-0.216-0.048-0.314-0.063c-0.15-0.034-0.302-0.053-0.448-0.074c-0.084-0.01-0.164-0.023-0.257-0.031 c-0.23-0.023-0.475-0.038-0.717-0.038c-0.215,0-0.409,0.015-0.613,0.038v-0.65v-1.226v-5.507H43.94h-1.223h-4.285h-1.227h-4.283 h-1.217h-5.519v5.507v1.226v4.281v1.226v5.511h5.519h1.217h4.283h1.227h4.063c0.013,0.053,0.034,0.101,0.058,0.162 c0.049,0.143,0.105,0.294,0.164,0.439c0.029,0.082,0.075,0.162,0.101,0.238c0.075,0.151,0.144,0.309,0.232,0.462 c0.035,0.065,0.076,0.122,0.107,0.185c0.09,0.164,0.188,0.322,0.281,0.477c0.043,0.053,0.081,0.104,0.116,0.162 c0.108,0.151,0.224,0.301,0.343,0.45c0.045,0.055,0.092,0.103,0.136,0.151c0.09,0.113,0.187,0.229,0.284,0.328H23.131V46.555z M46.584,33.907c-0.067,0.034-0.135,0.057-0.203,0.09c-0.109,0.063-0.224,0.128-0.333,0.191c-0.101,0.061-0.199,0.113-0.295,0.181 c-0.088,0.061-0.195,0.118-0.275,0.193c-0.105,0.076-0.22,0.152-0.314,0.223c-0.073,0.074-0.164,0.13-0.236,0.202 c-0.106,0.093-0.22,0.185-0.314,0.286c-0.071,0.065-0.138,0.13-0.215,0.198c-0.107,0.111-0.213,0.229-0.314,0.349 c-0.045,0.057-0.088,0.101-0.136,0.151v-3.493h4.284v0.839c-0.013,0.004-0.021,0.004-0.029,0.004 C47.639,33.459,47.092,33.65,46.584,33.907z M42.457,38.722c-0.024,0.067-0.037,0.143-0.057,0.217 c-0.047,0.175-0.103,0.354-0.13,0.532c-0.041,0.143-0.053,0.286-0.067,0.431c-0.021,0.114-0.043,0.233-0.058,0.345 c-0.026,0.265-0.041,0.532-0.041,0.801c0,0.223,0.015,0.446,0.037,0.671c0,0.044,0,0.076,0.004,0.124 c0.008,0.097,0.029,0.193,0.045,0.296l0,0c0.008,0.044,0.015,0.091,0.015,0.137h-3.77V37.99h4.288l0,0 c-0.01,0.019-0.01,0.036-0.016,0.046C42.611,38.259,42.523,38.491,42.457,38.722z M27.418,37.986h4.29v4.29h-4.29V37.986z M27.418,32.479h4.29v4.281h-4.29V32.479z M48.227,31.249h-4.285v-4.281h4.285V31.249z M42.719,31.249h-4.285v-4.281h4.285V31.249z M42.719,36.76h-4.285v-4.281h4.285V36.76z M32.922,32.479h4.283v4.281h-4.283V32.479z M37.205,31.249h-4.283v-4.281h4.283V31.249z M31.703,31.249H27.41v-4.281h4.293V31.249z M32.922,37.986h4.283v4.29h-4.283V37.986z M50.069,47.776 c-1.393,0-2.671-0.418-3.74-1.136c-0.209-0.143-0.405-0.292-0.59-0.456c-0.073-0.053-0.135-0.111-0.193-0.172 c-0.131-0.114-0.242-0.225-0.353-0.338c-0.074-0.08-0.138-0.152-0.216-0.229c-0.09-0.116-0.195-0.233-0.284-0.362 c-0.059-0.076-0.123-0.151-0.172-0.229c-0.136-0.193-0.263-0.399-0.382-0.605c-0.023-0.048-0.047-0.101-0.07-0.147 c-0.092-0.179-0.17-0.357-0.248-0.534c-0.027-0.078-0.056-0.162-0.086-0.242c-0.056-0.158-0.103-0.322-0.157-0.486 c-0.014-0.046-0.022-0.078-0.028-0.113c-0.07-0.269-0.123-0.542-0.156-0.808c-0.008-0.021-0.008-0.04-0.014-0.061 c-0.03-0.271-0.05-0.544-0.05-0.818c0-0.229,0.013-0.454,0.035-0.686c0-0.017,0.009-0.038,0.009-0.055 c0.022-0.212,0.056-0.414,0.099-0.622c0-0.023,0.009-0.038,0.016-0.057c0.043-0.208,0.093-0.406,0.157-0.607 c0.006-0.023,0.016-0.046,0.022-0.067c0.071-0.196,0.136-0.38,0.212-0.57c0.082-0.17,0.164-0.343,0.25-0.513l0.064-0.103 c0.024-0.046,0.053-0.084,0.078-0.134c0.108-0.177,0.222-0.349,0.341-0.52c0.029-0.04,0.062-0.08,0.095-0.12 c0.116-0.149,0.226-0.291,0.349-0.423c0.036-0.048,0.086-0.095,0.12-0.137c0.123-0.128,0.25-0.248,0.379-0.368 c0.045-0.044,0.093-0.08,0.142-0.124c0.15-0.13,0.308-0.25,0.471-0.37c0.022-0.021,0.045-0.038,0.076-0.057 c0.807-0.549,1.718-0.932,2.7-1.093l0.016-0.011c0.366-0.059,0.724-0.097,1.114-0.097c0.232,0,0.473,0.017,0.703,0.046 c0.039,0,0.076,0.01,0.106,0.017c0.202,0.025,0.397,0.055,0.596,0.097c0.027,0,0.053,0.017,0.073,0.017 c0.219,0.046,0.422,0.107,0.629,0.177c0.015,0,0.031,0.008,0.045,0.012c0.206,0.072,0.416,0.156,0.629,0.244 c2.322,1.062,3.949,3.411,3.949,6.129C56.792,44.761,53.771,47.776,50.069,47.776z" })
+  ),
+  wp.element.createElement("rect", { x: "68.719", y: "13.864", fill: "#FFFFFF", width: "169.729", height: "32.896" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "25.24", y: "97.368", fill: "#7B8080", width: "4.496", height: "2.288" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "25.24", y: "106.539", fill: "#7B8080", width: "4.496", height: "2.289" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "23.127", y: "101.948", fill: "#7B8080", width: "6.61", height: "2.298" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#7B8080", d: "M47.15,87.976c-8.333,0-15.122,6.787-15.122,15.125c0,8.337,6.788,15.12,15.122,15.12 c8.341,0,15.125-6.783,15.125-15.12C62.276,94.763,55.493,87.976,47.15,87.976z M47.15,115.925 c-7.072,0-12.825-5.75-12.825-12.824c0-7.076,5.757-12.828,12.825-12.828c7.069,0,12.829,5.752,12.829,12.828 C59.979,110.175,54.227,115.925,47.15,115.925z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("polygon", { fill: "#7B8080", points: "47.895,103.667 47.895,96.257 45.6,96.257 45.6,104.882 51.515,108.909 52.803,107.009 \t\t\t" })
+      )
+    )
+  ),
+  wp.element.createElement("rect", { x: "237.604", y: "97.349", fill: "#7B8080", width: "253", height: "11.5" }),
+  wp.element.createElement("rect", { x: "557.55", y: "96.391", fill: "#7B8080", width: "94.415", height: "13.416" }),
+  wp.element.createElement("rect", { x: "73.937", y: "96.391", fill: "#7B8080", width: "97.667", height: "13.416" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "26.084", y: "149.245", fill: "#7B8080", width: "4.496", height: "2.288" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "26.084", y: "158.416", fill: "#7B8080", width: "4.496", height: "2.289" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "23.971", y: "153.825", fill: "#7B8080", width: "6.61", height: "2.298" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#7B8080", d: "M47.994,139.853c-8.333,0-15.122,6.787-15.122,15.125c0,8.337,6.788,15.12,15.122,15.12 c8.341,0,15.125-6.783,15.125-15.12C63.12,146.64,56.337,139.853,47.994,139.853z M47.994,167.803 c-7.072,0-12.825-5.75-12.825-12.824c0-7.076,5.757-12.828,12.825-12.828c7.069,0,12.829,5.752,12.829,12.828 C60.823,162.053,55.07,167.803,47.994,167.803z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("polygon", { fill: "#7B8080", points: "48.738,155.544 48.738,148.134 46.444,148.134 46.444,156.76 52.359,160.785 53.647,158.887" })
+      )
+    )
+  ),
+  wp.element.createElement("rect", { x: "238.447", y: "149.226", fill: "#7B8080", width: "253", height: "11.5" }),
+  wp.element.createElement("rect", { x: "558.365", y: "148.268", fill: "#7B8080", width: "94.415", height: "13.416" }),
+  wp.element.createElement("rect", { x: "74.78", y: "148.268", fill: "#7B8080", width: "97.667", height: "13.416" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "25.875", y: "200.911", fill: "#7B8080", width: "4.496", height: "2.288" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "25.875", y: "210.082", fill: "#7B8080", width: "4.496", height: "2.289" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "23.762", y: "205.491", fill: "#7B8080", width: "6.61", height: "2.298" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#7B8080", d: "M47.785,191.52c-8.333,0-15.122,6.787-15.122,15.125s6.788,15.121,15.122,15.121 c8.341,0,15.125-6.783,15.125-15.121S56.128,191.52,47.785,191.52z M47.785,219.469c-7.072,0-12.825-5.75-12.825-12.824 c0-7.075,5.757-12.827,12.825-12.827c7.069,0,12.829,5.752,12.829,12.827C60.614,213.719,54.861,219.469,47.785,219.469z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("polygon", { fill: "#7B8080", points: "48.529,207.211 48.529,199.801 46.235,199.801 46.235,208.426 52.15,212.451 53.438,210.553" })
+      )
+    )
+  ),
+  wp.element.createElement("rect", { x: "238.238", y: "200.893", fill: "#7B8080", width: "253", height: "11.5" }),
+  wp.element.createElement("rect", { x: "558.163", y: "199.934", fill: "#7B8080", width: "94.415", height: "13.416" }),
+  wp.element.createElement("rect", { x: "74.571", y: "199.934", fill: "#7B8080", width: "97.667", height: "13.416" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "25.875", y: "251.911", fill: "#7B8080", width: "4.496", height: "2.288" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "25.875", y: "261.082", fill: "#7B8080", width: "4.496", height: "2.289" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("rect", { x: "23.762", y: "256.491", fill: "#7B8080", width: "6.61", height: "2.298" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#7B8080", d: "M47.785,242.52c-8.333,0-15.122,6.787-15.122,15.125s6.788,15.121,15.122,15.121 c8.341,0,15.125-6.783,15.125-15.121S56.128,242.52,47.785,242.52z M47.785,270.469c-7.072,0-12.825-5.75-12.825-12.824 c0-7.075,5.757-12.827,12.825-12.827c7.069,0,12.829,5.752,12.829,12.827C60.614,264.719,54.861,270.469,47.785,270.469z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("polygon", { fill: "#7B8080", points: "48.529,258.211 48.529,250.801 46.235,250.801 46.235,259.426 52.15,263.451 53.438,261.553" })
+      )
+    )
+  ),
+  wp.element.createElement("rect", { x: "238.238", y: "251.893", fill: "#7B8080", width: "253", height: "11.5" }),
+  wp.element.createElement("rect", { x: "558.163", y: "250.934", fill: "#7B8080", width: "94.415", height: "13.416" }),
+  wp.element.createElement("rect", { x: "74.571", y: "250.934", fill: "#7B8080", width: "97.667", height: "13.416" })
 );
 
 var sessionSliderOn1 = wp.element.createElement(
@@ -413,6 +638,33 @@ var sliderArrow6 = wp.element.createElement(
   )
 );
 
+var sqrImgOption = wp.element.createElement(
+  "svg",
+  { version: "1.1", id: "sqrImgOption", x: "0px", y: "0px", width: "91px", height: "91px", viewBox: "0 0 91 91", enableBackground: "new 0 0 91 91" },
+  wp.element.createElement("rect", { fill: "#7B8080", width: "91", height: "91" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M61.995,31.951H29.006c-0.326,0-0.59,0.263-0.59,0.589v25.92c0,0.326,0.264,0.589,0.59,0.589h32.989 c0.325,0,0.589-0.264,0.589-0.589V32.54C62.584,32.214,62.32,31.951,61.995,31.951z M61.406,57.871H29.595V33.129h31.812V57.871z"
+    }),
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M37.842,44.992c1.81,0,3.28-1.472,3.28-3.28c0-1.81-1.471-3.281-3.28-3.281s-3.28,1.472-3.28,3.281 S36.032,44.992,37.842,44.992z M37.842,39.609c1.159,0,2.103,0.944,2.103,2.103c0,1.159-0.943,2.103-2.103,2.103 s-2.103-0.943-2.103-2.102S36.683,39.609,37.842,39.609z" }),
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M32.54,55.515c0.138,0,0.277-0.048,0.389-0.146l9.61-8.461l6.068,6.068c0.23,0.23,0.603,0.23,0.833,0 s0.23-0.603,0-0.833l-2.832-2.832l5.409-5.922l6.634,6.081c0.239,0.22,0.612,0.203,0.832-0.037c0.22-0.239,0.204-0.613-0.036-0.832 l-7.069-6.48c-0.115-0.106-0.27-0.158-0.424-0.154c-0.156,0.007-0.304,0.076-0.409,0.191l-5.77,6.319l-2.794-2.794 c-0.221-0.22-0.573-0.231-0.807-0.026L32.15,54.483c-0.244,0.215-0.268,0.587-0.053,0.832 C32.214,55.448,32.377,55.515,32.54,55.515z" })
+  )
+);
+
+var circleImgOption = wp.element.createElement(
+  "svg",
+  { version: "1.1", id: "circleImgOption", x: "0px", y: "0px", width: "91px", height: "91px", viewBox: "0 0 91 91", enableBackground: "new 0 0 91 91" },
+  wp.element.createElement("ellipse", { fill: "#7B8080", cx: "45.751", cy: "45.613", rx: "45.002", ry: "45.273" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M62.246,32.064H29.257c-0.326,0-0.59,0.263-0.59,0.589v25.92c0,0.326,0.264,0.589,0.59,0.589h32.989 c0.325,0,0.589-0.264,0.589-0.589v-25.92C62.835,32.327,62.571,32.064,62.246,32.064z M61.657,57.984H29.846V33.242h31.812V57.984z " }),
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M38.093,45.105c1.81,0,3.28-1.472,3.28-3.28c0-1.81-1.471-3.281-3.28-3.281s-3.28,1.472-3.28,3.281 S36.283,45.105,38.093,45.105z M38.093,39.722c1.159,0,2.103,0.944,2.103,2.103c0,1.159-0.943,2.103-2.103,2.103 s-2.103-0.943-2.103-2.102S36.934,39.722,38.093,39.722z" }),
+    wp.element.createElement("path", { fill: "#FFFFFF", d: "M32.791,55.628c0.138,0,0.277-0.048,0.389-0.146l9.61-8.461l6.068,6.068c0.23,0.23,0.603,0.23,0.833,0 s0.23-0.603,0-0.833l-2.832-2.832l5.409-5.922l6.634,6.081c0.239,0.22,0.612,0.203,0.832-0.037c0.22-0.239,0.204-0.613-0.036-0.832 l-7.069-6.48c-0.115-0.106-0.27-0.158-0.424-0.154c-0.156,0.007-0.304,0.076-0.409,0.191l-5.77,6.319l-2.794-2.794 c-0.221-0.22-0.573-0.231-0.807-0.026l-10.024,8.826c-0.244,0.215-0.268,0.587-0.053,0.832 C32.465,55.561,32.628,55.628,32.791,55.628z" })
+  )
+);
+
 /***/ }),
 /* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -422,6 +674,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dynamic_slider_block__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sessions_slider_block__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__exhibitors_slider_block__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__speaker_slider_block__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sponsors_partners_block__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sponsors_partners_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__sponsors_partners_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__product_winner_block__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__product_winner_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__product_winner_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tracks_slider_block__ = __webpack_require__(8);
+
+
+
+
 
 
 
@@ -567,7 +829,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     pager = _props$attributes.pager,
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
-                    sliderMode = _props$attributes.sliderMode,
                     postType = _props$attributes.postType,
                     slideWidth = _props$attributes.slideWidth,
                     sliderActive = _props$attributes.sliderActive,
@@ -593,7 +854,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     pager: pager,
                                     controls: controls,
                                     speed: sliderSpeed,
-                                    mode: sliderMode
+                                    mode: 'horizontal'
                                 });
                             }, 1000);
                         }
@@ -617,11 +878,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         pager = _props$attributes2.pager,
                         controls = _props$attributes2.controls,
                         sliderSpeed = _props$attributes2.sliderSpeed,
-                        sliderMode = _props$attributes2.sliderMode,
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
+                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -653,21 +913,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     pager = attributes.pager,
                     controls = attributes.controls,
                     sliderSpeed = attributes.sliderSpeed,
-                    slideShape = attributes.slideShape,
                     sliderActive = attributes.sliderActive,
-                    sliderMode = attributes.sliderMode,
                     postType = attributes.postType,
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
                     slideWidth = attributes.slideWidth,
-                    flip = attributes.flip,
                     orderBy = attributes.orderBy,
                     slideMargin = attributes.slideMargin,
                     displayTitle = attributes.displayTitle,
                     arrowIcons = attributes.arrowIcons;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms)) {
@@ -947,29 +1204,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         }
                                     })
                                 )
-                            ),
-                            wp.element.createElement(SelectControl, {
-                                label: __('Shape'),
-                                value: slideShape,
-                                options: [{ label: __('Rectangle'), value: 'rectangle' }, { label: __('Circle'), value: 'circle' }],
-                                onChange: function onChange(value) {
-                                    setAttributes({ slideShape: value });_this5.setState({ bxinit: true });
-                                }
-                            }),
-                            !displayTitle && wp.element.createElement(
-                                Fragment,
-                                null,
-                                'circle' === slideShape && wp.element.createElement(ToggleControl, {
-                                    label: __('Is Flip'),
-                                    checked: flip,
-                                    onChange: function onChange() {
-                                        setAttributes({ flip: !flip });
-                                        _this5.setState({ bxinit: true });
-                                    }
-                                })
                             )
                         ),
-                        controls ? wp.element.createElement(
+                        sliderActive && controls && wp.element.createElement(
                             PanelBody,
                             { title: __('Slider Arrow'), initialOpen: false, className: 'range-setting' },
                             wp.element.createElement(
@@ -994,14 +1231,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ) : ''
+                        )
                     ),
                     wp.element.createElement(
                         'div',
                         { className: arrowIcons },
                         wp.element.createElement(ServerSideRender, {
                             block: 'mys/dynamic-slider',
-                            attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, flip: flip, orderBy: orderBy, displayTitle: displayTitle, arrowIcons: arrowIcons }
+                            attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, displayTitle: displayTitle, arrowIcons: arrowIcons }
                         })
                     )
                 );
@@ -1040,17 +1277,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 500
         },
-        slideShape: {
-            type: 'string',
-            default: 'rectangle'
-        },
         sliderActive: {
             type: 'boolean',
             default: true
-        },
-        sliderMode: {
-            type: 'string',
-            default: 'horizontal'
         },
         postType: {
             type: 'string',
@@ -1067,10 +1296,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         slideWidth: {
             type: 'number',
             default: 400
-        },
-        flip: {
-            type: 'boolean',
-            default: false
         },
         orderBy: {
             type: 'string',
@@ -1134,7 +1359,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
         PanelRow = wpComponents.PanelRow,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        DateTimePicker = wpComponents.DateTimePicker;
 
     var MYSSessionSlider = function (_Component) {
         _inherits(MYSSessionSlider, _Component);
@@ -1229,7 +1455,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     pager = _props$attributes.pager,
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
-                    sliderMode = _props$attributes.sliderMode,
                     slideWidth = _props$attributes.slideWidth,
                     sliderActive = _props$attributes.sliderActive,
                     slideMargin = _props$attributes.slideMargin;
@@ -1254,7 +1479,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     pager: pager,
                                     controls: controls,
                                     speed: sliderSpeed,
-                                    mode: sliderMode
+                                    mode: 'horizontal'
                                 });
                             }, 1000);
                         }
@@ -1274,11 +1499,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         pager = _props$attributes2.pager,
                         controls = _props$attributes2.controls,
                         sliderSpeed = _props$attributes2.sliderSpeed,
-                        sliderMode = _props$attributes2.sliderMode,
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
+                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -1311,7 +1535,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = attributes.controls,
                     sliderSpeed = attributes.sliderSpeed,
                     sliderActive = attributes.sliderActive,
-                    sliderMode = attributes.sliderMode,
                     postType = attributes.postType,
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
@@ -1320,10 +1543,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideMargin = attributes.slideMargin,
                     layout = attributes.layout,
                     sliderLayout = attributes.sliderLayout,
-                    arrowIcons = attributes.arrowIcons;
+                    arrowIcons = attributes.arrowIcons,
+                    sessionDate = attributes.sessionDate,
+                    metaDate = attributes.metaDate,
+                    taxonomyRelation = attributes.taxonomyRelation;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+
+                if (!sessionDate) {
+                    setAttributes({ sessionDate: moment().format('YYYY-MM-DDTHH:mm:ss') });
+                }
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms)) {
@@ -1341,14 +1571,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 500,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
                     })
                 );
 
-                if (this.state.isDisable) {
+                if (this.state.isDisable && sliderActive) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -1372,6 +1602,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
                                     setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Date Specific Session'),
+                                checked: metaDate,
+                                onChange: function onChange() {
+                                    setAttributes({ metaDate: !metaDate });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            metaDate && wp.element.createElement(
+                                'div',
+                                { className: 'inspector-field inspector-field-datetime components-base-control hide-time' },
+                                wp.element.createElement(
+                                    'label',
+                                    { className: 'inspector-mb-0' },
+                                    'Select Session Date'
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-ml-auto' },
+                                    wp.element.createElement(DateTimePicker, {
+                                        currentDate: sessionDate,
+                                        onChange: function onChange(date) {
+                                            setAttributes({ sessionDate: date });_this5.setState({ bxinit: true });
+                                        }
+                                    })
+                                )
+                            ),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Taxonomy Relation (AND)'),
+                                checked: taxonomyRelation,
+                                onChange: function onChange() {
+                                    setAttributes({ taxonomyRelation: !taxonomyRelation });_this5.setState({ bxinit: true });
                                 }
                             }),
                             0 < this.state.taxonomiesList.length && wp.element.createElement(
@@ -1500,14 +1763,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             { className: 'with-featured' === layout ? 'active with-featured' : 'with-featured', onClick: function onClick() {
                                                     return setAttributes({ layout: 'with-featured' });
                                                 } },
-                                            __WEBPACK_IMPORTED_MODULE_0__icons__["a" /* sessionSliderOff1 */]
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["b" /* sessionSliderOff1 */]
                                         ),
                                         wp.element.createElement(
                                             'li',
                                             { className: 'with-masonry' === layout ? 'active with-masonry' : 'with-masonry', onClick: function onClick() {
                                                     return setAttributes({ layout: 'with-masonry' });
                                                 } },
-                                            __WEBPACK_IMPORTED_MODULE_0__icons__["b" /* sessionSliderOff2 */]
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["c" /* sessionSliderOff2 */]
+                                        ),
+                                        wp.element.createElement(
+                                            'li',
+                                            { className: 'date-group' === layout ? 'active date-group ss-full-option' : 'date-group ss-full-option', onClick: function onClick() {
+                                                    return setAttributes({ layout: 'date-group' });
+                                                } },
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["d" /* sessionSliderOff3 */]
                                         )
                                     )
                                 )
@@ -1534,14 +1804,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 { className: 'layout-1' === sliderLayout ? 'active layout-1' : 'layout-1', onClick: function onClick() {
                                                         setAttributes({ sliderLayout: 'layout-1' });_this5.setState({ bxinit: true });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["c" /* sessionSliderOn1 */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* sessionSliderOn1 */]
                                             ),
                                             wp.element.createElement(
                                                 'li',
                                                 { className: 'layout-2' === sliderLayout ? 'active layout-2' : 'layout-2', onClick: function onClick() {
                                                         setAttributes({ sliderLayout: 'layout-2' });_this5.setState({ bxinit: true });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["d" /* sessionSliderOn2 */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* sessionSliderOn2 */]
                                             )
                                         )
                                     )
@@ -1677,7 +1947,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: 'mys/sessions-slider',
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation }
                     })
                 );
             }
@@ -1719,10 +1989,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'boolean',
             default: true
         },
-        sliderMode: {
-            type: 'string',
-            default: 'horizontal'
-        },
         postType: {
             type: 'string',
             default: 'sessions'
@@ -1758,6 +2024,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        metaDate: {
+            type: 'boolean',
+            default: false
+        },
+        sessionDate: {
+            type: 'string'
+        },
+        taxonomyRelation: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/sessions-slider', {
@@ -1992,7 +2269,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms)) {
@@ -2369,6 +2646,1719 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('exhibitors'), __('slider')],
         attributes: blockAttrs,
         edit: MYSExhibitorsSlider,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        PanelRow = wpComponents.PanelRow,
+        Disabled = wpComponents.Disabled,
+        ToggleControl = wpComponents.ToggleControl,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+    var MYSSpeakerSlider = function (_Component) {
+        _inherits(MYSSpeakerSlider, _Component);
+
+        function MYSSpeakerSlider() {
+            _classCallCheck(this, MYSSpeakerSlider);
+
+            var _this = _possibleConstructorReturn(this, (MYSSpeakerSlider.__proto__ || Object.getPrototypeOf(MYSSpeakerSlider)).apply(this, arguments));
+
+            _this.state = {
+                bxSliderObj: {},
+                bxinit: false,
+                taxonomiesList: [],
+                taxonomies: [],
+                taxonomiesObj: {},
+                termsObj: {},
+                filterTermsObj: {},
+                isDisable: false
+            };
+
+            _this.initSlider = _this.initSlider.bind(_this);
+            return _this;
+        }
+
+        _createClass(MYSSpeakerSlider, [{
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var taxonomies = this.props.attributes.taxonomies;
+
+                // Fetch all taxonomies
+
+                wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(function (taxonomies) {
+                    _this2.setState({ taxonomiesObj: taxonomies });
+                    _this2.filterTaxonomy();
+                });
+
+                // Fetch all terms
+                wp.apiFetch({ path: '/nab_api/request/all_terms' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms, taxonomies: taxonomies });
+                });
+            }
+        }, {
+            key: 'filterTaxonomy',
+            value: function filterTaxonomy() {
+                var postType = this.props.attributes.postType;
+
+                var postTaxonomiesOptions = [],
+                    taxonomies = this.state.taxonomiesObj,
+                    taxonomyKey = Object.keys(taxonomies);
+                taxonomyKey.forEach(function (key) {
+                    if (postType === taxonomies[key].types[0]) {
+                        postTaxonomiesOptions.push({ label: __(taxonomies[key].name), value: __(taxonomies[key].slug) });
+                    }
+                });
+                this.setState({ taxonomiesList: postTaxonomiesOptions });
+            }
+        }, {
+            key: 'filterTerms',
+            value: function filterTerms(value, taxonomy) {
+                var _this3 = this;
+
+                var filterTerms = {};
+                this.state.taxonomies.map(function (tax) {
+                    if (taxonomy === tax) {
+                        filterTerms[tax] = _this3.state.termsObj[tax].filter(function (term) {
+                            return -1 < term.name.toLowerCase().indexOf(value.toLowerCase());
+                        });
+                    } else {
+                        filterTerms[tax] = _this3.state.termsObj[tax];
+                    }
+                });
+                this.setState({ filterTermsObj: filterTerms });
+            }
+        }, {
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                this.setState({ bxinit: true });
+            }
+        }, {
+            key: 'componentDidUpdate',
+            value: function componentDidUpdate(prevProps) {
+                var _this4 = this;
+
+                var _props = this.props,
+                    clientId = _props.clientId,
+                    _props$attributes = _props.attributes,
+                    minSlides = _props$attributes.minSlides,
+                    autoplay = _props$attributes.autoplay,
+                    infiniteLoop = _props$attributes.infiniteLoop,
+                    pager = _props$attributes.pager,
+                    controls = _props$attributes.controls,
+                    sliderSpeed = _props$attributes.sliderSpeed,
+                    slideWidth = _props$attributes.slideWidth,
+                    sliderActive = _props$attributes.sliderActive,
+                    slideMargin = _props$attributes.slideMargin;
+
+                if (sliderActive) {
+                    if (this.state.bxinit) {
+                        setTimeout(function () {
+                            return _this4.initSlider();
+                        }, 500);
+                        this.setState({ bxinit: false });
+                    } else {
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
+                            setTimeout(function () {
+                                _this4.state.bxSliderObj.reloadSlider({
+                                    minSlides: minSlides,
+                                    maxSlides: minSlides,
+                                    moveSlides: 1,
+                                    slideMargin: slideMargin,
+                                    slideWidth: slideWidth,
+                                    auto: autoplay,
+                                    infiniteLoop: infiniteLoop,
+                                    pager: pager,
+                                    controls: controls,
+                                    speed: sliderSpeed,
+                                    mode: 'horizontal'
+                                });
+                            }, 1000);
+                        }
+                    }
+                }
+            }
+        }, {
+            key: 'initSlider',
+            value: function initSlider() {
+                var clientId = this.props.clientId;
+
+                if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
+                    var _props$attributes2 = this.props.attributes,
+                        minSlides = _props$attributes2.minSlides,
+                        autoplay = _props$attributes2.autoplay,
+                        infiniteLoop = _props$attributes2.infiniteLoop,
+                        pager = _props$attributes2.pager,
+                        controls = _props$attributes2.controls,
+                        sliderSpeed = _props$attributes2.sliderSpeed,
+                        slideWidth = _props$attributes2.slideWidth,
+                        slideMargin = _props$attributes2.slideMargin;
+
+                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
+                } else {
+                    this.setState({ bxinit: true });
+                }
+            }
+        }, {
+            key: 'isEmpty',
+            value: function isEmpty(obj) {
+                var key = void 0;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _this5 = this;
+
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    minSlides = attributes.minSlides,
+                    autoplay = attributes.autoplay,
+                    infiniteLoop = attributes.infiniteLoop,
+                    pager = attributes.pager,
+                    controls = attributes.controls,
+                    sliderSpeed = attributes.sliderSpeed,
+                    slideShape = attributes.slideShape,
+                    sliderActive = attributes.sliderActive,
+                    postType = attributes.postType,
+                    taxonomies = attributes.taxonomies,
+                    terms = attributes.terms,
+                    slideWidth = attributes.slideWidth,
+                    orderBy = attributes.orderBy,
+                    slideMargin = attributes.slideMargin,
+                    arrowIcons = attributes.arrowIcons;
+
+
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+
+                var isCheckedTerms = {};
+                if (!this.isEmpty(terms)) {
+                    isCheckedTerms = JSON.parse(terms);
+                }
+
+                var input = wp.element.createElement(
+                    'div',
+                    { className: 'inspector-field inspector-field-Numberofitems ' },
+                    wp.element.createElement(
+                        'label',
+                        { className: 'inspector-mb-0' },
+                        'Number of items'
+                    ),
+                    wp.element.createElement(RangeControl, {
+                        value: itemToFetch,
+                        min: 1,
+                        max: 20,
+                        onChange: function onChange(item) {
+                            setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
+                        }
+                    })
+                );
+
+                if (this.state.isDisable) {
+                    input = wp.element.createElement(
+                        Disabled,
+                        null,
+                        input
+                    );
+                }
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
+                            input,
+                            wp.element.createElement(SelectControl, {
+                                label: __('Order by'),
+                                value: orderBy,
+                                options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            0 < this.state.taxonomiesList.length && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    'label',
+                                    null,
+                                    __('Select Taxonomy')
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'fix-height-select' },
+                                    this.state.taxonomiesList.map(function (taxonomy, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, { checked: -1 < taxonomies.indexOf(taxonomy.value), label: taxonomy.label, name: 'taxonomy[]', value: taxonomy.value, onChange: function onChange(isChecked) {
+
+                                                    var index = void 0,
+                                                        tempTaxonomies = [].concat(_toConsumableArray(taxonomies)),
+                                                        tempTerms = terms;
+
+                                                    if (isChecked) {
+                                                        tempTaxonomies.push(taxonomy.value);
+                                                    } else {
+                                                        index = tempTaxonomies.indexOf(taxonomy.value);
+                                                        tempTaxonomies.splice(index, 1);
+                                                        if (!_this5.isEmpty(tempTerms)) {
+                                                            tempTerms = JSON.parse(tempTerms);
+                                                            delete tempTerms[taxonomy.value];
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                        }
+                                                    }
+                                                    _this5.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                    _this5.setState({ taxonomies: tempTaxonomies, bxinit: true });
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
+                            ),
+                            0 < this.state.taxonomies.length && wp.element.createElement(
+                                Fragment,
+                                null,
+                                this.state.taxonomies.map(function (taxonomy, index) {
+                                    return undefined !== _this5.state.filterTermsObj[taxonomy] && wp.element.createElement(
+                                        'div',
+                                        { key: index },
+                                        wp.element.createElement(
+                                            'label',
+                                            null,
+                                            __(taxonomy)
+                                        ),
+                                        wp.element.createElement(
+                                            'div',
+                                            { className: 'search-cat-side' },
+                                            7 < _this5.state.termsObj[taxonomy].length && wp.element.createElement(TextControl, {
+                                                type: 'string',
+                                                name: taxonomy,
+                                                placeHolder: 'Search ' + taxonomy,
+                                                onChange: function onChange(value) {
+                                                    return _this5.filterTerms(value, taxonomy);
+                                                }
+                                            })
+                                        ),
+                                        wp.element.createElement(
+                                            'div',
+                                            { className: 'fix-height-select' },
+                                            _this5.state.filterTermsObj[taxonomy].map(function (term, index) {
+                                                return wp.element.createElement(
+                                                    Fragment,
+                                                    { key: index },
+                                                    wp.element.createElement(CheckboxControl, { checked: isCheckedTerms[taxonomy] !== undefined && -1 < isCheckedTerms[taxonomy].indexOf(term.slug), label: term.name, name: taxonomy + '[]', value: term.slug, onChange: function onChange(isChecked) {
+
+                                                            var index = void 0,
+                                                                tempTerms = terms;
+                                                            if (!_this5.isEmpty(tempTerms)) {
+                                                                tempTerms = JSON.parse(tempTerms);
+                                                            }
+                                                            if (isChecked) {
+                                                                if (tempTerms[taxonomy] === undefined) {
+                                                                    tempTerms[taxonomy] = [term.slug];
+                                                                } else {
+                                                                    tempTerms[taxonomy].push(term.slug);
+                                                                }
+                                                            } else {
+                                                                index = tempTerms[taxonomy].indexOf(term.slug);
+                                                                tempTerms[taxonomy].splice(index, 1);
+                                                            }
+
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                            _this5.props.setAttributes({ terms: tempTerms });
+                                                            _this5.setState({ bxinit: true });
+                                                        }
+                                                    })
+                                                );
+                                            })
+                                        )
+                                    );
+                                })
+                            )
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Slider Settings '), initialOpen: false, className: 'range-setting' },
+                            wp.element.createElement(
+                                'div',
+                                null,
+                                wp.element.createElement(
+                                    'label',
+                                    null,
+                                    'Shape'
+                                ),
+                                wp.element.createElement(
+                                    PanelRow,
+                                    null,
+                                    wp.element.createElement(
+                                        'ul',
+                                        { className: 'ss-off-options' },
+                                        wp.element.createElement(
+                                            'li',
+                                            { className: 'rectangle' === slideShape ? 'active ' : '', onClick: function onClick() {
+                                                    setAttributes({ slideShape: 'rectangle' });_this5.setState({ bxinit: true });
+                                                } },
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sqrImgOption */]
+                                        ),
+                                        wp.element.createElement(
+                                            'li',
+                                            { className: 'circle' === slideShape ? 'active ' : '', onClick: function onClick() {
+                                                    setAttributes({ slideShape: 'circle' });_this5.setState({ bxinit: true });
+                                                } },
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["a" /* circleImgOption */]
+                                        )
+                                    )
+                                )
+                            ),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Slider On/Off'),
+                                checked: sliderActive,
+                                onChange: function onChange() {
+                                    setAttributes({ sliderActive: !sliderActive });_this5.setState({ bxinit: !sliderActive });
+                                }
+                            }),
+                            sliderActive && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Pager'),
+                                    checked: pager,
+                                    onChange: function onChange() {
+                                        return setAttributes({ pager: !pager });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Controls'),
+                                    checked: controls,
+                                    onChange: function onChange() {
+                                        return setAttributes({ controls: !controls });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Autoplay'),
+                                    checked: autoplay,
+                                    onChange: function onChange() {
+                                        return setAttributes({ autoplay: !autoplay });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Infinite Loop'),
+                                    checked: infiniteLoop,
+                                    onChange: function onChange() {
+                                        return setAttributes({ infiniteLoop: !infiniteLoop });
+                                    }
+                                }),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Slide Speed'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: sliderSpeed,
+                                        min: 100,
+                                        max: 1000,
+                                        step: 1,
+                                        onChange: function onChange(speed) {
+                                            return setAttributes({ sliderSpeed: parseInt(speed) });
+                                        }
+                                    })
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Items to Display'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: minSlides,
+                                        min: 1,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: function onChange(slide) {
+                                            return setAttributes({ minSlides: parseInt(slide) });
+                                        }
+                                    })
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Slide Width'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: slideWidth,
+                                        min: 50,
+                                        max: 1000,
+                                        step: 1,
+                                        onChange: function onChange(width) {
+                                            return setAttributes({ slideWidth: parseInt(width) });
+                                        }
+                                    })
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Slide Margin'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: slideMargin,
+                                        min: 0,
+                                        max: 100,
+                                        step: 1,
+                                        onChange: function onChange(width) {
+                                            return setAttributes({ slideMargin: parseInt(width) });
+                                        }
+                                    })
+                                )
+                            )
+                        ),
+                        sliderActive && controls && wp.element.createElement(
+                            PanelBody,
+                            { title: __('Slider Arrow'), initialOpen: false, className: 'range-setting' },
+                            wp.element.createElement(
+                                'ul',
+                                { className: 'slider-arrow-main' },
+                                names.map(function (item, index) {
+                                    return wp.element.createElement(
+                                        Fragment,
+                                        { key: index },
+                                        wp.element.createElement(
+                                            'li',
+                                            {
+                                                className: item.classnames + ' ' + (arrowIcons === item.classnames ? 'active' : ''),
+                                                key: index,
+                                                onClick: function onClick(e) {
+                                                    setAttributes({ arrowIcons: item.classnames });
+                                                    _this5.setState({ bxinit: true });
+                                                }
+                                            },
+                                            item.name
+                                        )
+                                    );
+                                })
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { className: arrowIcons },
+                        wp.element.createElement(ServerSideRender, {
+                            block: 'mys/speaker-slider',
+                            attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons }
+                        })
+                    )
+                );
+            }
+        }]);
+
+        return MYSSpeakerSlider;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 10
+        },
+        minSlides: {
+            type: 'number',
+            default: 4
+        },
+        autoplay: {
+            type: 'boolean',
+            default: false
+        },
+        infiniteLoop: {
+            type: 'boolean',
+            default: true
+        },
+        pager: {
+            type: 'boolean',
+            default: false
+        },
+        controls: {
+            type: 'boolean',
+            default: true
+        },
+        sliderSpeed: {
+            type: 'number',
+            default: 500
+        },
+        slideShape: {
+            type: 'string',
+            default: 'circle'
+        },
+        sliderActive: {
+            type: 'boolean',
+            default: true
+        },
+        postType: {
+            type: 'string',
+            default: 'speakers'
+        },
+        taxonomies: {
+            type: 'array',
+            default: []
+        },
+        terms: {
+            type: 'string',
+            default: {}
+        },
+        slideWidth: {
+            type: 'number',
+            default: 400
+        },
+        orderBy: {
+            type: 'string',
+            default: 'date'
+        },
+        slideMargin: {
+            type: 'number',
+            default: 30
+        },
+        arrowIcons: {
+            type: 'string',
+            default: 'slider-arrow-1'
+        }
+    };
+    registerBlockType('mys/speaker-slider', {
+        title: __('Speaker Slider'),
+        icon: 'megaphone',
+        category: 'mysgb',
+        keywords: [__('speaker'), __('slider')],
+        attributes: blockAttrs,
+        edit: MYSSpeakerSlider,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+    var MYSSponsorsPartners = function (_Component) {
+        _inherits(MYSSponsorsPartners, _Component);
+
+        function MYSSponsorsPartners() {
+            _classCallCheck(this, MYSSponsorsPartners);
+
+            var _this = _possibleConstructorReturn(this, (MYSSponsorsPartners.__proto__ || Object.getPrototypeOf(MYSSponsorsPartners)).apply(this, arguments));
+
+            _this.state = {
+                taxonomiesList: [],
+                taxonomies: [],
+                taxonomiesObj: {},
+                termsObj: {},
+                filterTermsObj: {},
+                isDisable: false
+            };
+            return _this;
+        }
+
+        _createClass(MYSSponsorsPartners, [{
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var taxonomies = this.props.attributes.taxonomies;
+
+                //Fetch all taxonomies
+
+                wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(function (taxonomies) {
+                    _this2.setState({ taxonomiesObj: taxonomies });
+                    _this2.filterTaxonomy();
+                });
+
+                // Fetch all terms
+                wp.apiFetch({ path: '/nab_api/request/all_terms' }).then(function (terms) {
+                    _this2.setState({
+                        termsObj: terms,
+                        filterTermsObj: terms,
+                        taxonomies: taxonomies
+                    });
+                });
+            }
+        }, {
+            key: 'filterTaxonomy',
+            value: function filterTaxonomy() {
+                var postType = this.props.attributes.postType;
+
+                var postTaxonomiesOptions = [],
+                    taxonomies = this.state.taxonomiesObj,
+                    taxonomyKey = Object.keys(taxonomies);
+                taxonomyKey.forEach(function (key) {
+                    if (postType === taxonomies[key].types[0]) {
+                        postTaxonomiesOptions.push({
+                            label: __(taxonomies[key].name),
+                            value: __(taxonomies[key].slug)
+                        });
+                    }
+                });
+                this.setState({ taxonomiesList: postTaxonomiesOptions });
+            }
+        }, {
+            key: 'filterTerms',
+            value: function filterTerms(value, taxonomy) {
+                var _this3 = this;
+
+                var filterTerms = {};
+                this.state.taxonomies.map(function (tax) {
+                    if (taxonomy === tax) {
+                        filterTerms[tax] = _this3.state.termsObj[tax].filter(function (term) {
+                            return -1 < term.name.toLowerCase().indexOf(value.toLowerCase());
+                        });
+                    } else {
+                        filterTerms[tax] = _this3.state.termsObj[tax];
+                    }
+                });
+                this.setState({ filterTermsObj: filterTerms });
+            }
+        }, {
+            key: 'componentDidUpdate',
+            value: function componentDidUpdate(prevProps) {
+                var postType = this.props.attributes.postType;
+
+                if (postType !== prevProps.attributes.postType) {
+                    this.filterTaxonomy();
+                }
+            }
+        }, {
+            key: 'isEmpty',
+            value: function isEmpty(obj) {
+                var key = void 0;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _this4 = this;
+
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    postType = attributes.postType,
+                    taxonomies = attributes.taxonomies,
+                    terms = attributes.terms,
+                    orderBy = attributes.orderBy;
+
+
+                var isCheckedTerms = {};
+                if (!this.isEmpty(terms)) {
+                    isCheckedTerms = JSON.parse(terms);
+                }
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
+                            wp.element.createElement(
+                                'div',
+                                { className: 'inspector-field inspector-field-Numberofitems ' },
+                                wp.element.createElement(
+                                    'label',
+                                    { className: 'inspector-mb-0' },
+                                    'Number of items'
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 20,
+                                    onChange: function onChange(item) {
+                                        setAttributes({ itemToFetch: parseInt(item) });_this4.setState({ bxinit: true, isDisable: true });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Order by'),
+                                value: orderBy,
+                                options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ orderBy: value });
+                                }
+                            }),
+                            0 < this.state.taxonomiesList.length && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    'label',
+                                    null,
+                                    ' ',
+                                    __('Select Taxonomy')
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'fix-height-select' },
+                                    this.state.taxonomiesList.map(function (taxonomy, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, {
+                                                checked: -1 < taxonomies.indexOf(taxonomy.value),
+                                                label: taxonomy.label,
+                                                name: 'taxonomy[]',
+                                                value: taxonomy.value,
+                                                onChange: function onChange(isChecked) {
+                                                    var index = void 0,
+                                                        tempTaxonomies = [].concat(_toConsumableArray(taxonomies)),
+                                                        tempTerms = terms;
+
+                                                    if (isChecked) {
+                                                        tempTaxonomies.push(taxonomy.value);
+                                                    } else {
+                                                        index = tempTaxonomies.indexOf(taxonomy.value);
+                                                        tempTaxonomies.splice(index, 1);
+                                                        if (!_this4.isEmpty(tempTerms)) {
+                                                            tempTerms = JSON.parse(tempTerms);
+                                                            delete tempTerms[taxonomy.value];
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                        }
+                                                    }
+                                                    _this4.props.setAttributes({
+                                                        terms: tempTerms,
+                                                        taxonomies: tempTaxonomies
+                                                    });
+                                                    _this4.setState({
+                                                        taxonomies: tempTaxonomies
+                                                    });
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
+                            ),
+                            0 < this.state.taxonomies.length && wp.element.createElement(
+                                Fragment,
+                                null,
+                                this.state.taxonomies.map(function (taxonomy, index) {
+                                    return undefined !== _this4.state.filterTermsObj[taxonomy] && wp.element.createElement(
+                                        'div',
+                                        { key: index },
+                                        wp.element.createElement(
+                                            'label',
+                                            null,
+                                            ' ',
+                                            __(taxonomy),
+                                            ' '
+                                        ),
+                                        wp.element.createElement(
+                                            'div',
+                                            { className: 'search-cat-side' },
+                                            7 < _this4.state.termsObj[taxonomy].length && wp.element.createElement(TextControl, {
+                                                type: 'string',
+                                                name: taxonomy,
+                                                placeHolder: 'Search ' + taxonomy,
+                                                onChange: function onChange(value) {
+                                                    return _this4.filterTerms(value, taxonomy);
+                                                }
+                                            })
+                                        ),
+                                        wp.element.createElement(
+                                            'div',
+                                            { className: 'fix-height-select' },
+                                            _this4.state.filterTermsObj[taxonomy].map(function (term, index) {
+                                                return wp.element.createElement(
+                                                    Fragment,
+                                                    { key: index },
+                                                    wp.element.createElement(CheckboxControl, {
+                                                        checked: isCheckedTerms[taxonomy] !== undefined && -1 < isCheckedTerms[taxonomy].indexOf(term.slug),
+                                                        label: term.name,
+                                                        name: taxonomy + '[]',
+                                                        value: term.slug,
+                                                        onChange: function onChange(isChecked) {
+                                                            var index = void 0,
+                                                                tempTerms = terms;
+                                                            if (!_this4.isEmpty(tempTerms)) {
+                                                                tempTerms = JSON.parse(tempTerms);
+                                                            }
+                                                            if (isChecked) {
+                                                                if (tempTerms[taxonomy] === undefined) {
+                                                                    tempTerms[taxonomy] = [term.slug];
+                                                                } else {
+                                                                    tempTerms[taxonomy].push(term.slug);
+                                                                }
+                                                            } else {
+                                                                index = tempTerms[taxonomy].indexOf(term.slug);
+                                                                tempTerms[taxonomy].splice(index, 1);
+                                                            }
+
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                            _this4.props.setAttributes({
+                                                                terms: tempTerms
+                                                            });
+                                                        }
+                                                    })
+                                                );
+                                            })
+                                        )
+                                    );
+                                })
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { className: true },
+                        wp.element.createElement(ServerSideRender, {
+                            block: 'mys/sponsors-partners',
+                            attributes: {
+                                itemToFetch: itemToFetch,
+                                postType: postType,
+                                orderBy: orderBy,
+                                taxonomies: taxonomies,
+                                terms: terms
+                            }
+                        })
+                    )
+                );
+            }
+        }]);
+
+        return MYSSponsorsPartners;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 10
+        },
+        postType: {
+            type: 'string',
+            default: 'sponsors'
+        },
+        taxonomies: {
+            type: 'array',
+            default: []
+        },
+        terms: {
+            type: 'string',
+            default: {}
+        },
+        orderBy: {
+            type: 'string',
+            default: 'date'
+        }
+    };
+    registerBlockType('mys/sponsors-partners', {
+        title: __('Sponsors and Partners'),
+        icon: 'lock',
+        category: 'mysgb',
+        keywords: [__('sponsors'), __('partners')],
+        attributes: blockAttrs,
+        edit: MYSSponsorsPartners,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+    var NabDynamicSlider = function (_Component) {
+        _inherits(NabDynamicSlider, _Component);
+
+        function NabDynamicSlider() {
+            _classCallCheck(this, NabDynamicSlider);
+
+            var _this = _possibleConstructorReturn(this, (NabDynamicSlider.__proto__ || Object.getPrototypeOf(NabDynamicSlider)).apply(this, arguments));
+
+            _this.state = {
+                taxonomiesList: [],
+                taxonomies: [],
+                taxonomiesObj: {},
+                termsObj: {},
+                filterTermsObj: {}
+            };
+            return _this;
+        }
+
+        _createClass(NabDynamicSlider, [{
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var taxonomies = this.props.attributes.taxonomies;
+
+                // Fetch all taxonomies
+
+                wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(function (taxonomies) {
+                    _this2.setState({ taxonomiesObj: taxonomies });
+                    _this2.filterTaxonomy();
+                });
+
+                // Fetch all terms
+                wp.apiFetch({ path: '/nab_api/request/all_terms' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms, taxonomies: taxonomies });
+                });
+            }
+        }, {
+            key: 'filterTaxonomy',
+            value: function filterTaxonomy() {
+                var postType = this.props.attributes.postType;
+
+                var postTaxonomiesOptions = [],
+                    taxonomies = this.state.taxonomiesObj,
+                    taxonomyKey = Object.keys(taxonomies);
+                taxonomyKey.forEach(function (key) {
+                    if (postType === taxonomies[key].types[0]) {
+                        postTaxonomiesOptions.push({ label: __(taxonomies[key].name), value: __(taxonomies[key].slug) });
+                    }
+                });
+                this.setState({ taxonomiesList: postTaxonomiesOptions });
+            }
+        }, {
+            key: 'filterTerms',
+            value: function filterTerms(value, taxonomy) {
+                var _this3 = this;
+
+                var filterTerms = {};
+                this.state.taxonomies.map(function (tax) {
+                    if (taxonomy === tax) {
+                        filterTerms[tax] = _this3.state.termsObj[tax].filter(function (term) {
+                            return -1 < term.name.toLowerCase().indexOf(value.toLowerCase());
+                        });
+                    } else {
+                        filterTerms[tax] = _this3.state.termsObj[tax];
+                    }
+                });
+                this.setState({ filterTermsObj: filterTerms });
+            }
+        }, {
+            key: 'isEmpty',
+            value: function isEmpty(obj) {
+                var key = void 0;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _this4 = this;
+
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    postType = attributes.postType,
+                    taxonomies = attributes.taxonomies,
+                    terms = attributes.terms,
+                    orderBy = attributes.orderBy;
+
+
+                var isCheckedTerms = {};
+                if (!this.isEmpty(terms)) {
+                    isCheckedTerms = JSON.parse(terms);
+                }
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
+                            wp.element.createElement(
+                                'div',
+                                { className: 'inspector-field inspector-field-Numberofitems ' },
+                                wp.element.createElement(
+                                    'label',
+                                    { className: 'inspector-mb-0' },
+                                    'Number of items'
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 20,
+                                    onChange: function onChange(item) {
+                                        return setAttributes({ itemToFetch: parseInt(item) });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Order by'),
+                                value: orderBy,
+                                options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }],
+                                onChange: function onChange(value) {
+                                    return setAttributes({ orderBy: value });
+                                }
+                            }),
+                            0 < this.state.taxonomiesList.length && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    'label',
+                                    null,
+                                    __('Select Taxonomy')
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'fix-height-select' },
+                                    this.state.taxonomiesList.map(function (taxonomy, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, { checked: -1 < taxonomies.indexOf(taxonomy.value), label: taxonomy.label, name: 'taxonomy[]', value: taxonomy.value, onChange: function onChange(isChecked) {
+
+                                                    var index = void 0,
+                                                        tempTaxonomies = [].concat(_toConsumableArray(taxonomies)),
+                                                        tempTerms = terms;
+
+                                                    if (isChecked) {
+                                                        tempTaxonomies.push(taxonomy.value);
+                                                    } else {
+                                                        index = tempTaxonomies.indexOf(taxonomy.value);
+                                                        tempTaxonomies.splice(index, 1);
+                                                        if (!_this4.isEmpty(tempTerms)) {
+                                                            tempTerms = JSON.parse(tempTerms);
+                                                            delete tempTerms[taxonomy.value];
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                            _this4.props.setAttributes({ terms: tempTerms });
+                                                        }
+                                                    }
+                                                    _this4.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                    _this4.setState({ taxonomies: tempTaxonomies });
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
+                            ),
+                            0 < this.state.taxonomies.length && wp.element.createElement(
+                                Fragment,
+                                null,
+                                this.state.taxonomies.map(function (taxonomy, index) {
+                                    return undefined !== _this4.state.filterTermsObj[taxonomy] && wp.element.createElement(
+                                        'div',
+                                        { key: index },
+                                        wp.element.createElement(
+                                            'label',
+                                            null,
+                                            __('Select Category from ' + taxonomy)
+                                        ),
+                                        7 < _this4.state.termsObj[taxonomy].length && wp.element.createElement(TextControl, {
+                                            type: 'string',
+                                            name: taxonomy,
+                                            onChange: function onChange(value) {
+                                                return _this4.filterTerms(value, taxonomy);
+                                            }
+                                        }),
+                                        wp.element.createElement(
+                                            'div',
+                                            { className: 'fix-height-select' },
+                                            _this4.state.filterTermsObj[taxonomy].map(function (term, index) {
+                                                return wp.element.createElement(
+                                                    Fragment,
+                                                    { key: index },
+                                                    wp.element.createElement(CheckboxControl, { checked: isCheckedTerms[taxonomy] !== undefined && isCheckedTerms[taxonomy][term.slug], label: term.name, name: taxonomy + '[]', value: term.slug, onChange: function onChange(isChecked) {
+
+                                                            var tempTerms = terms;
+                                                            if (!_this4.isEmpty(tempTerms)) {
+                                                                tempTerms = JSON.parse(tempTerms);
+                                                            }
+                                                            if (isChecked) {
+                                                                if (tempTerms[taxonomy] === undefined) {
+                                                                    tempTerms[taxonomy] = {};
+                                                                    tempTerms[taxonomy][term.slug] = { label: term.name, value: term.slug };
+                                                                } else {
+                                                                    tempTerms[taxonomy][term.slug] = { label: term.name, value: term.slug };
+                                                                }
+                                                            } else {
+                                                                delete tempTerms[taxonomy][term.slug];
+                                                            }
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                            _this4.props.setAttributes({ terms: tempTerms });
+                                                        }
+                                                    })
+                                                );
+                                            })
+                                        )
+                                    );
+                                })
+                            )
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: 'mys/product-winner',
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, orderBy: orderBy }
+                    })
+                );
+            }
+        }]);
+
+        return NabDynamicSlider;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 10
+        },
+        postType: {
+            type: 'string',
+            default: 'ntb-missed'
+        },
+        taxonomies: {
+            type: 'array',
+            default: []
+        },
+        terms: {
+            type: 'string',
+            default: {}
+        },
+        orderBy: {
+            type: 'string',
+            default: 'date'
+        }
+    };
+    registerBlockType('mys/product-winner', {
+        title: __('Product Winner'),
+        icon: 'lock',
+        category: 'mysgb',
+        keywords: [__('product'), __('winner'), __('showcase')],
+        attributes: blockAttrs,
+        edit: NabDynamicSlider,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        Disabled = wpComponents.Disabled,
+        ToggleControl = wpComponents.ToggleControl,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+    var MYSTracksSlider = function (_Component) {
+        _inherits(MYSTracksSlider, _Component);
+
+        function MYSTracksSlider() {
+            _classCallCheck(this, MYSTracksSlider);
+
+            var _this = _possibleConstructorReturn(this, (MYSTracksSlider.__proto__ || Object.getPrototypeOf(MYSTracksSlider)).apply(this, arguments));
+
+            _this.state = {
+                bxSliderObj: {},
+                bxinit: false,
+                isDisable: false
+            };
+
+            _this.initSlider = _this.initSlider.bind(_this);
+            return _this;
+        }
+
+        _createClass(MYSTracksSlider, [{
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                this.setState({ bxinit: true });
+            }
+        }, {
+            key: 'componentDidUpdate',
+            value: function componentDidUpdate() {
+                var _this2 = this;
+
+                var _props = this.props,
+                    clientId = _props.clientId,
+                    _props$attributes = _props.attributes,
+                    minSlides = _props$attributes.minSlides,
+                    autoplay = _props$attributes.autoplay,
+                    infiniteLoop = _props$attributes.infiniteLoop,
+                    pager = _props$attributes.pager,
+                    controls = _props$attributes.controls,
+                    sliderSpeed = _props$attributes.sliderSpeed,
+                    slideWidth = _props$attributes.slideWidth,
+                    sliderActive = _props$attributes.sliderActive,
+                    slideMargin = _props$attributes.slideMargin;
+
+                if (sliderActive) {
+                    if (this.state.bxinit) {
+                        setTimeout(function () {
+                            return _this2.initSlider();
+                        }, 500);
+                        this.setState({ bxinit: false });
+                    } else {
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
+                            setTimeout(function () {
+                                _this2.state.bxSliderObj.reloadSlider({
+                                    minSlides: minSlides,
+                                    maxSlides: minSlides,
+                                    moveSlides: 1,
+                                    slideMargin: slideMargin,
+                                    slideWidth: slideWidth,
+                                    auto: autoplay,
+                                    infiniteLoop: infiniteLoop,
+                                    pager: pager,
+                                    controls: controls,
+                                    speed: sliderSpeed,
+                                    mode: 'horizontal'
+                                });
+                            }, 1000);
+                        }
+                    }
+                }
+            }
+        }, {
+            key: 'initSlider',
+            value: function initSlider() {
+                var clientId = this.props.clientId;
+
+                if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
+                    var _props$attributes2 = this.props.attributes,
+                        minSlides = _props$attributes2.minSlides,
+                        autoplay = _props$attributes2.autoplay,
+                        infiniteLoop = _props$attributes2.infiniteLoop,
+                        pager = _props$attributes2.pager,
+                        controls = _props$attributes2.controls,
+                        sliderSpeed = _props$attributes2.sliderSpeed,
+                        slideWidth = _props$attributes2.slideWidth,
+                        slideMargin = _props$attributes2.slideMargin;
+
+                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
+                } else {
+                    this.setState({ bxinit: true });
+                }
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _this3 = this;
+
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    minSlides = attributes.minSlides,
+                    autoplay = attributes.autoplay,
+                    infiniteLoop = attributes.infiniteLoop,
+                    pager = attributes.pager,
+                    controls = attributes.controls,
+                    sliderSpeed = attributes.sliderSpeed,
+                    sliderActive = attributes.sliderActive,
+                    slideWidth = attributes.slideWidth,
+                    order = attributes.order,
+                    slideMargin = attributes.slideMargin,
+                    arrowIcons = attributes.arrowIcons,
+                    featuredTrack = attributes.featuredTrack;
+
+
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+
+                var input = wp.element.createElement(
+                    'div',
+                    { className: 'inspector-field inspector-field-Numberofitems ' },
+                    wp.element.createElement(
+                        'label',
+                        { className: 'inspector-mb-0' },
+                        'Number of items'
+                    ),
+                    wp.element.createElement(RangeControl, {
+                        value: itemToFetch,
+                        min: 1,
+                        max: 20,
+                        onChange: function onChange(item) {
+                            setAttributes({ itemToFetch: parseInt(item) });_this3.setState({ bxinit: true, isDisable: true });
+                        }
+                    })
+                );
+
+                if (this.state.isDisable && sliderActive) {
+                    input = wp.element.createElement(
+                        Disabled,
+                        null,
+                        input
+                    );
+                }
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
+                            input,
+                            wp.element.createElement(SelectControl, {
+                                label: __('Tracks Order'),
+                                value: order,
+                                options: [{ label: __('A → Z'), value: 'ASC' }, { label: __('Z → A'), value: 'DESC' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ order: value });_this3.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(CheckboxControl, {
+                                label: 'Featured Tracks',
+                                checked: featuredTrack,
+                                onChange: function onChange() {
+                                    setAttributes({ featuredTrack: !featuredTrack });_this3.setState({ bxinit: true });
+                                }
+                            })
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Slider Settings '), initialOpen: false, className: 'range-setting' },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Slider On/Off'),
+                                checked: sliderActive,
+                                onChange: function onChange() {
+                                    setAttributes({ sliderActive: !sliderActive });_this3.setState({ bxinit: !sliderActive });
+                                }
+                            }),
+                            sliderActive && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Pager'),
+                                    checked: pager,
+                                    onChange: function onChange() {
+                                        return setAttributes({ pager: !pager });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Controls'),
+                                    checked: controls,
+                                    onChange: function onChange() {
+                                        return setAttributes({ controls: !controls });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Autoplay'),
+                                    checked: autoplay,
+                                    onChange: function onChange() {
+                                        return setAttributes({ autoplay: !autoplay });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Infinite Loop'),
+                                    checked: infiniteLoop,
+                                    onChange: function onChange() {
+                                        return setAttributes({ infiniteLoop: !infiniteLoop });
+                                    }
+                                }),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Slide Speed'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: sliderSpeed,
+                                        min: 100,
+                                        max: 1000,
+                                        step: 1,
+                                        onChange: function onChange(speed) {
+                                            return setAttributes({ sliderSpeed: parseInt(speed) });
+                                        }
+                                    })
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Items to Display'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: minSlides,
+                                        min: 1,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: function onChange(slide) {
+                                            return setAttributes({ minSlides: parseInt(slide) });
+                                        }
+                                    })
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Slide Width'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: slideWidth,
+                                        min: 50,
+                                        max: 1000,
+                                        step: 1,
+                                        onChange: function onChange(width) {
+                                            return setAttributes({ slideWidth: parseInt(width) });
+                                        }
+                                    })
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field inspector-field-fontsize ' },
+                                    wp.element.createElement(
+                                        'label',
+                                        { className: 'inspector-mb-0' },
+                                        'Slide Margin'
+                                    ),
+                                    wp.element.createElement(RangeControl, {
+                                        value: slideMargin,
+                                        min: 0,
+                                        max: 100,
+                                        step: 1,
+                                        onChange: function onChange(width) {
+                                            return setAttributes({ slideMargin: parseInt(width) });
+                                        }
+                                    })
+                                )
+                            )
+                        ),
+                        sliderActive && controls && wp.element.createElement(
+                            Fragment,
+                            null,
+                            controls && wp.element.createElement(
+                                PanelBody,
+                                { title: __('Slider Arrow'), initialOpen: false, className: 'range-setting' },
+                                wp.element.createElement(
+                                    'ul',
+                                    { className: 'slider-arrow-main' },
+                                    names.map(function (item, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(
+                                                'li',
+                                                {
+                                                    className: item.classnames + ' ' + (arrowIcons === item.classnames ? 'active' : ''),
+                                                    key: index,
+                                                    onClick: function onClick(e) {
+                                                        setAttributes({ arrowIcons: item.classnames });
+                                                        _this3.setState({ bxinit: true });
+                                                    }
+                                                },
+                                                item.name
+                                            )
+                                        );
+                                    })
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: 'mys/tracks-slider',
+                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTrack: featuredTrack }
+                    })
+                );
+            }
+        }]);
+
+        return MYSTracksSlider;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 10
+        },
+        minSlides: {
+            type: 'number',
+            default: 4
+        },
+        autoplay: {
+            type: 'boolean',
+            default: false
+        },
+        infiniteLoop: {
+            type: 'boolean',
+            default: true
+        },
+        pager: {
+            type: 'boolean',
+            default: false
+        },
+        controls: {
+            type: 'boolean',
+            default: true
+        },
+        sliderSpeed: {
+            type: 'number',
+            default: 500
+        },
+        sliderActive: {
+            type: 'boolean',
+            default: true
+        },
+        slideWidth: {
+            type: 'number',
+            default: 400
+        },
+        order: {
+            type: 'string',
+            default: 'ASC'
+        },
+        slideMargin: {
+            type: 'number',
+            default: 30
+        },
+        arrowIcons: {
+            type: 'string',
+            default: 'slider-arrow-1'
+        },
+        featuredTrack: {
+            type: 'boolean',
+            default: false
+        }
+    };
+    registerBlockType('mys/tracks-slider', {
+        title: __('Tracks Slider'),
+        icon: 'lock',
+        category: 'mysgb',
+        keywords: [__('tracks'), __('slider')],
+        attributes: blockAttrs,
+        edit: MYSTracksSlider,
         save: function save() {
             return null;
         }

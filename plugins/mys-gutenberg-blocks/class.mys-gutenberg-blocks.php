@@ -242,21 +242,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             'type'    => 'number',
                             'default' => 500
                         ),
-                        'slideShape'   => array(
-                            'type'    => 'string',
-                            'default' => 'rectangle'
-                        ),
-                        'sliderMode'   => array(
-                            'type'    => 'string',
-                            'default' => 'horizontal'
-                        ),
                         'slideWidth'   => array(
                             'type'    => 'number',
                             'default' => 400
-                        ),
-                        'flip'         => array(
-                            'type'    => 'boolean',
-                            'default' => false
                         ),
                         'orderBy'      => array(
                             'type'    => 'string',
@@ -327,10 +315,6 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             'type'    => 'number',
                             'default' => 500
                         ),
-                        'sliderMode'   => array(
-                            'type'    => 'string',
-                            'default' => 'horizontal'
-                        ),
                         'slideWidth'   => array(
                             'type'    => 'number',
                             'default' => 400
@@ -354,7 +338,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         'arrowIcons' => array(
                             'type' => 'string',
                             'default' => 'slider-arrow-1'
-                        )
+                        ),
+                        'metaDate'    => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'sessionDate' => array(
+                            'type'    => 'string',
+                        ),
+                        'taxonomyRelation'  => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
 
                     ),
                     'render_callback' => array( $this, 'mysgb_session_slider_render_callback' ),
@@ -435,6 +430,196 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 )
             );
 
+            register_block_type( 'mys/speaker-slider', array(
+                    'attributes'      => array(
+                        'itemToFetch'  => array(
+                            'type'    => 'number',
+                            'default' => 10,
+                        ),
+                        'postType'     => array(
+                            'type'    => 'string',
+                            'default' => 'speakers',
+                        ),
+                        'taxonomies'   => array(
+                            'type'    => 'array',
+                            'default' => [],
+                            'items'   => [
+                                'type' => 'string'
+                            ]
+                        ),
+                        'terms'        => array(
+                            'type' => 'string'
+                        ),
+                        'sliderActive' => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'minSlides'    => array(
+                            'type'    => 'number',
+                            'default' => 4
+                        ),
+                        'autoplay'     => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'infiniteLoop' => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'pager'        => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'controls'     => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'sliderSpeed'  => array(
+                            'type'    => 'number',
+                            'default' => 500
+                        ),
+                        'slideShape'   => array(
+                            'type'    => 'string',
+                            'default' => 'circle'
+                        ),
+                        'slideWidth'   => array(
+                            'type'    => 'number',
+                            'default' => 400
+                        ),
+                        'orderBy'      => array(
+                            'type'    => 'string',
+                            'default' => 'date'
+                        ),
+                        'slideMargin'  => array(
+                            'type'    => 'number',
+                            'default' => 30
+                        ),
+                        'arrowIcons' => array(
+                            'type' => 'string',
+                            'default' => 'slider-arrow-1'
+                        )
+                    ),
+                    'render_callback' => array( $this, 'mysgb_speaker_slider_render_callback' ),
+                )
+            );
+
+            register_block_type( 'mys/sponsors-partners', array(
+                    'attributes'      => array(
+                        'itemToFetch'  => array(
+                            'type'    => 'number',
+                            'default' => 10,
+                        ),
+                        'postType'     => array(
+                            'type'    => 'string',
+                            'default' => 'sponsors',
+                        ),
+                        'taxonomies'   => array(
+                            'type'    => 'array',
+                            'default' => [],
+                            'items'   => [
+                                'type' => 'string'
+                            ]
+                        ),
+                        'terms'        => array(
+                            'type' => 'string'
+                        ),
+                        'orderBy'      => array(
+                            'type'    => 'string',
+                            'default' => 'date'
+                        ),
+                    ),
+                    'render_callback' => array( $this, 'mysgb_sponsors_partners_render_callback' ),
+                )
+            );
+            register_block_type( 'mys/product-winner', array(
+                    'attributes'      => array(
+                        'itemToFetch'  => array(
+                            'type'    => 'number',
+                            'default' => 10,
+                        ),
+                        'postType'     => array(
+                            'type'    => 'string',
+                            'default' => 'ntb-missed',
+                        ),
+                        'taxonomies'   => array(
+                            'type'    => 'array',
+                            'default' => [],
+                            'items'   => [
+                                'type' => 'string'
+                            ]
+                        ),
+                        'terms'        => array(
+                            'type' => 'string'
+                        ),
+                        'orderBy'      => array(
+                            'type'    => 'string',
+                            'default' => 'date'
+                        ),
+                    ),
+                    'render_callback' => array( $this, 'mysgb_product_winner_render_callback' ),
+                )
+            );
+
+            register_block_type( 'mys/tracks-slider', array(
+                    'attributes'      => array(
+                        'itemToFetch'  => array(
+                            'type'    => 'number',
+                            'default' => 10,
+                        ),
+                        'sliderActive' => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'minSlides'    => array(
+                            'type'    => 'number',
+                            'default' => 4
+                        ),
+                        'autoplay'     => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'infiniteLoop' => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'pager'        => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'controls'     => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'sliderSpeed'  => array(
+                            'type'    => 'number',
+                            'default' => 500
+                        ),
+                        'slideWidth'   => array(
+                            'type'    => 'number',
+                            'default' => 400
+                        ),
+                        'order'      => array(
+                            'type'    => 'string',
+                            'default' => 'ASC'
+                        ),
+                        'slideMargin'  => array(
+                            'type'    => 'number',
+                            'default' => 30
+                        ),
+                        'arrowIcons' => array(
+                            'type' => 'string',
+                            'default' => 'slider-arrow-1'
+                        ),
+                        'featuredTrack' => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        )
+
+                    ),
+                    'render_callback' => array( $this, 'mysgb_tracks_slider_render_callback' ),
+                )
+            );
+
         }
 
         /**
@@ -458,9 +643,6 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $pager          = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
             $controls       = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
             $slider_speed   = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
-            $slider_mode    = isset( $attributes['sliderMode'] ) ? $attributes['sliderMode'] : 'horizontal';
-            $slider_shape   = isset( $attributes['slideShape'] ) ? $attributes['slideShape'] : 'rectangle';
-            $flip           = isset( $attributes['flip'] ) ? $attributes['flip'] : false;
             $order_by       = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
             $slider_margin  = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
             $order          = 'date' === $order_by ? 'DESC' : 'ASC';
@@ -470,7 +652,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             $query          = get_transient( 'mysgb-get-dynamic-slider-post-cache' . $post_type );
 
-            if ( false === $query || is_user_logged_in() ) {
+            if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $query_args = array(
                     'post_type'      => $post_type,
                     'posts_per_page' => $posts_per_page,
@@ -493,7 +675,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $count_query_args = count($tax_query_args);
 
-                if ( $count_query_args > 0 ) {
+                if ( $count_query_args > 1 ) {
                     $query_args['tax_query'] = $tax_query_args;
                 }
 
@@ -510,7 +692,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             <?php
                     if ( $slider_active ) {
                     ?>
-                        <div class="nab-dynamic-slider nab-box-slider <?php echo esc_attr($class_name); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                        <div class="nab-dynamic-slider items-md nab-box-slider <?php echo esc_attr($class_name); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
                     <?php
                     } else {
                     ?>
@@ -524,16 +706,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     ?>
                         <div class="<?php echo $display_title ? esc_attr( 'item display-title' ) : esc_attr( 'item' ); ?>">
                         <?php
-                        if ( $display_title || ( 'circle' === $slider_shape && true === $flip ) ) {
+                        if ( $display_title ) {
                         ?>
                             <div class="flip-box">
                                 <div class="flip-box-inner">
                         <?php
                         }
                         ?>
-                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title(); ?>" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
+                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title(); ?>">
                         <?php
-                        if ( $display_title || ( 'circle' === $slider_shape && true === $flip ) ) {
+                        if ( $display_title ) {
                         ?>
                                     <div class="flip-box-back rounded-circle">
                                         <h6><?php echo esc_html( get_the_title() ); ?></h6>
@@ -571,39 +753,48 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_session_slider_render_callback( $attributes ) {
-            $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'sessions';
-            $taxonomies     = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
-            $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
-            $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
-            $slider_active  = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
-            $min_slides     = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
-            $slide_width    = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
-            $autoplay       = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
-            $infinite_loop  = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
-            $pager          = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
-            $controls       = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
-            $slider_speed   = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
-            $slider_mode    = isset( $attributes['sliderMode'] ) ? $attributes['sliderMode'] : 'horizontal';
-            $order_by       = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
-            $slider_margin  = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
-            $order          = 'date' === $order_by ? 'DESC' : 'ASC';
-            $layout         = isset( $attributes['layout'] ) && ! empty( $attributes['layout'] ) ? $attributes['layout'] : '';
-            $slider_layout  = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : '';
-            $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+            $post_type         = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'sessions';
+            $taxonomies        = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
+            $terms             = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
+            $posts_per_page    = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $slider_active     = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
+            $min_slides        = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
+            $slide_width       = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+            $autoplay          = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
+            $infinite_loop     = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
+            $pager             = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
+            $controls          = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
+            $slider_speed      = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
+            $order_by          = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
+            $slider_margin     = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+            $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+            $taxonomy_relation = isset( $attributes['taxonomyRelation'] ) && $attributes['taxonomyRelation'] ? 'AND' : 'OR';
+            $order             = 'date' === $order_by ? 'DESC' : 'ASC';
+            $layout            = isset( $attributes['layout'] ) && ! empty( $attributes['layout'] ) ? $attributes['layout'] : '';
+            $slider_layout     = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : '';
+            $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
-            if ( 'rand' === $order_by ) {
+            if ( 'date-group' === $layout &&  ! $slider_active ) {
+                $query  = get_transient( 'mys-get-session-date-group-post-cache' . $post_type );
+            } elseif ( 'rand' === $order_by ) {
                 $query  = get_transient( 'mys-get-session-slider-rand-post-cache' . $post_type );
             } else {
                 $query  = get_transient( 'mys-get-session-slider-post-cache' . $post_type );
             }
 
 
-            if ( false === $query || is_user_logged_in() ) {
+            if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
                 $query_args = array(
                     'post_type'      => $post_type,
                 );
 
-                if ( 'rand' !== $order_by ) {
+                if ( 'date-group' === $layout &&  ! $slider_active ) {
+                    $query_args['posts_per_page']       = $posts_per_page;
+                    $query_args['meta_key']             = 'date';
+                    $query_args['orderby']              = 'meta_value';
+                    $query_args['order']                = 'ASC';
+                } elseif ( 'rand' !== $order_by ) {
                     $query_args['posts_per_page']       = $posts_per_page;
                     $query_args['orderby']              = $order_by;
                     $query_args['order']                = $order;
@@ -614,7 +805,14 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     $query_args['ignore_sticky_posts']  = true;
                 }
 
-                $tax_query_args = array('relation' => 'OR');
+                if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+                     $session_date   = new DateTime( $attributes['sessionDate'] );
+                     $session_date   = $session_date->format( 'Y-m-d' );
+                     $query_args['meta_key'] = 'date';
+                     $query_args['meta_value'] = $session_date . ' 00:00:00';
+                }
+
+                $tax_query_args = array('relation' => $taxonomy_relation);
 
                 foreach ( $taxonomies as $taxonomy ) {
                     if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
@@ -628,170 +826,247 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $count_query_args = count($tax_query_args);
 
-                if ( $count_query_args > 0 ) {
+                if ( $count_query_args > 1 ) {
                     $query_args['tax_query'] = $tax_query_args;
                 }
 
                 $query = new WP_Query($query_args);
 
-                if ( 'rand' !== $order_by ) {
+                if ( 'date-group' === $layout &&  ! $slider_active ) {
+                    set_transient( 'mys-get-session-date-group-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                } elseif ( 'rand' !== $order_by ) {
                     set_transient( 'mys-get-session-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 } else {
                     set_transient( 'mys-get-session-slider-rand-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
             }
 
-            if ( 'rand' === $order_by ) {
-                $post_ids = $query->posts;
-                shuffle( $post_ids );
-                $post_ids = array_splice( $post_ids, 0, $posts_per_page );
-                $query = new WP_Query( array( 'post_type' => $post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
-            }
-
             ob_start();
+            if ( 'date-group' === $layout &&  ! $slider_active ) {
+                if ( $query->have_posts() ) {
+                ?>
+                    <div class="session-data schedule-main <?php echo esc_attr( $class_name ); ?>">
+                    <?php
+                    $date_group = '';
+                    $counter    = 0;
+                    $row_count  = 1;
+                    while ( $query->have_posts() ) {
+                        $query->the_post();
 
-            if ( $query->have_posts() ) {
-                ?>
-                    <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?>">
-                <?php
-                if ( $slider_active ) {
-                    $layout = '';
-                ?>
-                    <div class="nab-dynamic-slider nab-box-slider session" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                        $date       = get_post_meta( get_the_ID(), 'date', true );
+                        $start_time = get_post_meta( get_the_ID(), 'starttime', true );
+                        $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
+
+                        $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+                        $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+
+                        if ( $date_group !== $date ) {
+                            $date_group = $date;
+                            $row_count = 1;
+                        ?>
+                            <h2><?php echo esc_html( date("Y-m-d", strtotime( $date ) ) ); ?></h2>
+                            <div class="schedule-data">
+                        <?php
+                        }
+                        ?>
+                        <div class="schedule-row <?php echo $row_count > 5 ? esc_attr('hide-row') : ''; ?>">
+                            <div class="date">
+                                <p><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></p>
+                            </div>
+                            <div class="name">
+                                <strong><a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></strong>
+                            </div>
+                            <div class="details">
+                            <?php
+                                $speakers    = get_post_meta( get_the_ID(), 'speakers', true );
+                                $speaker_ids = explode(',', $speakers);
+                                $total_speakers = count( $speaker_ids );
+                                if ( ! empty( $speakers ) && $total_speakers > 0 ) {
+                                ?>
+                                    <p>
+                                    <?php
+                                    $cnt = 1;
+                                    foreach ( $speaker_ids as $speaker_id ) {
+                                        $speaker_name = get_the_title( $speaker_id );
+                                        if ( $total_speakers !== $cnt ) {
+                                            $speaker_name .= ', ';
+                                        }
+                                        echo esc_html( $speaker_name );
+                                        $cnt++;
+                                    }
+                                    ?>
+                                    </p>
+                                <?php
+                                } else {
+                                ?>
+                                        <p>-</p>
+                                <?php
+                                }
+                            ?>
+                            </div>
+                        </div>
+                       <?php
+                       if ( $row_count === 5 ) {
+                       ?>
+                            <div class="row-expand">
+                                <a href="javascript:void(0);" class="expand-btn">Expand</a>
+                            </div>
+                       <?php
+                       }
+                       $counter++;
+                       $next_post_id = isset( $query->posts[$counter]->ID ) ? get_post_meta( $query->posts[$counter]->ID, 'date', true ) : '';
+                       if ( $date_group !== $next_post_id ) {
+                       ?>
+                        </div>
+                       <?php
+                       }
+                       $row_count++;
+                    }
+                    ?>
+                    </div>
                 <?php
                 } else {
                 ?>
-                    <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo 'with-masonry' === $layout ? esc_attr('card_section') : esc_attr('');?>">
+                    <p>No posts found.</p>
                 <?php
                 }
+            } else {
+                if ( 'rand' === $order_by ) {
+                    $post_ids = $query->posts;
+                    shuffle( $post_ids );
+                    $post_ids = array_splice( $post_ids, 0, $posts_per_page );
+                    $query = new WP_Query( array( 'post_type' => $post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
+                }
 
-                while ( $query->have_posts() ) {
+                if ( $query->have_posts() ) {
+                    ?>
+                        <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+                    <?php
+                    if ( $slider_active ) {
+                        $layout = '';
+                    ?>
+                        <div class="nab-dynamic-slider nab-box-slider session" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                    <?php
+                    } else {
+                    ?>
+                        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo 'with-masonry' === $layout ? esc_attr('card_section') : esc_attr('');?>">
+                    <?php
+                    }
 
-                    $query->the_post();
+                    while ( $query->have_posts() ) {
 
-                    $date       = get_post_meta( get_the_ID(), 'date', true );
-                    $start_time = get_post_meta( get_the_ID(), 'starttime', true );
-                    $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
-                    $date       = date_format( date_create( $date ), 'M d' );
-                    $start_time = date_format( date_create( $start_time ), 'h:i a' );
-                    $end_time   = date_format( date_create( $end_time ), 'h:i a' );
+                        $query->the_post();
 
-                    $date_display_format = 'layout-1' === $slider_layout || ! $slider_active ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
-                 ?>
-                    <div class="item">
-                        <?php
-                        if ( 'with-featured' === $layout ) {
+                        $date       = get_post_meta( get_the_ID(), 'date', true );
+                        $start_time = get_post_meta( get_the_ID(), 'starttime', true );
+                        $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
+                        $date       = date_format( date_create( $date ), 'M d' );
+                        $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+                        $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
 
-                            if ( has_post_thumbnail( get_the_ID() ) ) {
-                                $thumbnail_url = get_the_post_thumbnail_url();
-                            } else {
-                                $thumbnail_url = plugins_url( 'assets/images/mys-placeholder.jpg', __FILE__ );
+                        $date_display_format = 'layout-1' === $slider_layout || ! $slider_active ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+                     ?>
+                        <div class="item">
+                            <?php
+                            if ( 'with-featured' === $layout ) {
+
+                                if ( has_post_thumbnail( get_the_ID() ) ) {
+                                    $thumbnail_url = get_the_post_thumbnail_url();
+                                } else {
+                                    $thumbnail_url = plugins_url( 'assets/images/mys-placeholder.jpg', __FILE__ );
+                                }
+                            ?>
+                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+                            <?php
                             }
-                        ?>
-                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
-                        <?php
-                        }
-                        ?>
+                            ?>
 
-                        <h4><?php echo esc_html( get_the_title() ); ?></h4>
-
-                        <?php
-                        if ( $slider_active ) {
-                        ?>
-                            <span class="caption"><?php echo 'layout-1' === $slider_layout ? esc_html( get_post_meta( get_the_ID(), 'type', true ) ) : esc_html( $date ); ?></span>
-                        <?php
-                        }
-                        ?>
-
-                        <span class="date-time"><?php echo esc_html( $date_display_format );?></span>
-
-                        <?php
-                        if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
-                        ?>
-                            <p><?php echo esc_html( get_the_excerpt() ); ?></p>
+                            <h4><?php echo esc_html( get_the_title() ); ?></h4>
 
                             <?php
-                                if ( 'with-masonry' === $layout ) {
+                            if ( $slider_active ) {
+                            ?>
+                                <span class="caption"><?php echo 'layout-1' === $slider_layout ? esc_html( get_post_meta( get_the_ID(), 'type', true ) ) : esc_html( $date ); ?></span>
+                            <?php
+                            }
+                            ?>
 
-                                    $speaker = get_post_meta( get_the_ID(), 'speakerid', true );
+                            <span class="date-time"><?php echo esc_html( $date_display_format );?></span>
 
-                                    if ( ! empty( $speaker ) ) {
+                            <?php
+                            if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
+                            ?>
+                                <p><?php echo esc_html( get_the_excerpt() ); ?></p>
 
-                                        $speaker_query = get_transient( 'mys-session-slider-speaker-post-cache' . $speaker );
+                                <?php
+                                    if ( 'with-masonry' === $layout ) {
 
-                                        if ( false === $speaker_query ) {
+                                        $speaker = get_post_meta( get_the_ID(), 'speakers', true );
 
-                                            $speaker_ids = explode(',', $speaker);
+                                        if ( ! empty( $speaker ) ) {
 
-                                            $speaker_query_args = array(
+                                            $speaker_ids         = explode(',', $speaker);
+                                            $speaker_query_args  = array(
                                                 'post_type'      => 'speakers',
-                                                'posts_per_page' => 10,
-                                                'meta_key'       => 'speakerid',
-                                                'meta_query'     => array(
-
-                                                        'key'       => 'speakerid',
-                                                        'value'     => $speaker_ids,
-                                                        'compare'   => 'IN'
-                                                )
+                                                'posts_per_page' => count( $speaker_ids ),
+                                                'post__in'       => $speaker_ids
                                             );
 
                                             $speaker_query = new WP_Query($speaker_query_args);
 
-                                            set_transient( 'mys-session-slider-speaker-post-cache' . $speaker, $speaker_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                                            if ( $speaker_query->have_posts() ) {
 
-                                        }
+                                                while ( $speaker_query->have_posts() ) {
 
-                                        if ( $speaker_query->have_posts() ) {
+                                                    $speaker_query->the_post();
 
-                                            while ( $speaker_query->have_posts() ) {
+                                                    if ( has_post_thumbnail( get_the_ID() ) ) {
+                                                        $speaker_thumbnail_url = get_the_post_thumbnail_url();
+                                                    } else {
+                                                        $speaker_thumbnail_url = plugins_url( 'assets/images/mys-placeholder.jpg', __FILE__ );
+                                                    }
 
-                                                $speaker_query->the_post();
+                                                    $speaker_job_title = get_post_meta( get_the_ID(), 'title', true );
+                                                    $speaker_company   = get_post_meta( get_the_ID(), 'company', true );
 
-                                                if ( has_post_thumbnail( get_the_ID() ) ) {
-                                                    $speaker_thumbnail_url = get_the_post_thumbnail_url();
-                                                } else {
-                                                    $speaker_thumbnail_url = plugins_url( 'assets/images/mys-placeholder.jpg', __FILE__ );
+                                                    ?>
+                                                        <div class="speaker-single">
+                                                            <div class="img-box">
+                                                                <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="rounded-circle" />
+                                                            </div>
+                                                            <div class="info-box">
+                                                                <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
+                                                                <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
+                                                                <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
+                                                            </div>
+                                                        </div>
+                                                    <?php
                                                 }
-
-                                                $speaker_job_title = get_post_meta( get_the_ID(), 'title', true );
-                                                $speaker_company   = get_post_meta( get_the_ID(), 'company', true );
-
-                                                ?>
-                                                    <div class="speaker-single">
-                                                        <div class="img-box">
-                                                            <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="rounded-circle" />
-                                                        </div>
-                                                        <div class="info-box">
-                                                            <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
-                                                            <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
-                                                            <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
-                                                        </div>
-                                                    </div>
-                                                <?php
                                             }
+
+                                            wp_reset_postdata();
                                         }
-
-                                        wp_reset_postdata();
                                     }
-                                }
-                             ?>
+                                 ?>
 
-                            <a href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
-                        <?php
-                        }
-                        ?>
+                                <a href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     </div>
+                </div>
+                <?php
+                } else {
+                ?>
+                    <p>No posts found.</p>
                 <?php
                 }
-                ?>
-                </div>
-            </div>
-            <?php
-            } else {
-            ?>
-                <p>No posts found.</p>
-            <?php
             }
+
 
             wp_reset_postdata();
 
@@ -801,9 +1076,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         /**
          * Fetch dynamic Exhibitors slider item/slide according to attributes
-         *
          * @param $attributes
-         *
          * @return string
          * @since 1.0.0
          */
@@ -823,22 +1096,19 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $slider_mode    = isset( $attributes['sliderMode'] ) ? $attributes['sliderMode'] : 'horizontal';
             $order_by       = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
             $slider_margin  = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
             $order          = 'date' === $order_by ? 'DESC' : 'ASC';
             $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
             $query          = get_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type );
 
-            if ( false === $query || is_user_logged_in() ) {
+            if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $query_args = array(
                     'post_type'      => $post_type,
                     'posts_per_page' => $posts_per_page,
                     'orderby'        => $order_by,
                     'order'          => $order,
                 );
-
-                if ( $slider_active ) {
-                    $query_args['meta_key'] = '_thumbnail_id';
-                }
 
                 $tax_query_args = array('relation' => 'OR');
 
@@ -854,7 +1124,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $count_query_args = count($tax_query_args);
 
-                if ( $count_query_args > 0 ) {
+                if ( $count_query_args > 1 ) {
                     $query_args['tax_query'] = $tax_query_args;
                 }
 
@@ -867,7 +1137,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             if ( $query->have_posts() ) {
                 ?>
-                    <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?>">
+                    <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
                 <?php
 
                     if ( $slider_active ) {
@@ -883,17 +1153,19 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     while ( $query->have_posts() ) {
 
                     $query->the_post();
-                    if ( has_post_thumbnail( get_the_ID() ) ) {
-                        $thumbnail_url = get_the_post_thumbnail_url();
-                    } else {
-                        $thumbnail_url = plugins_url( 'assets/images/mys-placeholder.jpg', __FILE__ );
-                    }
                     ?>
                         <div class="item">
                             <div class="item-inner">
-                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
-
                                 <?php
+                                if ( has_post_thumbnail( get_the_ID() ) ) {
+                                ?>
+                                    <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+                                <?php
+                                } elseif ( $slider_active ) {
+                                ?>
+                                     <h4 class="exhibitor-title"><?php echo esc_html( get_the_title() ); ?></h4>
+                                <?php
+                                }
                                 if ( ! $slider_active ) {
                                     $booth_number = get_post_meta( get_the_ID(), 'boothnumber', true );
                                 ?>
@@ -915,6 +1187,390 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             } else {
             ?>
                 <p>No posts found.</p>
+            <?php
+            }
+
+            wp_reset_postdata();
+
+            $html = ob_get_clean();
+            return $html;
+        }
+
+        /**
+         * Fetch dynamic speaker slider item/slide according to block attributes
+         * @param $attributes
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_speaker_slider_render_callback( $attributes ) {
+            $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'speakers';
+            $taxonomies     = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
+            $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
+            $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $slider_active  = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
+            $min_slides     = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
+            $slide_width    = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+            $autoplay       = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
+            $infinite_loop  = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
+            $pager          = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
+            $controls       = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
+            $slider_speed   = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
+            $slider_shape   = isset( $attributes['slideShape'] ) ? $attributes['slideShape'] : 'rectangle';
+            $order_by       = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
+            $slider_margin  = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+            $order          = 'date' === $order_by ? 'DESC' : 'ASC';
+            $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+            $item_class     = 'circle' === $slider_shape && $slider_active ? '' : 'display-title';
+
+            $query          = get_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type );
+
+            if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+                $query_args = array(
+                    'post_type'      => $post_type,
+                    'posts_per_page' => $posts_per_page,
+                    'orderby'        => $order_by,
+                    'order'          => $order,
+                    'meta_key'       => '_thumbnail_id',
+                );
+
+                $tax_query_args = array('relation' => 'OR');
+
+                foreach ( $taxonomies as $taxonomy ) {
+                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                        $tax_query_args[] = array (
+                            'taxonomy' => $taxonomy,
+                            'field'    => 'slug',
+                            'terms'    => $terms->{$taxonomy},
+                        );
+                    }
+                }
+
+                $count_query_args = count($tax_query_args);
+
+                if ( $count_query_args > 1 ) {
+                    $query_args['tax_query'] = $tax_query_args;
+                }
+
+                $query = new WP_Query($query_args);
+
+                set_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+            }
+
+            ob_start();
+
+            if ( $query->have_posts() ) {
+            ?>
+                <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+            <?php
+                    if ( $slider_active ) {
+                    ?>
+                        <div class="nab-dynamic-slider items-md nab-box-slider speakers" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                    <?php
+                    } else {
+                    ?>
+                        <div class="nab-dynamic-list nab-box-slider speakers">
+                    <?php
+                    }
+
+                    while ( $query->have_posts() ) {
+
+                        $query->the_post();
+
+                        $thumbnail_url = get_the_post_thumbnail_url();
+                    ?>
+                        <div class="item <?php echo esc_attr( $item_class ); ?>">
+                            <div class="flip-box">
+                                <div class="flip-box-inner">
+                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title(); ?>" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
+                                    <div class="flip-box-back rounded-circle">
+                                        <h6><?php echo esc_html( get_the_title() ); ?></h6>
+                                        <?php
+                                         if ( ! $slider_active ) {
+                                            $speaker_job_title = get_post_meta( get_the_ID(), 'title', true );
+                                            $speaker_company   = get_post_meta( get_the_ID(), 'company', true );
+                                         ?>
+                                            <p class="jobtilt"><?php echo esc_attr( $speaker_job_title ); ?></p>
+                                            <span class="company"><?php echo esc_attr( $speaker_company ); ?></span>
+                                         <?php
+                                         }
+                                         ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    </div>
+                </div>
+            <?php
+            } else {
+            ?>
+                <p>No posts found.</p>
+            <?php
+            }
+
+            wp_reset_postdata();
+
+            $html = ob_get_clean();
+            return $html;
+        }
+
+        /**
+         * Fetch dynamic sponsors and partner according to block attributes
+         * @param $attributes
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_sponsors_partners_render_callback( $attributes ) {
+            $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'sponsors';
+            $taxonomies     = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
+            $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
+            $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $order_by       = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
+            $order          = 'date' === $order_by ? 'DESC' : 'ASC';
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+
+            $query          = get_transient( 'mysgb-get-sponsors-partners-post-cache' . $post_type );
+
+            if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
+                $query_args = array(
+                    'post_type'      => $post_type,
+                    'posts_per_page' => $posts_per_page,
+                    'orderby'        => $order_by,
+                    'order'          => $order,
+                    'meta_key'       => '_thumbnail_id',
+                );
+
+                $tax_query_args = array('relation' => 'OR');
+
+                foreach ( $taxonomies as $taxonomy ) {
+                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                        $tax_query_args[] = array (
+                            'taxonomy' => $taxonomy,
+                            'field'    => 'slug',
+                            'terms'    => $terms->{$taxonomy},
+                        );
+                    }
+                }
+
+                $count_query_args = count($tax_query_args);
+
+                if ( $count_query_args > 1 ) {
+                    $query_args['tax_query'] = $tax_query_args;
+                }
+
+                $query = new WP_Query($query_args);
+
+                set_transient( 'mysgb-get-sponsors-partners-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+            }
+
+            ob_start();
+
+            if ( $query->have_posts() ) {
+            ?>
+                <ul class="partner-listing <?php echo esc_attr( $class_name ); ?>">
+            <?php
+                while ( $query->have_posts() ) {
+
+                    $query->the_post();
+                    $thumbnail_url = get_the_post_thumbnail_url();
+
+                    ?>
+                        <li>
+                            <figure class="partner-img-box"><img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>"></figure>
+                        </li>
+                    <?php
+                }
+            ?>
+                </ul>
+            <?php
+            } else {
+            ?>
+                <p>No posts found.</p>
+            <?php
+            }
+
+            wp_reset_postdata();
+
+            $html = ob_get_clean();
+            return $html;
+        }
+
+        /**
+         * Fetch dynamic product winner according to block attributes
+         * @param $attributes
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_product_winner_render_callback( $attributes ) {
+            $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'ntb-missed';
+            $taxonomies     = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array('portfolio-category');
+            $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'], true ): array();
+            $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $order_by       = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
+            $order          = 'date' === $order_by ? 'DESC' : 'ASC';
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+
+            ob_start();
+            foreach ( $taxonomies as $taxonomy ) {
+
+                if ( count( array_filter( ( array_values( $terms ) ) ) ) > 0 && count( $terms[$taxonomy] ) > 0 ) {
+                    $final_terms = array();
+                    $cnt = 0;
+                    foreach ( $terms[$taxonomy] as $term ) {
+                        $final_terms[$cnt] = new stdClass();
+                        $final_terms[$cnt]->slug = $term['value'];
+                        $final_terms[$cnt]->name = $term['label'];
+                        $cnt++;
+                    }
+
+                } else {
+                    $final_terms = get_terms( $taxonomy, array( 'hide_empty' => 0 ) );
+                }
+
+                foreach ( $final_terms as $term ) {
+
+                    $args = array( 'post_type' => $post_type, $taxonomy => $term->slug, 'posts_per_page' => $posts_per_page, 'orderby' => $order_by, 'order' => $order );
+                    $query = new WP_Query( $args );
+
+                    if ( $query->have_posts() ) {
+                    ?>
+                        <div class="products-winners <?php echo esc_attr( $class_name ); ?>">
+                            <h2 class="product-title"><?php echo esc_html( $term->name ); ?></h2>
+                            <div class="product-main">
+                    <?php
+                        while ( $query->have_posts() ) {
+                            $query->the_post();
+                        ?>
+                                <div class="product-item">
+                                    <div class="product-inner">
+                                    <?php
+                                    if ( has_post_thumbnail() ) {
+                                    ?>
+                                        <div class="media-img">
+                                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" class="img" alt="<?php echo esc_attr( get_the_title() ); ?>">
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
+                                        <h3 class="title">
+                                            <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                                        </h3>
+                                        <span class="subtitle">Company Name</span>
+                                        <p class="content"><?php echo esc_html( get_the_excerpt() ); ?></p>
+                                    </div>
+                                </div>
+                        <?php
+                        }
+                        ?>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    wp_reset_postdata();
+                }
+            }
+
+            $html = ob_get_clean();
+            return $html;
+        }
+
+        /**
+         * Fetch sessions tracks according to block attributes
+         * @param $attributes
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_tracks_slider_render_callback( $attributes ) {
+            $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $slider_active  = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
+            $min_slides     = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
+            $slide_width    = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+            $autoplay       = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
+            $infinite_loop  = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
+            $pager          = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
+            $controls       = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
+            $slider_speed   = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
+            $order          = isset( $attributes['order'] ) ? $attributes['order'] : 'ASC';
+            $slider_margin  = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+            $featured_track       = isset( $attributes['featuredTrack'] ) ? $attributes['featuredTrack'] : false;
+            $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+
+            $terms          = get_transient( 'mys-get-tracks-slider-post-cache-' . $featured_track );
+
+            if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
+                $args = array(
+                    'taxonomy'   => 'tracks',
+                    'hide_empty' => false,
+                    'number'     => $posts_per_page,
+                    'orderBy'    => 'name',
+                    'order'      => $order,
+                    );
+
+                $meta_query = array();
+
+                $meta_query[] = array(
+                               'key'       => 'tracks-image-id',
+                               'value'     => '',
+                               'compare'   => '!='
+                            );
+                if ( $featured_track ) {
+                    $meta_query['relation'] = 'AND';
+                    $meta_query[] = array(
+                               'key'       => 'featured_tag',
+                               'value'     => 'on',
+                               'compare'   => '='
+                            );
+                }
+                $args['meta_query'] = $meta_query;
+                $terms = get_terms( $args );
+
+                set_transient( 'mys-get-tracks-slider-post-cache-' . $featured_track, $terms, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+            }
+
+            ob_start();
+
+            if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                ?>
+                    <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+                <?php
+
+                    if ( $slider_active ) {
+                    ?>
+                        <div class="nab-dynamic-slider nab-box-slider tracks" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                    <?php
+                    } else {
+                    ?>
+                        <div class="nab-dynamic-list tracks">
+                    <?php
+                    }
+
+                    foreach ( $terms as $term ) {
+                         $image_id = get_term_meta( $term->term_id, 'tracks-image-id', true );
+                         $image_url = wp_get_attachment_url( $image_id );
+                    ?>
+                        <div class="item">
+                            <div class="item-inner">
+                                <?php if ( ! empty( $image_url ) ) { ?>
+                                    <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $term->name ); ?>">
+                                <?php } ?>
+                                <h4><?php echo esc_html( $term->name ); ?></h4>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
+            <?php
+            } else {
+            ?>
+                <p>Tracks Not Found.</p>
             <?php
             }
 
