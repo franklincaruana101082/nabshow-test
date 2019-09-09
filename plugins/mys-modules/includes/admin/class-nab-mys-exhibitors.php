@@ -476,7 +476,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				$csv_content = '1,hello,admin';
 				$upload_status = file_put_contents( $exh_target_file, $csv_content );
 
-				/*if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {*/
+				if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 				//if ( $upload_status ) {
 
 					$row      = 0;
@@ -506,10 +506,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 						fclose( $handle );
 					}
 
-					echo '<pre>';
-					print_r(get_defined_vars());
-					die('<br><---died here');
-
 					if ( isset( $exh_data ) && is_array( $exh_data ) ) {
 
 						$group_id = $this->obj_endpoints->nab_mys_random_id();
@@ -532,12 +528,16 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					} else {
 						$success = 4;
 					}
-				/*} else {
+				} else {
 					$success = 3;
-				}*/
+				}
 			} else {
 				$success = 2;
 			}
+
+			echo '<pre>';
+			print_r(get_defined_vars());
+			die('<br><---died here');
 
 			wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=' . $success ) );
 			exit();
