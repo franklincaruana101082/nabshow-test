@@ -107,10 +107,3 @@ function fergcorp_debug_url_request_args( $r, $url ) {
 }
 
 
-add_filter( 'mime_types', 'wpse_mime_types' );
-function wpse_mime_types( $existing_mimes ) {
-	// Add csv to the list of allowed mime types
-	$existing_mimes['csv'] = 'text/csv';
-
-	return $existing_mimes;
-}
