@@ -438,7 +438,14 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				}
 
 				$filename             = 'exhibitors-' . time() . '.csv';
-				$exh_target_dir       = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
+
+
+
+				/*$exh_target_dir       = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";*/
+				$exh_target_dir       = 'vip://wp-content/plugins/mys-modules/assets/uploads/';
+
+
+
 				$exh_target_file      = $exh_target_dir . $filename;
 				$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
 				$exh_fileType         = strtolower( pathinfo( $exh_target_file, PATHINFO_EXTENSION ) );
@@ -452,13 +459,13 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 				if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos($_SERVER['HTTP_REFERER'], 'testing' ) !== false ) {
 
-					$csv_content = '1,hello,admin';
+					/*$csv_content = '1,hello,admin';
 
 					$upload_dir = wp_get_upload_dir()['basedir'];
 
 					$file_path = $upload_dir . '/csv/updated.csv';
 
-					file_put_contents( $file_path, $csv_content );
+					file_put_contents( $file_path, $csv_content );*/
 
 
 					echo '<pre>';
