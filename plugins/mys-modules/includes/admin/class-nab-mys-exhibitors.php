@@ -511,7 +511,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Use unlink() to remove those temp files]
 
 			if(1 === $success) {
-				$success = "1&csvlink=$exh_target_file";
+				$exh_target_file_url = explode('wp-content');
+				$exh_target_file_url = admin_url( 'wp-content/') . $exh_target_file_url[1];
+
+				$success = "1&csvlink=$exh_target_file_url";
 			}
 
 			wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=' . $success ) );
