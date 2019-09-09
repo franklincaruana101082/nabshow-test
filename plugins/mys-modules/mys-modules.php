@@ -107,11 +107,17 @@ function fergcorp_debug_url_request_args( $r, $url ) {
 }
 
 
-// Function to allow .csv uploads
-function drick_custom_upload_mimes($mimes = array()) {
+//* Add filter to check filetype and extension
+add_filter( 'wp_check_filetype_and_ext', 'wpse_258192_check_filetype_and_ext', 10, 4 );
 
-	// Add a key and value for the CSV file type
-	$mimes['csv'] = "text/csv";
-	return $mimes;
+//* If the current user can upload_csv and the file extension is csv, override arguments - edit - "$pathinfo" changed to "pathinfo"
+function wpse_258192_check_filetype_and_ext( $args, $file, $filename, $mimes ) {
+	if( current_user_can( 'upload_csv' ) && 'csv' === pathinfo( $filename )[ 'extension' ] ){
+		$args = array(
+			'ext'             => 'csv',
+			'type'            => 'text/csv',
+			'proper_filename' => $filename,
+		);
+	}
+	return $args;
 }
-add_filter('upload_mimes', 'drick_custom_upload_mimes');
