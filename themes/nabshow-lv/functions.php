@@ -91,7 +91,7 @@ require get_template_directory() . '/inc/common-functions.php';
  */
 require get_template_directory() . '/inc/ads-view-list-data.php';
 
-add_filter( 'mime_types', 'wpse_mime_types' );
+add_filter( 'upload_mimes', 'wpse_mime_types' );
 function wpse_mime_types( $existing_mimes ) {
 	// Add csv to the list of allowed mime types
 	$existing_mimes['csv'] = 'text/csv';
