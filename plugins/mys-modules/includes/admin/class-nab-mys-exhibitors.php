@@ -441,9 +441,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 
 
-				/*$exh_target_dir       = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";*/
-				$exh_target_dir       = 'vip://wp-content/plugins/mys-modules/assets/uploads/';
-
+				$exh_target_dir       = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
+				/*$exh_target_dir       = 'vip://wp-content/plugins/mys-modules/assets/uploads/';*/
 
 				$exh_target_file      = $exh_target_dir . $filename;
 				$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
@@ -538,13 +537,14 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 $csv_content = '1,hello,admin';
 
 //$upload_dir = wp_get_upload_dir()['basedir'];
-$upload_dir = 'vip://wp-content/plugins/mys-modules/assets/uploads/';
+//$upload_dir = 'vip://wp-content/plugins/mys-modules/assets/uploads/';
+$upload_dir = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
 
 $file_path = $upload_dir . 'updated.csv';
 
 $uploadedStatus = file_put_contents( $file_path, $csv_content );
 
-$test = "001";
+$test = "002";
 
 			echo '<pre>';
 			print_r(get_defined_vars());
