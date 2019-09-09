@@ -477,7 +477,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				$upload_status = file_put_contents( $exh_target_file, $csv_content );
 
 				/*if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {*/
-				//if ( $upload_status ) {
+				if ( $upload_status ) {
 
 					$row      = 0;
 					$exh_data = $columns = array();
@@ -506,6 +506,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 						fclose( $handle );
 					}
 
+					echo '<pre>';
+					print_r(get_defined_vars());
+					die('<br><---died here');
+
 					if ( isset( $exh_data ) && is_array( $exh_data ) ) {
 
 						$group_id = $this->obj_endpoints->nab_mys_random_id();
@@ -528,9 +532,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					} else {
 						$success = 4;
 					}
-				/*} else {
+				} else {
 					$success = 3;
-				}*/
+				}
 			} else {
 				$success = 2;
 			}
