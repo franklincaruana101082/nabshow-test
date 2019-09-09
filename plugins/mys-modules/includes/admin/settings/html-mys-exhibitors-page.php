@@ -42,6 +42,12 @@ if ( isset ( $success ) ) {
 		}
 
 	}
+
+	$allowed_tags = array(
+		'a' => array(
+			'href' => array()
+		),
+	);
 }
 
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
@@ -56,7 +62,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <div class="mys-section-left">
 	<div class="mys-main-table res-cl">
 		<div class="mys-head mys-message-container" style="<?php echo esc_attr( $msg_style ); ?>">
-			<p class="<?php echo esc_attr( $msg_class ) ?>"><?php echo esc_html( $msg_html ); ?></p>
+			<p class="<?php echo esc_attr( $msg_class ) ?>"><?php echo wp_kses( $msg_html , $allowed_tags ); ?></p>
 		</div>
 		<div class="mys-head">
 			<h2>
