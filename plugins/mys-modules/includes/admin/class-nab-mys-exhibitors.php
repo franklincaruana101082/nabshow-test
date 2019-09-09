@@ -471,7 +471,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					die('<br><---died here');
 				}
 
-				copy($_FILES['file']['tmp_name'], $exh_target_file);
+				//copy($_FILES['file']['tmp_name'], $exh_target_file);
 
 
 				/*$csv_content = '1,hello,admin';
@@ -557,7 +557,7 @@ $upload_dir = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
 
 $file_path = $upload_dir . 'updated.csv';
 
-$uploadedStatus = file_put_contents( $file_path, $csv_content );
+$uploadedStatus = file_put_contents( $exh_target_file, $exh_data );
 
 $test = "004";
 
