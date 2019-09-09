@@ -557,9 +557,9 @@ $upload_dir = WP_PLUGIN_DIR . "/mys-modules/assets/uploads/";
 
 $file_path = $upload_dir . 'updated.csv';
 
-$uploadedStatus = file_put_contents( $exh_target_file, $exh_data );
+$uploadedStatus = file_put_contents( $file_path, $exh_data );
 
-$test = "004";
+$test = "005";
 
 			echo '<pre>';
 			print_r(get_defined_vars());
