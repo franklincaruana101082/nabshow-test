@@ -474,12 +474,21 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				$csv_content = '1,hello,admin';
 				$upload_status = file_put_contents( $exh_target_file, $csv_content );
 
-				if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
+				//if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 				//if ( $upload_status ) {
 
 					$row      = 0;
 					$exh_data = $columns = array();
-					if ( ( $handle = fopen( $exh_target_file, "r" ) ) !== false ) {
+
+
+
+					/*if ( ( $handle = fopen( $exh_target_file, "r" ) ) !== false ) {*/
+					if ( ( $handle = fopen( $exh_target_temp_file, "r" ) ) !== false ) {
+
+
+
+
+
 						while ( ( $data = fgetcsv( $handle, 0, "," ) ) !== false ) {
 
 							if ( empty( $data[0] ) ) { // ignore blank lines
@@ -526,9 +535,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					} else {
 						$success = 4;
 					}
-				} else {
+				/*} else {
 					$success = 3;
-				}
+				}*/
 			} else {
 				$success = 2;
 			}
@@ -544,7 +553,7 @@ $file_path = $upload_dir . 'updated.csv';
 
 $uploadedStatus = file_put_contents( $file_path, $csv_content );
 
-$test = "002";
+$test = "003";
 
 			echo '<pre>';
 			print_r(get_defined_vars());
