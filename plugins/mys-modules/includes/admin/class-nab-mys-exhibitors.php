@@ -512,7 +512,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 			if(1 === $success) {
 				$exh_target_file_url = explode('wp-content', $exh_target_file);
-				$exh_target_file_url = get_site_url() . '/wp-content/' . $exh_target_file_url[1];
+				$exh_target_file_url = get_site_url() . '/wp-content' . $exh_target_file_url[1];
 
 				$success = "1&csvlink=$exh_target_file_url";
 			}
