@@ -597,7 +597,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					//Save or Update taxonomies.
 					if ( "exhibitors" === $post_type ) {
 
-						$booths = $individual_item['booths'];
+						$booths            = $this->nab_mys_db_single_to_array( $individual_item['booths'] );
+						$productcategories = $this->nab_mys_db_single_to_array( $individual_item['productcategories'] );
 
 						$booth_hall_string = '';
 
@@ -623,8 +624,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						}
 
 						echo '<pre>';
-						print_r(get_defined_vars());
-						die('<br><---died here');
+						print_r( get_defined_vars() );
+						die( '<br><---died here' );
 
 						$booth_hall_string = rtrim( $booth_hall_string, '#' );
 						update_post_meta( $post_id, 'booths_halls', $booth_hall_string );
@@ -700,6 +701,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$this->nab_mys_cron_master_confirmed( $item->DataID );
 
 			return $post_detail;
+		}
+
+		protected function nab_mys_db_single_to_array( $single ) {
+			return ( 0 !== count( $single ) && ! isset ( $single[0] ) ) ? array( 0 => $single ) : $single;
 		}
 
 		/**
