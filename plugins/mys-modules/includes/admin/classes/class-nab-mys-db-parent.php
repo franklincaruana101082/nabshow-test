@@ -191,7 +191,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				);
 
 				if ( 'nochange' === $items_affected ) {
-					unset($sql_values['HistoryItemsAffected']);
+					unset( $sql_values['HistoryItemsAffected'] );
 				}
 
 				$sql = $this->wpdb->update(
@@ -385,7 +385,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					case 'sessions':
 
 						$prepared_data['post_type']         = 'sessions';
-						$prepared_data['exclude_from_meta'] = array( 'sessionid', 'title', 'description' );
+						$prepared_data['exclude_from_meta'] = array( 'sessionid', 'title', 'description', 'level', 'type', 'location' );
 						$prepared_data['typeidname']        = 'sessionid';
 
 						$prepared_data['title_name']       = 'title';
@@ -600,7 +600,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						$booths = $individual_item['booths'];
 
 						$booth_hall_string = '';
-						$halls             = $pavilions = array();
+
+						$halls = $pavilions = array();
 
 						foreach ( $booths as $single_booth ) {
 
@@ -749,8 +750,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 		public function nab_mys_cron_assign_single_term_by_name( $titles, $taxonomy, $post_id, $args = array() ) {
 
 			if ( ! is_array( $titles ) ) {
-				$term = $titles;
-				$titles = array();
+				$term     = $titles;
+				$titles   = array();
 				$titles[] = $term;
 			}
 
@@ -888,7 +889,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$order_type   = 'DESC';
 
 			$history_result = $wpdb->get_results(
-				$wpdb->prepare("SELECT h1.* FROM {$wpdb->prefix}mys_history as h1
+				$wpdb->prepare( "SELECT h1.* FROM {$wpdb->prefix}mys_history as h1
 										INNER JOIN (SELECT DISTINCT HistoryGroupID FROM {$wpdb->prefix}mys_history LIMIT %d) as h2
 										ON h1.HistoryGroupID = h2.HistoryGroupID
 										ORDER BY HistoryID DESC
@@ -898,8 +899,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$history_data = array();
 
 			foreach ( $history_result as $h ) {
-				$history_data[$h->HistoryGroupID]['Totals'][$h->HistoryDataType] = $h->HistoryItemsAffected;
-				$history_data[$h->HistoryGroupID]['Details'] = $h;
+				$history_data[ $h->HistoryGroupID ]['Totals'][ $h->HistoryDataType ] = $h->HistoryItemsAffected;
+				$history_data[ $h->HistoryGroupID ]['Details']                       = $h;
 			}
 
 			$history_total = $this->nab_mys_history_total();

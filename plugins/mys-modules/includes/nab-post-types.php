@@ -371,10 +371,10 @@ function nab_mys_sponsors_taxonomies() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'sponsors-category' ),
+		'rewrite'           => array( 'slug' => 'sponsor-categories' ),
 	);
 
-	register_taxonomy( 'sponsors-category', array( 'sponsors' ), $category_args );
+	register_taxonomy( 'sponsor-categories', array( 'sponsors' ), $category_args );
 }
 
 add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
