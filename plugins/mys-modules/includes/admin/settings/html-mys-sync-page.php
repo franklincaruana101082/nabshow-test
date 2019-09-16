@@ -96,7 +96,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
                 </tr>
                 <tr>
                     <td class="pull-data" colspan="2">
-                        <span class="button-primary button button-sync-exhibitors button-sync-not-ready-yet" data-sync="exhibitors">Pull</span>
+                        <span class="button-primary button button-sync-exhibitors button-sync" data-sync="exhibitors">Pull</span>
                     </td>
                 </tr>
 			<?php } ?>

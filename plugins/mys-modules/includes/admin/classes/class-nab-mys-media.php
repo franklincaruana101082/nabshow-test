@@ -85,7 +85,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						//ne_coded
 						set_post_thumbnail( $post_id, $attach_id );
 					} else {
-						update_term_meta( $post_id, 'tracks-image-id', $attach_id );
+						update_term_meta( $post_id, 'tax-image-id', $attach_id );
 					}
 
 					return "new:$attach_id";

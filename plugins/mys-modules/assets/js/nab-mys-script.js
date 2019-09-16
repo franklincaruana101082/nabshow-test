@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
         }
 
 
-        if ('' !== pastItem) {
+        if ('finish' !== pastItem) {
 
           if ('' !== totalCounts) {
 
@@ -119,6 +119,7 @@ jQuery(document).ready(function ($) {
 
             } else {
 
+              progressJump = 20;
 
             }
 
@@ -141,7 +142,7 @@ jQuery(document).ready(function ($) {
 
             extraDetails = '';
             if ('modified-sessions' === pastItem) {
-              extraDetails = ' (Total '+totalAdded+' to Add / '+totalDeleted+' to Delete / '+totalUpdated+' to Update)';
+              extraDetails = ' (Total ' + totalAdded + ' to Add / ' + totalDeleted + ' to Delete / ' + totalUpdated + ' to Update)';
             }
 
             para = document.createElement('p');

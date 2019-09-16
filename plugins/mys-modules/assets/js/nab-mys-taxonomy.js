@@ -13,9 +13,9 @@ jQuery(document).ready(function ($) {
             _customMedia = true;
             wp.media.editor.send.attachment = function (props, attachment) {
                 if (_customMedia) {
-                    $('#tracks-image-id').val(attachment.id);
-                    $('#tracks-image-wrapper').html('<img class="custom_media_image" src="" style="margin:0;padding:0;max-height:100px;float:none;" />');
-                    $('#tracks-image-wrapper .custom_media_image').attr('src', attachment.url).css('display', 'block');
+                    $('#tax-image-id').val(attachment.id);
+                    $('#tax-image-wrapper').html('<img class="custom_media_image" src="" style="margin:0;padding:0;max-height:100px;float:none;" />');
+                    $('#tax-image-wrapper .custom_media_image').attr('src', attachment.url).css('display', 'block');
                 } else {
                     return _origSendAttachment.apply(buttonID, [props, attachment]);
                 }
@@ -28,8 +28,8 @@ jQuery(document).ready(function ($) {
     nabMediaPopup('.ct_tax_media_button.button');
 
     $('body').on('click', '.ct_tax_media_remove', function () {
-        $('#tracks-image-id').val('');
-        $('#tracks-image-wrapper').html('<img class="custom_media_image" src="" style="margin:0;padding:0;max-height:100px;float:none;" />');
+        $('#tax-image-id').val('');
+        $('#tax-image-wrapper').html('<img class="custom_media_image" src="" style="margin:0;padding:0;max-height:100px;float:none;" />');
     });
 
     $(document).ajaxComplete(function (event, xhr, settings) {
@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
             if ('' !== $response) {
 
                 //Clear the thumb image
-                $('#tracks-image-wrapper').html('');
+                $('#tax-image-wrapper').html('');
             }
         }
     });

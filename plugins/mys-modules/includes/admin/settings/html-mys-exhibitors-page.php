@@ -16,23 +16,24 @@ if ( ! current_user_can( 'manage_options' ) ) {
 }
 update_option( 'nab_mys_wizard_step', 3 );
 
-$success   = filter_input( INPUT_GET, 'success', FILTER_SANITIZE_STRING );
-$csvlink   = filter_input( INPUT_GET, 'csvlink', FILTER_SANITIZE_STRING );
-$msg_style = "display:none";
-$msg_html  = "";
+$success      = filter_input( INPUT_GET, 'success', FILTER_SANITIZE_STRING );
+$exh_inserted = filter_input( INPUT_GET, 'exh-inserted', FILTER_SANITIZE_STRING );
+$csv_link     = filter_input( INPUT_GET, 'csv-link', FILTER_SANITIZE_STRING );
+$msg_style    = "display:none";
+$msg_html     = "";
 if ( isset ( $success ) ) {
 	$msg_style = "display:block";
 
 	if ( 1 === (int) $success ) {
 		$msg_class = "highlighted-para";
-		$msg_html  = "The file is successfully uploaded <a href='$csvlink'>here</a> and the exhibitor's migration process is started now, please check your inbox soon.";
+		$msg_html  = "The file is successfully uploaded <a href='$csv_link' title='Uploaded CSV'>here</a> and total $exh_inserted exhibitors are pulled from the file. The migration process is started now, please check your inbox soon.";
 
 	} else {
 
 		$msg_class = "red-notice mys-error-notice";
 
 		if ( 2 === (int) $success ) {
-			$msg_html = 'Sorry, form submit by robert';
+			$msg_html = 'Sorry, form submitted by robert';
 		}
 		if ( 3 === (int) $success ) {
 			$msg_html = 'Sorry, there was an error uploading your file.';
@@ -42,13 +43,14 @@ if ( isset ( $success ) ) {
 		}
 
 	}
-
-	$allowed_tags = array(
-		'a' => array(
-			'href' => array()
-		),
-	);
 }
+
+$allowed_message_tags = array(
+	'a'      => array(
+		'href'  => array(),
+		'title' => array()
+	),
+);
 
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 
@@ -62,7 +64,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <div class="mys-section-left">
 	<div class="mys-main-table res-cl">
 		<div class="mys-head mys-message-container" style="<?php echo esc_attr( $msg_style ); ?>">
-			<p class="<?php echo esc_attr( $msg_class ) ?>"><?php echo wp_kses( $msg_html , $allowed_tags ); ?></p>
+			<p class="<?php echo esc_attr( $msg_class ) ?>"><?php echo wp_kses( $msg_html, $allowed_message_tags ); ?></p>
 		</div>
 		<div class="mys-head">
 			<h2>

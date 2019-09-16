@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Mys_Scripts' ) ) {
+if ( ! class_exists( 'NAB_MYS_Scripts' ) ) {
 
 	class NAB_MYS_Scripts {
 

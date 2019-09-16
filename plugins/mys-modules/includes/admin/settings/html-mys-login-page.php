@@ -88,7 +88,7 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 		$nab_mys_urls = update_option( 'nab_mys_urls', $nab_mys_urls );
 
 		delete_transient( 'nab_mys_token' );
-		$result = ( new NAB_MYS_Endpoints() )->nab_mys_api_token_from_cache();
+		$result = $this->nab_mys_sync_parent_object->nab_mys_api_token_from_cache();
 
 		$token_status_code = $result['token_status_code'];
 		$token_response    = $result['token_response'];

@@ -9,12 +9,12 @@
 </tr>
 <tr class="form-field term-group-wrap">
     <th scope="row">
-        <label for="tracks-image-id"><?php esc_html_e( 'Image', 'hero-theme' ); ?></label>
+        <label for="tax-image-id"><?php esc_html_e( 'Image', 'hero-theme' ); ?></label>
     </th>
     <td>
-		<?php $image_id = get_term_meta( $term->term_id, 'tracks-image-id', true ); ?>
-        <input type="hidden" id="tracks-image-id" name="tracks-image-id" value="<?php echo esc_attr( $image_id ); ?>">
-        <div id="tracks-image-wrapper">
+		<?php $image_id = get_term_meta( $term->term_id, 'tax-image-id', true ); ?>
+        <input type="hidden" id="tax-image-id" name="tax-image-id" value="<?php echo esc_attr( $image_id ); ?>">
+        <div id="tax-image-wrapper">
 			<?php if ( $image_id ) { ?>
 				<?php echo wp_get_attachment_image( $image_id, 'thumbnail' ); ?>
 			<?php } ?>

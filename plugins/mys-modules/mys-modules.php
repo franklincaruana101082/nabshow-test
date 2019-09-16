@@ -23,12 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'MYS_PLUGIN_URL' ) ) {
 	define( 'MYS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
-if ( ! defined( 'MYS_PLUGIN_DIR_PATH' ) ) {
-	define( 'MYS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
-}
-if ( ! defined( 'MYS_PLUGIN_BASENAME' ) ) {
-	define( 'MYS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-}
 
 /**
  * Activation Hook
@@ -78,22 +72,19 @@ function mys_modules_uninstall() {
 }
 
 //Class File - Admin Pages
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-page.php' );
+require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-mys.php' );
 
-//Class File - DataBase Queries
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-db.php' );
+function run_mys_modules() {
+	$mys_plugin = new NAB_MYS_Main();
+	$mys_plugin->nab_mys_run();
+}
 
-//Class File - Endpoints
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-endpoints.php' );
+run_mys_modules();
 
-//Class File - Exhibitors
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-exhibitors.php' );
+//ne_temp remove this before PR.
+add_filter( 'http_request_args', 'fergcorp_debug_url_request_args', 10, 2 );
+function fergcorp_debug_url_request_args( $r, $url ) {
+	$r["timeout"] = 20; //phpcs:ignore
 
-//Class File - Scripts & Styles
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-scripts.php' );
-
-//Register MYS Dependent Post Types
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
-
-//Develop Tracks Custom Fields
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/class-nab-mys-tracks.php' );
+	return $r;
+}

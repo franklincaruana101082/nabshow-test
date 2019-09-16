@@ -388,19 +388,19 @@ add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
 function nab_mys_sponsor_post_type() {
 
 	$labels = array(
-		'name'               => _x( 'Sponsors', 'mys-modules' ),
-		'singular_name'      => _x( 'Sponsor', 'mys-modules' ),
+		'name'               => _x( 'Sponsors-Partners', 'mys-modules' ),
+		'singular_name'      => _x( 'Sponsor-Partner', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
-		'add_new_item'       => __( 'Add New Sponsor', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New Sponsor-Partner', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
-		'new_item'           => __( 'New Sponsor', 'mys-modules' ),
-		'all_items'          => __( 'All Sponsors', 'mys-modules' ),
-		'view_item'          => __( 'View Sponsors', 'mys-modules' ),
-		'search_items'       => __( 'Search Sponsors', 'mys-modules' ),
-		'not_found'          => __( 'No Sponsors found', 'mys-modules' ),
-		'not_found_in_trash' => __( 'No Sponsors found in Trash', 'mys-modules' ),
+		'new_item'           => __( 'New Sponsor-Partner', 'mys-modules' ),
+		'all_items'          => __( 'All Sponsors-Partners', 'mys-modules' ),
+		'view_item'          => __( 'View Sponsors-Partners', 'mys-modules' ),
+		'search_items'       => __( 'Search Sponsors-Partners', 'mys-modules' ),
+		'not_found'          => __( 'No Sponsors-Partners found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No Sponsors-Partners found in Trash', 'mys-modules' ),
 		'parent_item_colon'  => __( '', 'mys-modules' ),
-		'menu_name'          => __( 'Sponsors', 'mys-modules' )
+		'menu_name'          => __( 'Sponsors-Partners', 'mys-modules' )
 	);
 
 	$args = array(
@@ -445,6 +445,7 @@ add_action( 'init', 'nab_mys_sponsor_post_type' );
  */
 function nab_mys_exhibitors_taxonomies() {
 
+	// Taxonomy - exhibitor-categories
 	$category_labels = array(
 		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
 		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
@@ -470,6 +471,60 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	register_taxonomy( 'exhibitor-categories', array( 'exhibitors' ), $category_args );
+
+	// Taxonomy - halls
+	$hall_labels = array(
+		'name'              => _x( 'Halls', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Halls', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Halls', 'mys-modules' ),
+		'all_items'         => __( 'All Halls', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Hall', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Hall:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Hall', 'mys-modules' ),
+		'update_item'       => __( 'Update Hall', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Hall', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Hall', 'mys-modules' ),
+		'menu_name'         => __( 'Halls', 'mys-modules' ),
+	);
+
+	$hall_args = array(
+		'hierarchical'      => true,
+		'labels'            => $hall_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'halls' ),
+	);
+
+	register_taxonomy( 'halls', array( 'exhibitors' ), $hall_args );
+
+	// Taxonomy - pavilions
+	$pavilion_labels = array(
+		'name'              => _x( 'Pavilions', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Pavilions', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Pavilions', 'mys-modules' ),
+		'all_items'         => __( 'All Pavilions', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Pavilion', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Pavilion:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Pavilion', 'mys-modules' ),
+		'update_item'       => __( 'Update Pavilion', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Pavilion', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Pavilion', 'mys-modules' ),
+		'menu_name'         => __( 'Pavilions', 'mys-modules' ),
+	);
+
+	$pavilion_args = array(
+		'hierarchical'      => true,
+		'labels'            => $pavilion_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+			'rewrite'           => array( 'slug' => 'pavilions' ),
+	);
+
+	register_taxonomy( 'pavilions', array( 'exhibitors' ), $pavilion_args );
 }
 
 add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );

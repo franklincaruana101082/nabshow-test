@@ -114,7 +114,9 @@ table.history-table tbody tr td:first-child, table.history-table tbody tr th:fir
 .tablenav.history-tablenav select{float:none}
 .tablenav.history-tablenav .alignleft input, .tablenav.history-tablenav .alignleft select{height:36px;display:inline-block;vertical-align:middle;margin-right:15px}
 .tablenav.history-tablenav .alignleft input[type="text"]{width:80px}
-.history-table tbody tr:nth-child(odd) td{background:#f9f9f9}
+.mys-main-table table tr.status-in-progress td{background:#f5e8bb80}
+.mys-main-table table tr.status-success td{background:#ccf5bb80}
+.mys-main-table table tr.status-failed td{background:#f5bbbb80}
 .history-table tbody tr td.heading{font-size:15px;font-weight:600}
 .history-table tr .heading{width:20%}.history-table tr .details-row{width:30%}.history-table tbody tr ul{margin:0}
 .tablenav.history-tablenav .alignleft input[type="date"]{width:150px}.mys-popup .mys-popup-inner h3{margin-top:0}
