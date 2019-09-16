@@ -749,7 +749,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 		public function nab_mys_cron_assign_single_term_by_name( $titles, $taxonomy, $post_id, $args = array() ) {
 
 			if ( ! is_array( $titles ) ) {
-				$titles[] = $titles;
+				$term = $titles;
+				$titles = array();
+				$titles[] = $term;
 			}
 
 			$terms_ids = array();
