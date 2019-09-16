@@ -623,10 +623,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 						}
 
-						echo '<pre>';
-						print_r( get_defined_vars() );
-						die( '<br><---died here' );
-
 						$booth_hall_string = rtrim( $booth_hall_string, '#' );
 						update_post_meta( $post_id, 'booths_halls', $booth_hall_string );
 
