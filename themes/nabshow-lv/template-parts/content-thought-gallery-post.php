@@ -75,15 +75,18 @@ $tags_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-tags' );
             <li><a href="#" class="envelope"><i class="fa fa-envelope"></i></a></li>
         </ul>
     </div>
+    <?php
+        $author_image = get_avatar_url( get_the_author_ID(), array( 'size' => 184 ) );
+    ?>
     <div class="author-section">
         <div class="author-info">
             <div class="author-avatar">
-                <img alt="" src="https://nabshow.md-develop.com/wp-content/uploads/2019/07/person-slide-4.jpg"
-                     class="avatar photo" width="160">
+                <img alt="author-img" src="<?php echo esc_url( $author_image ); ?>" class="avatar photo" width="160">
             </div>
+
             <div class="author-user">
-                <h3 class="author-heading">Contributor Name</h3>
-                <p class="author-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.  Morbi commodo magna turpis, ac eget... <a class="author-link" href="#" rel="author">Read More </a></p>
+                <h3 class="author-heading"><?php echo esc_html( get_the_author() ); ?></h3>
+                <p class="author-description"><?php echo esc_html( get_the_author_meta( 'user_description') ); ?>... <a class="author-link detail-list-modal-popup" data-posttype="thought-gallery" data-userid="<?php echo esc_attr( get_the_author_ID() ); ?>" href="#" rel="author">Read More</a></p>
             </div>
         </div>
     </div>

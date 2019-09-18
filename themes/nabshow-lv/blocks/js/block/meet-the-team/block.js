@@ -242,7 +242,7 @@ import memoize from 'memize';
                   />
                   <Button
                     onClick={value => {
-                      if (undefined !== category){
+                      if (undefined !== category && '' !== category){
                         let newCat = [...categoryList];
                         newCat.push(category);
                         setAttributes({ categoryList: newCat });

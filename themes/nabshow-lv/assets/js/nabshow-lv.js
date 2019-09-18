@@ -6,8 +6,8 @@
   $(window).load(function () {
 
     if (
-      0 < $('.nab-dynamic-slider').length ||
-      0 < $('.nab-not-to-be-missed-slider').length
+        0 < $('.nab-dynamic-slider').length ||
+        0 < $('.nab-not-to-be-missed-slider').length
     ) {
       configureSlider();
       $(window).on('orientationchange resize', configureSlider);
@@ -18,15 +18,15 @@
       $('.nab-media-slider').each(function () {
         let nabautoplay = 'true' === $(this).attr('data-autoplay') ? true : false;
         let nabinfiniteloop =
-          'true' === $(this).attr('data-infiniteloop') ? true : false;
+            'true' === $(this).attr('data-infiniteloop') ? true : false;
         let nabpager = 'true' === $(this).attr('data-pager') ? true : false;
         let nabcontrols = 'true' === $(this).attr('data-controls') ? true : false;
         let nabadaptiveheight =
-          'true' === $(this).attr('data-adaptiveheight') ? true : false;
+            'true' === $(this).attr('data-adaptiveheight') ? true : false;
         let nabmode = $(this).attr('nabmode');
         let nabanimation = $(this).attr('data-animation');
         let touchEnabledStatus =
-          0 === $(this).find('.nab-media-slider-link').length ? true : false;
+            0 === $(this).find('.nab-media-slider-link').length ? true : false;
 
         $(this).bxSlider({
           mode: nabmode,
@@ -41,22 +41,12 @@
           stopAutoOnClick: true,
           autoHover: true,
 
-          onSlideAfter: function (
-            currentSlideNumber,
-            totalSlideQty,
-            currentSlideHtmlObject
-          ) {
-            $('.nab-media-slider > .nab-media-slider-item').removeClass(
-              `active-slide ${nabanimation}`
-            );
-            $('.nab-media-slider > .nab-media-slider-item')
-              .eq(currentSlideHtmlObject)
-              .addClass(`active-slide ${nabanimation}`);
+          onSlideAfter: function (currentSlideNumber, totalSlideQty, currentSlideHtmlObject) {
+            $('.nab-media-slider > .nab-media-slider-item').removeClass(`active-slide ${nabanimation}`);
+            $('.nab-media-slider > .nab-media-slider-item').eq(currentSlideHtmlObject).addClass(`active-slide ${nabanimation}`);
           },
           onSliderLoad: function () {
-            $('.nab-media-slider > .nab-media-slider-item')
-              .eq(0)
-              .addClass(`active-slide ${nabanimation}`);
+            $('.nab-media-slider > .nab-media-slider-item').eq(0).addClass(`active-slide ${nabanimation}`);
             $('.nab-media-slider .nab-media-slider-item').css('opacity', '1');
           }
         });
@@ -72,7 +62,7 @@
           speed: $(this).attr('data-speed'),
           controls: 'true' === $(this).attr('data-controls') ? true : false,
           infiniteLoop:
-            'true' === $(this).attr('data-infiniteloop') ? true : false,
+              'true' === $(this).attr('data-infiniteloop') ? true : false,
           pager: 'true' === $(this).attr('data-pager') ? true : false,
           stopAutoOnClick: true,
           autoHover: true,
@@ -84,6 +74,25 @@
     }
   });
 
+  // Slider popup
+  $(document).on('click', '.detail-list-modal-popup', function () {
+    var postType = $(this).attr('data-posttype');
+    var postId = $(this).attr('data-postid');
+    var userId = $(this).attr('data-userid');
+    $('body').addClass('popup-loader');
+    $('.modal .modal-body').load('/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId, function () {
+      $('.modal').modal({
+        show: true
+      });
+      $('body').removeClass('popup-loader');
+    });
+    return false;
+  });
+
+  $(document).on('click', '.modal .modal-header .close, .modal .modal-footer .btn-default', function () {
+    $(this).parents('.modal').modal('hide');
+  });
+
   // nab-media-slider End
 
   // Adding Row in Session Masonry Js
@@ -92,6 +101,7 @@
   // Award Section Popup Js
   jQuery('.nab_popup_btn').on('click', function () {
     jQuery(this).siblings('.nab_model_main').addClass('nab_model_open');
+    jQuery(this).closest('.slideInUp').removeClass('slideInUp');
   });
   jQuery('.nab_close_btn, .nab_bg_overlay').on('click touch', function () {
     jQuery('.nab_model_main').removeClass('nab_model_open');
@@ -103,39 +113,15 @@
     '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons',
     function (e) {
       e.stopImmediatePropagation();
-      $(this)
-        .parent()
-        .parent()
-        .siblings()
-        .find('.accordionBody')
-        .slideUp();
-      $(this)
-        .parent()
-        .next()
-        .slideToggle();
+      $(this).parent().parent().siblings().find('.accordionBody').slideUp();
+      $(this).parent().next().slideToggle();
       if (
-        $(this)
-          .parent()
-          .parent('.accordionWrapper')
-          .hasClass('tabClose')
+        $(this).parent().parent('.accordionWrapper').hasClass('tabClose')
       ) {
-        $(this)
-          .parent()
-          .parent('.accordionWrapper')
-          .removeClass('tabClose')
-          .addClass('tabOpen');
-        $(this)
-          .parent()
-          .parent('.accordionWrapper')
-          .siblings()
-          .removeClass('tabOpen')
-          .addClass('tabClose');
+        $(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
+        $(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
       } else {
-        $(this)
-          .parent()
-          .parent('.accordionWrapper')
-          .removeClass('tabOpen')
-          .addClass('tabClose');
+        $(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
       }
     }
   );
@@ -183,43 +169,22 @@
   });
 
   $(document).on('click', '.slider-card-filter .filter-list li', function () {
-    var cardsDiv,
-      cloneCardsDiv,
-      innerH2Tag,
-      innerImgTag,
-      innerCategory,
-      dataObj,
+    var cardsDiv, cloneCardsDiv, innerH2Tag, innerImgTag, innerCategory, dataObj,
       ajaxAction = 'nabshow_ntb_missed_load_more_category_click',
       _this = $(this),
-      itemToFetch = $(this)
-        .parents('.slider-arrow-main')
-        .find('.nab-not-to-be-missed-slider')
-        .attr('data-item');
+      itemToFetch = $(this).parents('.slider-arrow-main').find('.nab-not-to-be-missed-slider').attr('data-item');
 
-    $(this)
-      .parents('.slider-arrow-main')
-      .find('.nab-not-to-be-missed-slider')
-      .addClass('change-slide');
+    $(this).parents('.slider-arrow-main').find('.nab-not-to-be-missed-slider').addClass('change-slide');
     $('#loader_container').show();
 
     jQuery.ajax({
       type: 'GET',
-      data:
-        'action=' +
-        ajaxAction +
-        '&fetch_item=' +
-        itemToFetch +
-        '&portfolio_category_term_slug=' +
-        $(this).attr('data-term-slug') +
-        '&term_data_nonce=' +
-        nabshowNtbMissed.nabshow_lv_ntb_missed_nonce,
+      data: 'action=' + ajaxAction + '&fetch_item=' + itemToFetch + '&portfolio_category_term_slug=' + $(this).attr('data-term-slug') + '&term_data_nonce=' + nabshowNtbMissed.nabshow_lv_ntb_missed_nonce,
       url: nabshowNtbMissed.ajax_url,
       success: function (getData) {
         dataObj = jQuery.parseJSON(getData);
-        _this
-          .parents('.slider-arrow-main')
-          .find('.nab-not-to-be-missed-slider .cards')
-          .removeClass('bx-clone');
+        _this.parents('.slider-arrow-main').find('.nab-not-to-be-missed-slider .cards').removeClass('bx-clone');
+
         jQuery.each(dataObj.result_post, function (key, value) {
           if (value.post_thumbnail) {
             cardsDiv = document.getElementsByClassName('cards');
@@ -235,17 +200,11 @@
             innerCategory.innerText = value.post_category;
 
             let sliderElement = document.getElementById(
-              _this
-                .parents('.slider-arrow-main')
-                .find('.nab-not-to-be-missed-slider')
-                .attr('id')
+              _this.parents('.slider-arrow-main').find('.nab-not-to-be-missed-slider').attr('id')
             );
 
             if (0 === key) {
-              _this
-                .parents('.slider-arrow-main')
-                .find('.nab-not-to-be-missed-slider')
-                .empty();
+              _this.parents('.slider-arrow-main').find('.nab-not-to-be-missed-slider').empty();
             }
 
             sliderElement.appendChild(cloneCardsDiv);
@@ -281,7 +240,10 @@
           config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
         }
         if (0 < bxSliderObj.length && undefined !== bxSliderObj[index]) {
-          bxSliderObj[index].reloadSlider(config);
+          bxSliderObj[index].destroySlider({});
+          let configWithInfiniteLoop = config;
+          configWithInfiniteLoop.infiniteLoop = false;
+          bxSliderObj[index].reloadSlider(configWithInfiniteLoop);
         } else {
           bxSliderObj[index] = $(this).bxSlider(config);
         }
@@ -307,34 +269,12 @@
   // Schedule at a glance filter
   if (0 < $('.schedule-glance-filter div select#date').length) {
     $('.schedule-main').each(function () {
-      insertOptions(
-        $(this)
-          .find('h2')
-          .text(),
-        'date'
-      );
+      insertOptions($(this).find('h2').text(), 'date');
 
-      $(this)
-        .find('.schedule-row')
-        .each(function () {
-          insertOptions(
-            $(this)
-              .find('.date p')
-              .text(),
-            'pass-type'
-          );
-          insertOptions(
-            $(this)
-              .find('.location p')
-              .text(),
-            'location'
-          );
-          insertOptions(
-            $(this)
-              .find('.details p')
-              .text(),
-            'type'
-          );
+      $(this).find('.schedule-row').each(function () {
+          insertOptions($(this).find('.date p').text(), 'pass-type');
+          insertOptions($(this).find('.location p').text(), 'location');
+          insertOptions($(this).find('.details p').text(), 'type');
         });
     });
 
@@ -358,16 +298,9 @@
   // meet the team filter
   if (0 < $('.team-main .team-box').length) {
     $('.team-main .team-box').each(function () {
-      if (
-        null !==
-        $(this)
-          .data('category')
-          .split(',')
-      ) {
+      if (null !==$(this).data('category').split(',')) {
         $.map(
-          $(this)
-            .data('category')
-            .split(','),
+          $(this).data('category').split(','),
           function (val, i) {
             insertCheckbox(val, 'team-checkbox');
           }
@@ -379,10 +312,7 @@
       }
     });
 
-    $(document).on(
-      'change',
-      '.meet-team-select #team-department, .meet-team-select .checkbox-list input',
-      function () {
+    $(document).on('change', '.meet-team-select #team-department, .meet-team-select .checkbox-list input', function () {
         filterSelectTeam();
       }
     );
@@ -422,6 +352,35 @@
     $(document).on('click', 'ul.alphabets-list li', function () {
       const clickItem = $(this).html();
       filterSelectProduct(clickItem);
+    });
+
+  }
+
+  // Related content details js box-main
+  if (0 < $('.box-main .box-item').length) {
+    $('.new-this-year .box-main .box-item').each(function () {
+      if ('' !== $(this).find('.title').html()) {
+        insertOptions($(this).find('.title').html(), 'box-main-category');
+      }
+    });
+
+    $('.delegation .box-main .box-item').each(function () {
+      if ('' !== $(this).find('.country').html().split(',')) {
+        $.map(
+          $(this).find('.country').html().split(','),
+          function (val, i) {
+            insertOptions(val, 'box-main-category');
+          }
+        );
+      }
+    });
+
+    $(document).on('change', '#box-main-category', function () {
+      boxMainFilter();
+    });
+
+    $(document).on('keyup', '#box-main-search', function () {
+      boxMainFilter();
     });
 
   }
@@ -500,7 +459,8 @@
       pager: nabpager,
       controls: nabcontrols,
       speed: parseInt(elementHandler.attr('data-speed')),
-      mode: elementHandler.attr('data-mode')
+      mode: elementHandler.attr('data-mode'),
+      touchEnabled: false
     };
   }
 
@@ -554,6 +514,42 @@
     jQuery('.ltb-slidein .card-columns-box .cards').addClass('slideInUp');
   } else if ($('#primary').hasClass('ltb-effect')) {
     jQuery('.ltb-effect .card-columns-box .cards').addClass('pulse');
+  }
+
+  if ( 0 < $('.filter-block.main-filter .session-category-drp').length && ( 0 < $('.nab-dynamic-list.session').length || 0 < $('.nab-dynamic-slider.session').length ) ) {
+    $(document).on('change', '.filter-block.main-filter .session-category-drp', function () {
+        sessionListFilter();
+    });
+    $(document).on('keyup', '.filter-block.main-filter .search-item .search', function () {
+        sessionListFilter();
+    });
+    $(document).on('click', '.filter-block.main-filter .featured-btn', function () {
+        $(this).toggleClass('active');
+        $('.nab-dynamic-slider.session .item[data-featured="featured"], .nab-dynamic-list.session .item[data-featured="featured"]').toggleClass('featured');
+    });
+  }
+
+  function sessionListFilter() {
+
+    let filterCategory = 0 < $('.filter-block.main-filter .session-category-drp')[0].selectedIndex ? $('.filter-block.main-filter .session-category-drp').val() : null;
+    let filterSearch = $('.filter-block.main-filter .search-item .search').val();
+
+    jQuery('.nab-dynamic-list.session .item').show();
+    jQuery('.nab-dynamic-slider.session .item.bx-clone').remove();
+    jQuery('.nab-dynamic-slider.session .item').removeClass('d-none');
+
+    if ( null !== filterCategory) {
+        jQuery('.nab-dynamic-list.session .item:not([data-tracks*="' + filterCategory + '"])').hide();
+        jQuery('.nab-dynamic-slider.session .item:not([data-tracks*="' + filterCategory + '"]):not(.bx-clone)').addClass('d-none');
+    }
+
+    if ('' !== filterSearch) {
+      $('.nab-dynamic-list.session .item:visible').filter(function () { return ( 0 > $('h4', this).text().toLowerCase().indexOf(filterSearch.toLowerCase()) ); }).hide();
+      $('.nab-dynamic-slider.session .item:visible').filter(function () { return ( 0 > $('h4', this).text().toLowerCase().indexOf(filterSearch.toLowerCase()) ); }).addClass('d-none');
+    }
+
+    configureSlider();
+
   }
 
 })(jQuery);
@@ -613,9 +609,6 @@ function masonryGrids() {
       jQuery(mainDiv.children[i])
         .show('slow')
         .css({ opacity: '1', transform: 'scale(1, 1)' });
-
-      // console.log(mainDiv.children[i], divHeight, mainDiv.children[i].childNodes[1].childNodes[1].naturalHeight);
-
     }
 
     highest = Math.max.apply(Math, colHeight);
@@ -647,69 +640,30 @@ function filterScheduleData() {
   jQuery('.schedule-main, .schedule-main .schedule-row').show();
   jQuery('.no-data').hide();
 
-  let filterDate =
-    0 <
-      jQuery('.schedule-glance-filter .schedule-select #date')[0].selectedIndex ?
-      jQuery('.schedule-glance-filter .schedule-select #date').val() :
-      null;
-  let filterTime =
-    0 <
-      jQuery('.schedule-glance-filter .schedule-select #pass-type')[0]
-        .selectedIndex ?
-      jQuery('.schedule-glance-filter .schedule-select #pass-type').val() :
-      null;
-  let filterLocation =
-    0 <
-      jQuery('.schedule-glance-filter .schedule-select #location')[0]
-        .selectedIndex ?
-      jQuery('.schedule-glance-filter .schedule-select #location').val() :
-      null;
-  let filterType =
-    0 <
-      jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ?
-      jQuery('.schedule-glance-filter .schedule-select #type').val() :
-      null;
+  let filterDate = 0 < jQuery('.schedule-glance-filter .schedule-select #date')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #date').val() : null;
+  let filterTime = 0 < jQuery('.schedule-glance-filter .schedule-select #pass-type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #pass-type').val() : null;
+  let filterLocation = 0 < jQuery('.schedule-glance-filter .schedule-select #location')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #location').val() : null;
+  let filterType = 0 < jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #type').val() : null;
   let filterSearch = jQuery('.schedule-glance-filter .schedule-search').val();
 
   if (null !== filterDate) {
-    jQuery('.schedule-main h2:not(:contains("' + filterDate + '"))')
-      .parents('.schedule-main')
-      .hide();
+    jQuery('.schedule-main h2:not(:contains("' + filterDate + '"))').parents('.schedule-main').hide();
   }
   if (null !== filterTime) {
-    jQuery(
-      '.schedule-main .schedule-row .date:not(:contains("' + filterTime + '"))'
-    )
-      .parents('.schedule-row')
-      .hide();
+    jQuery('.schedule-main .schedule-row .date:not(:contains("' + filterTime + '"))').parents('.schedule-row').hide();
   }
   if (null !== filterLocation) {
-    jQuery(
-      '.schedule-main .schedule-row .location:not(:contains("' +
-      filterLocation +
-      '"))'
-    )
-      .parents('.schedule-row')
-      .hide();
+    jQuery('.schedule-main .schedule-row .location:not(:contains("' + filterLocation + '"))').parents('.schedule-row').hide();
   }
   if (null !== filterType) {
-    jQuery(
-      '.schedule-main .schedule-row .details:not(:contains("' +
-      filterType +
-      '"))'
-    )
-      .parents('.schedule-row')
-      .hide();
+    jQuery('.schedule-main .schedule-row .details:not(:contains("' + filterType + '"))').parents('.schedule-row').hide();
   }
   if ('' !== filterSearch) {
     jQuery('.schedule-row:visible')
       .filter(function () {
         return (
           0 >
-          jQuery('.name', this)
-            .text()
-            .toLowerCase()
-            .indexOf(filterSearch.toLowerCase())
+          jQuery('.name', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
         );
       })
       .hide();
@@ -762,7 +716,8 @@ function insertCheckbox(data, id) {
 }
 
 function filterSelectTeam() {
-  jQuery('.team-main .team-box').show();
+  jQuery('.team-main .team-box').removeClass('slideInUp').hide();
+  jQuery('.team-main .team-box').addClass('slideInUp').show();
   jQuery('.no-data').hide();
 
   let filterDepartment =
@@ -777,7 +732,7 @@ function filterSelectTeam() {
     jQuery('.team-main .team-box').hide();
 
     jQuery('#team-checkbox .checkbox-list input:checked').each(function () {
-      jQuery('.team-main .team-box[data-category*="' + jQuery(this).val() + '"]').show();
+      jQuery('.team-main .team-box[data-category*="' + jQuery(this).val() + '"]').hide().show();
     });
   }
 
@@ -795,21 +750,17 @@ function filterSelectTeam() {
 }
 
 function filterAwards() {
-  jQuery('.awards-main, .wp-block-nab-awards-item').show();
+  jQuery('.wp-block-nab-awards-item').removeClass('slideInUp').hide();
+  jQuery('.wp-block-nab-awards-item').addClass('slideInUp').show();
+  jQuery('.awards-main').show();
   jQuery('.no-data').hide();
 
-  let filterAwardName =
-    0 <
-      jQuery('#award-name')[0].selectedIndex ?
-      jQuery('#award-name').val() :
-      null;
+  let filterAwardName = 0 < jQuery('#award-name')[0].selectedIndex ? jQuery('#award-name').val() : null;
 
   if (null !== filterAwardName) {
     jQuery('.awards-header').each(function () {
       if (jQuery(this).has('.awards-winner-title').length) {
-        jQuery('.awards-header .awards-winner-title:not(:contains("' + filterAwardName + '"))')
-          .parents('.awards-main')
-          .hide();
+        jQuery('.awards-header .awards-winner-title:not(:contains("' + filterAwardName + '"))').parents('.awards-main').hide();
       } else {
         jQuery(this).parents('.awards-main').hide();
       }
@@ -822,11 +773,7 @@ function filterAwards() {
     jQuery('.wp-block-nab-awards-item:visible')
       .filter(function () {
         return (
-          0 >
-          jQuery('.winnerName', this)
-            .text()
-            .toLowerCase()
-            .indexOf(filterSearch.toLowerCase())
+          0 > jQuery('.winnerName', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
         );
       })
       .hide();
@@ -849,7 +796,9 @@ function filterAwards() {
 
 // products-winners filter function
 function filterSelectProduct(clickItem) {
-  jQuery('.product-main .product-item, .products-winners').show();
+  jQuery('.products-winners').show();
+  jQuery('.product-main .product-item').removeClass('slideInUp').hide();
+  jQuery('.product-main .product-item').addClass('slideInUp').show();
   jQuery('.no-data').hide();
 
   let filterAwardName = 0 < jQuery('#products-category')[0].selectedIndex ? jQuery('#products-category').val() : null;
@@ -918,7 +867,14 @@ function filterFaq(clickItem) {
   let filterAwardName = 0 < jQuery('#faq-category-drp')[0].selectedIndex ? jQuery('#faq-category-drp').val() : null;
 
   if (null !== filterAwardName) {
-    jQuery('.accordionParentWrapper:visible h2.title:not(:contains("' + filterAwardName + '"))').parents('.accordionParentWrapper').hide();
+    jQuery('.accordionParentWrapper:visible').each(function () {
+      if (jQuery(this).find('h2.title').html() == undefined){
+        jQuery(this).hide();
+      }
+      if (jQuery(this).find('h2.title:contains("' + filterAwardName + '")').html() !== filterAwardName){
+        jQuery(this).hide();
+      }
+    });
   }
 
   let filterSearch = jQuery('#faq-search').val();
@@ -944,5 +900,46 @@ function filterFaq(clickItem) {
       jQuery('.no-data').show();
     }
   }
+}
 
+
+// Related content details js box-main function
+function boxMainFilter(clickItem) {
+  jQuery('.box-main .box-item').removeClass('slideInUp').hide();
+  jQuery('.box-main .box-item').addClass('slideInUp').show();
+  jQuery('.no-data').hide();
+
+  let filterAwardName = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
+  if (null !== filterAwardName) {
+    jQuery('.new-this-year .box-main .box-item').each(function () {
+      if ( jQuery(this).find('.title').html() !== filterAwardName ){
+        jQuery(this).hide();
+      }
+    });
+    jQuery('.delegation .box-main .box-item').each(function () {
+      jQuery('.country:not(:contains("' + filterAwardName + '"))').closest('.box-item').hide();
+    });
+  }
+
+  let filterSearch = jQuery('#box-main-search').val();
+  if ('' !== filterSearch) {
+    jQuery('.box-main .box-item:visible')
+      .filter(function () {
+        return (
+          0 > jQuery('.title', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
+        );
+      }).hide();
+  }
+  jQuery('.box-item')
+    .not(function () {
+      return 0 < jQuery('.box-item:visible').length;
+    }).hide();
+
+  if (0 === jQuery('.box-item:visible').length) {
+    if (0 === jQuery('.no-data').length) {
+      createResultNotFoundNode('.box-item');
+    } else {
+      jQuery('.no-data').show();
+    }
+  }
 }

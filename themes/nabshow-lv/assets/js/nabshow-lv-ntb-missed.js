@@ -24,13 +24,9 @@
         $('#load_more').hide();
         $('#loader_container').show();
         $('#card_section').fadeOut();
-        if ($('#primary').hasClass('ltb-zoomin')) {
-            jQuery('.ltb-zoomin  .card-columns-box .cards').removeClass('zoomIn').addClass('zoomOut');
-        } else if ($('#primary').hasClass('ltb-fadein')) {
-            jQuery('.ltb-fadein .card-columns-box .cards').removeClass('zoomInUp').addClass('zoomOutUp');
-        } else if ($('#primary').hasClass('ltb-slidein')) {
-            jQuery('.ltb-slidein .card-columns-box .cards').removeClass('slideInUp').addClass('slideOutUp');
-        }
+
+        jQuery('.ltb-slidein .card-columns-box .cards').removeClass('slideInUp');
+
         $('#load_more a').attr('data-page-number', 1);
 
         nabAjaxForLoadMoreAndCategoryClickEvent('categoryClick', pageNumber, dataCategorySlug);
@@ -62,15 +58,8 @@ function nabAjaxForLoadMoreAndCategoryClickEvent(eventName, pageNumber, dataCate
 
                 jQuery('#card_section').fadeIn();
 
-                if (jQuery('#primary').hasClass('ltb-zoomin')) {
-                    jQuery('.ltb-zoomin .card-columns-box .cards').removeClass('zoomOut').addClass('zoomIn');
-                } else if (jQuery('#primary').hasClass('ltb-fadein')) {
-                    jQuery('.ltb-fadein .card-columns-box .cards').removeClass('zoomOutUp').addClass('zoomInUp');
-                } else if (jQuery('#primary').hasClass('ltb-slidein')) {
-                    jQuery('.ltb-slidein .card-columns-box .cards').removeClass('slideOutUp').addClass('slideInUp');
-                }
+                jQuery('.ltb-slidein .card-columns-box .cards').addClass('slideInUp');
 
-                // jQuery('.card-columns-box .cards').removeClass('fadeOutUp').addClass('fadeInDown');
             }
 
             dataObj = jQuery.parseJSON(getData);

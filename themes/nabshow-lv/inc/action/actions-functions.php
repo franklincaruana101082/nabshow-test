@@ -1,8 +1,6 @@
 <?php
 /**
  * This file contains all action functions.
- *
- *
  * @package NABShow_LV
  */
 
@@ -182,7 +180,7 @@ function nabshow_lv_custom_type_to_author() {
 	if ( ! is_admin() ) {
 		global $wp_query;
 		if ( is_author() || is_home() ) {
-			$wp_query->set( 'post_type', array( 'post', 'thought-gallery', 'ntb-missed' ) );
+			$wp_query->set( 'post_type', array( 'post', 'thought-gallery', 'not-to-be-missed' ) );
 		}
 	}
 }
@@ -237,4 +235,16 @@ function nabshow_lv_ads_stats_callback() {
         <?php $ads_view_lists->display(); ?>
     </div>
     <?php
+}
+
+/**
+ * Register custom api endpoints
+ * @since 1.0
+ */
+function nabshow_lv_register_api_endpoints() {
+
+    register_rest_route( 'nab_api', '/request/page-parents', array(
+		'methods'  => 'GET',
+		'callback' => 'nabshow_lv_get_page_parents_callback',
+	) );
 }

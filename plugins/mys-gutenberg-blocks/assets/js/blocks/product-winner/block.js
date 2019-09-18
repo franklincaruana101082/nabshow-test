@@ -5,7 +5,7 @@
     const { InspectorControls } = wpEditor;
     const { PanelBody, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
-    class NabDynamicSlider extends Component {
+    class NabProductWinner extends Component {
         constructor() {
             super(...arguments);
             this.state = {
@@ -74,7 +74,7 @@
             const { itemToFetch, postType, taxonomies, terms, orderBy } = attributes;
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object ) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -130,6 +130,9 @@
                                                         tempTerms = JSON.stringify(tempTerms);
                                                         this.props.setAttributes({ terms: tempTerms });
                                                     }
+                                                }
+                                                if ( tempTerms.constructor === Object ) {
+                                                    tempTerms = JSON.stringify(tempTerms);
                                                 }
                                                 this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                 this.setState({ taxonomies: tempTaxonomies });
@@ -218,7 +221,7 @@
         },
         postType: {
             type: 'string',
-            default: 'ntb-missed'
+            default: 'not-to-be-missed'
         },
         taxonomies: {
             type: 'array',
@@ -239,7 +242,7 @@
         category: 'mysgb',
         keywords: [__('product'), __('winner'), __('showcase')],
         attributes: blockAttrs,
-        edit: NabDynamicSlider,
+        edit: NabProductWinner,
         save() {
             return null;
         },

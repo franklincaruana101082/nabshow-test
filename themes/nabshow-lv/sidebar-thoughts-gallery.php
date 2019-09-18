@@ -26,7 +26,7 @@ if ( false === $popularposts ) {
 <div class="sidebar-inner">
     <aside class="widget widget_search">
         <form method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-            <input type="search" placeholder="Search Though Gallery"
+            <input type="search" placeholder="Search Thought Gallery...."
                    value="<?php echo esc_attr( get_search_query() ); ?>" name="s"/>
             <input type="hidden" value="<?php echo esc_attr( 'thought-gallery' ); ?>" name="post_type"/>
             <button>Search</button>
@@ -103,54 +103,48 @@ if ( false === $popularposts ) {
 		}
 		?>
     </aside>
-    <aside class="widget widget_contributors">
-        <div class="widget-title">
-            <h2>Contributors</h2>
-        </div>
-        <ul class="sidebar-contributors">
-            <li>
-                <div class="item-inner">
-                    <a href="">
-                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-d91e4c4de9ce-feda-dda4-6630-85286ace-283697.jpg" alt="crontest-James Southern">
-                    </a>
-                </div>
-            </li>
-            <li>
-                <div class="item-inner">
-                    <a href="">
-                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-67c80d51853c-79cb-3a04-7c03-050c4c04-611957.jpg" alt="crontest-James Southern">
-                    </a>
-                </div>
-            </li>
-            <li>
-                <div class="item-inner">
-                    <a href="">
-                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-e464b7f63729-20db-04d4-9df0-fb2d0099-497787.jpg" alt="crontest-James Southern">
-                    </a>
-                </div>
-            </li>
-            <li>
-                <div class="item-inner">
-                    <a href="">
-                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-47de73d7c34f-b41a-fd54-82a5-0bee03d6-975597.jpg" alt="crontest-James Southern">
-                    </a>
-                </div>
-            </li>
-            <li>
-                <div class="item-inner">
-                    <a href="">
-                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-9822434eaf52-8c99-6764-7dcc-44a2a1b6-868847.jpg" alt="crontest-James Southern">
-                    </a>
-                </div>
-            </li>
-            <li>
-                <div class="item-inner">
-                    <a href="">
-                        <img src="https://nabshow.md-develop.com/wp-content/uploads/2019/08/speakers-5bb0973c987f-d599-d0b4-424a-6f535219-407407.jpg" alt="crontest-James Southern">
-                    </a>
-                </div>
-            </li>
-        </ul>
-        <a href="#" class="btn-default">View all</a>
-    </aside>
+    <?php
+    $all_contributors = get_users( array( 'blog_id' => 0 ) );
+    if ( count( $all_contributors ) > 0 ) {
+        $limit_counter = 1;
+    ?>
+        <aside class="widget widget_contributors">
+            <div class="widget-title">
+                <h2>Contributors</h2>
+            </div>
+            <ul class="sidebar-contributors">
+        <?php
+        foreach ( $all_contributors as $contributor ) {
+
+            $author_query = get_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-thought-gallery');
+
+            if ( false === $author_query ) {
+                $args = array( 'author' => $contributor->ID, 'post_type' => 'thought-gallery', 'posts_per_page' => 1 );
+                $author_query = new WP_Query( $args );
+                set_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-thought-gallery', $author_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+            }
+
+            if( $author_query->have_posts() && 6 >= $limit_counter ) {
+                $contributor_image = get_avatar_url( $contributor->ID, array( 'size' => 200 ) );
+                ?>
+                <li>
+                    <div class="item-inner">
+                        <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="thought-gallery">
+                            <img src="<?php echo esc_url( $contributor_image ); ?>" alt="contributor" />
+                        </a>
+                    </div>
+                </li>
+                <?php
+                $limit_counter++;
+                wp_reset_postdata();
+            }
+        }
+        $view_all_url = site_url() . '/thought-gallery/contributors/';
+        ?>
+            </ul>
+            <a href="<?php echo esc_url( $view_all_url ); ?>" class="btn-default">View all</a>
+        </aside>
+    <?php
+    }
+    ?>
 </div>

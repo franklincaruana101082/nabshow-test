@@ -91,6 +91,11 @@ require get_template_directory() . '/inc/common-functions.php';
  */
 require get_template_directory() . '/inc/ads-view-list-data.php';
 
+/**
+ * All the endpoint callback function.
+ */
+require get_template_directory() . '/inc/endpoints.php';
+
 
 
 /**

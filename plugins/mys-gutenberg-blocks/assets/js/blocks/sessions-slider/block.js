@@ -77,24 +77,22 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
-                        setTimeout(() => {
-                            this.state.bxSliderObj.reloadSlider(
-                                {
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                }
-                            );
-                        }, 1000);
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                        this.state.bxSliderObj.reloadSlider(
+                            {
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            }
+                        );
                     }
                 }
             }
@@ -142,7 +140,8 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 arrowIcons,
                 sessionDate,
                 metaDate,
-                taxonomyRelation
+                taxonomyRelation,
+                detailPopup
             } = attributes;
 
             var names = [
@@ -159,7 +158,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
             }
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -193,7 +192,11 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                 ]}
                                 onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                             />
-
+                            <ToggleControl
+                                label={__('Display details in popup')}
+                                checked={detailPopup}
+                                onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
+                            />
                             <ToggleControl
                                 label={__('Date Specific Session')}
                                 checked={metaDate}
@@ -242,6 +245,9 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if ( tempTerms.constructor === Object ) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     this.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -439,7 +445,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup }}
                     />
                 </Fragment >
             );
@@ -489,6 +495,10 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
         terms: {
             type: 'string',
             default: {}
+        },
+        detailPopup: {
+            type: 'boolean',
+            default: false,
         },
         slideWidth: {
             type: 'number',

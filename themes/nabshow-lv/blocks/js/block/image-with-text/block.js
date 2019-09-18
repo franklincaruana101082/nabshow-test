@@ -1,8 +1,8 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents) {
 	const { __ } = wpI18n;
 	const { registerBlockType } = wpBlocks;
-	const { InspectorControls, PanelColorSettings, InnerBlocks, RichText, MediaUpload, BlockControls } = wpEditor;
-	const { TextControl, PanelBody, PanelRow, SelectControl, Button, ToggleControl, RangeControl, ColorPalette } = wpComponents;
+	const { InspectorControls, InnerBlocks, MediaUpload, BlockControls } = wpEditor;
+	const { TextControl, PanelBody, PanelRow, Toolbar, IconButton, Button, ToggleControl, RangeControl, ColorPalette } = wpComponents;
 
 	registerBlockType('nab/image-with-text', {
 		title: __('Nab - Image & Text'),
@@ -49,6 +49,13 @@
 				type: 'boolean',
 				default: true
 			},
+			postImage: {
+				type: 'boolean',
+				default: false
+			},
+			imgID: {
+				type: 'number',
+			},
 			BoxAlign: {
 				type: 'string'
 			},
@@ -71,9 +78,11 @@
 				paddingLeft,
 				Imagelignment,
 				FullImage,
+				postImage,
 				BoxAlign,
 				BackgroundColor,
-				InsertUrl
+				InsertUrl,
+				imgID
 			} = attributes;
 
 			const getImageButton = (openEvent) => {
@@ -133,19 +142,27 @@
 				<div className="media-with-text-main" style={MainStyle}>
 					<div className="media-with-text-main-column left-side" style={LeftColumnStyle}>
 						<BlockControls>
-							<div className="delete-brick-img">
-								<span
-									onClick={(value) => setAttributes({ imageUrl: '', imageAlt: '', InsertUrl: '' })}
-									className="dashicons dashicons-trash"
+							<Toolbar>
+								<MediaUpload
+									value={imgID}
+									onSelect={(media) => setAttributes({ imageAlt: media.alt, imageUrl: media.url, imgID: media.id })}
+									render={({ open }) => (
+										<IconButton
+											className="components-toolbar__control"
+											label={__('Change image')}
+											icon="edit"
+											onClick={open}
+										/>
+									)}
 								/>
-							</div>
+							</Toolbar>
 						</BlockControls>
 						<MediaUpload
 							onSelect={(media) => {
-								setAttributes({ imageAlt: media.alt, imageUrl: media.url });
+								setAttributes({ imageAlt: media.alt, imageUrl: media.url, imgID: media.id });
 							}}
 							type="image"
-							value={attributes.imageID}
+							value={imgID}
 							render={({ open }) => getImageButton(open)}
 						/>
 					</div>
@@ -231,37 +248,29 @@
 									onChange={() => setAttributes({ FullImage: ! FullImage })}
 								/>
 							</PanelRow>
-							{/* <PanelRow>
-								<div className="inspector-field-alignment inspector-field inspector-responsive">
-									<label>Image Alignment</label>
-									<div className="inspector-field-button-list inspector-field-button-list-fluid">
-										<button className=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'left' })} >
-											<svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
-												<g transform="translate(-29 -4) translate(29 4)" fill="none">
-													<path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect className="inspector-svg-fill" x="5" y="5" width="16" height="7" rx="1"></rect>
-												</g>
-											</svg>
-										</button>
-										<button className=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'center' })} >
-											<svg width="16" height="18" viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
-												<g transform="translate(-115 -4) translate(115 4)" fill="none">
-													<path d="M8 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect className="inspector-svg-fill" y="5" width="16" height="7" rx="1"></rect>
-												</g>
-											</svg>
-										</button>
-										<button className=" inspector-button" onClick={() => setAttributes({ Imagelignment: 'Right' })} >
-											<svg width="21" height="18" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
-												<g transform="translate(0 1) rotate(-180 10.5 8.5)" fill="none">
-													<path d="M1 .708v15.851" className="inspector-svg-stroke" stroke-linecap="square"></path>
-													<rect className="inspector-svg-fill" fill-rule="nonzero" x="5" y="5" width="16" height="7" rx="1"></rect>
-												</g>
-											</svg>
-										</button>
-									</div>
-								</div>
-							</PanelRow> */}
+							{ 0 !== wp.data.select('core/editor').getEditedPostAttribute('featured_media') &&
+							<PanelRow>
+								<ToggleControl
+									label={__('Post Featured Image')}
+									checked={postImage}
+									onChange={( postImg ) => {
+										setAttributes({ postImage: postImg });
+										if ( postImg ) {
+											let postImgURL,
+												postImgAlt = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).alt_text,
+												postImgId = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).id;
+
+											if ( wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).media_details.sizes.medium ) {
+												postImgURL = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).media_details.sizes.medium.source_url;
+											} else if ( wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).source_url ) {
+												postImgURL = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).source_url;
+											}
+											setAttributes({ imageAlt: postImgAlt, imageUrl: postImgURL, imgID: postImgId });
+										}
+									}}
+								/>
+							</PanelRow>
+							}
 						</PanelBody>
 						<PanelBody title="Content Box Spacing" initialOpen={false}>
 							<PanelRow>

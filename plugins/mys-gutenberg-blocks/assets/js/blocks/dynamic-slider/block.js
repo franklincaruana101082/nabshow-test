@@ -90,8 +90,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
-                        setTimeout(() => {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj) {
+                        //setTimeout(() => {
                             this.state.bxSliderObj.reloadSlider(
                                 {
                                     minSlides: minSlides,
@@ -107,7 +107,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     mode: 'horizontal'
                                 }
                             );
-                        }, 1000);
+                       // }, 1000);
                     }
                     if (postType !== prevProps.attributes.postType) {
                         this.filterTaxonomy();
@@ -170,8 +170,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             ];
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
-                isCheckedTerms = JSON.parse(terms);
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
+              isCheckedTerms = JSON.parse(terms);
             }
 
             let input = <div className="inspector-field inspector-field-Numberofitems ">
@@ -236,6 +236,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if( tempTerms.constructor === Object ) {
+                                                      tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     this.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -488,7 +491,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('mys/dynamic-slider', {
         title: __('Dynamic Slider'),
-        icon: 'lock',
+        icon: 'slides',
         category: 'mysgb',
         keywords: [__('dynamic'), __('slider')],
         attributes: blockAttrs,

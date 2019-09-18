@@ -8,6 +8,11 @@ get_header();
 ?>
     <div id="primary" class="container">
         <div class="page-main thought-gallery-page thought-gallery-detail-page">
+            <div class="breadcrumbs-nospace">
+                <?php
+                    echo do_shortcode('[nab_yoast_breadcumb]');
+                ?>
+            </div>
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-sm-12 content-with-sidebar">
 					<?php

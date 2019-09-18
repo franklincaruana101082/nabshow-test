@@ -72,30 +72,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentDidUpdate() {
-            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderMode, slideWidth, sliderActive, slideMargin } } = this.props;
+            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
-                        setTimeout(() => {
-                            this.state.bxSliderObj.reloadSlider(
-                                {
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: sliderMode
-                                }
-                            );
-                        }, 1000);
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj) {
+                        this.state.bxSliderObj.reloadSlider(
+                            {
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            }
+                        );
                     }
                 }
             }
@@ -104,8 +102,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         initSlider() {
             const { clientId } = this.props;
             if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
-                const { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderMode, slideWidth, slideMargin } = this.props.attributes;
-                const sliderObj = $(`#block-${clientId} .nab-dynamic-slider`).bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
+                const { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, slideMargin } = this.props.attributes;
+                const sliderObj = $(`#block-${clientId} .nab-dynamic-slider`).bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                 this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
             } else {
                 this.setState({ bxinit: true });
@@ -132,14 +130,15 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 controls,
                 sliderSpeed,
                 sliderActive,
-                sliderMode,
                 postType,
                 taxonomies,
                 terms,
                 slideWidth,
                 orderBy,
                 slideMargin,
-                arrowIcons
+                arrowIcons,
+                detailPopup,
+                taxonomyRelation
             } = attributes;
 
             var names = [
@@ -152,7 +151,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             ];
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -185,7 +184,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 ]}
                                 onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                             />
-
+                            <ToggleControl
+                                label={__('Display details in popup')}
+                                checked={detailPopup}
+                                onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
+                            />
+                            <ToggleControl
+                                label={__('Taxonomy Relation (AND)')}
+                                checked={taxonomyRelation}
+                                onChange={() => { setAttributes({ taxonomyRelation: ! taxonomyRelation }); this.setState({ bxinit: true }); }}
+                            />
                             {0 < this.state.taxonomiesList.length &&
 
                             <Fragment>
@@ -213,6 +221,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                         delete tempTerms[taxonomy.value];
                                                         tempTerms = JSON.stringify(tempTerms);
                                                     }
+                                                }
+                                                if ( tempTerms.constructor === Object ) {
+                                                    tempTerms = JSON.stringify(tempTerms);
                                                 }
                                                 this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                 this.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -386,7 +397,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/exhibitors-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, taxonomyRelation: taxonomyRelation }}
                     />
                 </Fragment >
             );
@@ -425,10 +436,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'boolean',
             default: true
         },
-        sliderMode: {
-            type: 'string',
-            default: 'horizontal'
-        },
         postType: {
             type: 'string',
             default: 'exhibitors'
@@ -440,6 +447,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         terms: {
             type: 'string',
             default: {}
+        },
+        detailPopup: {
+            type: 'boolean',
+            default: false,
         },
         slideWidth: {
             type: 'number',
@@ -456,7 +467,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
-        }
+        },
+        taxonomyRelation: {
+            type: 'boolean',
+            default: false,
+        },
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),

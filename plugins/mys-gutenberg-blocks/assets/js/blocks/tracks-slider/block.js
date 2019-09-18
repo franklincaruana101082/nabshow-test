@@ -7,7 +7,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { InspectorControls } = wpEditor;
     const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
-    class MYSTracksSlider extends Component {
+    class MYSCategorySlider extends Component {
         constructor() {
             super(...arguments);
             this.state = {
@@ -30,24 +30,22 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
-                        setTimeout(() => {
-                            this.state.bxSliderObj.reloadSlider(
-                                {
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                }
-                            );
-                        }, 1000);
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                        this.state.bxSliderObj.reloadSlider(
+                            {
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            }
+                        );
                     }
                 }
             }
@@ -80,7 +78,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 order,
                 slideMargin,
                 arrowIcons,
-                featuredTrack
+                featuredTag,
+                categoryType
             } = attributes;
 
             var names = [
@@ -112,7 +111,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
                             {input}
                             <SelectControl
-                                label={__('Tracks Order')}
+                                label={__('Category Type')}
+                                value={categoryType}
+                                options={[
+                                    { label: __('Tracks'), value: 'tracks' },
+                                    { label: __('Exhibitors'), value: 'exhibitor-categories' },
+                                ]}
+                                onChange={(value) => { setAttributes({ categoryType: value }); this.setState({ bxinit: true }); }}
+                            />
+                            <SelectControl
+                                label={__('Display Order')}
                                 value={order}
                                 options={[
                                     { label: __('A → Z'), value: 'ASC' },
@@ -121,9 +129,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 onChange={(value) => { setAttributes({ order: value }); this.setState({ bxinit: true }); }}
                             />
                             <CheckboxControl
-                                label="Featured Tracks"
-                                checked={ featuredTrack }
-                                onChange={ () => {  setAttributes({ featuredTrack: ! featuredTrack }); this.setState({ bxinit: true }); } }
+                                label="Featured"
+                                checked={ featuredTag }
+                                onChange={ () => {  setAttributes({ featuredTag: ! featuredTag }); this.setState({ bxinit: true }); } }
                             />
                         </PanelBody>
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
@@ -223,7 +231,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/tracks-slider"
-                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTrack: featuredTrack }}
+                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType }}
                     />
                 </Fragment >
             );
@@ -278,18 +286,23 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'string',
             default: 'slider-arrow-1'
         },
-        featuredTrack: {
+        featuredTag: {
             type: 'boolean',
             default: false
+        },
+        categoryType: {
+            type: 'string',
+            default: 'tracks'
         }
+
     };
     registerBlockType('mys/tracks-slider', {
-        title: __('Tracks Slider'),
+        title: __('Category Slider'),
         icon: 'lock',
         category: 'mysgb',
-        keywords: [__('tracks'), __('slider')],
+        keywords: [__('tracks'), __('exhibitors'), __('category')],
         attributes: blockAttrs,
-        edit: MYSTracksSlider,
+        edit: MYSCategorySlider,
         save() {
             return null;
         },

@@ -680,6 +680,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__product_winner_block__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__product_winner_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__product_winner_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tracks_slider_block__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__session_filter_block__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__session_filter_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__session_filter_block__);
+
 
 
 
@@ -841,22 +844,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
-                            setTimeout(function () {
-                                _this4.state.bxSliderObj.reloadSlider({
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                });
-                            }, 1000);
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length && this.state.bxSliderObj) {
+                            //setTimeout(() => {
+                            this.state.bxSliderObj.reloadSlider({
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            });
+                            // }, 1000);
                         }
                         if (postType !== prevProps.attributes.postType) {
                             this.filterTaxonomy();
@@ -927,7 +930,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var isCheckedTerms = {};
-                if (!this.isEmpty(terms)) {
+                if (!this.isEmpty(terms) && terms.constructor !== Object) {
                     isCheckedTerms = JSON.parse(terms);
                 }
 
@@ -1014,6 +1017,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if (tempTerms.constructor === Object) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     _this5.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     _this5.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -1316,7 +1322,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/dynamic-slider', {
         title: __('Dynamic Slider'),
-        icon: 'lock',
+        icon: 'slides',
         category: 'mysgb',
         keywords: [__('dynamic'), __('slider')],
         attributes: blockAttrs,
@@ -1466,22 +1472,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
-                            setTimeout(function () {
-                                _this4.state.bxSliderObj.reloadSlider({
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                });
-                            }, 1000);
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length && this.state.bxSliderObj) {
+                            this.state.bxSliderObj.reloadSlider({
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            });
                         }
                     }
                 }
@@ -1546,7 +1550,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons,
                     sessionDate = attributes.sessionDate,
                     metaDate = attributes.metaDate,
-                    taxonomyRelation = attributes.taxonomyRelation;
+                    taxonomyRelation = attributes.taxonomyRelation,
+                    detailPopup = attributes.detailPopup;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -1556,7 +1561,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
 
                 var isCheckedTerms = {};
-                if (!this.isEmpty(terms)) {
+                if (!this.isEmpty(terms) && terms.constructor !== Object) {
                     isCheckedTerms = JSON.parse(terms);
                 }
 
@@ -1602,6 +1607,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
                                     setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Display details in popup'),
+                                checked: detailPopup,
+                                onChange: function onChange() {
+                                    setAttributes({ detailPopup: !detailPopup });_this5.setState({ bxinit: true });
                                 }
                             }),
                             wp.element.createElement(ToggleControl, {
@@ -1668,6 +1680,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if (tempTerms.constructor === Object) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     _this5.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     _this5.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -1947,7 +1962,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: 'mys/sessions-slider',
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup }
                     })
                 );
             }
@@ -2000,6 +2015,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         terms: {
             type: 'string',
             default: {}
+        },
+        detailPopup: {
+            type: 'boolean',
+            default: false
         },
         slideWidth: {
             type: 'number',
@@ -2177,7 +2196,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     pager = _props$attributes.pager,
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
-                    sliderMode = _props$attributes.sliderMode,
                     slideWidth = _props$attributes.slideWidth,
                     sliderActive = _props$attributes.sliderActive,
                     slideMargin = _props$attributes.slideMargin;
@@ -2189,22 +2207,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
-                            setTimeout(function () {
-                                _this4.state.bxSliderObj.reloadSlider({
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: sliderMode
-                                });
-                            }, 1000);
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length && this.state.bxSliderObj) {
+                            this.state.bxSliderObj.reloadSlider({
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            });
                         }
                     }
                 }
@@ -2222,11 +2238,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         pager = _props$attributes2.pager,
                         controls = _props$attributes2.controls,
                         sliderSpeed = _props$attributes2.sliderSpeed,
-                        sliderMode = _props$attributes2.sliderMode,
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
+                    var sliderObj = $('#block-' + clientId + ' .nab-dynamic-slider').bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -2259,20 +2274,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = attributes.controls,
                     sliderSpeed = attributes.sliderSpeed,
                     sliderActive = attributes.sliderActive,
-                    sliderMode = attributes.sliderMode,
                     postType = attributes.postType,
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
                     slideWidth = attributes.slideWidth,
                     orderBy = attributes.orderBy,
                     slideMargin = attributes.slideMargin,
-                    arrowIcons = attributes.arrowIcons;
+                    arrowIcons = attributes.arrowIcons,
+                    detailPopup = attributes.detailPopup,
+                    taxonomyRelation = attributes.taxonomyRelation;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var isCheckedTerms = {};
-                if (!this.isEmpty(terms)) {
+                if (!this.isEmpty(terms) && terms.constructor !== Object) {
                     isCheckedTerms = JSON.parse(terms);
                 }
 
@@ -2320,6 +2336,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                 }
                             }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Display details in popup'),
+                                checked: detailPopup,
+                                onChange: function onChange() {
+                                    setAttributes({ detailPopup: !detailPopup });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Taxonomy Relation (AND)'),
+                                checked: taxonomyRelation,
+                                onChange: function onChange() {
+                                    setAttributes({ taxonomyRelation: !taxonomyRelation });_this5.setState({ bxinit: true });
+                                }
+                            }),
                             0 < this.state.taxonomiesList.length && wp.element.createElement(
                                 Fragment,
                                 null,
@@ -2351,6 +2381,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if (tempTerms.constructor === Object) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     _this5.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     _this5.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -2564,7 +2597,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: 'mys/exhibitors-slider',
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, taxonomyRelation: taxonomyRelation }
                     })
                 );
             }
@@ -2606,10 +2639,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'boolean',
             default: true
         },
-        sliderMode: {
-            type: 'string',
-            default: 'horizontal'
-        },
         postType: {
             type: 'string',
             default: 'exhibitors'
@@ -2621,6 +2650,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         terms: {
             type: 'string',
             default: {}
+        },
+        detailPopup: {
+            type: 'boolean',
+            default: false
         },
         slideWidth: {
             type: 'number',
@@ -2637,6 +2670,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        taxonomyRelation: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/exhibitors-slider', {
@@ -2790,22 +2827,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
-                            setTimeout(function () {
-                                _this4.state.bxSliderObj.reloadSlider({
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                });
-                            }, 1000);
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length && this.state.bxSliderObj) {
+                            this.state.bxSliderObj.reloadSlider({
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            });
                         }
                     }
                 }
@@ -2866,13 +2901,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideWidth = attributes.slideWidth,
                     orderBy = attributes.orderBy,
                     slideMargin = attributes.slideMargin,
-                    arrowIcons = attributes.arrowIcons;
+                    arrowIcons = attributes.arrowIcons,
+                    detailPopup = attributes.detailPopup;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var isCheckedTerms = {};
-                if (!this.isEmpty(terms)) {
+                if (!this.isEmpty(terms) && terms.constructor !== Object) {
                     isCheckedTerms = JSON.parse(terms);
                 }
 
@@ -2920,6 +2956,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                 }
                             }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Display details in popup'),
+                                checked: detailPopup,
+                                onChange: function onChange() {
+                                    setAttributes({ detailPopup: !detailPopup });_this5.setState({ bxinit: true });
+                                }
+                            }),
                             0 < this.state.taxonomiesList.length && wp.element.createElement(
                                 Fragment,
                                 null,
@@ -2951,6 +2994,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if (tempTerms.constructor === Object) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     _this5.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     _this5.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -3199,7 +3245,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         { className: arrowIcons },
                         wp.element.createElement(ServerSideRender, {
                             block: 'mys/speaker-slider',
-                            attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons }
+                            attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup }
                         })
                     )
                 );
@@ -3258,6 +3304,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: {}
         },
+        detailPopup: {
+            type: 'boolean',
+            default: false
+        },
         slideWidth: {
             type: 'number',
             default: 400
@@ -3307,10 +3357,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpEditor.InspectorControls;
+    var InspectorControls = wpEditor.InspectorControls,
+        RichText = wpEditor.RichText;
     var PanelBody = wpComponents.PanelBody,
         SelectControl = wpComponents.SelectControl,
-        TextControl = wpComponents.TextControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
         RangeControl = wpComponents.RangeControl;
@@ -3328,8 +3378,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 taxonomies: [],
                 taxonomiesObj: {},
                 termsObj: {},
-                filterTermsObj: {},
-                isDisable: false
+                filterTermsObj: {}
             };
             return _this;
         }
@@ -3393,15 +3442,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 this.setState({ filterTermsObj: filterTerms });
             }
         }, {
-            key: 'componentDidUpdate',
-            value: function componentDidUpdate(prevProps) {
-                var postType = this.props.attributes.postType;
-
-                if (postType !== prevProps.attributes.postType) {
-                    this.filterTaxonomy();
-                }
-            }
-        }, {
             key: 'isEmpty',
             value: function isEmpty(obj) {
                 var key = void 0;
@@ -3420,7 +3460,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props = this.props,
                     attributes = _props.attributes,
                     setAttributes = _props.setAttributes;
-                var itemToFetch = attributes.itemToFetch,
+                var layout = attributes.layout,
+                    itemToFetch = attributes.itemToFetch,
                     postType = attributes.postType,
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
@@ -3428,7 +3469,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
                 var isCheckedTerms = {};
-                if (!this.isEmpty(terms)) {
+                if (!this.isEmpty(terms) && terms.constructor !== Object) {
                     isCheckedTerms = JSON.parse(terms);
                 }
 
@@ -3441,6 +3482,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement(
                             PanelBody,
                             { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
+                            wp.element.createElement(SelectControl, {
+                                label: __('Layout type'),
+                                value: layout,
+                                options: [{ label: __('Without Title'), value: 'without-title' }, { label: __('With Title'), value: 'with-title' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ layout: value });
+                                }
+                            }),
                             wp.element.createElement(
                                 'div',
                                 { className: 'inspector-field inspector-field-Numberofitems ' },
@@ -3454,7 +3503,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     min: 1,
                                     max: 20,
                                     onChange: function onChange(item) {
-                                        setAttributes({ itemToFetch: parseInt(item) });_this4.setState({ bxinit: true, isDisable: true });
+                                        setAttributes({ itemToFetch: parseInt(item) });
                                     }
                                 })
                             ),
@@ -3503,13 +3552,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
                                                     }
-                                                    _this4.props.setAttributes({
-                                                        terms: tempTerms,
-                                                        taxonomies: tempTaxonomies
-                                                    });
-                                                    _this4.setState({
-                                                        taxonomies: tempTaxonomies
-                                                    });
+                                                    if (tempTerms.constructor === Object) {
+                                                        tempTerms = JSON.stringify(tempTerms);
+                                                    }
+                                                    _this4.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                    _this4.setState({ taxonomies: tempTaxonomies });
                                                 }
                                             })
                                         );
@@ -3587,10 +3634,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(
                         'div',
-                        { className: true },
+                        null,
                         wp.element.createElement(ServerSideRender, {
                             block: 'mys/sponsors-partners',
                             attributes: {
+                                layout: layout,
                                 itemToFetch: itemToFetch,
                                 postType: postType,
                                 orderBy: orderBy,
@@ -3607,6 +3655,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }(Component);
 
     var blockAttrs = {
+        layout: {
+            type: 'string',
+            default: 'without-title'
+        },
         itemToFetch: {
             type: 'number',
             default: 10
@@ -3668,13 +3720,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         CheckboxControl = wpComponents.CheckboxControl,
         RangeControl = wpComponents.RangeControl;
 
-    var NabDynamicSlider = function (_Component) {
-        _inherits(NabDynamicSlider, _Component);
+    var NabProductWinner = function (_Component) {
+        _inherits(NabProductWinner, _Component);
 
-        function NabDynamicSlider() {
-            _classCallCheck(this, NabDynamicSlider);
+        function NabProductWinner() {
+            _classCallCheck(this, NabProductWinner);
 
-            var _this = _possibleConstructorReturn(this, (NabDynamicSlider.__proto__ || Object.getPrototypeOf(NabDynamicSlider)).apply(this, arguments));
+            var _this = _possibleConstructorReturn(this, (NabProductWinner.__proto__ || Object.getPrototypeOf(NabProductWinner)).apply(this, arguments));
 
             _this.state = {
                 taxonomiesList: [],
@@ -3686,7 +3738,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             return _this;
         }
 
-        _createClass(NabDynamicSlider, [{
+        _createClass(NabProductWinner, [{
             key: 'componentWillMount',
             value: function componentWillMount() {
                 var _this2 = this;
@@ -3764,7 +3816,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
                 var isCheckedTerms = {};
-                if (!this.isEmpty(terms)) {
+                if (!this.isEmpty(terms) && terms.constructor !== Object) {
                     isCheckedTerms = JSON.parse(terms);
                 }
 
@@ -3834,6 +3886,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                             tempTerms = JSON.stringify(tempTerms);
                                                             _this4.props.setAttributes({ terms: tempTerms });
                                                         }
+                                                    }
+                                                    if (tempTerms.constructor === Object) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     _this4.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     _this4.setState({ taxonomies: tempTaxonomies });
@@ -3905,7 +3960,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }]);
 
-        return NabDynamicSlider;
+        return NabProductWinner;
     }(Component);
 
     var blockAttrs = {
@@ -3915,7 +3970,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         postType: {
             type: 'string',
-            default: 'ntb-missed'
+            default: 'not-to-be-missed'
         },
         taxonomies: {
             type: 'array',
@@ -3936,7 +3991,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         category: 'mysgb',
         keywords: [__('product'), __('winner'), __('showcase')],
         attributes: blockAttrs,
-        edit: NabDynamicSlider,
+        edit: NabProductWinner,
         save: function save() {
             return null;
         }
@@ -3974,13 +4029,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         CheckboxControl = wpComponents.CheckboxControl,
         RangeControl = wpComponents.RangeControl;
 
-    var MYSTracksSlider = function (_Component) {
-        _inherits(MYSTracksSlider, _Component);
+    var MYSCategorySlider = function (_Component) {
+        _inherits(MYSCategorySlider, _Component);
 
-        function MYSTracksSlider() {
-            _classCallCheck(this, MYSTracksSlider);
+        function MYSCategorySlider() {
+            _classCallCheck(this, MYSCategorySlider);
 
-            var _this = _possibleConstructorReturn(this, (MYSTracksSlider.__proto__ || Object.getPrototypeOf(MYSTracksSlider)).apply(this, arguments));
+            var _this = _possibleConstructorReturn(this, (MYSCategorySlider.__proto__ || Object.getPrototypeOf(MYSCategorySlider)).apply(this, arguments));
 
             _this.state = {
                 bxSliderObj: {},
@@ -3992,7 +4047,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             return _this;
         }
 
-        _createClass(MYSTracksSlider, [{
+        _createClass(MYSCategorySlider, [{
             key: 'componentDidMount',
             value: function componentDidMount() {
                 this.setState({ bxinit: true });
@@ -4022,22 +4077,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length) {
-                            setTimeout(function () {
-                                _this2.state.bxSliderObj.reloadSlider({
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                });
-                            }, 1000);
+                        if (0 < $('#block-' + clientId + ' .nab-dynamic-slider').length && this.state.bxSliderObj) {
+                            this.state.bxSliderObj.reloadSlider({
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            });
                         }
                     }
                 }
@@ -4084,7 +4137,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     order = attributes.order,
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
-                    featuredTrack = attributes.featuredTrack;
+                    featuredTag = attributes.featuredTag,
+                    categoryType = attributes.categoryType;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -4126,7 +4180,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
                             input,
                             wp.element.createElement(SelectControl, {
-                                label: __('Tracks Order'),
+                                label: __('Category Type'),
+                                value: categoryType,
+                                options: [{ label: __('Tracks'), value: 'tracks' }, { label: __('Exhibitors'), value: 'exhibitor-categories' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ categoryType: value });_this3.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Display Order'),
                                 value: order,
                                 options: [{ label: __('A → Z'), value: 'ASC' }, { label: __('Z → A'), value: 'DESC' }],
                                 onChange: function onChange(value) {
@@ -4134,10 +4196,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             wp.element.createElement(CheckboxControl, {
-                                label: 'Featured Tracks',
-                                checked: featuredTrack,
+                                label: 'Featured',
+                                checked: featuredTag,
                                 onChange: function onChange() {
-                                    setAttributes({ featuredTrack: !featuredTrack });_this3.setState({ bxinit: true });
+                                    setAttributes({ featuredTag: !featuredTag });_this3.setState({ bxinit: true });
                                 }
                             })
                         ),
@@ -4289,13 +4351,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: 'mys/tracks-slider',
-                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTrack: featuredTrack }
+                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType }
                     })
                 );
             }
         }]);
 
-        return MYSTracksSlider;
+        return MYSCategorySlider;
     }(Component);
 
     var blockAttrs = {
@@ -4347,20 +4409,272 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: 'slider-arrow-1'
         },
-        featuredTrack: {
+        featuredTag: {
             type: 'boolean',
             default: false
+        },
+        categoryType: {
+            type: 'string',
+            default: 'tracks'
         }
+
     };
     registerBlockType('mys/tracks-slider', {
-        title: __('Tracks Slider'),
+        title: __('Category Slider'),
         icon: 'lock',
         category: 'mysgb',
-        keywords: [__('tracks'), __('slider')],
+        keywords: [__('tracks'), __('exhibitors'), __('category')],
         attributes: blockAttrs,
-        edit: MYSTracksSlider,
+        edit: MYSCategorySlider,
         save: function save() {
             return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl;
+
+    var MYSSessionsFilter = function (_Component) {
+        _inherits(MYSSessionsFilter, _Component);
+
+        function MYSSessionsFilter() {
+            _classCallCheck(this, MYSSessionsFilter);
+
+            var _this = _possibleConstructorReturn(this, (MYSSessionsFilter.__proto__ || Object.getPrototypeOf(MYSSessionsFilter)).apply(this, arguments));
+
+            _this.state = {
+                taxonomiesObj: {},
+                taxonomiesList: [],
+                termsObj: {}
+            };
+            return _this;
+        }
+
+        _createClass(MYSSessionsFilter, [{
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var taxonomy = this.props.attributes.taxonomy;
+
+                // Fetch all taxonomies
+
+                wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(function (taxonomies) {
+                    _this2.setState({ taxonomiesObj: taxonomies });
+                    _this2.filterTaxonomy();
+                });
+
+                // Fetch all terms
+                wp.apiFetch({ path: '/nab_api/request/all_terms' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms });
+                    _this2.filterTerms();
+                });
+            }
+        }, {
+            key: 'filterTaxonomy',
+            value: function filterTaxonomy() {
+                var postTaxonomiesOptions = [],
+                    taxonomies = this.state.taxonomiesObj,
+                    taxonomyKey = Object.keys(taxonomies);
+                taxonomyKey.forEach(function (key) {
+                    if ('sessions' === taxonomies[key].types[0]) {
+                        postTaxonomiesOptions.push({ label: __(taxonomies[key].name), value: __(taxonomies[key].slug) });
+                    }
+                });
+                this.setState({ taxonomiesList: postTaxonomiesOptions });
+            }
+        }, {
+            key: 'filterTerms',
+            value: function filterTerms(data) {
+                var _props = this.props,
+                    taxonomy = _props.attributes.taxonomy,
+                    setAttributes = _props.setAttributes;
+
+
+                data = data ? data : taxonomy;
+
+                var tempTermOptions = [],
+                    termLabel = this.state.taxonomiesObj[data].name ? this.state.taxonomiesObj[data].name : data;
+
+                tempTermOptions.push({ label: 'Select ' + termLabel, value: '' });
+
+                if (this.state.termsObj[data] !== undefined) {
+                    this.state.termsObj[data].map(function (term) {
+                        tempTermOptions.push({ label: term.name, value: term.slug });
+                    });
+                }
+                setAttributes({ termOptions: tempTermOptions, taxonomy: data });
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _this3 = this;
+
+                var _props$attributes = this.props.attributes,
+                    taxonomy = _props$attributes.taxonomy,
+                    termOptions = _props$attributes.termOptions;
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings'), className: 'range-setting' },
+                            wp.element.createElement(SelectControl, {
+                                label: 'Select Taxonomy for filter category',
+                                value: taxonomy,
+                                options: this.state.taxonomiesList,
+                                onChange: function onChange(value) {
+                                    _this3.filterTerms(value);
+                                }
+                            })
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { className: 'filter-block main-filter' },
+                        wp.element.createElement(
+                            'div',
+                            { className: 'feature-btn' },
+                            wp.element.createElement('input', { type: 'button', className: 'featured-btn', value: 'Featured' })
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'search-box' },
+                            wp.element.createElement(
+                                'label',
+                                null,
+                                'Keyword'
+                            ),
+                            wp.element.createElement(
+                                'div',
+                                { className: 'search-item' },
+                                wp.element.createElement('input', { className: 'search', type: 'text', placeholder: 'Start typing to filter by keyword...' })
+                            )
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'keyword' },
+                            wp.element.createElement(
+                                'label',
+                                null,
+                                'Category'
+                            ),
+                            wp.element.createElement(
+                                'div',
+                                null,
+                                wp.element.createElement(
+                                    'select',
+                                    { id: 'session-category-drp', className: 'session-category-drp' },
+                                    termOptions.map(function (term) {
+                                        return wp.element.createElement(
+                                            'option',
+                                            { value: term.value },
+                                            term.label
+                                        );
+                                    })
+                                )
+                            )
+                        )
+                    )
+                );
+            }
+        }]);
+
+        return MYSSessionsFilter;
+    }(Component);
+
+    var allAttr = {
+        taxonomy: {
+            type: 'string',
+            default: 'tracks'
+        },
+        termOptions: {
+            type: 'array',
+            default: []
+        }
+    };
+
+    registerBlockType('mys/sessions-filters', {
+        title: __('Session Filters'),
+        icon: 'lock',
+        category: 'mysgb',
+        keywords: [__('session'), __('filter')],
+        attributes: allAttr,
+        edit: MYSSessionsFilter,
+        save: function save(_ref) {
+            var attributes = _ref.attributes;
+            var termOptions = attributes.termOptions;
+
+            return wp.element.createElement(
+                'div',
+                { className: 'filter-block main-filter' },
+                wp.element.createElement(
+                    'div',
+                    { className: 'feature-btn' },
+                    wp.element.createElement('input', { type: 'button', className: 'featured-btn', value: 'Featured' })
+                ),
+                wp.element.createElement(
+                    'div',
+                    { className: 'search-box' },
+                    wp.element.createElement(
+                        'label',
+                        null,
+                        'Keyword'
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { className: 'search-item' },
+                        wp.element.createElement('input', { className: 'search', type: 'text', placeholder: 'Start typing to filter by keyword...' })
+                    )
+                ),
+                wp.element.createElement(
+                    'div',
+                    { className: 'keyword' },
+                    wp.element.createElement(
+                        'label',
+                        null,
+                        'Category'
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        null,
+                        wp.element.createElement(
+                            'select',
+                            { id: 'session-category-drp', className: 'session-category-drp' },
+                            termOptions.map(function (term) {
+                                return wp.element.createElement(
+                                    'option',
+                                    { value: term.value },
+                                    term.label
+                                );
+                            })
+                        )
+                    )
+                )
+            );
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);

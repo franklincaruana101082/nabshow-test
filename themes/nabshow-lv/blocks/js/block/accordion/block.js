@@ -604,54 +604,61 @@ import memoize from 'memize';
 			} = attributes;
 			const bodyDisplay = open ? 'block' : 'none';
 			return (
-				<div
-					className={`accordionWrapper ${open ? 'tabOpen' : 'tabClose'}`}
-					style={{
-						border: `${borderWidth}px ${borderType} ${borderColor}`,
-						borderRadius: borderRadius + 'px'
-					}}
-				>
-					<div
-						className="accordionHeader"
-						style={{
-							backgroundColor: titleBackgroundColor,
-							paddingTop: `${PaddingTop}px`,
-							paddingRight: `${PaddingRight}px`,
-							paddingBottom: `${PaddingBottom}px`,
-							paddingLeft: `${PaddingLeft}px`,
-							color: headerTextColor,
-							margin: 0,
-							position: 'relative'
-						}}
-					>
-						<RichText.Content
-							tagName="h3"
-							value={title}
-							style={{
-								fontSize: `${headerTextFontSize}px`,
-								textAlign: alignment,
-								color: headerTextColor,
-								margin: 0,
-								fontFamily: fontFamily
-							}}
-						/>
-						<span className="dashicons fa fa-caret-down" />
-					</div>
-					<div
-						className="accordionBody"
-						style={{
-							backgroundColor: bodyBgColor,
-							display: bodyDisplay,
-							paddingTop: `${BodyPaddingTop}px`,
-							paddingRight: `${BodyPaddingRight}px`,
-							paddingBottom: `${BodyPaddingBottom}px`,
-							paddingLeft: `${BodyPaddingLeft}px`,
-							borderTop: `${borderWidth}px ${borderType} ${borderColor}`,
-						}}
-					>
-						<InnerBlocks.Content />
-					</div>
-				</div>
+				<Fragment>
+					{
+						title && (
+							<div
+								className={`accordionWrapper ${open ? 'tabOpen' : 'tabClose'}`}
+								style={{
+									border: `${borderWidth}px ${borderType} ${borderColor}`,
+									borderRadius: borderRadius + 'px'
+								}}
+							>
+
+								<div
+									className="accordionHeader"
+									style={{
+										backgroundColor: titleBackgroundColor,
+										paddingTop: `${PaddingTop}px`,
+										paddingRight: `${PaddingRight}px`,
+										paddingBottom: `${PaddingBottom}px`,
+										paddingLeft: `${PaddingLeft}px`,
+										color: headerTextColor,
+										margin: 0,
+										position: 'relative'
+									}}
+								>
+									<RichText.Content
+										tagName="h3"
+										value={title}
+										style={{
+											fontSize: `${headerTextFontSize}px`,
+											textAlign: alignment,
+											color: headerTextColor,
+											margin: 0,
+											fontFamily: fontFamily
+										}}
+									/>
+									<span className="dashicons fa fa-caret-down" />
+								</div>
+								<div
+									className="accordionBody"
+									style={{
+										backgroundColor: bodyBgColor,
+										display: bodyDisplay,
+										paddingTop: `${BodyPaddingTop}px`,
+										paddingRight: `${BodyPaddingRight}px`,
+										paddingBottom: `${BodyPaddingBottom}px`,
+										paddingLeft: `${BodyPaddingLeft}px`,
+										borderTop: `${borderWidth}px ${borderType} ${borderColor}`,
+									}}
+								>
+									<InnerBlocks.Content />
+								</div>
+							</div>
+						)
+					}
+				</Fragment>
 			);
 		},
 	});

@@ -96,7 +96,16 @@
     <!-- .site-info -->
 </footer><!-- #colophon -->
 </div><!-- #page -->
-
+<!-- Popup HTML -->
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Popup HTML -->
 <?php wp_footer(); ?>
 </body>
 </html>

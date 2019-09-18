@@ -53,41 +53,124 @@ function nabshow_lv_not_to_be_missed_archive() {
         ),
     );
 
-    register_post_type( 'ntb-missed', $args );
+    register_post_type( 'not-to-be-missed', $args );
 
 }
 
 /**
- * Create portfolio-category taxonomy for ntb-missed post type.
+ * Create featured-category taxonomy for ntb-missed post type.
  *
  * @since 1.0
  */
-function nabshow_lv_portfolio_category_taxonomies() {
-    $labels = array(
-        'name'              => _x( 'Category', 'taxonomy general name', 'nabshow-lv' ),
-        'singular_name'     => _x( 'Category', 'taxonomy singular name', 'nabshow-lv' ),
-        'search_items'      => __( 'Search Categories', 'nabshow-lv' ),
-        'all_items'         => __( 'All Categories', 'nabshow-lv' ),
-        'parent_item'       => __( 'Parent Category', 'nabshow-lv' ),
-        'parent_item_colon' => __( 'Parent Category:', 'nabshow-lv' ),
-        'edit_item'         => __( 'Edit Category', 'nabshow-lv' ),
-        'update_item'       => __( 'Update Category', 'nabshow-lv' ),
-        'add_new_item'      => __( 'Add New Category', 'nabshow-lv' ),
-        'new_item_name'     => __( 'New Genre Category', 'nabshow-lv' ),
-        'menu_name'         => __( 'Categories', 'nabshow-lv' ),
-    );
+function nabshow_lv_featured_category_taxonomies() {
+	$labels = array(
+		'name'              => _x( 'Category', 'taxonomy general name', 'nabshow-lv' ),
+		'singular_name'     => _x( 'Category', 'taxonomy singular name', 'nabshow-lv' ),
+		'search_items'      => __( 'Search Categories', 'nabshow-lv' ),
+		'all_items'         => __( 'All Categories', 'nabshow-lv' ),
+		'parent_item'       => __( 'Parent Category', 'nabshow-lv' ),
+		'parent_item_colon' => __( 'Parent Category:', 'nabshow-lv' ),
+		'edit_item'         => __( 'Edit Category', 'nabshow-lv' ),
+		'update_item'       => __( 'Update Category', 'nabshow-lv' ),
+		'add_new_item'      => __( 'Add New Category', 'nabshow-lv' ),
+		'new_item_name'     => __( 'New Genre Category', 'nabshow-lv' ),
+		'menu_name'         => __( 'Categories', 'nabshow-lv' ),
+	);
 
-    $args = array(
-        'hierarchical'      => true,
-        'labels'            => $labels,
-        'show_in_rest'      => true,
-        'show_ui'           => true,
-        'show_admin_column' => true,
-        'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'portfolio-category' ),
-    );
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'featured-category' ),
+	);
 
-    register_taxonomy( 'portfolio-category', array( 'ntb-missed' ), $args );
+	register_taxonomy( 'featured-category', array( 'not-to-be-missed' ), $args );
+
+}
+
+/**
+ * Added the news releases post type
+ * @since 1.0
+ */
+
+function nabshow_lv_register_news_releases_post_type() {
+
+	$labels = array(
+		'name'               => _x( 'News Releases', 'post type general name', 'nabshow-lv' ),
+		'singular_name'      => _x( 'News Releases', 'post type singular name', 'nabshow-lv' ),
+		'add_new_item'       => __( 'Add New', 'nabshow-lv' ),
+		'edit_item'          => __( 'Edit', 'nabshow-lv' ),
+		'new_item'           => __( 'New', 'nabshow-lv' ),
+		'view_item'          => __( 'View', 'nabshow-lv' ),
+		'search_items'       => __( 'Search', 'nabshow-lv' ),
+		'not_found'          => __( 'No posts found.', 'nabshow-lv' ),
+		'not_found_in_trash' => __( 'No posts found in Trash.', 'nabshow-lv' )
+	);
+
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'show_in_rest'       => true,
+		'query_var'          => true,
+		'rewrite'            => true,
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => true,
+		'menu_position'      => null,
+		'menu_icon'          => 'dashicons-media-document',
+		'supports'           => array(
+			'title',
+			'editor',
+			'revisions',
+			'trackbacks',
+			'author',
+			'excerpt',
+			'page-attributes',
+			'thumbnail',
+			'custom-fields'
+		),
+	);
+
+	register_post_type( 'news-releases', $args );
+
+}
+
+/**
+ * Create news-category taxonomy for ntb-missed post type.
+ * @since 1.0
+ */
+function nabshow_lv_register_news_releases_taxonomy() {
+	$labels = array(
+		'name'              => _x( 'Category', 'taxonomy general name', 'nabshow-lv' ),
+		'singular_name'     => _x( 'Category', 'taxonomy singular name', 'nabshow-lv' ),
+		'search_items'      => __( 'Search Categories', 'nabshow-lv' ),
+		'all_items'         => __( 'All Categories', 'nabshow-lv' ),
+		'parent_item'       => __( 'Parent Category', 'nabshow-lv' ),
+		'parent_item_colon' => __( 'Parent Category:', 'nabshow-lv' ),
+		'edit_item'         => __( 'Edit Category', 'nabshow-lv' ),
+		'update_item'       => __( 'Update Category', 'nabshow-lv' ),
+		'add_new_item'      => __( 'Add New Category', 'nabshow-lv' ),
+		'new_item_name'     => __( 'New Genre Category', 'nabshow-lv' ),
+		'menu_name'         => __( 'Categories', 'nabshow-lv' ),
+	);
+
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'news-category' ),
+	);
+
+	register_taxonomy( 'news-category', array( 'news-releases' ), $args );
 
 }
 
@@ -144,10 +227,10 @@ function nabshow_lv_thought_gallery_archive() {
 }
 
 /*
- * Create taxonomies portfolio tag.
+ * Create taxonomies featured tag.
  * @since 1.0
  */
-function nabshow_lv_create_tag_taxonomies(){
+function nabshow_lv_create_featured_tag_taxonomies(){
     // Add new taxonomy, NOT hierarchical (like tags)
     $labels = array(
         'name' => _x( 'Tags', 'taxonomy general name', 'nabshow-lv' ),
@@ -167,14 +250,14 @@ function nabshow_lv_create_tag_taxonomies(){
         'menu_name' => __( 'Tags', 'nabshow-lv' ),
     );
 
-    register_taxonomy('portfolio-tag',array( 'ntb-missed' ),array(
+    register_taxonomy('featured-tag',array( 'not-to-be-missed' ),array(
         'hierarchical' => false,
         'labels' => $labels,
         'show_in_rest' => true,
         'show_ui' => true,
         'update_count_callback' => '_update_post_term_count',
         'query_var' => true,
-        'rewrite' => array( 'slug' => 'portfolio-tag' ),
+        'rewrite' => array( 'slug' => 'featured-tag' ),
     ));
 }
 

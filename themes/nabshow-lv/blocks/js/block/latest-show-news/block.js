@@ -7,7 +7,6 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
     const { InspectorControls } = wpEditor;
     const {
         PanelBody,
-        Disabled,
         SelectControl,
         TextControl,
         ServerSideRender,
@@ -26,7 +25,6 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                 taxonomiesObj: {},
                 termsObj: {},
                 filterTermsObj: {},
-                isDisable: false
             };
         }
 
@@ -127,19 +125,9 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
             } = attributes;
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object ) {
                 isCheckedTerms = JSON.parse(terms);
             }
-
-            let input = <div className="inspector-field inspector-field-Numberofitems ">
-                <label className="inspector-mb-0">Number of items</label>
-                <RangeControl
-                    value={itemToFetch}
-                    min={1}
-                    max={20}
-                    onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
-                />
-            </div>;
 
             return (
                 <Fragment>
@@ -149,7 +137,15 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                             initialOpen={true}
                             className="range-setting"
                         >
-                            {input}
+                            <div className="inspector-field inspector-field-Numberofitems ">
+                                <label className="inspector-mb-0">Number of items</label>
+                                <RangeControl
+                                    value={itemToFetch}
+                                    min={1}
+                                    max={20}
+                                    onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); }}
+                                />
+                            </div>
                             <div>
                                 <label>Select Layout</label>
                                 <PanelRow>
@@ -203,13 +199,11 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                                                                 tempTerms = JSON.stringify(tempTerms);
                                                             }
                                                         }
-                                                        this.props.setAttributes({
-                                                            terms: tempTerms,
-                                                            taxonomies: tempTaxonomies
-                                                        });
-                                                        this.setState({
-                                                            taxonomies: tempTaxonomies
-                                                        });
+                                                        if ( tempTerms.constructor === Object ) {
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                        }
+                                                        this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                        this.setState({ taxonomies: tempTaxonomies });
                                                     }}
                                                 />
                                             </Fragment>

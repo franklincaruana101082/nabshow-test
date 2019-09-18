@@ -20,8 +20,8 @@ add_action( 'enqueue_block_editor_assets', 'nabshow_lv_add_block_editor_assets' 
 // action to add the not-to-be-missed-archive post type.
 add_action( 'init', 'nabshow_lv_not_to_be_missed_archive', 1 );
 
-// create portfolio category taxonomy.
-add_action( 'init', 'nabshow_lv_portfolio_category_taxonomies', 0 );
+// create featured category taxonomy.
+add_action( 'init', 'nabshow_lv_featured_category_taxonomies', 0 );
 
 //action to register dynamic slider block
 add_action( 'init', 'nabshow_lv_register_dynamic_blocks' );
@@ -34,7 +34,7 @@ add_action( 'restrict_manage_posts', 'nabshow_lv_admin_posts_filter_restrict_man
  */
 add_action( 'admin_init', function () {
 	$post_types = get_post_types( array( 'public' => true ), 'names' );
-
+	//print_r($post_types); exit();
 	foreach ( $post_types as $post_type ) {
 		if ( "wp_block" !== $post_type || "post" !== $post_type ) {
 			nabshow_lv_register_action( $post_type );
@@ -44,6 +44,7 @@ add_action( 'admin_init', function () {
 
 // function to register an action for individual post type.
 function nabshow_lv_register_action( $post_type ) {
+
 	add_action( 'manage_' . $post_type . '_posts_custom_column', 'nabshow_lv_custom_columns_data', 10, 2 );
 }
 
@@ -58,7 +59,7 @@ add_action( 'get_header', 'nabshow_lv_remove_wp_emoji' );
 add_action( 'get_header', 'nabshow_lv_move_scripts_to_footer' );
 
 // Action to add tag taxonomy in ntb-missed post type.
-add_action( 'init', 'nabshow_lv_create_tag_taxonomies', 0 );
+add_action( 'init', 'nabshow_lv_create_featured_tag_taxonomies', 0 );
 
 // Action to add the thought-gallery-archive post type.
 add_action( 'init', 'nabshow_lv_thought_gallery_archive' );
@@ -78,7 +79,7 @@ add_action('pre_get_posts', 'nabshow_lv_custom_type_to_author');
 // Action to make posts hierarchical
 add_action('registered_post_type', 'nabshow_lv_make_posts_hierarchical', 10, 2 );
 
-// Action to add taxonomy in page post type
+// Action to add taxonomy to page post type
 add_action( 'init', 'nabshow_lv_page_category_taxonomy', 0 );
 
 // Action to add the custom Ads post type.
@@ -86,3 +87,12 @@ add_action( 'init', 'nabshow_lv_custom_ads' );
 
 // Action to add the custom menu for Ads states on admin side.
 add_action( 'admin_menu', 'nabshow_lv_ad_stats_menu' );
+
+// Action to add the news releases post type
+add_action( 'init', 'nabshow_lv_register_news_releases_post_type' );
+
+// Action to add taxonomy to the news releases post type
+add_action( 'init', 'nabshow_lv_register_news_releases_taxonomy', 0 );
+
+//Action for register custom endpoints
+add_action( 'rest_api_init', 'nabshow_lv_register_api_endpoints');

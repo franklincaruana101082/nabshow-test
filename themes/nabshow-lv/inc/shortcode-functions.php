@@ -129,3 +129,15 @@ function nabshow_lv_schedule_at_a_glance_filter() {
     $html = ob_get_clean();
     return $html;
 }
+
+/**
+ * Create shortcode for yoast breadcrum
+ * @return string
+ */
+function nab_yoast_breadcumb_func() {
+    if ( function_exists('yoast_breadcrumb') ) {
+        return yoast_breadcrumb('<div id="breadcrumbs">', '</div>', false);
+    } else {
+        return '';
+    }
+}

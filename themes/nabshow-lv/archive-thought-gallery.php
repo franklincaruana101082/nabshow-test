@@ -4,7 +4,7 @@
  * @package NABShow_LV
  */
 get_header();
-$total_posts = wp_count_posts( 'thought-gallery' )->publish;;
+$total_posts = wp_count_posts( 'thought-gallery' )->publish;
 $posts_per_page = get_option( 'posts_per_page' );
 global $wp_query;
 ?>

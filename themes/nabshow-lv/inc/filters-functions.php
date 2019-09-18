@@ -213,9 +213,9 @@ function nabshow_lv_set_and_remove_as_featured_bulk_page_handler( $redirect_to, 
  * @param $post_ids
  * @return string
  */
-function nabshow_lv_set_and_remove_as_featured_bulk_ntb_missed_handler( $redirect_to, $doaction, $post_ids ) {
+function nabshow_lv_set_and_remove_as_featured_bulk_not_to_be_missed_handler( $redirect_to, $doaction, $post_ids ) {
 
-    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'portfolio-category');
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'featured-category');
 }
 
 /**
@@ -267,7 +267,7 @@ function nabshow_lv_set_and_remove_as_featured_bulk_speakers_handler( $redirect_
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_sponsors_handler( $redirect_to, $doaction, $post_ids ) {
 
-    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'sponsors-category');
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'sponsor-categories');
 }
 
 /**

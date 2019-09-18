@@ -14,3 +14,6 @@ import './block/awards-block/block';
 import './block/advertisement/block';
 import './block/custom-block/block';
 import './block/related-content/block';
+import './block/contributors/block';
+import './block/new-this-year/block';
+import './block/delegation/block';

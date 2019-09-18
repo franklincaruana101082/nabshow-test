@@ -24,7 +24,7 @@ function nabshow_lv_register_dynamic_blocks() {
 				),
 				'postType'     => array(
 					'type'    => 'string',
-					'default' => 'ntb-missed',
+					'default' => 'not-to-be-missed',
 				),
 				'taxonomies'   => array(
 					'type'    => 'array',
@@ -166,6 +166,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 ),
                 'eventLabel'    => array(
                     'type'      => 'string'
+                ),
+                'addAlign'    => array(
+                    'type'      => 'string',
+                    'default'   => 'center'
                 )
             ),
             'render_callback' => 'nabshow_lv_advertisement_render_callback',
@@ -174,15 +178,37 @@ function nabshow_lv_register_dynamic_blocks() {
 
 	register_block_type( 'nab/related-content', array(
             'attributes' => array(
-                'postId'  => array(
-                    'type' => 'number'
+                'parentPageId'  => array(
+                    'type' => 'string'
+                ),
+                'itemToFetch'  => array(
+                    'type' => 'number',
+                    'default' => 10
+                ),
+                'depthLevel' => array(
+                    'type' => 'string',
+                    'default' => 'grandchildren'
+                ),
+                'featuredPage' => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                )
+            ),
+            'render_callback' => 'nabshow_lv_related_content_render_callback',
+        )
+    );
+
+	register_block_type( 'nab/contributors-authors', array(
+            'attributes' => array(
+                'postType'  => array(
+                    'type' => 'string'
                 ),
                 'itemToFetch'  => array(
                     'type' => 'number',
                     'default' => 10
                 ),
             ),
-            'render_callback' => 'nabshow_lv_related_content_render_callback',
+            'render_callback' => 'nabshow_lv_contributors_render_callback',
         )
     );
 }
@@ -194,7 +220,7 @@ function nabshow_lv_register_dynamic_blocks() {
  */
 function nabshow_lv_no_to_be_missed_slider_render_callback( $attributes ) {
     $block_title    = isset( $attributes['blockTitle'] ) && ! empty( $attributes['blockTitle'] ) ? $attributes['blockTitle'] : 'Not-To-Be-Missed';
-    $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'ntb-missed';
+    $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'not-to-be-missed';
     $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'], true ): array();
     $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
     $slider_active  = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
@@ -256,15 +282,7 @@ function nabshow_lv_no_to_be_missed_slider_render_callback( $attributes ) {
                 ?>
             </div>
             <div class='container loader-container' id="loader_container" style="display: none">
-                <div class='loader'>
-                    <div class='loader--dot'></div>
-                    <div class='loader--dot'></div>
-                    <!-- <div class='loader--dot'></div>
-                    <div class='loader--dot'></div>
-                    <div class='loader--dot'></div>
-                    <div class='loader--dot'></div>
-                    <div class='loader--text'></div> -->
-                </div>
+                <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </div>
 	<?php
 			if ( $slider_active ) {
@@ -281,7 +299,7 @@ function nabshow_lv_no_to_be_missed_slider_render_callback( $attributes ) {
 				$query->the_post();
 
 				$all_categories_name = array();
-                $categories          = get_the_terms( get_the_ID(), 'portfolio-category' );
+                $categories          = get_the_terms( get_the_ID(), 'featured-category' );
 
                 if ( is_array( $categories ) ) {
                     foreach ( $categories as $category ) {
@@ -426,6 +444,7 @@ function nabshow_lv_advertisement_render_callback( $attributes ) {
         $schedule_ad  = isset( $attributes['scheduleAd'] ) ? $attributes['scheduleAd'] : false;
         $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
         $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
+        $adv_align    = isset( $attributes['addAlign'] ) && ! empty( $attributes['addAlign']) ? 'text-align: ' . $attributes['addAlign'] : '';
 
         $start_date   = new DateTime( $attributes['startDate'] );
         $start_date   = $start_date->format( 'Y-m-d H:i:s' );
@@ -435,26 +454,28 @@ function nabshow_lv_advertisement_render_callback( $attributes ) {
 
         if ( ( ! $schedule_ad ) || ( $start_date <= $current_date && $current_date <= $end_date ) ) {
         ?>
-            <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>">
-                <p class="banner-text">Advertisement</p>
-                <?php
+            <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>" style="<?php echo esc_attr( $adv_align ); ?>">
+                <div class="nab-banner-inner">
+                    <p class="banner-text">Advertisement</p>
+                    <?php
 
-                if ( isset( $attributes['linkURL'] ) && ! empty( $attributes['linkURL'] ) ) {
-                    $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
-                    $event_category    = isset( $attributes['eventCategory'] ) && ! empty( $attributes['eventCategory'] ) ? $attributes['eventCategory'] : '';
-                    $event_action      = isset( $attributes['eventAction'] ) && ! empty( $attributes['eventAction'] ) ? $attributes['eventAction'] : '';
-                    $event_label       = isset( $attributes['eventLabel'] ) && ! empty( $attributes['eventLabel'] ) ? $attributes['eventLabel'] : '';
-                ?>
-                    <a class="nab-banner-link" href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
+                    if ( isset( $attributes['linkURL'] ) && ! empty( $attributes['linkURL'] ) ) {
+                        $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
+                        $event_category    = isset( $attributes['eventCategory'] ) && ! empty( $attributes['eventCategory'] ) ? $attributes['eventCategory'] : '';
+                        $event_action      = isset( $attributes['eventAction'] ) && ! empty( $attributes['eventAction'] ) ? $attributes['eventAction'] : '';
+                        $event_label       = isset( $attributes['eventLabel'] ) && ! empty( $attributes['eventLabel'] ) ? $attributes['eventLabel'] : '';
+                    ?>
+                        <a class="nab-banner-link" href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
+                            <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
+                        </a>
+                    <?php
+                    } else {
+                    ?>
                         <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
-                    </a>
-                <?php
-                } else {
-                ?>
-                    <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
-                <?php
-                }
-                ?>
+                    <?php
+                    }
+                    ?>
+                </div>
             </div>
         <?php
         }
@@ -470,39 +491,124 @@ function nabshow_lv_advertisement_render_callback( $attributes ) {
  * @return string
  */
 function nabshow_lv_related_content_render_callback( $attributes ) {
-    $post_id    = isset( $attributes['postId'] ) && ! empty( $attributes['postId'] ) ? $attributes['postId'] : 0;
+    $parent_page_id   = isset( $attributes['parentPageId'] ) && ! empty( $attributes['parentPageId'] ) ? $attributes['parentPageId'] : '';
+    $featured_page    = isset( $attributes['featuredPage'] ) ? $attributes['featuredPage'] : false;
+    $post_limit       = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
+    $depth_level      = isset( $attributes['depthLevel'] ) && ! empty( $attributes['depthLevel'] ) ? $attributes['depthLevel'] : 'grandchildren';
+    $class_name       = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+    $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
+
+    if ( ! empty( $parent_page_id ) ) {
+        $children = get_pages( array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' ) );
+
+        ob_start();
+        if ( count( $children ) > 0 ) {
+        ?>
+            <div class="row related-content-rowbox <?php echo esc_attr( $class_name ); ?>">
+                <?php
+                $page_count = 1;
+                foreach ( $children as $child ) {
+                    if ( $featured_page ) {
+                        if ( ! has_term('featured', 'page-category', $child->ID ) ) {
+                            continue;
+                        }
+                    }
+
+                    if ( $post_limit >= $page_count ){
+                        $page_image = has_post_thumbnail( $child->ID ) ? get_the_post_thumbnail_url( $child->ID ) : nabshow_lv_get_empty_thumbnail_url();
+                    ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="related-content-box">
+                            <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
+                            <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
+                            <span class="sub-title">Booth Number</span>
+                            <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
+                            <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                        </div>
+                    </div>
+                    <?php
+                    } else {
+                        break;
+                    }
+                    $page_count++;
+                }
+                ?>
+            </div>
+        <?php
+        } else {
+        ?>
+               <p>Page not found</p>
+        <?php
+        }
+    } else {
+        ?>
+            <p>Page not found</p>
+        <?php
+    }
+
+    $html = ob_get_clean();
+    return $html;
+}
+
+/**
+ * Fetch contributors/authors according to selected post type
+ * @param $attributes
+ * @return string
+ */
+function nabshow_lv_contributors_render_callback( $attributes ) {
+    $post_type  = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : '';
     $post_limit = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
     $class_name = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-    $children = get_pages( array( 'child_of' => $post_id, 'parent' => $post_id, 'number' => $post_limit ) );
+    $all_contributors = get_users( array( 'blog_id' => 0 ) );
 
     ob_start();
-    if ( count( $children ) ) {
+    if ( ! empty( $post_type ) && count( $all_contributors ) > 0 ) {
     ?>
-        <div class="row related-content-rowbox <?php echo esc_attr( $class_name ); ?>">
-            <?php
-            foreach ( $children as $child ) {
+        <div class="team-main contributors-team <?php echo esc_attr( $class_name ); ?>">
+    <?php
+        $limit_counter = 1;
+        foreach ( $all_contributors as $contributor ) {
+
+            $author_query = get_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-' . $post_type );
+
+            if ( false === $author_query ) {
+                $args = array( 'author' => $contributor->ID, 'post_type' => $post_type, 'posts_per_page' => 1 );
+                $author_query = new WP_Query( $args );
+                set_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-' . $post_type, $author_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+            }
+
+            if( $author_query->have_posts() && $post_limit >= $limit_counter ) {
+                $contributor_image = get_avatar_url( $contributor->ID, array( 'size' => 330 ) );
             ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="related-content-box">
-                        <img class="logo" src="<?php echo has_post_thumbnail( $child->ID ) ? esc_url( get_the_post_thumbnail_url( $child->ID ) ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="Related Logo">
-                        <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
-                        <span class="sub-title">Booth Number</span>
-                        <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
-                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                <div class="team-box">
+                    <div class="team-box-inner">
+                        <div class="feature-img">
+                            <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img">
+                        </div>
+                        <div class="team-details">
+                            <h3 class="name"><?php echo esc_html( $contributor->display_name ); ?></h3>
+                            <strong class="title">Title</strong>
+                            <strong class="company">Company</strong>
+                        </div>
                     </div>
                 </div>
             <?php
+                $limit_counter++;
+                wp_reset_postdata();
             }
-            ?>
+        }
+        if ( 1 === $limit_counter ) {
+    ?>
+            <p>Contributors not found</p>
+    <?php
+        }
+    ?>
         </div>
     <?php
-    } else {
-    ?>
-           <p>Page not found</p>
-    <?php
     }
-
+    ?>
+    <?php
     $html = ob_get_clean();
     return $html;
 }

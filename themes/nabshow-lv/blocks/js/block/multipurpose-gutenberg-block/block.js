@@ -409,6 +409,13 @@ import classnames from 'classnames';
 									{__('Full Width')}
 								</Button>
 								<Button
+									className={'fixed' === layout ? 'button has-tooltip active' : 'button has-tooltip'}
+									onClick={onSelectLayout}
+									data-tooltip="This layout is for fixed width (width:1200px)."
+									value="fixed">
+									{__('Fixed')}
+								</Button>
+								<Button
 									className={'semi' === layout ? 'button has-tooltip active' : 'button has-tooltip'}
 									onClick={onSelectLayout}
 									data-tooltip="This layout is for Semi width (width:85%)."

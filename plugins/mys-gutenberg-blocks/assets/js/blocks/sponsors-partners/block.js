@@ -2,11 +2,10 @@
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
-    const { InspectorControls } = wpEditor;
+    const { InspectorControls, RichText } = wpEditor;
     const {
         PanelBody,
         SelectControl,
-        TextControl,
         ServerSideRender,
         CheckboxControl,
         RangeControl,
@@ -21,7 +20,6 @@
                 taxonomiesObj: {},
                 termsObj: {},
                 filterTermsObj: {},
-                isDisable: false
             };
         }
 
@@ -74,15 +72,6 @@
             this.setState({ filterTermsObj: filterTerms });
         }
 
-        componentDidUpdate(prevProps) {
-            const {
-                attributes: { postType }
-            } = this.props;
-            if (postType !== prevProps.attributes.postType) {
-                this.filterTaxonomy();
-            }
-        }
-
         isEmpty(obj) {
             let key;
             for (key in obj) {
@@ -96,15 +85,16 @@
         render() {
             const { attributes, setAttributes } = this.props;
             const {
+                layout,
                 itemToFetch,
                 postType,
                 taxonomies,
                 terms,
-                orderBy
+                orderBy,
             } = attributes;
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -112,24 +102,30 @@
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                            <SelectControl
+                                label={__('Layout type')}
+                                value={layout}
+                                options={[{ label: __('Without Title'), value: 'without-title' },
+                                        { label: __('With Title'), value: 'with-title' },
+                                ]}
+                                onChange={ (value) => { setAttributes({ layout: value }); }}
+                            />
                             <div className="inspector-field inspector-field-Numberofitems ">
                                 <label className="inspector-mb-0">Number of items</label>
                                 <RangeControl
                                     value={itemToFetch}
                                     min={1}
                                     max={20}
-                                    onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
+                                    onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); }}
                                 />
                             </div>
                             <SelectControl
                                 label={__('Order by')}
                                 value={orderBy}
                                 options={[{ label: __('Newest to Oldest'), value: 'date' },
-                                    { label: __('Menu Order'), value: 'menu_order' },
+                                        { label: __('Menu Order'), value: 'menu_order' },
                                 ]}
-                                onChange={value => {
-                                    setAttributes({ orderBy: value });
-                                }}
+                                onChange={ (value) => { setAttributes({ orderBy: value }); }}
                             />
                             {0 < this.state.taxonomiesList.length && (
                                 <Fragment>
@@ -158,13 +154,11 @@
                                                                 tempTerms = JSON.stringify(tempTerms);
                                                             }
                                                         }
-                                                        this.props.setAttributes({
-                                                            terms: tempTerms,
-                                                            taxonomies: tempTaxonomies
-                                                        });
-                                                        this.setState({
-                                                            taxonomies: tempTaxonomies
-                                                        });
+                                                        if ( tempTerms.constructor === Object ) {
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                        }
+                                                        this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                        this.setState({ taxonomies: tempTaxonomies });
                                                     }}
                                                 />
                                             </Fragment>
@@ -243,10 +237,11 @@
                             )}
                         </PanelBody>
                     </InspectorControls>
-                    <div className>
+                    <div>
                         <ServerSideRender
                             block="mys/sponsors-partners"
                             attributes={{
+                                layout: layout,
                                 itemToFetch: itemToFetch,
                                 postType: postType,
                                 orderBy: orderBy,
@@ -261,6 +256,10 @@
     }
 
     const blockAttrs = {
+        layout: {
+            type: 'string',
+            default: 'without-title'
+        },
         itemToFetch: {
             type: 'number',
             default: 10
@@ -280,7 +279,7 @@
         orderBy: {
             type: 'string',
             default: 'date'
-        }
+        },
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),

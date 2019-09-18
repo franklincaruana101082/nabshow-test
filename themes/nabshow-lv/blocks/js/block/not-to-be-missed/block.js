@@ -80,24 +80,23 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-not-to-be-missed-slider`).length) {
-                        setTimeout(() => {
-                            this.state.bxSliderObj.reloadSlider(
-                                {
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: sliderMode
-                                }
-                            );
-                        }, 1000);
+                    if (0 < $(`#block-${clientId} .nab-not-to-be-missed-slider`).length && this.state.bxSliderObj) {
+
+                        this.state.bxSliderObj.reloadSlider(
+                            {
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: sliderMode
+                            }
+                        );
                     }
                 }
             }
@@ -155,7 +154,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             ];
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -225,6 +224,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                             this.props.setAttributes({ terms: tempTerms });
                                                             this.setState({ bxinit: true });
                                                         }
+                                                    }
+                                                    if ( tempTerms.constructor === Object ) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     this.setState({ taxonomies: tempTaxonomies });
@@ -449,7 +451,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         },
         postType: {
             type: 'string',
-            default: 'ntb-missed'
+            default: 'not-to-be-missed'
         },
         taxonomies: {
             type: 'array',

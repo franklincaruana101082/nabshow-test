@@ -55,6 +55,10 @@
         showCal: {
             type: 'boolean',
             default: false,
+        },
+        addAlign: {
+            type: 'string',
+            default: 'center'
         }
     };
 
@@ -66,7 +70,7 @@
         keywords: [__('ad'), __('advertisement')],
         attributes: allAttr,
         edit(props) {
-            const { attributes: { imgSource, imgID, imgWidth, imgHeight, linkURL, linkTarget, scheduleAd, startDate, endDate, eventCategory, eventAction, eventLabel, showCal }, setAttributes } = props;
+            const { attributes: { imgSource, imgID, imgWidth, imgHeight, linkURL, linkTarget, scheduleAd, startDate, endDate, eventCategory, eventAction, eventLabel, showCal, addAlign }, setAttributes } = props;
 
             const style = {};
             imgWidth && (style.width = imgWidth + 'px');
@@ -181,6 +185,16 @@
                                     </div>
                                 </div>
                             </PanelRow>
+                            <PanelRow>
+                                <div className="inspector-field inspector-field-alignment">
+                                    <label className="inspector-mb-0">Alignment</label>
+                                    <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                                        <button className={'left' === addAlign ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ addAlign: 'left' })}><i className="fa fa-align-left"></i></button>
+                                        <button className={'center' === addAlign ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ addAlign: 'center' })}><i className="fa fa-align-center"></i></button>
+                                        <button className={'right' === addAlign ? 'active  inspector-button' : 'inspector-button'} onClick={() => setAttributes({ addAlign: 'right' })}><i className="fa fa-align-right"></i></button>
+                                    </div>
+                                </div>
+                            </PanelRow>
                         </PanelBody>
                         <PanelBody title={__('Link Settings')} initialOpen={false}>
                             <TextControl
@@ -239,14 +253,16 @@
                             </Toolbar>
                         </BlockControls>
                     </Fragment>
-                    <div className="nab-banner-main">
-                        <p className="banner-text">Advertisement</p>
-                        <img src={imgSource}
-                            className="banner-img"
-                            alt={__('image')}
-                            style={style}
+                    <div className="nab-banner-main" style={{textAlign: addAlign}}>
+                        <div className="nab-banner-inner">
+                            <p className="banner-text">Advertisement</p>
+                            <img src={imgSource}
+                                className="banner-img"
+                                alt={__('image')}
+                                style={style}
 
-                        />
+                            />
+                        </div>
                     </div>
                     <ServerSideRender
                         block="nab/advertisement"

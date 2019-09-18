@@ -77,24 +77,22 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
-                        setTimeout(() => {
-                            this.state.bxSliderObj.reloadSlider(
-                                {
-                                    minSlides: minSlides,
-                                    maxSlides: minSlides,
-                                    moveSlides: 1,
-                                    slideMargin: slideMargin,
-                                    slideWidth: slideWidth,
-                                    auto: autoplay,
-                                    infiniteLoop: infiniteLoop,
-                                    pager: pager,
-                                    controls: controls,
-                                    speed: sliderSpeed,
-                                    mode: 'horizontal'
-                                }
-                            );
-                        }, 1000);
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                        this.state.bxSliderObj.reloadSlider(
+                            {
+                                minSlides: minSlides,
+                                maxSlides: minSlides,
+                                moveSlides: 1,
+                                slideMargin: slideMargin,
+                                slideWidth: slideWidth,
+                                auto: autoplay,
+                                infiniteLoop: infiniteLoop,
+                                pager: pager,
+                                controls: controls,
+                                speed: sliderSpeed,
+                                mode: 'horizontal'
+                            }
+                        );
                     }
                 }
             }
@@ -140,7 +138,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideWidth,
                 orderBy,
                 slideMargin,
-                arrowIcons
+                arrowIcons,
+                detailPopup
             } = attributes;
 
             var names = [
@@ -153,7 +152,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             ];
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms)) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -185,6 +184,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 ]}
                                 onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                             />
+                            <ToggleControl
+                                label={__('Display details in popup')}
+                                checked={detailPopup}
+                                onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
+                            />
 
                             {0 < this.state.taxonomiesList.length &&
 
@@ -213,6 +217,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                             delete tempTerms[taxonomy.value];
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
+                                                    }
+                                                    if ( tempTerms.constructor === Object ) {
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     this.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -403,7 +410,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     <div className={arrowIcons}>
                         <ServerSideRender
                             block="mys/speaker-slider"
-                            attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons }}
+                            attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup }}
                         />
                     </div>
                 </Fragment >
@@ -458,6 +465,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         terms: {
             type: 'string',
             default: {}
+        },
+        detailPopup: {
+            type: 'boolean',
+            default: false,
         },
         slideWidth: {
             type: 'number',

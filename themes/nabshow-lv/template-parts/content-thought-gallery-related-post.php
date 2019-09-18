@@ -38,7 +38,7 @@ if ( false === $related_posts_query ) {
 	set_transient( 'nab-thought-related-post-' . $transient_key, $related_posts_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
 }
 ?>
-<h2>You May Also Like</h2>
+<h2>You Might Also Like</h2>
 <ul class="related-list">
 	<?php
 	if ( $related_posts_query->have_posts() ) {

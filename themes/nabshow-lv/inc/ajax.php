@@ -16,11 +16,8 @@ add_action( 'wp_ajax_nopriv_nabshow_ntb_missed_load_more_category_click', 'nabsh
 
 /**
  * Returns not to be misses post type data for ajax on load more..
- *
- *
  * @return json
- * @since 1.0.0
- *
+ * @since 1.0.
  */
 function nabshow_lv_ntb_missed_load_more_category_click_callback() {
 	check_ajax_referer( 'ntb_missed_nonce', 'term_data_nonce' );
@@ -38,10 +35,10 @@ function nabshow_lv_ntb_missed_load_more_category_click_callback() {
 
 		if ( ! empty( $portfolio_category_term_slug ) ) {
 			$post_type_args = array(
-				'post_type' => 'ntb-missed',
+				'post_type' => 'not-to-be-missed',
 				'tax_query' => array(
 					array(
-						'taxonomy' => 'portfolio-category',
+						'taxonomy' => 'featured-category',
 						'field'    => 'slug',
 						'terms'    => array( $portfolio_category_term_slug )
 					),
@@ -49,7 +46,7 @@ function nabshow_lv_ntb_missed_load_more_category_click_callback() {
 			);
 		} else {
 			$post_type_args = array(
-				'post_type' => 'ntb-missed',
+				'post_type' => 'not-to-be-missed',
 			);
 		}
 		if ( isset( $fetch_item ) && $fetch_item > 0 ) {
@@ -72,7 +69,7 @@ function nabshow_lv_ntb_missed_load_more_category_click_callback() {
 		while ( $post_type_query->have_posts() ):
 			$post_type_query->the_post();
 
-			$categories = get_the_terms( get_the_ID(), 'portfolio-category' );
+			$categories = get_the_terms( get_the_ID(), 'featured-category' );
 
 			$all_categories_name = array();
 
@@ -243,5 +240,55 @@ function nabshow_lv_custom_ads_click_callback() {
 		update_post_meta($id, $ads_click_key, $ad_click_count);
 	}
 
+	wp_die();
+}
+
+add_action( 'wp_ajax_nabshow_news_releases_load_more_post', 'nabshow_lv_news_releases_load_more_post_callback' );
+add_action( 'wp_ajax_nopriv_nabshow_news_releases_load_more_post', 'nabshow_lv_news_releases_load_more_post_callback' );
+
+
+/**
+ * Returns news release post type data for ajax on load more..
+ * @return json
+ * @since 1.0.
+ */
+function nabshow_lv_news_releases_load_more_post_callback() {
+	check_ajax_referer( 'news_releases_nonce', 'load_more_nonce' );
+
+	$result_post  = array();
+	$final_result = array();
+	$page_number  = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+
+	$news_args  = array(
+		'post_type' => 'news-releases',
+		'paged'     => $page_number,
+	);
+	$news_query = new WP_Query( $news_args );
+
+	$total_pages = $news_query->max_num_pages;
+
+	if ( $news_query->have_posts() ):
+
+		$i = 0;
+
+		while ( $news_query->have_posts() ):
+
+			$news_query->the_post();
+
+			$result_post[ $i ]["post_thumbnail"] = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_empty_thumbnail_url();
+			$result_post[ $i ]["post_title"]     = get_the_title();
+			$result_post[ $i ]["excerpt"]        = get_the_excerpt();
+			$result_post[ $i ]["post_permalink"] = get_the_permalink();
+
+			$i ++;
+
+		endwhile;
+	endif;
+
+	$final_result["next_page_number"] = $page_number + 1;
+	$final_result["total_page"]       = $total_pages;
+	$final_result["result_post"]      = $result_post;
+
+	echo wp_json_encode( $final_result );
 	wp_die();
 }

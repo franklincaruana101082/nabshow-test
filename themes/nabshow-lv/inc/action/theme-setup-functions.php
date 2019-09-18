@@ -218,6 +218,7 @@ function nabshow_lv_scripts() {
     // Script for calling React Component
     //wp_enqueue_script( 'nabshow-gutenberg-block', get_stylesheet_directory_uri() . '/dist/bundled.js' );
 
+    wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
     wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                    => admin_url( 'admin-ajax.php' ),
@@ -231,7 +232,7 @@ function nabshow_lv_scripts() {
         ) );
     }
 
-    if ( is_page_template( 'page-templates/page-not-to-be-missed-archive.php' ) ):
+    if ( is_post_type_archive('not-to-be-missed') ):
         wp_enqueue_script( 'nabshow-lv-ntb-missed', get_template_directory_uri() . '/assets/js/nabshow-lv-ntb-missed.js', array( 'jquery' ), null, true );
         wp_localize_script( 'nabshow-lv-ntb-missed', 'nabshowLvNtbMissed', array(
             'ajax_url'                    => admin_url( 'admin-ajax.php' ),
@@ -246,4 +247,12 @@ function nabshow_lv_scripts() {
             'nabshow_lv_thought_gallery_nonce' => wp_create_nonce( 'thought_gallery_nonce' )
         ) );
     endif;
+
+	if ( is_post_type_archive('news-releases' ) ):
+		wp_enqueue_script( 'nabshow-lv-news-releases', get_template_directory_uri() . '/assets/js/nabshow-lv-news-releases.js', array( 'jquery' ), null, true );
+		wp_localize_script( 'nabshow-lv-news-releases', 'nabshowLvNewsReleases', array(
+			'ajax_url'                       => admin_url( 'admin-ajax.php' ),
+			'nabshow_lv_news_releases_nonce' => wp_create_nonce( 'news_releases_nonce' )
+		) );
+	endif;
 }
