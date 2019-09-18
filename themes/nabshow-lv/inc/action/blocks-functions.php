@@ -498,10 +498,12 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $class_name       = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
 
+    ob_start();
+    
     if ( ! empty( $parent_page_id ) ) {
+
         $children = get_pages( array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' ) );
 
-        ob_start();
         if ( count( $children ) > 0 ) {
         ?>
             <div class="row related-content-rowbox <?php echo esc_attr( $class_name ); ?>">
