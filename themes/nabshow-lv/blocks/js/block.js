@@ -17,3 +17,5 @@ import './block/related-content/block';
 import './block/contributors/block';
 import './block/new-this-year/block';
 import './block/delegation/block';
+import './block/products-winners-award/block';
+import './block/photos/block';

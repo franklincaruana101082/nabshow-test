@@ -1,3 +1,5 @@
+import { partnerSponser1,partnerSponser2 } from '../icons';
+
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
@@ -102,14 +104,13 @@
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
-                            <SelectControl
-                                label={__('Layout type')}
-                                value={layout}
-                                options={[{ label: __('Without Title'), value: 'without-title' },
-                                        { label: __('With Title'), value: 'with-title' },
-                                ]}
-                                onChange={ (value) => { setAttributes({ layout: value }); }}
-                            />
+                            <div>
+                                <label>Layout</label>
+                                <ul className="ss-off-options">
+                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'without-title' })}}>{partnerSponser1}</li>
+                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'with-title' })}}>{partnerSponser2}</li>
+                                </ul>
+                            </div>
                             <div className="inspector-field inspector-field-Numberofitems ">
                                 <label className="inspector-mb-0">Number of items</label>
                                 <RangeControl

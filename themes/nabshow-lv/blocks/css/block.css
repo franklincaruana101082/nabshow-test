@@ -291,6 +291,7 @@ a{color:#0f6cb6}
 .row>.wp-block-column{margin-left:0!important}
 .wp-block-columns.button-column-auto .wp-block-column{flex-basis:auto;margin-right:15px;margin-left:0}
 .wp-block-columns.button-column-auto .wp-block-column:last-child{margin-right:0}
+body.modal-open{overflow:hidden}
 
 /* Default class css */
 
@@ -432,10 +433,11 @@ ul.control-list li.control-opt-7{background-position:10px -156px!important;backg
 .flip-box-back{background-color:#0f6cb6;color:white;transform:rotateY(180deg);padding:30px 10px;display:flex;justify-content:center;flex-direction:column;text-align:center}
 .display-title .flip-box{perspective:inherit;height:auto}
 .display-title .flip-box .flip-box-inner{transform:initial}
-.display-title .flip-box .flip-box-back{background:transparent;transform:initial;color:#000;position:static;height:auto;flex-direction:row;border-radius:0;display:inline-block;width:100%;padding:10px}
+.display-title .flip-box .flip-box-back{background:transparent;transform:initial;color:#000;position:static;height:auto;flex-direction:row;border-radius:0;display:inline-block;width:100%;padding:20px 10px 0}
 .flip-box-inner img{width:100%;height:100%}
 .display-title .flip-box .flip-box-back h6+.jobtilt{font-style:italic}
-.display-title .flip-box .flip-box-back h6{font-size:1rem;margin:0}
+.display-title .flip-box .flip-box-back h6{font-size:20px;font-family:"Gotham Bold", sans-serif;margin-bottom:5px}
+.display-title .flip-box .flip-box-back .jobtilt{margin-bottom:5px}
 
 ul.button-prev{display:flex;flex-wrap:wrap;width:100%}
 ul.button-prev li{width:50%;padding:5px;height:51px;cursor:pointer}
@@ -445,7 +447,7 @@ ul.button-prev li svg text{font-family:'Gotham Bold'}
 ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
 
 .nab-dynamic-list.nab-box-slider{display:flex;flex-wrap:wrap;justify-content:space-around}
-.nab-dynamic-list.nab-box-slider .item{width:16%}
+.nab-dynamic-list.nab-box-slider .item{width:16%;margin-bottom:20px}
 
 .schedule-main{overflow:hidden}
 .schedule-at-a-glance-page .head-section ul{list-style:none;margin:0 0 10px 0;padding:0}
@@ -517,7 +519,7 @@ ul.slider-arrow-main li.active{box-shadow:1px 0 4px 0 #00000091}
 /* Session slider */
 .session .item{text-align:center;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;position:relative;overflow:hidden;width:33.333%;padding:50px 30px}
 .nab-dynamic-slider.session{display:flex}
-.session .item h4{font-size:18px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;min-height:150px;margin-bottom:10px}
+.session .item h4{font-size:20px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;min-height:150px;margin-bottom:10px}
 .session .item span.caption{font-size:14px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
 .session .item span.date-time{font-size:14px;display:block;width:100%;margin-bottom:15px}
 .session.with-masonry .item h4,.session.with-featured .item h4{height:auto;min-height:auto}
@@ -535,6 +537,7 @@ ul.ss-off-options li.date-group.ss-full-option{width:100%}
 ul.ss-off-options li svg, ul.ss-on-options li svg{width:100%;height:auto}
 ul.ss-off-options li.active, ul.ss-on-options li.active{box-shadow:0 0 10px #0085ba54;border-color:#b7b7b7}
 .twitter-block{height:457px;overflow:hidden}
+.session .item .speaker-single h4{font-size:18px}
 
 /* quote-slider */
 .quote-slider .quote-inner .quote-item{margin:0 0 20px 0;padding:20px 30px;box-shadow:0 0 4px 0 #00000061;position:relative}
@@ -703,7 +706,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:Gotham Bold;font-size:16px;t
 .nab-dynamic-list.exhibitors .item .item-inner a::after{display:inline-block;content:"\f178";font-family:FontAwesome;margin-left:6px}
 .nab-dynamic-list.exhibitors .item .item-inner a{text-decoration:none;font-family:"Gotham Bold", sans-serif}
 .nab-dynamic-list.exhibitors .item .item-inner>span{font-style:italic;margin-bottom:15px;display:inline-block;width:100%}
-.nab-dynamic-list.exhibitors .item .item-inner>h4{margin-top:20px}
+.nab-dynamic-list.exhibitors .item .item-inner>h4{font-size:20px;margin-top:20px}
 
 /* Exhibitor Slider Title */
 .exhibitors{display:flex}
@@ -865,14 +868,14 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box a.btn-with-arrow::after{content:"\f178";font-family:'FontAwesome';margin-left:6px}
 
 /* tracks block css */
-.tracks{display:flex;flex-wrap:wrap;margin:0 -15px}
-.tracks .item{width:16.666666666%;padding:0 15px;text-align:center;margin-bottom:15px;align-items:flex-start}
-.tracks .item .track-title{color:#0f6cb6;font-size:20px;margin:15px 0;font-family:"Gotham Bold";height:100%;display:flex;align-items:center}
-.tracks .item .track-title a{color:#0f6cb6}
-.tracks .item .item-inner{display:flex;flex-direction:column;align-items:center;height:100%}
-.tracks .item .item-inner img+.track-title{display:block;height:auto}
-.bx-viewport .tracks .item{padding:0}
-.bx-viewport .tracks{margin:0}
+.category-slider{display:flex;flex-wrap:wrap;margin:0 -15px}
+.category-slider .item{width:16.666666666%;padding:0 15px;text-align:center;margin-bottom:15px;align-items:flex-start}
+.category-slider .item .track-title{color:#000;font-size:20px;margin:15px 0;font-family:"Gotham Bold";height:100%;display:flex;align-items:center}
+.category-slider .item .track-title a{color:#0f6cb6}
+.category-slider .item .item-inner{display:flex;flex-direction:column;align-items:center;height:100%}
+.category-slider .item .item-inner img+.track-title{display:block;height:auto}
+.bx-viewport .category-slider .item{padding:0}
+.bx-viewport .category-slider{margin:0}
 
 /* filter-block css */
 .filter-block{display:flex;flex-wrap:wrap}
@@ -922,3 +925,15 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .box-main-filter .category{display:inline-block;width:230px;margin-right:40px}
 .box-main-filter .search-box{width:320px;display:inline-block}
 .box-main-filter label{font-family:"Gotham Bold", sans-serif}
+
+.nab-dynamic-list .item a.read-more-popup{display:inline-block;position:initial;left:initial;right:initial;width:auto;height:auto;top:initial;bottom:initial;-webkit-transform:initial;-moz-transform:initial;-ms-transform:initial;color:#0f6cb6;font-size:14px;font-family:"Gotham Book", sans-serif}
+.nab-dynamic-list .item a.read-more-popup::after{display:none}
+
+/* nab-photos */
+.nab-photos{-webkit-column-count:4;-moz-column-count:4;column-count:4;-webkit-column-gap:35px;-moz-column-gap:35px;column-gap:35px}
+.nab-photos .photo-item{margin-bottom:35px}
+.nab-photos .photo-item img{width:100%}
+.nab-photos .photo-item .photo-inner{position:relative}
+.nab-photos .photo-item .photo-inner .hover-items{position:absolute;display:flex;justify-content:center;align-items:center;top:0;bottom:0;left:0;right:0;background:#0000007a;transition:0.5s all;opacity:0;font-size:43px;color:#fff}
+.nab-photos .photo-item .photo-inner:hover .hover-items{opacity:1;transition:0.5s all}
+.nab-photos .photo-item .photo-inner .hover-items a{margin:0 10px;color:#fff;cursor:pointer;text-align:center}

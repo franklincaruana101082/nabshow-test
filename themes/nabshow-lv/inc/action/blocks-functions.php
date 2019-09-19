@@ -192,6 +192,46 @@ function nabshow_lv_register_dynamic_blocks() {
                 'featuredPage' => array(
                     'type'    => 'boolean',
                     'default' => false
+                ),
+                'sliderActive' => array(
+                    'type'    => 'boolean',
+                    'default' => true
+                ),
+                'minSlides'    => array(
+                    'type'    => 'number',
+                    'default' => 4
+                ),
+                'autoplay'     => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                ),
+                'infiniteLoop' => array(
+                    'type'    => 'boolean',
+                    'default' => true
+                ),
+                'pager'        => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                ),
+                'controls'     => array(
+                    'type'    => 'boolean',
+                    'default' => true
+                ),
+                'sliderSpeed'  => array(
+                    'type'    => 'number',
+                    'default' => 500
+                ),
+                'slideWidth'   => array(
+                    'type'    => 'number',
+                    'default' => 400
+                ),
+                'slideMargin'  => array(
+                    'type'    => 'number',
+                    'default' => 30
+                ),
+                'arrowIcons' => array(
+                    'type' => 'string',
+                    'default' => 'slider-arrow-1'
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -496,45 +536,80 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $post_limit       = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
     $depth_level      = isset( $attributes['depthLevel'] ) && ! empty( $attributes['depthLevel'] ) ? $attributes['depthLevel'] : 'grandchildren';
     $class_name       = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+    $slider_active    = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
+    $min_slides       = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
+    $slide_width      = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+    $autoplay         = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
+    $infinite_loop    = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
+    $pager            = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
+    $controls         = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
+    $slider_speed     = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
+    $slider_margin    = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+    $arrow_icons      = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
 
     ob_start();
-    
+
     if ( ! empty( $parent_page_id ) ) {
 
         $children = get_pages( array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' ) );
 
         if ( count( $children ) > 0 ) {
         ?>
-            <div class="row related-content-rowbox <?php echo esc_attr( $class_name ); ?>">
-                <?php
-                $page_count = 1;
-                foreach ( $children as $child ) {
-                    if ( $featured_page ) {
-                        if ( ! has_term('featured', 'page-category', $child->ID ) ) {
-                            continue;
-                        }
-                    }
+            <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
 
-                    if ( $post_limit >= $page_count ){
-                        $page_image = has_post_thumbnail( $child->ID ) ? get_the_post_thumbnail_url( $child->ID ) : nabshow_lv_get_empty_thumbnail_url();
-                    ?>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="related-content-box">
-                            <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
-                            <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
-                            <span class="sub-title">Booth Number</span>
-                            <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
-                            <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
-                        </div>
-                    </div>
-                    <?php
-                    } else {
-                        break;
+            <?php
+            if ( $slider_active ) {
+            ?>
+                <div class="nab-dynamic-slider nab-box-slider related-content-slider" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+            <?php
+            } else {
+            ?>
+                <div class="row related-content-rowbox">
+            <?php
+            }
+                    $page_count = 1;
+                    foreach ( $children as $child ) {
+
+                        if ( $featured_page ) {
+                            if ( ! has_term('featured', 'page-category', $child->ID ) ) {
+                                continue;
+                            }
+                        }
+
+                        if ( $post_limit >= $page_count ) {
+
+                            $page_image = has_post_thumbnail( $child->ID ) ? get_the_post_thumbnail_url( $child->ID ) : nabshow_lv_get_empty_thumbnail_url();
+
+                            if ( $slider_active ) {
+                            ?>
+                               <div class="item">
+                                    <div class="item-inner">
+                                        <img src="<?php echo esc_url( $page_image ); ?>" alt="page-logo" />
+                                    </div>
+                                </div>
+                            <?php
+                            } else {
+                            ?>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="related-content-box">
+                                        <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
+                                        <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
+                                        <span class="sub-title">Booth Number</span>
+                                        <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
+                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+
+                        } else {
+                            break;
+                        }
+                        $page_count++;
                     }
-                    $page_count++;
-                }
-                ?>
+                    ?>
+                </div>
             </div>
         <?php
         } else {

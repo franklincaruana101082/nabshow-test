@@ -10,6 +10,20 @@ global $wp_query;
 ?>
     <div id="primary" class="container">
         <div class="page-main thought-gallery-page">
+        	 <div class="breadcrumbs-nospace">
+	            <?php
+	        		echo do_shortcode('[nab_yoast_breadcumb]');
+	            ?>
+	        </div>
+	        <div class="thought-gallery-head">
+	        	<div class="head-left">
+	        		<h1>Thought Gallery</h1>
+	        		<p>A collection of high-level insights on topics, trends and technologies impacting the future of media and entertainment.</p>
+	        	</div>
+	        	<div class="head-right">
+	        		<a class="btn-default" href="#">Subscribe</a>
+	        	</div>
+	        </div>
             <div class="row">
 				<?php
 				if ( have_posts() ) {

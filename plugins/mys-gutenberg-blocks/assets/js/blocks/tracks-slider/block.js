@@ -5,7 +5,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
     class MYSCategorySlider extends Component {
         constructor() {

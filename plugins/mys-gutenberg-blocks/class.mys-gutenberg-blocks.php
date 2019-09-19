@@ -824,14 +824,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     $counter    = 0;
                     $row_count  = 1;
                     while ( $query->have_posts() ) {
+
                         $query->the_post();
 
-                        $date       = get_post_meta( get_the_ID(), 'date', true );
-                        $start_time = get_post_meta( get_the_ID(), 'starttime', true );
-                        $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
+                        $session_id = get_the_ID();
+                        $date       = get_post_meta( $session_id, 'date', true );
+                        $start_time = get_post_meta( $session_id, 'starttime', true );
+                        $end_time   = get_post_meta( $session_id, 'endtime', true );
 
-                        $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
-                        $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+                        $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+                        $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 
                         if ( $date_group !== $date ) {
                             $date_group = $date;
@@ -864,7 +866,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             </div>
                             <div class="details">
                             <?php
-                                $speakers    = get_post_meta( get_the_ID(), 'speakers', true );
+                                $speakers    = get_post_meta( $session_id, 'speakers', true );
                                 $speaker_ids = explode(',', $speakers);
                                 $total_speakers = count( $speaker_ids );
                                 if ( ! empty( $speakers ) && $total_speakers > 0 ) {
@@ -892,7 +894,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             </div>
                         </div>
                        <?php
-                       if ( $row_count === 5 ) {
+                       if ( $row_count === 10 && $posts_per_page > 10 ) {
                        ?>
                             <div class="row-expand">
                                 <a href="javascript:void(0);" class="expand-btn">Expand</a>
@@ -926,7 +928,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 if ( $query->have_posts() ) {
                     ?>
-                        <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+                        <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
                     <?php
                     if ( $slider_active ) {
                         $layout = '';
@@ -943,35 +945,30 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                         $query->the_post();
 
-                        $date       = get_post_meta( get_the_ID(), 'date', true );
-                        $start_time = get_post_meta( get_the_ID(), 'starttime', true );
-                        $end_time   = get_post_meta( get_the_ID(), 'endtime', true );
-                        $date       = date_format( date_create( $date ), 'M d' );
-                        $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
-                        $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
-
+                        $session_id          = get_the_ID();
+                        $date                = get_post_meta( $session_id, 'date', true );
+                        $start_time          = get_post_meta( $session_id, 'starttime', true );
+                        $end_time            = get_post_meta( $session_id, 'endtime', true );
+                        $date                = date_format( date_create( $date ), 'M d' );
+                        $start_time          = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+                        $end_time            = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
                         $date_display_format = 'layout-1' === $slider_layout || ! $slider_active ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
 
-						$post_tracks = get_the_terms( get_the_ID(), 'tracks' );
-						$all_tracks = array();
-						if ( is_array( $post_tracks ) ) {
-							foreach ( $post_tracks as $track) {
-								$all_tracks[] = $track->slug;
-							}
-						}
-						$all_tracks_string = implode( ',', $all_tracks );
-						$featured_post     = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
+						$post_tracks         = get_the_terms( $session_id, 'tracks' );
+						$all_tracks_string   = $this->mysgb_get_comma_separated_term_list( $post_tracks, 'slug');
+						$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
+
                         ?>
                             <div class="item" data-featured="<?php echo esc_attr( $featured_post ); ?>" data-tracks="<?php echo esc_attr( $all_tracks_string ); ?>">
                         <?php
-                            if ( $detail_popup ) {
-                            ?>
-                                <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( get_the_ID() ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"></a>
-                            <?php
+                            if ( $detail_popup && $slider_active ) {
+
+                                $this->mysgb_generate_popup_link( $session_id, $post_type );
+
                             }
                             if ( 'with-featured' === $layout && has_post_thumbnail() ) {
                             ?>
-                                <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+                                <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="session-logo">
                             <?php
                             }
                             ?>
@@ -980,8 +977,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                             <?php
                             if ( $slider_active ) {
+
+                                if ( 'layout-1' === $slider_layout ) {
+
+                                    $session_types = get_the_terms( $session_id, 'session-types' );
+                                    $sub_title     =  $this->mysgb_get_comma_separated_term_list( $session_types );
+
+                                } else {
+                                    $sub_title = $date;
+                                }
+
                             ?>
-                                <span class="caption"><?php echo 'layout-1' === $slider_layout ? esc_html( get_post_meta( get_the_ID(), 'type', true ) ) : esc_html( $date ); ?></span>
+                                <span class="caption"><?php echo esc_html( $sub_title ); ?></span>
                             <?php
                             }
                             ?>
@@ -991,12 +998,19 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             <?php
                             if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
                             ?>
-                                <p><?php echo esc_html( get_the_excerpt() ); ?></p>
+                                <p>
+                                <?php
+
+                                    echo esc_html( get_the_excerpt() );
+
+                                    $this->mysgb_generate_popup_link( $session_id, $post_type, 'Read More' );
+                                ?>
+                                </p>
 
                                 <?php
                                     if ( 'with-masonry' === $layout ) {
 
-                                        $speaker = get_post_meta( get_the_ID(), 'speakers', true );
+                                        $speaker = get_post_meta( $session_id, 'speakers', true );
 
                                         if ( ! empty( $speaker ) ) {
 
@@ -1007,7 +1021,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                                 'post__in'       => $speaker_ids
                                             );
 
-                                            $speaker_query = new WP_Query($speaker_query_args);
+                                            $speaker_query = new WP_Query( $speaker_query_args );
 
                                             if ( $speaker_query->have_posts() ) {
 
@@ -1027,7 +1041,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                                     ?>
                                                         <div class="speaker-single">
                                                             <div class="img-box">
-                                                                <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="rounded-circle" />
+                                                                <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" class="rounded-circle" />
                                                             </div>
                                                             <div class="info-box">
                                                                 <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
@@ -1043,7 +1057,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                     }
                                  ?>
 
-                                <a href="javascript:void(0);">Read More</a>
+                                <a href="javascript:void(0);">View in Planner</a>
                             <?php
                             }
                             ?>
@@ -1056,7 +1070,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 <?php
                 } else {
                 ?>
-                    <p>No posts found.</p>
+                    <p>No post found.</p>
                 <?php
                 }
             }
@@ -1077,6 +1091,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_exhibitors_slider_render_callback( $attributes ) {
+
             $post_type         = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'exhibitors';
             $taxonomies        = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms             = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
@@ -1150,21 +1165,21 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                     while ( $query->have_posts() ) {
 
-                    $query->the_post();
+                        $query->the_post();
+
+                        $exhibitor_id = get_the_ID();
                     ?>
                         <div class="item">
                             <?php
-                            if ( $detail_popup ) {
-                            ?>
-                                <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( get_the_ID() ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"></a>
-                            <?php
+                            if ( $detail_popup && $slider_active ) {
+                                $this->mysgb_generate_popup_link( $exhibitor_id, $post_type );
                             }
                             ?>
                             <div class="item-inner">
                                 <?php
                                 if ( has_post_thumbnail() ) {
                                 ?>
-                                    <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+                                    <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="exhibitor-logo">
                                 <?php
                                 } elseif ( $slider_active ) {
                                 ?>
@@ -1172,12 +1187,19 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                 <?php
                                 }
                                 if ( ! $slider_active ) {
-                                    $booth_number = get_post_meta( get_the_ID(), 'boothnumber', true );
+                                    $booth_number = get_post_meta( $exhibitor_id, 'boothnumbers', true );
+                                    $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
+                                    $exh_url      = 'https://ces20.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
                                 ?>
                                     <h4><?php echo esc_html( get_the_title() ); ?></h4>
                                     <span><?php echo esc_html( $booth_number ); ?></span>
-                                    <p><?php echo esc_html( get_the_excerpt() ); ?></p>
-                                    <a href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
+                                    <p>
+                                    <?php
+                                        echo esc_html( get_the_excerpt() );
+                                        $this->mysgb_generate_popup_link( $exhibitor_id, $post_type, 'Read More');
+                                    ?>
+                                    </p>
+                                    <a href="<?php echo esc_url( $exh_url ); ?>">View in Planner</a>
                                 <?php
                                 }
                                 ?>
@@ -1284,6 +1306,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                         $query->the_post();
 
+                        $speaker_id = get_the_ID();
+
                         if ( has_post_thumbnail() ) {
                             $thumbnail_url = get_the_post_thumbnail_url();
                         } else {
@@ -1294,20 +1318,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         <div class="item <?php echo esc_attr( $item_class ); ?>">
                             <?php
                             if ( $detail_popup ) {
-                            ?>
-                                <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( get_the_ID() ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"></a>
-                            <?php
+                                $this->mysgb_generate_popup_link( $speaker_id, $post_type );
                             }
                             ?>
                             <div class="flip-box">
                                 <div class="flip-box-inner">
-                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title(); ?>" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
+                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
                                     <div class="flip-box-back rounded-circle">
                                         <h6><?php echo esc_html( get_the_title() ); ?></h6>
                                         <?php
                                          if ( ! $slider_active ) {
-                                            $speaker_job_title = get_post_meta( get_the_ID(), 'title', true );
-                                            $speaker_company   = get_post_meta( get_the_ID(), 'company', true );
+                                            $speaker_job_title = get_post_meta( $speaker_id, 'title', true );
+                                            $speaker_company   = get_post_meta( $speaker_id, 'company', true );
                                          ?>
                                             <p class="jobtilt"><?php echo esc_attr( $speaker_job_title ); ?></p>
                                             <span class="company"><?php echo esc_attr( $speaker_company ); ?></span>
@@ -1569,11 +1591,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                     if ( $slider_active ) {
                     ?>
-                        <div class="nab-dynamic-slider nab-box-slider <?php echo esc_attr( $category_type ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                        <div class="nab-dynamic-slider nab-box-slider category-slider <?php echo esc_attr( $category_type ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
                     <?php
                     } else {
                     ?>
-                        <div class="nab-dynamic-list <?php echo esc_attr( $category_type ); ?>">
+                        <div class="nab-dynamic-list category-slider <?php echo esc_attr( $category_type ); ?>">
                     <?php
                     }
 
@@ -1633,6 +1655,37 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         */
         public function mysgb_get_speaker_thumbnail_url() {
             return plugins_url( 'assets/images/speaker-placeholder.png', __FILE__ );
+        }
+
+        /**
+        * Return comma separated term list from given terms array
+        * @param array $terms
+        * @param string $type
+        * @return string
+        * @since 1.0.0
+        */
+        public function mysgb_get_comma_separated_term_list ( $terms = array(), $type = 'name' ) {
+
+            $all_terms = array();
+
+            if ( $terms && ! is_wp_error( $terms ) ) {
+                foreach ( $terms as $term ) {
+                    $all_terms[] = $term->{$type};
+                }
+            }
+            return implode( ',', $all_terms );
+        }
+
+        /**
+        * Generate popup link
+        * @param $post_id
+        * @param $post_type
+        * @param string $display_text
+        */
+        public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '' ) {
+        ?>
+            <a href="#" class="detail-list-modal-popup <?php echo ! empty( $display_text ) ? esc_attr('read-more-popup') : ''; ?>" data-postid="<?php echo esc_attr( $post_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"> <?php echo esc_html( $display_text ); ?></a>
+        <?php
         }
     }
 }

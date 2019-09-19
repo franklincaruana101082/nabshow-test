@@ -70,23 +70,20 @@ function nabshow_lv_get_speaker_thumbnail_url() {
 }
 
 /**
- * Get Not to be missed term list comma separated string
- * @param $post_id
- * @since 1.0
+ * Return comma separated term list from given terms array
+ * @param array $terms
+ * @param string $type
  * @return string
+ * @since 1.0
  */
-function nabshow_lv_get_not_to_be_missed_post_term( $post_id ) {
+function nabshow_lv_get_comma_separated_term_list ( $terms = array(), $type = 'name' ) {
 
-	$all_categories_name = array();
-	$categories          = get_the_terms( get_the_ID(), 'featured-category' );
+	$all_terms = array();
 
-	if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
-		foreach ( $categories as $category ) {
-			$all_categories_name[] = $category->name;
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		foreach ( $terms as $term ) {
+			$all_terms[] = $term->{$type};
 		}
 	}
-
-	$categories_string = implode( ', ', $all_categories_name );
-
-	return $categories_string;
+	return implode( ',', $all_terms );
 }

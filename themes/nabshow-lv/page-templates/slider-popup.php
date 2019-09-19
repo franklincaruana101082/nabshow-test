@@ -100,29 +100,26 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 										while ( $session_query->have_posts() ) {
 
 											$session_query->the_post();
+
 											$speaker_session_id = get_the_ID();
-											$session_type       = get_post_meta( $speaker_session_id, 'type', true );
+											$session_types      = get_the_terms( $speaker_session_id, 'session-types' );
+											$sub_title          = nabshow_lv_get_comma_separated_term_list( $session_types );
 											$date               = get_post_meta( $speaker_session_id, 'date', true );
 											$start_time         = get_post_meta( $speaker_session_id, 'starttime', true );
 											$end_time           = get_post_meta( $speaker_session_id, 'endtime', true );
 											$date               = date_format( date_create( $date ), 'M d' );
-											$start_time         = str_replace( array( 'am', 'pm' ), array(
-												'a.m.',
-												'p.m.'
-											), date_format( date_create( $start_time ), 'g:i a' ) );
-											$end_time           = str_replace( array( 'am', 'pm' ), array(
-												'a.m.',
-												'p.m.'
-											), date_format( date_create( $end_time ), 'g:i a' ) );
+											$start_time         = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+											$end_time           = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 											$session_schedule   = $date . ' | ' . $start_time . ' - ' . $end_time;
 											?>
                                             <li class="item">
                                                 <div class="inner">
                                                     <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
-													<?php if ( ! empty( $session_type ) ) {
-														?>
-                                                        <span class="caption"><?php echo esc_html( $session_type ); ?></span>
-														<?php
+													<?php
+                                                    if ( ! empty( $sub_title ) ) {
+													?>
+                                                        <span class="caption"><?php echo esc_html( $sub_title ); ?></span>
+													<?php
 													}
 													?>
                                                     <span class="date-time"><?php echo esc_html( $session_schedule ); ?></span>
@@ -151,19 +148,15 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 						<?php
 					} elseif ( "sessions" === $current_type ) {
 
-						$location     = get_post_meta( $query_post_id, 'location', true );
+						$all_location = get_the_terms( $query_post_id, 'session-locations' );
+                        $location     = nabshow_lv_get_comma_separated_term_list( $all_location );
+
 						$date         = get_post_meta( $query_post_id, 'date', true );
 						$start_time   = get_post_meta( $query_post_id, 'starttime', true );
 						$end_time     = get_post_meta( $query_post_id, 'endtime', true );
 						$date         = date_format( date_create( $date ), 'M d' );
-						$start_time   = str_replace( array( 'am', 'pm' ), array(
-							'a.m.',
-							'p.m.'
-						), date_format( date_create( $start_time ), 'g:i a' ) );
-						$end_time     = str_replace( array( 'am', 'pm' ), array(
-							'a.m.',
-							'p.m.'
-						), date_format( date_create( $end_time ), 'g:i a' ) );
+						$start_time   = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+						$end_time     = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 						$session_info = '';
 
 						if ( ! empty( $location ) ) {
@@ -189,8 +182,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 									if ( has_post_thumbnail() ) {
 										?>
                                         <div class="feature">
-                                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>"
-                                                 alt="session">
+                                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="session-logo">
                                         </div>
 										<?php
 									}
@@ -232,8 +224,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											?>
                                             <li>
                                                 <div class="media-sec">
-                                                    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>"
-                                                         alt="speaker"/>
+                                                    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo"/>
                                                 </div>
                                                 <div class="details">
                                                     <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
@@ -271,12 +262,11 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											$sponsors_query->the_post();
 
 											if ( has_post_thumbnail() ) {
-												?>
+                                            ?>
                                                 <li>
-                                                    <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>"
-                                                         alt="sponsor"/>
+                                                    <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="sponsor"/>
                                                 </li>
-												<?php
+                                            <?php
 											}
 										}
 										?>
@@ -304,26 +294,30 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 						<?php
 					} elseif ( "exhibitors" === $current_type ) {
 
-						$hall         = get_post_meta( $query_post_id, 'hall', true );
-						$booth        = get_post_meta( $query_post_id, 'boothnumber', true );
-						$pavilion     = get_post_meta( $query_post_id, 'pavilion', true );
-						$tags         = get_post_meta( $query_post_id, 'tags', true );
-						$exh_id       = get_post_meta( $query_post_id, 'exhid', true );
-						$exh_url      = 'https://ces20.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
-						$company_info = '';
+						$booths_halls     = get_post_meta( $query_post_id, 'booths_halls', true );
+						$exh_id           = get_post_meta( $query_post_id, 'exhid', true );
+						$exh_url          = 'https://ces20.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+						$company_info     = array();
 
-						if ( ! empty( $hall ) ) {
-							$company_info .= $hall . ' | ';
-						}
-						if ( ! empty( $booth ) ) {
-							$company_info .= $booth . ' | ';
-						}
-						if ( ! empty( $pavilion ) ) {
-							$company_info .= $pavilion;
-						}
+						if ( ! empty( $booths_halls ) ) {
 
-						$company_info = trim( $company_info, ' | ' );
-						$tags_array   = array_filter( explode( ',', $tags ) );
+						    $all_booths_halls = explode( '#', $booths_halls );
+
+							if ( is_array( $all_booths_halls ) ) {
+
+							    $cnt = 0;
+
+							    foreach ( $all_booths_halls as $booth_hall ) {
+
+								    $single_booth_hall  = explode( '@', $booth_hall );
+                                    $exhibitor_info     = isset( $single_booth_hall[1] ) ?  $single_booth_hall[1] : '';
+									$exhibitor_info     .= isset( $single_booth_hall[0] ) ?  ' | ' . $single_booth_hall[0] : '';
+									$exhibitor_info     .= ' | Pavilion';
+									$company_info[$cnt] = trim( $exhibitor_info, ' | ' );
+									$cnt++;
+								}
+							}
+                        }
 
 						?>
 
@@ -332,30 +326,34 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <div class="head">
                                     <div class="details">
                                         <h3 class="title"><?php echo esc_html( get_the_title() ); ?></h3>
-                                        <strong class="company blue-color"><?php echo esc_html( $company_info ); ?></strong>
+                                        <?php
+                                        if ( count( $company_info ) > 0 ) {
+                                            foreach ( $company_info as $info ) {
+                                            ?>
+                                                <strong class="company blue-color"><?php echo esc_html( $info ); ?></strong>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
                                     </div>
-                                    <div class="feature">
-                                        <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>"
-                                             alt="exhibitor">
-                                    </div>
+                                    <?php
+                                    if ( has_post_thumbnail() ) {
+                                    ?>
+                                        <div class="feature">
+                                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="exhibitor-logo">
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
 								<?php the_content(); ?>
                             </div>
+                            <ul class="tag-list">
+                                <li><a href="#">Tag1</a></li>
+                                <li><a href="#">Tag2</a></li>
+                                <li><a href="#">Tag3</a></li>
+                            </ul>
 							<?php
-
-							if ( is_array( $tags_array ) && count( $tags_array ) > 0 ) {
-								?>
-                                <ul class="tag-list">
-									<?php
-									foreach ( $tags_array as $post_tag ) {
-										?>
-                                        <li><a href="#"><?php echo esc_html( $post_tag ); ?></a></li>
-										<?php
-									}
-									?>
-                                </ul>
-								<?php
-							}
 
 							$categories = get_the_terms( $current_id, 'exhibitor-categories' );
 
@@ -376,8 +374,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											<?php
 											if ( $image_url && ! empty( $image_url ) ) {
 												?>
-                                                <img src="<?php echo esc_url( $image_url ); ?>"
-                                                     alt="exhibitor-category">
+                                                <img src="<?php echo esc_url( $image_url ); ?>" alt="exhibitor-category">
 												<?php
 											} else {
 												echo esc_html( $category->name );

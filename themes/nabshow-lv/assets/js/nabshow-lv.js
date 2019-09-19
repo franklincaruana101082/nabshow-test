@@ -356,6 +356,14 @@
 
   }
 
+  // nab-photos
+  if (0 < $('.nab-photos').length) {
+    $(document).on('click', '.nab-photos .photo-item .photo-inner .hover-items .photos-popup', function () {
+      var imgUrl = jQuery(this).parent().closest('.media').attr('src');
+      console.log("Image url:",imgUrl)
+    });
+  }
+
   // Related content details js box-main
   if (0 < $('.box-main .box-item').length) {
     $('.new-this-year .box-main .box-item').each(function () {

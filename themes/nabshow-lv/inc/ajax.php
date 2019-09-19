@@ -67,20 +67,11 @@ function nabshow_lv_ntb_missed_load_more_category_click_callback() {
 	if ( $post_type_query->have_posts() ):
 		$i = 0;
 		while ( $post_type_query->have_posts() ):
+
 			$post_type_query->the_post();
 
-			$categories = get_the_terms( get_the_ID(), 'featured-category' );
-
-			$all_categories_name = array();
-
-			if ( is_array( $categories ) ) {
-				foreach ( $categories as $category ) {
-					$all_categories_name[] = $category->name;
-				}
-			}
-
-
-			$categories_string = implode( ', ', $all_categories_name );
+			$categories         = get_the_terms( get_the_ID(), 'featured-category' );
+			$categories_string  = nabshow_lv_get_comma_separated_term_list( $categories );
 
 			$result_post[ $i ]["post_id"]        = get_the_ID();
 			$result_post[ $i ]["post_title"]     = get_the_title();
