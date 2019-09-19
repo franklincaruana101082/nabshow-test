@@ -1526,11 +1526,6 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
                     wp_reset_postdata();
                 }
-                if( $final_terms && count( $final_terms ) === 0 ) {
-                ?>
-                    <p>post not found</p>
-                <?php
-                }
             }
 
             $html = ob_get_clean();
