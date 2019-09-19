@@ -15,8 +15,8 @@
 function nabshow_lv_not_to_be_missed_archive() {
 
     $labels = array(
-        'name'               => _x( 'Not to be missed', 'post type general name', 'nabshow-lv' ),
-        'singular_name'      => _x( 'Not to be missed', 'post type singular name', 'nabshow-lv' ),
+        'name'               => _x( 'Not-to-be-missed', 'post type general name', 'nabshow-lv' ),
+        'singular_name'      => _x( 'Not-to-be-missed', 'post type singular name', 'nabshow-lv' ),
         'add_new_item'       => __( 'Add New', 'nabshow-lv' ),
         'edit_item'          => __( 'Edit', 'nabshow-lv' ),
         'new_item'           => __( 'New', 'nabshow-lv' ),
