@@ -11,7 +11,12 @@ $_term = get_queried_object();
 ?>
     <div id="primary" class="container">
         <div class="page-main thought-gallery-page">
-            <h3>Category: <?php echo esc_html( $_term->name ); ?></h3>
+            <div class="breadcrumbs-nospace">
+		        <?php
+		        echo do_shortcode('[nab_yoast_breadcumb]');
+		        ?>
+            </div>
+            <h3 class="mb30">Category: <?php echo esc_html( $_term->name ); ?></h3>
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-sm-12 content-with-sidebar">
 					<?php
@@ -20,7 +25,6 @@ $_term = get_queried_object();
 							the_post();
 							get_template_part( 'template-parts/content', 'thought-gallery' );
 						}
-
 					} else {
 						?>
                         <h4> No results found. </h4>";

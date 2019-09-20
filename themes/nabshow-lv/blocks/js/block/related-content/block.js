@@ -80,7 +80,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField }, setAttributes } = this.props;
 
             var names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -143,6 +143,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             {input}
                             {commonControls}
                             <CheckboxControl
+                                className="related-featured"
                                 label="Featured Page"
                                 checked={ featuredPage }
                                 onChange={ () => { setAttributes({ featuredPage: ! featuredPage }); this.setState({ bxinit: true }); } }
@@ -154,6 +155,22 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={sliderActive}
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive}); this.setState({ bxinit: ! sliderActive }); } }
                             />
+                            { ! sliderActive &&
+                            <SelectControl
+                                label={__('Select field to display')}
+                                value={displayField}
+                                options={[
+                                    { label: __('Select Field'), value: '' },
+                                    { label: __('Date'), value: 'page_date' },
+                                    { label: __('Dinner'), value: 'dinner_time' },
+                                    { label: __('Halls'), value: 'page_hall' },
+                                    { label: __('Hotel'), value: 'page_hotel' },
+                                    { label: __('Locations'), value: 'page_location' },
+                                    { label: __('Reception'), value: 'reception_time' },
+                                ]}
+                                onChange={ (value) => setAttributes({ displayField: value }) }
+                            />
+                            }
                             {sliderActive &&
                             <Fragment>
                                 <ToggleControl
@@ -241,7 +258,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField }}
                     />
                 </Fragment>
 
@@ -309,6 +326,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        displayField: {
+            type: 'string'
         }
     };
 

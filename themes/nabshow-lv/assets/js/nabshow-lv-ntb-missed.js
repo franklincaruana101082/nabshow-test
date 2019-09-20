@@ -25,7 +25,7 @@
         $('#loader_container').show();
         $('#card_section').fadeOut();
 
-        jQuery('.ltb-slidein .card-columns-box .cards').removeClass('slideInUp');
+        jQuery('.card-columns-box .cards').removeClass('slideInUp');
 
         $('#load_more a').attr('data-page-number', 1);
 
@@ -58,7 +58,7 @@ function nabAjaxForLoadMoreAndCategoryClickEvent(eventName, pageNumber, dataCate
 
                 jQuery('#card_section').fadeIn();
 
-                jQuery('.ltb-slidein .card-columns-box .cards').addClass('slideInUp');
+                jQuery('.card-columns-box .cards').addClass('slideInUp');
 
             }
 

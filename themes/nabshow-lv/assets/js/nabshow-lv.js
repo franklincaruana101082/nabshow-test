@@ -813,9 +813,10 @@ function filterSelectProduct(clickItem) {
 
   if (null !== filterAwardName) {
     jQuery('.products-winners:visible .product-title:not(:contains("' + filterAwardName + '"))').parents('.products-winners').hide();
-    if (jQuery('.alphabets-list li:not(.clear)').hasClass('active')) {
-      alphabetsFilter();
-    }
+  }
+
+  if (jQuery('.alphabets-list li:not(.clear)').hasClass('active')) {
+    alphabetsFilter();
   }
 
   let filterSearch = jQuery('#products-search').val();
@@ -824,7 +825,7 @@ function filterSelectProduct(clickItem) {
     jQuery('.product-item:visible')
       .filter(function () {
         return (
-          0 > jQuery('.title a', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
+          0 > jQuery('.title', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
         );
       }).hide();
   }
@@ -847,7 +848,7 @@ function filterSelectProduct(clickItem) {
     jQuery('.products-winners:visible .product-item:visible')
       .filter(function () {
         return (
-          jQuery('.alphabets-list li:not(.clear).active').text().toLowerCase() != jQuery('.title a', this).text().toLowerCase().charAt(0)
+          jQuery('.alphabets-list li:not(.clear).active').text().toLowerCase() != jQuery('.subtitle', this).text().toLowerCase().charAt(0)
         );
       }).hide();
   }

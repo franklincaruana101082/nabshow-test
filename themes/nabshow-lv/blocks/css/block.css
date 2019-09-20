@@ -159,6 +159,7 @@ input[type="number"]::-webkit-inner-spin-button{opacity:1}
 .has-fixed{width:1450px;max-width:96%;margin:0 auto;clear:both}
 .has-fluid{width:100%;clear:both;margin:0 auto}
 .has-semi{width:85%;margin:0 auto}
+.has-fixed>.has-fixed{padding-left:0;padding-right:0;background:red!important}
 
 /* Button */
 .wp-block-button__link{background-color:transparent;border:1px solid #4eaab9;color:#4eaab9;padding:10px 60px;text-decoration:none;border-radius:0}
@@ -937,3 +938,11 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .nab-photos .photo-item .photo-inner .hover-items{position:absolute;display:flex;justify-content:center;align-items:center;top:0;bottom:0;left:0;right:0;background:#0000007a;transition:0.5s all;opacity:0;font-size:43px;color:#fff}
 .nab-photos .photo-item .photo-inner:hover .hover-items{opacity:1;transition:0.5s all}
 .nab-photos .photo-item .photo-inner .hover-items a{margin:0 10px;color:#fff;cursor:pointer;text-align:center}
+
+/* Related Content css */
+[aria-label*="Block: Related Content"] .components-placeholder__label{font-weight:800;margin:0 0 10px 0;font-size:22px;font-family:Muli, sans-serif!important;color:#363636}
+[aria-label*="Block: Related Content"] .components-placeholder{background:#fff;text-align:center;padding:40px 0;box-shadow:0 0 8px 0 #00000026;border:1px solid #00000026}
+[aria-label*="Block: Related Content"] .components-placeholder select{height:40px!important;border-radius:3px!important;margin-bottom:10px;box-shadow:none!important;border:1px solid #8c8a8a;cursor:pointer;padding:0 10px}
+[aria-label*="Block: Related Content"] .components-placeholder label.components-base-control__label{margin-bottom:10px}
+[aria-label*="Block: Related Content"] .components-placeholder button.components-button.button.button-large.button-primary{cursor:pointer;background:#0f6cb6;color:#fff;padding:5px 40px;box-sizing:border-box;display:inline-block;font-weight:500;border-radius:20px;font-size:16px;letter-spacing:1px;height:auto;font-family:Muli, sans-serif!important}
+.components-base-control.related-featured{padding:0 15px}

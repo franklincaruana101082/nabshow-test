@@ -11,7 +11,7 @@ get_header();
 global $wp_query;
 ?>
 
-    <div id="primary" class="container">
+    <div id="primary" class="container ltb-slidein">
         <div class="page-main not-to-be-missed">
             <div class="breadcrumbs-nospace">
 				<?php

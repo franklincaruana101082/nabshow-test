@@ -232,6 +232,9 @@ function nabshow_lv_register_dynamic_blocks() {
                 'arrowIcons' => array(
                     'type' => 'string',
                     'default' => 'slider-arrow-1'
+                ),
+                'displayField' => array(
+                    'type' => 'string',
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -590,12 +593,32 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                 </div>
                             <?php
                             } else {
+                                $display_field = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : '';
+                                $sub_title     = '';
+
+                                if ( ! empty( $display_field ) ) {
+
+                                    $field_val =  get_field( $display_field,  $child->ID );
+
+                                    if ( 'page_hall' === $display_field || 'page_location' === $display_field ) {
+                                        $sub_title = implode(', ', $field_val );
+                                    } else {
+                                        $sub_title = $field_val;
+                                    }
+                                }
+
                             ?>
                                 <div class="col-lg-4 col-md-6">
                                     <div class="related-content-box">
                                         <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
                                         <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
-                                        <span class="sub-title">Booth Number</span>
+                                        <?php
+                                        if ( ! empty( $sub_title ) ) {
+                                        ?>
+                                            <span class="sub-title"><?php echo esc_html( $sub_title ); ?></span>
+                                        <?php
+                                        }
+                                        ?>
                                         <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
                                         <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
                                     </div>

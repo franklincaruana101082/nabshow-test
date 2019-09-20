@@ -140,6 +140,7 @@
                 controls: 'true',
                 infiniteLoop: 'true',
                 pager: false,
+                touchEnabled: false,
                 stopAutoOnClick: true,
                 autoHover: true,
                 onSlideBefore: function ($slideElement) {
