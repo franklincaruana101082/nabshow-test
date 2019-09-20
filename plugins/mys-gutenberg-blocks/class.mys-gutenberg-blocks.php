@@ -839,7 +839,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             $date_group = $date;
                             $row_count = 1;
                         ?>
-                            <h2><?php echo esc_html( date("Y-m-d", strtotime( $date ) ) ); ?></h2>
+                            <h2><?php echo esc_html( date("M d", strtotime( $date ) ) ); ?></h2>
                             <div class="schedule-data">
                         <?php
                         }
