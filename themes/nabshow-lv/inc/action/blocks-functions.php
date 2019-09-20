@@ -550,6 +550,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $slider_margin    = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
     $arrow_icons      = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
+    $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : '';
 
     ob_start();
 
@@ -593,14 +594,13 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                 </div>
                             <?php
                             } else {
-                                $display_field = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : '';
                                 $sub_title     = '';
 
                                 if ( ! empty( $display_field ) ) {
 
                                     $field_val =  get_field( $display_field,  $child->ID );
 
-                                    if ( 'page_hall' === $display_field || 'page_location' === $display_field ) {
+                                    if ( ! empty( $field_val ) && ( 'page_hall' === $display_field || 'page_location' === $display_field ) ) {
                                         $sub_title = implode(', ', $field_val );
                                     } else {
                                         $sub_title = $field_val;

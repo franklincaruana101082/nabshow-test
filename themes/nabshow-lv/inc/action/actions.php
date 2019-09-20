@@ -79,6 +79,9 @@ add_action('pre_get_posts', 'nabshow_lv_custom_type_to_author');
 // Action to make posts hierarchical
 add_action('registered_post_type', 'nabshow_lv_make_posts_hierarchical', 10, 2 );
 
+// Action to enable excerpt in page
+add_action('registered_post_type', 'nabshow_lv_enable_page_excerpt', 10, 2);
+
 // Action to add taxonomy to page post type
 add_action( 'init', 'nabshow_lv_page_category_taxonomy', 0 );
 

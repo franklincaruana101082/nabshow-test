@@ -205,6 +205,18 @@ function nabshow_lv_make_posts_hierarchical( $post_type ) {
     add_post_type_support( 'post', 'page-attributes' );
 }
 
+/**
+ * Enable excerpt in page post type
+ * @param $post_type
+ */
+function nabshow_lv_enable_page_excerpt( $post_type ) {
+	// Return, if not post type posts
+	if ( 'page' !== $post_type ) return;
+
+	// Adding excerpt for page
+	add_post_type_support( 'page', 'excerpt' );
+}
+
  /*
  *  Add custom menu for Ads statistics.
  * @since 1.0
