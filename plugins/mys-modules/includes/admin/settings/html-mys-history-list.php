@@ -155,12 +155,12 @@ if ( 0 === MYS_PLUGIN_DUMMY_HISTORY ) {
 							break;
 
 						case 0:
-							$h_status  = "<i class='fas fa-sync fa-spin'></i><br>Sync In Progress";
+							$h_status  = "<i class='fas fa-sync fa-spin'></i><br>Pull In Progress";
 							$row_class = 'status-in-progress pull-in-progress';
 							break;
 
 						case 2:
-							$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i>Failed";
+							$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i>Pull Failed";
 							$row_class = 'status-failed pull-failed';
 							break;
 
