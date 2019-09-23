@@ -381,8 +381,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				$prepared_data['main_mys_value'] = $item->ModifiedID;
 				$prepared_data['data']           = $data;
 
-				echo '01';
-
 				switch ( $data_type ) {
 					case 'sessions':
 
@@ -398,12 +396,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 					case 'tracks':
 
-						echo '02';
-
 						$prepared_data['post_type']         = 'tracks';
 						$prepared_data['exclude_from_meta'] = array( 'title', 'description' );
 						$prepared_data['typeidname']        = 'trackid';
-
 
 						$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_master_tracks( $prepared_data );
 
@@ -452,8 +447,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			}
 
-			echo 'LAST';
-
 			return $result;
 		}
 
@@ -462,8 +455,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$data      = $data_to_migrate['data'];
 			$item      = $data_to_migrate['item'];
 			$sessionid = $data_to_migrate['main_mys_value'];
-
-			echo '1';
 
 			/**
 			 * 0 - Deleted (This type will only available in Sessions)
@@ -477,11 +468,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			//and assign the term
 			$assigned_session = '';
 
-			echo '2';
-
 			$session_post_id = $this->nab_mys_cron_get_postid_from_meta( 'sessions', 'sessionid', $sessionid );
-
-			echo '3';
 
 			/**
 			 * @todo
@@ -493,8 +480,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$return_detail = '';
 
 			foreach ( $data as $track ) {
-
-				echo '4-inarray';
 
 				$title       = $track['title'];
 				$description = $track['description'];
@@ -571,8 +556,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			}
 
-			echo '5';
-
 			if ( isset( $session_post_id ) && '' !== $session_post_id ) {
 
 				$assigned_session .= $session_post_id;
@@ -593,11 +576,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				$return_detail .= $assigned_session;
 			}
 
-			echo '6';
-
 			$this->nab_mys_cron_master_confirmed( $item->DataID );
-
-			echo '7-return';
 
 			return $return_detail;
 		}
