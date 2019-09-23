@@ -16,22 +16,57 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 		private $nab_mys_sync_parent_object;
 
-		private $nab_mys_db_parent_object;
+		private $nab_mys_db_history_object;
+
+		private $nab_mys_db_cron_object;
+
+		private $history_groupid;
 
 		public function __construct() {
 
-			//Activation Call Back
+
+			//add_action( 'admin_init', array( $this, 'nab_mys_check_plugin_credentials' ) );
+			//$this->nab_mys_check_plugin_credentials();
 
 			//Register Post Types & Taxonomies
 			$this->nab_mys_register_post_types();
 
 			//Load Important Classes
-			$this->nab_mys_load_classes();
+			$this->nab_mys_load_global_classes();
+		}
 
-			//Create Class Objects
-			$this->nab_mys_create_class_objects();
+		/**
+		 * Plugin Setup (On Activation)
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		static function nab_mys_plugin_activate( $plugin = false ) {
 
-			//Deactivation Call Back
+			delete_option( 'mys_login_form_success' );
+			/*delete_option( 'nab_mys_credentials_u' );
+			delete_option( 'nab_mys_credentials_p' );*/
+
+			update_option( 'nab_mys_show_wizard', 1 );
+
+			if ( MYS_PLUGIN_BASE === $plugin ) {
+				wp_redirect( esc_url( admin_url( 'admin.php?page=mys-login' ) ) );
+				exit();
+			}
+		}
+
+		/**
+		 * Plugin Setup (On Deactivation)
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		static function nab_mys_plugin_deactivate() {
+
+			//Delete a MYS API Token from Transient Cache
+			delete_transient( 'nab_mys_token' );
+			delete_option( 'mys_login_form_success' );
+			delete_option( 'nab_mys_show_wizard' );
 
 		}
 
@@ -42,6 +77,9 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 			//Register Assets
 			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_assets' ) );
+
+			//Initialze the sync process.
+			$this->nab_mys_load_sync_classes();
 
 		}
 
@@ -55,10 +93,28 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 		}
 
-		public function nab_mys_load_classes() {
+		public function nab_mys_load_global_classes() {
 
 			//Class File - Scripts & Styles
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-scripts.php' );
+
+			//Class File - Database - CRON
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-db-cron.php' );
+
+			$this->nab_mys_db_cron_object = new NAB_MYS_DB_CRON();
+
+		}
+
+		public function nab_mys_load_history_class() {
+
+			//Class File - Database - History
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-db-history.php' );
+
+			$this->nab_mys_db_history_object = new NAB_MYS_DB_History();
+
+		}
+
+		public function nab_mys_load_sync_classes() {
 
 			//Class File - Database
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-db-parent.php' );
@@ -66,19 +122,13 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 			//Class File - MYS API Sync
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-sync-parent.php' );
 
+			$this->nab_mys_sync_parent_object = new NAB_MYS_Sync_Parent();
+
 			//Class File - Sessions
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-sync-sessions.php' );
 
 			//Class File - Exhibitors
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-sync-exhibitors.php' );
-
-		}
-
-		public function nab_mys_create_class_objects() {
-
-			$this->nab_mys_sync_parent_object = new NAB_MYS_Sync_Parent();
-
-			$this->nab_mys_db_parent_object = new NAB_MYS_DB_Parent();
 
 		}
 
@@ -115,11 +165,11 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 				__( 'MYS Modules', 'mys-modules' ),
 				'manage_options',
 				'mys-sync',
-				array( $this, 'nab_mys_page_html' ),
+				array( $this, 'nab_mys_sync_page' ),
 				WP_PLUGIN_URL . '/mys-modules/assets/images/icon.svg'
 			);
 
-			add_submenu_page( 'mys-sync', 'MYS Sync', 'MYS Sync', 'manage_options', 'mys-sync', array( $this, 'nab_mys_page_html' ) );
+			add_submenu_page( 'mys-sync', 'MYS Sync', 'MYS Sync', 'manage_options', 'mys-sync', array( $this, 'nab_mys_sync_page' ) );
 
 			add_submenu_page( 'null', 'MYS Login', 'MYS Login', 'manage_options', 'mys-login', array( $this, 'nab_mys_login_page_fun' ) );
 			add_submenu_page( 'null', 'MYS History', 'MYS History', 'manage_options', 'mys-history', array( $this, 'nab_mys_history_page_fun' ) );
@@ -136,7 +186,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
-		public function nab_mys_page_html() {
+		public function nab_mys_sync_page() {
 
 			//Generate a New MYS API Token on load if expired after 1 hour
 			$this->nab_mys_sync_parent_object->nab_mys_api_token_from_cache();
@@ -145,10 +195,14 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		}
 
 		public function nab_mys_login_page_fun() {
+
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-login-page.php' );
 		}
 
 		public function nab_mys_setting_page_fun() {
+
+			$this->nab_mys_load_history_class();
+
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-setting-page.php' );
 		}
 
@@ -161,7 +215,17 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		}
 
 		public function nab_mys_history_page_fun() {
-			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-page.php' );
+
+			$this->nab_mys_load_history_class();
+
+			$this->history_groupid = FILTER_INPUT( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
+
+			if ( empty( $this->history_groupid ) ) {
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-list.php' );
+			} else {
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-detail.php' );
+			}
+
 		}
 
 		public function nab_mys_exhibitors_page_fun() {

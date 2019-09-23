@@ -185,7 +185,7 @@ function nab_mys_sessions_post_type() {
 		'labels'              => $labels,
 		'public'              => true,
 		'taxonomies'          => array( 'tracks' ), /*'post_tag'*/
-		'publicly_queryable'  => true,
+		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
 		'show_in_menu'        => true,
@@ -312,7 +312,7 @@ function nab_mys_speakers_post_type() {
 		'labels'              => $labels,
 		'public'              => true,
 		'show_in_rest'        => true,
-		'publicly_queryable'  => true,
+		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
 		'show_in_menu'        => true,
@@ -350,6 +350,7 @@ add_action( 'init', 'nab_mys_speakers_post_type' );
  */
 function nab_mys_sponsors_taxonomies() {
 
+	// Taxonomy - sponsor-categories
 	$category_labels = array(
 		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
 		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
@@ -375,6 +376,33 @@ function nab_mys_sponsors_taxonomies() {
 	);
 
 	register_taxonomy( 'sponsor-categories', array( 'sponsors' ), $category_args );
+
+	// Taxonomy - sponsor-types
+	$type_labels = array(
+		'name'              => _x( 'Types', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Types', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Types', 'mys-modules' ),
+		'all_items'         => __( 'All Types', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Type', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Type:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Type', 'mys-modules' ),
+		'update_item'       => __( 'Update Type', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Type', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Type', 'mys-modules' ),
+		'menu_name'         => __( 'Types', 'mys-modules' ),
+	);
+
+	$type_args = array(
+		'hierarchical'      => true,
+		'labels'            => $type_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'sponsor-types' ),
+	);
+
+	register_taxonomy( 'sponsor-types', array( 'sponsors' ), $type_args );
 }
 
 add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
@@ -407,7 +435,7 @@ function nab_mys_sponsor_post_type() {
 		'labels'              => $labels,
 		'public'              => true,
 		'show_in_rest'        => true,
-		'publicly_queryable'  => true,
+		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
 		'show_in_menu'        => true,
@@ -467,7 +495,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'exhibitor-categories' ),
+		'rewrite'           => array( 'slug' => 'exhibitor-categories' ),
 	);
 
 	register_taxonomy( 'exhibitor-categories', array( 'exhibitors' ), $category_args );
@@ -521,7 +549,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'pavilions' ),
+		'rewrite'           => array( 'slug' => 'pavilions' ),
 	);
 
 	register_taxonomy( 'pavilions', array( 'exhibitors' ), $pavilion_args );
@@ -558,7 +586,7 @@ function nab_mys_exhibitor_post_type() {
 		'public'              => true,
 		'taxonomies'          => array( 'exhibitor-categories' ),
 		'show_in_rest'        => true,
-		'publicly_queryable'  => true,
+		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
 		'show_in_menu'        => true,

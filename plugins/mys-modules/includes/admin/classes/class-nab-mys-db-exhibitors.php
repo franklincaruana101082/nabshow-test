@@ -18,6 +18,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 		 * Class Constructor
 		 */
 		public function __construct() {
+			parent::__construct();
 		}
 
 		public function nab_mys_db_exh_rows_maker( $data_type, $history_id, $group_id, $exhibitor_modified_array, $added_status ) {
@@ -67,16 +68,16 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 					'ItemStatus'    => $exh_id_int,
 					'DataType'      => $data_type,
 					'ModifiedID'    => $exh_id,
-					'DataStartTime' => date( 'Y-m-d H:i:s' ),
+					'DataStartTime' => current_time( 'Y-m-d H:i:s' ),
 					'DataJson'      => $data_json
 				);
 			}
 
 			global $wpdb;
 
-			$this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+			$bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
 
-			return count( $rows );
+			return array( 'bulk_status' => $bulk_status, 'row_counts' => count( $rows ) );
 
 		}
 
@@ -84,21 +85,70 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 
 			foreach ( $exhibitor_categories as $single_cat ) {
 
-				$category_mys_id = $single_cat->categoryid;
-				$categoryname    = $single_cat->categoryname;
+				$taxonomy     = 'exhibitor-categories';
+				$categoryname = $single_cat->categoryname;
 
-				$args                  = array();
-				$args['mys_item_id']   = $category_mys_id;
-				$args['mys_item_name'] = 'categoryid';
-				$args['mys_parent_id'] = $single_cat->parentcategoryid;
-				$args['description']   = $single_cat->categorydisplay;
-
-				if ( "" !== $categoryname ) {
-					$this->nab_mys_cron_assign_single_term_by_name( $categoryname, "exhibitor-categories", 0, $args );
+				if ( empty( $categoryname ) ) {
+					continue;
 				}
 
-			}
+				$wp_parent_id  = 0;
+				$mys_item_name = 'categoryid';
+				$mys_item_id   = isset( $single_cat->categoryid ) ? $single_cat->categoryid : 0;
+				$mys_parent_id = isset( $single_cat->parentcategoryid ) ? $single_cat->parentcategoryid : 0;
+				$description   = isset( $single_cat->categorydisplay ) ? $single_cat->categorydisplay : '';
 
+				//get parent's wp/term id
+				if ( 0 !== $mys_parent_id ) {
+					//get tracks wp id from trackid of mys
+					$args        = array(
+						'hide_empty' => false, // also retrieve terms which are not used yet
+						'meta_query' => array(
+							array(
+								'key'   => $mys_item_name,
+								'value' => $mys_parent_id
+							)
+						),
+						'taxonomy'   => $taxonomy,
+					);
+					$parent_term = get_terms( $args );
+
+					$wp_parent_id = isset ( $parent_term[0]->term_id ) ? $parent_term[0]->term_id : 0;
+				}
+
+				//Check if same name available
+				$existing_term_data = get_term_by( 'name', $categoryname, $taxonomy );
+
+				if ( isset( $existing_term_data->term_id ) ) {
+
+					//if yes, get its id and assign to $session_post_id
+					$terms_ids[] = $term_post_id = $existing_term_data->term_id;
+
+				} else {
+					// insert new term if not already available
+
+					$term_id_data = wp_insert_term(
+						$categoryname,
+						$taxonomy,
+						array(
+							'description' => $description,
+							'parent'      => $wp_parent_id,
+						)
+					);
+
+					//Term already available on this point, then use it.
+					if ( isset( $term_id_data->error_data['term_exists'] ) ) {
+						$terms_ids[] = $term_post_id = $term_id_data->error_data['term_exists'];
+					} else {
+						$terms_ids[] = $term_post_id = $term_id_data['term_id'];
+					}
+
+					//insert term meta to detect parent
+					if ( 0 !== $mys_item_id ) {
+						update_term_meta( $term_post_id, $mys_item_name, $mys_item_id );
+					}
+				}
+			}
 		}
 
 	}

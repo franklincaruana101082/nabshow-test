@@ -129,8 +129,7 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 	$exhibitors_category_url = isset ( $nab_mys_urls['exhibitors_category_url'] ) ? $nab_mys_urls['exhibitors_category_url'] : '/Categories';
 }
 ?>
-<!-- <div class="notice notice-error is-dismissible"><p>Hi there, I am a Tempo!</p></div> -->
-<?php if ( "" !== $notice ) { ?>
+<?php if ( ! empty( $notice ) ) { ?>
 	<div class="notice <?php echo esc_attr( $notice_class ); ?> is-dismissible"><p><?php echo esc_html( $notice ); ?></p></div>
 <?php } ?>
 
@@ -210,7 +209,9 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 				<div class="login-row">
 					<strong>Password</strong>
 					<div class="input-div">
-						<label><?php echo "********"; ?></label>
+						<label><?php if ( $mys_password ) {
+								echo "********";
+							} ?></label>
 						<input name="mys_password" type="password" value="<?php echo esc_attr( $mys_password ); ?>" class="regular-text">
 					</div>
 				</div>

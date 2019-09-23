@@ -20,6 +20,8 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		protected $requested_for;
 
+		protected $previous_date = null;
+
 		protected $current_request;
 
 		protected $past_request;
@@ -259,7 +261,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			$mys_request_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] . '/Authorize' : '';
 
 			//Stop the flow if Main URL is empty.
-			if ( "" === $mys_request_url ) {
+			if ( empty($mys_request_url) ) {
 				return false;
 			}
 
@@ -313,9 +315,10 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 			$main_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
 
-			$fromDate       = isset ( $this->nab_mys_urls['datepicker'] ) ? $this->nab_mys_urls['datepicker'] : '';
-			$fromDate       = date( "Y-m-d", strtotime( $fromDate ) );
-			$toDate         = current_time( 'Y-m-d' );
+			$fromDate       = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . '00:00:00';
+			$fromDate       = date( "Y-m-d h:i:s", strtotime( $fromDate ) );
+
+			$toDate         = current_time( 'Y-m-d h:i:s' );
 			$modified_dates = '?fromDate=' . $fromDate . '&toDate=' . $toDate;
 
 			$modified_sessions_url = isset ( $this->nab_mys_urls['modified_sessions_url'] ) ? $this->nab_mys_urls['modified_sessions_url'] : '';

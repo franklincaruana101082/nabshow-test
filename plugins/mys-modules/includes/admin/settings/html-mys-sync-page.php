@@ -21,11 +21,11 @@ if ( isset( $reset_sequence ) && "yes" === $reset_sequence ) {
 
 	global $wpdb;
 
-	$wpdb->query( "UPDATE {$wpdb->prefix}mys_history SET HistoryStatus = 2 WHERE HistoryStatus = 0" ); //db call ok; no-cache ok
+	$wpdb->query( "UPDATE {$wpdb->prefix}mys_history SET HistoryStatus = 4 WHERE HistoryStatus = 0" ); //db call ok; no-cache ok
 
-	$wpdb->query( "UPDATE {$wpdb->prefix}mys_data SET AddedStatus = 2 WHERE AddedStatus = 0" ); //db call ok; no-cache ok
+	$wpdb->query( "UPDATE {$wpdb->prefix}mys_data SET AddedStatus = 4 WHERE AddedStatus = 0" ); //db call ok; no-cache ok
 
-	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. All statuses are updated from 0 to 2.</p>";
+	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. All statuses are updated from 0 to 4 (forced fail).</p>";
 
 }
 

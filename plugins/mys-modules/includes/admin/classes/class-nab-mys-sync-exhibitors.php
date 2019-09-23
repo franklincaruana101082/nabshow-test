@@ -52,8 +52,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Initialize Database Class Instance to store the Response Data.
 			$this->nab_mys_db_exh = new NAB_MYS_DB_Exhibitors();
 
-			$this->nab_mys_db_exh->nab_mys_db_set_wpdb();
-
 		}
 
 		public function nab_mys_sync_exhibitors() {
@@ -76,6 +74,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		}
 
 		private function nab_mys_sync_exh_initialize() {
+
+			if ( 'exhibitors' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
+				$this->previous_date = $this->nab_mys_db_exh->nab_mys_db_previous_history( 'modified-exhibitors' );
+			}
 
 			//Get MYS API Request URL.
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
@@ -125,19 +127,20 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				$total_rows               = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 				$exhibitor_modified_array = array_slice( $exhibitor_modified_array, 0, $total_rows );
 
+				//set data_json in DB Class to pass modified data to update in db indirectly.
+				$this->nab_mys_db_exh->nab_mys_db_set_data_json( $this->data_json );
+
 				if ( 0 === count( $exhibitor_modified_array ) ) {
 
 					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 1 );
 
-					$error_message = "Modifed Sessions array is empty";
+					$this->requested_for = 'empty';
 
-					$this->nab_mys_display_error( $error_message );
+					$this->nab_mys_sync_exh_finish();
 
 				} else {
 
-					//set data_json in DB Class to pass modified data to update in db indirectly.
-					$this->nab_mys_db_exh->nab_mys_db_set_data_json( $this->data_json );
-
+					//initialize main history row
 					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 0, count( $exhibitor_modified_array ) );
 
 					//Let's add rows with blank mys data.
@@ -214,7 +217,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 			} else {
 
-				echo esc_html( "CRON sequence ($this->group_id) is now completed successfully." );
+				if ( 'empty' === $this->requested_for ) {
+					echo esc_html( "Everything is upto date." );
+				} else {
+					echo esc_html( "CRON sequence ($this->group_id) is now completed successfully." );
+				}
 				die();
 
 			}
@@ -238,7 +245,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 			if ( "exhibitors" === $this->requested_for ) {
 
-				$pending_data = $this->nab_mys_db_exh->nab_mys_cron_get_latest_groupid( $this->requested_for );
+				$pending_data = $this->nab_mys_db_exh->nab_mys_db_get_latest_groupid( $this->requested_for );
 
 				if ( 0 !== $pending_data ) {
 
@@ -246,6 +253,25 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$history_pending_data = $pending_data[0]->HistoryData;
 
 					if ( empty( $history_pending_data ) ) {
+
+						$mys_data_exh_attempt = get_option( 'mys_data_exh_attempt' );
+
+						$mys_data_exh_attempt = isset( $mys_data_exh_attempt ) ? $mys_data_exh_attempt + 1 : 1;
+
+						update_option( 'mys_data_exh_attempt', $mys_data_exh_attempt );
+
+						if ( $mys_data_exh_attempt >= 3 ) {
+
+							update_option( 'mys_data_exh_attempt', 0 );
+
+							// send email..
+							$stuck_groupid       = $this->group_id;
+							$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
+
+							$email_subject = $mys_data_exh_attempt . ' Attempts Failed - Tried to Sync Exhibitors.';
+							$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
+							$this->nab_mys_db_exh->nab_mys_email( $email_subject, $email_body );
+						}
 
 						$error_message = 'New pull request can not be initialized because 1 pull request is just started, please wait until it finishes.';
 
@@ -264,7 +290,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 					} else {
 
-						$data_json          = str_replace( "\'", "'", $history_pending_data );
+						//$data_json          = str_replace( "\'", "'", $history_pending_data );  //ne_temp ne_json
+						$data_json = $history_pending_data;  //ne_temp ne_json
+
 						$data_array         = json_decode( $data_json, true );
 						$this->total_counts = count( $data_array[0]['exhibitors'] );
 
@@ -287,82 +315,80 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
-			public
-			function nab_mys_cron_exh_end_points() {
-
-				/**
-				 * wp-json/mys/get-data?datatype=1
-				 * wp-json/mys/get-data?datatype=2
-				 */
-				register_rest_route( 'mys', '/get-exh', array(
-						'methods'  => 'GET',
-						'callback' => array( $this, 'nab_mys_cron_exh_api_to_custom' )
-					)
-				);
-
-			}
+		public function nab_mys_cron_exh_end_points() {
 
 			/**
-			 * Call back for API to Custom Table CRON
-			 *
-			 * @param WP_REST_Request $request
-			 *
-			 * @return array
+			 * wp-json/mys/get-data?datatype=1
+			 * wp-json/mys/get-data?datatype=2
 			 */
-			public
-			function nab_mys_cron_exh_api_to_custom( WP_REST_Request $request ) {
+			register_rest_route( 'mys', '/get-exh', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_exh_api_to_custom' )
+				)
+			);
 
-				return $this->nab_mys_sync_exhibitors();
+		}
 
-			}
+		/**
+		 * Call back for API to Custom Table CRON
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return array
+		 */
+		public function nab_mys_cron_exh_api_to_custom(
+			WP_REST_Request $request
+		) {
 
-			public
-			function nab_mys_exh_csv() {
+			return $this->nab_mys_sync_exhibitors();
 
-				$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
+		}
 
-				if ( wp_verify_nonce( $sync_exhibitors_data, 'sync_exhibitors_data' ) ) {
-					$filters = array(
-						"exhibitors-csv" => array(
-							"filter" => FILTER_SANITIZE_STRING,
-							'flags'  => FILTER_REQUIRE_ARRAY,
-						),
-					);
+		public function nab_mys_exh_csv() {
 
-					$exh_csv_file_data = filter_var_array( $_FILES, $filters );
-					$exh_csv_file_data = $exh_csv_file_data['exhibitors-csv'];
+			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
 
-					if ( isset( $exh_csv_file_data['name'] ) && empty( $exh_csv_file_data['name'] ) ) {
-						set_transient( 'exh_error_message', __( 'Please upload a CSV file', 'mys-modules' ), 45 );
-						wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors' ) );
-						exit();
-					}
+			if ( wp_verify_nonce( $sync_exhibitors_data, 'sync_exhibitors_data' ) ) {
+				$filters = array(
+					"exhibitors-csv" => array(
+						"filter" => FILTER_SANITIZE_STRING,
+						'flags'  => FILTER_REQUIRE_ARRAY,
+					),
+				);
+
+				$exh_csv_file_data = filter_var_array( $_FILES, $filters );
+				$exh_csv_file_data = $exh_csv_file_data['exhibitors-csv'];
+
+				$exh_file_type = strtolower( pathinfo( $exh_csv_file_data['name'], PATHINFO_EXTENSION ) );
+
+				if ( $exh_file_type !== "csv" ) {
+					$success = 4;
+
+				} else {
+
 
 					$this->nab_mys_set_groupid();
 
 					$filename = 'exhibitors-' . $this->group_id . '.csv';
 
-					$exh_target_dir = wp_get_upload_dir()['basedir'] . '/mys-uploads/';
-
+					$exh_base_dir   = wp_get_upload_dir()['basedir'];
+					$exh_target_dir = $exh_base_dir . '/mys-uploads/';
 					if ( ! file_exists( $exh_target_dir ) ) {
 						wp_mkdir_p( $exh_target_dir );
 					}
 
-					$exh_target_file      = $exh_target_dir . $filename;
-					$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
-					$exh_fileType         = strtolower( pathinfo( $exh_target_file, PATHINFO_EXTENSION ) );
+					$exh_target_file = $exh_target_dir . $filename;
 
-					if ( $exh_fileType !== "csv" ) {
-						set_transient( 'exh_error_message', __( 'Sorry, this file type is not allowed.', 'mys-modules' ), 45 );
-						wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors' ) );
-						exit();
-					}
+					$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
 
 					if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
+						$success = 1;
+						$handle  = fopen( $exh_target_file, "r" );
 
 						$row      = 0;
 						$exh_data = $columns = array();
-						$handle   = fopen( $exh_target_file, "r" );
+
+
 						if ( $handle !== false ) {
 							while ( ( $data = fgetcsv( $handle, 0, "," ) ) !== false ) {
 
@@ -400,36 +426,41 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 							$data_json = wp_json_encode( $exh_data );
 							$this->nab_mys_db_exh->nab_mys_db_set_data_json( $data_json );
 
-							$no_of_exh_inserted = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor-csv', $history_id, $this->group_id, $exh_data, 0 );
+							$bulk_result = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor-csv', $history_id, $this->group_id, $exh_data, 0 );
 
-							$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors-csv", "update", $this->group_id, 1, $no_of_exh_inserted );
+							$no_of_exh_inserted = $bulk_result['row_counts'];
+							$bulk_status        = $bulk_result['bulk_status'];
 
-							$success = 1;
+							$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors-csv", "update", $this->group_id, $bulk_status, $no_of_exh_inserted );
 						} else {
 							$success = 4;
 						}
 					} else {
 						$success = 3;
 					}
-				} else {
-					$success = 2;
 				}
 
-				if ( 1 === $success ) {
-					$exh_target_file_url = explode( 'wp-content', $exh_target_file );
-					$exh_target_file_url = get_site_url() . '/wp-content' . $exh_target_file_url[1];
+			} else {
+				$success = 2;
+			}
 
-					$success = "1&exh-inserted=$no_of_exh_inserted&csv-link=$exh_target_file_url";
+			if ( 1 === $success ) {
 
-					add_option( 'exhibitors-csv-' . $this->group_id, $exh_target_file_url, '', 'no' );
-				}
+				$exh_target_file_url = explode( 'wp-content', $exh_target_file );
+				$exh_target_file_url = get_site_url() . '/wp-content' . $exh_target_file_url[1];
 
-				wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=' . $success ) );
-				exit();
+				$success = "1&exh-inserted=$no_of_exh_inserted&csv-link=$exh_target_file_url";
+
+				add_option( 'exhibitors-csv-' . $this->group_id, $exh_target_file_url, '', 'no' );
 
 			}
 
-		}
-	}
+			wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=' . $success ) );
+			exit();
 
-	new NAB_MYS_Exhibitors();
+		}
+
+	}
+}
+
+new NAB_MYS_Exhibitors();

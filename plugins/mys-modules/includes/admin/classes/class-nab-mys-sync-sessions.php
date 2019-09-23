@@ -45,7 +45,6 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			//Initialize Database Class Instance to store the Response Data.
 			$this->nab_mys_db_sess = new NAB_MYS_DB_Sessions();
-			$this->nab_mys_db_sess->nab_mys_db_set_wpdb();
 
 		}
 
@@ -84,13 +83,17 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0, $this->flow );
 
+			if ( 'modified-sessions' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
+				$this->previous_date = $this->nab_mys_db_sess->nab_mys_db_previous_history( 'modified-sessions' );
+			}
+
 			//Get MYS API Request URL.
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
 		}
 
 		public function nab_mys_cron_check_sequence() {
 
-			$this->group_id = $this->nab_mys_db_sess->nab_mys_cron_get_latest_groupid( $this->requested_for );
+			$this->group_id = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
 
 			if ( 0 === $this->group_id ) {
 
@@ -129,7 +132,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 				$lock_status = $this->nab_mys_db_sess->nab_mys_db_check_lock( $this->group_id );
 
-				if ( "open" !== $lock_status && ( null === $this->past_request || "" === $this->past_request ) ) {
+				if ( "open" !== $lock_status && ( null === $this->past_request || empty($this->past_request) ) ) {
 
 					$error_message = "New pull request is locked because already 1 request in progress, please wait until it finishes.";
 
@@ -157,26 +160,37 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			if ( false === $custom_status['status'] ) {
 
-				$error_message = "Modifed Sessions array is empty";
+				//This will finish the process..
+				$this->requested_for = 'empty';
+
+				/*$error_message = "Modifed Sessions array is empty";
+				$this->nab_mys_display_error( $error_message );*/
+
+			} else if ( 'failed' === $custom_status['status'] ) {
+
+				$error_message = "Failed to store details in Database.";
 
 				$this->nab_mys_display_error( $error_message );
+
+				//ne_rem - send email...
+
 			}
 
-			$this->nab_mys_sync_sess_reloop($custom_status);
+			$this->nab_mys_sync_sess_reloop( $custom_status );
 
 		}
 
-		private function nab_mys_sync_sess_reloop($custom_status) {
+		private function nab_mys_sync_sess_reloop( $custom_status ) {
 
 			//Now everything is done for the current request so making it a past request
 			$this->past_request = $this->current_request;
 
+			if ( $this->final_stack_item === $this->past_request || 'empty' === $this->requested_for ) {
+				$this->past_request = 'finish'; //this will stop recurring ajax
+			}
+
 			//If the stack is still not empty, re call main function to fetch next data.
 			if ( "wpajax" === $this->flow ) {
-
-				if ( $this->final_stack_item === $this->past_request ) {
-					$this->past_request = 'finish'; //this will stop recurring ajax
-				}
 
 				echo wp_json_encode(
 					array(
@@ -192,12 +206,11 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			} else {
 
-				if ( $this->final_stack_item !== $this->current_request ) {
+				if ( 'finish' !== $this->past_request ) {
 
 					$this->nab_mys_sync_sessions();
 
-				} else {
-					//CRON
+				} else if ( 'empty' !== $this->requested_for ) {
 
 					if ( "sessions" === $this->requested_for ) {
 						echo esc_html( "New CRON sequence ($this->group_id) started. " );
@@ -208,6 +221,10 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 					if ( "done" === $custom_status['status'] ) {
 						echo esc_html( " CRON sequence ($this->group_id) is now completed successfully." );
 					}
+					die();
+
+				} else {
+					echo esc_html( "Everything is upto date." );
 					die();
 				}
 			}
@@ -300,7 +317,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			}
 
 			//If its the begenning, the first item from above array should be fethed.
-			if ( ! isset( $this->past_request ) || "" === $this->past_request ) {
+			if ( ! isset( $this->past_request ) || empty($this->past_request) ) {
 				return $requested_for_stack[0];
 			}
 

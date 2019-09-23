@@ -79,7 +79,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 				<tbody>
 				<tr>
 					<td class="fr-2">
-						<strong>Exhibitors</strong>
+						<strong>Exhibitors(*)</strong>
 					</td>
 					<td>
 						<input type="file" name="exhibitors-csv">
@@ -90,25 +90,12 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 						<input type="submit" class="button-primary button import-exhibitors" vale="Import">
 					</td>
 				</tr>
-				<tr>
-					<td class="fr-2">
-						<strong>Exhibitor Categories</strong>
-					</td>
-					<td>
-						<p>Exhibitor Categories from MYS.</p>
-					</td>
-				</tr>
-				<tr>
-					<td class="pull-data" colspan="2">
-						<span class="button-primary button">Pull</span>
-					</td>
-				</tr>
 				</tbody>
 			</table>
 		</form>
 	</div>
 </div>
-<?php if ( "1" === get_option( 'nab_mys_show_wizard' ) ) {
+<?php if ( 1 === (int) get_option( 'nab_mys_show_wizard' ) && 1 === (int) $success) {
 	?>
 	<div class="next-bottom-btn">
 		<a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-dashboard&setup-success=true' ) ); ?>">Finish</a>

@@ -23,52 +23,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'MYS_PLUGIN_URL' ) ) {
 	define( 'MYS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
-
-/**
- * Activation Hook
- *
- * Register plugin activation hook.
- *
- * @package MYS Modules
- * @since 1.0.0
- */
-function mys_modules_install( $plugin ) {
-
-	delete_option( 'nab_mys_credentials_valid' );
-	update_option( 'nab_mys_show_wizard', 1 );
-
-	if ( $plugin === plugin_basename( __FILE__ ) ) {
-		wp_redirect( esc_url( admin_url( 'admin.php?page=mys-login' ) ) );
-		exit();
-	}
+if ( ! defined( 'MYS_PLUGIN_BASE' ) ) {
+	define( 'MYS_PLUGIN_BASE', plugin_basename( __FILE__ ) );
 }
-
-add_action( 'activated_plugin', 'mys_modules_install' );
-
-
-/**
- * Deactivation Hook
- *
- * Register plugin deactivation hook.
- *
- * @package MYS Modules
- * @since 1.0.0
- */
-register_deactivation_hook( __FILE__, 'mys_modules_uninstall' );
-
-/**
- * Plugin Setup (On Deactivation)
- *
- * @package MYS Modules
- * @since 1.0.0
- */
-function mys_modules_uninstall() {
-
-	//Delete a MYS API Token from Transient Cache
-	delete_transient( 'nab_mys_token' );
-
-	delete_option( 'nab_mys_show_wizard' );
-
+if ( ! defined( 'MYS_PLUGIN_MODIFIED_SEQUENCE' ) ) {
+	define( 'MYS_PLUGIN_MODIFIED_SEQUENCE', (int) get_option('test_modified_sequence') );
+}
+if ( ! defined( 'MYS_PLUGIN_DUMMY_HISTORY' ) ) {
+	define( 'MYS_PLUGIN_DUMMY_HISTORY', (int) get_option('test_dummy_history') );
+}
+if ( ! defined( 'MYS_PLUGIN_ACTIVATE_SETTINGS' ) ) {
+	define( 'MYS_PLUGIN_ACTIVATE_SETTINGS', (int) get_option('test_activate_settings') );
 }
 
 //Class File - Admin Pages
@@ -80,6 +45,26 @@ function run_mys_modules() {
 }
 
 run_mys_modules();
+
+/**
+ * Activation Hook
+ *
+ * Register plugin activation hook.
+ *
+ * @package MYS Modules
+ * @since 1.0.0
+ */
+add_action( 'activated_plugin', array ('NAB_MYS_Main', 'nab_mys_plugin_activate') );
+
+/**
+ * Deactivation Hook
+ *
+ * Register plugin deactivation hook.
+ *
+ * @package MYS Modules
+ * @since 1.0.0
+ */
+register_deactivation_hook( __FILE__, array( 'NAB_MYS_Main', 'nab_mys_plugin_deactivate' ) );
 
 //ne_temp remove this before PR.
 add_filter( 'http_request_args', 'fergcorp_debug_url_request_args', 10, 2 );

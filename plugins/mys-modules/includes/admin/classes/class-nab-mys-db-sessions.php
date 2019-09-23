@@ -18,6 +18,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 		 * Class Constructor
 		 */
 		public function __construct() {
+			parent::__construct();
 		}
 
 		/**
@@ -44,7 +45,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 1 );
 
-					return array( 'total_counts' => 0, 'status' => false );
+					return array( 'total_counts' => 0, 'status' => false, 'total_item_statuses' => array() );
 
 				} else {
 
@@ -114,6 +115,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$affected_items      = 0;
 				$total_item_statuses = array();
 
+				//ne_testing purpose only.. remove beore PR.
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
+				}
+				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
+
 				foreach ( $all_items as $item ) {
 
 
@@ -156,10 +163,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 						$multiple_sessions = array();
 
-						if( isset( $item->sessionid ) ) {
+						if ( isset( $item->sessionid ) ) {
 							$multiple_sessions[] = $item->sessionid;
 						} else if ( isset( $item->schedules ) ) {
-							foreach ($item->schedules as $schedule) {
+							foreach ( $item->schedules as $schedule ) {
 								$multiple_sessions[] = $schedule->sessionid;
 							}
 						}
@@ -177,7 +184,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							}
 						}
 
-						if( 1 === $item_affected ) {
+						if ( 1 === $item_affected ) {
 
 							$total_item_statuses[ $this->session_modified_array[ $item_mys_id ] ][] = '';
 
@@ -186,12 +193,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					}
 
+					if ( $total_rows === $affected_items ) {
+						$limit_reached = 1;
+						break;
+					}
+
 				}
 
 
 				//add sessions to delete which are in modifed array and not returned in sessions array
 
-				if ( 'sessions' === $current_request ) {
+				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
 
 					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
 
@@ -207,10 +219,15 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				}
 
 				//ne_testing purpose only.. remove beore PR.
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+				/*if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] - 1 : 10000;
+
+				if ( $total_rows < $affected_items ) {
+					$affected_items = $total_rows + 1;
+				}*/
+
 
 				foreach ( $master_array as $item_mys_id => $item ) {
 
@@ -218,18 +235,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					switch ( $item_status ) {
 
-						case "Deleted":
-							$item_status_int = 0;
+						case "Updated":
+							$item_status_int = 2;
 							break;
 
 						case "Added":
 							$item_status_int = 1;
 							break;
 
-						case "Updated":
-							$item_status_int = 2;
+						case "Deleted":
+							$item_status_int = 0;
 							break;
-
 					}
 
 					if ( "sessions" !== $current_request && 0 === $item_status_int ) {
@@ -237,7 +253,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					}
 
 					$single_item_json = wp_json_encode( $item );
-					$single_item_json = str_replace( "'", "\'", $single_item_json );
+					//$single_item_json = str_replace( "'", "\'", $single_item_json ); //ne_temp ne_json
 
 					if ( 0 !== $total_items_inserted ) {
 						$insertion_values .= ", ";
@@ -250,13 +266,13 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						'ItemStatus'    => $item_status_int,
 						'DataType'      => $this->current_request,
 						'ModifiedID'    => $item_mys_id,
-						'DataStartTime' => date( 'Y-m-d H:i:s' ),
+						'DataStartTime' => current_time( 'Y-m-d H:i:s' ),
 						'DataJson'      => $single_item_json
 					);
 
-					if ( $total_rows === $total_items_inserted ) {
+					/*if ( $total_rows === $total_items_inserted ) {
 						break;
-					}
+					}*/
 
 					$total_items_inserted ++;
 
@@ -264,12 +280,20 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				global $wpdb;
 
-				$this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+				$bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
 
 				$total_counts = $affected_items;
 
 				//Insert entry in wp_mys_api_history
-				$this->nab_mys_db_history_data( $current_request, "update", $this->group_id, 1, $total_counts );
+				$this->nab_mys_db_history_data( $current_request, "update", $this->group_id, $bulk_status, $total_counts );
+
+				if ( 2 === $bulk_status ) {
+
+					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 2, 'nochange' );
+					delete_option( 'modified_sessions_' . $this->group_id );
+
+					return array( 'total_counts' => $total_counts, 'status' => 'failed', 'total_item_statuses' => $total_item_statuses );
+				}
 
 				$sequence_completes = 0;
 
@@ -294,9 +318,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				}
 
 				if ( 1 === $sequence_completes ) {
-					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 1, 'nochange' );
+					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
 					delete_option( 'modified_sessions_' . $this->group_id );
-					update_option( 'mys_data_attempt', 0 );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'done', 'total_item_statuses' => $total_item_statuses );
 
@@ -330,8 +353,19 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				update_option( 'mys_data_attempt', $mys_data_attempt );
 
 				if ( $mys_data_attempt >= 3 ) {
-					// send email..
 
+					update_option( 'mys_data_attempt', 0 );
+
+					// send email..
+					$stuck_groupid = $pending_data[0]->HistoryGroupID;
+
+					$this->nab_mys_db_reset_sequence( $stuck_groupid );
+
+					$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
+
+					$email_subject = $mys_data_attempt . ' Attempts Failed - Tried to Sync Sessions.';
+					$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
+					$this->nab_mys_email( $email_subject, $email_body );
 				}
 
 				return count( $pending_data );
@@ -342,7 +376,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 			}
 		}
-
 
 	}
 }

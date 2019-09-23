@@ -15,6 +15,8 @@ jQuery(document).ready(function ($) {
   var totalAdded = 0;
   var totalDeleted = 0;
   var totalUpdated = 0;
+  var uptoDate = 0;
+  var lastItemSessionLoop = 'Sponsors';
 
   $('.mys-cred-edit').on('click', function () {
     $('.show-hide-fields').toggleClass('show-labels');
@@ -140,6 +142,10 @@ jQuery(document).ready(function ($) {
             });
             pastItemName = pastItemName.replace('-', ' ');
 
+            if(1 === totalCounts) {
+              pastItemName = pastItemName.slice(0,-1)
+            }
+
             extraDetails = '';
             if ('modified-sessions' === pastItem) {
               extraDetails = ' (Total ' + totalAdded + ' to Add / ' + totalDeleted + ' to Delete / ' + totalUpdated + ' to Update)';
@@ -165,17 +171,26 @@ jQuery(document).ready(function ($) {
         } else {
 
           // pastItem is empty, display success messege.
+          uptoDate = 0;
 
-          if ('single-exhibitor' === requestedFor) {
+          if('empty' === requestedFor) {
+            $('.mys-message-container').append('<p class="highlighted-para">- Everything is upto date.</p>');
+            uptoDate = 1;
+          } else if ('single-exhibitor' === requestedFor) {
             $('.exh-counter').html('<p>- All ' + totalModified + ' Exhibitors fetched successfully.</p>');
           } else {
-            $('.mys-message-container').append('<p>- ' + totalCounts + ' Sponsors fetched successfully.</p>');
+            if(1 === totalCounts) {
+              lastItemSessionLoop = lastItemSessionLoop.slice(0,-1)
+            }
+            $('.mys-message-container').append('<p>- ' + totalCounts + ' ' + lastItemSessionLoop + ' fetched successfully.</p>');
           }
 
-          setTimeout(function () {
-            $('.mys-message-container').append(
-              '<p class="highlighted-para">- The migration process is started now, please check your inbox soon.</p>');
-          }, 2000);
+          if(0 === uptoDate) {
+            setTimeout(function () {
+              $('.mys-message-container').append(
+                '<p class="highlighted-para">- The migration process is started now, please check your inbox soon.</p>');
+            }, 2000);
+          }
 
           currentProgress = 0;
 
@@ -207,6 +222,10 @@ jQuery(document).ready(function ($) {
     $(this).parent().parent().removeClass('active');
   });
 
-  $('#datepicker').datepicker({dateFormat: 'mm-dd-yy'});
+  $('#datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+
+  $('#test-mys-close').click(function () {
+    $('#mys-test').hide();
+  })
 
 });
