@@ -381,6 +381,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				$prepared_data['main_mys_value'] = $item->ModifiedID;
 				$prepared_data['data']           = $data;
 
+				echo '01';
+
 				switch ( $data_type ) {
 					case 'sessions':
 
@@ -396,9 +398,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 					case 'tracks':
 
+						echo '02';
+
 						$prepared_data['post_type']         = 'tracks';
 						$prepared_data['exclude_from_meta'] = array( 'title', 'description' );
 						$prepared_data['typeidname']        = 'trackid';
+
 
 						$result[ "DataID-" . $data_id ] = $this->nab_mys_cron_master_tracks( $prepared_data );
 
@@ -446,6 +451,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 
 			}
+
+			echo 'LAST';
 
 			return $result;
 		}
