@@ -376,6 +376,11 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				$data_json = str_replace( "\'", "'", $item->DataJson );
 				$data      = json_decode( $data_json, true );
 
+				echo $data_type . ' | ';
+				echo '<pre>';
+				print_r($item);
+				echo '</pre>';
+
 				$prepared_data                   = array();
 				$prepared_data['item']           = $item;
 				$prepared_data['main_mys_value'] = $item->ModifiedID;
