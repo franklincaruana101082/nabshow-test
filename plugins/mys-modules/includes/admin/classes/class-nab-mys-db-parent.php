@@ -457,6 +457,151 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			return $result;
 		}
 
+		public function nab_mys_cron_master_tracks( $data_to_migrate ) {
+
+			$data      = $data_to_migrate['data'];
+			$item      = $data_to_migrate['item'];
+			$sessionid = $data_to_migrate['main_mys_value'];
+
+			echo '1';
+
+			/**
+			 * 0 - Deleted (This type will only available in Sessions)
+			 * 1 - Added
+			 * 2 - Updated
+			 */
+			$item_status = (int) $item->ItemStatus;
+
+			//reset all tracks of $sessionid
+			//now get session post ID from sessionid
+			//and assign the term
+			$assigned_session = '';
+
+			echo '2';
+
+			$session_post_id = $this->nab_mys_cron_get_postid_from_meta( 'sessions', 'sessionid', $sessionid );
+
+			echo '3';
+
+			/**
+			 * @todo
+			 * Add new session if not available
+			 */
+
+			$track_post_ids = array();
+
+			$return_detail = '';
+
+			foreach ( $data as $track ) {
+
+				echo '4-inarray';
+
+				$title       = $track['title'];
+				$description = $track['description'];
+				$image_url   = $track['icon'];
+				$trackid     = $track['trackid'];
+
+				//get tracks wp id from trackid of mys
+				$args  = array(
+					'hide_empty' => false, // also retrieve terms which are not used yet
+					'meta_query' => array(
+						array(
+							'key'   => 'trackid',
+							'value' => $trackid
+						)
+					),
+					'taxonomy'   => 'tracks',
+				);
+				$terms = get_terms( $args );
+
+				if ( $terms[0]->term_id && 2 === $item_status ) {
+
+					// update term if sesionid status is modify
+
+					$track_post_id = $terms[0]->term_id;
+
+					wp_update_term( $track_post_id, 'tracks', array(
+						'name' => $title,
+						array(
+							'description' => $description
+						)
+					) );
+
+					$return_detail .= "old";
+
+				} else if ( ! isset( $terms[0] ) ) {
+
+					// insert new term if not already available
+
+					$track_post_id = wp_insert_term(
+						$title,
+						"tracks",
+						array(
+							'description' => $description
+						)
+					);
+
+					//Term already available on this point, then use it.
+					if ( isset( $track_post_id->error_data['term_exists'] ) ) {
+						$track_post_id = $track_post_id->error_data['term_exists'];
+						$return_detail .= "old";
+					} else {
+						$track_post_id = $track_post_id['term_id'];
+						$return_detail .= "new";
+					}
+
+					//insert term meta
+					update_term_meta( $track_post_id, 'trackid', $trackid );
+				}
+
+				// Upload image if (1) item was new and added status was new OR (2) Item needs to be updated
+				if ( ( ! isset( $terms[0] ) && 1 === $item_status ) || 2 === $item_status ) {
+
+					//Upload Third Party Image to WP Media Library
+					$attach_id = $this->nab_mys_media->nab_mys_upload_media( $track_post_id, $image_url, "tracks" );
+
+				}
+				$track_post_ids[] = $track_post_id;
+
+				$return_detail .= "-track-$track_post_id|";
+
+				if ( $attach_id ) {
+					$return_detail .= "-attach_id_$attach_id|";
+				}
+
+			}
+
+			echo '5';
+
+			if ( isset( $session_post_id ) && '' !== $session_post_id ) {
+
+				$assigned_session .= $session_post_id;
+
+				wp_set_post_terms( $session_post_id, $track_post_ids, 'tracks' );
+
+				$track_post_ids = implode( $track_post_ids, ',' );
+
+			} else {
+				// session not exist
+
+				$assigned_session .= "|not-found-sessionid-$sessionid";
+			}
+
+			if ( count( $track_post_ids ) !== 0 ) {
+				$return_detail .= "to_session-$assigned_session";
+			} else {
+				$return_detail .= $assigned_session;
+			}
+
+			echo '6';
+
+			$this->nab_mys_cron_master_confirmed( $item->DataID );
+
+			echo '7-return';
+
+			return $return_detail;
+		}
+
 		/**
 		 * CRON: Migration from Custom table to Master table.
 		 *
