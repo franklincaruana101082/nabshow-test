@@ -221,6 +221,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             'type'    => 'number',
                             'default' => 10,
                         ),
+                        'listingPage'  => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
                         'postType'     => array(
                             'type'    => 'string',
                             'default' => 'sessions',
@@ -314,6 +318,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             'type'    => 'number',
                             'default' => 10,
                         ),
+                        'listingPage'  => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
                         'postType'     => array(
                             'type'    => 'string',
                             'default' => 'exhibitors',
@@ -395,6 +403,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         'itemToFetch'  => array(
                             'type'    => 'number',
                             'default' => 10,
+                        ),
+                        'listingPage'  => array(
+                            'type'    => 'boolean',
+                            'default' => false
                         ),
                         'postType'     => array(
                             'type'    => 'string',
@@ -725,6 +737,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_session_slider_render_callback( $attributes ) {
+            $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
             $post_type         = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'sessions';
             $taxonomies        = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms             = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
@@ -746,13 +759,19 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $layout            = isset( $attributes['layout'] ) && ! empty( $attributes['layout'] ) ? $attributes['layout'] : '';
             $slider_layout     = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : '';
             $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+            $listing_id        = 'with-masonry' === $layout ? 'card_section' : '';
 
-            if ( 'date-group' === $layout &&  ! $slider_active ) {
-                $query  = get_transient( 'mys-get-session-date-group-post-cache' . $post_type );
-            } elseif ( 'rand' === $order_by ) {
-                $query  = get_transient( 'mys-get-session-slider-rand-post-cache' . $post_type );
+            if ( ! $listing_page ) {
+                if ( 'date-group' === $layout &&  ! $slider_active ) {
+                    $query  = get_transient( 'mys-get-session-date-group-post-cache' . $post_type );
+                } elseif ( 'rand' === $order_by ) {
+                    $query  = get_transient( 'mys-get-session-slider-rand-post-cache' . $post_type );
+                } else {
+                    $query  = get_transient( 'mys-get-session-slider-post-cache' . $post_type );
+                }
             } else {
-                $query  = get_transient( 'mys-get-session-slider-post-cache' . $post_type );
+                $query      = false;
+                $listing_id = 'browse-session';
             }
 
 
@@ -778,40 +797,46 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     $query_args['ignore_sticky_posts']  = true;
                 }
 
-                if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
-                     $session_date   = new DateTime( $attributes['sessionDate'] );
-                     $session_date   = $session_date->format( 'Y-m-d' );
-                     $query_args['meta_key'] = 'date';
-                     $query_args['meta_value'] = $session_date . ' 00:00:00';
-                }
+                if ( ! $listing_page ) {
+                    if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+                         $session_date   = new DateTime( $attributes['sessionDate'] );
+                         $session_date   = $session_date->format( 'Y-m-d' );
+                         $query_args['meta_key'] = 'date';
+                         $query_args['meta_value'] = $session_date . ' 00:00:00';
+                    }
 
-                $tax_query_args = array('relation' => $taxonomy_relation);
+                    $tax_query_args = array('relation' => $taxonomy_relation);
 
-                foreach ( $taxonomies as $taxonomy ) {
-                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                        $tax_query_args[] = array (
-                            'taxonomy' => $taxonomy,
-                            'field'    => 'slug',
-                            'terms'    => $terms->{$taxonomy},
-                        );
+                    foreach ( $taxonomies as $taxonomy ) {
+                        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                            $tax_query_args[] = array (
+                                'taxonomy' => $taxonomy,
+                                'field'    => 'slug',
+                                'terms'    => $terms->{$taxonomy},
+                            );
+                        }
+                    }
+
+                    $count_query_args = count($tax_query_args);
+
+                    if ( $count_query_args > 1 ) {
+                        $query_args['tax_query'] = $tax_query_args;
                     }
                 }
 
-                $count_query_args = count($tax_query_args);
-
-                if ( $count_query_args > 1 ) {
-                    $query_args['tax_query'] = $tax_query_args;
-                }
 
                 $query = new WP_Query($query_args);
 
-                if ( 'date-group' === $layout &&  ! $slider_active ) {
-                    set_transient( 'mys-get-session-date-group-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-                } elseif ( 'rand' !== $order_by ) {
-                    set_transient( 'mys-get-session-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-                } else {
-                    set_transient( 'mys-get-session-slider-rand-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( ! $listing_page ) {
+                    if ( 'date-group' === $layout &&  ! $slider_active ) {
+                        set_transient( 'mys-get-session-date-group-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                    } elseif ( 'rand' !== $order_by ) {
+                        set_transient( 'mys-get-session-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                    } else {
+                        set_transient( 'mys-get-session-slider-rand-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                    }
                 }
+
             }
 
             ob_start();
@@ -937,7 +962,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     <?php
                     } else {
                     ?>
-                        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo 'with-masonry' === $layout ? esc_attr('card_section') : esc_attr('');?>">
+                        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo esc_attr( $listing_id ); ?>">
                     <?php
                     }
 
@@ -953,9 +978,13 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         $start_time          = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
                         $end_time            = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
                         $date_display_format = 'layout-1' === $slider_layout || ! $slider_active ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+                        $all_tracks_string   = '';
 
-						$post_tracks         = get_the_terms( $session_id, 'tracks' );
-						$all_tracks_string   = $this->mysgb_get_comma_separated_term_list( $post_tracks, 'slug');
+                        if ( ! $listing_page ) {
+                            $post_tracks         = get_the_terms( $session_id, 'tracks' );
+                            $all_tracks_string   = $this->mysgb_get_comma_separated_term_list( $post_tracks, 'slug');
+						}
+
 						$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
 
                         ?>
@@ -966,7 +995,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                 $this->mysgb_generate_popup_link( $session_id, $post_type );
 
                             }
-                            if ( 'with-featured' === $layout && has_post_thumbnail() ) {
+                            if ( ! $listing_page && 'with-featured' === $layout && has_post_thumbnail() ) {
                             ?>
                                 <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="session-logo">
                             <?php
@@ -1066,6 +1095,20 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
                     ?>
                     </div>
+                    <?php
+                    if ( $listing_page ) {
+                    ?>
+                        <p class="no-data">Result not found.</p>
+                        <?php
+                        if ( $query->max_num_pages > 1 ) {
+                        ?>
+                            <div class="load-more-sessions text-center" id="load-more-sessions">
+                                <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
                 </div>
                 <?php
                 } else {
@@ -1092,6 +1135,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public function mysgb_exhibitors_slider_render_callback( $attributes ) {
 
+            $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
             $post_type         = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'exhibitors';
             $taxonomies        = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms             = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
@@ -1113,7 +1157,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $order             = 'date' === $order_by ? 'DESC' : 'ASC';
             $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
-            $query             = get_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type );
+            if ( ! $listing_page ) {
+                $query = get_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type );
+            } else {
+                $query = false;
+            }
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $query_args = array(
@@ -1123,27 +1171,32 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     'order'          => $order,
                 );
 
-                $tax_query_args = array('relation' => $taxonomy_relation );
+                if ( ! $listing_page ) {
 
-                foreach ( $taxonomies as $taxonomy ) {
-                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                        $tax_query_args[] = array (
-                            'taxonomy' => $taxonomy,
-                            'field'    => 'slug',
-                            'terms'    => $terms->{$taxonomy},
-                        );
+                    $tax_query_args = array('relation' => $taxonomy_relation );
+
+                    foreach ( $taxonomies as $taxonomy ) {
+                        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                            $tax_query_args[] = array (
+                                'taxonomy' => $taxonomy,
+                                'field'    => 'slug',
+                                'terms'    => $terms->{$taxonomy},
+                            );
+                        }
                     }
-                }
 
-                $count_query_args = count($tax_query_args);
+                    $count_query_args = count($tax_query_args);
 
-                if ( $count_query_args > 1 ) {
-                    $query_args['tax_query'] = $tax_query_args;
+                    if ( $count_query_args > 1 ) {
+                        $query_args['tax_query'] = $tax_query_args;
+                    }
                 }
 
                 $query = new WP_Query($query_args);
 
-                set_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( ! $listing_page ) {
+                    set_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                }
             }
 
             ob_start();
@@ -1159,7 +1212,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     <?php
                     } else {
                     ?>
-                        <div class="nab-dynamic-list exhibitors">
+                        <div class="nab-dynamic-list exhibitors" id="<?php echo $listing_page ? esc_attr('browse-exhibitor') : ''; ?>">
                     <?php
                     }
 
@@ -1167,14 +1220,22 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                         $query->the_post();
 
-                        $exhibitor_id = get_the_ID();
-                    ?>
-                        <div class="item">
-                            <?php
-                            if ( $detail_popup && $slider_active ) {
-                                $this->mysgb_generate_popup_link( $exhibitor_id, $post_type );
-                            }
-                            ?>
+                        $exhibitor_id   = get_the_ID();
+                        if ( $listing_page ) {
+                            $featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
+                        ?>
+                            <div class="item" data-featured="<?php echo esc_attr( $featured_post ); ?>">
+                        <?php
+                        } else {
+                        ?>
+                            <div class="item">
+                        <?php
+                        }
+
+                        if ( $detail_popup && $slider_active ) {
+                            $this->mysgb_generate_popup_link( $exhibitor_id, $post_type );
+                        }
+                        ?>
                             <div class="item-inner">
                                 <?php
                                 if ( has_post_thumbnail() ) {
@@ -1199,7 +1260,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                         $this->mysgb_generate_popup_link( $exhibitor_id, $post_type, 'Read More');
                                     ?>
                                     </p>
-                                    <a href="<?php echo esc_url( $exh_url ); ?>">View in Planner</a>
+                                    <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
                                 <?php
                                 }
                                 ?>
@@ -1209,6 +1270,20 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
                     ?>
                 </div>
+                <?php
+                if ( $listing_page ) {
+                ?>
+                    <p class="no-data">Result not found.</p>
+                    <?php
+                    if ( $query->max_num_pages > 1 ) {
+                    ?>
+                        <div class="load-more-sessions text-center" id="load-more-exhibitor">
+                            <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
+                        </div>
+                <?php
+                    }
+                }
+                ?>
             </div>
             <?php
             } else {
@@ -1232,6 +1307,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_speaker_slider_render_callback( $attributes ) {
+
+            $listing_page   = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
             $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'speakers';
             $taxonomies     = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
@@ -1253,7 +1330,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
             $item_class     = 'circle' === $slider_shape && $slider_active ? '' : 'display-title';
 
-            $query          = get_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type );
+            if ( ! $listing_page ) {
+                $query = get_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type );
+            } else {
+                $query = false;
+            }
+
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $query_args = array(
@@ -1263,27 +1345,31 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     'order'          => $order,
                 );
 
-                $tax_query_args = array('relation' => 'OR');
+                if ( ! $listing_page ) {
+                   $tax_query_args = array('relation' => 'OR');
 
-                foreach ( $taxonomies as $taxonomy ) {
-                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                        $tax_query_args[] = array (
-                            'taxonomy' => $taxonomy,
-                            'field'    => 'slug',
-                            'terms'    => $terms->{$taxonomy},
-                        );
+                    foreach ( $taxonomies as $taxonomy ) {
+                        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                            $tax_query_args[] = array (
+                                'taxonomy' => $taxonomy,
+                                'field'    => 'slug',
+                                'terms'    => $terms->{$taxonomy},
+                            );
+                        }
                     }
-                }
 
-                $count_query_args = count($tax_query_args);
+                    $count_query_args = count($tax_query_args);
 
-                if ( $count_query_args > 1 ) {
-                    $query_args['tax_query'] = $tax_query_args;
+                    if ( $count_query_args > 1 ) {
+                        $query_args['tax_query'] = $tax_query_args;
+                    }
                 }
 
                 $query = new WP_Query($query_args);
 
-                set_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( ! $listing_page ) {
+                    set_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                }
             }
 
             ob_start();
@@ -1298,7 +1384,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     <?php
                     } else {
                     ?>
-                        <div class="nab-dynamic-list nab-box-slider speakers">
+                        <div class="nab-dynamic-list nab-box-slider speakers" id="<?php echo $listing_page ? esc_attr('browse-speaker') : ''; ?>">
                     <?php
                     }
 
@@ -1314,13 +1400,21 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             $thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
                         }
 
-                    ?>
-                        <div class="item <?php echo esc_attr( $item_class ); ?>">
-                            <?php
-                            if ( $detail_popup ) {
-                                $this->mysgb_generate_popup_link( $speaker_id, $post_type );
-                            }
-                            ?>
+                        if ( $listing_page ) {
+                            $featured_post  = has_term( 'featured', 'speaker-categories' ) ? 'featured' : '';
+                        ?>
+                            <div class="item <?php echo esc_attr( $item_class ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
+                        <?php
+                        } else {
+                        ?>
+                            <div class="item <?php echo esc_attr( $item_class ); ?>">
+                        <?php
+                        }
+
+                        if ( $detail_popup ) {
+                            $this->mysgb_generate_popup_link( $speaker_id, $post_type );
+                        }
+                        ?>
                             <div class="flip-box">
                                 <div class="flip-box-inner">
                                     <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
@@ -1344,6 +1438,20 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
                     ?>
                     </div>
+                    <?php
+                    if ( $listing_page ) {
+                    ?>
+                        <p class="no-data">Result not found.</p>
+                        <?php
+                        if ( $query->max_num_pages > 1 ) {
+                        ?>
+                            <div class="load-more-speaker text-center" id="load-more-speaker">
+                                <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
                 </div>
             <?php
             } else {
@@ -1376,17 +1484,25 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $order           = 'date' === $order_by ? 'DESC' : 'ASC';
             $class_name      = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-            $query          = get_transient( 'mysgb-get-sponsors-partners-post-cache' . $post_type );
+            $query          = get_transient( 'mysgb-get-sponsors-partners-post-cache-' . $order_by );
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
                 $query_args = array(
                     'post_type'      => $post_type,
-                    'posts_per_page' => $posts_per_page,
-                    'orderby'        => $order_by,
-                    'order'          => $order,
                     'meta_key'       => '_thumbnail_id',
                 );
+
+                if ( 'rand' === $order_by ) {
+                    $query_args['posts_per_page']       = 100;
+                    $query_args['fields']               = 'ids';
+                    $query_args['no_found_rows']        = true;
+                    $query_args['ignore_sticky_posts']  = true;
+                } else {
+                    $query_args['posts_per_page']       = $posts_per_page;
+                    $query_args['orderby']              = $order_by;
+                    $query_args['order']                = $order;
+                }
 
                 $tax_query_args = array('relation' => 'OR');
 
@@ -1408,7 +1524,14 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query($query_args);
 
-                set_transient( 'mysgb-get-sponsors-partners-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                set_transient( 'mysgb-get-sponsors-partners-post-cache-' . $order_by, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+            }
+
+            if ( 'rand' === $order_by ) {
+                $post_ids = $query->posts;
+                shuffle( $post_ids );
+                $post_ids = array_splice( $post_ids, 0, $posts_per_page );
+                $query    = new WP_Query( array( 'post_type' => $post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
             }
 
             ob_start();
@@ -1427,7 +1550,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             <figure class="partner-img-box"><img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>"></figure>
                             <?php
                             if ( 'with-title' === $layout ) {
-                                $sponsor_type = get_post_meta( get_the_ID(), 'sponsor_type', true );
+                                $all_sponsor_type = get_the_terms( get_the_ID(), 'sponsor-types' );
+                                $sponsor_type     = $this->mysgb_get_comma_separated_term_list( $all_sponsor_type );
                             ?>
                                 <span><?php echo esc_html( $sponsor_type ); ?></span>
                             <?php

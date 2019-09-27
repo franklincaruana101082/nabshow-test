@@ -87,3 +87,28 @@ function nabshow_lv_get_comma_separated_term_list ( $terms = array(), $type = 'n
 	}
 	return implode( ',', $all_terms );
 }
+
+/**
+ * Create drop-down options for terms
+ * @param string $taxonomy
+ * @since 1.0
+ */
+function nabshow_lv_get_term_list_options( $taxonomy = '' ) {
+
+	if ( ! empty( $taxonomy ) ) {
+
+		$all_terms = get_terms( array(
+			'taxonomy' => $taxonomy,
+			'hide_empty' => true,
+		) );
+
+		if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+
+			foreach ( $all_terms as $term ) {
+			?>
+                <option value="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></option>
+			<?php
+			}
+		}
+	}
+}

@@ -244,14 +244,23 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 							$sponsors = get_post_meta( $current_id, 'sponsors', true );
 							if ( ! empty( $sponsors ) ) {
 
-								$sponsors_ids        = explode( ',', $sponsors );
-								$sponsors_query_args = array(
-									'post_type'      => 'sponsors',
-									'posts_per_page' => count( $sponsors_ids ),
-									'post__in'       => $sponsors_ids
-								);
+								$sponsors_query = get_transient( 'mysgb-get-popup-sponsors-partners-post-cache-' . $sponsors );
 
-								$sponsors_query = new WP_Query( $sponsors_query_args );
+								if ( false === $sponsors_query ) {
+
+								    $sponsors_ids        = explode( ',', $sponsors );
+									$sponsors_query_args = array(
+										'post_type'      => 'sponsors',
+										'posts_per_page' => count( $sponsors_ids ),
+										'post__in'       => $sponsors_ids,
+										'meta_key'       => '_thumbnail_id',
+									);
+
+									$sponsors_query = new WP_Query( $sponsors_query_args );
+
+									set_transient( 'mysgb-get-popup-sponsors-partners-post-cache-' . $sponsors, $sponsors_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                                }
+
 
 								if ( $sponsors_query->have_posts() ) {
 									?>
@@ -259,15 +268,13 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                     <ul class="partners-list">
 										<?php
 										while ( $sponsors_query->have_posts() ) {
-											$sponsors_query->the_post();
 
-											if ( has_post_thumbnail() ) {
+										    $sponsors_query->the_post();
                                             ?>
                                                 <li>
                                                     <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="sponsor"/>
                                                 </li>
                                             <?php
-											}
 										}
 										?>
                                     </ul>

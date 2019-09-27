@@ -346,3 +346,22 @@ function nabshow_lv_thought_gallery_search_template( $template ) {
 
     return $template;
 }
+
+/**
+ * Added start_with parameter in post where
+ * @param $where
+ * @param $query
+ *
+ * @return string
+ */
+function nabshow_lv_set_custom_posts_where( $where, $query ) {
+	global $wpdb;
+
+	$starts_with = $query->get( 'starts_with' );
+
+	if ( $starts_with ) {
+		$where .= " AND $wpdb->posts.post_title LIKE '$starts_with%'";
+	}
+
+	return $where;
+}

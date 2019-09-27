@@ -123,6 +123,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             const { attributes, setAttributes } = this.props;
             const {
                 itemToFetch,
+                listingPage,
                 minSlides,
                 autoplay,
                 infiniteLoop,
@@ -166,7 +167,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
             </div>;
 
-            if (this.state.isDisable) {
+            if (this.state.isDisable && sliderActive ) {
                 input = <Disabled>{input}</Disabled>;
             }
 
@@ -174,139 +175,152 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                            <ToggleControl
+                                label={__('Is Listing Page?')}
+                                checked={listingPage}
+                                help={__('Note: This option only work in nabashow-lv theme.')}
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date',  }) }
+                            />
                             {input}
-                            <SelectControl
-                                label={__('Order by')}
-                                value={orderBy}
-                                options={[
-                                    { label: __('Newest to Oldest'), value: 'date' },
-                                    { label: __('Menu Order'), value: 'menu_order' },
-                                ]}
-                                onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                            />
-                            <ToggleControl
-                                label={__('Display details in popup')}
-                                checked={detailPopup}
-                                onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
-                            />
-                            <ToggleControl
-                                label={__('Taxonomy Relation (AND)')}
-                                checked={taxonomyRelation}
-                                onChange={() => { setAttributes({ taxonomyRelation: ! taxonomyRelation }); this.setState({ bxinit: true }); }}
-                            />
-                            {0 < this.state.taxonomiesList.length &&
-
+                            { ! listingPage &&
                             <Fragment>
+                                <SelectControl
+                                    label={__('Order by')}
+                                    value={orderBy}
+                                    options={[
+                                        { label: __('Newest to Oldest'), value: 'date' },
+                                        { label: __('Menu Order'), value: 'menu_order' },
+                                    ]}
+                                    onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
+                                />
+                                <ToggleControl
+                                    label={__('Display details in popup')}
+                                    checked={detailPopup}
+                                    onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
+                                />
+                                <ToggleControl
+                                    label={__('Taxonomy Relation (AND)')}
+                                    checked={taxonomyRelation}
+                                    onChange={() => { setAttributes({ taxonomyRelation: ! taxonomyRelation }); this.setState({ bxinit: true }); }}
+                                />
 
-                                <label>{__('Select Taxonomy')}</label>
-                                <div className="fix-height-select">
+                                {0 < this.state.taxonomiesList.length &&
 
-                                    {this.state.taxonomiesList.map((taxonomy, index) => (
+                                <Fragment>
 
-                                        <Fragment key={index}>
+                                    <label>{__('Select Taxonomy')}</label>
+                                    <div className="fix-height-select">
 
-                                            <CheckboxControl checked={-1 < taxonomies.indexOf(taxonomy.value)} label={taxonomy.label} name="taxonomy[]" value={taxonomy.value} onChange={(isChecked) => {
+                                        {this.state.taxonomiesList.map((taxonomy, index) => (
 
-                                                let index,
-                                                    tempTaxonomies = [...taxonomies],
-                                                    tempTerms = terms;
+                                            <Fragment key={index}>
 
-                                                if (isChecked) {
-                                                    tempTaxonomies.push(taxonomy.value);
-                                                } else {
-                                                    index = tempTaxonomies.indexOf(taxonomy.value);
-                                                    tempTaxonomies.splice(index, 1);
-                                                    if (! this.isEmpty(tempTerms)) {
-                                                        tempTerms = JSON.parse(tempTerms);
-                                                        delete tempTerms[taxonomy.value];
+                                                <CheckboxControl checked={-1 < taxonomies.indexOf(taxonomy.value)} label={taxonomy.label} name="taxonomy[]" value={taxonomy.value} onChange={(isChecked) => {
+
+                                                    let index,
+                                                        tempTaxonomies = [...taxonomies],
+                                                        tempTerms = terms;
+
+                                                    if (isChecked) {
+                                                        tempTaxonomies.push(taxonomy.value);
+                                                    } else {
+                                                        index = tempTaxonomies.indexOf(taxonomy.value);
+                                                        tempTaxonomies.splice(index, 1);
+                                                        if (! this.isEmpty(tempTerms)) {
+                                                            tempTerms = JSON.parse(tempTerms);
+                                                            delete tempTerms[taxonomy.value];
+                                                            tempTerms = JSON.stringify(tempTerms);
+                                                        }
+                                                    }
+                                                    if ( tempTerms.constructor === Object ) {
                                                         tempTerms = JSON.stringify(tempTerms);
                                                     }
+                                                    this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                    this.setState({ taxonomies: tempTaxonomies, bxinit: true });
                                                 }
-                                                if ( tempTerms.constructor === Object ) {
-                                                    tempTerms = JSON.stringify(tempTerms);
                                                 }
-                                                this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
-                                                this.setState({ taxonomies: tempTaxonomies, bxinit: true });
-                                            }
-                                            }
-                                            />
+                                                />
 
-                                        </Fragment>
+                                            </Fragment>
 
-                                    ))
-                                    }
-                                </div>
+                                        ))
+                                        }
+                                    </div>
 
-                            </Fragment>
-                            }
+                                </Fragment>
+                                }
+                                {0 < this.state.taxonomies.length &&
 
-                            {0 < this.state.taxonomies.length &&
+                                <Fragment>
 
-                            <Fragment>
+                                    {
+                                        this.state.taxonomies.map((taxonomy, index) => (
 
-                                {
-                                    this.state.taxonomies.map((taxonomy, index) => (
+                                            undefined !== this.state.filterTermsObj[taxonomy] &&
 
-                                        undefined !== this.state.filterTermsObj[taxonomy] &&
+                                            <div key={index}>
+                                                <label>{__(taxonomy)}</label>
 
-                                        <div key={index}>
-                                            <label>{__(taxonomy)}</label>
+                                                {7 < this.state.termsObj[taxonomy].length &&
+                                                <TextControl
+                                                    type="string"
+                                                    name={taxonomy}
+                                                    onChange={value => this.filterTerms(value, taxonomy)}
+                                                />
+                                                }
 
-                                            {7 < this.state.termsObj[taxonomy].length &&
-                                            <TextControl
-                                                type="string"
-                                                name={taxonomy}
-                                                onChange={value => this.filterTerms(value, taxonomy)}
-                                            />
-                                            }
+                                                <div className="fix-height-select">
 
-                                            <div className="fix-height-select">
+                                                    {this.state.filterTermsObj[taxonomy].map((term, index) => (
 
-                                                {this.state.filterTermsObj[taxonomy].map((term, index) => (
+                                                        <Fragment key={index}>
 
-                                                    <Fragment key={index}>
+                                                            <CheckboxControl checked={isCheckedTerms[taxonomy] !== undefined && -1 < isCheckedTerms[taxonomy].indexOf(term.slug)} label={term.name} name={`${taxonomy}[]`} value={term.slug} onChange={(isChecked) => {
 
-                                                        <CheckboxControl checked={isCheckedTerms[taxonomy] !== undefined && -1 < isCheckedTerms[taxonomy].indexOf(term.slug)} label={term.name} name={`${taxonomy}[]`} value={term.slug} onChange={(isChecked) => {
-
-                                                            let index,
-                                                                tempTerms = terms;
-                                                            if (! this.isEmpty(tempTerms)) {
-                                                                tempTerms = JSON.parse(tempTerms);
-                                                            }
-                                                            if (isChecked) {
-                                                                if (tempTerms[taxonomy] === undefined) {
-                                                                    tempTerms[taxonomy] = [term.slug];
-                                                                } else {
-                                                                    tempTerms[taxonomy].push(term.slug);
+                                                                let index,
+                                                                    tempTerms = terms;
+                                                                if (! this.isEmpty(tempTerms)) {
+                                                                    tempTerms = JSON.parse(tempTerms);
                                                                 }
-                                                            } else {
-                                                                index = tempTerms[taxonomy].indexOf(term.slug);
-                                                                tempTerms[taxonomy].splice(index, 1);
-                                                            }
+                                                                if (isChecked) {
+                                                                    if (tempTerms[taxonomy] === undefined) {
+                                                                        tempTerms[taxonomy] = [term.slug];
+                                                                    } else {
+                                                                        tempTerms[taxonomy].push(term.slug);
+                                                                    }
+                                                                } else {
+                                                                    index = tempTerms[taxonomy].indexOf(term.slug);
+                                                                    tempTerms[taxonomy].splice(index, 1);
+                                                                }
 
-                                                            tempTerms = JSON.stringify(tempTerms);
-                                                            this.props.setAttributes({ terms: tempTerms });
-                                                            this.setState({ bxinit: true });
-                                                        }
-                                                        }
-                                                        />
-                                                    </Fragment>
-                                                ))
-                                                }
+                                                                tempTerms = JSON.stringify(tempTerms);
+                                                                this.props.setAttributes({ terms: tempTerms });
+                                                                this.setState({ bxinit: true });
+                                                            }
+                                                            }
+                                                            />
+                                                        </Fragment>
+                                                    ))
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))
+                                        ))
+                                    }
+                                </Fragment>
                                 }
                             </Fragment>
                             }
                         </PanelBody>
+
+                        { ! listingPage &&
+
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
                             <ToggleControl
                                 label={__('Slider On/Off')}
                                 checked={sliderActive}
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive}); this.setState({ bxinit: ! sliderActive }); } }
                             />
-                            {sliderActive &&
+                            { sliderActive &&
                             <Fragment>
                                 <ToggleControl
                                     label={__('Pager')}
@@ -371,7 +385,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             </Fragment>
                             }
                         </PanelBody>
-                        { sliderActive && controls &&
+                        }
+
+                        { ! listingPage && sliderActive && controls &&
                             <Fragment>
                                 {controls &&
                                 <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
@@ -397,7 +413,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/exhibitors-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, taxonomyRelation: taxonomyRelation }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, taxonomyRelation: taxonomyRelation, listingPage: listingPage }}
                     />
                 </Fragment >
             );
@@ -407,6 +423,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         itemToFetch: {
             type: 'number',
             default: 10
+        },
+        listingPage: {
+            type: 'boolean',
+            default: false
         },
         minSlides: {
             type: 'number',
