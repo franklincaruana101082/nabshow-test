@@ -83,17 +83,14 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 
 		public function nab_mys_db_exh_categories( $exhibitor_categories ) {
 
+			$taxonomy      = 'exhibitor-categories';
+			$mys_item_name = 'categoryid';
+
 			foreach ( $exhibitor_categories as $single_cat ) {
 
-				$taxonomy     = 'exhibitor-categories';
 				$categoryname = $single_cat->categoryname;
 
-				if ( empty( $categoryname ) ) {
-					continue;
-				}
-
 				$wp_parent_id  = 0;
-				$mys_item_name = 'categoryid';
 				$mys_item_id   = isset( $single_cat->categoryid ) ? $single_cat->categoryid : 0;
 				$mys_parent_id = isset( $single_cat->parentcategoryid ) ? $single_cat->parentcategoryid : 0;
 				$description   = isset( $single_cat->categorydisplay ) ? $single_cat->categorydisplay : '';
@@ -119,10 +116,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 				//Check if same name available
 				$existing_term_data = get_term_by( 'name', $categoryname, $taxonomy );
 
-				if ( isset( $existing_term_data->term_id ) ) {
+ 				if ( isset( $existing_term_data->term_id ) ) {
 
-					//if yes, get its id and assign to $session_post_id
-					$terms_ids[] = $term_post_id = $existing_term_data->term_id;
+					$term_post_id = $existing_term_data->term_id;
 
 				} else {
 					// insert new term if not already available
@@ -138,18 +134,18 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 
 					//Term already available on this point, then use it.
 					if ( isset( $term_id_data->error_data['term_exists'] ) ) {
-						$terms_ids[] = $term_post_id = $term_id_data->error_data['term_exists'];
+						$term_post_id = $term_id_data->error_data['term_exists'];
 					} else {
-						$terms_ids[] = $term_post_id = $term_id_data['term_id'];
+						$term_post_id = $term_id_data['term_id'];
 					}
 
-					//insert term meta to detect parent
-					if ( 0 !== $mys_item_id ) {
-						update_term_meta( $term_post_id, $mys_item_name, $mys_item_id );
-					}
+				}
+
+				//insert term meta to detect parent
+				if ( 0 !== $mys_item_id ) {
+					update_term_meta( $term_post_id, $mys_item_name, $mys_item_id );
 				}
 			}
 		}
-
 	}
 }

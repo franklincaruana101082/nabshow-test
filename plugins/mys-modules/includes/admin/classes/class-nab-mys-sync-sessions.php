@@ -63,9 +63,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			$this->nab_mys_sync_check_lock_sess();
 
 			//Initialize the Record
-			$this->nab_mys_sync_sess_initialize();
-
-			$mys_response_body = $this->nab_mys_get_response();
+			$mys_response_body = $this->nab_mys_sync_sess_initialize();
 
 			//Finalize the Record
 			$this->nab_mys_sync_sess_finalize( $mys_response_body );
@@ -76,12 +74,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			$this->final_stack_item = $this->requested_for;
 
-			$this->current_request = $this->nab_mys_requested_for_stack();
-
-			//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
-			$this->nab_mys_set_groupid();
-
-			$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0, $this->flow );
+			$this->current_request = $this->nab_mys_sync_stack();
 
 			if ( 'modified-sessions' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
 				$this->previous_date = $this->nab_mys_db_sess->nab_mys_db_previous_history( 'modified-sessions' );
@@ -89,25 +82,16 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			//Get MYS API Request URL.
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
-		}
 
-		public function nab_mys_cron_check_sequence() {
+			$mys_response_body = $this->nab_mys_get_response();
 
-			$this->group_id = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
+			//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
+			$this->nab_mys_set_groupid();
 
-			if ( 0 === $this->group_id ) {
+			$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0 );
 
-				echo esc_html( "The new CRON sequence is not started yet. Please wait for the new CRON." );
-				die();
+			return $mys_response_body;
 
-			} else if ( 1 === $this->group_id ) {
-
-				echo esc_html( "This data already pulled for current CRON, Please wait for the next CRON." );
-				die();
-
-			} else {
-				$this->past_request = "modified-sessions";
-			}
 		}
 
 		public function nab_mys_sync_check_lock_sess() {
@@ -231,6 +215,45 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		}
 
 		/**
+		 * Stack of data to migrate in sequence.
+		 *
+		 * @return string returns the next pending data name
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
+		public function nab_mys_sync_stack() {
+
+			if ( "restapi" === $this->flow ) {
+				$requested_for_stack = array(
+					'modified-sessions',
+					$this->requested_for
+				);
+			} else {
+				$requested_for_stack = array(
+					"modified-sessions", // ne_test commented to skip and jump to next
+					"sessions",
+					"tracks",
+					"speakers",
+					"sponsors",
+				);
+			}
+
+			//If its the begenning, the first item from above array should be fethed.
+			if ( ! isset( $this->past_request ) || empty($this->past_request) ) {
+				return $requested_for_stack[0];
+			}
+
+			$index = array_search( $this->past_request, $requested_for_stack, true );
+
+			if ( $index !== false && $index < count( $requested_for_stack ) - 1 ) {
+				$next = $requested_for_stack[ $index + 1 ];
+			}
+
+			return $next;
+		}
+
+		/**
 		 * Rest End Points
 		 *
 		 * @package MYS Modules
@@ -248,6 +271,25 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				)
 			);
 
+		}
+
+		public function nab_mys_cron_check_sequence() {
+
+			$this->group_id = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
+
+			if ( 0 === $this->group_id ) {
+
+				echo esc_html( "The new CRON sequence is not started yet. Please wait for the new CRON." );
+				die();
+
+			} else if ( 1 === $this->group_id ) {
+
+				echo esc_html( "This data already pulled for current CRON, Please wait for the next CRON." );
+				die();
+
+			} else {
+				$this->past_request = "modified-sessions";
+			}
 		}
 
 		/**
@@ -289,45 +331,6 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				return $requested_for_stack[ $this->datatype ];
 			}
 
-		}
-
-		/**
-		 * Stack of data to migrate in sequence.
-		 *
-		 * @return string returns the next pending data name
-		 * @since 1.0.0
-		 *
-		 * @package MYS Modules
-		 */
-		public function nab_mys_requested_for_stack() {
-
-			if ( "restapi" === $this->flow ) {
-				$requested_for_stack = array(
-					'modified-sessions',
-					$this->requested_for
-				);
-			} else {
-				$requested_for_stack = array(
-					"modified-sessions", // ne_test commented to skip and jump to next
-					"sessions",
-					"tracks",
-					"speakers",
-					"sponsors",
-				);
-			}
-
-			//If its the begenning, the first item from above array should be fethed.
-			if ( ! isset( $this->past_request ) || empty($this->past_request) ) {
-				return $requested_for_stack[0];
-			}
-
-			$index = array_search( $this->past_request, $requested_for_stack, true );
-
-			if ( $index !== false && $index < count( $requested_for_stack ) - 1 ) {
-				$next = $requested_for_stack[ $index + 1 ];
-			}
-
-			return $next;
 		}
 
 	}

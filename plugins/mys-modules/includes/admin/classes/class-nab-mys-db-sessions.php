@@ -43,7 +43,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				if ( 0 === count( $session_modified_array ) ) {
 
-					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 1 );
+					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 5 );
 
 					return array( 'total_counts' => 0, 'status' => false, 'total_item_statuses' => array() );
 
@@ -174,10 +174,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						foreach ( $multiple_sessions as $item_mys_id ) {
 
 							if ( array_key_exists( $item_mys_id, $this->session_modified_array ) ) {
-								$item_to_add = $item;
-								if ( isset ( $item_to_add->schedules ) ) {
-									unset( $item_to_add->schedules );
-								}
+								$item_to_add                    = $item;
 								$master_array[ $item_mys_id ][] = $item_to_add;
 
 								$item_affected = 1;
@@ -289,7 +286,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				if ( 2 === $bulk_status ) {
 
-					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, 2, 'nochange' );
+					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
 					delete_option( 'modified_sessions_' . $this->group_id );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'failed', 'total_item_statuses' => $total_item_statuses );
@@ -348,7 +345,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				$mys_data_attempt = get_option( 'mys_data_attempt' );
 
-				$mys_data_attempt = isset( $mys_data_attempt ) ? $mys_data_attempt + 1 : 1;
+				$mys_data_attempt = isset( $mys_data_attempt ) ? (int) $mys_data_attempt + 1 : 1;
 
 				update_option( 'mys_data_attempt', $mys_data_attempt );
 
@@ -359,13 +356,14 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					// send email..
 					$stuck_groupid = $pending_data[0]->HistoryGroupID;
 
-					$this->nab_mys_db_reset_sequence( $stuck_groupid );
+					NAB_MYS_DB_CRON::nab_mys_static_reset_sequence( $stuck_groupid );
 
 					$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
 
 					$email_subject = $mys_data_attempt . ' Attempts Failed - Tried to Sync Sessions.';
 					$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
-					$this->nab_mys_email( $email_subject, $email_body );
+
+					NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
 				}
 
 				return count( $pending_data );

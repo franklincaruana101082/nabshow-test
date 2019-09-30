@@ -82,7 +82,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 		 *
 		 * @return false|int returns inserted ID or record update status
 		 */
-		public function nab_mys_db_history_data( $current_request, $query_type, $group_id, $history_status = 0, $items_affected = 0, $flow = null ) {
+		public function nab_mys_db_history_data( $current_request, $query_type, $group_id, $history_status = 0, $items_affected = 0 ) {
 
 			$current_user = get_current_user_id();
 
@@ -182,7 +182,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$single_row = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT DataID, ModifiedID FROM {$wpdb->prefix}mys_data
-						WHERE AddedStatus = 3
+						WHERE AddedStatus = 6
 						AND DataGroupID = '%s'
 						AND DataJson = ''
 						ORDER BY DataID ASC
@@ -209,21 +209,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				'DataJson'    => $data_json
 			), array(
 					'DataID' => $dataid,
-				)
-			); //db call ok; no-cache ok
-
-			return $sql;
-
-		}
-
-		public function nab_mys_db_reset_sequence($stuck_groupid){
-
-			$sql = $this->wpdb->update(
-				$this->wpdb->prefix . 'mys_history', array(
-				'HistoryStatus'  => 4,
-			), array(
-					'HistoryGroupID'  => $stuck_groupid,
-					'HistoryStatus' => 0,
 				)
 			); //db call ok; no-cache ok
 
@@ -273,7 +258,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
-		public function nab_mys_email( $email_subject, $email_body ) {
+		public function nab_mys_sync_email( $email_subject, $email_body ) {
 
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: NABShow <noreply@nabshow.com>';

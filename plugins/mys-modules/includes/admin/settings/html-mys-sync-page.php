@@ -19,13 +19,9 @@ if ( ! current_user_can( 'manage_options' ) ) {
 $reset_sequence = filter_input( INPUT_GET, 'reset_sequence', FILTER_SANITIZE_STRING );
 if ( isset( $reset_sequence ) && "yes" === $reset_sequence ) {
 
-	global $wpdb;
+	$this->nab_mys_db_cron_object->nab_mys_static_reset_sequence();
 
-	$wpdb->query( "UPDATE {$wpdb->prefix}mys_history SET HistoryStatus = 4 WHERE HistoryStatus = 0" ); //db call ok; no-cache ok
-
-	$wpdb->query( "UPDATE {$wpdb->prefix}mys_data SET AddedStatus = 4 WHERE AddedStatus = 0" ); //db call ok; no-cache ok
-
-	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. All statuses are updated from 0 to 4 (forced fail).</p>";
+	echo "<p style='color:green;font-weight:700'>Resetting sequence is successful. (forced fail).</p>";
 
 }
 
@@ -76,7 +72,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
                 </td>
                 <td>
                     <div>
-                        <p>Fetch Session, Speaker, Track and Sponsor/Partner data from MYS.</p>
+                        <p>Fetch Sessions, Speakers, Tracks and Sponsors/Partners from MYS.</p>
                     </div>
                 </td>
             </tr>
@@ -91,7 +87,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
                         <strong>Exhibitors</strong>
                     </td>
                     <td>
-                        <p>Fetch Exhibitor and Exhibitor Category data from MYS.</p>
+                        <p>Fetch Exhibitors from MYS.</p>
                     </td>
                 </tr>
                 <tr>
@@ -107,7 +103,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <?php if ( "1" === get_option( 'nab_mys_show_wizard' ) ) {
 	?>
     <div class="next-bottom-btn">
-        <a class="button-primary button" id="nextstep" style="display:none" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a>
-        <br><a id="nextstep" class="skip" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">skip</a>
+        <a class="button-primary button" style="display:none" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a> <!--id="nextstep"-->
+        <br><a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">skip</a> <!--id="nextstep" class="skip"-->
     </div>
 <?php } ?>

@@ -14,74 +14,66 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
 }
-require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
+
+$request_data = $this->request_data;
+$allowed_tags = $this->allowed_tags;
+$sorting_data = $this->sorting_data;
+$history_data = $this->history_data;
 ?>
-<div class="mys-section-left history-page">
-	<div class="mys-main-table res-cl ">
-		<h2>History Detail</h2>
-		<div class="tablenav top history-tablenav">
-			<div class="alignleft actions">
-				<input type="date">
-				<input type="date">
-				<select>
-					<option value="">In Progress</option>
-					<option value="">Success</option>
-					<option value="">Failed</option>
-				</select>
-				<input type="submit" name="filter_action" class="button" value="Filter">
-			</div>
-			<h2 class="screen-reader-text">Pages list navigation</h2>
-			<div class="tablenav-pages"><span class="displaying-num"><?php echo esc_html( $history_total ); ?> items</span>
-				<span class="pagination-links"><span class="tablenav-pages-navspan button disabled" aria-hidden="true">«</span>
-                    <span class="tablenav-pages-navspan button disabled" aria-hidden="true">‹</span>
-                    <span class="paging-input"><label for="current-page-selector" class="screen-reader-text">Current Page</label><input class="current-page" id="current-page-selector" type="text" name="paged" value="1" size="2" aria-describedby="table-paging"><span class="tablenav-paging-text"> of <span class="total-pages">14</span></span></span>
-                    <a class="next-page button" href="#"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>
-                    <a class="last-page button" href="#"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a></span></div>
-			<br class="clear">
-		</div>
-		<table class="table-outer syn-table history-table">
-			<thead>
-			<tr>
-				<th class="data-type">Data Type</th>
-				<th class="heading">Title</th>
-				<th class="details">API Response</th>
-				<th class="num">#</th>
-				<th class="status-row">Status</th>
-				<th class="assigned-to">Assigned To</th>
-				<th class="start-row">Prepared At</th>
-				<th class="end-row">Updated At</th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php
+	<table class="wp-list-table widefat striped pages"> <!--table-outer syn-table history-table-->
+		<thead>
+		<tr>
+			<th class="total-count">#</th>
+			<th class="data-type <?php echo esc_attr__( $sorting_data['datatype_row_class'] ); ?>">
+				<?php echo wp_kses( $sorting_data['datatype_row_html'], $allowed_tags ) ?>
+			</th>
+			<th class="heading">Title</th>
+			<th class="details">API Response</th>
+			<th class="total-assignees">#</th>
+			<th class="num <?php echo esc_attr__( $sorting_data['dataid_row_class'] ); ?>">
+				<?php echo wp_kses( $sorting_data['dataid_row_html'], $allowed_tags ) ?>
+			</th>
+			<th class="status-row">Status</th>
+			<th class="assigned-to">Assigned To</th>
+			<th class="start-row">Prepared At</th>
+			<th class="end-row">Migrated At</th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php
 
-			$session_wpdata = array();
-			$allowed_tags   = array(
-				'b'    => array(),
-				'br'   => array(),
-				'i'    => array( 'class' => array(), 'style' => array() ),
-				'span' => array( 'class' => array() ),
-				'a'    => array( 'href' => array(), 'target' => array() ),
-				'img'  => array( 'src' => array(), 'title' => array() ),
-			);
+		$session_wpdata = array();
 
-			$type_wise_data = $this->nab_mys_db_history_object->nab_mys_history_detail( $this->history_groupid );
+		$test = filter_input( INPUT_GET, 'test', FILTER_SANITIZE_STRING );
 
-			$test = filter_input( INPUT_GET, 'test', FILTER_SANITIZE_STRING );
+		$force_cron_end_point = get_rest_url( null, 'mys/migrate-data' );
+		$max_text_length      = 70;
 
-			$force_cron_end_point = get_rest_url( null, 'mys/migrate-data' );
-			$max_text_length      = 70;
+		$count_total_data_items = 0;
+		$count_total_assignees  = $request_data['offset'];
 
-			$count_total = 0;
+		if ( 0 === count( $history_data ) ) {
+			echo "<td colspan='10' class='nothing-found'>No history found.</td>";
+		}
+
+		foreach ( $history_data as $groupid => $type_wise_data ) {
+
+			$detail_group_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid );
+
+			echo "<td colspan='10' class='group-title'>Group ID: <a href='" . esc_url( $detail_group_url ) . "'> " . esc_html( $groupid ) . "</a></td>";
+
+			$count_group_items = 0;
 
 			foreach ( $type_wise_data as $data_type => $type_rows ) {
 
-				$count_items = 0;
+				$count_group_items = count( $type_rows );
+
+				$count_datawise_items = 0;
 
 				foreach ( $type_rows as $item_mys_id => $prepared_item ) {
 
-					$count_items ++;
-					$count_total ++;
+					$count_datawise_items ++;
+					$count_total_data_items ++;
 
 					$row_filled = 0;
 
@@ -115,7 +107,9 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 					} else {
 						//tracks
 
-						$wp_id = $this->nab_mys_db_cron_object->nab_mys_cron_get_wpid_from_meta( 'tracks', 'trackid', $item_mys_id, 'taxonomy' );
+						$term_data = $this->nab_mys_db_cron_object->nab_mys_cron_get_wpid_from_meta( 'tracks', 'trackid', $item_mys_id, 'taxonomy' );
+
+						$wp_id = ! empty( $term_data ) ? $term_data->name : '';
 
 						if ( ! empty( $wp_id ) ) {
 							$term_data           = get_term( $wp_id, 'tracks' );
@@ -140,10 +134,12 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 						}
 					}
 
-					$count_item_assignees = 0;
+					$itemwise_assignees_total = count( $assigned_to_rows );
+					$count_item_assignees     = 0;
 
 					foreach ( $assigned_to_rows as $assigned_id => $single_row ) {
 
+						$count_total_assignees ++;
 						$count_item_assignees ++;
 
 						$data_id         = $single_row->DataID;
@@ -175,7 +171,9 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 
 						if ( 'sessions' === $data_type || 'exhibitors' === $data_type ) {
 							$session_post_title = '<i>self</i>';
+							$assignee_hash      = '';
 						} else {
+							$assignee_hash = "$count_item_assignees/$itemwise_assignees_total";
 							if ( null !== $session_wpdata[ $assigned_id ] ) {
 								$session_post_title = $session_wpdata[ $assigned_id ]['title'];
 								$session_post_link  = $session_wpdata[ $assigned_id ]['link'];
@@ -262,12 +260,14 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 						<tr class="<?php echo esc_attr( $row_class ); ?>">
 
 							<?php if ( 0 === $row_filled ) { ?>
-								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$data_type#$count_total-$count_items", $allowed_tags ); ?></td>
+								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="total-count"><?php echo esc_html( $count_total_data_items ); ?></td>
+								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$count_datawise_items/$count_group_items $data_type", $allowed_tags ); ?></td>
 								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="heading-row"><?php echo wp_kses( $item_basic_data, $allowed_tags ); ?></td>
 								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="details-row"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></td>
 							<?php } ?>
 
-							<td class="num"><?php echo wp_kses( "$data_id#$count_total-$count_items-$count_item_assignees", $allowed_tags ); ?></td>
+							<td class="total-assignees"><?php echo esc_html( $count_total_assignees ); ?></td>
+							<td class="num"><?php echo wp_kses( "$data_id $assignee_hash", $allowed_tags ); ?></td>
 							<td class="status-row"><?php echo wp_kses( $h_status, $allowed_tags ); ?></td>
 							<td class="assigned-to"><?php echo wp_kses( $session_post_title, $allowed_tags ); ?></td>
 							<td class="start-row"><?php echo esc_html( $start_time ); ?></td>
@@ -279,12 +279,10 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 					}
 
 				}
-			} ?>
+			}
+		}
+		?>
 
-			</tbody>
-		</table>
-		<!-- <div class="mys-dashboard">
-			<img src="http://nabshow.md-staging.com/wp-content/uploads/2019/07/mys-History.png">
-		</div> -->
-	</div>
+		</tbody>
+	</table>
 </div>

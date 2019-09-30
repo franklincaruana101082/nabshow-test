@@ -64,9 +64,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->nab_mys_sync_check_lock_exh();
 
 			//Initialize the Record
-			$this->nab_mys_sync_exh_initialize();
-
-			$mys_response_body = $this->nab_mys_get_response();
+			$mys_response_body = $this->nab_mys_sync_exh_initialize();
 
 			//Finalize the Record
 			$this->nab_mys_sync_exh_finalize( $mys_response_body );
@@ -90,8 +88,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
 				$this->nab_mys_set_groupid();
 
+				$mys_response_body = $this->nab_mys_get_response();
+
 				//Insert a pending row in History table
-				$this->history_id = $this->nab_mys_db_exh->nab_mys_db_history_data( 'modified-exhibitors', "insert", $this->group_id, 0, $this->flow );
+				$this->history_id = $this->nab_mys_db_exh->nab_mys_db_history_data( 'modified-exhibitors', "insert", $this->group_id, 0 );
+
+				return $mys_response_body;
 
 			} else {
 
@@ -104,6 +106,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->dataid = $single_exh_data[0]->DataID;
 
 					$this->mys_request_url = $this->mys_request_url . '?exhid=' . $this->exhid;
+
+					$mys_response_body = $this->nab_mys_get_response();
+
+					return $mys_response_body;
 
 				} else {
 
@@ -132,7 +138,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 				if ( 0 === count( $exhibitor_modified_array ) ) {
 
-					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 1 );
+					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 5 );
 
 					$this->requested_for = 'empty';
 
@@ -144,7 +150,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 0, count( $exhibitor_modified_array ) );
 
 					//Let's add rows with blank mys data.
-					$this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor', $this->history_id, $this->group_id, $exhibitor_modified_array, 3 );
+					$this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor', $this->history_id, $this->group_id, $exhibitor_modified_array, 6 );
 				}
 
 				$this->total_counts = count( $exhibitor_modified_array );
@@ -232,10 +238,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->mys_request_url = $this->nab_mys_get_request_url( 'exhibitor-categories' );
 			$mys_response_body     = $this->nab_mys_get_response();
 			$exhibitor_categories  = $mys_response_body[0]->categories;
-			$cats_updated          = $this->nab_mys_db_exh->nab_mys_db_exh_categories( $exhibitor_categories );
 
-			//return $cats_updated;
-
+			$this->nab_mys_db_exh->nab_mys_db_exh_categories( $exhibitor_categories );
 		}
 
 		private function nab_mys_sync_check_lock_exh() {
@@ -252,56 +256,16 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->group_id       = $pending_data[0]->HistoryGroupID;
 					$history_pending_data = $pending_data[0]->HistoryData;
 
-					if ( empty( $history_pending_data ) ) {
+					//$data_json          = str_replace( "\'", "'", $history_pending_data );  //ne_temp ne_json //ne_veryimp should not be null
+					$data_json = $history_pending_data;  //ne_temp ne_json
 
-						$mys_data_exh_attempt = get_option( 'mys_data_exh_attempt' );
+					$data_array         = json_decode( $data_json, true );
+					$this->total_counts = count( $data_array[0]['exhibitors'] );
 
-						$mys_data_exh_attempt = isset( $mys_data_exh_attempt ) ? $mys_data_exh_attempt + 1 : 1;
+					//Previous sequence will be forced to continue with current request = 'single-exhibitor' and old group id
 
-						update_option( 'mys_data_exh_attempt', $mys_data_exh_attempt );
-
-						if ( $mys_data_exh_attempt >= 3 ) {
-
-							update_option( 'mys_data_exh_attempt', 0 );
-
-							// send email..
-							$stuck_groupid       = $this->group_id;
-							$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
-
-							$email_subject = $mys_data_exh_attempt . ' Attempts Failed - Tried to Sync Exhibitors.';
-							$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
-							$this->nab_mys_db_exh->nab_mys_email( $email_subject, $email_body );
-						}
-
-						$error_message = 'New pull request can not be initialized because 1 pull request is just started, please wait until it finishes.';
-
-						//Create a HTML Paragraph for Message to display via Ajax
-						$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
-
-						if ( "wpajax" === $this->flow ) {
-
-							echo wp_json_encode( array( "apiError" => $error_message_html ) );
-							wp_die();
-						} else {
-							//CRON
-							echo esc_html( $error_message );
-							die();
-						}
-
-					} else {
-
-						//$data_json          = str_replace( "\'", "'", $history_pending_data );  //ne_temp ne_json
-						$data_json = $history_pending_data;  //ne_temp ne_json
-
-						$data_array         = json_decode( $data_json, true );
-						$this->total_counts = count( $data_array[0]['exhibitors'] );
-
-						//Previous sequence will be forced to continue with current request = 'single-exhibitor' and old group id
-
-						$this->finished_counts = $this->nab_mys_db_exh->nab_mys_db_rows_ready_total_getter( $this->group_id );
-						$this->requested_for   = 'single-exhibitor';
-
-					}
+					$this->finished_counts = $this->nab_mys_db_exh->nab_mys_db_rows_ready_total_getter( $this->group_id );
+					$this->requested_for   = 'single-exhibitor';
 				}
 			}
 

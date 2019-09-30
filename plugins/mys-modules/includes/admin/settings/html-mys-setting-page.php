@@ -89,14 +89,14 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 			<input type="hidden" name="clear_history_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'clear_history_form_nonce' ) ) ?>"/>
 			<h2>Clear history older than 30 days.</h2>
 			<div class="clear-history-box">
-				<span class="button-primary button danger-btn popup-btn">Clear History</span>
+				<span class="button-primary popup-btn">Clear History</span> <!--button danger-btn-->
 				<div class="mys-popup">
 					<div class="mys-popup-inner">
 						<span class="dashicons dashicons-no"></span>
 						<strong>Clear History except past</strong>
 						<input name="clear_days" type="number" min="30" value="30">
 						<strong>Days</strong>
-						<input type="submit" class="button-primary button" value="Clear Now"/>
+						<input type="submit" class="button-primary" value="Clear Now"/> <!--button-->
 					</div>
 				</div>
 			</div>
@@ -105,7 +105,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 			<input type="hidden" name="reset_plugin_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'reset_plugin_form_nonce' ) ) ?>"/>
 			<h2>Danger Zone</h2>
 			<div class="clear-history-box">
-				<span class="button-primary button danger-btn popup-btn">Reset Plugin</span>
+				<span class="button-primary popup-btn">Reset Plugin</span> <!--button danger-btn-->
 				<div class="mys-popup">
 					<div class="mys-popup-inner text-left">
 						<span class="dashicons dashicons-no"></span>

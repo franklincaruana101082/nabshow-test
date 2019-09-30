@@ -16,7 +16,8 @@ jQuery(document).ready(function ($) {
   var totalDeleted = 0;
   var totalUpdated = 0;
   var uptoDate = 0;
-  var lastItemSessionLoop = 'Sponsors';
+  var lastItemSessionLoop = '';
+  var lastItemSessionLoopOriginal = 'Sponsors';
 
   $('.mys-cred-edit').on('click', function () {
     $('.show-hide-fields').toggleClass('show-labels');
@@ -46,11 +47,11 @@ jQuery(document).ready(function ($) {
 
   function recurringAjax(pastItem, requestedFor, groupID, totalCounts, finishedCounts) {
 
-    if (-1 !== requestedFor.indexOf('exhibitor'))
+    if (-1 !== requestedFor.indexOf('exhibitor')) {
       action = 'nab_mys_exhibitor_data';
-    else
+    } else {
       action = 'nab_mys_session_data';
-
+    }
     data = {
       'action': action,
       'requested_for': requestedFor,
@@ -142,8 +143,8 @@ jQuery(document).ready(function ($) {
             });
             pastItemName = pastItemName.replace('-', ' ');
 
-            if(1 === totalCounts) {
-              pastItemName = pastItemName.slice(0,-1)
+            if (1 === totalCounts) {
+              pastItemName = pastItemName.slice(0, -1);
             }
 
             extraDetails = '';
@@ -170,22 +171,24 @@ jQuery(document).ready(function ($) {
 
         } else {
 
+          lastItemSessionLoop = lastItemSessionLoopOriginal;
+
           // pastItem is empty, display success messege.
           uptoDate = 0;
 
-          if('empty' === requestedFor) {
+          if ('empty' === requestedFor) {
             $('.mys-message-container').append('<p class="highlighted-para">- Everything is upto date.</p>');
             uptoDate = 1;
           } else if ('single-exhibitor' === requestedFor) {
             $('.exh-counter').html('<p>- All ' + totalModified + ' Exhibitors fetched successfully.</p>');
           } else {
-            if(1 === totalCounts) {
-              lastItemSessionLoop = lastItemSessionLoop.slice(0,-1)
+            if (1 === totalCounts) {
+              lastItemSessionLoop = lastItemSessionLoop.slice(0, -1);
             }
             $('.mys-message-container').append('<p>- ' + totalCounts + ' ' + lastItemSessionLoop + ' fetched successfully.</p>');
           }
 
-          if(0 === uptoDate) {
+          if (0 === uptoDate) {
             setTimeout(function () {
               $('.mys-message-container').append(
                 '<p class="highlighted-para">- The migration process is started now, please check your inbox soon.</p>');
@@ -222,10 +225,21 @@ jQuery(document).ready(function ($) {
     $(this).parent().parent().removeClass('active');
   });
 
-  $('#datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+  $('#datepicker, .enable_date').datepicker({dateFormat: 'yy-mm-dd'});
 
-  $('#test-mys-close').click(function () {
+  $('#test-mys-close').on('click', function () {
     $('#mys-test').hide();
-  })
+  });
+
+  $('.history-filter-button').on('click', function () {
+    $('.current-page:not(.paged_changed)').val(1);
+  });
+
+  $('.current-page').keypress(function (event) {
+    if (parseInt($('.total-pages').text()) < parseInt($(this).val())) {
+      $('.current-page').val($('.total-pages').text());
+    }
+    $(this).addClass('paged_changed');
+  });
 
 });

@@ -218,9 +218,9 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 			</div>
 		</div>
 		<div class="next-bottom-btn">
-			<input type="submit" class="submit-mys-login" id="nextstep" value="Submit"/>
+			<input type="submit" class="button button-primary" id="nextstep" value="Submit"/> <!--class='submit-mys-login'-->
 			<?php if ( "1" === $nab_mys_show_wizard && 1 === $mys_login_form_success ) { ?>
-				<a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-sync' ) ); ?>">Next</a>
+				<a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-sync' ) ); ?>">Next</a> <!--id="nextstep"-->
 			<?php } ?>
 		</div>
 	</form>

@@ -553,6 +553,33 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	register_taxonomy( 'pavilions', array( 'exhibitors' ), $pavilion_args );
+
+	// Taxonomy - exhibitor-keywords
+	$keyword_labels = array(
+		'name'              => _x( 'Keywords', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Keywords', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Keywords', 'mys-modules' ),
+		'all_items'         => __( 'All Keywords', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Keyword', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Keyword:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Keyword', 'mys-modules' ),
+		'update_item'       => __( 'Update Keyword', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Keyword', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Keyword', 'mys-modules' ),
+		'menu_name'         => __( 'Keywords', 'mys-modules' ),
+	);
+
+	$keyword_args = array(
+		'hierarchical'      => true,
+		'labels'            => $keyword_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'exhibitor-keywords' ),
+	);
+
+	register_taxonomy( 'exhibitor-keywords', array( 'exhibitors' ), $keyword_args );
 }
 
 add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );

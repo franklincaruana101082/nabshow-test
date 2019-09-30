@@ -16,8 +16,6 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		protected $flow;
 
-		/*protected $nab_mys_db;*/
-
 		protected $requested_for;
 
 		protected $previous_date = null;

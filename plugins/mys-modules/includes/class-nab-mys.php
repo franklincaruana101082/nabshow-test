@@ -20,13 +20,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 		private $nab_mys_db_cron_object;
 
-		private $history_groupid;
-
 		public function __construct() {
-
-
-			//add_action( 'admin_init', array( $this, 'nab_mys_check_plugin_credentials' ) );
-			//$this->nab_mys_check_plugin_credentials();
 
 			//Register Post Types & Taxonomies
 			$this->nab_mys_register_post_types();
@@ -72,15 +66,14 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 		public function nab_mys_run() {
 
-			//Register MYS Plugin Page
-			add_action( 'admin_menu', array( $this, 'nab_mys_page_fun' ), 9 );
-
-			//Register Assets
-			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_assets' ) );
-
 			//Initialze the sync process.
 			$this->nab_mys_load_sync_classes();
 
+			//Register MYS Plugin Page
+			add_action( 'admin_menu', array( $this, 'nab_mys_page_fun' ), 9 ); /*Priority changed for the dependent plugin - 'MYS Blocks' */
+
+			//Register Assets
+			add_action( 'admin_enqueue_scripts', array( $this, 'nab_mys_page_assets' ) );
 		}
 
 		public function nab_mys_register_post_types() {
@@ -218,13 +211,10 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 			$this->nab_mys_load_history_class();
 
-			$this->history_groupid = FILTER_INPUT( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
+			$history_groupid = FILTER_INPUT( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
-			if ( empty( $this->history_groupid ) ) {
-				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-list.php' );
-			} else {
-				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-detail.php' );
-			}
+			//Load Page
+			$this->nab_mys_db_history_object->nab_mys_load_history_page($history_groupid, $this->nab_mys_db_cron_object);
 
 		}
 
