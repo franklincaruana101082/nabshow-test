@@ -124,6 +124,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             const { attributes, setAttributes } = this.props;
             const {
                 itemToFetch,
+                listingPage,
                 minSlides,
                 autoplay,
                 infiniteLoop,
@@ -166,7 +167,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 />
             </div>;
 
-            if (this.state.isDisable) {
+            if (this.state.isDisable && sliderActive) {
                 input = <Disabled>{input}</Disabled>;
             }
 
@@ -174,7 +175,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                            <ToggleControl
+                                label={__('Is Listing Page?')}
+                                checked={listingPage}
+                                help={__('Note: This option only work in nabashow-lv theme.')}
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle' }) }
+                            />
+
                             {input}
+
+                            { ! listingPage &&
                             <SelectControl
                                 label={__('Order by')}
                                 value={orderBy}
@@ -184,13 +194,17 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 ]}
                                 onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                             />
+                            }
+
                             <ToggleControl
                                 label={__('Display details in popup')}
                                 checked={detailPopup}
                                 onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
                             />
 
-                            {0 < this.state.taxonomiesList.length &&
+                            { ! listingPage &&
+                            <Fragment>
+                                { 0 < this.state.taxonomiesList.length &&
 
                                 <Fragment>
 
@@ -234,9 +248,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     </div>
 
                                 </Fragment>
-                            }
+                                }
 
-                            {0 < this.state.taxonomies.length &&
+                                { 0 < this.state.taxonomies.length &&
 
                                 <Fragment>
 
@@ -249,12 +263,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <label>{__(taxonomy)}</label>
                                                 <div className="search-cat-side">
                                                     {7 < this.state.termsObj[taxonomy].length &&
-                                                        <TextControl
-                                                            type="string"
-                                                            name={taxonomy}
-                                                            placeHolder={`Search ${taxonomy}`}
-                                                            onChange={value => this.filterTerms(value, taxonomy)}
-                                                        />
+                                                    <TextControl
+                                                        type="string"
+                                                        name={taxonomy}
+                                                        placeHolder={`Search ${taxonomy}`}
+                                                        onChange={value => this.filterTerms(value, taxonomy)}
+                                                    />
                                                     }
                                                 </div>
                                                 <div className="fix-height-select">
@@ -295,18 +309,14 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         ))
                                     }
                                 </Fragment>
+                                }
+                            </Fragment>
                             }
                         </PanelBody>
+
+                        { ! listingPage &&
+
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
-                            {/* <SelectControl
-                                label={__('Shape')}
-                                value={slideShape}
-                                options={[
-                                    { label: __('Rectangle'), value: 'rectangle' },
-                                    { label: __('Circle'), value: 'circle' },
-                                ]}
-                                onChange={(value) => { setAttributes({ slideShape: value }); this.setState({ bxinit: true }); }}
-                            /> */}
                             <div>
                                 <label>Shape</label>
                                 <PanelRow>
@@ -321,73 +331,74 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={sliderActive}
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
                             />
-                            {sliderActive &&
-                                <Fragment>
-                                    <ToggleControl
-                                        label={__('Pager')}
-                                        checked={pager}
-                                        onChange={() => setAttributes({ pager: ! pager })}
+                            { sliderActive &&
+                            <Fragment>
+                                <ToggleControl
+                                    label={__('Pager')}
+                                    checked={pager}
+                                    onChange={() => setAttributes({ pager: ! pager })}
+                                />
+                                <ToggleControl
+                                    label={__('Controls')}
+                                    checked={controls}
+                                    onChange={() => setAttributes({ controls: ! controls })}
+                                />
+                                <ToggleControl
+                                    label={__('Autoplay')}
+                                    checked={autoplay}
+                                    onChange={() => setAttributes({ autoplay: ! autoplay })}
+                                />
+                                <ToggleControl
+                                    label={__('Infinite Loop')}
+                                    checked={infiniteLoop}
+                                    onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
+                                />
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Speed</label>
+                                    <RangeControl
+                                        value={sliderSpeed}
+                                        min={100}
+                                        max={1000}
+                                        step={1}
+                                        onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
                                     />
-                                    <ToggleControl
-                                        label={__('Controls')}
-                                        checked={controls}
-                                        onChange={() => setAttributes({ controls: ! controls })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Items to Display</label>
+                                    <RangeControl
+                                        value={minSlides}
+                                        min={1}
+                                        max={10}
+                                        step={1}
+                                        onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
                                     />
-                                    <ToggleControl
-                                        label={__('Autoplay')}
-                                        checked={autoplay}
-                                        onChange={() => setAttributes({ autoplay: ! autoplay })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Width</label>
+                                    <RangeControl
+                                        value={slideWidth}
+                                        min={50}
+                                        max={1000}
+                                        step={1}
+                                        onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
                                     />
-                                    <ToggleControl
-                                        label={__('Infinite Loop')}
-                                        checked={infiniteLoop}
-                                        onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Margin</label>
+                                    <RangeControl
+                                        value={slideMargin}
+                                        min={0}
+                                        max={100}
+                                        step={1}
+                                        onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
                                     />
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Speed</label>
-                                        <RangeControl
-                                            value={sliderSpeed}
-                                            min={100}
-                                            max={1000}
-                                            step={1}
-                                            onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Items to Display</label>
-                                        <RangeControl
-                                            value={minSlides}
-                                            min={1}
-                                            max={10}
-                                            step={1}
-                                            onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Width</label>
-                                        <RangeControl
-                                            value={slideWidth}
-                                            min={50}
-                                            max={1000}
-                                            step={1}
-                                            onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Margin</label>
-                                        <RangeControl
-                                            value={slideMargin}
-                                            min={0}
-                                            max={100}
-                                            step={1}
-                                            onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
-                                        />
-                                    </div>
-                                </Fragment>
+                                </div>
+                            </Fragment>
                             }
                         </PanelBody>
+                        }
 
-                        {sliderActive && controls &&
+                        { ! listingPage && sliderActive && controls &&
                             <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
                                 <ul className="slider-arrow-main">
                                     {names.map((item, index) => (
@@ -407,12 +418,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             </PanelBody>
                         }
                     </InspectorControls>
-                    <div className={arrowIcons}>
-                        <ServerSideRender
-                            block="mys/speaker-slider"
-                            attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup }}
-                        />
-                    </div>
+                    <ServerSideRender
+                        block="mys/speaker-slider"
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, listingPage: listingPage }}
+                    />
                 </Fragment >
             );
         }
@@ -421,6 +430,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         itemToFetch: {
             type: 'number',
             default: 10
+        },
+        listingPage: {
+            type: 'boolean',
+            default: false
         },
         minSlides: {
             type: 'number',

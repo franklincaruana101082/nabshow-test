@@ -122,6 +122,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
             const { attributes, setAttributes } = this.props;
             const {
                 itemToFetch,
+                listingPage,
                 minSlides,
                 autoplay,
                 infiniteLoop,
@@ -167,7 +168,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 <RangeControl
                     value={itemToFetch}
                     min={1}
-                    max={500}
+                    max={100}
                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
                 />
 
@@ -181,90 +182,106 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                            <ToggleControl
+                                label={__('Is Listing Page?')}
+                                checked={listingPage}
+                                help={__('Note: This option only work in nabashow-lv theme.')}
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date',  }) }
+                            />
                             {input}
-                            <SelectControl
-                                label={__('Order by')}
-                                value={orderBy}
-                                options={[
-                                    { label: __('Newest to Oldest'), value: 'date' },
-                                    { label: __('Menu Order'), value: 'menu_order' },
-                                    { label: __('Random'), value: 'rand' },
-                                ]}
-                                onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                            />
-                            <ToggleControl
-                                label={__('Display details in popup')}
-                                checked={detailPopup}
-                                onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
-                            />
-                            <ToggleControl
-                                label={__('Date Specific Session')}
-                                checked={metaDate}
-                                onChange={() => { setAttributes({ metaDate: ! metaDate }); this.setState({ bxinit: true }); }}
-                            />
-                            { metaDate &&
+                            { ! listingPage &&
+                            <Fragment>
+                                <SelectControl
+                                    label={__('Order by')}
+                                    value={orderBy}
+                                    options={[
+                                        {label: __('Newest to Oldest'), value: 'date'},
+                                        {label: __('Menu Order'), value: 'menu_order'},
+                                        {label: __('Random'), value: 'rand'},
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({orderBy: value});
+                                        this.setState({bxinit: true});
+                                    }}
+                                />
+                                <ToggleControl
+                                    label={__('Display details in popup')}
+                                    checked={detailPopup}
+                                    onChange={() => {setAttributes({detailPopup: ! detailPopup}); this.setState({bxinit: true});}}
+                                />
+                                <ToggleControl
+                                    label={__('Date Specific Session')}
+                                    checked={metaDate}
+                                    onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
+                                />
+                                { metaDate &&
                                 <div className="inspector-field inspector-field-datetime components-base-control hide-time">
                                     <label className="inspector-mb-0">Select Session Date</label>
                                     <div className="inspector-ml-auto">
                                         <DateTimePicker
                                             currentDate={sessionDate}
-                                            onChange={(date) => { setAttributes({sessionDate: date}); this.setState({ bxinit: true }); }}
+                                            onChange={(date) => { setAttributes({sessionDate: date}); this.setState({bxinit: true});}}
                                         />
                                     </div>
                                 </div>
-                            }
-                            <ToggleControl
-                                label={__('Taxonomy Relation (AND)')}
-                                checked={taxonomyRelation}
-                                onChange={() => { setAttributes({ taxonomyRelation: ! taxonomyRelation }); this.setState({ bxinit: true }); }}
-                            />
-                            {0 < this.state.taxonomiesList.length &&
+                                }
+                                <ToggleControl
+                                    label={__('Taxonomy Relation (AND)')}
+                                    checked={taxonomyRelation}
+                                    onChange={() => { setAttributes({taxonomyRelation: ! taxonomyRelation}); this.setState({bxinit: true}); }}
+                                />
+                                {0 < this.state.taxonomiesList.length &&
 
                                 <Fragment>
 
                                     <label>{__('Select Taxonomy')}</label>
                                     <div className="fix-height-select">
 
-                                        {this.state.taxonomiesList.map((taxonomy, index) => (
+                                    {this.state.taxonomiesList.map((taxonomy, index) => (
 
-                                            <Fragment key={index}>
+                                        <Fragment key={index}>
 
-                                                <CheckboxControl checked={-1 < taxonomies.indexOf(taxonomy.value)} label={taxonomy.label} name="taxonomy[]" value={taxonomy.value} onChange={(isChecked) => {
+                                            <CheckboxControl checked={-1 < taxonomies.indexOf(taxonomy.value)}
+                                                 label={taxonomy.label} name="taxonomy[]" value={taxonomy.value}
+                                                 onChange={(isChecked) => {
 
-                                                    let index,
-                                                        tempTaxonomies = [...taxonomies],
-                                                        tempTerms = terms;
+                                                         let index,
+                                                             tempTaxonomies = [...taxonomies],
+                                                             tempTerms = terms;
 
-                                                    if (isChecked) {
-                                                        tempTaxonomies.push(taxonomy.value);
-                                                    } else {
-                                                        index = tempTaxonomies.indexOf(taxonomy.value);
-                                                        tempTaxonomies.splice(index, 1);
-                                                        if (! this.isEmpty(tempTerms)) {
-                                                            tempTerms = JSON.parse(tempTerms);
-                                                            delete tempTerms[taxonomy.value];
-                                                            tempTerms = JSON.stringify(tempTerms);
-                                                        }
+                                                         if (isChecked) {
+                                                             tempTaxonomies.push(taxonomy.value);
+                                                         } else {
+                                                             index = tempTaxonomies.indexOf(taxonomy.value);
+                                                             tempTaxonomies.splice(index, 1);
+                                                             if ( ! this.isEmpty(tempTerms)) {
+                                                                 tempTerms = JSON.parse(tempTerms);
+                                                                 delete tempTerms[taxonomy.value];
+                                                                 tempTerms = JSON.stringify(tempTerms);
+                                                             }
+                                                         }
+                                                         if (tempTerms.constructor === Object) {
+                                                             tempTerms = JSON.stringify(tempTerms);
+                                                         }
+                                                         this.props.setAttributes({
+                                                             terms: tempTerms,
+                                                             taxonomies: tempTaxonomies
+                                                         });
+                                                         this.setState({taxonomies: tempTaxonomies, bxinit: true});
                                                     }
-                                                    if ( tempTerms.constructor === Object ) {
-                                                        tempTerms = JSON.stringify(tempTerms);
-                                                    }
-                                                    this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
-                                                    this.setState({ taxonomies: tempTaxonomies, bxinit: true });
                                                 }
-                                                }
-                                                />
+                                            />
 
-                                            </Fragment>
+                                        </Fragment>
 
-                                        ))
-                                        }
+                                    ))
+                                    }
                                     </div>
 
                                 </Fragment>
-                            }
+                                }
 
-                            {0 < this.state.taxonomies.length &&
+                                {0 < this.state.taxonomies.length &&
 
                                 <Fragment>
 
@@ -277,11 +294,11 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                                 <label>{__(taxonomy)}</label>
 
                                                 {7 < this.state.termsObj[taxonomy].length &&
-                                                    <TextControl
-                                                        type="string"
-                                                        name={taxonomy}
-                                                        onChange={value => this.filterTerms(value, taxonomy)}
-                                                    />
+                                                <TextControl
+                                                    type="string"
+                                                    name={taxonomy}
+                                                    onChange={value => this.filterTerms(value, taxonomy)}
+                                                />
                                                 }
 
                                                 <div className="fix-height-select">
@@ -290,29 +307,32 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
 
                                                         <Fragment key={index}>
 
-                                                            <CheckboxControl checked={isCheckedTerms[taxonomy] !== undefined && -1 < isCheckedTerms[taxonomy].indexOf(term.slug)} label={term.name} name={`${taxonomy}[]`} value={term.slug} onChange={(isChecked) => {
+                                                            <CheckboxControl
+                                                                checked={isCheckedTerms[taxonomy] !== undefined && -1 < isCheckedTerms[taxonomy].indexOf(term.slug)}
+                                                                label={term.name} name={`${taxonomy}[]`} value={term.slug}
+                                                                onChange={(isChecked) => {
 
-                                                                let index,
-                                                                    tempTerms = terms;
-                                                                if (! this.isEmpty(tempTerms)) {
-                                                                    tempTerms = JSON.parse(tempTerms);
-                                                                }
-                                                                if (isChecked) {
-                                                                    if (tempTerms[taxonomy] === undefined) {
-                                                                        tempTerms[taxonomy] = [term.slug];
-                                                                    } else {
-                                                                        tempTerms[taxonomy].push(term.slug);
+                                                                        let index,
+                                                                            tempTerms = terms;
+                                                                        if ( ! this.isEmpty(tempTerms)) {
+                                                                            tempTerms = JSON.parse(tempTerms);
+                                                                        }
+                                                                        if (isChecked) {
+                                                                            if (tempTerms[taxonomy] === undefined) {
+                                                                                tempTerms[taxonomy] = [term.slug];
+                                                                            } else {
+                                                                                tempTerms[taxonomy].push(term.slug);
+                                                                            }
+                                                                        } else {
+                                                                            index = tempTerms[taxonomy].indexOf(term.slug);
+                                                                            tempTerms[taxonomy].splice(index, 1);
+                                                                        }
+
+                                                                        tempTerms = JSON.stringify(tempTerms);
+                                                                        this.props.setAttributes({terms: tempTerms});
+                                                                        this.setState({bxinit: true});
                                                                     }
-                                                                } else {
-                                                                    index = tempTerms[taxonomy].indexOf(term.slug);
-                                                                    tempTerms[taxonomy].splice(index, 1);
                                                                 }
-
-                                                                tempTerms = JSON.stringify(tempTerms);
-                                                                this.props.setAttributes({ terms: tempTerms });
-                                                                this.setState({ bxinit: true });
-                                                            }
-                                                            }
                                                             />
                                                         </Fragment>
                                                     ))
@@ -322,130 +342,129 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                         ))
                                     }
                                 </Fragment>
+                                }
+                            </Fragment>
                             }
                         </PanelBody>
+                        { ! listingPage &&
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
                             <ToggleControl
                                 label={__('Slider On/Off')}
                                 checked={sliderActive}
                                 help={__('Note: Change Layout by toggling Slider On/Off.')}
-                                onChange={() => {
-                                    setAttributes({ sliderActive: ! sliderActive, layout: ! sliderActive ? null : 'with-featured', sliderLayout: ! sliderActive ? 'layout-1' : null }); this.setState({ bxinit: ! sliderActive });
-                                }
-                                }
+                                onChange={() => { setAttributes({ sliderActive: ! sliderActive, layout: ! sliderActive ? null : 'with-featured', sliderLayout: ! sliderActive ? 'layout-1' : null }); this.setState({bxinit: ! sliderActive}); }}
                             />
-                            {! sliderActive &&
-                                <div>
-                                    <label>Select Listing Layout</label>
-                                    <PanelRow>
-                                        <ul className="ss-off-options">
-                                            <li className={'with-featured' === layout ? 'active with-featured' : 'with-featured'} onClick={() => setAttributes({ layout: 'with-featured' })}>{sessionSliderOff1}</li>
-                                            <li className={'with-masonry' === layout ? 'active with-masonry' : 'with-masonry'} onClick={() => setAttributes({ layout: 'with-masonry' })}>{sessionSliderOff2}</li>
-                                            <li className={'date-group' === layout ? 'active date-group ss-full-option' : 'date-group ss-full-option'} onClick={() => setAttributes({ layout: 'date-group' })}>{sessionSliderOff3}</li>
-                                        </ul>
-                                    </PanelRow>
-                                </div>
+                            { ! sliderActive &&
+                            <div>
+                                <label>Select Listing Layout</label>
+                                <PanelRow>
+                                    <ul className="ss-off-options">
+                                        <li className={'with-featured' === layout ? 'active with-featured' : 'with-featured'} onClick={() => setAttributes({layout: 'with-featured'})}>{sessionSliderOff1}</li>
+                                        <li className={'with-masonry' === layout ? 'active with-masonry' : 'with-masonry'} onClick={() => setAttributes({layout: 'with-masonry'})}>{sessionSliderOff2}</li>
+                                        <li className={'date-group' === layout ? 'active date-group ss-full-option' : 'date-group ss-full-option'} onClick={() => setAttributes({layout: 'date-group'})}>{sessionSliderOff3}</li>
+                                    </ul>
+                                </PanelRow>
+                            </div>
                             }
 
                             {sliderActive &&
-                                <Fragment>
-                                    <div>
-                                        <label>Select Slider Layout</label>
-                                        <PanelRow>
-                                            <ul className="ss-on-options">
-                                                <li className={'layout-1' === sliderLayout ? 'active layout-1' : 'layout-1'} onClick={() => { setAttributes({ sliderLayout: 'layout-1' }); this.setState({ bxinit: true }); }}>{sessionSliderOn1}</li>
-                                                <li className={'layout-2' === sliderLayout ? 'active layout-2' : 'layout-2'} onClick={() => { setAttributes({ sliderLayout: 'layout-2' }); this.setState({ bxinit: true }); }}>{sessionSliderOn2}</li>
-                                            </ul>
-                                        </PanelRow>
-                                    </div>
-                                    <ToggleControl
-                                        label={__('Pager')}
-                                        checked={pager}
-                                        onChange={() => setAttributes({ pager: ! pager })}
+                            <Fragment>
+                                <div>
+                                    <label>Select Slider Layout</label>
+                                    <PanelRow>
+                                        <ul className="ss-on-options">
+                                            <li className={'layout-1' === sliderLayout ? 'active layout-1' : 'layout-1'} onClick={() => { setAttributes({sliderLayout: 'layout-1'}); this.setState({bxinit: true}); }}>{sessionSliderOn1}</li>
+                                            <li className={'layout-2' === sliderLayout ? 'active layout-2' : 'layout-2'} onClick={() => { setAttributes({sliderLayout: 'layout-2'}); this.setState({bxinit: true}); }}>{sessionSliderOn2}</li>
+                                        </ul>
+                                    </PanelRow>
+                                </div>
+                                <ToggleControl
+                                    label={__('Pager')}
+                                    checked={pager}
+                                    onChange={() => setAttributes({pager: ! pager})}
+                                />
+                                <ToggleControl
+                                    label={__('Controls')}
+                                    checked={controls}
+                                    onChange={() => setAttributes({controls: ! controls})}
+                                />
+                                <ToggleControl
+                                    label={__('Autoplay')}
+                                    checked={autoplay}
+                                    onChange={() => setAttributes({autoplay: ! autoplay})}
+                                />
+                                <ToggleControl
+                                    label={__('Infinite Loop')}
+                                    checked={infiniteLoop}
+                                    onChange={() => setAttributes({infiniteLoop: ! infiniteLoop})}
+                                />
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Speed</label>
+                                    <RangeControl
+                                        value={sliderSpeed}
+                                        min={100}
+                                        max={1000}
+                                        step={1}
+                                        onChange={(speed) => setAttributes({sliderSpeed: parseInt(speed)})}
                                     />
-                                    <ToggleControl
-                                        label={__('Controls')}
-                                        checked={controls}
-                                        onChange={() => setAttributes({ controls: ! controls })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Items to Display</label>
+                                    <RangeControl
+                                        value={minSlides}
+                                        min={1}
+                                        max={10}
+                                        step={1}
+                                        onChange={(slide) => setAttributes({minSlides: parseInt(slide)})}
                                     />
-                                    <ToggleControl
-                                        label={__('Autoplay')}
-                                        checked={autoplay}
-                                        onChange={() => setAttributes({ autoplay: ! autoplay })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Width</label>
+                                    <RangeControl
+                                        value={slideWidth}
+                                        min={50}
+                                        max={1000}
+                                        step={1}
+                                        onChange={(width) => setAttributes({slideWidth: parseInt(width)})}
                                     />
-                                    <ToggleControl
-                                        label={__('Infinite Loop')}
-                                        checked={infiniteLoop}
-                                        onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Margin</label>
+                                    <RangeControl
+                                        value={slideMargin}
+                                        min={0}
+                                        max={100}
+                                        step={1}
+                                        onChange={(width) => setAttributes({slideMargin: parseInt(width)})}
                                     />
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Speed</label>
-                                        <RangeControl
-                                            value={sliderSpeed}
-                                            min={100}
-                                            max={1000}
-                                            step={1}
-                                            onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Items to Display</label>
-                                        <RangeControl
-                                            value={minSlides}
-                                            min={1}
-                                            max={10}
-                                            step={1}
-                                            onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Width</label>
-                                        <RangeControl
-                                            value={slideWidth}
-                                            min={50}
-                                            max={1000}
-                                            step={1}
-                                            onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Margin</label>
-                                        <RangeControl
-                                            value={slideMargin}
-                                            min={0}
-                                            max={100}
-                                            step={1}
-                                            onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
-                                        />
-                                    </div>
-                                </Fragment>
+                                </div>
+                            </Fragment>
                             }
                         </PanelBody>
-                        {
-                            controls ? (
-                                <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
-                                    <ul className="slider-arrow-main">
-                                        {names.map((item, index) => (
-                                            < Fragment key={index} >
-                                                <li
-                                                    className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
-                                                    key={index}
-                                                    onClick={e => {
-                                                        setAttributes({ arrowIcons: item.classnames });
-                                                        this.setState({ bxinit: true });
-                                                    }}
-                                                >{item.name}</li>
-                                            </Fragment>
-                                        ))
-                                        }
-                                    </ul>
-                                </PanelBody>
-                            ) : ''
+                        }
+                        { ! listingPage && sliderActive && controls &&
+                        <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
+                            <ul className="slider-arrow-main">
+                                {names.map((item, index) => (
+                                    < Fragment key={index} >
+                                        <li
+                                            className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
+                                            key={index}
+                                            onClick={e => {
+                                                setAttributes({ arrowIcons: item.classnames });
+                                                this.setState({ bxinit: true });
+                                            }}
+                                        >{item.name}</li>
+                                    </Fragment>
+                                ))
+                                }
+                            </ul>
+                        </PanelBody>
                         }
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup, listingPage: listingPage }}
                     />
                 </Fragment >
             );
@@ -455,6 +474,10 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
         itemToFetch: {
             type: 'number',
             default: 10
+        },
+        listingPage: {
+          type: 'boolean',
+          default: false
         },
         minSlides: {
             type: 'number',

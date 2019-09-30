@@ -275,6 +275,371 @@ function nabshow_lv_news_releases_load_more_post_callback() {
 
 		endwhile;
 	endif;
+	wp_reset_postdata();
+
+	$final_result["next_page_number"] = $page_number + 1;
+	$final_result["total_page"]       = $total_pages;
+	$final_result["result_post"]      = $result_post;
+
+	echo wp_json_encode( $final_result );
+	wp_die();
+}
+
+/**
+ * Ajax for sessions filters.
+ * @since 1.0
+ */
+add_action( 'wp_ajax_sessions_browse_filter', 'nabshow_lv_sessions_browse_filter_callback' );
+add_action( 'wp_ajax_nopriv_sessions_browse_filter', 'nabshow_lv_sessions_browse_filter_callback' );
+
+/**
+ * Return sessions according to filters
+ * @return json
+ * @since 1.0.
+ */
+function nabshow_lv_sessions_browse_filter_callback() {
+
+	check_ajax_referer( 'browse_filter_nonce', 'browse_filter_nonce' );
+
+	$result_post    = array();
+	$final_result   = array();
+
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_STRING );
+	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
+	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
+	$session_track      = filter_input( INPUT_GET, 'track', FILTER_SANITIZE_STRING );
+	$session_level      = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
+	$session_type       = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
+	$session_location   = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
+
+	$query_arg = array(
+		'post_type'      => 'sessions',
+		'posts_per_page' => $post_limit,
+		'paged'          => $page_number
+	);
+
+	if ( ! empty( $post_start ) ) {
+		$query_arg['starts_with'] = $post_start;
+	}
+
+	if ( ! empty( $post_search ) ) {
+		$query_arg['s'] = $post_search;
+	}
+
+	$tax_query_args = array('relation' => 'AND' );
+
+	if ( ! empty( $session_track ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'tracks',
+			'field'    => 'slug',
+			'terms'    => $session_track,
+		);
+	}
+
+	if ( ! empty( $session_level ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'session-levels',
+			'field'    => 'slug',
+			'terms'    => $session_level,
+		);
+	}
+
+	if ( ! empty( $session_type ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'session-types',
+			'field'    => 'slug',
+			'terms'    => $session_type,
+		);
+	}
+
+	if ( ! empty( $session_location ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'session-locations',
+			'field'    => 'slug',
+			'terms'    => $session_location,
+		);
+	}
+
+	if ( count( $tax_query_args ) > 1 ) {
+		$query_arg['tax_query'] = $tax_query_args;
+	}
+
+	$session_query = new WP_Query( $query_arg );
+
+	$total_pages = $session_query->max_num_pages;
+
+	if ( $session_query->have_posts() ) {
+
+		$i = 0;
+
+		while ( $session_query->have_posts() ) {
+
+			$session_query->the_post();
+
+			$session_id          = get_the_ID();
+			$date                = get_post_meta( $session_id, 'date', true );
+			$start_time          = get_post_meta( $session_id, 'starttime', true );
+			$end_time            = get_post_meta( $session_id, 'endtime', true );
+			$date                = date_format( date_create( $date ), 'M d' );
+			$start_time          = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+			$end_time            = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+			$date_display_format = $date . ' | ' . $start_time . ' - ' . $end_time;
+			$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
+
+			$result_post[ $i ]["post_id"]       = $session_id;
+			$result_post[ $i ]["post_title"]    = get_the_title();
+			$result_post[ $i ]["featured"]      = $featured_post;
+			$result_post[ $i ]["date_time"]     = $date_display_format;
+			$result_post[ $i ]["post_excerpt"]  = get_the_excerpt();
+			$result_post[ $i ]["planner_link"]  = '#';
+
+			$i++;
+		}
+	}
+	wp_reset_postdata();
+
+	$final_result["next_page_number"] = $page_number + 1;
+	$final_result["total_page"]       = $total_pages;
+	$final_result["result_post"]      = $result_post;
+
+	echo wp_json_encode( $final_result );
+	wp_die();
+}
+
+/**
+ * Ajax for exhibitors filters.
+ * @since 1.0
+ */
+add_action( 'wp_ajax_exhibitors_browse_filter', 'nabshow_lv_exhibitors_browse_filter_callback' );
+add_action( 'wp_ajax_nopriv_exhibitors_browse_filter', 'nabshow_lv_exhibitors_browse_filter_callback' );
+
+/**
+ * Return exhibitor according to filters
+ * @return json
+ * @since 1.0.
+ */
+function nabshow_lv_exhibitors_browse_filter_callback() {
+
+	check_ajax_referer( 'browse_filter_nonce', 'browse_filter_nonce' );
+
+	$result_post    = array();
+	$final_result   = array();
+
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_STRING );
+	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
+	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
+	$exhibitor_category = filter_input( INPUT_GET, 'exhibitor_category', FILTER_SANITIZE_STRING );
+	$exhibitor_hall     = filter_input( INPUT_GET, 'exhibitor_hall', FILTER_SANITIZE_STRING );
+	$exhibitor_pavilion = filter_input( INPUT_GET, 'exhibitor_pavilion', FILTER_SANITIZE_STRING );
+	$exhibitor_keywords = filter_input( INPUT_GET, 'exhibitor_keywords', FILTER_SANITIZE_STRING );
+	$order_by           = filter_input( INPUT_GET, 'exhibitor_order', FILTER_SANITIZE_STRING );
+	$order              = 'date' === $order_by ? 'DESC' : 'ASC';
+
+	$query_arg = array(
+		'post_type'      => 'exhibitors',
+		'posts_per_page' => $post_limit,
+		'paged'          => $page_number,
+		'orderby'        => $order_by,
+		'order'          => $order,
+	);
+
+	if ( ! empty( $post_start ) ) {
+		$query_arg['starts_with'] = $post_start;
+	}
+
+	if ( ! empty( $post_search ) ) {
+		$query_arg['s'] = $post_search;
+	}
+
+	$tax_query_args = array('relation' => 'AND' );
+
+	if ( ! empty( $exhibitor_category ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'exhibitor-categories',
+			'field'    => 'slug',
+			'terms'    => $exhibitor_category,
+		);
+	}
+
+	if ( ! empty( $exhibitor_hall ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'halls',
+			'field'    => 'slug',
+			'terms'    => $exhibitor_hall,
+		);
+	}
+
+	if ( ! empty( $exhibitor_pavilion ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'pavilions',
+			'field'    => 'slug',
+			'terms'    => $exhibitor_pavilion,
+		);
+	}
+
+	if ( ! empty( $exhibitor_keywords ) ) {
+
+		$all_keywords     = explode(',', $exhibitor_keywords );
+		$tax_query_args[] = array (
+			'taxonomy' => 'exhibitor-keywords',
+			'field'    => 'slug',
+			'terms'    => $all_keywords,
+		);
+	}
+
+	if ( count( $tax_query_args ) > 1 ) {
+		$query_arg['tax_query'] = $tax_query_args;
+	}
+
+	$exhibitor_query = new WP_Query( $query_arg );
+
+	$total_pages = $exhibitor_query->max_num_pages;
+
+	if ( $exhibitor_query->have_posts() ) {
+
+		$i = 0;
+
+		while ( $exhibitor_query->have_posts() ) {
+
+			$exhibitor_query->the_post();
+
+			$exhibitor_id   = get_the_ID();
+			$booth_number   = get_post_meta( $exhibitor_id, 'boothnumbers', true );
+			$exh_id         = get_post_meta( $exhibitor_id, 'exhid', true );
+			$exh_url        = 'https://ces20.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+			$featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
+			$thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
+
+			$result_post[ $i ]["post_id"]       = $exhibitor_id;
+			$result_post[ $i ]["post_title"]    = get_the_title();
+			$result_post[ $i ]["featured"]      = $featured_post;
+			$result_post[ $i ]["boothnumber"]   = $booth_number;
+			$result_post[ $i ]["post_excerpt"]  = get_the_excerpt();
+			$result_post[ $i ]["thumbnail_url"] = $thumbnail_url;
+			$result_post[ $i ]["planner_link"]  = $exh_url;
+
+			$i++;
+		}
+	}
+	wp_reset_postdata();
+
+	$final_result["next_page_number"] = $page_number + 1;
+	$final_result["total_page"]       = $total_pages;
+	$final_result["result_post"]      = $result_post;
+
+	echo wp_json_encode( $final_result );
+	wp_die();
+}
+
+/**
+ * Ajax for speakers filters.
+ * @since 1.0
+ */
+add_action( 'wp_ajax_speakers_browse_filter', 'nabshow_lv_speakers_browse_filter_callback' );
+add_action( 'wp_ajax_nopriv_speakers_browse_filter', 'nabshow_lv_speakers_browse_filter_callback' );
+
+/**
+ * Return speakers according to filters
+ * @return json
+ * @since 1.0.
+ */
+function nabshow_lv_speakers_browse_filter_callback() {
+
+	check_ajax_referer( 'browse_filter_nonce', 'browse_filter_nonce' );
+
+	$result_post    = array();
+	$final_result   = array();
+
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_STRING );
+	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
+	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
+	$speaker_company    = filter_input( INPUT_GET, 'speaker_company', FILTER_SANITIZE_STRING );
+	$speaker_job        = filter_input( INPUT_GET, 'speaker_job', FILTER_SANITIZE_STRING );
+	$speaker_date       = filter_input( INPUT_GET, 'speaker_date', FILTER_SANITIZE_STRING );
+	$order_by           = filter_input( INPUT_GET, 'speaker_date', FILTER_SANITIZE_STRING );
+	$order              = 'date' === $order_by ? 'DESC' : 'ASC';
+
+	$query_arg = array(
+		'post_type'      => 'speakers',
+		'posts_per_page' => $post_limit,
+		'paged'          => $page_number,
+		'orderby'        => $order_by,
+		'order'          => $order,
+	);
+
+	if ( ! empty( $post_start ) ) {
+		$query_arg['starts_with'] = $post_start;
+	}
+
+	if ( ! empty( $post_search ) ) {
+		$query_arg['s'] = $post_search;
+	}
+
+	if ( ! empty( $speaker_company ) ) {
+		$query_arg['tax_query'] = array(
+			array (
+				'taxonomy' => 'speaker-companies',
+				'field'    => 'slug',
+				'terms'    => $speaker_company,
+			)
+		);
+	}
+
+	$meta_query = array( 'relation' => 'AND' );
+
+	if ( ! empty( $speaker_job ) ) {
+		$meta_query[] = array (
+				'key'     => 'title',
+				'value'   => $speaker_job,
+				'compare' => 'LIKE',
+			);
+	}
+
+	if ( ! empty( $speaker_date ) ) {
+		$meta_query[] = array (
+			'key'     => 'schedules',
+			'value'   => $speaker_date,
+			'compare' => 'LIKE',
+		);
+	}
+
+	if ( count( $meta_query ) > 1 ) {
+		$query_arg['meta_query'] = $meta_query;
+	}
+
+	$speaker_query = new WP_Query( $query_arg );
+
+	$total_pages = $speaker_query->max_num_pages;
+
+	if ( $speaker_query->have_posts() ) {
+
+		$i = 0;
+
+		while ( $speaker_query->have_posts() ) {
+
+			$speaker_query->the_post();
+
+			$speaker_id         = get_the_ID();
+			$speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
+			$thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_speaker_thumbnail_url();
+			$featured_post      = has_term( 'featured', 'speaker-categories' ) ? 'featured' : '';
+			$all_companies      = get_the_terms( $speaker_id, 'speaker-companies' );
+			$speaker_company    = nabshow_lv_get_comma_separated_term_list( $all_companies );
+
+			$result_post[ $i ]["post_id"]       = $speaker_id;
+			$result_post[ $i ]["post_title"]    = get_the_title();
+			$result_post[ $i ]["featured"]      = $featured_post;
+			$result_post[ $i ]["thumbnail_url"] = $thumbnail_url;
+			$result_post[ $i ]["job_title"]     = $speaker_job_title;
+			$result_post[ $i ]["company"]       = $speaker_company;
+
+			$i++;
+		}
+	}
+	wp_reset_postdata();
 
 	$final_result["next_page_number"] = $page_number + 1;
 	$final_result["total_page"]       = $total_pages;

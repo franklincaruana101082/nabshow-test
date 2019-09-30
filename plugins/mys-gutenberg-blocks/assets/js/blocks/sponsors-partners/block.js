@@ -1,4 +1,4 @@
-import { partnerSponser1,partnerSponser2 } from '../icons';
+import { partnerSponser1, partnerSponser2 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
@@ -107,8 +107,8 @@ import { partnerSponser1,partnerSponser2 } from '../icons';
                             <div>
                                 <label>Layout</label>
                                 <ul className="ss-off-options">
-                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'without-title' })}}>{partnerSponser1}</li>
-                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'with-title' })}}>{partnerSponser2}</li>
+                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'without-title' }) }>{partnerSponser1}</li>
+                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-title' }) }>{partnerSponser2}</li>
                                 </ul>
                             </div>
                             <div className="inspector-field inspector-field-Numberofitems ">
@@ -123,9 +123,11 @@ import { partnerSponser1,partnerSponser2 } from '../icons';
                             <SelectControl
                                 label={__('Order by')}
                                 value={orderBy}
-                                options={[{ label: __('Newest to Oldest'), value: 'date' },
+                                options={[
+                                        { label: __('Newest to Oldest'), value: 'date' },
                                         { label: __('Menu Order'), value: 'menu_order' },
-                                ]}
+                                        { label: __('Random'), value: 'rand' },
+                                    ]}
                                 onChange={ (value) => { setAttributes({ orderBy: value }); }}
                             />
                             {0 < this.state.taxonomiesList.length && (

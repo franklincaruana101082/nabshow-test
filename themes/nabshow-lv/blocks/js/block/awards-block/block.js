@@ -8,9 +8,9 @@ var allowedBlocks = [
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
     const { __ } = wp.i18n;
     const { registerBlockType } = wp.blocks;
-    const { Fragment, Component } = wp.element;
-    const { RichText, MediaUpload, AlignmentToolbar, BlockControls, InspectorControls, PanelColorSettings, InnerBlocks } = wp.editor;
-    const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, Button, Toolbar, IconButton } = wp.components;
+    const { Fragment } = wp.element;
+    const { RichText, MediaUpload, BlockControls, InspectorControls, InnerBlocks } = wp.editor;
+    const { PanelBody, PanelRow, ToggleControl, Button, Toolbar, IconButton } = wp.components;
 
     const allAttributes = {
         blockId: {
@@ -46,18 +46,7 @@ var allowedBlocks = [
             type: 'number',
         },
         winnerName: {
-            type: 'string',
-            source: 'html',
-            selector: 'a',
-            default: 'Winner Name'
-        },
-        Link: {
-            type: 'string',
-            default: '#'
-        },
-        newWindow: {
-            type: 'boolean',
-            default: false,
+            type: 'string'
         },
         jobLocation: {
             type: 'string'
@@ -108,8 +97,6 @@ var allowedBlocks = [
 
             $(document).on('click', `#block-${clientId} .col-lg-6 .remove-item`, function (e) {
                 if ('' !== $(this).parents(`#block-${clientId}`)) {
-
-                    // let noOfAwardsIn = $(`#block-${clientId} .awards-data.row .editor-block-list__layout > div`).length - 1;
                     setAttributes({ noOfAwards: noOfAwards - 1 });
                     removehildawardsBlock(noOfAwards);
                 }
@@ -199,7 +186,7 @@ var allowedBlocks = [
         attributes: allAttributes,
         edit: (props) => {
             const { attributes, setAttributes, clientId } = props;
-            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, imageID, modelClass, showPopup, noOfAwards, noOfAwardsInner } = attributes;
+            const { imageAlt, imageUrl, winnerName, jobLocation, details, imageID, modelClass, showPopup, noOfAwards, noOfAwardsInner } = attributes;
 
 
             if (document.getElementById('wpwrap').classList.contains('nab_body_model_open')) {
@@ -221,25 +208,7 @@ var allowedBlocks = [
             return (
                 <Fragment>
                     <InspectorControls>
-                        <PanelBody title="Winner Name Link Settings" initialOpen={true}>
-                            <PanelRow>
-                                <TextControl
-                                    type="text"
-                                    min="1"
-                                    placeholder="https:"
-                                    value={Link}
-                                    onChange={Link => setAttributes({ Link: Link })}
-                                />
-                            </PanelRow>
-                            <PanelRow>
-                                <ToggleControl
-                                    label={__('Open in New Window')}
-                                    checked={newWindow}
-                                    onChange={() => setAttributes({ newWindow: ! newWindow })}
-                                />
-                            </PanelRow>
-                        </PanelBody>
-                        <PanelBody title="Popup Settings" initialOpen={false}>
+                        <PanelBody title="Popup Settings" initialOpen={true}>
                             <PanelRow>
                                 <ToggleControl
                                     label={__('Show Popup')}
@@ -307,17 +276,13 @@ var allowedBlocks = [
                                             <img src={imageUrl} alt={imageAlt} />
                                         </Fragment>
                                     )}
-
-                                    {/* {imageUrl && <img src={imageUrl} alt={imageAlt} />} */}
-
                                 </div>
                                 <div className="winnerName">
                                     <RichText
-                                        tagName="a"
+                                        tagName="h3"
                                         onChange={(value) => setAttributes({ winnerName: value })}
-                                        formattingControls={['bold', 'italic']}
                                         value={winnerName}
-                                        rel='noopener noreferrer'
+                                        placeholder="Winner Name"
                                     />
                                 </div>
                                 <div className="jobLocation">
@@ -360,7 +325,7 @@ var allowedBlocks = [
         },
         save: (props) => {
             const { attributes, className } = props;
-            const { imageAlt, imageUrl, winnerName, Link, newWindow, jobLocation, details, showPopup } = attributes;
+            const { imageAlt, imageUrl, winnerName, jobLocation, details, showPopup } = attributes;
             return (
                 <div className='col-lg-6 col-md-6 col-sm-12'>
                     <div className='awards-row'>
@@ -370,10 +335,7 @@ var allowedBlocks = [
                             </div>
                             <div className="winnerName">
                                 <RichText.Content
-                                    tagName="a"
-                                    href={Link}
-                                    target={newWindow ? '_blank' : '_self'}
-                                    rel='noopener noreferrer'
+                                    tagName="h3"
                                     value={winnerName === undefined ? '-' : winnerName}
                                 />
                             </div>
