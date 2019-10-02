@@ -651,8 +651,12 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                 <?php
                                                 }
                                             }
+                                            $page_excerpt = get_the_excerpt( $child->ID );
+                                            if ( empty( $page_excerpt ) ) {
+                                                $page_excerpt = 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever…';
+                                            }
                                             ?>
-                                            <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
+                                            <p><?php echo esc_html( $page_excerpt ); ?></p>
                                             <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
                                         <?php
                                         }
