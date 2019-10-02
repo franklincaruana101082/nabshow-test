@@ -24,7 +24,7 @@ if ( false === $related_posts_query ) {
 	$related_posts_query = new WP_Query(
 		array(
 			'post_type'      => 'thought-gallery',
-			'posts_per_page' => 4,
+			'posts_per_page' => 5,
 			'tax_query'      => array(
 				array(
 					'taxonomy' => 'thought-gallery-tags',

@@ -9,7 +9,7 @@
         constructor() {
             super(...arguments);
             this.state = {
-                postTypeList: [],
+                postTypeList: [ { label: 'Select Post Type', value: '' } ],
             };
         }
 

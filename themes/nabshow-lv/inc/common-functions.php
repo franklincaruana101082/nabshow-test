@@ -85,7 +85,7 @@ function nabshow_lv_get_comma_separated_term_list ( $terms = array(), $type = 'n
 			$all_terms[] = $term->{$type};
 		}
 	}
-	return implode( ',', $all_terms );
+	return implode( ' | ', $all_terms );
 }
 
 /**
@@ -111,4 +111,32 @@ function nabshow_lv_get_term_list_options( $taxonomy = '' ) {
 			}
 		}
 	}
+}
+
+/**
+ * Limited content for Session, exhibitors and speakers modal popup
+ * @param $post_id
+ * @param string $planner_url
+ * @return string
+ */
+function nabshow_lv_get_popup_content( $post_id, $planner_url = '' ) {
+    if ( empty( $post_id ) ) {
+        return '';
+    }
+
+	$strip_tag_text = wp_strip_all_tags( get_the_content( $post_id ) );
+	$final_content  = mb_strimwidth( $strip_tag_text, 0, 253, '...<a href="' . $planner_url . '" target="_blank">Read More</a>' );
+	$element_array  = array( 'a' => array( 'href' => array(), 'target' => array() ) );
+
+	echo wp_kses( $final_content, $element_array );
+}
+
+/**
+ * Get mys show code
+ * @return string
+ */
+function nabshow_lv_get_mys_show_code() {
+	$nab_mys_urls = get_option( 'nab_mys_urls' );
+	$show_code    = isset( $nab_mys_urls['show_code'] ) ? $nab_mys_urls['show_code'] : '';
+    return $show_code;
 }

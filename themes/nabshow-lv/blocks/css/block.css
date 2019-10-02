@@ -11,7 +11,7 @@
 .team-main .team-box .feature-img .button-container{background:#9a9a9a;height:330px;padding:0;position:relative}
 .team-main .team-box .feature-img .button-container button{position:absolute;top:0;bottom:0;left:0;right:0;height:100%;background:#9a9a9a;border:none;width:100%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
 .team-main .team-box .feature-img img{width:100%;height:330px;object-fit:cover;object-position:center;vertical-align:middle}
-.team-main .team-box .team-details .name{font-family:"Vollkorn Italic";margin-bottom:5px;font-size:32px;color:#000}
+.team-main .team-box .team-details .name{text-transform:capitalize;font-family:"Vollkorn Italic";margin-bottom:5px;font-size:32px;color:#000}
 .team-main .team-box .team-details *{font-family:"Gotham Book", sans-serif;font-size:16px}
 .team-main .team-box .team-details p{margin-bottom:0}
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout>div .team-box{flex-basis:100%;padding:0}
@@ -477,7 +477,7 @@ ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
 .schedule-main .schedule-data .schedule-row .location{flex-basis:16%}
 .schedule-main .schedule-data .schedule-row .details{flex-basis:16%}
 .schedule-main .schedule-data .schedule-row p{font-size:14px}
-.schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:14px;color:#404040;border-bottom:1px solid #404040}
+.schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:14px}
 .schedule-main .schedule-data .schedule-row .name strong, .schedule-main .schedule-data .schedule-row .name a{font-size:20px;font-family:"Gotham Book", sans-serif;word-break:break-word}
 .schedule-main:last-child{margin-bottom:30px}
 .schedule-main .schedule-data .schedule-row .name a{color:#0f6cb6;border-bottom:0}
@@ -528,7 +528,7 @@ ul.slider-arrow-main li.active{box-shadow:1px 0 4px 0 #00000091}
 .nab-dynamic-slider.session{display:flex}
 .session .item h4{font-size:20px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;min-height:150px;margin-bottom:10px}
 .session .item span.caption{font-size:14px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
-.session .item span.date-time{font-size:14px;display:block;width:100%;margin-bottom:15px}
+.session .item span.date-time{font-size:14px;display:block;width:100%;margin-bottom:15px!important}
 .session.with-masonry .item h4,.session.with-featured .item h4{height:auto;min-height:auto}
 .session .item::after{content:'';display:inline-block;width:100%}
 .session .item::before{content:'';display:inline-block;width:94%;height:94%;position:absolute;border:3px solid #d9d9d9;top:50%;left:50%;transform:translate(-50%, -50%);z-index:-1}
@@ -593,6 +593,7 @@ ul.quote-color li.active{box-shadow:0 0 5px 0 #0085ba}
 .nab-not-to-be-missed-slider .cards.item{float:left;opacity:1;transform:scale(1, 1);padding:0}
 .nab-not-to-be-missed-slider{display:inline-block;width:100%;margin:0 -15px}
 .not-to-be-slider .nab-not-to-be-missed-slider .cards.item{opacity:1;transform:scale(1, 1)}
+.cards.item a:hover .title{text-decoration:underline}
 .not-to-be-slider .slider-card-filter ul.filter-list{margin:0;list-style-type:none;width:74%;position:relative;min-height:42px;padding:0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
 .not-to-be-slider ul.filter-list li{display:inline-block;font-size:14px;color:#0f6cb6;cursor:pointer;padding:0 15px}
 .not-to-be-slider ul.filter-list li:last-of-type{padding-right:0}
@@ -610,7 +611,7 @@ ul.quote-color li.active{box-shadow:0 0 5px 0 #0085ba}
 .news-block .news-datas{padding:25px 30px;background:#fff;border:2px solid #d9d9d9;margin-bottom:10px}
 .news-block h4{margin:0 0 10px 0;font-size:18px}
 .news-block .news-datas p{margin:0 0 5px 0;font-size:14px}
-.news-block .news-datas a.read-more{color:#0f6cb6;font-size:18px;font-family:Gotham Bold;text-decoration:none;text-align:center;display:inline-block;cursor:pointer}
+.news-block .news-datas a.read-more{color:#0f6cb6;font-size:14px;font-family:Gotham Bold;text-decoration:none;text-align:center;display:inline-block;cursor:pointer}
 .news-block .news-datas a.read-more::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .news-block .news-img-block img{margin-bottom:0;vertical-align:top;width:100%}
 .news-block.news-side-img{display:flex}
@@ -875,6 +876,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:94%}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow{color:#0f6cb6;font-size:18px;font-family:'Gotham Bold';text-decoration:none;text-align:center;display:inline-block}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow::after{content:"\f178";font-family:'FontAwesome';margin-left:6px}
+.related-content-box .title{text-transform:capitalize}
 
 /* tracks block css */
 .category-slider{display:flex;flex-wrap:wrap;margin:0 -15px}
@@ -927,6 +929,10 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .box-main.four-grid .box-item{flex-basis:25%}
 .box-main .box-item .box-inner input{border:none;padding:10px 0;outline:none;text-align:center;box-shadow:initial}
 .delegation .box-main .box-item.additem{min-height:230px}
+.official-vendors .box-main .box-item .box-inner{align-items:flex-start;text-align:left}
+.official-vendors .box-main .box-item .description{font-style:normal}
+.official-vendors .box-main .box-item .companyName{font-family:"Gotham Bold", sans-serif}
+.official-vendors .box-main .box-item .box-inner .title{font-family:"Gotham Bold", sans-serif;font-size:24px;line-height:30px;margin-bottom:0.5rem}
 
 .delegation .box-main .box-item .box-inner .title{font-family:"Gotham Bold";font-size:20px;color:#000;line-height:20px;display:block;width:100%}
 .delegation .box-main .box-item .box-inner .country{font-family:"Gotham Book Italic";margin-bottom:25px;font-weight:normal;display:block;width:100%}

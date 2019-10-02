@@ -20,9 +20,9 @@
 .modal-popup-nab .head .details{width:calc(100% - 300px);padding-right:30px;box-sizing:border-box}
 .modal-popup-nab .head .feature{width:300px;text-align:right}
 .modal-popup-nab .head .feature img.round-img{border-radius:50%;width:160px;height:160px;object-fit:cover;object-position:center}
-.modal-popup-nab .head .details .title{font-size:34px;color:#016cb6;font-family:"Vollkorn BoldItalic";font-weight:normal}
+.modal-popup-nab .head .details .title{font-size:34px;font-family:"Vollkorn BoldItalic";font-weight:normal}
 .modal-popup-nab .head .details .sub-title{display:block;font-size:20px;color:#000;font-family:"Gotham Book Italic";margin-bottom:10px}
-.modal-popup-nab .head .details .company{font-size:20px;display:block;font-family:"Gotham Bold", sans-serif;margin-bottom:10px;word-break:break-word}
+.modal-popup-nab .head .details .company{font-size:20px;display:block;font-family:"Gotham Bold", sans-serif;margin-bottom:10px;word-break:break-word;color:#000!important}
 .modal-popup-nab .head .details .year{display:block;font-size:20px;color:#000;margin-bottom:10px}
 .modal-popup-nab .head .details p{font-size:20px}
 .modal-popup-nab .thought-gallery{margin-bottom:20px}
@@ -81,7 +81,7 @@
 .team-main .team-box .feature-img .button-container{background:#9a9a9a;height:330px;padding:0;position:relative}
 .team-main .team-box .feature-img .button-container button{position:absolute;top:0;bottom:0;left:0;right:0;height:100%;background:#9a9a9a;border:none;width:100%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
 .team-main .team-box .feature-img img{width:100%;height:330px;object-fit:cover;object-position:center;vertical-align:middle;position:absolute;top:0;left:0;overflow:hidden;transition:opacity 0.5s linear}
-.team-main .team-box .team-details .name{font-family:"Vollkorn Italic";margin-bottom:5px;font-size:32px;color:#000}
+.team-main .team-box .team-details .name{text-transform:capitalize;font-family:"Vollkorn Italic";margin-bottom:5px;font-size:32px;color:#000}
 .team-main .team-box .team-details *{font-family:"Gotham Book", sans-serif;font-size:16px;font-weight:normal}
 .team-main .team-box .team-details p{margin-bottom:0}
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout>div .team-box{flex-basis:100%;padding:0}
@@ -147,7 +147,7 @@ select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:no
 .schedule-main .schedule-data .schedule-row .location{flex-basis:16%}
 .schedule-main .schedule-data .schedule-row .details{flex-basis:16%}
 .schedule-main .schedule-data .schedule-row p{font-size:14px}
-.schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:14px;color:#404040;border-bottom:1px solid #404040}
+.schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:14px}
 .schedule-main .schedule-data .schedule-row .name strong, .schedule-main .schedule-data .schedule-row .name a{font-size:20px;font-family:"Gotham Book", sans-serif;word-break:break-word}
 .schedule-main:last-child{margin-bottom:30px}
 .schedule-main .schedule-data .schedule-row .name a{color:#0f6cb6;border-bottom:0}
@@ -316,6 +316,9 @@ ol li, ul li{margin-bottom:10px}
 .color-white{color:#fff}
 .display-flex{display:flex}
 .nab-dynamic-list{overflow:hidden}
+.side-program-list .row{margin-right:-10px;margin-left:-10px}
+.side-program-list .row>.wp-block-column{padding:0 10px}
+.loadMoreArticles{flex-basis:100%}
 
 /* Default class css */
 
@@ -580,7 +583,7 @@ section.slider-block{margin-top:70px;margin-bottom:70px}
 .head-section a.location{color:#0f6cb6;font-size:14px;text-decoration:underline;margin-bottom:30px;display:inline-block}
 .related-content-box{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px}
 .related-content-box img.logo{margin-bottom:15px}
-.related-content-box .title{margin-bottom:0;color:#000}
+.related-content-box .title{margin-bottom:0;color:#000;text-transform:capitalize}
 .related-content-box .sub-title{font-size:13px;margin-bottom:20px;display:block}
 
 /* Networking Destination */
@@ -603,13 +606,13 @@ section.slider-block{margin-top:70px;margin-bottom:70px}
 .sidebar-wrap .widget ul{margin:0;padding:0;list-style:none}
 .sidebar-wrap .widget.widget_search input{width:100%;border-radius:0;padding:0 30px 0 20px;border:1px solid #979797;height:40px;outline:none}
 .sidebar-wrap .widget.widget_tags ul li,.sidebar-wrap .widget.widget_contributors ul li{display:inline-block;margin:0 10px 10px 0}
-.sidebar-wrap .widget.widget_tags ul li a, .sidebar-wrap .widget.widget_contributors ul li a{display:inline-block;border:1px solid #b7b7b7;background:#f1f7fc;padding:8px 16px;font-size:20px;color:#000;font-family:"Gotham Bold", sans-serif;line-height:20px;text-decoration:none}
+.sidebar-wrap .widget.widget_tags ul li a, .sidebar-wrap .widget.widget_contributors ul li a{display:inline-block;border:1px solid #b7b7b7;background:#f1f7fc;padding:8px 16px;font-size:14px;color:#000;font-family:"Gotham Bold", sans-serif;line-height:20px;text-decoration:none}
 .sidebar-wrap .widget.widget_contributors{text-align:center}
 .sidebar-wrap .widget.widget_contributors .widget-title,.sidebar-wrap .widget.widget_contributors ul{text-align:left}
 .content-with-sidebar article.post-wrap{margin-bottom:50px}
 .content-with-sidebar article.post-wrap .post-meta-info{border-bottom:1px solid #979797;margin-bottom:20px;padding-bottom:15px}
 .content-with-sidebar article.post-wrap a.btn{padding:0;font-size:14px;line-height:20px;text-transform:capitalize}
-.sidebar-wrap .widget a{color:#0f6cb6;font-size:20px;font-family:"Gotham Bold";font-weight:normal}
+.sidebar-wrap .widget a{color:#0f6cb6;font-size:14px;font-family:"Gotham Bold";font-weight:normal}
 .content-with-sidebar .post-details .cat-info,.content-with-sidebar .post-details h3.post-title,.content-with-sidebar article.post-wrap .post-meta-info{display:block;width:100%}
 .content-with-sidebar .post-details .cat-info{font-size:20px;color:#000;margin-bottom:15px;font-family:"Gotham Bold"}
 .content-with-sidebar .post-details blockquote{padding-left:25px;position:relative;margin:25px 50px 40px 100px;border-left:3px solid #b7b7b7;font-size:28px;color:#000;line-height:36px}
@@ -622,7 +625,7 @@ section.slider-block{margin-top:70px;margin-bottom:70px}
 .single-post-navigation i.post-nav-icon::before{display:none}
 .single-post-navigation .next i.post-nav-icon.fa{transform:rotate(180deg);left:initial!important;right:0}
 .feature-image{margin-bottom:40px;display:block}
-.sidebar-wrap .widget.widget_search input::placeholder, .schedule-glance-filter>.search-box input::placeholder{color:#000;font-family:"Gotham Bold";font-weight:normal}
+.sidebar-wrap .widget.widget_search input::placeholder{color:#000;font-family:"Gotham Bold";font-weight:normal}
 .tag-icon-list ul.social-share{float:right}
 .tag-icon-list ul.social-share li{margin-right:8px}
 .tag-icon-list ul.social-share li a{border:none;font-size:23px;width:28px;height:38px;padding:0 20px;text-align:center;display:flex;align-items:center;text-decoration:none;justify-content:center}
@@ -649,7 +652,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 .author-section{display:inline-block;width:100%}
 .author-info{float:left;width:100%;position:relative;padding:2rem;border-top:1px solid #979797}
 .author-user{display:table;padding-left:25px}
-.author-user .author-heading{font-family:"Vollkorn SemiBoldItalic";color:#000;font-size:28px}
+.author-user .author-heading{font-family:"Vollkorn SemiBoldItalic";color:#000;font-size:28px;text-transform:capitalize}
 .author-avatar .avatar.photo{width:125px;border-radius:50%;height:125px}
 .author-avatar{display:table;float:left}
 .tag-icon-list ul{padding:0;list-style:none;display:inline-block;margin:0}
@@ -709,6 +712,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 .cards .card-details .title,.cards .card-details .sub-category{color:#fff}
 .cards .card-details .title{font-style:italic;font-size:36px;margin:0;line-height:40px}
 .cards .card-details .sub-category{font-family:"Gotham Book", sans-serif;font-size:13px}
+.cards.item a:hover .title{text-decoration:underline}
 
 /* Plan your show section */
 
@@ -743,7 +747,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 .nab-dynamic-slider.session{display:flex}
 .session .item h4{font-size:20px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;margin-bottom:10px}
 .session .item span.caption{font-size:14px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
-.session .item span.date-time{font-size:14px;display:block;width:100%;margin-bottom:15px}
+.session .item span.date-time{font-size:14px;display:block;width:100%;margin-bottom:15px!important}
 .session.with-masonry .item h4,.session.with-featured .item h4{min-height:auto}
 .session .item::after{content:'';display:inline-block;width:100%}
 .session .item::before{content:'';display:inline-block;width:94%;height:94%;position:absolute;border:3px solid #d9d9d9;top:50%;left:50%;transform:translate(-50%, -50%);z-index:-1}
@@ -816,7 +820,7 @@ ul.quote-color li.active{height:50px;margin-top:15px}
 .news-block .news-datas{padding:25px 30px;background:#fff;border:2px solid #d9d9d9;margin-bottom:10px}
 .news-block h4{margin:0 0 10px 0;font-size:18px}
 .news-block .news-datas p{margin:0 0 5px 0;font-size:14px}
-.news-block .news-datas a.read-more{color:#0f6cb6;font-size:18px;font-family:Gotham Bold;text-decoration:none;text-align:left;display:inline-block;cursor:pointer}
+.news-block .news-datas a.read-more{color:#0f6cb6;font-size:14px;font-family:Gotham Bold;text-decoration:none;text-align:left;display:inline-block;cursor:pointer}
 .news-block .news-datas a.read-more::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .news-block .news-img-block img{margin-bottom:0;vertical-align:bottom;width:100%}
 .news-block.news-side-img{display:flex}
@@ -867,7 +871,7 @@ ul.banner-navigation li{margin:0 90px 0 0;list-style:none}
 ul.banner-navigation li:last-child{margin-right:0}
 ul.banner-navigation li a{color:#0f6cb6;font-family:'Gotham Bold';font-size:16px;text-decoration:none}
 
-.nab-not-to-be-missed-slider{display:inline-block;width:100%;margin:0 -15px}
+.nab-not-to-be-missed-slider{display:inline-block;width:100%;margin:0 -15px;overflow:hidden}
 .not-to-be-slider .nab-not-to-be-missed-slider .cards.item{opacity:1;transform:scale(1, 1)}
 .not-to-be-slider .slider-card-filter ul.filter-list{margin:0;list-style-type:none;width:74%;position:relative;min-height:42px;padding:0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
 .not-to-be-slider ul.filter-list li{display:inline-block;font-size:14px;color:#0f6cb6;cursor:pointer;padding:0 15px}
@@ -899,7 +903,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:'Gotham Bold';font-size:16px
 /* Exhibitor Slider OFF CSS */
 .nab-dynamic-list.exhibitors{display:flex;flex-wrap:wrap;margin:0 -15px}
 .nab-dynamic-list.exhibitors .item{width:25%;padding:0 15px;text-align:center;margin-bottom:50px;align-items:flex-start}
-.nab-dynamic-list.exhibitors .item .item-inner{width:100%;border:3px solid #d9d9d9;padding:15px 15px 25px;height:100%}
+.nab-dynamic-list.exhibitors .item .item-inner{width:100%;border:3px solid #d9d9d9;padding:15px 15px 25px;height:100%;display:flex;flex-direction:column}
 .nab-dynamic-list .item a{text-decoration:none;font-family:"Gotham Bold", sans-serif;font-size:18px}
 .nab-dynamic-list.exhibitors .item .item-inner>span{font-style:italic;margin-bottom:15px;display:inline-block;width:100%}
 .nab-dynamic-list.exhibitors .item .item-inner>h4{font-size:20px;margin-top:20px}
@@ -947,7 +951,7 @@ ul.alphabets-list{display:flex;flex-wrap:wrap;padding:0!important}
 ul.alphabets-list li{width:45px;height:45px;list-style:none;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #69767a;margin-right:12px;margin-bottom:15px!important;cursor:pointer;font-family:"Vollkorn italic", serif;font-size:25px}
 ul.alphabets-list li.active{background:#0f6cb6;color:#fff;border-color:#0f6cb6}
 .main-filter p:empty, .main-filter br{display:none}
-ul.alphabets-list li.clear{display:none;line-height:45px;width:60px;text-align:center;font-size:20px}
+ul.alphabets-list li.clear{display:none;line-height:50px;width:60px!important;text-align:center;font-size:20px}
 .product-main .product-item .product-inner .title a{color:inherit}
 .main-filter{margin-bottom:50px}
 .products-winners-filter label{font-family:"Gotham Bold", sans-serif}
@@ -965,6 +969,7 @@ body .quote-slider .quote-inner .quote-item:first-child, .nab-media-slider .nab-
 .browse-filter label{font-size:20px;font-family:"Gotham Bold", sans-serif}
 .browse-filter .search-box{margin-bottom:30px}
 .browse-filter select#browse-category{width:200px;max-width:100%}
+.nab-dynamic-list .item.featured .item-inner{background:#f1f7fc}
 .browse-filter .search-box input#browse-search{padding:0 40px 0 10px}
 .browse-filter .search-box .search-item{width:450px;max-width:100%}
 .browse-filter .search-box .search-item::before{right:10px;left:initial!important}
@@ -977,7 +982,7 @@ body .quote-slider .quote-inner .quote-item:first-child, .nab-media-slider .nab-
 .browse-filter .category{margin-bottom:20px}
 .browse-filter.main-filter.row{margin-bottom:20px}
 .browse-filter ul.alphabets-list li{width:50px;height:50px}
-.main-filter .featured-btn{width:115px;height:48px;border:1px solid #69767a;border-radius:0;background:#fff;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px}
+.main-filter .featured-btn{width:115px;height:48px;border:1px solid #69767a!important;border-radius:0;background:#fff;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px;margin-right:15px}
 .main-filter .featured-btn.active{background:#f1f7fc}
 .four-box-main{display:flex;flex-wrap:wrap;margin:0 -20px}
 .four-box-main .box-item{flex-basis:25%;padding:0 20px;margin-bottom:40px;box-sizing:border-box;display:flex}
@@ -1165,10 +1170,35 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .slider-arrow-main .no-data{display:none}
 .load-more-sessions{margin-top:20px}
 
+/* nab official vendor */
+.official-vendors .box-main .box-item .box-inner{align-items:flex-start;text-align:left}
+.official-vendors .box-main .box-item .description{font-style:normal}
+.official-vendors .box-main .box-item .companyName{font-family:"Gotham Bold", sans-serif}
+.official-vendors .box-main .box-item .companyName, .official-vendors .box-main .box-item .type{margin:0}
+.official-vendors .box-main .box-item .box-inner .title{font-family:"Gotham Bold", sans-serif;font-size:24px;line-height:30px;margin-bottom:0.5rem}
+.ov-filter .badgeslist{display:inline-block}
+.ov-filter{display:flex;align-items:flex-end}
+.ov-filter .badgeslist a{margin-bottom:0}
+.ov-filter .badgeslist a.active{background:#0f6cb6;color:#fff}
+
+/* related-content-custom-box */
+.related-content-custom-box{position:relative}
+.related-content-custom-box .related-content-custom-item{position:absolute;bottom:0;width:100%}
+.related-content-custom-box .related-content-box{position:relative;z-index:2}
+.related-content-custom-box .related-content-custom-item .wp-block-column{position:relative;z-index:1}
+
+.browse-speakers-filter input#speaker-title-search{padding:0 40px 0 10px}
+.browse-speakers-filter .select-items input{background:#fff;width:100%;height:40px;padding:0 10px 0 10px;outline:none;border:1px solid #69767a}
+.main-filter .orderby{width:60px;height:48px;border:1px solid #69767a!important;border-radius:0;background:#fff;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px}
+.main-filter .chechbox-main{display:flex;flex-wrap:wrap}
+.main-filter .chechbox-main .custom-check-box{padding-right:15px;flex-basis:16.666%;display:flex;align-items:center;min-height:30px}
+.main-filter .chechbox-main .custom-check-box label{font-size:16px}
+.load-more-sessions a.btn-default{margin-bottom:30px}
+
 /* nab badge discounts */
 .badge-discounts .box-main .box-item .box-inner .title{margin-bottom:13px}
 .badge-discounts .box-main .box-item .box-inner span.dates, .badge-discounts .badge-title{margin-bottom:17px}
 .badge-discounts.hidden{display:none}
 .badgeslist a{background:#f1f7fc;padding:13px 22px;display:inline-block;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a;font-size:18px;cursor:pointer;margin-bottom:10px;margin-right:13px}
-#box-main-listing{width:calc(100% - 320px);padding-right:30px}
+#box-main-listing, .ov-filter{width:calc(100% - 320px);padding-right:30px}
 .badge-discount-filter{align-items:center;flex-wrap:wrap}

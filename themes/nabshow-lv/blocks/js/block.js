@@ -20,3 +20,4 @@ import './block/delegation/block';
 import './block/products-winners-award/block';
 import './block/photos/block';
 import './block/badge-discounts/block';
+import './block/official-vendor/block';

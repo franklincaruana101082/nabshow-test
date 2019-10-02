@@ -42,7 +42,7 @@
                         <h3>Resources for:</h3>
                         <ul>
                             <li><a href="#" class="btn-default">Attendees</a></li>
-                            <li><a href="#" class="btn-default">Exhbitiors</a></li>
+                            <li><a href="#" class="btn-default">Exhibitors</a></li>
                             <li><a href="#" class="btn-default">Sponsors</a></li>
                             <li><a href="#" class="btn-default">Partners</a></li>
                             <li><a href="#" class="btn-default">Speakers</a></li>
