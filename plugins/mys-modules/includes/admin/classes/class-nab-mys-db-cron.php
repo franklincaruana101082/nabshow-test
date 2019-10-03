@@ -470,7 +470,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							$hall                = $single_booth['hall'];
 							$pavilion            = $single_booth['pavilion'];
 							$boothnumber_array[] = $boothnumber = $single_booth['boothnumber'];
-							$booth_hall_string[] = "$boothnumber@$hall";
+							$booth_hall_string[] = "$boothnumber@$hall@$pavilion";
 
 							if ( ! empty( $hall ) ) {
 								$halls[] = $hall;

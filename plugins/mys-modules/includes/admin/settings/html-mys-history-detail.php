@@ -58,7 +58,7 @@ $history_data = $this->history_data;
 
 		foreach ( $history_data as $groupid => $type_wise_data ) {
 
-			$detail_group_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid );
+			$detail_group_url = admin_url( "admin.php?page=mys-history&groupid=$groupid&timeorder=asc" );
 
 			echo "<td colspan='10' class='group-title'>Group ID: <a href='" . esc_url( $detail_group_url ) . "'> " . esc_html( $groupid ) . "</a></td>";
 
@@ -204,14 +204,14 @@ $history_data = $this->history_data;
 								$h_status  = "<i class='fas fa-check-double' style='color:#008000'></i><br>Sync Success";
 								$row_class = 'status-success sync-success';
 								break;
-							case 0:
-							case 3:
-								$h_status  = "<i class='fas fa-sync fa-spin'></i><br>Sync In Progress";
-								$row_class = 'status-in-progress';
-								break;
 							case 4:
 								$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i><br>Sync Force Stopped";
 								$row_class = 'status-force-failed';
+								break;
+							case 0:
+							case 3:
+                            	$h_status  = "<i class='fas fa-sync fa-spin'></i><br>Sync In Progress";
+								$row_class = 'status-in-progress';
 								break;
 						}
 
@@ -263,7 +263,7 @@ $history_data = $this->history_data;
 								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="total-count"><?php echo esc_html( $count_total_data_items ); ?></td>
 								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$count_datawise_items/$count_group_items $data_type", $allowed_tags ); ?></td>
 								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="heading-row"><?php echo wp_kses( $item_basic_data, $allowed_tags ); ?></td>
-								<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="details-row"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></td>
+                                <td rowspan="<?php echo esc_attr( $row_span ); ?>" class="details-row"><span class="details-row-inner"><i class="fa fa-info"></i><span class="mys-response"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></span></span></td>
 							<?php } ?>
 
 							<td class="total-assignees"><?php echo esc_html( $count_total_assignees ); ?></td>

@@ -34,7 +34,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 			$this->current_request = $current_request;
 			$this->history_id      = $history_id;
-			//$this->data_array      = $data;
 			$this->data_json = wp_json_encode( $data );
 
 			if ( "modified-sessions" === $current_request ) {
@@ -215,17 +214,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				}
 
-				//ne_testing purpose only.. remove beore PR.
-				/*if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
-				}
-				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] - 1 : 10000;
-
-				if ( $total_rows < $affected_items ) {
-					$affected_items = $total_rows + 1;
-				}*/
-
-
 				foreach ( $master_array as $item_mys_id => $item ) {
 
 					$item_status = $this->session_modified_array[ $item_mys_id ];
@@ -336,37 +324,14 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					"SELECT * FROM {$wpdb->prefix}mys_history
 							WHERE HistoryStatus = '0'
 							AND HistoryGroupID != %s
-							AND HistoryDataType NOT LIKE '%modified-exhibitors%'"
+							AND HistoryDataType NOT LIKE '%exhibitor%'"
 					, $group_id )
 			); //db call ok; no-cache ok
 
-			// Equal to 1, there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if thre request type is not 1.
+			// Rows found? means there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if the request type is not 1 (i.e. not for sessions).
 			if ( count( $pending_data ) > 0 ) {
 
-				$mys_data_attempt = get_option( 'mys_data_attempt' );
-
-				$mys_data_attempt = isset( $mys_data_attempt ) ? (int) $mys_data_attempt + 1 : 1;
-
-				update_option( 'mys_data_attempt', $mys_data_attempt );
-
-				if ( $mys_data_attempt >= 3 ) {
-
-					update_option( 'mys_data_attempt', 0 );
-
-					// send email..
-					$stuck_groupid = $pending_data[0]->HistoryGroupID;
-
-					NAB_MYS_DB_CRON::nab_mys_static_reset_sequence( $stuck_groupid );
-
-					$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
-
-					$email_subject = $mys_data_attempt . ' Attempts Failed - Tried to Sync Sessions.';
-					$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
-
-					NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
-				}
-
-				return count( $pending_data );
+				return $pending_data;
 
 			} else {
 

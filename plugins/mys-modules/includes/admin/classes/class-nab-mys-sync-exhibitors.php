@@ -58,8 +58,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 			$this->nab_mys_set_ajax_data();
 
-			//$this->requested_for = ( '' === $this->past_request || null === $this->past_request ) ? 'exhibitors' : 'single-exhibitor';
-
 			//checking lock
 			$this->nab_mys_sync_check_lock_exh();
 
@@ -81,9 +79,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
 
 			if ( "exhibitors" === $this->current_request ) {
-
-				//fetch categories...
-				//$this->nab_mys_sync_exh_categories();
 
 				//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
 				$this->nab_mys_set_groupid();
@@ -150,7 +145,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 0, count( $exhibitor_modified_array ) );
 
 					//Let's add rows with blank mys data.
-					$this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor', $this->history_id, $this->group_id, $exhibitor_modified_array, 6 );
+					$bulk_result = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor', $this->history_id, $this->group_id, $exhibitor_modified_array, 6 );
+					if ( 2 === $bulk_result['bulk_status'] ) {
+						$error_message = "Failed to store details in Database.";
+						$this->nab_mys_display_error( $error_message );
+					}
 				}
 
 				$this->total_counts = count( $exhibitor_modified_array );
@@ -266,6 +265,23 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 					$this->finished_counts = $this->nab_mys_db_exh->nab_mys_db_rows_ready_total_getter( $this->group_id );
 					$this->requested_for   = 'single-exhibitor';
+
+					$exh_prev_finished_counts = (int) get_option( 'exh_prev_finished_counts' );
+
+					//Update Finished Counts to check it in the next attempt.
+					update_option( 'exh_prev_finished_counts', $this->finished_counts );
+
+					if ( $this->finished_counts === $exh_prev_finished_counts ) {
+
+						//Check attempt count and stop if increased by 3.
+						$mail_data['stuck_groupid'] = $this->group_id;
+						$mail_data['data']          = 'Exhibitors';
+						$mail_data['tag']           = 'mys_data_attempt_exhibitors';
+
+						$this->nab_mys_increase_attempt( $mail_data );
+					}
+				} else {
+					update_option( 'exh_prev_finished_counts', 0 );
 				}
 			}
 
@@ -390,11 +406,14 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 							$data_json = wp_json_encode( $exh_data );
 							$this->nab_mys_db_exh->nab_mys_db_set_data_json( $data_json );
 
-							$bulk_result = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor-csv', $history_id, $this->group_id, $exh_data, 0 );
-
+							$bulk_result        = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor-csv', $history_id, $this->group_id, $exh_data, 0 );
 							$no_of_exh_inserted = $bulk_result['row_counts'];
 							$bulk_status        = $bulk_result['bulk_status'];
 
+							if ( 2 === $bulk_status ) {
+								$error_message = "Failed to store details in Database.";
+								$this->nab_mys_display_error( $error_message );
+							}
 							$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors-csv", "update", $this->group_id, $bulk_status, $no_of_exh_inserted );
 						} else {
 							$success = 4;

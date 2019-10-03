@@ -55,6 +55,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				'limit',
 				'orderby',
 				'order',
+				'timeorder',
 			);
 
 			foreach ( $get_vars as $name ) {
@@ -64,20 +65,18 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			//Define Variables
 			$this->request_data['history_listing_url'] = admin_url( 'admin.php?page=mys-history' );
 			$this->request_data['paged']               = null !== $this->request_data['paged'] ? (int) $this->request_data['paged'] : 1;
-			$this->request_data['orderby']             = null !== $this->request_data['orderby'] ? $this->request_data['orderby'] : '';
+			$orderby                                   = $this->request_data['orderby'] = null !== $this->request_data['orderby'] ? $this->request_data['orderby'] : '';
 
-			/*if('listing' === $this->page_template) {
-				$this->request_data['orderby'] = 'HistoryStartTime';
-			} else {
-				$this->request_data['orderby'] = 'DataStartTime';
-			}*/
-
-			if ( empty( $this->request_data['orderby'] ) ) {
-				$this->request_data['orderby'] = 'listing' === $this->page_template ? 'HistoryStartTime' : 'DataStartTime';
-			}
-			$this->request_data['order']         = null !== $this->request_data['order'] ? $this->request_data['order'] : 'desc';
+			$order                               = $this->request_data['order'] = null !== $this->request_data['order'] ? $this->request_data['order'] : 'desc';
 			$this->request_data['order_reverse'] = 'asc' === $this->request_data['order'] ? 'desc' : 'asc';
 
+			$default_timecol                         = 'listing' === $this->page_template ? 'HistoryStartTime' : 'DataID';
+			$timeorder                               = $this->request_data['timeorder'] = null !== $this->request_data['timeorder'] ? $this->request_data['timeorder'] : 'desc';
+			$this->request_data['timeorder_reverse'] = 'desc' === $timeorder ? 'asc' : 'desc';
+			if ( ! empty( $orderby ) ) {
+				$this->request_data['order_clause'][] = "$orderby $order";
+			}
+			$this->request_data['order_clause'][]    = "$default_timecol $timeorder";
 		}
 
 		private function nab_mys_history_set_filters() {
@@ -88,15 +87,16 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				$name_date_col     = 'HistoryStartTime';
 				$name_datatype_col = 'HistoryDataType';
 
-				$this->request_data['data_type'] = null === $this->request_data['data_type'] || 'all' === $this->request_data['data_type'] ? '-' : $this->request_data['data_type'];
+				$this->request_data['data_type'] = null === $this->request_data['data_type'] || 'all' === $this->request_data['data_type'] ? '%-%' : $this->request_data['data_type'];
 
 				// User - Filter
-				$args                            = array(
+				$args = array(
 					'blog_id' => '0',
 					'role'    => 'administrator',
 					'orderby' => 'display_name',
 					'order'   => 'ASC'
 				);
+
 				$this->request_data['all_users'] = get_users( $args );
 				$user_ids                        = array();
 				foreach ( $this->request_data['all_users'] as $u ) {
@@ -165,7 +165,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			// Data Type- Filter
 			if ( null !== $this->request_data['data_type'] && 'all' !== $this->request_data['data_type'] ) {
-				$this->where_clause_history[] = "$name_datatype_col LIKE '%" . $this->request_data['data_type'] . "%'";
+				$this->where_clause_history[] = "$name_datatype_col LIKE '" . $this->request_data['data_type'] . "'";
 			}
 
 		}
@@ -178,39 +178,44 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$current_url_without_pageno                       = explode( '&paged=', $current_url );
 			$this->request_data['current_url_without_pageno'] = $current_url_without_pageno[0];
 			$current_url_without_order                        = explode( '&orderby=', $current_url );
-			$current_url_without_order                        = $current_url_without_order[0];
+			$current_url_without_order                        = isset( $current_url_without_order[1] ) ? $current_url_without_order[0] : explode( '&timeorder=', $current_url );
+			$current_url_without_order                        = is_array( $current_url_without_order ) ? $current_url_without_order[0] : $current_url_without_order;
 
 			$order                = $this->request_data['order'];
-			$sorted_heading_class = "sorted $order";
-			$orderby              = $this->request_data['orderby'];
 			$order_reverse        = $this->request_data['order_reverse'];
-
-			$sorted_heading_link  = "<a href='$current_url_without_order&orderby=$orderby&order=$order_reverse'>";
+			$timeorder            = $this->request_data['timeorder'];
+			$timeorder_reverse    = $this->request_data['timeorder_reverse'];
+			$sorted_heading_class = "sorted $order";
+			$time_heading_class = "sorted $timeorder";
+			$orderby              = $this->request_data['orderby'];
+			$first_order          = ! empty( $orderby ) ? "&orderby=$orderby&order=$order" : '';
+			$sorted_heading_link  = "<a href='$current_url_without_order&orderby=$orderby&order=$order_reverse&timeorder=$timeorder'>";
 			$sorted_heading_close = "<span class='sorting-indicator'></span></a>";
 
+			//intialize
+			$this->sorting_data['datatype_row_class'] = $this->sorting_data['user_row_class'] = $this->sorting_data['start_row_class'] = '';
+
 			$datatype_row_title                              = 'Data Type';
-			//$this->sorting_data['history_datatype_row_html'] = "<a href='$current_url_without_order&orderby=HistoryDataType'>$datatype_row_title</a>";
-			$this->sorting_data['history_datatype_row_html'] = $datatype_row_title;
-			//$this->sorting_data['datatype_row_html']         = "<a href='$current_url_without_order&orderby=DataType'>$datatype_row_title</a>";
-			$this->sorting_data['datatype_row_html']         = $datatype_row_title;
+			$this->sorting_data['history_datatype_row_html'] = "<a href='$current_url_without_order&orderby=HistoryDataType&timeorder=$timeorder'>$datatype_row_title</a>";
+			$this->sorting_data['datatype_row_html']         = "<a href='$current_url_without_order&orderby=DataType&timeorder=$timeorder'>$datatype_row_title</a>";
 
 			$user_row_title                      = 'User';
-			//$this->sorting_data['user_row_html'] = "<a href='$current_url_without_order&orderby=HistoryUser'>$user_row_title</a>";
-			$this->sorting_data['user_row_html'] = $user_row_title;
+			$this->sorting_data['user_row_html'] = "<a href='$current_url_without_order&orderby=HistoryUser&timeorder=$timeorder'>$user_row_title</a>";
 
+			//Default Ordering of Time
 			$start_row_title                      = 'Start Time';
-			//$this->sorting_data['start_row_html'] = "<a href='$current_url_without_order&orderby=HistoryStartTime'>$start_row_title</a>";
-			$this->sorting_data['start_row_html'] = $start_row_title;
-
+			$this->sorting_data['start_row_class'] = $time_heading_class;
+			$this->sorting_data['start_row_html'] = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$start_row_title<span class='sorting-indicator'></span></a>";
+			//for detail
 			$dataid_row_title                      = 'Data ID';
-			//$this->sorting_data['dataid_row_html'] = "<a href='$current_url_without_order&orderby=DataID'>$dataid_row_title</a>";
-			$this->sorting_data['dataid_row_html'] = $dataid_row_title;
+			$this->sorting_data['dataid_row_class'] = $time_heading_class;
+			$this->sorting_data['dataid_row_html'] = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$dataid_row_title<span class='sorting-indicator'></span></a>";
 
-			/*switch ( $this->request_data['orderby'] ) {
-				case 'DataID':
+			switch ( $this->request_data['orderby'] ) {
+				/*case 'DataID':
 					$this->sorting_data['dataid_row_class'] = $sorted_heading_class;
 					$this->sorting_data['dataid_row_html']  = $sorted_heading_link . $dataid_row_title . $sorted_heading_close;
-					break;
+					break;*/
 				case 'DataType':
 					$this->sorting_data['datatype_row_class'] = $sorted_heading_class;
 					$this->sorting_data['datatype_row_html']  = $sorted_heading_link . $datatype_row_title . $sorted_heading_close;
@@ -223,12 +228,11 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 					$this->sorting_data['user_row_class'] = $sorted_heading_class;
 					$this->sorting_data['user_row_html']  = $sorted_heading_link . $user_row_title . $sorted_heading_close;
 					break;
-				case 'HistoryStartTime':
+				/*case 'HistoryStartTime':
 					$this->sorting_data['start_row_class'] = $sorted_heading_class;
 					$this->sorting_data['start_row_html']  = $sorted_heading_link . $start_row_title . $sorted_heading_close;
-					break;
-			}*/
-
+					break;*/
+			}
 		}
 
 		private function nab_mys_history_set_pagination() {
@@ -328,8 +332,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			//Get History Data
 			$this->nab_mys_history_get_data();
 
-			//$page_name = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
-
 			//Ordering
 			$this->nab_mys_history_set_ordering();
 
@@ -358,12 +360,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$offset               = $this->request_data['offset'];
 			$limit                = $this->request_data['limit'];
 			$keyword              = $this->request_data['s'];
-			$orderby              = $this->request_data['orderby'];
-			$order                = $this->request_data['order'];
+			$order_clause  = $this->request_data['order_clause'];
+			$order_clause  = implode( ', ', $order_clause );
 
 			$data_rows = $wpdb->get_results(
 				$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}mys_data
-											WHERE $where_clause_history ORDER BY $orderby $order LIMIT %d OFFSET %d ", $limit, $offset ) ); //phpcs:ignore
+											WHERE $where_clause_history ORDER BY $order_clause LIMIT %d OFFSET %d ", $limit, $offset ) ); //phpcs:ignore
 
 			$history_total = $wpdb->get_var(
 				"SELECT COUNT(DataID) FROM {$wpdb->prefix}mys_data
@@ -415,8 +417,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 					//stop the sibling items from search results if they dont have a searched keyword.
 					if ( null !== $keyword && ! empty( $keyword ) ) {
-						$keyword = strtolower($keyword);
-						$item_json = strtolower($item_json);
+						$keyword   = strtolower( $keyword );
+						$item_json = strtolower( $item_json );
 						//global search
 						if ( strpos( $item_json, $keyword ) === false ) {
 							continue;
@@ -468,8 +470,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$where_history = $this->where_clause_history;
 			$where_history = implode( ' AND ', $where_history );
-			$orderby       = $this->request_data['orderby'];
-			$order         = $this->request_data['order'];
+			$order_clause  = $this->request_data['order_clause'];
+			$order_clause  = implode( ', ', $order_clause );
 			$limit         = $this->request_data['limit'];
 			$offset        = $this->request_data['offset'];
 
@@ -477,7 +479,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				$wpdb->prepare( "SELECT h1.* FROM {$wpdb->prefix}mys_history as h1										
 										INNER JOIN (										
 											SELECT DISTINCT HistoryGroupID FROM {$wpdb->prefix}mys_history
-											WHERE $where_history ORDER BY $orderby $order LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY $orderby $order ", $limit, $offset ) ); //phpcs:ignore
+											WHERE $where_history ORDER BY $order_clause LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY $order_clause ", $limit, $offset ) ); //phpcs:ignore
 
 			$history_data = array();
 			foreach ( $history_result as $h ) {

@@ -69,6 +69,13 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 				$result = false === $result ? 2 : 1;
 
+				if ( false === $result ) {
+					$result = 2;
+					$this->nab_mys_db_fail_mail( $this->group_id, 'bulk Insert ' . $this->current_request );
+				} else {
+					$result = 1;
+				}
+
 				return $result;
 			}
 		}
@@ -258,18 +265,18 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
-		public function nab_mys_sync_email( $email_subject, $email_body ) {
+		public function nab_mys_db_fail_mail( $stuck_groupid, $failed_action, $force_reset = false ) {
 
-			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
-			$headers[] = 'From: NABShow <noreply@nabshow.com>';
-			$headers[] = 'Cc: nitish.kaila@multidots.com'; // note you can just use a simple email address
+			if ( true === $force_reset ) {
+				NAB_MYS_DB_CRON::nab_mys_static_reset_sequence( $stuck_groupid );
+			}
 
-			$mail_status = wp_mail( 'faisal.alvi@multidots.com', $email_subject, $email_body, $headers );
+			$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
 
-			echo '<pre>';
-			print_r( get_defined_vars() );
-			die( '<br><---died here' );
+			$email_subject = "DB Action Failed - Tried to $failed_action.";
+			$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
 
+			NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
 		}
 
 	}

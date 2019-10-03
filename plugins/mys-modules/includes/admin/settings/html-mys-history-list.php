@@ -53,7 +53,7 @@ $history_data = $this->history_data;
 
 				$offset ++;
 
-				$detail_history_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid .'&order=asc' );
+				$detail_history_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid .'&timeorder=asc' );
 
 				$single_history = $single_history_data['Details'];
 				$item_totals    = $single_history_data['Totals'];

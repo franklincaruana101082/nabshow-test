@@ -259,7 +259,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			$mys_request_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] . '/Authorize' : '';
 
 			//Stop the flow if Main URL is empty.
-			if ( empty($mys_request_url) ) {
+			if ( empty( $mys_request_url ) ) {
 				return false;
 			}
 
@@ -313,8 +313,8 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 			$main_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
 
-			$fromDate       = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . '00:00:00';
-			$fromDate       = date( "Y-m-d h:i:s", strtotime( $fromDate ) );
+			$fromDate = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . '00:00:00';
+			$fromDate = date( "Y-m-d h:i:s", strtotime( $fromDate ) );
 
 			$toDate         = current_time( 'Y-m-d h:i:s' );
 			$modified_dates = '?fromDate=' . $fromDate . '&toDate=' . $toDate;
@@ -419,6 +419,46 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 				//CRON
 				echo esc_html( $error_message );
 				die();
+			}
+		}
+
+		public function nab_mys_increase_attempt( $mail_data, $force_stop = false ) {
+
+			$sequence_resetted = 0;
+			$stuck_groupid     = $mail_data['stuck_groupid'];
+			$data              = $mail_data['data'];
+			$tag               = $mail_data['tag'];
+			$default_message   = 'Please click the Pull button one more time. Previous pull request is blocked forcefully after several attempts. Check your inbox for more details.';
+			$error_message     = isset( $mail_data['error_message'] ) ? $mail_data['error_message'] : $default_message;
+
+			$mys_data_attempt = get_option( $tag );
+			$mys_data_attempt = isset( $mys_data_attempt ) ? (int) $mys_data_attempt + 1 : 1;
+
+			update_option( $tag, $mys_data_attempt );
+
+			if ( $mys_data_attempt >= 3 ) {
+				$force_stop        = true;
+				$sequence_resetted = 1;
+
+				update_option( $tag, 0 );
+				if ( 'mys_data_attempt_exhibitors' === $tag ) {
+					update_option( 'exh_prev_finished_counts', 0 );
+				}
+
+				// send email..
+				NAB_MYS_DB_CRON::nab_mys_static_reset_sequence( $stuck_groupid );
+
+				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
+
+				$email_subject = "$mys_data_attempt Attempts Failed - Tried to Sync $data.";
+				$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
+
+				NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
+			}
+
+			if ( true === $force_stop ) {
+				$error_message = 1 === $sequence_resetted ? $default_message : $error_message;
+				$this->nab_mys_display_error( $error_message );
 			}
 		}
 	}

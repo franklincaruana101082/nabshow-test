@@ -116,11 +116,14 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 				$lock_status = $this->nab_mys_db_sess->nab_mys_db_check_lock( $this->group_id );
 
-				if ( "open" !== $lock_status && ( null === $this->past_request || empty($this->past_request) ) ) {
+				if ( "open" !== $lock_status && ( null === $this->past_request || empty( $this->past_request ) ) ) {
 
-					$error_message = "New pull request is locked because already 1 request in progress, please wait until it finishes.";
+					$mail_data['stuck_groupid'] = $lock_status[0]->HistoryGroupID;
+					$mail_data['data']          = 'Sessions';
+					$mail_data['tag']           = 'mys_data_attempt_sessions';
+					$mail_data['error_message'] = 'New pull request is locked because already 1 request in progress, please wait until it finishes.';
 
-					$this->nab_mys_display_error( $error_message );
+					$this->nab_mys_increase_attempt( $mail_data, true );
 				}
 
 			}
@@ -143,25 +146,13 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			$custom_status = $this->nab_mys_db_sess->nab_mys_db_insert_data_to_custom( $this->current_request, $mys_response_body, $this->history_id, $this->flow );
 
 			if ( false === $custom_status['status'] ) {
-
 				//This will finish the process..
 				$this->requested_for = 'empty';
-
-				/*$error_message = "Modifed Sessions array is empty";
-				$this->nab_mys_display_error( $error_message );*/
-
 			} else if ( 'failed' === $custom_status['status'] ) {
-
 				$error_message = "Failed to store details in Database.";
-
 				$this->nab_mys_display_error( $error_message );
-
-				//ne_rem - send email...
-
 			}
-
 			$this->nab_mys_sync_sess_reloop( $custom_status );
-
 		}
 
 		private function nab_mys_sync_sess_reloop( $custom_status ) {
@@ -186,7 +177,6 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 					)
 				);
 				wp_die();
-
 
 			} else {
 
@@ -240,7 +230,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			}
 
 			//If its the begenning, the first item from above array should be fethed.
-			if ( ! isset( $this->past_request ) || empty($this->past_request) ) {
+			if ( ! isset( $this->past_request ) || empty( $this->past_request ) ) {
 				return $requested_for_stack[0];
 			}
 
