@@ -30,7 +30,8 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
                 <ul>
                     <li>API to Custom Cron</li>
                     <li>Custom to Master Cron</li>
-                    <li>Auto Flush History</li>
+                    <li>Flush History</li>
+                    <li>Reset Plugin</li>
                 </ul>
                 <hr />
                 <i>Version 1.1.1: Initial Plugin Creation</i>

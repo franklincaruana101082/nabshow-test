@@ -909,7 +909,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: NABShow <noreply@nabshow.com>';
-			$headers[] = 'Cc: nitish.kaila@multidots.com'; // note you can just use a simple email address
+			$headers[] = 'Cc: Nitish Kaila <nitish.kaila@multidots.com>';
+			$headers[] = 'Cc: Mayur Keshwani <mayur.keshwani@multidots.com>';
 
 			$mail_status = wp_mail( 'faisal.alvi@multidots.com', $email_subject, $email_body, $headers );
 
