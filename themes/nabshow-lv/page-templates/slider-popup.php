@@ -21,7 +21,8 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 	$popup_query      = new WP_Query( $popup_query_args );
 
 	if ( $popup_query->have_posts() ) {
-		?>
+		$show_code  = nabshow_lv_get_mys_show_code();
+    ?>
         <!-- person popup -->
         <div class="modal-popup-nab">
             <div class="modal-popup-nab-body">
@@ -37,9 +38,11 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 					if ( "speakers" === $current_type ) {
 
-						$speaker_title = get_post_meta( $query_post_id, 'title', true );
-						$company       = get_post_meta( $query_post_id, 'company', true );
-						$session_id    = get_post_meta( $query_post_id, 'sessionid', true );
+						$speaker_title       = get_post_meta( $query_post_id, 'title', true );
+						$company             = get_post_meta( $query_post_id, 'company', true );
+						$session_id          = get_post_meta( $query_post_id, 'sessionid', true );
+						$speaker_id          = get_post_meta( $query_post_id, 'speakerid', true );
+                        $speaker_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/speaker-details.cfm?speakerid=' . $speaker_id;
 
 						if ( has_post_thumbnail() ) {
 							$speaker_thumbnail_url = get_the_post_thumbnail_url();
@@ -51,7 +54,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                             <div class="mb50">
                                 <div class="head">
                                     <div class="details">
-                                        <h3 class="title"><?php echo esc_html( get_the_title() ); ?></h3>
+                                        <h3 class="title"><a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
 										<?php
 										if ( ! empty( $speaker_title ) ) {
 											?>
@@ -64,15 +67,14 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											<?php
 										}
 										?>
-                                        <span class="year">Committee Category | Term Ending Year</span>
-                                        <p><a href="#">Email</a> | Phone</p>
+                                        <p><a href="#">Program Name</a></p>
                                     </div>
                                     <div class="feature">
                                         <img class="round-img" src="<?php echo esc_url( $speaker_thumbnail_url ); ?>"
                                              alt="speaker">
                                     </div>
                                 </div>
-								<?php the_content(); ?>
+                                <?php nabshow_lv_get_popup_content( $query_post_id, $speaker_planner_url ); ?>
                             </div>
 							<?php
 							if ( ! empty( $session_id ) ) {
@@ -107,14 +109,26 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											$date               = get_post_meta( $speaker_session_id, 'date', true );
 											$start_time         = get_post_meta( $speaker_session_id, 'starttime', true );
 											$end_time           = get_post_meta( $speaker_session_id, 'endtime', true );
-											$date               = date_format( date_create( $date ), 'M d' );
-											$start_time         = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
-											$end_time           = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
-											$session_schedule   = $date . ' | ' . $start_time . ' - ' . $end_time;
+
+											if ( ! empty( $date ) ) {
+												$date = date_format( date_create( $date ), 'l, F j, Y' );
+											}
+											if ( ! empty( $start_time ) ) {
+												$start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+												$start_time = str_replace(':00', '', $start_time );
+											}
+											if ( ! empty( $end_time ) ) {
+												$end_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+												$end_time = str_replace(':00', '', $end_time );
+											}
+
+											$session_schedule   = ! empty( $date ) ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+											$date_display_format = trim( $session_schedule, ' - ');
+
 											?>
                                             <li class="item">
                                                 <div class="inner">
-                                                    <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
+                                                    <h4 class="title"><?php echo esc_html( mb_strimwidth( get_the_title(), 0, 83, '...' ) ); ?></h4>
 													<?php
                                                     if ( ! empty( $sub_title ) ) {
 													?>
@@ -138,7 +152,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 							?>
                             <div class="popup-bottom">
                                 <div class="view-btn">
-                                    <a href="#">View In Planner</a>
+                                    <a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank">View In Planner</a>
                                 </div>
                                 <div class="close-btn">
                                     <a href="#" data-dismiss="modal">Close Window</a>
@@ -148,15 +162,26 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 						<?php
 					} elseif ( "sessions" === $current_type ) {
 
-						$all_location = get_the_terms( $query_post_id, 'session-locations' );
-                        $location     = nabshow_lv_get_comma_separated_term_list( $all_location );
+						$all_location        = get_the_terms( $query_post_id, 'session-locations' );
+                        $location            = nabshow_lv_get_comma_separated_term_list( $all_location );
+                        $schedule_id         = get_post_meta( $query_post_id, 'scheduleid', true );
+						$date                = get_post_meta( $query_post_id, 'date', true );
+						$start_time          = get_post_meta( $query_post_id, 'starttime', true );
+						$end_time            = get_post_meta( $query_post_id, 'endtime', true );
+					    $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
 
-						$date         = get_post_meta( $query_post_id, 'date', true );
-						$start_time   = get_post_meta( $query_post_id, 'starttime', true );
-						$end_time     = get_post_meta( $query_post_id, 'endtime', true );
-						$date         = date_format( date_create( $date ), 'M d' );
-						$start_time   = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
-						$end_time     = str_replace( array( 'am', 'pm' ), array( 'a.m.', 'p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
+						if ( ! empty( $date ) ) {
+							$date = date_format( date_create( $date ), 'l, F j, Y' );
+						}
+						if ( ! empty( $start_time ) ) {
+							$start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+							$start_time = str_replace(':00', '', $start_time );
+						}
+						if ( ! empty( $end_time ) ) {
+							$end_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+							$end_time = str_replace(':00', '', $end_time );
+						}
+
 						$session_info = '';
 
 						if ( ! empty( $location ) ) {
@@ -174,7 +199,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <div class="head">
                                     <div class="details">
                                         <span class="program-name">Program Name</span>
-                                        <h3 class="title"><?php echo esc_html( get_the_title() ); ?></h3>
+                                        <h3 class="title"><a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
                                         <strong class="company"><?php echo esc_html( $session_info ); ?></strong>
                                         <strong>Open to Registration Package | Session Length | Cost</strong>
                                     </div>
@@ -188,7 +213,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 									}
 									?>
                                 </div>
-								<?php the_content(); ?>
+                                <?php nabshow_lv_get_popup_content( $query_post_id, $session_planner_url ); ?>
                             </div>
 							<?php
 							$speaker = get_post_meta( $query_post_id, 'speakers', true );
@@ -291,7 +316,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                             </ul>
                             <div class="popup-bottom">
                                 <div class="view-btn">
-                                    <a href="#">View In Planner</a>
+                                    <a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View In Planner</a>
                                 </div>
                                 <div class="close-btn modal-footer" data-dismiss="modal">
                                     <a href="javascript:void(0);" class="btn btn-default">Close Window</a>
@@ -301,45 +326,53 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 						<?php
 					} elseif ( "exhibitors" === $current_type ) {
 
-						$booths_halls     = get_post_meta( $query_post_id, 'booths_halls', true );
-						$exh_id           = get_post_meta( $query_post_id, 'exhid', true );
-						$exh_url          = 'https://ces20.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
-						$company_info     = array();
-
-						if ( ! empty( $booths_halls ) ) {
-
-						    $all_booths_halls = explode( '#', $booths_halls );
-
-							if ( is_array( $all_booths_halls ) ) {
-
-							    $cnt = 0;
-
-							    foreach ( $all_booths_halls as $booth_hall ) {
-
-								    $single_booth_hall  = explode( '@', $booth_hall );
-                                    $exhibitor_info     = isset( $single_booth_hall[1] ) ?  $single_booth_hall[1] : '';
-									$exhibitor_info     .= isset( $single_booth_hall[0] ) ?  ' | ' . $single_booth_hall[0] : '';
-									$exhibitor_info     .= ' | Pavilion';
-									$company_info[$cnt] = trim( $exhibitor_info, ' | ' );
-									$cnt++;
-								}
-							}
-                        }
-
+						$booths_halls   = get_post_meta( $query_post_id, 'booths_halls', true );
+						$exh_id         = get_post_meta( $query_post_id, 'exhid', true );
+						$exh_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
 						?>
 
-                        <div class="modal-popup-nab-inner session-popup">
+                        <ul class="modal-popup-nab-inner session-popup">
                             <div class="mb50">
                                 <div class="head">
                                     <div class="details">
-                                        <h3 class="title"><?php echo esc_html( get_the_title() ); ?></h3>
+                                        <h3 class="title"><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
                                         <?php
-                                        if ( count( $company_info ) > 0 ) {
-                                            foreach ( $company_info as $info ) {
-                                            ?>
-                                                <strong class="company blue-color"><?php echo esc_html( $info ); ?></strong>
-                                            <?php
-                                            }
+                                        if ( ! empty( $booths_halls ) ) {
+
+	                                        $all_booths_halls = explode( '#', $booths_halls );
+
+	                                        if ( is_array( $all_booths_halls ) ) {
+
+	                                            $site_url          = get_site_url();
+		                                        $page_hall_mapping = array(
+		                                                'North Hall & Central Lobby'     => '/explore/campus/north-hall-and-central-lobby/',
+                                                        'Central Hall'                   => '/explore/campus/central-hall/',
+                                                        'South Hall (Upper)'             => '/explore/campus/south-hall-upper/',
+                                                        'South Hall (Lower)'             => '/explore/campus/south-hall-lower/',
+                                                        'North Hall Meeting Rooms'       => '/explore/campus/north-hall-meeting-rooms/',
+                                                        'Outdoor/Mobile Media'           => '/explore/campus/outdoor-mobile-media/',
+                                                        'South Hall Meeting Rooms'       => '/explore/campus/south-hall-meeting-rooms/',
+                                                        'Silver Lot'                     => '/explore/campus/silver-lot/',
+                                                        'Wynn/Encore Hospitality Suites' => '/explore/campus/wynn/',
+                                                        'Renaissance Hospitality Suites' => '/explore/campus/renaissance/',
+                                                        'Westgate'                       => '/explore/campus/westgate/'
+                                                    );
+
+	                                            $cnt = 0;
+
+		                                        foreach ( $all_booths_halls as $booth_hall ) {
+
+			                                        $single_booth_hall  = explode( '@', $booth_hall );
+			                                        $exhibitor_info     = isset( $single_booth_hall[1] ) ?  isset( $page_hall_mapping[ $single_booth_hall[1] ] ) ? '<a href="' . $site_url . $page_hall_mapping[ $single_booth_hall[1] ] .'">'. $single_booth_hall[1] . '</a>' : $single_booth_hall[1] : '';
+			                                        $exhibitor_info     .= isset( $single_booth_hall[0] ) ?  ' | ' . $single_booth_hall[0] : '';
+			                                        $exhibitor_info     .= ' | Pavilion';
+			                                        $exhibitor_info     = trim( $exhibitor_info, ' | ' );
+			                                        $element_array      = array( 'a' => array( 'href' => array() ) );
+                                                ?>
+                                                    <strong class="company blue-color"> <?php echo wp_kses( $exhibitor_info, $element_array ); ?></strong>
+                                                <?php
+		                                        }
+	                                        }
                                         }
                                         ?>
                                     </div>
@@ -353,14 +386,30 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                     }
                                     ?>
                                 </div>
-								<?php the_content(); ?>
+                                <?php nabshow_lv_get_popup_content( $query_post_id, $exh_url ); ?>
                             </div>
-                            <ul class="tag-list">
-                                <li><a href="#">Tag1</a></li>
-                                <li><a href="#">Tag2</a></li>
-                                <li><a href="#">Tag3</a></li>
-                            </ul>
-							<?php
+                            <?php
+                            $all_terms = get_terms( array(
+	                            'taxonomy'   => 'exhibitor-keywords',
+	                            'hide_empty' => true,
+                            ) );
+
+                            if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+                            ?>
+                                <ul class="tag-list">
+                                <?php
+		                            foreach ( $all_terms as $current_term ) {
+			                            if ( 'featured' !== $current_term->slug ) {
+			                                $term_tag_link = get_site_url() . '/explore/exhibits/browse-exhibitors/?exkey='. $current_term->slug;
+                                        ?>
+                                            <li><a href="<?php echo esc_url( $term_tag_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></li>
+                                        <?php
+			                            }
+		                            }
+                                ?>
+                                </ul>
+                            <?php
+                            }
 
 							$categories = get_the_terms( $current_id, 'exhibitor-categories' );
 
@@ -431,10 +480,9 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                     <div class="head">
                         <div class="details">
                             <h3 class="title"><?php echo esc_html( $contributor_name ); ?></h3>
-                            <span class="sub-title">Title/Category</span>
-                            <strong class="company">Company/NAB Show LIVE/Department/Country</strong>
-                            <span class="year">Committee Category | Term Ending Year</span>
-                            <p><a href="mailto:<?php echo esc_attr( $contributor_email ); ?>">Email</a> | Phone</p>
+                            <span class="sub-title">Title</span>
+                            <strong class="company">Company</strong>
+                            <p><a href="mailto:<?php echo esc_attr( $contributor_email ); ?>">Email</a></p>
                         </div>
                         <div class="feature">
                             <img class="round-img" src="<?php echo esc_url( $contributor_image ); ?>" alt="contributor">
@@ -485,12 +533,6 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 				}
 				?>
 
-                <ul class="tag-list">
-                    <li><a href="#">Tag</a></li>
-                    <li><a href="#">Tag</a></li>
-                    <li><a href="#">Tag</a></li>
-                    <li><a href="#">Tag</a></li>
-                </ul>
                 <div class="popup-bottom">
                     <div class="close-btn">
                         <a href="#" data-dismiss="modal">Close Window</a>

@@ -303,7 +303,7 @@ var allowedBlocks = [
                                 />
                                 {showPopup ?
                                     <div className="nab_model_head">
-                                        <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Click Here' />
+                                        <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Learn More' />
                                         <div className={`nab_model_main ${modelClass}`}>
                                             <div className="nab_model_inner">
                                                 <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
@@ -353,7 +353,7 @@ var allowedBlocks = [
                             />
                             {showPopup ?
                                 <div className="nab_model_head">
-                                    <input type="button" className={'nab_popup_btn btn-primary'} value='Click Here' />
+                                    <input type="button" className={'nab_popup_btn btn-primary'} value='Learn More' />
                                     <div className="nab_model_main">
                                         <div className="nab_model_inner">
                                             <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>

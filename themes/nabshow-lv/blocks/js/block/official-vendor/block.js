@@ -3,9 +3,9 @@
   const { registerBlockType } = wp.blocks;
   const { Fragment, Component } = wp.element;
   const { RichText, MediaUpload } = wp.editor;
-  const { Button, TextControl } = wp.components;
+  const { Button } = wp.components;
 
-  class ItemComponent extends Component {
+  class EditOfficialVendor extends Component {
 
     componentDidMount() {
       const { products } = this.props.attributes;
@@ -22,11 +22,13 @@
           ...products,
           {
             index: products.length,
+            media: '',
+            mediaAlt: '',
             title: '',
-            location: '',
-            discount: '',
-            dates: '',
-            description: ''
+            companyName: '',
+            type: '',
+            description: '',
+            email: ''
           }
         ]
       });
@@ -34,13 +36,25 @@
 
     render() {
       const { attributes, setAttributes, clientId, className } = this.props;
-      const { products, mainTitle } = attributes;
+      const { products } = attributes;
 
-      const itemList = products
+      const getImageButton = (openEvent, index) => {
+        if (products[index].media) {
+          return (
+            <img src={products[index].media} alt={products[index].alt} className="img" />
+          );
+        } else {
+          return (
+            <Button onClick={openEvent} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Logo</Button>
+          );
+        }
+      };
+
+      const productsList = products
         .sort((a, b) => a.index - b.index)
         .map((product, index) => {
           return (
-            <div key={index} className="box-item">
+            <div className="box-item">
               <div className="box-inner">
                 <span
                   className="remove"
@@ -51,7 +65,6 @@
                         if (t.index > product.index) {
                           t.index -= 1;
                         }
-
                         return t;
                       });
 
@@ -62,9 +75,49 @@
                 >
                   <span className="dashicons dashicons-no-alt"></span>
                 </span>
+                <div className="media-img">
+                  <MediaUpload
+                    onSelect={media => {
+                      const newObject = Object.assign({}, product, {
+                        media: media.url,
+                        mediaAlt: media.alt
+                      });
+                      setAttributes({
+                        products: [
+                          ...products.filter(
+                            item => item.index != product.index
+                          ),
+                          newObject
+                        ]
+                      });
+                    }}
+                    type="image"
+                    value={attributes.imageID}
+                    render={({ open }) => <span onClick={open} className="dashicons dashicons-edit"></span>}
+                  />
+                  <MediaUpload
+                    onSelect={media => {
+                      const newObject = Object.assign({}, product, {
+                        media: media.url,
+                        mediaAlt: media.alt
+                      });
+                      setAttributes({
+                        products: [
+                          ...products.filter(
+                            item => item.index != product.index
+                          ),
+                          newObject
+                        ]
+                      });
+                    }}
+                    type="image"
+                    value={attributes.imageID}
+                    render={({ open }) => getImageButton(open, index)}
+                  />
+                </div>
                 <RichText
-                  tagName="h2"
-                  placeholder={__('Discount Title')}
+                  tagName="h3"
+                  placeholder={__('title')}
                   value={product.title}
                   className="title"
                   onChange={title => {
@@ -82,14 +135,13 @@
                   }}
                 />
                 <RichText
-                  tagName="span"
-                  placeholder={__('Location/Address')}
-                  value={product.location}
-                  className="location"
-                  onChange={location => {
-
+                  tagName="p"
+                  className="companyName"
+                  placeholder={__('Company Name')}
+                  value={product.companyName}
+                  onChange={companyName => {
                     const newObject = Object.assign({}, product, {
-                      location: location
+                      companyName: companyName
                     });
                     setAttributes({
                       products: [
@@ -102,34 +154,13 @@
                   }}
                 />
                 <RichText
-                  tagName="span"
-                  className="discount"
-                  placeholder={__('Discount')}
-                  value={product.discount}
-                  onChange={discount => {
-
+                  tagName="p"
+                  className="type"
+                  placeholder={__('Type: Exclusive OR Preferred')}
+                  value={product.type}
+                  onChange={type => {
                     const newObject = Object.assign({}, product, {
-                      discount: discount
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="span"
-                  className="dates"
-                  placeholder={__('Dates(s)')}
-                  value={product.dates}
-                  onChange={dates => {
-
-                    const newObject = Object.assign({}, product, {
-                      dates: dates
+                      type: type
                     });
                     setAttributes({
                       products: [
@@ -144,12 +175,30 @@
                 <RichText
                   tagName="p"
                   className="description"
-                  placeholder={__('Instructions on How to Redeem')}
+                  placeholder={__('Description')}
                   value={product.description}
                   onChange={description => {
-
                     const newObject = Object.assign({}, product, {
                       description: description
+                    });
+                    setAttributes({
+                      products: [
+                        ...products.filter(
+                          item => item.index != product.index
+                        ),
+                        newObject
+                      ]
+                    });
+                  }}
+                />
+                <RichText
+                  tagName="a"
+                  className="email"
+                  placeholder={__('Email')}
+                  value={product.email}
+                  onChange={email => {
+                    const newObject = Object.assign({}, product, {
+                      email: email
                     });
                     setAttributes({
                       products: [
@@ -167,16 +216,9 @@
         });
 
       return (
-        <div className="badge-discounts">
-          <RichText
-            tagName="h2"
-            onChange={(value) => setAttributes({ mainTitle: value })}
-            placeholder={__('Title')}
-            value={mainTitle}
-            className="badge-title"
-          />
-          <div className="box-main four-grid">
-            {itemList}
+        <div className="new-this-year official-vendors">
+          <div className="box-main">
+            {productsList}
             <div className="box-item additem">
               <button
                 className="components-button add"
@@ -186,11 +228,13 @@
                       ...products,
                       {
                         index: products.length,
+                        media: '',
+                        mediaAlt: '',
                         title: '',
-                        location: '',
-                        discount: '',
-                        dates: '',
-                        description: ''
+                        companyName: '',
+                        type: '',
+                        description: '',
+                        email: ''
                       }
                     ]
                   });
@@ -206,70 +250,62 @@
     }
   }
 
-  registerBlockType('nab/nab-badge-discounts', {
-    title: __('Badge Discounts'),
-    description: __('Badge Discounts'),
-    icon: 'tickets-alt',
+  registerBlockType('nab/nab-official-vendors', {
+    title: __('Official Vendors'),
+    description: __('Official Vendors'),
+    icon: 'buddicons-buddypress-logo',
     category: 'nabshow',
-    keywords: [__('Badge'), __('Discounts'), __('gutenberg'), __('nab')],
+    keywords: [__('Official Vendors'), __('gutenberg'), __('nab')],
     attributes: {
       products: {
         type: 'array',
         default: [],
-      },
-      mainTitle: {
-        type: 'string'
       }
     },
-    edit: ItemComponent,
+    edit: EditOfficialVendor,
 
     save: props => {
       const {
         attributes,
         className
       } = props;
-      const { products, mainTitle } = attributes;
+      const { products } = attributes;
 
       return (
-        <div className="badge-discounts">
-          <RichText.Content
-            tagName="h2"
-            value={mainTitle}
-            className="badge-title"
-          />
-          <div className="box-main four-grid">
+        <div className="new-this-year official-vendors">
+          <div className="box-main">
             {products.map((product, index) => (
               <Fragment>
                 {
                   product.title && (
                     <div className="box-item">
                       <div className="box-inner">
+                        <div className="media-img">
+                          {product.media ? (
+                            <img src={product.media} alt={product.alt} className="img" />
+                          ) : (
+                              <div className="no-image">No Logo</div>
+                            )}
+                        </div>
                         {product.title && (
                           <RichText.Content
-                            tagName="h2"
+                            tagName="h3"
                             value={product.title}
                             className="title"
                           />
                         )}
-                        {product.location && (
+                        {product.companyName && (
                           <RichText.Content
-                            tagName="span"
-                            value={product.location}
-                            className="location"
+                            tagName="p"
+                            className="companyName"
+                            value={product.companyName}
                           />
                         )}
-                        {product.discount && (
+                        {product.type && (
                           <RichText.Content
-                            tagName="span"
-                            className="discount"
-                            value={product.discount}
-                          />
-                        )}
-                        {product.dates && (
-                          <RichText.Content
-                            tagName="span"
-                            className="dates"
-                            value={product.dates}
+                            tagName="p"
+                            className="type"
+                            value={product.type}
                           />
                         )}
                         {product.description && (
@@ -277,6 +313,13 @@
                             tagName="p"
                             className="description"
                             value={product.description}
+                          />
+                        )}
+                        {product.email && (
+                          <RichText.Content
+                            tagName="a"
+                            className="email"
+                            value={product.email}
                           />
                         )}
                       </div>

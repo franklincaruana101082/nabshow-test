@@ -3,6 +3,9 @@
 get_header(); ?>
     <div id="primary" class="container">
         <div class="page-main thought-gallery-page">
+        	<?php 
+				echo do_shortcode('[nab_yoast_breadcumb]');
+			?>
             <h3>Search Result for : <?php echo esc_html( $s ); ?> </h3>
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-sm-12 content-with-sidebar">

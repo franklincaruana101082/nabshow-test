@@ -371,7 +371,8 @@ function nabshow_lv_sessions_browse_filter_callback() {
 
 	if ( $session_query->have_posts() ) {
 
-		$i = 0;
+		$i          = 0;
+		$show_code  = nabshow_lv_get_mys_show_code();
 
 		while ( $session_query->have_posts() ) {
 
@@ -381,18 +382,31 @@ function nabshow_lv_sessions_browse_filter_callback() {
 			$date                = get_post_meta( $session_id, 'date', true );
 			$start_time          = get_post_meta( $session_id, 'starttime', true );
 			$end_time            = get_post_meta( $session_id, 'endtime', true );
-			$date                = date_format( date_create( $date ), 'M d' );
-			$start_time          = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
-			$end_time            = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
-			$date_display_format = $date . ' | ' . $start_time . ' - ' . $end_time;
+			$schedule_id         = get_post_meta( $session_id, 'scheduleid', true );
+			$session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
+
+			if ( ! empty( $date ) ) {
+				$date       = date_format( date_create( $date ), 'l, F j, Y' );
+			}
+			if ( ! empty( $start_time ) ) {
+				$start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+				$start_time = str_replace(':00', '', $start_time );
+			}
+			if ( ! empty( $end_time ) ) {
+				$end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+				$end_time   = str_replace(':00', '', $end_time );
+			}
+
+			$date_display_format = ! empty( $date ) ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+			$date_display_format = trim( $date_display_format, ' - ');
 			$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
 
 			$result_post[ $i ]["post_id"]       = $session_id;
-			$result_post[ $i ]["post_title"]    = get_the_title();
+			$result_post[ $i ]["post_title"]    = mb_strimwidth( get_the_title(), 0, 83, '...' );
 			$result_post[ $i ]["featured"]      = $featured_post;
 			$result_post[ $i ]["date_time"]     = $date_display_format;
 			$result_post[ $i ]["post_excerpt"]  = get_the_excerpt();
-			$result_post[ $i ]["planner_link"]  = '#';
+			$result_post[ $i ]["planner_link"]  = $session_planner_url;
 
 			$i++;
 		}
@@ -499,7 +513,8 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 
 	if ( $exhibitor_query->have_posts() ) {
 
-		$i = 0;
+		$i          = 0;
+		$show_code  = nabshow_lv_get_mys_show_code();
 
 		while ( $exhibitor_query->have_posts() ) {
 
@@ -508,7 +523,7 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 			$exhibitor_id   = get_the_ID();
 			$booth_number   = get_post_meta( $exhibitor_id, 'boothnumbers', true );
 			$exh_id         = get_post_meta( $exhibitor_id, 'exhid', true );
-			$exh_url        = 'https://ces20.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+			$exh_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
 			$featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
 			$thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
 

@@ -1,36 +1,41 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, Button, Placeholder, CheckboxControl, SelectControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, Button, Placeholder, CheckboxControl, SelectControl, PanelRow } = wpComponents;
 
     class NABRelatedContent extends Component {
         constructor() {
             super(...arguments);
             this.state = {
-                pageParentList: [ { label: __('Select Parent Page'), value: ''} ],
+                pageParentList: [{ label: __('Select Parent Page'), value: '' }],
                 bxSliderObj: {},
                 bxinit: false,
                 isDisable: false,
+                displayFieldsList: [{ label: __('Date'), value: 'page_date' },
+                { label: __('Halls'), value: 'page_hall' },
+                { label: __('Is Open To'), value: 'is_open_to' },
+                { label: __('Locations'), value: 'page_location' },
+                { label: __('Price'), value: 'price' }],
             };
             this.initSlider = this.initSlider.bind(this);
         }
 
         componentDidMount() {
             const { selection, sliderActive } = this.props.attributes;
-            if ( sliderActive && selection ) {
+            if (sliderActive && selection) {
                 this.setState({ bxinit: true });
             }
         }
 
         componentWillMount() {
-            let pageList = [ { label: __('Select Parent Page'), value: ''} ];
+            let pageList = [{ label: __('Select Parent Page'), value: '' }];
 
             // Fetch all parent pages
             wp.apiFetch({ path: '/nab_api/request/page-parents' }).then((parents) => {
-                if ( 0 < parents.length ) {
+                if (0 < parents.length) {
                     parents.map((parent) => {
                         pageList.push({ label: __(parent.title), value: parent.id });
                     });
@@ -42,12 +47,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         componentDidUpdate() {
             const { clientId, attributes: { selection, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
-            if ( sliderActive && selection ) {
+            if (sliderActive && selection) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if ( 0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,
@@ -80,7 +85,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout }, setAttributes } = this.props;
 
             var names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -88,39 +93,40 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
                 { name: sliderArrow6, classnames: 'slider-arrow-6' }
             ];
 
             let commonControls = <Fragment>
-                            <SelectControl
-                                label={__('Choose option to get related content')}
-                                value={parentPageId}
-                                options={this.state.pageParentList}
-                                onChange={ (value) => { setAttributes({ parentPageId: value }); this.setState({ bxinit: true }); }}
-                            />
-                            <div className="inspector-field inspector-field-radiocontrol ">
-                                <RadioControl
-                                    selected={depthLevel}
-                                    options={[
-                                        { label: 'Grand Children', value: 'grandchildren' },
-                                        { label: 'Direct Descendants', value: 'descendants' },
-                                    ]}
-                                    onChange={(option) => { setAttributes({ depthLevel: option }); this.setState({ bxinit: true }); } }
-                                />
-                            </div>
-                    </Fragment>;
+                <SelectControl
+                    label={__('Choose option to get related content')}
+                    value={parentPageId}
+                    options={this.state.pageParentList}
+                    onChange={(value) => { setAttributes({ parentPageId: value }); this.setState({ bxinit: true }); }}
+                />
+                <div className="inspector-field inspector-field-radiocontrol ">
+                    <RadioControl
+                        selected={depthLevel}
+                        options={[
+                            { label: 'Grand Children', value: 'grandchildren' },
+                            { label: 'Direct Descendants', value: 'descendants' },
+                        ]}
+                        onChange={(option) => { setAttributes({ depthLevel: option }); this.setState({ bxinit: true }); }}
+                    />
+                </div>
+            </Fragment>;
 
             let input = <div className="inspector-field inspector-field-Numberofitems ">
-                    <label className="inspector-mb-0">Number of items</label>
-                    <RangeControl
-                        value={itemToFetch}
-                        min={1}
-                        max={20}
-                        onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
-                    />
-                </div>;
+                <label className="inspector-mb-0">Number of items</label>
+                <RangeControl
+                    value={itemToFetch}
+                    min={1}
+                    max={100}
+                    onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
+                />
+            </div>;
 
-            if ( this.state.isDisable && sliderActive ) {
+            if (this.state.isDisable && sliderActive) {
                 input = <Disabled>{input}</Disabled>;
             }
 
@@ -130,7 +136,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         label={__('Related Content')}
                     >
                         {commonControls}
-                        <Button className="button button-large button-primary" onClick={() => { setAttributes({ selection: true }); this.setState({ bxinit: true }); } } >
+                        <Button className="button button-large button-primary" onClick={() => { setAttributes({ selection: true }); this.setState({ bxinit: true }); }} >
                             {__('Apply')}
                         </Button>
                     </Placeholder>
@@ -145,120 +151,150 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             <CheckboxControl
                                 className="related-featured"
                                 label="Featured Page"
-                                checked={ featuredPage }
-                                onChange={ () => { setAttributes({ featuredPage: ! featuredPage }); this.setState({ bxinit: true }); } }
+                                checked={featuredPage}
+                                onChange={() => { setAttributes({ featuredPage: ! featuredPage }); this.setState({ bxinit: true }); }}
                             />
                         </PanelBody>
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
                             <ToggleControl
                                 label={__('Slider On/Off')}
                                 checked={sliderActive}
-                                onChange={() => { setAttributes({ sliderActive: ! sliderActive}); this.setState({ bxinit: ! sliderActive }); } }
+                                onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
                             />
                             { ! sliderActive &&
-                            <SelectControl
-                                label={__('Select field to display')}
-                                value={displayField}
-                                options={[
-                                    { label: __('Select Field'), value: '' },
-                                    { label: __('Date'), value: 'page_date' },
-                                    { label: __('Dinner'), value: 'dinner_time' },
-                                    { label: __('Halls'), value: 'page_hall' },
-                                    { label: __('Hotel'), value: 'page_hotel' },
-                                    { label: __('Locations'), value: 'page_location' },
-                                    { label: __('Reception'), value: 'reception_time' },
-                                ]}
-                                onChange={ (value) => setAttributes({ displayField: value }) }
-                            />
+                                <Fragment>
+                                    <div>
+                                        <label>Select Listing Layout</label>
+                                        <PanelRow>
+                                            <ul className="ss-off-options related-off">
+                                                <li className={'destination' === listingLayout ? 'active destination' : 'destination'} onClick={() => setAttributes({listingLayout: 'destination'})}>{destinations}</li>
+                                                <li className={'key-contacts' === listingLayout ? 'active key-contacts' : 'key-contacts'} onClick={() => setAttributes({listingLayout: 'key-contacts'})}>{keyContacts}</li>
+                                                <li className={'featured-happenings' === listingLayout ? 'active featured-happenings' : 'featured-happenings'} onClick={() => setAttributes({listingLayout: 'featured-happenings'})}>{featuredHappening}</li>
+                                                <li className={'product-categories' === listingLayout ? 'active product-categories' : 'product-categories'} onClick={() => setAttributes({listingLayout: 'product-categories'})}>{productCategories}</li>
+                                                <li className={'exhibitor-resources' === listingLayout ? 'active exhibitor-resources' : 'exhibitor-resources'} onClick={() => setAttributes({listingLayout: 'exhibitor-resources'})}>{exhibitorResources}</li>
+                                            </ul>
+                                        </PanelRow>
+                                    </div>
+                                    <label>{__('Select Fields to Display')}</label>
+                                    <div className="fix-height-select">
+
+                                        {this.state.displayFieldsList.map((field, index) => (
+
+                                            <Fragment key={index}>
+
+                                                <CheckboxControl checked={-1 < displayField.indexOf(field.value)} label={field.label} name="displayfields[]" value={field.value} onChange={(isChecked) => {
+
+                                                    let index,
+                                                        tempDisplayField = [...displayField];
+
+                                                    if (isChecked) {
+                                                        tempDisplayField.push(field.value);
+                                                    } else {
+                                                        index = tempDisplayField.indexOf(field.value);
+                                                        tempDisplayField.splice(index, 1);
+                                                    }
+
+                                                    this.props.setAttributes({ displayField: tempDisplayField });
+                                                }
+                                                }
+                                                />
+
+                                            </Fragment>
+
+                                        ))
+                                        }
+                                    </div>
+
+                                </Fragment>
                             }
                             {sliderActive &&
-                            <Fragment>
-                                <ToggleControl
-                                    label={__('Pager')}
-                                    checked={pager}
-                                    onChange={() => setAttributes({ pager: ! pager })}
-                                />
-                                <ToggleControl
-                                    label={__('Controls')}
-                                    checked={controls}
-                                    onChange={() => setAttributes({ controls: ! controls })}
-                                />
-                                <ToggleControl
-                                    label={__('Autoplay')}
-                                    checked={autoplay}
-                                    onChange={() => setAttributes({ autoplay: ! autoplay })}
-                                />
-                                <ToggleControl
-                                    label={__('Infinite Loop')}
-                                    checked={infiniteLoop}
-                                    onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
-                                />
-                                <div className="inspector-field inspector-field-fontsize ">
-                                    <label className="inspector-mb-0">Slide Speed</label>
-                                    <RangeControl
-                                        value={sliderSpeed}
-                                        min={100}
-                                        max={1000}
-                                        step={1}
-                                        onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
+                                <Fragment>
+                                    <ToggleControl
+                                        label={__('Pager')}
+                                        checked={pager}
+                                        onChange={() => setAttributes({ pager: ! pager })}
                                     />
-                                </div>
-                                <div className="inspector-field inspector-field-fontsize ">
-                                    <label className="inspector-mb-0">Items to Display</label>
-                                    <RangeControl
-                                        value={minSlides}
-                                        min={1}
-                                        max={10}
-                                        step={1}
-                                        onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
+                                    <ToggleControl
+                                        label={__('Controls')}
+                                        checked={controls}
+                                        onChange={() => setAttributes({ controls: ! controls })}
                                     />
-                                </div>
-                                <div className="inspector-field inspector-field-fontsize ">
-                                    <label className="inspector-mb-0">Slide Width</label>
-                                    <RangeControl
-                                        value={slideWidth}
-                                        min={50}
-                                        max={1000}
-                                        step={1}
-                                        onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
+                                    <ToggleControl
+                                        label={__('Autoplay')}
+                                        checked={autoplay}
+                                        onChange={() => setAttributes({ autoplay: ! autoplay })}
                                     />
-                                </div>
-                                <div className="inspector-field inspector-field-fontsize ">
-                                    <label className="inspector-mb-0">Slide Margin</label>
-                                    <RangeControl
-                                        value={slideMargin}
-                                        min={0}
-                                        max={100}
-                                        step={1}
-                                        onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
+                                    <ToggleControl
+                                        label={__('Infinite Loop')}
+                                        checked={infiniteLoop}
+                                        onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
                                     />
-                                </div>
-                            </Fragment>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Slide Speed</label>
+                                        <RangeControl
+                                            value={sliderSpeed}
+                                            min={100}
+                                            max={1000}
+                                            step={1}
+                                            onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
+                                        />
+                                    </div>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Items to Display</label>
+                                        <RangeControl
+                                            value={minSlides}
+                                            min={1}
+                                            max={10}
+                                            step={1}
+                                            onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
+                                        />
+                                    </div>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Slide Width</label>
+                                        <RangeControl
+                                            value={slideWidth}
+                                            min={50}
+                                            max={1000}
+                                            step={1}
+                                            onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
+                                        />
+                                    </div>
+                                    <div className="inspector-field inspector-field-fontsize ">
+                                        <label className="inspector-mb-0">Slide Margin</label>
+                                        <RangeControl
+                                            value={slideMargin}
+                                            min={0}
+                                            max={100}
+                                            step={1}
+                                            onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
+                                        />
+                                    </div>
+                                </Fragment>
                             }
                         </PanelBody>
-                        { sliderActive && controls &&
-                        <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
-                            <ul className="slider-arrow-main">
-                                {names.map((item, index) => (
-                                    < Fragment key={index}>
-                                        <li
-                                            className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
-                                            key={index}
-                                            onClick={e => {
-                                                setAttributes({arrowIcons: item.classnames});
-                                                this.setState({bxinit: true});
-                                            }}
-                                        >{item.name}</li>
-                                    </Fragment>
-                                ))
-                                }
-                            </ul>
-                        </PanelBody>
+                        {sliderActive && controls &&
+                            <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
+                                <ul className="slider-arrow-main">
+                                    {names.map((item, index) => (
+                                        < Fragment key={index}>
+                                            <li
+                                                className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
+                                                key={index}
+                                                onClick={e => {
+                                                    setAttributes({ arrowIcons: item.classnames });
+                                                    this.setState({ bxinit: true });
+                                                }}
+                                            >{item.name}</li>
+                                        </Fragment>
+                                    ))
+                                    }
+                                </ul>
+                            </PanelBody>
                         }
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout }}
                     />
                 </Fragment>
 
@@ -328,7 +364,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             default: 'slider-arrow-1'
         },
         displayField: {
-            type: 'string'
+            type: 'array',
+            default: []
+        },
+        listingLayout: {
+            type: 'string',
+            default: 'destination'
         }
     };
 

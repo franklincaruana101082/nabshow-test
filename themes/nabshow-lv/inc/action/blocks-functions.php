@@ -234,7 +234,15 @@ function nabshow_lv_register_dynamic_blocks() {
                     'default' => 'slider-arrow-1'
                 ),
                 'displayField' => array(
+                    'type'    => 'array',
+                    'default' => [],
+                    'items'   => [
+                        'type' => 'string'
+                    ]
+                ),
+                'listingLayout'  => array(
                     'type' => 'string',
+                    'default' => 'destination'
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -341,23 +349,15 @@ function nabshow_lv_no_to_be_missed_slider_render_callback( $attributes ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				$all_categories_name = array();
                 $categories          = get_the_terms( get_the_ID(), 'featured-category' );
-
-                if ( is_array( $categories ) ) {
-                    foreach ( $categories as $category ) {
-                        $all_categories_name[] = $category->name;
-                    }
-                }
-
-                $categories_string = implode(', ',$all_categories_name );
+                $categories_list     = nabshow_lv_get_comma_separated_term_list( $categories );
 			?>
 
 			<div class="cards item">
                 <?php the_post_thumbnail(); ?>
                 <div class="card-details">
                     <h2 class="title"><?php the_title(); ?></h2>
-                    <span class="sub-category">- <?php echo esc_html( $categories_string ) ?></span>
+                    <span class="sub-category">- <?php echo esc_html( $categories_list ) ?></span>
                 </div>
             </div>
 
@@ -538,6 +538,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $featured_page    = isset( $attributes['featuredPage'] ) ? $attributes['featuredPage'] : false;
     $post_limit       = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
     $depth_level      = isset( $attributes['depthLevel'] ) && ! empty( $attributes['depthLevel'] ) ? $attributes['depthLevel'] : 'grandchildren';
+    $listing_layout   = isset( $attributes['listingLayout'] ) && ! empty( $attributes['listingLayout'] ) ? $attributes['listingLayout'] : 'destination';
     $class_name       = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
     $slider_active    = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
     $min_slides       = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
@@ -550,7 +551,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $slider_margin    = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
     $arrow_icons      = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
-    $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : '';
+    $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : array();
 
     ob_start();
 
@@ -560,7 +561,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
         if ( count( $children ) > 0 ) {
         ?>
-            <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+            <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
 
             <?php
             if ( $slider_active ) {
@@ -569,7 +570,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
             <?php
             } else {
             ?>
-                <div class="row related-content-rowbox">
+                <div class="row related-content-rowbox" id="related-content-list">
             <?php
             }
                     $page_count = 1;
@@ -594,38 +595,76 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                 </div>
                             <?php
                             } else {
-                                $sub_title     = '';
 
-                                if ( ! empty( $display_field ) ) {
+                                if ( 'destination' === $listing_layout || 'featured-happenings' === $listing_layout ) {
 
-                                    $field_val =  get_field( $display_field,  $child->ID );
-
-                                    if ( ! empty( $field_val ) && ( 'page_hall' === $display_field || 'page_location' === $display_field ) ) {
-                                        $sub_title = implode(', ', $field_val );
-                                    } else {
-                                        $sub_title = $field_val;
-                                    }
+                                    $is_featured    = has_term('featured', 'page-category', $child->ID ) ? 'featured' : '';
+                                    $all_halls      = get_field( 'page_hall',  $child->ID );
+                                    $new_this_year  = get_field( 'new_this_year',  $child->ID );
+                                    $date           = get_field( 'page_date',  $child->ID );
+                                    $all_types      = get_field( 'page_type',  $child->ID );
+                                    $page_hall      = ! empty( $all_halls ) ? implode( ',', $all_halls ) : '';
+                                    $page_type      = ! empty( $all_types ) ? implode(',', $all_types ) : '';
+                                    $date           = ! empty( $date ) ? date_format( date_create( $date ), 'd-M-Y' ) : '';
+                                ?>
+                                    <div class="col-lg-4 col-md-6" data-default="<?php echo esc_attr( $page_count ); ?>" data-date="<?php echo esc_attr( $date ); ?>" data-featured="<?php echo esc_attr( $is_featured ); ?>" data-hall="<?php echo esc_attr( $page_hall ); ?>" data-type="<?php echo esc_attr( $page_type ); ?>" data-new-this-year="<?php echo ! empty( $new_this_year ) ? esc_attr( $new_this_year[0] ) : ''; ?>">
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="col-lg-4 col-md-6">
+                                <?php
                                 }
-
-                            ?>
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="related-content-box">
-                                        <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
-                                        <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
+                                ?>
+                                    <div class="related-content-box <?php echo esc_attr( $listing_layout ); ?>">
                                         <?php
-                                        if ( ! empty( $sub_title ) ) {
+                                        if ( 'key-contacts' !== $listing_layout ) {
                                         ?>
-                                            <span class="sub-title"><?php echo esc_html( $sub_title ); ?></span>
+                                            <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
+                                        <?php
+                                        }
+                                        if ( 'product-categories' !== $listing_layout ) {
+                                        ?>
+                                            <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
+
+                                            <?php
+                                            if ( 'featured-happenings' === $listing_layout || 'destination' === $listing_layout ) {
+
+                                                if ( is_array( $display_field ) && count( $display_field ) > 0 ) {
+                                                ?>
+                                                    <div class="info-block">
+                                                <?php
+                                                    foreach ( $display_field as $field ) {
+
+                                                        $field_val =  get_field( $field,  $child->ID );
+
+                                                        if ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
+                                                            $sub_title = implode(', ', $field_val );
+                                                        } else {
+                                                            $sub_title = $field_val;
+                                                        }
+                                                        ?>
+                                                            <span class="sub-title"><?php echo esc_html( $sub_title ); ?></span>
+                                                        <?php
+                                                    }
+                                                ?>
+                                                    </div>
+                                                <?php
+                                                }
+                                            }
+                                            $page_excerpt = get_the_excerpt( $child->ID );
+                                            if ( empty( $page_excerpt ) ) {
+                                                $page_excerpt = 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever…';
+                                            }
+                                            ?>
+                                            <p><?php echo esc_html( $page_excerpt ); ?></p>
+                                            <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
                                         <?php
                                         }
                                         ?>
-                                        <p><?php echo esc_html( get_the_excerpt( $child->ID ) ); ?></p>
-                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
                                     </div>
                                 </div>
                             <?php
                             }
-
                         } else {
                             break;
                         }
@@ -687,7 +726,9 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
                             <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img">
                         </div>
                         <div class="team-details">
-                            <h3 class="name"><?php echo esc_html( $contributor->display_name ); ?></h3>
+                            <h3 class="name">
+                                <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor->display_name ); ?></a>
+                            </h3>
                             <strong class="title">Title</strong>
                             <strong class="company">Company</strong>
                         </div>

@@ -165,8 +165,15 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <input type="button" class="featured-btn" value="Featured">
+                    <?php
+                    if ( 'speakers' === $atts[ 'type' ] || 'exhibitors' === $atts[ 'type' ] ) {
+                    ?>
+                        <input type="button" class="orderby" value="A-Z">
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
             <?php
@@ -177,39 +184,8 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     <div class="search-item">
                         <input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
                     </div>
-                </div>
-                <input type="button" class="orderby" value="A-Z">
+                </div>                
             <?php
-	        }
-	        if ( 'exhibitors' === $atts[ 'type' ] ) {
-
-	            $all_terms = get_terms( array(
-			        'taxonomy'   => 'exhibitor-keywords',
-			        'hide_empty' => true,
-		        ) );
-
-	            ?>
-                    <input type="button" class="orderby" value="A-Z">
-
-                <?php
-                if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
-                ?>
-                    <div class="col-lg-6 col-xl-4">
-                <?php
-                    foreach ( $all_terms as $term ) {
-                        if ( 'featured' !== $term->slug ) {
-                        ?>
-                            <div class="custom-check-box">
-                                <input type="checkbox" name="keywords[]" value="<?php echo esc_attr( $term->slug ); ?>" class="exhibitor-keywords" id="<?php echo esc_attr( $term->slug ); ?>">
-                                <label for="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></label>
-                            </div>
-                        <?php
-                        }
-			        }
-                    ?>
-                    </div>
-                <?php
-		        }
 	        }
             ?>
         </div>
@@ -245,6 +221,46 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                 <li class="clear">Clear</li>
             </ul>
         </div>
+        <?php
+        if ( 'exhibitors' === $atts[ 'type' ] ) {
+
+            $all_terms = get_terms( array(
+                'taxonomy'   => 'exhibitor-keywords',
+                'hide_empty' => true,
+            ) );
+
+            if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+
+                $get_exkey = filter_input( INPUT_GET, 'exkey', FILTER_SANITIZE_STRING );
+            ?>
+            <div class="col-lg-12 chechbox-main">
+            <?php
+                foreach ( $all_terms as $term ) {
+                    if ( 'featured' !== $term->slug ) {
+                    ?>
+                        <div class="custom-check-box">
+                            <input type="checkbox" name="keywords[]" value="<?php echo esc_attr( $term->slug ); ?>" class="exhibitor-keywords" id="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $term->slug, $get_exkey); ?>>
+                            <label for="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></label>
+                        </div>
+                    <?php
+                    }
+                }
+                ?>
+                </div>
+            <?php
+            }
+        }
+        if ( 'destinations' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
+        ?>
+            <div class="col-lg-12 chechbox-main">
+                <div class="custom-check-box">
+                    <input type="checkbox" name="new_this_year" value="Yes" class="new-this-year" id="new-this-year">
+                    <label for="new-this-year">New This Year</label>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
         <div class="select-items col-lg-12">
             <div class="row">
                 <?php
@@ -351,6 +367,45 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                         </div>
                     </div>
                 <?php
+                } elseif ( 'destinations' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
+                ?>
+                    <div class="category col-lg-3">
+                        <label for="page-location">Location</label>
+                        <div class="browse-select">
+                            <select id="page-location" class="select-opt">
+                                <option>Select a Location</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="category col-lg-3">
+                        <label for="page-type">Types</label>
+                        <div class="browse-select">
+                            <select id="page-type" class="select-opt">
+                                <option>Select a Type</option>
+                            </select>
+                        </div>
+                    </div>
+                <?php
+                    if ( 'happenings' === $atts[ 'type' ] ) {
+                    ?>
+                        <div class="category col-lg-3">
+                            <label for="happenings_date">Date</label>
+                            <div class="browse-select">
+                                <input type="text" name="happenings_date" id="happenings_date" placeholder="MM, DD 20XX"/>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="happenings-order">Order</label>
+                            <div class="browse-select">
+                                <select id="happenings-order" class="select-opt">
+                                    <option value="default">Select a Order</option>
+                                    <option value="Chronologically">Chronologically</option>
+                                    <option value="A-Z">A-Z</option>
+                                </select>
+                            </div>
+                        </div>
+                    <?php
+                    }
                 }
                 ?>
             </div>
@@ -360,7 +415,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
 
     $html = ob_get_clean();
 
-    if ( 'speakers' === $atts[ 'type' ] ) {
+    if ( 'speakers' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
 	    wp_enqueue_script( 'jquery-ui-datepicker' );
 	    wp_enqueue_style( 'jquery-ui', get_template_directory_uri() . '/assets/css/jquery-ui.min.css' );
     }
