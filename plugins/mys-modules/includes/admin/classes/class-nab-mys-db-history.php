@@ -76,18 +76,32 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			if ( ! empty( $orderby ) ) {
 				$this->request_data['order_clause'][] = "$orderby $order";
 			}
-			$this->request_data['order_clause'][]    = "$default_timecol $timeorder";
+			$this->request_data['order_clause'][] = "$default_timecol $timeorder";
 		}
 
 		private function nab_mys_history_set_filters() {
 
+			$data_type = $this->request_data['data_type'];
+
 			if ( 'listing' === $this->page_template ) {
 				//LISTING PAGE
 
-				$name_date_col     = 'HistoryStartTime';
-				$name_datatype_col = 'HistoryDataType';
+				$name_date_col = 'HistoryStartTime';
 
-				$this->request_data['data_type'] = null === $this->request_data['data_type'] || 'all' === $this->request_data['data_type'] ? '%-%' : $this->request_data['data_type'];
+				if ( null === $data_type || 'all' === $data_type ) {
+					$name_datatype_col = 'HistoryDataType LIKE';
+
+					$data_type = '%-%';
+				} else {
+					$name_datatype_col = 'HistoryDataType =';
+				}
+
+				// Data Type- Filter
+				if ( null !== $data_type && 'all' !== $data_type ) {
+					$this->where_clause_history[] = "HistoryDataType LIKE '%-%'";
+				} else {
+					$this->where_clause_history[] = "HistoryDataType = '" . $data_type . "'";
+				}
 
 				// User - Filter
 				$args = array(
@@ -114,8 +128,17 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			} else {
 				//DETAIL or SEARCH PAGE
 
-				$name_date_col     = 'DataStartTime';
-				$name_datatype_col = 'DataType';
+				$name_date_col = 'DataStartTime';
+
+				// Data Type- Filter
+				if ( null !== $data_type && 'all' !== $data_type ) {
+					if ( strpos( $data_type, 'exhibitor' ) !== false ) {
+						$this->where_clause_history[] = "DataType LIKE '%exhibitor%'";
+					} else {
+						$this->where_clause_history[] = "DataType = '" . $data_type . "'";
+					}
+
+				}
 
 				// Status - Filter
 				if ( null !== $this->request_data['status'] && 'all' !== $this->request_data['status'] ) {
@@ -163,11 +186,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				$this->where_clause_history[] = "$name_date_col >= '" . $from_date_ . "'";
 			}
 
-			// Data Type- Filter
-			if ( null !== $this->request_data['data_type'] && 'all' !== $this->request_data['data_type'] ) {
-				$this->where_clause_history[] = "$name_datatype_col LIKE '" . $this->request_data['data_type'] . "'";
-			}
-
 		}
 
 		private function nab_mys_history_set_ordering() {
@@ -186,7 +204,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$timeorder            = $this->request_data['timeorder'];
 			$timeorder_reverse    = $this->request_data['timeorder_reverse'];
 			$sorted_heading_class = "sorted $order";
-			$time_heading_class = "sorted $timeorder";
+			$time_heading_class   = "sorted $timeorder";
 			$orderby              = $this->request_data['orderby'];
 			$first_order          = ! empty( $orderby ) ? "&orderby=$orderby&order=$order" : '';
 			$sorted_heading_link  = "<a href='$current_url_without_order&orderby=$orderby&order=$order_reverse&timeorder=$timeorder'>";
@@ -203,13 +221,13 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->sorting_data['user_row_html'] = "<a href='$current_url_without_order&orderby=HistoryUser&timeorder=$timeorder'>$user_row_title</a>";
 
 			//Default Ordering of Time
-			$start_row_title                      = 'Start Time';
+			$start_row_title                       = 'Start Time';
 			$this->sorting_data['start_row_class'] = $time_heading_class;
-			$this->sorting_data['start_row_html'] = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$start_row_title<span class='sorting-indicator'></span></a>";
+			$this->sorting_data['start_row_html']  = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$start_row_title<span class='sorting-indicator'></span></a>";
 			//for detail
-			$dataid_row_title                      = 'Data ID';
+			$dataid_row_title                       = 'Data ID';
 			$this->sorting_data['dataid_row_class'] = $time_heading_class;
-			$this->sorting_data['dataid_row_html'] = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$dataid_row_title<span class='sorting-indicator'></span></a>";
+			$this->sorting_data['dataid_row_html']  = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$dataid_row_title<span class='sorting-indicator'></span></a>";
 
 			switch ( $this->request_data['orderby'] ) {
 				/*case 'DataID':
@@ -317,7 +335,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
-		public function nab_mys_load_history_page( $page_groupid, $nab_mys_db_cron_object ) {
+		public function nab_mys_history_page_loader( $page_groupid, $nab_mys_db_cron_object ) {
 
 			$this->page_groupid           = null === $page_groupid || empty( $page_groupid ) ? 'all' : $page_groupid;
 			$this->page_template          = null === $page_groupid || empty( $page_groupid ) ? 'listing' : 'detail';
@@ -360,8 +378,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$offset               = $this->request_data['offset'];
 			$limit                = $this->request_data['limit'];
 			$keyword              = $this->request_data['s'];
-			$order_clause  = $this->request_data['order_clause'];
-			$order_clause  = implode( ', ', $order_clause );
+			$order_clause         = $this->request_data['order_clause'];
+			$order_clause         = implode( ', ', $order_clause );
 
 			$data_rows = $wpdb->get_results(
 				$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}mys_data
@@ -549,6 +567,38 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 					, $after_history_id ) );
 
 			return array( 'date_before_given_days' => $date_before_given_days, 'history_clear_status' => $history_clear );
+		}
+
+		public function nab_mys_dashboard_glance() {
+
+			$glance_data = array();
+
+			$detail_group_url = admin_url( "edit.php?post_type=exhibitors" );
+			$detail_group_url = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
+
+			//Sessions
+			$glance_data['Sessions']['count'] = wp_count_posts( 'sessions' )->publish;
+			$glance_data['Sessions']['link']  = admin_url( "edit.php?post_type=sessions" );
+
+			$glance_data['Sessions']['terms']['Tracks']['tcount']    = wp_count_terms( 'tracks' );
+			$glance_data['Sessions']['terms']['Tracks']['tlink']     = admin_url( "edit-tags.php?taxonomy=tracks&post_type=sessions" );
+			$glance_data['Sessions']['terms']['Locations']['tcount'] = wp_count_terms( 'session-locations' );
+			$glance_data['Sessions']['terms']['Locations']['tlink']  = admin_url( "edit-tags.php?taxonomy=session-locations&post_type=sessions" );
+
+			//Sponsors
+			$glance_data['Sponsors']['count'] = wp_count_posts( 'sponsors' )->publish;
+			$glance_data['Sponsors']['link']  = admin_url( "edit.php?post_type=sponsors" );
+
+			//Exhibitors
+			$glance_data['Exhibitors']['count'] = wp_count_posts( 'exhibitors' )->publish;
+			$glance_data['Exhibitors']['link']  = admin_url( "edit.php?post_type=exhibitors" );
+
+			$glance_data['Exhibitors']['terms']['Halls']['tcount']     = wp_count_terms( 'halls' );
+			$glance_data['Exhibitors']['terms']['Halls']['tlink']      = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Pavilions']['tcount'] = wp_count_terms( 'pavilions' );
+			$glance_data['Exhibitors']['terms']['Pavilions']['tlink']  = admin_url( "edit-tags.php?taxonomy=pavilions&post_type=exhibitors" );
+
+			return $glance_data;
 		}
 	}
 }

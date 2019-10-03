@@ -20,6 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package MYS Modules
  * @since 1.0.0
  */
+if ( ! defined( 'MYS_PLUGIN_VERSION' ) ) {
+	define( 'MYS_PLUGIN_VERSION', '1.0.0' );
+}
 if ( ! defined( 'MYS_PLUGIN_URL' ) ) {
 	define( 'MYS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }

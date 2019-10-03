@@ -204,6 +204,9 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		}
 
 		public function nab_mys_dashboard_page_fun() {
+
+			$this->nab_mys_load_history_class();
+
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-dashbord-page.php' );
 		}
 
@@ -214,7 +217,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 			$history_groupid = FILTER_INPUT( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
 			//Load Page
-			$this->nab_mys_db_history_object->nab_mys_load_history_page($history_groupid, $this->nab_mys_db_cron_object);
+			$this->nab_mys_db_history_object->nab_mys_history_page_loader($history_groupid, $this->nab_mys_db_cron_object);
 
 		}
 

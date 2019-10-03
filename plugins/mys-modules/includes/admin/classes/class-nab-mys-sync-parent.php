@@ -448,7 +448,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 				// send email..
 				NAB_MYS_DB_CRON::nab_mys_static_reset_sequence( $stuck_groupid );
 
-				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
+				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid . '&timeorder=asc' );
 
 				$email_subject = "$mys_data_attempt Attempts Failed - Tried to Sync $data.";
 				$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";

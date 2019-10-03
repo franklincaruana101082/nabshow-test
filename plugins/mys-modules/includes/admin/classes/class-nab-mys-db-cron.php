@@ -292,7 +292,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$result['sequence_finished'][$groupid] = " --- FULL SEQUENCE FINISHED.";
 
 						//send email if the user is not 0 (i.e. not cron)...
-						$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid );
+						$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
 
 						$email_subject = "$data_name Synced Successfully.";
 						$email_body    = "Sequence ($groupid) finished. <a href='$history_detail_link'>Click here</a> to view details.";

@@ -271,7 +271,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				NAB_MYS_DB_CRON::nab_mys_static_reset_sequence( $stuck_groupid );
 			}
 
-			$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid );
+			$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid . '&timeorder=asc' );
 
 			$email_subject = "DB Action Failed - Tried to $failed_action.";
 			$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
