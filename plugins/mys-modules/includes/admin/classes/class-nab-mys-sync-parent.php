@@ -463,4 +463,3 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		}
 	}
 }
-//new NAB_MYS_Sync_Parent();

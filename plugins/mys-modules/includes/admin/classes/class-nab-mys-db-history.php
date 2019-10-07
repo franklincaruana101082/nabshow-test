@@ -531,7 +531,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$wpdb = $this->wpdb;
 
 			$history_reset_dtable = $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_data" );
-			$history_reset_htable = $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_history" ); //db call ok; no-cache ok //phpcs:ignore
+			$history_reset_htable = $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_history" ); //db call ok; no-cache ok
 
 			return $history_reset_htable;
 		}
@@ -573,9 +573,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$glance_data = array();
 
-			$detail_group_url = admin_url( "edit.php?post_type=exhibitors" );
-			$detail_group_url = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
-
 			//Sessions
 			$glance_data['Sessions']['count'] = wp_count_posts( 'sessions' )->publish;
 			$glance_data['Sessions']['link']  = admin_url( "edit.php?post_type=sessions" );
@@ -595,10 +592,24 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$glance_data['Exhibitors']['terms']['Halls']['tcount']     = wp_count_terms( 'halls' );
 			$glance_data['Exhibitors']['terms']['Halls']['tlink']      = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tcount']     = wp_count_terms( 'exhibitor-categories' );
+			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tlink']      = admin_url( "edit-tags.php?taxonomy=exhibitor-categories&post_type=exhibitors" );
 			$glance_data['Exhibitors']['terms']['Pavilions']['tcount'] = wp_count_terms( 'pavilions' );
 			$glance_data['Exhibitors']['terms']['Pavilions']['tlink']  = admin_url( "edit-tags.php?taxonomy=pavilions&post_type=exhibitors" );
 
 			return $glance_data;
+		}
+
+		public function nab_mys_dashboard_activity() {
+
+			$wpdb = $this->wpdb;
+
+			$recent_history = $wpdb->get_results(
+				 "SELECT * FROM {$wpdb->prefix}mys_history
+										WHERE HistoryDataType LIKE '%-%'
+										ORDER BY HistoryID DESC LIMIT 5"); //db call ok; no-cache ok
+
+			return $recent_history;
 		}
 	}
 }
