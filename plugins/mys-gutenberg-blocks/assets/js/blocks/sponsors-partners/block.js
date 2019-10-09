@@ -4,14 +4,8 @@ import { partnerSponser1, partnerSponser2 } from '../icons';
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
-    const { InspectorControls, RichText } = wpEditor;
-    const {
-        PanelBody,
-        SelectControl,
-        ServerSideRender,
-        CheckboxControl,
-        RangeControl,
-    } = wpComponents;
+    const { InspectorControls } = wpEditor;
+    const { PanelBody, SelectControl, ServerSideRender, CheckboxControl, RangeControl, ToggleControl } = wpComponents;
 
     class MYSSponsorsPartners extends Component {
         constructor() {
@@ -89,6 +83,7 @@ import { partnerSponser1, partnerSponser2 } from '../icons';
             const {
                 layout,
                 itemToFetch,
+                listingPage,
                 postType,
                 taxonomies,
                 terms,
@@ -104,6 +99,14 @@ import { partnerSponser1, partnerSponser2 } from '../icons';
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                            <ToggleControl
+                                label={__('Is Listing Page?')}
+                                checked={listingPage}
+                                help={__('Note: This option only work in nabashow-lv theme.')}
+                                onChange={() => setAttributes({ listingPage: ! listingPage, layout: 'without-title' }) }
+                            />
+
+                            { ! listingPage &&
                             <div>
                                 <label>Layout</label>
                                 <ul className="ss-off-options">
@@ -111,12 +114,14 @@ import { partnerSponser1, partnerSponser2 } from '../icons';
                                     <li className={'with-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-title' }) }>{partnerSponser2}</li>
                                 </ul>
                             </div>
+                            }
+
                             <div className="inspector-field inspector-field-Numberofitems ">
                                 <label className="inspector-mb-0">Number of items</label>
                                 <RangeControl
                                     value={itemToFetch}
                                     min={1}
-                                    max={20}
+                                    max={100}
                                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); }}
                                 />
                             </div>
@@ -250,6 +255,7 @@ import { partnerSponser1, partnerSponser2 } from '../icons';
                                 orderBy: orderBy,
                                 taxonomies: taxonomies,
                                 terms: terms,
+                                listingPage: listingPage
                             }}
                         />
                     </div>
@@ -266,6 +272,10 @@ import { partnerSponser1, partnerSponser2 } from '../icons';
         itemToFetch: {
             type: 'number',
             default: 10
+        },
+        listingPage: {
+            type: 'boolean',
+            default: false
         },
         postType: {
             type: 'string',

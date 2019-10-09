@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
@@ -161,17 +161,18 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={sliderActive}
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
                             />
-                            { ! sliderActive &&
+                            {! sliderActive &&
                                 <Fragment>
                                     <div>
-                                        <label>Select Listing Layout</label>
+                                        <label>{__('Select Listing Layout')}</label>
                                         <PanelRow>
                                             <ul className="ss-off-options related-off">
-                                                <li className={'destination' === listingLayout ? 'active destination' : 'destination'} onClick={() => setAttributes({listingLayout: 'destination'})}>{destinations}</li>
-                                                <li className={'key-contacts' === listingLayout ? 'active key-contacts' : 'key-contacts'} onClick={() => setAttributes({listingLayout: 'key-contacts'})}>{keyContacts}</li>
-                                                <li className={'featured-happenings' === listingLayout ? 'active featured-happenings' : 'featured-happenings'} onClick={() => setAttributes({listingLayout: 'featured-happenings'})}>{featuredHappening}</li>
-                                                <li className={'product-categories' === listingLayout ? 'active product-categories' : 'product-categories'} onClick={() => setAttributes({listingLayout: 'product-categories'})}>{productCategories}</li>
-                                                <li className={'exhibitor-resources' === listingLayout ? 'active exhibitor-resources' : 'exhibitor-resources'} onClick={() => setAttributes({listingLayout: 'exhibitor-resources'})}>{exhibitorResources}</li>
+                                                <li className={'destination' === listingLayout ? 'active destination' : 'destination'} onClick={() => setAttributes({ listingLayout: 'destination' })}>{destinations}</li>
+                                                <li className={'key-contacts' === listingLayout ? 'active key-contacts' : 'key-contacts'} onClick={() => setAttributes({ listingLayout: 'key-contacts' })}>{keyContacts}</li>
+                                                <li className={'featured-happenings' === listingLayout ? 'active featured-happenings' : 'featured-happenings'} onClick={() => setAttributes({ listingLayout: 'featured-happenings' })}>{featuredHappening}</li>
+                                                <li className={'product-categories' === listingLayout ? 'active product-categories' : 'product-categories'} onClick={() => setAttributes({ listingLayout: 'product-categories' })}>{productCategories}</li>
+                                                <li className={'exhibitor-resources' === listingLayout ? 'active exhibitor-resources' : 'exhibitor-resources'} onClick={() => setAttributes({ listingLayout: 'exhibitor-resources' })}>{exhibitorResources}</li>
+                                                <li className={'browse-happenings' === listingLayout ? 'active browse-happenings' : 'browse-happenings'} onClick={() => setAttributes({ listingLayout: 'browse-happenings' })}>{browseHappening}</li>
                                             </ul>
                                         </PanelRow>
                                     </div>

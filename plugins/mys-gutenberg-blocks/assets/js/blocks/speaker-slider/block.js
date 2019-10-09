@@ -140,7 +140,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 orderBy,
                 slideMargin,
                 arrowIcons,
-                detailPopup
+                detailPopup,
+                featuredListing
             } = attributes;
 
             var names = [
@@ -179,8 +180,17 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 label={__('Is Listing Page?')}
                                 checked={listingPage}
                                 help={__('Note: This option only work in nabashow-lv theme.')}
-                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle' }) }
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', featuredListing: listingPage ? featuredListing : false }) }
                             />
+
+                            { listingPage &&
+                            <CheckboxControl
+                                className="related-featured"
+                                label="Featured Session"
+                                checked={featuredListing}
+                                onChange={() => setAttributes({ featuredListing: ! featuredListing }) }
+                            />
+                            }
 
                             {input}
 
@@ -420,7 +430,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, listingPage: listingPage }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, listingPage: listingPage, featuredListing: featuredListing }}
                     />
                 </Fragment >
             );
@@ -498,6 +508,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        featuredListing: {
+            type: 'boolean',
+            default: false,
         }
     };
     registerBlockType('mys/speaker-slider', {

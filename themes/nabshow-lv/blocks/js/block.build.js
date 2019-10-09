@@ -296,32 +296,33 @@ module.exports = times;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return quotesSliderBottom; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return quotesSliderSide; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return quotesSliderBottom; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return quotesSliderSide; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return arrowBtn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return btnWhite; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return btnPrimary; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return btnDefault; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return btnAlt; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return btnLight; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return latestShowNews1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return latestShowNews2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return latestShowNews3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return btnWhite; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return btnPrimary; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return btnDefault; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return btnAlt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return btnLight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return latestShowNews1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return latestShowNews2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return latestShowNews3; });
 /* unused harmony export sessionSliderOff1 */
 /* unused harmony export sessionSliderOff2 */
 /* unused harmony export sessionSliderOn1 */
 /* unused harmony export sessionSliderOn2 */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return sliderArrow1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return sliderArrow2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return sliderArrow3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return sliderArrow4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return sliderArrow5; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return sliderArrow6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return destinations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return keyContacts; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return featuredHappening; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return productCategories; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return exhibitorResources; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return sliderArrow1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return sliderArrow2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return sliderArrow3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return sliderArrow4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return sliderArrow5; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return sliderArrow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return destinations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return keyContacts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return featuredHappening; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return productCategories; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return exhibitorResources; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return browseHappening; });
 var quotesSliderBottom = wp.element.createElement(
   "svg",
   { version: "1.1", id: "quotesSliderBottom", x: "0px", y: "0px", width: "446px", height: "303.999px", viewBox: "0 0 446 303.999", enableBackground: "new 0 0 446 303.999" },
@@ -867,49 +868,46 @@ var sliderArrow6 = wp.element.createElement(
 
 var destinations = wp.element.createElement(
   "svg",
-  { version: "1.1", id: "destinations", x: "0px", y: "0px", width: "334px", height: "228.5px", viewBox: "0 0 334 228.5", enableBackground: "new 0 0 334 228.5" },
-  wp.element.createElement("rect", { x: "1.5", y: "1.5", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "331", height: "225.5" }),
+  { version: "1.1", id: "destinations", x: "0px", y: "0px", width: "334px", height: "252.418px", viewBox: "0.59 -19.752 334 252.418", "enable-background": "new 0.59 -19.752 334 252.418" },
+  wp.element.createElement("rect", { x: "1.5", y: "1.5", display: "none", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "331", height: "225.5" }),
+  wp.element.createElement("rect", { x: "2.09", y: "-18.252", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "331", height: "249.418" }),
   wp.element.createElement(
     "g",
     null,
     wp.element.createElement(
       "g",
       null,
-      wp.element.createElement("rect", { x: "26.679", y: "23.391", fill: "#7B8080", width: "281", height: "86.837" }),
+      wp.element.createElement("rect", { x: "27.09", y: "14.829", fill: "#7B8080", width: "281", height: "103.152" }),
       wp.element.createElement(
         "g",
         null,
-        wp.element.createElement("path", { fill: "#FFFFFF", d: "M185.057,53.058h-35.757c-0.353,0-0.639,0.268-0.639,0.598v26.308c0,0.331,0.286,0.598,0.639,0.598 h35.757c0.352,0,0.64-0.267,0.64-0.598V53.655C185.695,53.325,185.408,53.058,185.057,53.058z M184.418,79.365h-34.48V54.253 h34.48V79.365L184.418,79.365z" }),
-        wp.element.createElement("path", { fill: "#FFFFFF", d: "M158.877,66.294c1.961,0,3.557-1.494,3.557-3.329c0-1.837-1.596-3.33-3.557-3.33s-3.556,1.493-3.556,3.33 C155.321,64.8,156.917,66.294,158.877,66.294z M158.877,60.83c1.256,0,2.279,0.958,2.279,2.134c0,1.176-1.022,2.134-2.279,2.134 c-1.257,0-2.279-0.957-2.279-2.133S157.621,60.83,158.877,60.83z" }),
-        wp.element.createElement("path", { fill: "#FFFFFF", d: "M153.131,76.974c0.148,0,0.299-0.049,0.421-0.149l10.417-8.587l6.578,6.159 c0.25,0.233,0.653,0.233,0.901,0c0.251-0.234,0.251-0.612,0-0.845l-3.068-2.875l5.863-6.011l7.19,6.171 c0.259,0.224,0.662,0.207,0.901-0.036c0.238-0.245,0.22-0.622-0.038-0.845l-7.664-6.577c-0.126-0.107-0.292-0.161-0.459-0.157 c-0.17,0.007-0.329,0.077-0.444,0.194l-6.253,6.414l-3.028-2.836c-0.239-0.223-0.621-0.234-0.875-0.027l-10.866,8.958 c-0.264,0.218-0.291,0.596-0.057,0.844C152.777,76.906,152.953,76.974,153.131,76.974z" })
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M185.467,50.069h-35.756c-0.354,0-0.639,0.318-0.639,0.71v31.25c0,0.394,0.285,0.71,0.639,0.71h35.756 c0.354,0,0.641-0.317,0.641-0.71V50.779C186.106,50.387,185.819,50.069,185.467,50.069z M184.828,81.319h-34.48v-29.83h34.48 V81.319L184.828,81.319z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M159.288,65.792c1.961,0,3.557-1.775,3.557-3.955c0-2.182-1.596-3.956-3.557-3.956 s-3.557,1.774-3.557,3.956C155.731,64.017,157.328,65.792,159.288,65.792z M159.288,59.301c1.256,0,2.278,1.138,2.278,2.535 c0,1.397-1.021,2.536-2.278,2.536s-2.279-1.137-2.279-2.534S158.032,59.301,159.288,59.301z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M153.542,78.479c0.147,0,0.299-0.059,0.421-0.177l10.417-10.201l6.578,7.316 c0.25,0.277,0.654,0.277,0.9,0c0.252-0.278,0.252-0.727,0-1.004l-3.066-3.415l5.863-7.14l7.189,7.331 c0.258,0.266,0.662,0.246,0.9-0.043c0.238-0.291,0.221-0.739-0.037-1.003l-7.664-7.813c-0.127-0.127-0.293-0.191-0.459-0.186 c-0.17,0.008-0.33,0.091-0.445,0.23l-6.252,7.619l-3.028-3.369c-0.239-0.265-0.621-0.278-0.875-0.033l-10.866,10.641 c-0.265,0.259-0.291,0.708-0.058,1.003C153.187,78.398,153.364,78.479,153.542,78.479z" })
       )
     ),
-    wp.element.createElement("rect", { x: "90.678", y: "138.501", fill: "#7B8080", width: "153.001", height: "11" }),
-    wp.element.createElement("rect", { x: "115.026", y: "181.001", fill: "#7B8080", width: "104.305", height: "9.333" })
+    wp.element.createElement("rect", { x: "91.089", y: "146.253", fill: "#7B8080", width: "153.001", height: "11" }),
+    wp.element.createElement("rect", { x: "115.436", y: "188.753", fill: "#7B8080", width: "104.306", height: "9.333" })
   )
 );
 
 var keyContacts = wp.element.createElement(
   "svg",
-  { version: "1.1", id: "keyContacts", x: "0px", y: "0px", width: "334px", height: "283.5px", viewBox: "0 0 334 283.5", enableBackground: "new 0 0 334 283.5" },
+  { version: "1.1", id: "keyContacts", x: "0px", y: "0px", width: "334px", height: "252.417px", viewBox: "-0.75 3.387 334 252.417", enableBackground: "new -0.75 3.387 334 252.417" },
   wp.element.createElement("rect", { x: "0.75", y: "4.887", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "331", height: "249.417" }),
+  wp.element.createElement("rect", { x: "22.75", y: "46.78", fill: "#7B8080", width: "150.857", height: "10.956" }),
+  wp.element.createElement("rect", { x: "22.75", y: "83.964", fill: "#7B8080", width: "279.272", height: "7.968" }),
+  wp.element.createElement("rect", { x: "22.75", y: "103.884", fill: "#7B8080", width: "287", height: "6.641" }),
+  wp.element.createElement("rect", { x: "22.75", y: "124.137", fill: "#7B8080", width: "274.558", height: "7.636" }),
+  wp.element.createElement("rect", { x: "22.75", y: "143.393", fill: "#7B8080", width: "255.724", height: "7.305" }),
   wp.element.createElement(
     "g",
     null,
-    wp.element.createElement("rect", { x: "22.75", y: "46.78", fill: "#7B8080", width: "150.858", height: "10.956" }),
-    wp.element.createElement("rect", { x: "22.75", y: "83.964", fill: "#7B8080", width: "279.273", height: "7.968" }),
-    wp.element.createElement("rect", { x: "22.75", y: "103.884", fill: "#7B8080", width: "287", height: "6.641" }),
-    wp.element.createElement("rect", { x: "22.75", y: "124.137", fill: "#7B8080", width: "274.558", height: "7.636" }),
-    wp.element.createElement("rect", { x: "22.75", y: "143.393", fill: "#7B8080", width: "255.724", height: "7.304" }),
+    wp.element.createElement("rect", { x: "22.75", y: "181.999", fill: "#7B8080", width: "97.667", height: "30.412" }),
     wp.element.createElement(
-      "g",
-      null,
-      wp.element.createElement("rect", { x: "22.75", y: "181.999", fill: "#7B8080", width: "97.667", height: "30.412" }),
-      wp.element.createElement(
-        "text",
-        { transform: "matrix(1 0 0 1 42.7903 200.7275)", fill: "#FFFFFF", "font-family": "'MyriadPro-Regular'", "font-size": "12" },
-        "CLICK HERE"
-      )
+      "text",
+      { transform: "matrix(1 0 0 1 36.4192 200.7275)", fill: "#FFFFFF", "font-family": "'TimesNewRomanPSMT'", "font-size": "12" },
+      "CLICK HERE"
     )
   )
 );
@@ -1028,6 +1026,76 @@ var exhibitorResources = wp.element.createElement(
   wp.element.createElement("rect", { x: "23.862", y: "173.427", fill: "#7B8080", width: "185.164", height: "5.149" }),
   wp.element.createElement("rect", { x: "23.862", y: "186.413", fill: "#7B8080", width: "172.462", height: "4.927" }),
   wp.element.createElement("rect", { x: "23.862", y: "212.45", fill: "#7B8080", width: "65.867", height: "7.926" })
+);
+
+var browseHappening = wp.element.createElement(
+  "svg",
+  { version: "1.1", id: "browseHappening", x: "0px", y: "0px", width: "334px", height: "252.417px", viewBox: "0 0 334 252.417", "enable-background": "new 0 0 334 252.417" },
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement("rect", { x: "0.449", y: "28.889", fill: "#7B8080", width: "156.403", height: "11.358" }),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("rect", { x: "0.449", y: "69.527", fill: "#7B8080", width: "91.533", height: "67.891" }),
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M55.298,96.012H37.134c-0.179,0-0.324,0.144-0.324,0.324v14.271c0,0.18,0.145,0.324,0.324,0.324h18.164 c0.178,0,0.324-0.145,0.324-0.324V96.335C55.622,96.156,55.476,96.012,55.298,96.012z M54.973,110.283H37.458V96.66h17.515 V110.283L54.973,110.283z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M41.999,103.192c0.996,0,1.807-0.811,1.807-1.806c0-0.997-0.811-1.807-1.807-1.807 s-1.806,0.811-1.806,1.807C40.193,102.381,41.003,103.192,41.999,103.192z M41.999,100.228c0.639,0,1.157,0.52,1.157,1.157 c0,0.638-0.519,1.158-1.157,1.158s-1.157-0.52-1.157-1.158C40.842,100.748,41.36,100.228,41.999,100.228z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M39.079,108.985c0.077,0,0.153-0.026,0.215-0.08l5.291-4.658l3.342,3.341 c0.126,0.126,0.332,0.126,0.458,0c0.127-0.127,0.127-0.333,0-0.459l-1.56-1.56l2.979-3.261l3.652,3.349 c0.132,0.121,0.337,0.112,0.457-0.021c0.122-0.132,0.112-0.337-0.019-0.458l-3.893-3.569c-0.063-0.057-0.148-0.086-0.233-0.085 c-0.086,0.004-0.168,0.042-0.225,0.106l-3.177,3.479l-1.539-1.539c-0.12-0.121-0.315-0.127-0.443-0.015l-5.52,4.859 c-0.134,0.12-0.147,0.323-0.029,0.458C38.9,108.948,38.99,108.985,39.079,108.985z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("rect", { x: "123.194", y: "69.527", fill: "#7B8080", width: "91.533", height: "67.889" }),
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M178.042,96.011h-18.163c-0.179,0-0.324,0.145-0.324,0.325v14.271c0,0.18,0.146,0.325,0.324,0.325h18.163 c0.18,0,0.326-0.145,0.326-0.325V96.336C178.368,96.157,178.222,96.011,178.042,96.011z M177.719,110.283h-17.515V96.66h17.515 V110.283L177.719,110.283z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M164.744,103.192c0.997,0,1.807-0.811,1.807-1.805c0-0.998-0.81-1.808-1.807-1.808 c-0.996,0-1.807,0.81-1.807,1.807C162.938,102.381,163.748,103.192,164.744,103.192z M164.744,100.229 c0.64,0,1.159,0.519,1.159,1.157c0,0.638-0.52,1.158-1.159,1.158c-0.638,0-1.158-0.52-1.158-1.157 C163.586,100.748,164.106,100.229,164.744,100.229z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M161.825,108.985c0.076,0,0.151-0.026,0.214-0.081l5.292-4.658l3.341,3.341 c0.128,0.127,0.333,0.127,0.458,0c0.127-0.127,0.127-0.333,0-0.459l-1.559-1.56l2.978-3.26l3.653,3.348 c0.131,0.121,0.337,0.112,0.457-0.021c0.122-0.132,0.112-0.337-0.019-0.458l-3.894-3.568c-0.063-0.058-0.147-0.087-0.232-0.085 c-0.087,0.004-0.168,0.042-0.226,0.105l-3.177,3.48l-1.539-1.539c-0.12-0.122-0.314-0.127-0.443-0.015l-5.519,4.859 c-0.135,0.119-0.148,0.323-0.029,0.458C161.646,108.948,161.735,108.985,161.825,108.985z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("rect", { x: "242.017", y: "69.527", fill: "#7B8080", width: "91.533", height: "67.889" }),
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M296.864,96.012h-18.163c-0.18,0-0.325,0.145-0.325,0.324v14.271c0,0.179,0.146,0.324,0.325,0.324h18.163 c0.179,0,0.325-0.145,0.325-0.324V96.336C297.189,96.157,297.043,96.012,296.864,96.012z M296.54,110.283h-17.515V96.661h17.515 V110.283L296.54,110.283z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M283.566,103.192c0.996,0,1.807-0.811,1.807-1.805c0-0.997-0.811-1.807-1.807-1.807 s-1.806,0.81-1.806,1.806C281.761,102.382,282.57,103.192,283.566,103.192z M283.566,100.229c0.638,0,1.158,0.519,1.158,1.157 c0,0.638-0.521,1.158-1.158,1.158c-0.639,0-1.158-0.519-1.158-1.157C282.408,100.749,282.928,100.229,283.566,100.229z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M280.646,108.986c0.078,0,0.154-0.026,0.216-0.081l5.291-4.658l3.341,3.342 c0.128,0.125,0.333,0.125,0.459,0c0.126-0.127,0.126-0.333,0-0.46l-1.56-1.559l2.978-3.262l3.652,3.349 c0.132,0.122,0.338,0.111,0.458-0.02c0.122-0.132,0.112-0.337-0.019-0.458l-3.894-3.568c-0.063-0.058-0.147-0.086-0.232-0.085 c-0.087,0.004-0.168,0.042-0.225,0.106l-3.177,3.479l-1.54-1.538c-0.12-0.121-0.314-0.127-0.443-0.015l-5.519,4.859 c-0.135,0.119-0.148,0.323-0.029,0.458C280.468,108.948,280.557,108.986,280.646,108.986z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("rect", { x: "0.611", y: "155.64", fill: "#7B8080", width: "91.533", height: "67.889" }),
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M55.46,182.125H37.296c-0.179,0-0.324,0.145-0.324,0.324v14.27c0,0.182,0.146,0.326,0.324,0.326H55.46 c0.179,0,0.324-0.145,0.324-0.326v-14.27C55.784,182.269,55.639,182.125,55.46,182.125z M55.136,196.394H37.621v-13.621h17.515 V196.394L55.136,196.394z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M42.161,189.304c0.996,0,1.807-0.811,1.807-1.805c0-0.998-0.811-1.809-1.807-1.809 s-1.806,0.811-1.806,1.807S41.165,189.304,42.161,189.304z M42.161,186.341c0.64,0,1.158,0.52,1.158,1.156 c0,0.639-0.519,1.158-1.158,1.158c-0.639,0-1.158-0.52-1.158-1.158C41.003,186.861,41.522,186.341,42.161,186.341z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M39.241,195.097c0.077,0,0.152-0.025,0.215-0.08l5.291-4.658l3.341,3.342 c0.128,0.127,0.333,0.127,0.459,0c0.127-0.127,0.127-0.334,0-0.459l-1.559-1.561l2.978-3.26l3.653,3.348 c0.131,0.121,0.337,0.111,0.457-0.02c0.122-0.133,0.111-0.336-0.019-0.459l-3.894-3.566c-0.063-0.059-0.147-0.088-0.232-0.086 c-0.087,0.004-0.169,0.041-0.226,0.105l-3.177,3.48l-1.539-1.539c-0.12-0.121-0.314-0.127-0.443-0.016l-5.519,4.859 c-0.135,0.119-0.148,0.322-0.029,0.459C39.063,195.06,39.152,195.097,39.241,195.097z" })
+      )
+    ),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("rect", { x: "125.343", y: "155.64", fill: "#7B8080", width: "91.534", height: "67.889" }),
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M180.191,182.125h-18.164c-0.178,0-0.324,0.145-0.324,0.324v14.27c0,0.182,0.146,0.326,0.324,0.326 h18.164c0.18,0,0.325-0.145,0.325-0.326v-14.27C180.517,182.271,180.371,182.125,180.191,182.125z M179.867,196.396h-17.514 v-13.621h17.514V196.396L179.867,196.396z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M166.894,189.304c0.996,0,1.806-0.809,1.806-1.805s-0.81-1.807-1.806-1.807s-1.807,0.811-1.807,1.807 S165.897,189.304,166.894,189.304z M166.894,186.341c0.64,0,1.158,0.52,1.158,1.158c0,0.637-0.519,1.158-1.158,1.158 c-0.639,0-1.159-0.521-1.159-1.158C165.734,186.861,166.255,186.341,166.894,186.341z" }),
+        wp.element.createElement("path", { fill: "#FFFFFF", d: "M163.974,195.099c0.076,0,0.151-0.027,0.214-0.082l5.292-4.658l3.341,3.342 c0.128,0.127,0.332,0.127,0.46,0c0.126-0.127,0.126-0.332,0-0.459l-1.56-1.559l2.977-3.262l3.653,3.35 c0.132,0.119,0.338,0.111,0.457-0.021c0.122-0.131,0.111-0.336-0.018-0.457l-3.895-3.568c-0.063-0.059-0.147-0.088-0.232-0.086 c-0.087,0.004-0.169,0.041-0.225,0.105l-3.178,3.48l-1.538-1.537c-0.12-0.123-0.314-0.129-0.444-0.018l-5.518,4.861 c-0.136,0.117-0.148,0.322-0.03,0.457C163.795,195.06,163.884,195.099,163.974,195.099z" })
+      )
+    )
+  )
 );
 
 /***/ }),
@@ -2315,8 +2383,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__block_photos_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__block_photos_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__block_badge_discounts_block__ = __webpack_require__(157);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__block_badge_discounts_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__block_badge_discounts_block__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__block_official_vendor_block__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__block_official_vendor_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__block_official_vendor_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__block_registration_passes_block__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__block_registration_passes_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__block_registration_passes_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__block_official_vendor_block__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__block_official_vendor_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__block_official_vendor_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__block_news_conference_schedule_block__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__block_news_conference_schedule_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__block_news_conference_schedule_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__block_opportunities_block__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__block_opportunities_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__block_opportunities_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__block_exhibitor_advisory_committee_block__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__block_exhibitor_advisory_committee_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__block_exhibitor_advisory_committee_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__block_sponsor_opportunities_main_block__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__block_sponsor_opportunities_main_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__block_sponsor_opportunities_main_block__);
+
+
+
+
+
 
 
 
@@ -4453,7 +4536,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons;
 
 
-                var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["r" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["s" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["t" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["u" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["v" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["r" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["s" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["t" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["u" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["v" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["w" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 if (0 === media.length) {
                     return wp.element.createElement(
@@ -22731,35 +22814,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         { className: 'btn-primary' === btnStyle ? 'active' : '', onClick: function onClick() {
                             return setAttributes({ btnStyle: 'btn-primary' });
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* btnPrimary */]
+                        __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* btnPrimary */]
                       ),
                       wp.element.createElement(
                         'li',
                         { className: 'btn-default' === btnStyle ? 'active' : '', onClick: function onClick() {
                             return setAttributes({ btnStyle: 'btn-default' });
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0__icons__["c" /* btnDefault */]
+                        __WEBPACK_IMPORTED_MODULE_0__icons__["d" /* btnDefault */]
                       ),
                       wp.element.createElement(
                         'li',
                         { className: 'btn-alt' === btnStyle ? 'active' : '', onClick: function onClick() {
                             return setAttributes({ btnStyle: 'btn-alt' });
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0__icons__["b" /* btnAlt */]
+                        __WEBPACK_IMPORTED_MODULE_0__icons__["c" /* btnAlt */]
                       ),
                       wp.element.createElement(
                         'li',
                         { className: 'btn-light' === btnStyle ? 'active' : '', onClick: function onClick() {
                             return setAttributes({ btnStyle: 'btn-light' });
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0__icons__["d" /* btnLight */]
+                        __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* btnLight */]
                       ),
                       wp.element.createElement(
                         'li',
                         { className: 'btn-white' === btnStyle ? 'active' : '', onClick: function onClick() {
                             return setAttributes({ btnStyle: 'btn-white' });
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* btnWhite */]
+                        __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* btnWhite */]
                       ),
                       wp.element.createElement(
                         'li',
@@ -26385,7 +26468,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                     return _this2.reloadSlider();
                                                 }, 10);
                                             }, className: 'quotes-options-1' === quotesOptions ? 'active' : '' },
-                                        __WEBPACK_IMPORTED_MODULE_2__icons__["p" /* quotesSliderSide */]
+                                        __WEBPACK_IMPORTED_MODULE_2__icons__["q" /* quotesSliderSide */]
                                     ),
                                     wp.element.createElement(
                                         'li',
@@ -26394,7 +26477,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                     return _this2.reloadSlider();
                                                 }, 10);
                                             }, className: 'quotes-options-2' === quotesOptions ? 'active' : '' },
-                                        __WEBPACK_IMPORTED_MODULE_2__icons__["o" /* quotesSliderBottom */]
+                                        __WEBPACK_IMPORTED_MODULE_2__icons__["p" /* quotesSliderBottom */]
                                     )
                                 )
                             )
@@ -26861,7 +26944,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     blockTitle = attributes.blockTitle;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["t" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["u" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["v" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["t" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["u" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["v" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["w" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -27486,21 +27569,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             { className: 'default' === postLayout ? 'active' : '', onClick: function onClick() {
                                                     return setAttributes({ postLayout: 'default' });
                                                 } },
-                                            __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* latestShowNews1 */]
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* latestShowNews1 */]
                                         ),
                                         wp.element.createElement(
                                             'li',
                                             { className: 'left' === postLayout ? 'active' : '', onClick: function onClick() {
                                                     return setAttributes({ postLayout: 'left' });
                                                 } },
-                                            __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* latestShowNews3 */]
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* latestShowNews3 */]
                                         ),
                                         wp.element.createElement(
                                             'li',
                                             { className: 'top' === postLayout ? 'active full' : 'full', onClick: function onClick() {
                                                     return setAttributes({ postLayout: 'top' });
                                                 } },
-                                            __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* latestShowNews2 */]
+                                            __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* latestShowNews2 */]
                                         )
                                     )
                                 )
@@ -35376,7 +35459,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     setAttributes = _props2.setAttributes;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["t" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["u" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["v" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["v" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["t" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["u" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["v" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["w" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["w" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var commonControls = wp.element.createElement(
                     Fragment,
@@ -35483,7 +35566,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     wp.element.createElement(
                                         'label',
                                         null,
-                                        'Select Listing Layout'
+                                        __('Select Listing Layout')
                                     ),
                                     wp.element.createElement(
                                         PanelRow,
@@ -35496,35 +35579,42 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 { className: 'destination' === listingLayout ? 'active destination' : 'destination', onClick: function onClick() {
                                                         return setAttributes({ listingLayout: 'destination' });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["g" /* destinations */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* destinations */]
                                             ),
                                             wp.element.createElement(
                                                 'li',
                                                 { className: 'key-contacts' === listingLayout ? 'active key-contacts' : 'key-contacts', onClick: function onClick() {
                                                         return setAttributes({ listingLayout: 'key-contacts' });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* keyContacts */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* keyContacts */]
                                             ),
                                             wp.element.createElement(
                                                 'li',
                                                 { className: 'featured-happenings' === listingLayout ? 'active featured-happenings' : 'featured-happenings', onClick: function onClick() {
                                                         return setAttributes({ listingLayout: 'featured-happenings' });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* featuredHappening */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* featuredHappening */]
                                             ),
                                             wp.element.createElement(
                                                 'li',
                                                 { className: 'product-categories' === listingLayout ? 'active product-categories' : 'product-categories', onClick: function onClick() {
                                                         return setAttributes({ listingLayout: 'product-categories' });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* productCategories */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* productCategories */]
                                             ),
                                             wp.element.createElement(
                                                 'li',
                                                 { className: 'exhibitor-resources' === listingLayout ? 'active exhibitor-resources' : 'exhibitor-resources', onClick: function onClick() {
                                                         return setAttributes({ listingLayout: 'exhibitor-resources' });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["h" /* exhibitorResources */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* exhibitorResources */]
+                                            ),
+                                            wp.element.createElement(
+                                                'li',
+                                                { className: 'browse-happenings' === listingLayout ? 'active browse-happenings' : 'browse-happenings', onClick: function onClick() {
+                                                        return setAttributes({ listingLayout: 'browse-happenings' });
+                                                    } },
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["b" /* browseHappening */]
                                             )
                                         )
                                     )
@@ -35959,307 +36049,307 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-    var __ = wp.i18n.__;
-    var registerBlockType = wp.blocks.registerBlockType;
-    var _wp$element = wp.element,
-        Fragment = _wp$element.Fragment,
-        Component = _wp$element.Component;
-    var _wp$editor = wp.editor,
-        RichText = _wp$editor.RichText,
-        MediaUpload = _wp$editor.MediaUpload;
-    var Button = wp.components.Button;
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element = wp.element,
+      Fragment = _wp$element.Fragment,
+      Component = _wp$element.Component;
+  var _wp$editor = wp.editor,
+      RichText = _wp$editor.RichText,
+      MediaUpload = _wp$editor.MediaUpload;
+  var Button = wp.components.Button;
 
-    var NabMediaSlider = function (_Component) {
-        _inherits(NabMediaSlider, _Component);
+  var NabMediaSlider = function (_Component) {
+    _inherits(NabMediaSlider, _Component);
 
-        function NabMediaSlider() {
-            _classCallCheck(this, NabMediaSlider);
+    function NabMediaSlider() {
+      _classCallCheck(this, NabMediaSlider);
 
-            return _possibleConstructorReturn(this, (NabMediaSlider.__proto__ || Object.getPrototypeOf(NabMediaSlider)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (NabMediaSlider.__proto__ || Object.getPrototypeOf(NabMediaSlider)).apply(this, arguments));
+    }
+
+    _createClass(NabMediaSlider, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var products = this.props.attributes.products;
+
+        if (0 === products.length) {
+          this.initList();
         }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var products = this.props.attributes.products;
+        var setAttributes = this.props.setAttributes;
 
-        _createClass(NabMediaSlider, [{
-            key: 'componentDidMount',
-            value: function componentDidMount() {
-                var products = this.props.attributes.products;
+        setAttributes({
+          products: [].concat(_toConsumableArray(products), [{
+            index: products.length,
+            media: '',
+            mediaAlt: '',
+            title: '',
+            description: '',
+            readMore: 'Read More'
+          }])
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes,
+            clientId = _props.clientId,
+            className = _props.className;
+        var products = attributes.products;
 
-                if (0 === products.length) {
-                    this.initList();
+
+        var getImageButton = function getImageButton(openEvent, index) {
+          if (products[index].media) {
+            return wp.element.createElement('img', { src: products[index].media, alt: products[index].alt, className: 'img' });
+          } else {
+            return wp.element.createElement(
+              Button,
+              { onClick: openEvent, className: 'button button-large' },
+              wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+              ' Upload Logo'
+            );
+          }
+        };
+
+        var productsList = products.sort(function (a, b) {
+          return a.index - b.index;
+        }).map(function (product, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'box-item' },
+            wp.element.createElement(
+              'div',
+              { className: 'box-inner' },
+              wp.element.createElement(
+                'span',
+                {
+                  className: 'remove',
+                  onClick: function onClick() {
+                    var qewQusote = products.filter(function (item) {
+                      return item.index != product.index;
+                    }).map(function (t) {
+                      if (t.index > product.index) {
+                        t.index -= 1;
+                      }
+
+                      return t;
+                    });
+
+                    setAttributes({
+                      products: qewQusote
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'media-img' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var newObject = Object.assign({}, product, {
+                      media: media.url,
+                      mediaAlt: media.alt
+                    });
+                    setAttributes({
+                      products: [].concat(_toConsumableArray(products.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref) {
+                    var open = _ref.open;
+                    return wp.element.createElement('span', { onClick: open, className: 'dashicons dashicons-edit' });
+                  }
+                }),
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var newObject = Object.assign({}, product, {
+                      media: media.url,
+                      mediaAlt: media.alt
+                    });
+                    setAttributes({
+                      products: [].concat(_toConsumableArray(products.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref2) {
+                    var open = _ref2.open;
+                    return getImageButton(open, index);
+                  }
+                })
+              ),
+              wp.element.createElement(RichText, {
+                tagName: 'h3',
+                placeholder: __('Title'),
+                value: product.title,
+                className: 'title',
+                onChange: function onChange(title) {
+                  var newObject = Object.assign({}, product, {
+                    title: title
+                  });
+                  setAttributes({
+                    products: [].concat(_toConsumableArray(products.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
                 }
-            }
-        }, {
-            key: 'initList',
-            value: function initList() {
-                var products = this.props.attributes.products;
-                var setAttributes = this.props.setAttributes;
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'p',
+                className: 'description',
+                placeholder: __('Description'),
+                value: product.description,
+                onChange: function onChange(description) {
+                  var newObject = Object.assign({}, product, {
+                    description: description
+                  });
+                  setAttributes({
+                    products: [].concat(_toConsumableArray(products.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'p',
+                className: 'readMore',
+                placeholder: __('Read More'),
+                value: product.readMore,
+                onChange: function onChange(readMore) {
+                  var newObject = Object.assign({}, product, {
+                    readMore: readMore
+                  });
+                  setAttributes({
+                    products: [].concat(_toConsumableArray(products.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
+                }
+              })
+            )
+          );
+        });
 
-                setAttributes({
-                    products: [].concat(_toConsumableArray(products), [{
+        return wp.element.createElement(
+          'div',
+          { className: 'new-this-year new-this-year-block' },
+          wp.element.createElement(
+            'div',
+            { className: 'box-main' },
+            productsList,
+            wp.element.createElement(
+              'div',
+              { className: 'box-item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick(content) {
+                    setAttributes({
+                      products: [].concat(_toConsumableArray(products), [{
                         index: products.length,
                         media: '',
                         mediaAlt: '',
                         title: '',
                         description: '',
                         readMore: 'Read More'
-                    }])
-                });
-            }
-        }, {
-            key: 'render',
-            value: function render() {
-                var _props = this.props,
-                    attributes = _props.attributes,
-                    setAttributes = _props.setAttributes,
-                    clientId = _props.clientId,
-                    className = _props.className;
-                var products = attributes.products;
+                      }])
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return NabMediaSlider;
+  }(Component);
+
+  registerBlockType('nab/new-this-year', {
+    title: __('New This Year'),
+    description: __('New This Year'),
+    icon: 'screenoptions',
+    category: 'nabshow',
+    keywords: [__('New This Year'), __('gutenberg'), __('nab')],
+    attributes: {
+      products: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: NabMediaSlider,
+
+    save: function save(props) {
+      var attributes = props.attributes,
+          className = props.className;
+      var products = attributes.products;
 
 
-                var getImageButton = function getImageButton(openEvent, index) {
-                    if (products[index].media) {
-                        return wp.element.createElement('img', { src: products[index].media, alt: products[index].alt, className: 'img' });
-                    } else {
-                        return wp.element.createElement(
-                            Button,
-                            { onClick: openEvent, className: 'button button-large' },
-                            wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
-                            ' Upload Logo'
-                        );
-                    }
-                };
-
-                var productsList = products.sort(function (a, b) {
-                    return a.index - b.index;
-                }).map(function (product, index) {
-                    return wp.element.createElement(
-                        'div',
-                        { className: 'box-item' },
-                        wp.element.createElement(
-                            'div',
-                            { className: 'box-inner' },
-                            wp.element.createElement(
-                                'span',
-                                {
-                                    className: 'remove',
-                                    onClick: function onClick() {
-                                        var qewQusote = products.filter(function (item) {
-                                            return item.index != product.index;
-                                        }).map(function (t) {
-                                            if (t.index > product.index) {
-                                                t.index -= 1;
-                                            }
-
-                                            return t;
-                                        });
-
-                                        setAttributes({
-                                            products: qewQusote
-                                        });
-                                    }
-                                },
-                                wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
-                            ),
-                            wp.element.createElement(
-                                'div',
-                                { className: 'media-img' },
-                                wp.element.createElement(MediaUpload, {
-                                    onSelect: function onSelect(media) {
-                                        var newObject = Object.assign({}, product, {
-                                            media: media.url,
-                                            mediaAlt: media.alt
-                                        });
-                                        setAttributes({
-                                            products: [].concat(_toConsumableArray(products.filter(function (item) {
-                                                return item.index != product.index;
-                                            })), [newObject])
-                                        });
-                                    },
-                                    type: 'image',
-                                    value: attributes.imageID,
-                                    render: function render(_ref) {
-                                        var open = _ref.open;
-                                        return wp.element.createElement('span', { onClick: open, className: 'dashicons dashicons-edit' });
-                                    }
-                                }),
-                                wp.element.createElement(MediaUpload, {
-                                    onSelect: function onSelect(media) {
-                                        var newObject = Object.assign({}, product, {
-                                            media: media.url,
-                                            mediaAlt: media.alt
-                                        });
-                                        setAttributes({
-                                            products: [].concat(_toConsumableArray(products.filter(function (item) {
-                                                return item.index != product.index;
-                                            })), [newObject])
-                                        });
-                                    },
-                                    type: 'image',
-                                    value: attributes.imageID,
-                                    render: function render(_ref2) {
-                                        var open = _ref2.open;
-                                        return getImageButton(open, index);
-                                    }
-                                })
-                            ),
-                            wp.element.createElement(RichText, {
-                                tagName: 'h3',
-                                placeholder: __('Title'),
-                                value: product.title,
-                                className: 'title',
-                                onChange: function onChange(title) {
-                                    var newObject = Object.assign({}, product, {
-                                        title: title
-                                    });
-                                    setAttributes({
-                                        products: [].concat(_toConsumableArray(products.filter(function (item) {
-                                            return item.index != product.index;
-                                        })), [newObject])
-                                    });
-                                }
-                            }),
-                            wp.element.createElement(RichText, {
-                                tagName: 'p',
-                                className: 'description',
-                                placeholder: __('Description'),
-                                value: product.description,
-                                onChange: function onChange(description) {
-                                    var newObject = Object.assign({}, product, {
-                                        description: description
-                                    });
-                                    setAttributes({
-                                        products: [].concat(_toConsumableArray(products.filter(function (item) {
-                                            return item.index != product.index;
-                                        })), [newObject])
-                                    });
-                                }
-                            }),
-                            wp.element.createElement(RichText, {
-                                tagName: 'p',
-                                className: 'readMore',
-                                placeholder: __('Read More'),
-                                value: product.readMore,
-                                onChange: function onChange(readMore) {
-                                    var newObject = Object.assign({}, product, {
-                                        readMore: readMore
-                                    });
-                                    setAttributes({
-                                        products: [].concat(_toConsumableArray(products.filter(function (item) {
-                                            return item.index != product.index;
-                                        })), [newObject])
-                                    });
-                                }
-                            })
-                        )
-                    );
-                });
-
-                return wp.element.createElement(
-                    'div',
-                    { className: 'new-this-year' },
-                    wp.element.createElement(
-                        'div',
-                        { className: 'box-main' },
-                        productsList,
-                        wp.element.createElement(
-                            'div',
-                            { className: 'box-item additem' },
-                            wp.element.createElement(
-                                'button',
-                                {
-                                    className: 'components-button add',
-                                    onClick: function onClick(content) {
-                                        setAttributes({
-                                            products: [].concat(_toConsumableArray(products), [{
-                                                index: products.length,
-                                                media: '',
-                                                mediaAlt: '',
-                                                title: '',
-                                                description: '',
-                                                readMore: 'Read More'
-                                            }])
-                                        });
-                                    }
-                                },
-                                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
-                                ' Add New Item'
-                            )
-                        )
-                    )
-                );
-            }
-        }]);
-
-        return NabMediaSlider;
-    }(Component);
-
-    registerBlockType('nab/new-this-year', {
-        title: __('New This Year'),
-        description: __('New This Year'),
-        icon: 'screenoptions',
-        category: 'nabshow',
-        keywords: [__('New This Year'), __('gutenberg'), __('nab')],
-        attributes: {
-            products: {
-                type: 'array',
-                default: []
-            }
-        },
-        edit: NabMediaSlider,
-
-        save: function save(props) {
-            var attributes = props.attributes,
-                className = props.className;
-            var products = attributes.products;
-
-
+      return wp.element.createElement(
+        'div',
+        { className: 'new-this-year new-this-year-block' },
+        wp.element.createElement(
+          'div',
+          { className: 'box-main' },
+          products.map(function (product, index) {
             return wp.element.createElement(
+              Fragment,
+              null,
+              product.title && wp.element.createElement(
                 'div',
-                { className: 'new-this-year' },
+                { className: 'box-item' },
                 wp.element.createElement(
+                  'div',
+                  { className: 'box-inner' },
+                  wp.element.createElement(
                     'div',
-                    { className: 'box-main' },
-                    products.map(function (product, index) {
-                        return wp.element.createElement(
-                            Fragment,
-                            null,
-                            product.title && wp.element.createElement(
-                                'div',
-                                { className: 'box-item' },
-                                wp.element.createElement(
-                                    'div',
-                                    { className: 'box-inner' },
-                                    wp.element.createElement(
-                                        'div',
-                                        { className: 'media-img' },
-                                        product.media ? wp.element.createElement('img', { src: product.media, alt: product.alt, className: 'img' }) : wp.element.createElement(
-                                            'div',
-                                            { className: 'no-image' },
-                                            'No Logo'
-                                        )
-                                    ),
-                                    product.title && wp.element.createElement(RichText.Content, {
-                                        tagName: 'h3',
-                                        value: product.title,
-                                        className: 'title'
-                                    }),
-                                    product.description && wp.element.createElement(RichText.Content, {
-                                        tagName: 'p',
-                                        className: 'description',
-                                        value: product.description
-                                    }),
-                                    product.readMore && wp.element.createElement(RichText.Content, {
-                                        tagName: 'span',
-                                        className: 'readMore',
-                                        value: product.readMore
-                                    })
-                                )
-                            )
-                        );
-                    })
+                    { className: 'media-img' },
+                    product.media ? wp.element.createElement('img', { src: product.media, alt: product.alt, className: 'img' }) : wp.element.createElement(
+                      'div',
+                      { className: 'no-image' },
+                      'No Logo'
+                    )
+                  ),
+                  product.title && wp.element.createElement(RichText.Content, {
+                    tagName: 'h3',
+                    value: product.title,
+                    className: 'title'
+                  }),
+                  product.description && wp.element.createElement(RichText.Content, {
+                    tagName: 'p',
+                    className: 'description',
+                    value: product.description
+                  }),
+                  product.readMore && wp.element.createElement(RichText.Content, {
+                    tagName: 'span',
+                    className: 'readMore',
+                    value: product.readMore
+                  })
                 )
+              )
             );
-        }
-    });
+          })
+        )
+      );
+    }
+  });
 })(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
 
 /***/ }),
@@ -37475,6 +37565,389 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+    var __ = wp.i18n.__;
+    var registerBlockType = wp.blocks.registerBlockType;
+    var _wp$element = wp.element,
+        Fragment = _wp$element.Fragment,
+        Component = _wp$element.Component;
+    var RichText = wp.editor.RichText;
+    var TextControl = wp.components.TextControl;
+
+    var ItemComponent = function (_Component) {
+        _inherits(ItemComponent, _Component);
+
+        function ItemComponent() {
+            _classCallCheck(this, ItemComponent);
+
+            return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
+        }
+
+        _createClass(ItemComponent, [{
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                var dataArray = this.props.attributes.dataArray;
+
+                if (0 === dataArray.length) {
+                    this.initList();
+                }
+            }
+        }, {
+            key: 'initList',
+            value: function initList() {
+                var dataArray = this.props.attributes.dataArray;
+                var setAttributes = this.props.setAttributes;
+
+                setAttributes({
+                    dataArray: [].concat(_toConsumableArray(dataArray), [{
+                        index: dataArray.length,
+                        itemTitle: '',
+                        itemDetails: '',
+                        price: '',
+                        subPrice: '',
+                        link: '',
+                        comming: false
+                    }])
+                });
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes,
+                    clientId = _props.clientId,
+                    className = _props.className;
+                var dataArray = attributes.dataArray,
+                    title = attributes.title,
+                    details = attributes.details;
+
+
+                var itemList = dataArray.sort(function (a, b) {
+                    return a.index - b.index;
+                }).map(function (product, index) {
+                    return wp.element.createElement(
+                        'div',
+                        { className: 'registration-item ' + (product.comming ? 'comming-soon' : '') },
+                        wp.element.createElement(
+                            'span',
+                            {
+                                className: 'remove',
+                                onClick: function onClick() {
+                                    var qewQusote = dataArray.filter(function (item) {
+                                        return item.index != product.index;
+                                    }).map(function (t) {
+                                        if (t.index > product.index) {
+                                            t.index -= 1;
+                                        }
+
+                                        return t;
+                                    });
+
+                                    setAttributes({
+                                        dataArray: qewQusote
+                                    });
+                                }
+                            },
+                            wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'plus-sec' },
+                            false === product.comming && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    'span',
+                                    null,
+                                    '+'
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'plus-link' },
+                                    wp.element.createElement(TextControl, {
+                                        type: 'string',
+                                        value: product.link,
+                                        placeholder: '#',
+                                        onChange: function onChange(link) {
+                                            var newObject = Object.assign({}, product, {
+                                                link: link
+                                            });
+                                            setAttributes({
+                                                dataArray: [].concat(_toConsumableArray(dataArray.filter(function (item) {
+                                                    return item.index != product.index;
+                                                })), [newObject])
+                                            });
+                                        }
+                                    })
+                                )
+                            )
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'middle-sec' },
+                            wp.element.createElement(RichText, {
+                                tagName: 'h3',
+                                placeholder: __('Item Title'),
+                                value: product.itemTitle,
+                                className: 'item-title',
+                                onChange: function onChange(itemTitle) {
+                                    var newObject = Object.assign({}, product, {
+                                        itemTitle: itemTitle
+                                    });
+                                    setAttributes({
+                                        dataArray: [].concat(_toConsumableArray(dataArray.filter(function (item) {
+                                            return item.index != product.index;
+                                        })), [newObject])
+                                    });
+                                }
+                            }),
+                            wp.element.createElement(RichText, {
+                                tagName: 'p',
+                                placeholder: __('Description'),
+                                value: product.itemDetails,
+                                className: 'item-description',
+                                onChange: function onChange(itemDetails) {
+                                    var newObject = Object.assign({}, product, {
+                                        itemDetails: itemDetails
+                                    });
+                                    setAttributes({
+                                        dataArray: [].concat(_toConsumableArray(dataArray.filter(function (item) {
+                                            return item.index != product.index;
+                                        })), [newObject])
+                                    });
+                                }
+                            })
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'last-sec' },
+                            wp.element.createElement(RichText, {
+                                tagName: 'p',
+                                placeholder: __('Price'),
+                                value: product.price,
+                                className: 'price',
+                                onChange: function onChange(price) {
+                                    var newObject = Object.assign({}, product, {
+                                        price: price
+                                    });
+                                    setAttributes({
+                                        dataArray: [].concat(_toConsumableArray(dataArray.filter(function (item) {
+                                            return item.index != product.index;
+                                        })), [newObject])
+                                    });
+                                }
+                            }),
+                            false == product.comming ? wp.element.createElement(RichText, {
+                                tagName: 'span',
+                                placeholder: __('Sub Price'),
+                                value: product.subPrice,
+                                className: 'sub-price',
+                                onChange: function onChange(subPrice) {
+                                    var newObject = Object.assign({}, product, {
+                                        subPrice: subPrice
+                                    });
+                                    setAttributes({
+                                        dataArray: [].concat(_toConsumableArray(dataArray.filter(function (item) {
+                                            return item.index != product.index;
+                                        })), [newObject])
+                                    });
+                                }
+                            }) : ''
+                        )
+                    );
+                });
+
+                return wp.element.createElement(
+                    'div',
+                    { className: 'registration-passes' },
+                    wp.element.createElement(
+                        'div',
+                        { className: 'registration-head' },
+                        wp.element.createElement(RichText, {
+                            tagName: 'h2',
+                            placeholder: __('Title'),
+                            value: title,
+                            className: 'title',
+                            onChange: function onChange(title) {
+                                setAttributes({ title: title });
+                            }
+                        }),
+                        wp.element.createElement(RichText, {
+                            tagName: 'p',
+                            placeholder: __('Description'),
+                            value: details,
+                            className: 'description',
+                            onChange: function onChange(details) {
+                                setAttributes({ details: details });
+                            }
+                        })
+                    ),
+                    itemList,
+                    wp.element.createElement(
+                        'div',
+                        { className: 'registration-item additem' },
+                        wp.element.createElement(
+                            'button',
+                            {
+                                className: 'components-button add',
+                                onClick: function onClick(content) {
+                                    setAttributes({
+                                        dataArray: [].concat(_toConsumableArray(dataArray), [{
+                                            index: dataArray.length,
+                                            itemTitle: '',
+                                            itemDetails: '',
+                                            price: '',
+                                            subPrice: '',
+                                            link: '',
+                                            comming: false
+                                        }])
+                                    });
+                                }
+                            },
+                            wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                            ' Add New Item'
+                        ),
+                        wp.element.createElement(
+                            'button',
+                            {
+                                className: 'components-button add coming-btn',
+                                onClick: function onClick(content) {
+                                    setAttributes({
+                                        dataArray: [].concat(_toConsumableArray(dataArray), [{
+                                            index: dataArray.length,
+                                            itemTitle: '',
+                                            itemDetails: '',
+                                            price: 'Registration Coming Soon!',
+                                            subPrice: '',
+                                            link: '',
+                                            comming: true
+                                        }])
+                                    });
+                                }
+                            },
+                            wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                            ' Add Comming Soon'
+                        )
+                    )
+                );
+            }
+        }]);
+
+        return ItemComponent;
+    }(Component);
+
+    registerBlockType('nab/registration-passes', {
+        title: __('Registration Passes'),
+        description: __('registration-passes'),
+        icon: 'universal-access-alt',
+        category: 'nabshow',
+        keywords: [__('registration-passes'), __('gutenberg'), __('nab')],
+        attributes: {
+            dataArray: {
+                type: 'array',
+                default: []
+            },
+            title: {
+                type: 'string'
+            },
+            details: {
+                type: 'string'
+            }
+        },
+        edit: ItemComponent,
+
+        save: function save(props) {
+            var attributes = props.attributes,
+                className = props.className;
+            var dataArray = attributes.dataArray,
+                title = attributes.title,
+                details = attributes.details;
+
+
+            return wp.element.createElement(
+                'div',
+                { className: 'registration-passes' },
+                wp.element.createElement(
+                    'div',
+                    { className: 'registration-head' },
+                    wp.element.createElement(RichText.Content, {
+                        tagName: 'h2',
+                        value: title,
+                        className: 'title'
+                    }),
+                    wp.element.createElement(RichText.Content, {
+                        tagName: 'p',
+                        value: details,
+                        className: 'description'
+                    })
+                ),
+                dataArray.map(function (product, index) {
+                    return wp.element.createElement(
+                        Fragment,
+                        null,
+                        product.itemTitle && wp.element.createElement(
+                            'div',
+                            { className: 'registration-item ' + (product.comming ? 'comming-soon' : '') },
+                            wp.element.createElement(
+                                'div',
+                                { className: 'plus-sec' },
+                                product.link && wp.element.createElement(
+                                    'a',
+                                    { href: product.link, target: '_blank', rel: 'noopener noreferrer' },
+                                    '+'
+                                )
+                            ),
+                            wp.element.createElement(
+                                'div',
+                                { className: 'middle-sec' },
+                                wp.element.createElement(RichText.Content, {
+                                    tagName: 'h3',
+                                    value: product.itemTitle,
+                                    className: 'item-title'
+                                }),
+                                wp.element.createElement(RichText.Content, {
+                                    tagName: 'p',
+                                    value: product.itemDetails,
+                                    className: 'item-description'
+                                })
+                            ),
+                            wp.element.createElement(
+                                'div',
+                                { className: 'last-sec' },
+                                product.price && wp.element.createElement(RichText.Content, {
+                                    tagName: 'p',
+                                    value: product.price,
+                                    className: 'price'
+                                }),
+                                product.subPrice && wp.element.createElement(RichText.Content, {
+                                    tagName: 'span',
+                                    value: product.subPrice,
+                                    className: 'sub-price'
+                                })
+                            )
+                        )
+                    );
+                })
+            );
+        }
+    });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
   var _wp$element = wp.element,
@@ -37822,6 +38295,1268 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }
   });
 })(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element = wp.element,
+      Fragment = _wp$element.Fragment,
+      Component = _wp$element.Component;
+  var _wp$editor = wp.editor,
+      RichText = _wp$editor.RichText,
+      MediaUpload = _wp$editor.MediaUpload;
+  var _wp$components = wp.components,
+      TextControl = _wp$components.TextControl,
+      Button = _wp$components.Button;
+
+  var BlockComponent = function (_Component) {
+    _inherits(BlockComponent, _Component);
+
+    function BlockComponent() {
+      _classCallCheck(this, BlockComponent);
+
+      return _possibleConstructorReturn(this, (BlockComponent.__proto__ || Object.getPrototypeOf(BlockComponent)).apply(this, arguments));
+    }
+
+    _createClass(BlockComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var dataArry = this.props.attributes.dataArry;
+
+        if (0 === dataArry.length) {
+          this.initList();
+        }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var dataArry = this.props.attributes.dataArry;
+        var setAttributes = this.props.setAttributes;
+
+        setAttributes({
+          dataArry: [].concat(_toConsumableArray(dataArry), [{
+            index: dataArry.length,
+            title: '',
+            date: '',
+            location: '',
+            description: '',
+            arrayContact: [{
+              contact: '',
+              phone: '',
+              email: ''
+            }]
+          }])
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes,
+            clientId = _props.clientId,
+            className = _props.className;
+        var dataArry = attributes.dataArry;
+
+
+        var dataArryList = dataArry.sort(function (a, b) {
+          return a.index - b.index;
+        }).map(function (product, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'box-item' },
+            wp.element.createElement(
+              'div',
+              { className: 'box-inner' },
+              wp.element.createElement(
+                'span',
+                {
+                  className: 'remove',
+                  onClick: function onClick() {
+                    var qewQusote = dataArry.filter(function (item) {
+                      return item.index != product.index;
+                    }).map(function (t) {
+                      if (t.index > product.index) {
+                        t.index -= 1;
+                      }
+                      return t;
+                    });
+
+                    setAttributes({
+                      dataArry: qewQusote
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
+              ),
+              wp.element.createElement(RichText, {
+                tagName: 'h3',
+                placeholder: __('Title'),
+                value: product.title,
+                className: 'title',
+                onChange: function onChange(title) {
+                  var newObject = Object.assign({}, product, {
+                    title: title
+                  });
+                  setAttributes({
+                    dataArry: [].concat(_toConsumableArray(dataArry.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'strong',
+                placeholder: __('Date | Time'),
+                value: product.date,
+                className: 'date-time',
+                onChange: function onChange(date) {
+                  var newObject = Object.assign({}, product, {
+                    date: date
+                  });
+                  setAttributes({
+                    dataArry: [].concat(_toConsumableArray(dataArry.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'strong',
+                placeholder: __('Location'),
+                value: product.location,
+                className: 'location',
+                onChange: function onChange(location) {
+                  var newObject = Object.assign({}, product, {
+                    location: location
+                  });
+                  setAttributes({
+                    dataArry: [].concat(_toConsumableArray(dataArry.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'p',
+                className: 'description',
+                placeholder: __('Details'),
+                value: product.description,
+                onChange: function onChange(description) {
+                  var newObject = Object.assign({}, product, {
+                    description: description
+                  });
+                  setAttributes({
+                    dataArry: [].concat(_toConsumableArray(dataArry.filter(function (item) {
+                      return item.index != product.index;
+                    })), [newObject])
+                  });
+                }
+              }),
+              product.arrayContact.map(function (data, i) {
+                return wp.element.createElement(
+                  'div',
+                  { className: 'contact-item' },
+                  wp.element.createElement(
+                    'span',
+                    {
+                      onClick: function onClick() {
+                        var tempProdcut = [].concat(_toConsumableArray(dataArry));
+                        var newObject = tempProdcut[index].arrayContact.splice(i, 1);
+                        setAttributes({ dataArry: tempProdcut });
+                      }
+                    },
+                    wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
+                  ),
+                  wp.element.createElement(RichText, {
+                    tagName: 'p',
+                    className: 'contact-name',
+                    placeholder: __('Contact: Name'),
+                    value: data.contact,
+                    onChange: function onChange(value) {
+                      var tempProdcut = [].concat(_toConsumableArray(dataArry));
+                      tempProdcut[index].arrayContact[i].contact = value;
+                      setAttributes({ dataArry: tempProdcut });
+                    }
+                  }),
+                  wp.element.createElement(RichText, {
+                    tagName: 'p',
+                    className: 'phone',
+                    placeholder: __('Phone'),
+                    value: data.phone,
+                    onChange: function onChange(value) {
+                      var tempProdcut = [].concat(_toConsumableArray(dataArry));
+                      tempProdcut[index].arrayContact[i].phone = value;
+                      setAttributes({ dataArry: tempProdcut });
+                    }
+                  }),
+                  wp.element.createElement(TextControl, {
+                    type: 'text',
+                    className: 'email',
+                    placeholder: __('Email'),
+                    value: data.email,
+                    onChange: function onChange(value) {
+                      var tempProdcut = [].concat(_toConsumableArray(dataArry));
+                      tempProdcut[index].arrayContact[i].email = value;
+                      setAttributes({ dataArry: tempProdcut });
+                    }
+                  })
+                );
+              }),
+              wp.element.createElement(
+                'div',
+                { className: 'new-contact' },
+                wp.element.createElement(
+                  'button',
+                  {
+                    className: 'components-button add',
+                    onClick: function onClick() {
+                      var tempProdcut = [].concat(_toConsumableArray(dataArry));
+                      var newObject = tempProdcut[index].arrayContact.push({
+                        contact: '',
+                        phone: '',
+                        email: ''
+                      });
+                      setAttributes({ dataArry: tempProdcut });
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                  ' Add New Contact'
+                )
+              )
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          'div',
+          { className: 'news-conference-schedule' },
+          wp.element.createElement(
+            'div',
+            { className: 'box-main four-grid' },
+            dataArryList,
+            wp.element.createElement(
+              'div',
+              { className: 'box-item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick(content) {
+                    setAttributes({
+                      dataArry: [].concat(_toConsumableArray(dataArry), [{
+                        index: dataArry.length,
+                        title: '',
+                        date: '',
+                        location: '',
+                        description: '',
+                        arrayContact: [{
+                          contact: '',
+                          phone: '',
+                          email: ''
+                        }]
+                      }])
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return BlockComponent;
+  }(Component);
+
+  registerBlockType('nab/news-conference-schedule', {
+    title: __('News Conference Schedule'),
+    description: __('News Conference Schedule'),
+    icon: 'buddicons-buddypress-logo',
+    category: 'nabshow',
+    keywords: [__('News Conference Schedule'), __('gutenberg'), __('nab')],
+    attributes: {
+      dataArry: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: BlockComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes,
+          className = props.className;
+      var dataArry = attributes.dataArry;
+
+
+      return wp.element.createElement(
+        'div',
+        { className: 'news-conference-schedule' },
+        wp.element.createElement(
+          'div',
+          { className: 'box-main four-grid' },
+          dataArry.map(function (product, index) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              product.title && wp.element.createElement(
+                'div',
+                { className: 'box-item' },
+                wp.element.createElement(
+                  'div',
+                  { className: 'box-inner' },
+                  wp.element.createElement(RichText.Content, {
+                    tagName: 'h3',
+                    value: product.title,
+                    className: 'title'
+                  }),
+                  product.date && wp.element.createElement(RichText.Content, {
+                    tagName: 'strong',
+                    value: product.date,
+                    className: 'date-time'
+                  }),
+                  product.location && wp.element.createElement(RichText.Content, {
+                    tagName: 'strong',
+                    value: product.location,
+                    className: 'location'
+                  }),
+                  product.description && wp.element.createElement(RichText.Content, {
+                    tagName: 'p',
+                    className: 'description',
+                    value: product.description
+                  }),
+                  product.arrayContact.map(function (data, i) {
+                    return wp.element.createElement(
+                      'div',
+                      { className: 'contact-item' },
+                      data.contact && wp.element.createElement(RichText.Content, {
+                        tagName: 'p',
+                        className: 'contact-name',
+                        value: data.contact
+                      }),
+                      data.phone && wp.element.createElement(RichText.Content, {
+                        tagName: 'p',
+                        className: 'phone',
+                        value: data.phone
+                      }),
+                      data.email && wp.element.createElement(
+                        'a',
+                        { className: 'email', href: 'mailto:' + data.email },
+                        'Email'
+                      )
+                    );
+                  })
+                )
+              )
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element = wp.element,
+      Fragment = _wp$element.Fragment,
+      Component = _wp$element.Component;
+  var _wp$editor = wp.editor,
+      RichText = _wp$editor.RichText,
+      MediaUpload = _wp$editor.MediaUpload;
+  var _wp$components = wp.components,
+      Button = _wp$components.Button,
+      CheckboxControl = _wp$components.CheckboxControl;
+
+  var BlockComponent = function (_Component) {
+    _inherits(BlockComponent, _Component);
+
+    function BlockComponent() {
+      _classCallCheck(this, BlockComponent);
+
+      return _possibleConstructorReturn(this, (BlockComponent.__proto__ || Object.getPrototypeOf(BlockComponent)).apply(this, arguments));
+    }
+
+    _createClass(BlockComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var DataArray = this.props.attributes.DataArray;
+
+        if (0 === DataArray.length) {
+          this.initList();
+        }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var DataArray = this.props.attributes.DataArray;
+        var setAttributes = this.props.setAttributes;
+
+        setAttributes({
+          DataArray: [].concat(_toConsumableArray(DataArray), [{
+            index: DataArray.length,
+            media: '',
+            mediaAlt: '',
+            title: '',
+            cost: '',
+            exclusivity: 'Exclusivity',
+            description: '',
+            sold: false
+          }])
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes,
+            clientId = _props.clientId,
+            className = _props.className;
+        var DataArray = attributes.DataArray,
+            title = attributes.title;
+
+
+        var getImageButton = function getImageButton(openEvent, index) {
+          if (DataArray[index].media) {
+            return wp.element.createElement('img', { src: DataArray[index].media, alt: DataArray[index].alt, className: 'img' });
+          } else {
+            return wp.element.createElement(
+              Button,
+              { onClick: openEvent, className: 'button button-large' },
+              wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+              ' Upload Image'
+            );
+          }
+        };
+
+        var DataArrayList = DataArray.sort(function (a, b) {
+          return a.index - b.index;
+        }).map(function (product, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'box-item' },
+            wp.element.createElement(
+              'span',
+              {
+                className: 'remove',
+                onClick: function onClick() {
+                  var qewQusote = DataArray.filter(function (item) {
+                    return item.index != product.index;
+                  }).map(function (t) {
+                    if (t.index > product.index) {
+                      t.index -= 1;
+                    }
+
+                    return t;
+                  });
+
+                  setAttributes({
+                    DataArray: qewQusote
+                  });
+                }
+              },
+              wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'box-inner' },
+              product.sold && wp.element.createElement(
+                'span',
+                { className: 'sold' },
+                'Sold'
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'media-img' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var newObject = Object.assign({}, product, {
+                      media: media.url,
+                      mediaAlt: media.alt
+                    });
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref) {
+                    var open = _ref.open;
+                    return wp.element.createElement('span', { onClick: open, className: 'dashicons dashicons-edit' });
+                  }
+                }),
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var newObject = Object.assign({}, product, {
+                      media: media.url,
+                      mediaAlt: media.alt
+                    });
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref2) {
+                    var open = _ref2.open;
+                    return getImageButton(open, index);
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'details-sec' },
+                wp.element.createElement(RichText, {
+                  tagName: 'h3',
+                  placeholder: __('Title'),
+                  value: product.title,
+                  className: 'title',
+                  onChange: function onChange(title) {
+                    var newObject = Object.assign({}, product, {
+                      title: title
+                    });
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'span',
+                  className: 'cost',
+                  placeholder: __('Cost'),
+                  value: product.cost,
+                  onChange: function onChange(cost) {
+                    var newObject = Object.assign({}, product, {
+                      cost: cost
+                    });
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'span',
+                  className: 'exclusivity',
+                  placeholder: __('Exclusivity'),
+                  value: product.exclusivity,
+                  onChange: function onChange(exclusivity) {
+                    var newObject = Object.assign({}, product, {
+                      exclusivity: exclusivity
+                    });
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  className: 'description',
+                  placeholder: __('Description'),
+                  value: product.description,
+                  onChange: function onChange(description) {
+                    var newObject = Object.assign({}, product, {
+                      description: description
+                    });
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
+                        return item.index != product.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(CheckboxControl, {
+                  className: 'sold-checkbox',
+                  label: 'Sold',
+                  checked: product.sold,
+                  onChange: function onChange() {
+                    var tempProdcut = [].concat(_toConsumableArray(DataArray));
+                    tempProdcut[index].sold = product.sold ? false : true;
+                    setAttributes({ DataArray: tempProdcut });
+                  }
+                })
+              )
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          'div',
+          { className: 'opportunities' },
+          wp.element.createElement(RichText, {
+            tagName: 'h2',
+            placeholder: __('Title'),
+            value: title,
+            className: 'main-title',
+            onChange: function onChange(title) {
+              setAttributes({
+                title: title
+              });
+            }
+          }),
+          wp.element.createElement(
+            'div',
+            { className: 'box-main two-item' },
+            DataArrayList,
+            wp.element.createElement(
+              'div',
+              { className: 'box-item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick(content) {
+                    setAttributes({
+                      DataArray: [].concat(_toConsumableArray(DataArray), [{
+                        index: DataArray.length,
+                        media: '',
+                        mediaAlt: '',
+                        title: '',
+                        cost: '',
+                        exclusivity: 'Exclusivity',
+                        description: '',
+                        sold: false
+                      }])
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return BlockComponent;
+  }(Component);
+
+  registerBlockType('nab/opportunities', {
+    title: __('Opportunities'),
+    description: __('Opportunities'),
+    icon: 'businessman',
+    category: 'nabshow',
+    keywords: [__('Opportunities'), __('gutenberg'), __('nab')],
+    attributes: {
+      DataArray: {
+        type: 'array',
+        default: []
+      },
+      title: {
+        type: 'string'
+      }
+    },
+    edit: BlockComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes,
+          className = props.className;
+      var DataArray = attributes.DataArray,
+          title = attributes.title;
+
+
+      return wp.element.createElement(
+        'div',
+        { className: 'opportunities' },
+        wp.element.createElement(RichText.Content, {
+          tagName: 'h2',
+          value: title,
+          className: 'main-title'
+        }),
+        wp.element.createElement(
+          'div',
+          { className: 'box-main two-item' },
+          DataArray.map(function (product, index) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              product.title && wp.element.createElement(
+                'div',
+                { className: 'box-item' },
+                wp.element.createElement(
+                  'div',
+                  { className: 'box-inner' },
+                  product.sold && wp.element.createElement(
+                    'span',
+                    { className: 'sold' },
+                    'Sold'
+                  ),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'media-img' },
+                    product.media ? wp.element.createElement('img', { src: product.media, alt: product.alt, className: 'img' }) : wp.element.createElement(
+                      'div',
+                      { className: 'no-image' },
+                      'No Featured Image'
+                    )
+                  ),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'details-sec' },
+                    product.title && wp.element.createElement(RichText.Content, {
+                      tagName: 'h3',
+                      value: product.title,
+                      className: 'title'
+                    }),
+                    product.cost && wp.element.createElement(RichText.Content, {
+                      tagName: 'span',
+                      className: 'cost',
+                      value: product.cost
+                    }),
+                    product.exclusivity && wp.element.createElement(RichText.Content, {
+                      tagName: 'span',
+                      className: 'exclusivity',
+                      value: product.exclusivity
+                    }),
+                    product.description && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      className: 'description',
+                      value: product.description
+                    })
+                  )
+                )
+              )
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element = wp.element,
+      Fragment = _wp$element.Fragment,
+      Component = _wp$element.Component;
+  var _wp$editor = wp.editor,
+      RichText = _wp$editor.RichText,
+      MediaUpload = _wp$editor.MediaUpload;
+  var _wp$components = wp.components,
+      Button = _wp$components.Button,
+      TextControl = _wp$components.TextControl,
+      CheckboxControl = _wp$components.CheckboxControl;
+
+  var ItemComponent = function (_Component) {
+    _inherits(ItemComponent, _Component);
+
+    function ItemComponent() {
+      _classCallCheck(this, ItemComponent);
+
+      return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
+    }
+
+    _createClass(ItemComponent, [{
+      key: 'componentDiDMount',
+      value: function componentDiDMount() {
+        var committee = this.props.attributes.committee;
+
+        if (0 === committee.length) {
+          this.initList();
+        }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var committee = this.props.attributes.committee;
+        var setAttributes = this.props.setAttributes;
+
+
+        setAttributes({
+          committee: [].concat(_toConsumableArray(committee), [{
+            index: committee.length,
+            name: '',
+            company: '',
+            areas: '',
+            boothSize: '',
+            address: '',
+            phone: '',
+            emailAdd: '',
+            media: '',
+            mediaAlt: '',
+            international: false
+          }])
+        });
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes,
+            clientId = _props.clientId,
+            className = _props.className;
+        var committee = attributes.committee;
+
+
+        var getImageButton = function getImageButton(openEvent, index) {
+          if (committee[index].media) {
+            return wp.element.createElement('img', { src: committee[index].media, alt: committee[index].alt, className: 'img' });
+          } else {
+            return wp.element.createElement(
+              Button,
+              { onClick: openEvent, className: 'button button-large' },
+              wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+              ' Upload Logo'
+            );
+          }
+        };
+
+        var committeeMembers = committee.sort(function (a, b) {
+          return a.index - b.index;
+        }).map(function (member, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'box-item ' + (member.international ? 'International' : '') + ' ' },
+            wp.element.createElement(
+              'div',
+              { className: 'box-inner' },
+              wp.element.createElement(
+                'div',
+                { className: 'info-box' },
+                wp.element.createElement(
+                  'span',
+                  {
+                    className: 'remove',
+                    onClick: function onClick() {
+                      var removeMember = committee.filter(function (item) {
+                        return item.index !== member.index;
+                      }).map(function (item) {
+                        if (item.index > member.index) {
+                          item.index -= 1;
+                        }
+                        return item;
+                      });
+                      setAttributes({
+                        committee: removeMember
+                      });
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-no-alt' })
+                ),
+                wp.element.createElement(RichText, {
+                  tagName: 'h2',
+                  placeholder: __('Member Name'),
+                  value: member.name,
+                  onChange: function onChange(name) {
+                    var newObject = Object.assign({}, member, {
+                      name: name
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'h4',
+                  placeholder: __('Company'),
+                  value: member.company,
+                  onChange: function onChange(company) {
+                    var newObject = Object.assign({}, member, {
+                      company: company
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  placeholder: __('Areas'),
+                  value: member.areas,
+                  onChange: function onChange(areas) {
+                    var newObject = Object.assign({}, member, {
+                      areas: areas
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  placeholder: __('Booth Size'),
+                  value: member.boothSize,
+                  onChange: function onChange(boothSize) {
+                    var newObject = Object.assign({}, member, {
+                      boothSize: boothSize
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  placeholder: __('Address'),
+                  value: member.address,
+                  onChange: function onChange(address) {
+                    var newObject = Object.assign({}, member, {
+                      address: address
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  placeholder: __('Phone'),
+                  value: member.phone,
+                  onChange: function onChange(phone) {
+                    var newObject = Object.assign({}, member, {
+                      phone: phone
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(TextControl, {
+                  type: 'text',
+                  className: 'email',
+                  value: member.email,
+                  placeholder: 'Email Address',
+                  onChange: function onChange(email) {
+                    var newObject = Object.assign({}, member, {
+                      email: email
+                    });
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                }),
+                wp.element.createElement(CheckboxControl, {
+                  className: 'in-checkbox',
+                  label: 'International',
+                  checked: member.international,
+                  onChange: function onChange(isChecked) {
+                    var newObject = void 0;
+                    if (isChecked) {
+                      newObject = Object.assign({}, member, {
+                        international: true
+                      });
+                    } else {
+                      newObject = Object.assign({}, member, {
+                        international: false
+                      });
+                    }
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                        return item.index != member.index;
+                      })), [newObject])
+                    });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'media-box' },
+                wp.element.createElement(
+                  'div',
+                  { className: 'media-img' },
+                  wp.element.createElement(MediaUpload, {
+                    onSelect: function onSelect(media) {
+                      var newObject = Object.assign({}, member, {
+                        media: media.url,
+                        mediaAlt: media.alt
+                      });
+                      setAttributes({
+                        committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                          return item.index != member.index;
+                        })), [newObject])
+                      });
+                    },
+                    type: 'image',
+                    value: attributes.imageID,
+                    render: function render(_ref) {
+                      var open = _ref.open;
+                      return wp.element.createElement('span', { onClick: open, className: 'dashicons dashicons-edit' });
+                    }
+                  }),
+                  wp.element.createElement(MediaUpload, {
+                    onSelect: function onSelect(media) {
+                      var newObject = Object.assign({}, member, {
+                        media: media.url,
+                        mediaAlt: media.alt
+                      });
+                      setAttributes({
+                        committee: [].concat(_toConsumableArray(committee.filter(function (item) {
+                          return item.index != member.index;
+                        })), [newObject])
+                      });
+                    },
+                    type: 'image',
+                    value: attributes.imageID,
+                    render: function render(_ref2) {
+                      var open = _ref2.open;
+                      return getImageButton(open, index);
+                    }
+                  })
+                )
+              )
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          'div',
+          { className: 'exhibitor-committee' },
+          wp.element.createElement(
+            'div',
+            { className: 'box-main two-grid' },
+            committeeMembers,
+            wp.element.createElement(
+              'div',
+              { className: 'box-item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick(content) {
+                    setAttributes({
+                      committee: [].concat(_toConsumableArray(committee), [{
+                        index: committee.length,
+                        name: '',
+                        company: '',
+                        areas: '',
+                        boothSize: '',
+                        address: '',
+                        phone: '',
+                        emailAdd: '',
+                        media: '',
+                        mediaAlt: '',
+                        international: false
+                      }])
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return ItemComponent;
+  }(Component);
+
+  registerBlockType('nab/exhibitor-advisory-committee', {
+    title: __('Exhibitor Advisory Committee'),
+    description: __('Exhibitor Advisory Committee'),
+    icon: 'groups',
+    category: 'nabshow',
+    keywords: [__('Exhibitor Advisory Committee'), __('gutenberg'), __('nab')],
+    attributes: {
+      committee: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: ItemComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes,
+          className = props.className;
+      var committee = attributes.committee;
+
+
+      return wp.element.createElement(
+        'div',
+        { className: 'exhibitor-committee' },
+        wp.element.createElement(
+          'div',
+          { className: 'box-main two-grid' },
+          committee.map(function (member, index) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              member.name && wp.element.createElement(
+                'div',
+                { className: 'box-item ' + (member.international ? 'International' : '') + ' ' },
+                wp.element.createElement(
+                  'div',
+                  { className: 'box-inner' },
+                  wp.element.createElement(
+                    'div',
+                    { className: 'info-box' },
+                    member.name && wp.element.createElement(RichText.Content, {
+                      tagName: 'h2',
+                      value: member.name,
+                      className: 'title'
+                    }),
+                    member.company && wp.element.createElement(RichText.Content, {
+                      tagName: 'h4',
+                      value: member.company,
+                      className: 'company'
+                    }),
+                    member.areas && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      value: member.areas,
+                      className: 'areas'
+                    }),
+                    member.boothSize && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      value: member.boothSize,
+                      className: 'boothSize'
+                    }),
+                    member.address && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      value: member.address,
+                      className: 'address'
+                    }),
+                    member.phone && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      value: member.phone,
+                      className: 'phone'
+                    }),
+                    member.email && wp.element.createElement(
+                      'a',
+                      { className: 'email', href: 'mailto:' + member.email },
+                      member.email
+                    )
+                  ),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'media-box' },
+                    wp.element.createElement(
+                      'div',
+                      { className: 'media-img' },
+                      member.media ? wp.element.createElement('img', { src: member.media, alt: member.alt, className: 'img' }) : wp.element.createElement(
+                        'div',
+                        { className: 'no-image' },
+                        'No Logo'
+                      )
+                    )
+                  )
+                )
+              )
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports) {
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var ServerSideRender = wpComponents.ServerSideRender;
+
+
+    var allAttr = {
+        pageId: {
+            type: 'number'
+        }
+    };
+
+    registerBlockType('nab/sponsor-opportunities-main', {
+        title: __('Sponsor Opportunities Main'),
+        icon: 'lock',
+        category: 'nabshow',
+        keywords: [__('Sponsor'), __('Opportunities')],
+        attributes: allAttr,
+        edit: function edit(_ref) {
+            var attributes = _ref.attributes,
+                setAttributes = _ref.setAttributes;
+            var pageId = attributes.pageId;
+
+            if (!pageId) {
+                setAttributes({ pageId: wp.data.select('core/editor').getCurrentPostId() });
+            }
+            return wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(ServerSideRender, {
+                    block: 'nab/sponsor-opportunities-main',
+                    attributes: { pageId: pageId }
+                })
+            );
+        },
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
 
 /***/ })
 /******/ ]);

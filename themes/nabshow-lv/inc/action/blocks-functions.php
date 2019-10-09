@@ -262,6 +262,16 @@ function nabshow_lv_register_dynamic_blocks() {
             'render_callback' => 'nabshow_lv_contributors_render_callback',
         )
     );
+
+	register_block_type( 'nab/sponsor-opportunities-main', array(
+            'attributes' => array(
+                'pageId'  => array(
+                    'type' => 'number'
+                ),
+            ),
+            'render_callback' => 'nabshow_lv_sponsor_opportunities_main_render_callback',
+        )
+    );
 }
 
 /**
@@ -557,9 +567,37 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
     if ( ! empty( $parent_page_id ) ) {
 
-        $children = get_pages( array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' ) );
+        $args = array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' );
+
+        if ( 'browse-happenings' === $listing_layout ) {
+            $args[ 'meta_key' ] = 'page_date';
+        }
+
+        $children = get_pages( array( $child_field => $parent_page_id,  'sort_column' => 'menu_order', 'meta_key' => 'page_date' ) );
 
         if ( count( $children ) > 0 ) {
+            if ( 'browse-happenings' === $listing_layout ) {
+
+                $temp_child = array();
+
+                foreach ( $children as $child ) {
+                    $date = get_field( 'page_date',  $child->ID );
+                    if ( ! empty( $date ) ) {
+                        $date = date_format( date_create( $date ), 'Ymd' );
+                        $temp_child[$date][] = $child;
+                    }
+                }
+
+                ksort($temp_child);
+                $children = array();
+
+                foreach ( $temp_child as $date_child ) {
+
+                    foreach ( $date_child as $child ) {
+                        $children[] = $child;
+                    }
+                }
+            }
         ?>
             <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
 
@@ -574,7 +612,11 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
             <?php
             }
                     $page_count = 1;
+                    $date_group = '';
+                    $cnt        = 0;
                     foreach ( $children as $child ) {
+
+                        $cnt++;
 
                         if ( $featured_page ) {
                             if ( ! has_term('featured', 'page-category', $child->ID ) ) {
@@ -596,18 +638,32 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                             <?php
                             } else {
 
-                                if ( 'destination' === $listing_layout || 'featured-happenings' === $listing_layout ) {
+                                if ( 'destination' === $listing_layout || 'featured-happenings' === $listing_layout || 'browse-happenings' === $listing_layout ) {
+
+                                    $date = get_field( 'page_date',  $child->ID );
+
+                                    if ( 'browse-happenings' === $listing_layout && $date_group !== $date ) {
+                                       if ( ! empty( $date_group ) ) {
+                                       ?>
+                                        </div>
+                                       <?php
+                                       }
+                                        $date_group = $date;
+                                       ?>
+                                       <div class="date-group-wrapper">
+                                            <h2 class="happenings-date"><?php echo esc_html( $date ); ?></h2>
+                                       <?php
+                                    }
 
                                     $is_featured    = has_term('featured', 'page-category', $child->ID ) ? 'featured' : '';
                                     $all_halls      = get_field( 'page_hall',  $child->ID );
                                     $new_this_year  = get_field( 'new_this_year',  $child->ID );
-                                    $date           = get_field( 'page_date',  $child->ID );
                                     $all_types      = get_field( 'page_type',  $child->ID );
                                     $page_hall      = ! empty( $all_halls ) ? implode( ',', $all_halls ) : '';
                                     $page_type      = ! empty( $all_types ) ? implode(',', $all_types ) : '';
                                     $date           = ! empty( $date ) ? date_format( date_create( $date ), 'd-M-Y' ) : '';
                                 ?>
-                                    <div class="col-lg-4 col-md-6" data-default="<?php echo esc_attr( $page_count ); ?>" data-date="<?php echo esc_attr( $date ); ?>" data-featured="<?php echo esc_attr( $is_featured ); ?>" data-hall="<?php echo esc_attr( $page_hall ); ?>" data-type="<?php echo esc_attr( $page_type ); ?>" data-new-this-year="<?php echo ! empty( $new_this_year ) ? esc_attr( $new_this_year[0] ) : ''; ?>">
+                                    <div class="col-lg-4 col-md-6" data-title="<?php echo esc_attr( strtolower( $child->post_title ) ); ?>" data-default="<?php echo esc_attr( $page_count ); ?>" data-date="<?php echo esc_attr( $date ); ?>" data-featured="<?php echo esc_attr( $is_featured ); ?>" data-hall="<?php echo esc_attr( $page_hall ); ?>" data-type="<?php echo esc_attr( $page_type ); ?>" data-new-this-year="<?php echo ! empty( $new_this_year ) ? esc_attr( $new_this_year[0] ) : ''; ?>">
                                 <?php
                                 } else {
                                 ?>
@@ -622,7 +678,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                             <img class="logo" src="<?php echo esc_url( $page_image ) ?>" alt="page-logo">
                                         <?php
                                         }
-                                        if ( 'product-categories' !== $listing_layout ) {
+                                        if ( 'product-categories' !== $listing_layout && 'browse-happenings' !== $listing_layout ) {
                                         ?>
                                             <h2 class="title"><?php echo esc_html( $child->post_title ); ?></h2>
 
@@ -665,10 +721,20 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                 </div>
                             <?php
                             }
+                            if ( 'browse-happenings' === $listing_layout && ! isset( $children[ $cnt ] ) ) {
+                            ?>
+                                </div>
+                            <?php
+                            }
                         } else {
                             break;
                         }
                         $page_count++;
+                    }
+                    if ( 'destination' === $listing_layout || 'featured-happenings' === $listing_layout || 'browse-happenings' === $listing_layout ) {
+                    ?>
+                        <p class="no-data display-none">Result not found.</p>
+                    <?php
                     }
                     ?>
                 </div>
@@ -750,6 +816,64 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
     }
     ?>
     <?php
+    $html = ob_get_clean();
+    return $html;
+}
+
+/**
+ * Fetch Sponsor and Opportunities according to Parent Page.
+ *
+ * @param $attributes
+ *
+ * @return string
+ */
+function nabshow_lv_sponsor_opportunities_main_render_callback( $attributes ) {
+
+    $page_id = isset( $attributes['pageId'] ) && ! empty( $attributes['pageId'] ) ? $attributes['pageId'] : get_the_ID();
+
+    $args = array(
+        'post_type'      => 'page',
+        'posts_per_page' => 99,
+        'post_parent'    => $page_id,
+        'order'          => 'ASC',
+        'orderby'        => 'menu_order'
+     );
+
+
+    $child = new WP_Query( $args );
+
+    ob_start();
+
+    if ( $child->have_posts() ) :
+
+        $allowed_tags = wp_kses_allowed_html( 'post' );
+
+        while ( $child->have_posts() ) : $child->the_post();
+
+            $nab_content = get_the_content();
+
+            if ( has_blocks( $nab_content ) ) {
+
+                $nab_blocks = parse_blocks( $nab_content );
+
+                $nab_array_search = array_filter( $nab_blocks, 'nabshow_lv_search_block' );
+
+                $nab_post_content = nabshow_lv_serialize_blocks( $nab_array_search );
+
+                $content = apply_filters( 'the_content', $nab_post_content );
+
+                ?>
+                <div id="parent-<?php the_ID(); ?>" class="<?php echo esc_attr( $page_id ); ?>">
+                    <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                    <?php echo wp_kses( $content, $allowed_tags ); ?>
+                </div>
+                <?php
+            }
+
+        endwhile;
+    endif;
+    wp_reset_postdata();
+
     $html = ob_get_clean();
     return $html;
 }

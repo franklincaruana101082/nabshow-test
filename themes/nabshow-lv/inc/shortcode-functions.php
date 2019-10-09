@@ -150,272 +150,386 @@ function nabshow_lv_yoast_breadcrumb_callback() {
 function nabshow_lv_browse_filter_callback( $atts ) {
 
     $atts = shortcode_atts( array(
-		'type' => '',
+		'type'     => '',
+	    'featured' => '',
 	), $atts );
 
     $filter_class = 'browse-' . $atts[ 'type' ] . '-filter';
+    $date_picker = false;
     ob_start();
     ?>
     <div class="browse-filter main-filter row <?php echo esc_attr( $filter_class ); ?>">
-        <div class="left-side col-xl-5">
-            <div class="search-box">
-                <label for="browse-search">Keyword</label>
-                <div class="search-item">
-                    <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Start typing to filter by keyword...">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <input type="button" class="featured-btn" value="Featured">
-                    <?php
-                    if ( 'speakers' === $atts[ 'type' ] || 'exhibitors' === $atts[ 'type' ] ) {
-                    ?>
-                        <input type="button" class="orderby" value="A-Z">
-                    <?php
-                    }
-                    ?>
-                </div>
-            </div>
-            <?php
-	        if ( 'speakers' === $atts[ 'type' ] ) {
-	        ?>
-                <div class="search-box">
-                    <label for="speaker-title-search">Job Title</label>
-                    <div class="search-item">
-                        <input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
-                    </div>
-                </div>                
-            <?php
-	        }
-            ?>
-        </div>
-        <div class="pass-type col-xl-7">
-            <label>Category</label>
-            <ul class="alphabets-list">
-                <li>A</li>
-                <li>B</li>
-                <li>C</li>
-                <li>D</li>
-                <li>E</li>
-                <li>F</li>
-                <li>G</li>
-                <li>H</li>
-                <li>I</li>
-                <li>J</li>
-                <li>K</li>
-                <li>L</li>
-                <li>M</li>
-                <li>N</li>
-                <li>O</li>
-                <li>P</li>
-                <li>Q</li>
-                <li>R</li>
-                <li>S</li>
-                <li>T</li>
-                <li>U</li>
-                <li>V</li>
-                <li>W</li>
-                <li>X</li>
-                <li>Y</li>
-                <li>Z</li>
-                <li class="clear">Clear</li>
-            </ul>
-        </div>
         <?php
-        if ( 'exhibitors' === $atts[ 'type' ] ) {
-
-            $all_terms = get_terms( array(
-                'taxonomy'   => 'exhibitor-keywords',
-                'hide_empty' => true,
-            ) );
-
-            if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
-
-                $get_exkey = filter_input( INPUT_GET, 'exkey', FILTER_SANITIZE_STRING );
+        if ( 'open-to-all' === $atts[ 'type' ] || ( ! empty( $atts[ 'featured' ] ) && 'yes' === strtolower( $atts[ 'featured' ] ) ) ) {
+            if ( 'happenings' === $atts[ 'type' ] ) {
             ?>
-            <div class="col-lg-12 chechbox-main">
+                <div class="col-xl-12 display-flex-box">
+                    <div class="category">
+                        <label for="page-date">Date</label>
+                        <select id="page-date" class="select-opt">
+                            <option>Select a Date</option>
+                        </select>
+                    </div>
+                    <div class="category">
+                        <label for="page-location">Location</label>
+                        <select id="page-location" class="select-opt">
+                            <option>Select a Location</option>
+                        </select>
+                    </div>
+                    <div class="category">
+                        <label for="page-type">Types</label>
+                        <select id="page-type" class="select-opt">
+                            <option>Select a Type</option>
+                        </select>
+                    </div>
+                    <div class="search-box">
+                        <label for="browse-search">Keyword</label>
+                        <div class="search-item icon-right">
+                            <input class="search" type="text" id="browse-search" placeholder="Start typing to filter by keyword...">
+                        </div>
+                    </div>
+                </div>
             <?php
-                foreach ( $all_terms as $term ) {
-                    if ( 'featured' !== $term->slug ) {
+            } elseif ( 'sessions' === $atts[ 'type' ] || 'open-to-all' === $atts[ 'type' ] ) {
+	            $date_picker = true;
+            ?>
+                <div class="col-xl-12 display-flex-box">
+                    <div class="category">
+                        <label for="session-date">Date</label>
+                        <div class="browse-select">
+                            <input type="text" name="speaker_date" id="session-date" placeholder="MM, DD 20XX"/>
+                        </div>
+                    </div>
+                    <?php
+                    if ( 'sessions' === $atts[ 'type' ] ) {
                     ?>
-                        <div class="custom-check-box">
-                            <input type="checkbox" name="keywords[]" value="<?php echo esc_attr( $term->slug ); ?>" class="exhibitor-keywords" id="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $term->slug, $get_exkey); ?>>
-                            <label for="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></label>
+                        <div class="category">
+                            <label for="is-open-to">Is Open To</label>
+                            <select id="is-open-to" class="select-opt">
+                                <option>Select a Category</option>
+                            </select>
                         </div>
                     <?php
                     }
-                }
-                ?>
+                    ?>
+                    <div class="category">
+                        <label for="session-program">Program</label>
+                        <select id="session-program" class="select-opt">
+                            <option>Select a Category</option>
+                        </select>
+                    </div>
+                    <div class="category">
+                        <label for="session-topic">Topic</label>
+                        <select id="session-topic" class="select-opt">
+                            <option>Select a Category</option>
+                        </select>
+                    </div>
+                    <div class="search-box">
+                        <label for="browse-search">Keyword</label>
+                        <div class="search-item icon-right">
+                            <input class="search" type="text" id="browse-search" placeholder="Start typing to filter by keyword...">
+                        </div>
+                    </div>
+                </div>
+            <?php
+            } elseif ( 'speakers' === $atts[ 'type' ] ) {
+            ?>
+                <div class="left-side col-xl-2 featured-filter">
+                    <div class="search-box">
+                        <label for="speaker-title-search">Job Title</label>
+                        <div class="search-item">
+                            <input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
+                        </div>
+                    </div>
+                    <div class="category">
+                        <label for="speaker-company">Company</label>
+                        <select id="speaker-company" class="select-opt">
+                            <option>Select a Company</option>
+	                        <?php
+	                        nabshow_lv_get_term_list_options( 'speaker-companies' );
+	                        ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="pass-type col-xl-7">
+                    <label>Name</label>
+                    <?php
+                    nabshow_lv_alphabets_list_filter();
+                    ?>
+                </div>
+                <div class="col-xl-3">
+                    <div class="search-box">
+                        <label for="browse-search">Keyword</label>
+                        <div class="search-item icon-right">
+                            <input id="browse-search" class="search" type="text" placeholder="Start typing to filter by keyword...">
+                        </div>
+                    </div>
                 </div>
             <?php
             }
-        }
-        if ( 'destinations' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
-        ?>
-            <div class="col-lg-12 chechbox-main">
-                <div class="custom-check-box">
-                    <input type="checkbox" name="new_this_year" value="Yes" class="new-this-year" id="new-this-year">
-                    <label for="new-this-year">New This Year</label>
+        } else {
+	        if ( 'sponsors' !== $atts[ 'type' ] ) {
+		        ?>
+                <div class="left-side col-xl-5">
+                    <div class="search-box">
+                        <label for="browse-search">Keyword</label>
+                        <div class="search-item">
+                            <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Start typing to filter by keyword...">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="button" class="featured-btn" value="Featured">
+					        <?php
+					        if ( 'speakers' === $atts[ 'type' ] || 'exhibitors' === $atts[ 'type' ] ) {
+						        ?>
+                                <input type="button" class="orderby" value="A-Z">
+						        <?php
+					        }
+					        ?>
+                        </div>
+                    </div>
+			        <?php
+			        if ( 'speakers' === $atts[ 'type' ] ) {
+				        ?>
+                        <div class="search-box">
+                            <label for="speaker-title-search">Job Title</label>
+                            <div class="search-item">
+                                <input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
+                            </div>
+                        </div>
+				        <?php
+			        }
+			        ?>
+                </div>
+                <div class="pass-type col-xl-7">
+                    <label>Category</label>
+                    <?php
+                    nabshow_lv_alphabets_list_filter();
+                    ?>
+                    </ul>
+                </div>
+		        <?php
+	        }
+	        ?>
+
+	        <?php
+	        if ( 'exhibitors' === $atts[ 'type' ] ) {
+
+		        $all_terms = get_terms( array(
+			        'taxonomy'   => 'exhibitor-keywords',
+			        'hide_empty' => true,
+		        ) );
+
+		        if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+
+			        $get_exkey = filter_input( INPUT_GET, 'exkey', FILTER_SANITIZE_STRING );
+			        ?>
+                    <div class="col-lg-12 chechbox-main">
+				        <?php
+				        foreach ( $all_terms as $term ) {
+					        if ( 'featured' !== $term->slug ) {
+						        ?>
+                                <div class="custom-check-box">
+                                    <input type="checkbox" name="keywords[]" value="<?php echo esc_attr( $term->slug ); ?>" class="exhibitor-keywords" id="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $term->slug, $get_exkey); ?>>
+                                    <label for="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></label>
+                                </div>
+						        <?php
+					        }
+				        }
+				        ?>
+                    </div>
+			        <?php
+		        }
+	        }
+	        if ( 'destinations' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
+		        ?>
+                <div class="col-lg-12 chechbox-main">
+                    <div class="custom-check-box">
+                        <input type="checkbox" name="new_this_year" value="Yes" class="new-this-year" id="new-this-year">
+                        <label for="new-this-year">New This Year</label>
+                    </div>
+                </div>
+		        <?php
+	        }
+	        ?>
+            <div class="select-items col-lg-12">
+                <div class="row">
+			        <?php
+			        if ( 'sessions' === $atts[ 'type' ] ) {
+				        ?>
+                        <div class="category col-lg-3">
+                            <label for="session-tracks">Track</label>
+                            <div class="browse-select">
+                                <select id="session-tracks" class="select-opt">
+                                    <option>Select a Track</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'tracks' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="session-level">Level</label>
+                            <div class="browse-select">
+                                <select id="session-level" class="select-opt">
+                                    <option>Select a Level</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'session-levels' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="session-type">Types</label>
+                            <div class="browse-select">
+                                <select id="session-type" class="select-opt">
+                                    <option>Select a Type</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'session-types' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="session-location">Location</label>
+                            <div class="browse-select">
+                                <select id="session-location" class="select-opt">
+                                    <option>Select a Location</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'session-locations' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+				        <?php
+			        } elseif ( 'exhibitors' === $atts[ 'type' ] ) {
+				        ?>
+                        <div class="category col-lg-3">
+                            <label for="exhibitor-category">Category</label>
+                            <div class="browse-select">
+                                <select id="exhibitor-category" class="select-opt">
+                                    <option>Select a Category</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'exhibitor-categories' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="exhibitor-hall">Halls</label>
+                            <div class="browse-select">
+                                <select id="exhibitor-hall" class="select-opt">
+                                    <option>Select a Location</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'halls' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="exhibitor-pavilion">Pavilions</label>
+                            <div class="browse-select">
+                                <select id="exhibitor-pavilion" class="select-opt">
+                                    <option>Select a Pavilion</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'pavilions' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+				        <?php
+			        } elseif ( 'speakers' === $atts[ 'type' ] ) {
+				        $date_picker = true;
+                    ?>
+                        <div class="category col-lg-3">
+                            <label for="speaker-company">Company</label>
+                            <div class="browse-select">
+                                <select id="speaker-company" class="select-opt">
+                                    <option>Select a Company</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'speaker-companies' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="speaker_date">Date</label>
+                            <div class="browse-select">
+                                <input type="text" name="speaker_date" id="speaker_date" placeholder="MM, DD 20XX"/>
+                            </div>
+                        </div>
+				        <?php
+			        } elseif ( 'destinations' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
+                    ?>
+                        <div class="category col-lg-3">
+                            <label for="page-location">Location</label>
+                            <div class="browse-select">
+                                <select id="page-location" class="select-opt">
+                                    <option>Select a Location</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category col-lg-3">
+                            <label for="page-type">Types</label>
+                            <div class="browse-select">
+                                <select id="page-type" class="select-opt">
+                                    <option>Select a Type</option>
+                                </select>
+                            </div>
+                        </div>
+
+				        <?php
+				        if ( 'happenings' === $atts[ 'type' ] ) {
+					        $date_picker = true;
+                        ?>
+                            <div class="category col-lg-3">
+                                <label for="happenings_date">Date</label>
+                                <div class="browse-select">
+                                    <input type="text" name="happenings_date" id="happenings_date" placeholder="MM, DD 20XX"/>
+                                </div>
+                            </div>
+                            <div class="category col-lg-3">
+                                <label for="happenings-order">Order</label>
+                                <div class="browse-select">
+                                    <select id="happenings-order" class="select-opt">
+                                        <option value="default">Select a Order</option>
+                                        <option value="Chronologically">Chronologically</option>
+                                        <option value="A-Z">A-Z</option>
+                                    </select>
+                                </div>
+                            </div>
+                        <?php
+				        }
+                } elseif ( 'sponsors' === $atts[ 'type' ] ) {
+                ?>
+                    <div class="col-12 display-flex-box">
+                        <div class="featured-main">
+                            <input type="button" class="featured-btn" value="Featured">
+                        </div>
+                        <div class="category">
+                            <div class="search-box">
+                                <label for="browse-search">Keyword</label>
+                                <div class="search-item">
+                                    <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Start typing to filter by keyword...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
                 </div>
             </div>
         <?php
         }
         ?>
-        <div class="select-items col-lg-12">
-            <div class="row">
-                <?php
-                if ( 'sessions' === $atts[ 'type' ] ) {
-	                ?>
-                    <div class="category col-lg-3">
-                        <label for="session-tracks">Track</label>
-                        <div class="browse-select">
-                            <select id="session-tracks" class="select-opt">
-                                <option>Select a Track</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'tracks' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="session-level">Level</label>
-                        <div class="browse-select">
-                            <select id="session-level" class="select-opt">
-                                <option>Select a Level</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'session-levels' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="session-type">Types</label>
-                        <div class="browse-select">
-                            <select id="session-type" class="select-opt">
-                                <option>Select a Type</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'session-types' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="session-location">Location</label>
-                        <div class="browse-select">
-                            <select id="session-location" class="select-opt">
-                                <option>Select a Location</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'session-locations' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                <?php
-                } elseif ( 'exhibitors' === $atts[ 'type' ] ) {
-                ?>
-                    <div class="category col-lg-3">
-                        <label for="exhibitor-category">Category</label>
-                        <div class="browse-select">
-                            <select id="exhibitor-category" class="select-opt">
-                                <option>Select a Category</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'exhibitor-categories' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="exhibitor-hall">Halls</label>
-                        <div class="browse-select">
-                            <select id="exhibitor-hall" class="select-opt">
-                                <option>Select a Location</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'halls' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="exhibitor-pavilion">Pavilions</label>
-                        <div class="browse-select">
-                            <select id="exhibitor-pavilion" class="select-opt">
-                                <option>Select a Pavilion</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'pavilions' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                <?php
-                } elseif ( 'speakers' === $atts[ 'type' ] ) {
-                ?>
-                    <div class="category col-lg-3">
-                        <label for="speaker-company">Company</label>
-                        <div class="browse-select">
-                            <select id="speaker-company" class="select-opt">
-                                <option>Select a Company</option>
-				                <?php
-				                nabshow_lv_get_term_list_options( 'speaker-companies' );
-				                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="speaker_date">Date</label>
-                        <div class="browse-select">
-                            <input type="text" name="speaker_date" id="speaker_date" placeholder="MM, DD 20XX"/>
-                        </div>
-                    </div>
-                <?php
-                } elseif ( 'destinations' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
-                ?>
-                    <div class="category col-lg-3">
-                        <label for="page-location">Location</label>
-                        <div class="browse-select">
-                            <select id="page-location" class="select-opt">
-                                <option>Select a Location</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="category col-lg-3">
-                        <label for="page-type">Types</label>
-                        <div class="browse-select">
-                            <select id="page-type" class="select-opt">
-                                <option>Select a Type</option>
-                            </select>
-                        </div>
-                    </div>
-                <?php
-                    if ( 'happenings' === $atts[ 'type' ] ) {
-                    ?>
-                        <div class="category col-lg-3">
-                            <label for="happenings_date">Date</label>
-                            <div class="browse-select">
-                                <input type="text" name="happenings_date" id="happenings_date" placeholder="MM, DD 20XX"/>
-                            </div>
-                        </div>
-                        <div class="category col-lg-3">
-                            <label for="happenings-order">Order</label>
-                            <div class="browse-select">
-                                <select id="happenings-order" class="select-opt">
-                                    <option value="default">Select a Order</option>
-                                    <option value="Chronologically">Chronologically</option>
-                                    <option value="A-Z">A-Z</option>
-                                </select>
-                            </div>
-                        </div>
-                    <?php
-                    }
-                }
-                ?>
-            </div>
-        </div>
     </div>
     <?php
 
     $html = ob_get_clean();
 
-    if ( 'speakers' === $atts[ 'type' ] || 'happenings' === $atts[ 'type' ] ) {
+    if ( $date_picker ) {
 	    wp_enqueue_script( 'jquery-ui-datepicker' );
 	    wp_enqueue_style( 'jquery-ui', get_template_directory_uri() . '/assets/css/jquery-ui.min.css' );
     }

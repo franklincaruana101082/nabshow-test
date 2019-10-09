@@ -1404,7 +1404,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         CheckboxControl = wpComponents.CheckboxControl,
         PanelRow = wpComponents.PanelRow,
         RangeControl = wpComponents.RangeControl,
-        DateTimePicker = wpComponents.DateTimePicker;
+        DateTimePicker = wpComponents.DateTimePicker,
+        RadioControl = wpComponents.RadioControl;
 
     var MYSSessionSlider = function (_Component) {
         _inherits(MYSSessionSlider, _Component);
@@ -1590,7 +1591,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sessionDate = attributes.sessionDate,
                     metaDate = attributes.metaDate,
                     taxonomyRelation = attributes.taxonomyRelation,
-                    detailPopup = attributes.detailPopup;
+                    detailPopup = attributes.detailPopup,
+                    listingType = attributes.listingType;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -1644,7 +1646,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 checked: listingPage,
                                 help: __('Note: This option only work in nabashow-lv theme.'),
                                 onChange: function onChange() {
-                                    return setAttributes({ listingPage: !listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date' });
+                                    return setAttributes({ listingPage: !listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date', listingType: listingPage ? listingType : 'none' });
+                                }
+                            }),
+                            listingPage && wp.element.createElement(RadioControl, {
+                                label: 'Listing Types',
+                                selected: listingType,
+                                options: [{ label: 'None', value: 'none' }, { label: 'Featured Session', value: 'featured' }, { label: 'Opent to All', value: 'open-to-all' }],
+                                onChange: function onChange(option) {
+                                    return setAttributes({ listingType: option });
                                 }
                             }),
                             input,
@@ -2022,7 +2032,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: 'mys/sessions-slider',
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup, listingPage: listingPage }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup, listingPage: listingPage, listingType: listingType }
                     })
                 );
             }
@@ -2118,6 +2128,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         taxonomyRelation: {
             type: 'boolean',
             default: false
+        },
+        listingType: {
+            type: 'string',
+            default: 'none'
         }
     };
     registerBlockType('mys/sessions-slider', {
@@ -2984,7 +2998,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     orderBy = attributes.orderBy,
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
-                    detailPopup = attributes.detailPopup;
+                    detailPopup = attributes.detailPopup,
+                    featuredListing = attributes.featuredListing;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["j" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -3034,7 +3049,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 checked: listingPage,
                                 help: __('Note: This option only work in nabashow-lv theme.'),
                                 onChange: function onChange() {
-                                    return setAttributes({ listingPage: !listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle' });
+                                    return setAttributes({ listingPage: !listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', featuredListing: listingPage ? featuredListing : false });
+                                }
+                            }),
+                            listingPage && wp.element.createElement(CheckboxControl, {
+                                className: 'related-featured',
+                                label: 'Featured Session',
+                                checked: featuredListing,
+                                onChange: function onChange() {
+                                    return setAttributes({ featuredListing: !featuredListing });
                                 }
                             }),
                             input,
@@ -3336,7 +3359,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: 'mys/speaker-slider',
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, listingPage: listingPage }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, listingPage: listingPage, featuredListing: featuredListing }
                     })
                 );
             }
@@ -3417,6 +3440,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        featuredListing: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/speaker-slider', {
@@ -3455,13 +3482,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpEditor.InspectorControls,
-        RichText = wpEditor.RichText;
+    var InspectorControls = wpEditor.InspectorControls;
     var PanelBody = wpComponents.PanelBody,
         SelectControl = wpComponents.SelectControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        ToggleControl = wpComponents.ToggleControl;
 
     var MYSSponsorsPartners = function (_Component) {
         _inherits(MYSSponsorsPartners, _Component);
@@ -3560,6 +3587,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     setAttributes = _props.setAttributes;
                 var layout = attributes.layout,
                     itemToFetch = attributes.itemToFetch,
+                    listingPage = attributes.listingPage,
                     postType = attributes.postType,
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
@@ -3580,7 +3608,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement(
                             PanelBody,
                             { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
-                            wp.element.createElement(
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Is Listing Page?'),
+                                checked: listingPage,
+                                help: __('Note: This option only work in nabashow-lv theme.'),
+                                onChange: function onChange() {
+                                    return setAttributes({ listingPage: !listingPage, layout: 'without-title' });
+                                }
+                            }),
+                            !listingPage && wp.element.createElement(
                                 'div',
                                 null,
                                 wp.element.createElement(
@@ -3618,7 +3654,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 20,
+                                    max: 100,
                                     onChange: function onChange(item) {
                                         setAttributes({ itemToFetch: parseInt(item) });
                                     }
@@ -3760,7 +3796,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 postType: postType,
                                 orderBy: orderBy,
                                 taxonomies: taxonomies,
-                                terms: terms
+                                terms: terms,
+                                listingPage: listingPage
                             }
                         })
                     )
@@ -3779,6 +3816,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         itemToFetch: {
             type: 'number',
             default: 10
+        },
+        listingPage: {
+            type: 'boolean',
+            default: false
         },
         postType: {
             type: 'string',

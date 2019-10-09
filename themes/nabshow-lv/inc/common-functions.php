@@ -140,3 +140,95 @@ function nabshow_lv_get_mys_show_code() {
 	$show_code    = isset( $nab_mys_urls['show_code'] ) ? $nab_mys_urls['show_code'] : '';
     return $show_code;
 }
+
+/**
+ * Renders an HTML-serialized form of a block object
+ * @param array $block The block being rendered.
+ * @return string The HTML-serialized form of the block
+ */
+function nabshow_lv_serialize_block( $block ) {
+	// Non-block content has no block name.
+	if ( null === $block['blockName'] ) {
+		return $block['innerHTML'];
+	}
+	$unwanted  = array( '--', '<', '>', '&', '\"' );
+	$wanted    = array( '\u002d\u002d', '\u003c', '\u003e', '\u0026', '\u0022' );
+	$name      = 0 === strpos( $block['blockName'], 'core/' ) ? substr( $block['blockName'], 5 ) : $block['blockName'];
+	$has_attrs = ! empty( $block['attrs'] );
+	$attrs     = $has_attrs ? str_replace( $unwanted, $wanted, wp_json_encode( $block['attrs'] ) ) : '';
+	// Early abort for void blocks holding no content.
+	if ( empty( $block['innerContent'] ) ) {
+		return $has_attrs
+			? "<!-- wp:{$name} {$attrs} /-->"
+			: "<!-- wp:{$name} /-->";
+	}
+	$output            = $has_attrs
+		? "<!-- wp:{$name} {$attrs} -->\n"
+		: "<!-- wp:{$name} -->\n";
+	$inner_block_index = 0;
+	foreach ( $block['innerContent'] as $chunk ) {
+		$output .= null === $chunk
+			? nabshow_lv_serialize_block( $block['innerBlocks'][ $inner_block_index ++ ] )
+			: $chunk;
+		$output .= "\n";
+	}
+	$output .= "<!-- /wp:{$name} -->";
+
+	return $output;
+}
+
+/**
+ * Renders an HTML-serialized form of a list of block objects
+ * @param array $blocks The list of parsed block objects.
+ * @return string The HTML-serialized form of the list of blocks.
+ */
+function nabshow_lv_serialize_blocks( $blocks ) {
+	return implode( "\n\n", array_map( 'nabshow_lv_serialize_block', $blocks ) );
+}
+
+/**
+ * Search block using classname
+ * @param $block
+ * @return string
+ */
+function nabshow_lv_search_block( $block ) {
+	if ( isset ( $block['attrs']['className'] ) ) {
+		return $block['attrs']['className'] == 'sponsor_opportunities_main';
+	}
+}
+/*
+ * Alphabets list for browse pages
+ */
+function nabshow_lv_alphabets_list_filter() {
+?>
+    <ul class="alphabets-list">
+        <li>A</li>
+        <li>B</li>
+        <li>C</li>
+        <li>D</li>
+        <li>E</li>
+        <li>F</li>
+        <li>G</li>
+        <li>H</li>
+        <li>I</li>
+        <li>J</li>
+        <li>K</li>
+        <li>L</li>
+        <li>M</li>
+        <li>N</li>
+        <li>O</li>
+        <li>P</li>
+        <li>Q</li>
+        <li>R</li>
+        <li>S</li>
+        <li>T</li>
+        <li>U</li>
+        <li>V</li>
+        <li>W</li>
+        <li>X</li>
+        <li>Y</li>
+        <li>Z</li>
+        <li class="clear">Clear</li>
+    </ul>
+<?php
+}
