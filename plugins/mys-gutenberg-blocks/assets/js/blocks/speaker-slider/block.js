@@ -186,7 +186,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             { listingPage &&
                             <CheckboxControl
                                 className="related-featured"
-                                label="Featured Session"
+                                label="Featured Speaker"
                                 checked={featuredListing}
                                 onChange={() => setAttributes({ featuredListing: ! featuredListing }) }
                             />

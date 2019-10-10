@@ -286,6 +286,14 @@
 
 
   /**
+   * Remove Extra Space from filter
+   */
+  if (0 < $('.box-main-filter').length) {
+    let emptyP = $('.box-main-filter p:contains(\u00a0)');
+    emptyP.hide();
+  }
+
+  /**
    * Filter - Related content details js box-main
    */
   if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length) {
@@ -424,7 +432,7 @@
       selectedItem = '.box-item';
       searchKeyword = '.title';
     }
-    if (0 < $('.related-content-rowbox').length) {
+    if (0 < $('.rc-page-block').length) {
       selectedItem = '.rc-page-block .col-lg-4.col-md-6';
       searchKeyword = '.title';
     }
@@ -454,26 +462,57 @@
     });
 
     if (0 < jQuery('.badgeslist a').length) {
-      $('.badgeslist a').on('click', function () {
-        $('.badgeslist a').removeClass('active');
-        $('.badgeslist .clearfilter').show();
-        $(this).addClass('active');
+      $('.badgeslist a').each(function () {
+        let $this = $(this);
+        $($this).on('click', function () {
+          if ($this.hasClass('clicked')) {
+            $this.removeClass('clicked');
+            $('.badgeslist a').removeClass('active');
+            $('.no-data').hide();
 
-        masterFilterFunc(selectedItem, searchId, searchKeyword);
+            $('.box-main .box-item').addClass('slideInUp').show();
+            $('.badge-discounts, .badge-discounts .badge-title').show();
+            $('.related-main-wrapper, .parent-main-title').show();
+
+            masterFilterFunc(selectedItem, searchId, searchKeyword);
+
+          }
+          else {
+            $('.badgeslist a').removeClass('active');
+            $('.badgeslist a').removeClass('clicked');
+
+            $this.addClass('clicked');
+            $(this).addClass('active');
+
+            masterFilterFunc(selectedItem, searchId, searchKeyword);
+
+          }
+        });
       });
 
-      $('.badgeslist .clearfilter').on('click', function () {
-        $('.badgeslist a').removeClass('active');
-        $('.badgeslist .clearfilter').hide();
-        $('.no-data').hide();
-
-        $('.box-main .box-item').addClass('slideInUp').show();
-        $('.badge-discounts, .badge-discounts .badge-title').show();
-        $('.related-main-wrapper, .parent-main-title').show();
-
-        masterFilterFunc(selectedItem, searchId, searchKeyword);
-      });
     }
+
+    // if (0 < jQuery('.badgeslist a').length) {
+    //   $('.badgeslist a').on('click', function () {
+    //     $('.badgeslist a').removeClass('active');
+    //     $('.badgeslist .clearfilter').show();
+    //     $(this).addClass('active');
+
+    //     masterFilterFunc(selectedItem, searchId, searchKeyword);
+    //   });
+
+    //   $('.badgeslist .clearfilter').on('click', function () {
+    //     $('.badgeslist a').removeClass('active');
+    //     $('.badgeslist .clearfilter').hide();
+    //     $('.no-data').hide();
+
+    //     $('.box-main .box-item').addClass('slideInUp').show();
+    //     $('.badge-discounts, .badge-discounts .badge-title').show();
+    //     $('.related-main-wrapper, .parent-main-title').show();
+
+    //     masterFilterFunc(selectedItem, searchId, searchKeyword);
+    //   });
+    // }
   }
 
   /**
@@ -1303,7 +1342,7 @@ function nabAjaxForBrowseExhibitors(exhibitorItem, filterType, exhibitorPageNumb
         jQuery('#browse-exhibitor').parent().find('p.no-data').hide();
       }
 
-      if (jQuery('.browse-sessions-filter .featured-btn').hasClass('active')) {
+      if (jQuery('.browse-exhibitors-filter .featured-btn').hasClass('active')) {
         jQuery('#browse-exhibitor .item').removeClass('featured');
         jQuery('#browse-exhibitor .item[data-featured="featured"]').addClass('featured');
       }

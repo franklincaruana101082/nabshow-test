@@ -269,6 +269,14 @@ function nabshow_lv_browse_filter_callback( $atts ) {
             }
         } else {
 	        if ( 'sponsors' !== $atts[ 'type' ] ) {
+
+	            $get_featured   = filter_input( INPUT_GET, 'featured', FILTER_SANITIZE_STRING );
+		        $featured_class = 'featured-btn';
+
+		        if ( isset( $get_featured ) && 't' === strtolower( $get_featured ) ) {
+			        $featured_class .= ' active';
+                }
+
 		        ?>
                 <div class="left-side col-xl-5">
                     <div class="search-box">
@@ -279,7 +287,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="button" class="featured-btn" value="Featured">
+                            <input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
 					        <?php
 					        if ( 'speakers' === $atts[ 'type' ] || 'exhibitors' === $atts[ 'type' ] ) {
 						        ?>

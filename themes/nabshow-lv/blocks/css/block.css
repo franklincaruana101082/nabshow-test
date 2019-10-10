@@ -434,6 +434,8 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .wp-block-columns.button-column-auto .editor-block-list__layout .wp-block{flex-basis:auto!important}
 div#load-more-speaker{margin-bottom:30px}
 .display-none{display:none}
+.content-with-sidebar article.post-wrap{margin-right:-1em;margin-left:-1em}
+.content-with-sidebar article.post-wrap>div{padding-left:1em;padding-right:1em}
 
 /* Flip box */
 .flip-box{background-color:transparent;width:150px;height:150px;border:0;perspective:1000px}
@@ -1006,10 +1008,13 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date::after{content:'|';position:absolute;right:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date{padding-right:20px}
 .row.related-content-rowbox .related-content-box.featured-happenings, .row.related-content-rowbox .related-content-box.exhibitor-resources{padding:0 0 30px}
-.row.related-content-rowbox .related-content-box.featured-happenings .title,.row.related-content-rowbox .related-content-box.featured-happenings p,.row.related-content-rowbox .related-content-box.featured-happenings .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .row.related-content-rowbox .related-content-box.exhibitor-resources p, .row.related-content-rowbox .related-content-box.exhibitor-resources .read-more{padding:0 30px}
-.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow{background-color:#9a9a9a!important;color:#fff!important;padding:10px 15px;text-decoration:none!important;margin-bottom:10px;display:inline-block}
+.row.related-content-rowbox .related-content-box.featured-happenings .title,.row.related-content-rowbox .related-content-box.featured-happenings p,.row.related-content-rowbox .related-content-box.featured-happenings .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .row.related-content-rowbox .related-content-box.exhibitor-resources p, .row.related-content-rowbox .related-content-box.exhibitor-resources .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{padding:0 30px}
+.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow{background-color:#9a9a9a!important;color:#fff!important;padding:10px 15px;text-decoration:none!important;margin-bottom:10px;display:inline-block;font-size:14px}
 .row.related-content-rowbox .date-group-wrapper{display:flex;flex-wrap:wrap}
 .row.related-content-rowbox .date-group-wrapper h2.happenings-date{-webkit-box-flex:0;-ms-flex:0 0 33.333333%;flex:0 0 100%;max-width:100%;width:100%;padding-left:1em;padding-right:1em}
+.row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{font-family:'Gotham Bold';font-size:18px}
+.row.related-content-rowbox .related-content-box.exhibitor-resources .title, .related-content-box.key-contacts h2.title{font-family:'Gotham Bold';font-size:20px}
+.exhibitor-resources-page .is-block-center.related-content-with-block-main p.has-medium-font-size{font-size:14px}
 
 /* news-conference-schedule css */
 .news-conference-schedule .box-main .box-item .box-inner{text-align:left;padding:25px}
@@ -1052,6 +1057,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .opportunities .box-main .box-item .remove{top:-10px;right:0}
 .opportunities .box-main .box-item .box-inner .details-sec .sold-checkbox{margin-top:15px}
 .opportunities-filter .category{margin-right:20px}
+.nab-dynamic-list.session.with-masonry{max-width:initial!important}
 
 /* Opportunities block css */
 
@@ -1080,3 +1086,4 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .listing-date-group{display:flex;flex-wrap:wrap}
 .listing-date-group .session-date{width:100%;padding:0 15px}
 .main-filter .browse-select input[type="text"]{width:100%;height:40px;padding:0 25px;outline:none;border:1px solid #69767a;border-radius:0}
+.box-main-filter p{white-space:pre;display:inline;margin:0;padding:0}

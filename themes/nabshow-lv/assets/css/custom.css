@@ -1079,9 +1079,8 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .bx-viewport .category-slider{margin:0}
 
 /* filter-block css */
-.filter-block{display:flex;flex-wrap:wrap}
-.filter-block .feature-btn{padding-right:10%}
-.filter-block .search-box{padding-right:10%}
+.filter-block{display:flex;flex-wrap:wrap;align-items:flex-end}
+.filter-block .feature-btn,.filter-block .search-box{padding-right:50px}
 .filter-block .feature-btn .featured-btn{margin-bottom:0;margin-top:10px;background:#fff}
 .filter-block .search-box .search-item input{width:450px;max-width:100%}
 .filter-block label{font-size:20px;font-family:"Gotham Bold", sans-serif}
@@ -1146,7 +1145,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .delegation .box-main .box-item .box-inner .description, .badge-discounts .box-main .box-item .box-inner .description{margin-bottom:0;display:block;width:100%}
 .delegation .box-main .box-item .box-inner .email, .badge-discounts .box-main .box-item .box-inner .email{margin-bottom:20px;display:block;clear:both}
 
-.box-main-filter{display:flex}
+.box-main-filter{display:flex;align-items:flex-end;flex-wrap:wrap}
 .box-main-filter .category{display:inline-block;width:230px;margin-right:40px}
 .box-main-filter .search-box{width:320px;display:inline-block}
 .box-main-filter label{font-family:"Gotham Bold", sans-serif}
@@ -1238,9 +1237,9 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .badge-discounts .box-main .box-item .box-inner .title{margin-bottom:13px}
 .badge-discounts .box-main .box-item .box-inner span.dates, .badge-discounts .badge-title{margin-bottom:17px}
 .badge-discounts.hidden{display:none}
-.badgeslist a{background:#f1f7fc;padding:13px 22px;display:inline-block;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a;font-size:18px;cursor:pointer;margin-bottom:10px;margin-right:13px}
+.badgeslist a, .badgeslist a:hover{background:#f1f7fc;padding:13px 22px;display:inline-block;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a;font-size:18px;cursor:pointer;margin-top:10px;margin-right:13px}
 #box-main-listing, .ov-filter{width:calc(100% - 320px);padding-right:30px}
-.badge-discount-filter{align-items:center;flex-wrap:wrap}
+.badge-discount-filter{flex-wrap:wrap}
 
 /* Related Content Option CSS */
 .row.related-content-rowbox .related-content-box.exhibitor-resources{text-align:left}
@@ -1251,12 +1250,15 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date::after{content:'|';position:absolute;right:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date{padding-right:20px}
 .row.related-content-rowbox .related-content-box.featured-happenings, .row.related-content-rowbox .related-content-box.exhibitor-resources{padding:0 0 30px}
-.row.related-content-rowbox .related-content-box.featured-happenings .title,.row.related-content-rowbox .related-content-box.featured-happenings p,.row.related-content-rowbox .related-content-box.featured-happenings .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .row.related-content-rowbox .related-content-box.exhibitor-resources p, .row.related-content-rowbox .related-content-box.exhibitor-resources .read-more{padding:0 30px}
-.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow{background-color:#9a9a9a!important;color:#fff!important;padding:10px 15px;text-decoration:none!important;margin-bottom:10px;display:inline-block}
+.row.related-content-rowbox .related-content-box.featured-happenings .title,.row.related-content-rowbox .related-content-box.featured-happenings p,.row.related-content-rowbox .related-content-box.featured-happenings .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .row.related-content-rowbox .related-content-box.exhibitor-resources p, .row.related-content-rowbox .related-content-box.exhibitor-resources .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{padding:0 30px}
+.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow{background-color:#9a9a9a!important;color:#fff!important;padding:10px 15px;text-decoration:none!important;margin-bottom:10px;display:inline-block;font-size:14px}
 .row.related-content-rowbox .date-group-wrapper{display:flex;flex-wrap:wrap}
 .row.related-content-rowbox .date-group-wrapper h2.happenings-date{-webkit-box-flex:0;-ms-flex:0 0 33.333333%;flex:0 0 100%;max-width:100%;width:100%;padding-left:1em;padding-right:1em}
 .key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0}
 .nab-dynamic-list.session{margin-right:-18px;margin-left:-18px}
+.row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{font-family:'Gotham Bold';font-size:18px}
+.row.related-content-rowbox .related-content-box.exhibitor-resources .title, .related-content-box.key-contacts h2.title{font-family:'Gotham Bold';font-size:20px}
+.exhibitor-resources-page .is-block-center.related-content-with-block-main p.has-medium-font-size{font-size:14px}
 
 /* news-conference-schedule css */
 .news-conference-schedule .box-main .box-item .box-inner{text-align:left;padding:25px;height:auto}
@@ -1280,7 +1282,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .main-filter.news-conference .div-left{width:calc(100% - 330px)}
 .main-filter.news-conference .div-right{width:330px}
 .box-main.four-grid.without-masonry{flex-flow:initial;flex-wrap:wrap}
-.box-main-filter.main-filter.news-conference .category{margin-bottom:20px}
+.box-main-filter.main-filter.news-conference .category{margin-top:10px}
 
 /* news-conference-schedule css */
 
@@ -1299,6 +1301,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .opportunities .box-main .box-item .box-inner .media-img button{height:150px}
 .opportunities .box-main .box-item .box-inner .sold{position:absolute;top:13px;right:-30px;transform:rotate(45deg);background:#0f6cb6;color:#fff;font-size:15px;text-transform:uppercase;width:120px;height:34px;display:flex;justify-content:center;align-items:center;font-weight:normal;letter-spacing:1px;z-index:1}
 .opportunities-filter .category{margin-right:20px}
+.nab-dynamic-list.session.with-masonry{max-width:initial!important}
 
 /* Opportunities block css */
 
@@ -1325,3 +1328,4 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .listing-date-group{display:flex;flex-wrap:wrap}
 .listing-date-group .session-date{width:100%;padding:0 15px}
 .main-filter .browse-select input[type="text"]{width:100%;height:40px;padding:0 25px;outline:none;border:1px solid #69767a;border-radius:0}
+.box-main-filter p{white-space:pre;display:inline;margin:0;padding:0}

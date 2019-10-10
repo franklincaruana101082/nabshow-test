@@ -189,7 +189,7 @@ function nabshow_lv_set_and_remove_as_featured_bulk_post_handler( $redirect_to, 
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_exhibitors_handler( $redirect_to, $doaction, $post_ids ) {
 
-    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'exhibitors-category');
+    return nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, 'exhibitor-keywords');
 }
 
 /**
