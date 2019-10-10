@@ -1361,7 +1361,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             $featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
                             $item_class     = 'item';
 
-                            if ( isset( $get_featured ) && 't' === strtolower( $get_featured ) && ! empty( $featured_post ) ) {
+                            if ( isset( $get_featured ) && 'true' === strtolower( $get_featured ) && ! empty( $featured_post ) ) {
                                 $item_class .= ' featured';
                             }
                         ?>

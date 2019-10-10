@@ -273,7 +273,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
 	            $get_featured   = filter_input( INPUT_GET, 'featured', FILTER_SANITIZE_STRING );
 		        $featured_class = 'featured-btn';
 
-		        if ( isset( $get_featured ) && 't' === strtolower( $get_featured ) ) {
+		        if ( isset( $get_featured ) && 'true' === strtolower( $get_featured ) ) {
 			        $featured_class .= ' active';
                 }
 
