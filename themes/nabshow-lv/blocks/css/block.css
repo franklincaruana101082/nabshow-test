@@ -986,7 +986,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .nab-photos .photo-item .photo-inner .hover-items{position:absolute;display:flex;justify-content:center;align-items:center;top:0;bottom:0;left:0;right:0;background:#0000007a;transition:0.5s all;opacity:0;font-size:43px;color:#fff}
 .nab-photos .photo-item .photo-inner:hover .hover-items{opacity:1;transition:0.5s all}
 .nab-photos .photo-item .photo-inner .hover-items a{margin:0 10px;color:#fff;cursor:pointer;text-align:center}
-.nab-photos .photo-item .photo-inner span.remove{position:absolute;background:red!important;color:#fff!important;border-radius:50%!important;top:-15px;right:-15px;cursor:pointer;display:flex;width:30px;height:30px;text-align:center;line-height:1;justify-content:center;align-items:center}
+.nab-photos .photo-item .photo-inner span.remove{position:absolute;background:#ff0000b5!important;color:#fff!important;border-radius:50%!important;top:0;right:0;cursor:pointer;display:flex;width:30px;height:30px;text-align:center;line-height:1;justify-content:center;align-items:center}
 .photos-add button.components-button.button.button-large{width:100%;background:#0f6cb6a3;padding:0;font-size:16px;transition:0.5s all;outline:none;margin:0 auto;height:100px;display:flex;justify-content:center;align-items:center;color:#fff;margin-top:30px}
 
 /* Related Content css */
@@ -1064,6 +1064,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .related-main-wrapper{margin-bottom:50px}
 .related-main-wrapper .parent-main-title{font-family:"Vollkorn BoldItalic";font-weight:normal;margin-bottom:20px}
 .related-main-wrapper .parent-main-title a{font-family:"Vollkorn BoldItalic";font-weight:normal}
+.bx-viewport .nab-dynamic-slider.sponsors{display:flex;align-items:center}
 
 /* Exhibitor Committee */
 .box-main.two-grid .box-item{flex-basis:50%}
