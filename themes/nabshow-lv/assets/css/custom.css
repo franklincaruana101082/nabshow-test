@@ -1256,6 +1256,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .row.related-content-rowbox .date-group-wrapper{display:flex;flex-wrap:wrap}
 .row.related-content-rowbox .date-group-wrapper h2.happenings-date{-webkit-box-flex:0;-ms-flex:0 0 33.333333%;flex:0 0 100%;max-width:100%;width:100%;padding-left:1em;padding-right:1em}
 .key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0}
+.nab-dynamic-list.session{margin-right:-18px;margin-left:-18px}
 
 /* news-conference-schedule css */
 .news-conference-schedule .box-main .box-item .box-inner{text-align:left;padding:25px;height:auto}
@@ -1301,6 +1302,10 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 
 /* Opportunities block css */
 
+.related-main-wrapper{margin-bottom:50px}
+.related-main-wrapper .parent-main-title{font-family:"Vollkorn BoldItalic";font-weight:normal;margin-bottom:20px;margin-bottom:0}
+.related-main-wrapper .parent-main-title a{font-family:"Vollkorn BoldItalic";font-weight:normal;text-decoration:none}
+
 /* Exhibitor Committee */
 .box-main.two-grid .box-item{flex-basis:50%}
 .exhibitor-committee .box-main .box-item .box-inner .info-box{width:calc(100% - 210px);float:left}
@@ -1317,7 +1322,6 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 /* browse sessions filter */
 .browse-sessions-filter .display-flex-box .category{max-width:150px}
 .browse-sessions-filter .display-flex-box .search-box{margin-right:0}
-.browse-sessions-filter+.slider-arrow-main{padding:0 2em}
 .listing-date-group{display:flex;flex-wrap:wrap}
-.listing-date-group .session-date{width:100%}
+.listing-date-group .session-date{width:100%;padding:0 15px}
 .main-filter .browse-select input[type="text"]{width:100%;height:40px;padding:0 25px;outline:none;border:1px solid #69767a;border-radius:0}

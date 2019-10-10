@@ -193,7 +193,7 @@ function nabshow_lv_serialize_blocks( $blocks ) {
  */
 function nabshow_lv_search_block( $block ) {
 	if ( isset ( $block['attrs']['className'] ) ) {
-		return $block['attrs']['className'] == 'sponsor_opportunities_main';
+		return $block['attrs']['className'] === 'related-content-with-block-main';
 	}
 }
 /*

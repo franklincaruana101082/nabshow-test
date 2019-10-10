@@ -25,4 +25,4 @@ import './block/official-vendor/block';
 import './block/news-conference-schedule/block';
 import './block/opportunities/block';
 import './block/exhibitor-advisory-committee/block';
-import './block/sponsor-opportunities-main/block';
+import './block/related-content-with-block/block';

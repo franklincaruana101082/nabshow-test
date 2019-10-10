@@ -95,9 +95,6 @@
 
   // nab-media-slider End
 
-  // Adding Row in Session Masonry Js
-  jQuery('.session.with-masonry').parent('div').addClass('row');
-
   // Award Section Popup Js
   jQuery('.nab_popup_btn').on('click', function () {
     jQuery(this).siblings('.nab_model_main').addClass('nab_model_open');
@@ -291,7 +288,7 @@
   /**
    * Filter - Related content details js box-main
    */
-  if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length) {
+  if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length) {
 
     $('.new-this-year .box-main .box-item').each(function () {
       if ('' !== $(this).find('.title').html()) {
@@ -366,7 +363,6 @@
     });
 
     $('.news-conference-schedule .box-main .box-item').each(function () {
-
       if ('' !== $(this).find('.title').html()) {
         insertOptions($(this).find('.title').text(), 'company-name');
       }
@@ -377,20 +373,32 @@
 
       if ('' !== $(this).find('.date-time').html()) {
         insertOptions($(this).find('.date-time').text().split('|')[0], 'date-filter');
-
-        // insertOptions($(this).find('.date-time').html(), 'date-filter');
-        // $.map(
-        //   $(this).find('.date-time').text().split('|'),
-        //   function (val, i) {
-        //     insertOptions(val, 'date-filter');
-        //   }
-        // );
       }
     });
 
 
+    $('.sponsorship-opportunities-page .related-main-wrapper').each(function () {
+      if ('' !== $(this).find('.parent-main-title').html()) {
+        insertOptions($(this).find('.parent-main-title').text(), 'main-category-type');
+      }
+    });
+    $('.opportunities').each(function () {
+      if ('' !== $(this).find('.main-title').html()) {
+        insertOptions($(this).find('.main-title').text(), 'sub-category-type');
+      }
+      $('.opportunities .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.cost').html()) {
+          insertOptions($(this).find('.cost').text(), 'price-range');
+        }
+        if ('' !== $(this).find('.exclusivity').html()) {
+          insertOptions($(this).find('.exclusivity').text(), 'exclusivity');
+        }
+      });
+    });
+
+
     let selectedItem, searchId, searchKeyword, selectedLetter;
-    if (0 < $('.exhibitor-committee .box-main, .badge-discounts .box-main, .new-this-year-block .box-main, .official-vendors .box-main, .delegation .box-main').length) {
+    if (0 < $('.exhibitor-committee .box-main, .badge-discounts .box-main, .new-this-year-block .box-main, .official-vendors .box-main, .delegation .box-main, .opportunities .box-main').length) {
       selectedItem = '.box-item';
     }
     if (0 < $('.accordionParentWrapper').length) {
@@ -416,13 +424,17 @@
       selectedItem = '.box-item';
       searchKeyword = '.title';
     }
+    if (0 < $('.related-content-rowbox').length) {
+      selectedItem = '.rc-page-block .col-lg-4.col-md-6';
+      searchKeyword = '.title';
+    }
 
 
     $(document).on('click', 'ul.alphabets-list li', function () {
       selectedLetter = $(this).html();
       masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
     });
-    $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter', function () {
+    $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability', function () {
       masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
     });
     $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
@@ -432,6 +444,12 @@
     $('.badge-discounts').each(function () {
       if ('' !== $(this).find('.badge-title').html()) {
         insertList($(this).find('.badge-title').text(), 'box-main-listing');
+      }
+    });
+
+    $('.exhibitor-resources-page .related-main-wrapper').each(function () {
+      if ('' !== $(this).find('.parent-main-title').html()) {
+        insertList($(this).find('.parent-main-title').text(), 'box-main-listing');
       }
     });
 
@@ -451,6 +469,7 @@
 
         $('.box-main .box-item').addClass('slideInUp').show();
         $('.badge-discounts, .badge-discounts .badge-title').show();
+        $('.related-main-wrapper, .parent-main-title').show();
 
         masterFilterFunc(selectedItem, searchId, searchKeyword);
       });
@@ -627,7 +646,7 @@
   /**
    *  Session browse filter data
    */
-  if ( 0 < $('.browse-sessions-filter').length || 0 < $('.browse-open-to-all-filter').length ) {
+  if (0 < $('.browse-sessions-filter').length || 0 < $('.browse-open-to-all-filter').length) {
     let pageNumber, filterType,
       postStartWith = '',
       sessionTrack = '',
@@ -720,9 +739,9 @@
       pageNumber = 1;
       nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
     });
-    if ( 0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length ) {
+    if (0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length) {
       $(window).load(function () {
-        $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function() {
+        $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function () {
           filterType = 'browse-filter';
           pageNumber = 1;
           sessionDate = $(this).val();
@@ -890,7 +909,7 @@
       speakerPageNumber = 1;
       nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, speakerPopup);
     });
-    if ( 0 < $('.browse-speakers-filter #speaker_date').length ) {
+    if (0 < $('.browse-speakers-filter #speaker_date').length) {
       $(window).load(function () {
         $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
           speakerPageNumber = 1;
@@ -1300,7 +1319,7 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
   jQuery('body').addClass('popup-loader');
 
-  if ( 'load-more' !== filterType ) {
+  if ('load-more' !== filterType) {
     jQuery('#browse-session').empty();
   }
 
@@ -1311,14 +1330,14 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
     success: function (sessionData) {
 
       let sessionObj = jQuery.parseJSON(sessionData);
-      if ( '' !== listingType ) {
+      if ('' !== listingType) {
         let dateGroup = '';
         let itemDateGroup = [];
         let cnt = 0;
         let appendItem = false;
         jQuery.each(sessionObj.result_post, function (key, value) {
 
-          if ( dateGroup !== value.session_date ) {
+          if (dateGroup !== value.session_date) {
             dateGroup = value.session_date;
           }
           let cloneItemDiv = sessionItem.cloneNode(true);
@@ -1353,33 +1372,33 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
           innerATag.setAttribute('href', value.planner_link);
           itemDateGroup[cnt] = cloneItemDiv;
 
-          if ( 'load-more' === filterType && jQuery('#browse-session .listing-date-group h2.session-date:last').text() === value.session_date ) {
-              appendItem = true;
+          if ('load-more' === filterType && jQuery('#browse-session .listing-date-group h2.session-date:last').text() === value.session_date) {
+            appendItem = true;
           }
 
           cnt++;
 
-          if ( ( ( key + 1 ) === sessionObj.result_post.length ) || ( sessionObj.result_post[ ( key + 1 )] !== undefined && dateGroup !== sessionObj.result_post[ ( key + 1 )].session_date ) ) {
+          if (((key + 1) === sessionObj.result_post.length) || (sessionObj.result_post[(key + 1)] !== undefined && dateGroup !== sessionObj.result_post[(key + 1)].session_date)) {
             let parentDiv;
-            if ( ! appendItem ) {
+            if (! appendItem) {
               parentDiv = document.createElement('div');
               parentDiv.setAttribute('class', 'listing-date-group');
 
               let childHeading = document.createElement('h2');
-              childHeading.setAttribute( 'class', 'session-date');
+              childHeading.setAttribute('class', 'session-date');
               childHeading.innerText = dateGroup;
-              parentDiv.appendChild( childHeading );
+              parentDiv.appendChild(childHeading);
 
             } else {
-              let lastDivindex = ( jQuery('#browse-session .listing-date-group').length - 1 );
+              let lastDivindex = (jQuery('#browse-session .listing-date-group').length - 1);
               parentDiv = document.getElementsByClassName('listing-date-group')[lastDivindex];
             }
 
-            itemDateGroup.forEach( function( element ){
-              parentDiv.appendChild( element );
+            itemDateGroup.forEach(function (element) {
+              parentDiv.appendChild(element);
             });
 
-            if ( ! appendItem ) {
+            if (! appendItem) {
               let sessionList = document.getElementById('browse-session');
               sessionList.appendChild(parentDiv);
             }
@@ -1642,8 +1661,17 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   if (0 < jQuery('.news-conference-schedule').length) {
     jQuery(`.news-conference-schedule ${selectedItem}`).show();
   }
+  if (0 < jQuery('.opportunities').length) {
+    jQuery('.opportunities').show();
+  }
+  if (0 < jQuery('.sponsorship-opportunities-page').length) {
+    jQuery('.related-main-wrapper, .sponsorship-opportunities-page, .sponsorship-opportunities-page .parent-main-title').show();
+  }
+  if (0 != jQuery('.exhibitor-resources-page').length) {
+    jQuery('.related-main-wrapper, .parent-main-title').show();
+  }
 
-  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation;
+  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat;
 
   if (0 < jQuery('#box-main-category').length) {
     filterMainData = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
@@ -1673,6 +1701,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('#team-checkbox .checkbox-list input:checked').parent().addClass('checked');
 
     if (0 < jQuery('#team-checkbox .checkbox-list input:checked').length) {
+
       jQuery(`${selectedItem}`).hide();
 
       jQuery('#team-checkbox .checkbox-list input:checked').each(function () {
@@ -1687,6 +1716,15 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     filterCName = 0 < jQuery('#company-name')[0].selectedIndex ? jQuery('#company-name').val() : null;
     filterCDate = 0 < jQuery('#date-filter')[0].selectedIndex ? jQuery('#date-filter').val() : null;
     filterCLocation = 0 < jQuery('#location-filter')[0].selectedIndex ? jQuery('#location-filter').val() : null;
+  }
+  if (0 < jQuery('.sponsorship-opportunities-page').length) {
+    filterMainCat = 0 < jQuery('#main-category-type')[0].selectedIndex ? jQuery('#main-category-type').val() : null;
+  }
+  if (0 < jQuery('.opportunities').length) {
+    filterSubCat = 0 < jQuery('#sub-category-type')[0].selectedIndex ? jQuery('#sub-category-type').val() : null;
+    filterCost = 0 < jQuery('#price-range')[0].selectedIndex ? jQuery('#price-range').val() : null;
+    filterExclusive = 0 < jQuery('#exclusivity')[0].selectedIndex ? jQuery('#exclusivity').val() : null;
+    filterAvailable = 0 < jQuery('#availability')[0].selectedIndex ? jQuery('#availability').val() : null;
   }
 
   // Dropdown Filter
@@ -1762,6 +1800,45 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   if (null !== filterCLocation && undefined !== filterCLocation) {
     jQuery(`${selectedItem} .location:not(:contains("${filterCLocation}"))`).parents(`${selectedItem}`).hide();
   }
+  if (null !== filterMainCat && undefined !== filterMainCat) {
+    if (0 < jQuery('#main-category-type').length) {
+      selectedItem = '.related-main-wrapper';
+    }
+    jQuery(`.sponsorship-opportunities-page ${selectedItem} .parent-main-title:not(:contains("${filterMainCat}"))`).parents(`${selectedItem}`).addClass('Juhi').hide();
+  }
+  if (null !== filterSubCat && undefined !== filterSubCat) {
+    if (0 < jQuery('#sub-category-type').length) {
+      selectedItem = '.opportunities';
+    } else {
+      selectedItem = '.box-item';
+    }
+    jQuery(`${selectedItem} .main-title:not(:contains("${filterSubCat}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterCost && undefined !== filterCost) {
+    if (0 < jQuery('.opportunities').length) {
+      selectedItem = '.box-item';
+    }
+    jQuery(`${selectedItem} .cost:not(:contains("${filterCost}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterExclusive && undefined !== filterExclusive) {
+    jQuery(`${selectedItem} .exclusivity:not(:contains("${filterExclusive}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterAvailable && undefined !== filterAvailable) {
+    if (0 < jQuery('.opportunities').length) {
+      selectedItem = '.box-item';
+    }
+    if ('Available' === filterAvailable) {
+      if (jQuery(selectedItem).has('span.sold')) {
+        jQuery(` ${selectedItem} span.sold`).each(function () {
+          jQuery(this).parents(`${selectedItem}`).addClass('visible');
+        });
+      }
+      jQuery(selectedItem).not('.visible').hide();
+    }
+    if ('Unavailable' === filterAvailable) {
+      jQuery(`${selectedItem}.visible`).hide();
+    }
+  }
 
 
   // Alphabet filter
@@ -1829,6 +1906,9 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   if (jQuery('.badge-discount-filter .badgeslist a').hasClass('active')) {
     jQuery(`.badge-discounts .badge-title:not(:contains("${jQuery('.badge-discount-filter .badgeslist a.active').text()}"))`).parent().hide();
   }
+  if (jQuery('.exhibitor-resources-main .badgeslist a').hasClass('active')) {
+    jQuery(`.related-main-wrapper .parent-main-title:not(:contains("${jQuery('.exhibitor-resources-main .badgeslist a.active').text()}"))`).parent().hide();
+  }
 
   if (0 != jQuery('.badge-discounts').length) {
     selectedItem = '.badge-discounts';
@@ -1838,7 +1918,6 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
       })
       .hide();
   }
-
   if (0 != jQuery('.accordionParentWrapper').length) {
     selectedItem = '.accordionParentWrapper';
     jQuery(`${selectedItem}`)
@@ -1847,7 +1926,6 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
       })
       .hide();
   }
-
   if (0 != jQuery('.awards-main').length) {
     selectedItem = '.awards-main';
     jQuery(`${selectedItem}`)
@@ -1869,6 +1947,30 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery(`${selectedItem}`)
       .not(function () {
         return 0 < jQuery(this).find('.product-item:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.opportunities').length) {
+    selectedItem = '.opportunities';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.box-item:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.main-exhibitor-block .related-main-wrapper').length) {
+    selectedItem = '.main-exhibitor-block .related-main-wrapper';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.col-lg-4.col-md-6:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.sponsorship-opportunities-page .related-main-wrapper').length) {
+    selectedItem = '.sponsorship-opportunities-page .related-main-wrapper';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.box-item:visible').length;
       })
       .hide();
   }

@@ -263,13 +263,13 @@ function nabshow_lv_register_dynamic_blocks() {
         )
     );
 
-	register_block_type( 'nab/sponsor-opportunities-main', array(
+	register_block_type( 'nab/related-content-with-block', array(
             'attributes' => array(
                 'pageId'  => array(
                     'type' => 'number'
                 ),
             ),
-            'render_callback' => 'nabshow_lv_sponsor_opportunities_main_render_callback',
+            'render_callback' => 'nabshow_lv_related_content_with_block_render_callback',
         )
     );
 }
@@ -573,7 +573,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
             $args[ 'meta_key' ] = 'page_date';
         }
 
-        $children = get_pages( array( $child_field => $parent_page_id,  'sort_column' => 'menu_order', 'meta_key' => 'page_date' ) );
+        $children = get_pages( array( $child_field => $parent_page_id, 'sort_column' => 'menu_order' ) );
 
         if ( count( $children ) > 0 ) {
             if ( 'browse-happenings' === $listing_layout ) {
@@ -694,7 +694,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                         $field_val =  get_field( $field,  $child->ID );
 
                                                         if ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
-                                                            $sub_title = implode(', ', $field_val );
+                                                            $sub_title = implode('| ', $field_val );
                                                         } else {
                                                             $sub_title = $field_val;
                                                         }
@@ -713,7 +713,18 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                             }
                                             ?>
                                             <p><?php echo esc_html( $page_excerpt ); ?></p>
-                                            <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                                            <?php
+                                            $coming_soon = get_field( 'coming_soon',  $child->ID );
+                                            if ( is_array( $coming_soon ) && isset( $coming_soon[0] ) && 'yes' === $coming_soon[0] ) {
+                                            ?>
+                                                <span class="coming-soon">Coming Soon</span>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                                            <?php
+                                            }
+                                            ?>
                                         <?php
                                         }
                                         ?>
@@ -821,13 +832,11 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
 }
 
 /**
- * Fetch Sponsor and Opportunities according to Parent Page.
- *
+ * Fetch child pages with specific block content
  * @param $attributes
- *
  * @return string
  */
-function nabshow_lv_sponsor_opportunities_main_render_callback( $attributes ) {
+function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
 
     $page_id = isset( $attributes['pageId'] ) && ! empty( $attributes['pageId'] ) ? $attributes['pageId'] : get_the_ID();
 
@@ -863,8 +872,8 @@ function nabshow_lv_sponsor_opportunities_main_render_callback( $attributes ) {
                 $content = apply_filters( 'the_content', $nab_post_content );
 
                 ?>
-                <div id="parent-<?php the_ID(); ?>" class="<?php echo esc_attr( $page_id ); ?>">
-                    <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                <div class="related-main-wrapper">
+                    <h2 class="parent-main-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                     <?php echo wp_kses( $content, $allowed_tags ); ?>
                 </div>
                 <?php

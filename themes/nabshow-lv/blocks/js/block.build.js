@@ -2393,8 +2393,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__block_opportunities_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__block_opportunities_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__block_exhibitor_advisory_committee_block__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__block_exhibitor_advisory_committee_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26__block_exhibitor_advisory_committee_block__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__block_sponsor_opportunities_main_block__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__block_sponsor_opportunities_main_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__block_sponsor_opportunities_main_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__block_related_content_with_block_block__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__block_related_content_with_block_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27__block_related_content_with_block_block__);
 
 
 
@@ -39529,11 +39529,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
     };
 
-    registerBlockType('nab/sponsor-opportunities-main', {
-        title: __('Sponsor Opportunities Main'),
+    registerBlockType('nab/related-content-with-block', {
+        title: __('Related Content with Block'),
         icon: 'lock',
         category: 'nabshow',
-        keywords: [__('Sponsor'), __('Opportunities')],
+        keywords: [__('related'), __('content'), __('block')],
         attributes: allAttr,
         edit: function edit(_ref) {
             var attributes = _ref.attributes,
@@ -39547,7 +39547,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 Fragment,
                 null,
                 wp.element.createElement(ServerSideRender, {
-                    block: 'nab/sponsor-opportunities-main',
+                    block: 'nab/related-content-with-block',
                     attributes: { pageId: pageId }
                 })
             );
