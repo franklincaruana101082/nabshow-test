@@ -28,7 +28,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 			foreach ( $exhibitor_modified_array as $item ) {
 
 				$data_json = wp_json_encode( $item );
-				//$item = $item[0];
 
 				if ( isset( $item->exhid ) ) {
 					// Request via Button

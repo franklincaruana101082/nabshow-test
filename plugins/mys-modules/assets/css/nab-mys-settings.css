@@ -69,7 +69,7 @@ table.table-outer.syn-table tr td.fr-1{width:10%}
 table.table-outer.syn-table tr td strong{font-weight:700;letter-spacing:1px;font-size:15px}
 .highlight-text{margin-bottom:40px}
 .highlight-text p{color:#000}
-
+span.small-text{font-size:9px;position:relative;top:-5px;right:-2px;color:red}
 .mys-main-table table.table-outer tr td>div{margin-bottom:10px}
 .mys-main-table table.table-outer tr td>div:last-child{margin-bottom:0}
 div#wpbody-content{padding-right:20px;box-sizing:border-box}
@@ -168,7 +168,6 @@ table.history-table tbody tr td:first-child, table.history-table tbody tr th:fir
 .mys-login-outer .dashboard-box .inside .mys-url label{flex-basis:200px;font-weight:700}
 .mys-login-outer .dashboard-box .inside .mys-url input{flex-basis:calc(100% - 200px);height:40px;padding:0 10px}
 .mys-login-outer .dashboard-box .inside .input-div input{background:#0083c1;text-align:center;padding:10px 20px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-left:200px}
-
 .mys-main-table table.table-outer tr td span.button{padding:2px 20px;height:auto!important;font-size:14px}
 .dashboard-box .title{padding:20px 25px 20px;border-bottom:1px solid #ddd;background:#e9e9e9;border:1px solid #ddd;position:relative;margin:0;color:#23282d}
 .dashboard-box .title h2{margin:0}

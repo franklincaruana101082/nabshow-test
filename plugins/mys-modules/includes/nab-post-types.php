@@ -184,7 +184,7 @@ function nab_mys_sessions_post_type() {
 	$args = array(
 		'labels'              => $labels,
 		'public'              => true,
-		'taxonomies'          => array( 'tracks' ), /*'post_tag'*/
+		'taxonomies'          => array( 'tracks' ),
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'exclude_from_search' => true,
@@ -498,7 +498,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'exhibitor-categories' ),
 	);
 
-	register_taxonomy( 'exhibitor-categories', array( 'exhibitors' ), $category_args );
+	register_taxonomy( 'exhibitor-categories', array( 'exhibitors', 'products' ), $category_args );
 
 	// Taxonomy - halls
 	$hall_labels = array(
@@ -642,3 +642,61 @@ function nab_mys_exhibitor_post_type() {
 }
 
 add_action( 'init', 'nab_mys_exhibitor_post_type' );
+
+/**
+ * Register Products Post Type
+ *
+ * @package MYS Modules
+ * @since 1.0.0
+ */
+function nab_mys_product_post_type() {
+
+	$labels = array(
+		'name'               => _x( 'Products', 'mys-modules' ),
+		'singular_name'      => _x( 'Product', 'mys-modules' ),
+		'add_new'            => __( 'Add New', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New Product', 'mys-modules' ),
+		'edit_item'          => __( 'Edit', 'mys-modules' ),
+		'new_item'           => __( 'New Product', 'mys-modules' ),
+		'all_items'          => __( 'All Products', 'mys-modules' ),
+		'view_item'          => __( 'View Products', 'mys-modules' ),
+		'search_items'       => __( 'Search Products', 'mys-modules' ),
+		'not_found'          => __( 'No Products found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No Products found in Trash', 'mys-modules' ),
+		'parent_item_colon'  => __( '', 'mys-modules' ),
+		'menu_name'          => __( 'Products', 'mys-modules' )
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'public'              => true,
+		'taxonomies'          => array( 'product-categories' ),
+		'show_in_rest'        => true,
+		'publicly_queryable'  => false,
+		'show_ui'             => true,
+		'exclude_from_search' => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => false,
+		'show_in_admin_bar'   => false,
+		'has_archive'         => true,
+		'query_var'           => true,
+		'capability_type'     => 'post',
+		'hierarchical'        => true,
+		'menu_icon'           => 'dashicons-store',
+		'supports'            => array(
+			'title',
+			'editor',
+			'author',
+			'thumbnail',
+			'revisions',
+			'trackbacks',
+			'page-attributes',
+			'menu_order',
+			'custom-fields'
+		)
+	);
+
+	register_post_type( 'products', $args );
+}
+
+add_action( 'init', 'nab_mys_product_post_type' );

@@ -34,7 +34,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 			$this->current_request = $current_request;
 			$this->history_id      = $history_id;
-			$this->data_json = wp_json_encode( $data );
+			//$this->data_json = wp_json_encode( $data );
+			$this->nab_mys_db_set_data_json( wp_json_encode( $data ) );
+			$total_item_statuses = array();
 
 			if ( "modified-sessions" === $current_request ) {
 
@@ -112,13 +114,14 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$rows = $master_array = array();
 
 				$affected_items      = 0;
-				$total_item_statuses = array();
 
 				//ne_testing purpose only.. remove beore PR.
 				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
+
+				$limit_reached = 0;
 
 				foreach ( $all_items as $item ) {
 
@@ -238,7 +241,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					}
 
 					$single_item_json = wp_json_encode( $item );
-					//$single_item_json = str_replace( "'", "\'", $single_item_json ); //ne_temp ne_json
 
 					if ( 0 !== $total_items_inserted ) {
 						$insertion_values .= ", ";
@@ -254,10 +256,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						'DataStartTime' => current_time( 'Y-m-d H:i:s' ),
 						'DataJson'      => $single_item_json
 					);
-
-					/*if ( $total_rows === $total_items_inserted ) {
-						break;
-					}*/
 
 					$total_items_inserted ++;
 

@@ -17,57 +17,55 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 $notice = '';
 
-if ( 1 === MYS_PLUGIN_ACTIVATE_SETTINGS ) {
+$clear_history_form_nonce = filter_input( INPUT_POST, 'clear_history_form_nonce', FILTER_SANITIZE_STRING );
+$reset_plugin_form_nonce  = filter_input( INPUT_POST, 'reset_plugin_form_nonce', FILTER_SANITIZE_STRING );
 
-	$clear_history_form_nonce = filter_input( INPUT_POST, 'clear_history_form_nonce', FILTER_SANITIZE_STRING );
-	$reset_plugin_form_nonce  = filter_input( INPUT_POST, 'reset_plugin_form_nonce', FILTER_SANITIZE_STRING );
+if ( isset( $clear_history_form_nonce ) && wp_verify_nonce( $clear_history_form_nonce, 'clear_history_form_nonce' ) ) {
 
-	if ( isset( $clear_history_form_nonce ) && wp_verify_nonce( $clear_history_form_nonce, 'clear_history_form_nonce' ) ) {
+	$days = filter_input( INPUT_POST, 'clear_days', FILTER_SANITIZE_STRING );
 
-		$days = filter_input( INPUT_POST, 'clear_days', FILTER_SANITIZE_STRING );
+	if ( 30 < (int) $days ) {
+		$notice       = "History can not be cleared within $days days. Please select 30 Days or earlier.";
+		$notice_class = 'notice-error';
+	} else {
 
-		if ( 30 < (int) $days ) {
-			$notice       = "History can not be cleared within $days days. Please select 30 Days or earlier.";
-			$notice_class = 'notice-error';
+		$history_clear          = $this->nab_mys_db_history_object->nab_mys_history_clear( $days );
+		$date_before_given_days = $history_clear['date_before_given_days'];
+		$history_clear_status   = $history_clear['history_clear_status'];
+
+		if ( 1 === $history_clear_status ) {
+			$notice       = "History cleared of and before $date_before_given_days. Only kept for past $days days.";
+			$notice_class = 'notice-success';
 		} else {
-
-			$history_clear          = $this->nab_mys_db_history_object->nab_mys_history_clear( $days );
-			$date_before_given_days = $history_clear['date_before_given_days'];
-			$history_clear_status   = $history_clear['history_clear_status'];
-
-			if ( 1 === $history_clear_status ) {
-				$notice       = "History cleared of and before $date_before_given_days. Only kept for past $days days.";
-				$notice_class = 'notice-success';
-			} else {
-				$notice       = "No History found $days earlier days.";
-				$notice_class = 'notice-warning';
-			}
+			$notice       = "No History found $days earlier days.";
+			$notice_class = 'notice-warning';
 		}
+	}
 
-	} else if ( isset( $reset_plugin_form_nonce ) && wp_verify_nonce( $reset_plugin_form_nonce, 'reset_plugin_form_nonce' ) ) {
+} else if ( isset( $reset_plugin_form_nonce ) && wp_verify_nonce( $reset_plugin_form_nonce, 'reset_plugin_form_nonce' ) ) {
 
-		$reset_plugin = filter_input( INPUT_POST, 'reset_plugin', FILTER_SANITIZE_STRING );
+	$reset_plugin = filter_input( INPUT_POST, 'reset_plugin', FILTER_SANITIZE_STRING );
 
-		if ( 'reset' !== $reset_plugin ) {
-			$notice       = "Please type in <code>reset</code> correctly.";
-			$notice_class = 'notice-error';
+	if ( 'reset' !== $reset_plugin ) {
+		$notice       = "Please type in <code>reset</code> correctly.";
+		$notice_class = 'notice-error';
+
+	} else {
+
+		$history_reset = $this->nab_mys_db_history_object->nab_mys_history_reset();
+
+		if ( true === $history_reset ) {
+
+			self::nab_mys_plugin_activate();
 
 		} else {
 
-			$history_reset = $this->nab_mys_db_history_object->nab_mys_history_reset();
-
-			if ( true === $history_reset ) {
-
-				self::nab_mys_plugin_activate();
-
-			} else {
-
-				$notice       = "Plugin can not be resetted now.";
-				$notice_class = 'notice-error';
-			}
+			$notice       = "Plugin can not be resetted now.";
+			$notice_class = 'notice-error';
 		}
 	}
 }
+
 $allowed_tags = array( 'code' => array() );
 
 function disallowed_admin_pages() {

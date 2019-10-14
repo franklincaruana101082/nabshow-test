@@ -41,7 +41,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->nab_mys_load_exh_db_class();
 
 			parent::__construct();
-
 		}
 
 		public function nab_mys_load_exh_db_class() {
@@ -157,8 +156,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			} else {
 
 				$this->data_array[0] = $this->data_array[0]->exhibitor;
-				$this->data_json     = wp_json_encode( $this->data_array );
-
+				$this->nab_mys_db_exh->nab_mys_db_set_data_json( wp_json_encode( $this->data_array ) );
 				$this->nab_mys_db_exh->nab_mys_db_row_filler( $this->dataid, $this->data_json );
 
 				$this->finished_counts = $this->finished_counts + 1;
@@ -361,7 +359,19 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 					$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
 
+
 					if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
+
+
+						WP_Filesystem();
+
+						global $wp_filesystem;
+
+						$myfile   = $wp_filesystem->get_contents( $exh_target_file );
+					echo '<pre>';
+					print_r(get_defined_vars());
+					die('<br><---died here');
+
 						$success = 1;
 						$handle  = fopen( $exh_target_file, "r" );
 

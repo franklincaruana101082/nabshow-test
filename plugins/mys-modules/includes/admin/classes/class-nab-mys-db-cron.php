@@ -190,17 +190,17 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				$history_id = $item->HistoryID;
 				$data_type  = $item->DataType;
 
-				if ( ! in_array( $history_id, $data_group_migrated[ $item->DataGroupID ] ) ) {
-					$data_group_migrated[ $item->DataGroupID ][$item->DataType] = $history_id;
+				if ( ! in_array( $history_id, $data_group_migrated[ $item->DataGroupID ], true ) ) {
+					$data_group_migrated[ $item->DataGroupID ][ $item->DataType ] = $history_id;
 				}
 
-				//$data_json = str_replace( "\'", "'", $item->DataJson );  //ne_temp ne_json
 				$data_json = $item->DataJson;  //ne_temp ne_json
 
 				$data = json_decode( $data_json, true );
 
 				$prepared_data                   = array();
 				$prepared_data['item']           = $item;
+				$prepared_data['main_mys_key']   = 'sessionid';
 				$prepared_data['main_mys_value'] = $item->ModifiedID;
 				$prepared_data['data']           = $data;
 
@@ -256,6 +256,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					case stristr( $data_type, 'single-exhibitor' ):
 
 						$prepared_data['post_type']         = 'exhibitors';
+						$prepared_data['main_mys_key']      = 'exhid';
 						$prepared_data['exclude_from_meta'] = array( 'exhid', 'exhname', 'logo', 'description' );
 						$prepared_data['typeidname']        = 'exhid';
 
@@ -276,9 +277,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				if ( count( $group_rows ) > 0 ) {
 
 					$pending_data_history_ids = array();
-					$count_data_types = array();
+					$count_data_types         = array();
 					foreach ( $group_rows as $row ) {
-						$count_data_types[$row->DataType] = 1;
+						$count_data_types[ $row->DataType ] = 1;
 						if ( 1 !== (int) $row->AddedStatus ) {
 							$pending_data_history_ids[] = $row->HistoryID;
 						}
@@ -289,7 +290,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					if ( 0 === count( $pending_data_history_ids ) ) {
 						//sequence finished
 						$this->nab_mys_cron_migration_ends( $groupid, 'groupid' );
-						$result['sequence_finished'][$groupid] = " --- FULL SEQUENCE FINISHED.";
+						$result['sequence_finished'][ $groupid ] = " --- FULL SEQUENCE FINISHED.";
 
 						//send email if the user is not 0 (i.e. not cron)...
 						$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
@@ -298,14 +299,14 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$email_body    = "Sequence ($groupid) finished. <a href='$history_detail_link'>Click here</a> to view details.";
 
 						self::nab_mys_static_email( $email_subject, $email_body );
-						$result['email'][$groupid] = 'sent !!';
+						$result['email'][ $groupid ] = 'sent !!';
 					} else {
 						//sequence's single data_type finished
 						$finished_history_ids = array_diff( $affected_history_ids, $pending_data_history_ids );
 
 						foreach ( $finished_history_ids as $history_id ) {
 							$this->nab_mys_cron_migration_ends( $history_id );
-							$result['history_finished'][$history_id]= " ~~~ History ($history_id) of the Sequence ($groupid) finished.";
+							$result['history_finished'][ $history_id ] = " ~~~ History ($history_id) of the Sequence ($groupid) finished.";
 						}
 					}
 				}
@@ -390,7 +391,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						$update_post = array(
 							'ID'           => $update_post_id,
-							'post_title'   => 'crontest-' . $title,
+							'post_title'   => $title . '-crontest',
 							'post_content' => $description,
 							'post_author'  => 1,
 							'post_status'  => 'publish',
@@ -412,11 +413,11 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$post_detail .= "update-$post_type-" . $post_id;
 
 					} else if ( ! isset( $already_available_id ) ) {
-						//NEW
+						//Post NEW
 
 						$post_id = wp_insert_post(
 							array(
-								'post_title'   => 'crontest-' . $title,
+								'post_title'   => $title . '-crontest',
 								'post_type'    => $post_type,
 								'post_content' => $description,
 								'post_author'  => 1, /*ne_change the author id*/
@@ -478,10 +479,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							if ( ! empty( $pavilion ) ) {
 								$pavilions[] = $pavilion;
 							}
-
-							//ne_rems
-							//exhibitor-categories
-
 						}
 
 						$boothnumber_array = implode( ',', $boothnumber_array );
@@ -515,10 +512,35 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['exhibitor-categories'] = $c_title_array;
 
 						$checkbox_cats = array(
-							'newexhibitor' => 'First-Time Exhibitor',
-							'showsell'     => 'Show and Sell Participant',
-							'startup'      => 'Startup',
-							'member'       => 'NAB Association Member',
+							'newexhibitor'      => 'First-Time Exhibitor',
+							'showsell'          => 'Show and Sell Participant',
+							'startup'           => 'Startup',
+							'member'            => 'NAB Association Member',
+							'fiveg'             => '5G',
+							'advadvert'         => 'Advanced Advertising',
+							'ai'                => 'AI/Machine Learning',
+							'atsc'              => 'ATSC 3.0',
+							'augreal'           => 'Augmented Reality',
+							'concar'            => 'Connected Car',
+							'cybersec'          => 'Cybersecurity',
+							'esports'           => 'eSports',
+							'hdr'               => 'HDR',
+							'iptrans'           => 'IP Transition',
+							'martech'           => 'MarTech',
+							'mixreal'           => 'Mixed Reality',
+							'other'             => 'Other',
+							'ott'               => 'OTT',
+							'podcast'           => 'Podcasting',
+							'uhd'               => 'UHD',
+							'virtreal'          => 'Virtual Reality',
+							'newproducts'       => 'New Product',
+							'voicerec'          => 'Voice Recognition/Interactivity',
+							'studentdisc'       => 'Student Discount',
+							'secondyrexhibitor' => 'Second Year Exhibitor',
+							'womenowned'        => 'Women-owned',
+							'lgbtowned'         => 'LGBT-owned',
+							'minorityowned'     => 'Minority-owned',
+							'veteranowned'      => 'Veteran-owned',
 						);
 
 						$keywords_array = array();
@@ -529,6 +551,34 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						}
 						$save_taxonomies['exhibitor-keywords'] = $keywords_array;
 
+						//Adding Products
+						$products = $individual_item['products'];
+						if ( 0 !== count( $products ) ) {
+							foreach ( $products as $product ) {
+								$prepared_data                   = array();
+								$item                            = (object) array( 'ItemStatus' => 2 );
+								$prepared_data['item']           = $item;
+								$prepared_data['main_mys_key']   = 'productname';
+								$prepared_data['main_mys_value'] = $product['productname'];
+								$product['exhid']                = $post_id;
+								$prepared_data['data'][]         = $product;
+
+								$prepared_data['post_type']         = 'products';
+								$prepared_data['exclude_from_meta'] = array( 'productdescription', 'categoryname', 'productname', 'productimage' );
+								$prepared_data['typeidname']        = 'productname';
+
+								$prepared_data['title_name']       = 'productname';
+								$prepared_data['image_name']       = 'productimage';
+								$prepared_data['description_name'] = 'productdescription';
+
+								$post_detail .= '[AssignedProducts|';
+								$post_detail .= $this->nab_mys_cron_insert_to_master( $prepared_data );
+								$post_detail .= 'End-of-AssignedProducts]';
+							}
+						}
+
+					} else if ( "products" === $post_type ) {
+						$save_taxonomies['exhibitor-categories'] = 'categoryname';
 					} else if ( "sessions" === $post_type ) {
 
 						//Remove 00:00:00 from date as this is not required.
@@ -549,19 +599,15 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['session-locations'] = 'location';
 
 					} else if ( "speakers" === $post_type ) {
-
 						$save_taxonomies['speaker-companies'] = 'company';
-
 					}
 
 					foreach ( $save_taxonomies as $tax => $terms ) {
-
 						$terms = ! is_array( $terms ) ? $individual_item[ $terms ] : $terms;
 
 						if ( ( ! is_array( $terms ) && ! empty( $terms ) ) || ( is_array( $terms ) && 0 !== count( $terms ) ) ) {
 							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $terms, $tax, $post_id );
 						}
-
 					}
 
 					$post_ids_to_save_in_session[] = $post_id;
@@ -583,7 +629,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			}
 
 			// flush previous comma separated relations and add new once.
-			if ( "sessions" !== $post_type && "exhibitors" !== $post_type && null !== $data ) {
+			if ( "sessions" !== $post_type && "exhibitors" !== $post_type && "products" !== $post_type && null !== $data ) {
 				$post_ids_to_save_in_session = implode( ',', $post_ids_to_save_in_session );
 
 				// Reseting sessions meta where (speaker/sponsors) are comma separated and adding new ids.
@@ -777,8 +823,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 		public function nab_mys_cron_get_wpid_from_meta( $type_name, $main_mys_key, $main_mys_value, $type = 'post_type' ) {
 
-			$wp_id = '';
-
 			// WP_Query arguments
 			$meta_args = array(
 				'meta_query' => array(
@@ -907,13 +951,21 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 		static function nab_mys_static_email( $email_subject, $email_body ) {
 
+			$nab_mys_urls = get_option( 'nab_mys_urls' );
+			$to_email     = isset ( $nab_mys_urls['to_email'] ) ? $nab_mys_urls['to_email'] : get_option( 'admin_email' );
+			$cc_email     = isset ( $nab_mys_urls['cc_email'] ) ? $nab_mys_urls['cc_email'] : '';
+
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: NABShow <noreply@nabshow.com>';
-			$headers[] = 'Cc: Nitish Kaila <nitish.kaila@multidots.com>';
-			$headers[] = 'Cc: Mayur Keshwani <mayur.keshwani@multidots.com>';
 
-			$mail_status = wp_mail( 'faisal.alvi@multidots.com', $email_subject, $email_body, $headers );
+			if ( ! empty( $cc_email ) ) {
+				$cc_emails = explode( ',', $cc_email );
+				foreach ( $cc_emails as $cc_email ) {
+					$headers[] = 'Cc: ' . $cc_email;
+				}
+			}
 
+			wp_mail( $to_email, $email_subject, $email_body, $headers );
 		}
 
 		static function nab_mys_static_reset_sequence( $stuck_groupid = 'global' ) {
@@ -925,20 +977,20 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			$where_to_update3 = array( 'AddedStatus' => 0 );
 
 			if ( 'global' !== $stuck_groupid ) {
-				$where_to_update1['HistoryGroupID'] = $where_to_update2['HistoryGroupID']= $where_to_update3['DataGroupID'] = $stuck_groupid;
+				$where_to_update1['HistoryGroupID'] = $where_to_update2['HistoryGroupID'] = $where_to_update3['DataGroupID'] = $stuck_groupid;
 			}
 
-			$sql1 = $wpdb->update(
+			$wpdb->update(
 				$wpdb->prefix . 'mys_history', array(
 				'HistoryStatus' => 3,
 			), $where_to_update1 ); //db call ok; no-cache ok
 
-			$sql2 = $wpdb->update(
+			$wpdb->update(
 				$wpdb->prefix . 'mys_history', array(
 				'HistoryStatus' => 4,
 			), $where_to_update2 ); //db call ok; no-cache ok
 
-			$sql3 = $wpdb->update(
+			$wpdb->update(
 				$wpdb->prefix . 'mys_data', array(
 				'AddedStatus' => 4,
 			), $where_to_update3 ); //db call ok; no-cache ok

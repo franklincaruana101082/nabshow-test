@@ -32,12 +32,6 @@ if ( ! defined( 'MYS_PLUGIN_BASE' ) ) {
 if ( ! defined( 'MYS_PLUGIN_MODIFIED_SEQUENCE' ) ) {
 	define( 'MYS_PLUGIN_MODIFIED_SEQUENCE', (int) get_option('test_modified_sequence') );
 }
-if ( ! defined( 'MYS_PLUGIN_DUMMY_HISTORY' ) ) {
-	define( 'MYS_PLUGIN_DUMMY_HISTORY', (int) get_option('test_dummy_history') );
-}
-if ( ! defined( 'MYS_PLUGIN_ACTIVATE_SETTINGS' ) ) {
-	define( 'MYS_PLUGIN_ACTIVATE_SETTINGS', (int) get_option('test_activate_settings') );
-}
 
 //Class File - Admin Pages
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-mys.php' );
@@ -67,12 +61,4 @@ add_action( 'activated_plugin', array ('NAB_MYS_Main', 'nab_mys_plugin_activate'
  * @package MYS Modules
  * @since 1.0.0
  */
-register_deactivation_hook( __FILE__, array( 'NAB_MYS_Main', 'nab_mys_plugin_deactivate' ) );
-
-//ne_temp remove this before PR.
-add_filter( 'http_request_args', 'fergcorp_debug_url_request_args', 10, 2 );
-function fergcorp_debug_url_request_args( $r, $url ) {
-	$r["timeout"] = 20; //phpcs:ignore
-
-	return $r;
-}
+ register_deactivation_hook( __FILE__, array( 'NAB_MYS_Main', 'nab_mys_plugin_deactivate' ) );

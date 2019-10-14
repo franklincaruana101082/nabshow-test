@@ -89,11 +89,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				$name_date_col = 'HistoryStartTime';
 
 				if ( null === $data_type || 'all' === $data_type ) {
-					$name_datatype_col = 'HistoryDataType LIKE';
-
 					$data_type = '%-%';
-				} else {
-					$name_datatype_col = 'HistoryDataType =';
 				}
 
 				// Data Type- Filter
@@ -230,10 +226,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->sorting_data['dataid_row_html']  = "<a href='$current_url_without_order$first_order&timeorder=$timeorder_reverse'>$dataid_row_title<span class='sorting-indicator'></span></a>";
 
 			switch ( $this->request_data['orderby'] ) {
-				/*case 'DataID':
-					$this->sorting_data['dataid_row_class'] = $sorted_heading_class;
-					$this->sorting_data['dataid_row_html']  = $sorted_heading_link . $dataid_row_title . $sorted_heading_close;
-					break;*/
 				case 'DataType':
 					$this->sorting_data['datatype_row_class'] = $sorted_heading_class;
 					$this->sorting_data['datatype_row_html']  = $sorted_heading_link . $datatype_row_title . $sorted_heading_close;
@@ -246,10 +238,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 					$this->sorting_data['user_row_class'] = $sorted_heading_class;
 					$this->sorting_data['user_row_html']  = $sorted_heading_link . $user_row_title . $sorted_heading_close;
 					break;
-				/*case 'HistoryStartTime':
-					$this->sorting_data['start_row_class'] = $sorted_heading_class;
-					$this->sorting_data['start_row_html']  = $sorted_heading_link . $start_row_title . $sorted_heading_close;
-					break;*/
 			}
 		}
 
@@ -302,7 +290,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			// Prepare Data
 			$this->request_data['limit']  = ! empty( $this->request_data['limit'] ) && null !== $this->request_data['limit'] ? (int) $this->request_data['limit'] : 30;
-			$this->request_data['offset'] = $offset = ( $this->request_data['paged'] - 1 ) * $this->request_data['limit'];
+			$this->request_data['offset'] = ( $this->request_data['paged'] - 1 ) * $this->request_data['limit'];
 
 			//Template
 			if ( 'listing' === $this->page_template ) {
@@ -381,14 +369,17 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$order_clause         = $this->request_data['order_clause'];
 			$order_clause         = implode( ', ', $order_clause );
 
-			$data_rows = $wpdb->get_results(
-				$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}mys_data
-											WHERE $where_clause_history ORDER BY $order_clause LIMIT %d OFFSET %d ", $limit, $offset ) ); //phpcs:ignore
-
-			$history_total = $wpdb->get_var(
-				"SELECT COUNT(DataID) FROM {$wpdb->prefix}mys_data
-											WHERE $where_clause_history " ); //phpcs:ignore
-
+			$cache_key = "$where_clause_history $order_clause $limit $offset";
+			$data_rows = wp_cache_get( "history_detail_$cache_key" );
+			if ( false === $data_rows ) {
+				$data_rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}mys_data WHERE $where_clause_history ORDER BY $order_clause LIMIT %d OFFSET %d ", $limit, $offset ) ); //phpcs:ignore
+				wp_cache_set( "history_detail_$cache_key", $data_rows );
+			}
+			$history_total = wp_cache_get( "history_detail_total_$cache_key" );
+			if ( false === $history_total ) {
+				$history_total = $wpdb->get_var( "SELECT COUNT(DataID) FROM {$wpdb->prefix}mys_data WHERE $where_clause_history" ); //phpcs:ignore
+				wp_cache_set( "history_detail_total_$cache_key", $history_total );
+			}
 			$group_wise_data = array();
 
 			foreach ( $data_rows as $single_row ) {
@@ -493,12 +484,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$limit         = $this->request_data['limit'];
 			$offset        = $this->request_data['offset'];
 
-			$history_result = $wpdb->get_results(
-				$wpdb->prepare( "SELECT h1.* FROM {$wpdb->prefix}mys_history as h1										
-										INNER JOIN (										
-											SELECT DISTINCT HistoryGroupID FROM {$wpdb->prefix}mys_history
-											WHERE $where_history ORDER BY $order_clause LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY $order_clause ", $limit, $offset ) ); //phpcs:ignore
-
+			$cache_key      = "$where_history $order_clause $limit $offset";
+			$history_result = wp_cache_get( "history_list_$cache_key" );
+			if ( false === $history_result ) {
+				$history_result = $wpdb->get_results( $wpdb->prepare( "SELECT h1.* FROM {$wpdb->prefix}mys_history as h1 INNER JOIN ( SELECT DISTINCT HistoryGroupID FROM {$wpdb->prefix}mys_history WHERE $where_history ORDER BY $order_clause LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY $order_clause ", $limit, $offset ) ); //phpcs:ignore
+				wp_cache_set( "history_list_$cache_key", $cache_key );
+			}
 			$history_data = array();
 			foreach ( $history_result as $h ) {
 				$history_data[ $h->HistoryGroupID ]['Totals'][ $h->HistoryDataType ] = $h->HistoryItemsAffected;
@@ -518,10 +509,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$wpdb = $this->wpdb;
 
-			$history_total = $wpdb->get_var(
-				"SELECT COUNT(HistoryID)
-											FROM {$wpdb->prefix}mys_history									
-											WHERE $where" );  //phpcs:ignore
+
+			$history_total = wp_cache_get( "history_list_total_$where" );
+			if ( false === $history_total ) {
+				$history_total = $wpdb->get_var( "SELECT COUNT(HistoryID) FROM {$wpdb->prefix}mys_history WHERE $where" );  //phpcs:ignore
+				wp_cache_set( "history_list_total_$where", $history_total );
+			}
 
 			return $history_total;
 		}
@@ -530,8 +523,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$wpdb = $this->wpdb;
 
-			$history_reset_dtable = $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_data" );
-			$history_reset_htable = $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_history" ); //db call ok; no-cache ok //phpcs:ignore
+			$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_data" ); //db call ok; no-cache ok
+			$history_reset_htable = $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}mys_history" ); //db call ok; no-cache ok
+
+			delete_transient( 'nab_mys_token' );
+			delete_option( 'nab_mys_credentials_u' );
+			delete_option( 'nab_mys_credentials_p' );
 
 			return $history_reset_htable;
 		}
@@ -543,28 +540,32 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$days                   = $days - 1;
 			$date_before_given_days = date( 'Y-m-d', strtotime( "-$days days" ) );
 
-			$after_history_id = $wpdb->get_var(
-				$wpdb->prepare( "
+			$after_history_id = wp_cache_get( "after_history_id_$date_before_given_days" );
+			if ( false === $after_history_id ) {
+				$after_history_id = $wpdb->get_var(
+					$wpdb->prepare( "
 							SELECT HistoryID FROM {$wpdb->prefix}mys_history
 							WHERE HistoryStartTime < %s
 							ORDER BY HistoryID DESC
 							LIMIT 1
 						", $date_before_given_days
-				) ); //db call ok; no-cache ok
+					) ); //db call ok;
+				wp_cache_set( "after_history_id_$date_before_given_days", $after_history_id );
+			}
 
 			$history_clear = $wpdb->query(
 				$wpdb->prepare( "
 						DELETE FROM {$wpdb->prefix}mys_history
 						WHERE HistoryID => %s
 						AND ( HistoryStatus = 1 OR HistoryStatus = 4 )"
-					, $after_history_id ) );
+					, $after_history_id ) ); //db call ok; no-cache ok
 
-			$data_clear = $wpdb->query(
+			$wpdb->query(
 				$wpdb->prepare( "
 						DELETE FROM {$wpdb->prefix}mys_data
 						WHERE HistoryID => %s
 						AND ( AddedStatus = 1 OR AddedStatus = 4 )"
-					, $after_history_id ) );
+					, $after_history_id ) );  //db call ok; no-cache ok
 
 			return array( 'date_before_given_days' => $date_before_given_days, 'history_clear_status' => $history_clear );
 		}
@@ -572,9 +573,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 		public function nab_mys_dashboard_glance() {
 
 			$glance_data = array();
-
-			$detail_group_url = admin_url( "edit.php?post_type=exhibitors" );
-			$detail_group_url = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
 
 			//Sessions
 			$glance_data['Sessions']['count'] = wp_count_posts( 'sessions' )->publish;
@@ -593,12 +591,26 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$glance_data['Exhibitors']['count'] = wp_count_posts( 'exhibitors' )->publish;
 			$glance_data['Exhibitors']['link']  = admin_url( "edit.php?post_type=exhibitors" );
 
-			$glance_data['Exhibitors']['terms']['Halls']['tcount']     = wp_count_terms( 'halls' );
-			$glance_data['Exhibitors']['terms']['Halls']['tlink']      = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
-			$glance_data['Exhibitors']['terms']['Pavilions']['tcount'] = wp_count_terms( 'pavilions' );
-			$glance_data['Exhibitors']['terms']['Pavilions']['tlink']  = admin_url( "edit-tags.php?taxonomy=pavilions&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Halls']['tcount']                 = wp_count_terms( 'halls' );
+			$glance_data['Exhibitors']['terms']['Halls']['tlink']                  = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tcount'] = wp_count_terms( 'exhibitor-categories' );
+			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tlink']  = admin_url( "edit-tags.php?taxonomy=exhibitor-categories&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Pavilions']['tcount']             = wp_count_terms( 'pavilions' );
+			$glance_data['Exhibitors']['terms']['Pavilions']['tlink']              = admin_url( "edit-tags.php?taxonomy=pavilions&post_type=exhibitors" );
 
 			return $glance_data;
+		}
+
+		public function nab_mys_dashboard_activity() {
+
+			$wpdb = $this->wpdb;
+
+			$recent_history = $wpdb->get_results(
+				"SELECT * FROM {$wpdb->prefix}mys_history
+										WHERE HistoryDataType LIKE '%-%'
+										ORDER BY HistoryID DESC LIMIT 5" ); //db call ok; no-cache ok
+
+			return $recent_history;
 		}
 	}
 }

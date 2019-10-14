@@ -67,17 +67,12 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			$this->group_id        = isset( $this->group_id ) ? $this->group_id : filter_input( INPUT_POST, 'group_id', FILTER_SANITIZE_STRING );
 			$this->past_request    = isset( $this->past_request ) ? $this->past_request : filter_input( INPUT_POST, 'past_request', FILTER_SANITIZE_STRING );
 			$this->finished_counts = (int) filter_input( INPUT_POST, 'finished_counts', FILTER_SANITIZE_NUMBER_INT );
-			//$this->total_counts    = filter_input( INPUT_POST, 'totalCounts', FILTER_SANITIZE_STRING );
 
 			if ( isset( $this->requested_for ) ) {
 
 				check_ajax_referer( 'mys-ajax-nonce', 'security' );
 
 				$this->flow = 'wpajax';
-
-				/*$this->requested_for = sanitize_text_field( $this->requested_for );
-				$this->group_id      = ( "" !== sanitize_text_field( $this->group_id ) ) ? sanitize_text_field( $this->group_id ) : "";
-				$this->past_request  = ( "" !== sanitize_text_field( $this->past_request ) ) ? sanitize_text_field( $this->past_request ) : "";*/
 
 			} else {
 
@@ -451,7 +446,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid . '&timeorder=asc' );
 
 				$email_subject = "$mys_data_attempt Attempts Failed - Tried to Sync $data.";
-				$email_body    = "This is a body. <a href='$history_detail_link'>Click here</a> to view details.";
+				$email_body    = "<a href='$history_detail_link'>Click here</a> to view details.";
 
 				NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
 			}
@@ -463,4 +458,3 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		}
 	}
 }
-//new NAB_MYS_Sync_Parent();

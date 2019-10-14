@@ -118,6 +118,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 				if ( "open" !== $lock_status && ( null === $this->past_request || empty( $this->past_request ) ) ) {
 
+					$mail_data                  = array();
 					$mail_data['stuck_groupid'] = $lock_status[0]->HistoryGroupID;
 					$mail_data['data']          = 'Sessions';
 					$mail_data['tag']           = 'mys_data_attempt_sessions';

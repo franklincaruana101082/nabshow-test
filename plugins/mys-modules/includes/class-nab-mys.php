@@ -37,10 +37,6 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		 */
 		static function nab_mys_plugin_activate( $plugin = false ) {
 
-			delete_option( 'mys_login_form_success' );
-			/*delete_option( 'nab_mys_credentials_u' );
-			delete_option( 'nab_mys_credentials_p' );*/
-
 			update_option( 'nab_mys_show_wizard', 1 );
 
 			if ( MYS_PLUGIN_BASE === $plugin ) {
@@ -58,7 +54,6 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		static function nab_mys_plugin_deactivate() {
 
 			//Delete a MYS API Token from Transient Cache
-			delete_transient( 'nab_mys_token' );
 			delete_option( 'mys_login_form_success' );
 			delete_option( 'nab_mys_show_wizard' );
 
@@ -138,7 +133,6 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 				wp_register_style(
 					'jquery-ui',
 					MYS_PLUGIN_URL . 'assets/css/jquery-ui.min.css'
-				/*'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'*/
 				);
 				wp_enqueue_style( 'jquery-ui' );
 			}
