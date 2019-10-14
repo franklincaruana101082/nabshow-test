@@ -95,9 +95,6 @@
 
   // nab-media-slider End
 
-  // Adding Row in Session Masonry Js
-  jQuery('.session.with-masonry').parent('div').addClass('row');
-
   // Award Section Popup Js
   jQuery('.nab_popup_btn').on('click', function () {
     jQuery(this).siblings('.nab_model_main').addClass('nab_model_open');
@@ -126,26 +123,9 @@
     }
   );
 
-  // faq select js
-  if (0 < $('.accordionParentWrapper').length) {
-    $('.accordionParentWrapper').each(function () {
-      if ('' !== $(this).find('.title').html()) {
-        insertOptions($(this).find('.title').html(), 'faq-category-drp');
-      }
-    });
-
-    $(document).on('change', '#faq-category-drp', function () {
-      filterFaq();
-    });
-
-    $(document).on('keyup', '#faq-search', function () {
-      filterFaq();
-    });
-  }
-
   // related-content-custom-item
   if (0 < $('.related-content-custom-box').length) {
-    $(window).resize(function() {
+    $(window).resize(function () {
       $('.related-content-custom-box .related-content-custom-item .wp-block-nab-multipurpose-gutenberg-block').css('height', $('.related-content-custom-box .related-content-rowbox>div:last-child').height() - 20);
     });
     $('.related-content-custom-box .related-content-custom-item .wp-block-nab-multipurpose-gutenberg-block').css('height', $('.related-content-custom-box .related-content-rowbox>div:last-child').height() - 20);
@@ -168,6 +148,10 @@
 
   if (0 < $('#card_section').length) {
     window.onload = window.onresize = masonryGrids;
+  }
+
+  if (0 < $('.news-conference-schedule .box-main').length) {
+    window.onload = window.onresize = CustomMasonryGrids;
   }
 
   $(document).on('change', '.plan-your-show-drp', function () {
@@ -275,96 +259,6 @@
     }
   }
 
-  // Schedule at a glance filter
-  if (0 < $('.schedule-glance-filter div select#date').length) {
-    $('.schedule-main').each(function () {
-      insertOptions($(this).find('h2').text(), 'date');
-
-      $(this).find('.schedule-row').each(function () {
-        insertOptions($(this).find('.date p').text(), 'pass-type');
-        insertOptions($(this).find('.location p').text(), 'location');
-        insertOptions($(this).find('.details p').text(), 'type');
-      });
-    });
-
-    $(document).on(
-      'change',
-      '.schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type',
-      function () {
-        filterScheduleData();
-      }
-    );
-
-    $(document).on(
-      'keyup',
-      '.schedule-glance-filter .schedule-search',
-      function () {
-        filterScheduleData();
-      }
-    );
-  }
-
-  // meet the team filter
-  if (0 < $('.team-main .team-box').length) {
-    $('.team-main .team-box').each(function () {
-      if (null !== $(this).data('category').split(',')) {
-        $.map(
-          $(this).data('category').split(','),
-          function (val, i) {
-            insertCheckbox(val, 'team-checkbox');
-          }
-        );
-      }
-
-      if ('' !== $(this).attr('data-department')) {
-        insertOptions($(this).attr('data-department'), 'team-department');
-      }
-    });
-
-    $(document).on('change', '.meet-team-select #team-department, .meet-team-select .checkbox-list input', function () {
-      filterSelectTeam();
-    }
-    );
-  }
-
-  // Awards Filter
-  if (0 < $('.schedule-glance-filter select#award-name').length) {
-    $('.awards-main').each(function () {
-      insertOptions($(this).find('.awards-winner-title').text(), 'award-name');
-    });
-
-    $(document).on('change', '.schedule-glance-filter .schedule-select #award-name', function () {
-      filterAwards();
-    });
-
-    $(document).on('keyup', '.schedule-glance-filter .schedule-search', function () {
-      filterAwards();
-    });
-  }
-
-  // products-winners
-  if (0 < $('.products-winners').length) {
-    $('.products-winners').each(function () {
-      if ('' !== $(this).find('.product-title').html()) {
-        insertOptions($(this).find('.product-title').html(), 'products-category');
-      }
-    });
-
-    $(document).on('change', '#products-category', function () {
-      filterSelectProduct();
-    });
-
-    $(document).on('keyup', '#products-search', function () {
-      filterSelectProduct();
-    });
-
-    $(document).on('click', 'ul.alphabets-list li', function () {
-      const clickItem = $(this).html();
-      filterSelectProduct(clickItem);
-    });
-
-  }
-
   // nab-photos
   if (0 < $('.nab-photos').length) {
     $(document).on('click', '.nab-photos .popup-btn', function () {
@@ -390,12 +284,38 @@
 
   }
 
-  // Related content details js box-main
-  if (0 < $('.box-main .box-item').length) {
+
+  /**
+   * Remove Extra Space from filter
+   */
+  if (0 < $('.box-main-filter').length) {
+    let emptyP = $('.box-main-filter p:contains(\u00a0)');
+    emptyP.hide();
+  }
+
+  /**
+   * Filter - Related content details js box-main
+   */
+  if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length) {
 
     $('.new-this-year .box-main .box-item').each(function () {
       if ('' !== $(this).find('.title').html()) {
         insertOptions($(this).find('.title').html(), 'box-main-category');
+      }
+    });
+
+    $('.official-vendors .box-main .box-item').each(function () {
+      if ('' !== $(this).find('.companyName').html()) {
+        insertOptions($(this).find('.companyName').html(), 'box-main-category-vendor');
+      }
+    });
+
+    $('.exhibitor-committee .box-main .box-item').each(function () {
+      if ('' !== $(this).find('.boothSize').html()) {
+        insertOptions($(this).find('.boothSize').html(), 'box-main-category-booth');
+      }
+      if ('' !== $(this).find('.areas').html()) {
+        insertOptions($(this).find('.areas').html(), 'box-main-category');
       }
     });
 
@@ -410,16 +330,123 @@
       }
     });
 
-    $(document).on('change', '#box-main-category', function () {
-      boxMainFilter();
+    $('.accordionParentWrapper').each(function () {
+      if ('' !== $(this).find('.title').html()) {
+        insertOptions($(this).find('.title').html(), 'faq-category-drp');
+      }
     });
 
-    $(document).on('keyup', '#box-main-search', function () {
-      boxMainFilter();
+    $('.awards-main').each(function () {
+      insertOptions($(this).find('.awards-winner-title').text(), 'award-name');
     });
 
-    $(document).on('keyup', '#box-main-search-bd', function () {
-      badgefilter();
+    $('.schedule-main').each(function () {
+      insertOptions($(this).find('h2').text(), 'date');
+
+      $(this).find('.schedule-row').each(function () {
+        insertOptions($(this).find('.date p').text(), 'pass-type');
+        insertOptions($(this).find('.location p').text(), 'location');
+        insertOptions($(this).find('.details p').text(), 'type');
+      });
+    });
+
+    $('.team-main .team-box').each(function () {
+      if (null !== $(this).data('category').split(',')) {
+        $.map(
+          $(this).data('category').split(','),
+          function (val, i) {
+            insertCheckbox(val, 'team-checkbox');
+          }
+        );
+      }
+      if ('' !== $(this).attr('data-department')) {
+        insertOptions($(this).attr('data-department'), 'team-department');
+      }
+    });
+
+    $('.products-winners').each(function () {
+      if ('' !== $(this).find('.product-title').html()) {
+        insertOptions($(this).find('.product-title').html(), 'products-category');
+      }
+    });
+
+    $('.news-conference-schedule .box-main .box-item').each(function () {
+      if ('' !== $(this).find('.title').html()) {
+        insertOptions($(this).find('.title').text(), 'company-name');
+      }
+
+      if ('' !== $(this).find('.location').html()) {
+        insertOptions($(this).find('.location').text(), 'location-filter');
+      }
+
+      if ('' !== $(this).find('.date-time').html()) {
+        insertOptions($(this).find('.date-time').text().split('|')[0], 'date-filter');
+      }
+    });
+
+
+    $('.sponsorship-opportunities-page .related-main-wrapper').each(function () {
+      if ('' !== $(this).find('.parent-main-title').html()) {
+        insertOptions($(this).find('.parent-main-title').text(), 'main-category-type');
+      }
+    });
+    $('.opportunities').each(function () {
+      if ('' !== $(this).find('.main-title').html()) {
+        insertOptions($(this).find('.main-title').text(), 'sub-category-type');
+      }
+      $('.opportunities .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.cost').html()) {
+          insertOptions($(this).find('.cost').text(), 'price-range');
+        }
+        if ('' !== $(this).find('.exclusivity').html()) {
+          insertOptions($(this).find('.exclusivity').text(), 'exclusivity');
+        }
+      });
+    });
+
+
+    let selectedItem, searchId, searchKeyword, selectedLetter;
+    if (0 < $('.exhibitor-committee .box-main, .badge-discounts .box-main, .new-this-year-block .box-main, .official-vendors .box-main, .delegation .box-main, .opportunities .box-main').length) {
+      selectedItem = '.box-item';
+    }
+    if (0 < $('.accordionParentWrapper').length) {
+      selectedItem = '.accordionParentWrapper';
+    }
+    if (0 < $('.awards-main').length) {
+      selectedItem = '.wp-block-nab-awards-item';
+    }
+    if (0 < $('.schedule-main').length) {
+      selectedItem = '.schedule-row';
+    }
+    if (0 < $('.team-main').length) {
+      selectedItem = '.team-box';
+    }
+    if (0 < $('.products-winners').length) {
+      selectedItem = '.product-title';
+    }
+    if (0 < $('.box-main, #box-main-search').length) {
+      searchKeyword = '.title';
+      searchId = '#box-main-search';
+    }
+    if (0 < $('.news-conference-schedule').length) {
+      selectedItem = '.box-item';
+      searchKeyword = '.title';
+    }
+    if (0 < $('.rc-page-block').length) {
+      selectedItem = '.rc-page-block .col-lg-4.col-md-6';
+      searchKeyword = '.title';
+    }
+
+
+    $(document).on('click', 'ul.alphabets-list li', function () {
+      selectedLetter = $(this).html();
+      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+    });
+    $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability', function () {
+      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+    });
+    $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
+      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
     });
 
     $('.badge-discounts').each(function () {
@@ -428,38 +455,64 @@
       }
     });
 
-    if (0 < jQuery('#box-main-listing a, .ov-filter .badgeslist a').length) {
-      jQuery('#box-main-listing a').on('click', function () {
-        let listName = $(this).text();
+    $('.exhibitor-resources-page .related-main-wrapper').each(function () {
+      if ('' !== $(this).find('.parent-main-title').html()) {
+        insertList($(this).find('.parent-main-title').text(), 'box-main-listing');
+      }
+    });
 
-        jQuery('.box-main .box-item').removeClass('slideInUp').hide();
-        jQuery('.box-main .box-item').addClass('slideInUp').show();
+    if (0 < jQuery('.badgeslist a').length) {
+      $('.badgeslist a').each(function () {
+        let $this = $(this);
+        $($this).on('click', function () {
+          if ($this.hasClass('clicked')) {
+            $this.removeClass('clicked');
+            $('.badgeslist a').removeClass('active');
+            $('.no-data').hide();
 
-        if (null !== listName) {
-          jQuery('.badge-discounts').each(function () {
-            jQuery(this).show();
-            if (jQuery(this).find('.badge-title').text() !== listName) {
-              jQuery(this).hide();
-            }
-          });
-        }
-      });
+            $('.box-main .box-item').addClass('slideInUp').show();
+            $('.badge-discounts, .badge-discounts .badge-title').show();
+            $('.related-main-wrapper, .parent-main-title').show();
 
-      $('.ov-filter .badgeslist a').on('click', function () {
-        $('.ov-filter .badgeslist a').removeClass('active');
-        $('.ov-filter .badgeslist a.clearfilter').show();
-        $(this).addClass('active');
-        boxMainFilter();
-      });
+            masterFilterFunc(selectedItem, searchId, searchKeyword);
 
-      $('.ov-filter .badgeslist a.clearfilter').on('click', function () {
-        $('.ov-filter .badgeslist a.clearfilter').hide();
-        $('.no-data').hide();
-        $('.box-main .box-item').addClass('slideInUp').show();
+          }
+          else {
+            $('.badgeslist a').removeClass('active');
+            $('.badgeslist a').removeClass('clicked');
+
+            $this.addClass('clicked');
+            $(this).addClass('active');
+
+            masterFilterFunc(selectedItem, searchId, searchKeyword);
+
+          }
+        });
       });
 
     }
 
+    // if (0 < jQuery('.badgeslist a').length) {
+    //   $('.badgeslist a').on('click', function () {
+    //     $('.badgeslist a').removeClass('active');
+    //     $('.badgeslist .clearfilter').show();
+    //     $(this).addClass('active');
+
+    //     masterFilterFunc(selectedItem, searchId, searchKeyword);
+    //   });
+
+    //   $('.badgeslist .clearfilter').on('click', function () {
+    //     $('.badgeslist a').removeClass('active');
+    //     $('.badgeslist .clearfilter').hide();
+    //     $('.no-data').hide();
+
+    //     $('.box-main .box-item').addClass('slideInUp').show();
+    //     $('.badge-discounts, .badge-discounts .badge-title').show();
+    //     $('.related-main-wrapper, .parent-main-title').show();
+
+    //     masterFilterFunc(selectedItem, searchId, searchKeyword);
+    //   });
+    // }
   }
 
   /**
@@ -632,67 +685,70 @@
   /**
    *  Session browse filter data
    */
-  if (0 < $('.browse-sessions-filter').length) {
+  if (0 < $('.browse-sessions-filter').length || 0 < $('.browse-open-to-all-filter').length) {
     let pageNumber, filterType,
       postStartWith = '',
       sessionTrack = '',
       sessionLevel = '',
       sessionType = '',
+      sessionDate = '',
       sessionLocation = '',
-      sessionItem = jQuery('#browse-session .item')[0];
+      sessionItem = $('#browse-session .item')[0],
+      listingType = 0 < $('#browse-session .listing-date-group').length ? $('#browse-session .listing-date-group:first').attr('data-listing-type') : '';
 
-    $(document).on('change', '.browse-sessions-filter .browse-select #session-tracks', function () {
+
+    $(document).on('change', '.browse-sessions-filter #session-tracks', function () {
       let currentTrack = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
       if (sessionTrack !== currentTrack) {
         pageNumber = 1;
         filterType = 'browse-filter';
         sessionTrack = currentTrack;
-        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
       }
     });
 
-    $(document).on('change', '.browse-sessions-filter .browse-select #session-level', function () {
+    $(document).on('change', '.browse-sessions-filter #session-level', function () {
       let currentLevel = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
       if (sessionLevel !== currentLevel) {
         pageNumber = 1;
         filterType = 'browse-filter';
         sessionLevel = currentLevel;
-        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
       }
     });
 
-    $(document).on('change', '.browse-sessions-filter .browse-select #session-type', function () {
+    $(document).on('change', '.browse-sessions-filter #session-type', function () {
       let currentType = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
       if (sessionType !== currentType) {
         pageNumber = 1;
         filterType = 'browse-filter';
         sessionType = currentType;
-        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
       }
     });
 
-    $(document).on('change', '.browse-sessions-filter .browse-select #session-location', function () {
+    $(document).on('change', '.browse-sessions-filter #session-location', function () {
       let currentLocation = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
       if (sessionLocation !== currentLocation) {
         pageNumber = 1;
         filterType = 'browse-filter';
         sessionLocation = currentLocation;
-        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
       }
     });
 
-    $(document).on('keypress', '.browse-sessions-filter .search-item .search', function (e) {
+    $(document).on('keypress', '.browse-sessions-filter .search-item .search, .browse-open-to-all-filter .search-item .search', function (e) {
       if (13 === e.which) {
         pageNumber = 1;
         filterType = 'browse-filter';
-        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
       }
     });
 
     $(document).on('click', '#load-more-sessions a', function () {
       pageNumber = $(this).attr('data-page-number');
       filterType = 'load-more';
-      nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+      nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
     });
 
     $(document).on('click', '.browse-sessions-filter .featured-btn', function () {
@@ -711,7 +767,7 @@
         postStartWith = $(this).text();
         pageNumber = 1;
         filterType = 'browse-filter';
-        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+        nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
       }
     });
 
@@ -720,8 +776,18 @@
       postStartWith = '';
       filterType = 'browse-filter';
       pageNumber = 1;
-      nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation);
+      nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
     });
+    if (0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length) {
+      $(window).load(function () {
+        $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function () {
+          filterType = 'browse-filter';
+          pageNumber = 1;
+          sessionDate = $(this).val();
+          nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate);
+        });
+      });
+    }
   }
 
   /**
@@ -823,7 +889,7 @@
       speakerItem = $('#browse-speaker .item')[0],
       speakerPopup = 0 < $('#browse-speaker .item .detail-list-modal-popup').length;
 
-    $(document).on('change', '.browse-speakers-filter .browse-select #speaker-company', function () {
+    $(document).on('change', '.browse-speakers-filter #speaker-company', function () {
       let currentCompany = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
       if (speakerCompany !== currentCompany) {
         speakerPageNumber = 1;
@@ -882,25 +948,27 @@
       speakerPageNumber = 1;
       nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, speakerPopup);
     });
-    $(window).load(function () {
-      $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
-        speakerPageNumber = 1;
-        nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, speakerPopup);
+    if (0 < $('.browse-speakers-filter #speaker_date').length) {
+      $(window).load(function () {
+        $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
+          speakerPageNumber = 1;
+          nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, speakerPopup);
+        });
       });
-    });
+    }
   }
 
   /**
    * Destination or happenings page search
    */
 
-  if ( 0 < $('.browse-destinations-filter').length || 0 < $('.browse-happenings-filter').length ) {
+  if (0 < $('.browse-destinations-filter').length || 0 < $('.browse-happenings-filter').length) {
     let pageLocation = '',
-        pageType = '',
-        newThisYear = '',
-        pageSearchTitle = '',
-        sortByDate = true,
-        pageStartWith = '';
+      pageType = '',
+      newThisYear = '',
+      pageSearchTitle = '',
+      sortByDate = true,
+      pageStartWith = '';
 
     $('#related-content-list .col-lg-4.col-md-6').each(function () {
       if (null !== $(this).data('hall').split(',')) {
@@ -914,97 +982,136 @@
         });
       }
     });
+    if (0 < $('#related-content-list .date-group-wrapper .happenings-date').length) {
+      $('#related-content-list .date-group-wrapper .happenings-date').each(function () {
+        insertOptions($(this).text(), 'page-date');
+      });
+    }
 
     $(document).on('click', '.browse-destinations-filter .featured-btn, .browse-happenings-filter .featured-btn', function () {
-        $(this).toggleClass('active');
-        $('#related-content-list .col-lg-4.col-md-6[data-featured="featured"]').toggleClass('featured');
+      $(this).toggleClass('active');
+      $('#related-content-list .col-lg-4.col-md-6[data-featured="featured"]').toggleClass('featured');
     });
 
     $(document).on('change', '.browse-destinations-filter #page-location, .browse-happenings-filter #page-location', function () {
-        pageLocation = 0 === $(this)[0].selectedIndex ? '': $(this).val();
-        nabFilterDestinationPagesHandler( pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle );
+      pageLocation = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
+      nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
     });
 
     $(document).on('change', '.browse-destinations-filter #page-type, .browse-happenings-filter #page-type', function () {
-        pageType = 0 === $(this)[0].selectedIndex ? '': $(this).val();
-        nabFilterDestinationPagesHandler( pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle );
+      pageType = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
+      nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
+    });
+
+    $(document).on('change', '.browse-happenings-filter #page-date', function () {
+      nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
     });
 
     $(document).on('change', '.browse-destinations-filter .new-this-year, .browse-happenings-filter .new-this-year', function () {
-        newThisYear = $(this).is(':checked') ? $(this).val() : '';
-        nabFilterDestinationPagesHandler( pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle );
+      newThisYear = $(this).is(':checked') ? $(this).val() : '';
+      nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
     });
 
     $(document).on('click', '.browse-destinations-filter .alphabets-list li:not(".clear"), .browse-happenings-filter .alphabets-list li:not(".clear")', function () {
-        $(this).addClass('active').siblings().removeClass('active');
-        $(this).siblings('.clear').show();
-        pageStartWith = $(this).text();
-        nabFilterDestinationPagesHandler( pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle );
+      $(this).addClass('active').siblings().removeClass('active');
+      $(this).siblings('.clear').show();
+      pageStartWith = $(this).text();
+      nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
     });
 
     $(document).on('click', '.browse-destinations-filter .alphabets-list li.clear, .browse-happenings-filter .alphabets-list li.clear', function () {
-        $(this).hide().siblings().removeClass('active');
-        pageStartWith = '';
-        nabFilterDestinationPagesHandler( pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle );
+      $(this).hide().siblings().removeClass('active');
+      pageStartWith = '';
+      nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
     });
 
     $(document).on('keypress', '.browse-destinations-filter .search-item .search, .browse-happenings-filter .search-item .search', function (e) {
-        if (13 === e.which) {
-          pageSearchTitle = $(this).val();
-          nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
-        }
+      if (13 === e.which) {
+        pageSearchTitle = $(this).val();
+        nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
+      }
     });
 
     $(document).on('change', '.browse-happenings-filter #happenings-order', function (e) {
-        let container = document.getElementById('related-content-list');
-        let items = $('.col-lg-4');
+      let container = document.getElementById('related-content-list');
+      let items = $('.col-lg-4');
 
-        jQuery('#related-content-list .col-lg-4.col-md-6').removeClass('slideInUp').hide();
-        jQuery('#related-content-list .col-lg-4.col-md-6').addClass('slideInUp').show();
+      jQuery('#related-content-list .col-lg-4.col-md-6').removeClass('slideInUp').hide();
+      jQuery('#related-content-list .col-lg-4.col-md-6').addClass('slideInUp').show();
 
-        if ( 'Chronologically' === $(this).val() ) {
-            if ( sortByDate ) {
-              sortByDate = false;
-              items.each( function() {
-                if ( '' !== $(this).attr('data-date') ) {
-                  let currentDate = $(this).attr('data-date').split('-');
-                  let standardDate = currentDate[1] + ' ' + currentDate + ' ' + currentDate[2];
-                  standardDate = new Date(standardDate).getTime();
-                  $(this).attr('data-date', standardDate);
-                }
-              });
+      if ('Chronologically' === $(this).val()) {
+        if (sortByDate) {
+          sortByDate = false;
+          items.each(function () {
+            if ('' !== $(this).attr('data-date')) {
+              let currentDate = $(this).attr('data-date').split('-');
+              let standardDate = currentDate[1] + ' ' + currentDate + ' ' + currentDate[2];
+              standardDate = new Date(standardDate).getTime();
+              $(this).attr('data-date', standardDate);
             }
-
-
-        } else if ( 'A-Z' === $(this).val() ) {
-            items.sort( function( a, b ) {
-              return ( $(b).find('h2.title').text().toLowerCase() ) < ( $(a).find('h2.title').text().toLowerCase() ) ? 1 : -1;
-            }).each( function() {
-                container.appendChild(this);
-            });
-        }
-
-        if ( 'Chronologically' === $(this).val() || 'default' === $(this).val() ) {
-          let currentSelector = 'Chronologically' === $(this).val() ? 'data-date' : 'data-default';
-          items.sort( function( a, b ) {
-            if ( '' === $(a).attr(currentSelector) ) {
-              return 1;
-            }
-            if ( '' === $(b).attr(currentSelector) ) {
-              return -1;
-            }
-            a = parseFloat( $(a).attr(currentSelector) );
-            b = parseFloat( $(b).attr(currentSelector) );
-            return a < b ? -1 : a > b ? 1 : 0;
-          }).each( function() {
-            container.appendChild(this);
           });
         }
-    });
-    $(window).load(function () {
-        $('.browse-happenings-filter #happenings_date').datepicker({ dateFormat: 'DD, MM dd, yy' }).on('change', function() {
-          nabFilterDestinationPagesHandler( pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle );
+
+
+      } else if ('A-Z' === $(this).val()) {
+        items.sort(function (a, b) {
+          return ($(b).find('h2.title').text().toLowerCase()) < ($(a).find('h2.title').text().toLowerCase()) ? 1 : -1;
+        }).each(function () {
+          container.appendChild(this);
         });
+      }
+
+      if ('Chronologically' === $(this).val() || 'default' === $(this).val()) {
+        let currentSelector = 'Chronologically' === $(this).val() ? 'data-date' : 'data-default';
+        items.sort(function (a, b) {
+          if ('' === $(a).attr(currentSelector)) {
+            return 1;
+          }
+          if ('' === $(b).attr(currentSelector)) {
+            return -1;
+          }
+          a = parseFloat($(a).attr(currentSelector));
+          b = parseFloat($(b).attr(currentSelector));
+          return a < b ? -1 : a > b ? 1 : 0;
+        }).each(function () {
+          container.appendChild(this);
+        });
+      }
+    });
+    if (0 < $('.browse-happenings-filter #happenings_date').length) {
+      $(window).load(function () {
+        $('.browse-happenings-filter #happenings_date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function () {
+          nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle);
+        });
+      });
+    }
+
+  }
+
+  /**
+   * Browse current sponsors filter
+   */
+  if (0 < $('.browse-sponsors-filter').length) {
+    $(document).on('click', '.browse-sponsors-filter .featured-btn', function () {
+      $(this).toggleClass('active');
+      $('#sponsors-partners-list li[data-featured="featured"]').toggleClass('featured');
+    });
+
+    $(document).on('keypress', '.browse-sponsors-filter .search-item .search', function (e) {
+      if (13 === e.which) {
+        $('#sponsors-partners-list li').removeClass('slideInUp').hide();
+        $('#sponsors-partners-list li').addClass('slideInUp').show();
+        $('#sponsors-partners-list').next('.no-data.display-none').hide();
+        $('body').addClass('popup-loader');
+
+        if ('' !== $(this).val()) {
+          $('#sponsors-partners-list li:not([data-title*="' + $(this).val().toLowerCase() + '"])').hide();
+        }
+        if (0 === $('#sponsors-partners-list li:visible').length) {
+          $('#sponsors-partners-list').next('.no-data.display-none').show();
+        }
+        $('body').removeClass('popup-loader');
+      }
     });
 
   }
@@ -1015,9 +1122,12 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
 
   jQuery('#related-content-list .col-lg-4.col-md-6').removeClass('slideInUp').hide();
   jQuery('#related-content-list .col-lg-4.col-md-6').addClass('slideInUp').show();
+  jQuery('#related-content-list .no-data.display-none').hide();
+  jQuery('#related-content-list .date-group-wrapper').show();
+  jQuery('body').addClass('popup-loader');
 
-  if ( '' !== pageLocation ) {
-    jQuery('#related-content-list .col-lg-4.col-md-6:not([data-hall*="' + pageLocation +'"])').hide();
+  if ('' !== pageLocation) {
+    jQuery('#related-content-list .col-lg-4.col-md-6:not([data-hall*="' + pageLocation + '"])').hide();
   }
 
   if ('' !== pageType) {
@@ -1032,14 +1142,38 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
     jQuery('#related-content-list h2.title:visible').filter(function () { return (pageStartWith !== jQuery(this).text()[0].toUpperCase()); }).parents('.col-lg-4.col-md-6').hide();
   }
   if ('' !== pageSearchTitle) {
-    jQuery('#related-content-list h2.title:visible').filter(function () { return (0 > jQuery(this).text().toLowerCase().indexOf(pageSearchTitle.toLowerCase())); }).parents('.col-lg-4.col-md-6').hide();
+    if (0 < jQuery('#related-content-list .date-group-wrapper .happenings-date').length) {
+      jQuery('#related-content-list .col-lg-4.col-md-6:not([data-title*="' + pageSearchTitle.toLowerCase() + '"])').hide();
+    } else {
+      jQuery('#related-content-list h2.title:visible').filter(function () { return (0 > jQuery(this).text().toLowerCase().indexOf(pageSearchTitle.toLowerCase())); }).parents('.col-lg-4.col-md-6').hide();
+    }
+
   }
-  if ( 0 < jQuery('.browse-happenings-filter').length ) {
+  if (0 < jQuery('.browse-happenings-filter #happenings_date').length) {
     let happeningDate = jQuery('.browse-happenings-filter #happenings_date').val();
-      if ( '' !== happeningDate ) {
-          jQuery('#related-content-list span.sub-title:visible').filter(function () { return ( happeningDate !== jQuery(this).text() ); }).parents('.col-lg-4.col-md-6').hide();
-      }
+    if ('' !== happeningDate) {
+      jQuery('#related-content-list span.sub-title:visible').filter(function () { return (happeningDate !== jQuery(this).text()); }).parents('.col-lg-4.col-md-6').hide();
+    }
   }
+
+  if (0 < jQuery('.browse-happenings-filter #page-date').length) {
+    let happeningDate = 0 === jQuery('.browse-happenings-filter #page-date')[0].selectedIndex ? '' : jQuery('.browse-happenings-filter #page-date').val().toLowerCase();
+    if ('' !== happeningDate) {
+      jQuery('#related-content-list .date-group-wrapper .happenings-date').filter(function () { return (happeningDate !== jQuery(this).text().toLowerCase()); }).parents('.date-group-wrapper').hide();
+    }
+  }
+
+  if (0 < jQuery('#related-content-list .date-group-wrapper .happenings-date').length) {
+    jQuery('#related-content-list .date-group-wrapper').each(function () {
+      if (0 === jQuery(this).find('.col-lg-4.col-md-6:visible').length) {
+        jQuery(this).hide();
+      }
+    });
+  }
+  if (0 === jQuery('#related-content-list .col-lg-4.col-md-6:visible').length) {
+    jQuery('#related-content-list .no-data.display-none').show();
+  }
+  jQuery('body').removeClass('popup-loader');
 
 }
 
@@ -1047,7 +1181,8 @@ function nabAjaxForBrowseSpeakers(speakerItem, filterType, speakerPageNumber, sp
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? jQuery('#load-more-speaker a').attr('data-post-limit') : 10,
     jobTitleSearch = jQuery('.browse-speakers-filter .speaker-title-search').val(),
     postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
-    speakerDate = jQuery('.browse-speakers-filter #speaker_date').val(),
+    featuredSpeaker = 0 < jQuery('.browse-speakers-filter .featured-filter').length ? 'yes' : 'no',
+    speakerDate = 0 < jQuery('.browse-speakers-filter #speaker_date').length ? jQuery('.browse-speakers-filter #speaker_date').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
@@ -1055,7 +1190,7 @@ function nabAjaxForBrowseSpeakers(speakerItem, filterType, speakerPageNumber, sp
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate,
+    data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate + '&featured_speaker=' + featuredSpeaker,
     url: nabshowLvCustom.ajax_url,
     success: function (speakerData) {
 
@@ -1207,7 +1342,7 @@ function nabAjaxForBrowseExhibitors(exhibitorItem, filterType, exhibitorPageNumb
         jQuery('#browse-exhibitor').parent().find('p.no-data').hide();
       }
 
-      if (jQuery('.browse-sessions-filter .featured-btn').hasClass('active')) {
+      if (jQuery('.browse-exhibitors-filter .featured-btn').hasClass('active')) {
         jQuery('#browse-exhibitor .item').removeClass('featured');
         jQuery('#browse-exhibitor .item[data-featured="featured"]').addClass('featured');
       }
@@ -1217,23 +1352,48 @@ function nabAjaxForBrowseExhibitors(exhibitorItem, filterType, exhibitorPageNumb
 }
 
 
-function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation) {
+function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate) {
   let postPerPage = jQuery('#load-more-sessions a').attr('data-post-limit') ? jQuery('#load-more-sessions a').attr('data-post-limit') : 10;
-  let postSearch = jQuery('.browse-sessions-filter .search-item .search').val();
+  let postSearch = 0 < jQuery('.browse-open-to-all-filter .search-item .search').length ? jQuery('.browse-open-to-all-filter .search-item .search').val() : jQuery('.browse-sessions-filter .search-item .search').val();
+
   jQuery('body').addClass('popup-loader');
+
+  if ('load-more' !== filterType) {
+    jQuery('#browse-session').empty();
+  }
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&level=' + sessionLevel + '&session_type=' + sessionType + '&location=' + sessionLocation,
+    data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&level=' + sessionLevel + '&session_type=' + sessionType + '&location=' + sessionLocation + '&listing_type=' + listingType + '&session_date=' + sessionDate,
     url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 
       let sessionObj = jQuery.parseJSON(sessionData);
+      if ('' !== listingType) {
+        let dateGroup = '';
+        let itemDateGroup = [];
+        let cnt = 0;
+        let appendItem = false;
+        jQuery.each(sessionObj.result_post, function (key, value) {
 
-      jQuery.each(sessionObj.result_post, function (key, value) {
-        if (value.post_title) {
+          if (dateGroup !== value.session_date) {
+            dateGroup = value.session_date;
+          }
           let cloneItemDiv = sessionItem.cloneNode(true);
-          cloneItemDiv.setAttribute('data-featured', value.featured);
+          let innerImg = cloneItemDiv.querySelector('img');
+
+          if (null === innerImg && '' !== value.thumbnail_url) {
+
+            let imgTag = document.createElement('img');
+            imgTag.setAttribute('src', value.thumbnail_url);
+            imgTag.setAttribute('alt', 'session-logo');
+            cloneItemDiv.insertBefore(imgTag, cloneItemDiv.childNodes[0]);
+
+          } else if (null != innerImg && '' !== value.thumbnail_url) {
+            innerImg.setAttribute('src', value.thumbnail_url);
+          } else if (null !== innerImg) {
+            innerImg.remove();
+          }
 
           let innerHeading = cloneItemDiv.querySelector('h4');
           innerHeading.innerText = value.post_title;
@@ -1249,16 +1409,76 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
           let innerATag = cloneItemDiv.querySelector('a');
           innerATag.setAttribute('href', value.planner_link);
+          itemDateGroup[cnt] = cloneItemDiv;
 
-          let sessionList = document.getElementById('browse-session');
-
-          if ('load-more' !== filterType && 0 === key) {
-            jQuery('#browse-session').empty();
+          if ('load-more' === filterType && jQuery('#browse-session .listing-date-group h2.session-date:last').text() === value.session_date) {
+            appendItem = true;
           }
-          sessionList.appendChild(cloneItemDiv);
-        }
 
-      });
+          cnt++;
+
+          if (((key + 1) === sessionObj.result_post.length) || (sessionObj.result_post[(key + 1)] !== undefined && dateGroup !== sessionObj.result_post[(key + 1)].session_date)) {
+            let parentDiv;
+            if (! appendItem) {
+              parentDiv = document.createElement('div');
+              parentDiv.setAttribute('class', 'listing-date-group');
+
+              let childHeading = document.createElement('h2');
+              childHeading.setAttribute('class', 'session-date');
+              childHeading.innerText = dateGroup;
+              parentDiv.appendChild(childHeading);
+
+            } else {
+              let lastDivindex = (jQuery('#browse-session .listing-date-group').length - 1);
+              parentDiv = document.getElementsByClassName('listing-date-group')[lastDivindex];
+            }
+
+            itemDateGroup.forEach(function (element) {
+              parentDiv.appendChild(element);
+            });
+
+            if (! appendItem) {
+              let sessionList = document.getElementById('browse-session');
+              sessionList.appendChild(parentDiv);
+            }
+
+            appendItem = false;
+            itemDateGroup = [];
+            cnt = 0;
+          }
+
+        });
+      } else {
+        jQuery.each(sessionObj.result_post, function (key, value) {
+          if (value.post_title) {
+            let cloneItemDiv = sessionItem.cloneNode(true);
+            cloneItemDiv.setAttribute('data-featured', value.featured);
+
+            let innerHeading = cloneItemDiv.querySelector('h4');
+            innerHeading.innerText = value.post_title;
+
+            let innerSpanTag = cloneItemDiv.querySelector('span');
+            innerSpanTag.innerText = value.date_time;
+
+            let innerParagraphTag = cloneItemDiv.querySelector('p');
+            innerParagraphTag.childNodes[0].nodeValue = value.post_excerpt;
+
+            let innerParagraphATag = cloneItemDiv.querySelector('.detail-list-modal-popup');
+            innerParagraphATag.setAttribute('data-postid', value.post_id);
+
+            let innerATag = cloneItemDiv.querySelector('a');
+            innerATag.setAttribute('href', value.planner_link);
+
+            let sessionList = document.getElementById('browse-session');
+
+            if ('load-more' !== filterType && 0 === key) {
+              jQuery('#browse-session').empty();
+            }
+            sessionList.appendChild(cloneItemDiv);
+          }
+
+        });
+      }
 
       jQuery('body').removeClass('popup-loader');
       jQuery('#browse-session .item').removeClass('slideInUp').hide();
@@ -1350,6 +1570,51 @@ function masonryGrids() {
   }
 }
 
+function CustomMasonryGrids() {
+  var colCount, colHeight, i, mainDiv, highest, order, divHeight;
+  colHeight = [];
+  mainDiv = document.getElementsByClassName('box-main');
+
+  if (5 < mainDiv[0].children.length) {
+
+    jQuery('.box-main .box-item').css({ opacity: '0', transform: 'scale(0.8, 0.8)' });
+    if (767 > window.innerWidth) {
+      colCount = 1;
+    } else if (992 > window.innerWidth) {
+      colCount = 2;
+    } else if (1200 > window.innerWidth) {
+      colCount = 3;
+    } else {
+      colCount = 4;
+    }
+
+    for (i = 0; i <= colCount; i++) {
+      colHeight.push(0);
+    }
+
+    for (i = 0; i < mainDiv[0].children.length; i++) {
+      mainDiv[0].children[i].style.height = '';
+      order = (i + 1) % colCount || colCount;
+      mainDiv[0].children[i].style.order = order;
+      divHeight = mainDiv[0].children[i].clientHeight;
+
+      if (0 === divHeight) {
+        divHeight = mainDiv[0].children[i].childNodes[1].childNodes[1].naturalHeight;
+      }
+      mainDiv[0].children[i].style.height = divHeight + 'px';
+      colHeight[order] += parseInt(divHeight);
+
+      jQuery(mainDiv[0].children[i])
+        .show('slow')
+        .css({ opacity: '1', transform: 'scale(1, 1)' });
+    }
+    highest = Math.max.apply(Math, colHeight);
+    mainDiv[0].style.height = highest + 'px';
+  } else {
+    jQuery('.news-conference-schedule .box-main').addClass('without-masonry');
+  }
+}
+
 /**
  * Schedule at a glance filter dropdown options append
  * @param data
@@ -1372,57 +1637,6 @@ function insertList(data, id) {
   node.appendChild(textnode);
   let optionData = document.getElementById(id);
   optionData.appendChild(node);
-}
-
-/**
- * Schedule at a glance Search functionality
- */
-function filterScheduleData() {
-  jQuery('.schedule-main, .schedule-main .schedule-row').show();
-  jQuery('.no-data').hide();
-
-  let filterDate = 0 < jQuery('.schedule-glance-filter .schedule-select #date')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #date').val() : null;
-  let filterTime = 0 < jQuery('.schedule-glance-filter .schedule-select #pass-type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #pass-type').val() : null;
-  let filterLocation = 0 < jQuery('.schedule-glance-filter .schedule-select #location')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #location').val() : null;
-  let filterType = 0 < jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #type').val() : null;
-  let filterSearch = jQuery('.schedule-glance-filter .schedule-search').val();
-
-  if (null !== filterDate) {
-    jQuery('.schedule-main h2:not(:contains("' + filterDate + '"))').parents('.schedule-main').hide();
-  }
-  if (null !== filterTime) {
-    jQuery('.schedule-main .schedule-row .date:not(:contains("' + filterTime + '"))').parents('.schedule-row').hide();
-  }
-  if (null !== filterLocation) {
-    jQuery('.schedule-main .schedule-row .location:not(:contains("' + filterLocation + '"))').parents('.schedule-row').hide();
-  }
-  if (null !== filterType) {
-    jQuery('.schedule-main .schedule-row .details:not(:contains("' + filterType + '"))').parents('.schedule-row').hide();
-  }
-  if ('' !== filterSearch) {
-    jQuery('.schedule-row:visible')
-      .filter(function () {
-        return (
-          0 >
-          jQuery('.name', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
-        );
-      })
-      .hide();
-  }
-
-  jQuery('.schedule-main')
-    .not(function () {
-      return 0 < jQuery(this).find('.schedule-row:visible').length;
-    })
-    .hide();
-
-  if (0 === jQuery('.schedule-main:visible').length) {
-    if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.schedule-main');
-    } else {
-      jQuery('.no-data').show();
-    }
-  }
 }
 
 /**
@@ -1456,129 +1670,233 @@ function insertCheckbox(data, id) {
   }
 }
 
-function filterSelectTeam() {
-  jQuery('.team-main .team-box').removeClass('slideInUp').hide();
-  jQuery('.team-main .team-box').addClass('slideInUp').show();
+/**
+  * Master Filter Function
+**/
+function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter) {
+
+  jQuery(selectedItem).removeClass('slideInUp').hide();
+  jQuery(selectedItem).addClass('slideInUp').show();
+  if (0 != jQuery('.accordionParentWrapper').length) {
+    jQuery(selectedItem).removeClass('slideInUp').show();
+  }
   jQuery('.no-data').hide();
-
-  let filterDepartment =
-    0 < jQuery('.meet-team-select #team-department')[0].selectedIndex ?
-      jQuery('.meet-team-select #team-department').val() :
-      null;
-
-  jQuery('#team-checkbox .checkbox-list input').parent().removeClass('checked');
-  jQuery('#team-checkbox .checkbox-list input:checked').parent().addClass('checked');
-
-  if (0 < jQuery('#team-checkbox .checkbox-list input:checked').length) {
-    jQuery('.team-main .team-box').hide();
-
-    jQuery('#team-checkbox .checkbox-list input:checked').each(function () {
-      jQuery('.team-main .team-box[data-category*="' + jQuery(this).val() + '"]').hide().show();
-    });
+  if (0 != jQuery('.badge-discounts-box').length) {
+    jQuery('.badge-discounts, .badge-discounts .badge-title').show();
+  }
+  if (0 != jQuery('.accordionParentWrapper').length) {
+    jQuery('.accordionParentWrapper').show();
+  }
+  if (0 < jQuery('.awards-main').length) {
+    jQuery('.awards-main').show();
+  }
+  if (0 < jQuery('.schedule-main').length) {
+    jQuery('.schedule-main, .schedule-main .schedule-row').show();
+  }
+  if (0 < jQuery('.products-winners').length) {
+    jQuery('.products-winners, .product-item').removeClass('slideInUp').hide();
+    jQuery('.products-winners, .product-item').addClass('slideInUp').show();
+  }
+  if (0 < jQuery('.news-conference-schedule').length) {
+    jQuery(`.news-conference-schedule ${selectedItem}`).show();
+  }
+  if (0 < jQuery('.opportunities').length) {
+    jQuery('.opportunities').show();
+  }
+  if (0 < jQuery('.sponsorship-opportunities-page').length) {
+    jQuery('.related-main-wrapper, .sponsorship-opportunities-page, .sponsorship-opportunities-page .parent-main-title').show();
+  }
+  if (0 != jQuery('.exhibitor-resources-page').length) {
+    jQuery('.related-main-wrapper, .parent-main-title').show();
   }
 
-  if (null !== filterDepartment) {
-    jQuery('.team-main .team-box:not([data-department="' + filterDepartment + '"])').hide();
-  }
+  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat;
 
-  if (0 === jQuery('.team-main .team-box:visible').length) {
-    if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.team-box');
-    } else {
-      jQuery('.no-data').show();
+  if (0 < jQuery('#box-main-category').length) {
+    filterMainData = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
+  }
+  if (0 < jQuery('#box-main-category-booth').length) {
+    filterBoothData = 0 < jQuery('#box-main-category-booth')[0].selectedIndex ? jQuery('#box-main-category-booth').val() : null;
+  }
+  if (0 < jQuery('#box-main-category-vendor').length) {
+    filterVendorData = 0 < jQuery('#box-main-category-vendor')[0].selectedIndex ? jQuery('#box-main-category-vendor').val() : null;
+  }
+  if (0 < jQuery('#faq-category-drp').length) {
+    filterFaqData = 0 < jQuery('#faq-category-drp')[0].selectedIndex ? jQuery('#faq-category-drp').val() : null;
+  }
+  if (0 < jQuery('#award-name').length) {
+    filterAwardData = 0 < jQuery('#award-name')[0].selectedIndex ? jQuery('#award-name').val() : null;
+  }
+  if (0 < jQuery('.schedule-main').length) {
+    filterDate = 0 < jQuery('.schedule-glance-filter .schedule-select #date')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #date').val() : null;
+    filterTime = 0 < jQuery('.schedule-glance-filter .schedule-select #pass-type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #pass-type').val() : null;
+    filterLocation = 0 < jQuery('.schedule-glance-filter .schedule-select #location')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #location').val() : null;
+    filterType = 0 < jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #type').val() : null;
+  }
+  if (0 < jQuery('.team-main').length) {
+    filterDepartment = 0 < jQuery('.meet-team-select #team-department')[0].selectedIndex ? jQuery('.meet-team-select #team-department').val() : null;
+
+    jQuery('#team-checkbox .checkbox-list input').parent().removeClass('checked');
+    jQuery('#team-checkbox .checkbox-list input:checked').parent().addClass('checked');
+
+    if (0 < jQuery('#team-checkbox .checkbox-list input:checked').length) {
+
+      jQuery(`${selectedItem}`).hide();
+
+      jQuery('#team-checkbox .checkbox-list input:checked').each(function () {
+        jQuery(`${selectedItem}[data-category*="${jQuery(this).val()}"]`).hide().show();
+      });
     }
   }
-}
+  if (0 < jQuery('.products-winners').length) {
+    filterProduct = 0 < jQuery('#products-category')[0].selectedIndex ? jQuery('#products-category').val() : null;
+  }
+  if (0 < jQuery('.news-conference-schedule').length) {
+    filterCName = 0 < jQuery('#company-name')[0].selectedIndex ? jQuery('#company-name').val() : null;
+    filterCDate = 0 < jQuery('#date-filter')[0].selectedIndex ? jQuery('#date-filter').val() : null;
+    filterCLocation = 0 < jQuery('#location-filter')[0].selectedIndex ? jQuery('#location-filter').val() : null;
+  }
+  if (0 < jQuery('.sponsorship-opportunities-page').length) {
+    filterMainCat = 0 < jQuery('#main-category-type')[0].selectedIndex ? jQuery('#main-category-type').val() : null;
+  }
+  if (0 < jQuery('.opportunities').length) {
+    filterSubCat = 0 < jQuery('#sub-category-type')[0].selectedIndex ? jQuery('#sub-category-type').val() : null;
+    filterCost = 0 < jQuery('#price-range')[0].selectedIndex ? jQuery('#price-range').val() : null;
+    filterExclusive = 0 < jQuery('#exclusivity')[0].selectedIndex ? jQuery('#exclusivity').val() : null;
+    filterAvailable = 0 < jQuery('#availability')[0].selectedIndex ? jQuery('#availability').val() : null;
+  }
 
-function filterAwards() {
-  jQuery('.wp-block-nab-awards-item').removeClass('slideInUp').hide();
-  jQuery('.wp-block-nab-awards-item').addClass('slideInUp').show();
-  jQuery('.awards-main').show();
-  jQuery('.no-data').hide();
+  // Dropdown Filter
+  if (null !== filterMainData && undefined !== filterMainData) {
+    if (0 != jQuery(`${selectedItem}`).closest('.exhibitor-committee').length) {
+      comparedItem = '.areas';
+    } if (0 != jQuery(`${selectedItem}`).closest('.official-vendors').length || 0 != jQuery(`${selectedItem}`).closest('.new-this-year-block').length) {
+      comparedItem = '.title';
+    } if (0 != jQuery(`${selectedItem}`).closest('.delegation').length) {
+      comparedItem = '.country';
+    }
+    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterMainData}"))`).parents(`${selectedItem}`).hide();
+  }
 
-  let filterAwardName = 0 < jQuery('#award-name')[0].selectedIndex ? jQuery('#award-name').val() : null;
+  if (null !== filterBoothData && undefined !== filterBoothData) {
+    comparedItem = '.boothSize';
+    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterBoothData}"))`).parents(`${selectedItem}`).hide();
+  }
 
-  if (null !== filterAwardName) {
-    jQuery('.awards-header').each(function () {
-      if (jQuery(this).has('.awards-winner-title').length) {
-        jQuery('.awards-header .awards-winner-title:not(:contains("' + filterAwardName + '"))').parents('.awards-main').hide();
-      } else {
-        jQuery(this).parents('.awards-main').hide();
+  if (null !== filterVendorData && undefined !== filterVendorData) {
+    comparedItem = '.companyName';
+    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterVendorData}"))`).parents(`${selectedItem}`).hide();
+  }
+
+  if (null !== filterFaqData && undefined !== filterFaqData) {
+    comparedItem = '.title';
+    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterFaqData}"))`).parent(`${selectedItem}`).hide();
+  }
+
+  if (null !== filterAwardData && undefined !== filterAwardData) {
+    comparedItem = '.awards-winner-title';
+    if (0 < jQuery('.awards-main').length) {
+      selectedItem = '.awards-main';
+    }
+    jQuery(`${comparedItem}:not(:contains("${filterAwardData}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterDate && undefined !== filterDate) {
+    if (0 < jQuery('.schedule-main').length) {
+      comparedItem = '.schedule-main h2';
+    }
+    jQuery(`${comparedItem}:not(:contains("${filterDate}"))`).parent().hide();
+  }
+  if (null !== filterTime && undefined !== filterTime) {
+    if (0 < jQuery('.schedule-main').length) {
+      comparedItem = '.date';
+    }
+    jQuery(` ${selectedItem} ${comparedItem}:not(:contains("${filterTime}"))`).parent(`${selectedItem}`).hide();
+  }
+  if (null !== filterLocation && undefined !== filterLocation) {
+    if (0 < jQuery('.schedule-main').length) {
+      comparedItem = '.location';
+    }
+    jQuery(` ${selectedItem} ${comparedItem}:not(:contains("${filterLocation}"))`).parent(`${selectedItem}`).hide();
+  }
+  if (null !== filterType && undefined !== filterType) {
+    if (0 < jQuery('.schedule-main').length) {
+      comparedItem = '.details';
+    }
+    jQuery(` ${selectedItem} ${comparedItem}:not(:contains("${filterType}"))`).parent(`${selectedItem}`).hide();
+  }
+  if (null !== filterDepartment && undefined !== filterDepartment) {
+    jQuery(`${selectedItem}:not([data-department="${filterDepartment}"])`).hide();
+  }
+  if (null !== filterProduct && undefined !== filterProduct) {
+    jQuery(`${selectedItem}:not(:contains("${filterProduct}"))`).parent().hide();
+  }
+  if (null !== filterCName && undefined !== filterCName) {
+    jQuery(`${selectedItem} .title:not(:contains("${filterCName}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterCDate && undefined !== filterCDate) {
+    jQuery(`${selectedItem} .date-time:not(:contains("${filterCDate}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterCLocation && undefined !== filterCLocation) {
+    jQuery(`${selectedItem} .location:not(:contains("${filterCLocation}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterMainCat && undefined !== filterMainCat) {
+    if (0 < jQuery('#main-category-type').length) {
+      selectedItem = '.related-main-wrapper';
+    }
+    jQuery(`.sponsorship-opportunities-page ${selectedItem} .parent-main-title:not(:contains("${filterMainCat}"))`).parents(`${selectedItem}`).addClass('Juhi').hide();
+  }
+  if (null !== filterSubCat && undefined !== filterSubCat) {
+    if (0 < jQuery('#sub-category-type').length) {
+      selectedItem = '.opportunities';
+    } else {
+      selectedItem = '.box-item';
+    }
+    jQuery(`${selectedItem} .main-title:not(:contains("${filterSubCat}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterCost && undefined !== filterCost) {
+    if (0 < jQuery('.opportunities').length) {
+      selectedItem = '.box-item';
+    }
+    jQuery(`${selectedItem} .cost:not(:contains("${filterCost}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterExclusive && undefined !== filterExclusive) {
+    jQuery(`${selectedItem} .exclusivity:not(:contains("${filterExclusive}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterAvailable && undefined !== filterAvailable) {
+    if (0 < jQuery('.opportunities').length) {
+      selectedItem = '.box-item';
+    }
+    if ('Available' === filterAvailable) {
+      if (jQuery(selectedItem).has('span.sold')) {
+        jQuery(` ${selectedItem} span.sold`).each(function () {
+          jQuery(this).parents(`${selectedItem}`).addClass('visible');
+        });
       }
-    });
-  }
-
-  let filterSearch = jQuery('.awards-filtering .awards-search').val();
-
-  if ('' !== filterSearch) {
-    jQuery('.wp-block-nab-awards-item:visible')
-      .filter(function () {
-        return (
-          0 > jQuery('.winnerName', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
-        );
-      })
-      .hide();
-  }
-
-  jQuery('.awards-main')
-    .not(function () {
-      return 0 < jQuery(this).find('.wp-block-nab-awards-item:visible').length;
-    })
-    .hide();
-
-  if (0 === jQuery('.awards-main:visible').length) {
-    if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.awards-main');
-    } else {
-      jQuery('.no-data').show();
+      jQuery(selectedItem).not('.visible').hide();
+    }
+    if ('Unavailable' === filterAvailable) {
+      jQuery(`${selectedItem}.visible`).hide();
     }
   }
-}
 
-// products-winners filter function
-function filterSelectProduct(clickItem) {
-  jQuery('.products-winners').show();
-  jQuery('.product-main .product-item').removeClass('slideInUp').hide();
-  jQuery('.product-main .product-item').addClass('slideInUp').show();
-  jQuery('.no-data').hide();
 
-  let filterAwardName = 0 < jQuery('#products-category')[0].selectedIndex ? jQuery('#products-category').val() : null;
-
-  if (null !== filterAwardName) {
-    jQuery('.products-winners:visible .product-title:not(:contains("' + filterAwardName + '"))').parents('.products-winners').hide();
-  }
-
-  if (jQuery('.alphabets-list li:not(.clear)').hasClass('active')) {
-    alphabetsFilter();
-  }
-
-  let filterSearch = jQuery('#products-search').val();
-
-  if ('' !== filterSearch) {
-    jQuery('.product-item:visible')
-      .filter(function () {
-        return (
-          0 > jQuery('.title', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
-        );
-      }).hide();
-  }
-
-  if ('' !== clickItem && undefined !== clickItem) {
+  // Alphabet filter
+  if (0 != jQuery('.alphabets-list li').length && null !== selectedLetter && undefined !== selectedLetter) {
     jQuery('ul.alphabets-list li:not(.clear)').removeClass('active');
-    jQuery('ul.alphabets-list li:not(.clear):contains("' + clickItem + '")').addClass('active');
+    jQuery('ul.alphabets-list li:not(.clear):contains("' + selectedLetter + '")').addClass('active');
     jQuery('ul.alphabets-list li.clear').show();
 
     alphabetsFilter();
 
-    if ('Clear' === clickItem) {
-      jQuery('.products-winners:visible .product-main .product-item').show();
+    if ('Clear' === selectedLetter) {
+      jQuery('.products-winners .product-main .product-item').show();
       jQuery('ul.alphabets-list li.clear').hide();
       jQuery('ul.alphabets-list li:not(.clear)').removeClass('active');
     }
-  }
 
+  }
   function alphabetsFilter() {
-    jQuery('.products-winners:visible .product-item:visible')
+    jQuery('.products-winners .product-item')
       .filter(function () {
         return (
           jQuery('.alphabets-list li:not(.clear).active').text().toLowerCase() != jQuery('.subtitle', this).text().toLowerCase().charAt(0)
@@ -1586,152 +1904,129 @@ function filterSelectProduct(clickItem) {
       }).hide();
   }
 
-  jQuery('.products-winners')
-    .not(function () {
-      return 0 < jQuery(this).find('.product-item:visible').length;
-    }).hide();
-
-  if (0 === jQuery('.products-winners:visible').length) {
-    if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.products-winners');
-    } else {
-      jQuery('.no-data').show();
-    }
+  // Search Filter
+  filterSearch = jQuery(searchId).val();
+  if (0 != jQuery('.accordionParentWrapper').length) {
+    searchKeyword = '.accordionHeader h3';
   }
-}
-
-
-// Faq filter function
-function filterFaq(clickItem) {
-  jQuery('.accordionParentWrapper, .accordionWrapper').show();
-  jQuery('.no-data').hide();
-
-  let filterAwardName = 0 < jQuery('#faq-category-drp')[0].selectedIndex ? jQuery('#faq-category-drp').val() : null;
-
-  if (null !== filterAwardName) {
-    jQuery('.accordionParentWrapper:visible').each(function () {
-      if (jQuery(this).find('h2.title').html() == undefined) {
-        jQuery(this).hide();
-      }
-      if (jQuery(this).find('h2.title:contains("' + filterAwardName + '")').html() !== filterAwardName) {
-        jQuery(this).hide();
-      }
-    });
+  if (0 != jQuery('.badge-discounts-box').length) {
+    selectedItem = '.badge-discounts:visible .box-item:visible';
+  }
+  if (0 < jQuery('.awards-main').length) {
+    searchKeyword = '.winnerName h3';
+    selectedItem = '.wp-block-nab-awards-item';
+  }
+  if (0 < jQuery('.schedule-main').length) {
+    searchKeyword = '.name';
+  }
+  if (0 < jQuery('.products-winners').length) {
+    selectedItem = '.product-item';
   }
 
-  let filterSearch = jQuery('#faq-search').val();
-
-  if ('' !== filterSearch) {
-    jQuery('.accordionWrapper:visible')
+  if ('' !== filterSearch && undefined !== filterSearch) {
+    jQuery(`${selectedItem}`)
       .filter(function () {
         return (
-          0 > jQuery('.accordionHeader h3', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
-        );
-      }).hide();
-  }
-
-  jQuery('.accordionParentWrapper')
-    .not(function () {
-      return 0 < jQuery(this).find('.accordionWrapper:visible').length;
-    }).hide();
-
-  if (0 === jQuery('.accordionParentWrapper:visible').length) {
-    if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.accordionParentWrapper');
-    } else {
-      jQuery('.no-data').show();
-    }
-  }
-}
-
-
-// Related content details js box-main function
-function boxMainFilter(clickItem) {
-  jQuery('.box-main .box-item').removeClass('slideInUp').hide();
-  jQuery('.box-main .box-item').addClass('slideInUp').show();
-  jQuery('.no-data').hide();
-
-  let filterAwardName = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
-  let filterVendorName = 0 < jQuery('#box-main-category-vendor')[0].selectedIndex ? jQuery('#box-main-category-vendor').val() : null;
-
-  if (null !== filterAwardName) {
-    jQuery('.new-this-year .box-main .box-item').each(function () {
-      if (jQuery(this).find('.title').html() !== filterAwardName) {
-        jQuery(this).hide();
-      }
-    });
-    jQuery('.delegation .box-main .box-item').each(function () {
-      jQuery('.country:not(:contains("' + filterAwardName + '"))').closest('.box-item').hide();
-    });
-  }
-  if (null !== filterVendorName) {
-    jQuery('.new-this-year .box-main .box-item').each(function () {
-      if (jQuery(this).find('.companyName').html() !== filterVendorName) {
-        jQuery(this).hide();
-      }
-    });
-  }
-
-  if (jQuery('.ov-filter .badgeslist a').hasClass('active')) {
-    jQuery('.box-main .box-item .type:not(:contains("' + jQuery('.ov-filter .badgeslist a.active').text() + '"))').parents('.box-item').hide();
-  }
-
-  let filterSearch = jQuery('#box-main-search').val();
-  if ('' !== filterSearch) {
-    jQuery('.box-main .box-item:visible')
-      .filter(function () {
-        return (
-          0 > jQuery('.title', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
-        );
-      }).hide();
-  }
-  jQuery('.box-item')
-    .not(function () {
-      return 0 < jQuery('.box-item:visible').length;
-    }).hide();
-
-  if (0 === jQuery('.box-item:visible').length) {
-    if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.box-item');
-    } else {
-      jQuery('.no-data').show();
-    }
-  }
-}
-
-// badge filter js
-function badgefilter(clickItem) {
-  jQuery('.box-main .box-item').removeClass('slideInUp').hide();
-  jQuery('.box-main .box-item').addClass('slideInUp').show();
-  jQuery('.no-data').hide();
-
-  // filter using search
-  let filterSearch = jQuery('#box-main-search-bd').val();
-
-  if ('' !== filterSearch) {
-    jQuery('.badge-discounts:visible .box-item:visible')
-      .filter(function () {
-        return (
-          0 > jQuery('.title', this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
+          0 >
+          jQuery(`${searchKeyword}`, this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
         );
       })
       .hide();
-  } else {
-    jQuery('.badge-discounts').show();
   }
 
-  jQuery('.badge-discounts:visible')
-    .not(function () {
-      return 0 < jQuery(this).find('.box-item:visible').length;
-    })
-    .hide();
 
-  if (0 === jQuery('.badge-discounts:visible').length) {
+  // Square Select Filter
+  if (jQuery('.committee-filter .badgeslist a').hasClass('active')) {
+    jQuery(selectedItem).not('.International').hide();
+  }
+  if (jQuery('.official-vendors-filter .badgeslist a').hasClass('active')) {
+    jQuery(`${selectedItem} .type:not(:contains("${jQuery('.ov-filter .badgeslist a.active').text()}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (jQuery('.badge-discount-filter .badgeslist a').hasClass('active')) {
+    jQuery(`.badge-discounts .badge-title:not(:contains("${jQuery('.badge-discount-filter .badgeslist a.active').text()}"))`).parent().hide();
+  }
+  if (jQuery('.exhibitor-resources-main .badgeslist a').hasClass('active')) {
+    jQuery(`.related-main-wrapper .parent-main-title:not(:contains("${jQuery('.exhibitor-resources-main .badgeslist a.active').text()}"))`).parent().hide();
+  }
+
+  if (0 != jQuery('.badge-discounts').length) {
+    selectedItem = '.badge-discounts';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.box-item:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.accordionParentWrapper').length) {
+    selectedItem = '.accordionParentWrapper';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.accordionHeader h3:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.awards-main').length) {
+    selectedItem = '.awards-main';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.wp-block-nab-awards-item:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.schedule-main').length) {
+    selectedItem = '.schedule-main';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.schedule-row:visible').length;
+      })
+      .hide();
+  }
+  if (0 < jQuery('.products-winners').length) {
+    selectedItem = '.products-winners';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.product-item:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.opportunities').length) {
+    selectedItem = '.opportunities';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.box-item:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.main-exhibitor-block .related-main-wrapper').length) {
+    selectedItem = '.main-exhibitor-block .related-main-wrapper';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.col-lg-4.col-md-6:visible').length;
+      })
+      .hide();
+  }
+  if (0 != jQuery('.sponsorship-opportunities-page .related-main-wrapper').length) {
+    selectedItem = '.sponsorship-opportunities-page .related-main-wrapper';
+    jQuery(`${selectedItem}`)
+      .not(function () {
+        return 0 < jQuery(this).find('.box-item:visible').length;
+      })
+      .hide();
+  }
+
+  // if (0 < jQuery('.news-conference-schedule').length) {
+  //   selectedItem = '.news-conference-schedule';
+  //   jQuery(`${selectedItem}`)
+  //     .not(function () {
+  //       return 0 < jQuery(this).find('.box-item:visible').length;
+  //     })
+  //     .hide();
+  // }
+  if (0 === jQuery(`${selectedItem}:visible`).length) {
     if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode('.badge-discounts');
+      createResultNotFoundNode(`${selectedItem}`);
     } else {
       jQuery('.no-data').show();
     }
   }
-
 }

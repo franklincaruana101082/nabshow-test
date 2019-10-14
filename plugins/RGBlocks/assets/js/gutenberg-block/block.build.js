@@ -32124,10 +32124,12 @@ var ListingData = function (_Component) {
             blockName: 'reusableblocks',
             reusablePageNo: 1,
             reusableHasMoreData: true,
-            reusableBlocksLoadMore: false
+            reusableBlocksLoadMore: false,
+            reusableType: 'normal'
         };
         _this.tabChange = _this.tabChange.bind(_this);
         _this.onScrollEvent = _this.onScrollEvent.bind(_this);
+        _this.handleReusableTypeRadioChange = _this.handleReusableTypeRadioChange.bind(_this);
         return _this;
     }
 
@@ -32210,6 +32212,15 @@ var ListingData = function (_Component) {
             }
         }
     }, {
+        key: 'handleReusableTypeRadioChange',
+        value: function handleReusableTypeRadioChange(event) {
+
+            // set the new value of checked radion button to state using setState function which is async function
+            this.setState({
+                reusableType: event.target.value
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -32219,7 +32230,8 @@ var ListingData = function (_Component) {
                 isLoading = _state2.isLoading,
                 reusableSearchInputValue = _state2.reusableSearchInputValue,
                 blockName = _state2.blockName,
-                reusableBlocksLoadMore = _state2.reusableBlocksLoadMore;
+                reusableBlocksLoadMore = _state2.reusableBlocksLoadMore,
+                reusableType = _state2.reusableType;
 
 
             return wp.element.createElement(
@@ -32253,6 +32265,47 @@ var ListingData = function (_Component) {
                                         }
                                     },
                                     'Reusable Blocks'
+                                )
+                            )
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'user-preference' },
+                            wp.element.createElement(
+                                'span',
+                                null,
+                                ' Block Print Type: '
+                            ),
+                            wp.element.createElement(
+                                'div',
+                                { check: true },
+                                wp.element.createElement('input', {
+                                    type: 'radio',
+                                    id: 'normal_radio',
+                                    value: 'normal' // this is te value which will be picked up after radio button change
+                                    , checked: 'normal' === this.state.reusableType // when this is true it show the normal radio button in checked
+                                    , onChange: this.handleReusableTypeRadioChange // whenever it changes from checked to uncheck or via-versa it goes to the handleReusableTypeRadioChange function
+                                }),
+                                wp.element.createElement(
+                                    'label',
+                                    { 'for': 'normal_radio' },
+                                    'Normal Block'
+                                )
+                            ),
+                            wp.element.createElement(
+                                'div',
+                                { check: true },
+                                wp.element.createElement('input', {
+                                    type: 'radio',
+                                    id: 'reusable_radio',
+                                    value: 'reusable',
+                                    checked: 'reusable' === this.state.reusableType,
+                                    onChange: this.handleReusableTypeRadioChange
+                                }),
+                                wp.element.createElement(
+                                    'label',
+                                    { 'for': 'reusable_radio' },
+                                    'Reusable Block'
                                 )
                             )
                         )
@@ -32326,7 +32379,8 @@ var ListingData = function (_Component) {
                                 wp.element.createElement(__WEBPACK_IMPORTED_MODULE_2__ReusableBlocks__["a" /* default */], {
                                     data: this.props.data,
                                     blocks: reusableBlocks,
-                                    isLoading: isLoading
+                                    isLoading: isLoading,
+                                    reusableType: reusableType
                                 })
                             )
                         )
@@ -34124,12 +34178,12 @@ var ReusableBlocksList = function (_Component) {
 
       var _props = this.props,
           blocks = _props.blocks,
-          loadMore = _props.loadMore;
+          loadMore = _props.loadMore,
+          reusableType = _props.reusableType;
       var _state = this.state,
           NoOfPost = _state.NoOfPost,
           onImport = _state.onImport;
       var BlockEdit = wp.editor.BlockEdit;
-
 
       return wp.element.createElement(
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
@@ -34154,7 +34208,7 @@ var ReusableBlocksList = function (_Component) {
                       'a',
                       {
                         onClick: function onClick() {
-                          Object(__WEBPACK_IMPORTED_MODULE_1__select_block_functions__["a" /* fetchReusableBlock */])(block, _this2.props.data);
+                          Object(__WEBPACK_IMPORTED_MODULE_1__select_block_functions__["a" /* fetchReusableBlock */])(block, _this2.props.data, reusableType);
 
                           _this2.setState({ onImport: true });
                         }
@@ -34178,7 +34232,7 @@ var ReusableBlocksList = function (_Component) {
                   'a',
                   {
                     onClick: function onClick() {
-                      Object(__WEBPACK_IMPORTED_MODULE_1__select_block_functions__["a" /* fetchReusableBlock */])(block, _this2.props.data);
+                      Object(__WEBPACK_IMPORTED_MODULE_1__select_block_functions__["a" /* fetchReusableBlock */])(block, _this2.props.data, reusableType);
                     },
                     className: 'title'
                   },
@@ -34203,11 +34257,13 @@ var ReusableBlocksList = function (_Component) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = fetchReusableBlock;
-function fetchReusableBlock(fetchBlock, data) {
+function fetchReusableBlock(fetchBlock, data, reusableType) {
   document.body.classList.remove('select-modal-open');
   var clientId = data.clientId;
+  var blockId = fetchBlock.id;
+  var reusableContent = 'normal' === reusableType ? fetchBlock.content.raw : '<!-- wp:block {"ref":' + blockId + '} /-->';
   var block = wp.blocks.createBlock('core/freeform', {
-    content: fetchBlock.content.raw
+    content: reusableContent
   });
   setTimeout(function () {
     wp.data.dispatch('core/editor').replaceBlocks(clientId, wp.blocks.rawHandler({ HTML: wp.blocks.getBlockContent(block) }));

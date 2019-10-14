@@ -139,7 +139,7 @@ if ( false === $popularposts ) {
                 wp_reset_postdata();
             }
         }
-        $view_all_url = site_url() . '/thought-gallery/contributors/';
+        $view_all_url = site_url() . '/contributors/';
         ?>
             </ul>
             <a href="<?php echo esc_url( $view_all_url ); ?>" class="btn-default">View all</a>

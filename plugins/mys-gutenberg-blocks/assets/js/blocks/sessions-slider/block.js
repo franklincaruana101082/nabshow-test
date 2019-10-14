@@ -5,7 +5,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, PanelRow, RangeControl, DateTimePicker } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, PanelRow, RangeControl, DateTimePicker, RadioControl } = wpComponents;
 
     class MYSSessionSlider extends Component {
         constructor() {
@@ -142,7 +142,8 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 sessionDate,
                 metaDate,
                 taxonomyRelation,
-                detailPopup
+                detailPopup,
+                listingType
             } = attributes;
 
             var names = [
@@ -186,8 +187,21 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                 label={__('Is Listing Page?')}
                                 checked={listingPage}
                                 help={__('Note: This option only work in nabashow-lv theme.')}
-                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date',  }) }
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date', listingType: listingPage ? listingType : 'none' }) }
                             />
+                            { listingPage &&
+                            <RadioControl
+                                label="Listing Types"
+                                selected={listingType}
+                                options={[
+                                    { label: 'None', value: 'none' },
+                                    { label: 'Featured Session', value: 'featured' },
+                                    { label: 'Opent to All', value: 'open-to-all' }
+                                ]}
+                                onChange={ ( option ) => setAttributes({ listingType: option })}
+                            />
+                            }
+
                             {input}
                             { ! listingPage &&
                             <Fragment>
@@ -464,7 +478,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup, listingPage: listingPage }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup, listingPage: listingPage, listingType: listingType }}
                     />
                 </Fragment >
             );
@@ -558,6 +572,10 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
             type: 'boolean',
             default: false,
         },
+        listingType: {
+            type: 'string',
+            default: 'none',
+        }
     };
     registerBlockType('mys/sessions-slider', {
         title: __('Sessions Slider'),

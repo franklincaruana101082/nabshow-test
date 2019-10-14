@@ -312,6 +312,8 @@ function nabshow_lv_sessions_browse_filter_callback() {
 	$session_level      = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
 	$session_type       = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
 	$session_location   = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
+	$listing_type       = filter_input( INPUT_GET, 'listing_type', FILTER_SANITIZE_STRING );
+	$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
 
 	$query_arg = array(
 		'post_type'      => 'sessions',
@@ -328,6 +330,19 @@ function nabshow_lv_sessions_browse_filter_callback() {
 	}
 
 	$tax_query_args = array('relation' => 'AND' );
+
+	if ( ! empty( $listing_type ) ) {
+
+		$query_arg['meta_key'] = 'date';
+		$query_arg['orderby']  = 'meta_value';
+		$query_arg['order']    = 'ASC';
+
+		$tax_query_args[] = array (
+			'taxonomy' => 'session-categories',
+			'field'    => 'slug',
+			'terms'    => $listing_type,
+		);
+	}
 
 	if ( ! empty( $session_track ) ) {
 		$tax_query_args[] = array (
@@ -363,6 +378,12 @@ function nabshow_lv_sessions_browse_filter_callback() {
 
 	if ( count( $tax_query_args ) > 1 ) {
 		$query_arg['tax_query'] = $tax_query_args;
+	}
+
+	if ( ! empty( $session_date ) ) {
+		$session_date            = new DateTime( $session_date );
+		$session_date            = $session_date->format( 'Y-m-d' );
+		$query_arg['meta_value'] = $session_date;
 	}
 
 	$session_query = new WP_Query( $query_arg );
@@ -407,6 +428,11 @@ function nabshow_lv_sessions_browse_filter_callback() {
 			$result_post[ $i ]["date_time"]     = $date_display_format;
 			$result_post[ $i ]["post_excerpt"]  = get_the_excerpt();
 			$result_post[ $i ]["planner_link"]  = $session_planner_url;
+
+			if ( ! empty( $listing_type ) ) {
+				$result_post[ $i ]["session_date"]  = $date;
+				$result_post[ $i ]["thumbnail_url"] = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
+			}
 
 			$i++;
 		}
@@ -574,7 +600,8 @@ function nabshow_lv_speakers_browse_filter_callback() {
 	$speaker_company    = filter_input( INPUT_GET, 'speaker_company', FILTER_SANITIZE_STRING );
 	$speaker_job        = filter_input( INPUT_GET, 'speaker_job', FILTER_SANITIZE_STRING );
 	$speaker_date       = filter_input( INPUT_GET, 'speaker_date', FILTER_SANITIZE_STRING );
-	$order_by           = filter_input( INPUT_GET, 'speaker_date', FILTER_SANITIZE_STRING );
+	$featured_speaker   = filter_input( INPUT_GET, 'featured_speaker', FILTER_SANITIZE_STRING );
+	$order_by           = filter_input( INPUT_GET, 'speaker_order', FILTER_SANITIZE_STRING );
 	$order              = 'date' === $order_by ? 'DESC' : 'ASC';
 
 	$query_arg = array(
@@ -593,14 +620,26 @@ function nabshow_lv_speakers_browse_filter_callback() {
 		$query_arg['s'] = $post_search;
 	}
 
+	$tax_query_args = array( 'relation' => 'AND' );
+
 	if ( ! empty( $speaker_company ) ) {
-		$query_arg['tax_query'] = array(
-			array (
+		$tax_query_args[] =  array (
 				'taxonomy' => 'speaker-companies',
 				'field'    => 'slug',
-				'terms'    => $speaker_company,
-			)
+				'terms'    => array( $speaker_company ),
+			);
+	}
+
+	if ( 'yes' === strtolower( $featured_speaker ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'speaker-categories',
+			'field'    => 'slug',
+			'terms'    => array( 'featured' ),
 		);
+	}
+
+	if ( count( $tax_query_args ) > 1 ) {
+		$query_arg[ 'tax_query' ] = $tax_query_args;
 	}
 
 	$meta_query = array( 'relation' => 'AND' );
@@ -641,8 +680,7 @@ function nabshow_lv_speakers_browse_filter_callback() {
 			$speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
 			$thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_speaker_thumbnail_url();
 			$featured_post      = has_term( 'featured', 'speaker-categories' ) ? 'featured' : '';
-			$all_companies      = get_the_terms( $speaker_id, 'speaker-companies' );
-			$speaker_company    = nabshow_lv_get_comma_separated_term_list( $all_companies );
+			$speaker_company    = get_post_meta( $speaker_id, 'company', true );;
 
 			$result_post[ $i ]["post_id"]       = $speaker_id;
 			$result_post[ $i ]["post_title"]    = get_the_title();

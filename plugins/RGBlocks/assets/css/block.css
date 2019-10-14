@@ -22,7 +22,7 @@
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block .feature-link::before{content:"";position:absolute;top:0;bottom:0;left:0;right:0;background:#333;opacity:0;transition:0.3s all}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block .feature-link:hover::before{opacity:0.7}
 .select_block>section .select-inner p{margin-bottom:30px;font-size:16px}
-.select_block_popup{background:#fff;padding:0;position:relative;font-family:Muli, sans-serif;overflow:hidden!important;font-size:16px;line-height:1.8;color:#191e23}
+.select_block_popup{background:#f1f1f1;padding:0;position:relative;font-family:Muli, sans-serif;overflow:hidden!important;font-size:16px;line-height:1.8;color:#191e23}
 .select_block_popup .select_block_data ul{margin:0 -15px!important;display:flex;flex-wrap:wrap;overflow:auto;height:545px}
 .select_block_popup .select_block_data ul li{margin-bottom:20px;display:inline-block;vertical-align:top;box-sizing:border-box;width:25%;float:left}
 .select_block_popup .select_block_data ul li:nth-child(3n + 1){clear:both}
@@ -37,14 +37,14 @@
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block .feature-link{position:absolute;display:inline-block;left:8px;top:8px;bottom:8px;right:8px;z-index:1}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block a i{background:#073a63;color:#fff;padding:20px 0;border-radius:50%;font-size:20px;transition:0.3s all;margin:0 5px;width:60px;cursor:pointer}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block span.pro{border:none!important;background:#f15524;color:#fff;padding:7px 0;margin-bottom:0!important;display:block;font-size:12px;position:absolute;top:6px;width:100px;text-transform:uppercase;transform:rotate(-50deg);left:-31px;text-align:center;font-weight:bold;z-index:2;opacity:0.9}
-.select_block_popup .select_block_data{padding:30px 30px;display:block;float:left;background:#f1f1f1;position:absolute;top:136px;width:100%}
+.select_block_popup .select_block_data{padding:30px 30px;display:block;float:left;background:#f1f1f1;position:absolute;top:136px;width:100%;left:0}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block .block-image{width:100%;object-fit:cover;object-position:top;transition:5s all;transition-timing-function:ease-in-out;float:left}
 .popup-section .close_icon{position:absolute;z-index:99;top:25px;right:25px;font-size:25px;cursor:pointer;color:#23282d}
 .select_block_popup .select_block_data ul li .block-grid-inner .Feature-Block:hover .block-image{object-position:bottom}
-.select_block_popup .popup-top{display:table;width:100%;text-align:left;border-bottom:1px solid #e3e3e3;padding:14px 20px}
-.select_block_popup .popup-top .logo{display:table-cell;vertical-align:middle;padding-right:15px;border-right:1px solid #e3e3e3;width:71px}
+.select_block_popup .popup-top{display:table;width:100%;text-align:left;border-bottom:1px solid #e3e3e3;padding:14px 20px;background:#fff}
+.select_block_popup .popup-top .logo{display:table-cell;vertical-align:middle;padding-right:15px;border-right:1px solid #e3e3e3;width:75px}
 .select_block_popup .popup-top .right-tabs{display:table-cell;vertical-align:middle}
-.select_block_popup .popup-top .right-tabs ul{list-style:none}
+.select_block_popup .popup-top .right-tabs ul{list-style:none;margin:0}
 .select_block_popup .popup-top .right-tabs ul li{display:inline-block;vertical-align:middle;cursor:pointer;margin:0 20px;font-family:Muli, sans-serif;font-weight:600}
 .select_block_popup .popup-top .right-tabs ul li.react-tabs__tab--selected{color:#073a63}
 .filter-bar{background:#fff;border-bottom:1px solid #e3e3e3;padding:0 20px;display:flex;box-sizing:border-box;width:100%;text-align:left;flex-wrap:nowrap}
@@ -189,3 +189,12 @@ a.custome-popup-insert i{background:#de613a;color:#fff;padding:20px 20px;border-
 path.st1{fill:#073a63}
 .blockIcon{width:50px;height:50px;display:inline-block;margin-top:15px}
 .No-icon-found{display:inline-block;padding:2px;color:#073a63;margin-top:15px}
+
+/* New CSS 28-8-19 */
+.select_block_popup .user-preference>div{display:inline-block;margin-left:15px}
+.select_block_popup .popup-top .user-preference{display:table-cell;vertical-align:middle;padding-left:20px}
+.select_block_popup .filter-bar.with-out-tab .filter-bar-left>strong{display:none}
+.select_block_popup .filter-bar .Select-box{border:0}
+.select_block_popup .filter-bar.with-out-tab{padding:0}
+.select_block_popup .filter-bar .Select-box button{right:15px}
+.select_block_popup .popup-top .logo svg{vertical-align:middle}

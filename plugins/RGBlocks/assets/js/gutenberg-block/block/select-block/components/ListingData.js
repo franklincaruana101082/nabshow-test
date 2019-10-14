@@ -18,9 +18,11 @@ class ListingData extends Component {
             reusablePageNo: 1,
             reusableHasMoreData: true,
             reusableBlocksLoadMore: false,
+            reusableType: 'normal'
         };
         this.tabChange = this.tabChange.bind(this);
         this.onScrollEvent = this.onScrollEvent.bind(this);
+        this.handleReusableTypeRadioChange = this.handleReusableTypeRadioChange.bind(this);
     }
 
     componentDidMount() {
@@ -93,13 +95,22 @@ class ListingData extends Component {
         }
     }
 
+    handleReusableTypeRadioChange(event) {
+
+        // set the new value of checked radion button to state using setState function which is async function
+        this.setState({
+            reusableType: event.target.value
+        });
+    }
+
     render() {
         const {
             reusableBlocks,
             isLoading,
             reusableSearchInputValue,
             blockName,
-            reusableBlocksLoadMore
+            reusableBlocksLoadMore,
+            reusableType
         } = this.state;
 
         return (
@@ -120,6 +131,29 @@ class ListingData extends Component {
                                     Reusable Blocks
                                 </Tab>
                             </TabList>
+                        </div>
+                        <div className="user-preference">
+                            <span> Block Print Type: </span>
+                            <div check>
+                                <input
+                                    type="radio"
+                                    id="normal_radio"
+                                    value="normal" // this is te value which will be picked up after radio button change
+                                    checked={'normal' === this.state.reusableType} // when this is true it show the normal radio button in checked
+                                    onChange={this.handleReusableTypeRadioChange} // whenever it changes from checked to uncheck or via-versa it goes to the handleReusableTypeRadioChange function
+                                />
+                                <label for="normal_radio">Normal Block</label>
+                            </div>
+                            <div check>
+                                <input
+                                    type="radio"
+                                    id="reusable_radio"
+                                    value="reusable"
+                                    checked={'reusable' === this.state.reusableType}
+                                    onChange={this.handleReusableTypeRadioChange}
+                                />
+                                <label for="reusable_radio">Reusable Block</label>
+                            </div>
                         </div>
                     </div>
                     <div className="filter-bar with-out-tab">
@@ -156,7 +190,7 @@ class ListingData extends Component {
                                     />
                                     <button
                                         type="submit"
-                                        disabled={ ! this.state.reusableSearchInputValue }
+                                        disabled={! this.state.reusableSearchInputValue}
                                     >
                                         <i className="fas fa-search" />
                                     </button>
@@ -170,13 +204,14 @@ class ListingData extends Component {
                             {isLoading ? (
                                 <p className="BlocksLoading">{Loader}</p>
                             ) : (
-                                <ul onScroll={this.onScrollEvent}>
-                                    <ReusableBlocksList
-                                        data={this.props.data}
-                                        blocks={reusableBlocks}
-                                        isLoading={isLoading}
-                                    />
-                                    {/*{4 < reusableBlocks.length && reusableBlocksLoadMore ? (
+                                    <ul onScroll={this.onScrollEvent}>
+                                        <ReusableBlocksList
+                                            data={this.props.data}
+                                            blocks={reusableBlocks}
+                                            isLoading={isLoading}
+                                            reusableType={reusableType}
+                                        />
+                                        {/*{4 < reusableBlocks.length && reusableBlocksLoadMore ? (
                                         <li
                                             className="MoreDataLoading"
                                             style={{ width: '100%', textAlign: 'center' }}
@@ -186,8 +221,8 @@ class ListingData extends Component {
                                     ) : (
                                         <li className="NoMoreData">No more data found!</li>
                                     )}*/}
-                                </ul>
-                            )}
+                                    </ul>
+                                )}
                         </div>
                     </TabPanel>
                 </Tabs>

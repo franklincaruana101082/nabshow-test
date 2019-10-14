@@ -12,10 +12,9 @@ class ReusableBlocksList extends Component {
   }
 
   render() {
-    const { blocks, loadMore } = this.props;
+    const { blocks, loadMore, reusableType  } = this.props;
     const { NoOfPost, onImport } = this.state;
     const { BlockEdit } = wp.editor;
-
     return (
       <React.Fragment>
         {blocks.map((block, i) => {
@@ -27,7 +26,7 @@ class ReusableBlocksList extends Component {
                     <div className="show-and-insert">
                       <a
                           onClick={() => {
-                            fetchReusableBlock(block, this.props.data);
+                            fetchReusableBlock(block, this.props.data, reusableType);
 
                             this.setState({ onImport: true });
                           }}
@@ -51,7 +50,7 @@ class ReusableBlocksList extends Component {
                 <div className="title-info">
                   <a
                       onClick={() => {
-                        fetchReusableBlock(block, this.props.data);
+                        fetchReusableBlock(block, this.props.data, reusableType);
                       }}
                       className="title"
                   >
