@@ -6,3 +6,5 @@ import './sponsors-partners/block';
 import './product-winner/block';
 import './tracks-slider/block';
 import './session-filter/block';
+import './product-categories/block';
+import './product-slider/block';

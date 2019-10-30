@@ -1,16 +1,12 @@
 import times from 'lodash/times';
 import memoize from 'memize';
 
-var allowedBlocks = [
-    'nab/nab-heading',
-];
-
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-    const { __ } = wp.i18n;
-    const { registerBlockType } = wp.blocks;
-    const { Fragment, Component } = wp.element;
-    const { RichText, AlignmentToolbar, BlockControls, InspectorControls, PanelColorSettings, InnerBlocks } = wp.editor;
-    const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, IconButton, ToggleControl, Button } = wp.components;
+    const { __ } = wpI18n;
+    const { registerBlockType } = wpBlocks;
+    const { Fragment, Component } = wpElement;
+    const { RichText, InspectorControls, InnerBlocks } = wpEditor;
+    const { PanelBody, PanelRow, IconButton, ToggleControl, Button } = wpComponents;
 
     const ALLOWBLOCKS = ['nab/schedule-item'];
 
@@ -54,7 +50,7 @@ var allowedBlocks = [
                     setAttributes({ noOfschedule: noOfschedule - 1 });
                     removehildawardsBlock(noOfschedule);
                 }
-              });
+            });
 
             return (
                 <div className={`schedule-main ${className ? className : ''}`}>

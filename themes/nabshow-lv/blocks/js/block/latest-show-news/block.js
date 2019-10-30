@@ -5,15 +5,7 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const {
-        PanelBody,
-        SelectControl,
-        TextControl,
-        ServerSideRender,
-        CheckboxControl,
-        RangeControl,
-        PanelRow
-    } = wpComponents;
+    const { PanelBody, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, PanelRow } = wpComponents;
 
     class NabLatestShow extends Component {
         constructor() {
@@ -125,7 +117,7 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
             } = attributes;
 
             let isCheckedTerms = {};
-            if (! this.isEmpty(terms) && terms.constructor !== Object ) {
+            if (! this.isEmpty(terms) && terms.constructor !== Object) {
                 isCheckedTerms = JSON.parse(terms);
             }
 
@@ -199,7 +191,7 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                                                                 tempTerms = JSON.stringify(tempTerms);
                                                             }
                                                         }
-                                                        if ( tempTerms.constructor === Object ) {
+                                                        if (tempTerms.constructor === Object) {
                                                             tempTerms = JSON.stringify(tempTerms);
                                                         }
                                                         this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });

@@ -22,6 +22,9 @@ $posts_per_page = get_option( 'posts_per_page' );
         </div>
         <h1>News Releases</h1>
         <div class="row related-content-rowbox" id="news-release-archive">
+            <div class='container loader-container' id="loader_container" style="display: none">
+                <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
         <?php
             if ( have_posts() ) {
                 while ( have_posts() ) {

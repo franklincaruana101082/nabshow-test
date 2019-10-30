@@ -4,11 +4,11 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
 
-    const __ = wp.i18n.__;
-    const registerBlockType = wp.blocks.registerBlockType;
-    const { MediaUpload, PlainText, RichText, InspectorControls } = wp.editor;
-    const { Fragment, Component } = wp.element;
-    const { PanelBody, RangeControl, ToggleControl, SelectControl, TextControl, TextareaControl, IconButton, Button, Placeholder, Tooltip, PanelRow } = wp.components;
+    const { __ } = wpI18n;
+    const { registerBlockType } = wpBlocks;
+    const { RichText, InspectorControls } = wpEditor;
+    const { Component } = wpElement;
+    const { PanelBody, RangeControl, ToggleControl, SelectControl, PanelRow } = wpComponents;
 
     /**
      * Register: a Gutenberg Block.

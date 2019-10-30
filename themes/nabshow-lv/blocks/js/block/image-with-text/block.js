@@ -248,28 +248,28 @@
 									onChange={() => setAttributes({ FullImage: ! FullImage })}
 								/>
 							</PanelRow>
-							{ 0 !== wp.data.select('core/editor').getEditedPostAttribute('featured_media') &&
-							<PanelRow>
-								<ToggleControl
-									label={__('Post Featured Image')}
-									checked={postImage}
-									onChange={( postImg ) => {
-										setAttributes({ postImage: postImg });
-										if ( postImg ) {
-											let postImgURL,
-												postImgAlt = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).alt_text,
-												postImgId = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).id;
+							{0 !== wp.data.select('core/editor').getEditedPostAttribute('featured_media') &&
+								<PanelRow>
+									<ToggleControl
+										label={__('Post Featured Image')}
+										checked={postImage}
+										onChange={(postImg) => {
+											setAttributes({ postImage: postImg });
+											if (postImg) {
+												let postImgURL,
+													postImgAlt = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).alt_text,
+													postImgId = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).id;
 
-											if ( wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).media_details.sizes.medium ) {
-												postImgURL = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).media_details.sizes.medium.source_url;
-											} else if ( wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).source_url ) {
-												postImgURL = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).source_url;
+												if (wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).media_details.sizes.medium) {
+													postImgURL = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).media_details.sizes.medium.source_url;
+												} else if (wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).source_url) {
+													postImgURL = wp.data.select('core').getMedia(wp.data.select('core/editor').getEditedPostAttribute('featured_media')).source_url;
+												}
+												setAttributes({ imageAlt: postImgAlt, imageUrl: postImgURL, imgID: postImgId });
 											}
-											setAttributes({ imageAlt: postImgAlt, imageUrl: postImgURL, imgID: postImgId });
-										}
-									}}
-								/>
-							</PanelRow>
+										}}
+									/>
+								</PanelRow>
 							}
 						</PanelBody>
 						<PanelBody title="Content Box Spacing" initialOpen={false}>

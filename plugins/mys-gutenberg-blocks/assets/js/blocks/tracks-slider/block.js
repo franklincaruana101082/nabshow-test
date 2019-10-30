@@ -30,7 +30,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,

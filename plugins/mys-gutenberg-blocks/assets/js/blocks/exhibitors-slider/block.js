@@ -78,7 +78,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj) {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,
@@ -138,8 +138,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 orderBy,
                 slideMargin,
                 arrowIcons,
-                detailPopup,
-                taxonomyRelation
+                taxonomyRelation,
+                withThumbnail
             } = attributes;
 
             var names = [
@@ -179,11 +179,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 label={__('Is Listing Page?')}
                                 checked={listingPage}
                                 help={__('Note: This option only work in nabashow-lv theme.')}
-                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date',  }) }
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', withThumbnail: false }) }
                             />
                             {input}
                             { ! listingPage &&
                             <Fragment>
+                                <ToggleControl
+                                    label={__('Only show with logo')}
+                                    checked={withThumbnail}
+                                    onChange={() => { setAttributes({ withThumbnail: ! withThumbnail }); this.setState({ bxinit: true }); } }
+                                />
                                 <SelectControl
                                     label={__('Order by')}
                                     value={orderBy}
@@ -192,11 +197,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         { label: __('Menu Order'), value: 'menu_order' },
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                                />
-                                <ToggleControl
-                                    label={__('Display details in popup')}
-                                    checked={detailPopup}
-                                    onChange={() => { setAttributes({ detailPopup: ! detailPopup }); this.setState({ bxinit: true }); }}
                                 />
                                 <ToggleControl
                                     label={__('Taxonomy Relation (AND)')}
@@ -413,7 +413,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/exhibitors-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, detailPopup: detailPopup, taxonomyRelation: taxonomyRelation, listingPage: listingPage }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail }}
                     />
                 </Fragment >
             );
@@ -468,10 +468,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'string',
             default: {}
         },
-        detailPopup: {
-            type: 'boolean',
-            default: false,
-        },
         slideWidth: {
             type: 'number',
             default: 400
@@ -492,6 +488,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'boolean',
             default: false,
         },
+        withThumbnail: {
+            type: 'boolean',
+            default: false
+        }
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),

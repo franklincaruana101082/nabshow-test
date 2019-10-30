@@ -5,7 +5,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
-    const { InspectorControls, PanelColorSettings, MediaUpload } = wpEditor;
+    const { InspectorControls, MediaUpload } = wpEditor;
     const { PanelBody, RangeControl, ToggleControl, SelectControl, TextControl, TextareaControl, IconButton, Button, Placeholder, Tooltip, PanelRow, ColorPalette } = wpComponents;
     const $ = jQuery;
 

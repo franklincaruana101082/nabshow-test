@@ -5,9 +5,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, PanelRow, RangeControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
-    class NabDynamicSlider extends Component {
+    class NabNTBMSlider extends Component {
         constructor() {
             super(...arguments);
             this.state = {
@@ -80,7 +80,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-not-to-be-missed-slider`).length && this.state.bxSliderObj) {
+                    if (0 < $(`#block-${clientId} .nab-not-to-be-missed-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
 
                         this.state.bxSliderObj.reloadSlider(
                             {
@@ -208,30 +208,30 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
                                                 <CheckboxControl checked={-1 < taxonomies.indexOf(taxonomy.value)} label={taxonomy.label} name="taxonomy[]" value={taxonomy.value} onChange={(isChecked) => {
 
-                                                    let index,
-                                                        tempTaxonomies = [...taxonomies],
-                                                        tempTerms = terms;
+                                                            let index,
+                                                                tempTaxonomies = [...taxonomies],
+                                                                tempTerms = terms;
 
-                                                    if (isChecked) {
-                                                        tempTaxonomies.push(taxonomy.value);
-                                                    } else {
-                                                        index = tempTaxonomies.indexOf(taxonomy.value);
-                                                        tempTaxonomies.splice(index, 1);
-                                                        if (! this.isEmpty(tempTerms)) {
-                                                            tempTerms = JSON.parse(tempTerms);
-                                                            delete tempTerms[taxonomy.value];
-                                                            tempTerms = JSON.stringify(tempTerms);
-                                                            this.props.setAttributes({ terms: tempTerms });
-                                                            this.setState({ bxinit: true });
+                                                            if (isChecked) {
+                                                                tempTaxonomies.push(taxonomy.value);
+                                                            } else {
+                                                                index = tempTaxonomies.indexOf(taxonomy.value);
+                                                                tempTaxonomies.splice(index, 1);
+                                                                if (! this.isEmpty(tempTerms)) {
+                                                                    tempTerms = JSON.parse(tempTerms);
+                                                                    delete tempTerms[taxonomy.value];
+                                                                    tempTerms = JSON.stringify(tempTerms);
+                                                                    this.props.setAttributes({ terms: tempTerms });
+                                                                    this.setState({ bxinit: true });
+                                                                }
+                                                            }
+                                                            if (tempTerms.constructor === Object) {
+                                                                tempTerms = JSON.stringify(tempTerms);
+                                                            }
+                                                            this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
+                                                            this.setState({ taxonomies: tempTaxonomies });
                                                         }
                                                     }
-                                                    if ( tempTerms.constructor === Object ) {
-                                                        tempTerms = JSON.stringify(tempTerms);
-                                                    }
-                                                    this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
-                                                    this.setState({ taxonomies: tempTaxonomies });
-                                                }
-                                                }
                                                 />
 
                                             </Fragment>
@@ -271,25 +271,25 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
                                                             <CheckboxControl checked={isCheckedTerms[taxonomy] !== undefined && isCheckedTerms[taxonomy][term.slug]} label={term.name} name={`${taxonomy}[]`} value={term.slug} onChange={(isChecked) => {
 
-                                                                let tempTerms = terms;
-                                                                if (! this.isEmpty(tempTerms)) {
-                                                                    tempTerms = JSON.parse(tempTerms);
-                                                                }
-                                                                if (isChecked) {
-                                                                    if (tempTerms[taxonomy] === undefined) {
-                                                                        tempTerms[taxonomy] = {};
-                                                                        tempTerms[taxonomy][term.slug] = { label: term.name, value: term.slug };
-                                                                    } else {
-                                                                        tempTerms[taxonomy][term.slug] = { label: term.name, value: term.slug };
+                                                                        let tempTerms = terms;
+                                                                        if (! this.isEmpty(tempTerms)) {
+                                                                            tempTerms = JSON.parse(tempTerms);
+                                                                        }
+                                                                        if (isChecked) {
+                                                                            if (tempTerms[taxonomy] === undefined) {
+                                                                                tempTerms[taxonomy] = {};
+                                                                                tempTerms[taxonomy][term.slug] = { label: term.name, value: term.slug };
+                                                                            } else {
+                                                                                tempTerms[taxonomy][term.slug] = { label: term.name, value: term.slug };
+                                                                            }
+                                                                        } else {
+                                                                            delete tempTerms[taxonomy][term.slug];
+                                                                        }
+                                                                        tempTerms = JSON.stringify(tempTerms);
+                                                                        this.props.setAttributes({ terms: tempTerms });
+                                                                        this.setState({ bxinit: true });
                                                                     }
-                                                                } else {
-                                                                    delete tempTerms[taxonomy][term.slug];
                                                                 }
-                                                                tempTerms = JSON.stringify(tempTerms);
-                                                                this.props.setAttributes({ terms: tempTerms });
-                                                                this.setState({ bxinit: true });
-                                                            }
-                                                            }
                                                             />
                                                         </Fragment>
                                                     ))
@@ -488,7 +488,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         category: 'nabshow',
         keywords: [__('Not'), __('missed'), __('slider')],
         attributes: blockAttrs,
-        edit: NabDynamicSlider,
+        edit: NabNTBMSlider,
         save() {
             return null;
         },

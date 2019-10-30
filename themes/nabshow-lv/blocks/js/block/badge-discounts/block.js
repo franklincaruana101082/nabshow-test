@@ -1,9 +1,9 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-  const { __ } = wp.i18n;
-  const { registerBlockType } = wp.blocks;
-  const { Fragment, Component } = wp.element;
-  const { RichText, MediaUpload } = wp.editor;
-  const { Button, TextControl } = wp.components;
+  const { __ } = wpI18n;
+  const { registerBlockType } = wpBlocks;
+  const { Fragment, Component } = wpElement;
+  const { RichText, MediaUpload } = wpEditor;
+  const { Button, TextControl } = wpComponents;
 
   class ItemComponent extends Component {
 

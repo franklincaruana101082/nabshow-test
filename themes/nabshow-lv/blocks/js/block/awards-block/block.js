@@ -1,16 +1,12 @@
 import times from 'lodash/times';
 import memoize from 'memize';
 
-var allowedBlocks = [
-    'nab/nab-heading',
-];
-
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-    const { __ } = wp.i18n;
-    const { registerBlockType } = wp.blocks;
-    const { Fragment } = wp.element;
-    const { RichText, MediaUpload, BlockControls, InspectorControls, InnerBlocks } = wp.editor;
-    const { PanelBody, PanelRow, ToggleControl, Button, Toolbar, IconButton } = wp.components;
+    const { __ } = wpI18n;
+    const { registerBlockType } = wpBlocks;
+    const { Fragment } = wpElement;
+    const { RichText, MediaUpload, BlockControls, InspectorControls, InnerBlocks } = wpEditor;
+    const { PanelBody, PanelRow, ToggleControl, Button, Toolbar, IconButton } = wpComponents;
 
     const allAttributes = {
         blockId: {
@@ -186,7 +182,7 @@ var allowedBlocks = [
         attributes: allAttributes,
         edit: (props) => {
             const { attributes, setAttributes, clientId } = props;
-            const { imageAlt, imageUrl, winnerName, jobLocation, details, imageID, modelClass, showPopup, noOfAwards, noOfAwardsInner } = attributes;
+            const { imageAlt, imageUrl, winnerName, jobLocation, details, imageID, modelClass, showPopup } = attributes;
 
 
             if (document.getElementById('wpwrap').classList.contains('nab_body_model_open')) {

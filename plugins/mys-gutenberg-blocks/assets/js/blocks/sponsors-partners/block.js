@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, partnerSponser1, partnerSponser2 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, partnerSponser1, partnerSponser2, sessionSliderOff1 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
@@ -53,7 +53,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,
@@ -320,6 +320,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 <ul className="ss-off-options">
                                     <li className={'without-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'without-title' }) }>{partnerSponser1}</li>
                                     <li className={'with-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-title' }) }>{partnerSponser2}</li>
+                                    <li className={'with-info' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-info' }) }>{sessionSliderOff1}</li>
                                 </ul>
                             </div>
                             }
@@ -356,7 +357,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
                                     />
                                 </div>
-                                <div className="inspector-field inspector-field-fontsize ">
+                                <div className="inspector-field inspector-field-fontsize">
                                     <label className="inspector-mb-0">Items to Display</label>
                                     <RangeControl
                                         value={minSlides}

@@ -1,9 +1,9 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-  const { __ } = wp.i18n;
-  const { registerBlockType } = wp.blocks;
-  const { Fragment, Component } = wp.element;
-  const { RichText, MediaUpload } = wp.editor;
-  const { TextControl, Button } = wp.components;
+  const { __ } = wpI18n;
+  const { registerBlockType } = wpBlocks;
+  const { Fragment, Component } = wpElement;
+  const { RichText } = wpEditor;
+  const { TextControl } = wpComponents;
 
   class BlockComponent extends Component {
 
@@ -153,7 +153,7 @@
                             const newObject = tempProdcut[index].arrayContact.splice(i, 1);
                             setAttributes({ dataArry: tempProdcut });
                           }}
-                          >
+                        >
                           <span className="dashicons dashicons-no-alt"></span>
                         </span>
                         <RichText
@@ -206,7 +206,7 @@
                         }
                       );
                       setAttributes({ dataArry: tempProdcut });
-                      }
+                    }
                     }
                   >
                     <span className="dashicons dashicons-plus"></span> Add New Contact

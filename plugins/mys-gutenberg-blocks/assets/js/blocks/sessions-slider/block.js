@@ -77,7 +77,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj ) {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,
@@ -142,8 +142,8 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 sessionDate,
                 metaDate,
                 taxonomyRelation,
-                detailPopup,
-                listingType
+                listingType,
+                withContent
             } = attributes;
 
             var names = [
@@ -187,7 +187,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                 label={__('Is Listing Page?')}
                                 checked={listingPage}
                                 help={__('Note: This option only work in nabashow-lv theme.')}
-                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date', listingType: listingPage ? listingType : 'none' }) }
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date', listingType: listingPage ? listingType : 'none', withContent: false }) }
                             />
                             { listingPage &&
                             <RadioControl
@@ -205,6 +205,11 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                             {input}
                             { ! listingPage &&
                             <Fragment>
+                                <ToggleControl
+                                    label={__('Only show with descriptions')}
+                                    checked={withContent}
+                                    onChange={() => { setAttributes({ withContent: ! withContent }); this.setState({ bxinit: true }); } }
+                                />
                                 <SelectControl
                                     label={__('Order by')}
                                     value={orderBy}
@@ -217,11 +222,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                         setAttributes({orderBy: value});
                                         this.setState({bxinit: true});
                                     }}
-                                />
-                                <ToggleControl
-                                    label={__('Display details in popup')}
-                                    checked={detailPopup}
-                                    onChange={() => {setAttributes({detailPopup: ! detailPopup}); this.setState({bxinit: true});}}
                                 />
                                 <ToggleControl
                                     label={__('Date Specific Session')}
@@ -478,7 +478,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, detailPopup: detailPopup, listingPage: listingPage, listingType: listingType }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent }}
                     />
                 </Fragment >
             );
@@ -533,10 +533,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
             type: 'string',
             default: {}
         },
-        detailPopup: {
-            type: 'boolean',
-            default: false,
-        },
         slideWidth: {
             type: 'number',
             default: 400
@@ -575,6 +571,10 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
         listingType: {
             type: 'string',
             default: 'none',
+        },
+        withContent: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/sessions-slider', {

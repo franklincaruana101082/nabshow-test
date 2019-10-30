@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment } = wpElement;
-  const { InspectorControls, PanelColorSettings, MediaUpload, RichText, BlockControls } = wpEditor;
-  const { TextControl, Panel, PanelBody, PanelRow, Button, SelectControl, RangeControl, ColorPalette } = wpComponents;
+  const { InspectorControls, MediaUpload, BlockControls } = wpEditor;
+  const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette } = wpComponents;
 
   const IMAGE_TEMPLATE = [['core/image', {}]];
   registerBlockType('nab/custom-image', {

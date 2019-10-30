@@ -3,13 +3,13 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, RangeControl, SelectControl, ServerSideRender, Button, Placeholder } = wpComponents;
+    const { PanelBody, RangeControl, SelectControl, ServerSideRender, Placeholder } = wpComponents;
 
     class NABContributors extends Component {
         constructor() {
             super(...arguments);
             this.state = {
-                postTypeList: [ { label: 'Select Post Type', value: '' } ],
+                postTypeList: [{ label: 'Select Post Type', value: '' }],
             };
         }
 
@@ -40,7 +40,7 @@
                             <SelectControl
                                 value={postType}
                                 options={this.state.postTypeList}
-                                onChange={(value) => { setAttributes({ postType: value }); } }
+                                onChange={(value) => { setAttributes({ postType: value }); }}
                             />
                         </div>
                     </Placeholder>
@@ -63,7 +63,7 @@
                                 label={__('Select Post Type')}
                                 value={postType}
                                 options={this.state.postTypeList}
-                                onChange={(value) => { setAttributes({ postType: value }); } }
+                                onChange={(value) => { setAttributes({ postType: value }); }}
                             />
                         </PanelBody>
                     </InspectorControls>

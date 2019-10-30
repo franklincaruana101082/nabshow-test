@@ -1,6 +1,3 @@
-import times from 'lodash/times';
-import memoize from 'memize';
-
 const { __ } = wp.i18n;
 const { Fragment, Component } = wp.element;
 const { MediaUpload, InspectorControls, } = wp.editor;
@@ -43,41 +40,6 @@ export default class Inspector extends Component {
 							checked={!! this.props.attributes.showTitle}
 							onChange={() => {
 								this.props.setAttributes({ showTitle: ! this.props.attributes.showTitle });
-
-								/**************  Option 1  ****************/
-								// $(this.props.attributes.clientID).find('[data-type=\'nab/nab-heading\']').hide();
-
-
-								/**************  Option 2  ****************/
-								// let headDiv = document.getElementById(`block-${this.props.attributes.clientID}`).querySelectorAll('[data-type=\'nab/nab-heading\']')[0];
-								// if ('none' === headDiv.style.display) {
-								// 	headDiv.style.display = 'block';
-								// } else {
-								// 	headDiv.style.display = 'none';
-								// }
-
-								/**************  Option 3  ****************/
-								// let getCId = document.getElementById(`block-${this.props.attributes.clientID}`).querySelectorAll('[data-type=\'nab/nab-heading\']')[0].getAttribute('id');
-								// let headID = getCId.slice(6);
-
-								/**************  Option 4  ****************/
-								// jQuery(`block-${this.props.attributes.clientID} ${getCId}`).hide();
-
-								// if (! this.props.attributes.showTitle) {
-								// 	wp.data.dispatch('core/editor').removeBlocks(headID);
-								// } else {
-
-								// 	// wp.data.select('core/editor').insertBlock('nab/nab-heading');
-								// 	let content = 'Test content';
-								// 	let el = wp.element.createElement;
-								// 	let blockName = 'nab/nab-heading';
-
-								// 	let name = wp.data.select('core/editor').getBlocks()[1].innerBlocks;
-
-								// 	let insertedBlock = wp.blocks.createBlock(blockName);
-								// 	wp.data.dispatch(name).insertBlocks(insertedBlock);
-
-								// }
 							}}
 						/>
 					</PanelBody>

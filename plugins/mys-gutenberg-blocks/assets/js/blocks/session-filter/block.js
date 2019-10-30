@@ -16,7 +16,6 @@
         }
 
         componentWillMount() {
-            const { taxonomy } = this.props.attributes;
 
             // Fetch all taxonomies
             wp.apiFetch({ path: '/wp/v2/taxonomies' }).then((taxonomies) => {
@@ -44,7 +43,7 @@
             this.setState({ taxonomiesList: postTaxonomiesOptions });
         }
 
-        filterTerms( data ) {
+        filterTerms(data) {
             const { attributes: { taxonomy }, setAttributes } = this.props;
 
             data = data ? data : taxonomy;
@@ -55,12 +54,12 @@
 
             tempTermOptions.push({ label: 'Select ' + termLabel, value: '' });
 
-            if ( this.state.termsObj[data] !== undefined ) {
-                this.state.termsObj[data].map( (term) => {
+            if (this.state.termsObj[data] !== undefined) {
+                this.state.termsObj[data].map((term) => {
                     tempTermOptions.push({ label: term.name, value: term.slug });
                 });
             }
-            setAttributes({ termOptions: tempTermOptions, taxonomy: data});
+            setAttributes({ termOptions: tempTermOptions, taxonomy: data });
         }
 
         render() {
@@ -73,7 +72,7 @@
                                 label={'Select Taxonomy for filter category'}
                                 value={taxonomy}
                                 options={this.state.taxonomiesList}
-                                onChange={(value) => { this.filterTerms(value); } }
+                                onChange={(value) => { this.filterTerms(value); }}
                             />
                         </PanelBody>
                     </InspectorControls>
@@ -84,16 +83,16 @@
                         <div className="search-box">
                             <label>Keyword</label>
                             <div className="search-item">
-                                <input className="search" type="text" placeholder="Start typing to filter by keyword..." />
+                                <input className="search" type="text" placeholder="Filter by keyword..." />
                             </div>
                         </div>
                         <div className="keyword">
                             <label>Category</label>
                             <div>
                                 <select id="session-category-drp" className="session-category-drp">
-                                    { termOptions.map( (term) => (
-                                            <option value={term.value}>{term.label}</option>
-                                        )
+                                    {termOptions.map((term) => (
+                                        <option value={term.value}>{term.label}</option>
+                                    )
                                     )
                                     }
                                 </select>
@@ -134,17 +133,17 @@
                     <div className="search-box">
                         <label>Keyword</label>
                         <div className="search-item">
-                            <input className="search" type="text" placeholder="Start typing to filter by keyword..." />
+                            <input className="search" type="text" placeholder="Filter by keyword..." />
                         </div>
                     </div>
                     <div className="keyword">
                         <label>Category</label>
                         <div>
                             <select id="session-category-drp" className="session-category-drp">
-                                { termOptions.map( (term) => (
+                                {termOptions.map((term) => (
                                     <option value={term.value}>{term.label}</option>
-                                    )
-                                  )
+                                )
+                                )
                                 }
                             </select>
                         </div>

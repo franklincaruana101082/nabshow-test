@@ -26,3 +26,6 @@ import './block/news-conference-schedule/block';
 import './block/opportunities/block';
 import './block/exhibitor-advisory-committee/block';
 import './block/related-content-with-block/block';
+import './block/videos/block';
+import './block/featured-image/block';
+import './block/child-page-card/block';

@@ -365,3 +365,28 @@ function nabshow_lv_set_custom_posts_where( $where, $query ) {
 
 	return $where;
 }
+
+/**
+ * Generate yearly archive for thought gallery post type
+ * @param $wp_rewrite
+ * @return array
+ */
+function nabshow_lv_register_post_type_rewrite_rules( $wp_rewrite ) {
+
+	$rules          = array();
+	$post_type      = get_post_type_object('thought-gallery');
+	$slug_archive   = $post_type->has_archive;
+
+	if ( $slug_archive === false ) {
+		return $rules;
+	}
+	if ( $slug_archive === true ) {
+		$slug_archive = $post_type->rewrite[ 'slug' ];
+	}
+	$rules[$slug_archive."/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$"] = 'index.php?post_type=thought-gallery&year=' . $wp_rewrite->preg_index(1) . '&monthnum=' . $wp_rewrite->preg_index(2) . '&day=' . $wp_rewrite->preg_index(3);
+	$rules[$slug_archive."/([0-9]{4})/([0-9]{1,2})/?$"]              = 'index.php?post_type=thought-gallery&year=' . $wp_rewrite->preg_index(1) . '&monthnum=' . $wp_rewrite->preg_index(2);
+	$rules[$slug_archive."/([0-9]{4})/?$"]                           = 'index.php?post_type=thought-gallery&year=' . $wp_rewrite->preg_index(1);
+	$wp_rewrite->rules                                               = array_merge( $rules, $wp_rewrite->rules ); // merge existing rules with custom ones
+
+	return $wp_rewrite;
+}

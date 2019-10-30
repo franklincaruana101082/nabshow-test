@@ -4,8 +4,7 @@
  * @package NABShow_LV
  */
 get_header();
-$total_posts = wp_count_posts( 'thought-gallery' )->publish;
-$posts_per_page = get_option( 'posts_per_page' );
+
 global $wp_query;
 ?>
     <div id="primary" class="container">
@@ -54,7 +53,7 @@ global $wp_query;
 						}
 						?>
                     </div>
-					<?php if ( $total_posts > $posts_per_page ) { ?>
+					<?php if ( $wp_query->max_num_pages > 1 ) { ?>
                         <div class="loadMoreArticles text-center" id="load-more-tg">
                             <a href="javascript:void(0);" class="btn-default" data-page-number="2"
                                data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>

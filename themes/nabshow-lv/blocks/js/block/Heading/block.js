@@ -2,7 +2,7 @@
 	const { __ } = wpI18n;
 	const { registerBlockType } = wpBlocks;
 	const { Fragment } = wpElement;
-	const { RichText, InspectorControls, PanelColorSettings } = wpEditor;
+	const { RichText, InspectorControls } = wpEditor;
 	const { TextControl, PanelBody, PanelRow, SelectControl, ColorPalette, RangeControl } = wpComponents;
 
 	registerBlockType('nab/nab-heading', {

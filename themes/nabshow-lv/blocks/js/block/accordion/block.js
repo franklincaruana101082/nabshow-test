@@ -3,11 +3,11 @@ import memoize from 'memize';
 
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-	const { __ } = wp.i18n;
+	const { __ } = wpI18n;
 	const { Fragment } = wpElement;
-	const { registerBlockType } = wp.blocks;
-	const { RichText, AlignmentToolbar, BlockControls, InspectorControls, PanelColorSettings, InnerBlocks } = wp.editor;
-	const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, Button, ColorPalette, IconButton } = wp.components;
+	const { registerBlockType } = wpBlocks;
+	const { RichText, InspectorControls, InnerBlocks } = wpEditor;
+	const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, ColorPalette, IconButton } = wpComponents;
 
 	$(document).on('click', '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons', function (e) {
 		e.stopImmediatePropagation();

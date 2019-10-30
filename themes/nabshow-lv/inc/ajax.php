@@ -119,16 +119,20 @@ function nabshow_lv_thoughts_gallery_load_more_callback() {
 	$total_pages = $post_type_query->max_num_pages;
 
 	if ( $post_type_query->have_posts() ):
+
 		$i = 0;
+
 		while ( $post_type_query->have_posts() ):
+
 			$post_type_query->the_post();
 
-
-			$excerpt = get_the_excerpt();
+			$post_id               = get_the_ID();
+			$excerpt               = nabshow_lv_excerpt();
 			$category_list         = [];
 			$category_link_lists   = [];
 			$category_slugs        = [];
-			$tax_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-category' );
+			$tax_thought_galleries = get_the_terms( $post_id, 'thought-gallery-category' );
+
 			if ( $tax_thought_galleries && ! is_wp_error( $tax_thought_galleries ) ) {
 				foreach ( $tax_thought_galleries as $tax_thought_gallery ) {
 
@@ -139,7 +143,7 @@ function nabshow_lv_thoughts_gallery_load_more_callback() {
 				}
 			}
 
-			$result_post[ $i ]["post_id"]        = get_the_ID();
+			$result_post[ $i ]["post_id"]        = $post_id;
 			$result_post[ $i ]["post_title"]     = get_the_title();
 			$result_post[ $i ]["post_permalink"] = get_the_permalink();
 			$result_post[ $i ]["post_thumbnail"] = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_empty_thumbnail_url();
@@ -266,9 +270,8 @@ function nabshow_lv_news_releases_load_more_post_callback() {
 
 			$news_query->the_post();
 
-			$result_post[ $i ]["post_thumbnail"] = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_empty_thumbnail_url();
 			$result_post[ $i ]["post_title"]     = get_the_title();
-			$result_post[ $i ]["excerpt"]        = get_the_excerpt();
+			$result_post[ $i ]["excerpt"]        = nabshow_lv_excerpt();
 			$result_post[ $i ]["post_permalink"] = get_the_permalink();
 
 			$i ++;
@@ -304,8 +307,8 @@ function nabshow_lv_sessions_browse_filter_callback() {
 	$result_post    = array();
 	$final_result   = array();
 
-	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
-	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_STRING );
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
 	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
 	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
 	$session_track      = filter_input( INPUT_GET, 'track', FILTER_SANITIZE_STRING );
@@ -314,6 +317,7 @@ function nabshow_lv_sessions_browse_filter_callback() {
 	$session_location   = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
 	$listing_type       = filter_input( INPUT_GET, 'listing_type', FILTER_SANITIZE_STRING );
 	$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
+	$featured_session   = filter_input( INPUT_GET, 'featured_session', FILTER_SANITIZE_STRING );
 
 	$query_arg = array(
 		'post_type'      => 'sessions',
@@ -341,6 +345,14 @@ function nabshow_lv_sessions_browse_filter_callback() {
 			'taxonomy' => 'session-categories',
 			'field'    => 'slug',
 			'terms'    => $listing_type,
+		);
+	}
+
+	if ( ! empty( $featured_session ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'session-categories',
+			'field'    => 'slug',
+			'terms'    => $featured_session,
 		);
 	}
 
@@ -426,7 +438,7 @@ function nabshow_lv_sessions_browse_filter_callback() {
 			$result_post[ $i ]["post_title"]    = mb_strimwidth( get_the_title(), 0, 83, '...' );
 			$result_post[ $i ]["featured"]      = $featured_post;
 			$result_post[ $i ]["date_time"]     = $date_display_format;
-			$result_post[ $i ]["post_excerpt"]  = get_the_excerpt();
+			$result_post[ $i ]["post_excerpt"]  = nabshow_lv_excerpt();
 			$result_post[ $i ]["planner_link"]  = $session_planner_url;
 
 			if ( ! empty( $listing_type ) ) {
@@ -466,8 +478,8 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 	$result_post    = array();
 	$final_result   = array();
 
-	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
-	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_STRING );
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
 	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
 	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
 	$exhibitor_category = filter_input( INPUT_GET, 'exhibitor_category', FILTER_SANITIZE_STRING );
@@ -522,11 +534,14 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 	if ( ! empty( $exhibitor_keywords ) ) {
 
 		$all_keywords     = explode(',', $exhibitor_keywords );
-		$tax_query_args[] = array (
-			'taxonomy' => 'exhibitor-keywords',
-			'field'    => 'slug',
-			'terms'    => $all_keywords,
-		);
+		foreach ( $all_keywords as $keyword ) {
+			$tax_query_args[] = array (
+				'taxonomy' => 'exhibitor-keywords',
+				'field'    => 'slug',
+				'terms'    => $keyword,
+			);
+		}
+
 	}
 
 	if ( count( $tax_query_args ) > 1 ) {
@@ -557,7 +572,7 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 			$result_post[ $i ]["post_title"]    = get_the_title();
 			$result_post[ $i ]["featured"]      = $featured_post;
 			$result_post[ $i ]["boothnumber"]   = $booth_number;
-			$result_post[ $i ]["post_excerpt"]  = get_the_excerpt();
+			$result_post[ $i ]["post_excerpt"]  = nabshow_lv_excerpt();
 			$result_post[ $i ]["thumbnail_url"] = $thumbnail_url;
 			$result_post[ $i ]["planner_link"]  = $exh_url;
 
@@ -593,8 +608,8 @@ function nabshow_lv_speakers_browse_filter_callback() {
 	$result_post    = array();
 	$final_result   = array();
 
-	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
-	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_STRING );
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
 	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
 	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
 	$speaker_company    = filter_input( INPUT_GET, 'speaker_company', FILTER_SANITIZE_STRING );
@@ -626,15 +641,15 @@ function nabshow_lv_speakers_browse_filter_callback() {
 		$tax_query_args[] =  array (
 				'taxonomy' => 'speaker-companies',
 				'field'    => 'slug',
-				'terms'    => array( $speaker_company ),
+				'terms'    => $speaker_company,
 			);
 	}
 
-	if ( 'yes' === strtolower( $featured_speaker ) ) {
+	if ( ! empty( $featured_speaker ) ) {
 		$tax_query_args[] = array (
 			'taxonomy' => 'speaker-categories',
 			'field'    => 'slug',
-			'terms'    => array( 'featured' ),
+			'terms'    => $featured_speaker,
 		);
 	}
 

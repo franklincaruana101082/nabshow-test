@@ -26,7 +26,7 @@
 	<?php nabshow_lv_post_thumbnail(); ?>
 
 	<div class="entry-summary">
-		<?php the_excerpt(); ?>
+        <p><?php echo esc_html( nabshow_lv_excerpt() ); ?></p>
 	</div><!-- .entry-summary -->
 
 	<footer class="entry-footer">

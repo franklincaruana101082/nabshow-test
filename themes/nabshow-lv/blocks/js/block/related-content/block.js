@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
@@ -14,11 +14,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 bxSliderObj: {},
                 bxinit: false,
                 isDisable: false,
-                displayFieldsList: [{ label: __('Date'), value: 'page_date' },
+                displayFieldsList: [{ label: __('Date'), value: 'date_group' },
                 { label: __('Halls'), value: 'page_hall' },
                 { label: __('Is Open To'), value: 'is_open_to' },
                 { label: __('Locations'), value: 'page_location' },
-                { label: __('Price'), value: 'price' }],
+                { label: __('Price'), value: 'price' },
+                { label: __('Registration Access'), value: 'reg_access' }],
             };
             this.initSlider = this.initSlider.bind(this);
         }
@@ -52,7 +53,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj) {
+                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,
@@ -85,9 +86,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout, sliderLayout }, setAttributes } = this.props;
 
-            var names = [
+            let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
                 { name: sliderArrow2, classnames: 'slider-arrow-2' },
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
@@ -148,14 +149,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         <PanelBody title={__('Data Settings')}>
                             {input}
                             {commonControls}
-                            <CheckboxControl
-                                className="related-featured"
-                                label="Featured Page"
-                                checked={featuredPage}
-                                onChange={() => { setAttributes({ featuredPage: ! featuredPage }); this.setState({ bxinit: true }); }}
-                            />
+                            {'side-img-info' !== listingLayout &&
+                                <CheckboxControl
+                                    className="related-featured"
+                                    label="Featured Page"
+                                    checked={featuredPage}
+                                    onChange={() => { setAttributes({ featuredPage: ! featuredPage }); this.setState({ bxinit: true }); }}
+                                />
+                            }
                         </PanelBody>
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
+                            {sliderActive &&
+                                <div>
+                                    <label>{__('Select Slider Layout')}</label>
+                                    <PanelRow>
+                                        <ul className="ss-off-options related-off">
+                                            <li className={'img-only' === sliderLayout ? 'active img-only' : 'img-only'} onClick={() => { setAttributes({ sliderLayout: 'img-only' }); this.setState({ bxinit: true }); }}>{productCategories}</li>
+                                            <li className={'related-content-slider-info' === sliderLayout ? 'active related-content-slider-info' : 'related-content-slider-info'} onClick={() => { setAttributes({ sliderLayout: 'related-content-slider-info' }); this.setState({ bxinit: true }); }}>{featuredHappening}</li>
+                                            <li className={'related-content-slider-events' === sliderLayout ? 'active related-content-slider-events' : 'related-content-slider-events'} onClick={() => { setAttributes({ sliderLayout: 'related-content-slider-events' }); this.setState({ bxinit: true }); }}>{realtedContentCoLocatedEvents}</li>
+                                        </ul>
+                                    </PanelRow>
+                                </div>
+                            }
                             <ToggleControl
                                 label={__('Slider On/Off')}
                                 checked={sliderActive}
@@ -173,6 +188,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <li className={'product-categories' === listingLayout ? 'active product-categories' : 'product-categories'} onClick={() => setAttributes({ listingLayout: 'product-categories' })}>{productCategories}</li>
                                                 <li className={'exhibitor-resources' === listingLayout ? 'active exhibitor-resources' : 'exhibitor-resources'} onClick={() => setAttributes({ listingLayout: 'exhibitor-resources' })}>{exhibitorResources}</li>
                                                 <li className={'browse-happenings' === listingLayout ? 'active browse-happenings' : 'browse-happenings'} onClick={() => setAttributes({ listingLayout: 'browse-happenings' })}>{browseHappening}</li>
+                                                <li className={'title-list' === listingLayout ? 'active title-list' : 'title-list'} onClick={() => setAttributes({ listingLayout: 'title-list' })}>{relatedContentTitleList}</li>
+                                                <li className={'side-img-info' === listingLayout ? 'active side-img-info' : 'side-img-info'} onClick={() => setAttributes({ listingLayout: 'side-img-info' })}>{relatedContSideImgInfo}</li>
+                                                <li className={'side-info' === listingLayout ? 'active side-info' : 'side-info'} onClick={() => setAttributes({ listingLayout: 'side-info' })}>{realtedContentInfoOnly}</li>
+                                                <li className={'plan-your-show' === listingLayout ? 'active plan-your-show' : 'plan-your-show'} onClick={() => setAttributes({ listingLayout: 'plan-your-show' })}>{realtedContentPlanShow}</li>
                                             </ul>
                                         </PanelRow>
                                     </div>
@@ -295,7 +314,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout }}
                     />
                 </Fragment>
 
@@ -371,6 +390,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         listingLayout: {
             type: 'string',
             default: 'destination'
+        },
+        sliderLayout: {
+            type: 'string',
+            default: 'img-only'
         }
     };
 

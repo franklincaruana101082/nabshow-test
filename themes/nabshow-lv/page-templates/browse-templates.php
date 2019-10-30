@@ -20,7 +20,7 @@ get_header();
 					<div class="search-box">
 				    	<label>Keyword</label>
 				        <div class="search-item">
-				        	<input id="browse-search" class="search" name="browse-search" type="text" placeholder="Start typing to filter by keyword...">
+				        	<input id="browse-search" class="search" name="browse-search" type="text" placeholder="Filter by keyword...">
 				        </div>
 				    </div>
 				    <div class="row">

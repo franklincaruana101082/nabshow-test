@@ -15,20 +15,21 @@ add_filter( 'parse_query', 'nabshow_lv_posts_filter' );
 
 add_filter( 'post_thumbnail_html', 'nabshow_lv_remove_thumbnail_dimensions', 10, 3 );
 
-add_filter('admin_init', function () {
+add_filter( 'admin_init', function () {
 
-    $post_types = get_post_types( array( 'public' => true ), 'names' );
+	$post_types = get_post_types( array( 'public' => true ), 'names' );
 
-    foreach ( $post_types as $post_type ) {
-        $post_type_function = str_replace( '-', '_', $post_type );
-        if ( 'attachment' !== $post_type && function_exists( 'nabshow_lv_set_and_remove_as_featured_bulk_' . $post_type_function . '_handler' ) ) {
-            add_filter( 'manage_' . $post_type . '_posts_columns', 'nabshow_lv_custom_columns' );
-            add_filter( 'bulk_actions-edit-'.$post_type, 'nabshow_lv_custom_bulk_actions' );
-            add_filter( 'handle_bulk_actions-edit-'.$post_type, 'nabshow_lv_set_and_remove_as_featured_bulk_' . $post_type_function . '_handler', 10, 3 );
-        }
-    }
-    return true;
-} );
+	foreach ( $post_types as $post_type ) {
+		$post_type_function = str_replace( '-', '_', $post_type );
+		if ( 'attachment' !== $post_type && function_exists( 'nabshow_lv_set_and_remove_as_featured_bulk_' . $post_type_function . '_handler' ) ) {
+			add_filter( 'manage_' . $post_type . '_posts_columns', 'nabshow_lv_custom_columns' );
+			add_filter( 'bulk_actions-edit-' . $post_type, 'nabshow_lv_custom_bulk_actions' );
+			add_filter( 'handle_bulk_actions-edit-' . $post_type, 'nabshow_lv_set_and_remove_as_featured_bulk_' . $post_type_function . '_handler', 10, 3 );
+		}
+	}
+
+	return true;
+}, 1, 3 );
 
 add_filter( 'excerpt_length', 'nabshow_lv_custom_excerpt_length', 999 );
 
@@ -49,7 +50,10 @@ add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
 add_filter( 'template_include', 'nabshow_lv_thought_gallery_search_template' );
 
 // Enable default custom field meta box which is hide from ACF
-add_filter('acf/settings/remove_wp_meta_box', '__return_false');
+add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
 
 // Filter for add custom post where
 add_filter( 'posts_where', 'nabshow_lv_set_custom_posts_where', 10, 2 );
+
+// Filter for generate yearly archive for thought gallery post type
+add_filter( 'generate_rewrite_rules', 'nabshow_lv_register_post_type_rewrite_rules', 100 );

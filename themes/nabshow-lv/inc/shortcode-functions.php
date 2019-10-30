@@ -160,8 +160,9 @@ function nabshow_lv_browse_filter_callback( $atts ) {
     ?>
     <div class="browse-filter main-filter row <?php echo esc_attr( $filter_class ); ?>">
         <?php
-        if ( 'open-to-all' === $atts[ 'type' ] || ( ! empty( $atts[ 'featured' ] ) && 'yes' === strtolower( $atts[ 'featured' ] ) ) ) {
-            if ( 'happenings' === $atts[ 'type' ] ) {
+        if ( 'open-to-all' === $atts[ 'type' ] || 'learn' === $atts[ 'type' ]  || ( ! empty( $atts[ 'featured' ] ) && 'yes' === strtolower( $atts[ 'featured' ] ) ) ) {
+            if ( 'happenings' === $atts[ 'type' ] ||  'learn' === $atts[ 'type' ] ) {
+                $page_type_title = 'Type';
             ?>
                 <div class="col-xl-12 display-flex-box">
                     <div class="category">
@@ -170,6 +171,19 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                             <option>Select a Date</option>
                         </select>
                     </div>
+                    <?php
+                    if ( 'learn' === $atts[ 'type' ] ) {
+	                    $page_type_title = 'Program Type'
+                    ?>
+                        <div class="category">
+                            <label for="open-to">Open To</label>
+                            <select id="open-to" class="select-opt">
+                                <option>Select a Pass</option>
+                            </select>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <div class="category">
                         <label for="page-location">Location</label>
                         <select id="page-location" class="select-opt">
@@ -177,7 +191,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                         </select>
                     </div>
                     <div class="category">
-                        <label for="page-type">Types</label>
+                        <label for="page-type"><?php echo esc_html( $page_type_title ); ?></label>
                         <select id="page-type" class="select-opt">
                             <option>Select a Type</option>
                         </select>
@@ -185,7 +199,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     <div class="search-box">
                         <label for="browse-search">Keyword</label>
                         <div class="search-item icon-right">
-                            <input class="search" type="text" id="browse-search" placeholder="Start typing to filter by keyword...">
+                            <input class="search" type="text" id="browse-search" placeholder="Filter by keyword...">
                         </div>
                     </div>
                 </div>
@@ -227,7 +241,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     <div class="search-box">
                         <label for="browse-search">Keyword</label>
                         <div class="search-item icon-right">
-                            <input class="search" type="text" id="browse-search" placeholder="Start typing to filter by keyword...">
+                            <input class="search" type="text" id="browse-search" placeholder="Filter by keyword...">
                         </div>
                     </div>
                 </div>
@@ -261,19 +275,28 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     <div class="search-box">
                         <label for="browse-search">Keyword</label>
                         <div class="search-item icon-right">
-                            <input id="browse-search" class="search" type="text" placeholder="Start typing to filter by keyword...">
+                            <input id="browse-search" class="search" type="text" placeholder="Filter by keyword...">
                         </div>
                     </div>
                 </div>
             <?php
             }
         } else {
-	        if ( 'sponsors' !== $atts[ 'type' ] ) {
+	        if ( 'sponsors' !== $atts[ 'type' ] && 'product-categories' !== $atts[ 'type' ] ) {
 
-	            $get_featured   = filter_input( INPUT_GET, 'featured', FILTER_SANITIZE_STRING );
+		        if ( 'exhibitors' === $atts[ 'type' ] ) {
+			        $get_featured   = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
+		        } elseif ( 'sessions' === $atts[ 'type' ] ) {
+			        $get_featured   = filter_input( INPUT_GET, 'session-key', FILTER_SANITIZE_STRING );
+                } elseif ( 'speakers' === $atts[ 'type' ] ) {
+			        $get_featured   = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
+                } elseif ( 'happenings' === $atts[ 'type' ] ) {
+			        $get_featured   = filter_input( INPUT_GET, 'happening-key', FILTER_SANITIZE_STRING );
+                }
+
 		        $featured_class = 'featured-btn';
 
-		        if ( isset( $get_featured ) && 'true' === strtolower( $get_featured ) ) {
+		        if ( isset( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
 			        $featured_class .= ' active';
                 }
 
@@ -282,7 +305,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     <div class="search-box">
                         <label for="browse-search">Keyword</label>
                         <div class="search-item">
-                            <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Start typing to filter by keyword...">
+                            <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Filter by keyword...">
                         </div>
                     </div>
                     <div class="row">
@@ -331,7 +354,7 @@ function nabshow_lv_browse_filter_callback( $atts ) {
 
 		        if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
 
-			        $get_exkey = filter_input( INPUT_GET, 'exkey', FILTER_SANITIZE_STRING );
+			        $get_exkey = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
 			        ?>
                     <div class="col-lg-12 chechbox-main">
 				        <?php
@@ -519,7 +542,26 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                             <div class="search-box">
                                 <label for="browse-search">Keyword</label>
                                 <div class="search-item">
-                                    <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Start typing to filter by keyword...">
+                                    <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Filter by keyword...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                } elseif ( 'product-categories' === $atts[ 'type'] ) {
+			    ?>
+                    <div class="col-12 display-flex-box">
+                        <div class="browse-select category">
+                            <label for="product-categories">Category</label>
+                            <select id="product-categories" class="select-opt">
+                                <option>Select a Category</option>
+                            </select>
+                        </div>
+                        <div class="category">
+                            <div class="search-box">
+                                <label for="browse-search">Keyword</label>
+                                <div class="search-item">
+                                    <input id="browse-search" class="search" name="browse-search" type="text" placeholder="Filter by keyword...">
                                 </div>
                             </div>
                         </div>
@@ -543,4 +585,76 @@ function nabshow_lv_browse_filter_callback( $atts ) {
     }
 
     return $html;
+}
+
+/**
+ * Display date with page link
+ * @param $atts
+ * @return string
+ */
+function nabshow_lv_schedule_date_callback( $atts ) {
+
+    $atts = shortcode_atts( array(
+		'index' => 0,
+	), $atts );
+
+    $date_index       = isset( $atts[ 'index' ] ) && $atts[ 'index' ] > 0 ? $atts[ 'index' ] - 1 : 0;
+
+    $date_field_group = get_field( 'date_group');
+    $date_index_row   = isset( $date_field_group[ $date_index ] ) ? $date_field_group[ $date_index ] : array();
+    $date             = isset( $date_index_row[ 'page_dates' ] ) ? $date_index_row[ 'page_dates' ] : '';
+
+	ob_start();
+
+    if ( ! empty( $date ) ) {
+	    $date_day  = strtolower( Date('l', strtotime( $date ) ) );
+	    $day_link  = nabshow_lv_get_day_page_link( $date_day );
+
+	    if ( ! empty( $day_link ) ) {
+	        $day_link = site_url() . $day_link;
+	    ?>
+            <p class="selectedDate"><a href="<?php echo esc_url( $day_link ); ?>"><?php echo esc_html( $date ); ?></a></p>
+        <?php
+        } else {
+	    ?>
+            <p class="selectedDate"><?php echo esc_html( $date ); ?></p>
+        <?php
+        }
+    }
+
+    $html = ob_get_clean();
+    return $html;
+
+}
+
+function nabshow_lv_schedule_hall_callback() {
+
+    $page_halls = get_field( 'page_hall');
+
+    ob_start();
+
+    if ( is_array( $page_halls ) && ! empty( $page_halls ) ) {
+
+        $site_url = get_site_url();
+
+	    foreach ( $page_halls as $hall ) {
+
+            $hall_link = nabhsow_lv_get_hall_page_link( $hall );
+
+            if ( ! empty( $hall_link ) ) {
+
+                $hall_link = $site_url . $hall_link;
+            ?>
+                <p class="selectedHall"><a href="<?php echo esc_url( $hall_link ); ?>"><?php echo esc_html( $hall ); ?></a></p>
+            <?php
+            } else {
+            ?>
+                <p class="selectedHall"><?php echo esc_html( $hall ); ?></p>
+            <?php
+            }
+        }
+    }
+
+	$html = ob_get_clean();
+	return $html;
 }

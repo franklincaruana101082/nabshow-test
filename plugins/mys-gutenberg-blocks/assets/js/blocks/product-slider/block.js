@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sqrImgOption, circleImgOption } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
@@ -7,13 +7,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { InspectorControls } = wpEditor;
     const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
-    class MYSDynamicSlider extends Component {
+    class MYSProductSlider extends Component {
         constructor() {
             super(...arguments);
             this.state = {
                 bxSliderObj: {},
                 bxinit: false,
-                postTypeList: [],
                 taxonomiesList: [],
                 taxonomies: [],
                 taxonomiesObj: {},
@@ -27,18 +26,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         componentWillMount() {
             const { taxonomies } = this.props.attributes;
-            let postTypeKey,
-                postOptions = [],
-                excludePostTypes = ['attachment', 'wp_block'];
-
-            // Fetch all post types
-            wp.apiFetch({ path: '/wp/v2/types' }).then((postTypes) => {
-                postTypeKey = Object.keys(postTypes).filter(postType => ! excludePostTypes.includes(postType));
-                postTypeKey.forEach(function (key) {
-                    postOptions.push({ label: __(postTypes[key].name), value: __(postTypes[key].slug) });
-                });
-                this.setState({ postTypeList: postOptions });
-            });
 
             // Fetch all taxonomies
             wp.apiFetch({ path: '/wp/v2/taxonomies' }).then((taxonomies) => {
@@ -83,8 +70,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             this.setState({ bxinit: true });
         }
 
-        componentDidUpdate(prevProps) {
-            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, postType, slideWidth, sliderActive, slideMargin } } = this.props;
+        componentDidUpdate() {
+            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
@@ -106,10 +93,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 mode: 'horizontal'
                             }
                         );
-                    }
-                    if (postType !== prevProps.attributes.postType) {
-                        this.filterTaxonomy();
-                        this.setState({ bxinit: true });
                     }
                 }
             }
@@ -154,11 +137,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideWidth,
                 orderBy,
                 slideMargin,
-                displayTitle,
-                arrowIcons
+                arrowIcons,
             } = attributes;
 
-            var names = [
+            let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
                 { name: sliderArrow2, classnames: 'slider-arrow-2' },
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
@@ -169,7 +151,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
             let isCheckedTerms = {};
             if (! this.isEmpty(terms) && terms.constructor !== Object) {
-              isCheckedTerms = JSON.parse(terms);
+                isCheckedTerms = JSON.parse(terms);
             }
 
             let input = <div className="inspector-field inspector-field-Numberofitems ">
@@ -182,7 +164,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 />
             </div>;
 
-            if (this.state.isDisable) {
+            if (this.state.isDisable && sliderActive) {
                 input = <Disabled>{input}</Disabled>;
             }
 
@@ -191,23 +173,18 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
                             {input}
-                            <SelectControl
-                                label={__('Order by')}
-                                value={orderBy}
-                                options={[
-                                    { label: __('Newest to Oldest'), value: 'date' },
-                                    { label: __('Menu Order'), value: 'menu_order' },
-                                ]}
-                                onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                            />
-                            <SelectControl
-                                label={__('Select Post Type')}
-                                value={postType}
-                                options={this.state.postTypeList}
-                                onChange={(value) => { setAttributes({ postType: value, taxonomies: [], terms: {} }); this.setState({ taxonomies: [] }); }}
-                            />
+                            <Fragment>
+                                <SelectControl
+                                    label={__('Order by')}
+                                    value={orderBy}
+                                    options={[
+                                        { label: __('Newest to Oldest'), value: 'date' },
+                                        { label: __('Menu Order'), value: 'menu_order' },
+                                    ]}
+                                    onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
+                                />
 
-                            {0 < this.state.taxonomiesList.length &&
+                                { 0 < this.state.taxonomiesList.length &&
 
                                 <Fragment>
 
@@ -236,7 +213,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                         }
                                                     }
                                                     if ( tempTerms.constructor === Object ) {
-                                                      tempTerms = JSON.stringify(tempTerms);
+                                                        tempTerms = JSON.stringify(tempTerms);
                                                     }
                                                     this.props.setAttributes({ terms: tempTerms, taxonomies: tempTaxonomies });
                                                     this.setState({ taxonomies: tempTaxonomies, bxinit: true });
@@ -251,9 +228,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     </div>
 
                                 </Fragment>
-                            }
+                                }
 
-                            {0 < this.state.taxonomies.length &&
+                                { 0 < this.state.taxonomies.length &&
 
                                 <Fragment>
 
@@ -266,12 +243,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <label>{__(taxonomy)}</label>
                                                 <div className="search-cat-side">
                                                     {7 < this.state.termsObj[taxonomy].length &&
-                                                        <TextControl
-                                                            type="string"
-                                                            name={taxonomy}
-                                                            placeHolder={`Search ${taxonomy}`}
-                                                            onChange={value => this.filterTerms(value, taxonomy)}
-                                                        />
+                                                    <TextControl
+                                                        type="string"
+                                                        name={taxonomy}
+                                                        placeHolder={`Search ${taxonomy}`}
+                                                        onChange={value => this.filterTerms(value, taxonomy)}
+                                                    />
                                                     }
                                                 </div>
                                                 <div className="fix-height-select">
@@ -312,111 +289,106 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         ))
                                     }
                                 </Fragment>
-                            }
+                                }
+                            </Fragment>
                         </PanelBody>
+
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
                             <ToggleControl
                                 label={__('Slider On/Off')}
                                 checked={sliderActive}
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
                             />
-                            <ToggleControl
-                                label={__('Display Title')}
-                                checked={displayTitle}
-                                onChange={() => { setAttributes({ displayTitle: ! displayTitle }); this.setState({ bxinit: true }); }}
-                            />
-                            {sliderActive &&
-                                <Fragment>
-                                    <ToggleControl
-                                        label={__('Pager')}
-                                        checked={pager}
-                                        onChange={() => setAttributes({ pager: ! pager })}
+                            { sliderActive &&
+                            <Fragment>
+                                <ToggleControl
+                                    label={__('Pager')}
+                                    checked={pager}
+                                    onChange={() => setAttributes({ pager: ! pager })}
+                                />
+                                <ToggleControl
+                                    label={__('Controls')}
+                                    checked={controls}
+                                    onChange={() => setAttributes({ controls: ! controls })}
+                                />
+                                <ToggleControl
+                                    label={__('Autoplay')}
+                                    checked={autoplay}
+                                    onChange={() => setAttributes({ autoplay: ! autoplay })}
+                                />
+                                <ToggleControl
+                                    label={__('Infinite Loop')}
+                                    checked={infiniteLoop}
+                                    onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
+                                />
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Speed</label>
+                                    <RangeControl
+                                        value={sliderSpeed}
+                                        min={100}
+                                        max={1000}
+                                        step={1}
+                                        onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
                                     />
-                                    <ToggleControl
-                                        label={__('Controls')}
-                                        checked={controls}
-                                        onChange={() => setAttributes({ controls: ! controls })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Items to Display</label>
+                                    <RangeControl
+                                        value={minSlides}
+                                        min={1}
+                                        max={10}
+                                        step={1}
+                                        onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
                                     />
-                                    <ToggleControl
-                                        label={__('Autoplay')}
-                                        checked={autoplay}
-                                        onChange={() => setAttributes({ autoplay: ! autoplay })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Width</label>
+                                    <RangeControl
+                                        value={slideWidth}
+                                        min={50}
+                                        max={1000}
+                                        step={1}
+                                        onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
                                     />
-                                    <ToggleControl
-                                        label={__('Infinite Loop')}
-                                        checked={infiniteLoop}
-                                        onChange={() => setAttributes({ infiniteLoop: ! infiniteLoop })}
+                                </div>
+                                <div className="inspector-field inspector-field-fontsize ">
+                                    <label className="inspector-mb-0">Slide Margin</label>
+                                    <RangeControl
+                                        value={slideMargin}
+                                        min={0}
+                                        max={100}
+                                        step={1}
+                                        onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
                                     />
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Speed</label>
-                                        <RangeControl
-                                            value={sliderSpeed}
-                                            min={100}
-                                            max={1000}
-                                            step={1}
-                                            onChange={(speed) => setAttributes({ sliderSpeed: parseInt(speed) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Items to Display</label>
-                                        <RangeControl
-                                            value={minSlides}
-                                            min={1}
-                                            max={10}
-                                            step={1}
-                                            onChange={(slide) => setAttributes({ minSlides: parseInt(slide) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Width</label>
-                                        <RangeControl
-                                            value={slideWidth}
-                                            min={50}
-                                            max={1000}
-                                            step={1}
-                                            onChange={(width) => setAttributes({ slideWidth: parseInt(width) })}
-                                        />
-                                    </div>
-                                    <div className="inspector-field inspector-field-fontsize ">
-                                        <label className="inspector-mb-0">Slide Margin</label>
-                                        <RangeControl
-                                            value={slideMargin}
-                                            min={0}
-                                            max={100}
-                                            step={1}
-                                            onChange={(width) => setAttributes({ slideMargin: parseInt(width) })}
-                                        />
-                                    </div>
-                                </Fragment>
+                                </div>
+                            </Fragment>
                             }
                         </PanelBody>
-                        { sliderActive && controls &&
-                            <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
-                                <ul className="slider-arrow-main">
-                                    {names.map((item, index) => (
-                                        < Fragment key={index} >
-                                            <li
-                                                className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
-                                                key={index}
-                                                onClick={e => {
-                                                    setAttributes({ arrowIcons: item.classnames });
-                                                    this.setState({ bxinit: true });
-                                                }}
-                                            >{item.name}</li>
-                                        </Fragment>
-                                    ))
-                                    }
-                                </ul>
-                            </PanelBody>
-                        }
 
+                        { sliderActive && controls &&
+                        <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
+                            <ul className="slider-arrow-main">
+                                {names.map((item, index) => (
+                                    < Fragment key={index} >
+                                        <li
+                                            className={`${item.classnames} ${arrowIcons === item.classnames ? 'active' : ''}`}
+                                            key={index}
+                                            onClick={e => {
+                                                setAttributes({ arrowIcons: item.classnames });
+                                                this.setState({ bxinit: true });
+                                            }}
+                                        >{item.name}</li>
+                                    </Fragment>
+                                ))
+                                }
+                            </ul>
+                        </PanelBody>
+                        }
                     </InspectorControls>
-                    <div className={arrowIcons}>
-                        <ServerSideRender
-                            block="mys/dynamic-slider"
-                            attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, displayTitle: displayTitle, arrowIcons: arrowIcons }}
-                        />
-                    </div>
+                    <ServerSideRender
+                        block="mys/product-slider"
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons }}
+                    />
                 </Fragment >
             );
         }
@@ -456,7 +428,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         },
         postType: {
             type: 'string',
-            default: 'post'
+            default: 'not-to-be-missed'
         },
         taxonomies: {
             type: 'array',
@@ -478,22 +450,18 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'number',
             default: 30
         },
-        displayTitle: {
-            type: 'boolean',
-            default: false
-        },
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
         }
     };
-    registerBlockType('mys/dynamic-slider', {
-        title: __('Dynamic Slider'),
-        icon: 'slides',
+    registerBlockType('mys/product-slider', {
+        title: __('Product Slider'),
+        icon: 'lock',
         category: 'mysgb',
-        keywords: [__('dynamic'), __('slider')],
+        keywords: [__('product'), __('slider')],
         attributes: blockAttrs,
-        edit: MYSDynamicSlider,
+        edit: MYSProductSlider,
         save() {
             return null;
         },

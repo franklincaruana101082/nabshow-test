@@ -31,6 +31,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             // Filter for register new categories for custom block
             add_filter( 'block_categories', array( $this, 'mysgb_custom_block_category' ), 10, 2 );
 
+            // Filter for add custom where
+            add_filter( 'posts_where', array( $this, 'mysgb_set_content_custom_posts_where' ), 10, 2 );
+
             // Register new rest route to fetch all terms
             add_action( 'rest_api_init', array( $this, 'mysgb_register_api_endpoints' ) );
 
@@ -63,6 +66,26 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     ),
                 )
             );
+        }
+
+        /**
+         * Added content_with parameter in post where
+         * @param $where
+         * @param $query
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public static function mysgb_set_content_custom_posts_where( $where, $query ) {
+            global $wpdb;
+
+            $content_with = $query->get( 'content_with' );
+
+            if ( $content_with ) {
+                $where .= " AND trim( coalesce( $wpdb->posts.post_content , '' ) ) <> ''";
+            }
+
+            return $where;
         }
 
         /**
@@ -142,424 +165,230 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public function mysgb_register_dynamic_blocks() {
 
+            $slider_attributes   = $this->mysgb_get_common_slider_attributes();
+
+            $dynamic_slider_attr = array(
+                                    'itemToFetch'  => array(
+                                        'type'    => 'number',
+                                        'default' => 10,
+                                    ),
+                                    'postType'     => array(
+                                        'type'    => 'string',
+                                        'default' => 'post',
+                                    ),
+                                    'taxonomies'   => array(
+                                        'type'    => 'array',
+                                        'default' => [],
+                                        'items'   => [
+                                            'type' => 'string'
+                                        ]
+                                    ),
+                                    'terms'        => array(
+                                        'type' => 'string'
+                                    ),
+                                    'orderBy'      => array(
+                                        'type'    => 'string',
+                                        'default' => 'date'
+                                    ),
+                                    'displayTitle' => array(
+                                        'type' => 'boolean',
+                                        'default' => false
+                                    )
+                                );
+
             register_block_type( 'mys/dynamic-slider', array(
-                    'attributes'      => array(
-                        'itemToFetch'  => array(
-                            'type'    => 'number',
-                            'default' => 10,
-                        ),
-                        'postType'     => array(
-                            'type'    => 'string',
-                            'default' => 'post',
-                        ),
-                        'taxonomies'   => array(
-                            'type'    => 'array',
-                            'default' => [],
-                            'items'   => [
-                                'type' => 'string'
-                            ]
-                        ),
-                        'terms'        => array(
-                            'type' => 'string'
-                        ),
-                        'sliderActive' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'minSlides'    => array(
-                            'type'    => 'number',
-                            'default' => 4
-                        ),
-                        'autoplay'     => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'infiniteLoop' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'pager'        => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'controls'     => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'sliderSpeed'  => array(
-                            'type'    => 'number',
-                            'default' => 500
-                        ),
-                        'slideWidth'   => array(
-                            'type'    => 'number',
-                            'default' => 400
-                        ),
-                        'orderBy'      => array(
-                            'type'    => 'string',
-                            'default' => 'date'
-                        ),
-                        'slideMargin'  => array(
-                            'type'    => 'number',
-                            'default' => 30
-                        ),
-                        'displayTitle' => array(
-                            'type' => 'boolean',
-                            'default' => false
-                        ),
-                        'arrowIcons' => array(
-                            'type' => 'string',
-                            'default' => 'slider-arrow-1'
-                        )
-                    ),
+                    'attributes'      => array_merge( $dynamic_slider_attr, $slider_attributes ),
                     'render_callback' => array( $this, 'mysgb_dynamic_slider_render_callback' ),
                 )
             );
 
-            register_block_type( 'mys/sessions-slider', array(
-                    'attributes'      => array(
-                        'itemToFetch'  => array(
-                            'type'    => 'number',
-                            'default' => 10,
-                        ),
-                        'listingPage'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'postType'     => array(
-                            'type'    => 'string',
-                            'default' => 'sessions',
-                        ),
-                        'taxonomies'   => array(
-                            'type'    => 'array',
-                            'default' => [],
-                            'items'   => [
-                                'type' => 'string'
-                            ]
-                        ),
-                        'terms'        => array(
-                            'type' => 'string'
-                        ),
-                        'detailPopup'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'sliderActive' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'minSlides'    => array(
-                            'type'    => 'number',
-                            'default' => 4
-                        ),
-                        'autoplay'     => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'infiniteLoop' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'pager'        => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'controls'     => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'sliderSpeed'  => array(
-                            'type'    => 'number',
-                            'default' => 500
-                        ),
-                        'slideWidth'   => array(
-                            'type'    => 'number',
-                            'default' => 400
-                        ),
-                        'orderBy'      => array(
-                            'type'    => 'string',
-                            'default' => 'date'
-                        ),
-                        'slideMargin'  => array(
-                            'type'    => 'number',
-                            'default' => 30
-                        ),
-                        'layout'      => array(
-                            'type'    => 'string',
-                            'default' => 'with-featured'
-                        ),
-                        'sliderLayout'      => array(
-                            'type'    => 'string',
-                            'default' => 'layout-1'
-                        ),
-                        'arrowIcons' => array(
-                            'type' => 'string',
-                            'default' => 'slider-arrow-1'
-                        ),
-                        'metaDate'    => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'sessionDate' => array(
-                            'type'    => 'string',
-                        ),
-                        'taxonomyRelation'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'listingType' => array(
-                            'type'    => 'string',
-                            'default' => 'none'
-                        )
+            $session_slider_attr = array(
+                                    'itemToFetch'  => array(
+                                        'type'    => 'number',
+                                        'default' => 10,
+                                    ),
+                                    'listingPage'  => array(
+                                        'type'    => 'boolean',
+                                        'default' => false
+                                    ),
+                                    'postType'     => array(
+                                        'type'    => 'string',
+                                        'default' => 'sessions',
+                                    ),
+                                    'taxonomies'   => array(
+                                        'type'    => 'array',
+                                        'default' => [],
+                                        'items'   => [
+                                            'type' => 'string'
+                                        ]
+                                    ),
+                                    'terms'        => array(
+                                        'type' => 'string'
+                                    ),
+                                    'orderBy'      => array(
+                                        'type'    => 'string',
+                                        'default' => 'date'
+                                    ),
+                                    'layout'      => array(
+                                        'type'    => 'string',
+                                        'default' => 'with-featured'
+                                    ),
+                                    'sliderLayout'      => array(
+                                        'type'    => 'string',
+                                        'default' => 'layout-1'
+                                    ),
+                                    'metaDate'    => array(
+                                        'type'    => 'boolean',
+                                        'default' => false
+                                    ),
+                                    'sessionDate' => array(
+                                        'type'    => 'string',
+                                    ),
+                                    'taxonomyRelation'  => array(
+                                        'type'    => 'boolean',
+                                        'default' => false
+                                    ),
+                                    'listingType' => array(
+                                        'type'    => 'string',
+                                        'default' => 'none'
+                                    ),
+                                    'withContent'  => array(
+                                        'type'    => 'boolean',
+                                        'default' => false
+                                    )
+                            );
 
-                    ),
+            register_block_type( 'mys/sessions-slider', array(
+                    'attributes'      => array_merge( $session_slider_attr, $slider_attributes ),
                     'render_callback' => array( $this, 'mysgb_session_slider_render_callback' ),
                 )
             );
 
-            register_block_type( 'mys/exhibitors-slider', array(
-                    'attributes'      => array(
-                        'itemToFetch'  => array(
-                            'type'    => 'number',
-                            'default' => 10,
-                        ),
-                        'listingPage'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'postType'     => array(
-                            'type'    => 'string',
-                            'default' => 'exhibitors',
-                        ),
-                        'taxonomies'   => array(
-                            'type'    => 'array',
-                            'default' => [],
-                            'items'   => [
-                                'type' => 'string'
-                            ]
-                        ),
-                        'terms'        => array(
-                            'type' => 'string'
-                        ),
-                        'detailPopup'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'sliderActive' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'minSlides'    => array(
-                            'type'    => 'number',
-                            'default' => 4
-                        ),
-                        'autoplay'     => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'infiniteLoop' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'pager'        => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'controls'     => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'sliderSpeed'  => array(
-                            'type'    => 'number',
-                            'default' => 500
-                        ),
-                        'sliderMode'   => array(
-                            'type'    => 'string',
-                            'default' => 'horizontal'
-                        ),
-                        'slideWidth'   => array(
-                            'type'    => 'number',
-                            'default' => 400
-                        ),
-                        'orderBy'      => array(
-                            'type'    => 'string',
-                            'default' => 'date'
-                        ),
-                        'slideMargin'  => array(
-                            'type'    => 'number',
-                            'default' => 30
-                        ),
-                        'arrowIcons' => array(
-                            'type' => 'string',
-                            'default' => 'slider-arrow-1'
-                        ),
-                        'taxonomyRelation'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
+            $exhibitors_slider_attr = array(
+                                        'itemToFetch'  => array(
+                                            'type'    => 'number',
+                                            'default' => 10,
+                                        ),
+                                        'listingPage'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        ),
+                                        'postType'     => array(
+                                            'type'    => 'string',
+                                            'default' => 'exhibitors',
+                                        ),
+                                        'taxonomies'   => array(
+                                            'type'    => 'array',
+                                            'default' => [],
+                                            'items'   => [
+                                                'type' => 'string'
+                                            ]
+                                        ),
+                                        'terms'        => array(
+                                            'type' => 'string'
+                                        ),
+                                        'orderBy'      => array(
+                                            'type'    => 'string',
+                                            'default' => 'date'
+                                        ),
+                                        'taxonomyRelation'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        ),
+                                        'withThumbnail'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        )
+                                    );
 
-                    ),
+            register_block_type( 'mys/exhibitors-slider', array(
+                    'attributes'      => array_merge( $exhibitors_slider_attr, $slider_attributes ),
                     'render_callback' => array( $this, 'mysgb_exhibitors_slider_render_callback' ),
                 )
             );
 
+            $speakers_slider_attr = array(
+                                        'itemToFetch'  => array(
+                                            'type'    => 'number',
+                                            'default' => 10,
+                                        ),
+                                        'listingPage'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        ),
+                                        'postType'     => array(
+                                            'type'    => 'string',
+                                            'default' => 'speakers',
+                                        ),
+                                        'taxonomies'   => array(
+                                            'type'    => 'array',
+                                            'default' => [],
+                                            'items'   => [
+                                                'type' => 'string'
+                                            ]
+                                        ),
+                                        'terms'        => array(
+                                            'type' => 'string'
+                                        ),
+                                        'slideShape'   => array(
+                                            'type'    => 'string',
+                                            'default' => 'circle'
+                                        ),
+                                        'orderBy'      => array(
+                                            'type'    => 'string',
+                                            'default' => 'date'
+                                        ),
+                                        'featuredListing'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        ),
+                                        'withThumbnail'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        )
+                                    );
+
             register_block_type( 'mys/speaker-slider', array(
-                    'attributes'      => array(
-                        'itemToFetch'  => array(
-                            'type'    => 'number',
-                            'default' => 10,
-                        ),
-                        'listingPage'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'postType'     => array(
-                            'type'    => 'string',
-                            'default' => 'speakers',
-                        ),
-                        'taxonomies'   => array(
-                            'type'    => 'array',
-                            'default' => [],
-                            'items'   => [
-                                'type' => 'string'
-                            ]
-                        ),
-                        'terms'        => array(
-                            'type' => 'string'
-                        ),
-                        'detailPopup'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'sliderActive' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'minSlides'    => array(
-                            'type'    => 'number',
-                            'default' => 4
-                        ),
-                        'autoplay'     => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'infiniteLoop' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'pager'        => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'controls'     => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'sliderSpeed'  => array(
-                            'type'    => 'number',
-                            'default' => 500
-                        ),
-                        'slideShape'   => array(
-                            'type'    => 'string',
-                            'default' => 'circle'
-                        ),
-                        'slideWidth'   => array(
-                            'type'    => 'number',
-                            'default' => 400
-                        ),
-                        'orderBy'      => array(
-                            'type'    => 'string',
-                            'default' => 'date'
-                        ),
-                        'slideMargin'  => array(
-                            'type'    => 'number',
-                            'default' => 30
-                        ),
-                        'arrowIcons' => array(
-                            'type' => 'string',
-                            'default' => 'slider-arrow-1'
-                        ),
-                        'featuredListing'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        )
-                    ),
+                    'attributes'      => array_merge( $speakers_slider_attr, $slider_attributes ),
                     'render_callback' => array( $this, 'mysgb_speaker_slider_render_callback' ),
                 )
             );
 
+            $sponsors_slider_attr = array(
+                                        'layout'     => array(
+                                            'type'    => 'string',
+                                            'default' => 'without-title',
+                                        ),
+                                        'itemToFetch'  => array(
+                                            'type'    => 'number',
+                                            'default' => 10,
+                                        ),
+                                        'listingPage'  => array(
+                                            'type'    => 'boolean',
+                                            'default' => false
+                                        ),
+                                        'postType'     => array(
+                                            'type'    => 'string',
+                                            'default' => 'sponsors',
+                                        ),
+                                        'taxonomies'   => array(
+                                            'type'    => 'array',
+                                            'default' => [],
+                                            'items'   => [
+                                                'type' => 'string'
+                                            ]
+                                        ),
+                                        'terms'        => array(
+                                            'type' => 'string'
+                                        ),
+                                        'orderBy'      => array(
+                                            'type'    => 'string',
+                                            'default' => 'date'
+                                        )
+                                    );
+
             register_block_type( 'mys/sponsors-partners', array(
-                    'attributes'      => array(
-                        'layout'     => array(
-                            'type'    => 'string',
-                            'default' => 'without-title',
-                        ),
-                        'itemToFetch'  => array(
-                            'type'    => 'number',
-                            'default' => 10,
-                        ),
-                        'listingPage'  => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'postType'     => array(
-                            'type'    => 'string',
-                            'default' => 'sponsors',
-                        ),
-                        'taxonomies'   => array(
-                            'type'    => 'array',
-                            'default' => [],
-                            'items'   => [
-                                'type' => 'string'
-                            ]
-                        ),
-                        'terms'        => array(
-                            'type' => 'string'
-                        ),
-                        'orderBy'      => array(
-                            'type'    => 'string',
-                            'default' => 'date'
-                        ),
-                        'sliderActive' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'minSlides'    => array(
-                            'type'    => 'number',
-                            'default' => 6
-                        ),
-                        'autoplay'     => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'infiniteLoop' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'pager'        => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'controls'     => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'sliderSpeed'  => array(
-                            'type'    => 'number',
-                            'default' => 500
-                        ),
-                        'slideWidth'   => array(
-                            'type'    => 'number',
-                            'default' => 400
-                        ),
-                        'slideMargin'  => array(
-                            'type'    => 'number',
-                            'default' => 30
-                        ),
-                        'arrowIcons' => array(
-                            'type' => 'string',
-                            'default' => 'slider-arrow-1'
-                        ),
-                    ),
+                    'attributes'      => array_merge( $sponsors_slider_attr, $this->mysgb_get_common_slider_attributes(6 ) ),
                     'render_callback' => array( $this, 'mysgb_sponsors_partners_render_callback' ),
                 )
             );
@@ -592,67 +421,75 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 )
             );
 
+            $tracks_slider_attr = array(
+                                    'itemToFetch'  => array(
+                                        'type'    => 'number',
+                                        'default' => 10,
+                                    ),
+                                    'order'      => array(
+                                        'type'    => 'string',
+                                        'default' => 'ASC'
+                                    ),
+                                    'featuredTag' => array(
+                                        'type'    => 'boolean',
+                                        'default' => false
+                                    ),
+                                    'categoryType' => array(
+                                        'type'    => 'string',
+                                        'default' => 'tracks'
+                                    )
+                                );
+
             register_block_type( 'mys/tracks-slider', array(
+                    'attributes'      => array_merge( $tracks_slider_attr, $slider_attributes ),
+                    'render_callback' => array( $this, 'mysgb_tracks_slider_render_callback' ),
+                )
+            );
+
+            register_block_type( 'mys/product-categories', array(
                     'attributes'      => array(
                         'itemToFetch'  => array(
                             'type'    => 'number',
                             'default' => 10,
                         ),
-                        'sliderActive' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'minSlides'    => array(
-                            'type'    => 'number',
-                            'default' => 4
-                        ),
-                        'autoplay'     => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'infiniteLoop' => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'pager'        => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'controls'     => array(
-                            'type'    => 'boolean',
-                            'default' => true
-                        ),
-                        'sliderSpeed'  => array(
-                            'type'    => 'number',
-                            'default' => 500
-                        ),
-                        'slideWidth'   => array(
-                            'type'    => 'number',
-                            'default' => 400
-                        ),
-                        'order'      => array(
+                        'layoutType' => array(
                             'type'    => 'string',
-                            'default' => 'ASC'
-                        ),
-                        'slideMargin'  => array(
-                            'type'    => 'number',
-                            'default' => 30
-                        ),
-                        'arrowIcons' => array(
-                            'type' => 'string',
-                            'default' => 'slider-arrow-1'
-                        ),
-                        'featuredTag' => array(
-                            'type'    => 'boolean',
-                            'default' => false
-                        ),
-                        'categoryType' => array(
-                            'type'    => 'string',
-                            'default' => 'tracks'
+                            'default' => 'listing'
                         )
 
                     ),
-                    'render_callback' => array( $this, 'mysgb_tracks_slider_render_callback' ),
+                    'render_callback' => array( $this, 'mysgb_product_categories_render_callback' ),
+                )
+            );
+
+            $product_slider_attr = array(
+                                    'itemToFetch'  => array(
+                                        'type'    => 'number',
+                                        'default' => 10,
+                                    ),
+                                    'postType'     => array(
+                                        'type'    => 'string',
+                                        'default' => 'not-to-be-missed',
+                                    ),
+                                    'taxonomies'   => array(
+                                        'type'    => 'array',
+                                        'default' => [],
+                                        'items'   => [
+                                            'type' => 'string'
+                                        ]
+                                    ),
+                                    'terms'        => array(
+                                        'type' => 'string'
+                                    ),
+                                    'orderBy'      => array(
+                                        'type'    => 'string',
+                                        'default' => 'date'
+                                    )
+                                );
+
+            register_block_type( 'mys/product-slider', array(
+                    'attributes'      => array_merge( $product_slider_attr, $slider_attributes ),
+                    'render_callback' => array( $this, 'mysgb_product_slider_render_callback' ),
                 )
             );
 
@@ -684,9 +521,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $order          = 'date' === $order_by ? 'DESC' : 'ASC';
             $display_title  = isset( $attributes['displayTitle'] ) ? $attributes['displayTitle'] : false;
             $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
-            $class_name    = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-            $query          = get_transient( 'mysgb-get-dynamic-slider-post-cache' . $post_type );
+            $cache_key      = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+            $final_key      = mb_strimwidth( 'mysgb-dynamic-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $cache_key, 0, 170 );
+            $query          = get_transient( $final_key );
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $query_args = array(
@@ -697,27 +536,15 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     'meta_key'       => '_thumbnail_id',
                 );
 
-                $tax_query_args = array('relation' => 'OR');
+                $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms );
 
-                foreach ( $taxonomies as $taxonomy ) {
-                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                        $tax_query_args[] = array (
-                            'taxonomy' => $taxonomy,
-                            'field'    => 'slug',
-                            'terms'    => $terms->{$taxonomy},
-                        );
-                    }
+                if ( count( $tax_query_args ) > 1 ) {
+                    $query_args[ 'tax_query' ] = $tax_query_args;
                 }
 
-                $count_query_args = count($tax_query_args);
+                $query = new WP_Query( $query_args );
 
-                if ( $count_query_args > 1 ) {
-                    $query_args['tax_query'] = $tax_query_args;
-                }
-
-                $query = new WP_Query($query_args);
-
-                set_transient( 'mysgb-get-dynamic-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
             }
 
             ob_start();
@@ -748,13 +575,33 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                 <div class="flip-box-inner">
                         <?php
                         }
+                        if ( 'page' === $post_type ) {
                         ?>
-                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title(); ?>">
+                            <a href="<?php echo esc_url( get_the_permalink() ); ?>">
                         <?php
+                        }
+                        ?>
+                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="item-logo">
+                        <?php
+                        if ( 'page' === $post_type ) {
+                        ?>
+                            </a>
+                        <?php
+                        }
                         if ( $display_title ) {
                         ?>
                                     <div class="flip-box-back rounded-circle">
-                                        <h6><?php echo esc_html( get_the_title() ); ?></h6>
+                                        <h6>
+                                        <?php
+                                        if ( 'page' === $post_type ) {
+                                        ?>
+                                            <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                                        <?php
+                                        } else {
+                                            echo esc_html( get_the_title() );
+                                        }
+                                        ?>
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
@@ -790,12 +637,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public function mysgb_session_slider_render_callback( $attributes ) {
             $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
+            $with_content      = isset( $attributes['withContent'] ) ? $attributes['withContent'] : false;
             $listing_type      = isset( $attributes['listingType'] ) && ! empty( $attributes['listingType'] )? $attributes['listingType'] : 'none';
             $post_type         = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'sessions';
             $taxonomies        = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms             = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
             $posts_per_page    = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
-            $detail_popup      = isset( $attributes['detailPopup'] ) ? $attributes['detailPopup'] : false;
             $slider_active     = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
             $min_slides        = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
             $slide_width       = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
@@ -812,23 +659,33 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $layout            = isset( $attributes['layout'] ) && ! empty( $attributes['layout'] ) ? $attributes['layout'] : '';
             $slider_layout     = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : '';
             $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
-
+            $query             = false;
+            $listing_id        = '';
+            $final_key         = '';
+            $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+            $prepare_key       = 'mysgb-session-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_content;
 
             if ( ! $listing_page || 'none' !== $listing_type ) {
 
                 if ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) {
-                    $query  = get_transient( 'mys-get-session-date-group-post-cache' . $posts_per_page . $listing_type );
-                } elseif ( 'rand' === $order_by ) {
-                    $query  = get_transient( 'mys-get-session-slider-rand-post-cache' . $post_type );
-                } else {
-                    $query  = get_transient( 'mys-get-session-slider-post-cache' . $post_type );
+                    $final_key  = mb_strimwidth( $prepare_key . '-' . $listing_type . '-' . $cache_key, 0, 170 );
+                    $query      = get_transient( $final_key );
+                } elseif ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+                    $final_key  = mb_strimwidth( $prepare_key . '-' . $attributes['sessionDate'] . '-' . $cache_key, 0, 170 );
+                    $query      = get_transient( $final_key );
+                } elseif ( ! empty( $cache_key ) ) {
+                    $final_key  = mb_strimwidth( $prepare_key . '-' . $cache_key, 0, 170 );
+                    $query      = get_transient( $final_key );
                 }
 
             } else {
-                $query      = false;
-                $listing_id = 'browse-session';
+                $listing_id  = 'browse-session';
+                $session_key = filter_input( INPUT_GET, 'session-key', FILTER_SANITIZE_STRING );
+                if ( isset( $session_key ) && ! empty( $session_key ) ) {
+                    $final_key  = mb_strimwidth( $prepare_key . '-' . $session_key . '-' . $cache_key, 0, 170 );
+                    $query      = get_transient( $final_key );
+                }
             }
-
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
@@ -853,6 +710,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 }
 
                 if ( ! $listing_page ) {
+
+                    if ( $with_content ) {
+                        $query_args[ 'content_with' ] = true;
+                    }
+
                     if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
                          $session_date              = new DateTime( $attributes['sessionDate'] );
                          $session_date              = $session_date->format( 'Y-m-d' );
@@ -860,46 +722,27 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                          $query_args['meta_value']  = $session_date;
                     }
 
-                    $tax_query_args = array('relation' => $taxonomy_relation);
+                    $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation );
 
-                    foreach ( $taxonomies as $taxonomy ) {
-                        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                            $tax_query_args[] = array (
-                                'taxonomy' => $taxonomy,
-                                'field'    => 'slug',
-                                'terms'    => $terms->{$taxonomy},
-                            );
-                        }
-                    }
-
-                    $count_query_args = count($tax_query_args);
-
-                    if ( $count_query_args > 1 ) {
+                    if ( count( $tax_query_args ) > 1 ) {
                         $query_args[ 'tax_query' ] = $tax_query_args;
                     }
-                } elseif ( $listing_page && 'none' !== $listing_type ) {
 
+                } elseif ( ( $listing_page && 'none' !== $listing_type ) || ( isset( $session_key ) && ! empty( $session_key ) ) ) {
+                    $session_term = isset( $session_key ) && ! empty( $session_key ) ? strtolower( $session_key ) : $listing_type;
                     $query_args[ 'tax_query' ] = array(
                             array(
                                 'taxonomy' => 'session-categories',
                                 'field'    => 'slug',
-                                'terms'    => $listing_type
+                                'terms'    => $session_term
                             )
                     );
                 }
 
+                $query = new WP_Query( $query_args );
 
-                $query = new WP_Query($query_args);
-
-                if ( ! $listing_page || 'none' !== $listing_type ) {
-
-                    if ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) {
-                        set_transient( 'mys-get-session-date-group-post-cache' . $posts_per_page . $listing_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-                    } elseif ( 'rand' !== $order_by ) {
-                        set_transient( 'mys-get-session-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-                    } else {
-                        set_transient( 'mys-get-session-slider-rand-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-                    }
+                if ( ! empty( $final_key ) ) {
+                    set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
 
             }
@@ -945,21 +788,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                 <p><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></p>
                             </div>
                             <div class="name">
-                                <?php
+                            <?php
                                 $session_title = mb_strimwidth( get_the_title(), 0, 83, '...' );
-                                if ( $detail_popup ) {
-                                ?>
-                                    <strong>
-                                        <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( get_the_ID() ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $session_title ); ?></a>
-                                    </strong>
-                                <?php
-                                } else {
-                                ?>
-                                    <strong><?php echo esc_html( $session_title ); ?></strong>
-                                <?php
-                                }
-                                ?>
-
+                            ?>
+                                <strong><?php $this->mysgb_generate_popup_link( get_the_ID(), $post_type, $session_title ); ?> </strong>
                             </div>
                             <div class="details">
                             <?php
@@ -1087,14 +919,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         <?php
                         }
                         ?>
-                            <div class="item" data-featured="<?php echo esc_attr( $featured_post ); ?>" data-tracks="<?php echo esc_attr( $all_tracks_string ); ?>">
+                            <div class="item <?php echo $listing_page && 'none' === $listing_type ? esc_attr( $featured_post ) : ''; ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>" data-tracks="<?php echo esc_attr( $all_tracks_string ); ?>">
                         <?php
-                            if ( $detail_popup && $slider_active ) {
-
-                                $this->mysgb_generate_popup_link( $session_id, $post_type );
-
-                            }
-
                             $session_has_thumbnail = has_post_thumbnail();
 
                             if ( ( ! $listing_page && 'with-featured' === $layout && $session_has_thumbnail ) || ( 'none' !== $listing_type && $session_has_thumbnail ) ) {
@@ -1102,9 +928,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                 <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="session-logo">
                             <?php
                             }
+                            $title_text =  mb_strimwidth( get_the_title(), 0, 83, '...' );
                             ?>
 
-                            <h4><?php echo esc_html( mb_strimwidth( get_the_title(), 0, 83, '...' ) ); ?></h4>
+                            <h4><?php $this->mysgb_generate_popup_link( $session_id, $post_type, $title_text); ?></h4>
 
                             <?php
                             if ( $slider_active ) {
@@ -1136,7 +963,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                                     echo esc_html( get_the_excerpt() );
 
-                                    $this->mysgb_generate_popup_link( $session_id, $post_type, 'Read More' );
+                                    $this->mysgb_generate_popup_link( $session_id, $post_type, 'Read More', 'read-more-popup' );
                                 ?>
                                 </p>
 
@@ -1167,9 +994,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                                     } else {
                                                         $speaker_thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
                                                     }
-
-                                                    $speaker_job_title = get_post_meta( get_the_ID(), 'title', true );
-                                                    $speaker_company   = get_post_meta( get_the_ID(), 'company', true );
+                                                    $speaker_id        = get_the_ID();
+                                                    $speaker_job_title = get_post_meta( $speaker_id, 'title', true );
+                                                    $speaker_company   = get_post_meta( $speaker_id, 'company', true );
 
                                                     ?>
                                                         <div class="speaker-single">
@@ -1177,7 +1004,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                                                 <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" class="rounded-circle" />
                                                             </div>
                                                             <div class="info-box">
-                                                                <h4 class="title"><?php echo esc_html( get_the_title() ); ?></h4>
+                                                                <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
                                                                 <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
                                                                 <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
                                                             </div>
@@ -1190,7 +1017,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                     }
                                  ?>
 
-                                <a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
+                                <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
                             <?php
                             }
                             ?>
@@ -1215,14 +1042,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     if ( $listing_page ) {
                     ?>
                         <p class="no-data">Result not found.</p>
-                        <?php
-                        if ( $query->max_num_pages > 1 ) {
-                        ?>
-                            <div class="load-more-sessions text-center" id="load-more-sessions">
-                                <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
-                            </div>
+                        <div class="load-more-sessions text-center <?php echo $query->max_num_pages > 1 ? '' : esc_attr( 'display-none' ); ?>" id="load-more-sessions">
+                            <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
+                        </div>
                     <?php
-                        }
                     }
                     ?>
                 </div>
@@ -1252,11 +1075,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         public function mysgb_exhibitors_slider_render_callback( $attributes ) {
 
             $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
+            $with_thumbnail    = isset( $attributes['withThumbnail'] ) ? $attributes['withThumbnail'] : false;
             $post_type         = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'exhibitors';
             $taxonomies        = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms             = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
             $posts_per_page    = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
-            $detail_popup      = isset( $attributes['detailPopup'] ) ? $attributes['detailPopup'] : false;
             $taxonomy_relation = isset( $attributes['taxonomyRelation'] ) && $attributes['taxonomyRelation'] ? 'AND' : 'OR';
             $slider_active     = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
             $min_slides        = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
@@ -1266,27 +1089,32 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $pager             = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
             $controls          = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
             $slider_speed      = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
-            $slider_mode       = isset( $attributes['sliderMode'] ) ? $attributes['sliderMode'] : 'horizontal';
             $order_by          = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
             $slider_margin     = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
             $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
             $order             = 'date' === $order_by ? 'DESC' : 'ASC';
             $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
-            if ( ! $listing_page ) {
-                $query = get_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type );
+            $final_key         = '';
+            $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+
+            if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
+                $final_key  = mb_strimwidth( 'mysgb-exhibitor-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' . '-' . $with_thumbnail . $cache_key, 0, 170 );
+                $query      = get_transient( $final_key );
             } else {
-                $get_exkey      = filter_input( INPUT_GET, 'exkey', FILTER_SANITIZE_STRING );
-                $get_featured   = filter_input( INPUT_GET, 'featured', FILTER_SANITIZE_STRING );
+
+                $get_exkey = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
 
                 if ( isset( $get_exkey ) && ! empty( $get_exkey ) ) {
-                    $query = get_transient( 'mys-get-exhibitors-browse-post-cache' . $get_exkey );
+                    $final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_exkey . '-' . $posts_per_page;
+                    $query      = get_transient( $final_key );
                 } else {
                     $query = false;
                 }
             }
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
                 $query_args = array(
                     'post_type'      => $post_type,
                     'posts_per_page' => $posts_per_page,
@@ -1296,26 +1124,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 if ( ! $listing_page ) {
 
-                    $tax_query_args = array('relation' => $taxonomy_relation );
-
-                    foreach ( $taxonomies as $taxonomy ) {
-                        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                            $tax_query_args[] = array (
-                                'taxonomy' => $taxonomy,
-                                'field'    => 'slug',
-                                'terms'    => $terms->{$taxonomy},
-                            );
-                        }
+                    if ( $with_thumbnail ) {
+                        $query_args[ 'meta_key' ] = '_thumbnail_id';
                     }
 
-                    $count_query_args = count($tax_query_args);
+                    $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation );
 
-                    if ( $count_query_args > 1 ) {
-                        $query_args['tax_query'] = $tax_query_args;
+                    if ( count( $tax_query_args ) > 1 ) {
+                        $query_args[ 'tax_query' ] = $tax_query_args;
                     }
 
                 } elseif ( isset( $get_exkey ) && ! empty( $get_exkey ) ) {
-                    $query_args['tax_query'] = array(
+                    $query_args[ 'tax_query' ] = array(
                             array(
                                 'taxonomy' => 'exhibitor-keywords',
                                 'field'    => 'slug',
@@ -1326,10 +1146,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query( $query_args );
 
-                if ( ! $listing_page ) {
-                    set_transient( 'mys-get-exhibitors-slider-post-cache' . $post_type, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-                } elseif ( isset( $get_exkey ) && ! empty( $get_exkey ) ) {
-                    set_transient( 'mys-get-exhibitors-browse-post-cache' . $get_exkey, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( ! empty( $final_key ) ) {
+                    set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
             }
 
@@ -1343,7 +1161,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 <?php
                 if ( $slider_active ) {
                 ?>
-                    <div class="nab-dynamic-slider nab-box-slider exhibitors" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                    <div class="nab-dynamic-slider nab-box-slider exhibitors" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
                 <?php
                 } else {
                 ?>
@@ -1359,33 +1177,36 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         if ( $listing_page ) {
 
                             $featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
-                            $item_class     = 'item';
-
-                            if ( isset( $get_featured ) && 'true' === strtolower( $get_featured ) && ! empty( $featured_post ) ) {
-                                $item_class .= ' featured';
-                            }
                         ?>
-                            <div class="<?php echo esc_attr( $item_class ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
+                            <div class="item <?php echo esc_attr( $featured_post ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
                         <?php
                         } else {
                         ?>
                             <div class="item">
                         <?php
                         }
-
-                        if ( $detail_popup && $slider_active ) {
-                            $this->mysgb_generate_popup_link( $exhibitor_id, $post_type );
-                        }
                         ?>
                             <div class="item-inner">
                                 <?php
                                 if ( has_post_thumbnail() ) {
-                                ?>
-                                    <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="exhibitor-logo">
+                                    if ( $slider_active ) {
+                                    ?>
+                                        <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>">
+                                    <?php
+                                    }
+                                    ?>
+                                        <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="exhibitor-logo">
+                                    <?php
+                                    if ( $slider_active ) {
+                                    ?>
+                                        </a>
+                                    <?php
+                                    }
+                                    ?>
                                 <?php
                                 } elseif ( $slider_active ) {
                                 ?>
-                                     <h4 class="exhibitor-title"><?php echo esc_html( get_the_title() ); ?></h4>
+                                     <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $post_type, get_the_title() ); ?></h4>
                                 <?php
                                 }
                                 if ( ! $slider_active ) {
@@ -1393,12 +1214,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                     $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
                                     $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
                                 ?>
-                                    <h4><?php echo esc_html( get_the_title() ); ?></h4>
+                                    <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $post_type, get_the_title() ); ?></h4>
                                     <span><?php echo esc_html( $booth_number ); ?></span>
                                     <p>
                                     <?php
                                         echo esc_html( get_the_excerpt() );
-                                        $this->mysgb_generate_popup_link( $exhibitor_id, $post_type, 'Read More');
+                                        $this->mysgb_generate_popup_link( $exhibitor_id, $post_type, 'Read More', 'read-more-popup');
                                     ?>
                                     </p>
                                     <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
@@ -1415,14 +1236,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 if ( $listing_page ) {
                 ?>
                     <p class="no-data">Result not found.</p>
-                    <?php
-                    if ( $query->max_num_pages > 1 ) {
-                    ?>
-                        <div class="load-more-sessions text-center" id="load-more-exhibitor">
-                            <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
-                        </div>
+                    <div class="load-more-sessions text-center <?php echo $query->max_num_pages > 1 ? '' : esc_attr( 'display-none' ); ?>" id="load-more-exhibitor">
+                        <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
+                    </div>
                 <?php
-                    }
                 }
                 ?>
             </div>
@@ -1451,11 +1268,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             $listing_page       = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
             $featured_listing   = isset( $attributes['featuredListing'] ) ? $attributes['featuredListing'] : false;
+            $with_thumbnail     = isset( $attributes['withThumbnail'] ) ? $attributes['withThumbnail'] : false;
             $post_type          = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'speakers';
             $taxonomies         = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
             $terms              = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
             $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
-            $detail_popup       = isset( $attributes['detailPopup'] ) ? $attributes['detailPopup'] : false;
             $slider_active      = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
             $min_slides         = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
             $slide_width        = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
@@ -1472,14 +1289,25 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
             $item_class         = 'circle' === $slider_shape && $slider_active ? '' : 'display-title';
 
-            if ( ! $listing_page || $featured_listing ) {
-                $query = get_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type . $featured_listing );
+            $query              = false;
+            $final_key          = '';
+            $cache_key          = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+
+            if ( $featured_listing || ! empty( $cache_key ) || $with_thumbnail ) {
+                $final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $featured_listing . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );
+                $query = get_transient( $final_key );
             } else {
-                $query = false;
+                $speaker_key = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
+
+                if ( isset( $speaker_key ) && ! empty( $speaker_key ) ) {
+                    $final_key  = 'mysgb-speaker-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' .$speaker_key;
+                    $query      = get_transient( $final_key );
+                }
             }
 
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
                 $query_args = array(
                     'post_type'      => $post_type,
                     'posts_per_page' => $posts_per_page,
@@ -1488,24 +1316,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 );
 
                 if ( ! $listing_page ) {
-                   $tax_query_args = array('relation' => 'OR');
 
-                    foreach ( $taxonomies as $taxonomy ) {
-                        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                            $tax_query_args[] = array (
-                                'taxonomy' => $taxonomy,
-                                'field'    => 'slug',
-                                'terms'    => $terms->{$taxonomy},
-                            );
-                        }
+                    if ( $with_thumbnail ) {
+                        $query_args[ 'meta_key' ] = '_thumbnail_id';
                     }
 
-                    $count_query_args = count($tax_query_args);
+                    $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms );
 
-                    if ( $count_query_args > 1 ) {
-                        $query_args['tax_query'] = $tax_query_args;
+                    if ( count( $tax_query_args ) > 1 ) {
+                        $query_args[ 'tax_query' ] = $tax_query_args;
                     }
-                } elseif ( $listing_page && $featured_listing ) {
+
+                } elseif ( ( $listing_page && $featured_listing ) || ( isset( $speaker_key ) && ! empty( $speaker_key ) ) ) {
                     $query_args[ 'tax_query' ] = array(
                             array(
                                 'taxonomy' => 'speaker-categories',
@@ -1517,8 +1339,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query( $query_args );
 
-                if ( ! $listing_page || $featured_listing ) {
-                    set_transient( 'mysgb-get-speaker-slider-post-cache' . $post_type . $featured_listing, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( ! empty( $final_key ) ) {
+                    set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
             }
 
@@ -1526,11 +1348,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             if ( $query->have_posts() ) {
             ?>
-                <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+                <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
             <?php
                     if ( $slider_active ) {
                     ?>
-                        <div class="nab-dynamic-slider items-md nab-box-slider speakers" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                        <div class="nab-dynamic-slider items-md nab-box-slider speakers" data-minslides="<?php echo esc_attr( $min_slides );?>" data-slidewidth="<?php echo esc_attr( $slide_width );?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
                     <?php
                     } else {
                     ?>
@@ -1553,7 +1375,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         if ( $listing_page ) {
                             $featured_post  = has_term( 'featured', 'speaker-categories' ) ? 'featured' : '';
                         ?>
-                            <div class="item <?php echo esc_attr( $item_class ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
+                            <div class="item <?php echo esc_attr( $item_class ); echo ! $featured_listing && ! empty( $featured_post ) ? esc_attr( ' featured' ) : ''; ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
                         <?php
                         } else {
                         ?>
@@ -1561,15 +1383,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         <?php
                         }
 
-                        if ( $detail_popup ) {
-                            $this->mysgb_generate_popup_link( $speaker_id, $post_type );
-                        }
                         ?>
                             <div class="flip-box">
                                 <div class="flip-box-inner">
                                     <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
                                     <div class="flip-box-back rounded-circle">
-                                        <h6><?php echo esc_html( get_the_title() ); ?></h6>
+                                        <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $post_type, get_the_title() ); ?></h6>
                                         <?php
                                          if ( ! $slider_active ) {
                                             $speaker_job_title = get_post_meta( $speaker_id, 'title', true );
@@ -1645,7 +1464,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $order           = 'date' === $order_by ? 'DESC' : 'ASC';
             $class_name      = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-            $query           = get_transient( 'mysgb-get-sponsors-partners-post-cache-' . $order_by . $posts_per_page );
+            $cache_key       = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+            $final_key       = mb_strimwidth( 'mysgb-sponsors-partners-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $cache_key, 0, 170 );
+            $query           = get_transient( $final_key );
 
             if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
@@ -1665,27 +1486,15 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     $query_args['order']                = $order;
                 }
 
-                $tax_query_args = array('relation' => 'OR');
+                $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms );
 
-                foreach ( $taxonomies as $taxonomy ) {
-                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-                        $tax_query_args[] = array (
-                            'taxonomy' => $taxonomy,
-                            'field'    => 'slug',
-                            'terms'    => $terms->{$taxonomy},
-                        );
-                    }
-                }
-
-                $count_query_args = count($tax_query_args);
-
-                if ( $count_query_args > 1 ) {
-                    $query_args['tax_query'] = $tax_query_args;
+                if ( count( $tax_query_args ) > 1 ) {
+                    $query_args[ 'tax_query' ] = $tax_query_args;
                 }
 
                 $query = new WP_Query($query_args);
 
-                set_transient( 'mysgb-get-sponsors-partners-post-cache-' . $order_by . $posts_per_page, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
             }
 
             if ( 'rand' === $order_by && $query->have_posts() ) {
@@ -1707,7 +1516,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     <?php
                     } else {
                     ?>
-                        <ul class="partner-listing" id="sponsors-partners-list">
+                        <ul class="partner-listing <?php echo esc_attr( $layout ); ?>" id="sponsors-partners-list">
                     <?php
                     }
                     while ( $query->have_posts() ) {
@@ -1741,11 +1550,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             if ( $listing_page ) {
                                 $featured_post  = has_term( 'featured', 'sponsor-categories' ) ? 'featured' : '';
                             ?>
-                                <li data-title="<?php echo esc_attr( strtolower( get_the_title() ) ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
+                                <li class="<?php echo esc_attr( $featured_post ); ?>" data-title="<?php echo esc_attr( strtolower( get_the_title() ) ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
                             <?php
                             } else {
                             ?>
                                 <li>
+                            <?php
+                            }
+                            if ( 'with-info' === $layout ) {
+                            ?>
+                                <div class="partner-inner">
                             <?php
                             }
                             ?>
@@ -1766,15 +1580,24 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                     }
                                     ?>
                                 </figure>
+
                                 <?php
-                                if ( 'with-title' === $layout ) {
+                                if ( 'with-title' === $layout || 'with-info' === $layout ) {
                                     $all_sponsor_type = get_the_terms( get_the_ID(), 'sponsor-types' );
                                     $sponsor_type     = $this->mysgb_get_comma_separated_term_list( $all_sponsor_type );
                                 ?>
                                     <span><?php echo esc_html( $sponsor_type ); ?></span>
                                 <?php
                                 }
-                                ?>
+
+                            if ( 'with-info' === $layout ) {
+                            ?>
+                                    <p><?php echo esc_html( get_the_excerpt() ); ?></p>
+                                    <a href="<?php echo esc_url( $partners_sponsors_link ); ?>" target="_blank">Learn More</a>
+                                </div>
+                            <?php
+                            }
+                            ?>
                             </li>
                         <?php
                         }
@@ -1913,8 +1736,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
             $featured_track = isset( $attributes['featuredTag'] ) ? $attributes['featuredTag'] : false;
             $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+            $terms          = false;
 
-            $terms          = get_transient( 'mys-get-category-slider-cache-' . $category_type );
+            if ( $featured_track ) {
+                $terms = get_transient( 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $order );
+            }
+
 
             if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
@@ -1925,8 +1752,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     'orderBy'    => 'name',
                     'order'      => $order,
                 );
+
                 if ( $featured_track ) {
-                    $args['meta_query'] = array(
+                    $args[ 'meta_query' ] = array(
                                 array(
                                    'key'       => 'featured_tag',
                                    'value'     => 'on',
@@ -1934,9 +1762,13 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                 )
                             );
                 }
+
                 $terms = get_terms( $args );
 
-                set_transient( 'mys-get-category-slider-cache-' . $category_type, $terms, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                if ( $featured_track ) {
+                    set_transient( 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $order, $terms, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                }
+
             }
 
             ob_start();
@@ -1979,6 +1811,234 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             } else {
             ?>
                 <p>Record Not Found.</p>
+            <?php
+            }
+
+            wp_reset_postdata();
+
+            $html = ob_get_clean();
+            return $html;
+        }
+
+        /**
+         * Fetch product categories
+         * @param $attributes
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_product_categories_render_callback( $attributes ) {
+            $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $layout_type    = isset( $attributes['layoutType'] ) && ! empty( $attributes['layoutType'] ) ? $attributes['layoutType'] : 'listing';
+            $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+
+            $parent_terms = get_terms( array(
+                'taxonomy' => 'exhibitor-categories',
+                'parent'   => 0,
+                'hide_empty' => false
+            ) );
+
+            ob_start();
+
+            if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $parent_terms ) > 0 ) {
+                $term_counter = 1;
+            ?>
+                <div class="category-listing-main <?php echo esc_attr( $class_name ); ?>">
+                    <?php
+                    if ( 'parent-img-list' === $layout_type ) {
+                    ?>
+                        <ul class="parent-category-listing">
+                    <?php
+                    }
+
+                    foreach ( $parent_terms as $parent_term ) {
+
+                        $child_terms = get_terms( array(
+                            'taxonomy' => 'exhibitor-categories',
+                            'parent'   => $parent_term->term_id,
+                            'hide_empty' => false
+                        ) );
+
+                        if ( is_array( $child_terms ) && ! is_wp_error( $child_terms ) && count( $child_terms ) > 0 ) {
+
+                            if ( 'parent-img-list' === $layout_type ) {
+                                $image_id   = get_term_meta( $parent_term->term_id, 'tax-image-id', true );
+                                $image_url  = ! empty( $image_id ) ? wp_get_attachment_url( $image_id ) : nabshow_lv_get_empty_thumbnail_url();
+                            ?>
+                                <li>
+                                    <a href="#"><img src="<?php echo esc_url( $image_url ); ?>" alt="category-logo" /></a>
+                                </li>
+                            <?php
+                            } else {
+
+                                $listing_class = $layout_type;
+
+                                if ( 'accordion-list' === $layout_type ) {
+                                    $listing_class .= 1 === $term_counter ? ' open' : ' close';
+                                }
+                                ?>
+                                <div class="category-listing <?php echo esc_attr( $listing_class ); ?>">
+                                    <div class="category-head">
+                                        <h2 class="category-title"><?php echo esc_html( $parent_term->name ); ?></h2>
+                                    </div>
+                                    <div class="category-body">
+                                        <ul>
+                                        <?php
+                                            foreach ( $child_terms as $child_term ) {
+                                            ?>
+                                                <li>
+                                                    <a href="#">
+                                                    <?php
+                                                        if ( 'accordion-list' === $layout_type ) {
+                                                            echo esc_html( $child_term->name );
+                                                        } else {
+                                                            $image_id = get_term_meta( $child_term->term_id, 'tax-image-id', true );
+                                                            if ( ! empty( $image_id ) ) {
+                                                                $image_url = wp_get_attachment_url( $image_id );
+                                                            } else {
+                                                                $image_url = nabshow_lv_get_empty_thumbnail_url();
+                                                            }
+                                                        ?>
+                                                            <img src="<?php echo esc_url( $image_url ); ?>" alt="category-logo" data-title="<?php echo esc_attr( strtolower( $child_term->name ) ); ?>">
+                                                        <?php
+                                                        }
+                                                    ?>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            }
+                                        ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            if ( $posts_per_page <= $term_counter ) {
+                                break;
+                            }
+                            $term_counter++;
+                        }
+                    }
+
+                    if ( 'listing' === $layout_type ) {
+                    ?>
+                        <p class="no-data display-none">Result not found.</p>
+                    <?php
+                    } elseif ( 'parent-img-list' === $layout_type ) {
+                    ?>
+                        </ul>
+                    <?php
+                    }
+                    ?>
+                </div>
+            <?php
+            }
+            $html = ob_get_clean();
+            return $html;
+
+        }
+
+        /**
+         * Fetch dynamic product item/slide according to block attributes
+         * @param $attributes
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_product_slider_render_callback( $attributes ) {
+
+            $post_type          = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'not-to-be-missed';
+            $taxonomies         = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
+            $terms              = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
+            $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+            $slider_active      = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
+            $min_slides         = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
+            $slide_width        = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+            $autoplay           = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
+            $infinite_loop      = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
+            $pager              = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
+            $controls           = isset( $attributes['controls'] ) ? $attributes['controls'] : false;
+            $slider_speed       = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
+            $order_by           = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
+            $slider_margin      = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+            $order              = 'date' === $order_by ? 'DESC' : 'ASC';
+            $arrow_icons        = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+            $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+            $query              = false;
+            $final_key          = '';
+            $cache_key          = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+
+            if ( ! empty( $cache_key ) ) {
+                $final_key      = mb_strimwidth( 'mysgb-product-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $cache_key, 0, 170 );
+                $query          = get_transient( $final_key );
+            }
+
+            if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+                $query_args = array(
+                    'post_type'      => $post_type,
+                    'posts_per_page' => $posts_per_page,
+                    'orderby'        => $order_by,
+                    'order'          => $order,
+                );
+
+               $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms );
+
+                if ( count( $tax_query_args ) > 1 ) {
+                    $query_args[ 'tax_query' ] = $tax_query_args;
+                }
+
+                $query = new WP_Query( $query_args );
+
+                if ( ! empty( $cache_key ) ) {
+                    set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+                }
+
+            }
+
+            ob_start();
+
+            if ( $query->have_posts() ) {
+            ?>
+
+                <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
+
+                <?php
+                    if ( $slider_active ) {
+                    ?>
+                        <div class="nab-dynamic-slider nab-box-slider products-listing-main" data-minslides="<?php echo esc_attr( $min_slides );?>" data-slidewidth="<?php echo esc_attr( $slide_width );?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+                    <?php
+                    } else {
+                    ?>
+                        <div class="nab-dynamic-list nab-box-slider product-main products-listing-main">
+                    <?php
+                    }
+
+                    while ( $query->have_posts() ) {
+
+                        $query->the_post();
+
+                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/mys-placeholder.jpg', __FILE__ );
+
+                        ?>
+                        <div class="product-item">
+                            <div class="product-inner">
+                                <div class="media-img">
+                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" class="img" alt="product-logo">
+                                </div>
+                                <h3 class="title">
+                                    <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                                </h3>
+                                <span class="subtitle">Company Name</span>
+                                <p class="content"><?php echo esc_html( get_the_excerpt() ); ?></p>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    </div>
+                </div>
+            <?php
+            } else {
+            ?>
+                <p>No posts found.</p>
             <?php
             }
 
@@ -2045,14 +2105,118 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         }
 
         /**
+        * Generate cache key according to taxonomies and terms
+        * @param $taxonomies
+        * @param $terms
+        * @return string
+        * @since 1.0.0
+        */
+        public function mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms ) {
+
+            $cache_key = '';
+
+            if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
+                foreach ( $taxonomies as $taxonomy ) {
+                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                        $cache_key .= $taxonomy . '-' . implode('-', $terms->{$taxonomy} );
+                    }
+                }
+            }
+
+            return $cache_key;
+
+        }
+
+        /**
+        * Prepare tax_query argument according to given taxonomies and terms
+        * @param $taxonomies
+        * @param $terms
+        * @param $taxonomy_relation
+        * @return array
+        * @since 1.0.0
+        */
+        public function mysgb_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation = 'OR' ) {
+
+            $tax_query_args = array( 'relation' => $taxonomy_relation );
+
+            if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
+                foreach ( $taxonomies as $taxonomy ) {
+                    if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+                        $tax_query_args[] = array (
+                            'taxonomy' => $taxonomy,
+                            'field'    => 'slug',
+                            'terms'    => $terms->{$taxonomy},
+                        );
+                    }
+                }
+            }
+
+            return $tax_query_args;
+
+        }
+
+        /**
+        * Setup common slider attributes
+        * @param int $min_slides
+        * @return array
+        * @since 1.0.0
+        */
+        public function mysgb_get_common_slider_attributes( $min_slides = 4 ) {
+
+            $slider_attributes = array(
+                        'sliderActive' => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'minSlides'    => array(
+                            'type'    => 'number',
+                            'default' => $min_slides
+                        ),
+                        'autoplay'     => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'infiniteLoop' => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'pager'        => array(
+                            'type'    => 'boolean',
+                            'default' => false
+                        ),
+                        'controls'     => array(
+                            'type'    => 'boolean',
+                            'default' => true
+                        ),
+                        'sliderSpeed'  => array(
+                            'type'    => 'number',
+                            'default' => 500
+                        ),
+                        'slideWidth'   => array(
+                            'type'    => 'number',
+                            'default' => 400
+                        ),
+                        'slideMargin'  => array(
+                            'type'    => 'number',
+                            'default' => 30
+                        ),
+                        'arrowIcons' => array(
+                            'type' => 'string',
+                            'default' => 'slider-arrow-1'
+                        )
+                );
+           return $slider_attributes;
+        }
+
+        /**
         * Generate popup link
         * @param $post_id
         * @param $post_type
         * @param string $display_text
         */
-        public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '' ) {
+        public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '', $class_name = '') {
         ?>
-            <a href="#" class="detail-list-modal-popup <?php echo ! empty( $display_text ) ? esc_attr('read-more-popup') : ''; ?>" data-postid="<?php echo esc_attr( $post_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"> <?php echo esc_html( $display_text ); ?></a>
+            <a href="#" class="detail-list-modal-popup <?php echo esc_attr( $class_name ); ?>" data-postid="<?php echo esc_attr( $post_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"> <?php echo esc_html( $display_text ); ?></a>
         <?php
         }
     }

@@ -196,6 +196,8 @@ function nabshow_lv_search_block( $block ) {
 		return $block['attrs']['className'] === 'related-content-with-block-main';
 	}
 }
+
+
 /*
  * Alphabets list for browse pages
  */
@@ -231,4 +233,120 @@ function nabshow_lv_alphabets_list_filter() {
         <li class="clear">Clear</li>
     </ul>
 <?php
+}
+
+/**
+ * Get day page link according to day
+ * @param string $day
+ * @return string
+ */
+function nabshow_lv_get_day_page_link( $day = '' ) {
+
+    $day_pages = array(
+		'friday'    => '/attend/browse-show/highlights-by-day/friday/',
+		'saturday'  => '/attend/browse-show/highlights-by-day/saturday/',
+		'sunday'    => '/attend/browse-show/highlights-by-day/sunday/',
+		'monday'    => '/attend/browse-show/highlights-by-day/monday/',
+		'tuesday'   => '/attend/browse-show/highlights-by-day/tuesday/',
+		'wednesday' => '/attend/browse-show/highlights-by-day/wednesday/',
+	);
+
+	return isset( $day_pages[ $day ] ) ? $day_pages[ $day ] : '';
+}
+
+/**
+ * Get hall page link according to hall name
+ * @param string $hall
+ * @return string
+ */
+function nabhsow_lv_get_hall_page_link( $hall = '' ) {
+
+    $hall = strtolower( $hall );
+
+    $page_hall_mapping = array(
+		'north hall & central lobby'     => '/explore/campus/north-hall-and-central-lobby/',
+		'central hall'                   => '/explore/campus/central-hall/',
+		'south hall (upper)'             => '/explore/campus/south-hall-upper/',
+		'south hall (lower)'             => '/explore/campus/south-hall-lower/',
+		'north hall meeting rooms'       => '/explore/campus/north-hall-meeting-rooms/',
+		'outdoor/mobile media'           => '/explore/campus/outdoor-mobile-media/',
+		'south hall meeting rooms'       => '/explore/campus/south-hall-meeting-rooms/',
+		'silver lot'                     => '/explore/campus/silver-lot/',
+		'wynn/encore hospitality suites' => '/explore/campus/wynn/',
+		'renaissance hospitality suites' => '/explore/campus/renaissance/',
+		'westgate'                       => '/explore/campus/westgate/'
+	);
+
+	return isset( $page_hall_mapping[ $hall ] ) ? $page_hall_mapping[ $hall ] : '';
+}
+
+/**
+ * Custom excerpt generate function
+ * @param $post_id
+ * @return string
+ */
+function nabshow_lv_excerpt( $post_id = null ) {
+
+    $excerpt = isset( $post_id ) && ! empty( $post_id ) ? get_the_excerpt( $post_id ) : get_the_excerpt();
+
+    if ( empty( $excerpt ) ) {
+	    $excerpt        = isset( $post_id ) && ! empty( $post_id ) ? get_the_content( null, false, $post_id ) : get_the_content();
+	    $excerpt        = wp_strip_all_tags( $excerpt );
+	    $excerpt        = strip_shortcodes( $excerpt );
+	    $excerpt_length = 25;
+	    $excerpt_length = apply_filters( 'excerpt_length', $excerpt_length );
+	    $excerpt_more   = apply_filters( 'excerpt_more', '...' );
+	    $excerpt        = wp_trim_words( $excerpt, $excerpt_length, $excerpt_more );
+    }
+
+    return $excerpt;
+}
+
+/**
+ * Generate cache key according to taxonomies and terms
+ * @param $taxonomies
+ * @param $terms
+ * @return string
+ */
+function nabshow_lv_get_taxonomy_term_cache_key( $taxonomies, $terms ) {
+
+	$cache_key = '';
+
+	if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+				$cache_key .= $taxonomy . '-' . implode('-', $terms->{$taxonomy} );
+			}
+		}
+	}
+
+	return $cache_key;
+
+}
+
+/**
+ * Prepare tax_query argument according to given taxonomies and terms
+ * @param $taxonomies
+ * @param $terms
+ * @param $taxonomy_relation
+ * @return array
+ */
+function nabshow_lv_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation = 'OR' ) {
+
+	$tax_query_args = array( 'relation' => $taxonomy_relation );
+
+	if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+				$tax_query_args[] = array (
+					'taxonomy' => $taxonomy,
+					'field'    => 'slug',
+					'terms'    => $terms->{$taxonomy},
+				);
+			}
+		}
+	}
+
+	return $tax_query_args;
+
 }

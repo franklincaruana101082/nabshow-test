@@ -3,15 +3,8 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
 (function (wpI18n, wpBlocks, wpEditor, wpComponents) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { RichText, InspectorControls, PanelColorSettings } = wpEditor;
-  const {
-    TextControl,
-    PanelBody,
-    PanelRow,
-    RangeControl,
-    ToggleControl,
-    SelectControl, ColorPalette
-  } = wpComponents;
+  const { RichText, InspectorControls } = wpEditor;
+  const { TextControl, PanelBody, PanelRow, RangeControl, ToggleControl, SelectControl, ColorPalette } = wpComponents;
 
   registerBlockType('nab/nab-button', {
     title: __('Nab - Button'),

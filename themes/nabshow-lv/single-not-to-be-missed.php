@@ -64,7 +64,7 @@ get_header();
                             <div class="col-lg-6">
                                 <div class="cross-promo-box">
                                     <h2 class="title"><?php echo esc_html( get_the_title() ) ?></h2>
-                                    <p><?php echo esc_html( get_the_excerpt() ); ?></p>
+                                    <p><?php echo esc_html( nabshow_lv_excerpt() ); ?></p>
                                     <a href="<?php echo esc_url( get_the_permalink() ); ?>">Learn More</a>
                                 </div>
                             </div>

@@ -19,3 +19,9 @@ add_shortcode('nab_yoast_breadcumb', 'nabshow_lv_yoast_breadcrumb_callback' );
 
 //Shortcode for filter options
 add_shortcode( 'nab_browse_filter', 'nabshow_lv_browse_filter_callback' );
+
+//Shortcode for display date
+add_shortcode( 'nab_schedule_date', 'nabshow_lv_schedule_date_callback' );
+
+//Shortcode for display date
+add_shortcode( 'nab_schedule_hall', 'nabshow_lv_schedule_hall_callback' );

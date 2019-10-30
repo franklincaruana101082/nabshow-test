@@ -1,9 +1,9 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-  const { __ } = wp.i18n;
-  const { registerBlockType } = wp.blocks;
-  const { Fragment, Component } = wp.element;
-  const { RichText, MediaUpload } = wp.editor;
-  const { Button, CheckboxControl } = wp.components;
+  const { __ } = wpI18n;
+  const { registerBlockType } = wpBlocks;
+  const { Fragment, Component } = wpElement;
+  const { RichText, MediaUpload } = wpEditor;
+  const { Button, CheckboxControl } = wpComponents;
 
   class BlockComponent extends Component {
 
@@ -199,14 +199,14 @@
                     }}
                   />
                   <CheckboxControl
-                      className="sold-checkbox"
-                      label="Sold"
-                      checked={product.sold}
-                      onChange={() => {
-                        let tempProdcut = [...DataArray];
-                        tempProdcut[index].sold = product.sold ? false : true;
-                        setAttributes({ DataArray: tempProdcut });
-                      }}
+                    className="sold-checkbox"
+                    label="Sold"
+                    checked={product.sold}
+                    onChange={() => {
+                      let tempProdcut = [...DataArray];
+                      tempProdcut[index].sold = product.sold ? false : true;
+                      setAttributes({ DataArray: tempProdcut });
+                    }}
                   />
                 </div>
               </div>
