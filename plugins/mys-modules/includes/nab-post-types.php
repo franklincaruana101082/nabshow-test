@@ -580,6 +580,33 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	register_taxonomy( 'exhibitor-keywords', array( 'exhibitors' ), $keyword_args );
+
+	// Taxonomy - exhibitor-trends
+	$trend_labels = array(
+		'name'              => _x( 'Trends', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => _x( 'Trends', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Trends', 'mys-modules' ),
+		'all_items'         => __( 'All Trends', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Trend', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Trend:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Trend', 'mys-modules' ),
+		'update_item'       => __( 'Update Trend', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Trend', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Trend', 'mys-modules' ),
+		'menu_name'         => __( 'Trends', 'mys-modules' ),
+	);
+
+	$trend_args = array(
+		'hierarchical'      => true,
+		'labels'            => $trend_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'exhibitor-trends' ),
+	);
+
+	register_taxonomy( 'exhibitor-trends', array( 'exhibitors' ), $trend_args );
 }
 
 add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );

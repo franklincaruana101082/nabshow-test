@@ -146,5 +146,18 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 				}
 			}
 		}
+
+		public function nab_mys_db_exh_csv_from_date( $history_id, $csv_from_date ) {
+
+			$sql = $this->wpdb->update(
+				$this->wpdb->prefix . 'mys_history', array(
+				'HistoryStartTime' => $csv_from_date
+			), array(
+					'HistoryID' => $history_id,
+				)
+			); //db call ok; no-cache ok
+
+			return $sql;
+		}
 	}
 }

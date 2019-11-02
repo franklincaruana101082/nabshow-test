@@ -34,7 +34,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 			$this->current_request = $current_request;
 			$this->history_id      = $history_id;
-			//$this->data_json = wp_json_encode( $data );
 			$this->nab_mys_db_set_data_json( wp_json_encode( $data ) );
 			$total_item_statuses = array();
 
@@ -116,8 +115,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$affected_items      = 0;
 
 				//ne_testing purpose only.. remove beore PR.
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
+				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
+				if ( isset( $referer ) ) {
+					$total_rows = explode( 'rows=', $referer ); //phpcs:ignore
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 
@@ -286,9 +286,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					$completed_data = $wpdb->get_results(
 						$wpdb->prepare(
-							"SELECT HistoryID FROM {$wpdb->prefix}mys_history
+							"SELECT HistoryID FROM %1smys_history
 						WHERE HistoryStatus = '1'
-						AND HistoryGroupID = '%s'", $this->group_id )
+						AND HistoryGroupID = '%s'", $wpdb->prefix, $this->group_id )
 					); //db call ok; no-cache ok
 
 					if ( 4 <= count( $completed_data ) ) {
@@ -319,11 +319,11 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 			$pending_data = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT * FROM {$wpdb->prefix}mys_history
+					"SELECT * FROM %1smys_history
 							WHERE HistoryStatus = '0'
 							AND HistoryGroupID != %s
 							AND HistoryDataType NOT LIKE '%exhibitor%'"
-					, $group_id )
+					, $wpdb->prefix, $group_id )
 			); //db call ok; no-cache ok
 
 			// Rows found? means there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if the request type is not 1 (i.e. not for sessions).

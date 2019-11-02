@@ -18,6 +18,7 @@ jQuery(document).ready(function ($) {
   var uptoDate = 0;
   var lastItemSessionLoop = '';
   var lastItemSessionLoopOriginal = 'Sponsors';
+  var isValid = '';
 
   $('.mys-cred-edit').on('click', function () {
     $('.show-hide-fields').toggleClass('show-labels');
@@ -172,7 +173,7 @@ jQuery(document).ready(function ($) {
 
           lastItemSessionLoop = lastItemSessionLoopOriginal;
 
-          // pastItem is empty, display success messege.
+          // pastItem is empty, display success message.
           uptoDate = 0;
 
           if ('empty' === requestedFor) {
@@ -192,6 +193,10 @@ jQuery(document).ready(function ($) {
               $('.mys-message-container').append(
                 '<p class="highlighted-para">- The migration process is started now, please check your inbox soon.</p>');
             }, 2000);
+
+            //Triggering CRON..
+            triggerMasterCron();
+
           }
 
           currentProgress = 0;
@@ -223,10 +228,24 @@ jQuery(document).ready(function ($) {
     $(para).appendTo(stuffingClass);
   }
 
-  //Not working - have to debug
-  $('.mys-notice-dismiss').on('click', function () {
-    jQuery('.notice').slideUp('fast');
-  });
+  function triggerMasterCron() {
+
+    data = {
+      'limit': 50
+    };
+
+    jQuery.ajax({
+      type: 'GET',
+      dataType: 'json',
+      data: data,
+      url: mysHandler.mastercron,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Basic bXVsdGlkb3RzOnRoaW5rZXI5OQ==');
+      },
+      success: function (response) {
+      }
+    });
+  }
 
   // mys-popup
   $('.popup-btn').on('click', function () {
@@ -237,7 +256,7 @@ jQuery(document).ready(function ($) {
     $(this).parent().parent().removeClass('active');
   });
 
-  $('#datepicker, .enable_date').datepicker({dateFormat: 'yy-mm-dd'});
+  $('#datepicker, .enable_date').datepicker({dateFormat: 'yy-mm-dd', maxDate: 0});
 
   $('#test-mys-close').on('click', function () {
     $('#mys-test').hide();
@@ -258,4 +277,14 @@ jQuery(document).ready(function ($) {
     $('i', this).toggleClass('fa-toggle-on fa-toggle-off');
     $('.history-page').toggleClass('show-responses');
   });
+
+  $('#time-hour-csv').on('change', function () {
+    isValid = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])?$/.test($(this).val());
+    if (isValid) {
+      $(this).css('border-color', '#ddd');
+    } else {
+      $(this).css('border-color', '#fba');
+    }
+  });
+
 });

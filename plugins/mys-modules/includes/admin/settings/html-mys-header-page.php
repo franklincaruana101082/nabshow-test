@@ -94,17 +94,8 @@ if ( isset( $test ) ) {
 
 		$test_modified_sequence = filter_input( INPUT_POST, 'test_modified_sequence', FILTER_SANITIZE_STRING );
 		update_option( 'test_modified_sequence', $test_modified_sequence );
-
-		$test_dummy_history = filter_input( INPUT_POST, 'test_dummy_history', FILTER_SANITIZE_STRING );
-		update_option( 'test_dummy_history', $test_dummy_history );
-
-		$test_activate_settings = filter_input( INPUT_POST, 'test_activate_settings', FILTER_SANITIZE_STRING );
-		update_option( 'test_activate_settings', $test_activate_settings );
-
 	} else {
 		$test_modified_sequence = get_option( 'test_modified_sequence' );
-		$test_dummy_history     = get_option( 'test_dummy_history' );
-		$test_activate_settings     = get_option( 'test_activate_settings' );
 	}
 	?>
 	<style>.mys-test-inner input {
@@ -132,14 +123,6 @@ if ( isset( $test ) ) {
 							<div class="test_modified_sequence">
 								<label for="test_modified_sequence">Use Modified Date in Sequence</label>
 								<input type="text" name="test_modified_sequence" value="<?php echo esc_attr( $test_modified_sequence ); ?>">
-							</div>
-							<div class="test_dummy_history">
-								<label for="test_dummy_history">Show Dummy History</label>
-								<input type="text" name="test_dummy_history" value="<?php echo esc_attr( $test_dummy_history ); ?>">
-							</div>
-							<div class="test_activate_settings">
-								<label for="test_activate_settings">Activate Settings</label>
-								<input type="text" name="test_activate_settings" value="<?php echo esc_attr( $test_activate_settings ); ?>">
 							</div>
 						</div>
 					</div>

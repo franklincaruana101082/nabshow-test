@@ -21,25 +21,25 @@ $sorting_data = $this->sorting_data;
 $history_data = $this->history_data;
 ?>
 <table class="wp-list-table widefat striped pages"> <!--table-outer syn-table history-table-->
-    <thead>
-    <tr>
-        <th class="total-count">#</th>
-        <th class="data-type <?php echo esc_attr__( $sorting_data['datatype_row_class'] ); ?>">
+	<thead>
+	<tr>
+		<th class="total-count">#</th>
+		<th class="data-type <?php echo esc_attr__( $sorting_data['datatype_row_class'] ); ?>">
 			<?php echo wp_kses( $sorting_data['datatype_row_html'], $allowed_tags ) ?>
-        </th>
-        <th class="heading">Title</th>
-        <th class="details">API Response</th>
-        <th class="total-assignees">#</th>
-        <th class="num <?php echo esc_attr__( $sorting_data['dataid_row_class'] ); ?>">
+		</th>
+		<th class="heading">Title</th>
+		<th class="details">API Response</th>
+		<th class="total-assignees">#</th>
+		<th class="num <?php echo esc_attr__( $sorting_data['dataid_row_class'] ); ?>">
 			<?php echo wp_kses( $sorting_data['dataid_row_html'], $allowed_tags ) ?>
-        </th>
-        <th class="status-row">Status</th>
-        <th class="assigned-to">Assigned To</th>
-        <th class="start-row">Prepared At</th>
-        <th class="end-row">Migrated At</th>
-    </tr>
-    </thead>
-    <tbody>
+		</th>
+		<th class="status-row">Status</th>
+		<th class="assigned-to">Assigned To</th>
+		<th class="start-row">Prepared At</th>
+		<th class="end-row">Migrated At</th>
+	</tr>
+	</thead>
+	<tbody>
 	<?php
 
 	$session_wpdata = array();
@@ -201,11 +201,11 @@ $history_data = $this->history_data;
 
 						case 1:
 						case null:
-							$h_status  = "<i class='fas fa-check-double' style='color:#008000'></i><br>Sync Success";
+							$h_status  = "<i class='fas fa-check-double' style='color:#008000'></i><br>Sync Successful";
 							$row_class = 'status-success sync-success';
 							break;
 						case 4:
-							$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i><br>Sync Force Stopped";
+							$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i><br>Sync Stopped";
 							$row_class = 'status-force-failed';
 							break;
 						case 0:
@@ -246,7 +246,9 @@ $history_data = $this->history_data;
 								$v = $endPoint ? substr( $stringCut, 0, $endPoint ) : substr( $stringCut, 0 );
 								$v .= '...';
 							}
-							$d[] = "$n : $v";
+							if ( ! is_object( $v ) ) {
+								$d[] = "$n : $v";
+							}
 						}
 					}
 					$item_array_data = implode( '<br>', $d );
@@ -257,22 +259,22 @@ $history_data = $this->history_data;
 					$end_time   = 1 === (int) $status_int ? date( 'g:i:s A F j, Y', strtotime( $end_time ) ) : '-';
 
 					?>
-                    <tr class="<?php echo esc_attr( $row_class ); ?>">
+					<tr class="<?php echo esc_attr( $row_class ); ?>">
 
 						<?php if ( 0 === $row_filled ) { ?>
-                            <td rowspan="<?php echo esc_attr( $row_span ); ?>" class="total-count"><?php echo esc_html( $count_total_data_items ); ?></td>
-                            <td rowspan="<?php echo esc_attr( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$count_datawise_items/$count_group_items $data_type", $allowed_tags ); ?></td>
-                            <td rowspan="<?php echo esc_attr( $row_span ); ?>" class="heading-row"><?php echo wp_kses( $item_basic_data, $allowed_tags ); ?></td>
-                            <td rowspan="<?php echo esc_attr( $row_span ); ?>" class="details-row"><span class="details-row-inner"><i class="fa fa-info"></i><span class="mys-response"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></span></span></td>
+							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="total-count"><?php echo esc_html( $count_total_data_items ); ?></td>
+							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$count_datawise_items/$count_group_items $data_type", $allowed_tags ); ?></td>
+							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="heading-row"><?php echo wp_kses( $item_basic_data, $allowed_tags ); ?></td>
+							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="details-row"><span class="details-row-inner"><i class="fa fa-info"></i><span class="mys-response"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></span></span></td>
 						<?php } ?>
 
-                        <td class="total-assignees"><?php echo esc_html( $count_total_assignees ); ?></td>
-                        <td class="num"><?php echo wp_kses( "$data_id $assignee_hash", $allowed_tags ); ?></td>
-                        <td class="status-row"><?php echo wp_kses( $h_status, $allowed_tags ); ?></td>
-                        <td class="assigned-to"><?php echo wp_kses( $session_post_title, $allowed_tags ); ?></td>
-                        <td class="start-row"><?php echo esc_html( $start_time ); ?></td>
-                        <td class="end-row"><?php echo esc_html( $end_time ); ?></td>
-                    </tr>
+						<td class="total-assignees"><?php echo esc_html( $count_total_assignees ); ?></td>
+						<td class="num"><?php echo wp_kses( "$data_id $assignee_hash", $allowed_tags ); ?></td>
+						<td class="status-row"><?php echo wp_kses( $h_status, $allowed_tags ); ?></td>
+						<td class="assigned-to"><?php echo wp_kses( $session_post_title, $allowed_tags ); ?></td>
+						<td class="start-row"><?php echo esc_html( $start_time ); ?></td>
+						<td class="end-row"><?php echo esc_html( $end_time ); ?></td>
+					</tr>
 					<?php
 
 					$row_filled = 1;
@@ -283,6 +285,6 @@ $history_data = $this->history_data;
 	}
 	?>
 
-    </tbody>
+	</tbody>
 </table>
 </div>

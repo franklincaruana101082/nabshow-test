@@ -113,12 +113,12 @@ $history_data = $this->history_data;
 				switch ( $h_status ) {
 
 					case 5:
-						$h_status  = "<i class='fas fa-check-double' style='color:#008000'></i> Sync Success";
+						$h_status  = "<i class='fas fa-check-double' style='color:#008000'></i> Sync Successful";
 						$row_class = ' sync-success';
 						break;
 
 					case 1:
-						$h_status  = "<i class='fas fa-check' style='color:#008000'></i> Pull Success<br>";
+						$h_status  = "<i class='fas fa-check' style='color:#008000'></i> Pull Successful<br>";
 						$h_status  .= "<i class='fas fa-sync fa-spin'></i> Sync In Progress";
 						$row_class = 'status-success pull-success sync-in-progress';
 						break;
@@ -129,12 +129,12 @@ $history_data = $this->history_data;
 						break;
 
 					case 4:
-						$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i> Sync Force Stopped";
+						$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i> Sync Stopped";
 						$row_class = ' status-force-failed';
 						break;
 
 					case 3:
-						$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i> Pull Force Stopped";
+						$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i> Pull Stopped";
 						$row_class = 'status-force-failed pull-failed';
 						break;
 

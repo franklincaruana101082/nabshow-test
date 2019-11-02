@@ -150,15 +150,15 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 		}
 
-		public function nab_mys_db_previous_history( $data_type ) {
+		public function nab_mys_db_previous_date( $data_type ) {
 
 			$wpdb = $this->wpdb;
 
 			$previous_date = $wpdb->get_var(
-				$wpdb->prepare( "SELECT HistoryStartTime FROM {$wpdb->prefix}mys_history
-											WHERE HistoryDataType = %s
+				$wpdb->prepare( "SELECT HistoryStartTime FROM %1smys_history
+											WHERE HistoryDataType LIKE %s
 											AND HistoryStatus != 0 
-											ORDER BY HistoryID DESC LIMIT 1", $data_type ) ); //db call ok; no-cache ok
+											ORDER BY HistoryID DESC LIMIT 1", $wpdb->prefix, '%' . $data_type . '%' ) ); //db call ok; no-cache ok
 
 			return $previous_date;
 		}
@@ -173,10 +173,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$ready_ids = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT DataID FROM {$wpdb->prefix}mys_data
+					"SELECT DataID FROM %1smys_data
 						WHERE AddedStatus = 0
 						AND DataGroupID = '%s'
-						", $group_id )
+						", $wpdb->prefix, $group_id )
 			); //db call ok; no-cache ok
 
 			return count( $ready_ids );
@@ -188,12 +188,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$single_row = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT DataID, ModifiedID FROM {$wpdb->prefix}mys_data
+					"SELECT DataID, ModifiedID FROM %1smys_data
 						WHERE AddedStatus = 6
 						AND DataGroupID = '%s'
 						AND DataJson = ''
 						ORDER BY DataID ASC
-						LIMIT 1", $group_id )
+						LIMIT 1", $wpdb->prefix, $group_id )
 			); //db call ok; no-cache ok
 
 			if ( count( $single_row ) > 0 ) {
@@ -207,13 +207,13 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
-		public function nab_mys_db_row_filler( $dataid, $data_json ) {
+		public function nab_mys_db_row_filler( $dataid ) {
 
 			$sql = $this->wpdb->update(
 				$this->wpdb->prefix . 'mys_data', array(
 				'AddedStatus' => 0,
 				'DataEndTime' => current_time( 'Y-m-d H:i:s' ),
-				'DataJson'    => $data_json
+				'DataJson'    => $this->data_json
 			), array(
 					'DataID' => $dataid,
 				)
@@ -231,12 +231,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$pending_data = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT * FROM {$wpdb->prefix}mys_history
+					"SELECT * FROM %1smys_history
 						WHERE HistoryStatus = '0'
 						AND HistoryDataType = %s
 						ORDER BY HistoryID
 						ASC LIMIT 1
-						", $data_type )
+						", $wpdb->prefix, $data_type )
 			); //db call ok; no-cache ok
 
 			if ( 0 === count( $pending_data ) ) {
@@ -253,10 +253,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$exist_data = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT HistoryID FROM {$wpdb->prefix}mys_history
+					"SELECT HistoryID FROM %1smys_history
 						WHERE HistoryDataType = '%s'
 						AND HistoryGroupID = '%s'",
-					$requested_for, $group_id ) ); //db call ok; no-cache ok
+					$wpdb->prefix, $requested_for, $group_id ) ); //db call ok; no-cache ok
 
 			if ( 0 === count( $exist_data ) ) {
 				return $group_id;
@@ -273,8 +273,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid . '&timeorder=asc' );
 
-			$email_subject = "DB Action Failed - Tried to $failed_action.";
-			$email_body    = "<a href='$history_detail_link'>Click here</a> to view details.";
+			$email_subject = "MYS/Wordpress Failure - Failed in trying $failed_action.";
+			$email_body    = "There was an error with the custom MYS Module plugin. <a href='$history_detail_link'>Click here</a> to view details.";
 
 			NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
 		}

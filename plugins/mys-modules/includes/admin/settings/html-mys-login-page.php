@@ -190,7 +190,7 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 						</div>
 						<div class="mys-url">
 							<label for="datepicker">Start Syncing Data from<span class='small-text'>(*)</span></label>
-							<input type="text" name="datepicker" id="datepicker" placeholder="MM-DD-20XX" value="<?php echo esc_attr( $datepicker ); ?>"/>
+							<input type="text" name="datepicker" id="datepicker" placeholder="20XX-12-31" value="<?php echo esc_attr( $datepicker ); ?>"/>
 						</div>
 						<div class=" mys-url">
 							<label for="modified_sessions_url">Modified Sessions<span class='small-text'>(*)</span></label>

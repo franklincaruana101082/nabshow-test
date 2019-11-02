@@ -78,7 +78,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
             </tr>
             <tr>
                 <td class="pull-data" colspan="2">
-                    <span class="button-primary button pull-sessions button-sync" data-sync="sponsors">Pull</span>
+                    <span class="button-primary button pull-sessions button-sync" data-sync="sponsors">Pull & Sync</span>
                 </td>
             </tr>
 			<?php if ( "0" === get_option( 'nab_mys_show_wizard' ) ) { ?>
@@ -92,7 +92,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
                 </tr>
                 <tr>
                     <td class="pull-data" colspan="2">
-                        <span class="button-primary button button-sync-exhibitors button-sync" data-sync="exhibitors">Pull</span>
+                        <span class="button-primary button button-sync-exhibitors button-sync" data-sync="exhibitors">Pull & Sync</span>
                     </td>
                 </tr>
 			<?php } ?>

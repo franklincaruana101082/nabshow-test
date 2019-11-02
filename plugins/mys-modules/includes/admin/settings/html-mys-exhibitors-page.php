@@ -41,12 +41,15 @@ if ( isset ( $success ) ) {
 		if ( 4 === (int) $success ) {
 			$msg_html = 'Sorry, the file content is not valid.';
 		}
+		if ( 5 === (int) $success ) {
+			$msg_html = 'Please select time when CSV exported.';
+		}
 
 	}
 }
 
 $allowed_message_tags = array(
-	'a'      => array(
+	'a' => array(
 		'href'  => array(),
 		'title' => array()
 	),
@@ -82,12 +85,17 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 						<strong>Exhibitors(*)</strong>
 					</td>
 					<td>
+						<div class="input-outer">
+							<label for="datepicker">Select Date & Time when CSV exported</label>
+							<input type="text" id="datepicker" name="date-csv" class="csv-inputs" value="<?php echo esc_attr(date( 'Y-m-d' )); ?>"/>
+							<input type="text" id="time-hour-csv" name="time-csv" class="csv-inputs" placeholder="23:59:59"/>
+						</div>
 						<input type="file" name="exhibitors-csv">
 					</td>
 				</tr>
 				<tr>
 					<td class="pull-data" colspan="2">
-						<input type="submit" class="button-primary button import-exhibitors" vale="Import">
+						<input type="submit" class="button-primary button import-exhibitors" value="Import">
 					</td>
 				</tr>
 				</tbody>
@@ -95,7 +103,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 		</form>
 	</div>
 </div>
-<?php if ( 1 === (int) get_option( 'nab_mys_show_wizard' ) && 1 === (int) $success) {
+<?php if ( 1 === (int) get_option( 'nab_mys_show_wizard' ) && 1 === (int) $success ) {
 	?>
 	<div class="next-bottom-btn">
 		<a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-dashboard&setup-success=true' ) ); ?>">Finish</a>

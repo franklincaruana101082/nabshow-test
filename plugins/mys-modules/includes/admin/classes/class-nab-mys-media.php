@@ -52,8 +52,12 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
 					$image_string = wpcom_vip_file_get_contents( $imageurl );
 
-					//The below line is ignored on the basis of https://wpvip.com/documentation/vip-go/writing-files-on-vip-go/
-					$fileSaved = file_put_contents( $uploads['path'] . "/" . $filename, $image_string ); //phpcs:ignore
+					global $wp_filesystem;
+					if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+						$creds = request_filesystem_credentials( site_url() );
+						wp_filesystem( $creds );
+					}
+					$fileSaved = $wp_filesystem->put_contents( $uploads['path'] . "/" . $filename, $image_string );
 
 					if ( ! $fileSaved ) {
 						throw new Exception( "The file cannot be saved." );
@@ -67,7 +71,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						'guid'           => $uploads['url'] . "/" . $filename
 					);
 
-					if ("tracks" !== $post_type) {
+					if ( "tracks" !== $post_type ) {
 						$attach_id = wp_insert_attachment( $attachment, $fullpathfilename, $post_id );
 					} else {
 						$attach_id = wp_insert_attachment( $attachment, $fullpathfilename );
@@ -81,7 +85,7 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					$attach_data = wp_generate_attachment_metadata( $attach_id, $fullpathfilename );
 					wp_update_attachment_metadata( $attach_id, $attach_data );
 
-					if ("tracks" !== $post_type) {
+					if ( "tracks" !== $post_type ) {
 						//ne_coded
 						set_post_thumbnail( $post_id, $attach_id );
 					} else {

@@ -71,7 +71,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		private function nab_mys_sync_exh_initialize() {
 
 			if ( 'exhibitors' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
-				$this->previous_date = $this->nab_mys_db_exh->nab_mys_db_previous_history( 'modified-exhibitors' );
+				$this->previous_date = $this->nab_mys_db_exh->nab_mys_db_previous_date( 'modified-exhibitors' );
 			}
 
 			//Get MYS API Request URL.
@@ -79,7 +79,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 			if ( "exhibitors" === $this->current_request ) {
 
-				//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
+				//If fresh button clicked, Generate a unique 10 digit alphanumeric string for Group ID.
 				$this->nab_mys_set_groupid();
 
 				$mys_response_body = $this->nab_mys_get_response();
@@ -121,8 +121,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 				$exhibitor_modified_array = $mys_response_body[0]->exhibitors;
 
 				//ne_testing purpose only.. remove beore PR.
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-					$total_rows = explode( 'rows=', $_SERVER['HTTP_REFERER'] ); //phpcs:ignore
+				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
+				if ( isset( $referer ) ) {
+					$total_rows = explode( 'rows=', $referer ); //phpcs:ignore
 				}
 				$total_rows               = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 				$exhibitor_modified_array = array_slice( $exhibitor_modified_array, 0, $total_rows );
@@ -157,7 +158,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 				$this->data_array[0] = $this->data_array[0]->exhibitor;
 				$this->nab_mys_db_exh->nab_mys_db_set_data_json( wp_json_encode( $this->data_array ) );
-				$this->nab_mys_db_exh->nab_mys_db_row_filler( $this->dataid, $this->data_json );
+				$this->nab_mys_db_exh->nab_mys_db_row_filler( $this->dataid );
 
 				$this->finished_counts = $this->finished_counts + 1;
 
@@ -175,14 +176,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//If the stack is still not empty, re call main function to fetch next data.
 			if ( "wpajax" === $this->flow ) {
 
-				/*if ( $this->final_stack_item === $this->current_request ) {
-					$this->current_request = ''; //this will stop recurring ajax
-				}*/
-
 				echo wp_json_encode(
 					array(
-						"pastItem"       => $this->past_request, /* $this->current_request,*/
-						"requestedFor"   => 'single-exhibitor', /*$this->current_request,*/ /*$this->requested_for*/
+						"pastItem"       => $this->past_request,
+						"requestedFor"   => 'single-exhibitor',
 						"groupID"        => $this->group_id,
 						"totalCounts"    => $this->total_counts,
 						"finishedCounts" => $this->finished_counts
@@ -253,7 +250,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->group_id       = $pending_data[0]->HistoryGroupID;
 					$history_pending_data = $pending_data[0]->HistoryData;
 
-					//$data_json          = str_replace( "\'", "'", $history_pending_data );  //ne_temp ne_json //ne_veryimp should not be null
 					$data_json = $history_pending_data;  //ne_temp ne_json
 
 					$data_array         = json_decode( $data_json, true );
@@ -272,6 +268,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					if ( $this->finished_counts === $exh_prev_finished_counts ) {
 
 						//Check attempt count and stop if increased by 3.
+						$mail_data                  = array();
 						$mail_data['stuck_groupid'] = $this->group_id;
 						$mail_data['data']          = 'Exhibitors';
 						$mail_data['tag']           = 'mys_data_attempt_exhibitors';
@@ -325,6 +322,15 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		public function nab_mys_exh_csv() {
 
 			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
+			$date_csv             = FILTER_INPUT( INPUT_POST, 'date-csv', FILTER_SANITIZE_STRING );
+			$time_csv             = FILTER_INPUT( INPUT_POST, 'time-csv', FILTER_SANITIZE_STRING );
+			$csv_from_date        = "$date_csv $time_csv";
+			$current_time         = current_time( 'Y-m-d h:i:s' );
+
+			if ( empty( $date_csv ) || empty( $time_csv ) || $csv_from_date > $current_time ) {
+				wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=5' ) );
+				exit();
+			}
 
 			if ( wp_verify_nonce( $sync_exhibitors_data, 'sync_exhibitors_data' ) ) {
 				$filters = array(
@@ -344,7 +350,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 				} else {
 
-
 					$this->nab_mys_set_groupid();
 
 					$filename = 'exhibitors-' . $this->group_id . '.csv';
@@ -359,28 +364,36 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 					$exh_target_temp_file = $exh_csv_file_data["tmp_name"];
 
-
 					if ( move_uploaded_file( $exh_target_temp_file, $exh_target_file ) ) {
 
-
-						WP_Filesystem();
+						$success = 1;
 
 						global $wp_filesystem;
+						if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+							$creds = request_filesystem_credentials( site_url() );
+							wp_filesystem( $creds );
+						}
 
-						$myfile   = $wp_filesystem->get_contents( $exh_target_file );
-					echo '<pre>';
-					print_r(get_defined_vars());
-					die('<br><---died here');
+						$handle    = $wp_filesystem->get_contents( $exh_target_file );
+						$delimiter = ',';
+						$handle    = str_replace( "\r\n", "\r", $handle );
+						$all_lines = str_getcsv( $handle, "\r" );
+						if ( ! $all_lines ) {
+							return false;
+						}
 
-						$success = 1;
-						$handle  = fopen( $exh_target_file, "r" );
+						$handle_new = array_map(
+							function ( &$line ) use ( $delimiter ) {
+								return str_getcsv( $line, $delimiter );
+							},
+							$all_lines
+						);
 
 						$row      = 0;
 						$exh_data = $columns = array();
 
-
 						if ( $handle !== false ) {
-							while ( ( $data = fgetcsv( $handle, 0, "," ) ) !== false ) {
+							foreach ( $handle_new as $data ) {
 
 								if ( empty( $data[0] ) ) { // ignore blank lines
 									continue;
@@ -395,13 +408,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 											$columns[] = $data[ $c ];
 										}
 									} else {
-										/*$exh_data[ $row - 1 ][0]['exhibitor'][ $columns[ $c ] ] = $data[ $c ];*/
 										$exh_data[ $row - 1 ][0][ $columns[ $c ] ] = $data[ $c ];
 									}
 								}
 								$row ++;
 							}
-							fclose( $handle );
 						}
 
 						if ( isset( $exh_data ) && is_array( $exh_data ) ) {
@@ -411,6 +422,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 							//Insert a pending row in History table
 							$history_id = $this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors-csv", "insert", $this->group_id );
+
+							//From/Start date updated
+							$this->nab_mys_db_exh->nab_mys_db_exh_csv_from_date( $history_id, $csv_from_date );
 
 							//set data_json in DB Class to pass modified data to update in db indirectly.
 							$data_json = wp_json_encode( $exh_data );
@@ -425,6 +439,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 								$this->nab_mys_display_error( $error_message );
 							}
 							$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors-csv", "update", $this->group_id, $bulk_status, $no_of_exh_inserted );
+
 						} else {
 							$success = 4;
 						}

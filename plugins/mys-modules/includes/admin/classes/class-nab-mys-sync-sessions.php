@@ -77,7 +77,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			$this->current_request = $this->nab_mys_sync_stack();
 
 			if ( 'modified-sessions' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
-				$this->previous_date = $this->nab_mys_db_sess->nab_mys_db_previous_history( 'modified-sessions' );
+				$this->previous_date = $this->nab_mys_db_sess->nab_mys_db_previous_date( 'modified-sessions' );
 			}
 
 			//Get MYS API Request URL.
@@ -122,7 +122,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 					$mail_data['stuck_groupid'] = $lock_status[0]->HistoryGroupID;
 					$mail_data['data']          = 'Sessions';
 					$mail_data['tag']           = 'mys_data_attempt_sessions';
-					$mail_data['error_message'] = 'New pull request is locked because already 1 request in progress, please wait until it finishes.';
+					$mail_data['error_message'] = 'New pull request is locked because there is already a request in progress, please wait until it finishes.';
 
 					$this->nab_mys_increase_attempt( $mail_data, true );
 				}

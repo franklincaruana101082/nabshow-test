@@ -74,11 +74,11 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 									switch ( $h_status ) {
 
 										case 5:
-											$h_status = "<i class='fas fa-check-double' style='color:#008000'></i> Sync Success";
+											$h_status = "<i class='fas fa-check-double' style='color:#008000'></i> Sync Successful";
 											break;
 
 										case 1:
-											$h_status = "<i class='fas fa-check' style='color:#008000'></i> Pull Success <i class='fas fa-sync fa-spin'></i> Sync In Progress";
+											$h_status = "<i class='fas fa-check' style='color:#008000'></i> Pull Successful <i class='fas fa-sync fa-spin'></i> Sync In Progress";
 											break;
 
 										case 0:
@@ -86,11 +86,11 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 											break;
 
 										case 4:
-											$h_status = "<i class='fas fa-times' style='color:#ff0000'></i> Sync Force Stopped";
+											$h_status = "<i class='fas fa-times' style='color:#ff0000'></i> Sync Stopped";
 											break;
 
 										case 3:
-											$h_status = "<i class='fas fa-times' style='color:#ff0000'></i> Pull Force Stopped";
+											$h_status = "<i class='fas fa-times' style='color:#ff0000'></i> Pull Stopped";
 											break;
 
 										case 2:

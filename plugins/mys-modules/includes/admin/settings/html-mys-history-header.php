@@ -99,16 +99,16 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 						<option value="all">Status</option>
 
 						<?php if ( 'detail' === $this->page_template ) { ?>
-							<option value="1" <?php echo '5' === $request_data['status'] ? 'selected' : '' ?>>Sync Success</option>
+							<option value="1" <?php echo '5' === $request_data['status'] ? 'selected' : '' ?>>Sync Successful</option>
 							<option value="0" <?php echo '1' === $request_data['status'] ? 'selected' : '' ?>>Sync In Progress</option>
 						<?php } else { ?>
-							<option value="1" <?php echo '1' === $request_data['status'] ? 'selected' : '' ?>>Pull Success & Sync In Progress</option>
-							<option value="5" <?php echo '5' === $request_data['status'] ? 'selected' : '' ?>>Sync Success</option>
+							<option value="1" <?php echo '1' === $request_data['status'] ? 'selected' : '' ?>>Pull Successful & Sync In Progress</option>
+							<option value="5" <?php echo '5' === $request_data['status'] ? 'selected' : '' ?>>Sync Successful</option>
 							<option value="0" <?php echo '0' === $request_data['status'] ? 'selected' : '' ?>>Pull In Progress</option>
 							<option value="2" <?php echo '2' === $request_data['status'] ? 'selected' : '' ?>>Pull Failed</option>
-							<option value="3" <?php echo '3' === $request_data['status'] ? 'selected' : '' ?>>Pull Force Stopped</option>
+							<option value="3" <?php echo '3' === $request_data['status'] ? 'selected' : '' ?>>Pull Stopped</option>
 						<?php } ?>
-						<option value="4" <?php echo '4' === $request_data['status'] ? 'selected' : '' ?>>Sync Force Stopped</option>
+						<option value="4" <?php echo '4' === $request_data['status'] ? 'selected' : '' ?>>Sync Stopped</option>
 					</select>
 					<input type="submit" class="button history-filter-button" value="Filter">
 					<a href='<?php echo esc_url( $clear_url ); ?>'><input type="button" class="button" value="Clear"></a>

@@ -308,7 +308,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 			$main_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
 
-			$fromDate = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . '00:00:00';
+			$fromDate = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . ' 00:00:00';
 			$fromDate = date( "Y-m-d h:i:s", strtotime( $fromDate ) );
 
 			$toDate         = current_time( 'Y-m-d h:i:s' );
@@ -423,7 +423,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			$stuck_groupid     = $mail_data['stuck_groupid'];
 			$data              = $mail_data['data'];
 			$tag               = $mail_data['tag'];
-			$default_message   = 'Please click the Pull button one more time. Previous pull request is blocked forcefully after several attempts. Check your inbox for more details.';
+			$default_message   = 'Please click the "Pull & Sync" button one more time. The previous pull request was blocked after several attempts. Check your inbox for more details.';
 			$error_message     = isset( $mail_data['error_message'] ) ? $mail_data['error_message'] : $default_message;
 
 			$mys_data_attempt = get_option( $tag );
@@ -445,8 +445,8 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid . '&timeorder=asc' );
 
-				$email_subject = "$mys_data_attempt Attempts Failed - Tried to Sync $data.";
-				$email_body    = "<a href='$history_detail_link'>Click here</a> to view details.";
+				$email_subject = "MYS/Wordpress Failure - Three sync attempts failed.";
+				$email_body    = "There was an error with the custom MYS Module plugin. Tried to Sync $data. <a href='$history_detail_link'>Click here</a> to view details.";
 
 				NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
 			}

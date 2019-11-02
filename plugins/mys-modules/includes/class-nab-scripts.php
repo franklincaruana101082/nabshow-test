@@ -44,6 +44,7 @@ if ( ! class_exists( 'NAB_MYS_Scripts' ) ) {
 					'mysHandler',
 					array(
 						'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+						'mastercron'  => get_rest_url( null, '/mys/migrate-data' ),
 						'security' => wp_create_nonce( 'mys-ajax-nonce' )
 					) );
 
