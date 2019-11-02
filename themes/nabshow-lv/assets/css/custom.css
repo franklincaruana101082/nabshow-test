@@ -763,6 +763,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 .speaker-single .info-box .jobtilt,.speaker-single .info-box .title{margin-bottom:4px}
 .full-width-slider .bx-viewport{width:100%!important}
 .twitter-block{height:350px;overflow:hidden}
+.insta-block{height:350px;overflow-y:visible;overflow-x:hidden}
 .session.with-masonry,.session .item span.date-time:last-of-type{margin:0}
 .session .item .speaker-single h4{font-size:18px}
 .bx-viewport .exhibitors .item{padding:20px 0}
@@ -1055,7 +1056,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .destination-sponsor .wp-block-columns{align-items:center}
 
 /* Related content page css */
-.row.related-content-rowbox .related-content-box{height:94%}
+.row.related-content-rowbox .related-content-box{height:94%;background:#fff}
 .wp-block-nab-multipurpose-gutenberg-block.sponsors-block{max-width:100%}
 
 /* Not To Be Missed Page Animationc */
@@ -1190,7 +1191,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .official-vendors .box-main .box-item .description{font-style:normal}
 .official-vendors .box-main .box-item .companyName{font-family:"Gotham Bold", sans-serif}
 .official-vendors .box-main .box-item .companyName, .official-vendors .box-main .box-item .type{margin:0}
-.official-vendors .box-main .box-item .box-inner .title{font-family:"Gotham Bold", sans-serif;font-size:24px;line-height:30px;margin-bottom:0.5rem}
+.official-vendors .box-main .box-item .box-inner .title{font-family:"Gotham Bold", sans-serif;font-size:20px;line-height:30px;margin-bottom:0.5rem}
+.official-vendors .box-main .box-item .email input[type=text]{text-align:left}
 .ov-filter .badgeslist{display:inline-block}
 .ov-filter{display:flex;align-items:flex-end}
 .ov-filter .badgeslist a{margin-bottom:0}
@@ -1263,7 +1265,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow:hover{background-color:#454545!important;color:#fff!important}
 .row.related-content-rowbox .date-group-wrapper{display:flex;flex-wrap:wrap}
 .row.related-content-rowbox .date-group-wrapper h2.happenings-date{-webkit-box-flex:0;-ms-flex:0 0 33.333333%;flex:0 0 100%;max-width:100%;width:100%;padding-left:1em;padding-right:1em}
-.key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0}
+.key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0;background:transparent}
 .nab-dynamic-list.session{margin-right:-18px;margin-left:-18px}
 .row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{font-family:'Gotham Bold';font-size:18px}
 .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .related-content-box.key-contacts h2.title{font-family:'Gotham Bold';font-size:20px}
@@ -1396,6 +1398,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 /* related content listing */
 .Campus-info .related-content-rowbox, .exhibits-sec .row.related-content-rowbox{margin:0}
 .related-content-rowbox ul.title-list{padding:0;margin:0;list-style:none}
+.related-content-rowbox ul.title-list li{list-style-type:none}
 .related-content-rowbox ul.title-list li a{font-family:"Gotham Bold", sans-serif;font-size:16px}
 .gather-linking .bx-wrapper{margin-bottom:0}
 
@@ -1442,7 +1445,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 #delegationleaders .wp-block-columns.has-2-columns.row .col-lg-5{text-align:right}
 .row.related-content-rowbox .related-content-box.plan-your-show{padding:0}
 .row.related-content-rowbox .related-content-box.plan-your-show .title,.row.related-content-rowbox .related-content-box.plan-your-show p{padding:0 30px}
-.row.related-content-rowbox .related-content-box.plan-your-show .title{margin-bottom:10px;font-size:20px;font-family:"Gotham Bold", sans-serif}
+.row.related-content-rowbox .related-content-box.plan-your-show .title, .prospective-sponsors .row.related-content-rowbox .col-lg-4.col-md-6 .related-content-box .title{margin-bottom:10px;font-size:20px;font-family:"Gotham Bold", sans-serif}
 .ind-resources .premier-access{height:100%}
 
 /* Education Page */
@@ -1460,3 +1463,44 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .programs-learn .browse-filter.main-filter.row.browse-learn-filter{margin-bottom:30px}
 .partner-speakers-block .on-floor-destinations .on-floor-infobox .title.nab-title,.press .wp-block-column .wp-block-image figcaption,.partners-exhibitors .on-floor-destinations .on-floor-infobox .title.nab-title{font-family:"Gotham Bold", sans-serif;font-size:20px}
 .press .wp-block-column .wp-block-image figcaption{color:#000000}
+
+/* Search Result Page css */
+.searchtab .tablinks{border:1px solid #69767a;text-transform:none;display:inline-block;float:left;margin-right:-1px;padding:10px 20px;min-width:100px;text-align:center;font-family:"Gotham Bold", sans-serif;text-decoration:none;margin-top:-1px;color:#000}
+.searchtab .tablinks.active{background-color:#f1f7fc}
+.searchtab{margin:15px 0 40px;display:inline-block}
+.tabcontent .featuredImg{width:300px;min-height:100px;display:inline-block;float:left}
+.tabcontent .tabInfo{width:calc(100% - 300px);display:inline-block;padding-left:25px}
+.tabcontent{display:inline-block;width:100%}
+.tabcontent+.tabcontent{margin-top:35px}
+.tabcontent .tabInfo h3{font-family:"Vollkorn Regular", serif;text-transform:none;font-style:italic;font-size:28px;margin-bottom:0}
+.tabcontent .tabInfo h4{font-weight:normal;font-family:"Gotham Book", sans-serif;font-size:16px;font-style:italic}
+.resultNotFound h2{font-family:"Gotham Book", sans-serif;font-style:italic}
+ul.page-numbers{margin:15px 0 0}
+.page-numbers{justify-content:center;float:none;padding:0;display:flex;flex-wrap:wrap;align-items:center}
+.page-numbers li{display:inline;list-style-type:none}
+.page-numbers li a, .page-numbers li span{font-size:22px;text-decoration:none;font-family:"Gotham Bold", sans-serif;color:#000;padding:5px 20px}
+.page-numbers li .current{border:1px solid;background:#f1f7fc}
+.page-numbers li .prev.page-numbers{background-image:url('../images/slider-arrows-left.png');background-repeat:no-repeat;font-size:0;width:73px;height:45px;background-size:contain;background-position:left;padding:0}
+.page-numbers li .next.page-numbers{background-image:url('../images/slider-arrows-right.png');background-repeat:no-repeat;font-size:0;width:73px;height:45px;background-size:contain;background-position:right;padding:0}
+.searchFilterPage .main-filter .search-box .search-item.icon-right input#search-submit,.searchFilterPage .main-filter .search-box label{display:none}
+.searchFilterPage{padding-bottom:60px}
+.searchFilterPage .main-filter{margin:0 0 20px}
+
+/* exhibitors & prospective page */
+.exhibit-two-col .col-lg-4.col-md-6{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%;padding-left:1em;padding-right:1em}
+.exhibit-two-col .row{margin-right:-1em;margin-left:-1em}
+.exhibit-two-col .col-lg-4.col-md-6 .related-content-box{background:#fff}
+.exhibitorsinfo-block .row.related-content-rowbox .col-lg-4.col-md-6, .prospective-sponsors .row.related-content-rowbox .col-lg-4.col-md-6, .prospective-type-opportunity .row.related-content-rowbox .col-lg-4.col-md-6{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}
+.startup-box .wp-block-column.col-lg-8.col-md-12{padding-right:0}
+.prospective-sponsors .row.related-content-rowbox .col-lg-4.col-md-6 .related-content-box{background-color:#fff}
+
+/* Prospective Page */
+.quote-slider.quotes-options-2 .quote-inner .quote-item .author,.quote-slider.quotes-options-2 .quote-inner .quote-item .content{background:#000;margin:0;padding:25px}
+.quote-slider.quotes-options-2 .quote-inner .quote-item .content{padding-bottom:0}
+.button-column-auto.que-btns-multiple{justify-content:flex-end;flex-wrap:wrap}
+.child-right-content .on-floor-destinations.side-img-info{display:flex;flex-wrap:wrap}
+.child-right-content .on-floor-destinations.side-img-info .on-floor-imgbox{order:2}
+.child-right-content .on-floor-destinations.side-img-info .on-floor-infobox{padding-left:0;padding-right:65px}
+.new-sign strong{font-size:14px;color:#0f6cb6}
+.in-booth-events-block{display:inline-block;width:100%}
+.sponsors.nab-dynamic-slider .item a{display:inline-block;width:100%}

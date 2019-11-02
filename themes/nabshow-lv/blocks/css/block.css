@@ -547,6 +547,7 @@ ul.ss-off-options li.date-group.ss-full-option{width:100%}
 ul.ss-off-options li svg, ul.ss-on-options li svg{width:100%;height:auto}
 ul.ss-off-options li.active, ul.ss-on-options li.active{box-shadow:0 0 10px #0085ba54;border-color:#b7b7b7}
 .twitter-block{height:457px;overflow:hidden}
+.insta-block{height:457px;overflow-x:hidden;overflow-y:visible}
 .session .item .speaker-single h4{font-size:18px}
 .session .item p{display:block;width:100%}
 a.detail-list-modal-popup{text-decoration:none}
@@ -876,7 +877,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .edit-post-settings-sidebar__panel-block .inspector-field-radiocontrol .components-base-control.components-radio-control+.components-base-control{width:87%}
 .row.related-content-rowbox>.col-lg-4, .row.related-content-rowbox .date-group-wrapper>.col-lg-4{width:33.33%;float:left;padding:0 15px}
 .row.related-content-rowbox{display:flex;width:100%;flex-wrap:wrap}
-.row.related-content-rowbox .related-content-box{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:94%}
+.row.related-content-rowbox .related-content-box{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:94%;background:#fff}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow{color:#0f6cb6;font-size:18px;font-family:'Gotham Bold';text-decoration:none;text-align:center;display:inline-block}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow::after{content:"\f178";font-family:'FontAwesome';margin-left:6px}
 .related-content-box .title{text-transform:capitalize}
@@ -935,7 +936,8 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .official-vendors .box-main .box-item .box-inner{align-items:flex-start;text-align:left}
 .official-vendors .box-main .box-item .description{font-style:normal}
 .official-vendors .box-main .box-item .companyName{font-family:"Gotham Bold", sans-serif}
-.official-vendors .box-main .box-item .box-inner .title{font-family:"Gotham Bold", sans-serif;font-size:24px;line-height:30px;margin-bottom:0.5rem}
+.official-vendors .box-main .box-item .box-inner .title{font-family:"Gotham Bold", sans-serif;font-size:20px;line-height:30px;margin-bottom:0.5rem}
+.official-vendors .box-main .box-item .email input[type=text]{text-align:left}
 
 .delegation .box-main .box-item .box-inner .title{font-family:"Gotham Bold";font-size:20px;color:#000;line-height:20px;display:block;width:100%}
 .delegation .box-main .box-item .box-inner .country{font-family:"Gotham Book Italic";margin-bottom:25px;font-weight:normal;display:block;width:100%}
@@ -1186,3 +1188,17 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box.plan-your-show .info-block{padding:0 30px}
 .row.related-content-rowbox .related-content-box.plan-your-show .info-block .sub-title{display:block}
 .row.related-content-rowbox .related-content-box.plan-your-show .title{margin:10px 0}
+
+/* exhibitors page */
+.prospective-exhibitors-block .row.related-content-rowbox>.col-lg-4{-webkit-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}
+.exhibitorsinfo-block .row.related-content-rowbox .col-lg-4.col-md-6, .prospective-sponsors .row.related-content-rowbox .col-lg-4.col-md-6, .prospective-type-opportunity .row.related-content-rowbox .col-lg-4.col-md-6{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}
+
+/* Prospective Page */
+.quote-slider.quotes-options-2 .quote-inner .quote-item .author,.quote-slider.quotes-options-2 .quote-inner .quote-item .content{background:#000;margin:0;padding:25px}
+.quote-slider.quotes-options-2 .quote-inner .quote-item .content{padding-bottom:0}
+.button-column-auto.que-btns-multiple{justify-content:flex-end;flex-wrap:wrap}
+.child-right-content .on-floor-destinations.side-img-info{display:flex;flex-wrap:wrap}
+.child-right-content .on-floor-destinations.side-img-info .on-floor-imgbox{order:2}
+.child-right-content .on-floor-destinations.side-img-info .on-floor-infobox{padding-left:0;padding-right:65px}
+.new-sign strong{font-size:14px;color:#0f6cb6}
+.sponsors.nab-dynamic-slider .item a{display:inline-block;width:100%}

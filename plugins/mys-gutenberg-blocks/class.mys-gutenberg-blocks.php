@@ -636,6 +636,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_session_slider_render_callback( $attributes ) {
+
             $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
             $with_content      = isset( $attributes['withContent'] ) ? $attributes['withContent'] : false;
             $listing_type      = isset( $attributes['listingType'] ) && ! empty( $attributes['listingType'] )? $attributes['listingType'] : 'none';
@@ -668,22 +669,32 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             if ( ! $listing_page || 'none' !== $listing_type ) {
 
                 if ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) {
+
                     $final_key  = mb_strimwidth( $prepare_key . '-' . $listing_type . '-' . $cache_key, 0, 170 );
                     $query      = get_transient( $final_key );
+
                 } elseif ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+
                     $final_key  = mb_strimwidth( $prepare_key . '-' . $attributes['sessionDate'] . '-' . $cache_key, 0, 170 );
                     $query      = get_transient( $final_key );
+
                 } elseif ( ! empty( $cache_key ) ) {
+
                     $final_key  = mb_strimwidth( $prepare_key . '-' . $cache_key, 0, 170 );
                     $query      = get_transient( $final_key );
+
                 }
 
             } else {
+
                 $listing_id  = 'browse-session';
                 $session_key = filter_input( INPUT_GET, 'session-key', FILTER_SANITIZE_STRING );
+
                 if ( isset( $session_key ) && ! empty( $session_key ) ) {
+
                     $final_key  = mb_strimwidth( $prepare_key . '-' . $session_key . '-' . $cache_key, 0, 170 );
                     $query      = get_transient( $final_key );
+
                 }
             }
 
@@ -694,19 +705,25 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 );
 
                 if ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) {
+
                     $query_args['posts_per_page']       = $posts_per_page;
                     $query_args['meta_key']             = 'date';
                     $query_args['orderby']              = 'meta_value';
                     $query_args['order']                = 'ASC';
+
                 } elseif ( 'rand' !== $order_by ) {
+
                     $query_args['posts_per_page']       = $posts_per_page;
                     $query_args['orderby']              = $order_by;
                     $query_args['order']                = $order;
+
                 } else {
+
                     $query_args['posts_per_page']       = 100;
                     $query_args['fields']               = 'ids';
                     $query_args['no_found_rows']        = true;
                     $query_args['ignore_sticky_posts']  = true;
+
                 }
 
                 if ( ! $listing_page ) {
@@ -716,10 +733,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
 
                     if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
-                         $session_date              = new DateTime( $attributes['sessionDate'] );
-                         $session_date              = $session_date->format( 'Y-m-d' );
-                         $query_args['meta_key']    = 'date';
-                         $query_args['meta_value']  = $session_date;
+
+                        $session_date              = new DateTime( $attributes['sessionDate'] );
+                        $session_date              = $session_date->format( 'Y-m-d' );
+                        $query_args['meta_key']    = 'date';
+                        $query_args['meta_value']  = $session_date;
+
                     }
 
                     $tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation );
@@ -729,7 +748,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
 
                 } elseif ( ( $listing_page && 'none' !== $listing_type ) || ( isset( $session_key ) && ! empty( $session_key ) ) ) {
-                    $session_term = isset( $session_key ) && ! empty( $session_key ) ? strtolower( $session_key ) : $listing_type;
+
+                    $session_term              = isset( $session_key ) && ! empty( $session_key ) ? strtolower( $session_key ) : $listing_type;
                     $query_args[ 'tax_query' ] = array(
                             array(
                                 'taxonomy' => 'session-categories',
@@ -741,7 +761,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query( $query_args );
 
-                if ( ! empty( $final_key ) ) {
+                if ( ! empty( $final_key ) && $query->have_posts() ) {
                     set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
 
@@ -749,13 +769,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
             if ( 'date-group' === $layout &&  ! $slider_active ) {
+
                 if ( $query->have_posts() ) {
                 ?>
+
                     <div class="session-data schedule-main <?php echo esc_attr( $class_name ); ?>">
+
                     <?php
+
                     $date_group = '';
                     $counter    = 0;
                     $row_count  = 1;
+
                     while ( $query->have_posts() ) {
 
                         $query->the_post();
@@ -766,23 +791,29 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                         $end_time   = get_post_meta( $session_id, 'endtime', true );
 
                         if ( ! empty( $start_time ) ) {
+
                             $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
                             $start_time = str_replace(':00', '', $start_time );
+
                         }
                         if ( ! empty( $end_time ) ) {
+
                             $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
                             $start_time = str_replace(':00', '', $end_time );
-                        }
 
+                        }
                         if ( $date_group !== $date ) {
+
                             $date_group = $date;
                             $row_count = 1;
+
                         ?>
+
                             <h2><?php echo esc_html( date_format( date_create( $date ), 'l, F j, Y' ) ); ?></h2>
                             <div class="schedule-data">
-                        <?php
-                        }
-                        ?>
+
+                        <?php } ?>
+
                         <div class="schedule-row <?php echo $row_count > 10 ? esc_attr('hide-row') : ''; ?>">
                             <div class="date">
                                 <p><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></p>
@@ -795,14 +826,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             </div>
                             <div class="details">
                             <?php
-                                $speakers    = get_post_meta( $session_id, 'speakers', true );
-                                $speaker_ids = explode(',', $speakers);
+
+                                $speakers       = get_post_meta( $session_id, 'speakers', true );
+                                $speaker_ids    = explode(',', $speakers);
                                 $total_speakers = count( $speaker_ids );
+
                                 if ( ! empty( $speakers ) && $total_speakers > 0 ) {
                                 ?>
                                     <p>
                                     <?php
+
                                     $cnt = 1;
+
                                     foreach ( $speaker_ids as $speaker_id ) {
                                         $speaker_name = get_the_title( $speaker_id );
                                         if ( $total_speakers !== $cnt ) {
@@ -811,6 +846,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                                         echo esc_html( $speaker_name );
                                         $cnt++;
                                     }
+
                                     ?>
                                     </p>
                                 <?php
@@ -822,21 +858,27 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             ?>
                             </div>
                         </div>
+
                        <?php
+
                        if ( $row_count === 10 && $posts_per_page > 10 ) {
                        ?>
                             <div class="row-expand">
                                 <a href="javascript:void(0);" class="expand-btn">Expand</a>
                             </div>
+
                        <?php
                        }
+
                        $counter++;
                        $next_post_date = isset( $query->posts[$counter]->ID ) ? get_post_meta( $query->posts[$counter]->ID, 'date', true ) : '';
+
                        if ( $date_group !== $next_post_date ) {
                        ?>
-                        </div>
+                            </div>
                        <?php
                        }
+
                        $row_count++;
                     }
                     ?>
@@ -848,14 +890,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 <?php
                 }
             } else {
+
                 if ( 'rand' === $order_by && $query->have_posts() ) {
+
                     $post_ids = $query->posts;
                     shuffle( $post_ids );
                     $post_ids = array_splice( $post_ids, 0, $posts_per_page );
-                    $query = new WP_Query( array( 'post_type' => $post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
+                    $query    = new WP_Query( array( 'post_type' => $post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
                 }
 
-                if ( $query->have_posts() ) {
+                if ( $query->have_posts() || $listing_page ) {
                     $show_code = $this->mysgb_get_mys_show_code();
                 ?>
                     <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
@@ -1040,8 +1084,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     </div>
                     <?php
                     if ( $listing_page ) {
+                        $result_style = $query->have_posts() ? 'display: none;' : 'display: block;';
                     ?>
-                        <p class="no-data">Result not found.</p>
+                        <p class="no-data" style="<?php echo esc_attr( $result_style ); ?>">Result not found.</p>
                         <div class="load-more-sessions text-center <?php echo $query->max_num_pages > 1 ? '' : esc_attr( 'display-none' ); ?>" id="load-more-sessions">
                             <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
                         </div>
@@ -1146,14 +1191,14 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query( $query_args );
 
-                if ( ! empty( $final_key ) ) {
+                if ( ! empty( $final_key ) && $query->have_posts() ) {
                     set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
             }
 
             ob_start();
 
-            if ( $query->have_posts() ) {
+            if ( $query->have_posts() || $listing_page ) {
                 $show_code = $this->mysgb_get_mys_show_code();
             ?>
                 <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
@@ -1234,8 +1279,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 </div>
                 <?php
                 if ( $listing_page ) {
+                    $result_style = $query->have_posts() ? 'display: none;' : 'display: block;';
                 ?>
-                    <p class="no-data">Result not found.</p>
+                    <p class="no-data" style="<?php echo esc_attr( $result_style ); ?>">Result not found.</p>
                     <div class="load-more-sessions text-center <?php echo $query->max_num_pages > 1 ? '' : esc_attr( 'display-none' ); ?>" id="load-more-exhibitor">
                         <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
                     </div>
@@ -1298,7 +1344,6 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 $query = get_transient( $final_key );
             } else {
                 $speaker_key = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
-
                 if ( isset( $speaker_key ) && ! empty( $speaker_key ) ) {
                     $final_key  = 'mysgb-speaker-slider-' . $post_type . '-' . $order_by . '-' . $posts_per_page . '-' .$speaker_key;
                     $query      = get_transient( $final_key );
@@ -1339,14 +1384,14 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $query = new WP_Query( $query_args );
 
-                if ( ! empty( $final_key ) ) {
+                if ( ! empty( $final_key ) && $query->have_posts() ) {
                     set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
                 }
             }
 
             ob_start();
 
-            if ( $query->have_posts() ) {
+            if ( $query->have_posts() || $listing_page ) {
             ?>
                 <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
             <?php
@@ -1409,16 +1454,13 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     </div>
                     <?php
                     if ( $listing_page ) {
+                        $result_style = $query->have_posts() ? 'display: none;' : 'display: block;';
                     ?>
-                        <p class="no-data">Result not found.</p>
-                        <?php
-                        if ( $query->max_num_pages > 1 ) {
-                        ?>
-                            <div class="load-more-speaker text-center" id="load-more-speaker">
-                                <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
-                            </div>
+                        <p class="no-data" style="<?php echo esc_attr( $result_style ); ?>">Result not found.</p>
+                        <div class="load-more-sessions text-center <?php echo $query->max_num_pages > 1 ? '' : esc_attr( 'display-none' ); ?>" id="load-more-speaker">
+                            <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="<?php echo esc_attr( $posts_per_page ); ?>" data-total-page="<?php echo absint( $query->max_num_pages ); ?>">Load More</a>
+                        </div>
                     <?php
-                        }
                     }
                     ?>
                 </div>

@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
   const { RichText, MediaUpload } = wpEditor;
-  const { Button } = wpComponents;
+  const { Button, TextControl } = wpComponents;
 
   class EditOfficialVendor extends Component {
 
@@ -191,7 +191,26 @@
                     });
                   }}
                 />
-                <RichText
+                <TextControl
+                  type="text"
+                  className="email"
+                  value={product.email}
+                  placeholder="Email"
+                  onChange={email => {
+                    const newObject = Object.assign({}, product, {
+                      email: email
+                    });
+                    setAttributes({
+                      products: [
+                        ...products.filter(
+                          item => item.index != product.index
+                        ),
+                        newObject
+                      ]
+                    });
+                  }}
+                />
+                {/* <RichText
                   tagName="a"
                   className="email"
                   placeholder={__('Email')}
@@ -209,7 +228,7 @@
                       ]
                     });
                   }}
-                />
+                /> */}
               </div>
             </div>
           );
@@ -316,11 +335,13 @@
                           />
                         )}
                         {product.email && (
-                          <RichText.Content
-                            tagName="a"
-                            className="email"
-                            value={product.email}
-                          />
+                          <a className="email" href={`mailto:${product.email}`}>Email us</a>
+
+                          // <RichText.Content
+                          //   tagName="a"
+                          //   className="email"
+                          //   value={product.email}
+                          // />
                         )}
                       </div>
                     </div>

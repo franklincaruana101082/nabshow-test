@@ -374,7 +374,7 @@ function nabshow_lv_set_custom_posts_where( $where, $query ) {
 function nabshow_lv_register_post_type_rewrite_rules( $wp_rewrite ) {
 
 	$rules          = array();
-	$post_type      = get_post_type_object('thought-gallery');
+	$post_type      = get_post_type_object( 'thought-gallery' );
 	$slug_archive   = $post_type->has_archive;
 
 	if ( $slug_archive === false ) {
@@ -389,4 +389,74 @@ function nabshow_lv_register_post_type_rewrite_rules( $wp_rewrite ) {
 	$wp_rewrite->rules                                               = array_merge( $rules, $wp_rewrite->rules ); // merge existing rules with custom ones
 
 	return $wp_rewrite;
+}
+
+/**
+ * Set post type in search result page
+ * @param $query
+ * @return mixed
+ */
+function nabshow_lv_set_post_type_search_filter( $query ) {
+
+	if ( $query->is_search && ! is_admin() ) {
+
+		$search_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+		if ( isset( $search_post_type ) && ! empty( $search_post_type ) ) {
+			$query->set( 'post_type', array( $search_post_type ) );
+		}
+	}
+
+	return $query;
+}
+
+/**
+ * Modified pagination page number link
+ * @param $result
+ * @return string
+ */
+function nabshow_lv_modified_pagenum_link( $result ) {
+
+	if ( is_search() && ! is_admin() ) {
+		$result = esc_url( remove_query_arg ('post_type', $result ) );
+	}
+	return $result;
+}
+
+/**
+ * Generate custom search form
+ * @param string $form Form HTML.
+ * @return string Modified form HTML.
+ */
+function nabshow_lv_modified_search_form( $form ) {
+
+	if ( is_search() && ! is_admin() ) {
+
+		$search_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+        ob_start();
+
+        ?>
+
+        <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="search-form">
+            <label for="search"><span class="screen-reader-text">Search for:</span></label>
+            <input type="text" name="s" class="search-field" id="search" value="<?php the_search_query(); ?>" />
+
+            <?php
+            if ( isset( $search_post_type ) && ! empty( $search_post_type ) ) {
+            ?>
+                <input type="hidden" name="post_type" value="<?php echo esc_attr( $search_post_type ); ?>" />
+            <?php
+            }
+            ?>
+
+            <input type="submit" id="search-submit" value="Search" class="search-submit" />
+        </form>
+
+        <?php
+
+        $form = ob_get_clean();
+	}
+
+	return $form;
 }

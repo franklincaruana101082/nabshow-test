@@ -805,15 +805,14 @@
       exhibitorStartWith = '',
       exhibitorCategory = '',
       exhibitorHall = '',
-      exhibitorPavilion = '',
-      exhibitorItem = jQuery('#browse-exhibitor .item')[0];
+      exhibitorPavilion = '';
 
     $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-category', function () {
       let currentCategory = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
       if (exhibitorCategory !== currentCategory) {
         exhibitorPageNumber = 1;
         exhibitorCategory = currentCategory;
-        nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+        nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
       }
     });
 
@@ -822,7 +821,7 @@
       if (exhibitorHall !== currentHall) {
         exhibitorPageNumber = 1;
         exhibitorHall = currentHall;
-        nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+        nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
       }
     });
 
@@ -831,26 +830,26 @@
       if (exhibitorPavilion !== currentPavilion) {
         exhibitorPageNumber = 1;
         exhibitorPavilion = currentPavilion;
-        nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+        nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
       }
     });
 
     $(document).on('keypress', '.browse-exhibitors-filter .search-item .search', function (e) {
       if (13 === e.which) {
         exhibitorPageNumber = 1;
-        nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+        nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
       }
     });
 
     $(document).on('click', '#load-more-exhibitor a', function () {
       exhibitorPageNumber = parseInt($(this).attr('data-page-number'));
-      nabAjaxForBrowseExhibitors(exhibitorItem, true, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+      nabAjaxForBrowseExhibitors(true, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
     $(document).on('click', '.browse-exhibitors-filter .featured-btn', function () {
       $(this).toggleClass('active');
       exhibitorPageNumber = 1;
-      nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+      nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
     $(document).on('click', '.browse-exhibitors-filter .alphabets-list li:not(".clear")', function () {
@@ -863,7 +862,7 @@
       if (exhibitorStartWith !== $(this).text()) {
         exhibitorStartWith = $(this).text();
         exhibitorPageNumber = 1;
-        nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+        nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
       }
     });
 
@@ -871,18 +870,18 @@
       $(this).hide().siblings().removeClass('active');
       exhibitorStartWith = '';
       exhibitorPageNumber = 1;
-      nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+      nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
     $(document).on('change', '.browse-exhibitors-filter .exhibitor-keywords', function () {
       exhibitorPageNumber = 1;
-      nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+      nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
     $(document).on('click', '.browse-exhibitors-filter .orderby', function () {
       $(this).toggleClass('active');
       exhibitorPageNumber = 1;
-      nabAjaxForBrowseExhibitors(exhibitorItem, false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
+      nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
   }
@@ -894,42 +893,41 @@
         let speakerPageNumber,
             speakerStartWith = '',
             speakerCompany = '',
-            featuredSpeaker = 0 < $('.browse-speakers-filter .featured-btn').hasClass('active') ? 'featured' : '',
-            speakerItem = $('#browse-speaker .item')[0];
+            featuredSpeaker = 0 < $('.browse-speakers-filter .featured-btn').hasClass('active') ? 'featured' : '';
 
         $(document).on('change', '.browse-speakers-filter #speaker-company', function () {
             let currentCompany = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (speakerCompany !== currentCompany) {
                 speakerPageNumber = 1;
                 speakerCompany = currentCompany;
-                nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
             }
         });
 
         $(document).on('keypress', '.browse-speakers-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 speakerPageNumber = 1;
-                nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
             }
         });
 
         $(document).on('keypress', '.browse-speakers-filter .speaker-title-search', function (e) {
             if (13 === e.which) {
                 speakerPageNumber = 1;
-                nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
             }
         });
 
         $(document).on('click', '#load-more-speaker a', function () {
             speakerPageNumber = parseInt($(this).attr('data-page-number'));
-            nabAjaxForBrowseSpeakers(speakerItem, true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+            nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
         });
 
         $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
             $(this).toggleClass('active');
             speakerPageNumber = 1;
             featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
-            nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+            nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
         });
 
         $(document).on('click', '.browse-speakers-filter .alphabets-list li:not(".clear")', function () {
@@ -942,7 +940,7 @@
             if (speakerStartWith !== $(this).text()) {
                 speakerStartWith = $(this).text();
                 speakerPageNumber = 1;
-                nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
             }
         });
 
@@ -950,19 +948,19 @@
             $(this).hide().siblings().removeClass('active');
             speakerStartWith = '';
             speakerPageNumber = 1;
-            nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+            nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
         });
 
         $(document).on('click', '.browse-speakers-filter .orderby', function () {
             $(this).toggleClass('active');
             speakerPageNumber = 1;
-            nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+            nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
         });
         if (0 < $('.browse-speakers-filter #speaker_date').length) {
             $(window).load(function () {
                 $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
                     speakerPageNumber = 1;
-                    nabAjaxForBrowseSpeakers(speakerItem, false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
+                    nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
                 });
             });
         }
@@ -1288,7 +1286,7 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
 
 }
 
-function nabAjaxForBrowseSpeakers(speakerItem, filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker ) {
+function nabAjaxForBrowseSpeakers( filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker ) {
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = jQuery('.browse-speakers-filter .speaker-title-search').val(),
     postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
@@ -1314,25 +1312,56 @@ function nabAjaxForBrowseSpeakers(speakerItem, filterType, speakerPageNumber, sp
 
         if (value.post_title) {
 
-          let cloneItemDiv = speakerItem.cloneNode(true);
-          cloneItemDiv.setAttribute('data-featured', value.featured);
+          let createItemDiv = document.createElement('div');
+          createItemDiv.setAttribute('class', 'item display-title');
+          createItemDiv.setAttribute('data-featured', value.featured);
 
-          let innerImg = cloneItemDiv.querySelector('img');
+          let itemInnerDiv = document.createElement('div');
+          itemInnerDiv.setAttribute('class', 'flip-box');
+
+          let itemInnerFlipBox = document.createElement('div');
+          itemInnerFlipBox.setAttribute('class', 'flip-box-inner');
+
+          let innerImg = document.createElement('img');
           innerImg.setAttribute('src', value.thumbnail_url);
+          innerImg.setAttribute('alt', 'speaker-logo');
+          innerImg.setAttribute('class', 'rounded-circle');
 
-          let innerHeadingLink = cloneItemDiv.querySelector('h6 > .detail-list-modal-popup');
+          itemInnerFlipBox.appendChild(innerImg);
+
+          let innerFlipBoxBack = document.createElement('div');
+          innerFlipBoxBack.setAttribute('class', 'flip-box-back rounded-circle');
+
+          let innerHeading = document.createElement('h6');
+
+          let innerHeadingLink = document.createElement('a');
           innerHeadingLink.innerText = value.post_title;
+          innerHeadingLink.setAttribute('href', '#');
+          innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
           innerHeadingLink.setAttribute('data-postid', value.post_id);
+          innerHeadingLink.setAttribute('data-posttype', 'speakers');
 
-          let innerParagraphTag = cloneItemDiv.querySelector('p');
-          innerParagraphTag.innerText = value.job_title;
+          innerHeading.appendChild(innerHeadingLink);
+          innerFlipBoxBack.appendChild(innerHeading);
 
-          let innerSpanTag = cloneItemDiv.querySelector('span');
-          innerSpanTag.innerText = value.company;
+          let innerParagraph = document.createElement('p');
+          innerParagraph.innerText = value.job_title;
+          innerParagraph.setAttribute('class', 'jobtilt');
 
-          let exhibitorList = document.getElementById('browse-speaker');
+          innerFlipBoxBack.appendChild(innerParagraph);
 
-          exhibitorList.appendChild(cloneItemDiv);
+          let innerSpan = document.createElement('span');
+          innerSpan.innerText = value.company;
+          innerSpan.setAttribute('class', 'company');
+
+          innerFlipBoxBack.appendChild(innerSpan);
+          itemInnerFlipBox.appendChild(innerFlipBoxBack);
+          itemInnerDiv.appendChild(itemInnerFlipBox);
+          createItemDiv.appendChild(itemInnerDiv);
+
+          let speakersList = document.getElementById('browse-speaker');
+          speakersList.appendChild(createItemDiv);
+
         }
 
       });
@@ -1364,7 +1393,7 @@ function nabAjaxForBrowseSpeakers(speakerItem, filterType, speakerPageNumber, sp
   });
 }
 
-function nabAjaxForBrowseExhibitors(exhibitorItem, filterType, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion) {
+function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion) {
 
   let postPerPage = jQuery('#load-more-exhibitor a').attr('data-post-limit') ? parseInt(jQuery('#load-more-exhibitor a').attr('data-post-limit')) : 10;
   let postSearch = jQuery('.browse-exhibitors-filter .search-item .search').val();
@@ -1387,50 +1416,70 @@ function nabAjaxForBrowseExhibitors(exhibitorItem, filterType, exhibitorPageNumb
 
       let exhibitorObj = jQuery.parseJSON(exhibitorData);
 
+      if (! filterType ) {
+        jQuery('#browse-exhibitor').empty();
+      }
+
       jQuery.each(exhibitorObj.result_post, function (key, value) {
 
         if (value.post_title) {
-          let cloneItemDiv = exhibitorItem.cloneNode(true);
-          cloneItemDiv.setAttribute('data-featured', value.featured);
 
-          let innerImg = cloneItemDiv.querySelector('img');
+          let createItemDiv = document.createElement('div');
+          createItemDiv.setAttribute('class', 'item');
+          createItemDiv.setAttribute('data-featured', value.featured);
 
-          if (null === innerImg && '' !== value.thumbnail_url) {
+          let itemInnerDiv = document.createElement('div');
+          itemInnerDiv.setAttribute('class', 'item-inner');
+
+          if ('' !== value.thumbnail_url) {
+
             let imgTag = document.createElement('img');
             imgTag.setAttribute('src', value.thumbnail_url);
             imgTag.setAttribute('alt', 'exhibitor-logo');
 
-            let innerDiv = cloneItemDiv.querySelector('.item-inner');
-            innerDiv.insertBefore(imgTag, innerDiv.childNodes[0]);
-          } else if (null != innerImg && '' !== value.thumbnail_url) {
-            innerImg.setAttribute('src', value.thumbnail_url);
-          } else if (null !== innerImg) {
-            innerImg.remove();
+            itemInnerDiv.appendChild(imgTag);
           }
 
+          let innerHeading = document.createElement('h4');
 
-          let innerHeadingLink = cloneItemDiv.querySelector('h4 > a');
+          let innerHeadingLink = document.createElement('a');
           innerHeadingLink.innerText = value.post_title;
+          innerHeadingLink.setAttribute('href', '#');
+          innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
           innerHeadingLink.setAttribute('data-postid', value.post_id);
+          innerHeadingLink.setAttribute('data-posttype', 'exhibitors');
 
-          let innerSpanTag = cloneItemDiv.querySelector('span');
-          innerSpanTag.innerText = value.boothnumber;
+          innerHeading.appendChild(innerHeadingLink);
+          itemInnerDiv.appendChild(innerHeading);
 
-          let innerParagraphTag = cloneItemDiv.querySelector('p');
-          innerParagraphTag.childNodes[0].nodeValue = value.post_excerpt;
+          let innerSpan = document.createElement('span');
+          innerSpan.innerText = value.boothnumber;
 
-          let innerParagraphATag = cloneItemDiv.querySelector('p > .detail-list-modal-popup');
-          innerParagraphATag.setAttribute('data-postid', value.post_id);
+          itemInnerDiv.appendChild(innerSpan);
 
-          let innerATag = cloneItemDiv.querySelector('.item-inner > a');
-          innerATag.setAttribute('href', value.planner_link);
+          let innerParagraph = document.createElement('p');
+          innerParagraph.innerText = value.post_excerpt;
+
+          let innerParagraphLink = document.createElement('a');
+          innerParagraphLink.innerText = ' Read More';
+          innerParagraphLink.setAttribute('href', '#');
+          innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
+          innerParagraphLink.setAttribute('data-postid', value.post_id);
+          innerParagraphLink.setAttribute('data-posttype', 'exhibitors');
+
+          innerParagraph.appendChild(innerParagraphLink);
+          itemInnerDiv.appendChild(innerParagraph);
+
+          let innerPlannerLink = document.createElement('a');
+          innerPlannerLink.innerText = 'View in Planner';
+          innerPlannerLink.setAttribute('href', value.planner_link);
+          innerPlannerLink.setAttribute('target', '_blank');
+
+          itemInnerDiv.appendChild(innerPlannerLink);
+          createItemDiv.appendChild(itemInnerDiv);
 
           let exhibitorList = document.getElementById('browse-exhibitor');
-
-          if (! filterType && 0 === key) {
-            jQuery('#browse-exhibitor').empty();
-          }
-          exhibitorList.appendChild(cloneItemDiv);
+          exhibitorList.appendChild(createItemDiv);
         }
 
       });
@@ -1559,33 +1608,60 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
         });
       } else {
+
+        if ('load-more' !== filterType ) {
+          jQuery('#browse-session').empty();
+        }
+
         jQuery.each(sessionObj.result_post, function (key, value) {
+
           if (value.post_title) {
-            let cloneItemDiv = sessionItem.cloneNode(true);
-            cloneItemDiv.setAttribute('data-featured', value.featured);
 
-            let innerHeadingLink = cloneItemDiv.querySelector('h4 > a');
-            innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
+              let createItemDiv = document.createElement('div');
+              createItemDiv.setAttribute('class', 'item');
+              createItemDiv.setAttribute('data-featured', value.featured);
 
-            let innerSpanTag = cloneItemDiv.querySelector('span');
-            innerSpanTag.innerText = value.date_time;
+              let innerHeading = document.createElement('h4');
 
-            let innerParagraphTag = cloneItemDiv.querySelector('p');
-            innerParagraphTag.childNodes[0].nodeValue = value.post_excerpt;
+              let innerHeadingLink = document.createElement('a');
+              innerHeadingLink.innerText = value.post_title;
+              innerHeadingLink.setAttribute('href', '#');
+              innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
+              innerHeadingLink.setAttribute('data-postid', value.post_id);
+              innerHeadingLink.setAttribute('data-posttype', 'sessions');
 
-            let innerParagraphATag = cloneItemDiv.querySelector('p > .detail-list-modal-popup');
-            innerParagraphATag.setAttribute('data-postid', value.post_id);
+              innerHeading.appendChild(innerHeadingLink);
+              createItemDiv.appendChild(innerHeading);
 
-            let innerATag = cloneItemDiv.querySelector('.session-planner-url');
-            innerATag.setAttribute('href', value.planner_link);
+              let innerSpan = document.createElement('span');
+              innerSpan.innerText = value.date_time;
+              innerSpan.setAttribute('class', 'date-time');
 
-            let sessionList = document.getElementById('browse-session');
+              createItemDiv.appendChild(innerSpan);
 
-            if ('load-more' !== filterType && 0 === key) {
-              jQuery('#browse-session').empty();
-            }
-            sessionList.appendChild(cloneItemDiv);
+              let innerParagraph = document.createElement('p');
+              innerParagraph.innerText = value.post_excerpt;
+
+              let innerParagraphLink = document.createElement('a');
+              innerParagraphLink.innerText = ' Read More';
+              innerParagraphLink.setAttribute('href', '#');
+              innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
+              innerParagraphLink.setAttribute('data-postid', value.post_id);
+              innerParagraphLink.setAttribute('data-posttype', 'sessions');
+
+              innerParagraph.appendChild(innerParagraphLink);
+              createItemDiv.appendChild(innerParagraph);
+
+              let innerPlannerLink = document.createElement('a');
+              innerPlannerLink.innerText = 'View in Planner';
+              innerPlannerLink.setAttribute('href', value.planner_link);
+              innerPlannerLink.setAttribute('class', 'session-planner-url');
+              innerPlannerLink.setAttribute('target', '_blank');
+
+              createItemDiv.appendChild(innerPlannerLink);
+
+              let sessionList = document.getElementById('browse-session');
+              sessionList.appendChild(createItemDiv);
           }
 
         });

@@ -57,3 +57,12 @@ add_filter( 'posts_where', 'nabshow_lv_set_custom_posts_where', 10, 2 );
 
 // Filter for generate yearly archive for thought gallery post type
 add_filter( 'generate_rewrite_rules', 'nabshow_lv_register_post_type_rewrite_rules', 100 );
+
+// Filter to set post type in search result page
+add_filter( 'pre_get_posts','nabshow_lv_set_post_type_search_filter' );
+
+// Filter for modified pagination page number link
+add_filter( 'get_pagenum_link', 'nabshow_lv_modified_pagenum_link' );
+
+// Filter for generate custom search form
+add_filter( 'get_search_form', 'nabshow_lv_modified_search_form' );

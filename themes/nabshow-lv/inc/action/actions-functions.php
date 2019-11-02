@@ -138,16 +138,13 @@ function nabshow_lv_move_scripts_to_footer() {
  *
  */
 function nabshow_lv_set_thought_gallery_views( $postID ) {
-	$count_key = 'nab_thought_gallery_views_count';
+
+    $count_key = 'nab_thought_gallery_views_count';
 	$count     = get_post_meta( $postID, $count_key, true );
-	if ( empty( $count ) ) {
-		$count = 0;
-		delete_post_meta( $postID, $count_key );
-		add_post_meta( $postID, $count_key, '0' );
-	} else {
-		$count ++;
-		update_post_meta( $postID, $count_key, $count );
-	}
+
+	$count     = empty( $count ) ? 1 : $count + 1;
+
+	update_post_meta( $postID, $count_key, $count );
 }
 
 /**

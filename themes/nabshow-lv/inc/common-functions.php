@@ -350,3 +350,61 @@ function nabshow_lv_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relat
 	return $tax_query_args;
 
 }
+
+/**
+ * Prepare post types array for search result page
+ * @return array
+ */
+function nabshow_lv_get_search_result_post_types() {
+
+    return array(
+	    'all'              => 'All',
+	    'page'             => 'Page',
+	    'exhibitors'       => 'Exhibitor',
+	    'sessions'         => 'Session',
+	    'speakers'         => 'Speaker',
+	    'sponsors'         => 'Sponsor/Partner',
+	    'products'         => 'Product',
+	    'thought-gallery'  => 'Thought-Gallery',
+	    'not-to-be-missed' => 'Not-to-Be-Missed',
+	    'news-releases'    => 'News Release'
+    );
+}
+
+/**
+ * Generate search result post link according to post type
+ * @param $current_post_type
+ * @param $current_post_id
+ * @param $post_title
+ */
+function nabshow_lv_get_search_result_post_link( $current_post_type, $current_post_id, $post_title ) {
+
+	$popup_link_post_types  = array( 'exhibitors', 'sessions', 'speakers' );
+
+	if ( ! empty( $current_post_type ) && in_array( $current_post_type, $popup_link_post_types, true ) ) {
+
+		$post_title = 'sessions' === $current_post_type ? mb_strimwidth( get_the_title(), 0, 83, '...' ) : $post_title;
+    ?>
+
+        <a href="#" class="modal-detail-list-modal-popup" data-postid="<?php echo esc_attr( $current_post_id ); ?>" data-posttype="<?php echo esc_attr( $current_post_type ); ?>"><?php echo esc_html( $post_title ); ?></a>
+
+    <?php
+
+	} elseif ( 'sponsors' === $current_post_type ) {
+
+		$post_url = get_field( 'partners_sponsors_link',  $current_post_id );
+    ?>
+
+        <a href="<?php echo esc_url( $post_url ); ?>" target="_blank"><?php echo esc_html( $post_title ); ?></a>
+
+    <?php
+
+	} else {
+    ?>
+
+        <a href="<?php echo esc_url( get_the_permalink( $current_post_id ) ); ?>"><?php echo esc_html( $post_title ); ?></a>
+
+    <?php
+	}
+
+}
