@@ -1143,7 +1143,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .related-content-rowbox ul.title-list li a{font-family:"Gotham Bold", sans-serif;font-size:16px}
 .category-listing-main ul.parent-category-listing{list-style:none;display:inline-block;width:100%;vertical-align:top}
 .category-listing-main ul.parent-category-listing li{width:33.333%;padding:0 10px;float:left;margin-bottom:10px}
-.key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0}
+.key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0;background-color:transparent}
 
 /* on floor destinations */
 .on-floor-destinations .on-floor-imgbox{width:22%;display:inline-block;float:left}
@@ -1156,7 +1156,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 
 /* related content co-located events */
 .related-content-slider-info .item,.related-content-slider-events .item{border:3px solid #d9d9d9}
-.related-content-slider-info .item .item-info,.related-content-slider-events .item{text-align:center;padding:15px}
+.related-content-slider-info .item .item-info,.related-content-slider-events .item{text-align:center;background:#fff;padding:15px}
 .related-content-slider-info .item .item-info h2,.related-content-slider-events .item .location,.related-content-slider-info .item .item-info .access{margin-top:0}
 .related-content-slider-info .item .item-info .datetime,.related-content-slider-info .item .item-info .location{margin-bottom:5px;margin-top:0}
 .related-content-slider-info .item .item-info .access, .related-content-slider-events .item .description{font-style:normal;margin-bottom:0}
