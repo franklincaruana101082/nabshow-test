@@ -1213,9 +1213,9 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 
 /* Home not to be slider */
 .not-to-be-slider .nab-not-to-be-missed-slider{display:inline-block;width:100%;margin:0 -15px;overflow:hidden}
-.not-to-be-slider .cards.item{position:relative;overflow:hidden;width:33.333%;padding:0 15px 30px}
+.not-to-be-slider .cards.item{position:relative;overflow:hidden;width:33.333%;padding:0 5px;float:left;height:367px;opacity:1;transform:scale(1, 1);display:flex;justify-content:center;background-size:cover;background-position:center}
 .not-to-be-slider .cards.item a{display:inline-block;width:100%;height:100%;overflow:hidden;position:relative}
-.not-to-be-slider .cards.item a img{width:100%}
+.not-to-be-slider .cards.item a img{width:100%;height:100%}
 .not-to-be-slider .cards .card-details{position:absolute;bottom:0;left:0;width:100%;padding:20px 10px}
 .not-to-be-slider .cards .card-details .title,.not-to-be-slider .cards .card-details .sub-category{color:#fff}
 .not-to-be-slider .cards .card-details .title{font-style:italic;font-size:28px;margin:0;line-height:40px}
