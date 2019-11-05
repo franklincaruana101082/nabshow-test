@@ -469,6 +469,17 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                                 </select>
                             </div>
                         </div>
+                        <div class="category col-lg-3">
+                            <label for="exhibitor-technology">Technology</label>
+                            <div class="browse-select">
+                                <select id="exhibitor-technology" class="select-opt">
+                                    <option>Select a Technology</option>
+							        <?php
+							        nabshow_lv_get_term_list_options( 'exhibitor-trends' );
+							        ?>
+                                </select>
+                            </div>
+                        </div>
 				        <?php
 			        } elseif ( 'speakers' === $atts[ 'type' ] ) {
 				        $date_picker = true;

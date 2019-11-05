@@ -478,16 +478,17 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 	$result_post    = array();
 	$final_result   = array();
 
-	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
-	$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
-	$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
-	$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
-	$exhibitor_category = filter_input( INPUT_GET, 'exhibitor_category', FILTER_SANITIZE_STRING );
-	$exhibitor_hall     = filter_input( INPUT_GET, 'exhibitor_hall', FILTER_SANITIZE_STRING );
-	$exhibitor_pavilion = filter_input( INPUT_GET, 'exhibitor_pavilion', FILTER_SANITIZE_STRING );
-	$exhibitor_keywords = filter_input( INPUT_GET, 'exhibitor_keywords', FILTER_SANITIZE_STRING );
-	$order_by           = filter_input( INPUT_GET, 'exhibitor_order', FILTER_SANITIZE_STRING );
-	$order              = 'date' === $order_by ? 'DESC' : 'ASC';
+	$page_number            = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit             = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
+	$post_start             = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
+	$post_search            = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
+	$exhibitor_category     = filter_input( INPUT_GET, 'exhibitor_category', FILTER_SANITIZE_STRING );
+	$exhibitor_hall         = filter_input( INPUT_GET, 'exhibitor_hall', FILTER_SANITIZE_STRING );
+	$exhibitor_pavilion     = filter_input( INPUT_GET, 'exhibitor_pavilion', FILTER_SANITIZE_STRING );
+	$exhibitor_keywords     = filter_input( INPUT_GET, 'exhibitor_keywords', FILTER_SANITIZE_STRING );
+	$order_by               = filter_input( INPUT_GET, 'exhibitor_order', FILTER_SANITIZE_STRING );
+	$exhibitor_technology   = filter_input( INPUT_GET, 'exhibitor_technology', FILTER_SANITIZE_STRING );
+	$order                  = 'date' === $order_by ? 'DESC' : 'ASC';
 
 	$query_arg = array(
 		'post_type'      => 'exhibitors',
@@ -528,6 +529,14 @@ function nabshow_lv_exhibitors_browse_filter_callback() {
 			'taxonomy' => 'pavilions',
 			'field'    => 'slug',
 			'terms'    => $exhibitor_pavilion,
+		);
+	}
+
+	if ( ! empty( $exhibitor_technology ) ) {
+		$tax_query_args[] = array (
+			'taxonomy' => 'exhibitor-trends',
+			'field'    => 'slug',
+			'terms'    => $exhibitor_technology,
 		);
 	}
 

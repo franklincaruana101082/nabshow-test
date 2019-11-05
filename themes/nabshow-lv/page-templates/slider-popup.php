@@ -405,10 +405,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <?php nabshow_lv_get_popup_content( $query_post_id, $exh_url ); ?>
                             </div>
                             <?php
-                            $all_terms = get_terms( array(
-	                            'taxonomy'   => 'exhibitor-keywords',
-	                            'hide_empty' => true,
-                            ) );
+                            $all_terms = get_the_terms( $query_post_id, 'exhibitor-keywords' );
 
                             if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
                             ?>
@@ -416,7 +413,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <?php
 		                            foreach ( $all_terms as $current_term ) {
 			                            if ( 'featured' !== $current_term->slug ) {
-			                                $term_tag_link = get_site_url() . '/explore/exhibits/browse-exhibitors/?exhibitor-key='. $current_term->slug;
+			                                $term_tag_link = get_site_url() . '/explore/exhibits/browse-experiences/?exhibitor-key='. $current_term->slug;
                                         ?>
                                             <li><a href="<?php echo esc_url( $term_tag_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></li>
                                         <?php

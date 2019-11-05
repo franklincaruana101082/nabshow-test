@@ -1,10 +1,10 @@
 === Simple Page Ordering ===
-Contributors: jakemgold, 10up, thinkoomph
+Contributors: 10up, jakemgold, welcher, helen, thinkoomph
 Donate link: http://10up.com/plugins/simple-page-ordering-wordpress/
 Tags: order, re-order, ordering, pages, page, manage, menu_order, hierarchical, ajax, drag-and-drop, admin
-Requires at least: 3.4
-Tested up to: 3.6
-Stable tag: 2.1.2
+Requires at least: 3.8
+Tested up to: 5.2
+Stable tag: 2.3.2
 
 Order your pages and other hierarchical post types with simple drag and drop right from the standard page list.
 
@@ -19,6 +19,10 @@ The plug-in is "capabilities aware" - only users with the ability to edit others
 Integrated help is included: just click the "help" tab at the top right of the screen.
 
 Please note that the plug-in is not compatible with Internet Explorer 7 and earlier, due to limitations within those browsers.
+
+=== Contributing ===
+
+We'd love to have you join in on development over on [GitHub](https://github.com/10up/simple-page-ordering).
 
 
 == Installation ==
@@ -76,6 +80,43 @@ This feature is already built into WordPress natively, but a bit tucked away. If
 
 
 == Changelog ==
+
+= 2.3.2 =
+* Enhancement: Allow cancellation of drag operation by pressing escape key
+* Bug fix: Allow form input elements added to a row by plugins to be interacted with
+
+= 2.3.1 =
+* Bug fix: Prevent rows with hidden columns from jumping around while dragging
+
+= 2.3 =
+* Avoid exceeding PHP's max input variables, which could cause incorrectly assigned page order
+* Fix a malformed URL that would take you to posts instead of pages
+* Use `WP_Query` instead of `get_posts()` for better performance
+* Use WordPress core's spinner class
+* Add Grunt-based build process with Sass
+* Remove bundled translations in favor of WordPress.org language packs
+* Fix some PHPDoc and coding standards to align with 10up's Engineering Best Practices
+
+= 2.2.4 =
+* Fixed redundant URL encoding when sorting in admin page list
+
+= 2.2.3 =
+* Fixed ordering in WordPress 4.0 following core changes to ORDER BY in WP_Query
+
+= 2.2.2 =
+* Column widths no longer change when dragging a row (partial props griffinjt)
+* Closed obscure XSS vulnerability related to Sort by Order link (props simon-waters)
+* Add German localization (props glueckpress).
+
+= 2.2.1 =
+* Bring back translations / text domain (yikes!)
+* Add Brazilian translation
+* Props to "felds"
+
+= 2.2 =
+* Updated look and feel to better match WordPress 3.8 admin redesign
+* Improved awareness of and compatibility with Quick Edit (inline editor)
+* Prevent collisions with themes and plugins bundling Simple Page Ordering
 
 = 2.1.2 =
 * Bug fix: hierarchical custom post types without page-attributes was still broken - doh!
