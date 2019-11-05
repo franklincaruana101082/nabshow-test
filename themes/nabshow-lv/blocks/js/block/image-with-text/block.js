@@ -5,7 +5,7 @@
 	const { TextControl, PanelBody, PanelRow, Toolbar, IconButton, Button, ToggleControl, RangeControl, ColorPalette } = wpComponents;
 
 	registerBlockType('nab/image-with-text', {
-		title: __('Nab - Image & Text'),
+		title: __('Image & Text'),
 		icon: 'playlist-video',
 		description: __('Nab Image & Text is a gutenberg block where you can add media along with text.'),
 		category: 'nabshow',

@@ -22,7 +22,7 @@ import memoize from 'memize';
   registerBlockType('nab/meet-the-team', {
     title: __('Meet The Team'),
     description: __('Meet The Team'),
-    icon: 'businessman',
+    icon: 'groups',
     category: 'nabshow',
     keywords: [__('schedule'), __('gutenberg'), __('nab')],
     attributes: {

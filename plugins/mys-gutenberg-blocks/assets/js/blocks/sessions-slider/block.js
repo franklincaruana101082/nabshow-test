@@ -579,7 +579,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
     };
     registerBlockType('mys/sessions-slider', {
         title: __('Sessions Slider'),
-        icon: 'lock',
+        icon: 'money',
         category: 'mysgb',
         keywords: [__('sessions'), __('slider')],
         attributes: blockAttrs,

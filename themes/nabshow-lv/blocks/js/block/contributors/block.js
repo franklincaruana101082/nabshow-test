@@ -90,7 +90,7 @@
 
     registerBlockType('nab/contributors-authors', {
         title: __('Contributors / Authors'),
-        icon: 'lock',
+        icon: 'admin-users',
         category: 'nabshow',
         keywords: [__('contributors'), __('authors')],
         attributes: allAttr,

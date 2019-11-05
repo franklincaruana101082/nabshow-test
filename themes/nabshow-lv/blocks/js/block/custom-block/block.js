@@ -228,7 +228,7 @@ import Inspector from './inspector';
      * Register advanced columns block InnerBlocks.
      */
     registerBlockType('nab/nab-custom', {
-        title: __('Nab Custom Block'),
+        title: __('NABShow - Custom Block'),
         description: __('Add a pre-defined custom layout.'),
         icon: 'editor-table',
         category: 'nabshow',

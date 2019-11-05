@@ -12,7 +12,7 @@
 
     registerBlockType('nab/related-content-with-block', {
         title: __('Related Content with Block'),
-        icon: 'lock',
+        icon: 'editor-table',
         category: 'nabshow',
         keywords: [__('related'), __('content'), __('block')],
         attributes: allAttr,

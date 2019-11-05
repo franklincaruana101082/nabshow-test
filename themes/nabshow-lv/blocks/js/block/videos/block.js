@@ -111,9 +111,9 @@
   }
 
   registerBlockType('nab/nab-videos', {
-    title: __('NAB Videos'),
-    description: __('Nab videos'),
-    icon: 'format-image',
+    title: __('Videos'),
+    description: __('Nabshow videos'),
+    icon: 'video-alt',
     category: 'nabshow',
     keywords: [__('videos'), __('gutenberg'), __('nab')],
     attributes: {

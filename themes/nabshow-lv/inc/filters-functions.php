@@ -37,7 +37,7 @@ function nabshow_lv_custom_block_category( $categories ) {
         array(
             array(
                 'slug'  => 'nabshow',
-                'title' => __( 'NAB Show', 'nabshow-lv' ),
+                'title' => __( 'NABShow Elements', 'nabshow-lv' ),
             ),
         )
     );

@@ -484,7 +484,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('nab/not-to-be-missed-slider', {
         title: __('Not to be Missed Slider'),
-        icon: 'lock',
+        icon: 'buddicons-topics',
         category: 'nabshow',
         keywords: [__('Not'), __('missed'), __('slider')],
         attributes: blockAttrs,

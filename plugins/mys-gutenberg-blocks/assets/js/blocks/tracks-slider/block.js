@@ -298,7 +298,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('mys/tracks-slider', {
         title: __('Category Slider'),
-        icon: 'lock',
+        icon: 'category',
         category: 'mysgb',
         keywords: [__('tracks'), __('exhibitors'), __('category')],
         attributes: blockAttrs,

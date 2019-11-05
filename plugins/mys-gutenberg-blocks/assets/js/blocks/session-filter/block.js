@@ -118,7 +118,7 @@
 
     registerBlockType('mys/sessions-filters', {
         title: __('Session Filters'),
-        icon: 'lock',
+        icon: 'filter',
         category: 'mysgb',
         keywords: [__('session'), __('filter')],
         attributes: allAttr,

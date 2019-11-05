@@ -7,7 +7,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
   const { TextControl, PanelBody, PanelRow, RangeControl, ToggleControl, SelectControl, ColorPalette } = wpComponents;
 
   registerBlockType('nab/nab-button', {
-    title: __('Nab - Button'),
+    title: __('NABShow - Button'),
     icon: 'editor-removeformatting',
     description: __(
       'Nab Button is a gutenberg block used to add a clickable button.'

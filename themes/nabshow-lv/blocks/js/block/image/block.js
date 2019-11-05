@@ -7,7 +7,7 @@
 
   const IMAGE_TEMPLATE = [['core/image', {}]];
   registerBlockType('nab/custom-image', {
-    title: __('Nab - Image'),
+    title: __('NABShow - Image'),
     icon: 'format-image',
     description: __('Nab Image is a gutenberg block which used to insert image.'),
     category: 'nabshow',

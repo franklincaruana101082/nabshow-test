@@ -19,7 +19,7 @@ import { exhibitorAccordion, exhibitorImageListing, exhibitorParentImageListing 
 
     registerBlockType('mys/product-categories', {
         title: __('Product Categories'),
-        icon: 'lock',
+        icon: 'buddicons-tracking',
         category: 'mysgb',
         keywords: [__('product'), __('categories')],
         attributes: allAttr,

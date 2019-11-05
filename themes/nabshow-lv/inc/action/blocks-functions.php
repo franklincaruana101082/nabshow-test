@@ -286,16 +286,6 @@ function nabshow_lv_register_dynamic_blocks() {
             'render_callback' => 'nabshow_lv_page_featured_image_render_callback',
         )
     );
-
-	register_block_type( 'nab/child-page-card-block', array(
-            'attributes' => array(
-                'parentPageId'  => array(
-                    'type' => 'number'
-                ),
-            ),
-            'render_callback' => 'nabshow_lv_child_page_card_block_render_callback',
-        )
-    );
 }
 
 /**
@@ -1103,56 +1093,6 @@ function nabshow_lv_page_featured_image_render_callback( $attributes ) {
         <p>Page slug can not be empty.</p>
     <?php
     }
-
-    $html = ob_get_clean();
-    return $html;
-}
-
-function nabshow_lv_child_page_card_block_render_callback( $attributes ) {
-
-    $page_id = isset( $attributes['parentPageId'] ) && ! empty( $attributes['parentPageId'] ) ? $attributes['parentPageId'] : get_the_ID();
-
-    $args = array(
-        'post_type'      => 'page',
-        'posts_per_page' => 99,
-        'post_parent'    => $page_id,
-        'order'          => 'ASC',
-        'orderby'        => 'menu_order'
-     );
-
-
-    $child = new WP_Query( $args );
-
-    ob_start();
-
-    if ( $child->have_posts() ) :
-
-        $allowed_tags = wp_kses_allowed_html( 'post' );
-
-        while ( $child->have_posts() ) : $child->the_post();
-
-            $nab_content = get_the_content();
-
-            if ( has_blocks( $nab_content ) ) {
-
-                $nab_blocks = parse_blocks( $nab_content );
-
-                $nab_array_search = array_filter( $nab_blocks, 'nabshow_lv_search_block' );
-
-                $nab_post_content = nabshow_lv_serialize_blocks( $nab_array_search );
-
-                $content = apply_filters( 'the_content', $nab_post_content );
-
-                ?>
-                <div class="related-main-wrapper">
-                    <?php echo wp_kses( $content, $allowed_tags ); ?>
-                </div>
-                <?php
-            }
-
-        endwhile;
-    endif;
-    wp_reset_postdata();
 
     $html = ob_get_clean();
     return $html;

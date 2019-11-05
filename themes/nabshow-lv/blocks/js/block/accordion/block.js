@@ -126,7 +126,7 @@ import memoize from 'memize';
 	registerBlockType('nab/accordion-item', {
 		title: __('Accordion Items'),
 		description: __('This is nab accordion block with multiple setting.'),
-		icon: 'lock',
+		icon: 'editor-insertmore',
 		category: 'nabshow',
 		parent: ['nab/accordion'],
 		attributes: {

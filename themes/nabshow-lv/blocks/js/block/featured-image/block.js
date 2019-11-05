@@ -18,7 +18,7 @@
 
     registerBlockType('nab/page-featured-image', {
         title: __('Featured Image'),
-        icon: 'lock',
+        icon: 'format-image',
         category: 'nabshow',
         keywords: [__('page'), __('featured'), __('image')],
         attributes: allAttr,

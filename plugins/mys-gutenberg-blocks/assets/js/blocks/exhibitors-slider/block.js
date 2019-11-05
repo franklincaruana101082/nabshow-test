@@ -495,7 +495,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),
-        icon: 'lock',
+        icon: 'store',
         category: 'mysgb',
         keywords: [__('exhibitors'), __('slider')],
         attributes: blockAttrs,

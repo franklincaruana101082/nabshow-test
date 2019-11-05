@@ -98,8 +98,8 @@
 
   registerBlockType('nab/nab-photos', {
     title: __('Photos'),
-    description: __('Nab Photos'),
-    icon: 'format-image',
+    description: __('NabShow Photos'),
+    icon: 'format-gallery',
     category: 'nabshow',
     keywords: [__('Photos'), __('gutenberg'), __('nab')],
     attributes: {

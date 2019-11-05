@@ -65,7 +65,7 @@
 
     registerBlockType('nab/advertisement', {
         title: __('Advertisement'),
-        icon: 'lock',
+        icon: 'media-spreadsheet',
         category: 'nabshow',
         keywords: [__('ad'), __('advertisement')],
         attributes: allAttr,

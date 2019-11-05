@@ -2387,7 +2387,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/sessions-slider', {
         title: __('Sessions Slider'),
-        icon: 'lock',
+        icon: 'money',
         category: 'mysgb',
         keywords: [__('sessions'), __('slider')],
         attributes: blockAttrs,
@@ -3024,7 +3024,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),
-        icon: 'lock',
+        icon: 'store',
         category: 'mysgb',
         keywords: [__('exhibitors'), __('slider')],
         attributes: blockAttrs,
@@ -4378,7 +4378,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),
-        icon: 'lock',
+        icon: 'groups',
         category: 'mysgb',
         keywords: [__('sponsors'), __('partners'), __('slider')],
         attributes: blockAttrs,
@@ -4683,7 +4683,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/product-winner', {
         title: __('Product Winner'),
-        icon: 'lock',
+        icon: 'shield',
         category: 'mysgb',
         keywords: [__('product'), __('winner'), __('showcase')],
         attributes: blockAttrs,
@@ -5116,7 +5116,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/tracks-slider', {
         title: __('Category Slider'),
-        icon: 'lock',
+        icon: 'category',
         category: 'mysgb',
         keywords: [__('tracks'), __('exhibitors'), __('category')],
         attributes: blockAttrs,
@@ -5311,7 +5311,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     registerBlockType('mys/sessions-filters', {
         title: __('Session Filters'),
-        icon: 'lock',
+        icon: 'filter',
         category: 'mysgb',
         keywords: [__('session'), __('filter')],
         attributes: allAttr,
@@ -5401,7 +5401,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     registerBlockType('mys/product-categories', {
         title: __('Product Categories'),
-        icon: 'lock',
+        icon: 'buddicons-tracking',
         category: 'mysgb',
         keywords: [__('product'), __('categories')],
         attributes: allAttr,
@@ -6073,7 +6073,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('mys/product-slider', {
         title: __('Product Slider'),
-        icon: 'lock',
+        icon: 'products',
         category: 'mysgb',
         keywords: [__('product'), __('slider')],
         attributes: blockAttrs,

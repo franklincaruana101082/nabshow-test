@@ -505,7 +505,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),
-        icon: 'lock',
+        icon: 'groups',
         category: 'mysgb',
         keywords: [__('sponsors'), __('partners'), __('slider')],
         attributes: blockAttrs,

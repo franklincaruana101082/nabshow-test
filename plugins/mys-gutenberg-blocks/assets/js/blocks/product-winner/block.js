@@ -238,7 +238,7 @@
     };
     registerBlockType('mys/product-winner', {
         title: __('Product Winner'),
-        icon: 'lock',
+        icon: 'shield',
         category: 'mysgb',
         keywords: [__('product'), __('winner'), __('showcase')],
         attributes: blockAttrs,
