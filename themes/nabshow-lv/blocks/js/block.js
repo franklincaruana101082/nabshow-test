@@ -28,3 +28,4 @@ import './block/exhibitor-advisory-committee/block';
 import './block/related-content-with-block/block';
 import './block/videos/block';
 import './block/featured-image/block';
+import './block/media-partners/block';

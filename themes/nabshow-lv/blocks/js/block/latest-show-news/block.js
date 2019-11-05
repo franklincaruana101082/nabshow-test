@@ -320,7 +320,7 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
     };
     registerBlockType('nab/latest-show', {
         title: __('Latest show news'),
-        icon: 'text-page',
+        icon: 'media-text',
         category: 'nabshow',
         keywords: [__('latest show'), __('news'), __('show')],
         attributes: blockAttrs,

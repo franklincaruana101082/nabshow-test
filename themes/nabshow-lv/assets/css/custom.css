@@ -1505,3 +1505,10 @@ ul.page-numbers{margin:15px 0 0}
 .in-booth-events-block{display:inline-block;width:100%}
 .sponsors.nab-dynamic-slider .item a{display:inline-block;width:100%}
 .accordionBody p a{display:inline}
+
+/* Media Partners PSD */
+.team-main.media-partners .team-box .feature-img img{height:200px}
+.media-partners .team-box-inner{padding:20px}
+.team-main.media-partners .team-box .feature-img{height:200px}
+.team-main.media-partners .team-box .team-details{padding:0;text-align:center;margin-top:20px}
+.team-main.media-partners .team-box .team-details .name{font-size:20px;color:#0f6cb6;font-family:"Gotham Bold", sans-serif}

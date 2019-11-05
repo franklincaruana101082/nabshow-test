@@ -1202,3 +1202,22 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .child-right-content .on-floor-destinations.side-img-info .on-floor-infobox{padding-left:0;padding-right:65px}
 .new-sign strong{font-size:14px;color:#0f6cb6}
 .sponsors.nab-dynamic-slider .item a{display:inline-block;width:100%}
+
+/* Media Partners PSD */
+.team-main.media-partners .team-box .feature-img img,.team-main.media-partners .team-box .feature-img .button-container{height:200px}
+.media-partners .team-box-inner{padding:20px}
+.team-main.media-partners .team-box .feature-img{height:200px}
+.team-main.media-partners .team-box .team-details{padding:0;text-align:center;margin-top:20px}
+.team-main.media-partners .team-box .team-details .name{font-size:20px;color:#0f6cb6;font-family:"Gotham Bold", sans-serif}
+.team-main.media-partners .team-box .team-details p{font-style:normal}
+
+/* Home not to be slider */
+.not-to-be-slider .nab-not-to-be-missed-slider{display:inline-block;width:100%;margin:0 -15px;overflow:hidden}
+.not-to-be-slider .cards.item{position:relative;overflow:hidden;width:33.333%;padding:0 15px 30px}
+.not-to-be-slider .cards.item a{display:inline-block;width:100%;height:100%;overflow:hidden;position:relative}
+.not-to-be-slider .cards.item a img{width:100%}
+.not-to-be-slider .cards .card-details{position:absolute;bottom:0;left:0;width:100%;padding:20px 10px}
+.not-to-be-slider .cards .card-details .title,.not-to-be-slider .cards .card-details .sub-category{color:#fff}
+.not-to-be-slider .cards .card-details .title{font-style:italic;font-size:28px;margin:0;line-height:40px}
+.not-to-be-slider .cards .card-details .sub-category{font-family:"Gotham Book", sans-serif;font-size:13px}
+.not-to-be-slider .cards.item a:hover .title{text-decoration:underline}

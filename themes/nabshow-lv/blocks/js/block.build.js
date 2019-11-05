@@ -112,6 +112,187 @@ module.exports = isArray;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseTimes = __webpack_require__(25),
+    castFunction = __webpack_require__(52),
+    toInteger = __webpack_require__(53);
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used as references for the maximum length and index of an array. */
+var MAX_ARRAY_LENGTH = 4294967295;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMin = Math.min;
+
+/**
+ * Invokes the iteratee `n` times, returning an array of the results of
+ * each invocation. The iteratee is invoked with one argument; (index).
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ * @example
+ *
+ * _.times(3, String);
+ * // => ['0', '1', '2']
+ *
+ *  _.times(4, _.constant(0));
+ * // => [0, 0, 0, 0]
+ */
+function times(n, iteratee) {
+  n = toInteger(n);
+  if (n < 1 || n > MAX_SAFE_INTEGER) {
+    return [];
+  }
+  var index = MAX_ARRAY_LENGTH,
+      length = nativeMin(n, MAX_ARRAY_LENGTH);
+
+  iteratee = castFunction(iteratee);
+  n -= MAX_ARRAY_LENGTH;
+
+  var result = baseTimes(length, iteratee);
+  while (++index < n) {
+    iteratee(index);
+  }
+  return result;
+}
+
+module.exports = times;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {module.exports = function memize( fn, options ) {
+	var size = 0,
+		maxSize, head, tail;
+
+	if ( options && options.maxSize ) {
+		maxSize = options.maxSize;
+	}
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				node.prev.next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				head.prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args )
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === maxSize ) {
+			tail = tail.prev;
+			tail.next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( process.env.NODE_ENV === 'test' ) {
+		// Cache is not exposed in the public API, but used in tests to ensure
+		// expected list progression
+		memoized.getCache = function() {
+			return [ head, tail, size ];
+		};
+	}
+
+	return memoized;
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)))
+
+/***/ }),
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1250,187 +1431,6 @@ var realtedContentPlanShow = wp.element.createElement(
     )
   )
 );
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseTimes = __webpack_require__(25),
-    castFunction = __webpack_require__(52),
-    toInteger = __webpack_require__(53);
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** Used as references for the maximum length and index of an array. */
-var MAX_ARRAY_LENGTH = 4294967295;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMin = Math.min;
-
-/**
- * Invokes the iteratee `n` times, returning an array of the results of
- * each invocation. The iteratee is invoked with one argument; (index).
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {number} n The number of times to invoke `iteratee`.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Array} Returns the array of results.
- * @example
- *
- * _.times(3, String);
- * // => ['0', '1', '2']
- *
- *  _.times(4, _.constant(0));
- * // => [0, 0, 0, 0]
- */
-function times(n, iteratee) {
-  n = toInteger(n);
-  if (n < 1 || n > MAX_SAFE_INTEGER) {
-    return [];
-  }
-  var index = MAX_ARRAY_LENGTH,
-      length = nativeMin(n, MAX_ARRAY_LENGTH);
-
-  iteratee = castFunction(iteratee);
-  n -= MAX_ARRAY_LENGTH;
-
-  var result = baseTimes(length, iteratee);
-  while (++index < n) {
-    iteratee(index);
-  }
-  return result;
-}
-
-module.exports = times;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {module.exports = function memize( fn, options ) {
-	var size = 0,
-		maxSize, head, tail;
-
-	if ( options && options.maxSize ) {
-		maxSize = options.maxSize;
-	}
-
-	function memoized( /* ...args */ ) {
-		var node = head,
-			len = arguments.length,
-			args, i;
-
-		searchCache: while ( node ) {
-			// Perform a shallow equality test to confirm that whether the node
-			// under test is a candidate for the arguments passed. Two arrays
-			// are shallowly equal if their length matches and each entry is
-			// strictly equal between the two sets. Avoid abstracting to a
-			// function which could incur an arguments leaking deoptimization.
-
-			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
-				node = node.next;
-				continue;
-			}
-
-			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
-					node = node.next;
-					continue searchCache;
-				}
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== head ) {
-				// As tail, shift to previous. Must only shift if not also
-				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
-					tail = node.prev;
-				}
-
-				// Adjust siblings to point to each other. If node was tail,
-				// this also handles new tail's empty `next` assignment.
-				node.prev.next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = head;
-				node.prev = null;
-				head.prev = node;
-				head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		node = {
-			args: args,
-
-			// Generate the result from original function
-			val: fn.apply( null, args )
-		};
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( head ) {
-			head.prev = node;
-			node.next = head;
-		} else {
-			// If no head, follows that there's no tail (at initial or reset)
-			tail = node;
-		}
-
-		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === maxSize ) {
-			tail = tail.prev;
-			tail.next = null;
-		} else {
-			size++;
-		}
-
-		head = node;
-
-		return node.val;
-	}
-
-	memoized.clear = function() {
-		head = null;
-		tail = null;
-		size = 0;
-	};
-
-	if ( process.env.NODE_ENV === 'test' ) {
-		// Cache is not exposed in the public API, but used in tests to ensure
-		// expected list progression
-		memoized.getCache = function() {
-			return [ head, tail, size ];
-		};
-	}
-
-	return memoized;
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)))
 
 /***/ }),
 /* 5 */
@@ -2733,6 +2733,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__block_videos_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28__block_videos_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__block_featured_image_block__ = __webpack_require__(165);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__block_featured_image_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__block_featured_image_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__block_media_partners_block__ = __webpack_require__(166);
+
 
 
 
@@ -4602,7 +4604,7 @@ function opacityRatioToClass(ratio) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__icons__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__icons__ = __webpack_require__(4);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -22903,7 +22905,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(4);
 
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents) {
@@ -25645,9 +25647,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
 
 
@@ -26397,11 +26399,11 @@ process.umask = function() { return 0; };
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__icons__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__icons__ = __webpack_require__(4);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -27032,7 +27034,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(4);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -27666,7 +27668,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(4);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -28079,7 +28081,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
     registerBlockType('nab/latest-show', {
         title: __('Latest show news'),
-        icon: 'text-page',
+        icon: 'media-text',
         category: 'nabshow',
         keywords: [__('latest show'), __('news'), __('show')],
         attributes: blockAttrs,
@@ -28095,9 +28097,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
 
 
@@ -29042,9 +29044,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -29641,9 +29643,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
 
 
@@ -30592,11 +30594,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_map__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_memize__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_memize__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_memize__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames__);
@@ -35539,7 +35541,7 @@ var Inspector = function (_Component) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(4);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -40184,6 +40186,553 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 166 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_times___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_times__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
+
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment;
+  var RichText = wpEditor.RichText,
+      InspectorControls = wpEditor.InspectorControls,
+      InnerBlocks = wpEditor.InnerBlocks,
+      MediaUpload = wpEditor.MediaUpload;
+  var TextControl = wpComponents.TextControl,
+      PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      Button = wpComponents.Button,
+      CheckboxControl = wpComponents.CheckboxControl,
+      IconButton = wpComponents.IconButton,
+      ToggleControl = wpComponents.ToggleControl;
+
+
+  var ALLOWBLOCKS = ['nab/media-partner-item'];
+
+  var getChildscheduleBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (schedule) {
+    return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(schedule, function (n) {
+      return ['nab/media-partner-item', { id: n + 1 }];
+    });
+  });
+
+  var removehildawardsBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (schedule) {
+    return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(schedule, function (n) {
+      return ['nab/media-partner-item', { id: n - 1 }];
+    });
+  });
+
+  /* Parent schedule Block */
+  registerBlockType('nab/media-partners', {
+    title: __('Media Partner'),
+    description: __('Media Partner'),
+    icon: 'money',
+    category: 'nabshow',
+    keywords: [__('Media Partner'), __('gutenberg'), __('nab')],
+    attributes: {
+      blockId: {
+        type: 'string'
+      },
+      noOfschedule: {
+        type: 'number',
+        default: 1
+      }
+    },
+    edit: function edit(props, attributes) {
+      var noOfschedule = props.attributes.noOfschedule,
+          className = props.className,
+          setAttributes = props.setAttributes,
+          clientId = props.clientId;
+
+
+      $(document).on('click', '#block-' + clientId + ' .team-box-inner .remove-button', function (e) {
+        if ('' !== $(this).parents('#block-' + clientId)) {
+          setAttributes({ noOfschedule: noOfschedule - 1 });
+          removehildawardsBlock(noOfschedule);
+        }
+      });
+
+      return wp.element.createElement(
+        'div',
+        { className: 'team-main media-partners ' + (className ? className : '') },
+        wp.element.createElement(InnerBlocks, {
+          template: getChildscheduleBlock(noOfschedule),
+          templateLock: 'all',
+          allowedBlocks: ALLOWBLOCKS
+        }),
+        wp.element.createElement(
+          'div',
+          { className: 'add-remove-btn' },
+          wp.element.createElement(
+            Button,
+            {
+              className: 'add',
+              onClick: function onClick() {
+                return setAttributes({ noOfschedule: noOfschedule + 1 });
+              }
+            },
+            wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
+          )
+        )
+      );
+    },
+    save: function save(props) {
+      var className = props.className;
+
+      return wp.element.createElement(
+        'div',
+        { className: 'team-main media-partners ' + (className ? className : '') },
+        wp.element.createElement(InnerBlocks.Content, null)
+      );
+    }
+  });
+
+  /* schedule Block */
+  registerBlockType('nab/media-partner-item', {
+    title: __('Media Partner Items'),
+    description: __('Media Partner Items'),
+    icon: 'businessman',
+    category: 'nabshow',
+    parent: ['nab/media-partners'],
+    attributes: {
+      name: {
+        type: 'string'
+      },
+      description: {
+        type: 'string'
+      },
+      imageAlt: {
+        attribute: 'alt'
+      },
+      imageUrl: {
+        attribute: 'src'
+      },
+      InsertUrl: {
+        type: 'string',
+        default: ''
+      },
+      department: {
+        type: 'string'
+      },
+      topics: {
+        type: 'string'
+      },
+      topicsList: {
+        type: 'array',
+        default: ['Advanced Advertising', 'AR / VR / XR', 'Artificial Intelligence', 'Broadcast Technologies', 'Business Strategies', 'Cloud Tech', 'Content Creators and Creative Masters', 'Content Protection', 'Data and Analytics', 'Esports', 'The Future of Delivery', 'Game Development', 'The In Vehicle Experience', 'Live TV', 'Podcasting', 'Policy and Advocacy', 'Post Production', 'Production Technologies', 'Social Media', 'Streaming and OTT']
+      },
+      taxonomies: {
+        type: 'array',
+        default: []
+      },
+      formats: {
+        type: 'string'
+      },
+      formatsList: {
+        type: 'array',
+        default: ['Format One', 'Format Two']
+      },
+      formatTaxonomy: {
+        type: 'array',
+        default: []
+      },
+      locations: {
+        type: 'string'
+      },
+      locationsList: {
+        type: 'array',
+        default: ['Location One', 'Location Two', 'Location Three', 'Location Four']
+      },
+      locationsTaxonomy: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: function edit(props) {
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          clientId = props.clientId;
+      var name = attributes.name,
+          description = attributes.description,
+          imageAlt = attributes.imageAlt,
+          imageUrl = attributes.imageUrl,
+          department = attributes.department,
+          topics = attributes.topics,
+          topicsList = attributes.topicsList,
+          taxonomies = attributes.taxonomies,
+          formats = attributes.formats,
+          formatsList = attributes.formatsList,
+          formatTaxonomy = attributes.formatTaxonomy,
+          locations = attributes.locations,
+          locationsList = attributes.locationsList,
+          locationsTaxonomy = attributes.locationsTaxonomy;
+
+
+      var getImageButton = function getImageButton(openEvent) {
+        if (attributes.imageUrl) {
+          return wp.element.createElement('img', { src: attributes.imageUrl, alr: imageAlt, className: 'main-img' });
+        } else {
+          return wp.element.createElement(
+            'div',
+            { className: 'button-container' },
+            wp.element.createElement(
+              Button,
+              { onClick: openEvent, className: 'button button-large' },
+              wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+              ' Upload Image'
+            )
+          );
+        }
+      };
+
+      return wp.element.createElement(
+        'div',
+        {
+          className: 'team-box',
+          'data-department': department ? department : '',
+          'data-topics': taxonomies ? taxonomies : ''
+        },
+        wp.element.createElement(
+          InspectorControls,
+          null,
+          wp.element.createElement(
+            PanelBody,
+            {
+              title: __('General Setting'),
+              initialOpen: true,
+              className: 'range-setting'
+            },
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                'div',
+                { className: 'meet-new-item' },
+                wp.element.createElement(TextControl, {
+                  type: 'string',
+                  label: 'Add New Topics',
+                  name: topics,
+                  placeHolder: 'Add New',
+                  onChange: function onChange(value) {
+                    return setAttributes({ topics: value });
+                  }
+                }),
+                wp.element.createElement(
+                  Button,
+                  {
+                    onClick: function onClick(value) {
+                      if (undefined !== topics && '' !== topics) {
+                        var newCat = [].concat(_toConsumableArray(topicsList));
+                        newCat.push(topics);
+                        setAttributes({ topicsList: newCat });
+                      }
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
+                )
+              )
+            ),
+            wp.element.createElement(
+              'label',
+              null,
+              'Select Topics'
+            ),
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                'div',
+                { className: 'category-list' },
+                topicsList.map(function (item, index) {
+                  return wp.element.createElement(
+                    Fragment,
+                    { key: index },
+                    wp.element.createElement(CheckboxControl, {
+                      checked: -1 < taxonomies.indexOf(item),
+                      label: item,
+                      name: 'item[]',
+                      value: item,
+                      onChange: function onChange(isChecked) {
+                        var index = void 0,
+                            tempTaxonomies = [].concat(_toConsumableArray(taxonomies));
+
+                        if (isChecked) {
+                          tempTaxonomies.push(item);
+                        } else {
+                          index = tempTaxonomies.indexOf(item);
+                          tempTaxonomies.splice(index, 1);
+                        }
+                        setAttributes({ taxonomies: tempTaxonomies });
+                      }
+                    })
+                  );
+                })
+              )
+            ),
+            wp.element.createElement('hr', null),
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                'div',
+                { className: 'meet-new-item' },
+                wp.element.createElement(TextControl, {
+                  type: 'string',
+                  label: 'Add New Formats',
+                  name: formats,
+                  placeHolder: 'Add New',
+                  onChange: function onChange(value) {
+                    return setAttributes({ formats: value });
+                  }
+                }),
+                wp.element.createElement(
+                  Button,
+                  {
+                    onClick: function onClick(value) {
+                      if (undefined !== formats && '' !== formats) {
+                        var newCat = [].concat(_toConsumableArray(formatsList));
+                        newCat.push(formats);
+                        setAttributes({ formatsList: newCat });
+                      }
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
+                )
+              )
+            ),
+            wp.element.createElement(
+              'label',
+              null,
+              'Select Formats'
+            ),
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                'div',
+                { className: 'category-list' },
+                formatsList.map(function (item, index) {
+                  return wp.element.createElement(
+                    Fragment,
+                    { key: index },
+                    wp.element.createElement(CheckboxControl, {
+                      checked: -1 < formatTaxonomy.indexOf(item),
+                      label: item,
+                      name: 'item[]',
+                      value: item,
+                      onChange: function onChange(isChecked) {
+                        var index = void 0,
+                            tempTaxonomies = [].concat(_toConsumableArray(formatTaxonomy));
+
+                        if (isChecked) {
+                          tempTaxonomies.push(item);
+                        } else {
+                          index = tempTaxonomies.indexOf(item);
+                          tempTaxonomies.splice(index, 1);
+                        }
+                        setAttributes({ formatTaxonomy: tempTaxonomies });
+                      }
+                    })
+                  );
+                })
+              )
+            ),
+            wp.element.createElement('hr', null),
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                'div',
+                { className: 'meet-new-item' },
+                wp.element.createElement(TextControl, {
+                  type: 'string',
+                  label: 'Add New Locations',
+                  name: locations,
+                  placeHolder: 'Add New',
+                  onChange: function onChange(value) {
+                    return setAttributes({ locations: value });
+                  }
+                }),
+                wp.element.createElement(
+                  Button,
+                  {
+                    onClick: function onClick(value) {
+                      if (undefined !== locations && '' !== locations) {
+                        var newCat = [].concat(_toConsumableArray(locationsList));
+                        newCat.push(locations);
+                        setAttributes({ locationsList: newCat });
+                      }
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
+                )
+              )
+            ),
+            wp.element.createElement(
+              'label',
+              null,
+              'Select Locations'
+            ),
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                'div',
+                { className: 'category-list' },
+                locationsList.map(function (item, index) {
+                  return wp.element.createElement(
+                    Fragment,
+                    { key: index },
+                    wp.element.createElement(CheckboxControl, {
+                      checked: -1 < locationsTaxonomy.indexOf(item),
+                      label: item,
+                      name: 'item[]',
+                      value: item,
+                      onChange: function onChange(isChecked) {
+                        var index = void 0,
+                            tempTaxonomies = [].concat(_toConsumableArray(locationsTaxonomy));
+
+                        if (isChecked) {
+                          tempTaxonomies.push(item);
+                        } else {
+                          index = tempTaxonomies.indexOf(item);
+                          tempTaxonomies.splice(index, 1);
+                        }
+                        setAttributes({ locationsTaxonomy: tempTaxonomies });
+                      }
+                    })
+                  );
+                })
+              )
+            )
+          )
+        ),
+        wp.element.createElement(
+          'div',
+          { className: 'team-box-inner' },
+          wp.element.createElement(
+            'span',
+            { 'class': 'remove-button' },
+            wp.element.createElement(IconButton, {
+              className: 'components-toolbar__control',
+              label: __('Remove image'),
+              icon: 'no',
+              onClick: function onClick() {
+                wp.data.dispatch('core/editor').removeBlocks(clientId);
+              }
+            })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'feature-img' },
+            wp.element.createElement(
+              'div',
+              { className: 'remove-img' },
+              wp.element.createElement('span', {
+                onClick: function onClick(value) {
+                  return setAttributes({ imageUrl: '', imageAlt: '' });
+                },
+                className: 'dashicons dashicons-trash'
+              })
+            ),
+            wp.element.createElement(MediaUpload, {
+              onSelect: function onSelect(media) {
+                setAttributes({ imageAlt: media.alt, imageUrl: media.url });
+              },
+              type: 'image',
+              value: attributes.imageID,
+              render: function render(_ref) {
+                var open = _ref.open;
+                return getImageButton(open);
+              }
+            })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'team-details' },
+            wp.element.createElement(RichText, {
+              tagName: 'h3',
+              onChange: function onChange(value) {
+                return setAttributes({ name: value });
+              },
+              value: name,
+              className: 'name',
+              placeholder: __('Name')
+            }),
+            wp.element.createElement(RichText, {
+              tagName: 'p',
+              onChange: function onChange(value) {
+                return setAttributes({ description: value });
+              },
+              value: description,
+              className: 'description',
+              placeholder: __('description')
+            })
+          )
+        )
+      );
+    },
+    save: function save(props) {
+      var _props$attributes = props.attributes,
+          name = _props$attributes.name,
+          description = _props$attributes.description,
+          imageAlt = _props$attributes.imageAlt,
+          imageUrl = _props$attributes.imageUrl,
+          taxonomies = _props$attributes.taxonomies,
+          formatTaxonomy = _props$attributes.formatTaxonomy,
+          locationsTaxonomy = _props$attributes.locationsTaxonomy;
+
+      var topicsData = taxonomies.toString();
+      var formatsData = formatTaxonomy.toString();
+      var locationsData = locationsTaxonomy.toString();
+
+      if (undefined !== name || undefined !== description) {
+        return wp.element.createElement(
+          'div',
+          {
+            className: 'team-box',
+            'data-topics': topicsData ? topicsData : '',
+            'data-formats': formatsData ? formatsData : '',
+            'data-locations': locationsData ? locationsData : ''
+          },
+          wp.element.createElement(
+            'div',
+            { className: 'team-box-inner' },
+            wp.element.createElement(
+              'div',
+              { className: 'feature-img' },
+              imageUrl ? wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement('img', { src: imageUrl, alt: imageAlt, className: 'main-img' })
+              ) : wp.element.createElement(
+                'div',
+                { className: 'no-image' },
+                'No Image'
+              )
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'team-details' },
+              name && wp.element.createElement(RichText.Content, { tagName: 'h3', value: name, className: 'name' }),
+              description && wp.element.createElement(RichText.Content, { tagName: 'p', value: description, className: 'description' })
+            )
+          )
+        );
+      }
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
 
 /***/ })
 /******/ ]);
