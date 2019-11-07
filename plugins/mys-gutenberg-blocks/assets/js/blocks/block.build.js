@@ -1241,7 +1241,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -1875,7 +1875,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable && sliderActive) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -2640,7 +2640,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable && sliderActive) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -3278,7 +3278,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable && sliderActive) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -3956,7 +3956,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable && sliderActive) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -4856,7 +4856,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable && sliderActive) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,
@@ -5722,7 +5722,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                 );
 
-                if (this.state.isDisable && sliderActive) {
+                if (this.state.isDisable && sliderActive && !isNaN(itemToFetch)) {
                     input = wp.element.createElement(
                         Disabled,
                         null,

@@ -1221,3 +1221,6 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .not-to-be-slider .cards .card-details .title{font-style:italic;font-size:28px;margin:0;line-height:40px}
 .not-to-be-slider .cards .card-details .sub-category{font-family:"Gotham Book", sans-serif;font-size:13px}
 .not-to-be-slider .cards.item a:hover .title{text-decoration:underline}
+.team-box.featured{background-color:#f1f7fc}
+.media-partner-filter input.featured-btn{margin-bottom:0;margin-right:35px}
+.main-filter.media-partner-filter{display:flex;align-items:flex-end}

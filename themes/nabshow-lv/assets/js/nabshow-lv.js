@@ -380,7 +380,7 @@
       });
     });
 
-    $('.team-main .team-box').each(function () {
+    $('.wp-block-nab-meet-the-team.team-main .team-box').each(function () {
       if (null !== $(this).data('category').split(',')) {
         $.map(
           $(this).data('category').split(','),
@@ -467,12 +467,11 @@
       searchKeyword = '.title';
     }
 
-
     $(document).on('click', 'ul.alphabets-list li', function () {
       selectedLetter = $(this).html();
       masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
     });
-    $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability', function () {
+    $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type', function () {
       masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
     });
     $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
@@ -521,6 +520,35 @@
       });
 
     }
+
+    /* -- Media partner filter -- */
+    $('.media-partner-filter .featured-btn').click(function () {
+      $(this).toggleClass('active');
+      $('.media-partners .team-box').removeClass('slideInUp').hide();
+      if ($(this).hasClass('active')) {
+        $('.media-partners .team-box.featured').addClass('slideInUp').show();
+      }
+      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+    });
+
+    // Add Data in Dropdowns
+    $('.media-partners .team-box').each(function () {
+      if (null !== $(this).data('topics').split(',')) {
+        $.map($(this).data('topics').split(','), function (val) {
+          insertOptions(val, 'topic-type');
+        });
+      }
+      if (null !== $(this).data('formats').split(',')) {
+        $.map($(this).data('formats').split(','), function (val) {
+          insertOptions(val, 'format-type');
+        });
+      }
+      if (null !== $(this).data('locations').split(',')) {
+        $.map($(this).data('locations').split(','), function (val) {
+          insertOptions(val, 'location-type');
+        });
+      }
+    });
 
   }
 
@@ -603,27 +631,6 @@
     };
   }
 
-  if (0 < $('.nab-banner-main .nab-banner-link').length) {
-    let slug = window.location.pathname;
-    jQuery.ajax({
-      type: 'GET',
-      data: 'action=nabshow_lv_custom_ads_view' + '&nabshow_lv_custom_ads_nonce=' + nabshowLvCustom.nabshow_lv_custom_ads_nonce + '&slug=' + slug,
-      url: nabshowLvCustom.ajax_url,
-      success: function (getData) {
-      }
-    });
-
-    $(document).on('click', '.nab-banner-main .nab-banner-link', function () {
-      jQuery.ajax({
-        type: 'GET',
-        data: 'action=nabshow_lv_custom_ads_click' + '&nabshow_lv_custom_ads_nonce=' + nabshowLvCustom.nabshow_lv_custom_ads_nonce + '&slug=' + slug,
-        url: nabshowLvCustom.ajax_url,
-        success: function (getData) {
-        }
-      });
-    });
-  }
-
   // Full Width Custom Block
   $('.wp-block-nab-nab-custom.custom-box .custom-box-container').each(function () {
     if ($(this).parent().hasClass('has-full')) {
@@ -700,15 +707,15 @@
    */
   if (0 < $('.browse-sessions-filter').length || 0 < $('.browse-open-to-all-filter').length) {
     let pageNumber,
-        postStartWith = '',
-        sessionTrack = '',
-        sessionLevel = '',
-        sessionType = '',
-        sessionDate = '',
-        sessionLocation = '',
-        featuredSession = $('.browse-sessions-filter .featured-btn').hasClass('active') ? 'featured' : '',
-        sessionItem = $('#browse-session .item')[0],
-        listingType = 0 < $('#browse-session .listing-date-group').length ? $('#browse-session .listing-date-group:first').attr('data-listing-type') : '';
+      postStartWith = '',
+      sessionTrack = '',
+      sessionLevel = '',
+      sessionType = '',
+      sessionDate = '',
+      sessionLocation = '',
+      featuredSession = $('.browse-sessions-filter .featured-btn').hasClass('active') ? 'featured' : '',
+      sessionItem = $('#browse-session .item')[0],
+      listingType = 0 < $('#browse-session .listing-date-group').length ? $('#browse-session .listing-date-group:first').attr('data-listing-type') : '';
 
 
     $(document).on('change', '.browse-sessions-filter #session-tracks', function () {
@@ -899,82 +906,82 @@
   /**
    *  Speaker browse filter data
    */
-    if (0 < $('.browse-speakers-filter').length) {
-        let speakerPageNumber,
-            speakerStartWith = '',
-            speakerCompany = '',
-            featuredSpeaker = 0 < $('.browse-speakers-filter .featured-btn').hasClass('active') ? 'featured' : '';
+  if (0 < $('.browse-speakers-filter').length) {
+    let speakerPageNumber,
+      speakerStartWith = '',
+      speakerCompany = '',
+      featuredSpeaker = 0 < $('.browse-speakers-filter .featured-btn').hasClass('active') ? 'featured' : '';
 
-        $(document).on('change', '.browse-speakers-filter #speaker-company', function () {
-            let currentCompany = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-            if (speakerCompany !== currentCompany) {
-                speakerPageNumber = 1;
-                speakerCompany = currentCompany;
-                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-            }
+    $(document).on('change', '.browse-speakers-filter #speaker-company', function () {
+      let currentCompany = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
+      if (speakerCompany !== currentCompany) {
+        speakerPageNumber = 1;
+        speakerCompany = currentCompany;
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      }
+    });
+
+    $(document).on('keypress', '.browse-speakers-filter .search-item .search', function (e) {
+      if (13 === e.which) {
+        speakerPageNumber = 1;
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      }
+    });
+
+    $(document).on('keypress', '.browse-speakers-filter .speaker-title-search', function (e) {
+      if (13 === e.which) {
+        speakerPageNumber = 1;
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      }
+    });
+
+    $(document).on('click', '#load-more-speaker a', function () {
+      speakerPageNumber = parseInt($(this).attr('data-page-number'));
+      nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+    });
+
+    $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
+      $(this).toggleClass('active');
+      speakerPageNumber = 1;
+      featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
+      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+    });
+
+    $(document).on('click', '.browse-speakers-filter .alphabets-list li:not(".clear")', function () {
+
+      $(this).addClass('active').siblings().removeClass('active');
+      if (0 < $(this).parent().find('li.active').length) {
+        $(this).siblings('.clear').show();
+      }
+
+      if (speakerStartWith !== $(this).text()) {
+        speakerStartWith = $(this).text();
+        speakerPageNumber = 1;
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      }
+    });
+
+    $(document).on('click', '.browse-speakers-filter .alphabets-list li.clear', function () {
+      $(this).hide().siblings().removeClass('active');
+      speakerStartWith = '';
+      speakerPageNumber = 1;
+      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+    });
+
+    $(document).on('click', '.browse-speakers-filter .orderby', function () {
+      $(this).toggleClass('active');
+      speakerPageNumber = 1;
+      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+    });
+    if (0 < $('.browse-speakers-filter #speaker_date').length) {
+      $(window).load(function () {
+        $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
+          speakerPageNumber = 1;
+          nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
         });
-
-        $(document).on('keypress', '.browse-speakers-filter .search-item .search', function (e) {
-            if (13 === e.which) {
-                speakerPageNumber = 1;
-                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-            }
-        });
-
-        $(document).on('keypress', '.browse-speakers-filter .speaker-title-search', function (e) {
-            if (13 === e.which) {
-                speakerPageNumber = 1;
-                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-            }
-        });
-
-        $(document).on('click', '#load-more-speaker a', function () {
-            speakerPageNumber = parseInt($(this).attr('data-page-number'));
-            nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-        });
-
-        $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
-            $(this).toggleClass('active');
-            speakerPageNumber = 1;
-            featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
-            nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-        });
-
-        $(document).on('click', '.browse-speakers-filter .alphabets-list li:not(".clear")', function () {
-
-            $(this).addClass('active').siblings().removeClass('active');
-            if (0 < $(this).parent().find('li.active').length) {
-                $(this).siblings('.clear').show();
-            }
-
-            if (speakerStartWith !== $(this).text()) {
-                speakerStartWith = $(this).text();
-                speakerPageNumber = 1;
-                nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-            }
-        });
-
-        $(document).on('click', '.browse-speakers-filter .alphabets-list li.clear', function () {
-            $(this).hide().siblings().removeClass('active');
-            speakerStartWith = '';
-            speakerPageNumber = 1;
-            nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-        });
-
-        $(document).on('click', '.browse-speakers-filter .orderby', function () {
-            $(this).toggleClass('active');
-            speakerPageNumber = 1;
-            nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-        });
-        if (0 < $('.browse-speakers-filter #speaker_date').length) {
-            $(window).load(function () {
-                $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
-                    speakerPageNumber = 1;
-                    nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker );
-                });
-            });
-        }
+      });
     }
+  }
 
   /**
    * Destination or happenings page search
@@ -991,7 +998,7 @@
 
     if (0 < $('.featured-btn').length) {
       $('#related-content-list .col-lg-4.col-md-6[data-featured="featured"]').addClass('featured');
-      if ( $('.browse-happenings-filter .featured-btn').hasClass('active') ) {
+      if ($('.browse-happenings-filter .featured-btn').hasClass('active')) {
         featuredPage = true;
         nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle, featuredPage);
       }
@@ -1008,10 +1015,10 @@
           insertOptions(val, 'page-type');
         });
       }
-      if ( '' !== $(this).data('open') && 'select' !== $(this).data('open').toLowerCase() && 0 < $('.browse-learn-filter #open-to').length ) {
+      if ('' !== $(this).data('open') && 'select' !== $(this).data('open').toLowerCase() && 0 < $('.browse-learn-filter #open-to').length) {
         insertOptions($(this).data('open'), 'open-to');
       }
-      if ( '' !== $(this).find('.info-block .date_group').text() && 0 < $('.browse-learn-filter #page-date').length) {
+      if ('' !== $(this).find('.info-block .date_group').text() && 0 < $('.browse-learn-filter #page-date').length) {
         insertOptions($(this).find('.info-block .date_group').text(), 'page-date');
       }
     });
@@ -1175,6 +1182,8 @@
     });
   }
 
+
+  /*  main - bracket - end */
 })(jQuery);
 
 function nabBrowseProductCategoryFilterHandler(productCategory, productTitle) {
@@ -1268,7 +1277,7 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
     }
   }
 
-  if ( 0 < jQuery('.browse-learn-filter #open-to').length && 0 !== jQuery('.browse-learn-filter #open-to')[0].selectedIndex ) {
+  if (0 < jQuery('.browse-learn-filter #open-to').length && 0 !== jQuery('.browse-learn-filter #open-to')[0].selectedIndex) {
     let openTo = jQuery('.browse-learn-filter #open-to').val();
     jQuery('#related-content-list .col-lg-4.col-md-6:not([data-open="' + openTo + '"])').hide();
   }
@@ -1296,7 +1305,7 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
 
 }
 
-function nabAjaxForBrowseSpeakers( filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker ) {
+function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker) {
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = jQuery('.browse-speakers-filter .speaker-title-search').val(),
     postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
@@ -1376,7 +1385,7 @@ function nabAjaxForBrowseSpeakers( filterType, speakerPageNumber, speakerStartWi
 
       });
 
-      if ( 0 < jQuery('.browse-speakers-filter .featured-btn').length ) {
+      if (0 < jQuery('.browse-speakers-filter .featured-btn').length) {
         jQuery('#browse-speaker .item').removeClass('featured');
         jQuery('#browse-speaker .item[data-featured="featured"]').addClass('featured');
       }
@@ -1426,7 +1435,7 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
 
       let exhibitorObj = jQuery.parseJSON(exhibitorData);
 
-      if (! filterType ) {
+      if (! filterType) {
         jQuery('#browse-exhibitor').empty();
       }
 
@@ -1619,7 +1628,7 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
         });
       } else {
 
-        if ('load-more' !== filterType ) {
+        if ('load-more' !== filterType) {
           jQuery('#browse-session').empty();
         }
 
@@ -1627,57 +1636,57 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
           if (value.post_title) {
 
-              let createItemDiv = document.createElement('div');
-              createItemDiv.setAttribute('class', 'item');
-              createItemDiv.setAttribute('data-featured', value.featured);
+            let createItemDiv = document.createElement('div');
+            createItemDiv.setAttribute('class', 'item');
+            createItemDiv.setAttribute('data-featured', value.featured);
 
-              let innerHeading = document.createElement('h4');
+            let innerHeading = document.createElement('h4');
 
-              let innerHeadingLink = document.createElement('a');
-              innerHeadingLink.innerText = value.post_title;
-              innerHeadingLink.setAttribute('href', '#');
-              innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-              innerHeadingLink.setAttribute('data-postid', value.post_id);
-              innerHeadingLink.setAttribute('data-posttype', 'sessions');
+            let innerHeadingLink = document.createElement('a');
+            innerHeadingLink.innerText = value.post_title;
+            innerHeadingLink.setAttribute('href', '#');
+            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
+            innerHeadingLink.setAttribute('data-postid', value.post_id);
+            innerHeadingLink.setAttribute('data-posttype', 'sessions');
 
-              innerHeading.appendChild(innerHeadingLink);
-              createItemDiv.appendChild(innerHeading);
+            innerHeading.appendChild(innerHeadingLink);
+            createItemDiv.appendChild(innerHeading);
 
-              let innerSpan = document.createElement('span');
-              innerSpan.innerText = value.date_time;
-              innerSpan.setAttribute('class', 'date-time');
+            let innerSpan = document.createElement('span');
+            innerSpan.innerText = value.date_time;
+            innerSpan.setAttribute('class', 'date-time');
 
-              createItemDiv.appendChild(innerSpan);
+            createItemDiv.appendChild(innerSpan);
 
-              let innerParagraph = document.createElement('p');
-              innerParagraph.innerText = value.post_excerpt;
+            let innerParagraph = document.createElement('p');
+            innerParagraph.innerText = value.post_excerpt;
 
-              let innerParagraphLink = document.createElement('a');
-              innerParagraphLink.innerText = ' Read More';
-              innerParagraphLink.setAttribute('href', '#');
-              innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-              innerParagraphLink.setAttribute('data-postid', value.post_id);
-              innerParagraphLink.setAttribute('data-posttype', 'sessions');
+            let innerParagraphLink = document.createElement('a');
+            innerParagraphLink.innerText = ' Read More';
+            innerParagraphLink.setAttribute('href', '#');
+            innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
+            innerParagraphLink.setAttribute('data-postid', value.post_id);
+            innerParagraphLink.setAttribute('data-posttype', 'sessions');
 
-              innerParagraph.appendChild(innerParagraphLink);
-              createItemDiv.appendChild(innerParagraph);
+            innerParagraph.appendChild(innerParagraphLink);
+            createItemDiv.appendChild(innerParagraph);
 
-              let innerPlannerLink = document.createElement('a');
-              innerPlannerLink.innerText = 'View in Planner';
-              innerPlannerLink.setAttribute('href', value.planner_link);
-              innerPlannerLink.setAttribute('class', 'session-planner-url');
-              innerPlannerLink.setAttribute('target', '_blank');
+            let innerPlannerLink = document.createElement('a');
+            innerPlannerLink.innerText = 'View in Planner';
+            innerPlannerLink.setAttribute('href', value.planner_link);
+            innerPlannerLink.setAttribute('class', 'session-planner-url');
+            innerPlannerLink.setAttribute('target', '_blank');
 
-              createItemDiv.appendChild(innerPlannerLink);
+            createItemDiv.appendChild(innerPlannerLink);
 
-              let sessionList = document.getElementById('browse-session');
-              sessionList.appendChild(createItemDiv);
+            let sessionList = document.getElementById('browse-session');
+            sessionList.appendChild(createItemDiv);
           }
 
         });
       }
 
-      if ( 0 < jQuery('.browse-sessions-filter .featured-btn').length ) {
+      if (0 < jQuery('.browse-sessions-filter .featured-btn').length) {
         jQuery('#browse-session .item').removeClass('featured');
         jQuery('#browse-session .item[data-featured="featured"]').addClass('featured');
       }
@@ -1907,7 +1916,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('.related-main-wrapper, .parent-main-title').show();
   }
 
-  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat;
+  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat, filterMediaTopics, filterMediaFormats, filterMediaLocation;
 
   if (0 < jQuery('#box-main-category').length) {
     filterMainData = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
@@ -1930,7 +1939,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     filterLocation = 0 < jQuery('.schedule-glance-filter .schedule-select #location')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #location').val() : null;
     filterType = 0 < jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #type').val() : null;
   }
-  if (0 < jQuery('.team-main').length) {
+  if (0 < jQuery('.wp-block-nab-meet-the-team.team-main').length) {
     filterDepartment = 0 < jQuery('.meet-team-select #team-department')[0].selectedIndex ? jQuery('.meet-team-select #team-department').val() : null;
 
     jQuery('#team-checkbox .checkbox-list input').parent().removeClass('checked');
@@ -1961,6 +1970,11 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     filterCost = 0 < jQuery('#price-range')[0].selectedIndex ? jQuery('#price-range').val() : null;
     filterExclusive = 0 < jQuery('#exclusivity')[0].selectedIndex ? jQuery('#exclusivity').val() : null;
     filterAvailable = 0 < jQuery('#availability')[0].selectedIndex ? jQuery('#availability').val() : null;
+  }
+  if (0 < jQuery('.media-partners').length) {
+    filterMediaTopics = 0 < jQuery('#topic-type')[0].selectedIndex ? jQuery('#topic-type').val() : null;
+    filterMediaFormats = 0 < jQuery('#format-type')[0].selectedIndex ? jQuery('#format-type').val() : null;
+    filterMediaLocation = 0 < jQuery('#location-type')[0].selectedIndex ? jQuery('#location-type').val() : null;
   }
 
   // Dropdown Filter
@@ -2074,6 +2088,21 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     if ('Unavailable' === filterAvailable) {
       jQuery(selectedItem).not('.visible').hide();
     }
+  }
+  if (jQuery('.media-partner-filter .featured-btn').hasClass('active')) {
+    jQuery('.team-box').hide();
+    jQuery('.team-box.featured').show();
+  } else {
+    jQuery('.team-box').show();
+  }
+  if (null !== filterMediaTopics && undefined !== filterMediaTopics) {
+    jQuery(`${selectedItem}:not([data-topics*="${filterMediaTopics}"])`).hide();
+  }
+  if (null !== filterMediaFormats && undefined !== filterMediaFormats) {
+    jQuery(`${selectedItem}:not([data-formats*="${filterMediaFormats}"])`).hide();
+  }
+  if (null !== filterMediaLocation && undefined !== filterMediaLocation) {
+    jQuery(`${selectedItem}:not([data-locations*="${filterMediaLocation}"])`).hide();
   }
 
 

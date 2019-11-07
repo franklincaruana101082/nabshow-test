@@ -175,7 +175,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
 
             </div>;
 
-            if (this.state.isDisable && sliderActive) {
+            if (this.state.isDisable && sliderActive && ! isNaN( itemToFetch ) ) {
                 input = <Disabled>{input}</Disabled>;
             }
 

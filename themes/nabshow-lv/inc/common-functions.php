@@ -70,6 +70,18 @@ function nabshow_lv_get_speaker_thumbnail_url() {
 }
 
 /**
+ * Return the default placeholder image when session have not featured image.
+ * @since 1.0
+ * @return string image url.
+ */
+function nabshow_lv_get_session_thumbnail_url() {
+
+	$session_placeholder_image = get_template_directory_uri() . '/assets/images/session-placeholder.png';
+
+	return $session_placeholder_image;
+}
+
+/**
  * Return comma separated term list from given terms array
  * @param array $terms
  * @param string $type
@@ -124,8 +136,9 @@ function nabshow_lv_get_popup_content( $post_id, $planner_url = '' ) {
         return '';
     }
 
+    $limit_counter  = 293 + (int) strlen( $planner_url );
 	$strip_tag_text = wp_strip_all_tags( get_the_content( $post_id ) );
-	$final_content  = mb_strimwidth( $strip_tag_text, 0, 253, '...<a href="' . $planner_url . '" target="_blank">Read More</a>' );
+	$final_content  = mb_strimwidth( $strip_tag_text, 0, $limit_counter, '...<a href="' . $planner_url . '" target="_blank">Read More</a>' );
 	$element_array  = array( 'a' => array( 'href' => array(), 'target' => array() ) );
 
 	echo wp_kses( $final_content, $element_array );

@@ -889,7 +889,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                     <?php
                                                     } else {
                                                     ?>
-                                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow">Read More</a>
+                                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow"><?php echo 'key-contacts' === $listing_layout ? esc_html('Learn More') : esc_html( 'Read More' ); ?></a>
                                                     <?php
                                                     }
                                                 }

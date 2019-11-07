@@ -85,12 +85,6 @@ add_action('registered_post_type', 'nabshow_lv_enable_page_excerpt', 10, 2);
 // Action to add taxonomy to page post type
 add_action( 'init', 'nabshow_lv_page_category_taxonomy', 0 );
 
-// Action to add the custom Ads post type.
-add_action( 'init', 'nabshow_lv_custom_ads' );
-
-// Action to add the custom menu for Ads states on admin side.
-add_action( 'admin_menu', 'nabshow_lv_ad_stats_menu' );
-
 // Action to add the news releases post type
 add_action( 'init', 'nabshow_lv_register_news_releases_post_type' );
 

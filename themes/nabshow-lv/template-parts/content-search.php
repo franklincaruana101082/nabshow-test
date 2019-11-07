@@ -22,12 +22,34 @@ update_post_meta( $current_post_id, 'search_view_count', $search_view_count );
 <div class="tabcontent">
     <div class="featuredImg">
 
-        <?php if ( has_post_thumbnail() ) : ?>
+        <?php
 
-            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="search-logo" />
+        $logo_url = '';
 
-        <?php endif; ?>
+        if ( has_post_thumbnail() ) {
 
+            $logo_url = get_the_post_thumbnail_url();
+
+        } else {
+
+            switch ( $current_post_type ) {
+
+                case 'page':
+	                $logo_url = nabshow_lv_get_empty_thumbnail_url();
+	                break;
+	            case 'sessions':
+		            $logo_url = nabshow_lv_get_session_thumbnail_url();
+		            break;
+	            case 'speakers':
+		            $logo_url = nabshow_lv_get_speaker_thumbnail_url();
+		            break;
+                default:
+                    $logo_url = nabshow_lv_get_empty_thumbnail_url();
+            }
+        }
+        ?>
+
+        <img src="<?php echo esc_url( $logo_url ); ?>" alt="search-logo" />
     </div>
     <div class="tabInfo">
         <h3><?php nabshow_lv_get_search_result_post_link( $current_post_type, $current_post_id, get_the_title() ); ?></h3>

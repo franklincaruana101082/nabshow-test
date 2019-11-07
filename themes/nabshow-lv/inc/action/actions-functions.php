@@ -214,38 +214,6 @@ function nabshow_lv_enable_page_excerpt( $post_type ) {
 	add_post_type_support( 'page', 'excerpt' );
 }
 
- /*
- *  Add custom menu for Ads statistics.
- * @since 1.0
- *
- */
-function nabshow_lv_ad_stats_menu() {
-	add_menu_page(
-		__( 'Ads stats', 'nabshow-lv' ),
-		'Ads stats',
-		'manage_options',
-		'nabshow-lv-ads-stats',
-		'nabshow_lv_ads_stats_callback',
-		'dashicons-media-text'
-	);
-}
-
-/**
- * Display ads views/clicks page
- *
- * @return Void
- */
-function nabshow_lv_ads_stats_callback() {
-    $ads_view_lists = new Ads_View_List_Table();
-    $ads_view_lists->prepare_items();
-    ?>
-    <div class="wrap">
-        <h2>Ads view stats</h2>
-        <?php $ads_view_lists->display(); ?>
-    </div>
-    <?php
-}
-
 /**
  * Register custom api endpoints
  * @since 1.0

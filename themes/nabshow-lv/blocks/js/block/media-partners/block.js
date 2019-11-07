@@ -162,10 +162,13 @@ import memoize from 'memize';
         type: 'array',
         default: []
       },
+      featured: {
+        type: 'boolean'
+      },
     },
     edit: props => {
       const { attributes, setAttributes, clientId } = props;
-      const { name, description, imageAlt, imageUrl, department, topics, topicsList, taxonomies, formats, formatsList, formatTaxonomy, locations, locationsList, locationsTaxonomy } = attributes;
+      const { name, description, imageAlt, imageUrl, department, topics, topicsList, taxonomies, formats, formatsList, formatTaxonomy, locations, locationsList, locationsTaxonomy, featured } = attributes;
 
       const getImageButton = openEvent => {
         if (attributes.imageUrl) {
@@ -185,9 +188,10 @@ import memoize from 'memize';
 
       return (
         <div
-          className="team-box"
-          data-department={department ? department : ''}
+          className={`team-box ${featured ? 'featured' : ''}`}
           data-topics={taxonomies ? taxonomies : ''}
+          data-formats={formatTaxonomy ? formatTaxonomy : ''}
+          data-locations={locationsTaxonomy ? locationsTaxonomy : ''}
         >
           <InspectorControls>
             <PanelBody
@@ -195,6 +199,43 @@ import memoize from 'memize';
               initialOpen={true}
               className="range-setting"
             >
+              <PanelRow>
+                <div className="meet-new-item">
+                  <label>Featured</label>
+                  <CheckboxControl
+                    className="in-checkbox"
+                    label="Featured"
+                    checked={featured}
+                    onChange={isChecked => {
+                      if (isChecked) {
+                        setAttributes({ featured: true });
+                      } else {
+                        setAttributes({ featured: false });
+                      }
+
+                      // let newObject;
+                      // if (isChecked) {
+                      //   newObject = Object.assign({}, member, {
+                      //     international: true
+                      //   });
+                      // }
+                      // else {
+                      //   newObject = Object.assign({}, member, {
+                      //     international: false
+                      //   });
+                      // }
+                      // setAttributes({
+                      //   committee: [
+                      //     ...committee.filter(
+                      //       item => item.index != member.index
+                      //     ),
+                      //     newObject
+                      //   ]
+                      // });
+                    }}
+                  />
+                </div>
+              </PanelRow>
               <PanelRow>
                 <div className="meet-new-item">
                   <TextControl
@@ -396,7 +437,7 @@ import memoize from 'memize';
       );
     },
     save: props => {
-      const { name, description, imageAlt, imageUrl, taxonomies, formatTaxonomy, locationsTaxonomy } = props.attributes;
+      const { name, description, imageAlt, imageUrl, taxonomies, formatTaxonomy, locationsTaxonomy, featured } = props.attributes;
       const topicsData = taxonomies.toString();
       const formatsData = formatTaxonomy.toString();
       const locationsData = locationsTaxonomy.toString();
@@ -404,7 +445,7 @@ import memoize from 'memize';
       if (undefined !== name || undefined !== description) {
         return (
           <div
-            className="team-box"
+            className={`team-box ${featured ? 'featured' : ''}`}
             data-topics={topicsData ? topicsData : ''}
             data-formats={formatsData ? formatsData : ''}
             data-locations={locationsData ? locationsData : ''}

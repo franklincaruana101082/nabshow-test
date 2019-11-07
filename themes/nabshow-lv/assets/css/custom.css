@@ -146,8 +146,8 @@ select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:no
 .schedule-main .schedule-data .schedule-row .name{flex-basis:50%}
 .schedule-main .schedule-data .schedule-row .location{flex-basis:16%}
 .schedule-main .schedule-data .schedule-row .details{flex-basis:16%}
-.schedule-main .schedule-data .schedule-row p{font-size:14px}
-.schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:14px}
+.schedule-main .schedule-data .schedule-row p{font-size:16px}
+.schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:16px}
 .schedule-main .schedule-data .schedule-row .name strong, .schedule-main .schedule-data .schedule-row .name a{font-size:20px;font-family:"Gotham Book", sans-serif;word-break:break-word}
 .schedule-main:last-child{margin-bottom:30px}
 .schedule-main .schedule-data .schedule-row .name a{color:#0f6cb6;border-bottom:0}
@@ -162,8 +162,8 @@ select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:no
 .products-list{padding:25px;border:2px solid #d9d9d9;text-align:center;margin-bottom:30px}
 .products-list img.feature-img{margin-bottom:20px;width:100%}
 .products-list .title{margin-bottom:5px;color:#000;font-family:"Gotham Bold";font-size:20px}
-.products-list .sub-title{font-size:13px;margin-bottom:20px;display:block}
-.products-list .company{font-size:13px;margin-bottom:0;display:block}
+.products-list .sub-title{font-size:14px;margin-bottom:20px;display:block}
+.products-list .company{font-size:14px;margin-bottom:0;display:block}
 .products-list a.booth-number{color:#404040;font-size:15px;border-bottom:1px solid #404040;margin-bottom:20px;display:inline-block}
 
 /* game-changing-new-products */
@@ -427,7 +427,7 @@ span.nab-media-slider-overlay{position:absolute!important;top:0;bottom:0;left:0;
 .media-slider-home{max-width:630px;margin:0 auto}
 .attendes-img-slider .bx-wrapper{margin-bottom:27px}
 
-body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:14px}
+body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:16px}
 
 /* header css */
 .site-header{color:#000000;padding:35px 0;box-shadow:0 0 16px 0 rgba(119, 119, 119, 0.9);background:#fff;transition:all 0.5s ease-in-out;z-index:11111}
@@ -554,7 +554,7 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .card-columns .card{margin-bottom:35px}
 .card-filter{margin:40px 0}
 .card-filter .filter-list{margin:0 0;padding:0;list-style:none}
-.card-filter li{display:inline-block;color:#0f6cb6;cursor:pointer;font-size:14px;margin-right:40px;font-family:"Gotham Book";margin-bottom:10px}
+.card-filter li{display:inline-block;color:#0f6cb6;cursor:pointer;font-size:16px;margin-right:40px;font-family:"Gotham Book";margin-bottom:10px}
 .card-filter li:last-child{margin-right:0}
 .main-filter .orderby.orderby.active{background:#f1f7fc}
 .nab-dynamic-list.speakers .item.featured .flip-box{background:#f1f7fc}
@@ -612,7 +612,7 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .sidebar-wrap .widget ul{margin:0;padding:0;list-style:none}
 .sidebar-wrap .widget.widget_search input{width:100%;border-radius:0;padding:0 30px 0 20px;border:1px solid #979797;height:40px;outline:none}
 .sidebar-wrap .widget.widget_tags ul li,.sidebar-wrap .widget.widget_contributors ul li{display:inline-block;margin:0 10px 10px 0}
-.sidebar-wrap .widget.widget_tags ul li a, .sidebar-wrap .widget.widget_contributors ul li a{display:inline-block;border:1px solid #b7b7b7;background:#f1f7fc;padding:8px 16px;font-size:14px;color:#000;font-family:"Gotham Bold", sans-serif;line-height:20px;text-decoration:none}
+.sidebar-wrap .widget.widget_tags ul li a, .sidebar-wrap .widget.widget_contributors ul li a{display:inline-block;border:1px solid #b7b7b7;background:#f1f7fc;padding:8px 16px;font-size:16px;color:#000;font-family:"Gotham Bold", sans-serif;line-height:20px;text-decoration:none}
 .sidebar-wrap .widget.widget_contributors{text-align:center}
 .sidebar-wrap .widget.widget_contributors .widget-title,.sidebar-wrap .widget.widget_contributors ul{text-align:left}
 .content-with-sidebar article.post-wrap{margin-bottom:50px}
@@ -648,7 +648,7 @@ ul.sidebar-contributors li a{padding:0!important;background:none!important;borde
 .related-post-list .related-list li .image-effect-wrapper{margin-bottom:30px}
 .related-post-list .related-list li .image-effect-wrapper a{width:100%}
 .related-post-list .related-list li .image-effect-wrapper img{width:100%}
-.related-post-list .related-list li .related-content .related-title{font-size:28px;font-family:"Vollkorn Italic";color:#000}
+.related-post-list .related-list li .related-content .related-title{font-size:28px;font-family:"Vollkorn Italic";color:#000;line-height:normal}
 .related-post-list .related-list li .related-content .blog-list-contributor{font-size:16px}
 .related-post-list .related-list li .related-content .related-title a{color:inherit}
 
@@ -723,7 +723,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 /* Plan your show section */
 
 .plan-your-show{background-size:cover}
-.plan-your-show .wp-block-nab-multipurpose-gutenberg-block p{line-height:22px}
+.plan-your-show .wp-block-nab-multipurpose-gutenberg-block p{line-height:24px}
 .plan-your-show .wp-block-nab-multipurpose-gutenberg-block p:last-of-type{margin-bottom:0}
 .rounded-circle{border-radius:50%!important}
 .plan-select-dd .plan-your-show-drp{width:223px;height:37px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;cursor:pointer}
@@ -752,8 +752,8 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 .session .item{text-align:center;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;position:relative;overflow:hidden;width:33.333%;padding:36px 33px 45px}
 .nab-dynamic-slider.session{display:flex}
 .session .item h4{font-size:20px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;margin-bottom:10px}
-.session .item span.caption{font-size:14px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
-.session .item span.date-time{font-size:14px;display:block;width:100%;margin-bottom:15px!important}
+.session .item span.caption{font-size:16px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
+.session .item span.date-time{font-size:16px;display:block;width:100%;margin-bottom:15px!important}
 .session.with-masonry .item h4,.session.with-featured .item h4{min-height:auto}
 .session .item::after{content:'';display:inline-block;width:100%}
 .session .item::before{content:'';display:inline-block;width:94%;height:94%;position:absolute;border:3px solid #d9d9d9;top:50%;left:50%;transform:translate(-50%, -50%);z-index:-1}
@@ -826,7 +826,7 @@ ul.quote-color li.active{height:50px;margin-top:15px}
 .news-block{margin-bottom:20px}
 .news-block .news-datas{padding:25px 30px;background:#fff;border:2px solid #d9d9d9;margin-bottom:10px}
 .news-block h4{margin:0 0 10px 0;font-size:18px}
-.news-block .news-datas p{margin:0 0 5px 0;font-size:14px}
+.news-block .news-datas p{margin:0 0 5px 0;font-size:16px}
 .news-block .news-datas a.read-more{color:#0f6cb6;font-size:14px;font-family:Gotham Bold;text-decoration:none;text-align:left;display:inline-block;cursor:pointer}
 .news-block .news-datas a.read-more::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .news-block .news-img-block img{margin-bottom:0;vertical-align:bottom;width:100%}
@@ -903,7 +903,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:'Gotham Bold';font-size:16px
 .schedule-glance-filter>.search-box input{width:100%;height:40px;padding:0 10px 0 40px}
 .schedule-glance-filter .search-box .schedule-select::before{content:"\f002";font-family:FontAwesome;position:absolute;top:50%;margin-top:-15px;left:10px;font-size:20px}
 .schedule-glance-filter>div label{font-size:18px}
-.no-data{padding:20px 20px;border:1px solid #ccc;margin-bottom:30px;width:100%}
+.no-data{padding:20px 20px;border:1px solid #ccc;width:calc(100% - 40px);margin:0 auto 30px}
 .no-data p{margin-bottom:0}
 .schedule-main{margin-bottom:30px}
 
@@ -937,7 +937,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:'Gotham Bold';font-size:16px
 .product-main .product-item .product-inner .title{font-size:20px;margin-bottom:5px}
 .product-main .product-item .product-inner .subtitle{font-size:13px;margin-bottom:20px;display:block;font-family:"Gotham Book Italic";padding:0}
 .product-main .product-item .product-inner .content{margin-bottom:0;text-align:left}
-.product-main .product-item .product-inner p{font-size:14px}
+.product-main .product-item .product-inner p{font-size:16px}
 .products-winners h2.product-title{margin-bottom:20px;font-family:"Vollkorn Italic"}
 .product-main .product-item .product-inner .media-img button span.dashicons{display:inline-block;vertical-align:middle;margin:-5px 0 0 0}
 .product-main .product-item.additem button.add:hover{background:#38ba7d9e}
@@ -1136,7 +1136,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .box-main .box-item.additem{text-align:center;min-height:350px}
 .box-main .box-item.additem button{width:calc(100% - 30px);height:100%;background:#38ba7d5e;padding:0;display:block;font-size:16px;transition:0.5s all;outline:none;margin:0 auto}
 .box-main .box-item.additem button span{display:inline-block;vertical-align:middle}
-.box-main .box-item .box-inner p.description{font-size:14px;margin-bottom:20px}
+.box-main .box-item .box-inner p.description{font-size:16px;margin-bottom:20px}
 .box-main .box-item .box-inner .readMore{font-size:18px;font-family:Gotham Bold;text-decoration:none;text-align:left;display:inline-block}
 .box-main .box-item .box-inner .readMore a::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#0f6cb6;font-weight:normal}
@@ -1221,7 +1221,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .registration-passes .registration-item .middle-sec{flex-basis:85%;padding-right:10%}
 .registration-passes .registration-item .last-sec{text-align:center;flex-basis:15%}
 .registration-passes .registration-item .middle-sec .item-title{font-size:19px;color:#000;margin:0}
-.registration-passes .registration-item .middle-sec .item-description{font-size:14px;margin-bottom:0;color:#000000}
+.registration-passes .registration-item .middle-sec .item-description{font-size:16px;margin-bottom:0;color:#000000}
 .registration-passes .registration-item .last-sec .price{font-size:15px;font-family:"Gotham Book", sans-serif;font-weight:normal;color:#000;line-height:1;display:block;margin:0}
 .registration-passes .registration-item .last-sec .price strong{font-size:27px;font-family:"Vollkorn Italic";font-weight:normal}
 .registration-passes .registration-item .last-sec .sub-price{color:#737373;font-size:15px;display:block}
@@ -1269,7 +1269,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .nab-dynamic-list.session{margin-right:-18px;margin-left:-18px}
 .row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{font-family:'Gotham Bold';font-size:18px}
 .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .related-content-box.key-contacts h2.title{font-family:'Gotham Bold';font-size:20px}
-.exhibitor-resources-page .is-block-center.related-content-with-block-main p.has-medium-font-size{font-size:14px}
+.exhibitor-resources-page .is-block-center.related-content-with-block-main p.has-medium-font-size{font-size:16px}
 
 /* news-conference-schedule css */
 .news-conference-schedule .box-main .box-item .box-inner{text-align:left;padding:25px;height:auto}
@@ -1468,7 +1468,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .searchtab .tablinks{border:1px solid #69767a;text-transform:none;display:inline-block;float:left;margin-right:-1px;padding:10px 20px;min-width:100px;text-align:center;font-family:"Gotham Bold", sans-serif;text-decoration:none;margin-top:-1px;color:#000}
 .searchtab .tablinks.active{background-color:#f1f7fc}
 .searchtab{margin:15px 0 40px;display:inline-block}
-.tabcontent .featuredImg{width:300px;min-height:100px;display:inline-block;float:left}
+.tabcontent .featuredImg{width:300px;min-height:100px;display:inline-block;float:left;height:200px;overflow:hidden}
 .tabcontent .tabInfo{width:calc(100% - 300px);display:inline-block;padding-left:25px}
 .tabcontent{display:inline-block;width:100%}
 .tabcontent+.tabcontent{margin-top:35px}
@@ -1511,4 +1511,6 @@ ul.page-numbers{margin:15px 0 0}
 .media-partners .team-box-inner{padding:20px}
 .team-main.media-partners .team-box .feature-img{height:200px}
 .team-main.media-partners .team-box .team-details{padding:0;text-align:center;margin-top:20px}
-.team-main.media-partners .team-box .team-details .name{font-size:20px;color:#0f6cb6;font-family:"Gotham Bold", sans-serif}
+.team-main.media-partners .team-box .team-details .name,.team-main.media-partners .team-box .team-details .name a{font-size:20px;color:#0f6cb6;font-family:"Gotham Bold", sans-serif}
+.team-box.featured .team-box-inner{background-color:#f1f7fc}
+.media-partner-filter input.featured-btn{margin-bottom:0;margin-right:35px}
