@@ -444,6 +444,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         icon: { src: relatedContentBlockIcon },
         keywords: [__('related'), __('content')],
         attributes: allAttr,
+        category: 'nabshow',
         edit: NABRelatedContent,
         save() {
             return null;

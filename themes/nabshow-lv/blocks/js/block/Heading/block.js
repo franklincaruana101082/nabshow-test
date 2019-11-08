@@ -29,9 +29,9 @@
 
 	registerBlockType('nab/nab-heading', {
 		title: __('Nab - Heading'),
-		icon: 'editor-spellcheck',
+		icon: { src: headingBlockIcon },
 		description: __('Nab Heading is a gutenberg block which defines six levels of headings.'),
-		category: { src: headingBlockIcon },
+		category: 'nabshow',
 		keywords: [__('Heading'), __('gutenberg')],
 		attributes: {
 			HeadingText: {
