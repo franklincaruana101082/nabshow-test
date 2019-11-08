@@ -17,6 +17,31 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         </svg>
     );
 
+    const sliderBlockIcon = (
+        <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
+            <g>
+                <g>
+                    <g>
+                        <path fill="#0F6CB6" d="M366.284,244.251H228.996c-1.405,0-2.542,1.137-2.542,2.542v17.797v50.848v33.051
+                            c0,1.405,1.137,2.542,2.542,2.542h137.288c1.405,0,2.543-1.137,2.543-2.542v-33.051v-50.848v-17.797
+                            C368.827,245.388,367.689,244.251,366.284,244.251z M231.538,267.132h22.882v45.763h-22.882V267.132z M363.743,312.896h-7.629
+                            v-45.763h7.629V312.896z M363.743,262.047h-10.171c-1.405,0-2.542,1.137-2.542,2.543v50.847c0,1.406,1.137,2.543,2.542,2.543
+                            h10.171v27.967H231.538v-0.001v-27.967h25.424c1.405,0,2.542-1.137,2.542-2.542v-50.848c0-1.405-1.137-2.543-2.542-2.543h-25.424
+                            v-12.711h132.205V262.047z"/>
+                        <circle fill="#0F6CB6" cx="300.183" cy="333.234" r="5.085"/>
+                        <path fill="#0F6CB6" d="M269.674,317.98h71.187c1.405,0,2.543-1.138,2.543-2.543v-50.848c0-1.405-1.138-2.542-2.542-2.542
+                            h-71.188c-1.406,0-2.543,1.137-2.543,2.543v50.847C267.131,316.843,268.268,317.98,269.674,317.98z M272.216,267.132h66.102
+                            v45.763h-66.102V267.132z"/>
+                        <rect x="269.674" y="330.691" fill="#0F6CB6" width="7.627" height="5.085"/>
+                        <rect x="282.386" y="330.691" fill="#0F6CB6" width="7.627" height="5.085"/>
+                        <rect x="310.352" y="330.691" fill="#0F6CB6" width="7.628" height="5.085"/>
+                        <rect x="323.064" y="330.691" fill="#0F6CB6" width="7.627" height="5.085"/>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    );
+
     const nabInsertMedaitoSlide = (sourceURL, attributes) => {
         const { fullWidth, autoHeight, width, height } = attributes;
         if (nabIsImage(sourceURL)) {
@@ -804,7 +829,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     registerBlockType('md/media-slider', {
         title: __('Media Slider'),
         description: __('Display your media in a slider.'),
-        icon: 'slides',
+        icon: { src: sliderBlockIcon },
         category: 'nabshow',
         keywords: [__('slide'), __('gallery'), __('photos')],
         attributes: blockAttrs,

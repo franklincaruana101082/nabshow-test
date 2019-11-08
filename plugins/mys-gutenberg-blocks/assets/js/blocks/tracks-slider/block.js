@@ -7,6 +7,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { InspectorControls } = wpEditor;
     const { PanelBody, Disabled, ToggleControl, SelectControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
+    const trackSliderBlockIcon = (
+        <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
+            <rect fill="none" width="150" height="150"/>
+            <g>
+                <path fill="#92c83e" d="M31.25,110V40h87.5v70H31.25z M5,101.25v-52.5h17.5v52.5H5z M40,48.75v52.5h70v-52.5H40z M127.5,48.75H145
+                    v52.5h-17.5V48.75z M101.25,66.25V57.5h-52.5v8.75H101.25z M101.25,92.5V75h-52.5v17.5H101.25z"/>
+            </g>
+        </svg>
+    );
+
     class MYSCategorySlider extends Component {
         constructor() {
             super(...arguments);
@@ -298,7 +308,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('mys/tracks-slider', {
         title: __('Category Slider'),
-        icon: 'category',
+        icon: { src: trackSliderBlockIcon },
         category: 'mysgb',
         keywords: [__('tracks'), __('exhibitors'), __('category')],
         attributes: blockAttrs,

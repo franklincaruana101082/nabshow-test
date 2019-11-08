@@ -57,15 +57,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public static function mysgb_custom_block_category( $categories ) {
-            return array_merge(
-                $categories,
-                array(
+            $categories = array_merge(
                     array(
-                        'slug'  => 'mysgb',
-                        'title' => __( 'MYS Elements', 'mys-gutenberg-blocks' ),
+                        array(
+                            'slug'  => 'mysgb',
+                            'title' => __( 'MYS Blocks', 'mys-gutenberg-blocks' ),
+                        ),
                     ),
-                )
-            );
+                    $categories
+                );
+            return $categories;
         }
 
         /**

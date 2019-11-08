@@ -7,6 +7,26 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { InspectorControls } = wpEditor;
     const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
+    const sponsorPartnerBlockIcon = (
+        <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
+            <rect fill="none" width="150" height="150"/>
+            <g>
+                <path fill="#92c83e" d="M56.206,20.281c-2.768,12.215,5.249,33.02,18.8,33.02c13.457,0,21.473-20.805,18.706-33.02
+                    c-2.1-9.353-10.308-15.556-18.706-15.556C66.513,4.725,58.401,10.928,56.206,20.281z M16.791,28.87
+                    c-2.386,10.307,4.485,27.962,15.938,27.962S51.052,39.177,48.666,28.87c-1.813-7.921-8.78-13.266-15.938-13.266
+                    S18.604,20.949,16.791,28.87z M101.347,28.87c-2.386,10.307,4.485,27.962,15.843,27.962c11.452,0,18.322-17.656,15.937-27.962
+                    c-1.813-7.921-8.779-13.266-15.937-13.266C110.126,15.604,103.16,20.949,101.347,28.87L101.347,28.87z M95.717,137.952
+                    l11.929-41.037c7.443-23.763-6.775-38.365-32.639-38.365c-25.958,0-40.178,14.602-32.829,38.365l12.024,41.037
+                    c2.195,6.872,11.261,11.548,20.805,11.548C84.358,149.5,93.521,144.824,95.717,137.952z M37.5,65.136
+                    c-4.676,6.394-9.162,17.464-4.008,34.261l10.688,36.17c-3.244,1.908-7.348,2.959-11.452,2.959c-8.112,0-15.747-3.913-17.655-9.83
+                    L4.862,93.862c-6.203-20.138,5.822-32.449,27.867-32.449c2.577,0,5.154,0.191,7.54,0.573C39.314,62.94,38.36,64.085,37.5,65.136z
+                    M117.189,61.413c22.044,0,34.165,12.312,27.866,32.449l-10.211,34.833c-1.908,5.917-9.543,9.83-17.655,9.83
+                    c-4.104,0-8.208-1.051-11.452-2.959l10.592-35.979c5.249-16.988,0.765-28.058-4.007-34.452c-0.765-1.05-1.719-2.195-2.673-3.149
+                    C112.035,61.604,114.517,61.413,117.189,61.413z"/>
+            </g>
+        </svg>
+    );
+
     class MYSSponsorsPartners extends Component {
         constructor() {
             super(...arguments);
@@ -505,7 +525,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),
-        icon: 'groups',
+        icon: { src: sponsorPartnerBlockIcon },
         category: 'mysgb',
         keywords: [__('sponsors'), __('partners'), __('slider')],
         attributes: blockAttrs,

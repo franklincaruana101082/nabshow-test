@@ -32,15 +32,18 @@ function nabshow_lv_nav_description( $item_output, $item, $depth, $args ) {
  * @return array
  */
 function nabshow_lv_custom_block_category( $categories ) {
-    return array_merge(
-        $categories,
-        array(
+
+    $categories =  array_merge(
             array(
-                'slug'  => 'nabshow',
-                'title' => __( 'NABShow Elements', 'nabshow-lv' ),
+                array(
+                    'slug'  => 'nabshow',
+                    'title' => __( 'NABShow Blocks', 'nabshow-lv' ),
+                ),
             ),
-        )
-    );
+            $categories
+        );
+
+	return $categories;
 }
 
 /**

@@ -12,6 +12,42 @@ import Inspector from './inspector';
     const { InnerBlocks } = wpEditor;
     const { Placeholder, ButtonGroup, Tooltip, Button } = wpComponents;
 
+    const customBlockIcon = (
+        <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
+            <g>
+                <g>
+                    <path fill="#146DB6" d="M144.596,3H5.169C3.842,3,2.766,4.077,2.766,5.404V144.83c0,1.329,1.076,2.405,2.404,2.405h139.426
+                        c1.328,0,2.404-1.076,2.404-2.404V5.404C147,4.077,145.924,3,144.596,3z M142.192,142.427H7.573V7.808h134.619V142.427
+                        L142.192,142.427z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path fill="#146DB6" d="M132.577,15.02H17.189c-1.328,0-2.404,1.077-2.404,2.404v43.27c0,1.328,1.077,2.404,2.404,2.404h115.388
+                        c1.327,0,2.403-1.076,2.403-2.404v-43.27C134.98,16.096,133.904,15.02,132.577,15.02z M130.173,58.29H19.593V19.828h110.58V58.29
+                        L130.173,58.29z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path fill="#146DB6" d="M60.459,82.329h-43.27c-1.328,0-2.404,1.076-2.404,2.404v45.674c0,1.327,1.077,2.404,2.404,2.404h43.27
+                        c1.328,0,2.404-1.077,2.404-2.404V84.733C62.863,83.405,61.788,82.329,60.459,82.329z M58.056,128.004H19.593V87.138h38.462
+                        L58.056,128.004L58.056,128.004z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect x="82.094" y="89.541" fill="#146DB6" width="52.887" height="4.808"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <rect x="82.094" y="118.388" fill="#146DB6" width="52.887" height="4.808"/>
+                </g>
+            </g>
+        </svg>
+    );
+
     const allAttributes = {
         columns: {
             type: 'number'
@@ -230,7 +266,7 @@ import Inspector from './inspector';
     registerBlockType('nab/nab-custom', {
         title: __('NABShow - Custom Block'),
         description: __('Add a pre-defined custom layout.'),
-        icon: 'editor-table',
+        icon: { src: customBlockIcon},
         category: 'nabshow',
         keywords: [__('custom'), __('gutenberg'), __('nab')],
         attributes: allAttributes,
@@ -538,7 +574,7 @@ import Inspector from './inspector';
     registerBlockType('nab/nab-column', {
         title: __('Nab Column'),
         description: __('Nab Column creates column wise layout'),
-        icon: 'editor-table',
+        icon: { src: customBlockIcon},
         category: 'nabshow',
         parent: ['nab/custom'],
         attributes: allAttributes,

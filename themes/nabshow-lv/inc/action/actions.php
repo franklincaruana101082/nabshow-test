@@ -93,3 +93,6 @@ add_action( 'init', 'nabshow_lv_register_news_releases_taxonomy', 0 );
 
 //Action for register custom endpoints
 add_action( 'rest_api_init', 'nabshow_lv_register_api_endpoints');
+
+//Action for set custom login logo
+add_action( 'login_enqueue_scripts', 'nabshow_lv_set_custom_login_logo' );

@@ -16,7 +16,7 @@ function nabshow_lv_add_block_editor_assets() {
 
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' )
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' )
 	);
 
 	wp_register_style(
@@ -224,4 +224,25 @@ function nabshow_lv_register_api_endpoints() {
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_page_parents_callback',
 	) );
+}
+
+/**
+ * Change login logo
+ * @since 1.0
+ */
+function nabshow_lv_set_custom_login_logo() {
+
+    $login_logo = get_stylesheet_directory_uri() . '/assets/images/login-logo.png';
+?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url(<?php echo esc_url( $login_logo ); ?>);
+            height:65px;
+            width:320px;
+            background-size: 320px 65px;
+            background-repeat: no-repeat;
+            padding-bottom: 30px;
+        }
+    </style>
+<?php
 }

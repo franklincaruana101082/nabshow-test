@@ -31,12 +31,20 @@ import memoize from 'memize';
 		return times(accordion, (n) => ['nab/accordion-item', { id: n - 1 }]);
 	});
 
+	const accordionBlockIcon = (
+		<svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
+			<path fill="#146DB6" d="M1,38.563v73.625h147.25V38.563H1z M139.047,102.984H10.203V66.172h128.844V102.984z" />
+			<path fill="#146DB6" d="M1,1.75h147.25v27.609H1V1.75z" />
+			<path fill="#146DB6" d="M1,121.391h147.25V149H1V121.391z" />
+		</svg>
+	);
+
 
 	/* Parent Accordion Block */
 	registerBlockType('nab/accordion', {
 		title: __('Accordion'),
 		description: __('Accordion is a gutenberg block used to show & hide content.'),
-		icon: 'lock',
+		icon: { src: accordionBlockIcon },
 		category: 'nabshow',
 		keywords: [__('accordion'), __('gutenberg'), __('nabshow')],
 		attributes: {
@@ -126,7 +134,7 @@ import memoize from 'memize';
 	registerBlockType('nab/accordion-item', {
 		title: __('Accordion Items'),
 		description: __('This is nab accordion block with multiple setting.'),
-		icon: 'editor-insertmore',
+		icon: { src: accordionBlockIcon },
 		category: 'nabshow',
 		parent: ['nab/accordion'],
 		attributes: {

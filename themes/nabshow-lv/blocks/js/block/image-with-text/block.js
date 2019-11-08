@@ -4,9 +4,28 @@
 	const { InspectorControls, InnerBlocks, MediaUpload, BlockControls } = wpEditor;
 	const { TextControl, PanelBody, PanelRow, Toolbar, IconButton, Button, ToggleControl, RangeControl, ColorPalette } = wpComponents;
 
+	const imageWithTextBlockIcon = (
+		<svg width="150px" height="150px" viewBox="418.4 418.4 150 150" enable-background="new 418.4 418.4 150 150">
+			<g>
+				<path fill="#0F6CB6" d="M544.93,449.158h-38.933c-2.975,0-5.383,2.409-5.383,5.383s2.408,5.383,5.383,5.383h38.933
+					c2.975,0,5.384-2.409,5.384-5.383S547.904,449.158,544.93,449.158z"/>
+				<path fill="#0F6CB6" d="M505.997,498.44h26.014c2.975,0,5.383-2.409,5.383-5.383c0-2.975-2.408-5.383-5.383-5.383h-26.014
+					c-2.975,0-5.383,2.409-5.383,5.383C500.614,496.031,503.022,498.44,505.997,498.44z"/>
+				<path fill="#0F6CB6" d="M554.418,468.416h-48.421c-2.975,0-5.383,2.409-5.383,5.383s2.408,5.383,5.383,5.383h48.421
+					c2.974,0,5.383-2.409,5.383-5.383S557.392,468.416,554.418,468.416z"/>
+				<path fill="#0F6CB6" d="M554.418,506.945h-48.421c-2.975,0-5.383,2.409-5.383,5.384c0,2.974,2.408,5.383,5.383,5.383h48.421
+					c2.974,0,5.383-2.409,5.383-5.383C559.801,509.354,557.392,506.945,554.418,506.945z"/>
+				<path fill="#0F6CB6" d="M554.418,526.203h-48.421c-2.975,0-5.383,2.409-5.383,5.384c0,2.974,2.408,5.383,5.383,5.383h48.421
+					c2.974,0,5.383-2.409,5.383-5.383C559.801,528.612,557.392,526.203,554.418,526.203z"/>
+				<path fill="#0F6CB6" d="M482.769,448.566h-47.694c-4.455,0-8.075,3.62-8.075,8.075v73.52c0,4.455,3.62,8.074,8.075,8.074h47.694
+					c4.455,0,8.075-3.619,8.075-8.074v-73.52C490.843,452.173,487.237,448.566,482.769,448.566z"/>
+			</g>
+		</svg>
+	);
+
 	registerBlockType('nab/image-with-text', {
 		title: __('Image & Text'),
-		icon: 'playlist-video',
+		icon: { src: imageWithTextBlockIcon },
 		description: __('Nab Image & Text is a gutenberg block where you can add media along with text.'),
 		category: 'nabshow',
 		keywords: [__('Media'), __('Text')],
