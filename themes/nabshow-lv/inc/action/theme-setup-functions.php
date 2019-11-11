@@ -1,0 +1,258 @@
+<?php
+
+/**
+ * All theme setup functions located this file
+ */
+
+if ( ! function_exists( 'nabshow_lv_setup' ) ) :
+    /**
+     * Sets up theme defaults and registers support for various WordPress features.
+     *
+     * Note that this function is hooked into the after_setup_theme hook, which
+     * runs before the init hook. The init hook is too late for some features, such
+     * as indicating support for post thumbnails.
+     */
+    function nabshow_lv_setup() {
+        /*
+         * Make theme available for translation.
+         * Translations can be filed in the /languages/ directory.
+         * If you're building a theme based on NABShow LV, use a find and replace
+         * to change 'nabshow-lv' to the name of your theme in all the template files.
+         */
+        load_theme_textdomain( 'nabshow-lv', get_template_directory() . '/assets/languages' );
+
+        // Add default posts and comments RSS feed links to head.
+        add_theme_support( 'automatic-feed-links' );
+
+        /*
+         * Let WordPress manage the document title.
+         * By adding theme support, we declare that this theme does not use a
+         * hard-coded <title> tag in the document head, and expect WordPress to
+         * provide it for us.
+         */
+        add_theme_support( 'title-tag' );
+
+        /*
+         * Enable support for Post Thumbnails on posts and pages.
+         *
+         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+         */
+        add_theme_support( 'post-thumbnails' );
+
+        // This theme uses wp_nav_menu() in one location.
+        register_nav_menus( array(
+            'menu-1' => esc_html__( 'Primary', 'nabshow-lv' ),
+        ) );
+
+        /*
+         * Switch default core markup for search form, comment form, and comments
+         * to output valid HTML5.
+         */
+        add_theme_support( 'html5', array(
+            'search-form',
+            'comment-form',
+            'comment-list',
+            'gallery',
+            'caption',
+        ) );
+
+        // Set up the WordPress core custom background feature.
+        add_theme_support( 'custom-background', apply_filters( 'nabshow_lv_custom_background_args', array(
+            'default-color' => 'ffffff',
+            'default-image' => '',
+        ) ) );
+
+        // Add theme support for selective refresh for widgets.
+        add_theme_support( 'customize-selective-refresh-widgets' );
+
+        /**
+         * Add support for core custom logo.
+         *
+         * @link https://codex.wordpress.org/Theme_Logo
+         */
+        add_theme_support( 'custom-logo', array(
+            'height'      => 250,
+            'width'       => 250,
+            'flex-width'  => true,
+            'flex-height' => true,
+        ) );
+    }
+endif;
+
+
+/**
+ * Set the content width in pixels, based on the theme's design and stylesheet.
+ *
+ * Priority 0 to make it available to lower priority callbacks.
+ *
+ * @global int $content_width
+ */
+function nabshow_lv_content_width() {
+    // This variable is intended to be overruled from themes.
+    // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+    $GLOBALS['content_width'] = apply_filters( 'nabshow_lv_content_width', 640 );
+}
+
+/**
+ * Register widget area.
+ *
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ */
+function nabshow_lv_widgets_init() {
+    register_sidebar( array(
+        'name'          => esc_html__( 'Sidebar', 'nabshow-lv' ),
+        'id'            => 'sidebar-1',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Header top left sidebar', 'nabshow-lv' ),
+        'id'            => 'header-top-left-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Header top right sidebar', 'nabshow-lv' ),
+        'id'            => 'header-top-right-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Footer top left sidebar', 'nabshow-lv' ),
+        'id'            => 'footer-top-left-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Footer top right sidebar', 'nabshow-lv' ),
+        'id'            => 'footer-top-right-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Footer middle sidebar', 'nabshow-lv' ),
+        'id'            => 'footer-middle-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Footer bottom left sidebar', 'nabshow-lv' ),
+        'id'            => 'footer-bottom-left-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => esc_html__( 'Footer bottom right sidebar', 'nabshow-lv' ),
+        'id'            => 'footer-bottom-right-sidebar',
+        'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+}
+
+/**
+ * Enqueue scripts and styles.
+ */
+function nabshow_lv_scripts() {
+
+    wp_enqueue_script( 'nabshow-lv-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '20151215', true );
+
+    wp_enqueue_script( 'nabshow-lv-skip-link-focus-fix', get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
+
+    wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
+
+    wp_enqueue_style( 'wp-block-library' );
+
+    wp_enqueue_style( 'nabshow-lv-style', get_stylesheet_uri() );
+
+    wp_enqueue_style( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css' );
+
+    wp_enqueue_style( 'nabshow-lv-font-awesome', get_template_directory_uri() . '/assets/fonts/font-awesome.min.css' );
+
+    wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
+
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css' );
+
+    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css' );
+
+    wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/print-css.css' );
+
+    if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+        wp_enqueue_script( 'comment-reply' );
+    }
+
+    //bx-slider script
+    wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
+
+    // Script for calling React Component
+    //wp_enqueue_script( 'nabshow-gutenberg-block', get_stylesheet_directory_uri() . '/dist/bundled.js' );
+
+    wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), null, true );
+	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
+		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
+		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
+	) );
+
+    if ( has_block( 'nab/not-to-be-missed-slider' ) ) {
+        wp_localize_script( 'nabshow-lv-custom', 'nabshowNtbMissed', array(
+            'ajax_url'                    => admin_url( 'admin-ajax.php' ),
+            'nabshow_lv_ntb_missed_nonce' => wp_create_nonce( 'ntb_missed_nonce' )
+        ) );
+    }
+
+    if ( is_post_type_archive('not-to-be-missed') ):
+        wp_enqueue_script( 'nabshow-lv-ntb-missed', get_template_directory_uri() . '/assets/js/nabshow-lv-ntb-missed.js', array( 'jquery' ), null, true );
+        wp_localize_script( 'nabshow-lv-ntb-missed', 'nabshowLvNtbMissed', array(
+            'ajax_url'                    => admin_url( 'admin-ajax.php' ),
+            'nabshow_lv_ntb_missed_nonce' => wp_create_nonce( 'ntb_missed_nonce' )
+        ) );
+    endif;
+
+    if ( is_post_type_archive('thought-gallery') ):
+        wp_enqueue_script( 'nabshow-lv-thought-gallery', get_template_directory_uri() . '/assets/js/nabshow-lv-thought-gallery.js', array( 'jquery' ), null, true );
+        wp_localize_script( 'nabshow-lv-thought-gallery', 'nabshowLvThoughtGallery', array(
+            'ajax_url'                    => admin_url( 'admin-ajax.php' ),
+            'nabshow_lv_thought_gallery_nonce' => wp_create_nonce( 'thought_gallery_nonce' )
+        ) );
+    endif;
+
+	if ( is_post_type_archive('news-releases' ) ):
+		wp_enqueue_script( 'nabshow-lv-news-releases', get_template_directory_uri() . '/assets/js/nabshow-lv-news-releases.js', array( 'jquery' ), null, true );
+		wp_localize_script( 'nabshow-lv-news-releases', 'nabshowLvNewsReleases', array(
+			'ajax_url'                       => admin_url( 'admin-ajax.php' ),
+			'nabshow_lv_news_releases_nonce' => wp_create_nonce( 'news_releases_nonce' )
+		) );
+	endif;
+}
