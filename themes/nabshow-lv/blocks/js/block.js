@@ -1,5 +1,5 @@
 import './block/multipurpose-gutenberg-block/block';
-import './block/slider/block';
+//import './block/slider/block';
 import './block/button/block';
 import './block/Heading/block';
 import './block/image/block';
