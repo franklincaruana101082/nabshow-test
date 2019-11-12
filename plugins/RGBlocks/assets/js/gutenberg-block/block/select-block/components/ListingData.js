@@ -15,10 +15,14 @@ class ListingData extends Component {
             reusableSearchInputValue: '',
             ReusableOnSubmitVal: '',
             blockName: 'reusableblocks',
+            CurrentBlockCategory: 'all',
+            blockCategoryName: 'Select Category',
             reusablePageNo: 1,
             reusableHasMoreData: true,
             reusableBlocksLoadMore: false,
-            reusableType: 'normal'
+            reusableType: 'normal',
+            customeSelect: false,
+            blocksCategory: []
         };
         this.tabChange = this.tabChange.bind(this);
         this.onScrollEvent = this.onScrollEvent.bind(this);
@@ -27,11 +31,13 @@ class ListingData extends Component {
 
     componentDidMount() {
         this.fetchReusableBlocks();
+        this.fetchBlocksCategory();
     }
 
     componentDidUpdate(prevProps, prevState) {
         const {
-            ReusableOnSubmitVal
+            ReusableOnSubmitVal,
+            CurrentBlockCategory
         } = this.state;
 
         if (ReusableOnSubmitVal !== prevState.ReusableOnSubmitVal) {
@@ -43,13 +49,22 @@ class ListingData extends Component {
             });
             this.fetchReusableBlocks();
         }
+        if ( CurrentBlockCategory !== prevState.CurrentBlockCategory) {
+            this.setState({
+                reusablePageNo: 1,
+                reusableBlocksLoadMore: false,
+                isLoading: true,
+                reusableBlocks: []
+            });
+            this.fetchReusableBlocks();
+        }
     }
 
     fetchReusableBlocks() {
-        const { reusablePageNo, reusableBlocks, NoOfPost } = this.state;
+        const { reusablePageNo, reusableBlocks, NoOfPost, CurrentBlockCategory } = this.state;
         this.setState({ reusableHasMoreData: false });
         let SearchBlocks = this.state.ReusableOnSubmitVal;
-        wp.apiFetch({ path: `/wp/v2/blocks?search=${SearchBlocks}&page=${reusablePageNo}&per_page=${NoOfPost}`, method: 'GET' }).then(data => {
+        wp.apiFetch({ path: `/rg_blocks/request/reusable-blocks?search=${SearchBlocks}&category=${CurrentBlockCategory}&page=${reusablePageNo}&per_page=${NoOfPost}`, method: 'GET' }).then(data => {
             if (false === data.status) {
                 this.setState({
                     reusableHasMoreData: false,
@@ -72,6 +87,18 @@ class ListingData extends Component {
                     reusableHasMoreData: true,
                     reusablePageNo: reusablePageNo + 1
                 });
+            }
+        });
+    }
+
+    fetchBlocksCategory() {
+        let categoryList = this.state.blocksCategory;
+        wp.apiFetch({ path: '/rg_blocks/request/get-blocks-terms' }).then(data => {
+            if (0 < data.length) {
+                data.map((cat) => {
+                    categoryList.push({ label: cat.name, value: cat.slug });
+                });
+                this.setState({ blocksCategory: categoryList });
             }
         });
     }
@@ -109,7 +136,12 @@ class ListingData extends Component {
             isLoading,
             reusableSearchInputValue,
             blockName,
+            customeSelect,
+            reusablePageNo,
+            blocksCategory,
+            blockCategoryName,
             reusableBlocksLoadMore,
+            CurrentBlockCategory,
             reusableType
         } = this.state;
 
@@ -162,6 +194,64 @@ class ListingData extends Component {
                                 <i className="fas fa-filter" />
                                 Filter By:
                             </strong>
+                            <div className="Select-Category Select-box">
+                                <i className="fas fa-caret-down" />
+                                <div className="custom-select-box-main">
+                                  <span
+                                      className={customeSelect ? 'active' : ''}
+                                      onClick={() =>
+                                          this.setState({ customeSelect: ! customeSelect })
+                                      }
+                                  >
+                                    {blockCategoryName}
+                                  </span>
+                                    <ul className={customeSelect ? 'active' : ''}>
+                                        <li
+                                            onClick={e => {
+
+                                                this.setState({
+                                                    CurrentBlockCategory: 'all',
+                                                    blockCategoryName: 'All',
+                                                    customeSelect: false,
+                                                    reusablePageNo: 1,
+                                                });
+                                            }}
+                                            key="all"
+                                        >
+                                            All
+                                        </li>
+                                        {
+                                            blocksCategory.map(item => {
+                                                return (
+                                                    <li
+                                                        onClick={e => {
+                                                            this.setState({ customeSelect: false });
+                                                            if (CurrentBlockCategory !== item.value) {
+
+                                                                this.setState({
+                                                                    CurrentBlockCategory: item.value,
+                                                                    customeSelect: false,
+                                                                    reusableBlocksLoadMore: false,
+                                                                    isLoading: true,
+                                                                    reusablePageNo: 1,
+                                                                    blockCategoryName: item.label,
+                                                                    reusableBlocks: []
+                                                                });
+
+                                                                e.preventDefault();
+                                                            }
+                                                        }}
+                                                        key={item.value}
+                                                        className={ CurrentBlockCategory === item.value ? 'selected' : ''}
+                                                    >
+                                                        {item.label}
+                                                    </li>
+                                                );
+                                            })
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
                             <div className="Select-box search-box">
                                 <form
                                     onSubmit={event => {
@@ -211,16 +301,17 @@ class ListingData extends Component {
                                             isLoading={isLoading}
                                             reusableType={reusableType}
                                         />
-                                        {/*{4 < reusableBlocks.length && reusableBlocksLoadMore ? (
-                                        <li
-                                            className="MoreDataLoading"
-                                            style={{ width: '100%', textAlign: 'center' }}
-                                        >
-                                            {LoadMoreSmall}
-                                        </li>
-                                    ) : (
-                                        <li className="NoMoreData">No more data found!</li>
-                                    )}*/}
+                                        { 4 < reusableBlocks.length && reusableBlocksLoadMore ? (
+                                            <li
+                                                className="MoreDataLoading"
+                                                style={{ width: '100%', textAlign: 'center' }}
+                                            >
+                                                {LoadMoreSmall}
+                                            </li>
+                                        ) : (
+                                            1 === reusablePageNo ? <li className="NoMoreData">Result Not Found!</li> : <li className="NoMoreData">No more data found!</li>
+                                        )
+                                        }
                                     </ul>
                                 )}
                         </div>

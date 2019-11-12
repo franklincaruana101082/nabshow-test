@@ -207,7 +207,7 @@ function nabshow_lv_make_posts_hierarchical( $post_type ) {
  * @param $post_type
  */
 function nabshow_lv_enable_page_excerpt( $post_type ) {
-	// Return, if not post type posts
+	// Return, if post type not page
 	if ( 'page' !== $post_type ) return;
 
 	// Adding excerpt for page
@@ -245,4 +245,50 @@ function nabshow_lv_set_custom_login_logo() {
         }
     </style>
 <?php
+}
+
+function nabshow_lv_add_help_support_dashboard_widget() {
+	wp_add_dashboard_widget(
+		'nab_dashboard_help_support', // widget ID
+		'Help & Support', // widget title
+		'nabshow_lv_help_support_widget_configure' // callback #1 to display it
+	);
+}
+
+function nabshow_lv_help_support_widget_configure() {
+?>
+    <div class="inside">
+        <div id="help-support" class="help-support">
+            <p class="display-msg"></p>
+            <div class="input-text-wrap">
+                <label for="support-subject">Subject</label>
+                <input type="text" name="mail_subject" id="support-subject" autocomplete="off" required>
+            </div>
+            <div class="textarea-wrap">
+                <label for="support-content">Message</label>
+                <textarea name="mail_content" id="support-content" placeholder="Message" class="mceEditor" rows="3" cols="15" autocomplete="off" required></textarea>
+            </div>
+            <p class="submit">
+                <button id="send-mail" class="button button-primary">Send</button>
+            </p>
+        </div>
+    </div>
+<?php
+}
+
+function nabhsow_lv_enqueue_admin_script() {
+
+	$screen = get_current_screen();
+
+	if( 'dashboard' === $screen->id ) {
+
+	    wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ) );
+
+		wp_localize_script( 'nabshow-lv-admin', 'nabshowLvAdmin', array(
+			'ajax_url'               => admin_url( 'admin-ajax.php' ),
+			'nabshow_lv_admin_nonce' => wp_create_nonce( 'help_support_nonce' ),
+		) );
+
+		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
+	}
 }

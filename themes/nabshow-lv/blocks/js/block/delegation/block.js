@@ -2,7 +2,7 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
+  const { RichText } = wpEditor;
   const { Button, TextControl } = wpComponents;
 
   const delegationBlockIcon = (

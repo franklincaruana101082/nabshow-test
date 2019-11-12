@@ -521,6 +521,13 @@
 
     }
 
+    /* Sponsorship Opp */
+    if ($('.sponsorship-opportunities-page .box-main .box-item').has('span.sold')) {
+      $(' .sponsorship-opportunities-page .box-main .box-item span.sold').each(function () {
+        $(this).parents('.sponsorship-opportunities-page .box-main .box-item').addClass('visible');
+      });
+    }
+
     /* -- Media partner filter -- */
     $('.media-partner-filter .featured-btn').click(function () {
       $(this).toggleClass('active');
@@ -547,6 +554,25 @@
         $.map($(this).data('locations').split(','), function (val) {
           insertOptions(val, 'location-type');
         });
+      }
+    });
+
+    // Test
+
+    $('.news-conference .category .select-opt').each(function () {
+      $(document).on('change', '.news-conference .category .select-opt', function () {
+        if ($('.news-conference-schedule .no-data').is(':visible')) {
+          $('.news-conference-schedule .no-data').parent('.box-main').addClass('noDataFound');
+        } else {
+          $('.news-conference-schedule .no-data').parent('.box-main').removeClass('noDataFound');
+        }
+      });
+    });
+    $(document).on('keyup', '.news-conference #box-main-search', function () {
+      if ($('.news-conference-schedule .no-data').is(':visible')) {
+        $('.news-conference-schedule .no-data').parent('.box-main').addClass('noDataFound');
+      } else {
+        $('.news-conference-schedule .no-data').parent('.box-main').removeClass('noDataFound');
       }
     });
 
@@ -2078,11 +2104,6 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
       selectedItem = '.box-item';
     }
     if ('Available' === filterAvailable) {
-      if (jQuery(selectedItem).has('span.sold')) {
-        jQuery(` ${selectedItem} span.sold`).each(function () {
-          jQuery(this).parents(`${selectedItem}`).addClass('visible');
-        });
-      }
       jQuery(`${selectedItem}.visible`).hide();
     }
     if ('Unavailable' === filterAvailable) {

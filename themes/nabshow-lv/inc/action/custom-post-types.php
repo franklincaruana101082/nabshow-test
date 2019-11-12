@@ -329,6 +329,11 @@ function nabshow_lv_thought_gallery_tags_taxonomies() {
 
 }
 
+/**
+ * Create category taxonomy for page post type
+ *
+ * @since 1.0
+ */
 function nabshow_lv_page_category_taxonomy() {
 
     $labels = array(

@@ -293,13 +293,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={adaptiveHeight}
                                 onChange={() => setAttributes({ adaptiveHeight: ! adaptiveHeight })}
                             />
-                            {/* <RangeControl
-                                label={__('Speed')}
-                                min={100}
-                                max={2000}
-                                value={speed}
-                                onChange={value => setAttributes({ speed: value })}
-                            /> */}
                             <div className="inspector-field inspector-slider-speed" >
                                 <label>Speed</label>
                                 <RangeControl
