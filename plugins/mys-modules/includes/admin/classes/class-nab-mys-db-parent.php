@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
+	/**
+	 * Class NAB_MYS_DB_Parent
+	 */
 	class NAB_MYS_DB_Parent {
 
 		protected $wpdb = '';
@@ -86,6 +89,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 		 * @param string $current_request Session/Speakers/etc.
 		 * @param string $query_type "insert" or "update"
 		 * @param string $group_id a unique Group ID used in whole process.
+		 * @param int $history_status Status of history
+		 * @param int $items_affected Number of affected items
 		 *
 		 * @return false|int returns inserted ID or record update status
 		 */
@@ -150,6 +155,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 		}
 
+
+		/**
+		 * Get previous requested date to make a call from it.
+		 *
+		 * @param string $data_type The type of data.
+		 *
+		 * @return string The previous date.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_previous_date( $data_type ) {
 
 			$wpdb = $this->wpdb;
@@ -163,10 +179,30 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			return $previous_date;
 		}
 
+
+		/**
+		 * Set Data Json to a class variable
+		 *
+		 * @param string $data_json Data Json
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_set_data_json( $data_json ) {
 			$this->data_json = $data_json;
 		}
 
+
+		/**
+		 * Get rows ready for migration.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return int Number of ready items.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_rows_ready_total_getter( $group_id ) {
 
 			$wpdb = $this->wpdb;
@@ -182,6 +218,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			return count( $ready_ids );
 		}
 
+
+		/**
+		 * Get Data Rows needs to be fetched from API.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return array|string Array of a data row or a text 'finished' if no pending rows left.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_row_pending_id_getter( $group_id ) {
 
 			$wpdb = $this->wpdb;
@@ -207,6 +254,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
+
+		/**
+		 * Fill the Json data to a Data Row,
+		 *
+		 * @param int $dataid Data ID.
+		 *
+		 * @return int|bool Result of a query.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_row_filler( $dataid ) {
 
 			$sql = $this->wpdb->update(
@@ -223,6 +281,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 		}
 
+
+		/**
+		 * Get latest group id.
+		 *
+		 * @param string $requested_for Requested for sessions or exhibitors.
+		 *
+		 * @return int|array A result of a query
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_get_latest_groupid( $requested_for ) {
 
 			$wpdb = $this->wpdb;
@@ -265,6 +334,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
+
+		/**
+		 * Send Email on DB Failures.
+		 *
+		 * @param string $stuck_groupid A unique group id.
+		 * @param string $failed_action A substring for Subject
+		 * @param bool $force_reset Reset sequence or not.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_fail_mail( $stuck_groupid, $failed_action, $force_reset = false ) {
 
 			if ( true === $force_reset ) {

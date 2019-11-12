@@ -12,10 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
+	/**
+	 * Class NAB_MYS_DB_History
+	 */
 	class NAB_MYS_DB_History {
 
 		private $wpdb = '';
-
 		private $page_groupid = '';
 		private $page_template = '';
 		private $nab_mys_db_cron_object = '';
@@ -25,6 +27,9 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 		private $history_data = array();
 		private $history_total = 0;
 
+		/**
+		 * @var array Allowed HTML tags for History Sections.
+		 */
 		private $allowed_tags = array(
 			'b'    => array(),
 			'br'   => array(),
@@ -42,6 +47,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->wpdb = $wpdb;
 		}
 
+		/**
+		 * Set variables for History Pages.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_set_vars() {
 
 			$get_vars = array(
@@ -79,6 +90,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->request_data['order_clause'][] = "$default_timecol $timeorder";
 		}
 
+		/**
+		 * Set filters data for History Pages.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_set_filters() {
 
 			$data_type = $this->request_data['data_type'];
@@ -184,6 +201,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
+		/**
+		 * Set ordering for History Pages.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_set_ordering() {
 
 			global $wp;
@@ -241,6 +264,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			}
 		}
 
+		/**
+		 * Set Pagination for History Pages.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_set_pagination() {
 
 			$current_url_without_pageno = $this->request_data['current_url_without_pageno'];
@@ -286,6 +315,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->request_data['html_link_last_page']  = $html_link_last_page;
 		}
 
+		/**
+		 * Get History Data
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_get_data() {
 
 			// Prepare Data
@@ -323,6 +358,16 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
+
+		/**
+		 * Load History Page Content
+		 *
+		 * @param string $page_groupid A unique group id for history
+		 * @param $nab_mys_db_cron_object
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_history_page_loader( $page_groupid, $nab_mys_db_cron_object ) {
 
 			$this->page_groupid           = null === $page_groupid || empty( $page_groupid ) ? 'all' : $page_groupid;
@@ -358,6 +403,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
+		/**
+		 * Get History Detail Page Data.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_detail() {
 
 			$wpdb                 = $this->wpdb;
@@ -372,13 +423,13 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			//$cache_key = "$where_clause_history $order_clause $limit $offset";
 			//$data_rows = get_transient( "history_detail_$cache_key" );
 			//if ( false === $data_rows ) {
-				$data_rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %1smys_data WHERE $where_clause_history ORDER BY %1s LIMIT %d OFFSET %d ", $wpdb->prefix, $order_clause, $limit, $offset ) ); //phpcs:ignore
-				//set_transient( "history_detail_$cache_key", $data_rows );
+			$data_rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %1smys_data WHERE $where_clause_history ORDER BY %1s LIMIT %d OFFSET %d ", $wpdb->prefix, $order_clause, $limit, $offset ) ); //phpcs:ignore
+			//set_transient( "history_detail_$cache_key", $data_rows );
 			//}
 			//$history_total = get_transient( "history_detail_total_$cache_key" );
 			//if ( false === $history_total ) {
-				$history_total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DataID) FROM %1smys_data WHERE $where_clause_history", $wpdb->prefix ) ); //phpcs:ignore
-				//set_transient( "history_detail_total_$cache_key", $history_total );
+			$history_total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DataID) FROM %1smys_data WHERE $where_clause_history", $wpdb->prefix ) ); //phpcs:ignore
+			//set_transient( "history_detail_total_$cache_key", $history_total );
 			//}
 			$group_wise_data = array();
 
@@ -473,6 +524,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
+		/**
+		 * Get History List Page Data.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_list() {
 
 			$wpdb = $this->wpdb;
@@ -487,8 +544,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			//$cache_key      = "$where_history $order_clause $limit $offset";
 			//$history_result = get_transient( "history_list_$cache_key" );
 			//if ( false === $history_result ) {
-				$history_result = $wpdb->get_results( $wpdb->prepare( "SELECT h1.* FROM %1smys_history as h1 INNER JOIN ( SELECT DISTINCT HistoryGroupID FROM %1smys_history WHERE $where_history ORDER BY %1s LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY %1s", $wpdb->prefix, $wpdb->prefix, $order_clause, $limit, $offset, $order_clause ) ); //phpcs:ignore
-				//set_transient( "history_list_$cache_key", $history_result );
+			$history_result = $wpdb->get_results( $wpdb->prepare( "SELECT h1.* FROM %1smys_history as h1 INNER JOIN ( SELECT DISTINCT HistoryGroupID FROM %1smys_history WHERE $where_history ORDER BY %1s LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY %1s", $wpdb->prefix, $wpdb->prefix, $order_clause, $limit, $offset, $order_clause ) ); //phpcs:ignore
+			//set_transient( "history_list_$cache_key", $history_result );
 			//}
 			$history_data = array();
 			foreach ( $history_result as $h ) {
@@ -505,6 +562,15 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			);
 		}
 
+		/**
+		 * Get Total Number of found History Items.
+		 *
+		 * @param string $where Where clause for query
+		 *
+		 * @return mixed|string|null Result of query.
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_history_total( $where ) {
 
 			$wpdb = $this->wpdb;
@@ -518,6 +584,15 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			return $history_total;
 		}
 
+
+		/**
+		 * Reset the plugin.
+		 *
+		 * @return int|false Result of the reset query.
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
 		public function nab_mys_history_reset() {
 
 			$wpdb = $this->wpdb;
@@ -533,6 +608,17 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			return $history_reset_htable;
 		}
 
+
+		/**
+		 * Clear history of past days.
+		 *
+		 * @param int $days The days to exclude in clearance process.
+		 *
+		 * @return array Start Date of the clearance and query status.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_history_clear( $days = 30 ) {
 
 			$wpdb = $this->wpdb;
@@ -566,7 +652,13 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			return array( 'date_before_given_days' => $date_before_given_days, 'history_clear_status' => $history_clear );
 		}
 
-		public function nab_mys_dashboard_glance() {
+		/**
+		 * Dashboard At a glance section.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		static function nab_mys_dashboard_glance() {
 
 			$glance_data = array();
 
@@ -597,12 +689,19 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			return $glance_data;
 		}
 
+
+		/**
+		 * Dashboard Activity section.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_dashboard_activity() {
 
 			$wpdb = $this->wpdb;
 
 			$recent_history = $wpdb->get_results(
-				$wpdb->prepare("SELECT * FROM %1smys_history
+				$wpdb->prepare( "SELECT * FROM %1smys_history
 										WHERE HistoryDataType LIKE '%-%'
 										ORDER BY HistoryID DESC LIMIT 5", $wpdb->prefix ) ); //db call ok; no-cache ok
 

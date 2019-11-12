@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
+	/**
+	 * Class NAB_MYS_Sync_Parent
+	 */
 	class NAB_MYS_Sync_Parent {
 
 		protected $flow;
@@ -52,6 +55,12 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		}
 
+		/**
+		 * Set required values.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_set_values() {
 
 			//Get MYS URLs added in backend.
@@ -61,6 +70,12 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		}
 
+		/**
+		 * Set Data in variables before Syncing.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_set_ajax_data() {
 
 			$this->requested_for   = filter_input( INPUT_POST, 'requested_for', FILTER_SANITIZE_STRING );
@@ -82,6 +97,12 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		}
 
+		/**
+		 * Get response from MYS API.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_get_response() {
 
 			//Get Token from Cache, If not available, Generate New and Store in the Cache.
@@ -101,7 +122,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 					wp_die();
 				} else {
 					//CRON
-					echo esc_html( $error_message );
+					esc_html_e( $error_message );
 					die();
 				}
 
@@ -147,7 +168,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 						wp_die();
 					} else {
 						//CRON
-						echo esc_html( $error_message );
+						esc_html_e( $error_message );
 						die();
 					}
 
@@ -219,9 +240,9 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		/**
 		 * Generate MYS API Token
 		 *
-		 * @return string
-		 * @package MYS Modules
+		 * @return string API Token
 		 *
+		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
 		public function nab_mys_api_token_from_cache() {
@@ -243,9 +264,9 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		/**
 		 * Generate MYS API Token
 		 *
-		 * @return string
-		 * @package MYS Modules
+		 * @return false|array False or a Token Data.
 		 *
+		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
 		private function nab_mys_api_token_generation() {
@@ -299,9 +320,9 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		 *
 		 * @param string $current_request Session/Speakers/etc.
 		 *
-		 * @return string
-		 * @since 1.0.0
+		 * @return string MYS API URL
 		 *
+		 * @since 1.0.0
 		 * @package MYS Modules
 		 */
 		public function nab_mys_get_request_url( $current_request ) {
@@ -374,13 +395,9 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		}
 
 		/**
-		 * Generates a uniqe 10 digit alphanumeric string for Group ID.
+		 * Generates a unique 10 digit alphanumeric string for Group ID.
 		 *
-		 * @param int $length Length of the Token
-		 *
-		 * @return array Contains the database action status and error code.
 		 * @since 1.0.0
-		 *
 		 * @package MYS Modules
 		 */
 		public function nab_mys_set_groupid() {
@@ -402,6 +419,14 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		}
 
+		/**
+		 * Display errors.
+		 *
+		 * @param strin $error_message An error message.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_display_error( $error_message ) {
 
 			$error_message_html = "<p class='red-notice mys-error-notice'>$error_message</p>";
@@ -412,11 +437,20 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 				wp_die();
 			} else {
 				//CRON
-				echo esc_html( $error_message );
+				esc_html_e( $error_message );
 				die();
 			}
 		}
 
+		/**
+		 * Increase Attempts to 3 and then force stop the request send email.
+		 *
+		 * @param array $mail_data Te data for email.
+		 * @param bool true|false $force_stop
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_increase_attempt( $mail_data, $force_stop = false ) {
 
 			$sequence_resetted = 0;

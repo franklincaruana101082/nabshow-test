@@ -20,8 +20,8 @@ function nab_mys_sessions_taxonomies() {
 
 	// Taxonomy - tracks
 	$tracks_labels = array(
-		'name'              => _x( 'Tracks', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Tracks', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Tracks', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Tracks', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Tracks', 'mys-modules' ),
 		'all_items'         => __( 'All Tracks', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Track', 'mys-modules' ),
@@ -47,8 +47,8 @@ function nab_mys_sessions_taxonomies() {
 
 	// Taxonomy - session-categories
 	$category_labels = array(
-		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Categories', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Categories', 'mys-modules' ),
 		'all_items'         => __( 'All Categories', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
@@ -74,8 +74,8 @@ function nab_mys_sessions_taxonomies() {
 
 	// Taxonomy - session-levels
 	$level_labels = array(
-		'name'              => _x( 'Levels', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Levels', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Levels', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Levels', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Levels', 'mys-modules' ),
 		'all_items'         => __( 'All Levels', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Level', 'mys-modules' ),
@@ -101,8 +101,8 @@ function nab_mys_sessions_taxonomies() {
 
 	// Taxonomy - session-types
 	$type_labels = array(
-		'name'              => _x( 'Types', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Types', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Types', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Types', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Types', 'mys-modules' ),
 		'all_items'         => __( 'All Types', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Type', 'mys-modules' ),
@@ -128,8 +128,8 @@ function nab_mys_sessions_taxonomies() {
 
 	// Taxonomy - session-locations
 	$location_labels = array(
-		'name'              => _x( 'Locations', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Locations', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Locations', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Locations', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Locations', 'mys-modules' ),
 		'all_items'         => __( 'All Locations', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Location', 'mys-modules' ),
@@ -166,8 +166,8 @@ add_action( 'init', 'nab_mys_sessions_taxonomies', 0 );
 function nab_mys_sessions_post_type() {
 
 	$labels = array(
-		'name'               => _x( 'Sessions', 'mys-modules' ),
-		'singular_name'      => _x( 'Session', 'mys-modules' ),
+		'name'               => __( 'Sessions', 'mys-modules' ),
+		'singular_name'      => __( 'Session', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
 		'add_new_item'       => __( 'Add New Session', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
@@ -187,7 +187,7 @@ function nab_mys_sessions_post_type() {
 		'taxonomies'          => array( 'tracks' ),
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
-		'exclude_from_search' => true,
+		'exclude_from_search' => false,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
@@ -228,8 +228,8 @@ function nab_mys_speakers_taxonomies() {
 
 	// Taxonomy - speaker-categories
 	$category_labels = array(
-		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Categories', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Categories', 'mys-modules' ),
 		'all_items'         => __( 'All Categories', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
@@ -255,8 +255,8 @@ function nab_mys_speakers_taxonomies() {
 
 	// Taxonomy - speaker-companies
 	$company_labels = array(
-		'name'              => _x( 'Companies', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Companies', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Companies', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Companies', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Companies', 'mys-modules' ),
 		'all_items'         => __( 'All Companies', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Company', 'mys-modules' ),
@@ -293,8 +293,8 @@ add_action( 'init', 'nab_mys_speakers_taxonomies', 0 );
 function nab_mys_speakers_post_type() {
 
 	$labels = array(
-		'name'               => _x( 'Speakers', 'mys-modules' ),
-		'singular_name'      => _x( 'Speaker', 'mys-modules' ),
+		'name'               => __( 'Speakers', 'mys-modules' ),
+		'singular_name'      => __( 'Speaker', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
 		'add_new_item'       => __( 'Add New Speaker', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
@@ -314,7 +314,7 @@ function nab_mys_speakers_post_type() {
 		'show_in_rest'        => true,
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
-		'exclude_from_search' => true,
+		'exclude_from_search' => false,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
@@ -352,8 +352,8 @@ function nab_mys_sponsors_taxonomies() {
 
 	// Taxonomy - sponsor-categories
 	$category_labels = array(
-		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Categories', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Categories', 'mys-modules' ),
 		'all_items'         => __( 'All Categories', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
@@ -379,8 +379,8 @@ function nab_mys_sponsors_taxonomies() {
 
 	// Taxonomy - sponsor-types
 	$type_labels = array(
-		'name'              => _x( 'Types', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Types', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Types', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Types', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Types', 'mys-modules' ),
 		'all_items'         => __( 'All Types', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Type', 'mys-modules' ),
@@ -416,8 +416,8 @@ add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
 function nab_mys_sponsor_post_type() {
 
 	$labels = array(
-		'name'               => _x( 'Sponsors-Partners', 'mys-modules' ),
-		'singular_name'      => _x( 'Sponsor-Partner', 'mys-modules' ),
+		'name'               => __( 'Sponsors-Partners', 'mys-modules' ),
+		'singular_name'      => __( 'Sponsor-Partner', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
 		'add_new_item'       => __( 'Add New Sponsor-Partner', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
@@ -437,7 +437,7 @@ function nab_mys_sponsor_post_type() {
 		'show_in_rest'        => true,
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
-		'exclude_from_search' => true,
+		'exclude_from_search' => false,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
@@ -475,8 +475,8 @@ function nab_mys_exhibitors_taxonomies() {
 
 	// Taxonomy - exhibitor-categories
 	$category_labels = array(
-		'name'              => _x( 'Categories', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Categories', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Categories', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Categories', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Categories', 'mys-modules' ),
 		'all_items'         => __( 'All Categories', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Category', 'mys-modules' ),
@@ -502,8 +502,8 @@ function nab_mys_exhibitors_taxonomies() {
 
 	// Taxonomy - halls
 	$hall_labels = array(
-		'name'              => _x( 'Halls', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Halls', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Halls', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Halls', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Halls', 'mys-modules' ),
 		'all_items'         => __( 'All Halls', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Hall', 'mys-modules' ),
@@ -529,8 +529,8 @@ function nab_mys_exhibitors_taxonomies() {
 
 	// Taxonomy - pavilions
 	$pavilion_labels = array(
-		'name'              => _x( 'Pavilions', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Pavilions', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Pavilions', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Pavilions', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Pavilions', 'mys-modules' ),
 		'all_items'         => __( 'All Pavilions', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Pavilion', 'mys-modules' ),
@@ -556,8 +556,8 @@ function nab_mys_exhibitors_taxonomies() {
 
 	// Taxonomy - exhibitor-keywords
 	$keyword_labels = array(
-		'name'              => _x( 'Keywords', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Keywords', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Keywords', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Keywords', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Keywords', 'mys-modules' ),
 		'all_items'         => __( 'All Keywords', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Keyword', 'mys-modules' ),
@@ -583,8 +583,8 @@ function nab_mys_exhibitors_taxonomies() {
 
 	// Taxonomy - exhibitor-trends
 	$trend_labels = array(
-		'name'              => _x( 'Trends', 'taxonomy general name', 'mys-modules' ),
-		'singular_name'     => _x( 'Trends', 'taxonomy singular name', 'mys-modules' ),
+		'name'              => __( 'Trends', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Trends', 'taxonomy singular name', 'mys-modules' ),
 		'search_items'      => __( 'Search Trends', 'mys-modules' ),
 		'all_items'         => __( 'All Trends', 'mys-modules' ),
 		'parent_item'       => __( 'Parent Trend', 'mys-modules' ),
@@ -620,8 +620,8 @@ add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );
 function nab_mys_exhibitor_post_type() {
 
 	$labels = array(
-		'name'               => _x( 'Exhibitors', 'mys-modules' ),
-		'singular_name'      => _x( 'Exhibitor', 'mys-modules' ),
+		'name'               => __( 'Exhibitors', 'mys-modules' ),
+		'singular_name'      => __( 'Exhibitor', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
 		'add_new_item'       => __( 'Add New Exhibitor', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
@@ -642,7 +642,7 @@ function nab_mys_exhibitor_post_type() {
 		'show_in_rest'        => true,
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
-		'exclude_from_search' => true,
+		'exclude_from_search' => false,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
@@ -679,8 +679,8 @@ add_action( 'init', 'nab_mys_exhibitor_post_type' );
 function nab_mys_product_post_type() {
 
 	$labels = array(
-		'name'               => _x( 'Products', 'mys-modules' ),
-		'singular_name'      => _x( 'Product', 'mys-modules' ),
+		'name'               => __( 'Products', 'mys-modules' ),
+		'singular_name'      => __( 'Product', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
 		'add_new_item'       => __( 'Add New Product', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
@@ -701,7 +701,7 @@ function nab_mys_product_post_type() {
 		'show_in_rest'        => true,
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
-		'exclude_from_search' => true,
+		'exclude_from_search' => false,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
@@ -709,7 +709,7 @@ function nab_mys_product_post_type() {
 		'query_var'           => true,
 		'capability_type'     => 'post',
 		'hierarchical'        => true,
-		'menu_icon'           => 'dashicons-store',
+		'menu_icon'           => 'dashicons-products',
 		'supports'            => array(
 			'title',
 			'editor',

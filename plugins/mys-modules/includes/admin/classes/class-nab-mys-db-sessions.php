@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
+	/**
+	 * Class NAB_MYS_DB_Sessions
+	 */
 	class NAB_MYS_DB_Sessions extends NAB_MYS_DB_Parent {
 
 		/**
@@ -27,8 +30,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 		 * @param string $current_request = Session/Speakers/etc.
 		 * @param array $data The full data coming from API.
 		 * @param int $history_id The same history ID which is stored in the begining.
+		 * @param string $flow The flow is from JSON or a CRON.
 		 *
-		 * @return bool true
+		 * @return array The result of DB Action.
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
 		 */
 		public function nab_mys_db_insert_data_to_custom( $current_request, $data, $history_id, $flow ) {
 
@@ -112,7 +119,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				$rows = $master_array = array();
 
-				$affected_items      = 0;
+				$affected_items = 0;
 
 				//ne_testing purpose only.. remove beore PR.
 				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
@@ -191,17 +198,13 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						}
 
 					}
-
 					if ( $total_rows === $affected_items ) {
 						$limit_reached = 1;
 						break;
 					}
-
 				}
 
-
 				//add sessions to delete which are in modifed array and not returned in sessions array
-
 				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
 
 					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
@@ -313,6 +316,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
 		}
 
+
+		/**
+		 * Check a lock for sessions sequence.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return array|string Pending data or a text 'open'
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_check_lock( $group_id ) {
 
 			global $wpdb;

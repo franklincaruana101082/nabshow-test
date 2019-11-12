@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
+	/**
+	 * Class NAB_MYS_Exhibitors
+	 */
 	class NAB_MYS_Exhibitors extends NAB_MYS_Sync_Parent {
 
 		private $total_counts;
@@ -43,6 +46,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			parent::__construct();
 		}
 
+		/**
+		 * Load a DB Class for Exhibitors.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_load_exh_db_class() {
 
 			//Class File - DataBase Queries
@@ -53,6 +62,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 		}
 
+		/**
+		 * Start exhibitors syncing.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_sync_exhibitors() {
 
 			$this->nab_mys_set_ajax_data();
@@ -66,52 +81,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Finalize the Record
 			$this->nab_mys_sync_exh_finalize( $mys_response_body );
 
-		}
-
-		private function nab_mys_sync_exh_initialize() {
-
-			if ( 'exhibitors' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
-				$this->previous_date = $this->nab_mys_db_exh->nab_mys_db_previous_date( 'modified-exhibitors' );
-			}
-
-			//Get MYS API Request URL.
-			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
-
-			if ( "exhibitors" === $this->current_request ) {
-
-				//If fresh button clicked, Generate a unique 10 digit alphanumeric string for Group ID.
-				$this->nab_mys_set_groupid();
-
-				$mys_response_body = $this->nab_mys_get_response();
-
-				//Insert a pending row in History table
-				$this->history_id = $this->nab_mys_db_exh->nab_mys_db_history_data( 'modified-exhibitors', "insert", $this->group_id, 0 );
-
-				return $mys_response_body;
-
-			} else {
-
-				// get 1 row where data is blank and group id = $this->groupid
-				$single_exh_data = $this->nab_mys_db_exh->nab_mys_db_row_pending_id_getter( $this->group_id );
-
-				if ( isset ( $single_exh_data[0]->ModifiedID ) ) {
-
-					$this->exhid  = $single_exh_data[0]->ModifiedID;
-					$this->dataid = $single_exh_data[0]->DataID;
-
-					$this->mys_request_url = $this->mys_request_url . '?exhid=' . $this->exhid;
-
-					$mys_response_body = $this->nab_mys_get_response();
-
-					return $mys_response_body;
-
-				} else {
-
-					$this->nab_mys_sync_exh_finish();
-
-				}
-
-			}
 		}
 
 		private function nab_mys_sync_exh_finalize( $mys_response_body ) {
@@ -168,6 +137,66 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 		}
 
+		/**
+		 * Initializing Exhibitors Sync
+		 *
+		 * @return mixed Response Body
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
+		private function nab_mys_sync_exh_initialize() {
+
+			if ( 'exhibitors' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
+				$this->previous_date = $this->nab_mys_db_exh->nab_mys_db_previous_date( 'modified-exhibitors' );
+			}
+
+			//Get MYS API Request URL.
+			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
+
+			if ( "exhibitors" === $this->current_request ) {
+
+				//If fresh button clicked, Generate a unique 10 digit alphanumeric string for Group ID.
+				$this->nab_mys_set_groupid();
+
+				$mys_response_body = $this->nab_mys_get_response();
+
+				//Insert a pending row in History table
+				$this->history_id = $this->nab_mys_db_exh->nab_mys_db_history_data( 'modified-exhibitors', "insert", $this->group_id, 0 );
+
+				return $mys_response_body;
+
+			} else {
+
+				// get 1 row where data is blank and group id = $this->groupid
+				$single_exh_data = $this->nab_mys_db_exh->nab_mys_db_row_pending_id_getter( $this->group_id );
+
+				if ( isset ( $single_exh_data[0]->ModifiedID ) ) {
+
+					$this->exhid  = $single_exh_data[0]->ModifiedID;
+					$this->dataid = $single_exh_data[0]->DataID;
+
+					$this->mys_request_url = $this->mys_request_url . '?exhid=' . $this->exhid;
+
+					$mys_response_body = $this->nab_mys_get_response();
+
+					return $mys_response_body;
+
+				} else {
+
+					$this->nab_mys_sync_exh_finish();
+
+				}
+
+			}
+		}
+
+		/**
+		 * Re-looping exhibitors sync process.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_exh_reloop() {
 
 			//Now everything is done for the current request so making it a past request
@@ -195,6 +224,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			}
 		}
 
+		/**
+		 * Finishing Exhibitors Sync.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_exh_finish() {
 
 			// if there are no rows.. make main modified-exhibitors row's status from 0 to 1 in history table
@@ -218,15 +253,22 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			} else {
 
 				if ( 'empty' === $this->requested_for ) {
-					echo esc_html( "Everything is upto date." );
+					esc_html_e( "Everything is upto date." );
 				} else {
-					echo esc_html( "CRON sequence ($this->group_id) is now completed successfully." );
+					esc_html_e( "CRON sequence ($this->group_id) is now completed successfully." );
 				}
 				die();
 
 			}
 		}
 
+		/**
+		 * Get exhibitors Categories and save in WordPress as taxonomy.
+		 * This process will happen only once at the time of CSV Upload.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_exh_categories() {
 
 			$this->mys_request_url = $this->nab_mys_get_request_url( 'exhibitor-categories' );
@@ -236,6 +278,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->nab_mys_db_exh->nab_mys_db_exh_categories( $exhibitor_categories );
 		}
 
+		/**
+		 * Check the lock for Exhibitor Sync.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_check_lock_exh() {
 
 			//If its cron flow, requested_for will be null, so set it to exhibitors.
@@ -285,7 +333,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		}
 
 		/**
-		 * Rest End Points
+		 * Rest End Points for exhibitors.
 		 *
 		 * @package MYS Modules
 		 * @since 1.0.0
@@ -311,14 +359,18 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 *
 		 * @return array
 		 */
-		public function nab_mys_cron_exh_api_to_custom(
-			WP_REST_Request $request
-		) {
+		public function nab_mys_cron_exh_api_to_custom( WP_REST_Request $request ) {
 
 			return $this->nab_mys_sync_exhibitors();
 
 		}
 
+		/**
+		 * Upload Exhibitors CSV.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_exh_csv() {
 
 			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
@@ -470,5 +522,4 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 	}
 }
-
 new NAB_MYS_Exhibitors();
