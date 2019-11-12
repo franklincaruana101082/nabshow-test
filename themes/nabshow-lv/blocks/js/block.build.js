@@ -5599,7 +5599,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         onSelect: function onSelect(items) {
                                             return setAttributes({
                                                 media: [].concat(_toConsumableArray(media), _toConsumableArray(items.map(function (item) {
-                                                    return __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.pick(item, 'id', 'url', 'alt');
+                                                    return Object(__WEBPACK_IMPORTED_MODULE_0_lodash__["pick"])(item, 'id', 'url', 'alt');
                                                 })))
                                             });
                                         },

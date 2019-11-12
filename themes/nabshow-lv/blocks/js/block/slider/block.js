@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import { pick } from 'lodash';
 import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
@@ -697,7 +697,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             value={currentSelected}
                                             multiple
                                             onSelect={(items) => setAttributes({
-                                                media: [...media, ...items.map((item) => lodash.pick(item, 'id', 'url', 'alt'))],
+                                                media: [...media, ...items.map((item) => pick(item, 'id', 'url', 'alt'))],
                                             })}
                                             render={({ open }) => (
                                                 <IconButton
