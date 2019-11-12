@@ -14,6 +14,7 @@ span.upgrade_pro_image a, span.support_mysstore_image a{display:inline-block}
 .show-labels #save_master_settings{display:inline-block}
 .show-labels label{display:inline-block}
 .highlighted-para{color:green;font-weight:700}
+#mys_widget_title{max-width:18px;margin:0 4px -3px 0}
 .mys-head.mys-message-container{background:#fff;margin:20px 0}
 .show-labels .regular-text, .show-labels #save_master_settings{display:none}
 .mys-menu-main{width:100%;display:inline-block;background:rgba(152, 152, 152, 0.5);box-sizing:border-box;vertical-align:bottom}
@@ -185,3 +186,5 @@ span.pagination-links a span{border:none!important;padding:0!important;min-width
 .mys-main-table table.table-outer input.button{padding:2px 20px!important;height:auto!important;font-size:14px}
 .mys-head.mys-message-container p.red-notice{color:#e25d5d;background:none;font-weight:700}
 .history-page tr th.details{text-align:center}
+.mys-main-table table.table-outer .input-outer label{display:block;margin-bottom:10px}
+.mys-main-table table.table-outer .input-outer input{height:45px;padding:0 15px;margin-right:10px}

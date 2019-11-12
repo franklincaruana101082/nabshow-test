@@ -12,10 +12,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 
+	/**
+	 * Class NAB_MYS_MEDIA
+	 */
 	class NAB_MYS_MEDIA {
 
 		/**
 		 * Create Custom DB Tables if not already created
+		 *
+		 * @param int $post_id Post ID.
+		 * @param string $imageurl An image URL
+		 * @param $post_type A Post Type
+		 *
+		 * @return string The result of an attachment upload.
 		 *
 		 * @package MYS Modules
 		 * @since 1.0.0

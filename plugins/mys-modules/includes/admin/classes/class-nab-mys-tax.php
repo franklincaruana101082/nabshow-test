@@ -10,9 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'NAB_MYS_TRACKS' ) ) {
-
-	class NAB_MYS_TRACKS {
+if ( ! class_exists( 'NAB_MYS_TAX' ) ) {
+	/**
+	 * Class NAB_MYS_TAX
+	 */
+	class NAB_MYS_TAX {
 
 		/**
 		 * Class Constructor
@@ -34,23 +36,38 @@ if ( ! class_exists( 'NAB_MYS_TRACKS' ) ) {
 
 		}
 
+
+		/**
+		 * Load media for Tracks.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_load_media() {
 			wp_enqueue_media();
 		}
 
-		/*
-		 * Add a form field in the new page
+		/**
+		 * Add fields to a new track page.
+		 *
+		 * @param string $taxonomy A Taxonomy.
+		 *
+		 * @package MYS Modules
 		 * @since 1.0.0
-		*/
+		 */
 		public function nab_mys_add_fields_to_new( $taxonomy ) {
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-tax-form-new.php' );
 		}
 
-		/*
-		  * Save the form field
-		  * @since 1.0.0
+		/**
+		 * Save fields to a new track page.
+		 *
+		 * @param string $term_id A term id.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
 		 */
-		public function nab_mys_save_fields_to_new( $term_id, $tt_id ) {
+		public function nab_mys_save_fields_to_new( $term_id ) {
 
 			$tax_image_id = filter_input( INPUT_POST, 'tax-image-id', FILTER_SANITIZE_STRING );
 			$featured_tag = filter_input( INPUT_POST, 'featured_tag', FILTER_SANITIZE_STRING );
@@ -65,19 +82,28 @@ if ( ! class_exists( 'NAB_MYS_TRACKS' ) ) {
 			}
 		}
 
-		/*
-		 * Edit the form field
+		/**
+		 * Edit fields to a existing track page.
+		 *
+		 * @param string $term A Term.
+		 * @param string $taxonomy A Taxonomy.
+		 *
+		 * @package MYS Modules
 		 * @since 1.0.0
-		*/
+		 */
 		public function nab_mys_add_fields_to_existing( $term, $taxonomy ) {
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-tax-form-existing.php' );
 		}
 
-		/*
-		 * Update the form field value
+		/**
+		 * Update fields to a existing track page.
+		 *
+		 * @param string $term_id A Term.
+		 *
+		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
-		public function nab_mys_save_fields_to_existing( $term_id, $tt_id ) {
+		public function nab_mys_save_fields_to_existing( $term_id ) {
 
 			$tax_image_id = filter_input( INPUT_POST, 'tax-image-id', FILTER_SANITIZE_STRING );
 			$featured_tag = filter_input( INPUT_POST, 'featured_tag', FILTER_SANITIZE_STRING );
@@ -97,8 +123,10 @@ if ( ! class_exists( 'NAB_MYS_TRACKS' ) ) {
 			}
 		}
 
-		/*
-		 * Add script
+		/**
+		 * Add script for a track page.
+		 *
+		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
 		public function nab_mys_add_tax_script() {
@@ -114,8 +142,8 @@ if ( ! class_exists( 'NAB_MYS_TRACKS' ) ) {
 
 				wp_enqueue_script( 'nab_mys_add_tax_script' );
 			}
-        }
+		}
 
 	}
 }
-new NAB_MYS_TRACKS();
+new NAB_MYS_TAX();
