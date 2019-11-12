@@ -91,30 +91,19 @@ function rgblocks_uninstall() {
 
 register_deactivation_hook( __FILE__, 'rgblocks_uninstall' );
 
-// Script Class File.
-require_once( dirname( __FILE__ ) . '/includes/class-rgblocks-script.php' );
+// Admin Class File.
+require_once( dirname( __FILE__ ) . '/includes/class.rgblocks-admin.php' );
 
-add_action( 'rest_api_init', 'rgblocks_add_custom_fields' );
 
-function rgblocks_add_custom_fields() {
-	register_rest_field(
-		'wp_block',
-		'custom_fields', // New Field Name in JSON RESPONSE.
-		array(
-			'get_callback'    => 'rgblocks_get_custom_fields', // custom function name.
-			'update_callback' => null,
-			'schema'          => null,
-		)
-	);
-}
+add_action( 'rest_api_init', 'rgblocks_register_require_rest_route' );
 
-function rgblocks_get_custom_fields( $object, $field_name, $request ) {
-    return get_fields( $object['id'] );
-}
+/**
+ * Register custom REST API route
+ */
+function rgblocks_register_require_rest_route() {
 
-add_filter( 'acf/location/rule_values/post_type', 'rgblocks_acf_location_rule_values_user' );
+	require_once( dirname( __FILE__ ) . '/includes/class.rgblocks-rest-api.php' );
 
-function rgblocks_acf_location_rule_values_user( $choices ) {
-	$choices['wp_block'] = 'Wp_block';
-	return $choices;
+	$rgblocks_rest_api = new RGBlocks_REST_API();
+	$rgblocks_rest_api->rgblocks_init_rest_route();
 }

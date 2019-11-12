@@ -6,7 +6,7 @@ import memoize from 'memize';
   const { registerBlockType } = wpBlocks;
   const { Fragment } = wpElement;
   const { RichText, InspectorControls, InnerBlocks, MediaUpload } = wpEditor;
-  const { TextControl, PanelBody, PanelRow, Button, CheckboxControl, IconButton, ToggleControl } = wpComponents;
+  const { TextControl, PanelBody, PanelRow, Button, CheckboxControl, IconButton } = wpComponents;
 
   const ALLOWBLOCKS = ['nab/media-partner-item'];
 
@@ -231,26 +231,6 @@ import memoize from 'memize';
                       } else {
                         setAttributes({ featured: false });
                       }
-
-                      // let newObject;
-                      // if (isChecked) {
-                      //   newObject = Object.assign({}, member, {
-                      //     international: true
-                      //   });
-                      // }
-                      // else {
-                      //   newObject = Object.assign({}, member, {
-                      //     international: false
-                      //   });
-                      // }
-                      // setAttributes({
-                      //   committee: [
-                      //     ...committee.filter(
-                      //       item => item.index != member.index
-                      //     ),
-                      //     newObject
-                      //   ]
-                      // });
                     }}
                   />
                 </div>

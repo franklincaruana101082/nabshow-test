@@ -20,7 +20,7 @@
     font-family: "Gotham Light";
     font-style: normal;
     font-weight: normal;
-    src: local("Gotham Light"), url("gotham/GothamLight.woff") format("woff");
+    src: local("Gotham Light"), url("gotham/Gotham-Light.otf") format("opentype");
 }
 
 @font-face {

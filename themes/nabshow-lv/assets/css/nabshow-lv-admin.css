@@ -1,0 +1,12 @@
+.help-support .display-msg{margin:0;color:green;font-weight:600;margin-bottom:20px}
+.help-support .display-msg{color:red;display:none}
+.help-support .display-msg.error,
+.help-support .display-msg.success{display:block}
+.help-support .display-msg.success{color:green;}
+.help-support label{display:block;margin-bottom:5px}
+.help-support input{width:100%;margin-bottom:12px}
+.help-support textarea{min-height:90px;max-height:1300px;margin:0 0 8px;padding:6px 7px;resize:none;width:100%}
+.help-support .submit{margin:0;padding:0}
+div#nab_dashboard_help_support h2 span{display:flex;align-items:center}
+div#nab_dashboard_help_support h2 span:after{content:"";background-image:url(../images/md-logo.png);width:26px;height:26px;background-size:cover;background-position:center;display:inline-block;margin-left:10px}
+div#nab_dashboard_help_support .inside .inside{padding:0}

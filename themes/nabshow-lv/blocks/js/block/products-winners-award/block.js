@@ -1,7 +1,7 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { Fragment, Component } = wpElement;
+  const { Component } = wpElement;
   const { RichText, InspectorControls, MediaUpload } = wpEditor;
   const { PanelBody, PanelRow, ToggleControl, Button } = wpComponents;
 

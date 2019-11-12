@@ -751,7 +751,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 /* Session slider */
 .session .item{text-align:center;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;position:relative;overflow:hidden;width:33.333%;padding:36px 33px 45px}
 .nab-dynamic-slider.session{display:flex}
-.session .item h4{font-size:20px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;margin-bottom:10px}
+.session .item h4{font-size:18px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;margin-bottom:10px}
 .session .item span.caption{font-size:16px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
 .session .item span.date-time{font-size:16px;display:block;width:100%;margin-bottom:15px!important}
 .session.with-masonry .item h4,.session.with-featured .item h4{min-height:auto}
@@ -1293,7 +1293,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .main-filter.news-conference .div-left{width:calc(100% - 330px)}
 .main-filter.news-conference .div-right{width:330px}
 .box-main.four-grid.without-masonry{flex-flow:initial;flex-wrap:wrap}
-.box-main-filter.main-filter.news-conference .category{margin-top:10px}
+.box-main-filter.main-filter.news-conference .category{margin-top:10px;width:30.333%;margin-right:0;padding-right:15px;float:left}
+.box-main-filter.main-filter.news-conference .category:last-of-type{padding-right:0}
 
 /* news-conference-schedule css */
 
@@ -1445,7 +1446,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 #delegationleaders .wp-block-columns.has-2-columns.row .col-lg-5{text-align:right}
 .row.related-content-rowbox .related-content-box.plan-your-show{padding:0}
 .row.related-content-rowbox .related-content-box.plan-your-show .title,.row.related-content-rowbox .related-content-box.plan-your-show p{padding:0 30px}
-.row.related-content-rowbox .related-content-box.plan-your-show .title, .prospective-sponsors .row.related-content-rowbox .col-lg-4.col-md-6 .related-content-box .title{margin-bottom:10px;font-size:20px;font-family:"Gotham Bold", sans-serif}
+.row.related-content-rowbox .related-content-box.plan-your-show .title, .prospective-sponsors .row.related-content-rowbox .col-lg-4.col-md-6 .related-content-box .title{margin-bottom:10px;font-size:18px;font-family:"Gotham Bold", sans-serif}
 .ind-resources .premier-access{height:100%}
 
 /* Education Page */
@@ -1461,7 +1462,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .row.related-content-rowbox .related-content-box.plan-your-show .sub-title{margin-bottom:5px}
 .row.related-content-rowbox .related-content-box.plan-your-show .info-block{padding-bottom:10px}
 .programs-learn .browse-filter.main-filter.row.browse-learn-filter{margin-bottom:30px}
-.partner-speakers-block .on-floor-destinations .on-floor-infobox .title.nab-title,.press .wp-block-column .wp-block-image figcaption,.partners-exhibitors .on-floor-destinations .on-floor-infobox .title.nab-title{font-family:"Gotham Bold", sans-serif;font-size:20px}
+.partner-speakers-block .on-floor-destinations .on-floor-infobox .title.nab-title,.press .wp-block-column .wp-block-image figcaption,.partners-exhibitors .on-floor-destinations .on-floor-infobox .title.nab-title{font-family:"Gotham Bold", sans-serif;font-size:18px}
 .press .wp-block-column .wp-block-image figcaption{color:#000000}
 
 /* Search Result Page css */
@@ -1514,3 +1515,5 @@ ul.page-numbers{margin:15px 0 0}
 .team-main.media-partners .team-box .team-details .name,.team-main.media-partners .team-box .team-details .name a{font-size:20px;color:#0f6cb6;font-family:"Gotham Bold", sans-serif}
 .team-box.featured .team-box-inner{background-color:#f1f7fc}
 .media-partner-filter input.featured-btn{margin-bottom:0;margin-right:35px}
+.part-sponsor .related-content-box.featured-happenings .title{font-size:18px;font-family:'Gotham Bold';margin-bottom:10px}
+.part-sponsor .related-content-rowbox .col-lg-4.col-md-6{width:25%;-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}

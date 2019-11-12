@@ -473,10 +473,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Logo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Logo; });
 /* unused harmony export RGBlocksLogo */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Loader; });
-/* unused harmony export LoadMoreSmall */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Loader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadMoreSmall; });
 /* unused harmony export Accordion */
 /* unused harmony export BarCounter */
 /* unused harmony export Blog */
@@ -507,7 +507,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /* unused harmony export Text */
 /* unused harmony export Toggle */
 /* unused harmony export Video */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SelectBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return SelectBlock; });
 /* unused harmony export twoColGrid */
 /* unused harmony export threeColGrid */
 /* unused harmony export Form */
@@ -2241,7 +2241,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	registerBlockType('rgblocks/select-block', {
 		title: __('Select RGBlocks'),
-		icon: __WEBPACK_IMPORTED_MODULE_1__icons__["c" /* SelectBlock */],
+		icon: __WEBPACK_IMPORTED_MODULE_1__icons__["d" /* SelectBlock */],
 		description: __('Provides Reusable blocks with new layout.'),
 		category: 'common',
 		keywords: [__('Select RGBlocks'), __('gutenberg'), __('RGBlocks')],
@@ -2340,7 +2340,7 @@ var Popup = function (_React$Component) {
         wp.element.createElement(
           'div',
           { className: 'select-inner' },
-          __WEBPACK_IMPORTED_MODULE_4__icons__["c" /* SelectBlock */],
+          __WEBPACK_IMPORTED_MODULE_4__icons__["d" /* SelectBlock */],
           wp.element.createElement(
             'h2',
             null,
@@ -32122,10 +32122,14 @@ var ListingData = function (_Component) {
             reusableSearchInputValue: '',
             ReusableOnSubmitVal: '',
             blockName: 'reusableblocks',
+            CurrentBlockCategory: 'all',
+            blockCategoryName: 'Select Category',
             reusablePageNo: 1,
             reusableHasMoreData: true,
             reusableBlocksLoadMore: false,
-            reusableType: 'normal'
+            reusableType: 'normal',
+            customeSelect: false,
+            blocksCategory: []
         };
         _this.tabChange = _this.tabChange.bind(_this);
         _this.onScrollEvent = _this.onScrollEvent.bind(_this);
@@ -32137,14 +32141,26 @@ var ListingData = function (_Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.fetchReusableBlocks();
+            this.fetchBlocksCategory();
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate(prevProps, prevState) {
-            var ReusableOnSubmitVal = this.state.ReusableOnSubmitVal;
+            var _state = this.state,
+                ReusableOnSubmitVal = _state.ReusableOnSubmitVal,
+                CurrentBlockCategory = _state.CurrentBlockCategory;
 
 
             if (ReusableOnSubmitVal !== prevState.ReusableOnSubmitVal) {
+                this.setState({
+                    reusablePageNo: 1,
+                    reusableBlocksLoadMore: false,
+                    isLoading: true,
+                    reusableBlocks: []
+                });
+                this.fetchReusableBlocks();
+            }
+            if (CurrentBlockCategory !== prevState.CurrentBlockCategory) {
                 this.setState({
                     reusablePageNo: 1,
                     reusableBlocksLoadMore: false,
@@ -32159,14 +32175,15 @@ var ListingData = function (_Component) {
         value: function fetchReusableBlocks() {
             var _this2 = this;
 
-            var _state = this.state,
-                reusablePageNo = _state.reusablePageNo,
-                reusableBlocks = _state.reusableBlocks,
-                NoOfPost = _state.NoOfPost;
+            var _state2 = this.state,
+                reusablePageNo = _state2.reusablePageNo,
+                reusableBlocks = _state2.reusableBlocks,
+                NoOfPost = _state2.NoOfPost,
+                CurrentBlockCategory = _state2.CurrentBlockCategory;
 
             this.setState({ reusableHasMoreData: false });
             var SearchBlocks = this.state.ReusableOnSubmitVal;
-            wp.apiFetch({ path: '/wp/v2/blocks?search=' + SearchBlocks + '&page=' + reusablePageNo + '&per_page=' + NoOfPost, method: 'GET' }).then(function (data) {
+            wp.apiFetch({ path: '/rg_blocks/request/reusable-blocks?search=' + SearchBlocks + '&category=' + CurrentBlockCategory + '&page=' + reusablePageNo + '&per_page=' + NoOfPost, method: 'GET' }).then(function (data) {
                 if (false === data.status) {
                     _this2.setState({
                         reusableHasMoreData: false,
@@ -32189,6 +32206,21 @@ var ListingData = function (_Component) {
                         reusableHasMoreData: true,
                         reusablePageNo: reusablePageNo + 1
                     });
+                }
+            });
+        }
+    }, {
+        key: 'fetchBlocksCategory',
+        value: function fetchBlocksCategory() {
+            var _this3 = this;
+
+            var categoryList = this.state.blocksCategory;
+            wp.apiFetch({ path: '/rg_blocks/request/get-blocks-terms' }).then(function (data) {
+                if (0 < data.length) {
+                    data.map(function (cat) {
+                        categoryList.push({ label: cat.name, value: cat.slug });
+                    });
+                    _this3.setState({ blocksCategory: categoryList });
                 }
             });
         }
@@ -32223,15 +32255,20 @@ var ListingData = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
-            var _state2 = this.state,
-                reusableBlocks = _state2.reusableBlocks,
-                isLoading = _state2.isLoading,
-                reusableSearchInputValue = _state2.reusableSearchInputValue,
-                blockName = _state2.blockName,
-                reusableBlocksLoadMore = _state2.reusableBlocksLoadMore,
-                reusableType = _state2.reusableType;
+            var _state3 = this.state,
+                reusableBlocks = _state3.reusableBlocks,
+                isLoading = _state3.isLoading,
+                reusableSearchInputValue = _state3.reusableSearchInputValue,
+                blockName = _state3.blockName,
+                customeSelect = _state3.customeSelect,
+                reusablePageNo = _state3.reusablePageNo,
+                blocksCategory = _state3.blocksCategory,
+                blockCategoryName = _state3.blockCategoryName,
+                reusableBlocksLoadMore = _state3.reusableBlocksLoadMore,
+                CurrentBlockCategory = _state3.CurrentBlockCategory,
+                reusableType = _state3.reusableType;
 
 
             return wp.element.createElement(
@@ -32249,7 +32286,7 @@ var ListingData = function (_Component) {
                         wp.element.createElement(
                             'div',
                             { className: 'logo' },
-                            __WEBPACK_IMPORTED_MODULE_3__icons__["b" /* Logo */]
+                            __WEBPACK_IMPORTED_MODULE_3__icons__["c" /* Logo */]
                         ),
                         wp.element.createElement(
                             'div',
@@ -32261,7 +32298,7 @@ var ListingData = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */],
                                     {
                                         onClick: function onClick() {
-                                            _this3.tabChange('reusableblocks');
+                                            _this4.tabChange('reusableblocks');
                                         }
                                     },
                                     'Reusable Blocks'
@@ -32324,13 +32361,79 @@ var ListingData = function (_Component) {
                             ),
                             wp.element.createElement(
                                 'div',
+                                { className: 'Select-Category Select-box' },
+                                wp.element.createElement('i', { className: 'fas fa-caret-down' }),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'custom-select-box-main' },
+                                    wp.element.createElement(
+                                        'span',
+                                        {
+                                            className: customeSelect ? 'active' : '',
+                                            onClick: function onClick() {
+                                                return _this4.setState({ customeSelect: !customeSelect });
+                                            }
+                                        },
+                                        blockCategoryName
+                                    ),
+                                    wp.element.createElement(
+                                        'ul',
+                                        { className: customeSelect ? 'active' : '' },
+                                        wp.element.createElement(
+                                            'li',
+                                            {
+                                                onClick: function onClick(e) {
+
+                                                    _this4.setState({
+                                                        CurrentBlockCategory: 'all',
+                                                        blockCategoryName: 'All',
+                                                        customeSelect: false,
+                                                        reusablePageNo: 1
+                                                    });
+                                                },
+                                                key: 'all'
+                                            },
+                                            'All'
+                                        ),
+                                        blocksCategory.map(function (item) {
+                                            return wp.element.createElement(
+                                                'li',
+                                                {
+                                                    onClick: function onClick(e) {
+                                                        _this4.setState({ customeSelect: false });
+                                                        if (CurrentBlockCategory !== item.value) {
+
+                                                            _this4.setState({
+                                                                CurrentBlockCategory: item.value,
+                                                                customeSelect: false,
+                                                                reusableBlocksLoadMore: false,
+                                                                isLoading: true,
+                                                                reusablePageNo: 1,
+                                                                blockCategoryName: item.label,
+                                                                reusableBlocks: []
+                                                            });
+
+                                                            e.preventDefault();
+                                                        }
+                                                    },
+                                                    key: item.value,
+                                                    className: CurrentBlockCategory === item.value ? 'selected' : ''
+                                                },
+                                                item.label
+                                            );
+                                        })
+                                    )
+                                )
+                            ),
+                            wp.element.createElement(
+                                'div',
                                 { className: 'Select-box search-box' },
                                 wp.element.createElement(
                                     'form',
                                     {
                                         onSubmit: function onSubmit(event) {
                                             if ('reusableblocks' === blockName) {
-                                                _this3.setState({
+                                                _this4.setState({
                                                     ReusableOnSubmitVal: reusableSearchInputValue,
                                                     reusablePageNo: 1
                                                 });
@@ -32345,7 +32448,7 @@ var ListingData = function (_Component) {
                                         onChange: function onChange(event) {
                                             var searchValueFunc = '' === event.target.value ? ' ' : event.target.value;
                                             if ('reusableblocks' === blockName) {
-                                                _this3.setState({
+                                                _this4.setState({
                                                     reusableSearchInputValue: searchValueFunc
                                                 });
                                             }
@@ -32372,7 +32475,7 @@ var ListingData = function (_Component) {
                             isLoading ? wp.element.createElement(
                                 'p',
                                 { className: 'BlocksLoading' },
-                                __WEBPACK_IMPORTED_MODULE_3__icons__["a" /* Loader */]
+                                __WEBPACK_IMPORTED_MODULE_3__icons__["b" /* Loader */]
                             ) : wp.element.createElement(
                                 'ul',
                                 { onScroll: this.onScrollEvent },
@@ -32381,7 +32484,23 @@ var ListingData = function (_Component) {
                                     blocks: reusableBlocks,
                                     isLoading: isLoading,
                                     reusableType: reusableType
-                                })
+                                }),
+                                4 < reusableBlocks.length && reusableBlocksLoadMore ? wp.element.createElement(
+                                    'li',
+                                    {
+                                        className: 'MoreDataLoading',
+                                        style: { width: '100%', textAlign: 'center' }
+                                    },
+                                    __WEBPACK_IMPORTED_MODULE_3__icons__["a" /* LoadMoreSmall */]
+                                ) : 1 === reusablePageNo ? wp.element.createElement(
+                                    'li',
+                                    { className: 'NoMoreData' },
+                                    'Result Not Found!'
+                                ) : wp.element.createElement(
+                                    'li',
+                                    { className: 'NoMoreData' },
+                                    'No more data found!'
+                                )
                             )
                         )
                     )
@@ -34219,6 +34338,7 @@ var ReusableBlocksList = function (_Component) {
                 ),
                 block.custom_fields.preview_image ? wp.element.createElement('img', {
                   className: 'block-image',
+                  alt: 'rgblock-logo',
                   src: block.custom_fields.preview_image ? block.custom_fields.preview_image : undefined
                 }) : wp.element.createElement('span', {
                   'data-title': block.blocktitle,

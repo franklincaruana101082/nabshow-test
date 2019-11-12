@@ -1,5 +1,3 @@
-import times from 'lodash/times';
-import memoize from 'memize';
 import { quotesSliderBottom, quotesSliderSide } from '../icons';
 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
