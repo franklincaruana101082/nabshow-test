@@ -1,18 +1,18 @@
 import './block/multipurpose-gutenberg-block/block';
-//import './block/slider/block';
+import './block/slider/block';
 import './block/button/block';
 import './block/Heading/block';
 import './block/image/block';
 import './block/image-with-text/block';
-//import './block/schedule-block/block';
+import './block/schedule-block/block';
 import './block/quotes/block';
 import './block/not-to-be-missed/block';
 import './block/latest-show-news/block';
-//import './block/accordion/block';
-//import './block/meet-the-team/block';
-//import './block/awards-block/block';
+import './block/accordion/block';
+import './block/meet-the-team/block';
+import './block/awards-block/block';
 import './block/advertisement/block';
-//import './block/custom-block/block';
+import './block/custom-block/block';
 import './block/related-content/block';
 import './block/contributors/block';
 import './block/new-this-year/block';
@@ -28,7 +28,7 @@ import './block/exhibitor-advisory-committee/block';
 import './block/related-content-with-block/block';
 import './block/videos/block';
 import './block/featured-image/block';
-//import './block/media-partners/block';
+import './block/media-partners/block';
 
 wp.domReady( function() {
     wp.blocks.unregisterBlockType( 'yoast/how-to-block' );
