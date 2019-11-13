@@ -460,7 +460,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </ul>
                             </PanelBody>
                         }
-
+                        <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/dynamic-slider.mp4" target="_blank">How to use block?</a>
+                        </PanelBody>
                     </InspectorControls>
                     <div className={arrowIcons}>
                         <ServerSideRender

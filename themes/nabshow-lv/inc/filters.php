@@ -66,3 +66,6 @@ add_filter( 'get_pagenum_link', 'nabshow_lv_modified_pagenum_link' );
 
 // Filter for generate custom search form
 add_filter( 'get_search_form', 'nabshow_lv_modified_search_form' );
+
+//Filter for enable react js in reusable block list page
+add_filter( 'js_do_concat', 'nabshow_lv_gutenberg_disable_concat', -1, 1 );

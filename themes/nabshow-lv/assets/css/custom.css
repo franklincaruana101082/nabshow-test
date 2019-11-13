@@ -438,7 +438,7 @@ body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:16px}
 .site-header #site-navigation ul li a.blue-btn{text-transform:capitalize;color:#fff;font-size:14px}
 .super-menu-main .super-menu-icons{transition:inherit}
 .super-menu-main .super-menu-icons li{margin-bottom:10px;margin-left:15px;display:inline-block}
-.super-menu-main .super-menu-icons li i.fa{font-size:24px}
+.super-menu-main .super-menu-icons li i.fa{font-size:24px;cursor:pointer}
 .super-menu-main .super-menu li{margin-left:12px;display:inline-block}
 .site-header #site-navigation ul{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;justify-content:space-between}
 .site-header #site-navigation ul li{text-align:center}
@@ -1289,7 +1289,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .news-conference-schedule .box-main .box-item .box-inner .contact-item input{text-align:left;font-size:16px;padding:0}
 .news-conference-schedule .box-main .box-item .box-inner .new-contact button{display:inline-block;border:1px solid #000;padding:5px 15px 4px 11px}
 .news-conference-schedule .box-main{display:flex;flex-flow:column wrap}
-.news-conference-schedule .box-main .box-item{position:relative;overflow:hidden;width:25%;flex-basis:auto!important;padding-bottom:20px;margin-bottom:0}
+.news-conference-schedule .box-main .box-item{position:relative;overflow:hidden;width:25%;flex-basis:auto!important;padding-bottom:20px;opacity:1!important;margin-bottom:0}
 .main-filter.news-conference .div-left{width:calc(100% - 330px)}
 .main-filter.news-conference .div-right{width:330px}
 .box-main.four-grid.without-masonry{flex-flow:initial;flex-wrap:wrap}
@@ -1517,3 +1517,13 @@ ul.page-numbers{margin:15px 0 0}
 .media-partner-filter input.featured-btn{margin-bottom:0;margin-right:35px}
 .part-sponsor .related-content-box.featured-happenings .title{font-size:18px;font-family:'Gotham Bold';margin-bottom:10px}
 .part-sponsor .related-content-rowbox .col-lg-4.col-md-6{width:25%;-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}
+
+/* header search box css */
+header .header-right{position:relative;overflow:hidden}
+header .header-right .search-form{position:absolute;align-items:center;display:flex;transition:0.5s all;background:#fff;top:-100%;right:110px;padding:10px 10px;border:1px solid #ccc}
+header .header-right.active .search-form{transition:0.5s all;top:30px}
+header .header-right .search-form input#search{margin-right:5px;width:260px}
+header .header-right .search-form input{height:40px;font-size:14px;padding:0 10px;box-sizing:border-box}
+header .header-right .search-form input.search-submit{background:#0f6cb6;color:#fff;font-size:12px}
+header .header-right .search-form label{display:none}
+header .header-right.active .fa-search::before{content:"\f00d"}

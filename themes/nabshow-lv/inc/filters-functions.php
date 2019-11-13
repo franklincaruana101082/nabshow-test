@@ -463,3 +463,17 @@ function nabshow_lv_modified_search_form( $form ) {
 
 	return $form;
 }
+
+/**
+ * Enable react js in reusable block list page
+ * @param $handle
+ * @return bool
+ */
+function nabshow_lv_gutenberg_disable_concat( $handle ) {
+
+    if ( is_admin() ) {
+		return false;
+	}
+
+	return $handle;
+}
