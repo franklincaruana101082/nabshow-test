@@ -50,7 +50,7 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 			$result        = array();
 			$parameters    = $request->get_params();
 
-			$search        = ( ! empty( $parameters['search'] ) ) ? $parameters['search'] : '';
+			$search        = ( ! empty( $parameters['search'] ) ) ? trim( $parameters['search'], ' ') : '';
 			$category      = ( ! empty( $parameters['category'] ) ) ? $parameters['category'] : 'all';
 			$page_number   = ( ! empty( $parameters['page'] ) ) ? $parameters['page'] : 1;
 			$post_limit    = ( ! empty( $parameters['per_page'] ) ) ? $parameters['per_page'] : 10;
@@ -62,7 +62,7 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 			);
 
 			if ( ! empty( $search ) ) {
-				$query_arg[ 's' ] = $search;
+				$query_arg[ 'search_rgb_title' ] = $search;
 			}
 
 			if ( ! empty( $category ) && 'all' !== $category ) {
@@ -87,7 +87,7 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 					$blocks_query->the_post();
 
 					$block_post_id      = get_the_ID();
-					$block_preview_img  = get_field( 'preview_image', $block_post_id );
+					$block_preview_img  = has_post_thumbnail() ? get_the_post_thumbnail_url() : false;
 					$block_title        = get_the_title();
 					$block_content      = get_the_content();
 

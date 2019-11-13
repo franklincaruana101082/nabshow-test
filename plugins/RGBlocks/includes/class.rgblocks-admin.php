@@ -29,8 +29,12 @@ class RGBlocks_Admin {
 
 		// Action to add taxonomy to wp_block post type
 		add_action( 'init', array( $this, 'rgblocks_add_block_category_taxonomy' ) );
+
 		// Action to enable thumbnail in wp_block post type
 		add_action( 'registered_post_type', array( $this, 'rgblocks_enable_block_thumbnail' ), 10, 2 );
+
+		// Filter for add custom post where
+		add_filter( 'posts_where', array( $this, 'rgblocks_set_custom_post_title_search' ), 10, 2 );
 	}
 
 	/**
@@ -98,7 +102,6 @@ class RGBlocks_Admin {
 		$args = array(
 			'hierarchical'      => true,
 			'labels'            => $labels,
-			'show_in_rest'      => true,
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
@@ -113,13 +116,41 @@ class RGBlocks_Admin {
 	 * Enable thumbnail support for wp_block post type
 	 * @param $post_type
 	 */
-	public function rgblocks_enable_block_thumbnail( $post_type ) {
+	public function rgblocks_enable_block_thumbnail( $post_type, $post_type_args ) {
 
 		// Return, if post type not wp_block
 		if ( 'wp_block' !== $post_type ) return;
 
+		//Display wp_block post type in menu
+		$post_type_args->show_in_menu        = true;
+		$post_type_args->show_ui             = true;
+		$post_type_args->_builtin            = false;
+		$post_type_args->menu_icon           = 'dashicons-screenoptions';
+		$post_type_args->labels->menu_name   = 'Reusable Blocks';
+
+		global $wp_post_types;
+        $wp_post_types[ $post_type ] = $post_type_args;
+
 		// Adding thumbnail support for wp_block
 		add_post_type_support( 'wp_block', 'thumbnail' );
+	}
+
+	/**
+	 * Added search_rgb_title parameter in post where
+	 * @param $where
+	 * @param $query
+	 * @return string
+	 */
+	public function rgblocks_set_custom_post_title_search( $where, $query ) {
+		global $wpdb;
+
+		$search_rgb_title = $query->get( 'search_rgb_title' );
+
+		if ( $search_rgb_title ) {
+			$where .= " AND $wpdb->posts.post_title LIKE '%$search_rgb_title%'";
+		}
+
+		return $where;
 	}
 }
 

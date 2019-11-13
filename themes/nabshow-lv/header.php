@@ -47,6 +47,9 @@
                 </div>
                 <div class="col-md-4 header-right text-right">
 					<?php
+						get_search_form();
+					?>
+					<?php
 					dynamic_sidebar( 'header-top-right-sidebar' );
 					?>
                 </div>

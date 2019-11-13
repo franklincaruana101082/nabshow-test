@@ -98,12 +98,18 @@
 
   // nab-media-slider End
 
+  // Header Search js
+  jQuery('.super-menu-main .super-menu-icons li .fa-search').on('click', function () {
+    jQuery(this).closest('.header-right').toggleClass('active');
+  });
+
   // Award Section Popup Js
   jQuery('.nab_popup_btn').on('click', function () {
     jQuery(this).siblings('.nab_model_main').addClass('nab_model_open');
     jQuery(this).closest('.slideInUp').removeClass('slideInUp');
   });
   jQuery('.nab_close_btn, .nab_bg_overlay').on('click touch', function () {
+
     jQuery('.nab_model_main').removeClass('nab_model_open');
   });
 
@@ -522,9 +528,9 @@
     }
 
     /* Sponsorship Opp */
-    if ($('.sponsorship-opportunities-page .box-main .box-item').has('span.sold')) {
-      $(' .sponsorship-opportunities-page .box-main .box-item span.sold').each(function () {
-        $(this).parents('.sponsorship-opportunities-page .box-main .box-item').addClass('visible');
+    if ($('.opportunities .box-main .box-item').has('span.sold')) {
+      $(' .opportunities .box-main .box-item span.sold').each(function () {
+        $(this).parents('.opportunities .box-main .box-item').addClass('visible');
       });
     }
 
