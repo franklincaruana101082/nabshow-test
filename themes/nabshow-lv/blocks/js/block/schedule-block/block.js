@@ -107,10 +107,14 @@ import memoize from 'memize';
             showTitle: {
                 type: 'boolean',
                 default: true
+            },
+            showFilter: {
+                type: 'boolean',
+                default: true
             }
         },
         edit: (props, attributes) => {
-            const { attributes: { noOfschedule, title, showTitle }, className, setAttributes, clientId } = props;
+            const { attributes: { noOfschedule, title, showTitle, showFilter }, className, setAttributes, clientId } = props;
 
             $(document).on('click', `#block-${clientId} .schedule-row .remove-button`, function (e) {
                 if ('' !== $(this).parents(`#block-${clientId}`)) {
@@ -120,57 +124,122 @@ import memoize from 'memize';
             });
 
             return (
-                <div className={`schedule-main ${className ? className : ''}`}>
-                    <InspectorControls>
-                        <PanelBody title="General Settings">
-                            <PanelRow>
-                                <ToggleControl
-                                    label={__('Show Title')}
-                                    checked={showTitle}
-                                    onChange={() => setAttributes({ showTitle: ! showTitle })}
-                                />
-                            </PanelRow>
-                        </PanelBody>
-                    </InspectorControls>
-                    {
-                        showTitle ? (
-                            <RichText
-                                tagName="h2"
-                                onChange={(value) => setAttributes({ title: value })}
-                                placeholder={__('Title')}
-                                value={title}
-                            />) : ''
-                    }
-                    <div className="schedule-data">
-                        <InnerBlocks
-                            template={getChildscheduleBlock(noOfschedule)}
-                            templateLock="all"
-                            allowedBlocks={ALLOWBLOCKS}
-                        />
-                        <div className="add-remove-btn">
-                            <Button className="add" onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}>
-                                <span className="dashicons dashicons-plus" />
-                            </Button>
+                <Fragment>
+                    { showFilter &&
+                    <div class="schedule-glance-filter">
+                        <div class="date"><label>Date</label>
+                            <div class="schedule-select"><select id="date">
+                                <option>Select a Date</option>
+                            </select></div>
+                        </div>
+                        <div class="pass-type"><label>Is Open To</label>
+                            <div class="schedule-select"><select id="pass-type">
+                                <option>Select a Pass Time</option>
+                            </select></div>
+                        </div>
+                        <div class="location"><label>Location</label>
+                            <div class="schedule-select"><select id="location">
+                                <option>Select a Location</option>
+                            </select></div>
+                        </div>
+                        <div class="type"><label>Type</label>
+                            <div class="schedule-select"><select id="type">
+                                <option>Select a Type</option>
+                            </select></div>
+                        </div>
+                        <div class="search-box"><label>Name</label>
+                            <div class="schedule-select"><input id="box-main-search" class="schedule-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
                         </div>
                     </div>
-                </div>
+                        }
+                    <div className={`schedule-main ${className ? className : ''}`}>
+                        <InspectorControls>
+                            <PanelBody title="General Settings">
+                                <PanelRow>
+                                    <ToggleControl
+                                        label={__('Show Title')}
+                                        checked={showTitle}
+                                        onChange={() => setAttributes({ showTitle: ! showTitle })}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <ToggleControl
+                                        label={__('Show Filter')}
+                                        checked={showFilter}
+                                        onChange={() => setAttributes({ showFilter: ! showFilter })}
+                                    />
+                                </PanelRow>
+                            </PanelBody>
+                        </InspectorControls>
+                        {
+                            showTitle ? (
+                                <RichText
+                                    tagName="h2"
+                                    onChange={(value) => setAttributes({ title: value })}
+                                    placeholder={__('Title')}
+                                    value={title}
+                                />) : ''
+                        }
+                        <div className="schedule-data">
+                            <InnerBlocks
+                                template={getChildscheduleBlock(noOfschedule)}
+                                templateLock="all"
+                                allowedBlocks={ALLOWBLOCKS}
+                            />
+                            <div className="add-remove-btn">
+                                <Button className="add" onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}>
+                                    <span className="dashicons dashicons-plus" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </Fragment>
             );
         },
         save: (props) => {
-            const { attributes: { title, showTitle }, className } = props;
+            const { attributes: { title, showTitle, showFilter }, className } = props;
             return (
-                <div className={`schedule-main  ${className ? className : ''}`}>
-                    {
-                        showTitle ? (
-                            <RichText.Content
-                                tagName="h2"
-                                value={title}
-                            />) : ''
-                    }
-                    <div className="schedule-data">
-                        <InnerBlocks.Content />
+                <Fragment>
+                    { showFilter &&
+                    <div class="schedule-glance-filter">
+                        <div class="date"><label>Date</label>
+                            <div class="schedule-select"><select id="date">
+                                <option>Select a Date</option>
+                            </select></div>
+                        </div>
+                        <div class="pass-type"><label>Is Open To</label>
+                            <div class="schedule-select"><select id="pass-type">
+                                <option>Select a Pass Time</option>
+                            </select></div>
+                        </div>
+                        <div class="location"><label>Location</label>
+                            <div class="schedule-select"><select id="location">
+                                <option>Select a Location</option>
+                            </select></div>
+                        </div>
+                        <div class="type"><label>Type</label>
+                            <div class="schedule-select"><select id="type">
+                                <option>Select a Type</option>
+                            </select></div>
+                        </div>
+                        <div class="search-box"><label>Name</label>
+                            <div class="schedule-select"><input id="box-main-search" class="schedule-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
+                        </div>
                     </div>
-                </div>
+                        }
+                    <div className={`schedule-main  ${className ? className : ''}`}>
+                        {
+                            showTitle ? (
+                                <RichText.Content
+                                    tagName="h2"
+                                    value={title}
+                                />) : ''
+                        }
+                        <div className="schedule-data">
+                            <InnerBlocks.Content />
+                        </div>
+                    </div>
+                </Fragment>
             );
         }
     });

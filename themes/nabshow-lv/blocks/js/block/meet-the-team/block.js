@@ -246,7 +246,7 @@ import memoize from 'memize';
       const getImageButton = openEvent => {
         if (attributes.imageUrl) {
           return (
-            <img src={attributes.imageUrl} alr={imageAlt} className="main-img" />
+            <img src={attributes.imageUrl} alt={imageAlt} className="main-img" />
           );
         } else {
           return (
@@ -271,7 +271,7 @@ import memoize from 'memize';
                   className="dashicons dashicons-trash"
                 />
               </div>
-              <img src={swapImage} alr={swapAlt} className="hover-img" />
+              <img src={swapImage} alt={swapAlt} className="hover-img" />
             </div>
           );
         } else {
@@ -388,9 +388,12 @@ import memoize from 'memize';
                 </div>
               </PanelRow>
             </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/meet-the-team.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
           </InspectorControls>
           <div className="team-box-inner">
-            <span class="remove-button">
+            <span className="remove-button">
               <IconButton
                 className="components-toolbar__control"
                 label={__('Remove image')}
@@ -486,7 +489,7 @@ import memoize from 'memize';
                     <img src={imageUrl} alt={imageAlt} className="main-img" />
                     {
                       swapImage ? (
-                        <img src={swapImage} alr={swapAlt} className="hover-img" />
+                        <img src={swapImage} alt={swapAlt} className="hover-img" />
                       ) : ''
                     }
                   </Fragment>

@@ -1,12 +1,36 @@
 .help-support .display-msg{margin:0;color:green;font-weight:600;margin-bottom:20px}
-.help-support .display-msg{color:red;display:none}
-.help-support .display-msg.error,
-.help-support .display-msg.success{display:block}
-.help-support .display-msg.success{color:green;}
+.help-support .display-msg.error{color:red;display:none}
+.help-support .display-msg.error,.help-support .display-msg.success{display:block}
+.help-support .display-msg.success{color:green}
 .help-support label{display:block;margin-bottom:5px}
 .help-support input{width:100%;margin-bottom:12px}
 .help-support textarea{min-height:90px;max-height:1300px;margin:0 0 8px;padding:6px 7px;resize:none;width:100%}
 .help-support .submit{margin:0;padding:0}
 div#nab_dashboard_help_support h2 span{display:flex;align-items:center}
-div#nab_dashboard_help_support h2 span:after{content:"";background-image:url(../images/md-logo.png);width:26px;height:26px;background-size:cover;background-position:center;display:inline-block;margin-left:10px}
+div#nab_dashboard_help_support h2 span::after{content:"";background-image:url(../images/md-logo.png);width:26px;height:26px;background-size:cover;background-position:center;display:inline-block;margin-left:10px}
 div#nab_dashboard_help_support .inside .inside{padding:0}
+
+/* Compact View Design */
+.nab-expand-collapse .expand_link a{display:inline-block;font-family:'dashicons';font-size:16px;line-height:1;height:16px;width:16px;margin:0 0 0 10px;vertical-align:middle}
+.nab-expand-collapse .expand_link a::before{content:"\f132"}
+.nab-expand-collapse .expand_link a.minus::before{content:"\f460"}
+.nab-compact-view tr:hover td.title.page-title .row-actions,.nab-compact-view tr td.title.page-title .row-actions{position:static;float:right}
+.nab-compact-view tr td.title.page-title>strong,.nab-compact-view tr td.title.page-title .row-actions{margin:0}
+.nab-compact-view tr td.title.page-title .row-actions span.hide-if-no-js,.nab-compact-view tr td.title.page-title .row-actions span.view{display:none}
+.nab-compact-view tr td.title.page-title .row-actions span.trash{font-size:0}
+.nab-compact-view tr td.title.page-title .row-actions span.trash a{font-size:13px}
+.nab-compact-view tr span.expand_link a{position:relative;display:inline-block;width:100%;height:100%;margin:0;line-height:normal;text-shadow:0 1px 0 #fff;transform:rotate(0deg);vertical-align:top}
+.nab-compact-view tr td.title.page-title .row-actions span.edit a::before{content:'\f464';display:inline-block;font-family:'dashicons';font-size:14px;vertical-align:middle;padding-right:4px}
+.nab-compact-view tr td.title.page-title .row-actions span.edit a{padding-right:4px}
+.nab-compact-view tr td.title.page-title .row-actions span.trash a::before{content:'\f182';display:inline-block;font-family:'dashicons';font-size:14px;vertical-align:middle;padding:4px}
+.nab-compact-view tr span.expand_link a.minus{transform:rotate(90deg)}
+.nab-compact-view tr span.expand_link a::before, .nab-compact-view tr span.expand_link a.minus::before{content:'\00BB';position:relative;top:-2px}
+.nab-compact-view tr span.expand_link{display:inline-block;width:20px;height:20px;font-size:16px;text-align:center;color:#a0a5aa;border:1px solid #ddd;background:#f7f7f7;text-shadow:0 1px 0 #fff;cursor:default;transform:none!important;line-height:27px;margin-left:5px;box-shadow:0 1px 0 #ccc;padding:0;border-radius:5px;vertical-align:bottom}
+.nab-compact-view tr td.title.page-title{display:flex;justify-content:space-between}
+.nab-compact-view tr td.title.page-title>strong{width:calc(100% - 120px)}
+.nab-compact-view tr.level-1 th.check-column,.nab-compact-view tr.level-1 td.title.page-title{padding-left:2.5%}
+.nab-compact-view tr.level-2 th.check-column,.nab-compact-view tr.level-2 td.title.page-title{padding-left:5%}
+.nab-compact-view tr.level-3 th.check-column,.nab-compact-view tr.level-3 td.title.page-title{padding-left:7.5%}
+.nab-compact-view tr.level-4 th.check-column,.nab-compact-view tr.level-4 td.title.page-title{padding-left:10%}
+.nab-compact-view tr.level-5 th.check-column,.nab-compact-view tr.level-5 td.title.page-title{padding-left:12.5%}
+.nab-expand-collapse a.compactBtn.button{float:right}

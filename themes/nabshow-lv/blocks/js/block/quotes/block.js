@@ -194,7 +194,6 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
 
             const { attributes, setAttributes, isSelected, clientId, className } = this.props;
             const { quotes, id, sliderActive, quotesOptions, autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode, sliderBgColor } = attributes;
-
             const quotesList = quotes
                 .sort((a, b) => a.index - b.index)
                 .map((quote, index) => {
@@ -548,7 +547,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
             });
             if (0 < quotes.length) {
                 return (
-                    <div id={`block-${clientId}`} className={`quote-slider ${quotesOptions} ${sliderBgColor}`}>
+                    <div className={`quote-slider ${quotesOptions} ${sliderBgColor}`}>
                         <div className="quote-inner" data-mode={mode} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`} data-adaptiveheight={`${adaptiveHeight}`}>
                             {quotesList}
                         </div>

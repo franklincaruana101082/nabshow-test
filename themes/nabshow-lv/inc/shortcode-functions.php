@@ -338,7 +338,6 @@ function nabshow_lv_browse_filter_callback( $atts ) {
                     <?php
                     nabshow_lv_alphabets_list_filter();
                     ?>
-                    </ul>
                 </div>
 		        <?php
 	        }

@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Component } = wpElement;
   const { MediaUpload, InspectorControls } = wpEditor;
-  const { Button } = wpComponents;
+  const { Button, PanelBody} = wpComponents;
 
   const photosBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -113,6 +113,9 @@
                 render={({ open }) => <Button onClick={open} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Image</Button>}
               />
             </div>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
           </InspectorControls>
         </div>
       );

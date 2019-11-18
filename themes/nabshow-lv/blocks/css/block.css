@@ -754,7 +754,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:Gotham Bold;font-size:16px;t
 .main-filter .search-box .search-item{width:100%;position:relative}
 .main-filter .search-box input{background:#fff;width:100%;height:40px;padding:0 10px 0 40px;outline:none;border:1px solid #69767a}
 .main-filter .search-box input::placeholder{color:#000}
-.main-filter .search-box .search-item::before{content:"\f002";font-family:FontAwesome;position:absolute;top:50%;margin-top:-15px;left:10px;font-size:20px}
+.main-filter .search-box .search-item::before{content:"\f002";font-family:FontAwesome;position:absolute;top:50%;margin-top:-18px;left:10px;font-size:20px}
 .main-filter .featured-btn{width:115px;height:48px;border:1px solid #69767a;border-radius:0;background:#f1f7fc;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px}
 ul.alphabets-list{display:flex;flex-wrap:wrap;padding:0!important}
 ul.alphabets-list li{width:45px;height:45px;list-style:none;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #69767a;margin-right:14px;margin-bottom:15px!important;cursor:pointer;font-family:"Vollkorn italic", serif;font-size:25px}
@@ -778,7 +778,7 @@ ul.alphabets-list li.clear{display:none;line-height:45px;width:60px;text-align:c
 .awards-data.row>.editor-inner-blocks>.editor-block-list__layout>.wp-block .awards-row .winnerSide .winnerName h3{font-size:20px;margin-top:15px}
 .awards-row .winnerSide .winnerName h3 a{font-size:inherit;font-family:"Gotham Bold", sans-serif}
 .awards-data.row>.editor-inner-blocks>.editor-block-list__layout>.wp-block .awards-row .winnerSide .jobLocation p{margin:0}
-.nab_model_main{text-align:center;overflow:hidden;position:fixed;top:0;right:0;bottom:0;left:0;-webkit-overflow-scrolling:touch;outline:0;opacity:0;-webkit-transition:opacity 0.15s linear, z-index 0.15;-o-transition:opacity 0.15s linear, z-index 0.15;transition:opacity 0.15s linear, z-index 0.15;z-index:-1;overflow-x:hidden;overflow-y:auto}
+.nab_model_main{text-align:center;overflow:hidden;position:fixed;top:0;right:0;bottom:0;left:0;-webkit-overflow-scrolling:touch;outline:0;opacity:0;-webkit-transition:opacity 0.15s linear, z-index 0.15s;-o-transition:opacity 0.15s linear, z-index 0.15s;transition:opacity 0.15s linear, z-index 0.15s;z-index:-1;overflow-x:hidden;overflow-y:auto}
 .nab_model_main::before{content:"";display:inline-block;vertical-align:middle;margin-right:0;height:100%}
 .nab_model_open{z-index:99999;opacity:1;overflow:hidden;display:flex;align-items:center}
 .nab_model_inner{-webkit-transform:translate(0, -25%);-ms-transform:translate(0, -25%);transform:translate(0, -25%);-webkit-transition:-webkit-transform 0.3s ease-out;-o-transition:-o-transform 0.3s ease-out;transition:-webkit-transform 0.3s ease-out;transition:transform 0.3s ease-out;transition:transform 0.3s ease-out, -webkit-transform 0.3s ease-out;display:inline-block;vertical-align:middle;width:800px;margin:30px auto}
@@ -944,7 +944,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .delegation .box-main .box-item .box-inner .description{margin-bottom:0;display:block;width:100%}
 .delegation .box-main .box-item .box-inner .email{margin-bottom:20px;display:block;clear:both}
 
-.box-main-filter{display:flex}
+.box-main-filter{margin-bottom:30px;display:flex}
 .box-main-filter .category{display:inline-block;width:230px;margin-right:40px}
 .box-main-filter .search-box{width:320px;display:inline-block}
 .box-main-filter label{font-family:"Gotham Bold", sans-serif}
@@ -1224,3 +1224,34 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .team-box.featured{background-color:#f1f7fc}
 .media-partner-filter input.featured-btn{margin-bottom:0;margin-right:35px}
 .main-filter.media-partner-filter{display:flex;align-items:flex-end}
+
+/* Filter inside */
+.box-main-filter.official-vendors-filter .badgeslist a{padding:6px 22px}
+.box-main-filter.official-vendors-filter .search-box .search-item::before{margin-top:-18px}
+.browse-speakers-filter,.browse-sessions-filter, .browse-exhibitors-filter{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-bottom:30px}
+.browse-speakers-filter .left-side.col-xl-5,.browse-sessions-filter .left-side.col-xl-5, .browse-exhibitors-filter .left-side.col-xl-5{-webkit-box-flex:0;-ms-flex:0 0 41.666667%;flex:0 0 41.666667%;max-width:41.666667%;padding-right:20px}
+.browse-speakers-filter .pass-type.col-xl-7,.browse-sessions-filter .pass-type.col-xl-7, .browse-exhibitors-filter .pass-type.col-xl-7{-webkit-box-flex:0;-ms-flex:0 0 58.333333%;flex:0 0 58.333333%;max-width:58.333333%;padding-left:20px}
+.browse-speakers-filter .col-lg-12,.browse-speakers-filter .select-items,.browse-speakers-filter .select-items .row, .browse-sessions-filter .col-lg-12,.browse-sessions-filter .select-items,.browse-sessions-filter .select-items .row, .browse-exhibitors-filter .col-lg-12,.browse-exhibitors-filter .select-items,.browse-exhibitors-filter .select-items .row{width:100%}
+.browse-speakers-filter .chechbox-main,.browse-sessions-filter .chechbox-main, .browse-exhibitors-filter .chechbox-main{display:flex;flex-wrap:wrap}
+.browse-speakers-filter .chechbox-main .custom-check-box,.browse-sessions-filter .chechbox-main .custom-check-box, .browse-exhibitors-filter .chechbox-main .custom-check-box{padding-right:15px;flex-basis:16.666%;display:flex;align-items:center;min-height:30px}
+.browse-speakers-filter .chechbox-main .custom-check-box label,.browse-sessions-filter .chechbox-main .custom-check-box label, .browse-exhibitors-filter .chechbox-main .custom-check-box label{font-size:16px}
+.browse-speakers-filter .category select.select-opt,.browse-sessions-filter .category select.select-opt, .browse-exhibitors-filter .category select.select-opt{width:100%;height:40px;padding:0 25px 0 15px;outline:none;border:1px solid #69767a}
+.browse-speakers-filter .search-box .search-item,.browse-sessions-filter .search-box .search-item, .browse-exhibitors-filter .search-box .search-item{width:100%;position:relative}
+.browse-speakers-filter .search-box input, .browse-sessions-filter .search-box input, .browse-exhibitors-filter .search-box input{background:#fff;width:100%;height:40px;padding:0 10px 0 40px;outline:none;border:1px solid #69767a}
+.browse-speakers-filter .search-box input::placeholder,.browse-sessions-filter .search-box input::placeholder, .browse-exhibitors-filter .search-box input::placeholder{color:#000}
+.browse-speakers-filter .search-box .search-item::before,.browse-sessions-filter .search-box .search-item::before, .browse-exhibitors-filter .search-box .search-item::before{content:"\f002";font-family:FontAwesome;position:absolute;top:50%;margin-top:-18px;left:10px;font-size:20px}
+.browse-speakers-filter .search-box .search-item.icon-right input,.browse-sessions-filter .search-box .search-item.icon-right input, .browse-exhibitors-filter .search-box .search-item.icon-right input{padding:0 40px 0 15px}
+.browse-speakers-filter .search-box .search-item.icon-right::before, .browse-sessions-filter .search-box .search-item.icon-right::before, .browse-exhibitors-filter .search-box .search-item.icon-right::before{right:10px;left:initial}
+.browse-speakers-filter .select-items .col-lg-3,.browse-sessions-filter .select-items .col-lg-3, .browse-exhibitors-filter .select-items .col-lg-3{width:25%;padding:0 15px;float:left}
+.browse-speakers-filter .select-items .row,.browse-sessions-filter .select-items .row, .browse-exhibitors-filter .select-items .row{display:inline-block;width:102%;margin:0 -15px}
+.browse-speakers-filter label,.browse-sessions-filter label, .browse-exhibitors-filter label{font-size:20px;font-family:"Gotham Bold", sans-serif}
+.browse-speakers-filter .orderby.orderby.active,.browse-sessions-filter .orderby.orderby.active, .browse-exhibitors-filter .orderby.orderby.active{background:#f1f7fc}
+.browse-speakers-filter .orderby,.browse-sessions-filter .orderby, .browse-exhibitors-filter .orderby{width:60px;height:48px;border:1px solid #69767a!important;border-radius:0;background:#fff;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px}
+.browse-filter .search-box{margin-bottom:30px}
+.browse-speakers-filter .featured-btn,.browse-sessions-filter .featured-btn, .browse-exhibitors-filter .featured-btn{background:#ffffff}
+.browse-open-to-all-filter .col-xl-12.display-flex-box{display:flex;flex-wrap:wrap}
+.browse-open-to-all-filter{margin-bottom:20px}
+.browse-open-to-all-filter .category{min-width:22%;max-width:100%;margin:0 35px 0 0}
+.browse-open-to-all-filter .search-box{min-width:330px;max-width:100%;margin-bottom:0}
+.browse-filter .search-box .search-item::before{right:10px;left:initial!important}
+.browse-filter .search-box input#browse-search{padding:0 40px 0 10px}

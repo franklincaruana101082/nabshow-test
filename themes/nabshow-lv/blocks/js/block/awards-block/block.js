@@ -199,6 +199,9 @@ import memoize from 'memize';
                                 />
                             </PanelRow>
                         </PanelBody>
+                        <PanelBody title={__('Help')} initialOpen={false}>
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
+                        </PanelBody>
                     </InspectorControls>
                     <Fragment>
                         <div className="awards-header">
@@ -302,9 +305,12 @@ import memoize from 'memize';
                                 />
                             </PanelRow>
                         </PanelBody>
+                        <PanelBody title={__('Help')} initialOpen={false}>
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
+                        </PanelBody>
                     </InspectorControls>
                     <div className='col-lg-6 col-md-6 col-sm-12'>
-                        <span class="remove-item">
+                        <span className="remove-item">
                             <IconButton
                                 className="components-toolbar__control"
                                 label={__('Remove image')}

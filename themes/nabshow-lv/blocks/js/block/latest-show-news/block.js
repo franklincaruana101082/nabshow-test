@@ -333,6 +333,9 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                                 </Fragment>
                             )}
                         </PanelBody>
+                        <PanelBody title={__('Help')} initialOpen={false}>
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/latest-show-news.mp4" target="_blank">How to use block?</a>
+                        </PanelBody>
                     </InspectorControls>
                     <div className>
                         <ServerSideRender

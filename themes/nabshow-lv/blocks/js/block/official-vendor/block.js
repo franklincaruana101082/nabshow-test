@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
-  const { Button, TextControl } = wpComponents;
+  const { InspectorControls, RichText, MediaUpload } = wpEditor;
+  const { PanelBody, PanelRow, Button, TextControl, ToggleControl } = wpComponents;
 
   const officialVendorBlockIcon = (
     <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -85,7 +85,7 @@
 
     render() {
       const { attributes, setAttributes, clientId, className } = this.props;
-      const { products } = attributes;
+      const { products, showFilter } = attributes;
 
       const getImageButton = (openEvent, index) => {
         if (products[index].media) {
@@ -259,61 +259,73 @@
                     });
                   }}
                 />
-                {/* <RichText
-                  tagName="a"
-                  className="email"
-                  placeholder={__('Email')}
-                  value={product.email}
-                  onChange={email => {
-                    const newObject = Object.assign({}, product, {
-                      email: email
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                /> */}
               </div>
             </div>
           );
         });
 
       return (
-        <div className="new-this-year official-vendors">
-          <div className="box-main">
-            {productsList}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    products: [
-                      ...products,
-                      {
-                        index: products.length,
-                        media: '',
-                        mediaAlt: '',
-                        title: '',
-                        companyName: '',
-                        type: '',
-                        description: '',
-                        email: ''
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div class="box-main-filter main-filter new-this-year-filter official-vendors-filter">
+              <div class="ov-filter">
+                <div class="category"><label>Service</label>
+                  <div class="box-main-select"><select id="box-main-category" class="select-opt"><option>Select a Service</option></select></div>
+                </div>
+                <div class="category">
+                  <label>Vendor Name</label>
+                  <div class="box-main-select"><select id="box-main-category-vendor" class="select-opt"><option>Select a Vendor</option></select></div>
+                </div>
+                <div class="badgeslist"><a>Exclusive</a><a>Preferred</a></div>
+              </div>
+              <div class="search-box">
+                <label>Keyword</label>
+                <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="new-this-year official-vendors">
+            <div className="box-main">
+              {productsList}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      products: [
+                        ...products,
+                        {
+                          index: products.length,
+                          media: '',
+                          mediaAlt: '',
+                          title: '',
+                          companyName: '',
+                          type: '',
+                          description: '',
+                          email: ''
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -328,6 +340,10 @@
       products: {
         type: 'array',
         default: [],
+      },
+      showFilter: {
+        type: 'boolean',
+        default: true
       }
     },
     edit: EditOfficialVendor,
@@ -337,69 +353,83 @@
         attributes,
         className
       } = props;
-      const { products } = attributes;
+      const { products, showFilter } = attributes;
 
       return (
-        <div className="new-this-year official-vendors">
-          <div className="box-main">
-            {products.map((product, index) => (
-              <Fragment>
-                {
-                  product.title && (
-                    <div className="box-item">
-                      <div className="box-inner">
-                        <div className="media-img">
-                          {product.media ? (
-                            <img src={product.media} alt={product.alt} className="img" />
-                          ) : (
-                              <div className="no-image">No Logo</div>
-                            )}
+        <Fragment>
+          {showFilter &&
+            <div class="box-main-filter main-filter new-this-year-filter official-vendors-filter">
+              <div class="ov-filter">
+                <div class="category"><label>Service</label>
+                  <div class="box-main-select"><select id="box-main-category" class="select-opt"><option>Select a Service</option></select></div>
+                </div>
+                <div class="category">
+                  <label>Vendor Name</label>
+                  <div class="box-main-select"><select id="box-main-category-vendor" class="select-opt"><option>Select a Vendor</option></select></div>
+                </div>
+                <div class="badgeslist"><a>Exclusive</a><a>Preferred</a></div>
+              </div>
+              <div class="search-box">
+                <label>Keyword</label>
+                <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="new-this-year official-vendors">
+            <div className="box-main">
+              {products.map((product, index) => (
+                <Fragment>
+                  {
+                    product.title && (
+                      <div className="box-item">
+                        <div className="box-inner">
+                          <div className="media-img">
+                            {product.media ? (
+                              <img src={product.media} alt={product.mediaAlt} className="img" />
+                            ) : (
+                                <div className="no-image">No Logo</div>
+                              )}
+                          </div>
+                          {product.title && (
+                            <RichText.Content
+                              tagName="h3"
+                              value={product.title}
+                              className="title"
+                            />
+                          )}
+                          {product.companyName && (
+                            <RichText.Content
+                              tagName="p"
+                              className="companyName"
+                              value={product.companyName}
+                            />
+                          )}
+                          {product.type && (
+                            <RichText.Content
+                              tagName="p"
+                              className="type"
+                              value={product.type}
+                            />
+                          )}
+                          {product.description && (
+                            <RichText.Content
+                              tagName="p"
+                              className="description"
+                              value={product.description}
+                            />
+                          )}
+                          {product.email && (
+                            <a className="email" href={`mailto:${product.email}`}>Email us</a>
+                          )}
                         </div>
-                        {product.title && (
-                          <RichText.Content
-                            tagName="h3"
-                            value={product.title}
-                            className="title"
-                          />
-                        )}
-                        {product.companyName && (
-                          <RichText.Content
-                            tagName="p"
-                            className="companyName"
-                            value={product.companyName}
-                          />
-                        )}
-                        {product.type && (
-                          <RichText.Content
-                            tagName="p"
-                            className="type"
-                            value={product.type}
-                          />
-                        )}
-                        {product.description && (
-                          <RichText.Content
-                            tagName="p"
-                            className="description"
-                            value={product.description}
-                          />
-                        )}
-                        {product.email && (
-                          <a className="email" href={`mailto:${product.email}`}>Email us</a>
-
-                          // <RichText.Content
-                          //   tagName="a"
-                          //   className="email"
-                          //   value={product.email}
-                          // />
-                        )}
                       </div>
-                    </div>
-                  )
-                }
-              </Fragment>
-            ))}
+                    )
+                  }
+                </Fragment>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   });

@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
-  const { Button } = wpComponents;
+  const { RichText, MediaUpload, InspectorControls } = wpEditor;
+  const { Button, PanelBody } = wpComponents;
 
   const newThisYearBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -35,7 +35,7 @@
     </svg>
   );
 
-  class NabMediaSlider extends Component {
+  class NewThisYear extends Component {
 
     componentDidMount() {
       const { products } = this.props.attributes;
@@ -209,6 +209,11 @@
 
       return (
         <div className="new-this-year new-this-year-block">
+          <InspectorControls>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/new-this-year.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
+          </InspectorControls>
           <div className="box-main">
             {productsList}
             <div className="box-item additem">
@@ -252,7 +257,7 @@
         default: [],
       }
     },
-    edit: NabMediaSlider,
+    edit: NewThisYear,
 
     save: props => {
       const {
