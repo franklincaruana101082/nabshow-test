@@ -332,256 +332,258 @@
   /**
    * Filter - Related content details js box-main
    */
-  if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length) {
+  if (0 < $('.box-main-filter, .schedule-glance-filter').length) {
+    if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length) {
 
-    $('.new-this-year .box-main .box-item').each(function () {
-      if ('' !== $(this).find('.title').html()) {
-        insertOptions($(this).find('.title').html(), 'box-main-category');
-      }
-    });
-
-    $('.official-vendors .box-main .box-item').each(function () {
-      if ('' !== $(this).find('.companyName').html()) {
-        insertOptions($(this).find('.companyName').html(), 'box-main-category-vendor');
-      }
-    });
-
-    $('.exhibitor-committee .box-main .box-item').each(function () {
-      if ('' !== $(this).find('.boothSize').html()) {
-        insertOptions($(this).find('.boothSize').html(), 'box-main-category-booth');
-      }
-      if ('' !== $(this).find('.areas').html()) {
-        insertOptions($(this).find('.areas').html(), 'box-main-category');
-      }
-    });
-
-    $('.delegation .box-main .box-item').each(function () {
-      if ('' !== $(this).find('.country').html().split(',')) {
-        $.map(
-          $(this).find('.country').html().split(','),
-          function (val, i) {
-            insertOptions(val, 'box-main-category');
-          }
-        );
-      }
-    });
-
-    $('.accordionParentWrapper').each(function () {
-      if ('' !== $(this).find('.title').html()) {
-        insertOptions($(this).find('.title').html(), 'faq-category-drp');
-      }
-    });
-
-    $('.awards-main').each(function () {
-      insertOptions($(this).find('.awards-winner-title').text(), 'award-name');
-    });
-
-    $('.schedule-main').each(function () {
-      insertOptions($(this).find('h2').text(), 'date');
-
-      $(this).find('.schedule-row').each(function () {
-        insertOptions($(this).find('.date p').text(), 'pass-type');
-        insertOptions($(this).find('.location p').text(), 'location');
-        insertOptions($(this).find('.details p').text(), 'type');
-      });
-    });
-
-    $('.wp-block-nab-meet-the-team.team-main .team-box').each(function () {
-      if (null !== $(this).data('category').split(',')) {
-        $.map(
-          $(this).data('category').split(','),
-          function (val, i) {
-            insertCheckbox(val, 'team-checkbox');
-          }
-        );
-      }
-      if ('' !== $(this).attr('data-department')) {
-        insertOptions($(this).attr('data-department'), 'team-department');
-      }
-    });
-
-    $('.products-winners').each(function () {
-      if ('' !== $(this).find('.product-title').html()) {
-        insertOptions($(this).find('.product-title').html(), 'products-category');
-      }
-    });
-
-    $('.news-conference-schedule .box-main .box-item').each(function () {
-      if ('' !== $(this).find('.title').html()) {
-        insertOptions($(this).find('.title').text(), 'company-name');
-      }
-
-      if ('' !== $(this).find('.location').html()) {
-        insertOptions($(this).find('.location').text(), 'location-filter');
-      }
-
-      if ('' !== $(this).find('.date-time').html()) {
-        insertOptions($(this).find('.date-time').text().split('|')[0], 'date-filter');
-      }
-    });
-
-
-    $('.sponsorship-opportunities-page .related-main-wrapper').each(function () {
-      if ('' !== $(this).find('.parent-main-title').html()) {
-        insertOptions($(this).find('.parent-main-title').text(), 'main-category-type');
-      }
-    });
-    $('.opportunities').each(function () {
-      if ('' !== $(this).find('.main-title').html()) {
-        insertOptions($(this).find('.main-title').text(), 'sub-category-type');
-      }
-      $('.opportunities .box-main .box-item').each(function () {
-        if ('' !== $(this).find('.cost').html()) {
-          insertOptions($(this).find('.cost').text(), 'price-range');
-        }
-        if ('' !== $(this).find('.exclusivity').html()) {
-          insertOptions($(this).find('.exclusivity').text(), 'exclusivity');
+      $('.new-this-year .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.title').html()) {
+          insertOptions($(this).find('.title').html(), 'box-main-category');
         }
       });
-    });
+
+      $('.official-vendors .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.companyName').html()) {
+          insertOptions($(this).find('.companyName').html(), 'box-main-category-vendor');
+        }
+      });
+
+      $('.exhibitor-committee .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.boothSize').html()) {
+          insertOptions($(this).find('.boothSize').html(), 'box-main-category-booth');
+        }
+        if ('' !== $(this).find('.areas').html()) {
+          insertOptions($(this).find('.areas').html(), 'box-main-category');
+        }
+      });
+
+      $('.delegation .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.country').html().split(',')) {
+          $.map(
+            $(this).find('.country').html().split(','),
+            function (val, i) {
+              insertOptions(val, 'box-main-category');
+            }
+          );
+        }
+      });
+
+      $('.accordionParentWrapper').each(function () {
+        if ('' !== $(this).find('.title').html()) {
+          insertOptions($(this).find('.title').html(), 'faq-category-drp');
+        }
+      });
+
+      $('.awards-main').each(function () {
+        insertOptions($(this).find('.awards-winner-title').text(), 'award-name');
+      });
+
+      $('.schedule-main').each(function () {
+        insertOptions($(this).find('h2').text(), 'date');
+
+        $(this).find('.schedule-row').each(function () {
+          insertOptions($(this).find('.date p').text(), 'pass-type');
+          insertOptions($(this).find('.location p').text(), 'location');
+          insertOptions($(this).find('.details p').text(), 'type');
+        });
+      });
+
+      $('.wp-block-nab-meet-the-team.team-main .team-box').each(function () {
+        if (null !== $(this).data('category').split(',')) {
+          $.map(
+            $(this).data('category').split(','),
+            function (val, i) {
+              insertCheckbox(val, 'team-checkbox');
+            }
+          );
+        }
+        if ('' !== $(this).attr('data-department')) {
+          insertOptions($(this).attr('data-department'), 'team-department');
+        }
+      });
+
+      $('.products-winners').each(function () {
+        if ('' !== $(this).find('.product-title').html()) {
+          insertOptions($(this).find('.product-title').html(), 'products-category');
+        }
+      });
+
+      $('.news-conference-schedule .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.title').html()) {
+          insertOptions($(this).find('.title').text(), 'company-name');
+        }
+
+        if ('' !== $(this).find('.location').html()) {
+          insertOptions($(this).find('.location').text(), 'location-filter');
+        }
+
+        if ('' !== $(this).find('.date-time').html()) {
+          insertOptions($(this).find('.date-time').text().split('|')[0], 'date-filter');
+        }
+      });
 
 
-    let selectedItem, searchId, searchKeyword, selectedLetter;
-    if (0 < $('.exhibitor-committee .box-main, .badge-discounts .box-main, .new-this-year-block .box-main, .official-vendors .box-main, .delegation .box-main, .opportunities .box-main').length) {
-      selectedItem = '.box-item';
-    }
-    if (0 < $('.accordionParentWrapper').length) {
-      selectedItem = '.accordionParentWrapper';
-    }
-    if (0 < $('.awards-main').length) {
-      selectedItem = '.wp-block-nab-awards-item';
-    }
-    if (0 < $('.schedule-main').length) {
-      selectedItem = '.schedule-row';
-    }
-    if (0 < $('.team-main').length) {
-      selectedItem = '.team-box';
-    }
-    if (0 < $('.products-winners').length) {
-      selectedItem = '.product-title';
-    }
-    if (0 < $('.box-main, #box-main-search').length) {
-      searchKeyword = '.title';
-      searchId = '#box-main-search';
-    }
-    if (0 < $('.news-conference-schedule').length) {
-      selectedItem = '.box-item';
-      searchKeyword = '.title';
-    }
-    if (0 < $('.rc-page-block').length) {
-      selectedItem = '.rc-page-block .col-lg-4.col-md-6';
-      searchKeyword = '.title';
-    }
-
-    $(document).on('click', 'ul.alphabets-list li', function () {
-      selectedLetter = $(this).html();
-      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
-    });
-    $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type', function () {
-      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
-    });
-    $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
-      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
-    });
-
-    $('.badge-discounts').each(function () {
-      if ('' !== $(this).find('.badge-title').html()) {
-        insertList($(this).find('.badge-title').text(), 'box-main-listing');
-      }
-    });
-
-    $('.exhibitor-resources-page .related-main-wrapper').each(function () {
-      if ('' !== $(this).find('.parent-main-title').html()) {
-        insertList($(this).find('.parent-main-title').text(), 'box-main-listing');
-      }
-    });
-
-    if (0 < jQuery('.badgeslist a').length) {
-      $('.badgeslist a').each(function () {
-        let $this = $(this);
-        $($this).on('click', function () {
-          if ($this.hasClass('clicked')) {
-            $this.removeClass('clicked');
-            $('.badgeslist a').removeClass('active');
-            $('.no-data').hide();
-
-            $('.box-main .box-item').addClass('slideInUp').show();
-            $('.badge-discounts, .badge-discounts .badge-title').show();
-            $('.related-main-wrapper, .parent-main-title').show();
-
-            masterFilterFunc(selectedItem, searchId, searchKeyword);
-
+      $('.sponsorship-opportunities-page .related-main-wrapper').each(function () {
+        if ('' !== $(this).find('.parent-main-title').html()) {
+          insertOptions($(this).find('.parent-main-title').text(), 'main-category-type');
+        }
+      });
+      $('.opportunities').each(function () {
+        if ('' !== $(this).find('.main-title').html()) {
+          insertOptions($(this).find('.main-title').text(), 'sub-category-type');
+        }
+        $('.opportunities .box-main .box-item').each(function () {
+          if ('' !== $(this).find('.cost').html()) {
+            insertOptions($(this).find('.cost').text(), 'price-range');
           }
-          else {
-            $('.badgeslist a').removeClass('active');
-            $('.badgeslist a').removeClass('clicked');
-
-            $this.addClass('clicked');
-            $(this).addClass('active');
-
-            masterFilterFunc(selectedItem, searchId, searchKeyword);
-
+          if ('' !== $(this).find('.exclusivity').html()) {
+            insertOptions($(this).find('.exclusivity').text(), 'exclusivity');
           }
         });
       });
 
-    }
 
-    /* Sponsorship Opp */
-    if ($('.opportunities .box-main .box-item').has('span.sold')) {
-      $(' .opportunities .box-main .box-item span.sold').each(function () {
-        $(this).parents('.opportunities .box-main .box-item').addClass('visible');
+      let selectedItem, searchId, searchKeyword, selectedLetter;
+      if (0 < $('.exhibitor-committee .box-main, .badge-discounts .box-main, .new-this-year-block .box-main, .official-vendors .box-main, .delegation .box-main, .opportunities .box-main').length) {
+        selectedItem = '.box-item';
+      }
+      if (0 < $('.accordionParentWrapper').length) {
+        selectedItem = '.accordionParentWrapper';
+      }
+      if (0 < $('.awards-main').length) {
+        selectedItem = '.wp-block-nab-awards-item';
+      }
+      if (0 < $('.schedule-main').length) {
+        selectedItem = '.schedule-row';
+      }
+      if (0 < $('.team-main').length) {
+        selectedItem = '.team-box';
+      }
+      if (0 < $('.products-winners').length) {
+        selectedItem = '.product-title';
+      }
+      if (0 < $('.box-main, #box-main-search').length) {
+        searchKeyword = '.title';
+        searchId = '#box-main-search';
+      }
+      if (0 < $('.news-conference-schedule').length) {
+        selectedItem = '.box-item';
+        searchKeyword = '.title';
+      }
+      if (0 < $('.rc-page-block').length) {
+        selectedItem = '.rc-page-block .col-lg-4.col-md-6';
+        searchKeyword = '.title';
+      }
+
+      $(document).on('click', 'ul.alphabets-list li', function () {
+        selectedLetter = $(this).html();
+        masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
-    }
+      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type', function () {
+        masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+      });
+      $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
+        masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+      });
 
-    /* -- Media partner filter -- */
-    $('.media-partner-filter .featured-btn').click(function () {
-      $(this).toggleClass('active');
-      $('.media-partners .team-box').removeClass('slideInUp').hide();
-      if ($(this).hasClass('active')) {
-        $('.media-partners .team-box.featured').addClass('slideInUp').show();
+      $('.badge-discounts').each(function () {
+        if ('' !== $(this).find('.badge-title').html()) {
+          insertList($(this).find('.badge-title').text(), 'box-main-listing');
+        }
+      });
+
+      $('.exhibitor-resources-page .related-main-wrapper').each(function () {
+        if ('' !== $(this).find('.parent-main-title').html()) {
+          insertList($(this).find('.parent-main-title').text(), 'box-main-listing');
+        }
+      });
+
+      if (0 < jQuery('.badgeslist a').length) {
+        $('.badgeslist a').each(function () {
+          let $this = $(this);
+          $($this).on('click', function () {
+            if ($this.hasClass('clicked')) {
+              $this.removeClass('clicked');
+              $('.badgeslist a').removeClass('active');
+              $('.no-data').hide();
+
+              $('.box-main .box-item').addClass('slideInUp').show();
+              $('.badge-discounts, .badge-discounts .badge-title').show();
+              $('.related-main-wrapper, .parent-main-title').show();
+
+              masterFilterFunc(selectedItem, searchId, searchKeyword);
+
+            }
+            else {
+              $('.badgeslist a').removeClass('active');
+              $('.badgeslist a').removeClass('clicked');
+
+              $this.addClass('clicked');
+              $(this).addClass('active');
+
+              masterFilterFunc(selectedItem, searchId, searchKeyword);
+
+            }
+          });
+        });
+
       }
-      masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
-    });
 
-    // Add Data in Dropdowns
-    $('.media-partners .team-box').each(function () {
-      if (null !== $(this).data('topics').split(',')) {
-        $.map($(this).data('topics').split(','), function (val) {
-          insertOptions(val, 'topic-type');
+      /* Sponsorship Opp */
+      if ($('.opportunities .box-main .box-item').has('span.sold')) {
+        $(' .opportunities .box-main .box-item span.sold').each(function () {
+          $(this).parents('.opportunities .box-main .box-item').addClass('visible');
         });
       }
-      if (null !== $(this).data('formats').split(',')) {
-        $.map($(this).data('formats').split(','), function (val) {
-          insertOptions(val, 'format-type');
-        });
-      }
-      if (null !== $(this).data('locations').split(',')) {
-        $.map($(this).data('locations').split(','), function (val) {
-          insertOptions(val, 'location-type');
-        });
-      }
-    });
 
-    // Test
+      /* -- Media partner filter -- */
+      $('.media-partner-filter .featured-btn').click(function () {
+        $(this).toggleClass('active');
+        $('.media-partners .team-box').removeClass('slideInUp').hide();
+        if ($(this).hasClass('active')) {
+          $('.media-partners .team-box.featured').addClass('slideInUp').show();
+        }
+        masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+      });
 
-    $('.news-conference .category .select-opt').each(function () {
-      $(document).on('change', '.news-conference .category .select-opt', function () {
+      // Add Data in Dropdowns
+      $('.media-partners .team-box').each(function () {
+        if (null !== $(this).data('topics').split(',')) {
+          $.map($(this).data('topics').split(','), function (val) {
+            insertOptions(val, 'topic-type');
+          });
+        }
+        if (null !== $(this).data('formats').split(',')) {
+          $.map($(this).data('formats').split(','), function (val) {
+            insertOptions(val, 'format-type');
+          });
+        }
+        if (null !== $(this).data('locations').split(',')) {
+          $.map($(this).data('locations').split(','), function (val) {
+            insertOptions(val, 'location-type');
+          });
+        }
+      });
+
+      // Test
+
+      $('.news-conference .category .select-opt').each(function () {
+        $(document).on('change', '.news-conference .category .select-opt', function () {
+          if ($('.news-conference-schedule .no-data').is(':visible')) {
+            $('.news-conference-schedule .no-data').parent('.box-main').addClass('noDataFound');
+          } else {
+            $('.news-conference-schedule .no-data').parent('.box-main').removeClass('noDataFound');
+          }
+        });
+      });
+      $(document).on('keyup', '.news-conference #box-main-search', function () {
         if ($('.news-conference-schedule .no-data').is(':visible')) {
           $('.news-conference-schedule .no-data').parent('.box-main').addClass('noDataFound');
         } else {
           $('.news-conference-schedule .no-data').parent('.box-main').removeClass('noDataFound');
         }
       });
-    });
-    $(document).on('keyup', '.news-conference #box-main-search', function () {
-      if ($('.news-conference-schedule .no-data').is(':visible')) {
-        $('.news-conference-schedule .no-data').parent('.box-main').addClass('noDataFound');
-      } else {
-        $('.news-conference-schedule .no-data').parent('.box-main').removeClass('noDataFound');
-      }
-    });
 
+    }
   }
 
   /**

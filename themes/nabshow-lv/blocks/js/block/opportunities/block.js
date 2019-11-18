@@ -368,7 +368,7 @@
                         }
                         <div className="media-img">
                           {product.media ? (
-                            <img src={product.media} alt={product.alt} className="img" />
+                            <img src={product.media} alt={product.mediaAlt} className="img" />
                           ) : (
                               <div className="no-image">No Featured Image</div>
                             )}

@@ -1034,9 +1034,9 @@ body .quote-slider .quote-inner .quote-item:first-child, .nab-media-slider .nab-
 .custom-box .custom-box-row>.title.nab-title{display:none}
 
 /* Ad Block CSS */
-.nab-banner-main{position:relative;text-align:center}
+.nab-banner-main{position:relative;text-align:center;margin-bottom:20px;margin-top:20px}
 .nab-banner-main .nab-banner-inner{position:relative;display:inline-block}
-.nab-banner-main .banner-text{position:absolute;bottom:25px;left:-48px;transform:rotate(-90deg)}
+.nab-banner-main .banner-text{position:absolute;bottom:30px;left:-50px;transform:rotate(-90deg)}
 .nab-banner-main img.banner-img{padding-left:20px}
 
 .fab-filter{display:flex}
@@ -1417,7 +1417,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 /* related content co-located events */
 .related-content-slider-info .item,.related-content-slider-events .item{border:3px solid #d9d9d9}
 .related-content-slider-info .item .item-info,.related-content-slider-events .item{text-align:center;padding:15px;background:#fff}
-.related-content-slider-info .item .item-info h2{margin-top:0}
+.related-content-slider-info .item .item-info h2{margin-top:0;font-size:26px}
 .related-content-slider-info .item .item-info .datetime,.related-content-slider-info .item .item-info .location{margin-bottom:5px}
 .related-content-slider-info .item .item-info .access, .related-content-slider-events .item .description{margin-bottom:0}
 .related-content-slider-events .item .datetime{margin-bottom:5px;margin-top:15px}

@@ -5463,6 +5463,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     )
                                 )
                             ) : ''
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Help'), initialOpen: false },
+                            wp.element.createElement(
+                                'a',
+                                { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4', target: '_blank' },
+                                'How to use block?'
+                            )
                         )
                     ),
                     wp.element.createElement(
@@ -8138,7 +8147,16 @@ module.exports = shortOut;
                 )
               )
             )
-          ) : ''
+          ) : '',
+          wp.element.createElement(
+            PanelBody,
+            { title: __('Help'), initialOpen: false },
+            wp.element.createElement(
+              "a",
+              { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
+              "How to use block?"
+            )
+          )
         )
       );
     },
@@ -8880,6 +8898,15 @@ module.exports = shortOut;
 								)
 							)
 						)
+					),
+					wp.element.createElement(
+						PanelBody,
+						{ title: __('Help'), initialOpen: false },
+						wp.element.createElement(
+							"a",
+							{ href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
+							"How to use block?"
+						)
 					)
 				)
 			);
@@ -9615,6 +9642,15 @@ module.exports = shortOut;
                 )
               )
             )
+          ),
+          wp.element.createElement(
+            PanelBody,
+            { title: __('Help'), initialOpen: false },
+            wp.element.createElement(
+              "a",
+              { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
+              "How to use block?"
+            )
           )
         )
       );
@@ -10165,6 +10201,15 @@ module.exports = shortOut;
 								)
 							)
 						)
+					),
+					wp.element.createElement(
+						PanelBody,
+						{ title: __('Help'), initialOpen: false },
+						wp.element.createElement(
+							"a",
+							{ href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
+							"How to use block?"
+						)
 					)
 				)
 			);
@@ -10309,6 +10354,10 @@ module.exports = shortOut;
             showTitle: {
                 type: 'boolean',
                 default: true
+            },
+            showFilter: {
+                type: 'boolean',
+                default: true
             }
         },
         edit: function edit(props, attributes) {
@@ -10316,6 +10365,7 @@ module.exports = shortOut;
                 noOfschedule = _props$attributes.noOfschedule,
                 title = _props$attributes.title,
                 showTitle = _props$attributes.showTitle,
+                showFilter = _props$attributes.showFilter,
                 className = props.className,
                 setAttributes = props.setAttributes,
                 clientId = props.clientId;
@@ -10329,52 +10379,173 @@ module.exports = shortOut;
             });
 
             return wp.element.createElement(
-                'div',
-                { className: 'schedule-main ' + (className ? className : '') },
-                wp.element.createElement(
-                    InspectorControls,
-                    null,
+                Fragment,
+                null,
+                showFilter && wp.element.createElement(
+                    'div',
+                    { 'class': 'schedule-glance-filter' },
                     wp.element.createElement(
-                        PanelBody,
-                        { title: 'General Settings' },
+                        'div',
+                        { 'class': 'date' },
                         wp.element.createElement(
-                            PanelRow,
+                            'label',
                             null,
-                            wp.element.createElement(ToggleControl, {
-                                label: __('Show Title'),
-                                checked: showTitle,
-                                onChange: function onChange() {
-                                    return setAttributes({ showTitle: !showTitle });
-                                }
-                            })
+                            'Date'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'date' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Date'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'pass-type' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Is Open To'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'pass-type' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Pass Time'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'location' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Location'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'location' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Location'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'type' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Type'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'type' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Type'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'search-box' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Name'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement('input', { id: 'box-main-search', 'class': 'schedule-search', name: 'schedule-search', type: 'text', placeholder: 'Filter by name...' })
                         )
                     )
                 ),
-                showTitle ? wp.element.createElement(RichText, {
-                    tagName: 'h2',
-                    onChange: function onChange(value) {
-                        return setAttributes({ title: value });
-                    },
-                    placeholder: __('Title'),
-                    value: title
-                }) : '',
                 wp.element.createElement(
                     'div',
-                    { className: 'schedule-data' },
-                    wp.element.createElement(InnerBlocks, {
-                        template: getChildscheduleBlock(noOfschedule),
-                        templateLock: 'all',
-                        allowedBlocks: ALLOWBLOCKS
-                    }),
+                    { className: 'schedule-main ' + (className ? className : '') },
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: 'General Settings' },
+                            wp.element.createElement(
+                                PanelRow,
+                                null,
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Show Title'),
+                                    checked: showTitle,
+                                    onChange: function onChange() {
+                                        return setAttributes({ showTitle: !showTitle });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(
+                                PanelRow,
+                                null,
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Show Filter'),
+                                    checked: showFilter,
+                                    onChange: function onChange() {
+                                        return setAttributes({ showFilter: !showFilter });
+                                    }
+                                })
+                            )
+                        )
+                    ),
+                    showTitle ? wp.element.createElement(RichText, {
+                        tagName: 'h2',
+                        onChange: function onChange(value) {
+                            return setAttributes({ title: value });
+                        },
+                        placeholder: __('Title'),
+                        value: title
+                    }) : '',
                     wp.element.createElement(
                         'div',
-                        { className: 'add-remove-btn' },
+                        { className: 'schedule-data' },
+                        wp.element.createElement(InnerBlocks, {
+                            template: getChildscheduleBlock(noOfschedule),
+                            templateLock: 'all',
+                            allowedBlocks: ALLOWBLOCKS
+                        }),
                         wp.element.createElement(
-                            Button,
-                            { className: 'add', onClick: function onClick() {
-                                    return setAttributes({ noOfschedule: noOfschedule + 1 });
-                                } },
-                            wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
+                            'div',
+                            { className: 'add-remove-btn' },
+                            wp.element.createElement(
+                                Button,
+                                { className: 'add', onClick: function onClick() {
+                                        return setAttributes({ noOfschedule: noOfschedule + 1 });
+                                    } },
+                                wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
+                            )
                         )
                     )
                 )
@@ -10384,19 +10555,130 @@ module.exports = shortOut;
             var _props$attributes2 = props.attributes,
                 title = _props$attributes2.title,
                 showTitle = _props$attributes2.showTitle,
+                showFilter = _props$attributes2.showFilter,
                 className = props.className;
 
             return wp.element.createElement(
-                'div',
-                { className: 'schedule-main  ' + (className ? className : '') },
-                showTitle ? wp.element.createElement(RichText.Content, {
-                    tagName: 'h2',
-                    value: title
-                }) : '',
+                Fragment,
+                null,
+                showFilter && wp.element.createElement(
+                    'div',
+                    { 'class': 'schedule-glance-filter' },
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'date' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Date'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'date' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Date'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'pass-type' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Is Open To'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'pass-type' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Pass Time'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'location' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Location'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'location' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Location'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'type' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Type'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement(
+                                'select',
+                                { id: 'type' },
+                                wp.element.createElement(
+                                    'option',
+                                    null,
+                                    'Select a Type'
+                                )
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        'div',
+                        { 'class': 'search-box' },
+                        wp.element.createElement(
+                            'label',
+                            null,
+                            'Name'
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { 'class': 'schedule-select' },
+                            wp.element.createElement('input', { id: 'box-main-search', 'class': 'schedule-search', name: 'schedule-search', type: 'text', placeholder: 'Filter by name...' })
+                        )
+                    )
+                ),
                 wp.element.createElement(
                     'div',
-                    { className: 'schedule-data' },
-                    wp.element.createElement(InnerBlocks.Content, null)
+                    { className: 'schedule-main  ' + (className ? className : '') },
+                    showTitle ? wp.element.createElement(RichText.Content, {
+                        tagName: 'h2',
+                        value: title
+                    }) : '',
+                    wp.element.createElement(
+                        'div',
+                        { className: 'schedule-data' },
+                        wp.element.createElement(InnerBlocks.Content, null)
+                    )
                 )
             );
         }
@@ -11160,7 +11442,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     mode = attributes.mode,
                     sliderBgColor = attributes.sliderBgColor;
 
-
                 var quotesList = quotes.sort(function (a, b) {
                     return a.index - b.index;
                 }).map(function (quote, index) {
@@ -11549,7 +11830,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             if (0 < quotes.length) {
                 return wp.element.createElement(
                     "div",
-                    { id: "block-" + clientId, className: "quote-slider " + quotesOptions + " " + sliderBgColor },
+                    { className: "quote-slider " + quotesOptions + " " + sliderBgColor },
                     wp.element.createElement(
                         "div",
                         { className: "quote-inner", "data-mode": mode, "data-autoplay": "" + autoplay, "data-speed": "" + speed, "data-infiniteloop": "" + infiniteLoop, "data-pager": "" + pager, "data-controls": "" + controls, "data-adaptiveheight": "" + adaptiveHeight },
@@ -12595,6 +12876,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Help'), initialOpen: false },
+                            wp.element.createElement(
+                                "a",
+                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/latest-show-news.mp4", target: "_blank" },
+                                "How to use block?"
+                            )
                         )
                     ),
                     wp.element.createElement(
@@ -12784,6 +13074,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 									return setAttributes({ showTitle: !showTitle });
 								}
 							})
+						)
+					),
+					wp.element.createElement(
+						PanelBody,
+						{ title: __('Help'), initialOpen: false },
+						wp.element.createElement(
+							'a',
+							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4', target: '_blank' },
+							'How to use block?'
 						)
 					)
 				),
@@ -13522,6 +13821,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 								)
 							)
 						)
+					),
+					wp.element.createElement(
+						PanelBody,
+						{ title: __('Help'), initialOpen: false },
+						wp.element.createElement(
+							'a',
+							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4', target: '_blank' },
+							'How to use block?'
+						)
 					)
 				)
 			);
@@ -13875,7 +14183,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       var getImageButton = function getImageButton(openEvent) {
         if (attributes.imageUrl) {
-          return wp.element.createElement('img', { src: attributes.imageUrl, alr: imageAlt, className: 'main-img' });
+          return wp.element.createElement('img', { src: attributes.imageUrl, alt: imageAlt, className: 'main-img' });
         } else {
           return wp.element.createElement(
             'div',
@@ -13905,7 +14213,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 className: 'dashicons dashicons-trash'
               })
             ),
-            wp.element.createElement('img', { src: swapImage, alr: swapAlt, className: 'hover-img' })
+            wp.element.createElement('img', { src: swapImage, alt: swapAlt, className: 'hover-img' })
           );
         } else {
           return wp.element.createElement(
@@ -14065,6 +14373,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 })
               )
             )
+          ),
+          wp.element.createElement(
+            PanelBody,
+            { title: __('Help'), initialOpen: false },
+            wp.element.createElement(
+              'a',
+              { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/meet-the-team.mp4', target: '_blank' },
+              'How to use block?'
+            )
           )
         ),
         wp.element.createElement(
@@ -14072,7 +14389,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           { className: 'team-box-inner' },
           wp.element.createElement(
             'span',
-            { 'class': 'remove-button' },
+            { className: 'remove-button' },
             wp.element.createElement(IconButton, {
               className: 'components-toolbar__control',
               label: __('Remove image'),
@@ -14217,7 +14534,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 Fragment,
                 null,
                 wp.element.createElement('img', { src: imageUrl, alt: imageAlt, className: 'main-img' }),
-                swapImage ? wp.element.createElement('img', { src: swapImage, alr: swapAlt, className: 'hover-img' }) : ''
+                swapImage ? wp.element.createElement('img', { src: swapImage, alt: swapAlt, className: 'hover-img' }) : ''
               ) : wp.element.createElement(
                 'div',
                 { className: 'no-image' },
@@ -14497,6 +14814,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                 }
                             })
                         )
+                    ),
+                    wp.element.createElement(
+                        PanelBody,
+                        { title: __('Help'), initialOpen: false },
+                        wp.element.createElement(
+                            'a',
+                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4', target: '_blank' },
+                            'How to use block?'
+                        )
                     )
                 ),
                 wp.element.createElement(
@@ -14636,6 +14962,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                 }
                             })
                         )
+                    ),
+                    wp.element.createElement(
+                        PanelBody,
+                        { title: __('Help'), initialOpen: false },
+                        wp.element.createElement(
+                            'a',
+                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4', target: '_blank' },
+                            'How to use block?'
+                        )
                     )
                 ),
                 wp.element.createElement(
@@ -14643,7 +14978,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     { className: 'col-lg-6 col-md-6 col-sm-12' },
                     wp.element.createElement(
                         'span',
-                        { 'class': 'remove-item' },
+                        { className: 'remove-item' },
                         wp.element.createElement(IconButton, {
                             className: 'components-toolbar__control',
                             label: __('Remove image'),
@@ -15276,6 +15611,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                 return setAttributes({ eventLabel: label });
                             }
                         })
+                    ),
+                    wp.element.createElement(
+                        PanelBody,
+                        { title: __('Help'), initialOpen: false },
+                        wp.element.createElement(
+                            "a",
+                            { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/advertisement.mp4", target: "_blank" },
+                            "How to use block?"
+                        )
                     )
                 ),
                 wp.element.createElement(
@@ -19378,6 +19722,15 @@ var Inspector = function (_Component) {
 								)
 							)
 						)
+					),
+					wp.element.createElement(
+						PanelBody,
+						{ title: __('Help'), initialOpen: false },
+						wp.element.createElement(
+							'a',
+							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/nabshow-custom-block.mp4', target: '_blank' },
+							'How to use block?'
+						)
 					)
 				)
 			);
@@ -20199,6 +20552,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ postType: value });
                                 }
                             })
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Help'), initialOpen: false },
+                            wp.element.createElement(
+                                "a",
+                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/contributors-authors.mp4", target: "_blank" },
+                                "How to use block?"
+                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
@@ -20255,8 +20617,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var Fragment = wpElement.Fragment,
       Component = wpElement.Component;
   var RichText = wpEditor.RichText,
-      MediaUpload = wpEditor.MediaUpload;
-  var Button = wpComponents.Button;
+      MediaUpload = wpEditor.MediaUpload,
+      InspectorControls = wpEditor.InspectorControls;
+  var Button = wpComponents.Button,
+      PanelBody = wpComponents.PanelBody;
 
 
   var newThisYearBlockIcon = wp.element.createElement(
@@ -20276,16 +20640,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     )
   );
 
-  var NabMediaSlider = function (_Component) {
-    _inherits(NabMediaSlider, _Component);
+  var NewThisYear = function (_Component) {
+    _inherits(NewThisYear, _Component);
 
-    function NabMediaSlider() {
-      _classCallCheck(this, NabMediaSlider);
+    function NewThisYear() {
+      _classCallCheck(this, NewThisYear);
 
-      return _possibleConstructorReturn(this, (NabMediaSlider.__proto__ || Object.getPrototypeOf(NabMediaSlider)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (NewThisYear.__proto__ || Object.getPrototypeOf(NewThisYear)).apply(this, arguments));
     }
 
-    _createClass(NabMediaSlider, [{
+    _createClass(NewThisYear, [{
       key: "componentDidMount",
       value: function componentDidMount() {
         var products = this.props.attributes.products;
@@ -20464,6 +20828,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           "div",
           { className: "new-this-year new-this-year-block" },
           wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: __('Help'), initialOpen: false },
+              wp.element.createElement(
+                "a",
+                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/new-this-year.mp4", target: "_blank" },
+                "How to use block?"
+              )
+            )
+          ),
+          wp.element.createElement(
             "div",
             { className: "box-main" },
             productsList,
@@ -20496,7 +20873,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }
     }]);
 
-    return NabMediaSlider;
+    return NewThisYear;
   }(Component);
 
   registerBlockType('nab/new-this-year', {
@@ -20511,7 +20888,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         default: []
       }
     },
-    edit: NabMediaSlider,
+    edit: NewThisYear,
 
     save: function save(props) {
       var attributes = props.attributes,
@@ -21271,7 +21648,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var Component = wpElement.Component;
   var MediaUpload = wpEditor.MediaUpload,
       InspectorControls = wpEditor.InspectorControls;
-  var Button = wpComponents.Button;
+  var Button = wpComponents.Button,
+      PanelBody = wpComponents.PanelBody;
 
 
   var photosBlockIcon = wp.element.createElement(
@@ -21410,6 +21788,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   );
                 }
               })
+            ),
+            wp.element.createElement(
+              PanelBody,
+              { title: __('Help'), initialOpen: false },
+              wp.element.createElement(
+                "a",
+                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
+                "How to use block?"
+              )
             )
           )
         );
@@ -22255,10 +22642,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var registerBlockType = wpBlocks.registerBlockType;
   var Fragment = wpElement.Fragment,
       Component = wpElement.Component;
-  var RichText = wpEditor.RichText,
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText,
       MediaUpload = wpEditor.MediaUpload;
-  var Button = wpComponents.Button,
-      TextControl = wpComponents.TextControl;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      Button = wpComponents.Button,
+      TextControl = wpComponents.TextControl,
+      ToggleControl = wpComponents.ToggleControl;
 
 
   var officialVendorBlockIcon = wp.element.createElement(
@@ -22319,7 +22710,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             setAttributes = _props.setAttributes,
             clientId = _props.clientId,
             className = _props.className;
-        var products = attributes.products;
+        var products = attributes.products,
+            showFilter = attributes.showFilter;
 
 
         var getImageButton = function getImageButton(openEvent, index) {
@@ -22492,36 +22884,139 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         });
 
         return wp.element.createElement(
-          "div",
-          { className: "new-this-year official-vendors" },
+          Fragment,
+          null,
           wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: "General Settings" },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(ToggleControl, {
+                  label: __('Show Filter'),
+                  checked: showFilter,
+                  onChange: function onChange() {
+                    return setAttributes({ showFilter: !showFilter });
+                  }
+                })
+              )
+            )
+          ),
+          showFilter && wp.element.createElement(
             "div",
-            { className: "box-main" },
-            productsList,
+            { "class": "box-main-filter main-filter new-this-year-filter official-vendors-filter" },
             wp.element.createElement(
               "div",
-              { className: "box-item additem" },
+              { "class": "ov-filter" },
               wp.element.createElement(
-                "button",
-                {
-                  className: "components-button add",
-                  onClick: function onClick(content) {
-                    setAttributes({
-                      products: [].concat(_toConsumableArray(products), [{
-                        index: products.length,
-                        media: '',
-                        mediaAlt: '',
-                        title: '',
-                        companyName: '',
-                        type: '',
-                        description: '',
-                        email: ''
-                      }])
-                    });
-                  }
-                },
-                wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
-                " Add New Item"
+                "div",
+                { "class": "category" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Service"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { "class": "box-main-select" },
+                  wp.element.createElement(
+                    "select",
+                    { id: "box-main-category", "class": "select-opt" },
+                    wp.element.createElement(
+                      "option",
+                      null,
+                      "Select a Service"
+                    )
+                  )
+                )
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "category" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Vendor Name"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { "class": "box-main-select" },
+                  wp.element.createElement(
+                    "select",
+                    { id: "box-main-category-vendor", "class": "select-opt" },
+                    wp.element.createElement(
+                      "option",
+                      null,
+                      "Select a Vendor"
+                    )
+                  )
+                )
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "badgeslist" },
+                wp.element.createElement(
+                  "a",
+                  null,
+                  "Exclusive"
+                ),
+                wp.element.createElement(
+                  "a",
+                  null,
+                  "Preferred"
+                )
+              )
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "search-box" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Keyword"
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "search-item icon-right" },
+                wp.element.createElement("input", { id: "box-main-search", "class": "search", name: "box-main-search", type: "text", placeholder: "Filter by keyword..." })
+              )
+            )
+          ),
+          wp.element.createElement(
+            "div",
+            { className: "new-this-year official-vendors" },
+            wp.element.createElement(
+              "div",
+              { className: "box-main" },
+              productsList,
+              wp.element.createElement(
+                "div",
+                { className: "box-item additem" },
+                wp.element.createElement(
+                  "button",
+                  {
+                    className: "components-button add",
+                    onClick: function onClick(content) {
+                      setAttributes({
+                        products: [].concat(_toConsumableArray(products), [{
+                          index: products.length,
+                          media: '',
+                          mediaAlt: '',
+                          title: '',
+                          companyName: '',
+                          type: '',
+                          description: '',
+                          email: ''
+                        }])
+                      });
+                    }
+                  },
+                  wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
+                  " Add New Item"
+                )
               )
             )
           )
@@ -22542,6 +23037,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       products: {
         type: 'array',
         default: []
+      },
+      showFilter: {
+        type: 'boolean',
+        default: true
       }
     },
     edit: EditOfficialVendor,
@@ -22549,70 +23048,148 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     save: function save(props) {
       var attributes = props.attributes,
           className = props.className;
-      var products = attributes.products;
+      var products = attributes.products,
+          showFilter = attributes.showFilter;
 
 
       return wp.element.createElement(
-        "div",
-        { className: "new-this-year official-vendors" },
-        wp.element.createElement(
+        Fragment,
+        null,
+        showFilter && wp.element.createElement(
           "div",
-          { className: "box-main" },
-          products.map(function (product, index) {
-            return wp.element.createElement(
-              Fragment,
-              null,
-              product.title && wp.element.createElement(
+          { "class": "box-main-filter main-filter new-this-year-filter official-vendors-filter" },
+          wp.element.createElement(
+            "div",
+            { "class": "ov-filter" },
+            wp.element.createElement(
+              "div",
+              { "class": "category" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Service"
+              ),
+              wp.element.createElement(
                 "div",
-                { className: "box-item" },
+                { "class": "box-main-select" },
                 wp.element.createElement(
-                  "div",
-                  { className: "box-inner" },
+                  "select",
+                  { id: "box-main-category", "class": "select-opt" },
                   wp.element.createElement(
-                    "div",
-                    { className: "media-img" },
-                    product.media ? wp.element.createElement("img", { src: product.media, alt: product.alt, className: "img" }) : wp.element.createElement(
-                      "div",
-                      { className: "no-image" },
-                      "No Logo"
-                    )
-                  ),
-                  product.title && wp.element.createElement(RichText.Content, {
-                    tagName: "h3",
-                    value: product.title,
-                    className: "title"
-                  }),
-                  product.companyName && wp.element.createElement(RichText.Content, {
-                    tagName: "p",
-                    className: "companyName",
-                    value: product.companyName
-                  }),
-                  product.type && wp.element.createElement(RichText.Content, {
-                    tagName: "p",
-                    className: "type",
-                    value: product.type
-                  }),
-                  product.description && wp.element.createElement(RichText.Content, {
-                    tagName: "p",
-                    className: "description",
-                    value: product.description
-                  }),
-                  product.email && wp.element.createElement(
-                    "a",
-                    { className: "email", href: "mailto:" + product.email },
-                    "Email us"
+                    "option",
+                    null,
+                    "Select a Service"
                   )
-
-                  // <RichText.Content
-                  //   tagName="a"
-                  //   className="email"
-                  //   value={product.email}
-                  // />
-
                 )
               )
-            );
-          })
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "category" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Vendor Name"
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "box-main-select" },
+                wp.element.createElement(
+                  "select",
+                  { id: "box-main-category-vendor", "class": "select-opt" },
+                  wp.element.createElement(
+                    "option",
+                    null,
+                    "Select a Vendor"
+                  )
+                )
+              )
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "badgeslist" },
+              wp.element.createElement(
+                "a",
+                null,
+                "Exclusive"
+              ),
+              wp.element.createElement(
+                "a",
+                null,
+                "Preferred"
+              )
+            )
+          ),
+          wp.element.createElement(
+            "div",
+            { "class": "search-box" },
+            wp.element.createElement(
+              "label",
+              null,
+              "Keyword"
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "search-item icon-right" },
+              wp.element.createElement("input", { id: "box-main-search", "class": "search", name: "box-main-search", type: "text", placeholder: "Filter by keyword..." })
+            )
+          )
+        ),
+        wp.element.createElement(
+          "div",
+          { className: "new-this-year official-vendors" },
+          wp.element.createElement(
+            "div",
+            { className: "box-main" },
+            products.map(function (product, index) {
+              return wp.element.createElement(
+                Fragment,
+                null,
+                product.title && wp.element.createElement(
+                  "div",
+                  { className: "box-item" },
+                  wp.element.createElement(
+                    "div",
+                    { className: "box-inner" },
+                    wp.element.createElement(
+                      "div",
+                      { className: "media-img" },
+                      product.media ? wp.element.createElement("img", { src: product.media, alt: product.mediaAlt, className: "img" }) : wp.element.createElement(
+                        "div",
+                        { className: "no-image" },
+                        "No Logo"
+                      )
+                    ),
+                    product.title && wp.element.createElement(RichText.Content, {
+                      tagName: "h3",
+                      value: product.title,
+                      className: "title"
+                    }),
+                    product.companyName && wp.element.createElement(RichText.Content, {
+                      tagName: "p",
+                      className: "companyName",
+                      value: product.companyName
+                    }),
+                    product.type && wp.element.createElement(RichText.Content, {
+                      tagName: "p",
+                      className: "type",
+                      value: product.type
+                    }),
+                    product.description && wp.element.createElement(RichText.Content, {
+                      tagName: "p",
+                      className: "description",
+                      value: product.description
+                    }),
+                    product.email && wp.element.createElement(
+                      "a",
+                      { className: "email", href: "mailto:" + product.email },
+                      "Email us"
+                    )
+                  )
+                )
+              );
+            })
+          )
         )
       );
     }
@@ -22638,8 +23215,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var registerBlockType = wpBlocks.registerBlockType;
   var Fragment = wpElement.Fragment,
       Component = wpElement.Component;
-  var RichText = wpEditor.RichText;
-  var TextControl = wpComponents.TextControl;
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      TextControl = wpComponents.TextControl,
+      ToggleControl = wpComponents.ToggleControl;
 
 
   var newsConfBlockIcon = wp.element.createElement(
@@ -22721,7 +23302,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             setAttributes = _props.setAttributes,
             clientId = _props.clientId,
             className = _props.className;
-        var dataArry = attributes.dataArry;
+        var dataArry = attributes.dataArry,
+            showFilter = attributes.showFilter;
 
 
         var dataArryList = dataArry.sort(function (a, b) {
@@ -22894,38 +23476,153 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         });
 
         return wp.element.createElement(
-          "div",
-          { className: "news-conference-schedule" },
+          Fragment,
+          null,
           wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: "General Settings" },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(ToggleControl, {
+                  label: __('Show Filter'),
+                  checked: showFilter,
+                  onChange: function onChange() {
+                    return setAttributes({ showFilter: !showFilter });
+                  }
+                })
+              )
+            )
+          ),
+          showFilter && wp.element.createElement(
             "div",
-            { className: "box-main four-grid" },
-            dataArryList,
+            { "class": "box-main-filter main-filter news-conference" },
             wp.element.createElement(
               "div",
-              { className: "box-item additem" },
+              { "class": "div-left" },
               wp.element.createElement(
-                "button",
-                {
-                  className: "components-button add",
-                  onClick: function onClick(content) {
-                    setAttributes({
-                      dataArry: [].concat(_toConsumableArray(dataArry), [{
-                        index: dataArry.length,
-                        title: '',
-                        date: '',
-                        location: '',
-                        description: '',
-                        arrayContact: [{
-                          contact: '',
-                          phone: '',
-                          email: ''
-                        }]
-                      }])
-                    });
-                  }
-                },
-                wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
-                " Add New Item"
+                "div",
+                { "class": "category" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Company Name"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { "class": "box-main-select" },
+                  wp.element.createElement(
+                    "select",
+                    { id: "company-name", "class": "select-opt" },
+                    wp.element.createElement(
+                      "option",
+                      null,
+                      "Select a Company"
+                    )
+                  )
+                )
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "category" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Date"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { "class": "box-main-select" },
+                  wp.element.createElement(
+                    "select",
+                    { id: "date-filter", "class": "select-opt" },
+                    wp.element.createElement(
+                      "option",
+                      null,
+                      "Select a Date"
+                    )
+                  )
+                )
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "category" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Location"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { "class": "box-main-select" },
+                  wp.element.createElement(
+                    "select",
+                    { id: "location-filter", "class": "select-opt" },
+                    wp.element.createElement(
+                      "option",
+                      null,
+                      "Select a Location"
+                    )
+                  )
+                )
+              )
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "div-right" },
+              wp.element.createElement(
+                "div",
+                { "class": "search-box" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Keyword"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { "class": "search-item icon-right" },
+                  wp.element.createElement("input", { id: "box-main-search", "class": "search", name: "box-main-search", type: "text", placeholder: "Filter by keyword..." })
+                )
+              )
+            )
+          ),
+          wp.element.createElement(
+            "div",
+            { className: "news-conference-schedule" },
+            wp.element.createElement(
+              "div",
+              { className: "box-main four-grid" },
+              dataArryList,
+              wp.element.createElement(
+                "div",
+                { className: "box-item additem" },
+                wp.element.createElement(
+                  "button",
+                  {
+                    className: "components-button add",
+                    onClick: function onClick(content) {
+                      setAttributes({
+                        dataArry: [].concat(_toConsumableArray(dataArry), [{
+                          index: dataArry.length,
+                          title: '',
+                          date: '',
+                          location: '',
+                          description: '',
+                          arrayContact: [{
+                            contact: '',
+                            phone: '',
+                            email: ''
+                          }]
+                        }])
+                      });
+                    }
+                  },
+                  wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
+                  " Add New Item"
+                )
               )
             )
           )
@@ -22946,6 +23643,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       dataArry: {
         type: 'array',
         default: []
+      },
+      showFilter: {
+        type: 'boolean',
+        default: true
       }
     },
     edit: BlockComponent,
@@ -22953,70 +23654,167 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     save: function save(props) {
       var attributes = props.attributes,
           className = props.className;
-      var dataArry = attributes.dataArry;
+      var dataArry = attributes.dataArry,
+          showFilter = attributes.showFilter;
 
 
       return wp.element.createElement(
-        "div",
-        { className: "news-conference-schedule" },
-        wp.element.createElement(
+        Fragment,
+        null,
+        showFilter && wp.element.createElement(
           "div",
-          { className: "box-main four-grid" },
-          dataArry.map(function (product, index) {
-            return wp.element.createElement(
-              Fragment,
-              null,
-              product.title && wp.element.createElement(
+          { "class": "box-main-filter main-filter news-conference" },
+          wp.element.createElement(
+            "div",
+            { "class": "div-left" },
+            wp.element.createElement(
+              "div",
+              { "class": "category" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Company Name"
+              ),
+              wp.element.createElement(
                 "div",
-                { className: "box-item" },
+                { "class": "box-main-select" },
                 wp.element.createElement(
-                  "div",
-                  { className: "box-inner" },
-                  wp.element.createElement(RichText.Content, {
-                    tagName: "h3",
-                    value: product.title,
-                    className: "title"
-                  }),
-                  product.date && wp.element.createElement(RichText.Content, {
-                    tagName: "strong",
-                    value: product.date,
-                    className: "date-time"
-                  }),
-                  product.location && wp.element.createElement(RichText.Content, {
-                    tagName: "strong",
-                    value: product.location,
-                    className: "location"
-                  }),
-                  product.description && wp.element.createElement(RichText.Content, {
-                    tagName: "p",
-                    className: "description",
-                    value: product.description
-                  }),
-                  product.arrayContact.map(function (data, i) {
-                    return wp.element.createElement(
-                      "div",
-                      { className: "contact-item" },
-                      data.contact && wp.element.createElement(RichText.Content, {
-                        tagName: "p",
-                        className: "contact-name",
-                        value: data.contact
-                      }),
-                      data.phone && wp.element.createElement(RichText.Content, {
-                        tagName: "p",
-                        className: "phone",
-                        value: data.phone
-                      }),
-                      data.email && wp.element.createElement(
-                        "a",
-                        { className: "email", href: "mailto:" + data.email },
-                        "Email"
-                      )
-                    );
-                  })
+                  "select",
+                  { id: "company-name", "class": "select-opt" },
+                  wp.element.createElement(
+                    "option",
+                    null,
+                    "Select a Company"
+                  )
                 )
               )
-            );
-          })
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "category" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Date"
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "box-main-select" },
+                wp.element.createElement(
+                  "select",
+                  { id: "date-filter", "class": "select-opt" },
+                  wp.element.createElement(
+                    "option",
+                    null,
+                    "Select a Date"
+                  )
+                )
+              )
+            ),
+            wp.element.createElement(
+              "div",
+              { "class": "category" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Location"
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "box-main-select" },
+                wp.element.createElement(
+                  "select",
+                  { id: "location-filter", "class": "select-opt" },
+                  wp.element.createElement(
+                    "option",
+                    null,
+                    "Select a Location"
+                  )
+                )
+              )
+            )
+          ),
+          wp.element.createElement(
+            "div",
+            { "class": "div-right" },
+            wp.element.createElement(
+              "div",
+              { "class": "search-box" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Keyword"
+              ),
+              wp.element.createElement(
+                "div",
+                { "class": "search-item icon-right" },
+                wp.element.createElement("input", { id: "box-main-search", "class": "search", name: "box-main-search", type: "text", placeholder: "Filter by keyword..." })
+              )
+            )
+          )
+        ),
+        wp.element.createElement(
+          "div",
+          { className: "news-conference-schedule" },
+          wp.element.createElement(
+            "div",
+            { className: "box-main four-grid" },
+            dataArry.map(function (product, index) {
+              return wp.element.createElement(
+                Fragment,
+                null,
+                product.title && wp.element.createElement(
+                  "div",
+                  { className: "box-item" },
+                  wp.element.createElement(
+                    "div",
+                    { className: "box-inner" },
+                    wp.element.createElement(RichText.Content, {
+                      tagName: "h3",
+                      value: product.title,
+                      className: "title"
+                    }),
+                    product.date && wp.element.createElement(RichText.Content, {
+                      tagName: "strong",
+                      value: product.date,
+                      className: "date-time"
+                    }),
+                    product.location && wp.element.createElement(RichText.Content, {
+                      tagName: "strong",
+                      value: product.location,
+                      className: "location"
+                    }),
+                    product.description && wp.element.createElement(RichText.Content, {
+                      tagName: "p",
+                      className: "description",
+                      value: product.description
+                    }),
+                    product.arrayContact.map(function (data, i) {
+                      return wp.element.createElement(
+                        "div",
+                        { className: "contact-item" },
+                        data.contact && wp.element.createElement(RichText.Content, {
+                          tagName: "p",
+                          className: "contact-name",
+                          value: data.contact
+                        }),
+                        data.phone && wp.element.createElement(RichText.Content, {
+                          tagName: "p",
+                          className: "phone",
+                          value: data.phone
+                        }),
+                        data.email && wp.element.createElement(
+                          "a",
+                          { className: "email", href: "mailto:" + data.email },
+                          "Email"
+                        )
+                      );
+                    })
+                  )
+                )
+              );
+            })
+          )
         )
       );
     }
@@ -23408,7 +24206,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   wp.element.createElement(
                     "div",
                     { className: "media-img" },
-                    product.media ? wp.element.createElement("img", { src: product.media, alt: product.alt, className: "img" }) : wp.element.createElement(
+                    product.media ? wp.element.createElement("img", { src: product.media, alt: product.mediaAlt, className: "img" }) : wp.element.createElement(
                       "div",
                       { className: "no-image" },
                       "No Featured Image"
@@ -23998,7 +24796,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var MediaUpload = wpEditor.MediaUpload,
       InspectorControls = wpEditor.InspectorControls;
   var Button = wpComponents.Button,
-      TextControl = wpComponents.TextControl;
+      TextControl = wpComponents.TextControl,
+      PanelBody = wpComponents.PanelBody;
 
 
   var videoBlockIcon = wp.element.createElement(
@@ -24148,6 +24947,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   );
                 }
               })
+            ),
+            wp.element.createElement(
+              PanelBody,
+              { title: __('Help'), initialOpen: false },
+              wp.element.createElement(
+                "a",
+                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
+                "How to use block?"
+              )
             )
           )
         );
@@ -24213,7 +25021,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             { className: "videos-dialog" },
             wp.element.createElement(
               "span",
-              { "class": "close" },
+              { className: "close" },
               "\xD7"
             ),
             wp.element.createElement(
@@ -24222,7 +25030,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               wp.element.createElement(
                 "div",
                 { className: "videos-body" },
-                wp.element.createElement("iframe", { src: "", "class": "videos-popup-iframe", frameBorder: "0", allowFullScreen: true })
+                wp.element.createElement("iframe", { src: "", className: "videos-popup-iframe", frameBorder: "0", allowFullScreen: true })
               )
             )
           ),
@@ -24327,6 +25135,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         PanelBody,
                         { title: __('Settings') },
                         commonControl
+                    ),
+                    wp.element.createElement(
+                        PanelBody,
+                        { title: __('Help'), initialOpen: false },
+                        wp.element.createElement(
+                            'a',
+                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4', target: '_blank' },
+                            'How to use block?'
+                        )
                     )
                 ),
                 wp.element.createElement(ServerSideRender, {

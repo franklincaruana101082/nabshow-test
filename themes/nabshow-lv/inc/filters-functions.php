@@ -477,3 +477,42 @@ function nabshow_lv_gutenberg_disable_concat( $handle ) {
 
 	return $handle;
 }
+
+/**
+ * Added admin body class
+ * @param $classes
+ * @return string
+ */
+function nabshow_lv_admin_body_class( $classes ) {
+
+	$post_type    = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+	$taxonomy     = filter_input( INPUT_GET, 'taxonomy', FILTER_SANITIZE_STRING );
+    $compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
+
+    if ( ( ! empty( $post_type ) &&  is_post_type_hierarchical( $post_type ) ) || ( ! empty( $taxonomy ) && is_taxonomy_hierarchical( $taxonomy ) ) ) {
+	    $classes .= ' nab-expand-collapse';
+    }
+
+	if ( ! empty( $compact_view ) && 'on' === $compact_view ) {
+		$classes .= ' nab-compact-view';
+    }
+
+	return $classes;
+}
+
+function nabshow_lv_manage_compact_view_columns( $columns ) {
+
+    $compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
+
+	if ( ! empty( $compact_view ) && 'on' === $compact_view ) {
+
+	    $manage_columns = array();
+
+		$manage_columns['cb']    = $columns['cb'];
+		$manage_columns['title'] = $columns['title'];
+
+		return $manage_columns;
+	}
+
+	return $columns;
+}

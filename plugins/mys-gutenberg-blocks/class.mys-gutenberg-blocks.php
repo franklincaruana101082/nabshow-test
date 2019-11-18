@@ -13,20 +13,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
     class MYSGutenbergBlocks {
 
         /**
-         * Records if the scripts and styles have been enqueued so that we only
-         * do so once.
-         *
+         * Use for load date picker js
          * @var boolean
          */
-        protected static $initiated = false;
+        private $date_picker = false;
 
         /**
          * Initializes WP hooks and filter
          * @since 1.0.0
          */
         public function mysgb_init_hook() {
-
-            self::$initiated = true;
 
             // Filter for register new categories for custom block
             add_filter( 'block_categories', array( $this, 'mysgb_custom_block_category' ), 10, 2 );
@@ -149,13 +145,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * Enqueue gutenberg custom block script and style for front side
          * @since 1.0
          */
-        public static function mysgb_enqueue_front_script() {
+        public function mysgb_enqueue_front_script() {
+
+            if ( $this->date_picker ) {
+                wp_enqueue_script( 'jquery-ui-datepicker' );
+	            wp_enqueue_style('jquery-ui', plugin_dir_url(__FILE__) . 'assets/css/jquery-ui.min.css', array(), false );
+            }
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
                 wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/mysgb-blocks.js', __FILE__ ), array( 'jquery' ), null, true );
                 wp_enqueue_script( 'mysgb-bx-slider',  plugins_url( 'assets/js/jquery.bxslider.min.js', __FILE__ ), array( 'jquery' ), null, true );
 
-                wp_enqueue_style( 'mysgb-blocks-style', plugin_dir_url( __FILE__ ) . 'assets/css/mysgb-blocks.css');
+                wp_enqueue_style( 'mysgb-blocks-style', plugin_dir_url( __FILE__ ) . 'assets/css/mysgb-blocks.css' );
                 wp_enqueue_style( 'mysgb-bxslider-style', plugin_dir_url( __FILE__ ) . 'assets/css/jquery.bxslider.css' );
             }
         }
@@ -892,6 +893,18 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 }
             } else {
 
+                if ( $listing_page && 'none' === $listing_type ) {
+
+                    require_once( plugin_dir_path( __FILE__ ) . 'includes/filters/html-mysgb-session-filter.php' );
+
+                } elseif ( $listing_page && 'open-to-all' === $listing_type ) {
+
+                    require_once( plugin_dir_path( __FILE__ ) . 'includes/filters/html-mysgb-open-to-all-filter.php' );
+
+                    $this->date_picker = true;
+                    $this->mysgb_enqueue_front_script();
+                }
+
                 if ( 'rand' === $order_by && $query->have_posts() ) {
 
                     $post_ids = $query->posts;
@@ -1200,6 +1213,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             ob_start();
 
             if ( $query->have_posts() || $listing_page ) {
+
+                if ( $listing_page ) {
+
+                    require_once( plugin_dir_path( __FILE__ ) . 'includes/filters/html-mysgb-exhibitor-filter.php' );
+                }
+
                 $show_code = $this->mysgb_get_mys_show_code();
             ?>
                 <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
@@ -1393,6 +1412,14 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             ob_start();
 
             if ( $query->have_posts() || $listing_page ) {
+
+                if ( $listing_page ) {
+
+                    require_once( plugin_dir_path( __FILE__ ) . 'includes/filters/html-mysgb-speaker-filter.php' );
+
+                    $this->date_picker = true;
+                    $this->mysgb_enqueue_front_script();
+                }
             ?>
                 <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
             <?php
@@ -2256,11 +2283,37 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         * @param $post_id
         * @param $post_type
         * @param string $display_text
+        * @since 1.0.0
         */
         public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '', $class_name = '') {
         ?>
             <a href="#" class="detail-list-modal-popup <?php echo esc_attr( $class_name ); ?>" data-postid="<?php echo esc_attr( $post_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"> <?php echo esc_html( $display_text ); ?></a>
         <?php
+        }
+
+        /**
+         * Create drop-down options for terms
+         * @param string $taxonomy
+         * @since 1.0
+         */
+        public function mysgb_get_term_list_options( $taxonomy = '' ) {
+
+            if ( ! empty( $taxonomy ) ) {
+
+                $all_terms = get_terms( array(
+                    'taxonomy' => $taxonomy,
+                    'hide_empty' => true,
+                ) );
+
+                if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+
+                    foreach ( $all_terms as $term ) {
+                    ?>
+                        <option value="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></option>
+                    <?php
+                    }
+                }
+            }
         }
     }
 }

@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText } = wpEditor;
-  const { TextControl } = wpComponents;
+  const { InspectorControls, RichText } = wpEditor;
+  const { PanelBody, PanelRow, TextControl, ToggleControl } = wpComponents;
 
   const newsConfBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -112,7 +112,7 @@
 
     render() {
       const { attributes, setAttributes, clientId, className } = this.props;
-      const { dataArry } = attributes;
+      const { dataArry, showFilter } = attributes;
 
       const dataArryList = dataArry
         .sort((a, b) => a.index - b.index)
@@ -290,6 +290,44 @@
         });
 
       return (
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div class="box-main-filter main-filter news-conference">
+              <div class="div-left">
+                <div class="category"><label>Company Name</label>
+                  <div class="box-main-select"><select id="company-name" class="select-opt">
+                    <option>Select a Company</option>
+                  </select></div>
+                </div>
+                <div class="category"><label>Date</label>
+                  <div class="box-main-select"><select id="date-filter" class="select-opt">
+                    <option>Select a Date</option>
+                  </select></div>
+                </div>
+                <div class="category"><label>Location</label>
+                  <div class="box-main-select"><select id="location-filter" class="select-opt">
+                    <option>Select a Location</option>
+                  </select></div>
+                </div>
+              </div>
+              <div class="div-right">
+                <div class="search-box"><label>Keyword</label>
+                  <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+                </div>
+              </div>
+            </div>
+        }
         <div className="news-conference-schedule">
           <div className="box-main four-grid">
             {dataArryList}
@@ -324,6 +362,7 @@
             </div>
           </div>
         </div>
+        </Fragment>
       );
     }
   }
@@ -338,6 +377,10 @@
       dataArry: {
         type: 'array',
         default: [],
+      },
+      showFilter: {
+        type: 'boolean',
+        default: true
       }
     },
     edit: BlockComponent,
@@ -347,9 +390,36 @@
         attributes,
         className
       } = props;
-      const { dataArry } = attributes;
+      const { dataArry, showFilter } = attributes;
 
       return (
+        <Fragment>
+        {showFilter &&
+        <div class="box-main-filter main-filter news-conference">
+          <div class="div-left">
+            <div class="category"><label>Company Name</label>
+              <div class="box-main-select"><select id="company-name" class="select-opt">
+                <option>Select a Company</option>
+              </select></div>
+            </div>
+            <div class="category"><label>Date</label>
+              <div class="box-main-select"><select id="date-filter" class="select-opt">
+                <option>Select a Date</option>
+              </select></div>
+            </div>
+            <div class="category"><label>Location</label>
+              <div class="box-main-select"><select id="location-filter" class="select-opt">
+                <option>Select a Location</option>
+              </select></div>
+            </div>
+          </div>
+          <div class="div-right">
+            <div class="search-box"><label>Keyword</label>
+              <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+            </div>
+          </div>
+        </div>
+        }
         <div className="news-conference-schedule">
           <div className="box-main four-grid">
             {dataArry.map((product, index) => (
@@ -419,6 +489,7 @@
             ))}
           </div>
         </div>
+        </Fragment>
       );
     }
   });

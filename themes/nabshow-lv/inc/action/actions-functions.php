@@ -63,6 +63,23 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
     </select>
 	<?php
 
+	$edit_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'page' === $edit_post_type ) {
+
+	    $compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
+	    $link_text    = 'on' === $compact_view ? 'Default View' : 'Compact View';
+	    $param_val    = 'on' === $compact_view ? 'off' : 'on';
+
+
+		$admin_url_path = 'edit.php?post_type=' . $edit_post_type . '&compact_view=' . $param_val;
+		$final_url      = admin_url( $admin_url_path );
+    ?>
+        <a class="compactBtn button" href="<?php echo esc_url( $final_url ); ?>"><?php echo esc_html( $link_text ); ?></a>
+        <input type="hidden" value="<?php echo esc_attr( $compact_view ); ?>" name="compact_view" />
+    <?php
+    }
+
 }
 
 /**
@@ -278,9 +295,9 @@ function nabshow_lv_help_support_widget_configure() {
 
 function nabhsow_lv_enqueue_admin_script() {
 
-	$screen = get_current_screen();
+	global $pagenow;
 
-	if( 'dashboard' === $screen->id ) {
+	if( 'index.php' === $pagenow ) {
 
 	    wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ) );
 
@@ -289,6 +306,26 @@ function nabhsow_lv_enqueue_admin_script() {
 			'nabshow_lv_admin_nonce' => wp_create_nonce( 'help_support_nonce' ),
 		) );
 
-		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
 	}
+
+	if ( 'index.php' === $pagenow || 'edit.php' === $pagenow || 'edit-tags.php' === $pagenow ) {
+
+		if ( 'index.php' !== $pagenow ) {
+
+			$taxonomy = filter_input( INPUT_GET, 'taxonomy', FILTER_SANITIZE_STRING );
+
+		    wp_enqueue_script( 'nabshow-lv-compact-view', get_template_directory_uri() . '/assets/js/nabshow-lv-admin-compact-view.js', array( 'jquery' ) );
+
+			$taxonomy = is_taxonomy_hierarchical( $taxonomy ) ? $taxonomy : '';
+
+			wp_localize_script( 'nabshow-lv-compact-view', 'nabshowCompactView', array(
+				'expandText'   => __( 'Expand All', 'nabshow-lv' ),
+				'collapseText' => __( 'Collapse All', 'nabshow-lv' ),
+				'nabTaxonomy' => $taxonomy,
+			) );
+
+        }
+
+	    wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
+    }
 }

@@ -40,14 +40,13 @@
                 <div class="col-lg-12">
                     <div class="resource-list">
                         <h3>Resources for:</h3>
-                        <ul>
-                            <li><a href="#" class="btn-default">Attendees</a></li>
-                            <li><a href="#" class="btn-default">Exhibitors</a></li>
-                            <li><a href="#" class="btn-default">Sponsors</a></li>
-                            <li><a href="#" class="btn-default">Partners</a></li>
-                            <li><a href="#" class="btn-default">Speakers</a></li>
-                            <li><a href="#" class="btn-default">Press</a></li>
-                        </ul>
+	                    <?php
+                            wp_nav_menu( array(
+                                'theme_location' => 'footer-menu',
+                                'depth'          => '1',
+                                'menu_class'     => 'bottom-nav-menu',
+                            ));
+	                    ?>
                     </div>
                 </div>
             </div>
