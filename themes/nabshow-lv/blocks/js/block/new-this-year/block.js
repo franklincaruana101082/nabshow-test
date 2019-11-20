@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
   const { RichText, MediaUpload, InspectorControls } = wpEditor;
-  const { Button, PanelBody } = wpComponents;
+  const { Button, PanelBody, PanelRow, ToggleControl } = wpComponents;
 
   const newThisYearBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -64,7 +64,7 @@
 
     render() {
       const { attributes, setAttributes, clientId, className } = this.props;
-      const { products } = attributes;
+      const { products, showFilter } = attributes;
 
       const getImageButton = (openEvent, index) => {
         if (products[index].media) {
@@ -208,39 +208,64 @@
         });
 
       return (
-        <div className="new-this-year new-this-year-block">
+        <Fragment>
           <InspectorControls>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/new-this-year.mp4" target="_blank">How to use block?</a>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
             </PanelBody>
           </InspectorControls>
-          <div className="box-main">
-            {productsList}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    products: [
-                      ...products,
-                      {
-                        index: products.length,
-                        media: '',
-                        mediaAlt: '',
-                        title: '',
-                        description: '',
-                        readMore: 'Read More'
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+          {showFilter &&
+            <div className="box-main-filter main-filter new-this-year-filter">
+              <div className="category"><label>Category</label>
+                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                  <option>Select a Category</option>
+                </select></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="new-this-year new-this-year-block">
+            <InspectorControls>
+              <PanelBody title={__('Help')} initialOpen={false}>
+                <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/new-this-year.mp4" target="_blank">How to use block?</a>
+              </PanelBody>
+            </InspectorControls>
+            <div className="box-main">
+              {productsList}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      products: [
+                        ...products,
+                        {
+                          index: products.length,
+                          media: '',
+                          mediaAlt: '',
+                          title: '',
+                          description: '',
+                          readMore: 'Read More'
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -255,62 +280,77 @@
       products: {
         type: 'array',
         default: [],
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: NewThisYear,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
-      const { products } = attributes;
+      const { attributes } = props;
+      const { products, showFilter } = attributes;
 
       return (
-        <div className="new-this-year new-this-year-block">
-          <div className="box-main">
-            {products.map((product, index) => (
-              <Fragment>
-                {
-                  product.title && (
-                    <div className="box-item">
-                      <div className="box-inner">
-                        <div className="media-img">
-                          {product.media ? (
-                            <img src={product.media} alt={product.alt} className="img" />
-                          ) : (
-                              <div className="no-image">No Logo</div>
-                            )}
+        <Fragment>
+          {showFilter &&
+            <div className="box-main-filter main-filter new-this-year-filter">
+              <div className="category"><label>Category</label>
+                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                  <option>Select a Category</option>
+                </select></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="new-this-year new-this-year-block">
+            <div className="box-main">
+              {products.map((product, index) => (
+                <Fragment>
+                  {
+                    product.title && (
+                      <div className="box-item">
+                        <div className="box-inner">
+                          <div className="media-img">
+                            {product.media ? (
+                              <img src={product.media} alt={product.alt} className="img" />
+                            ) : (
+                                <div className="no-image">No Logo</div>
+                              )}
+                          </div>
+                          {product.title && (
+                            <RichText.Content
+                              tagName="h3"
+                              value={product.title}
+                              className="title"
+                            />
+                          )}
+                          {product.description && (
+                            <RichText.Content
+                              tagName="p"
+                              className="description"
+                              value={product.description}
+                            />
+                          )}
+                          {product.readMore && (
+                            <RichText.Content
+                              tagName="span"
+                              className="readMore"
+                              value={product.readMore}
+                            />
+                          )}
                         </div>
-                        {product.title && (
-                          <RichText.Content
-                            tagName="h3"
-                            value={product.title}
-                            className="title"
-                          />
-                        )}
-                        {product.description && (
-                          <RichText.Content
-                            tagName="p"
-                            className="description"
-                            value={product.description}
-                          />
-                        )}
-                        {product.readMore && (
-                          <RichText.Content
-                            tagName="span"
-                            className="readMore"
-                            value={product.readMore}
-                          />
-                        )}
                       </div>
-                    </div>
-                  )
-                }
-              </Fragment>
-            ))}
+                    )
+                  }
+                </Fragment>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   });

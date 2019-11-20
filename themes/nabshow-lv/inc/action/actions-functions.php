@@ -19,6 +19,11 @@ function nabshow_lv_add_block_editor_assets() {
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' )
 	);
 
+	wp_enqueue_script( 'nab-custom-gutenberg-block',
+		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' )
+	);
+
 	wp_register_style(
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css'

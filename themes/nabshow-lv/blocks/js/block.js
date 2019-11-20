@@ -13,22 +13,6 @@ import './block/meet-the-team/block';
 import './block/awards-block/block';
 import './block/advertisement/block';
 import './block/custom-block/block';
-import './block/related-content/block';
-import './block/contributors/block';
-import './block/new-this-year/block';
-import './block/delegation/block';
-import './block/products-winners-award/block';
-import './block/photos/block';
-import './block/badge-discounts/block';
-import './block/registration-passes/block';
-import './block/official-vendor/block';
-import './block/news-conference-schedule/block';
-import './block/opportunities/block';
-import './block/exhibitor-advisory-committee/block';
-import './block/related-content-with-block/block';
-import './block/videos/block';
-import './block/featured-image/block';
-import './block/media-partners/block';
 
 wp.domReady( function() {
     wp.blocks.unregisterBlockType( 'yoast/how-to-block' );

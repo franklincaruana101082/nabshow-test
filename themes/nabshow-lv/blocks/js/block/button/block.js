@@ -490,7 +490,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
         </div >
       );
     },
-    save({ attributes, props }) {
+    save({ attributes }) {
       const {
         ButtonText,
         paddingTop,

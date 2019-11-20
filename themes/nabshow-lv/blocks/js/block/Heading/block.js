@@ -83,7 +83,10 @@
 				type: 'string',
 				default: '0'
 			},
-			HeadingColor: { type: 'string', default: '#000' },
+			HeadingColor: {
+				type: 'string',
+				default: '#000'
+			},
 			TextUppercase: {
 				type: 'string'
 			},
@@ -205,11 +208,11 @@
 								<div className="inspector-field inspector-field-color ">
 									<label className="inspector-mb-0">Color</label>
 									<div className="inspector-ml-auto"><ColorPalette
-										value={HeadingColor} // Element Tag for Gutenberg standard colour selector
+										value={HeadingColor}
 										onChange={(HeadingColor) =>
 											setAttributes({
 												HeadingColor: HeadingColor
-											})} // onChange event callback
+											})}
 									/>
 									</div>
 								</div>

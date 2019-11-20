@@ -111,7 +111,7 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
+      const { attributes, setAttributes } = this.props;
       const { dataArry, showFilter } = attributes;
 
       const dataArryList = dataArry
@@ -301,67 +301,70 @@
                 />
               </PanelRow>
             </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
           </InspectorControls>
           {showFilter &&
-            <div class="box-main-filter main-filter news-conference">
-              <div class="div-left">
-                <div class="category"><label>Company Name</label>
-                  <div class="box-main-select"><select id="company-name" class="select-opt">
+            <div className="box-main-filter main-filter news-conference">
+              <div className="div-left">
+                <div className="category"><label>Company Name</label>
+                  <div className="box-main-select"><select id="company-name" className="select-opt">
                     <option>Select a Company</option>
                   </select></div>
                 </div>
-                <div class="category"><label>Date</label>
-                  <div class="box-main-select"><select id="date-filter" class="select-opt">
+                <div className="category"><label>Date</label>
+                  <div className="box-main-select"><select id="date-filter" className="select-opt">
                     <option>Select a Date</option>
                   </select></div>
                 </div>
-                <div class="category"><label>Location</label>
-                  <div class="box-main-select"><select id="location-filter" class="select-opt">
+                <div className="category"><label>Location</label>
+                  <div className="box-main-select"><select id="location-filter" className="select-opt">
                     <option>Select a Location</option>
                   </select></div>
                 </div>
               </div>
-              <div class="div-right">
-                <div class="search-box"><label>Keyword</label>
-                  <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              <div className="div-right">
+                <div className="search-box"><label>Keyword</label>
+                  <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
                 </div>
               </div>
             </div>
-        }
-        <div className="news-conference-schedule">
-          <div className="box-main four-grid">
-            {dataArryList}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    dataArry: [
-                      ...dataArry,
-                      {
-                        index: dataArry.length,
-                        title: '',
-                        date: '',
-                        location: '',
-                        description: '',
-                        arrayContact: [
-                          {
-                            contact: '',
-                            phone: '',
-                            email: ''
-                          }
-                        ]
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+          }
+          <div className="news-conference-schedule">
+            <div className="box-main four-grid">
+              {dataArryList}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      dataArry: [
+                        ...dataArry,
+                        {
+                          index: dataArry.length,
+                          title: '',
+                          date: '',
+                          location: '',
+                          description: '',
+                          arrayContact: [
+                            {
+                              contact: '',
+                              phone: '',
+                              email: ''
+                            }
+                          ]
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         </Fragment>
       );
     }
@@ -380,42 +383,39 @@
       },
       showFilter: {
         type: 'boolean',
-        default: true
+        default: false
       }
     },
     edit: BlockComponent,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
+      const { attributes } = props;
       const { dataArry, showFilter } = attributes;
 
       return (
         <Fragment>
         {showFilter &&
-        <div class="box-main-filter main-filter news-conference">
-          <div class="div-left">
-            <div class="category"><label>Company Name</label>
-              <div class="box-main-select"><select id="company-name" class="select-opt">
+        <div className="box-main-filter main-filter news-conference">
+          <div className="div-left">
+            <div className="category"><label>Company Name</label>
+              <div className="box-main-select"><select id="company-name" className="select-opt">
                 <option>Select a Company</option>
               </select></div>
             </div>
-            <div class="category"><label>Date</label>
-              <div class="box-main-select"><select id="date-filter" class="select-opt">
+            <div className="category"><label>Date</label>
+              <div className="box-main-select"><select id="date-filter" className="select-opt">
                 <option>Select a Date</option>
               </select></div>
             </div>
-            <div class="category"><label>Location</label>
-              <div class="box-main-select"><select id="location-filter" class="select-opt">
+            <div className="category"><label>Location</label>
+              <div className="box-main-select"><select id="location-filter" className="select-opt">
                 <option>Select a Location</option>
               </select></div>
             </div>
           </div>
-          <div class="div-right">
-            <div class="search-box"><label>Keyword</label>
-              <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+          <div className="div-right">
+            <div className="search-box"><label>Keyword</label>
+              <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
             </div>
           </div>
         </div>

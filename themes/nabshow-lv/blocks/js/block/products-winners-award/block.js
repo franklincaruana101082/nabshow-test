@@ -1,7 +1,7 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { Component } = wpElement;
+  const { Component, Fragment  } = wpElement;
   const { RichText, InspectorControls, MediaUpload } = wpEditor;
   const { PanelBody, PanelRow, ToggleControl, Button } = wpComponents;
 
@@ -75,8 +75,8 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId } = this.props;
-      const { products, title, titleActive } = attributes;
+      const { attributes, setAttributes } = this.props;
+      const { products, title, titleActive, showFilter } = attributes;
 
       const getImageButton = (openEvent, index) => {
         if (products[index].media) {
@@ -219,55 +219,113 @@
         });
 
       return (
-        <div className="products-winners">
+        <Fragment>
           <InspectorControls>
             <PanelBody title="General Settings">
               <PanelRow>
                 <ToggleControl
-                  label={__('Show Title')}
-                  checked={titleActive}
-                  onChange={() => setAttributes({ titleActive: ! titleActive })}
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
                 />
               </PanelRow>
             </PanelBody>
           </InspectorControls>
-          {titleActive && (
-            <RichText
-              tagName="h2"
-              className="product-title"
-              placeholder={__('Category')}
-              value={title}
-              onChange={value => setAttributes({ title: value })}
-            />
-          )}
-          <div className="product-main">
-            {productsList}
-            <div className="product-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    sliderActive: false,
-                    products: [
-                      ...products,
-                      {
-                        index: products.length,
-                        media: '',
-                        mediaAlt: '',
-                        title: '',
-                        subtitle: '',
-                        content: '',
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+          { showFilter &&
+            <div className="wp-block-nab-multipurpose-gutenberg-block">
+              <div className="products-winners-filter main-filter">
+                <div className="category"><label>Category</label>
+                  <div className="products-select"><select id="products-category" className="select-opt">
+                    <option>Select a Category</option>
+                  </select></div>
+                </div>
+                <div className="pass-type"><label>Company Name</label>
+                  <ul className="alphabets-list">
+                    <li>A</li>
+                    <li>B</li>
+                    <li>C</li>
+                    <li>D</li>
+                    <li>E</li>
+                    <li>F</li>
+                    <li>G</li>
+                    <li>H</li>
+                    <li>I</li>
+                    <li>J</li>
+                    <li>K</li>
+                    <li>L</li>
+                    <li>M</li>
+                    <li>N</li>
+                    <li>O</li>
+                    <li>P</li>
+                    <li>Q</li>
+                    <li>R</li>
+                    <li>S</li>
+                    <li>T</li>
+                    <li>U</li>
+                    <li>V</li>
+                    <li>W</li>
+                    <li>X</li>
+                    <li>Y</li>
+                    <li>Z</li>
+                    <li className="clear">Clear</li>
+                  </ul>
+                </div>
+                <div className="search-box"><label>Product Name</label>
+                  <div className="search-item"><input id="box-main-search" className="search" name="products-search" type="text" placeholder="Filter by name..." /></div>
+                </div>
+              </div>
+            </div>
+          }
+          <div className="products-winners">
+            <InspectorControls>
+              <PanelBody title="General Settings">
+                <PanelRow>
+                  <ToggleControl
+                    label={__('Show Title')}
+                    checked={titleActive}
+                    onChange={() => setAttributes({ titleActive: ! titleActive })}
+                  />
+                </PanelRow>
+              </PanelBody>
+            </InspectorControls>
+            {titleActive && (
+              <RichText
+                tagName="h2"
+                className="product-title"
+                placeholder={__('Category')}
+                value={title}
+                onChange={value => setAttributes({ title: value })}
+              />
+            )}
+            <div className="product-main">
+              {productsList}
+              <div className="product-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      sliderActive: false,
+                      products: [
+                        ...products,
+                        {
+                          index: products.length,
+                          media: '',
+                          mediaAlt: '',
+                          title: '',
+                          subtitle: '',
+                          content: '',
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -290,63 +348,111 @@
       titleActive: {
         type: 'boolean',
         default: true
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: NabMediaSlider,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
-      const { products, title, titleActive } = attributes;
+      const { attributes } = props;
+      const { products, title, titleActive, showFilter } = attributes;
 
       return (
-        <div className="products-winners">
-          {titleActive && title && (
-            <RichText.Content
-              tagName="h2"
-              className="product-title"
-              value={title}
-            />
-          )}
-          <div className="product-main">
-            {products.map((product, index) => (
-              <div className="product-item">
-                <div className="product-inner">
-                  <div className="media-img">
-                    {product.media ? (
-                      <img src={product.media} alt={product.alt} className="img" />
-                    ) : (
-                        <div className="no-image">No Media</div>
-                      )}
-                  </div>
-                  {product.title && (
-                    <RichText.Content
-                      tagName="h3"
-                      value={product.title}
-                      className="title"
-                    />
-                  )}
-                  {product.subtitle && (
-                    <RichText.Content
-                      tagName="span"
-                      className="subtitle"
-                      value={product.subtitle}
-                    />
-                  )}
-                  {product.content && (
-                    <RichText.Content
-                      tagName="p"
-                      className="content"
-                      value={product.content}
-                    />
-                  )}
+        <Fragment>
+          {showFilter &&
+            <div className="wp-block-nab-multipurpose-gutenberg-block">
+              <div className="products-winners-filter main-filter">
+                <div className="category"><label>Category</label>
+                  <div className="products-select"><select id="products-category" className="select-opt">
+                    <option>Select a Category</option>
+                  </select></div>
+                </div>
+                <div className="pass-type"><label>Company Name</label>
+                  <ul className="alphabets-list">
+                    <li>A</li>
+                    <li>B</li>
+                    <li>C</li>
+                    <li>D</li>
+                    <li>E</li>
+                    <li>F</li>
+                    <li>G</li>
+                    <li>H</li>
+                    <li>I</li>
+                    <li>J</li>
+                    <li>K</li>
+                    <li>L</li>
+                    <li>M</li>
+                    <li>N</li>
+                    <li>O</li>
+                    <li>P</li>
+                    <li>Q</li>
+                    <li>R</li>
+                    <li>S</li>
+                    <li>T</li>
+                    <li>U</li>
+                    <li>V</li>
+                    <li>W</li>
+                    <li>X</li>
+                    <li>Y</li>
+                    <li>Z</li>
+                    <li className="clear">Clear</li>
+                  </ul>
+                </div>
+                <div className="search-box"><label>Product Name</label>
+                  <div className="search-item"><input id="box-main-search" className="search" name="products-search" type="text" placeholder="Filter by name..." /></div>
                 </div>
               </div>
-            ))}
+            </div>
+          }
+          <div className="products-winners">
+            {titleActive && title && (
+              <RichText.Content
+                tagName="h2"
+                className="product-title"
+                value={title}
+              />
+            )}
+            <div className="product-main">
+              {products.map((product, index) => (
+                <div className="product-item">
+                  <div className="product-inner">
+                    <div className="media-img">
+                      {product.media ? (
+                        <img src={product.media} alt={product.alt} className="img" />
+                      ) : (
+                          <div className="no-image">No Media</div>
+                        )}
+                    </div>
+                    {product.title && (
+                      <RichText.Content
+                        tagName="h3"
+                        value={product.title}
+                        className="title"
+                      />
+                    )}
+                    {product.subtitle && (
+                      <RichText.Content
+                        tagName="span"
+                        className="subtitle"
+                        value={product.subtitle}
+                      />
+                    )}
+                    {product.content && (
+                      <RichText.Content
+                        tagName="p"
+                        className="content"
+                        value={product.content}
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   });

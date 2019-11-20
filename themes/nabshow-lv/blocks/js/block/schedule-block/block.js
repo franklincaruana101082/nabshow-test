@@ -4,7 +4,7 @@ import memoize from 'memize';
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
     const { __ } = wpI18n;
     const { registerBlockType } = wpBlocks;
-    const { Fragment, Component } = wpElement;
+    const { Fragment } = wpElement;
     const { RichText, InspectorControls, InnerBlocks } = wpEditor;
     const { PanelBody, PanelRow, IconButton, ToggleControl, Button } = wpComponents;
 
@@ -110,10 +110,10 @@ import memoize from 'memize';
             },
             showFilter: {
                 type: 'boolean',
-                default: true
+                default: false
             }
         },
-        edit: (props, attributes) => {
+        edit: (props) => {
             const { attributes: { noOfschedule, title, showTitle, showFilter }, className, setAttributes, clientId } = props;
 
             $(document).on('click', `#block-${clientId} .schedule-row .remove-button`, function (e) {
@@ -126,29 +126,29 @@ import memoize from 'memize';
             return (
                 <Fragment>
                     { showFilter &&
-                    <div class="schedule-glance-filter">
-                        <div class="date"><label>Date</label>
-                            <div class="schedule-select"><select id="date">
+                    <div className="schedule-glance-filter">
+                        <div className="date"><label>Date</label>
+                            <div className="schedule-select"><select id="date">
                                 <option>Select a Date</option>
                             </select></div>
                         </div>
-                        <div class="pass-type"><label>Is Open To</label>
-                            <div class="schedule-select"><select id="pass-type">
+                        <div className="pass-type"><label>Is Open To</label>
+                            <div className="schedule-select"><select id="pass-type">
                                 <option>Select a Pass Time</option>
                             </select></div>
                         </div>
-                        <div class="location"><label>Location</label>
-                            <div class="schedule-select"><select id="location">
+                        <div className="location"><label>Location</label>
+                            <div className="schedule-select"><select id="location">
                                 <option>Select a Location</option>
                             </select></div>
                         </div>
-                        <div class="type"><label>Type</label>
-                            <div class="schedule-select"><select id="type">
+                        <div className="type"><label>Type</label>
+                            <div className="schedule-select"><select id="type">
                                 <option>Select a Type</option>
                             </select></div>
                         </div>
-                        <div class="search-box"><label>Name</label>
-                            <div class="schedule-select"><input id="box-main-search" class="schedule-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
+                        <div className="search-box"><label>Name</label>
+                            <div className="schedule-select"><input id="box-main-search" className="schedule-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
                         </div>
                     </div>
                         }
@@ -201,29 +201,29 @@ import memoize from 'memize';
             return (
                 <Fragment>
                     { showFilter &&
-                    <div class="schedule-glance-filter">
-                        <div class="date"><label>Date</label>
-                            <div class="schedule-select"><select id="date">
+                    <div className="schedule-glance-filter">
+                        <div className="date"><label>Date</label>
+                            <div className="schedule-select"><select id="date">
                                 <option>Select a Date</option>
                             </select></div>
                         </div>
-                        <div class="pass-type"><label>Is Open To</label>
-                            <div class="schedule-select"><select id="pass-type">
+                        <div className="pass-type"><label>Is Open To</label>
+                            <div className="schedule-select"><select id="pass-type">
                                 <option>Select a Pass Time</option>
                             </select></div>
                         </div>
-                        <div class="location"><label>Location</label>
-                            <div class="schedule-select"><select id="location">
+                        <div className="location"><label>Location</label>
+                            <div className="schedule-select"><select id="location">
                                 <option>Select a Location</option>
                             </select></div>
                         </div>
-                        <div class="type"><label>Type</label>
-                            <div class="schedule-select"><select id="type">
+                        <div className="type"><label>Type</label>
+                            <div className="schedule-select"><select id="type">
                                 <option>Select a Type</option>
                             </select></div>
                         </div>
-                        <div class="search-box"><label>Name</label>
-                            <div class="schedule-select"><input id="box-main-search" class="schedule-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
+                        <div className="search-box"><label>Name</label>
+                            <div className="schedule-select"><input id="box-main-search" className="schedule-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
                         </div>
                     </div>
                         }
@@ -266,7 +266,7 @@ import memoize from 'memize';
             }
         },
         edit: (props) => {
-            const { attributes, setAttributes, className, clientId } = props;
+            const { attributes, setAttributes, clientId } = props;
             const { date, name, location, details } = attributes;
             return (
                 <div className='schedule-row'>
@@ -302,7 +302,7 @@ import memoize from 'memize';
                             placeholder={__('All-Badge Access')}
                         />
                     </div>
-                    <span class="remove-button">
+                    <span className="remove-button">
                         <IconButton
                             className="components-toolbar__control"
                             label={__('Remove image')}
@@ -316,7 +316,7 @@ import memoize from 'memize';
             );
         },
         save: (props) => {
-            const { attributes, className } = props;
+            const { attributes } = props;
             const { date, name, location, details } = attributes;
             return (
                 <div className='schedule-row'>

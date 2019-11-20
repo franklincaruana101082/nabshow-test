@@ -755,7 +755,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:Gotham Bold;font-size:16px;t
 .main-filter .search-box input{background:#fff;width:100%;height:40px;padding:0 10px 0 40px;outline:none;border:1px solid #69767a}
 .main-filter .search-box input::placeholder{color:#000}
 .main-filter .search-box .search-item::before{content:"\f002";font-family:FontAwesome;position:absolute;top:50%;margin-top:-18px;left:10px;font-size:20px}
-.main-filter .featured-btn{width:115px;height:48px;border:1px solid #69767a;border-radius:0;background:#f1f7fc;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px}
+.main-filter .featured-btn{width:115px;height:48px;border:1px solid #69767a;border-radius:0;background:#fff;font-size:18px;font-family:"Gotham Bold", sans-serif;padding:0 2px;cursor:pointer;outline:none!important;margin-bottom:20px}
 ul.alphabets-list{display:flex;flex-wrap:wrap;padding:0!important}
 ul.alphabets-list li{width:45px;height:45px;list-style:none;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #69767a;margin-right:14px;margin-bottom:15px!important;cursor:pointer;font-family:"Vollkorn italic", serif;font-size:25px}
 ul.alphabets-list li.active{background:#0f6cb6;color:#fff;border-color:#0f6cb6}
@@ -764,7 +764,7 @@ ul.alphabets-list li.clear{display:none;line-height:45px;width:60px;text-align:c
 .product-main .product-item .product-inner .title a{color:inherit}
 .product-main .product-item .product-inner .media-img span.dashicons-edit{position:absolute;top:0;bottom:0;left:0;right:0;text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#00000099;color:#fff;font-size:25px;transition:0.5s all;opacity:0;cursor:pointer}
 .product-main .product-item .product-inner:hover .media-img span.dashicons-edit{opacity:1}
-.products-winners-filter label{font-family:"Gotham Bold", sans-serif}
+.products-winners-filter label, .browse-sponsors-filter .category label{font-family:"Gotham Bold", sans-serif}
 
 /*  Award Page CSS */
 .awards-data.row>.editor-inner-blocks>.editor-block-list__layout>.wp-block{margin:0 0 25px;width:49%}
@@ -947,7 +947,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .box-main-filter{margin-bottom:30px;display:flex}
 .box-main-filter .category{display:inline-block;width:230px;margin-right:40px}
 .box-main-filter .search-box{width:320px;display:inline-block}
-.box-main-filter label{font-family:"Gotham Bold", sans-serif}
+.box-main-filter label, .fab-filter label{font-family:"Gotham Bold", sans-serif}
 .box-main-filter .ov-filter{display:inline-block}
 .box-main-filter .ov-filter .badgeslist{display:inline-block;margin-right:30px}
 
@@ -1255,3 +1255,15 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .browse-open-to-all-filter .search-box{min-width:330px;max-width:100%;margin-bottom:0}
 .browse-filter .search-box .search-item::before{right:10px;left:initial!important}
 .browse-filter .search-box input#browse-search{padding:0 40px 0 10px}
+.fab-filter select#faq-category-drp{width:210px;height:40px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a}
+.fab-filter .keyword{flex-basis:30%}
+.fab-filter .search-box{margin-right:35px;flex-basis:50%}
+.fab-filter{display:flex;margin-bottom:30px}
+.accordionBody .editor-block-list__layout.block-editor-block-list__layout{margin:0}
+.browse-sponsors-filter .featured-main{display:inline-block;margin-right:25px}
+.browse-sponsors-filter,.browse-sponsors-filter .col-lg-12,.browse-sponsors-filter .col-12{display:flex;flex-wrap:wrap;width:100%;align-items:flex-end}
+.browse-sponsors-filter .category{min-width:340px;max-width:100%;text-align:left}
+.browse-sponsors-filter .row{width:100%}
+.browse-sponsors-filter .category .search-box{margin:0}
+.browse-sponsors-filter .featured-btn{margin:0}
+.browse-sponsors-filter{margin-bottom:40px}
