@@ -38,14 +38,15 @@
                 </div>
                 <div class="col-md-4 header-center">
                     <div id="logo" class="text-center">
-                        <a href="<?php echo esc_url( home_url() ); ?>">
-							<?php
-							the_custom_logo();
-							?>
-                        </a>
+						<?php
+						the_custom_logo();
+						?>                        
                     </div>
                 </div>
                 <div class="col-md-4 header-right text-right">
+					<?php
+						get_search_form();
+					?>
 					<?php
 					dynamic_sidebar( 'header-top-right-sidebar' );
 					?>

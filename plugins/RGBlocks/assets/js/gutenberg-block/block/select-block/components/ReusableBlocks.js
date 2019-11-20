@@ -38,6 +38,7 @@ class ReusableBlocksList extends Component {
                   {block.custom_fields.preview_image ? (
                       <img
                           className="block-image"
+                          alt="rgblock-logo"
                           src={block.custom_fields.preview_image ? block.custom_fields.preview_image : undefined}
                       />
                   ) : (

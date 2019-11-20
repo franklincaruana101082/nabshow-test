@@ -126,11 +126,14 @@ import memoize from 'memize';
       noOfschedule: {
         type: 'number',
         default: 1
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
-    edit: (props, attributes) => {
-      const {
-        attributes: { noOfschedule }, className, setAttributes, clientId } = props;
+    edit: (props) => {
+      const { attributes: { noOfschedule, showFilter }, className, setAttributes, clientId } = props;
 
       $(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
         if ('' !== $(this).parents(`#block-${clientId}`)) {
@@ -140,29 +143,66 @@ import memoize from 'memize';
       });
 
       return (
-        <div className={`team-main ${className ? className : ''}`}>
-          <InnerBlocks
-            template={getChildscheduleBlock(noOfschedule)}
-            templateLock="all"
-            allowedBlocks={ALLOWBLOCKS}
-          />
-          <div className="add-remove-btn">
-            <Button
-              className="add"
-              onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}
-            >
-              <span className="dashicons dashicons-plus" />
-            </Button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div className="meet-team-select main-filter">
+              <div className="left-select">
+                <h4>Department</h4>
+                <select id="team-department">
+                  <option value="all">Select Department</option>
+                </select>
+              </div>
+              <div id="team-checkbox"></div>
+            </div>
+          }
+          <div className={`team-main meet-team-main ${className ? className : ''}`}>
+            <InnerBlocks
+              template={getChildscheduleBlock(noOfschedule)}
+              templateLock="all"
+              allowedBlocks={ALLOWBLOCKS}
+            />
+            <div className="add-remove-btn">
+              <Button
+                className="add"
+                onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}
+              >
+                <span className="dashicons dashicons-plus" />
+              </Button>
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     },
     save: props => {
-      const { className } = props;
+      const { className, attributes: { showFilter } } = props;
       return (
-        <div className={`team-main ${className ? className : ''}`}>
-          <InnerBlocks.Content />
-        </div>
+        <Fragment>
+          {showFilter &&
+            <div className="meet-team-select main-filter">
+              <div className="left-select">
+                <h4>Department</h4>
+                <select id="team-department">
+                  <option value="all">Select Department</option>
+                </select>
+              </div>
+              <div id="team-checkbox"></div>
+            </div>
+          }
+          <div className={`team-main meet-team-main ${className ? className : ''}`}>
+            <InnerBlocks.Content />
+          </div>
+        </Fragment>
       );
     }
   });
@@ -241,12 +281,12 @@ import memoize from 'memize';
     },
     edit: props => {
       const { attributes, setAttributes, clientId } = props;
-      const { name, title, email, phone, imageAlt, imageUrl, department, category, categoryList, taxonomies, swapImage, swapAlt, showPopup, modelClass } = attributes;
+      const { name, title, email, phone, imageAlt, department, category, categoryList, taxonomies, swapImage, swapAlt, showPopup, modelClass } = attributes;
 
       const getImageButton = openEvent => {
         if (attributes.imageUrl) {
           return (
-            <img src={attributes.imageUrl} alr={imageAlt} className="main-img" />
+            <img src={attributes.imageUrl} alt={imageAlt} className="main-img" />
           );
         } else {
           return (
@@ -271,7 +311,7 @@ import memoize from 'memize';
                   className="dashicons dashicons-trash"
                 />
               </div>
-              <img src={swapImage} alr={swapAlt} className="hover-img" />
+              <img src={swapImage} alt={swapAlt} className="hover-img" />
             </div>
           );
         } else {
@@ -388,9 +428,12 @@ import memoize from 'memize';
                 </div>
               </PanelRow>
             </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/meet-the-team.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
           </InspectorControls>
           <div className="team-box-inner">
-            <span class="remove-button">
+            <span className="remove-button">
               <IconButton
                 className="components-toolbar__control"
                 label={__('Remove image')}
@@ -452,7 +495,7 @@ import memoize from 'memize';
                   <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary bio-btn'} value='Bio' />
                   <div className={`nab_model_main ${modelClass}`}>
                     <div className="nab_model_inner">
-                      <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
+                      <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
                       <div className="nab_model_wrap">
                         <div className="nab_pop_up_content_wrap">
                           <InnerBlocks templateLock={false} />
@@ -486,7 +529,7 @@ import memoize from 'memize';
                     <img src={imageUrl} alt={imageAlt} className="main-img" />
                     {
                       swapImage ? (
-                        <img src={swapImage} alr={swapAlt} className="hover-img" />
+                        <img src={swapImage} alt={swapAlt} className="hover-img" />
                       ) : ''
                     }
                   </Fragment>
@@ -526,7 +569,7 @@ import memoize from 'memize';
                     <input type="button" className={'nab_popup_btn btn-primary bio-btn'} value='Bio' />
                     <div className="nab_model_main">
                       <div className="nab_model_inner">
-                        <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
+                        <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
                         <div className="nab_model_wrap">
                           <div className="nab_pop_up_content_wrap">
                             <InnerBlocks.Content />

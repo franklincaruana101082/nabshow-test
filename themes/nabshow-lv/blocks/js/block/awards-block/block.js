@@ -145,7 +145,11 @@ import memoize from 'memize';
         },
         modelClass: {
             type: 'string'
-        }
+        },
+        showFilter: {
+            type: 'boolean',
+            default: false,
+        },
     };
 
     const ALLOWBLOCKS = ['nab/awards-item'];
@@ -178,7 +182,7 @@ import memoize from 'memize';
         keywords: [__('awards'), __('gutenberg'), __('nab')],
         attributes: allAttributes,
         edit: (props, attributes) => {
-            const { attributes: { title, captionText, showTitle, noOfAwards }, className, setAttributes, clientId } = props;
+            const { attributes: { title, captionText, showTitle, noOfAwards, showFilter }, className, setAttributes, clientId } = props;
 
             $(document).on('click', `#block-${clientId} .col-lg-6 .remove-item`, function (e) {
                 if ('' !== $(this).parents(`#block-${clientId}`)) {
@@ -188,7 +192,7 @@ import memoize from 'memize';
             });
 
             return (
-                <div className={`awards-main ${className}`}>
+                <Fragment>
                     <InspectorControls>
                         <PanelBody title="General Settings">
                             <PanelRow>
@@ -198,65 +202,107 @@ import memoize from 'memize';
                                     onChange={() => setAttributes({ showTitle: ! showTitle })}
                                 />
                             </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Filter')}
+                                    checked={showFilter}
+                                    onChange={() => setAttributes({ showFilter: ! showFilter })}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+                        <PanelBody title={__('Help')} initialOpen={false}>
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
                         </PanelBody>
                     </InspectorControls>
-                    <Fragment>
+                    {showFilter &&
+                        <div className="wp-block-nab-multipurpose-gutenberg-block">
+                            <div className="schedule-glance-filter awards-filtering">
+                                <div className="awards-name"><label>Award Name</label>
+                                    <div className="schedule-select"><select id="award-name">
+                                        <option>Select an Award</option>
+                                    </select></div>
+                                </div>
+                                <div className="search-box"><label>Winner Name</label>
+                                    <div className="schedule-select"><input id="box-main-search" className="schedule-search awards-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div className={`awards-main ${className}`}>
+                        <Fragment>
+                            <div className="awards-header">
+                                {! showTitle ? (
+                                    <RichText
+                                        tagName="h2"
+                                        onChange={(value) => setAttributes({ title: value })}
+                                        placeholder={__('Title')}
+                                        value={title}
+                                        className="awards-winner-title"
+                                    />) : ''
+                                }
+                                <RichText
+                                    tagName="p"
+                                    onChange={(value) => setAttributes({ captionText: value })}
+                                    placeholder={__('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.')}
+                                    value={captionText}
+                                />
+                            </div>
+                            <div className="awards-data row">
+                                <InnerBlocks
+                                    template={getChildawardsBlock(noOfAwards)}
+                                    templateLock="all"
+                                    allowedBlocks={ALLOWBLOCKS}
+                                />
+                                <div className="add-remove-btn">
+                                    <Button className="add" onClick={() => {
+                                        setAttributes({ noOfAwards: noOfAwards + 1 });
+                                    }}>
+                                        <span className="dashicons dashicons-plus" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </Fragment>
+                    </div>
+                </Fragment>
+            );
+        },
+        save: (props) => {
+            const { attributes: { title, captionText, showTitle, showFilter }, className } = props;
+            return (
+                <Fragment>
+                    {showFilter &&
+                        <div className="wp-block-nab-multipurpose-gutenberg-block">
+                            <div className="schedule-glance-filter awards-filtering">
+                                <div className="awards-name"><label>Award Name</label>
+                                    <div className="schedule-select"><select id="award-name">
+                                        <option>Select an Award</option>
+                                    </select></div>
+                                </div>
+                                <div className="search-box"><label>Winner Name</label>
+                                    <div className="schedule-select"><input id="box-main-search" className="schedule-search awards-search" name="schedule-search" type="text" placeholder="Filter by name..." /></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div className={`awards-main ${className}`}>
                         <div className="awards-header">
                             {! showTitle ? (
-                                <RichText
+                                <RichText.Content
                                     tagName="h2"
-                                    onChange={(value) => setAttributes({ title: value })}
-                                    placeholder={__('Title')}
                                     value={title}
                                     className="awards-winner-title"
                                 />) : ''
                             }
-                            <RichText
+                            <RichText.Content
                                 tagName="p"
-                                onChange={(value) => setAttributes({ captionText: value })}
-                                placeholder={__('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.')}
                                 value={captionText}
                             />
                         </div>
                         <div className="awards-data row">
-                            <InnerBlocks
-                                template={getChildawardsBlock(noOfAwards)}
-                                templateLock="all"
-                                allowedBlocks={ALLOWBLOCKS}
-                            />
-                            <div className="add-remove-btn">
-                                <Button className="add" onClick={() => {
-                                    setAttributes({ noOfAwards: noOfAwards + 1 });
-                                }}>
-                                    <span className="dashicons dashicons-plus" />
-                                </Button>
-                            </div>
+                            <InnerBlocks.Content />
                         </div>
-                    </Fragment>
-                </div>
-            );
-        },
-        save: (props) => {
-            const { attributes: { title, captionText, showTitle }, className } = props;
-            return (
-                <div className={`awards-main ${className}`}>
-                    <div className="awards-header">
-                        {! showTitle ? (
-                            <RichText.Content
-                                tagName="h2"
-                                value={title}
-                                className="awards-winner-title"
-                            />) : ''
-                        }
-                        <RichText.Content
-                            tagName="p"
-                            value={captionText}
-                        />
                     </div>
-                    <div className="awards-data row">
-                        <InnerBlocks.Content />
-                    </div>
-                </div>
+                </Fragment>
             );
         }
     });
@@ -302,9 +348,12 @@ import memoize from 'memize';
                                 />
                             </PanelRow>
                         </PanelBody>
+                        <PanelBody title={__('Help')} initialOpen={false}>
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
+                        </PanelBody>
                     </InspectorControls>
                     <div className='col-lg-6 col-md-6 col-sm-12'>
-                        <span class="remove-item">
+                        <span className="remove-item">
                             <IconButton
                                 className="components-toolbar__control"
                                 label={__('Remove image')}
@@ -391,7 +440,7 @@ import memoize from 'memize';
                                         <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Learn More' />
                                         <div className={`nab_model_main ${modelClass}`}>
                                             <div className="nab_model_inner">
-                                                <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
+                                                <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
                                                 <div className="nab_model_wrap">
                                                     <div className="nab_pop_up_content_wrap">
                                                         <InnerBlocks templateLock={false} />
@@ -409,7 +458,7 @@ import memoize from 'memize';
             );
         },
         save: (props) => {
-            const { attributes, className } = props;
+            const { attributes } = props;
             const { imageAlt, imageUrl, winnerName, jobLocation, details, showPopup } = attributes;
             return (
                 <div className='col-lg-6 col-md-6 col-sm-12'>
@@ -441,7 +490,7 @@ import memoize from 'memize';
                                     <input type="button" className={'nab_popup_btn btn-primary'} value='Learn More' />
                                     <div className="nab_model_main">
                                         <div className="nab_model_inner">
-                                            <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
+                                            <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
                                             <div className="nab_model_wrap">
                                                 <div className="nab_pop_up_content_wrap">
                                                     <InnerBlocks.Content />

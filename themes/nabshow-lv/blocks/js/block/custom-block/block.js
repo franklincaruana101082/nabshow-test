@@ -189,7 +189,6 @@ import Inspector from './inspector';
         marginBottom: {
             type: 'string',
             default: ''
-
         },
         marginLeft: {
             type: 'string',
@@ -272,7 +271,7 @@ import Inspector from './inspector';
         attributes: allAttributes,
         edit: (props) => {
             const { attributes, setAttributes, className, clientId } = props;
-            const { columns, colLayout, backgroundImage, backgroundColor, backgroundSize, backgroundPosition, backgroundAttachment, borderStyle, borderWidth, borderColor, borderRadius, textAlign, width, height, opacity, overlayColor, paddingTop, paddingRight, paddingBottom, paddingLeft, marginTop, marginRight, marginBottom, marginLeft, gradientRange1, gradientRange2, gradientRange3, color1, color2, color3, gradientType, topBorderStyle, topBorderWidth, topBorderColor, topBorderRadius, bottomBorderStyle, bottomBorderWidth, bottomBorderColor, bottomBorderRadius, rightBorderStyle, rightBorderWidth, rightBorderColor, rightBorderRadius, leftBorderStyle, leftBorderWidth, leftBorderColor, leftBorderRadius, elementID, hAlign, vAlign, layout, ToggleInserter, clientID, showTitle } = attributes;
+            const { columns, colLayout, backgroundImage, backgroundColor, backgroundSize, backgroundPosition, backgroundAttachment, borderStyle, borderWidth, borderColor, borderRadius, textAlign, width, height, opacity, overlayColor, paddingTop, paddingRight, paddingBottom, paddingLeft, marginTop, marginRight, marginBottom, marginLeft, gradientRange1, gradientRange2, gradientRange3, color1, color2, color3, gradientType, topBorderStyle, topBorderWidth, topBorderColor, topBorderRadius, bottomBorderStyle, bottomBorderWidth, bottomBorderColor, bottomBorderRadius, rightBorderStyle, rightBorderWidth, rightBorderColor, rightBorderRadius, leftBorderStyle, leftBorderWidth, leftBorderColor, leftBorderRadius, elementID, hAlign, vAlign, layout, ToggleInserter, showTitle } = attributes;
             const columnOptions = [
                 {
                     name: __('1 Column'),
@@ -460,7 +459,7 @@ import Inspector from './inspector';
         },
         save: (props) => {
             const { attributes, className } = props;
-            const { columns, colLayout, backgroundImage, backgroundColor, backgroundSize, backgroundPosition, backgroundAttachment, borderStyle, borderWidth, borderColor, borderRadius, textAlign, width, height, opacity, overlayColor, paddingTop, paddingRight, paddingBottom, paddingLeft, marginTop, marginRight, marginBottom, marginLeft, gradientRange1, gradientRange2, gradientRange3, color1, color2, color3, gradientType, topBorderStyle, topBorderWidth, topBorderColor, topBorderRadius, bottomBorderStyle, bottomBorderWidth, bottomBorderColor, bottomBorderRadius, rightBorderStyle, rightBorderWidth, rightBorderColor, rightBorderRadius, leftBorderStyle, leftBorderWidth, leftBorderColor, leftBorderRadius, elementID, hAlign, vAlign, layout, ToggleInserter, blockTitle, showTitle } = attributes;
+            const { colLayout, backgroundImage, backgroundColor, backgroundSize, backgroundPosition, backgroundAttachment, borderStyle, borderWidth, borderColor, borderRadius, textAlign, width, height, opacity, overlayColor, paddingTop, paddingRight, paddingBottom, paddingLeft, marginTop, marginRight, marginBottom, marginLeft, gradientRange1, gradientRange2, gradientRange3, color1, color2, color3, gradientType, topBorderStyle, topBorderWidth, topBorderColor, topBorderRadius, bottomBorderStyle, bottomBorderWidth, bottomBorderColor, bottomBorderRadius, rightBorderStyle, rightBorderWidth, rightBorderColor, rightBorderRadius, leftBorderStyle, leftBorderWidth, leftBorderColor, leftBorderRadius, elementID, hAlign, vAlign, layout, showTitle } = attributes;
             const classes = classnames(
                 className,
                 layout && `has-${layout}`,
@@ -579,9 +578,6 @@ import Inspector from './inspector';
         parent: ['nab/custom'],
         attributes: allAttributes,
         edit: (props) => {
-
-            const { attributes, setAttributes, className, clientId } = props;
-
             return (
                 <Fragment>
 
@@ -596,9 +592,6 @@ import Inspector from './inspector';
             );
         },
         save: (props) => {
-
-            const { attributes, setAttributes, className, clientId } = props;
-
             return (
                 <Fragment>
                     <div className={'custom-content-box '}>

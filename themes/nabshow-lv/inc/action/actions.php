@@ -34,7 +34,6 @@ add_action( 'restrict_manage_posts', 'nabshow_lv_admin_posts_filter_restrict_man
  */
 add_action( 'admin_init', function () {
 	$post_types = get_post_types( array( 'public' => true ), 'names' );
-	//print_r($post_types); exit();
 	foreach ( $post_types as $post_type ) {
 		if ( "wp_block" !== $post_type || "post" !== $post_type ) {
 			nabshow_lv_register_action( $post_type );
@@ -96,3 +95,9 @@ add_action( 'rest_api_init', 'nabshow_lv_register_api_endpoints');
 
 //Action for set custom login logo
 add_action( 'login_enqueue_scripts', 'nabshow_lv_set_custom_login_logo' );
+
+//Action for add custom dashboard widget
+add_action( 'wp_dashboard_setup', 'nabshow_lv_add_help_support_dashboard_widget' );
+
+//Action for enqueue script on admin side
+add_action( 'admin_enqueue_scripts', 'nabhsow_lv_enqueue_admin_script' );

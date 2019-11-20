@@ -66,3 +66,11 @@ add_filter( 'get_pagenum_link', 'nabshow_lv_modified_pagenum_link' );
 
 // Filter for generate custom search form
 add_filter( 'get_search_form', 'nabshow_lv_modified_search_form' );
+
+//Filter for enable react js in reusable block list page
+add_filter( 'js_do_concat', 'nabshow_lv_gutenberg_disable_concat', -1, 1 );
+
+//Filter to add admin class for compact view  of page list
+add_filter( 'admin_body_class', 'nabshow_lv_admin_body_class' );
+
+add_filter( 'manage_page_posts_columns', 'nabshow_lv_manage_compact_view_columns', 999 );

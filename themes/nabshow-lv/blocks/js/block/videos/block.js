@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Component } = wpElement;
   const { MediaUpload, InspectorControls } = wpEditor;
-  const { Button, TextControl } = wpComponents;
+  const { Button, TextControl, PanelBody } = wpComponents;
 
   const videoBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -29,7 +29,7 @@
   class VideoComponent extends Component {
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
+      const { attributes, setAttributes, className } = this.props;
       const { dataArry, videoID } = attributes;
 
       if (0 === dataArry.length) {
@@ -125,6 +125,9 @@
                 render={({ open }) => <Button onClick={open} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Image</Button>}
               />
             </div>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
           </InspectorControls>
         </div>
       );
@@ -170,15 +173,14 @@
           ))}
           <div className="videos-popup">
             <div className="videos-dialog">
-              <span class="close">&times;</span>
+              <span className="close">&times;</span>
               <div className="videos-content">
                 <div className="videos-body">
-                  {/* <img src="" class="videos-popup-iframe" /> */}
-                  <iframe src="" class="videos-popup-iframe" frameBorder="0" allowFullScreen />
+                  <iframe src="" className="videos-popup-iframe" frameBorder="0" allowFullScreen />
                 </div>
               </div>
             </div>
-            <div class="videos-backdrop"></div>
+            <div className="videos-backdrop"></div>
           </div>
         </div>
       );

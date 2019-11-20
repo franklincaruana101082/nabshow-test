@@ -1,7 +1,6 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { Fragment } = wpElement;
   const { InspectorControls, MediaUpload, BlockControls } = wpEditor;
   const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette } = wpComponents;
 
@@ -46,8 +45,6 @@
       </g>
     </svg>
   );
-
-  const IMAGE_TEMPLATE = [['core/image', {}]];
 
   registerBlockType('nab/custom-image', {
     title: __('NABShow - Image'),
@@ -130,7 +127,6 @@
     edit({ attributes, setAttributes }) {
       const {
         imageAlt,
-        imageUrl,
         ImageWidth,
         ImageHeight,
         BorderSize,
@@ -412,6 +408,9 @@
                   </div>
                 </div>
               </PanelRow>
+            </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
             </PanelBody>
           </InspectorControls>
         </div>

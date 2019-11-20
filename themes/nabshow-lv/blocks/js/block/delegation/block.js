@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
-  const { Button, TextControl } = wpComponents;
+  const { InspectorControls, RichText } = wpEditor;
+  const { PanelBody, PanelRow, ToggleControl, TextControl } = wpComponents;
 
   const delegationBlockIcon = (
     <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -82,8 +82,8 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
-      const { products } = attributes;
+      const { attributes, setAttributes } = this.props;
+      const { products, showFilter } = attributes;
 
       const itemList = products
         .sort((a, b) => a.index - b.index)
@@ -194,33 +194,62 @@
         });
 
       return (
-        <div className="delegation">
-          <div className="box-main four-grid">
-            {itemList}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    products: [
-                      ...products,
-                      {
-                        index: products.length,
-                        title: '',
-                        country: '',
-                        description: '',
-                        email: ''
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/delegation.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div className="box-main-filter main-filter delegation-filter">
+              <div className="category"><label>Country</label>
+                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                  <option>Select a Category</option>
+                </select></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="delegation">
+            <div className="box-main four-grid">
+              {itemList}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      products: [
+                        ...products,
+                        {
+                          index: products.length,
+                          title: '',
+                          country: '',
+                          description: '',
+                          email: ''
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
+
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -228,65 +257,80 @@
   registerBlockType('nab/delegation', {
     title: __('Delegation'),
     description: __('Delegation'),
-    icon: { src: delegationBlockIcon},
+    icon: { src: delegationBlockIcon },
     category: 'nabshow',
     keywords: [__('Delegation'), __('gutenberg'), __('nab')],
     attributes: {
       products: {
         type: 'array',
         default: [],
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: ItemComponent,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
-      const { products } = attributes;
+      const { attributes } = props;
+      const { products, showFilter } = attributes;
 
       return (
-        <div className="delegation">
-          <div className="box-main four-grid">
-            {products.map((product, index) => (
-              <Fragment>
-                {
-                  product.title && (
-                    <div className="box-item">
-                      <div className="box-inner">
-                        {product.title && (
-                          <RichText.Content
-                            tagName="h2"
-                            value={product.title}
-                            className="title"
-                          />
-                        )}
-                        {product.country && (
-                          <RichText.Content
-                            tagName="span"
-                            value={product.country}
-                            className="country"
-                          />
-                        )}
-                        {product.description && (
-                          <RichText.Content
-                            tagName="p"
-                            className="description"
-                            value={product.description}
-                          />
-                        )}
-                        {product.email && (
-                          <a className="email" href={`mailto:${product.email}`}>{product.email}</a>
-                        )}
+        <Fragment>
+          {showFilter &&
+            <div className="box-main-filter main-filter delegation-filter">
+              <div className="category"><label>Country</label>
+                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                  <option>Select a Category</option>
+                </select></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="delegation">
+            <div className="box-main four-grid">
+              {products.map((product, index) => (
+                <Fragment>
+                  {
+                    product.title && (
+                      <div className="box-item">
+                        <div className="box-inner">
+                          {product.title && (
+                            <RichText.Content
+                              tagName="h2"
+                              value={product.title}
+                              className="title"
+                            />
+                          )}
+                          {product.country && (
+                            <RichText.Content
+                              tagName="span"
+                              value={product.country}
+                              className="country"
+                            />
+                          )}
+                          {product.description && (
+                            <RichText.Content
+                              tagName="p"
+                              className="description"
+                              value={product.description}
+                            />
+                          )}
+                          {product.email && (
+                            <a className="email" href={`mailto:${product.email}`}>{product.email}</a>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )
-                }
-              </Fragment>
-            ))}
+                    )
+                  }
+                </Fragment>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   });

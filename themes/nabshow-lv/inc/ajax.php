@@ -653,3 +653,36 @@ function nabshow_lv_speakers_browse_filter_callback() {
 	echo wp_json_encode( $final_result );
 	wp_die();
 }
+
+/**
+ * Ajax for send mail from the dashboard widget.
+ * @since 1.0
+ */
+add_action( 'wp_ajax_help_support_widget', 'nabshow_lv_help_support_ajax_callback' );
+add_action( 'wp_ajax_nopriv_help_support_widget', 'nabshow_lv_help_support_ajax_callback' );
+
+/**
+ * send mail from  help and support dashboard widget
+ * @return json
+ * @since 1.0.
+ */
+function nabshow_lv_help_support_ajax_callback() {
+
+	check_ajax_referer( 'help_support_nonce', 'mail_nonce' );
+
+	$mail_subject   = filter_input( INPUT_GET, 'mail_subject', FILTER_SANITIZE_STRING );
+	$mail_message   = filter_input( INPUT_GET, 'mail_message', FILTER_SANITIZE_STRING );
+	$to_email       = 'nitish.kaila@multidots.com';
+
+	$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
+	$headers[] = 'From: NABShow <noreply@nabshow.com>';
+
+	$success =  wp_mail( $to_email, $mail_subject, $mail_message, $headers );
+
+	$display_msg = $success ? 'Thank you for raising support ticket. We will contact you soon.' : 'Message not sent, please try again later.';
+
+	$final_result = array( 'result' => array( 'success' => $success, 'display_msg' => $display_msg ) );
+
+	echo wp_json_encode( $final_result );
+	wp_die();
+}

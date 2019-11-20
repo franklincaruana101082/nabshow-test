@@ -19,6 +19,11 @@ function nabshow_lv_add_block_editor_assets() {
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' )
 	);
 
+	wp_enqueue_script( 'nab-custom-gutenberg-block',
+		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' )
+	);
+
 	wp_register_style(
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css'
@@ -62,6 +67,23 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 		?>
     </select>
 	<?php
+
+	$edit_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'page' === $edit_post_type ) {
+
+	    $compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
+	    $link_text    = 'on' === $compact_view ? 'Default View' : 'Compact View';
+	    $param_val    = 'on' === $compact_view ? 'off' : 'on';
+
+
+		$admin_url_path = 'edit.php?post_type=' . $edit_post_type . '&compact_view=' . $param_val;
+		$final_url      = admin_url( $admin_url_path );
+    ?>
+        <a class="compactBtn button" href="<?php echo esc_url( $final_url ); ?>"><?php echo esc_html( $link_text ); ?></a>
+        <input type="hidden" value="<?php echo esc_attr( $compact_view ); ?>" name="compact_view" />
+    <?php
+    }
 
 }
 
@@ -207,7 +229,7 @@ function nabshow_lv_make_posts_hierarchical( $post_type ) {
  * @param $post_type
  */
 function nabshow_lv_enable_page_excerpt( $post_type ) {
-	// Return, if not post type posts
+	// Return, if post type not page
 	if ( 'page' !== $post_type ) return;
 
 	// Adding excerpt for page
@@ -245,4 +267,70 @@ function nabshow_lv_set_custom_login_logo() {
         }
     </style>
 <?php
+}
+
+function nabshow_lv_add_help_support_dashboard_widget() {
+	wp_add_dashboard_widget(
+		'nab_dashboard_help_support', // widget ID
+		'Help & Support', // widget title
+		'nabshow_lv_help_support_widget_configure' // callback #1 to display it
+	);
+}
+
+function nabshow_lv_help_support_widget_configure() {
+?>
+    <div class="inside">
+        <div id="help-support" class="help-support">
+            <p class="display-msg"></p>
+            <div class="input-text-wrap">
+                <label for="support-subject">Subject</label>
+                <input type="text" name="mail_subject" id="support-subject" autocomplete="off" required>
+            </div>
+            <div class="textarea-wrap">
+                <label for="support-content">Message</label>
+                <textarea name="mail_content" id="support-content" placeholder="Message" class="mceEditor" rows="3" cols="15" autocomplete="off" required></textarea>
+            </div>
+            <p class="submit">
+                <button id="send-mail" class="button button-primary">Send</button>
+            </p>
+        </div>
+    </div>
+<?php
+}
+
+function nabhsow_lv_enqueue_admin_script() {
+
+	global $pagenow;
+
+	if( 'index.php' === $pagenow ) {
+
+	    wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ) );
+
+		wp_localize_script( 'nabshow-lv-admin', 'nabshowLvAdmin', array(
+			'ajax_url'               => admin_url( 'admin-ajax.php' ),
+			'nabshow_lv_admin_nonce' => wp_create_nonce( 'help_support_nonce' ),
+		) );
+
+	}
+
+	if ( 'index.php' === $pagenow || 'edit.php' === $pagenow || 'edit-tags.php' === $pagenow ) {
+
+		if ( 'index.php' !== $pagenow ) {
+
+			$taxonomy = filter_input( INPUT_GET, 'taxonomy', FILTER_SANITIZE_STRING );
+
+		    wp_enqueue_script( 'nabshow-lv-compact-view', get_template_directory_uri() . '/assets/js/nabshow-lv-admin-compact-view.js', array( 'jquery' ) );
+
+			$taxonomy = is_taxonomy_hierarchical( $taxonomy ) ? $taxonomy : '';
+
+			wp_localize_script( 'nabshow-lv-compact-view', 'nabshowCompactView', array(
+				'expandText'   => __( 'Expand All', 'nabshow-lv' ),
+				'collapseText' => __( 'Collapse All', 'nabshow-lv' ),
+				'nabTaxonomy' => $taxonomy,
+			) );
+
+        }
+
+	    wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
+    }
 }

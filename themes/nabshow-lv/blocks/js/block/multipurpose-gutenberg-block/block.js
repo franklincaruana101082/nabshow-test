@@ -3,7 +3,7 @@ import classnames from 'classnames';
 	const { __ } = wp.i18n;
 	const { registerBlockType } = wp.blocks;
 	const { Fragment } = wp.element;
-	const { MediaUpload, AlignmentToolbar, InspectorControls, InnerBlocks, PanelColorSettings, BlockAlignmentToolbar } = wp.editor;
+	const { MediaUpload, InspectorControls, InnerBlocks } = wp.editor;
 	const { PanelBody, PanelRow, TextControl, Button, SelectControl, RangeControl, ToggleControl, ColorPalette } = wp.components;
 	const multipleBlockIcon = <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 612 612">
 		<g>

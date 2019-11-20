@@ -51,11 +51,14 @@ import memoize from 'memize';
       noOfschedule: {
         type: 'number',
         default: 1
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
-    edit: (props, attributes) => {
-      const {
-        attributes: { noOfschedule }, className, setAttributes, clientId } = props;
+    edit: (props) => {
+      const { attributes: { noOfschedule, showFilter }, className, setAttributes, clientId } = props;
 
       $(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
         if ('' !== $(this).parents(`#block-${clientId}`)) {
@@ -65,29 +68,87 @@ import memoize from 'memize';
       });
 
       return (
-        <div className={`team-main media-partners ${className ? className : ''}`}>
-          <InnerBlocks
-            template={getChildscheduleBlock(noOfschedule)}
-            templateLock="all"
-            allowedBlocks={ALLOWBLOCKS}
-          />
-          <div className="add-remove-btn">
-            <Button
-              className="add"
-              onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}
-            >
-              <span className="dashicons dashicons-plus" />
-            </Button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-partners.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div className="box-main-filter main-filter media-partner-filter">
+              <div className="featuredbtn"><input className="featured-btn" type="button" value="Featured" /></div>
+              <div className="category"><label>Topic</label>
+                <div className="box-main-select"><select id="topic-type" className="select-opt">
+                  <option>Select a Topic</option>
+                </select></div>
+              </div>
+              <div className="category"><label>Format</label>
+                <div className="box-main-select"><select id="format-type" className="select-opt">
+                  <option>Select a Format</option>
+                </select></div>
+              </div>
+              <div className="category"><label>Location</label>
+                <div className="box-main-select"><select id="location-type" className="select-opt">
+                  <option>Select a Location</option>
+                </select></div>
+              </div>
+            </div>
+          }
+          <div className={`team-main media-partners ${className ? className : ''}`}>
+            <InnerBlocks
+              template={getChildscheduleBlock(noOfschedule)}
+              templateLock="all"
+              allowedBlocks={ALLOWBLOCKS}
+            />
+            <div className="add-remove-btn">
+              <Button
+                className="add"
+                onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}
+              >
+                <span className="dashicons dashicons-plus" />
+              </Button>
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     },
     save: props => {
-      const { className } = props;
+      const { className, attributes: { showFilter } } = props;
       return (
-        <div className={`team-main media-partners ${className ? className : ''}`}>
-          <InnerBlocks.Content />
-        </div>
+        <Fragment>
+          {showFilter &&
+            <div className="box-main-filter main-filter media-partner-filter">
+              <div className="featuredbtn"><input className="featured-btn" type="button" value="Featured" /></div>
+              <div className="category"><label>Topic</label>
+                <div className="box-main-select"><select id="topic-type" className="select-opt">
+                  <option>Select a Topic</option>
+                </select></div>
+              </div>
+              <div className="category"><label>Format</label>
+                <div className="box-main-select"><select id="format-type" className="select-opt">
+                  <option>Select a Format</option>
+                </select></div>
+              </div>
+              <div className="category"><label>Location</label>
+                <div className="box-main-select"><select id="location-type" className="select-opt">
+                  <option>Select a Location</option>
+                </select></div>
+              </div>
+            </div>
+          }
+          <div className={`team-main media-partners ${className ? className : ''}`}>
+            <InnerBlocks.Content />
+          </div>
+        </Fragment>
       );
     }
   });
@@ -187,7 +248,7 @@ import memoize from 'memize';
     },
     edit: props => {
       const { attributes, setAttributes, clientId } = props;
-      const { name, description, imageAlt, imageUrl, department, topics, topicsList, taxonomies, formats, formatsList, formatTaxonomy, locations, locationsList, locationsTaxonomy, featured } = attributes;
+      const { name, description, imageAlt, topics, topicsList, taxonomies, formats, formatsList, formatTaxonomy, locations, locationsList, locationsTaxonomy, featured } = attributes;
 
       const getImageButton = openEvent => {
         if (attributes.imageUrl) {
@@ -231,26 +292,6 @@ import memoize from 'memize';
                       } else {
                         setAttributes({ featured: false });
                       }
-
-                      // let newObject;
-                      // if (isChecked) {
-                      //   newObject = Object.assign({}, member, {
-                      //     international: true
-                      //   });
-                      // }
-                      // else {
-                      //   newObject = Object.assign({}, member, {
-                      //     international: false
-                      //   });
-                      // }
-                      // setAttributes({
-                      //   committee: [
-                      //     ...committee.filter(
-                      //       item => item.index != member.index
-                      //     ),
-                      //     newObject
-                      //   ]
-                      // });
                     }}
                   />
                 </div>
@@ -405,9 +446,12 @@ import memoize from 'memize';
                 </div>
               </PanelRow>
             </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-partners.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
           </InspectorControls>
           <div className="team-box-inner">
-            <span class="remove-button">
+            <span className="remove-button">
               <IconButton
                 className="components-toolbar__control"
                 label={__('Remove image')}

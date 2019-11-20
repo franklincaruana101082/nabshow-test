@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import pick from 'lodash/pick';
 import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
@@ -189,7 +189,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
 
         render() {
-            const { attributes, setAttributes, isSelected, clientId } = this.props;
+            const { attributes, setAttributes, isSelected } = this.props;
             const { currentSelected } = this.state;
             const {
                 media,
@@ -214,7 +214,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 overlayOpacity,
                 adaptiveHeight,
                 mode,
-                controlIcon,
                 detailAnimation,
                 detailWidth,
                 arrowIcons
@@ -293,13 +292,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={adaptiveHeight}
                                 onChange={() => setAttributes({ adaptiveHeight: ! adaptiveHeight })}
                             />
-                            {/* <RangeControl
-                                label={__('Speed')}
-                                min={100}
-                                max={2000}
-                                value={speed}
-                                onChange={value => setAttributes({ speed: value })}
-                            /> */}
                             <div className="inspector-field inspector-slider-speed" >
                                 <label>Speed</label>
                                 <RangeControl
@@ -550,6 +542,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 ) : ''
                             }
                         </PanelBody>
+                        <PanelBody title={__('Help')} initialOpen={false}>
+                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4" target="_blank">How to use block?</a>
+                        </PanelBody>
                     </InspectorControls>
                     <div className={`nab-media-slider-block slider-arrow-main ${arrowIcons}`}>
                         <div className={'nab-media-slider'} data-animation={detailAnimation} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`} data-adaptiveheight={`${adaptiveHeight}`}>
@@ -697,7 +692,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             value={currentSelected}
                                             multiple
                                             onSelect={(items) => setAttributes({
-                                                media: [...media, ...items.map((item) => lodash.pick(item, 'id', 'url', 'alt'))],
+                                                media: [...media, ...items.map((item) => pick(item, 'id', 'url', 'alt'))],
                                             })}
                                             render={({ open }) => (
                                                 <IconButton
@@ -720,7 +715,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const blockAttrs = {
         media: {
             type: 'array',
-            default: [], // [ {id: int, url, title, text, link: string } ]
+            default: [],
         },
         autoplay: {
             type: 'boolean',

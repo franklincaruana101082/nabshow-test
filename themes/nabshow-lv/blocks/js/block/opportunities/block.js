@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
-  const { Button, CheckboxControl } = wpComponents;
+  const { InspectorControls, RichText, MediaUpload } = wpEditor;
+  const { PanelBody, PanelRow, ToggleControl, Button, CheckboxControl } = wpComponents;
 
   const opportunityBlockIcon = (
     <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -98,8 +98,8 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
-      const { DataArray, title } = attributes;
+      const { attributes, setAttributes } = this.props;
+      const { DataArray, title, showFilter } = attributes;
 
       const getImageButton = (openEvent, index) => {
         if (DataArray[index].media) {
@@ -278,47 +278,79 @@
         });
 
       return (
-        <div className="opportunities">
-          <RichText
-            tagName="h2"
-            placeholder={__('Title')}
-            value={title}
-            className="main-title"
-            onChange={title => {
-              setAttributes({
-                title: title
-              });
-            }}
-          />
-          <div className="box-main two-item">
-            {DataArrayList}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    DataArray: [
-                      ...DataArray,
-                      {
-                        index: DataArray.length,
-                        media: '',
-                        mediaAlt: '',
-                        title: '',
-                        cost: '',
-                        exclusivity: 'Exclusivity',
-                        description: '',
-                        sold: false
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div className="box-main-filter main-filter opportunities-filter">
+              <div className="category"><label>Sub-Category</label>
+                <div className="box-main-select"><select id="sub-category-type" className="select-opt"><option>Select a Type</option></select></div>
+              </div>
+              <div className="category"><label>Cost</label>
+                <div className="box-main-select"><select id="price-range" className="select-opt"><option>Select a Price Range</option></select></div>
+              </div>
+              <div className="category"><label>Exclusivity</label>
+                <div className="box-main-select"><select id="exclusivity" className="select-opt"><option>Select Exclusivity</option></select></div>
+              </div>
+              <div className="category"><label>Availability</label>
+                <div className="box-main-select"><select id="availability" className="select-opt"><option>Select Availability</option><option className="available">Available</option><option className="unavailable">Unavailable</option></select></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+                </div>
+            </div>
+          }
+          <div className="opportunities">
+            <RichText
+              tagName="h2"
+              placeholder={__('Title')}
+              value={title}
+              className="main-title"
+              onChange={title => {
+                setAttributes({
+                  title: title
+                });
+              }}
+            />
+            <div className="box-main two-item">
+              {DataArrayList}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      DataArray: [
+                        ...DataArray,
+                        {
+                          index: DataArray.length,
+                          media: '',
+                          mediaAlt: '',
+                          title: '',
+                          cost: '',
+                          exclusivity: 'Exclusivity',
+                          description: '',
+                          sold: false
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -336,6 +368,10 @@
       },
       title: {
         type: 'string',
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: BlockComponent,
@@ -345,72 +381,93 @@
         attributes,
         className
       } = props;
-      const { DataArray, title } = attributes;
+      const { DataArray, title, showFilter } = attributes;
 
       return (
-        <div className="opportunities">
-          <RichText.Content
-            tagName="h2"
-            value={title}
-            className="main-title"
-          />
-          <div className="box-main two-item">
-            {DataArray.map((product, index) => (
-              <Fragment>
-                {
-                  product.title && (
-                    <div className="box-item">
-                      <div className="box-inner">
-                        {
-                          product.sold && (
-                            <span className="sold">Sold</span>
-                          )
-                        }
-                        <div className="media-img">
-                          {product.media ? (
-                            <img src={product.media} alt={product.alt} className="img" />
-                          ) : (
-                              <div className="no-image">No Featured Image</div>
+        <Fragment>
+          {showFilter &&
+            <div className="box-main-filter main-filter opportunities-filter">
+              <div className="category"><label>Sub-Category</label>
+                <div className="box-main-select"><select id="sub-category-type" className="select-opt"><option>Select a Type</option></select></div>
+              </div>
+              <div className="category"><label>Cost</label>
+                <div className="box-main-select"><select id="price-range" className="select-opt"><option>Select a Price Range</option></select></div>
+              </div>
+              <div className="category"><label>Exclusivity</label>
+                <div className="box-main-select"><select id="exclusivity" className="select-opt"><option>Select Exclusivity</option></select></div>
+              </div>
+              <div className="category"><label>Availability</label>
+                <div className="box-main-select"><select id="availability" className="select-opt"><option>Select Availability</option><option className="available">Available</option><option className="unavailable">Unavailable</option></select></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="opportunities">
+            <RichText.Content
+              tagName="h2"
+              value={title}
+              className="main-title"
+            />
+            <div className="box-main two-item">
+              {DataArray.map((product, index) => (
+                <Fragment>
+                  {
+                    product.title && (
+                      <div className="box-item">
+                        <div className="box-inner">
+                          {
+                            product.sold && (
+                              <span className="sold">Sold</span>
+                            )
+                          }
+                          <div className="media-img">
+                            {product.media ? (
+                              <img src={product.media} alt={product.mediaAlt} className="img" />
+                            ) : (
+                                <div className="no-image">No Featured Image</div>
+                              )}
+                          </div>
+                          <div className="details-sec">
+                            {product.title && (
+                              <RichText.Content
+                                tagName="h3"
+                                value={product.title}
+                                className="title"
+                              />
                             )}
-                        </div>
-                        <div className="details-sec">
-                          {product.title && (
-                            <RichText.Content
-                              tagName="h3"
-                              value={product.title}
-                              className="title"
-                            />
-                          )}
-                          {product.cost && (
-                            <RichText.Content
-                              tagName="span"
-                              className="cost"
-                              value={product.cost}
-                            />
-                          )}
-                          {product.exclusivity && (
-                            <RichText.Content
-                              tagName="span"
-                              className="exclusivity"
-                              value={product.exclusivity}
-                            />
-                          )}
-                          {product.description && (
-                            <RichText.Content
-                              tagName="p"
-                              className="description"
-                              value={product.description}
-                            />
-                          )}
+                            {product.cost && (
+                              <RichText.Content
+                                tagName="span"
+                                className="cost"
+                                value={product.cost}
+                              />
+                            )}
+                            {product.exclusivity && (
+                              <RichText.Content
+                                tagName="span"
+                                className="exclusivity"
+                                value={product.exclusivity}
+                              />
+                            )}
+                            {product.description && (
+                              <RichText.Content
+                                tagName="p"
+                                className="description"
+                                value={product.description}
+                              />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                }
-              </Fragment>
-            ))}
+                    )
+                  }
+                </Fragment>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   });
