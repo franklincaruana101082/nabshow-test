@@ -29,7 +29,7 @@
   class VideoComponent extends Component {
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
+      const { attributes, setAttributes, className } = this.props;
       const { dataArry, videoID } = attributes;
 
       if (0 === dataArry.length) {
@@ -176,12 +176,11 @@
               <span className="close">&times;</span>
               <div className="videos-content">
                 <div className="videos-body">
-                  {/* <img src="" class="videos-popup-iframe" /> */}
                   <iframe src="" className="videos-popup-iframe" frameBorder="0" allowFullScreen />
                 </div>
               </div>
             </div>
-            <div class="videos-backdrop"></div>
+            <div className="videos-backdrop"></div>
           </div>
         </div>
       );

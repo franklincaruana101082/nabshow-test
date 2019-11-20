@@ -127,7 +127,6 @@
     edit({ attributes, setAttributes }) {
       const {
         imageAlt,
-        imageUrl,
         ImageWidth,
         ImageHeight,
         BorderSize,

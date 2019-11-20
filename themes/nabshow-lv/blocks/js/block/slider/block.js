@@ -189,7 +189,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
 
         render() {
-            const { attributes, setAttributes, isSelected, clientId } = this.props;
+            const { attributes, setAttributes, isSelected } = this.props;
             const { currentSelected } = this.state;
             const {
                 media,
@@ -214,7 +214,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 overlayOpacity,
                 adaptiveHeight,
                 mode,
-                controlIcon,
                 detailAnimation,
                 detailWidth,
                 arrowIcons
@@ -716,7 +715,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const blockAttrs = {
         media: {
             type: 'array',
-            default: [], // [ {id: int, url, title, text, link: string } ]
+            default: [],
         },
         autoplay: {
             type: 'boolean',

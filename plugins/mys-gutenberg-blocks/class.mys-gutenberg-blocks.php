@@ -418,6 +418,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                             'type'    => 'string',
                             'default' => 'date'
                         ),
+                        'showFilter'    => array(
+                            'type'      => 'boolean',
+                            'default'   => false
+                        )
                     ),
                     'render_callback' => array( $this, 'mysgb_product_winner_render_callback' ),
                 )
@@ -1577,6 +1581,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             ob_start();
 
             if ( $query->have_posts() ) {
+
+                if ( $listing_page ) {
+                    require_once( plugin_dir_path( __FILE__ ) . 'includes/filters/html-mysgb-sponsor-filter.php' );
+                }
             ?>
                 <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
                 <?php
@@ -1710,6 +1718,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_product_winner_render_callback( $attributes ) {
+            $show_filter    = isset( $attributes['showFilter'] ) ? $attributes['showFilter'] : false;
             $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'not-to-be-missed';
             $taxonomies     = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array('featured-category');
             $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'], true ): array();
@@ -1719,6 +1728,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
             ob_start();
+
+            if ( $show_filter ) {
+                require_once( plugin_dir_path( __FILE__ ) . 'includes/filters/html-mysgb-product-winner-filter.php' );
+            }
+
             foreach ( $taxonomies as $taxonomy ) {
 
                 if ( count( array_filter( ( array_values( $terms ) ) ) ) > 0 && count( $terms[$taxonomy] ) > 0 ) {

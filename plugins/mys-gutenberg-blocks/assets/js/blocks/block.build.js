@@ -4537,6 +4537,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var InspectorControls = wpEditor.InspectorControls;
     var PanelBody = wpComponents.PanelBody,
         SelectControl = wpComponents.SelectControl,
+        ToggleControl = wpComponents.ToggleControl,
         TextControl = wpComponents.TextControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
@@ -4647,7 +4648,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     postType = attributes.postType,
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
-                    orderBy = attributes.orderBy;
+                    orderBy = attributes.orderBy,
+                    showFilter = attributes.showFilter;
 
 
                 var isCheckedTerms = {};
@@ -4664,6 +4666,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement(
                             PanelBody,
                             { title: __('Data Settings '), initialOpen: true, className: "range-setting" },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Show Filter?'),
+                                checked: showFilter,
+                                onChange: function onChange() {
+                                    return setAttributes({ showFilter: !showFilter });
+                                }
+                            }),
                             wp.element.createElement(
                                 "div",
                                 { className: "inspector-field inspector-field-Numberofitems " },
@@ -4789,7 +4798,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/product-winner",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, orderBy: orderBy }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, orderBy: orderBy, showFilter: showFilter }
                     })
                 );
             }
@@ -4818,6 +4827,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         orderBy: {
             type: 'string',
             default: 'date'
+        },
+        showFilter: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/product-winner', {

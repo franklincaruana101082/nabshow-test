@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
-  const { Button, TextControl } = wpComponents;
+  const { RichText, InspectorControls } = wpEditor;
+  const { PanelBody, PanelRow, ToggleControl } = wpComponents;
 
   const badgeDiscountBlockIcon = (
     <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -63,8 +63,8 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
-      const { products, mainTitle } = attributes;
+      const { attributes, setAttributes } = this.props;
+      const { products, mainTitle, showFilter } = attributes;
 
       const itemList = products
         .sort((a, b) => a.index - b.index)
@@ -81,7 +81,6 @@
                         if (t.index > product.index) {
                           t.index -= 1;
                         }
-
                         return t;
                       });
 
@@ -197,41 +196,66 @@
         });
 
       return (
-        <div className="badge-discounts">
-          <RichText
-            tagName="h2"
-            onChange={(value) => setAttributes({ mainTitle: value })}
-            placeholder={__('Title')}
-            value={mainTitle}
-            className="badge-title"
-          />
-          <div className="box-main four-grid">
-            {itemList}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    products: [
-                      ...products,
-                      {
-                        index: products.length,
-                        title: '',
-                        location: '',
-                        discount: '',
-                        dates: '',
-                        description: ''
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+                <PanelRow>
+                  <ToggleControl
+                    label={__('Show Filter')}
+                    checked={showFilter}
+                    onChange={() => setAttributes({ showFilter: ! showFilter })}
+                  />
+                </PanelRow>
+              </PanelBody>
+              <PanelBody title={__('Help')} initialOpen={false}>
+                <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/badge-discounts.mp4" target="_blank">How to use block?</a>
+              </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div className="box-main-filter main-filter badge-discount-filter">
+              <div id="box-main-listing" className="badgeslist"></div>
+              <div className="search-box">
+                <label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="badge-discounts">
+            <RichText
+              tagName="h2"
+              onChange={(value) => setAttributes({ mainTitle: value })}
+              placeholder={__('Title')}
+              value={mainTitle}
+              className="badge-title"
+            />
+            <div className="box-main four-grid">
+              {itemList}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      products: [
+                        ...products,
+                        {
+                          index: products.length,
+                          title: '',
+                          location: '',
+                          discount: '',
+                          dates: '',
+                          description: ''
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -249,26 +273,37 @@
       },
       mainTitle: {
         type: 'string'
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: ItemComponent,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
-      const { products, mainTitle } = attributes;
+      const { attributes } = props;
+      const { products, mainTitle, showFilter } = attributes;
 
       return (
-        <div className="badge-discounts">
-          <RichText.Content
+        <Fragment>
+          {showFilter &&
+            <div className="box-main-filter main-filter badge-discount-filter">
+              <div id="box-main-listing" className="badgeslist"></div>
+              <div className="search-box">
+                <label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="badge-discounts">
+           <RichText.Content
             tagName="h2"
             value={mainTitle}
             className="badge-title"
           />
           <div className="box-main four-grid">
-            {products.map((product, index) => (
+            {products.map((product) => (
               <Fragment>
                 {
                   product.title && (
@@ -317,6 +352,7 @@
             ))}
           </div>
         </div>
+      </Fragment>
       );
     }
   });

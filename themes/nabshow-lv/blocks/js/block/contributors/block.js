@@ -130,7 +130,6 @@
         },
     };
 
-
     registerBlockType('nab/contributors-authors', {
         title: __('Contributors / Authors'),
         icon: { src: contributorsBlock},

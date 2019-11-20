@@ -31,7 +31,7 @@
   class PhotoComponent extends Component {
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
+      const { attributes, setAttributes, className } = this.props;
       const { dataArry } = attributes;
 
       if (0 === dataArry.length) {
@@ -137,10 +137,7 @@
     edit: PhotoComponent,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
+      const { attributes } = props;
       const { dataArry } = attributes;
 
       return (
@@ -158,14 +155,14 @@
           ))}
           <div className="photos-popup">
             <div className="photos-dialog">
-              <span class="close">&times;</span>
+              <span className="close">&times;</span>
               <div className="photos-content">
                 <div className="photos-body">
                   <img className="photos-popup-img" src="" />
                 </div>
               </div>
             </div>
-            <div class="photos-backdrop"></div>
+            <div className="photos-backdrop"></div>
           </div>
         </div>
       );

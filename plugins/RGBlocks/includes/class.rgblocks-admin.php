@@ -1,8 +1,8 @@
 <?php
 /**
- * Script Class
+ * RGBlocks Admin class
  *
- * Handles the script and style functionality of plugin
+ * Handles the script, style and admin functionality of plugin
  *
  * @package RGBlocks
  * @since 1.0.0
@@ -86,17 +86,17 @@ class RGBlocks_Admin {
 	public function rgblocks_add_block_category_taxonomy() {
 
 		$labels = array(
-			'name'              => _x( 'Category', 'taxonomy general name', 'nabshow-lv' ),
-			'singular_name'     => _x( 'Category', 'taxonomy singular name', 'nabshow-lv' ),
-			'search_items'      => __( 'Search Categories', 'nabshow-lv' ),
-			'all_items'         => __( 'All Categories', 'nabshow-lv' ),
-			'parent_item'       => __( 'Parent Category', 'nabshow-lv' ),
-			'parent_item_colon' => __( 'Parent Category:', 'nabshow-lv' ),
-			'edit_item'         => __( 'Edit Category', 'nabshow-lv' ),
-			'update_item'       => __( 'Update Category', 'nabshow-lv' ),
-			'add_new_item'      => __( 'Add New Category', 'nabshow-lv' ),
-			'new_item_name'     => __( 'New Genre Category', 'nabshow-lv' ),
-			'menu_name'         => __( 'Categories', 'nabshow-lv' ),
+			'name'              => _x( 'Category', 'taxonomy general name', 'rgblocks' ),
+			'singular_name'     => _x( 'Category', 'taxonomy singular name', 'rgblocks' ),
+			'search_items'      => __( 'Search Categories', 'rgblocks' ),
+			'all_items'         => __( 'All Categories', 'rgblocks' ),
+			'parent_item'       => __( 'Parent Category', 'rgblocks' ),
+			'parent_item_colon' => __( 'Parent Category:', 'rgblocks' ),
+			'edit_item'         => __( 'Edit Category', 'rgblocks' ),
+			'update_item'       => __( 'Update Category', 'rgblocks' ),
+			'add_new_item'      => __( 'Add New Category', 'rgblocks' ),
+			'new_item_name'     => __( 'New Genre Category', 'rgblocks' ),
+			'menu_name'         => __( 'Categories', 'rgblocks' ),
 		);
 
 		$args = array(

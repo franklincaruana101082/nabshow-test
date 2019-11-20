@@ -84,7 +84,7 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
+      const { attributes, setAttributes } = this.props;
       const { products, showFilter } = attributes;
 
       const getImageButton = (openEvent, index) => {
@@ -276,22 +276,25 @@
                 />
               </PanelRow>
             </PanelBody>
+              <PanelBody title={__('Help')} initialOpen={false}>
+                  <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/official-vendors.mp4" target="_blank">How to use block?</a>
+              </PanelBody>
           </InspectorControls>
           {showFilter &&
-            <div class="box-main-filter main-filter new-this-year-filter official-vendors-filter">
-              <div class="ov-filter">
-                <div class="category"><label>Service</label>
-                  <div class="box-main-select"><select id="box-main-category" class="select-opt"><option>Select a Service</option></select></div>
+            <div className="box-main-filter main-filter new-this-year-filter official-vendors-filter">
+              <div className="ov-filter">
+                <div className="category"><label>Service</label>
+                  <div className="box-main-select"><select id="box-main-category" className="select-opt"><option>Select a Service</option></select></div>
                 </div>
-                <div class="category">
+                <div className="category">
                   <label>Vendor Name</label>
-                  <div class="box-main-select"><select id="box-main-category-vendor" class="select-opt"><option>Select a Vendor</option></select></div>
+                  <div className="box-main-select"><select id="box-main-category-vendor" className="select-opt"><option>Select a Vendor</option></select></div>
                 </div>
-                <div class="badgeslist"><a>Exclusive</a><a>Preferred</a></div>
+                <div className="badgeslist"><a>Exclusive</a><a>Preferred</a></div>
               </div>
-              <div class="search-box">
+              <div className="search-box">
                 <label>Keyword</label>
-                <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
               </div>
             </div>
           }
@@ -343,35 +346,32 @@
       },
       showFilter: {
         type: 'boolean',
-        default: true
+        default: false
       }
     },
     edit: EditOfficialVendor,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
+      const { attributes } = props;
       const { products, showFilter } = attributes;
 
       return (
         <Fragment>
           {showFilter &&
-            <div class="box-main-filter main-filter new-this-year-filter official-vendors-filter">
-              <div class="ov-filter">
-                <div class="category"><label>Service</label>
-                  <div class="box-main-select"><select id="box-main-category" class="select-opt"><option>Select a Service</option></select></div>
+            <div className="box-main-filter main-filter new-this-year-filter official-vendors-filter">
+              <div className="ov-filter">
+                <div className="category"><label>Service</label>
+                  <div className="box-main-select"><select id="box-main-category" className="select-opt"><option>Select a Service</option></select></div>
                 </div>
-                <div class="category">
+                <div className="category">
                   <label>Vendor Name</label>
-                  <div class="box-main-select"><select id="box-main-category-vendor" class="select-opt"><option>Select a Vendor</option></select></div>
+                  <div className="box-main-select"><select id="box-main-category-vendor" className="select-opt"><option>Select a Vendor</option></select></div>
                 </div>
-                <div class="badgeslist"><a>Exclusive</a><a>Preferred</a></div>
+                <div className="badgeslist"><a>Exclusive</a><a>Preferred</a></div>
               </div>
-              <div class="search-box">
+              <div className="search-box">
                 <label>Keyword</label>
-                <div class="search-item icon-right"><input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
               </div>
             </div>
           }

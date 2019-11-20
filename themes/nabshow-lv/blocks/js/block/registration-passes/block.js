@@ -84,7 +84,7 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
+      const { attributes, setAttributes } = this.props;
       const { dataArray, title, details } = attributes;
 
       const itemList = dataArray
@@ -321,10 +321,7 @@
     edit: ItemComponent,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
+      const { attributes } = props;
       const { dataArray, title, details } = attributes;
 
       return (

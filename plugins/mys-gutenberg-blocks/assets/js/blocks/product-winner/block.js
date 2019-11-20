@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, SelectControl, ToggleControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
 
     const productWinnerBlockIcon = (
         <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -105,7 +105,7 @@
         render() {
 
             const { attributes, setAttributes } = this.props;
-            const { itemToFetch, postType, taxonomies, terms, orderBy } = attributes;
+            const { itemToFetch, postType, taxonomies, terms, orderBy, showFilter } = attributes;
 
             let isCheckedTerms = {};
             if (! this.isEmpty(terms) && terms.constructor !== Object ) {
@@ -116,6 +116,11 @@
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                            <ToggleControl
+                                label={__('Show Filter?')}
+                                checked={showFilter}
+                                onChange={() => setAttributes({ showFilter: ! showFilter }) }
+                            />
                             <div className="inspector-field inspector-field-Numberofitems ">
                                 <label className="inspector-mb-0">Number of items</label>
                                 <RangeControl
@@ -242,7 +247,7 @@
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/product-winner"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, orderBy: orderBy }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, orderBy: orderBy, showFilter: showFilter}}
                     />
                 </Fragment >
             );
@@ -268,6 +273,10 @@
         orderBy: {
             type: 'string',
             default: 'date'
+        },
+        showFilter: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/product-winner', {

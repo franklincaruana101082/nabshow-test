@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload } = wpEditor;
-  const { Button, TextControl, CheckboxControl } = wpComponents;
+  const { RichText, MediaUpload, InspectorControls } = wpEditor;
+  const { PanelBody, PanelRow, ToggleControl, Button, TextControl, CheckboxControl } = wpComponents;
 
   const exhibitorCommitteeBlockIcon = (
     <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -89,8 +89,8 @@
     }
 
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
-      const { committee } = attributes;
+      const { attributes, setAttributes } = this.props;
+      const { committee, showFilter } = attributes;
 
       const getImageButton = (openEvent, index) => {
         if (committee[index].media) {
@@ -329,39 +329,75 @@
       });
 
       return (
-        <div className="exhibitor-committee">
-          <div className="box-main two-grid">
-            {committeeMembers}
-            <div className="box-item additem">
-              <button
-                className="components-button add"
-                onClick={content => {
-                  setAttributes({
-                    committee: [
-                      ...committee,
-                      {
-                        index: committee.length,
-                        name: '',
-                        company: '',
-                        areas: '',
-                        boothSize: '',
-                        address: '',
-                        phone: '',
-                        emailAdd: '',
-                        media: '',
-                        mediaAlt: '',
-                        international: false
-                      }
-                    ]
-                  });
-                }
-                }
-              >
-                <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title="General Settings">
+              <PanelRow>
+                <ToggleControl
+                  label={__('Show Filter')}
+                  checked={showFilter}
+                  onChange={() => setAttributes({ showFilter: ! showFilter })}
+                />
+              </PanelRow>
+            </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/exhibitor-advisory-committee.mp4" target="_blank">How to use block?</a>
+            </PanelBody>
+          </InspectorControls>
+          {showFilter &&
+            <div className="box-main-filter main-filter new-this-year-filter committee-filter">
+              <div className="ov-filter">
+                <div className="category"><label>Location</label>
+                  <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                    <option>Select a Category</option>
+                  </select></div>
+                </div>
+                <div className="category"><label>Booth Size</label>
+                  <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
+                    <option>Select a Category</option>
+                  </select></div>
+                </div>
+                <div className="badgeslist"><a>International</a></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="exhibitor-committee">
+            <div className="box-main two-grid">
+              {committeeMembers}
+              <div className="box-item additem">
+                <button
+                  className="components-button add"
+                  onClick={content => {
+                    setAttributes({
+                      committee: [
+                        ...committee,
+                        {
+                          index: committee.length,
+                          name: '',
+                          company: '',
+                          areas: '',
+                          boothSize: '',
+                          address: '',
+                          phone: '',
+                          emailAdd: '',
+                          media: '',
+                          mediaAlt: '',
+                          international: false
+                        }
+                      ]
+                    });
+                  }
+                  }
+                >
+                  <span className="dashicons dashicons-plus"></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -376,90 +412,113 @@
       committee: {
         type: 'array',
         default: [],
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: ItemComponent,
 
     save: props => {
-      const {
-        attributes,
-        className
-      } = props;
-      const { committee } = attributes;
+      const { attributes } = props;
+      const { committee, showFilter } = attributes;
 
       return (
-        <div className="exhibitor-committee">
-          <div className="box-main two-grid">
-            {committee.map((member, index) => (
-              <Fragment>
-                {
-                  member.name && (
-                    <div className={`box-item ${member.international ? 'International' : ''} `}>
-                      <div className='box-inner'>
-                        <div className="info-box">
-                          {member.name && (
-                            <RichText.Content
-                              tagName="h2"
-                              value={member.name}
-                              className="title"
-                            />
-                          )}
-                          {member.company && (
-                            <RichText.Content
-                              tagName="h4"
-                              value={member.company}
-                              className="company"
-                            />
-                          )}
-                          {member.areas && (
-                            <RichText.Content
-                              tagName="p"
-                              value={member.areas}
-                              className="areas"
-                            />
-                          )}
-                          {member.boothSize && (
-                            <RichText.Content
-                              tagName="p"
-                              value={member.boothSize}
-                              className="boothSize"
-                            />
-                          )}
-                          {member.address && (
-                            <RichText.Content
-                              tagName="p"
-                              value={member.address}
-                              className="address"
-                            />
-                          )}
-                          {member.phone && (
-                            <RichText.Content
-                              tagName="p"
-                              value={member.phone}
-                              className="phone"
-                            />
-                          )}
-                          {member.email && (
-                            <a className="email" href={`mailto:${member.email}`}>{member.email}</a>
-                          )}
-                        </div>
-                        <div className="media-box">
-                          <div className="media-img">
-                            {member.media ? (
-                              <img src={member.media} alt={member.alt} className="img" />
-                            ) : (
-                                <div className="no-image">No Logo</div>
-                              )}
+        <Fragment>
+          {showFilter &&
+            <div className="box-main-filter main-filter new-this-year-filter committee-filter">
+              <div className="ov-filter">
+                <div className="category"><label>Location</label>
+                  <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                    <option>Select a Category</option>
+                  </select></div>
+                </div>
+                <div className="category"><label>Booth Size</label>
+                  <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
+                    <option>Select a Category</option>
+                  </select></div>
+                </div>
+                <div className="badgeslist"><a>International</a></div>
+              </div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
+              </div>
+            </div>
+          }
+          <div className="exhibitor-committee">
+            <div className="box-main two-grid">
+              {committee.map((member, index) => (
+                <Fragment>
+                  {
+                    member.name && (
+                      <div className={`box-item ${member.international ? 'International' : ''} `}>
+                        <div className='box-inner'>
+                          <div className="info-box">
+                            {member.name && (
+                              <RichText.Content
+                                tagName="h2"
+                                value={member.name}
+                                className="title"
+                              />
+                            )}
+                            {member.company && (
+                              <RichText.Content
+                                tagName="h4"
+                                value={member.company}
+                                className="company"
+                              />
+                            )}
+                            {member.areas && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.areas}
+                                className="areas"
+                              />
+                            )}
+                            {member.boothSize && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.boothSize}
+                                className="boothSize"
+                              />
+                            )}
+                            {member.address && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.address}
+                                className="address"
+                              />
+                            )}
+                            {member.phone && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.phone}
+                                className="phone"
+                              />
+                            )}
+                            {member.email && (
+                              <a className="email" href={`mailto:${member.email}`}>{member.email}</a>
+                            )}
+                          </div>
+                          <div className="media-box">
+                            <div className="media-img">
+                              {member.media ? (
+                                <img src={member.media} alt={member.alt} className="img" />
+                              ) : (
+                                  <div className="no-image">No Logo</div>
+                                )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                }
-              </Fragment>
-            ))}
+                    )
+                  }
+                </Fragment>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       );
     }
   });

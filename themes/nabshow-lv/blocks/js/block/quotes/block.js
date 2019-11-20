@@ -55,20 +55,6 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         </svg>
     );
 
-    /**
-     * Register: a Gutenberg Block.
-     *
-     * Registers a new block provided a unique name and an object defining its
-     * behavior. Once registered, the block is made editor as an option to any
-     * editor interface where blocks are implemented.
-     *
-     * @link https://wordpress.org/gutenberg/handbook/block-api/
-     * @param  {string}   name     Block name.
-     * @param  {Object}   settings Block settings.
-     * @return {?WPBlock}          The block, if it has been successfully
-     *                             registered; otherwise `undefined`.
-     */
-
     class NabMediaSlider extends Component {
         constructor() {
             super(...arguments);
@@ -152,7 +138,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         }
 
         initSlider() {
-            const { autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode } = this.props.attributes;
+            const { infiniteLoop, pager, controls, adaptiveHeight, speed, mode } = this.props.attributes;
             const { clientId } = this.props;
             let sliderObj = $(`#block-${clientId} .wp-block-md-quotes-slider-block`).bxSlider({
                 mode: mode,
@@ -170,7 +156,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         }
 
         reloadSlider() {
-            const { autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode } = this.props.attributes;
+            const { infiniteLoop, pager, controls, adaptiveHeight, speed, mode } = this.props.attributes;
             this.state.bxSliderObj.reloadSlider({
                 mode: mode,
                 speed: speed,
@@ -192,8 +178,8 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
 
         render() {
 
-            const { attributes, setAttributes, isSelected, clientId, className } = this.props;
-            const { quotes, id, sliderActive, quotesOptions, autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode, sliderBgColor } = attributes;
+            const { attributes, setAttributes, clientId, className } = this.props;
+            const { quotes, sliderActive, quotesOptions, autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode, sliderBgColor } = attributes;
             const quotesList = quotes
                 .sort((a, b) => a.index - b.index)
                 .map((quote, index) => {
@@ -503,8 +489,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         edit: NabMediaSlider,
 
         save: props => {
-            const { id, quotes, quotesOptions, autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode, sliderBgColor } = props.attributes;
-            const { clientId } = props;
+            const { quotes, quotesOptions, autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode, sliderBgColor } = props.attributes;
 
             const quotesList = quotes.map(function (quote) {
                 const quoteClass =

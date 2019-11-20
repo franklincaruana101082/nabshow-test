@@ -1,7 +1,6 @@
 import times from 'lodash/times';
 import memoize from 'memize';
 
-
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
 	const { __ } = wpI18n;
 	const { Fragment } = wpElement;
@@ -39,7 +38,6 @@ import memoize from 'memize';
 		</svg>
 	);
 
-
 	/* Parent Accordion Block */
 	registerBlockType('nab/accordion', {
 		title: __('Accordion'),
@@ -61,10 +59,14 @@ import memoize from 'memize';
 			showTitle: {
 				type: 'boolean',
 				default: true
+			},
+			showFilter: {
+				type: 'boolean',
+				default: true
 			}
 		},
-		edit: (props, attributes) => {
-			const { attributes: { noOfAccordion, showTitle, title }, className, setAttributes, clientId } = props;
+		edit: (props) => {
+			const { attributes: { noOfAccordion, showTitle, title, showFilter }, className, setAttributes, clientId } = props;
 
 			setAttributes({ blockId: clientId });
 
@@ -75,11 +77,8 @@ import memoize from 'memize';
 				}
 			});
 
-
-			const removeButton = 1 === noOfAccordion ? 'hideButton' : '';
-
 			return (
-				<div id={clientId} className={'accordionParentWrapper' + ' ' + className} data-category={title} >
+				<Fragment>
 					<InspectorControls>
 						<PanelBody title="General Settings">
 							<PanelRow>
@@ -89,46 +88,93 @@ import memoize from 'memize';
 									onChange={() => setAttributes({ showTitle: ! showTitle })}
 								/>
 							</PanelRow>
+							<PanelRow>
+								<ToggleControl
+									label={__('Show Filter')}
+									checked={showFilter}
+									onChange={() => setAttributes({ showFilter: ! showFilter })}
+								/>
+							</PanelRow>
 						</PanelBody>
 						<PanelBody title={__('Help')} initialOpen={false}>
 							<a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4" target="_blank">How to use block?</a>
 						</PanelBody>
 					</InspectorControls>
-					{
-						showTitle ? (
-							<RichText
-								tagName="h2"
-								onChange={(value) => setAttributes({ title: value })}
-								placeholder={__('Category')}
-								value={title}
-								className="title"
-							/>) : ''
+					{showFilter &&
+						<div className="fab-filter main-filter">
+							<div className="search-box">
+								<label>Keyword</label>
+								<div className="search-item">
+									<input id="box-main-search" className="search" name="faq-search" type="text" placeholder="Filter by keyword..." />
+								</div>
+							</div>
+							<div className="keyword">
+								<label>Category</label>
+								<div>
+									<select id="faq-category-drp" className="faq-category-drp">
+										<option value="">Select One</option>
+									</select>
+								</div>
+							</div>
+						</div>
 					}
-					<InnerBlocks
-						template={getChildAccordionBlock(noOfAccordion)}
-						templateLock="all"
-						allowedBlocks={ALLOWBLOCKS}
-					/>
-					<div className="add-remove-btn">
-						<button type="button" className="components-button add" onClick={() => setAttributes({ noOfAccordion: noOfAccordion + 1 })}><span className="dashicons fa fa-plus"></span></button>
+					<div id={clientId} className={'accordionParentWrapper' + ' ' + className} data-category={title} >
+						{
+							showTitle ? (
+								<RichText
+									tagName="h2"
+									onChange={(value) => setAttributes({ title: value })}
+									placeholder={__('Category')}
+									value={title}
+									className="title"
+								/>) : ''
+						}
+						<InnerBlocks
+							template={getChildAccordionBlock(noOfAccordion)}
+							templateLock="all"
+							allowedBlocks={ALLOWBLOCKS}
+						/>
+						<div className="add-remove-btn">
+							<button type="button" className="components-button add" onClick={() => setAttributes({ noOfAccordion: noOfAccordion + 1 })}><span className="dashicons fa fa-plus"></span></button>
+						</div>
 					</div>
-				</div>
+				</Fragment>
 			);
 		},
 		save: (props) => {
-			const { attributes: { title, showTitle }, className, clientId } = props;
+			const { attributes: { title, showTitle, showFilter }, clientId } = props;
 			return (
-				<div id={clientId} className={'accordionParentWrapper'} data-category={title}>
-					{
-						showTitle && title ? (
-							<RichText.Content
-								tagName="h2"
-								value={title}
-								className="title"
-							/>) : ''
+				<Fragment>
+					{showFilter &&
+						<div className="fab-filter main-filter">
+							<div className="search-box">
+								<label>Keyword</label>
+								<div className="search-item">
+									<input id="box-main-search" className="search" name="faq-search" type="text" placeholder="Filter by keyword..." />
+								</div>
+							</div>
+							<div className="keyword">
+								<label>Category</label>
+								<div>
+									<select id="faq-category-drp" className="faq-category-drp">
+										<option value="">Select One</option>
+									</select>
+								</div>
+							</div>
+						</div>
 					}
-					<InnerBlocks.Content />
-				</div >
+					<div id={clientId} className={'accordionParentWrapper'} data-category={title}>
+						{
+							showTitle && title ? (
+								<RichText.Content
+									tagName="h2"
+									value={title}
+									className="title"
+								/>) : ''
+						}
+						<InnerBlocks.Content />
+					</div >
+				</Fragment>
 			);
 		}
 	});
@@ -256,7 +302,7 @@ import memoize from 'memize';
 							borderRadius: borderRadius + 'px'
 						}}
 					>
-						<span class="remove-button">
+						<span className="remove-button">
 							<IconButton
 								className="components-toolbar__control"
 								label={__('Remove image')}
@@ -593,7 +639,7 @@ import memoize from 'memize';
 			);
 		},
 		save: (props) => {
-			const { attributes, className } = props;
+			const { attributes } = props;
 			const {
 				title,
 				open,

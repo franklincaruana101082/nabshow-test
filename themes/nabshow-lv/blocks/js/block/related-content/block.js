@@ -76,7 +76,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         componentWillMount() {
             let pageList = [{ label: __('Select Parent Page'), value: '' }];
 
-            // Fetch all parent pages
             wp.apiFetch({ path: '/nab_api/request/page-parents' }).then((parents) => {
                 if (0 < parents.length) {
                     parents.map((parent) => {

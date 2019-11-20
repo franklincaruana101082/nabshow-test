@@ -966,7 +966,7 @@ ul.alphabets-list li.clear{display:none;line-height:50px;width:60px!important;te
 .main-filter .display-flex-box{display:flex;flex-wrap:wrap}
 .main-filter .display-flex-box>div{margin:0 35px 20px 0}
 .main-filter .display-flex-box .category{min-width:200px;max-width:100%}
-.main-filter .display-flex-box .search-box{min-width:330px;max-width:100%}
+.main-filter .display-flex-box .search-box{min-width:330px;max-width:100%;text-align:left}
 .ui-datepicker{z-index:9999!important}
 
 /* onload bxslider css */
@@ -1527,3 +1527,6 @@ header .header-right .search-form input{height:40px;font-size:14px;padding:0 10p
 header .header-right .search-form input.search-submit{background:#0f6cb6;color:#fff;font-size:12px}
 header .header-right .search-form label{display:none}
 header .header-right.active .fa-search::before{content:"\f00d"}
+
+/* Filter CSS for Sponsorship Opp */
+.related-main-wrapper .related-content-with-block-main .opportunities-filter{display:none}
