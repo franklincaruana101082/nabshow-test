@@ -55,7 +55,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         </svg>
     );
 
-    class NabMediaSlider extends Component {
+    class QuotesSlider extends Component {
         constructor() {
             super(...arguments);
             this.state = {
@@ -486,7 +486,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         },
 
         // edit Component
-        edit: NabMediaSlider,
+        edit: QuotesSlider,
 
         save: props => {
             const { quotes, quotesOptions, autoplay, infiniteLoop, pager, controls, adaptiveHeight, speed, mode, sliderBgColor } = props.attributes;

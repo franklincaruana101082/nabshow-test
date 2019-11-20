@@ -299,14 +299,7 @@
   // nab-videos
   if (0 < $('.nab-videos').length) {
     $(document).on('click', '.nab-videos .video-popup-btn', function () {
-
-      // let videoWidth = jQuery(this).parent().parent().find('.media').attr('width');
       jQuery('.nab-videos .videos-popup .videos-popup-iframe').attr('src', jQuery(this).parent().parent().find('.media').attr('data-video-src'));
-
-      // console.log(jQuery(this).parent().parent().find('.media').attr('data-video-src'));
-
-
-      // jQuery('.nab-videos .videos-dialog').css('width', 1370 > videoWidth ? videoWidth : '1370px');
       jQuery('.nab-videos .videos-popup').show();
       jQuery('body').addClass('overflow-hidden');
       jQuery('.nab-videos .videos-backdrop').show();
@@ -1287,7 +1280,7 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
   }
 
   if ('' !== pageStartWith) {
-    jQuery('#related-content-list h2.title:visible').filter(function () { return (pageStartWith !== jQuery(this).text()[0].toUpperCase()); }).parents('.col-lg-4.col-md-6').hide();
+    jQuery('#related-content-list h2.title:visible').filter(function () { return (pageStartWith !== jQuery(this).text().trim()[0].toUpperCase()); }).parents('.col-lg-4.col-md-6').hide();
   }
   if ('' !== pageSearchTitle) {
     if (0 < jQuery('#related-content-list .date-group-wrapper .happenings-date').length) {

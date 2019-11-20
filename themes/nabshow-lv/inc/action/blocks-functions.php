@@ -247,6 +247,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 'sliderLayout'  => array(
                     'type' => 'string',
                     'default' => 'img-only'
+                ),
+                'showFilter'    => array(
+                    'type' => 'boolean',
+                    'default' => false
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -564,6 +568,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $post_limit       = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
     $depth_level      = isset( $attributes['depthLevel'] ) && ! empty( $attributes['depthLevel'] ) ? $attributes['depthLevel'] : 'grandchildren';
     $listing_layout   = isset( $attributes['listingLayout'] ) && ! empty( $attributes['listingLayout'] ) ? $attributes['listingLayout'] : 'destination';
+    $show_filter      = isset( $attributes['showFilter'] ) ? $attributes['showFilter'] : false;
     $slider_layout    = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : 'img-only';
     $class_name       = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
     $slider_active    = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
@@ -629,6 +634,27 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
             </div>
         <?php
         } else {
+
+            if ( ! $slider_active && $show_filter ) {
+
+                if ( 'featured-happenings' === $listing_layout ) {
+
+                    nabshow_lv_related_content_browse_happenings_filter();
+
+                } elseif ( 'plan-your-show' === $listing_layout ) {
+
+                    nabshow_lv_related_content_plan_your_show_layout_filter();
+
+                } elseif ( 'exhibitor-resources' === $listing_layout ) {
+
+                    nabshow_lv_related_content_key_contacts_layout_filter();
+
+                } elseif ( 'destination' === $listing_layout ) {
+
+                    nabshow_lv_related_content_on_floor_destination_filter();
+                }
+            }
+
             if ( count( $children ) > 0 ) {
                 if ( 'browse-happenings' === $listing_layout ) {
 

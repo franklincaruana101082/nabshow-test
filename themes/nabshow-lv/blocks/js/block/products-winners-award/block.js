@@ -40,7 +40,7 @@
     </svg>
   );
 
-  class NabMediaSlider extends Component {
+  class ProductWinnerAward extends Component {
     constructor() {
       super(...arguments);
       this.state = {
@@ -354,7 +354,7 @@
         default: false
       }
     },
-    edit: NabMediaSlider,
+    edit: ProductWinnerAward,
 
     save: props => {
       const { attributes } = props;
