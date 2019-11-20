@@ -317,6 +317,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayField = _props2$attributes.displayField,
                     listingLayout = _props2$attributes.listingLayout,
                     sliderLayout = _props2$attributes.sliderLayout,
+                    showFilter = _props2$attributes.showFilter,
                     setAttributes = _props2.setAttributes;
 
 
@@ -544,7 +545,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* realtedContentPlanShow */]
                                             )
                                         )
-                                    )
+                                    ),
+                                    ('destination' === listingLayout || 'featured-happenings' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout) && wp.element.createElement(ToggleControl, {
+                                        label: __('Show Filter'),
+                                        checked: showFilter,
+                                        onChange: function onChange() {
+                                            return setAttributes({ showFilter: !showFilter });
+                                        }
+                                    })
                                 ),
                                 wp.element.createElement(
                                     "label",
@@ -711,7 +719,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "nab/related-content",
-                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout }
+                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter }
                     })
                 );
             }
@@ -792,6 +800,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         sliderLayout: {
             type: 'string',
             default: 'img-only'
+        },
+        showFilter: {
+            type: 'boolean',
+            default: false
         }
     };
 
@@ -3049,13 +3061,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     wp.element.createElement("path", { fill: "#0F6CB6", d: "M210.846,183.49h4.617v4.618h-4.617V183.49z" })
   );
 
-  var NabMediaSlider = function (_Component) {
-    _inherits(NabMediaSlider, _Component);
+  var ProductWinnerAward = function (_Component) {
+    _inherits(ProductWinnerAward, _Component);
 
-    function NabMediaSlider() {
-      _classCallCheck(this, NabMediaSlider);
+    function ProductWinnerAward() {
+      _classCallCheck(this, ProductWinnerAward);
 
-      var _this = _possibleConstructorReturn(this, (NabMediaSlider.__proto__ || Object.getPrototypeOf(NabMediaSlider)).apply(this, arguments));
+      var _this = _possibleConstructorReturn(this, (ProductWinnerAward.__proto__ || Object.getPrototypeOf(ProductWinnerAward)).apply(this, arguments));
 
       _this.state = {
         bxSliderObj: {}
@@ -3063,7 +3075,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       return _this;
     }
 
-    _createClass(NabMediaSlider, [{
+    _createClass(ProductWinnerAward, [{
       key: "componentDidMount",
       value: function componentDidMount() {
         var products = this.props.attributes.products;
@@ -3520,7 +3532,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }
     }]);
 
-    return NabMediaSlider;
+    return ProductWinnerAward;
   }(Component);
 
   /* Parent schedule Block */
@@ -3549,7 +3561,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         default: false
       }
     },
-    edit: NabMediaSlider,
+    edit: ProductWinnerAward,
 
     save: function save(props) {
       var attributes = props.attributes;

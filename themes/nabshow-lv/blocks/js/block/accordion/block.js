@@ -62,7 +62,7 @@ import memoize from 'memize';
 			},
 			showFilter: {
 				type: 'boolean',
-				default: true
+				default: false
 			}
 		},
 		edit: (props) => {

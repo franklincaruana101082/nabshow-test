@@ -92,6 +92,11 @@ require get_template_directory() . '/inc/common-functions.php';
  */
 require get_template_directory() . '/inc/endpoints.php';
 
+/**
+ * All the block browse page filter inside this file
+ */
+require get_template_directory() . '/inc/blocks-browse-filter-html.php';
+
 
 
 /**
