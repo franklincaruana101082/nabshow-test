@@ -83,7 +83,7 @@ $history_data = $this->history_data;
 				$item_array_data  = $prepared_item['item_array_data'];
 				$item_mys_id_name = $prepared_item['item_mys_id_name'];
 				$item_title_name  = $prepared_item['item_title_name'];
-				$item_image_name  = $prepared_item['item_image_name'];
+				$item_image_name  = isset( $prepared_item['item_image_name'] ) ? $prepared_item['item_image_name'] : '';
 				$assigned_to_rows = $prepared_item['assigned_to_rows'];
 				$row_span         = count( $assigned_to_rows );
 
@@ -174,7 +174,7 @@ $history_data = $this->history_data;
 						$assignee_hash      = '';
 					} else {
 						$assignee_hash = "$count_item_assignees/$itemwise_assignees_total";
-						if ( null !== $session_wpdata[ $assigned_id ] ) {
+						if ( ! empty( $session_wpdata[ $assigned_id ] ) && null !== $session_wpdata[ $assigned_id ] ) {
 							$session_post_title = $session_wpdata[ $assigned_id ]['title'];
 							$session_post_link  = $session_wpdata[ $assigned_id ]['link'];
 						} else {
@@ -216,38 +216,40 @@ $history_data = $this->history_data;
 					}
 
 					$d = array();
-					foreach ( $item_array_data as $n => $v ) {
+					if ( is_array( $item_array_data ) || is_object( $item_array_data ) ) {
+						foreach ( $item_array_data as $n => $v ) {
 
-						if ( ( is_array( $v ) && 0 === count( $v ) ) || empty( $v ) ) {
-							continue;
-						}
+							if ( ( is_array( $v ) && 0 === count( $v ) ) || empty( $v ) ) {
+								continue;
+							}
 
-						if ( is_array( $v ) ) {
-							$array_string = array();
-							$array_count  = 0;
-							foreach ( $v as $min ) {
-								$array_count ++;
-								$array_string[] = "#$array_count";
-								foreach ( $min as $min_n => $min_v ) {
-									$array_string[] = "$min_n : $min_v";
+							if ( is_array( $v ) ) {
+								$array_string = array();
+								$array_count  = 0;
+								foreach ( $v as $min ) {
+									$array_count ++;
+									$array_string[] = "#$array_count";
+									foreach ( $min as $min_n => $min_v ) {
+										$array_string[] = "$min_n : $min_v";
+									}
 								}
-							}
-							$d[] = "<b>$n</b> => [" . implode( '; ', $array_string ) . "]";
-						} else {
+								$d[] = "<b>$n</b> => [" . implode( '; ', $array_string ) . "]";
+							} else {
 
-							if ( 'photo' !== $n && 'logo' !== $n && 'icon' !== $n && strlen( $v ) > $max_text_length ) {
-								$v = wp_strip_all_tags( $v );
+								if ( 'photo' !== $n && 'logo' !== $n && 'icon' !== $n && strlen( $v ) > $max_text_length ) {
+									$v = wp_strip_all_tags( $v );
 
-								// truncate string
-								$stringCut = substr( $v, 0, $max_text_length );
-								$endPoint  = strrpos( $stringCut, ' ' );
+									// truncate string
+									$stringCut = substr( $v, 0, $max_text_length );
+									$endPoint  = strrpos( $stringCut, ' ' );
 
-								//if the string doesn't contain any space then it will cut without word basis.
-								$v = $endPoint ? substr( $stringCut, 0, $endPoint ) : substr( $stringCut, 0 );
-								$v .= '...';
-							}
-							if ( ! is_object( $v ) ) {
-								$d[] = "$n : $v";
+									//if the string doesn't contain any space then it will cut without word basis.
+									$v = $endPoint ? substr( $stringCut, 0, $endPoint ) : substr( $stringCut, 0 );
+									$v .= '...';
+								}
+								if ( ! is_object( $v ) ) {
+									$d[] = "$n : $v";
+								}
 							}
 						}
 					}

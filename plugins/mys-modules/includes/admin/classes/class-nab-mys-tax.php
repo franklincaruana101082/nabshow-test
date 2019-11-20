@@ -134,7 +134,7 @@ if ( ! class_exists( 'NAB_MYS_TAX' ) ) {
 			if ( ! wp_script_is( 'nab_mys_add_tax_script', 'registered' ) ) {
 				wp_register_script(
 					'nab_mys_add_tax_script',
-					MYS_PLUGIN_URL . 'assets/js/nab-mys-taxonomy.js',
+					MYS_PLUGIN_URL . 'assets/js/nab-mys-taxonomy.min.js',
 					array( 'jquery' ),
 					'1.0.0',
 					true

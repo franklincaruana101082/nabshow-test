@@ -68,7 +68,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				// Stitch all rows together
 				$query .= implode( ",\n", $placeholders );
 
-				$result = $this->wpdb->query( $this->wpdb->prepare( $query, $data ) ); //phpcs:ignore
+				$result = $this->wpdb->query( $this->wpdb->prepare( $query, $data ) );
 
 				$result = false === $result ? 2 : 1;
 
@@ -112,7 +112,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					'HistoryDataType'  => $current_request,
 					'HistoryStartTime' => current_time( 'Y-m-d H:i:s' )
 				), array( '%d', '%s', '%d', '%s', '%s' )
-				); //db call ok; no-cache ok
+				);
 
 				return $this->wpdb->insert_id;
 
@@ -134,7 +134,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						'HistoryGroupID'  => $this->group_id,
 						'HistoryDataType' => $current_request,
 					)
-				); //db call ok; no-cache ok
+				);
 
 				return $sql;
 
@@ -148,7 +148,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						'HistoryGroupID'  => $this->group_id,
 						'HistoryDataType' => $current_request,
 					)
-				); //db call ok; no-cache ok
+				);
 
 				return $sql;
 			}
@@ -172,9 +172,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$previous_date = $wpdb->get_var(
 				$wpdb->prepare( "SELECT HistoryStartTime FROM %1smys_history
-											WHERE HistoryDataType LIKE %s
-											AND HistoryStatus != 0 
-											ORDER BY HistoryID DESC LIMIT 1", $wpdb->prefix, '%' . $data_type . '%' ) ); //db call ok; no-cache ok
+					WHERE HistoryDataType LIKE %s
+					AND HistoryStatus != 0 
+					ORDER BY HistoryID DESC LIMIT 1",
+					$wpdb->prefix, '%' . $data_type . '%' ) );
 
 			return $previous_date;
 		}
@@ -213,7 +214,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						WHERE AddedStatus = 0
 						AND DataGroupID = '%s'
 						", $wpdb->prefix, $group_id )
-			); //db call ok; no-cache ok
+			);
 
 			return count( $ready_ids );
 		}
@@ -241,7 +242,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						AND DataJson = ''
 						ORDER BY DataID ASC
 						LIMIT 1", $wpdb->prefix, $group_id )
-			); //db call ok; no-cache ok
+			);
 
 			if ( count( $single_row ) > 0 ) {
 
@@ -275,7 +276,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			), array(
 					'DataID' => $dataid,
 				)
-			); //db call ok; no-cache ok
+			);
 
 			return $sql;
 
@@ -306,7 +307,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						ORDER BY HistoryID
 						ASC LIMIT 1
 						", $wpdb->prefix, $data_type )
-			); //db call ok; no-cache ok
+			);
 
 			if ( 0 === count( $pending_data ) ) {
 
@@ -325,7 +326,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					"SELECT HistoryID FROM %1smys_history
 						WHERE HistoryDataType = '%s'
 						AND HistoryGroupID = '%s'",
-					$wpdb->prefix, $requested_for, $group_id ) ); //db call ok; no-cache ok
+					$wpdb->prefix, $requested_for, $group_id ) );
 
 			if ( 0 === count( $exist_data ) ) {
 				return $group_id;

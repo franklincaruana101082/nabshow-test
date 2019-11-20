@@ -92,9 +92,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-			dbDelta( $history_table_sql ); //phpcs:ignore
-			dbDelta( $data_table_sql ); //phpcs:ignore
-			//@todo remove above comment before creating PR
+			dbDelta( $history_table_sql );
+			dbDelta( $data_table_sql );
 		}
 
 		/**
@@ -130,7 +129,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : 3;
 
-			//ne_temp remove before PR
 			$dataids = isset( $parameters['dataids'] ) ? $parameters['dataids'] : '';
 
 			$groupid = isset( $parameters['groupid'] ) ? $parameters['groupid'] : '';
@@ -167,8 +165,11 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			}
 
 			$data_to_migrate = $wpdb->get_results(
-				$wpdb->prepare( "SELECT * FROM %1smys_data WHERE $where_clause ORDER BY DataID ASC LIMIT %d", $wpdb->prefix, $limit ) //phpcs:ignore
-			); //db call ok; no-cache ok
+				$wpdb->prepare(
+					"SELECT * FROM %1smys_data
+							WHERE $where_clause
+							ORDER BY DataID ASC LIMIT %d",
+					$wpdb->prefix, $limit ) );
 
 
 			if ( count( $data_to_migrate ) > 0 ) {
@@ -502,7 +503,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 								'post_title'   => $title . '-crontest',
 								'post_type'    => $post_type,
 								'post_content' => $description,
-								'post_author'  => 1, /*ne_change the author id*/
 								'post_status'  => 'publish',
 							)
 						);
@@ -772,7 +772,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			), array(
 					'DataID' => $data_id
 				)
-			); //db call ok; no-cache ok
+			);
 
 			return $update_status;
 		}
@@ -806,7 +806,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				$this->wpdb->prefix . 'mys_history', array(
 				'HistoryStatus' => 5,
 			), $where_to_finish
-			); //db call ok; no-cache ok
+			);
 
 			return $update_status;
 		}
@@ -1088,10 +1088,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$group_rows = $wpdb->get_results(
 				$wpdb->prepare( "SELECT HistoryID, DataType, AddedStatus FROM %1smys_data
-						WHERE DataGroupID = %s
-						GROUP BY DataType, AddedStatus 
-						", $wpdb->prefix, $groupid )
-			); //db call ok; no-cache ok
+					WHERE DataGroupID = %s
+					GROUP BY DataType, AddedStatus",
+					$wpdb->prefix, $groupid ) );
 
 			return $group_rows;
 		}
@@ -1113,9 +1112,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$group_hisotry = $wpdb->get_results(
 				$wpdb->prepare( "SELECT * FROM %1smys_history
-						WHERE HistoryGroupID = %s 
-						", $wpdb->prefix, $groupid )
-			); //db call ok; no-cache ok
+					WHERE HistoryGroupID = %s 
+					", $wpdb->prefix, $groupid ) );
 
 			return $group_hisotry;
 		}
@@ -1136,7 +1134,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			$wpdb->update(
 				$wpdb->prefix . 'mys_data', array(
 				'AddedStatus' => 4,
-			), array( 'DataID' => $dataid ) ); //db call ok; no-cache ok
+			), array( 'DataID' => $dataid ) );
 
 		}
 
@@ -1185,17 +1183,17 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			$wpdb->update(
 				$wpdb->prefix . 'mys_history', array(
 				'HistoryStatus' => 3,
-			), $where_to_update1 ); //db call ok; no-cache ok
+			), $where_to_update1 );
 
 			$wpdb->update(
 				$wpdb->prefix . 'mys_history', array(
 				'HistoryStatus' => 4,
-			), $where_to_update2 ); //db call ok; no-cache ok
+			), $where_to_update2 );
 
 			$wpdb->update(
 				$wpdb->prefix . 'mys_data', array(
 				'AddedStatus' => 4,
-			), $where_to_update3 ); //db call ok; no-cache ok
+			), $where_to_update3 );
 
 		}
 

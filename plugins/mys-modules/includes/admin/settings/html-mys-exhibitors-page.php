@@ -20,7 +20,7 @@ $success      = filter_input( INPUT_GET, 'success', FILTER_SANITIZE_STRING );
 $exh_inserted = filter_input( INPUT_GET, 'exh-inserted', FILTER_SANITIZE_STRING );
 $csv_link     = filter_input( INPUT_GET, 'csv-link', FILTER_SANITIZE_STRING );
 $msg_style    = "display:none";
-$msg_html     = "";
+$msg_class    = $msg_html = "";
 if ( isset ( $success ) ) {
 	$msg_style = "display:block";
 

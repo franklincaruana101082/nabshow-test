@@ -211,7 +211,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			global $wp;
 
-			$current_url                                      = add_query_arg( $wp->request );
+			$current_url = home_url( add_query_arg( array( $_GET ), $wp->request ) );
+
 			$current_url_without_pageno                       = explode( '&paged=', $current_url );
 			$this->request_data['current_url_without_pageno'] = $current_url_without_pageno[0];
 			$current_url_without_order                        = explode( '&orderby=', $current_url );
@@ -274,6 +275,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$current_url_without_pageno = $this->request_data['current_url_without_pageno'];
 			$last_page_no               = $this->request_data['last_page_no'];
+			$html_link_first_page       = $html_link_prev_page = $html_link_next_page = $html_link_last_page = '';
 
 			if ( 1 !== $last_page_no ) {
 				if ( 1 === $this->request_data['paged'] ) {
@@ -420,17 +422,19 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$order_clause         = $this->request_data['order_clause'];
 			$order_clause         = implode( ', ', $order_clause );
 
-			//$cache_key = "$where_clause_history $order_clause $limit $offset";
-			//$data_rows = get_transient( "history_detail_$cache_key" );
-			//if ( false === $data_rows ) {
-			$data_rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %1smys_data WHERE $where_clause_history ORDER BY %1s LIMIT %d OFFSET %d ", $wpdb->prefix, $order_clause, $limit, $offset ) ); //phpcs:ignore
-			//set_transient( "history_detail_$cache_key", $data_rows );
-			//}
-			//$history_total = get_transient( "history_detail_total_$cache_key" );
-			//if ( false === $history_total ) {
-			$history_total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DataID) FROM %1smys_data WHERE $where_clause_history", $wpdb->prefix ) ); //phpcs:ignore
-			//set_transient( "history_detail_total_$cache_key", $history_total );
-			//}
+			$data_rows = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM %1smys_data
+							WHERE $where_clause_history
+							ORDER BY %1s LIMIT %d OFFSET %d",
+					$wpdb->prefix, $order_clause, $limit, $offset ) );
+
+			$history_total = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(DataID) FROM %1smys_data
+							WHERE $where_clause_history",
+					$wpdb->prefix ) );
+
 			$group_wise_data = array();
 
 			foreach ( $data_rows as $single_row ) {
@@ -440,7 +444,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				$main_mys_value = $single_row->ModifiedID;
 				$data_json      = $single_row->DataJson;
 
-				$data_json   = str_replace( "\'", "'", $data_json );  //ne_temp ne_json
+				$data_json   = str_replace( "\'", "'", $data_json );
 				$items_array = json_decode( $data_json );
 
 				if ( 'single-exhibitor' === $data_type || 'single-exhibitor-csv' === $data_type ) {
@@ -541,12 +545,17 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$limit         = $this->request_data['limit'];
 			$offset        = $this->request_data['offset'];
 
-			//$cache_key      = "$where_history $order_clause $limit $offset";
-			//$history_result = get_transient( "history_list_$cache_key" );
-			//if ( false === $history_result ) {
-			$history_result = $wpdb->get_results( $wpdb->prepare( "SELECT h1.* FROM %1smys_history as h1 INNER JOIN ( SELECT DISTINCT HistoryGroupID FROM %1smys_history WHERE $where_history ORDER BY %1s LIMIT %d OFFSET %d ) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID ORDER BY %1s", $wpdb->prefix, $wpdb->prefix, $order_clause, $limit, $offset, $order_clause ) ); //phpcs:ignore
-			//set_transient( "history_list_$cache_key", $history_result );
-			//}
+			$history_result = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT h1.* FROM %1smys_history as h1
+							INNER JOIN (
+								SELECT DISTINCT HistoryGroupID FROM %1smys_history
+								WHERE $where_history
+								ORDER BY %1s LIMIT %d OFFSET %d
+								) as h2 ON h1.HistoryGroupID = h2.HistoryGroupID
+							ORDER BY %1s",
+					$wpdb->prefix, $wpdb->prefix, $order_clause, $limit, $offset, $order_clause ) );
+
 			$history_data = array();
 			foreach ( $history_result as $h ) {
 				$history_data[ $h->HistoryGroupID ]['Totals'][ $h->HistoryDataType ] = $h->HistoryItemsAffected;
@@ -577,7 +586,10 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$history_total = get_transient( "history_list_total_$where" );
 			if ( false === $history_total ) {
-				$history_total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(HistoryID) FROM %1smys_history WHERE $where", $wpdb->prefix ) );  //phpcs:ignore
+				$history_total = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT COUNT(HistoryID) FROM %1smys_history WHERE $where",
+						$wpdb->prefix ) );
 				set_transient( "history_list_total_$where", $history_total, 60 * 60 * 24 );
 			}
 
@@ -597,8 +609,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$wpdb = $this->wpdb;
 
-			$wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %1smys_data", $wpdb->prefix ) ); //db call ok; no-cache ok
-			$history_reset_htable = $wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %1smys_history", $wpdb->prefix ) ); //db call ok; no-cache ok
+			$wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %1smys_data", $wpdb->prefix ) );
+			$history_reset_htable = $wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %1smys_history", $wpdb->prefix ) );
 
 			delete_transient( 'nab_mys_token' );
 			delete_option( 'nab_mys_credentials_u' );
@@ -633,21 +645,21 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 						ORDER BY HistoryID DESC
 						LIMIT 1
 					", $wpdb->prefix, $date_before_given_days
-				) ); //db call ok; no-cache ok;
+				) );;
 
 			$history_clear = $wpdb->query(
 				$wpdb->prepare( "
 						DELETE FROM %1smys_history
 						WHERE HistoryID => %s
 						AND ( HistoryStatus = 1 OR HistoryStatus = 4 )"
-					, $wpdb->prefix, $after_history_id ) ); //db call ok; no-cache ok;
+					, $wpdb->prefix, $after_history_id ) );;
 
 			$wpdb->query(
 				$wpdb->prepare( "
 						DELETE FROM %1smys_data
 						WHERE HistoryID => %s
 						AND ( AddedStatus = 1 OR AddedStatus = 4 )"
-					, $wpdb->prefix, $after_history_id ) );  //db call ok; no-cache ok;
+					, $wpdb->prefix, $after_history_id ) );;
 
 			return array( 'date_before_given_days' => $date_before_given_days, 'history_clear_status' => $history_clear );
 		}
@@ -702,8 +714,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$recent_history = $wpdb->get_results(
 				$wpdb->prepare( "SELECT * FROM %1smys_history
-										WHERE HistoryDataType LIKE '%-%'
-										ORDER BY HistoryID DESC LIMIT 5", $wpdb->prefix ) ); //db call ok; no-cache ok
+					WHERE HistoryDataType LIKE '%-%'
+					ORDER BY HistoryID DESC LIMIT 5", $wpdb->prefix ) );
 
 			return $recent_history;
 		}

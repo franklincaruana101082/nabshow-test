@@ -95,7 +95,6 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					wp_update_attachment_metadata( $attach_id, $attach_data );
 
 					if ( "tracks" !== $post_type ) {
-						//ne_coded
 						set_post_thumbnail( $post_id, $attach_id );
 					} else {
 						update_term_meta( $post_id, 'tax-image-id', $attach_id );

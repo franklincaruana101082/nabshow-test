@@ -41,7 +41,7 @@ if ( ! class_exists( 'NAB_MYS_Scripts' ) ) {
 			if ( ! wp_script_is( 'nab-mys-sync-script', 'registered' ) ) {
 				wp_register_script(
 					'nab-mys-sync-script',
-					MYS_PLUGIN_URL . 'assets/js/nab-mys-script.js',
+					MYS_PLUGIN_URL . 'assets/js/nab-mys-script.min.js',
 					array( 'jquery' ),
 					'1.0.0',
 					true

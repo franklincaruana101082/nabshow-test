@@ -15,7 +15,6 @@ if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 }
 
-//ne_temp remove before PR. This is for testing purpose only.
 $reset_sequence = filter_input( INPUT_GET, 'reset_sequence', FILTER_SANITIZE_STRING );
 if ( isset( $reset_sequence ) && "yes" === $reset_sequence ) {
 

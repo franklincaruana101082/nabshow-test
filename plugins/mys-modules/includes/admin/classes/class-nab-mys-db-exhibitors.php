@@ -192,7 +192,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 			), array(
 					'HistoryID' => $history_id,
 				)
-			); //db call ok; no-cache ok
+			);
 
 			return $sql;
 		}

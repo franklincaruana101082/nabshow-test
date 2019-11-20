@@ -89,10 +89,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 				$exhibitor_modified_array = $mys_response_body[0]->exhibitors;
 
-				//ne_testing purpose only.. remove beore PR.
 				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
 				if ( isset( $referer ) ) {
-					$total_rows = explode( 'rows=', $referer ); //phpcs:ignore
+					$total_rows = explode( 'rows=', $referer );
 				}
 				$total_rows               = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 				$exhibitor_modified_array = array_slice( $exhibitor_modified_array, 0, $total_rows );
@@ -298,7 +297,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->group_id       = $pending_data[0]->HistoryGroupID;
 					$history_pending_data = $pending_data[0]->HistoryData;
 
-					$data_json = $history_pending_data;  //ne_temp ne_json
+					$data_json = $history_pending_data;
 
 					$data_array         = json_decode( $data_json, true );
 					$this->total_counts = count( $data_array[0]['exhibitors'] );

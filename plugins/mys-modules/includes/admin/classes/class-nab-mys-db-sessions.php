@@ -108,8 +108,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$insertion_values     = '';
 
 
-				//ne_test use below for testing and skipping the modified sessions
-				//$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_faisaltest' );
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
 
 				// If somehow the option does not exist, return false.
@@ -121,10 +119,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				$affected_items = 0;
 
-				//ne_testing purpose only.. remove beore PR.
 				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
 				if ( isset( $referer ) ) {
-					$total_rows = explode( 'rows=', $referer ); //phpcs:ignore
+					$total_rows = explode( 'rows=', $referer );
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 
@@ -144,7 +141,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 						foreach ( $item->sessions as $session ) {
 
-							//ne_test remove ! sign
 							if ( array_key_exists( $session->sessionid, $this->session_modified_array ) ) {
 
 								$item_mys_id = $session->sessionid;
@@ -290,9 +286,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					$completed_data = $wpdb->get_results(
 						$wpdb->prepare(
 							"SELECT HistoryID FROM %1smys_history
-						WHERE HistoryStatus = '1'
-						AND HistoryGroupID = '%s'", $wpdb->prefix, $this->group_id )
-					); //db call ok; no-cache ok
+								WHERE HistoryStatus = '1'
+								AND HistoryGroupID = '%s'",
+							$wpdb->prefix, $this->group_id )
+					);
 
 					if ( 4 <= count( $completed_data ) ) {
 						$sequence_completes = 1;
@@ -338,7 +335,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							AND HistoryGroupID != %s
 							AND HistoryDataType NOT LIKE '%exhibitor%'"
 					, $wpdb->prefix, $group_id )
-			); //db call ok; no-cache ok
+			);
 
 			// Rows found? means there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if the request type is not 1 (i.e. not for sessions).
 			if ( count( $pending_data ) > 0 ) {

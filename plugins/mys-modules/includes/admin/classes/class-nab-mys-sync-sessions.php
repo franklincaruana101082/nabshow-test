@@ -251,7 +251,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				);
 			} else {
 				$requested_for_stack = array(
-					"modified-sessions", // ne_test commented to skip and jump to next
+					"modified-sessions",
 					"sessions",
 					"tracks",
 					"speakers",

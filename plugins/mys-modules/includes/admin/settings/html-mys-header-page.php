@@ -100,8 +100,6 @@ if ( false === $logged_in ) {
 
 if ( isset( $test ) ) {
 
-//testorary actions - ne_remove this before PR
-
 	$test_form_nonce = filter_input( INPUT_POST, 'test_form_nonce', FILTER_SANITIZE_STRING );
 	if ( isset( $test_form_nonce ) && wp_verify_nonce( $test_form_nonce, 'test_form_nonce' ) ) {
 

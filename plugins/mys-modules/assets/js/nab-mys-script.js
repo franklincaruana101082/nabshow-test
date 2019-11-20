@@ -27,8 +27,7 @@ jQuery(document).ready(function ($) {
 
   $('.button-sync').on('click', function () {
 
-    //ne_temp
-    //$('.button-sync, .button-sync-exhibitors').addClass('disabled');
+    $('.button-sync, .button-sync-exhibitors').addClass('disabled');
 
     $('.process').removeClass('remove-animation').addClass('in-progress').width('30px');
     $('#progress-percent').text('0%');
@@ -130,8 +129,6 @@ jQuery(document).ready(function ($) {
 
           if ('single-exhibitor' === requestedFor) {
 
-            // then finishedCounts contains total number of successful single exhibitors. So display it.
-            //$('.exh-counter').html('<p>- ' + finishedCounts + ' out of ' + totalModified + ' Exhibitors fetched successfully.</p>');
             createDomPara(finishedCounts + ' out of ' + totalModified + ' Exhibitors fetched successfully.', '.exh-counter');
 
             currentProgress = finishedCounts * progressJump;

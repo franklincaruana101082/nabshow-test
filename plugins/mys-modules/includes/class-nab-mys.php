@@ -157,7 +157,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 				__( 'MYS Modules', 'mys-modules' ),
 				'manage_options',
 				'mys-sync',
-				array( $this, 'nab_mys_sync_page' ),
+				array( $this, 'nab_mys_page_sync' ),
 				WP_PLUGIN_URL . '/mys-modules/assets/images/icon.svg'
 			);
 
