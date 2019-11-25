@@ -1,4 +1,17 @@
 <?php
+/**
+ * HTML for MYS Plugin Header.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+//Prevent  unauthorized users
+if ( ! current_user_can( 'manage_options' ) ) {
+	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
+}
+
 $pagename = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 $test     = filter_input( INPUT_GET, 'test', FILTER_SANITIZE_STRING );
 
@@ -35,7 +48,7 @@ if ( 'mys-login' !== $pagename && false === $mys_login_form_success ) {
 							<a class="mystore_plugin active" href="javascript:void(0)">Setup Wizard</a>
 						</li>
 						<li>
-							<a class="mystore_plugin" href="javascript:void(0)"><?php echo esc_html( $step ); ?></a>
+							<a class="mystore_plugin" href="javascript:void(0)"><?php esc_html_e( $step ); ?></a>
 						</li>
 						<?php
 					} else {
@@ -87,8 +100,6 @@ if ( false === $logged_in ) {
 
 if ( isset( $test ) ) {
 
-//testorary actions - ne_remove this before PR
-
 	$test_form_nonce = filter_input( INPUT_POST, 'test_form_nonce', FILTER_SANITIZE_STRING );
 	if ( isset( $test_form_nonce ) && wp_verify_nonce( $test_form_nonce, 'test_form_nonce' ) ) {
 
@@ -112,7 +123,7 @@ if ( isset( $test ) ) {
 		}</style>
 	<div id="mys-test" style="margin-bottom:20px">
 		<form method="post" name="test-update" class="test-form">
-			<input type="hidden" name="test_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'test_form_nonce' ) ) ?>"/>
+			<input type="hidden" name="test_form_nonce" value="<?php esc_attr_e( wp_create_nonce( 'test_form_nonce' ) ) ?>"/>
 			<div class="dashboard-box">
 				<div class="mys-head">
 					<h2>MYS TEST</h2>
@@ -122,7 +133,7 @@ if ( isset( $test ) ) {
 						<div class="mys-test-inner">
 							<div class="test_modified_sequence">
 								<label for="test_modified_sequence">Use Modified Date in Sequence</label>
-								<input type="text" name="test_modified_sequence" value="<?php echo esc_attr( $test_modified_sequence ); ?>">
+								<input type="text" name="test_modified_sequence" value="<?php esc_attr_e( $test_modified_sequence ); ?>">
 							</div>
 						</div>
 					</div>

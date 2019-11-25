@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Class
+ * HTML for Login Page.
  *
  * @package MYS Modules
  * @since 1.0.0
@@ -20,7 +20,7 @@ if ( isset( $resetmys ) && "1" === $resetmys ) {
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 }
 
 update_option( 'nab_mys_wizard_step', 1 );
@@ -64,11 +64,11 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 	$nab_mys_urls['exhibitors_url']          = $exhibitors_url;
 	$nab_mys_urls['exhibitors_category_url'] = $exhibitors_category_url;
 
-	$to_email     = preg_replace( '/\s+/', '', $to_email );
-	$cc_email     = preg_replace( '/\s+/', '', $cc_email );
+	$to_email = preg_replace( '/\s+/', '', $to_email );
+	$cc_email = preg_replace( '/\s+/', '', $cc_email );
 
-	$nab_mys_urls['to_email']                = $to_email;
-	$nab_mys_urls['cc_email']                = $cc_email;
+	$nab_mys_urls['to_email'] = $to_email;
+	$nab_mys_urls['cc_email'] = $cc_email;
 
 	if (
 		empty( $mys_username )
@@ -167,12 +167,12 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 }
 ?>
 <?php if ( ! empty( $notice ) ) { ?>
-	<div class="notice <?php echo esc_attr( $notice_class ); ?> is-dismissible"><p><?php echo esc_html( $notice ); ?></p></div>
+	<div class="notice <?php esc_attr_e( $notice_class ); ?> is-dismissible"><p><?php esc_html_e( $notice ); ?></p></div>
 <?php } ?>
 
 <div class="mys-login-outer">
 	<form method="post" name="mys-url-update" class="login-inner-form">
-		<input type="hidden" name="mys_login_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'mys_login_form_nonce' ) ) ?>"/>
+		<input type="hidden" name="mys_login_form_nonce" value="<?php esc_attr_e( wp_create_nonce( 'mys_login_form_nonce' ) ) ?>"/>
 		<div class="dashboard-box">
 			<div class="mys-head">
 				<h2>MYS API URLs</h2>
@@ -186,39 +186,39 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 						</div>
 						<div class="mys-url">
 							<label for="show_code">Show Code<span class='small-text'>(*)</span></label>
-							<input type="text" name="show_code" value="<?php echo esc_attr( $show_code ); ?>" placeholder="nabny19"/>
+							<input type="text" name="show_code" value="<?php esc_attr_e( $show_code ); ?>" placeholder="nabny19"/>
 						</div>
 						<div class="mys-url">
 							<label for="datepicker">Start Syncing Data from<span class='small-text'>(*)</span></label>
-							<input type="text" name="datepicker" id="datepicker" placeholder="20XX-12-31" value="<?php echo esc_attr( $datepicker ); ?>"/>
+							<input type="text" name="datepicker" id="datepicker" placeholder="20XX-12-31" value="<?php esc_attr_e( $datepicker ); ?>"/>
 						</div>
 						<div class=" mys-url">
 							<label for="modified_sessions_url">Modified Sessions<span class='small-text'>(*)</span></label>
-							<input type="text" name="modified_sessions_url" value="<?php echo esc_attr( $modified_sessions_url ); ?>" placeholder=""/>
+							<input type="text" name="modified_sessions_url" value="<?php esc_attr_e( $modified_sessions_url ); ?>" placeholder=""/>
 						</div>
 						<div class="mys-url">
 							<label for="sessions_url">Sessions<span class='small-text'>(*)</span></label>
-							<input type="text" name="sessions_url" value="<?php echo esc_attr( $sessions_url ); ?>"/>
+							<input type="text" name="sessions_url" value="<?php esc_attr_e( $sessions_url ); ?>"/>
 						</div>
 						<div class="mys-url">
 							<label for="tracks_url">Tracks<span class='small-text'>(*)</span></label>
-							<input type="text" name="tracks_url" value="<?php echo esc_attr( $tracks_url ); ?>"/>
+							<input type="text" name="tracks_url" value="<?php esc_attr_e( $tracks_url ); ?>"/>
 						</div>
 						<div class="mys-url">
 							<label for="speakers_url">Speakers<span class='small-text'>(*)</span></label>
-							<input type="text" name="speakers_url" value="<?php echo esc_attr( $speakers_url ); ?>"/>
+							<input type="text" name="speakers_url" value="<?php esc_attr_e( $speakers_url ); ?>"/>
 						</div>
 						<div class="mys-url">
 							<label for="sponsors_url">Sponsors<span class='small-text'>(*)</span></label>
-							<input type="text" name="sponsors_url" value="<?php echo esc_attr( $sponsors_url ); ?>"/>
+							<input type="text" name="sponsors_url" value="<?php esc_attr_e( $sponsors_url ); ?>"/>
 						</div>
 						<div class="mys-url">
 							<label for="exhibitors_url">Modified Exhibitors<span class='small-text'>(*)</span></label>
-							<input type="text" name="exhibitors_url" value="<?php echo esc_attr( $exhibitors_url ); ?>"/>
+							<input type="text" name="exhibitors_url" value="<?php esc_attr_e( $exhibitors_url ); ?>"/>
 						</div>
 						<div class="mys-url">
 							<label for="exhibitors_category_url">Exhibitors Category<span class='small-text'>(*)</span></label>
-							<input type="text" name="exhibitors_category_url" value="<?php echo esc_attr( $exhibitors_category_url ); ?>"/>
+							<input type="text" name="exhibitors_category_url" value="<?php esc_attr_e( $exhibitors_category_url ); ?>"/>
 						</div>
 					</div>
 				</div>
@@ -233,11 +233,11 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 					<div class="mys-urls-inner">
 						<div class="mys-url">
 							<label for="to_email">To Email(s)<span class='small-text'>(*)</span></label>
-							<input type="text" name="to_email" value="<?php echo esc_attr( $to_email ); ?>" placeholder="Enter Comma Separated To Email IDs"/>
+							<input type="text" name="to_email" value="<?php esc_attr_e( $to_email ); ?>" placeholder="Enter Comma Separated To Email IDs"/>
 						</div>
 						<div class="mys-url">
 							<label for="cc_email">CC Email(s)</label>
-							<input type="text" name="cc_email" value="<?php echo esc_attr( $cc_email ); ?>" placeholder="Enter Comma Separated CC Email IDs"/>
+							<input type="text" name="cc_email" value="<?php esc_attr_e( $cc_email ); ?>" placeholder="Enter Comma Separated CC Email IDs"/>
 						</div>
 					</div>
 				</div>
@@ -258,8 +258,8 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 				<div class="login-row">
 					<strong>User Name<span class='small-text'>(*)</span></strong>
 					<div class="input-div">
-						<label><?php echo esc_html( $mys_username ); ?></label>
-						<input name="mys_username" type="text" value="<?php echo esc_attr( $mys_username ); ?>" class="regular-text">
+						<label><?php esc_html_e( $mys_username ); ?></label>
+						<input name="mys_username" type="text" value="<?php esc_attr_e( $mys_username ); ?>" class="regular-text">
 					</div>
 				</div>
 				<div class="login-row">
@@ -268,7 +268,7 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 						<label><?php if ( $mys_password ) {
 								echo "********";
 							} ?></label>
-						<input name="mys_password" type="password" value="<?php echo esc_attr( $mys_password ); ?>" class="regular-text">
+						<input name="mys_password" type="password" value="<?php esc_attr_e( $mys_password ); ?>" class="regular-text">
 					</div>
 				</div>
 			</div>

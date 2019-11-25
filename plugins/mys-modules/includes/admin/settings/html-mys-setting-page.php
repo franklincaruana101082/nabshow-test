@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Class
+ * HTML for Settings Page.
  *
  * @package MYS Modules
  * @since 1.0.0
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 }
 
 $notice = '';
@@ -81,10 +81,10 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <div class="mys-section-left settings-page">
 	<div class="mys-main-table res-cl">
 		<?php if ( ! empty( $notice ) ) { ?>
-			<div class="notice <?php echo esc_attr( $notice_class ); ?> is-dismissible"><p><?php echo wp_kses( $notice, $allowed_tags ); ?></p></div>
+			<div class="notice <?php esc_attr_e( $notice_class ); ?> is-dismissible"><p><?php echo wp_kses( $notice, $allowed_tags ); ?></p></div>
 		<?php } ?>
 		<form method="post" name="clear_history-update" class="clear_history-form">
-			<input type="hidden" name="clear_history_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'clear_history_form_nonce' ) ) ?>"/>
+			<input type="hidden" name="clear_history_form_nonce" value="<?php esc_attr_e( wp_create_nonce( 'clear_history_form_nonce' ) ) ?>"/>
 			<h2>Clear history older than 30 days.</h2>
 			<div class="clear-history-box">
 				<span class="button-primary popup-btn">Clear History</span> <!--button danger-btn-->
@@ -100,7 +100,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 			</div>
 		</form>
 		<form method="post" name="reset_plugin-update" class="reset_plugin-form">
-			<input type="hidden" name="reset_plugin_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'reset_plugin_form_nonce' ) ) ?>"/>
+			<input type="hidden" name="reset_plugin_form_nonce" value="<?php esc_attr_e( wp_create_nonce( 'reset_plugin_form_nonce' ) ) ?>"/>
 			<h2>Danger Zone</h2>
 			<div class="clear-history-box">
 				<span class="button-primary popup-btn">Reset Plugin</span> <!--button danger-btn-->

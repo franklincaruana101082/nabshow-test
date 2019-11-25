@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
+	/**
+	 * Class NAB_MYS_Exhibitors
+	 */
 	class NAB_MYS_Exhibitors extends NAB_MYS_Sync_Parent {
 
 		private $total_counts;
@@ -43,6 +46,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			parent::__construct();
 		}
 
+		/**
+		 * Load a DB Class for Exhibitors.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_load_exh_db_class() {
 
 			//Class File - DataBase Queries
@@ -53,6 +62,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 		}
 
+		/**
+		 * Start exhibitors syncing.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_sync_exhibitors() {
 
 			$this->nab_mys_set_ajax_data();
@@ -68,6 +83,67 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 		}
 
+		private function nab_mys_sync_exh_finalize( $mys_response_body ) {
+
+			if ( 'exhibitors' === $this->current_request ) {
+
+				$exhibitor_modified_array = $mys_response_body[0]->exhibitors;
+
+				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
+				if ( isset( $referer ) ) {
+					$total_rows = explode( 'rows=', $referer );
+				}
+				$total_rows               = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
+				$exhibitor_modified_array = array_slice( $exhibitor_modified_array, 0, $total_rows );
+
+				//set data_json in DB Class to pass modified data to update in db indirectly.
+				$this->nab_mys_db_exh->nab_mys_db_set_data_json( $this->data_json );
+
+				if ( 0 === count( $exhibitor_modified_array ) ) {
+
+					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 5 );
+
+					$this->requested_for = 'empty';
+
+					$this->nab_mys_sync_exh_finish();
+
+				} else {
+
+					//initialize main history row
+					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 0, count( $exhibitor_modified_array ) );
+
+					//Let's add rows with blank mys data.
+					$bulk_result = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor', $this->history_id, $this->group_id, $exhibitor_modified_array, 6 );
+					if ( 2 === $bulk_result['bulk_status'] ) {
+						$error_message = "Failed to store details in Database.";
+						$this->nab_mys_display_error( $error_message );
+					}
+				}
+
+				$this->total_counts = count( $exhibitor_modified_array );
+
+			} else {
+
+				$this->data_array[0] = $this->data_array[0]->exhibitor;
+				$this->nab_mys_db_exh->nab_mys_db_set_data_json( wp_json_encode( $this->data_array ) );
+				$this->nab_mys_db_exh->nab_mys_db_row_filler( $this->dataid );
+
+				$this->finished_counts = $this->finished_counts + 1;
+
+			}
+
+			$this->nab_mys_sync_exh_reloop();
+
+		}
+
+		/**
+		 * Initializing Exhibitors Sync
+		 *
+		 * @return mixed Response Body
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
 		private function nab_mys_sync_exh_initialize() {
 
 			if ( 'exhibitors' === $this->current_request && 1 === MYS_PLUGIN_MODIFIED_SEQUENCE ) {
@@ -114,60 +190,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			}
 		}
 
-		private function nab_mys_sync_exh_finalize( $mys_response_body ) {
-
-			if ( 'exhibitors' === $this->current_request ) {
-
-				$exhibitor_modified_array = $mys_response_body[0]->exhibitors;
-
-				//ne_testing purpose only.. remove beore PR.
-				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
-				if ( isset( $referer ) ) {
-					$total_rows = explode( 'rows=', $referer ); //phpcs:ignore
-				}
-				$total_rows               = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
-				$exhibitor_modified_array = array_slice( $exhibitor_modified_array, 0, $total_rows );
-
-				//set data_json in DB Class to pass modified data to update in db indirectly.
-				$this->nab_mys_db_exh->nab_mys_db_set_data_json( $this->data_json );
-
-				if ( 0 === count( $exhibitor_modified_array ) ) {
-
-					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 5 );
-
-					$this->requested_for = 'empty';
-
-					$this->nab_mys_sync_exh_finish();
-
-				} else {
-
-					//initialize main history row
-					$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "update", $this->group_id, 0, count( $exhibitor_modified_array ) );
-
-					//Let's add rows with blank mys data.
-					$bulk_result = $this->nab_mys_db_exh->nab_mys_db_exh_rows_maker( 'single-exhibitor', $this->history_id, $this->group_id, $exhibitor_modified_array, 6 );
-					if ( 2 === $bulk_result['bulk_status'] ) {
-						$error_message = "Failed to store details in Database.";
-						$this->nab_mys_display_error( $error_message );
-					}
-				}
-
-				$this->total_counts = count( $exhibitor_modified_array );
-
-			} else {
-
-				$this->data_array[0] = $this->data_array[0]->exhibitor;
-				$this->nab_mys_db_exh->nab_mys_db_set_data_json( wp_json_encode( $this->data_array ) );
-				$this->nab_mys_db_exh->nab_mys_db_row_filler( $this->dataid );
-
-				$this->finished_counts = $this->finished_counts + 1;
-
-			}
-
-			$this->nab_mys_sync_exh_reloop();
-
-		}
-
+		/**
+		 * Re-looping exhibitors sync process.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_exh_reloop() {
 
 			//Now everything is done for the current request so making it a past request
@@ -195,6 +223,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			}
 		}
 
+		/**
+		 * Finishing Exhibitors Sync.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_exh_finish() {
 
 			// if there are no rows.. make main modified-exhibitors row's status from 0 to 1 in history table
@@ -218,15 +252,22 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			} else {
 
 				if ( 'empty' === $this->requested_for ) {
-					echo esc_html( "Everything is upto date." );
+					esc_html_e( "Everything is upto date." );
 				} else {
-					echo esc_html( "CRON sequence ($this->group_id) is now completed successfully." );
+					esc_html_e( "CRON sequence ($this->group_id) is now completed successfully." );
 				}
 				die();
 
 			}
 		}
 
+		/**
+		 * Get exhibitors Categories and save in WordPress as taxonomy.
+		 * This process will happen only once at the time of CSV Upload.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_exh_categories() {
 
 			$this->mys_request_url = $this->nab_mys_get_request_url( 'exhibitor-categories' );
@@ -236,6 +277,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->nab_mys_db_exh->nab_mys_db_exh_categories( $exhibitor_categories );
 		}
 
+		/**
+		 * Check the lock for Exhibitor Sync.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_check_lock_exh() {
 
 			//If its cron flow, requested_for will be null, so set it to exhibitors.
@@ -250,7 +297,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->group_id       = $pending_data[0]->HistoryGroupID;
 					$history_pending_data = $pending_data[0]->HistoryData;
 
-					$data_json = $history_pending_data;  //ne_temp ne_json
+					$data_json = $history_pending_data;
 
 					$data_array         = json_decode( $data_json, true );
 					$this->total_counts = count( $data_array[0]['exhibitors'] );
@@ -285,7 +332,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		}
 
 		/**
-		 * Rest End Points
+		 * Rest End Points for exhibitors.
 		 *
 		 * @package MYS Modules
 		 * @since 1.0.0
@@ -311,14 +358,18 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 *
 		 * @return array
 		 */
-		public function nab_mys_cron_exh_api_to_custom(
-			WP_REST_Request $request
-		) {
+		public function nab_mys_cron_exh_api_to_custom( WP_REST_Request $request ) {
 
 			return $this->nab_mys_sync_exhibitors();
 
 		}
 
+		/**
+		 * Upload Exhibitors CSV.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_exh_csv() {
 
 			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
@@ -470,5 +521,4 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 	}
 }
-
 new NAB_MYS_Exhibitors();

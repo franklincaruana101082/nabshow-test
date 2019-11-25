@@ -30,17 +30,19 @@ if ( ! defined( 'MYS_PLUGIN_BASE' ) ) {
 	define( 'MYS_PLUGIN_BASE', plugin_basename( __FILE__ ) );
 }
 if ( ! defined( 'MYS_PLUGIN_MODIFIED_SEQUENCE' ) ) {
-	define( 'MYS_PLUGIN_MODIFIED_SEQUENCE', (int) get_option('test_modified_sequence') );
+	define( 'MYS_PLUGIN_MODIFIED_SEQUENCE', (int) get_option( 'test_modified_sequence' ) );
 }
 
-//Class File - Admin Pages
+//Load Main Class
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-mys.php' );
 
+//Initialize Plugin
 function run_mys_modules() {
 	$mys_plugin = new NAB_MYS_Main();
 	$mys_plugin->nab_mys_run();
 }
 
+//Run the plugin
 run_mys_modules();
 
 /**
@@ -51,7 +53,7 @@ run_mys_modules();
  * @package MYS Modules
  * @since 1.0.0
  */
-add_action( 'activated_plugin', array ('NAB_MYS_Main', 'nab_mys_plugin_activate') );
+add_action( 'activated_plugin', array( 'NAB_MYS_Main', 'nab_mys_plugin_activate' ) );
 
 /**
  * Deactivation Hook
@@ -61,4 +63,4 @@ add_action( 'activated_plugin', array ('NAB_MYS_Main', 'nab_mys_plugin_activate'
  * @package MYS Modules
  * @since 1.0.0
  */
- register_deactivation_hook( __FILE__, array( 'NAB_MYS_Main', 'nab_mys_plugin_deactivate' ) );
+register_deactivation_hook( __FILE__, array( 'NAB_MYS_Main', 'nab_mys_plugin_deactivate' ) );

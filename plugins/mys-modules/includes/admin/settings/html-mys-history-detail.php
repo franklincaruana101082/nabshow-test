@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Class
+ * HTML for History Detail Page.
  *
  * @package MYS Modules
  * @since 1.0.0
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 }
 
 $request_data = $this->request_data;
@@ -24,13 +24,13 @@ $history_data = $this->history_data;
 	<thead>
 	<tr>
 		<th class="total-count">#</th>
-		<th class="data-type <?php echo esc_attr__( $sorting_data['datatype_row_class'] ); ?>">
+		<th class="data-type <?php esc_attr_e( $sorting_data['datatype_row_class'] ); ?>">
 			<?php echo wp_kses( $sorting_data['datatype_row_html'], $allowed_tags ) ?>
 		</th>
 		<th class="heading">Title</th>
 		<th class="details">API Response</th>
 		<th class="total-assignees">#</th>
-		<th class="num <?php echo esc_attr__( $sorting_data['dataid_row_class'] ); ?>">
+		<th class="num <?php esc_attr_e( $sorting_data['dataid_row_class'] ); ?>">
 			<?php echo wp_kses( $sorting_data['dataid_row_html'], $allowed_tags ) ?>
 		</th>
 		<th class="status-row">Status</th>
@@ -83,7 +83,7 @@ $history_data = $this->history_data;
 				$item_array_data  = $prepared_item['item_array_data'];
 				$item_mys_id_name = $prepared_item['item_mys_id_name'];
 				$item_title_name  = $prepared_item['item_title_name'];
-				$item_image_name  = $prepared_item['item_image_name'];
+				$item_image_name  = isset( $prepared_item['item_image_name'] ) ? $prepared_item['item_image_name'] : '';
 				$assigned_to_rows = $prepared_item['assigned_to_rows'];
 				$row_span         = count( $assigned_to_rows );
 
@@ -174,7 +174,7 @@ $history_data = $this->history_data;
 						$assignee_hash      = '';
 					} else {
 						$assignee_hash = "$count_item_assignees/$itemwise_assignees_total";
-						if ( null !== $session_wpdata[ $assigned_id ] ) {
+						if ( ! empty( $session_wpdata[ $assigned_id ] ) && null !== $session_wpdata[ $assigned_id ] ) {
 							$session_post_title = $session_wpdata[ $assigned_id ]['title'];
 							$session_post_link  = $session_wpdata[ $assigned_id ]['link'];
 						} else {
@@ -216,38 +216,40 @@ $history_data = $this->history_data;
 					}
 
 					$d = array();
-					foreach ( $item_array_data as $n => $v ) {
+					if ( is_array( $item_array_data ) || is_object( $item_array_data ) ) {
+						foreach ( $item_array_data as $n => $v ) {
 
-						if ( ( is_array( $v ) && 0 === count( $v ) ) || empty( $v ) ) {
-							continue;
-						}
+							if ( ( is_array( $v ) && 0 === count( $v ) ) || empty( $v ) ) {
+								continue;
+							}
 
-						if ( is_array( $v ) ) {
-							$array_string = array();
-							$array_count  = 0;
-							foreach ( $v as $min ) {
-								$array_count ++;
-								$array_string[] = "#$array_count";
-								foreach ( $min as $min_n => $min_v ) {
-									$array_string[] = "$min_n : $min_v";
+							if ( is_array( $v ) ) {
+								$array_string = array();
+								$array_count  = 0;
+								foreach ( $v as $min ) {
+									$array_count ++;
+									$array_string[] = "#$array_count";
+									foreach ( $min as $min_n => $min_v ) {
+										$array_string[] = "$min_n : $min_v";
+									}
 								}
-							}
-							$d[] = "<b>$n</b> => [" . implode( '; ', $array_string ) . "]";
-						} else {
+								$d[] = "<b>$n</b> => [" . implode( '; ', $array_string ) . "]";
+							} else {
 
-							if ( 'photo' !== $n && 'logo' !== $n && 'icon' !== $n && strlen( $v ) > $max_text_length ) {
-								$v = wp_strip_all_tags( $v );
+								if ( 'photo' !== $n && 'logo' !== $n && 'icon' !== $n && strlen( $v ) > $max_text_length ) {
+									$v = wp_strip_all_tags( $v );
 
-								// truncate string
-								$stringCut = substr( $v, 0, $max_text_length );
-								$endPoint  = strrpos( $stringCut, ' ' );
+									// truncate string
+									$stringCut = substr( $v, 0, $max_text_length );
+									$endPoint  = strrpos( $stringCut, ' ' );
 
-								//if the string doesn't contain any space then it will cut without word basis.
-								$v = $endPoint ? substr( $stringCut, 0, $endPoint ) : substr( $stringCut, 0 );
-								$v .= '...';
-							}
-							if ( ! is_object( $v ) ) {
-								$d[] = "$n : $v";
+									//if the string doesn't contain any space then it will cut without word basis.
+									$v = $endPoint ? substr( $stringCut, 0, $endPoint ) : substr( $stringCut, 0 );
+									$v .= '...';
+								}
+								if ( ! is_object( $v ) ) {
+									$d[] = "$n : $v";
+								}
 							}
 						}
 					}
@@ -259,21 +261,21 @@ $history_data = $this->history_data;
 					$end_time   = 1 === (int) $status_int ? date( 'g:i:s A F j, Y', strtotime( $end_time ) ) : '-';
 
 					?>
-					<tr class="<?php echo esc_attr( $row_class ); ?>">
+					<tr class="<?php esc_attr_e( $row_class ); ?>">
 
 						<?php if ( 0 === $row_filled ) { ?>
-							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="total-count"><?php echo esc_html( $count_total_data_items ); ?></td>
-							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$count_datawise_items/$count_group_items $data_type", $allowed_tags ); ?></td>
-							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="heading-row"><?php echo wp_kses( $item_basic_data, $allowed_tags ); ?></td>
-							<td rowspan="<?php echo esc_attr( $row_span ); ?>" class="details-row"><span class="details-row-inner"><i class="fa fa-info"></i><span class="mys-response"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></span></span></td>
+							<td rowspan="<?php esc_attr_e( $row_span ); ?>" class="total-count"><?php esc_html_e( $count_total_data_items ); ?></td>
+							<td rowspan="<?php esc_attr_e( $row_span ); ?>" class="data-type"><?php echo wp_kses( "$count_datawise_items/$count_group_items $data_type", $allowed_tags ); ?></td>
+							<td rowspan="<?php esc_attr_e( $row_span ); ?>" class="heading-row"><?php echo wp_kses( $item_basic_data, $allowed_tags ); ?></td>
+							<td rowspan="<?php esc_attr_e( $row_span ); ?>" class="details-row"><span class="details-row-inner"><i class="fa fa-info"></i><span class="mys-response"><?php echo wp_kses( $item_array_data, $allowed_tags ); ?></span></span></td>
 						<?php } ?>
 
-						<td class="total-assignees"><?php echo esc_html( $count_total_assignees ); ?></td>
+						<td class="total-assignees"><?php esc_html_e( $count_total_assignees ); ?></td>
 						<td class="num"><?php echo wp_kses( "$data_id $assignee_hash", $allowed_tags ); ?></td>
 						<td class="status-row"><?php echo wp_kses( $h_status, $allowed_tags ); ?></td>
 						<td class="assigned-to"><?php echo wp_kses( $session_post_title, $allowed_tags ); ?></td>
-						<td class="start-row"><?php echo esc_html( $start_time ); ?></td>
-						<td class="end-row"><?php echo esc_html( $end_time ); ?></td>
+						<td class="start-row"><?php esc_html_e( $start_time ); ?></td>
+						<td class="end-row"><?php esc_html_e( $end_time ); ?></td>
 					</tr>
 					<?php
 

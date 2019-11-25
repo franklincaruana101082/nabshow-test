@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
+	/**
+	 * Class NAB_MYS_DB_Sessions
+	 */
 	class NAB_MYS_DB_Sessions extends NAB_MYS_DB_Parent {
 
 		/**
@@ -27,8 +30,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 		 * @param string $current_request = Session/Speakers/etc.
 		 * @param array $data The full data coming from API.
 		 * @param int $history_id The same history ID which is stored in the begining.
+		 * @param string $flow The flow is from JSON or a CRON.
 		 *
-		 * @return bool true
+		 * @return array The result of DB Action.
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
 		 */
 		public function nab_mys_db_insert_data_to_custom( $current_request, $data, $history_id, $flow ) {
 
@@ -101,8 +108,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$insertion_values     = '';
 
 
-				//ne_test use below for testing and skipping the modified sessions
-				//$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_faisaltest' );
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
 
 				// If somehow the option does not exist, return false.
@@ -112,12 +117,11 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				$rows = $master_array = array();
 
-				$affected_items      = 0;
+				$affected_items = 0;
 
-				//ne_testing purpose only.. remove beore PR.
 				$referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_URL );
 				if ( isset( $referer ) ) {
-					$total_rows = explode( 'rows=', $referer ); //phpcs:ignore
+					$total_rows = explode( 'rows=', $referer );
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 
@@ -137,7 +141,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 						foreach ( $item->sessions as $session ) {
 
-							//ne_test remove ! sign
 							if ( array_key_exists( $session->sessionid, $this->session_modified_array ) ) {
 
 								$item_mys_id = $session->sessionid;
@@ -191,17 +194,13 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						}
 
 					}
-
 					if ( $total_rows === $affected_items ) {
 						$limit_reached = 1;
 						break;
 					}
-
 				}
 
-
 				//add sessions to delete which are in modifed array and not returned in sessions array
-
 				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
 
 					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
@@ -287,9 +286,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					$completed_data = $wpdb->get_results(
 						$wpdb->prepare(
 							"SELECT HistoryID FROM %1smys_history
-						WHERE HistoryStatus = '1'
-						AND HistoryGroupID = '%s'", $wpdb->prefix, $this->group_id )
-					); //db call ok; no-cache ok
+								WHERE HistoryStatus = '1'
+								AND HistoryGroupID = '%s'",
+							$wpdb->prefix, $this->group_id )
+					);
 
 					if ( 4 <= count( $completed_data ) ) {
 						$sequence_completes = 1;
@@ -313,6 +313,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
 		}
 
+
+		/**
+		 * Check a lock for sessions sequence.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return array|string Pending data or a text 'open'
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_check_lock( $group_id ) {
 
 			global $wpdb;
@@ -324,7 +335,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							AND HistoryGroupID != %s
 							AND HistoryDataType NOT LIKE '%exhibitor%'"
 					, $wpdb->prefix, $group_id )
-			); //db call ok; no-cache ok
+			);
 
 			// Rows found? means there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if the request type is not 1 (i.e. not for sessions).
 			if ( count( $pending_data ) > 0 ) {

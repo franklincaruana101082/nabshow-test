@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Class
+ * HTML for Header for History Pages.
  *
  * @package MYS Modules
  * @since 1.0.0
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //Prevent  unauthorized users
 if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( esc_html_e( 'You do not have sufficient permissions to access this page.' ) );
+	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 }
 
 $page_groupid               = $this->page_groupid;
@@ -37,11 +37,11 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 <div class="mys-section-left history-page wp-core-ui">
 	<div class="mys-main-table res-cl ">
 		<div class="mys-history-title">
-			<h2>History <?php echo esc_html( $page_for ); ?></h2>
+			<h2>History <?php esc_html_e( $page_for ); ?></h2>
 			<?php echo ! empty( $page_for ) ? wp_kses( $back_url, $allowed_tags ) : ''; ?>
 			<form method="get" name="history-search" class="history-search-form">
 				<input type="hidden" name="page" value="mys-history"/>
-				<input type="hidden" name="groupid" value="<?php echo esc_attr__( $page_groupid ); ?>"/>
+				<input type="hidden" name="groupid" value="<?php esc_attr_e( $page_groupid ); ?>"/>
 				<select name="data_type">
 					<option value="all">Search in</option>
 					<option value="all" <?php echo 'all' === $request_data['data_type'] ? 'selected' : ''; ?>>Everywhere</option>
@@ -52,7 +52,7 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 					<option value="tracks" <?php echo 'tracks' === $request_data['data_type'] ? 'selected' : ''; ?>>Tracks</option>
 				</select>
 				<p class="search-box">
-					<input type="search" name="s" value="<?php echo esc_attr__( $history_search ); ?>" placeholder="Exhibitors, Sessions, Speakers, etc."/>
+					<input type="search" name="s" value="<?php esc_attr_e( $history_search ); ?>" placeholder="Exhibitors, Sessions, Speakers, etc."/>
 					<input type="submit" value="Search" class="button"/>
 				</p>
 			</form>
@@ -63,14 +63,14 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 				<input type="hidden" name="page" value="mys-history"/>
 
 				<?php if ( 'detail' === $this->page_template ) { ?>
-					<input type="hidden" name="groupid" value="<?php echo esc_attr__( $page_groupid ); ?>"/>
-					<input type="hidden" name="s" value="<?php echo esc_attr__( $history_search ); ?>"/>
+					<input type="hidden" name="groupid" value="<?php esc_attr_e( $page_groupid ); ?>"/>
+					<input type="hidden" name="s" value="<?php esc_attr_e( $history_search ); ?>"/>
 				<?php } ?>
 
 				<div class="alignleft actions">
 					<?php if ( 'listing' === $this->page_template ) { ?>
-						<label for="from_date">From: </label><input name="from_date" type="text" class="enable_date" placeholder="YYYY-MM-DD" value="<?php echo esc_attr( $request_data['from_date'] ); ?>">
-						<label for="to_date">To: </label><input name="to_date" type="text" class="enable_date" placeholder="YYYY-MM-DD" value="<?php echo esc_attr( $request_data['to_date'] ); ?>">
+						<label for="from_date">From: </label><input name="from_date" type="text" class="enable_date" placeholder="YYYY-MM-DD" value="<?php esc_attr_e( $request_data['from_date'] ); ?>">
+						<label for="to_date">To: </label><input name="to_date" type="text" class="enable_date" placeholder="YYYY-MM-DD" value="<?php esc_attr_e( $request_data['to_date'] ); ?>">
 					<?php } ?>
 					<select name="data_type">
 						<option value="all">Data Type</option>
@@ -90,7 +90,7 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 						<select name="user">
 							<option value="all">User</option>
 							<?php foreach ( $users as $u ) { ?>
-								<option value="<?php echo esc_attr__( $u->ID ); ?>" <?php echo $u->ID === (int) $filtered_user ? 'selected' : ''; ?>><?php echo esc_html( $u->display_name ); ?></option>
+								<option value="<?php esc_attr_e( $u->ID ); ?>" <?php echo $u->ID === (int) $filtered_user ? 'selected' : ''; ?>><?php esc_html_e( $u->display_name ); ?></option>
 							<?php } ?>
 							<option value="0" <?php echo '0' === $filtered_user ? 'selected' : ''; ?>>CRON</option>
 						</select>
@@ -112,25 +112,25 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 					</select>
 					<input type="submit" class="button history-filter-button" value="Filter">
 					<a href='<?php echo esc_url( $clear_url ); ?>'><input type="button" class="button" value="Clear"></a>
-					<label for="limit">Limit: </label><input type="text" id="limit" class="short_text" name="limit" value="<?php echo esc_attr__( $request_data['limit'] ); ?>">
+					<label for="limit">Limit: </label><input type="text" id="limit" class="short_text" name="limit" value="<?php esc_attr_e( $request_data['limit'] ); ?>">
 					<?php if ( 'detail' === $this->page_template ) { ?>
 						<span class="toggle-response"><i class="fa fa-toggle-off"></i> Toggle Responses</span>
 					<?php } ?>
 				</div>
-				<input type="hidden" name="orderby" value="<?php echo esc_attr__( $request_data['orderby'] ) ?>"/>
-				<input type="hidden" name="order" value="<?php echo esc_attr__( $request_data['order'] ) ?>"/>
+				<input type="hidden" name="orderby" value="<?php esc_attr_e( $request_data['orderby'] ) ?>"/>
+				<input type="hidden" name="order" value="<?php esc_attr_e( $request_data['order'] ) ?>"/>
 				<input type="hidden" name="paged" value="1"/>
 				<?php if ( 1 !== $last_page_no ) { ?>
 					<div class="tablenav-pages">
-						<span class="displaying-num"><?php echo esc_html( $history_total ); ?> items</span>
+						<span class="displaying-num"><?php esc_html_e( $history_total ); ?> items</span>
 
 						<span class="pagination-links">
 										<?php echo wp_kses( $html_link_first_page, $allowed_tags ) ?>
 							<?php echo wp_kses( $html_link_prev_page, $allowed_tags ) ?>
 
                             <span class="paging-input">
-											<label for="current-page-selector" class="screen-reader-text">Current Page</label><input class="current-page short_text" id="current-page-selector" type="text" name="paged" value="<?php echo esc_attr( $request_data['paged'] ); ?>" aria-describedby="table-paging">
-											<span class="tablenav-paging-text"> of <span class="total-pages"><?php echo esc_html( $last_page_no ); ?></span></span>
+											<label for="current-page-selector" class="screen-reader-text">Current Page</label><input class="current-page short_text" id="current-page-selector" type="text" name="paged" value="<?php esc_attr_e( $request_data['paged'] ); ?>" aria-describedby="table-paging">
+											<span class="tablenav-paging-text"> of <span class="total-pages"><?php esc_html_e( $last_page_no ); ?></span></span>
 										</span>
 
 							<?php echo wp_kses( $html_link_next_page, $allowed_tags ) ?>

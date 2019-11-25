@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
+	/**
+	 * Class NAB_MYS_DB_Parent
+	 */
 	class NAB_MYS_DB_Parent {
 
 		protected $wpdb = '';
@@ -65,7 +68,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				// Stitch all rows together
 				$query .= implode( ",\n", $placeholders );
 
-				$result = $this->wpdb->query( $this->wpdb->prepare( $query, $data ) ); //phpcs:ignore
+				$result = $this->wpdb->query( $this->wpdb->prepare( $query, $data ) );
 
 				$result = false === $result ? 2 : 1;
 
@@ -86,6 +89,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 		 * @param string $current_request Session/Speakers/etc.
 		 * @param string $query_type "insert" or "update"
 		 * @param string $group_id a unique Group ID used in whole process.
+		 * @param int $history_status Status of history
+		 * @param int $items_affected Number of affected items
 		 *
 		 * @return false|int returns inserted ID or record update status
 		 */
@@ -107,7 +112,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					'HistoryDataType'  => $current_request,
 					'HistoryStartTime' => current_time( 'Y-m-d H:i:s' )
 				), array( '%d', '%s', '%d', '%s', '%s' )
-				); //db call ok; no-cache ok
+				);
 
 				return $this->wpdb->insert_id;
 
@@ -129,7 +134,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						'HistoryGroupID'  => $this->group_id,
 						'HistoryDataType' => $current_request,
 					)
-				); //db call ok; no-cache ok
+				);
 
 				return $sql;
 
@@ -143,30 +148,62 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						'HistoryGroupID'  => $this->group_id,
 						'HistoryDataType' => $current_request,
 					)
-				); //db call ok; no-cache ok
+				);
 
 				return $sql;
 			}
 
 		}
 
+
+		/**
+		 * Get previous requested date to make a call from it.
+		 *
+		 * @param string $data_type The type of data.
+		 *
+		 * @return string The previous date.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_previous_date( $data_type ) {
 
 			$wpdb = $this->wpdb;
 
 			$previous_date = $wpdb->get_var(
 				$wpdb->prepare( "SELECT HistoryStartTime FROM %1smys_history
-											WHERE HistoryDataType LIKE %s
-											AND HistoryStatus != 0 
-											ORDER BY HistoryID DESC LIMIT 1", $wpdb->prefix, '%' . $data_type . '%' ) ); //db call ok; no-cache ok
+					WHERE HistoryDataType LIKE %s
+					AND HistoryStatus != 0 
+					ORDER BY HistoryID DESC LIMIT 1",
+					$wpdb->prefix, '%' . $data_type . '%' ) );
 
 			return $previous_date;
 		}
 
+
+		/**
+		 * Set Data Json to a class variable
+		 *
+		 * @param string $data_json Data Json
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_set_data_json( $data_json ) {
 			$this->data_json = $data_json;
 		}
 
+
+		/**
+		 * Get rows ready for migration.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return int Number of ready items.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_rows_ready_total_getter( $group_id ) {
 
 			$wpdb = $this->wpdb;
@@ -177,11 +214,22 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						WHERE AddedStatus = 0
 						AND DataGroupID = '%s'
 						", $wpdb->prefix, $group_id )
-			); //db call ok; no-cache ok
+			);
 
 			return count( $ready_ids );
 		}
 
+
+		/**
+		 * Get Data Rows needs to be fetched from API.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return array|string Array of a data row or a text 'finished' if no pending rows left.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_row_pending_id_getter( $group_id ) {
 
 			$wpdb = $this->wpdb;
@@ -194,7 +242,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						AND DataJson = ''
 						ORDER BY DataID ASC
 						LIMIT 1", $wpdb->prefix, $group_id )
-			); //db call ok; no-cache ok
+			);
 
 			if ( count( $single_row ) > 0 ) {
 
@@ -207,6 +255,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
+
+		/**
+		 * Fill the Json data to a Data Row,
+		 *
+		 * @param int $dataid Data ID.
+		 *
+		 * @return int|bool Result of a query.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_row_filler( $dataid ) {
 
 			$sql = $this->wpdb->update(
@@ -217,12 +276,23 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			), array(
 					'DataID' => $dataid,
 				)
-			); //db call ok; no-cache ok
+			);
 
 			return $sql;
 
 		}
 
+
+		/**
+		 * Get latest group id.
+		 *
+		 * @param string $requested_for Requested for sessions or exhibitors.
+		 *
+		 * @return int|array A result of a query
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_get_latest_groupid( $requested_for ) {
 
 			$wpdb = $this->wpdb;
@@ -237,7 +307,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 						ORDER BY HistoryID
 						ASC LIMIT 1
 						", $wpdb->prefix, $data_type )
-			); //db call ok; no-cache ok
+			);
 
 			if ( 0 === count( $pending_data ) ) {
 
@@ -256,7 +326,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					"SELECT HistoryID FROM %1smys_history
 						WHERE HistoryDataType = '%s'
 						AND HistoryGroupID = '%s'",
-					$wpdb->prefix, $requested_for, $group_id ) ); //db call ok; no-cache ok
+					$wpdb->prefix, $requested_for, $group_id ) );
 
 			if ( 0 === count( $exist_data ) ) {
 				return $group_id;
@@ -265,6 +335,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			}
 		}
 
+
+		/**
+		 * Send Email on DB Failures.
+		 *
+		 * @param string $stuck_groupid A unique group id.
+		 * @param string $failed_action A substring for Subject
+		 * @param bool $force_reset Reset sequence or not.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_db_fail_mail( $stuck_groupid, $failed_action, $force_reset = false ) {
 
 			if ( true === $force_reset ) {

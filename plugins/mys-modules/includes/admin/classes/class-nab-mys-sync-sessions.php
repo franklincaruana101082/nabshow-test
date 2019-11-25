@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
+	/**
+	 * Class NAB_MYS_Sessions
+	 */
 	class NAB_MYS_Sessions extends NAB_MYS_Sync_Parent {
 
 		private $datatype;
@@ -38,6 +41,13 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			parent::__construct();
 		}
 
+
+		/**
+		 * Load Sessions DB Class.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_load_sessions_db_class() {
 
 			//Class File - DataBase Queries
@@ -51,9 +61,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		/**
 		 * Fetch MYS API Data and Store in Database.
 		 *
-		 * @return array Contains the database action status and error code.
 		 * @package MYS Modules
-		 *
 		 * @since 1.0.0
 		 */
 		public function nab_mys_sync_sessions() {
@@ -70,6 +78,12 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 		}
 
+		/**
+		 * Initialize the Session Sync.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_sess_initialize() {
 
 			$this->final_stack_item = $this->requested_for;
@@ -94,6 +108,15 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 		}
 
+
+		/**
+		 * Check Lock for the Session Sync.
+		 *
+		 * @return true
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_sync_check_lock_sess() {
 
 			$check_lock = 1;
@@ -133,13 +156,11 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		}
 
 		/**
-		 * Attempt to Store MYS Data in Database.
+		 * Finalizing Sessions Sync.
 		 *
-		 * @param string $nab_mys_token_response Contains the API Token
+		 * @param string $mys_response_body Response Body
 		 *
-		 * @return array Contains the database action status and error code.
 		 * @package MYS Modules
-		 *
 		 * @since 1.0.0
 		 */
 		public function nab_mys_sync_sess_finalize( $mys_response_body ) {
@@ -156,6 +177,14 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			$this->nab_mys_sync_sess_reloop( $custom_status );
 		}
 
+		/**
+		 * Re-looping Sessions Sync process.
+		 *
+		 * @param array $custom_status The details about pulled data.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		private function nab_mys_sync_sess_reloop( $custom_status ) {
 
 			//Now everything is done for the current request so making it a past request
@@ -188,18 +217,18 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				} else if ( 'empty' !== $this->requested_for ) {
 
 					if ( "sessions" === $this->requested_for ) {
-						echo esc_html( "New CRON sequence ($this->group_id) started. " );
+						esc_html_e( "New CRON sequence ($this->group_id) started. " );
 					}
 
-					echo esc_html( "$this->current_request_text fetched successfully." );
+					esc_html_e( "$this->current_request_text fetched successfully." );
 
 					if ( "done" === $custom_status['status'] ) {
-						echo esc_html( " CRON sequence ($this->group_id) is now completed successfully." );
+						esc_html_e( " CRON sequence ($this->group_id) is now completed successfully." );
 					}
 					die();
 
 				} else {
-					echo esc_html( "Everything is upto date." );
+					esc_html_e( "Everything is upto date." );
 					die();
 				}
 			}
@@ -209,8 +238,8 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		 * Stack of data to migrate in sequence.
 		 *
 		 * @return string returns the next pending data name
-		 * @since 1.0.0
 		 *
+		 * @since 1.0.0
 		 * @package MYS Modules
 		 */
 		public function nab_mys_sync_stack() {
@@ -222,7 +251,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				);
 			} else {
 				$requested_for_stack = array(
-					"modified-sessions", // ne_test commented to skip and jump to next
+					"modified-sessions",
 					"sessions",
 					"tracks",
 					"speakers",
@@ -264,18 +293,25 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 		}
 
+
+		/**
+		 * Check the cron sequence for sessions children.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
 		public function nab_mys_cron_check_sequence() {
 
 			$this->group_id = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
 
 			if ( 0 === $this->group_id ) {
 
-				echo esc_html( "The new CRON sequence is not started yet. Please wait for the new CRON." );
+				esc_html_e( "The new CRON sequence is not started yet. Please wait for the new CRON." );
 				die();
 
 			} else if ( 1 === $this->group_id ) {
 
-				echo esc_html( "This data already pulled for current CRON, Please wait for the next CRON." );
+				esc_html_e( "This data already pulled for current CRON, Please wait for the next CRON." );
 				die();
 
 			} else {
@@ -288,7 +324,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		 *
 		 * @param WP_REST_Request $request
 		 *
-		 * @return array
+		 * @return array Migrated data.
 		 */
 		public function nab_mys_cron_api_to_custom( WP_REST_Request $request ) {
 			$parameters = $request->get_params();
@@ -299,7 +335,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		}
 
 		/**
-		 * Conveting Data Type (int) from CRON's parameter to its name (string)
+		 * Converting Data Type (int) from CRON's parameter to its name (string)
 		 *
 		 * @return mixed
 		 * @since 1.0.0

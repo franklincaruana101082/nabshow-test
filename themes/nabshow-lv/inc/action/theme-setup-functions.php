@@ -77,6 +77,25 @@ if ( ! function_exists( 'nabshow_lv_setup' ) ) :
             'flex-width'  => true,
             'flex-height' => true,
         ) );
+
+	    /**
+	     * Add user role capabilities as per the need of NABShow admins.
+	     */
+	    // Update Author role capabilities
+	    if ( current_user_can( 'manage_options' ) ) {
+		    $author_role = get_role( 'author' );
+		    if ( ! empty( $author_role ) ) {
+			    $author_role->add_cap( 'edit_pages' );
+		    }
+
+		    // Update Contributor role capabilities
+		    $contributor_role = get_role( 'contributor' );
+		    if ( ! empty( $contributor_role ) ) {
+			    $contributor_role->add_cap( 'edit_pages' );
+			    $contributor_role->add_cap( 'edit_published_posts' );
+			    $contributor_role->add_cap( 'edit_published_pages' );
+		    }
+	    }
     }
 endif;
 
@@ -186,8 +205,6 @@ function nabshow_lv_widgets_init() {
  * Enqueue scripts and styles.
  */
 function nabshow_lv_scripts() {
-
-    wp_enqueue_script( 'nabshow-lv-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '20151215', true );
 
     wp_enqueue_script( 'nabshow-lv-skip-link-focus-fix', get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
 
