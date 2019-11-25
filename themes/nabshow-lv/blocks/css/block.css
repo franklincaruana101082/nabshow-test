@@ -284,7 +284,7 @@ div[data-type="nab/blc"]{padding-top:5px;padding-bottom:5px}
 .positon-relative{position:relative}
 .background-none{background:none}
 .no-repeat{background-repeat:no-repeat!important}
-.nab-title a{font-size:inherit!important;color:inherit!important;font-weight:inherit!important;text-align:inherit!important;font-family:inherit!important;text-decoration:none!important}
+.nab-title a{font-size:inherit!important;font-weight:inherit!important;text-align:inherit!important;font-family:inherit!important;text-decoration:none!important}
 .nab-title{font-weight:initial}
 .nab-title img{vertical-align:middle}
 .nab-btn-main a.with-arrow{position:relative}
@@ -1271,3 +1271,13 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .browse-sponsors-filter{margin-bottom:40px}
 .box-main-filter.main-filter.related-content-filter{padding:0 15px}
 .browse-happenings-filter, .browse-destinations-filter, .browse-learn-filter{padding:0 15px}
+.related-main-wrapper .related-content-with-block-main .opportunities-filter{display:none}
+
+ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
+
+/* Menu css */
+.submenu-child ul li a{color:#000;text-decoration:none}
+.submenu-child ul li{font-size:16px;font-family:"Gotham Bold", sans-serif;list-style:none}
+.submenu-child ul{padding:0!important;margin:0!important;list-style:none}
+.submenu-child p{color:#000000;line-height:32px}
+.submenu-child ul.light-list li{font-family:"Gotham Book", sans-serif}

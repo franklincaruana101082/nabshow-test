@@ -15,10 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-require_once( plugin_dir_path( __FILE__ ) . 'class.mys-gutenberg-blocks.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'class-mys-gutenberg-blocks.php' );
+
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-mysgb-ajax-handler.php' );
 
 register_activation_hook( __FILE__, array( 'MYSGutenbergBlocks', 'mysgb_plugin_activation' ) );
 
 $MYSGutenbergBlocks = new MYSGutenbergBlocks();
 $MYSGutenbergBlocks->mysgb_init_hook();
-

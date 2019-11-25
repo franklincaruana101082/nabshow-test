@@ -185,7 +185,9 @@ function nabshow_lv_related_content_plan_your_show_layout_filter() {
     <?php
 }
 
-
+/**
+ * Related content block - key contanct layout filter
+ */
 function nabshow_lv_related_content_key_contacts_layout_filter() {
     ?>
     <div class="box-main-filter main-filter related-content-filter">
@@ -199,6 +201,80 @@ function nabshow_lv_related_content_key_contacts_layout_filter() {
     <?php
 }
 
+/**
+ * Related content with block - opportunities layout filter
+ */
+function nabshow_lv_related_content_with_block_opportunities_layout_filter() {
+    ?>
+    <div class="box-main-filter main-filter opportunities-filter">
+        <div class="category">
+            <label for="main-category-type">Category</label>
+            <div class="box-main-select">
+                <select id="main-category-type" class="select-opt">
+                    <option>Select a Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="category">
+            <label for="sub-category-type">Sub-Category</label>
+            <div class="box-main-select">
+                <select id="sub-category-type" class="select-opt">
+                    <option>Select a Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="category">
+            <label for="price-range">Cost</label>
+            <div class="box-main-select">
+                <select id="price-range" class="select-opt">
+                    <option>Select a Price Range</option>
+                </select>
+            </div>
+        </div>
+        <div class="category">
+            <label for="exclusivity">Exclusivity</label>
+            <div class="box-main-select">
+                <select id="exclusivity" class="select-opt">
+                    <option>Select Exclusivity</option>
+                </select>
+            </div>
+        </div>
+        <div class="category">
+            <label for="availability">Availability</label>
+            <div class="box-main-select">
+                <select id="availability" class="select-opt">
+                    <option>Select Availability</option>
+                    <option class="available">Available</option>
+                    <option class="unavailable">Unavailable</option>
+                </select>
+            </div>
+        </div>
+        <div class="search-box">
+            <label for="box-main-search">Keyword</label>
+            <div class="search-item icon-right">
+                <input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." />
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+/**
+ * Related content with block - resources layout filter
+ */
+function nabshow_lv_related_content_with_block_resources_layout_filter() {
+    ?>
+    <div class="box-main-filter main-filter exhibitor-resources-main exhibitor-resources-filter">
+        <div id="box-main-listing" class="badgeslist"></div>
+        <div class="search-box">
+            <label for="box-main-search">Keyword</label>
+            <div class="search-item icon-right">
+                <input id="box-main-search" class="search" name="box-main-search" type="text" placeholder="Filter by keyword..." />
+            </div>
+        </div>
+    </div>
+    <?php
+}
 /*
  * Alphabets list for browse pages
  */

@@ -82,13 +82,13 @@ function nabshow_lv_get_session_thumbnail_url() {
 }
 
 /**
- * Return comma separated term list from given terms array
+ * Return pipe separated term list from given terms array
  * @param array $terms
  * @param string $type
  * @return string
  * @since 1.0
  */
-function nabshow_lv_get_comma_separated_term_list ( $terms = array(), $type = 'name' ) {
+function nabshow_lv_get_pipe_separated_term_list( $terms = array(), $type = 'name' ) {
 
 	$all_terms = array();
 

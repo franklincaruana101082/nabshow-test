@@ -276,6 +276,14 @@ function nabshow_lv_register_dynamic_blocks() {
                 'pageId'  => array(
                     'type' => 'number'
                 ),
+                'showFilter'  => array(
+                    'type' => 'boolean',
+                    'default' => false
+                ),
+                'filterType'  => array(
+                    'type' => 'string',
+                    'default' => 'opportunities'
+                )
             ),
             'render_callback' => 'nabshow_lv_related_content_with_block_render_callback',
         )
@@ -379,7 +387,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
 				$query->the_post();
 
                 $categories          = get_the_terms( get_the_ID(), 'featured-category' );
-                $categories_list     = nabshow_lv_get_comma_separated_term_list( $categories );
+                $categories_list     = nabshow_lv_get_pipe_separated_term_list( $categories );
 			?>
 
 			<div class="cards item">
@@ -1037,7 +1045,9 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
  */
 function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
 
-    $page_id = isset( $attributes['pageId'] ) && ! empty( $attributes['pageId'] ) ? $attributes['pageId'] : get_the_ID();
+    $page_id     = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pageId' ] ) ? $attributes[ 'pageId' ] : get_the_ID();
+    $show_filter = isset( $attributes[ 'showFilter' ] ) ? $attributes[ 'showFilter' ] : false;
+    $filter_type = isset( $attributes[ 'filterType' ] ) && ! empty( $attributes[ 'filterType' ] ) ? $attributes[ 'filterType' ] : 'opportunities';
 
     $args = array(
         'post_type'      => 'page',
@@ -1053,6 +1063,15 @@ function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
     ob_start();
 
     if ( $child->have_posts() ) :
+
+        if ( $show_filter && 'opportunities' === $filter_type ) {
+
+            nabshow_lv_related_content_with_block_opportunities_layout_filter();
+
+        } elseif ( $show_filter && 'resources' === $filter_type ) {
+
+            nabshow_lv_related_content_with_block_resources_layout_filter();
+        }
 
         $allowed_tags = wp_kses_allowed_html( 'post' );
 

@@ -39,9 +39,10 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 					if ( "speakers" === $current_type ) {
 
 						$speaker_title       = get_post_meta( $query_post_id, 'title', true );
-						$company             = get_post_meta( $query_post_id, 'company', true );
 						$session_id          = get_post_meta( $query_post_id, 'sessionid', true );
 						$speaker_id          = get_post_meta( $query_post_id, 'speakerid', true );
+					    $company             = get_the_terms( $query_post_id, 'speaker-companies' );
+					    $company             = nabshow_lv_get_pipe_separated_term_list( $company );
                         $speaker_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/speaker-details.cfm?speakerid=' . $speaker_id;
 
 						if ( has_post_thumbnail() ) {
@@ -105,7 +106,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 											$speaker_session_id = get_the_ID();
 											$session_types      = get_the_terms( $speaker_session_id, 'session-types' );
-											$sub_title          = nabshow_lv_get_comma_separated_term_list( $session_types );
+											$sub_title          = nabshow_lv_get_pipe_separated_term_list( $session_types );
 											$date               = get_post_meta( $speaker_session_id, 'date', true );
 											$start_time         = get_post_meta( $speaker_session_id, 'starttime', true );
 											$end_time           = get_post_meta( $speaker_session_id, 'endtime', true );
@@ -163,7 +164,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 					} elseif ( "sessions" === $current_type ) {
 
 						$all_location        = get_the_terms( $query_post_id, 'session-locations' );
-                        $location            = nabshow_lv_get_comma_separated_term_list( $all_location );
+                        $location            = nabshow_lv_get_pipe_separated_term_list( $all_location );
                         $schedule_id         = get_post_meta( $query_post_id, 'scheduleid', true );
 						$date                = get_post_meta( $query_post_id, 'date', true );
 						$start_time          = get_post_meta( $query_post_id, 'starttime', true );
@@ -253,7 +254,8 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											}
 
 											$speaker_job_title = get_post_meta( $session_speaker_id, 'title', true );
-											$speaker_company   = get_post_meta( $session_speaker_id, 'company', true );
+											$speaker_company   = get_the_terms( $session_speaker_id, 'speaker-companies' );
+											$speaker_company   = nabshow_lv_get_pipe_separated_term_list( $speaker_company );
 											?>
                                             <li>
                                                 <div class="media-sec">

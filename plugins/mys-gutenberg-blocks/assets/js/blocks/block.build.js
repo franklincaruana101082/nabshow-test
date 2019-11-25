@@ -1167,7 +1167,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -1194,7 +1194,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -1205,7 +1205,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -1815,7 +1815,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -1838,7 +1838,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -1849,7 +1849,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -1896,7 +1896,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     metaDate = attributes.metaDate,
                     taxonomyRelation = attributes.taxonomyRelation,
                     listingType = attributes.listingType,
-                    withContent = attributes.withContent;
+                    withContent = attributes.withContent,
+                    upcomingSession = attributes.upcomingSession;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -1970,6 +1971,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     checked: withContent,
                                     onChange: function onChange() {
                                         setAttributes({ withContent: !withContent });_this5.setState({ bxinit: true });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Only upcoming sessions'),
+                                    checked: upcomingSession,
+                                    onChange: function onChange() {
+                                        setAttributes({ upcomingSession: !upcomingSession });_this5.setState({ bxinit: true });
                                     }
                                 }),
                                 wp.element.createElement(SelectControl, {
@@ -2345,7 +2353,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/sessions-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession }
                     })
                 );
             }
@@ -2443,6 +2451,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             default: 'none'
         },
         withContent: {
+            type: 'boolean',
+            default: false
+        },
+        upcomingSession: {
             type: 'boolean',
             default: false
         }
@@ -2611,7 +2623,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -2634,7 +2646,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -2645,7 +2657,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -3269,7 +3281,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -3292,7 +3304,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -3303,7 +3315,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -3935,7 +3947,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -3993,7 +4005,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -4004,7 +4016,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -4936,7 +4948,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -4959,7 +4971,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -4970,7 +4982,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -5967,7 +5979,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -5990,7 +6002,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes2 = this.props.attributes,
                         minSlides = _props$attributes2.minSlides,
                         autoplay = _props$attributes2.autoplay,
@@ -6001,7 +6013,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });

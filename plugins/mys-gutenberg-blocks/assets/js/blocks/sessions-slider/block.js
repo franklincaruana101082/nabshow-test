@@ -101,7 +101,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
+                    if (0 < jQuery(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
                         this.state.bxSliderObj.reloadSlider(
                             {
                                 minSlides: minSlides,
@@ -124,9 +124,9 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
 
         initSlider() {
             const { clientId } = this.props;
-            if (0 < $(`#block-${clientId} .nab-dynamic-slider`).length) {
+            if (0 < jQuery(`#block-${clientId} .nab-dynamic-slider`).length) {
                 const { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, slideMargin } = this.props.attributes;
-                const sliderObj = $(`#block-${clientId} .nab-dynamic-slider`).bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                const sliderObj = jQuery(`#block-${clientId} .nab-dynamic-slider`).bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                 this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
             } else {
                 this.setState({ bxinit: true });
@@ -167,7 +167,8 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 metaDate,
                 taxonomyRelation,
                 listingType,
-                withContent
+                withContent,
+                upcomingSession
             } = attributes;
 
             var names = [
@@ -233,6 +234,11 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                     label={__('Only show with descriptions')}
                                     checked={withContent}
                                     onChange={() => { setAttributes({ withContent: ! withContent }); this.setState({ bxinit: true }); } }
+                                />
+                                <ToggleControl
+                                    label={__('Only upcoming sessions')}
+                                    checked={upcomingSession}
+                                    onChange={() => { setAttributes({ upcomingSession: ! upcomingSession }); this.setState({ bxinit: true }); } }
                                 />
                                 <SelectControl
                                     label={__('Order by')}
@@ -505,7 +511,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession }}
                     />
                 </Fragment >
             );
@@ -600,6 +606,10 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
             default: 'none',
         },
         withContent: {
+            type: 'boolean',
+            default: false
+        },
+        upcomingSession: {
             type: 'boolean',
             default: false
         }

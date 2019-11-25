@@ -216,9 +216,6 @@ function nabshow_lv_scripts() {
     //bx-slider script
     wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 
-    // Script for calling React Component
-    //wp_enqueue_script( 'nabshow-gutenberg-block', get_stylesheet_directory_uri() . '/dist/bundled.js' );
-
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
     wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
