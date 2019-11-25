@@ -237,35 +237,40 @@
     var numberOfVisibleSlides = bxNumberofVisibleSlide();
     if (0 < $('.nab-dynamic-slider').length) {
       $('.nab-dynamic-slider').each(function (index) {
-        let config;
-        if ($(this).hasClass('items-md')) {
-          let lessNumberOfVisibleSlides = bxLessNumberofVisibleSlide();
-          config = bxDynamicSliderConfig($(this), lessNumberOfVisibleSlides);
-        } else {
-          config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
+        if ( 4 < $(this).children().length ) {
+            let config;
+            if ($(this).hasClass('items-md')) {
+                let lessNumberOfVisibleSlides = bxLessNumberofVisibleSlide();
+                config = bxDynamicSliderConfig($(this), lessNumberOfVisibleSlides);
+            } else {
+                config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
+            }
+            if (0 < bxSliderObj.length && undefined !== bxSliderObj[index]) {
+                bxSliderObj[index].destroySlider({});
+                let configWithInfiniteLoop = config;
+                configWithInfiniteLoop.infiniteLoop = false;
+                bxSliderObj[index].reloadSlider(configWithInfiniteLoop);
+            } else {
+                bxSliderObj[index] = $(this).bxSlider(config);
+            }
         }
-        if (0 < bxSliderObj.length && undefined !== bxSliderObj[index]) {
-          bxSliderObj[index].destroySlider({});
-          let configWithInfiniteLoop = config;
-          configWithInfiniteLoop.infiniteLoop = false;
-          bxSliderObj[index].reloadSlider(configWithInfiniteLoop);
-        } else {
-          bxSliderObj[index] = $(this).bxSlider(config);
-        }
+
       });
     }
 
     if (0 < $('.nab-not-to-be-missed-slider').length) {
       $('.nab-not-to-be-missed-slider').each(function (index) {
-        let config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
+        if ( 4 < $(this).children().length ) {
+          let config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
 
-        if (
-          0 < ntbmBxSliderObj.length &&
-          undefined !== ntbmBxSliderObj[index]
-        ) {
-          ntbmBxSliderObj[index].reloadSlider(config);
-        } else {
-          ntbmBxSliderObj[index] = $(this).bxSlider(config);
+          if (
+              0 < ntbmBxSliderObj.length &&
+              undefined !== ntbmBxSliderObj[index]
+          ) {
+            ntbmBxSliderObj[index].reloadSlider(config);
+          } else {
+            ntbmBxSliderObj[index] = $(this).bxSlider(config);
+          }
         }
       });
     }
@@ -1208,6 +1213,22 @@
       }
     });
   }
+
+  /* Sticky Header */
+  $(window).scroll(function () {
+    if (250 < $(this).scrollTop()) {
+      $('.site-header').addClass('sticky');
+      $('.site-header .col-md-4.header-center').removeClass('col-md-4').addClass('col-md-2');
+      $('.site-header .col-md-4.header-right').removeClass('col-md-4').addClass('col-md-2');
+      $('.site-header .col-md-12').removeClass('col-md-12').addClass('col-md-8');
+    }
+    else {
+      $('.site-header').removeClass('sticky');
+      $('.site-header .col-md-2.header-center').removeClass('col-md-2').addClass('col-md-4');
+      $('.site-header .col-md-2.header-right').removeClass('col-md-2').addClass('col-md-4');
+      $('.site-header .col-md-8').removeClass('col-md-8').addClass('col-md-12');
+    }
+  });
 
 
   /*  main - bracket - end */

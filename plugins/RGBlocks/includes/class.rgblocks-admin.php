@@ -31,7 +31,10 @@ class RGBlocks_Admin {
 		add_action( 'init', array( $this, 'rgblocks_add_block_category_taxonomy' ) );
 
 		// Action to enable thumbnail in wp_block post type
-		add_action( 'admin_menu', array( $this, 'rgblocks_enable_block_thumbnail' ), 10 );
+		add_action( 'registered_post_type', array( $this, 'rgblocks_enable_block_thumbnail' ), 10, 2 );
+
+		// Action to add Reusable block as admin menu
+		add_action( 'admin_menu', array( $this, 'rgblocks_add_admin_menu' ), 10 );
 
 		// Filter for add custom post where
 		add_filter( 'posts_where', array( $this, 'rgblocks_set_custom_post_title_search' ), 10, 2 );
@@ -114,18 +117,28 @@ class RGBlocks_Admin {
 	}
 
 	/**
-	 * Enable thumbnail support for wp_block post type and added as menu on admin
+	 * Enable thumbnail support for wp_block post type
+	 * @param $post_type
 	 */
-	public function rgblocks_enable_block_thumbnail() {
+	public function rgblocks_enable_block_thumbnail( $post_type ) {
+
+		// Return, if post type not wp_block
+		if ( 'wp_block' !== $post_type ) return;
+
+		// Adding thumbnail support for wp_block
+		add_post_type_support( 'wp_block', 'thumbnail' );
+	}
+
+	/**
+	 * Add Reusable block as a admin menu
+	 */
+	public function rgblocks_add_admin_menu() {
 
 		add_menu_page( 'Reusable Blocks', 'Reusable Blocks', 'edit_posts', 'edit.php?post_type=wp_block', '', 'dashicons-editor-table', 22 );
 
 		add_submenu_page( 'edit.php?post_type=wp_block', 'Add New', 'Add New','edit_posts', 'post-new.php?post_type=wp_block');
 
 		add_submenu_page( 'edit.php?post_type=wp_block', 'Categories', 'Categories','edit_posts', 'edit-tags.php?taxonomy=block-category&post_type=wp_block');
-
-		// Adding thumbnail support for wp_block
-		add_post_type_support( 'wp_block', 'thumbnail' );
 	}
 
 	/**

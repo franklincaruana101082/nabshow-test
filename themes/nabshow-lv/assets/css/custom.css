@@ -453,9 +453,8 @@ nav#site-navigation{margin-top:40px;transition:all 0.3s ease-in-out}
 .site-header.sticky .header-left>a,.site-header.sticky #site-navigation ul li span,.sticky .super-menu-main>span,.sticky .super-menu-main>.super-menu{display:none}
 .site-header.sticky #logo img{max-width:240px}
 .site-header.sticky{padding:26px 0}
-.sticky nav#site-navigation{margin-top:26px}
+.sticky nav#site-navigation{margin-top:0}
 .super-menu-main .super-menu-icons li.hide{opacity:0;visibility:hidden;transition:all 0.3s ease-in-out}
-.sticky .super-menu-main .super-menu-icons li.hide{opacity:1;visibility:visible;transition:all 0.3s ease-in-out}
 .site-header #site-navigation ul li:last-child a{background-color:#0f6cb6;border-radius:0;padding:7px 35px;text-transform:capitalize;color:#fff;font-size:16px}
 .site-header section{margin-bottom:0}
 
@@ -1521,12 +1520,36 @@ ul.page-numbers{margin:15px 0 0}
 /* header search box css */
 header .header-right{position:relative;overflow:hidden}
 header .header-right .search-form{position:absolute;align-items:center;display:flex;transition:0.5s all;background:#fff;top:-100%;right:110px;padding:10px 10px;border:1px solid #ccc}
-header .header-right.active .search-form{transition:0.5s all;top:30px}
-header .header-right .search-form input#search{margin-right:5px;width:260px}
+header .header-right.active .search-form{transition:0.5s all;top:30px;right:115px}
+header .header-right .search-form input#search{margin-right:5px;width:260px;border:0}
 header .header-right .search-form input{height:40px;font-size:14px;padding:0 10px;box-sizing:border-box}
 header .header-right .search-form input.search-submit{background:#0f6cb6;color:#fff;font-size:12px}
-header .header-right .search-form label{display:none}
+header .header-right .search-form .screen-reader-text, header .header-right .search-form label{display:none}
 header .header-right.active .fa-search::before{content:"\f00d"}
 
 /* Filter CSS for Sponsorship Opp */
 .related-main-wrapper .related-content-with-block-main .opportunities-filter{display:none}
+
+/* Menu css */
+.submenu-child ul li a{color:#000;text-decoration:none}
+.submenu-child ul li{font-size:16px;font-family:"Gotham Bold", sans-serif}
+.submenu-child ul{padding:0!important;margin:0!important;list-style:none}
+.submenu-child p{color:#000000;line-height:32px}
+.submenu-child ul.light-list li{font-family:"Gotham Book", sans-serif}
+.sticky .col-md-4.header-left{display:none}
+.sticky .header-center.col-md-3{display:flex;align-items:center}
+.sticky .super-menu-main .super-menu-icons li.hide{display:none}
+.sticky.site-header #site-navigation ul li p.menu-item-description{display:none}
+.sticky .header-right.text-right.col-md-2{order:1;padding-left:0;-webkit-box-flex:0;-ms-flex:0 0 11.666667%;flex:0 0 11.666667%;max-width:11.666667%;position:static}
+.sticky .col-md-8{padding-right:0;padding-left:65px}
+.sticky #logo{display:flex;align-items:center;height:100%}
+.sticky .super-menu-main .super-menu-icons li,.sticky.site-header #site-navigation ul li{margin-bottom:0}
+.sticky .row{height:100%;align-items:center;justify-content:space-around;position:relative}
+.header-right form.search-form{width:283px;z-index:11;padding:5px;top:-200%;right:115px}
+.sticky .header-right form.search-form{right:130px}
+.sticky .header-right.active form.search-form{top:40px;right:130px}
+.header-right form.search-form label span.screen-reader-text{display:none}
+header .header-right.active .search-form input.search-submit{float:right}
+.sticky .header-right.active form.search-form label, header .header-right.active .search-form label,header .header-right .search-form label{display:block;margin:0;width:100%}
+.sticky .header-right.active form.search-form label input.search-field, header .header-right .search-form input.search-field{border:0;width:100%}
+.sticky .header-right.active form.search-form label input.search-field:focus{outline:none}

@@ -52,9 +52,6 @@ add_filter( 'template_include', 'nabshow_lv_thought_gallery_search_template' );
 // Enable default custom field meta box which is hide from ACF
 add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
 
-// Filter for add custom post where
-add_filter( 'posts_where', 'nabshow_lv_set_custom_posts_where', 10, 2 );
-
 // Filter for generate yearly archive for thought gallery post type
 add_filter( 'generate_rewrite_rules', 'nabshow_lv_register_post_type_rewrite_rules', 100 );
 

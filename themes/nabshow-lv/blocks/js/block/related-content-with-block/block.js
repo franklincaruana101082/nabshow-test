@@ -1,8 +1,76 @@
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const {__} = wpI18n;
-    const {Fragment} = wpElement;
-    const {registerBlockType} = wpBlocks;
-    const {ServerSideRender} = wpComponents;
+    const { Fragment } = wpElement;
+    const { registerBlockType } = wpBlocks;
+    const { InspectorControls } = wpEditor;
+    const { ServerSideRender, ToggleControl, PanelBody, PanelRow } = wpComponents;
+
+    const filterIcon1 = (
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="377.426px" height="90.333px" viewBox="0 0 377.426 90.333" enable-background="new 0 0 377.426 90.333" space="preserve">
+            <rect x="0.832" y="8.833" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="118.093" height="21"/>
+            <rect x="0.5" y="68.833" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="199.332" height="21"/>
+            <g id="layer1" transform="translate(0,-552.36216)" label="Layer 1" groupmode="layer">
+                <g id="g1400" transform="translate(-4.3609793,-7.6704785)">
+                    <path id="path4714" connector-curvature="0" fill="#2B1010" d="M187.443,633.866c-2.295,0-4.156,1.861-4.156,4.158
+                        s1.861,4.158,4.156,4.158c2.297,0,4.158-1.861,4.158-4.158S189.74,633.866,187.443,633.866z M187.443,634.589
+                        c1.938,0,3.51,1.538,3.51,3.436l0,0c0,1.896-1.572,3.436-3.51,3.436l0,0c-1.936,0-3.508-1.539-3.508-3.436
+                        C183.935,636.127,185.507,634.589,187.443,634.589z"/>
+                    <path id="rect4721" fill="#2B1010" d="M190.525,641.048l1.877,2.178c0.324,0.375,0.455,0.854,0.291,1.067l0,0
+                        c-0.164,0.214-0.559,0.084-0.883-0.292l-1.879-2.178c-0.322-0.375-0.453-0.853-0.289-1.066l0,0
+                        C189.806,640.542,190.201,640.673,190.525,641.048z"/>
+                </g>
+            </g>
+            <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="0.5" y1="62.667" x2="39.5" y2="62.667"/>
+            <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="1.5" y1="1" x2="40.5" y2="1"/>
+            <g>
+                <g id="expand-more">
+                    <polygon fill="#010101" points="112.104,16.989 108.521,20.572 104.937,16.989 103.846,18.08 108.521,22.754 113.195,18.08 		"/>
+                </g>
+            </g>
+            <rect x="258.832" y="8.833" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="118.094" height="21"/>
+            <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="259.5" y1="2" x2="298.5" y2="2"/>
+            <g>
+                <g id="expand-more_1_">
+                    <polygon fill="#010101" points="370.104,16.989 366.521,20.572 362.938,16.989 361.846,18.08 366.521,22.754 371.195,18.08 		"/>
+                </g>
+            </g>
+            <rect x="130.166" y="8.906" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="118.094" height="21"/>
+            <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="130.834" y1="2.072" x2="169.834" y2="2.072"/>
+            <g>
+                <g id="expand-more_2_">
+                    <polygon fill="#010101" points="241.438,17.061 237.854,20.645 234.271,17.061 233.18,18.152 237.854,22.826 242.529,18.152 		"/>
+                </g>
+            </g>
+            <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="135.166" y1="19.333" x2="197.166" y2="19.333"/>
+            <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="263.833" y1="18.872" x2="326.498" y2="18.872"/>
+            <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="6.499" y1="19.061" x2="67.832" y2="19.061"/>
+            <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="6.499" y1="79.333" x2="118.925" y2="79.333"/>
+       </svg>
+    );
+
+    const filterIcon2 = (
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="345px" height="29.667px" viewBox="0 0 345 29.667" enable-background="new 0 0 345 29.667" space="preserve">
+        <rect x="0.5" y="8.167" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="66" height="21"/>
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="14.167" y1="18.667" x2="53.167" y2="18.667"/>
+        <rect x="165.167" y="8.167" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="179.333" height="21"/>
+        <rect x="77.5" y="8.167" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="66" height="21"/>
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="91.167" y1="18.667" x2="130.167" y2="18.667"/>
+        <g id="layer1" transform="translate(0,-552.36216)" label="Layer 1" groupmode="layer">
+            <g id="g1400" transform="translate(-4.3609793,-7.6704785)">
+                <path id="path4714" connector-curvature="0" fill="#2B1010" d="M334.111,573.199c-2.295,0-4.156,1.861-4.156,4.158
+                    s1.861,4.158,4.156,4.158c2.297,0,4.158-1.861,4.158-4.158S336.408,573.199,334.111,573.199z M334.111,573.922
+                    c1.938,0,3.51,1.538,3.51,3.436l0,0c0,1.896-1.572,3.436-3.51,3.436l0,0c-1.936,0-3.508-1.539-3.508-3.436
+                    C330.603,575.46,332.175,573.922,334.111,573.922z"/>
+                <path id="rect4721" fill="#2B1010" d="M337.193,580.381l1.877,2.178c0.324,0.375,0.455,0.854,0.291,1.067l0,0
+                    c-0.164,0.214-0.559,0.084-0.883-0.292l-1.879-2.178c-0.322-0.375-0.453-0.853-0.289-1.066l0,0
+                    C336.474,579.875,336.869,580.006,337.193,580.381z"/>
+            </g>
+        </g>
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="165.167" y1="1" x2="204.168" y2="1"/>
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="172.167" y1="19.325" x2="275.168" y2="19.325"/>
+       </svg>
+    );
+
 
     const relatedContentWithBlockIcon = (
         <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -39,6 +107,14 @@
         pageId: {
             type: 'number'
         },
+        showFilter: {
+            type: 'boolean',
+            default: false
+        },
+        filterType: {
+            type: 'string',
+            default: 'opportunities'
+        }
     };
 
     registerBlockType('nab/related-content-with-block', {
@@ -48,15 +124,35 @@
         keywords: [__('related'), __('content'), __('block')],
         attributes: allAttr,
         edit({ attributes, setAttributes }) {
-            const { pageId } = attributes;
+            const { pageId, showFilter, filterType } = attributes;
             if ( ! pageId ) {
                 setAttributes( { pageId: wp.data.select('core/editor').getCurrentPostId() });
             }
             return (
                 <Fragment>
+                    <InspectorControls>
+                        <PanelBody title={__('Filter Settings')}>
+                            <ToggleControl
+                                label={__('Show Filter')}
+                                checked={showFilter}
+                                onChange={() => setAttributes({ showFilter: ! showFilter }) }
+                            />
+                            { showFilter &&
+                            <div>
+                                <label>{__('Select Listing Layout')}</label>
+                                <PanelRow>
+                                    <ul className="ss-off-options related-off grid-full">
+                                        <li className={'opportunities' === filterType ? 'active opportunities' : 'opportunities'} onClick={() => setAttributes({ filterType: 'opportunities' })}>{filterIcon1}</li>
+                            <li className={'resources' === filterType ? 'active resources' : 'resources'} onClick={() => setAttributes({ filterType: 'resources' })}>{filterIcon2}</li>
+                                    </ul>
+                                </PanelRow>
+                            </div>
+                            }
+                        </PanelBody>
+                    </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content-with-block"
-                        attributes={ { pageId: pageId } }
+                        attributes={ { pageId: pageId,  showFilter: showFilter, filterType: filterType } }
                     />
                 </Fragment>
             );

@@ -78,12 +78,12 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
 		?>
         <div class="col-lg-12 chechbox-main">
 			<?php
-			foreach ( $all_terms as $term ) {
-				if ( 'featured' !== $term->slug ) {
+			foreach ( $all_terms as $current_term ) {
+				if ( 'featured' !== $current_term->slug ) {
 					?>
                     <div class="custom-check-box">
-                        <input type="checkbox" name="keywords[]" value="<?php echo esc_attr( $term->slug ); ?>" class="exhibitor-keywords" id="<?php echo esc_attr( $term->slug ); ?>" <?php checked( $term->slug, $get_exkey ); ?>>
-                        <label for="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></label>
+                        <input type="checkbox" name="keywords[]" value="<?php echo esc_attr( $current_term->slug ); ?>" class="exhibitor-keywords" id="<?php echo esc_attr( $current_term->slug ); ?>" <?php checked( $current_term->slug, $get_exkey ); ?>>
+                        <label for="<?php echo esc_attr( $current_term->slug ); ?>"><?php echo esc_html( $current_term->name ); ?></label>
                     </div>
 					<?php
 				}
