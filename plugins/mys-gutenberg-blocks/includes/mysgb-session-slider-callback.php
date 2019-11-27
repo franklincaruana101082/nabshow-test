@@ -7,9 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-//$current_date = date( 'Y-m-d', current_time( 'timestamp' ) );
-//echo $current_date; exit();
-
 $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
 $with_content      = isset( $attributes['withContent'] ) ? $attributes['withContent'] : false;
 $upcoming_session  = isset( $attributes['upcomingSession'] ) ? $attributes['upcomingSession'] : false;

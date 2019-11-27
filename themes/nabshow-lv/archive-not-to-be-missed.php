@@ -8,6 +8,7 @@
  */
 
 get_header();
+
 global $wp_query;
 ?>
 
@@ -32,8 +33,8 @@ global $wp_query;
 							foreach ( $featured_category as $category ) {
 								?>
                                 <li data-term-slug="<?php echo esc_attr( $category->slug ); ?>"><?php echo esc_html( $category->name ); ?></li>
-
-							<?php }
+							    <?php
+							}
 						}
 						?>
                     </ul>
@@ -44,20 +45,19 @@ global $wp_query;
                 <div class="card-columns-box row" id="card_section">
                 <?php
 					if ( have_posts() ) {
-						while ( have_posts() ) {
-							the_post();
+
+					    while ( have_posts() ) {
+
+					        the_post();
 							get_template_part( 'template-parts/content', 'not-to-be-missed' );
 						}
+
 						wp_reset_postdata();
 					}
 				?>
                 </div>
                 <div class="loadmore" id="load_more">
-                    <a href="javascript:void(0);"
-                       data-term-slug=""
-                       data-page-number="2"
-                       data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>"
-                    >Load More</a>
+                    <a href="javascript:void(0);" data-term-slug="" data-page-number="2" data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>
                 </div>
             </div>
         </div>

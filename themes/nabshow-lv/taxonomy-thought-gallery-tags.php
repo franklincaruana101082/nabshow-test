@@ -21,7 +21,8 @@ $_term = get_queried_object();
 				<div class="col-lg-9 col-md-12 col-sm-12 content-with-sidebar">
 					<?php
 					if ( have_posts() ) {
-						while ( have_posts() ) {
+
+					    while ( have_posts() ) {
 							the_post();
 							get_template_part( 'template-parts/content', 'thought-gallery' );
 						}

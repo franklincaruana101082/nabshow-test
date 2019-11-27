@@ -11,6 +11,8 @@ if ( ! function_exists( 'nabshow_lv_setup' ) ) :
      * Note that this function is hooked into the after_setup_theme hook, which
      * runs before the init hook. The init hook is too late for some features, such
      * as indicating support for post thumbnails.
+     *
+     * @since 1.0.0
      */
     function nabshow_lv_setup() {
         /*
@@ -86,13 +88,6 @@ if ( ! function_exists( 'nabshow_lv_setup' ) ) :
 		    $author_role = get_role( 'author' );
 		    if ( ! empty( $author_role ) ) {
 			    $author_role->add_cap( 'edit_pages' );
-			    $author_role->add_cap( 'edit_private_pages' );
-			    $author_role->add_cap( 'publish_pages' );
-			    $author_role->add_cap( 'read' );
-			    $author_role->add_cap( 'read_private_pages' );
-			    $author_role->add_cap( 'delete_pages' );
-			    $author_role->add_cap( 'delete_published_pages' );
-			    $author_role->add_cap( 'edit_published_pages' );
 		    }
 
 		    // Update Contributor role capabilities
@@ -113,20 +108,23 @@ endif;
  * Priority 0 to make it available to lower priority callbacks.
  *
  * @global int $content_width
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_content_width() {
-    // This variable is intended to be overruled from themes.
-    // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-    $GLOBALS['content_width'] = apply_filters( 'nabshow_lv_content_width', 640 );
+
+    $GLOBALS[ 'content_width' ] = apply_filters( 'nabshow_lv_content_width', 640 );
 }
 
 /**
- * Register widget area.
+ * Register sidebar for theme.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_widgets_init() {
+
     register_sidebar( array(
         'name'          => esc_html__( 'Sidebar', 'nabshow-lv' ),
         'id'            => 'sidebar-1',
@@ -209,11 +207,11 @@ function nabshow_lv_widgets_init() {
 }
 
 /**
- * Enqueue scripts and styles.
+ * Enqueue required scripts and styles for theme.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_scripts() {
-
-    wp_enqueue_script( 'nabshow-lv-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '20151215', true );
 
     wp_enqueue_script( 'nabshow-lv-skip-link-focus-fix', get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
 

@@ -7,9 +7,6 @@
 /**
  * Enqueue gutenberg custom block script.
  *
- * @param $column
- * @param $post_id
- *
  * @since 1.0.0
  */
 function nabshow_lv_add_block_editor_assets() {
@@ -17,13 +14,13 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-        null
+		null
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-        null
+		null
 	);
 
 	wp_register_style(
@@ -47,6 +44,7 @@ function nabshow_lv_add_block_editor_assets() {
 
 /**
  * Custom dropdown filter for post listing.
+ *
  * @since 1.0.0
  */
 function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
@@ -74,18 +72,18 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 
 	if ( 'page' === $edit_post_type ) {
 
-	    $compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
-	    $link_text    = 'on' === $compact_view ? 'Default View' : 'Compact View';
-	    $param_val    = 'on' === $compact_view ? 'off' : 'on';
+		$compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
+		$link_text    = 'on' === $compact_view ? 'Default View' : 'Compact View';
+		$param_val    = 'on' === $compact_view ? 'off' : 'on';
 
 
 		$admin_url_path = 'edit.php?post_type=' . $edit_post_type . '&compact_view=' . $param_val;
 		$final_url      = admin_url( $admin_url_path );
-    ?>
+		?>
         <a class="compactBtn button" href="<?php echo esc_url( $final_url ); ?>"><?php echo esc_html( $link_text ); ?></a>
         <input type="hidden" value="<?php echo esc_attr( $compact_view ); ?>" name="compact_view" />
-    <?php
-    }
+		<?php
+	}
 
 }
 
@@ -101,32 +99,33 @@ function nabshow_lv_custom_columns_data( $column, $post_id ) {
 
 	switch ( $column ) {
 		case 'featured_image':
-		    if ( has_post_thumbnail() ) {
-                the_post_thumbnail('thumbnail');
-            } else {
-		    ?>
+			if ( has_post_thumbnail() ) {
+				the_post_thumbnail('thumbnail');
+			} else {
+				?>
                 <span aria-hidden="true">—</span>
-            <?php
-            }
+				<?php
+			}
 			break;
-        case 'featured_term':
+		case 'featured_term':
 
-            $taxonomies  = get_taxonomies('','names');
-            $all_terms   = wp_get_post_terms($post_id, $taxonomies);
-            $final_terms = wp_list_pluck($all_terms, 'slug');
+			$taxonomies  = get_taxonomies('','names');
+			$all_terms   = wp_get_post_terms($post_id, $taxonomies);
+			$final_terms = wp_list_pluck($all_terms, 'slug');
 
-            if ( in_array('featured', $final_terms, true ) ){ ?>
+			if ( in_array('featured', $final_terms, true ) ){ ?>
                 <img height="25px" width="25px" alt="featured" src="<?php echo esc_url( get_template_directory_uri().'/assets/images/check.svg' )?>">
-            <?php } else { ?>
+			<?php } else { ?>
                 <span aria-hidden="true">—</span>
-            <?php }
-        break;
+			<?php }
+			break;
 
 	}
 }
 
 /**
  * Remove Emoji from the page.
+ *
  * @since 1.0.0
  */
 function nabshow_lv_remove_wp_emoji() {
@@ -139,10 +138,12 @@ function nabshow_lv_remove_wp_emoji() {
 
 /**
  * Move render blocking JS to the footer.
+ *
  * @since 1.0.0
  */
 function nabshow_lv_move_scripts_to_footer() {
-	// Remove default jQuery registration through WordPress.
+
+    // Remove default jQuery registration through WordPress.
 	wp_dequeue_script( 'jquery' );
 	wp_dequeue_script( 'jquery-migrate' );
 	wp_dequeue_script( 'wp-embed' );
@@ -158,12 +159,11 @@ function nabshow_lv_move_scripts_to_footer() {
  *
  * @param $postID
  *
- * @since 1.0
- *
+ * @since 1.0.0
  */
 function nabshow_lv_set_thought_gallery_views( $postID ) {
 
-    $count_key = 'nab_thought_gallery_views_count';
+	$count_key = 'nab_thought_gallery_views_count';
 	$count     = get_post_meta( $postID, $count_key, true );
 
 	$count     = empty( $count ) ? 1 : $count + 1;
@@ -176,8 +176,7 @@ function nabshow_lv_set_thought_gallery_views( $postID ) {
  *
  * @param $post_id
  *
- * @since 1.0
- *
+ * @since 1.0.0
  */
 function nabshow_lv_track_thought_gallery_views( $post_id ) {
 	if ( ! is_singular( 'thought-gallery' ) ) {
@@ -194,41 +193,48 @@ function nabshow_lv_track_thought_gallery_views( $post_id ) {
 /**
  * Add custom post types on authors page.
  *
- * @since 1.0
- *
+ * @since 1.0.0
  */
 function nabshow_lv_custom_type_to_author() {
-	if ( ! is_admin() ) {
-		global $wp_query;
-		if ( is_author() || is_home() ) {
+
+    if ( ! is_admin() ) {
+
+	    global $wp_query;
+
+	    if ( is_author() || is_home() ) {
 			$wp_query->set( 'post_type', array( 'post', 'thought-gallery', 'not-to-be-missed' ) );
 		}
 	}
 }
 
 /**
-
- * Make posts hierarchical
+ * Made default post post type hierarchical.
+ *
  * @param $post_type
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_make_posts_hierarchical( $post_type ) {
-    // Return, if not post type posts
-    if ($post_type !== 'post') return;
+	// Return, if not post type posts
+	if ($post_type !== 'post') return;
 
-    // access $wp_post_types global variable
-    global $wp_post_types;
+	// access $wp_post_types global variable
+	global $wp_post_types;
 
-    // Set post type "post" to be hierarchical
-    $wp_post_types['post']->hierarchical = 1;
+	// Set post type "post" to be hierarchical
+	$wp_post_types['post']->hierarchical = 1;
 
-    // Add page attributes to post backend
-    // This adds the box to set up parent and menu order on edit posts.
-    add_post_type_support( 'post', 'page-attributes' );
+	// Add page attributes to post backend
+	// This adds the box to set up parent and menu order on edit posts.
+	add_post_type_support( 'post', 'page-attributes' );
 }
 
 /**
- * Enable excerpt in page post type
+ * Enable excerpt in the page post type
+ *
  * @param $post_type
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_enable_page_excerpt( $post_type ) {
 	// Return, if post type not page
@@ -239,25 +245,27 @@ function nabshow_lv_enable_page_excerpt( $post_type ) {
 }
 
 /**
- * Register custom api endpoints
- * @since 1.0
+ * Register custom api endpoints.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_register_api_endpoints() {
 
-    register_rest_route( 'nab_api', '/request/page-parents', array(
+	register_rest_route( 'nab_api', '/request/page-parents', array(
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_page_parents_callback',
 	) );
 }
 
 /**
- * Change login logo
- * @since 1.0
+ * Change WP login logo.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_custom_login_logo() {
 
-    $login_logo = get_stylesheet_directory_uri() . '/assets/images/login-logo.png';
-?>
+	$login_logo = get_stylesheet_directory_uri() . '/assets/images/login-logo.png';
+	?>
     <style type="text/css">
         #login h1 a, .login h1 a {
             background-image: url(<?php echo esc_url( $login_logo ); ?>);
@@ -268,19 +276,30 @@ function nabshow_lv_set_custom_login_logo() {
             padding-bottom: 30px;
         }
     </style>
-<?php
+	<?php
 }
 
+/**
+ * Add Help and support widget in the dashboard.
+ *
+ * @since 1.0.0
+ */
 function nabshow_lv_add_help_support_dashboard_widget() {
-	wp_add_dashboard_widget(
+
+    wp_add_dashboard_widget(
 		'nab_dashboard_help_support', // widget ID
 		'Help & Support', // widget title
 		'nabshow_lv_help_support_widget_configure' // callback #1 to display it
 	);
 }
 
+/**
+ * Help and support widget callback.
+ *
+ * @since 1.0.0
+ */
 function nabshow_lv_help_support_widget_configure() {
-?>
+	?>
     <div class="inside">
         <div id="help-support" class="help-support">
             <p class="display-msg"></p>
@@ -297,16 +316,21 @@ function nabshow_lv_help_support_widget_configure() {
             </p>
         </div>
     </div>
-<?php
+	<?php
 }
 
+/**
+ * Enqueue admin script & style according to admin page.
+ *
+ * @since 1.0.0
+ */
 function nabhsow_lv_enqueue_admin_script() {
 
 	global $pagenow;
 
 	if( 'index.php' === $pagenow ) {
 
-	    wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ) );
+		wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ) );
 
 		wp_localize_script( 'nabshow-lv-admin', 'nabshowLvAdmin', array(
 			'ajax_url'               => admin_url( 'admin-ajax.php' ),
@@ -321,7 +345,7 @@ function nabhsow_lv_enqueue_admin_script() {
 
 			$taxonomy = filter_input( INPUT_GET, 'taxonomy', FILTER_SANITIZE_STRING );
 
-		    wp_enqueue_script( 'nabshow-lv-compact-view', get_template_directory_uri() . '/assets/js/nabshow-lv-admin-compact-view.js', array( 'jquery' ) );
+			wp_enqueue_script( 'nabshow-lv-compact-view', get_template_directory_uri() . '/assets/js/nabshow-lv-admin-compact-view.js', array( 'jquery' ) );
 
 			$taxonomy = is_taxonomy_hierarchical( $taxonomy ) ? $taxonomy : '';
 
@@ -331,8 +355,8 @@ function nabhsow_lv_enqueue_admin_script() {
 				'nabTaxonomy' => $taxonomy,
 			) );
 
-        }
+		}
 
-	    wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
-    }
+		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
+	}
 }

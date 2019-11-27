@@ -186,10 +186,6 @@ $speakers_slider_attr = array(
 		'type'    => 'string',
 		'default' => 'date'
 	),
-	'featuredListing' => array(
-		'type'    => 'boolean',
-		'default' => false
-	),
 	'withThumbnail'   => array(
 		'type'    => 'boolean',
 		'default' => false
@@ -303,13 +299,16 @@ register_block_type( 'mys/product-categories', array(
 		'attributes'      => array(
 			'itemToFetch' => array(
 				'type'    => 'number',
-				'default' => 10,
+				'default' => 10
 			),
 			'layoutType'  => array(
 				'type'    => 'string',
 				'default' => 'listing'
+			),
+			'showFilter'  => array(
+				'type'    => 'boolean',
+				'default' => false
 			)
-
 		),
 		'render_callback' => array( $this, 'mysgb_product_categories_render_callback' ),
 	)

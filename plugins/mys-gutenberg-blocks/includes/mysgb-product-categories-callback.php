@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $posts_per_page = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
 $layout_type    = isset( $attributes['layoutType'] ) && ! empty( $attributes['layoutType'] ) ? $attributes['layoutType'] : 'listing';
+$show_filter    = isset( $attributes['showFilter'] ) ? $attributes['showFilter'] : false;
 $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 $parent_terms = get_terms( array(
@@ -20,8 +21,13 @@ $parent_terms = get_terms( array(
 
 
 if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $parent_terms ) > 0 ) {
-	$term_counter = 1;
-	?>
+
+    $term_counter = 1;
+
+	if ( $show_filter ) {
+		require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-product-categories-filter.php' );
+    }
+    ?>
 	<div class="category-listing-main <?php echo esc_attr( $class_name ); ?>">
 		<?php
 		if ( 'parent-img-list' === $layout_type ) {

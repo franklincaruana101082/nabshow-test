@@ -10,6 +10,7 @@
     $featured_categories = get_the_terms( get_the_ID(), 'featured-category' );
     $categories_list     = nabshow_lv_get_pipe_separated_term_list( $featured_categories );
 	?>
+
 	<div class="cards item">
 		<a href="<?php echo esc_url( get_the_permalink() ); ?>">
 			<?php the_post_thumbnail(); ?>

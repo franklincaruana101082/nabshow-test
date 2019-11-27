@@ -6,7 +6,9 @@
  */
 
 /**
- * Related content block - browse happening layout filter
+ * Related content block - browse happening layout filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_browse_happenings_filter() {
 
@@ -89,7 +91,9 @@ function nabshow_lv_related_content_browse_happenings_filter() {
 }
 
 /**
- * Related content block - on floor destination filter
+ * Related content block - on floor destination filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_on_floor_destination_filter() {
     ?>
@@ -144,7 +148,9 @@ function nabshow_lv_related_content_on_floor_destination_filter() {
 }
 
 /**
- * Related content block - plan your show layout filter
+ * Related content block - plan your show layout filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_plan_your_show_layout_filter() {
     ?>
@@ -186,7 +192,9 @@ function nabshow_lv_related_content_plan_your_show_layout_filter() {
 }
 
 /**
- * Related content block - key contanct layout filter
+ * Related content block - key contanct layout filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_key_contacts_layout_filter() {
     ?>
@@ -202,7 +210,9 @@ function nabshow_lv_related_content_key_contacts_layout_filter() {
 }
 
 /**
- * Related content with block - opportunities layout filter
+ * Related content with block - opportunities layout filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_with_block_opportunities_layout_filter() {
     ?>
@@ -260,7 +270,9 @@ function nabshow_lv_related_content_with_block_opportunities_layout_filter() {
 }
 
 /**
- * Related content with block - resources layout filter
+ * Related content with block - resources layout filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_with_block_resources_layout_filter() {
     ?>
@@ -275,8 +287,11 @@ function nabshow_lv_related_content_with_block_resources_layout_filter() {
     </div>
     <?php
 }
-/*
- * Alphabets list for browse pages
+
+/**
+ * Alphabets list for browse pages filter.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_alphabets_list_filter() {
 	?>

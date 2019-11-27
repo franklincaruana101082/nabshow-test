@@ -6,22 +6,30 @@
  *
  * @package NABShow_LV
  */
+
 $tags_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-tags' );
+
 if ( empty( $tags_thought_galleries ) ) {
 	return;
 }
+
 $tags_taxonomies = [];
 $transient_key   = '';
+
 if ( $tags_thought_galleries && ! is_wp_error( $tags_thought_galleries ) ) {
-	foreach ( $tags_thought_galleries as $tags_thought_gallery ) {
-		$tags_taxonomies[] = $tags_thought_gallery->slug;
+
+    foreach ( $tags_thought_galleries as $tags_thought_gallery ) {
+
+        $tags_taxonomies[] = $tags_thought_gallery->slug;
 		$transient_key     .= $tags_thought_gallery->slug . '-';
 	}
 }
+
 $related_posts_query = get_transient( 'nab-thought-related-post-' . $transient_key );
 
 if ( false === $related_posts_query ) {
-	$related_posts_query = new WP_Query(
+
+    $related_posts_query = new WP_Query(
 		array(
 			'post_type'      => 'thought-gallery',
 			'posts_per_page' => 5,
@@ -42,22 +50,25 @@ if ( false === $related_posts_query ) {
 <ul class="related-list">
 	<?php
 	if ( $related_posts_query->have_posts() ) {
-	    $cnt = 1;
+
+	    $cnt        = 1;
 	    $exclude_id = get_the_ID();
 	    $is_exclude = true;
-		while ( $related_posts_query->have_posts() ) {
-			$related_posts_query->the_post();
-            if ( $is_exclude && ( $exclude_id === get_the_ID() || 4 === $cnt ) ) {
-                $is_exclude = false;
+
+	    while ( $related_posts_query->have_posts() ) {
+
+	        $related_posts_query->the_post();
+
+	        if ( $is_exclude && ( $exclude_id === get_the_ID() || 4 === $cnt ) ) {
+
+	            $is_exclude = false;
                 continue;
             }
 			?>
             <li>
                 <div class="image-effect-wrapper">
                     <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="related-posts-img">
-                        <img width="300" height="200"
-                             src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>"
-                             alt="img">
+                        <img width="300" height="200" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="related-post-img">
                     </a>
                 </div>
                 <div class="related-content">
@@ -67,7 +78,8 @@ if ( false === $related_posts_query ) {
                     <div class="blog-list-contributor"> By <?php echo esc_html( get_the_author() ); ?></div>
                 </div>
             </li>
-			<?php
+            <?php
+
             $cnt++;
 		}
 	}

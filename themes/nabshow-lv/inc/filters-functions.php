@@ -9,15 +9,20 @@
 /**
  * Add description to top-level menu items.
  *
- * @param object $item Nav menu item.
- * @param int $depth Depth.
- * @param object $args Nav menu args.
+ * @param $item_output
+ * @param $item
+ * @param $depth
+ * @param $args
  *
- * @return string Nav menu item start element.
- * Add a dropdown icon to top-level menu items
+ * @return string
+ *
+ * @since 1.0.0
  */
+
 function nabshow_lv_nav_description( $item_output, $item, $depth, $args ) {
+
     if ( ! empty( $item->description ) ) {
+
         $item_output = str_replace( $args->link_after . '</a>', '<p class="menu-item-description">' . $item->description . '</p>' . $args->link_after . '</a>', $item_output );
     }
 
@@ -25,11 +30,13 @@ function nabshow_lv_nav_description( $item_output, $item, $depth, $args ) {
 }
 
 /**
- * Register new category for custom block
+ * Register new category for custom blocks.
  *
  * @param array $categories
  *
  * @return array
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_custom_block_category( $categories ) {
 
@@ -48,16 +55,13 @@ function nabshow_lv_custom_block_category( $categories ) {
 
 /**
  *
- * function call when the custom filter will get selected and
- * submit filter button.
+ * function call when the custom filter will get selected and submit filter button.
  *
  * @param $query
  *
  * @return array $query
+ *
  * @since 1.0.0
- *
- * @global $pagenow string
- *
  */
 function nabshow_lv_posts_filter( $query ) {
     global $pagenow;
@@ -87,8 +91,8 @@ function nabshow_lv_posts_filter( $query ) {
  * @param $wp_query
  *
  * @return array|string
- * @since 1.0.0
  *
+ * @since 1.0.0
  */
 function nabshow_lv_search_by_title( $search, $wp_query ) {
 
@@ -120,8 +124,8 @@ function nabshow_lv_search_by_title( $search, $wp_query ) {
  * @param $columns
  *
  * @return array
- * @since 1.0.0
  *
+ * @since 1.0.0
  */
 function nabshow_lv_custom_columns( $columns ) {
 
@@ -148,6 +152,8 @@ function nabshow_lv_custom_columns( $columns ) {
  * @param $post_image_id
  *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_remove_thumbnail_dimensions( $html, $post_id, $post_image_id ) {
     $html = preg_replace( '/(width|height)=\"\d*\"\s/', "", $html );
@@ -160,7 +166,9 @@ function nabshow_lv_remove_thumbnail_dimensions( $html, $post_id, $post_image_id
  *
  * @param $bulk_actions
  *
- * @return mixed
+ * @return array
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_custom_bulk_actions( $bulk_actions ) {
     $bulk_actions['nabshow_set_as_featured']      = __( 'Set as Featured', 'nabshow-lv' );
@@ -171,10 +179,14 @@ function nabshow_lv_custom_bulk_actions( $bulk_actions ) {
 
 /**
  * Set as featured post handler.
+ *
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_post_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -188,7 +200,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_post_handler( $redirect_to, 
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_exhibitors_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -201,7 +216,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_exhibitors_handler( $redirec
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_page_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -214,7 +232,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_page_handler( $redirect_to, 
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_not_to_be_missed_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -227,7 +248,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_not_to_be_missed_handler( $r
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_thought_gallery_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -240,7 +264,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_thought_gallery_handler( $re
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_sessions_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -253,7 +280,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_sessions_handler( $redirect_
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_speakers_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -266,7 +296,10 @@ function nabshow_lv_set_and_remove_as_featured_bulk_speakers_handler( $redirect_
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_and_remove_as_featured_bulk_sponsors_handler( $redirect_to, $doaction, $post_ids ) {
 
@@ -275,11 +308,15 @@ function nabshow_lv_set_and_remove_as_featured_bulk_sponsors_handler( $redirect_
 
 /**
  * Common function for multiple post type to set as featured post.
+ *
  * @param $redirect_to
  * @param $doaction
  * @param $post_ids
  * @param $taxonomy
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redirect_to, $doaction, $post_ids, $taxonomy ) {
 
@@ -303,30 +340,42 @@ function nabshow_lv_common_set_and_remove_as_featured_bulk_action_handler( $redi
 
 
 /**
- * Set custom excerpt length
+ * Set custom excerpt length.
+ *
  * @return int
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_custom_excerpt_length() {
+
     return 20;
 }
 
 /**
- * Set custom more string
+ * Set excerpt more string.
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_custom_excerpt_more() {
+
     return '...';
 }
 
 /**
- * Remove wp version param from enqueued scripts
+ * Remove version param from enqueued scripts.
  *
  * @param $src
  *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_remove_wp_ver_script( $src ) {
+
     if ( strpos( $src, 'ver=' ) ) {
+
         $src = remove_query_arg( 'ver', $src );
     }
 
@@ -341,9 +390,13 @@ function nabshow_lv_remove_wp_ver_script( $src ) {
  * @return array
  */
 function nabshow_lv_thought_gallery_search_template( $template ) {
+
     global $wp_query;
+
     $post_type = get_query_var( 'post_type' );
+
     if ( $wp_query->is_search && $post_type === 'thought-gallery' ) {
+
         return locate_template( 'archive-search.php' );
     }
 
@@ -353,8 +406,12 @@ function nabshow_lv_thought_gallery_search_template( $template ) {
 
 /**
  * Generate yearly archive for thought gallery post type
+ *
  * @param $wp_rewrite
+ *
  * @return array
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_register_post_type_rewrite_rules( $wp_rewrite ) {
 
@@ -377,9 +434,13 @@ function nabshow_lv_register_post_type_rewrite_rules( $wp_rewrite ) {
 }
 
 /**
- * Set post type in search result page
+ * Set search post type according to post_type parameter on search result page.
+ *
  * @param $query
+ *
  * @return mixed
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_set_post_type_search_filter( $query ) {
 
@@ -396,22 +457,32 @@ function nabshow_lv_set_post_type_search_filter( $query ) {
 }
 
 /**
- * Modified pagination page number link
+ * Modified pagination page number link.
+ *
  * @param $result
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_modified_pagenum_link( $result ) {
 
 	if ( is_search() && ! is_admin() ) {
-		$result = esc_url( remove_query_arg ('post_type', $result ) );
+
+	    $result = esc_url( remove_query_arg ('post_type', $result ) );
 	}
+
 	return $result;
 }
 
 /**
- * Generate custom search form
+ * Generate custom search form.
+ *
  * @param string $form Form HTML.
+ *
  * @return string Modified form HTML.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_modified_search_form( $form ) {
 
@@ -448,8 +519,12 @@ function nabshow_lv_modified_search_form( $form ) {
 
 /**
  * Enable react js in reusable block list page
+ *
  * @param $handle
+ *
  * @return bool
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_gutenberg_disable_concat( $handle ) {
 
@@ -461,9 +536,13 @@ function nabshow_lv_gutenberg_disable_concat( $handle ) {
 }
 
 /**
- * Added admin body class
+ * Added admin body class.
+ *
  * @param $classes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_admin_body_class( $classes ) {
 
@@ -482,6 +561,15 @@ function nabshow_lv_admin_body_class( $classes ) {
 	return $classes;
 }
 
+/**
+ * Add compact view button on admin page list.
+ *
+ * @param $columns
+ *
+ * @return array
+ *
+ * @since 1.0.0
+ */
 function nabshow_lv_manage_compact_view_columns( $columns ) {
 
     $compact_view = filter_input( INPUT_GET, 'compact_view', FILTER_SANITIZE_STRING );
@@ -497,4 +585,37 @@ function nabshow_lv_manage_compact_view_columns( $columns ) {
 	}
 
 	return $columns;
+}
+
+/**
+ * Add Mega Menu to each menu item if mega_menu_post field set
+ *
+ * @param $item_output
+ * @param $item
+ * @param $depth
+ * @param $args
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_add_mega_menu_in_menu_item( $item_output, $item, $depth, $args ) {
+
+    if ( isset( $args->menu_id ) && 'primary-menu' === $args->menu_id ) {
+
+	    $mega_menu_id =  get_field( 'mega_menu_post', $item->ID );
+
+	    if ( $mega_menu_id ) {
+
+	        $mega_menu_content = apply_filters( 'the_content',  get_the_content(null, false, $mega_menu_id ) );
+
+	        $mega_menu_items   = '<ul class="sub-menu">
+                                        <li>' . $mega_menu_content . '</li>
+                                   </ul>';
+
+		    $item_output       .= $mega_menu_items;
+        }
+    }
+
+    return $item_output;
 }

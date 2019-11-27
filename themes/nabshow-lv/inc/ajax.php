@@ -9,17 +9,20 @@
 /**
  * Ajax for load more and category click event.
  *
- * @since 1.0
+ * @since 1.0.0
  */
 add_action( 'wp_ajax_nabshow_ntb_missed_load_more_category_click', 'nabshow_lv_ntb_missed_load_more_category_click_callback' );
 add_action( 'wp_ajax_nopriv_nabshow_ntb_missed_load_more_category_click', 'nabshow_lv_ntb_missed_load_more_category_click_callback' );
 
 /**
- * Returns not to be misses post type data for ajax on load more..
+ * Returns not to be misses post type data for ajax on load more.
+ *
  * @return json
- * @since 1.0.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_ntb_missed_load_more_category_click_callback() {
+
 	check_ajax_referer( 'ntb_missed_nonce', 'term_data_nonce' );
 
 	$result_post                  = array();
@@ -96,14 +99,14 @@ add_action( 'wp_ajax_nabshow_thoughts_gallery_load_more', 'nabshow_lv_thoughts_g
 add_action( 'wp_ajax_nopriv_nabshow_thoughts_gallery_load_more', 'nabshow_lv_thoughts_gallery_load_more_callback' );
 
 /**
- * Returns thought gallery post type data for ajax on load more..
- *
+ * Returns thought gallery post type data for ajax on load more.
  *
  * @return json
- * @since 1.0.0
  *
+ * @since 1.0.0
  */
 function nabshow_lv_thoughts_gallery_load_more_callback() {
+
 	check_ajax_referer( 'thought_gallery_nonce', 'load_more_nonce' );
 
 	$final_result = array();
@@ -171,11 +174,14 @@ add_action( 'wp_ajax_nopriv_nabshow_news_releases_load_more_post', 'nabshow_lv_n
 
 
 /**
- * Returns news release post type data for ajax on load more..
+ * Returns news release post type data for ajax on load more.
+ *
  * @return json
- * @since 1.0.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_news_releases_load_more_post_callback() {
+
 	check_ajax_referer( 'news_releases_nonce', 'load_more_nonce' );
 
 	$result_post  = array();
@@ -217,16 +223,19 @@ function nabshow_lv_news_releases_load_more_post_callback() {
 }
 
 /**
- * Ajax for send mail from the dashboard widget.
- * @since 1.0
+ * Dashboard help & support widget send mail.
+ *
+ * @since 1.0.0
  */
 add_action( 'wp_ajax_help_support_widget', 'nabshow_lv_help_support_ajax_callback' );
 add_action( 'wp_ajax_nopriv_help_support_widget', 'nabshow_lv_help_support_ajax_callback' );
 
 /**
- * send mail from  help and support dashboard widget
+ * Dashboard help & support widget send mail handler.
+ *
  * @return json
- * @since 1.0.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_help_support_ajax_callback() {
 

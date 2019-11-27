@@ -31,8 +31,10 @@ get_header();
                     <div class="col-lg-12">
                     <?php
 					 if ( have_posts() ) {
-                        while ( have_posts() ) {
-                            the_post();
+
+					     while ( have_posts() ) {
+
+					         the_post();
                             the_content();
                         }
                     }
@@ -50,8 +52,10 @@ get_header();
 
                     <?php
 				    if ( $cross_tag_query && $cross_tag_query->have_posts() ) {
-					    while ( $cross_tag_query->have_posts() ) {
-						    $cross_tag_query->the_post();
+
+				        while ( $cross_tag_query->have_posts() ) {
+
+				            $cross_tag_query->the_post();
 
 						    $tag_post_id = get_the_ID();
 

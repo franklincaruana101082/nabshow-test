@@ -4,7 +4,7 @@ import { exhibitorAccordion, exhibitorImageListing, exhibitorParentImageListing 
     const { Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, RangeControl, ServerSideRender } = wpComponents;
+    const { PanelBody, RangeControl, ToggleControl, ServerSideRender } = wpComponents;
 
     const allAttr = {
         itemToFetch: {
@@ -15,6 +15,10 @@ import { exhibitorAccordion, exhibitorImageListing, exhibitorParentImageListing 
             type: 'string',
             default: 'listing'
         },
+        showFilter: {
+            type: 'boolean',
+            default: false
+        }
     };
 
     const prodCatBlockIcon = (
@@ -104,7 +108,7 @@ import { exhibitorAccordion, exhibitorImageListing, exhibitorParentImageListing 
         keywords: [__('product'), __('categories')],
         attributes: allAttr,
         edit(props) {
-            const { attributes: { itemToFetch, layoutType }, setAttributes } = props;
+            const { attributes: { itemToFetch, layoutType, showFilter }, setAttributes } = props;
             return (
                 <Fragment>
                     <InspectorControls>
@@ -121,9 +125,17 @@ import { exhibitorAccordion, exhibitorImageListing, exhibitorParentImageListing 
                             <label>Layout Types</label>
                             <ul className="quote-options">
                                 <li onClick={() => { setAttributes({ layoutType: 'listing' }); }} className={'listing' === layoutType ? 'active' : ''}  >{exhibitorImageListing}</li>
-                                <li onClick={() => { setAttributes({ layoutType: 'accordion-list' }); }} className={'accordion-list' === layoutType ? 'active' : ''}  >{exhibitorAccordion}</li>
-                                <li onClick={() => { setAttributes({ layoutType: 'parent-img-list' }); }} className={'parent-img-list' === layoutType ? 'active' : ''}  >{exhibitorParentImageListing}</li>
+                                <li onClick={() => { setAttributes({ layoutType: 'accordion-list', showFilter: false }); }} className={'accordion-list' === layoutType ? 'active' : ''}  >{exhibitorAccordion}</li>
+                                <li onClick={() => { setAttributes({ layoutType: 'parent-img-list', showFilter: false }); }} className={'parent-img-list' === layoutType ? 'active' : ''}  >{exhibitorParentImageListing}</li>
                             </ul>
+
+                            { 'listing' === layoutType &&
+                            <ToggleControl
+                                label={__('Show Filter')}
+                                checked={showFilter}
+                                onChange={() => setAttributes({ showFilter: ! showFilter }) }
+                            />
+                            }
                         </PanelBody>
                         <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
                             <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/product-categories.mp4" target="_blank">How to use block?</a>
@@ -133,7 +145,8 @@ import { exhibitorAccordion, exhibitorImageListing, exhibitorParentImageListing 
                         block="mys/product-categories"
                         attributes={{
                             itemToFetch: itemToFetch,
-                            layoutType: layoutType
+                            layoutType: layoutType,
+                            showFilter: showFilter
                         }}
                     />
                 </Fragment>

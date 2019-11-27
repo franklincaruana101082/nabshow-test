@@ -237,22 +237,24 @@
     var numberOfVisibleSlides = bxNumberofVisibleSlide();
     if (0 < $('.nab-dynamic-slider').length) {
       $('.nab-dynamic-slider').each(function (index) {
-        if ( 4 < $(this).children().length ) {
-            let config;
-            if ($(this).hasClass('items-md')) {
-                let lessNumberOfVisibleSlides = bxLessNumberofVisibleSlide();
-                config = bxDynamicSliderConfig($(this), lessNumberOfVisibleSlides);
-            } else {
-                config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
-            }
-            if (0 < bxSliderObj.length && undefined !== bxSliderObj[index]) {
-                bxSliderObj[index].destroySlider({});
-                let configWithInfiniteLoop = config;
-                configWithInfiniteLoop.infiniteLoop = false;
-                bxSliderObj[index].reloadSlider(configWithInfiniteLoop);
-            } else {
-                bxSliderObj[index] = $(this).bxSlider(config);
-            }
+        if (4 < $(this).children().length) {
+          let config;
+          if ($(this).hasClass('items-md')) {
+            let lessNumberOfVisibleSlides = bxLessNumberofVisibleSlide();
+            config = bxDynamicSliderConfig($(this), lessNumberOfVisibleSlides);
+          } else {
+            config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
+          }
+          if (0 < bxSliderObj.length && undefined !== bxSliderObj[index]) {
+            bxSliderObj[index].destroySlider({});
+            let configWithInfiniteLoop = config;
+            configWithInfiniteLoop.infiniteLoop = false;
+            bxSliderObj[index].reloadSlider(configWithInfiniteLoop);
+          } else {
+            bxSliderObj[index] = $(this).bxSlider(config);
+          }
+        } else {
+          $(this).addClass('less-items');
         }
 
       });
@@ -260,12 +262,12 @@
 
     if (0 < $('.nab-not-to-be-missed-slider').length) {
       $('.nab-not-to-be-missed-slider').each(function (index) {
-        if ( 4 < $(this).children().length ) {
+        if (4 < $(this).children().length) {
           let config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
 
           if (
-              0 < ntbmBxSliderObj.length &&
-              undefined !== ntbmBxSliderObj[index]
+            0 < ntbmBxSliderObj.length &&
+            undefined !== ntbmBxSliderObj[index]
           ) {
             ntbmBxSliderObj[index].reloadSlider(config);
           } else {
@@ -1216,7 +1218,7 @@
 
   /* Sticky Header */
   $(window).scroll(function () {
-    if (250 < $(this).scrollTop()) {
+    if (50 < $(this).scrollTop()) {
       $('.site-header').addClass('sticky');
       $('.site-header .col-md-4.header-center').removeClass('col-md-4').addClass('col-md-2');
       $('.site-header .col-md-4.header-right').removeClass('col-md-4').addClass('col-md-2');
@@ -1228,8 +1230,31 @@
       $('.site-header .col-md-2.header-right').removeClass('col-md-2').addClass('col-md-4');
       $('.site-header .col-md-8').removeClass('col-md-8').addClass('col-md-12');
     }
+    if (992 > $(window).width()) {
+      $('.site-header').removeClass('sticky');
+      $('.site-header .col-md-2.header-center').removeClass('col-md-2').addClass('col-md-4');
+      $('.site-header .col-md-2.header-right').removeClass('col-md-2').addClass('col-md-4');
+      $('.site-header .col-md-8').removeClass('col-md-8').addClass('col-md-12');
+
+    }
   });
 
+
+  /* Menu Js */
+  $('.main-navigation .menu .menu-item').on('click', function () {
+    if ($(this).hasClass('clicked')) {
+      $(this).removeClass('clicked');
+      $('.main-navigation .menu .menu-item').removeClass('clicked');
+    }
+    else {
+      $('.main-navigation .menu .menu-item').removeClass('clicked');
+      $(this).addClass('clicked');
+    }
+  });
+
+  $('.site-header #site-navigation ul.menu>li>a').click(function (e) {
+    e.preventDefault();
+  });
 
   /*  main - bracket - end */
 })(jQuery);
@@ -1931,10 +1956,11 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
   jQuery(selectedItem).removeClass('slideInUp').hide();
   jQuery(selectedItem).addClass('slideInUp').show();
+  jQuery('.no-data').hide();
+
   if (0 != jQuery('.accordionParentWrapper').length) {
     jQuery(selectedItem).removeClass('slideInUp').show();
   }
-  jQuery('.no-data').hide();
   if (0 != jQuery('.badge-discounts-box').length) {
     jQuery('.badge-discounts, .badge-discounts .badge-title').show();
   }
