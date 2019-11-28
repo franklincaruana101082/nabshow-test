@@ -797,34 +797,22 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                             <?php
                                             }
                                             if ( 'related-content-slider-info' === $slider_layout || 'related-content-slider-events' === $slider_layout ) {
-
-                                                $date_field_group = get_field( 'date_group',  $child->ID );
-                                                $first_row        = isset( $date_field_group[0] ) ? $date_field_group[0] : array();
-                                                $date             = isset( $first_row[ 'page_dates' ] ) ? $first_row[ 'page_dates' ] : '';
-                                                $page_hall        = get_field( 'page_hall',  $child->ID );
-                                                $location         = ! empty( $page_hall ) ? implode('| ', $page_hall ) : '';
                                             ?>
                                                 <div class="item-info">
+
                                                 <?php
                                                 if ( 'related-content-slider-events' !== $slider_layout ) {
-                                                ?>
+                                                    ?>
                                                     <h2><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a></h2>
-                                                <?php
+                                                    <?php
                                                 }
-                                                ?>
 
-                                                    <p class="datetime"><?php echo esc_html( $date ); ?></p>
-                                                    <p class="location"><?php echo esc_html( $location ); ?></p>
+                                                nabshow_lv_related_content_dynamic_field_display( $child->ID,  $display_field );
 
-                                                <?php
-                                                if ( 'related-content-slider-events' !== $slider_layout ) {
-                                                ?>
-                                                    <p class="access">Registration Access</p>
-                                                <?php
-                                                } else {
-                                                ?>
+                                                if ( 'related-content-slider-events' === $slider_layout ) {
+                                                    ?>
                                                     <p class="description"><?php echo esc_html( nabshow_lv_excerpt( $child->ID ) ); ?></p>
-                                                <?php
+                                                    <?php
                                                 }
                                                 ?>
                                                 </div>
@@ -932,36 +920,9 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                     if ( is_array( $display_field ) && count( $display_field ) > 0 ) {
                                                     ?>
                                                         <div class="info-block">
-                                                    <?php
-                                                        foreach ( $display_field as $field ) {
-
-                                                            if ( 'reg_access' !== $field ) {
-
-                                                                $field_val =  get_field( $field,  $child->ID );
-
-                                                                if ( 'date_group' === $field && ! empty( $field_val ) ) {
-
-                                                                    $first_field_row  = isset( $field_val[0] ) ? $field_val[0] : array();
-                                                                    $sub_title        = isset( $first_field_row[ 'page_dates' ] ) ? $first_field_row[ 'page_dates' ] : '';
-
-                                                                } elseif ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
-                                                                    $sub_title = implode(' | ', $field_val );
-                                                                } elseif ( 'is_open_to' === $field && ! empty( $field_val ) ) {
-                                                                    $sub_title = 'Select Open To' === $field_val ? '' : $field_val;
-                                                                } else {
-                                                                    $sub_title = $field_val;
-                                                                }
-                                                            } else {
-                                                                $sub_title = 'Registration Access';
-                                                            }
-
-                                                            if ( ! empty( $sub_title ) ) {
-                                                            ?>
-                                                                <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
-                                                            <?php
-                                                            }
-                                                        }
-                                                    ?>
+                                                        <?php
+                                                        nabshow_lv_related_content_dynamic_field_display( $child->ID,  $display_field );
+                                                        ?>
                                                         </div>
                                                     <?php
                                                     }

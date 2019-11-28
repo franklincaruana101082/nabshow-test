@@ -1267,21 +1267,21 @@
     hide = true;
   });
 
-  // $('body').on('click', '.main-navigation .menu .menu-item', function () {
-  //   var self = $(this);
-  //   if (self.hasClass('clicked')) {
-  //     $('.main-navigation .menu .menu-item').removeClass('clicked');
-  //   }
-  //   $('.main-navigation .menu .menu-item').removeClass('clicked');
-  //   self.toggleClass('clicked');
+  $('body').on('click', '.main-navigation .menu .menu-item', function () {
+    var self = $(this);
+    if (self.hasClass('clicked')) {
+      $('.main-navigation .menu .menu-item').removeClass('clicked');
+    }
+    $('.main-navigation .menu .menu-item').removeClass('clicked');
+    self.toggleClass('clicked');
 
-  //   if ('#' === self.find('a').attr('href')) {
-  //     $('.main-navigation .menu .menu-item').removeClass('clicked');
-  //     self.toggleClass('clicked');
-  //     return false;
-  //   }
-  //   hide = false;
-  // });
+    if ('#' === self.find('a').attr('href')) {
+      $('.main-navigation .menu .menu-item').removeClass('clicked');
+      self.toggleClass('clicked');
+      return false;
+    }
+    hide = false;
+  });
 
   $('body').on('click', '.main-navigation .menu .menu-item', function () {
     $('.main-navigation .menu .menu-item').each(function () {

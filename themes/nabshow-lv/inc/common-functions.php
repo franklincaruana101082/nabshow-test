@@ -462,3 +462,53 @@ function nabshow_lv_get_search_result_post_link( $current_post_type, $current_po
 	}
 
 }
+
+/**
+ * Add ACF custom field in the related content as per display field selected on block side.
+ *
+ * @param $page_id
+ * @param $display_field
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_related_content_dynamic_field_display( $page_id, $display_field ) {
+
+    if ( ! empty( $page_id ) && is_array( $display_field ) ) {
+
+        foreach ( $display_field as $field ) {
+
+		    if ( 'reg_access' !== $field ) {
+
+			    $field_val =  get_field( $field,  $page_id );
+
+			    if ( 'date_group' === $field && ! empty( $field_val ) ) {
+
+				    $first_field_row  = isset( $field_val[0] ) ? $field_val[0] : array();
+				    $sub_title        = isset( $first_field_row[ 'page_dates' ] ) ? $first_field_row[ 'page_dates' ] : '';
+
+			    } elseif ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
+
+				    $sub_title = implode(' | ', $field_val );
+
+			    } elseif ( 'is_open_to' === $field && ! empty( $field_val ) ) {
+
+				    $sub_title = 'Select Open To' === $field_val ? '' : $field_val;
+
+			    } else {
+
+				    $sub_title = $field_val;
+			    }
+
+		    } else {
+
+			    $sub_title = 'Registration Access';
+		    }
+
+		    if ( ! empty( $sub_title ) ) {
+			    ?>
+                <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
+			    <?php
+		    }
+	    }
+    }
+}
