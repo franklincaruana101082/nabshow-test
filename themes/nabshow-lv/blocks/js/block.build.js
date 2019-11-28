@@ -317,6 +317,7 @@ module.exports = toKey;
 /* unused harmony export realtedContentCoLocatedEvents */
 /* unused harmony export realtedContentInfoOnly */
 /* unused harmony export realtedContentPlanShow */
+/* unused harmony export relatedContentDropdown */
 var quotesSliderBottom = wp.element.createElement(
   "svg",
   { version: "1.1", id: "quotesSliderBottom", x: "0px", y: "0px", width: "446px", height: "303.999px", viewBox: "0 0 446 303.999", enableBackground: "new 0 0 446 303.999" },
@@ -1415,6 +1416,23 @@ var realtedContentPlanShow = wp.element.createElement(
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M197.977,31.523h-65.682c-0.647,0-1.173,0.524-1.173,1.173v51.606c0,0.649,0.524,1.173,1.173,1.173h65.682\r c0.646,0,1.172-0.523,1.172-1.173V32.696C199.149,32.048,198.623,31.523,197.977,31.523z M196.803,83.13h-63.335V33.869h63.335\r V83.13L196.803,83.13z" }),
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M149.887,57.489c3.603,0,6.532-2.931,6.532-6.53c0-3.604-2.93-6.532-6.532-6.532\r c-3.602,0-6.531,2.929-6.531,6.531C143.356,54.559,146.286,57.489,149.887,57.489z M149.887,46.771\r c2.309,0,4.187,1.879,4.187,4.187c0,2.307-1.878,4.186-4.187,4.186s-4.186-1.878-4.186-4.185\r C145.702,48.652,147.579,46.771,149.887,46.771z" }),
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M139.332,78.438c0.274,0,0.551-0.096,0.774-0.292l19.133-16.845l12.083,12.082\r c0.459,0.458,1.201,0.458,1.658,0c0.459-0.459,0.459-1.2,0-1.658l-5.638-5.639l10.769-11.792l13.207,12.107\r c0.479,0.438,1.219,0.404,1.656-0.072c0.439-0.479,0.404-1.22-0.07-1.657l-14.076-12.902c-0.23-0.209-0.535-0.313-0.844-0.307\r c-0.313,0.014-0.605,0.151-0.814,0.381l-11.488,12.582l-5.563-5.563c-0.438-0.438-1.14-0.459-1.604-0.053l-19.959,17.573\r c-0.485,0.429-0.533,1.169-0.105,1.656C138.682,78.306,139.007,78.438,139.332,78.438z" })
+    )
+  )
+);
+
+var relatedContentDropdown = wp.element.createElement(
+  "svg",
+  { version: "1.1", id: "relatedContentDropdown", width: "334px", height: "248.5px", viewBox: "0 0 334 248.5", enableBackground: "new 0 0 334 248.5" },
+  wp.element.createElement("rect", { x: "1.5", y: "1.5", display: "none", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "331", height: "245.5" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement("rect", { x: "1.5", y: "98.953", fill: "#7B8080", width: "331", height: "50.594" }),
+    wp.element.createElement("rect", { x: "7.895", y: "113.263", fill: "#F2F2F2", width: "270.562", height: "21.975" }),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("path", { fill: "#EFEFEF", d: "M309.475,129.031c-0.3,0-0.601-0.115-0.83-0.344l-7.212-7.212c-0.459-0.458-0.459-1.203,0-1.662\r c0.459-0.458,1.203-0.458,1.661,0l6.381,6.382l6.382-6.382c0.459-0.458,1.203-0.458,1.661,0c0.459,0.458,0.459,1.203,0,1.661\r l-7.212,7.212C310.077,128.916,309.776,129.031,309.475,129.031z" })
     )
   )
 );

@@ -8,7 +8,8 @@
 
 /*
  * Register dynamic blocks
- * @since 1.0
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_register_dynamic_blocks() {
 
@@ -251,6 +252,9 @@ function nabshow_lv_register_dynamic_blocks() {
                 'showFilter'    => array(
                     'type' => 'boolean',
                     'default' => false
+                ),
+                'dropdownTitle' => array(
+                    'type' => 'string'
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -301,11 +305,16 @@ function nabshow_lv_register_dynamic_blocks() {
 }
 
 /**
- * Fetch dynamic Not to be Missed slider item/slide according to attributes
+ * Fetch dynamic Not to be Missed slider item/slide according to attributes.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
+
     $block_title    = isset( $attributes['blockTitle'] ) && ! empty( $attributes['blockTitle'] ) ? $attributes['blockTitle'] : 'Not-To-Be-Missed';
     $post_type      = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'not-to-be-missed';
     $terms          = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'], true ): array();
@@ -415,13 +424,18 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
     wp_reset_postdata();
 
     $html = ob_get_clean();
+
     return $html;
 }
 
 /**
- * Fetch dynamic latest show news according to attributes
+ * Fetch dynamic latest show news according to attributes.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_latest_show_news_render_callback($attributes){
 
@@ -508,29 +522,40 @@ function nabshow_lv_latest_show_news_render_callback($attributes){
 }
 
 /**
- * Display ad on front side according to attribute
+ * Display ad on front side according to attribute.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_advertisement_render_callback( $attributes ) {
+
     ob_start();
+
     if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-    ?>
+
+        ?>
         <p style="display:none">Advertisement</p>
-    <?php
+        <?php
+
     } else {
+
+        $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
         $class_name   = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
         $img_source   = isset( $attributes['imgSource'] ) && ! empty( $attributes['imgSource'] ) ? $attributes['imgSource'] : '';
         $schedule_ad  = isset( $attributes['scheduleAd'] ) ? $attributes['scheduleAd'] : false;
         $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
         $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
         $adv_align    = isset( $attributes['addAlign'] ) && ! empty( $attributes['addAlign']) ? 'text-align: ' . $attributes['addAlign'] : '';
+        $start_date   = isset( $attributes['startDate'] ) && ! empty( $attributes['startDate'] ) ? $attributes['startDate'] : $current_date;
+        $end_date     = isset( $attributes['endDate'] ) && ! empty( $attributes['endDate'] ) ? $attributes['endDate'] : $current_date;
 
-        $start_date   = new DateTime( $attributes['startDate'] );
+        $start_date   = new DateTime( $start_date );
         $start_date   = $start_date->format( 'Y-m-d H:i:s' );
-        $end_date     = new DateTime( $attributes['endDate'] );
+        $end_date     = new DateTime( $end_date );
         $end_date     = $end_date->format( 'Y-m-d H:i:s' );
-        $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 
         if ( ( ! $schedule_ad ) || ( $start_date <= $current_date && $current_date <= $end_date ) ) {
         ?>
@@ -566,11 +591,16 @@ function nabshow_lv_advertisement_render_callback( $attributes ) {
 }
 
 /**
- * Get related page according to postId attributes
+ * Get related/child page according to attributes.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_render_callback( $attributes ) {
+
     $parent_page_id   = isset( $attributes['parentPageId'] ) && ! empty( $attributes['parentPageId'] ) ? $attributes['parentPageId'] : '';
     $featured_page    = isset( $attributes['featuredPage'] ) ? $attributes['featuredPage'] : false;
     $post_limit       = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
@@ -626,7 +656,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                             foreach ( $children as $child ) {
                                 if ( $post_limit >= $page_count ) {
                                 ?>
-                                    <li><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( get_the_title( $child->ID ) ); ?></a></li>
+                                    <li><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a></li>
                                 <?php
                                 } else {
                                     break;
@@ -641,6 +671,31 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                 </div>
             </div>
         <?php
+        } elseif ( ! $slider_active && 'drop-down-list' === $listing_layout ) {
+
+            $dropdown_title = isset( $attributes[ 'dropdownTitle' ] ) && ! empty( $attributes[ 'dropdownTitle' ] ) ? $attributes[ 'dropdownTitle' ] : '-- Select --';
+            ?>
+            <select class="plan-your-show-drp">
+                <option><?php echo esc_html( $dropdown_title ); ?></option>
+                <?php
+                if ( count( $children ) > 0 ) {
+
+                    $page_count = 1;
+
+                    foreach ( $children as $child ) {
+                        if ( $post_limit >= $page_count ) {
+                            ?>
+                            <option value="<?php echo esc_url( get_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></option>
+                            <?php
+                        } else {
+                            break;
+                        }
+                        $page_count++;
+                    }
+                }
+                ?>
+            </select>
+            <?php
         } else {
 
             if ( ! $slider_active && $show_filter ) {
@@ -823,6 +878,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                         $new_this_year  = get_field( 'new_this_year',  $child->ID );
                                         $all_types      = get_field( 'page_type',  $child->ID );
                                         $is_open_to     = get_field( 'is_open_to',  $child->ID );
+                                        $is_open_to     = 'Select Open To' === $is_open_to ? '' : $is_open_to;
                                         $page_hall      = ! empty( $all_halls ) ? implode( ',', $all_halls ) : '';
                                         $page_type      = ! empty( $all_types ) ? implode(',', $all_types ) : '';
                                         $date           = ! empty( $date ) ? date_format( date_create( $date ), 'd-M-Y' ) : '';
@@ -890,6 +946,8 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
                                                                 } elseif ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
                                                                     $sub_title = implode(' | ', $field_val );
+                                                                } elseif ( 'is_open_to' === $field && ! empty( $field_val ) ) {
+                                                                    $sub_title = 'Select Open To' === $field_val ? '' : $field_val;
                                                                 } else {
                                                                     $sub_title = $field_val;
                                                                 }
@@ -897,9 +955,11 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                                 $sub_title = 'Registration Access';
                                                             }
 
+                                                            if ( ! empty( $sub_title ) ) {
                                                             ?>
                                                                 <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
                                                             <?php
+                                                            }
                                                         }
                                                     ?>
                                                         </div>
@@ -974,11 +1034,16 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 }
 
 /**
- * Fetch contributors/authors according to selected post type
+ * Fetch contributors/authors according to selected post type.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_contributors_render_callback( $attributes ) {
+
     $post_type  = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : '';
     $post_limit = isset( $attributes['itemToFetch'] ) && ! empty( $attributes['itemToFetch'] ) ? $attributes['itemToFetch'] : 10;
     $class_name = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
@@ -1032,16 +1097,20 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
         </div>
     <?php
     }
-    ?>
-    <?php
+
     $html = ob_get_clean();
+
     return $html;
 }
 
 /**
- * Fetch child pages with specific block content
+ * Fetch child pages with specific block content.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
 
@@ -1106,9 +1175,13 @@ function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
 }
 
 /**
- * Fetch featured image according to given page slug
+ * Fetch featured image according to given page slug.
+ *
  * @param $attributes
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_page_featured_image_render_callback( $attributes ) {
 

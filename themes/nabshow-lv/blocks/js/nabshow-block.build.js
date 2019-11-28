@@ -157,6 +157,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         RangeControl = wpComponents.RangeControl,
         RadioControl = wpComponents.RadioControl,
         ServerSideRender = wpComponents.ServerSideRender,
+        TextControl = wpComponents.TextControl,
         Button = wpComponents.Button,
         Placeholder = wpComponents.Placeholder,
         CheckboxControl = wpComponents.CheckboxControl,
@@ -318,10 +319,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     listingLayout = _props2$attributes.listingLayout,
                     sliderLayout = _props2$attributes.sliderLayout,
                     showFilter = _props2$attributes.showFilter,
+                    dropdownTitle = _props2$attributes.dropdownTitle,
                     setAttributes = _props2.setAttributes;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
 
                 var commonControls = wp.element.createElement(
                     Fragment,
@@ -521,7 +523,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 { className: 'title-list' === listingLayout ? 'active title-list' : 'title-list', onClick: function onClick() {
                                                         return setAttributes({ listingLayout: 'title-list' });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* relatedContentTitleList */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* relatedContentTitleList */]
                                             ),
                                             wp.element.createElement(
                                                 "li",
@@ -543,6 +545,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                         return setAttributes({ listingLayout: 'plan-your-show' });
                                                     } },
                                                 __WEBPACK_IMPORTED_MODULE_0__icons__["i" /* realtedContentPlanShow */]
+                                            ),
+                                            wp.element.createElement(
+                                                "li",
+                                                { className: 'drop-down-list' === listingLayout ? 'active drop-down-list' : 'drop-down-list', onClick: function onClick() {
+                                                        return setAttributes({ listingLayout: 'drop-down-list' });
+                                                    } },
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["k" /* relatedContentDropdown */]
                                             )
                                         )
                                     ),
@@ -551,6 +560,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         checked: showFilter,
                                         onChange: function onChange() {
                                             return setAttributes({ showFilter: !showFilter });
+                                        }
+                                    }),
+                                    'drop-down-list' === listingLayout && wp.element.createElement(TextControl, {
+                                        type: "string",
+                                        label: __('Dropdown Title'),
+                                        name: dropdownTitle,
+                                        onChange: function onChange(title) {
+                                            return setAttributes({ dropdownTitle: title });
                                         }
                                     })
                                 ),
@@ -719,7 +736,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "nab/related-content",
-                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter }
+                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle }
                     })
                 );
             }
@@ -804,6 +821,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         showFilter: {
             type: 'boolean',
             default: false
+        },
+        dropdownTitle: {
+            type: 'string'
         }
     };
 
@@ -840,12 +860,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /* unused harmony export sessionSliderOff2 */
 /* unused harmony export sessionSliderOn1 */
 /* unused harmony export sessionSliderOn2 */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return sliderArrow1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return sliderArrow2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return sliderArrow3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return sliderArrow4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return sliderArrow5; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return sliderArrow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return sliderArrow1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return sliderArrow2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return sliderArrow3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return sliderArrow4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return sliderArrow5; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return sliderArrow6; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return destinations; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return keyContacts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return featuredHappening; });
@@ -854,11 +874,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return browseHappening; });
 /* unused harmony export exhibitorAccordion */
 /* unused harmony export exhibitorImageListing */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return relatedContentTitleList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return relatedContentTitleList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return relatedContSideImgInfo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return realtedContentCoLocatedEvents; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return realtedContentInfoOnly; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return realtedContentPlanShow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return relatedContentDropdown; });
 var quotesSliderBottom = wp.element.createElement(
   "svg",
   { version: "1.1", id: "quotesSliderBottom", x: "0px", y: "0px", width: "446px", height: "303.999px", viewBox: "0 0 446 303.999", enableBackground: "new 0 0 446 303.999" },
@@ -1957,6 +1978,23 @@ var realtedContentPlanShow = wp.element.createElement(
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M197.977,31.523h-65.682c-0.647,0-1.173,0.524-1.173,1.173v51.606c0,0.649,0.524,1.173,1.173,1.173h65.682\r c0.646,0,1.172-0.523,1.172-1.173V32.696C199.149,32.048,198.623,31.523,197.977,31.523z M196.803,83.13h-63.335V33.869h63.335\r V83.13L196.803,83.13z" }),
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M149.887,57.489c3.603,0,6.532-2.931,6.532-6.53c0-3.604-2.93-6.532-6.532-6.532\r c-3.602,0-6.531,2.929-6.531,6.531C143.356,54.559,146.286,57.489,149.887,57.489z M149.887,46.771\r c2.309,0,4.187,1.879,4.187,4.187c0,2.307-1.878,4.186-4.187,4.186s-4.186-1.878-4.186-4.185\r C145.702,48.652,147.579,46.771,149.887,46.771z" }),
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M139.332,78.438c0.274,0,0.551-0.096,0.774-0.292l19.133-16.845l12.083,12.082\r c0.459,0.458,1.201,0.458,1.658,0c0.459-0.459,0.459-1.2,0-1.658l-5.638-5.639l10.769-11.792l13.207,12.107\r c0.479,0.438,1.219,0.404,1.656-0.072c0.439-0.479,0.404-1.22-0.07-1.657l-14.076-12.902c-0.23-0.209-0.535-0.313-0.844-0.307\r c-0.313,0.014-0.605,0.151-0.814,0.381l-11.488,12.582l-5.563-5.563c-0.438-0.438-1.14-0.459-1.604-0.053l-19.959,17.573\r c-0.485,0.429-0.533,1.169-0.105,1.656C138.682,78.306,139.007,78.438,139.332,78.438z" })
+    )
+  )
+);
+
+var relatedContentDropdown = wp.element.createElement(
+  "svg",
+  { version: "1.1", id: "relatedContentDropdown", width: "334px", height: "248.5px", viewBox: "0 0 334 248.5", enableBackground: "new 0 0 334 248.5" },
+  wp.element.createElement("rect", { x: "1.5", y: "1.5", display: "none", fill: "#FFFFFF", stroke: "#7B8080", "stroke-width": "3", "stroke-miterlimit": "10", width: "331", height: "245.5" }),
+  wp.element.createElement(
+    "g",
+    null,
+    wp.element.createElement("rect", { x: "1.5", y: "98.953", fill: "#7B8080", width: "331", height: "50.594" }),
+    wp.element.createElement("rect", { x: "7.895", y: "113.263", fill: "#F2F2F2", width: "270.562", height: "21.975" }),
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement("path", { fill: "#EFEFEF", d: "M309.475,129.031c-0.3,0-0.601-0.115-0.83-0.344l-7.212-7.212c-0.459-0.458-0.459-1.203,0-1.662\r c0.459-0.458,1.203-0.458,1.661,0l6.381,6.382l6.382-6.382c0.459-0.458,1.203-0.458,1.661,0c0.459,0.458,0.459,1.203,0,1.661\r l-7.212,7.212C310.077,128.916,309.776,129.031,309.475,129.031z" })
     )
   )
 );

@@ -70,4 +70,8 @@ add_filter( 'js_do_concat', 'nabshow_lv_gutenberg_disable_concat', -1, 1 );
 //Filter to add admin class for compact view  of page list
 add_filter( 'admin_body_class', 'nabshow_lv_admin_body_class' );
 
+//Filter to add compact view button on admin page list
 add_filter( 'manage_page_posts_columns', 'nabshow_lv_manage_compact_view_columns', 999 );
+
+//Filter to add custom mega menu
+add_filter( 'walker_nav_menu_start_el', 'nabshow_lv_add_mega_menu_in_menu_item', 10, 4 );

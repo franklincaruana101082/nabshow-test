@@ -7,9 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-//$current_date = date( 'Y-m-d', current_time( 'timestamp' ) );
-//echo $current_date; exit();
-
 $listing_page      = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
 $with_content      = isset( $attributes['withContent'] ) ? $attributes['withContent'] : false;
 $upcoming_session  = isset( $attributes['upcomingSession'] ) ? $attributes['upcomingSession'] : false;
@@ -281,11 +278,11 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 
     if ( $listing_page && 'none' === $listing_type ) {
 
-        require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-session-filter.php' );
+        include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-session-filter.php' );
 
     } elseif ( $listing_page && 'open-to-all' === $listing_type ) {
 
-        require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-open-to-all-filter.php' );
+        include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-open-to-all-filter.php' );
 
         $this->date_picker = true;
         $this->mysgb_enqueue_front_script();

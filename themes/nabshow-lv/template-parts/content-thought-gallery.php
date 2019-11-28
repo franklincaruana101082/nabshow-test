@@ -23,10 +23,13 @@
                 <?php
                 $tax_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-category' );
                 $i                     = 0;
+
                 if ( $tax_thought_galleries && ! is_wp_error( $tax_thought_galleries ) ) {
+
                     foreach ( $tax_thought_galleries as $tax_thought_gallery ) {
                         $i ++;
                         $term_link = get_term_link( $tax_thought_gallery->slug, 'thought-gallery-category' );
+
                         if ( $term_link && ! is_wp_error( $term_link ) ) {
                             ?>
 
@@ -35,6 +38,7 @@
                             class="cat-info <?php echo esc_attr( $tax_thought_gallery->slug ); ?>"><?php echo esc_html( $tax_thought_gallery->name ); ?></a>
                             <?php
                         }
+
                         if ( sizeof( $tax_thought_galleries ) > $i ) {
                             ?>
                             ,

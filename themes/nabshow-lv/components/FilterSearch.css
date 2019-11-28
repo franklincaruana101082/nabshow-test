@@ -1,9 +1,0 @@
-li.data-box{text-align:center;list-style-type:none}
-li.data-box h4{margin-bottom:0;font-size:18px}
-li.data-box p{color:#9fb483;font-size:14px;line-height:22px}
-ul.fetched-data{width:100%;padding:0;margin:0}
-.char-list li a.active{background-color:palegoldenrod;border-color:palegoldenrod}
-.char-list li{display:inline-block;list-style-type:none}
-.char-list li a{display:inline-block;border:1px solid;padding:5px 10px;margin:2px;min-width:30px;min-height:30px;line-height:30px;text-decoration:none}
-.data-filtered .data-box{display:none}
-.data-filtered .data-box.show{display:block}

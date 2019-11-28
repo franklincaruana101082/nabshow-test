@@ -1,16 +1,16 @@
-(function($) {
+(function ($) {
     'use strict';
     var bxSliderObj = [];
 
-    $(window).load(function() {
-        if ( 0 < $('.nab-dynamic-slider').length ) {
+    $(window).load(function () {
+        if (0 < $('.nab-dynamic-slider').length) {
             configureSlider();
             $(window).on('orientationchange resize', configureSlider);
         }
     });
 
     // Slider popup
-    $(document).on('click', '.detail-list-modal-popup, .modal-detail-list-modal-popup', function() {
+    $(document).on('click', '.detail-list-modal-popup, .modal-detail-list-modal-popup', function () {
         var postType = $(this).attr('data-posttype');
         var postId = $(this).attr('data-postid');
         var userId = $(this).attr('data-userid');
@@ -18,7 +18,7 @@
             $(this).parents('.modal').modal('hide');
         }
         $('body').addClass('popup-loader');
-        $('.modal .modal-body').load('/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId, function() {
+        $('.modal .modal-body').load('/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId, function () {
             $('.modal').modal({
                 show: true
             });
@@ -27,7 +27,7 @@
         return false;
     });
 
-    $(document).on('click', '.modal .modal-header .close, .modal .modal-footer .btn-default', function() {
+    $(document).on('click', '.modal .modal-header .close, .modal .modal-footer .btn-default', function () {
         $(this).parents('.modal').modal('hide');
     });
 
@@ -41,8 +41,8 @@
     function configureSlider() {
         var numberOfVisibleSlides = bxNumberofVisibleSlide();
         if (0 < $('.nab-dynamic-slider').length) {
-            $('.nab-dynamic-slider').each(function(index) {
-                if ( 4 < $(this).children().length ) {
+            $('.nab-dynamic-slider').each(function (index) {
+                if (4 < $(this).children().length) {
                     let config;
                     if ($(this).hasClass('items-md')) {
                         let lessNumberOfVisibleSlides = bxLessNumberofVisibleSlide();
@@ -58,6 +58,8 @@
                     } else {
                         bxSliderObj[index] = $(this).bxSlider(config);
                     }
+                } else {
+                    $(this).addClass('less-items');
                 }
             });
         }
@@ -140,7 +142,7 @@
         };
     }
 
-    $(document).on('click', '.session-data.schedule-main .row-expand .expand-btn', function() {
+    $(document).on('click', '.session-data.schedule-main .row-expand .expand-btn', function () {
         if ('Expand' === $(this).text()) {
             $(this).text('collapse');
         } else {
@@ -150,19 +152,19 @@
     });
 
     if (0 < $('.filter-block.main-filter .session-category-drp').length && (0 < $('.nab-dynamic-list.session').length || 0 < $('.nab-dynamic-slider.session').length)) {
-        $(document).on('change', '.filter-block.main-filter .session-category-drp', function() {
+        $(document).on('change', '.filter-block.main-filter .session-category-drp', function () {
             sessionListFilter();
         });
-        $(document).on('keyup', '.filter-block.main-filter .search-item .search', function() {
+        $(document).on('keyup', '.filter-block.main-filter .search-item .search', function () {
             sessionListFilter();
         });
-        $(document).on('click', '.filter-block.main-filter .featured-btn', function() {
+        $(document).on('click', '.filter-block.main-filter .featured-btn', function () {
             $(this).toggleClass('active');
             $('.nab-dynamic-slider.session .item[data-featured="featured"], .nab-dynamic-list.session .item[data-featured="featured"]').toggleClass('featured');
         });
     }
 
-    $(document).on('click', '.category-listing-main .accordion-list .category-head', function() {
+    $(document).on('click', '.category-listing-main .accordion-list .category-head', function () {
         if ($(this).parents('.accordion-list').hasClass('open')) {
             $(this).parents('.accordion-list').removeClass('open').addClass('close');
         } else {
@@ -186,10 +188,10 @@
         }
 
         if ('' !== filterSearch) {
-            $('.nab-dynamic-list.session .item:visible').filter(function() {
+            $('.nab-dynamic-list.session .item:visible').filter(function () {
                 return (0 > $('h4', this).text().toLowerCase().indexOf(filterSearch.toLowerCase()));
             }).hide();
-            $('.nab-dynamic-slider.session .item:visible').filter(function() {
+            $('.nab-dynamic-slider.session .item:visible').filter(function () {
                 return (0 > $('h4', this).text().toLowerCase().indexOf(filterSearch.toLowerCase()));
             }).addClass('d-none');
         }
@@ -214,7 +216,7 @@
             listingType = 0 < $('#browse-session .listing-date-group').length ? $('#browse-session .listing-date-group:first').attr('data-listing-type') : '';
 
 
-        $(document).on('change', '.browse-sessions-filter #session-tracks', function() {
+        $(document).on('change', '.browse-sessions-filter #session-tracks', function () {
             let currentTrack = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (sessionTrack !== currentTrack) {
                 pageNumber = 1;
@@ -223,7 +225,7 @@
             }
         });
 
-        $(document).on('change', '.browse-sessions-filter #session-level', function() {
+        $(document).on('change', '.browse-sessions-filter #session-level', function () {
             let currentLevel = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (sessionLevel !== currentLevel) {
                 pageNumber = 1;
@@ -232,7 +234,7 @@
             }
         });
 
-        $(document).on('change', '.browse-sessions-filter #session-type', function() {
+        $(document).on('change', '.browse-sessions-filter #session-type', function () {
             let currentType = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (sessionType !== currentType) {
                 pageNumber = 1;
@@ -241,7 +243,7 @@
             }
         });
 
-        $(document).on('change', '.browse-sessions-filter #session-location', function() {
+        $(document).on('change', '.browse-sessions-filter #session-location', function () {
             let currentLocation = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (sessionLocation !== currentLocation) {
                 pageNumber = 1;
@@ -250,26 +252,26 @@
             }
         });
 
-        $(document).on('keypress', '.browse-sessions-filter .search-item .search, .browse-open-to-all-filter .search-item .search', function(e) {
+        $(document).on('keypress', '.browse-sessions-filter .search-item .search, .browse-open-to-all-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 pageNumber = 1;
                 mysAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
             }
         });
 
-        $(document).on('click', '#load-more-sessions a', function() {
+        $(document).on('click', '#load-more-sessions a', function () {
             pageNumber = parseInt($(this).attr('data-page-number'));
             mysAjaxForBrowseSession(sessionItem, 'load-more', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
         });
 
-        $(document).on('click', '.browse-sessions-filter .featured-btn', function() {
+        $(document).on('click', '.browse-sessions-filter .featured-btn', function () {
             $(this).toggleClass('active');
             featuredSession = $(this).hasClass('active') ? 'featured' : '';
             pageNumber = 1;
             mysAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
         });
 
-        $(document).on('click', '.browse-sessions-filter .alphabets-list li:not(".clear")', function() {
+        $(document).on('click', '.browse-sessions-filter .alphabets-list li:not(".clear")', function () {
 
             $(this).addClass('active').siblings().removeClass('active');
             if (0 < $(this).parent().find('li.active').length) {
@@ -283,17 +285,17 @@
             }
         });
 
-        $(document).on('click', '.browse-sessions-filter .alphabets-list li.clear', function() {
+        $(document).on('click', '.browse-sessions-filter .alphabets-list li.clear', function () {
             $(this).hide().siblings().removeClass('active');
             postStartWith = '';
             pageNumber = 1;
             mysAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
         });
         if (0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length) {
-            $(window).load(function() {
+            $(window).load(function () {
                 $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({
                     dateFormat: 'DD, MM d, yy'
-                }).on('change', function() {
+                }).on('change', function () {
                     pageNumber = 1;
                     sessionDate = $(this).val();
                     mysAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
@@ -313,7 +315,7 @@
             exhibitorPavilion = '',
             exhibitorTechnology = '';
 
-        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-category', function() {
+        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-category', function () {
             let currentCategory = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (exhibitorCategory !== currentCategory) {
                 exhibitorPageNumber = 1;
@@ -322,7 +324,7 @@
             }
         });
 
-        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-hall', function() {
+        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-hall', function () {
             let currentHall = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (exhibitorHall !== currentHall) {
                 exhibitorPageNumber = 1;
@@ -331,7 +333,7 @@
             }
         });
 
-        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-pavilion', function() {
+        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-pavilion', function () {
             let currentPavilion = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (exhibitorPavilion !== currentPavilion) {
                 exhibitorPageNumber = 1;
@@ -340,7 +342,7 @@
             }
         });
 
-        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-technology', function() {
+        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-technology', function () {
             let currentTechnology = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (exhibitorTechnology !== currentTechnology) {
                 exhibitorPageNumber = 1;
@@ -349,25 +351,25 @@
             }
         });
 
-        $(document).on('keypress', '.browse-exhibitors-filter .search-item .search', function(e) {
+        $(document).on('keypress', '.browse-exhibitors-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 exhibitorPageNumber = 1;
                 mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
             }
         });
 
-        $(document).on('click', '#load-more-exhibitor a', function() {
+        $(document).on('click', '#load-more-exhibitor a', function () {
             exhibitorPageNumber = parseInt($(this).attr('data-page-number'));
             mysAjaxForBrowseExhibitors(true, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
         });
 
-        $(document).on('click', '.browse-exhibitors-filter .featured-btn', function() {
+        $(document).on('click', '.browse-exhibitors-filter .featured-btn', function () {
             $(this).toggleClass('active');
             exhibitorPageNumber = 1;
             mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
         });
 
-        $(document).on('click', '.browse-exhibitors-filter .alphabets-list li:not(".clear")', function() {
+        $(document).on('click', '.browse-exhibitors-filter .alphabets-list li:not(".clear")', function () {
 
             $(this).addClass('active').siblings().removeClass('active');
             if (0 < $(this).parent().find('li.active').length) {
@@ -381,19 +383,19 @@
             }
         });
 
-        $(document).on('click', '.browse-exhibitors-filter .alphabets-list li.clear', function() {
+        $(document).on('click', '.browse-exhibitors-filter .alphabets-list li.clear', function () {
             $(this).hide().siblings().removeClass('active');
             exhibitorStartWith = '';
             exhibitorPageNumber = 1;
             mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
         });
 
-        $(document).on('change', '.browse-exhibitors-filter .exhibitor-keywords', function() {
+        $(document).on('change', '.browse-exhibitors-filter .exhibitor-keywords', function () {
             exhibitorPageNumber = 1;
             mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
         });
 
-        $(document).on('click', '.browse-exhibitors-filter .orderby', function() {
+        $(document).on('click', '.browse-exhibitors-filter .orderby', function () {
             $(this).toggleClass('active');
             exhibitorPageNumber = 1;
             mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
@@ -410,7 +412,7 @@
             speakerCompany = '',
             featuredSpeaker = 0 < $('.browse-speakers-filter .featured-btn').hasClass('active') ? 'featured' : '';
 
-        $(document).on('change', '.browse-speakers-filter #speaker-company', function() {
+        $(document).on('change', '.browse-speakers-filter #speaker-company', function () {
             let currentCompany = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (speakerCompany !== currentCompany) {
                 speakerPageNumber = 1;
@@ -419,33 +421,33 @@
             }
         });
 
-        $(document).on('keypress', '.browse-speakers-filter .search-item .search', function(e) {
+        $(document).on('keypress', '.browse-speakers-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 speakerPageNumber = 1;
                 mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
             }
         });
 
-        $(document).on('keypress', '.browse-speakers-filter .speaker-title-search', function(e) {
+        $(document).on('keypress', '.browse-speakers-filter .speaker-title-search', function (e) {
             if (13 === e.which) {
                 speakerPageNumber = 1;
                 mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
             }
         });
 
-        $(document).on('click', '#load-more-speaker a', function() {
+        $(document).on('click', '#load-more-speaker a', function () {
             speakerPageNumber = parseInt($(this).attr('data-page-number'));
             mysAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
         });
 
-        $(document).on('click', '.browse-speakers-filter .featured-btn', function() {
+        $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
             $(this).toggleClass('active');
             speakerPageNumber = 1;
             featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
             mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
         });
 
-        $(document).on('click', '.browse-speakers-filter .alphabets-list li:not(".clear")', function() {
+        $(document).on('click', '.browse-speakers-filter .alphabets-list li:not(".clear")', function () {
 
             $(this).addClass('active').siblings().removeClass('active');
             if (0 < $(this).parent().find('li.active').length) {
@@ -459,23 +461,23 @@
             }
         });
 
-        $(document).on('click', '.browse-speakers-filter .alphabets-list li.clear', function() {
+        $(document).on('click', '.browse-speakers-filter .alphabets-list li.clear', function () {
             $(this).hide().siblings().removeClass('active');
             speakerStartWith = '';
             speakerPageNumber = 1;
             mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
         });
 
-        $(document).on('click', '.browse-speakers-filter .orderby', function() {
+        $(document).on('click', '.browse-speakers-filter .orderby', function () {
             $(this).toggleClass('active');
             speakerPageNumber = 1;
             mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
         });
         if (0 < $('.browse-speakers-filter #speaker_date').length) {
-            $(window).load(function() {
+            $(window).load(function () {
                 $('.browse-speakers-filter #speaker_date').datepicker({
                     dateFormat: 'MM, dd yy'
-                }).on('change', function() {
+                }).on('change', function () {
                     speakerPageNumber = 1;
                     mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
                 });
@@ -490,13 +492,13 @@
         let featuredSponsor = '',
             sponsorTitle = '';
 
-        $(document).on('click', '.browse-sponsors-filter .featured-btn', function() {
+        $(document).on('click', '.browse-sponsors-filter .featured-btn', function () {
             $(this).toggleClass('active');
             featuredSponsor = $(this).hasClass('active') ? 'featured' : '';
             mysBrowseSponsorsFilterHandler(featuredSponsor, sponsorTitle);
         });
 
-        $(document).on('keypress', '.browse-sponsors-filter .search-item .search', function(e) {
+        $(document).on('keypress', '.browse-sponsors-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 sponsorTitle = $(this).val();
                 mysBrowseSponsorsFilterHandler(featuredSponsor, sponsorTitle);
@@ -513,22 +515,55 @@
             productTitle = '';
 
         if (0 < $('.category-listing-main .listing .category-head .category-title').length) {
-            $('.category-listing-main .listing .category-head .category-title').each(function() {
+            $('.category-listing-main .listing .category-head .category-title').each(function () {
                 insertOptions($(this).text(), 'product-categories');
             });
         }
 
-        $(document).on('change', '.browse-product-categories-filter #product-categories', function() {
+        $(document).on('change', '.browse-product-categories-filter #product-categories', function () {
             productCategory = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             mysBrowseProductCategoryFilterHandler(productCategory, productTitle);
         });
 
-        $(document).on('keypress', '.browse-product-categories-filter .search-item .search', function(e) {
+        $(document).on('keypress', '.browse-product-categories-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 productTitle = $(this).val();
                 mysBrowseProductCategoryFilterHandler(productCategory, productTitle);
             }
         });
+    }
+
+    /* Product Winner Filter */
+    if (0 < $('.box-main-filter, .schedule-glance-filter, .main-filter, .meet-team-select').length) {
+        if (0 < $('.box-main .box-item').length || 0 < $('.products-winners').length) {
+
+            $('.products-winners').each(function () {
+                if ('' !== $(this).find('.product-title').html()) {
+                    insertOptions($(this).find('.product-title').html(), 'products-category');
+                }
+            });
+
+            let selectedItem, searchId, searchKeyword, selectedLetter;
+            if (0 < $('.products-winners').length) {
+                selectedItem = '.product-title';
+            }
+            if (0 < $('.box-main, #box-main-search').length) {
+                searchKeyword = '.title';
+                searchId = '#box-main-search';
+            }
+
+
+            $(document).on('click', 'ul.alphabets-list li', function () {
+                selectedLetter = $(this).html();
+                masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+            });
+            $(document).on('change', '#products-category', function () {
+                masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+            });
+            $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
+                masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
+            });
+        }
     }
 
     /*  main - bracket - end */
@@ -541,14 +576,14 @@ function mysBrowseProductCategoryFilterHandler(productCategory, productTitle) {
     jQuery('body').addClass('popup-loader');
 
     if ('' !== productCategory) {
-        jQuery('.category-listing.listing .category-head .category-title').filter(function() {
+        jQuery('.category-listing.listing .category-head .category-title').filter(function () {
             return (productCategory.toLowerCase() !== jQuery(this).text().toLowerCase());
         }).parents('.category-listing.listing').hide();
     }
 
     if ('' !== productTitle) {
         jQuery('.category-listing.listing .category-body li img:not([data-title*="' + productTitle.toLowerCase() + '"]').parents('li').hide();
-        jQuery('.category-listing.listing .category-body').filter(function() {
+        jQuery('.category-listing.listing .category-body').filter(function () {
             return (0 === jQuery(this).find('li:visible').length);
         }).parents('.category-listing.listing').hide();
     }
@@ -594,7 +629,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
         type: 'GET',
         data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + mysGbCustom.mysgb_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate + '&featured_speaker=' + featuredSpeaker,
         url: mysGbCustom.ajax_url,
-        success: function(speakerData) {
+        success: function (speakerData) {
 
             let speakerObj = jQuery.parseJSON(speakerData);
 
@@ -602,7 +637,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
                 jQuery('#browse-speaker').empty();
             }
 
-            jQuery.each(speakerObj.result_post, function(key, value) {
+            jQuery.each(speakerObj.result_post, function (key, value) {
 
                 if (value.post_title) {
 
@@ -695,7 +730,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
     let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
 
     jQuery('body').addClass('popup-loader');
-    jQuery('.browse-exhibitors-filter .exhibitor-keywords:checked').each(function() {
+    jQuery('.browse-exhibitors-filter .exhibitor-keywords:checked').each(function () {
         keywords.push(jQuery(this).val());
     });
     if (jQuery('.browse-exhibitors-filter .featured-btn').hasClass('active')) {
@@ -706,7 +741,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
         type: 'GET',
         data: 'action=exhibitors_browse_filter&page_number=' + exhibitorPageNumber + '&browse_filter_nonce=' + mysGbCustom.mysgb_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + exhibitorStartWith + '&post_search=' + postSearch + '&exhibitor_category=' + exhibitorCategory + '&exhibitor_hall=' + exhibitorHall + '&exhibitor_pavilion=' + exhibitorPavilion + '&exhibitor_keywords=' + keywords + '&exhibitor_order=' + orderBy + '&exhibitor_technology=' + exhibitorTechnology,
         url: mysGbCustom.ajax_url,
-        success: function(exhibitorData) {
+        success: function (exhibitorData) {
 
             let exhibitorObj = jQuery.parseJSON(exhibitorData);
 
@@ -714,7 +749,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
                 jQuery('#browse-exhibitor').empty();
             }
 
-            jQuery.each(exhibitorObj.result_post, function(key, value) {
+            jQuery.each(exhibitorObj.result_post, function (key, value) {
 
                 if (value.post_title) {
 
@@ -817,7 +852,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
         type: 'GET',
         data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + mysGbCustom.mysgb_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&level=' + sessionLevel + '&session_type=' + sessionType + '&location=' + sessionLocation + '&listing_type=' + listingType + '&session_date=' + sessionDate + '&featured_session=' + featuredSession,
         url: mysGbCustom.ajax_url,
-        success: function(sessionData) {
+        success: function (sessionData) {
 
             let sessionObj = jQuery.parseJSON(sessionData);
             if ('' !== listingType) {
@@ -825,7 +860,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                 let itemDateGroup = [];
                 let cnt = 0;
                 let appendItem = false;
-                jQuery.each(sessionObj.result_post, function(key, value) {
+                jQuery.each(sessionObj.result_post, function (key, value) {
 
                     if (dateGroup !== value.session_date) {
                         dateGroup = value.session_date;
@@ -886,7 +921,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                             parentDiv = document.getElementsByClassName('listing-date-group')[lastDivindex];
                         }
 
-                        itemDateGroup.forEach(function(element) {
+                        itemDateGroup.forEach(function (element) {
                             parentDiv.appendChild(element);
                         });
 
@@ -907,7 +942,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                     jQuery('#browse-session').empty();
                 }
 
-                jQuery.each(sessionObj.result_post, function(key, value) {
+                jQuery.each(sessionObj.result_post, function (key, value) {
 
                     if (value.post_title) {
 
@@ -1060,6 +1095,22 @@ function masonryGrids() {
 }
 
 /**
+ * Create result not found node
+ * @param selector
+ */
+function createResultNotFoundNode(selector) {
+    let parentNode = document.createElement('div'),
+        childNode = document.createElement('p'),
+        childTextNode = document.createTextNode('Result Not Found'),
+        mainNode = document.querySelector(selector);
+
+    parentNode.setAttribute('class', 'no-data');
+    childNode.appendChild(childTextNode);
+    parentNode.appendChild(childNode);
+    mainNode.parentNode.insertBefore(parentNode, mainNode);
+}
+
+/**
  * Schedule at a glance filter dropdown options append
  * @param data
  * @param id
@@ -1072,5 +1123,101 @@ function insertOptions(data, id) {
         let optionData = document.getElementById(id);
         node.appendChild(textnode);
         optionData.appendChild(node);
+    }
+}
+
+/**
+  * Master Filter Function
+**/
+function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter) {
+
+    jQuery(selectedItem).removeClass('slideInUp').hide();
+    jQuery(selectedItem).addClass('slideInUp').show();
+    jQuery('.no-data').hide();
+
+    if (0 < jQuery('.products-winners').length) {
+        jQuery('.products-winners, .product-item').removeClass('slideInUp').hide();
+        jQuery('.products-winners, .product-item').addClass('slideInUp').show();
+    }
+
+    let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat, filterMediaTopics, filterMediaFormats, filterMediaLocation;
+
+    if (0 < jQuery('.products-winners').length) {
+        filterProduct = 0 < jQuery('#products-category')[0].selectedIndex ? jQuery('#products-category').val() : null;
+    }
+
+    // Dropdown Filter
+    if (null !== filterMainData && undefined !== filterMainData) {
+        if (0 != jQuery(`${selectedItem}`).closest('.exhibitor-committee').length) {
+            comparedItem = '.areas';
+        } if (0 != jQuery(`${selectedItem}`).closest('.official-vendors').length || 0 != jQuery(`${selectedItem}`).closest('.new-this-year-block').length) {
+            comparedItem = '.title';
+        } if (0 != jQuery(`${selectedItem}`).closest('.delegation').length) {
+            comparedItem = '.country';
+        }
+        jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterMainData}"))`).parents(`${selectedItem}`).hide();
+    }
+
+    if (null !== filterProduct && undefined !== filterProduct) {
+        jQuery(`${selectedItem}:not(:contains("${filterProduct}"))`).parent().hide();
+    }
+
+
+    // Alphabet filter
+    if (0 != jQuery('.alphabets-list li').length && null !== selectedLetter && undefined !== selectedLetter) {
+        jQuery('ul.alphabets-list li:not(.clear)').removeClass('active');
+        jQuery('ul.alphabets-list li:not(.clear):contains("' + selectedLetter + '")').addClass('active');
+        jQuery('ul.alphabets-list li.clear').show();
+
+        alphabetsFilter();
+
+        if ('Clear' === selectedLetter) {
+            jQuery('.products-winners .product-main .product-item').show();
+            jQuery('ul.alphabets-list li.clear').hide();
+            jQuery('ul.alphabets-list li:not(.clear)').removeClass('active');
+        }
+
+    }
+    function alphabetsFilter() {
+        jQuery('.products-winners .product-item')
+            .filter(function () {
+                return (
+                    jQuery('.alphabets-list li:not(.clear).active').text().toLowerCase() != jQuery('.subtitle', this).text().toLowerCase().charAt(0)
+                );
+            }).hide();
+    }
+
+    // Search Filter
+    filterSearch = jQuery(searchId).val();
+    if (0 < jQuery('.products-winners').length) {
+        selectedItem = '.product-item';
+    }
+
+    if ('' !== filterSearch && undefined !== filterSearch) {
+        jQuery(`${selectedItem}`)
+            .filter(function () {
+                return (
+                    0 >
+                    jQuery(`${searchKeyword}`, this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
+                );
+            })
+            .hide();
+    }
+
+    if (0 < jQuery('.products-winners').length) {
+        selectedItem = '.products-winners';
+        jQuery(`${selectedItem}`)
+            .not(function () {
+                return 0 < jQuery(this).find('.product-item:visible').length;
+            })
+            .hide();
+    }
+
+    if (0 === jQuery(`${selectedItem}:visible`).length) {
+        if (0 === jQuery('.no-data').length) {
+            createResultNotFoundNode(`${selectedItem}`);
+        } else {
+            jQuery('.no-data').show();
+        }
     }
 }

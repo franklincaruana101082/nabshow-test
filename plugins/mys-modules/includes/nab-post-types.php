@@ -34,6 +34,7 @@ function nab_mys_sessions_taxonomies() {
 	);
 
 	$tracks_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $tracks_labels,
 		'show_in_rest'      => true,
@@ -61,6 +62,7 @@ function nab_mys_sessions_taxonomies() {
 	);
 
 	$category_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $category_labels,
 		'show_in_rest'      => true,
@@ -88,6 +90,7 @@ function nab_mys_sessions_taxonomies() {
 	);
 
 	$level_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $level_labels,
 		'show_in_rest'      => true,
@@ -115,6 +118,7 @@ function nab_mys_sessions_taxonomies() {
 	);
 
 	$type_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $type_labels,
 		'show_in_rest'      => true,
@@ -142,6 +146,7 @@ function nab_mys_sessions_taxonomies() {
 	);
 
 	$location_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $location_labels,
 		'show_in_rest'      => true,
@@ -242,6 +247,7 @@ function nab_mys_speakers_taxonomies() {
 	);
 
 	$category_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $category_labels,
 		'show_in_rest'      => true,
@@ -269,6 +275,7 @@ function nab_mys_speakers_taxonomies() {
 	);
 
 	$company_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $company_labels,
 		'show_in_rest'      => true,
@@ -366,6 +373,7 @@ function nab_mys_sponsors_taxonomies() {
 	);
 
 	$category_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $category_labels,
 		'show_in_rest'      => true,
@@ -393,6 +401,7 @@ function nab_mys_sponsors_taxonomies() {
 	);
 
 	$type_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $type_labels,
 		'show_in_rest'      => true,
@@ -489,6 +498,7 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	$category_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $category_labels,
 		'show_in_rest'      => true,
@@ -516,6 +526,7 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	$hall_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $hall_labels,
 		'show_in_rest'      => true,
@@ -543,6 +554,7 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	$pavilion_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $pavilion_labels,
 		'show_in_rest'      => true,
@@ -570,6 +582,7 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	$keyword_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $keyword_labels,
 		'show_in_rest'      => true,
@@ -597,6 +610,7 @@ function nab_mys_exhibitors_taxonomies() {
 	);
 
 	$trend_args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $trend_labels,
 		'show_in_rest'      => true,

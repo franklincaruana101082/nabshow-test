@@ -51,20 +51,36 @@
 					dynamic_sidebar( 'header-top-right-sidebar' );
 					?>
                 </div>
-                <div class="col-md-12">
-                    <nav id="site-navigation" class="main-navigation">
-                        <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                <div class="col-md-12 header-nav">
+					<div id="menuToggle">
+						<input type="checkbox" class="menu-hamburger show-sm" />
+						<div class="hamburger show-sm">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+						<nav id="site-navigation" class="main-navigation">
+							<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+								<?php
+								esc_html_e( 'Primary Menu', 'nabshow-lv' );
+								?>
+							</button>
 							<?php
-							esc_html_e( 'Primary Menu', 'nabshow-lv' );
+							wp_nav_menu( array(
+								'theme_location' => 'menu-1',
+								'menu_id'        => 'primary-menu',
+							) );
 							?>
-                        </button>
-						<?php
-						wp_nav_menu( array(
-							'theme_location' => 'menu-1',
-							'menu_id'        => 'primary-menu',
-						) );
-						?>
-                    </nav><!-- #site-navigation -->
+							<div class="mobile-bottom-nav header-right show-sm">
+								<?php
+								get_search_form();
+								?>
+								<?php
+								dynamic_sidebar( 'header-top-right-sidebar' );
+								?>
+							</div>
+						</nav><!-- #site-navigation -->
+					</div>
                 </div>
             </div>
         </div>
@@ -91,7 +107,9 @@
                 </p>
 			<?php
 			endif;
+
 			$nabshow_lv_description = get_bloginfo( 'description', 'display' );
+
 			if ( $nabshow_lv_description || is_customize_preview() ) :
 				?>
                 <p class="site-description">

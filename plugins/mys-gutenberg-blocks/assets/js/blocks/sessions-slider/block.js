@@ -211,7 +211,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                             <ToggleControl
                                 label={__('Is Listing Page?')}
                                 checked={listingPage}
-                                help={__('Note: This option only work in nabashow-lv theme.')}
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date', listingType: listingPage ? listingType : 'none', withContent: false }) }
                             />
                             { listingPage &&
@@ -220,7 +219,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                 selected={listingType}
                                 options={[
                                     { label: 'None', value: 'none' },
-                                    { label: 'Featured Session', value: 'featured' },
                                     { label: 'Opent to All', value: 'open-to-all' }
                                 ]}
                                 onChange={ ( option ) => setAttributes({ listingType: option })}

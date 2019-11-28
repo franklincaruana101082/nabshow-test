@@ -153,8 +153,8 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 wp_enqueue_script( 'mysgb-bx-slider',  plugins_url( 'assets/js/jquery.bxslider.min.js', __FILE__ ), array( 'jquery' ), null, true );
 
-                wp_enqueue_style( 'mysgb-blocks-style', plugin_dir_url( __FILE__ ) . 'assets/css/mysgb-blocks-admin.css' );
 	            wp_enqueue_style( 'mysgb-bxslider-style', plugin_dir_url( __FILE__ ) . 'assets/css/jquery.bxslider.css' );
+                wp_enqueue_style( 'mysgb-blocks-style', plugin_dir_url( __FILE__ ) . 'assets/css/mysgb-blocks-admin.css' );
 
             }
         }
@@ -216,7 +216,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-dynamic-slider-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-dynamic-slider-callback.php' );
 
             $html = ob_get_clean();
 
@@ -236,7 +236,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-session-slider-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-session-slider-callback.php' );
 
             $html = ob_get_clean();
 
@@ -256,7 +256,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-exhibitor-slider-callback.php' );
+            include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-exhibitor-slider-callback.php' );
 
             $html = ob_get_clean();
 
@@ -276,7 +276,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-speaker-slider-callback.php' );
+            include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-speaker-slider-callback.php' );
 
             $html = ob_get_clean();
 
@@ -296,7 +296,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-sponsor-partner-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-sponsor-partner-callback.php' );
 
             $html = ob_get_clean();
 
@@ -316,7 +316,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-product-winner-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-product-winner-callback.php' );
 
             $html = ob_get_clean();
 
@@ -336,7 +336,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-category-slider-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-category-slider-callback.php' );
 
             $html = ob_get_clean();
 
@@ -356,7 +356,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             ob_start();
 
-            require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-product-categories-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-product-categories-callback.php' );
 
             $html = ob_get_clean();
 
@@ -376,7 +376,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
 	        ob_start();
 
-	        require_once( plugin_dir_path( __FILE__ ) . 'includes/mysgb-product-slider-callback.php' );
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-product-slider-callback.php' );
 
 	        $html = ob_get_clean();
 

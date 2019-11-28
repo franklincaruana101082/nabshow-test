@@ -1361,3 +1361,18 @@ export const realtedContentPlanShow = (
     </g>
   </svg>
 );
+
+export const relatedContentDropdown = (
+  <svg version="1.1" id="relatedContentDropdown" width="334px" height="248.5px" viewBox="0 0 334 248.5" enableBackground="new 0 0 334 248.5">
+    <rect x="1.5" y="1.5" display="none" fill="#FFFFFF" stroke="#7B8080" stroke-width="3" stroke-miterlimit="10" width="331" height="245.5"/>
+    <g>
+      <rect x="1.5" y="98.953" fill="#7B8080" width="331" height="50.594"/>
+      <rect x="7.895" y="113.263" fill="#F2F2F2" width="270.562" height="21.975"/>
+      <g>
+        <path fill="#EFEFEF" d="M309.475,129.031c-0.3,0-0.601-0.115-0.83-0.344l-7.212-7.212c-0.459-0.458-0.459-1.203,0-1.662
+          c0.459-0.458,1.203-0.458,1.661,0l6.381,6.382l6.382-6.382c0.459-0.458,1.203-0.458,1.661,0c0.459,0.458,0.459,1.203,0,1.661
+          l-7.212,7.212C310.077,128.916,309.776,129.031,309.475,129.031z"/>
+      </g>
+    </g>
+  </svg>
+);

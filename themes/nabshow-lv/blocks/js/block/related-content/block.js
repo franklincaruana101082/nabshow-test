@@ -1,10 +1,10 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow, relatedContentDropdown } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, Button, Placeholder, CheckboxControl, SelectControl, PanelRow } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, TextControl, Button, Placeholder, CheckboxControl, SelectControl, PanelRow } = wpComponents;
 
     const relatedContentBlockIcon = (
         <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -127,7 +127,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout, sliderLayout, showFilter }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout, sliderLayout, showFilter, dropdownTitle }, setAttributes } = this.props;
 
             let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -233,6 +233,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <li className={'side-img-info' === listingLayout ? 'active side-img-info' : 'side-img-info'} onClick={() => setAttributes({ listingLayout: 'side-img-info' })}>{relatedContSideImgInfo}</li>
                                                 <li className={'side-info' === listingLayout ? 'active side-info' : 'side-info'} onClick={() => setAttributes({ listingLayout: 'side-info' })}>{realtedContentInfoOnly}</li>
                                                 <li className={'plan-your-show' === listingLayout ? 'active plan-your-show' : 'plan-your-show'} onClick={() => setAttributes({ listingLayout: 'plan-your-show' })}>{realtedContentPlanShow}</li>
+                                                <li className={'drop-down-list' === listingLayout ? 'active drop-down-list' : 'drop-down-list'} onClick={() => setAttributes({ listingLayout: 'drop-down-list' })}>{relatedContentDropdown}</li>
                                             </ul>
                                         </PanelRow>
                                         { ( 'destination' === listingLayout || 'featured-happenings' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout ) &&
@@ -240,6 +241,14 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 label={__('Show Filter')}
                                                 checked={showFilter}
                                                 onChange={() => setAttributes({ showFilter: ! showFilter }) }
+                                            />
+                                        }
+                                        { 'drop-down-list' === listingLayout &&
+                                            <TextControl
+                                                type="string"
+                                                label={__('Dropdown Title')}
+                                                name={dropdownTitle}
+                                                onChange={title => setAttributes({dropdownTitle: title }) }
                                             />
                                         }
                                     </div>
@@ -362,7 +371,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle }}
                     />
                 </Fragment>
 
@@ -446,6 +455,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         showFilter: {
             type: 'boolean',
             default: false
+        },
+        dropdownTitle: {
+            type: 'string'
         }
     };
 

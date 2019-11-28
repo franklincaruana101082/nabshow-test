@@ -71,7 +71,7 @@ if ( 'rand' === $order_by && $query->have_posts() ) {
 if ( $query->have_posts() ) {
 
 	if ( $listing_page ) {
-		require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-sponsor-filter.php' );
+		include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-sponsor-filter.php' );
 	}
 	?>
 	<div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">

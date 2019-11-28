@@ -159,7 +159,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 orderBy,
                 slideMargin,
                 arrowIcons,
-                featuredListing,
                 withThumbnail
             } = attributes;
 
@@ -194,22 +193,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             return (
                 <Fragment>
                     <InspectorControls>
-                        <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
+                        <PanelBody title={__('Data Settings')} initialOpen={true} className="range-setting">
                             <ToggleControl
                                 label={__('Is Listing Page?')}
                                 checked={listingPage}
-                                help={__('Note: This option only work in nabashow-lv theme.')}
-                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', featuredListing: listingPage ? featuredListing : false, withThumbnail: false }) }
+                                onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', withThumbnail: false }) }
                             />
-
-                            { listingPage &&
-                            <CheckboxControl
-                                className="related-featured"
-                                label="Featured Speaker"
-                                checked={featuredListing}
-                                onChange={() => setAttributes({ featuredListing: ! featuredListing }) }
-                            />
-                            }
 
                             {input}
 
@@ -449,7 +438,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, featuredListing: featuredListing, withThumbnail: withThumbnail }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail }}
                     />
                 </Fragment >
             );
@@ -523,10 +512,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
-        },
-        featuredListing: {
-            type: 'boolean',
-            default: false,
         },
         withThumbnail: {
             type: 'boolean',

@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $listing_page       = isset( $attributes['listingPage'] ) ? $attributes['listingPage'] : false;
-$featured_listing   = isset( $attributes['featuredListing'] ) ? $attributes['featuredListing'] : false;
 $with_thumbnail     = isset( $attributes['withThumbnail'] ) ? $attributes['withThumbnail'] : false;
 $block_post_type    = isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'speakers';
 $taxonomies         = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
@@ -34,8 +33,8 @@ $query              = false;
 $final_key          = '';
 $cache_key          = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
 
-if ( $featured_listing || ! empty( $cache_key ) || $with_thumbnail ) {
-    $final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $featured_listing . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );
+if ( ! empty( $cache_key ) || $with_thumbnail ) {
+    $final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );
     $query = get_transient( $final_key );
 } else {
     $speaker_key = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
@@ -67,7 +66,7 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
             $query_args[ 'tax_query' ] = $tax_query_args;
         }
 
-    } elseif ( ( $listing_page && $featured_listing ) || ( isset( $speaker_key ) && ! empty( $speaker_key ) ) ) {
+    } elseif ( isset( $speaker_key ) && ! empty( $speaker_key ) ) {
         $query_args[ 'tax_query' ] = array(
                 array(
                     'taxonomy' => 'speaker-categories',
@@ -88,7 +87,7 @@ if ( $query->have_posts() || $listing_page ) {
 
     if ( $listing_page ) {
 
-        require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-speaker-filter.php' );
+        include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-speaker-filter.php' );
 
         $this->date_picker = true;
         $this->mysgb_enqueue_front_script();
@@ -121,7 +120,7 @@ if ( $query->have_posts() || $listing_page ) {
             if ( $listing_page ) {
                 $featured_post  = has_term( 'featured', 'speaker-categories' ) ? 'featured' : '';
             ?>
-                <div class="item <?php echo esc_attr( $item_class ); echo ! $featured_listing && ! empty( $featured_post ) ? esc_attr( ' featured' ) : ''; ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
+                <div class="item <?php echo esc_attr( $item_class ); echo ! empty( $featured_post ) ? esc_attr( ' featured' ) : ''; ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
             <?php
             } else {
             ?>

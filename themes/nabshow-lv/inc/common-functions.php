@@ -11,6 +11,8 @@
  * @param $post_id
  *
  * @return \WP_Query
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_cross_tag_relation_posts( $post_id ) {
 
@@ -48,19 +50,24 @@ function nabshow_lv_cross_tag_relation_posts( $post_id ) {
 
 /**
  * Fetch the custom placeholder image when no featured image assigned to the post.
- * @since 1.0
+ *
  * @return string image url.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_empty_thumbnail_url() {
-	$nab_placeholder_image = get_template_directory_uri() . '/assets/images/nabshow-placeholder.jpg';
+
+    $nab_placeholder_image = get_template_directory_uri() . '/assets/images/nabshow-placeholder.jpg';
 
 	return $nab_placeholder_image;
 }
 
 /**
  * Return the default placeholder image when speaker have not featured image.
- * @since 1.0
+ *
  * @return string image url.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_speaker_thumbnail_url() {
 
@@ -71,8 +78,10 @@ function nabshow_lv_get_speaker_thumbnail_url() {
 
 /**
  * Return the default placeholder image when session have not featured image.
- * @since 1.0
+ *
  * @return string image url.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_session_thumbnail_url() {
 
@@ -82,11 +91,14 @@ function nabshow_lv_get_session_thumbnail_url() {
 }
 
 /**
- * Return pipe separated term list from given terms array
+ * Return pipe separated term list from given terms array.
+ *
  * @param array $terms
  * @param string $type
+ *
  * @return string
- * @since 1.0
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_pipe_separated_term_list( $terms = array(), $type = 'name' ) {
 
@@ -101,9 +113,11 @@ function nabshow_lv_get_pipe_separated_term_list( $terms = array(), $type = 'nam
 }
 
 /**
- * Create drop-down options for terms
+ * Create drop-down options for given taxonomy terms.
+ *
  * @param string $taxonomy
- * @since 1.0
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_term_list_options( $taxonomy = '' ) {
 
@@ -126,18 +140,23 @@ function nabshow_lv_get_term_list_options( $taxonomy = '' ) {
 }
 
 /**
- * Limited content for Session, exhibitors and speakers modal popup
+ * Limited content for Session, exhibitors and speakers modal popup.
+ *
  * @param $post_id
  * @param string $planner_url
+ *
  * @return string
+ *
+ * @since
  */
 function nabshow_lv_get_popup_content( $post_id, $planner_url = '' ) {
+
     if ( empty( $post_id ) ) {
         return '';
     }
 
     $limit_counter  = 293 + (int) strlen( $planner_url );
-	$strip_tag_text = wp_strip_all_tags( get_the_content( $post_id ) );
+	$strip_tag_text = wp_strip_all_tags( get_the_content( null, false, $post_id ) );
 	$final_content  = mb_strimwidth( $strip_tag_text, 0, $limit_counter, '...<a href="' . $planner_url . '" target="_blank">Read More</a>' );
 	$element_array  = array( 'a' => array( 'href' => array(), 'target' => array() ) );
 
@@ -145,75 +164,106 @@ function nabshow_lv_get_popup_content( $post_id, $planner_url = '' ) {
 }
 
 /**
- * Get mys show code
+ * Get mys show code from mys module.
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_mys_show_code() {
-	$nab_mys_urls = get_option( 'nab_mys_urls' );
+
+    $nab_mys_urls = get_option( 'nab_mys_urls' );
 	$show_code    = isset( $nab_mys_urls['show_code'] ) ? $nab_mys_urls['show_code'] : '';
+
     return $show_code;
 }
 
 /**
  * Renders an HTML-serialized form of a block object
+ *
  * @param array $block The block being rendered.
- * @return string The HTML-serialized form of the block
+ *
+ * @return string The HTML-serialized form of the block.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_serialize_block( $block ) {
-	// Non-block content has no block name.
+
+    // Non-block content has no block name.
 	if ( null === $block['blockName'] ) {
 		return $block['innerHTML'];
 	}
+
 	$unwanted  = array( '--', '<', '>', '&', '\"' );
 	$wanted    = array( '\u002d\u002d', '\u003c', '\u003e', '\u0026', '\u0022' );
 	$name      = 0 === strpos( $block['blockName'], 'core/' ) ? substr( $block['blockName'], 5 ) : $block['blockName'];
 	$has_attrs = ! empty( $block['attrs'] );
 	$attrs     = $has_attrs ? str_replace( $unwanted, $wanted, wp_json_encode( $block['attrs'] ) ) : '';
+
 	// Early abort for void blocks holding no content.
 	if ( empty( $block['innerContent'] ) ) {
 		return $has_attrs
 			? "<!-- wp:{$name} {$attrs} /-->"
 			: "<!-- wp:{$name} /-->";
 	}
+
 	$output            = $has_attrs
 		? "<!-- wp:{$name} {$attrs} -->\n"
 		: "<!-- wp:{$name} -->\n";
+
 	$inner_block_index = 0;
+
 	foreach ( $block['innerContent'] as $chunk ) {
 		$output .= null === $chunk
 			? nabshow_lv_serialize_block( $block['innerBlocks'][ $inner_block_index ++ ] )
 			: $chunk;
 		$output .= "\n";
 	}
+
 	$output .= "<!-- /wp:{$name} -->";
 
 	return $output;
 }
 
 /**
- * Renders an HTML-serialized form of a list of block objects
+ * Renders an HTML-serialized form of a list of block objects.
+ *
  * @param array $blocks The list of parsed block objects.
+ *
  * @return string The HTML-serialized form of the list of blocks.
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_serialize_blocks( $blocks ) {
-	return implode( "\n\n", array_map( 'nabshow_lv_serialize_block', $blocks ) );
+
+    return implode( "\n\n", array_map( 'nabshow_lv_serialize_block', $blocks ) );
 }
 
 /**
- * Search block using classname
+ * Search block in the post content using classname.
+ *
  * @param $block
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_search_block( $block ) {
-	if ( isset ( $block['attrs']['className'] ) ) {
-		return $block['attrs']['className'] === 'related-content-with-block-main';
+
+    if ( isset ( $block['attrs']['className'] ) ) {
+
+        return $block['attrs']['className'] === 'related-content-with-block-main';
 	}
 }
 
 /**
- * Get day page link according to day
+ * Get day page link according to day.
+ *
  * @param string $day
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_day_page_link( $day = '' ) {
 
@@ -230,9 +280,13 @@ function nabshow_lv_get_day_page_link( $day = '' ) {
 }
 
 /**
- * Get hall page link according to hall name
+ * Get hall page link according to hall name.
+ *
  * @param string $hall
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabhsow_lv_get_hall_page_link( $hall = '' ) {
 
@@ -256,16 +310,21 @@ function nabhsow_lv_get_hall_page_link( $hall = '' ) {
 }
 
 /**
- * Custom excerpt generate function
+ * Generate custom from the post excerpt if default excerpt is empty.
+ *
  * @param $post_id
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_excerpt( $post_id = null ) {
 
     $excerpt = isset( $post_id ) && ! empty( $post_id ) ? get_the_excerpt( $post_id ) : get_the_excerpt();
 
     if ( empty( $excerpt ) ) {
-	    $excerpt        = isset( $post_id ) && ! empty( $post_id ) ? get_the_content( null, false, $post_id ) : get_the_content();
+
+        $excerpt        = isset( $post_id ) && ! empty( $post_id ) ? get_the_content( null, false, $post_id ) : get_the_content();
 	    $excerpt        = wp_strip_all_tags( $excerpt );
 	    $excerpt        = strip_shortcodes( $excerpt );
 	    $excerpt_length = 25;
@@ -278,19 +337,26 @@ function nabshow_lv_excerpt( $post_id = null ) {
 }
 
 /**
- * Generate cache key according to taxonomies and terms
+ * Generate cache key according to taxonomies and terms.
+ *
  * @param $taxonomies
  * @param $terms
+ *
  * @return string
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_taxonomy_term_cache_key( $taxonomies, $terms ) {
 
 	$cache_key = '';
 
 	if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-				$cache_key .= $taxonomy . '-' . implode('-', $terms->{$taxonomy} );
+
+	    foreach ( $taxonomies as $taxonomy ) {
+
+	        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+
+	            $cache_key .= $taxonomy . '-' . implode('-', $terms->{$taxonomy} );
 			}
 		}
 	}
@@ -300,20 +366,27 @@ function nabshow_lv_get_taxonomy_term_cache_key( $taxonomies, $terms ) {
 }
 
 /**
- * Prepare tax_query argument according to given taxonomies and terms
+ * Prepare tax_query argument according to given taxonomies and terms.
+ *
  * @param $taxonomies
  * @param $terms
  * @param $taxonomy_relation
+ *
  * @return array
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation = 'OR' ) {
 
 	$tax_query_args = array( 'relation' => $taxonomy_relation );
 
 	if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
-				$tax_query_args[] = array (
+
+	    foreach ( $taxonomies as $taxonomy ) {
+
+	        if ( isset($terms->{$taxonomy}) && count($terms->{$taxonomy}) > 0 ) {
+
+	            $tax_query_args[] = array (
 					'taxonomy' => $taxonomy,
 					'field'    => 'slug',
 					'terms'    => $terms->{$taxonomy},
@@ -327,8 +400,11 @@ function nabshow_lv_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relat
 }
 
 /**
- * Prepare post types array for search result page
+ * Prepare post types array for search result page with label.
+ *
  * @return array
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_search_result_post_types() {
 
@@ -348,9 +424,12 @@ function nabshow_lv_get_search_result_post_types() {
 
 /**
  * Generate search result post link according to post type
+ *
  * @param $current_post_type
  * @param $current_post_id
  * @param $post_title
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_search_result_post_link( $current_post_type, $current_post_id, $post_title ) {
 
