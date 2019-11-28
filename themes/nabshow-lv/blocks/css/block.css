@@ -537,6 +537,7 @@ ul.slider-arrow-main li.active{box-shadow:1px 0 4px 0 #00000091}
 .session.with-masonry .item h4,.session.with-featured .item h4{height:auto;min-height:auto}
 .session .item::after{content:'';display:inline-block;width:100%}
 .session .item::before{content:'';display:inline-block;width:94%;height:94%;position:absolute;border:3px solid #d9d9d9;top:50%;left:50%;transform:translate(-50%, -50%);z-index:-1}
+.session.with-featured .item *, .session.with-masonry .item *, .session.with-featured .item::before, .session.with-masonry .item::before{z-index:1}
 .session.with-featured .item img{margin-bottom:30px}.speaker-single{display:flex;width:100%;margin-bottom:30px;justify-content:flex-start;align-items:center}
 .speaker-single .img-box{display:table;width:calc(100% - 78%);float:left}
 .speaker-single .info-box{display:inline-block;text-align:left;vertical-align:middle;width:calc(100% - 22%);padding-left:17px}
@@ -553,6 +554,8 @@ ul.ss-off-options li.active, ul.ss-on-options li.active{box-shadow:0 0 10px #008
 .session .item .speaker-single h4{font-size:18px}
 .session .item p{display:block;width:100%}
 a.detail-list-modal-popup{text-decoration:none}
+.editor-styles-wrapper .editor-block-list__layout .rounded-circle a{color:#fff}
+select.plan-your-show-drp{width:223px;height:37px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;cursor:pointer}
 
 /* quote-slider */
 .quote-slider .quote-inner .quote-item{margin:0 0 20px 0;padding:20px 30px;box-shadow:0 0 4px 0 #00000061;position:relative}
@@ -695,7 +698,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:Gotham Bold;font-size:16px;t
 .bg-img-setting>button.components-button.image-button{margin-bottom:15px}
 .edit-post-settings-sidebar__panel-block .custom-inspactor-setting .components-panel__body .components-panel__body.bg-setting .components-base-control .components-base-control{padding-left:0;padding-right:0;padding-right:40px}
 .components-toggle-control .components-base-control__field span.components-form-toggle{position:absolute;right:0;margin:0}
-.components-toggle-control .components-base-control__field .components-toggle-control__label{padding-right:40px}
+.components-toggle-control .components-base-control__field .components-toggle-control__label{padding-right:80px}
 .components-toggle-control .components-base-control__field{position:relative}
 .components-base-control__help{font-size:12px;font-style:italic;color:#999;font-family:"-apple-system,BlinkMacSystemFont", "Segoe UI", 'Roboto', "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.components-toggle-control{position:relative}
@@ -1259,7 +1262,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .browse-open-to-all-filter .search-box, .browse-learn-filter .display-flex-box .search-box{min-width:330px;max-width:100%;margin-bottom:0}
 .browse-filter .search-box .search-item::before{right:10px;left:initial!important}
 .browse-filter .search-box input#browse-search{padding:0 40px 0 10px}
-.fab-filter select#faq-category-drp{width:210px;height:40px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a}
+.fab-filter select#faq-category-drp, select#team-department{width:210px;height:40px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a}
 .fab-filter .keyword{flex-basis:30%}
 .fab-filter .search-box{margin-right:35px;flex-basis:50%}
 .fab-filter{display:flex;margin-bottom:30px}
@@ -1274,6 +1277,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .box-main-filter.main-filter.related-content-filter{padding:0 15px}
 .browse-product-categories-filter, .browse-happenings-filter, .browse-destinations-filter, .browse-learn-filter{padding:0 15px}
 .related-main-wrapper .related-content-with-block-main .opportunities-filter{display:none}
+.meet-team-select .left-select>h4{margin-bottom:10px}
 
 /* toggle css */
 .components-form-toggle{width:70px;height:30px;background:#fff;border:1px solid #0f6cb6;padding:0 0;display:flex;align-items:center;justify-content:center;box-shadow:1px 1px 1px 0 #00000024}

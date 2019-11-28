@@ -878,6 +878,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                         $new_this_year  = get_field( 'new_this_year',  $child->ID );
                                         $all_types      = get_field( 'page_type',  $child->ID );
                                         $is_open_to     = get_field( 'is_open_to',  $child->ID );
+                                        $is_open_to     = 'Select Open To' === $is_open_to ? '' : $is_open_to;
                                         $page_hall      = ! empty( $all_halls ) ? implode( ',', $all_halls ) : '';
                                         $page_type      = ! empty( $all_types ) ? implode(',', $all_types ) : '';
                                         $date           = ! empty( $date ) ? date_format( date_create( $date ), 'd-M-Y' ) : '';
@@ -945,6 +946,8 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
                                                                 } elseif ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
                                                                     $sub_title = implode(' | ', $field_val );
+                                                                } elseif ( 'is_open_to' === $field && ! empty( $field_val ) ) {
+                                                                    $sub_title = 'Select Open To' === $field_val ? '' : $field_val;
                                                                 } else {
                                                                     $sub_title = $field_val;
                                                                 }
@@ -952,16 +955,18 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                                 $sub_title = 'Registration Access';
                                                             }
 
+                                                            if ( ! empty( $sub_title ) ) {
                                                             ?>
                                                                 <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
                                                             <?php
+                                                            }
                                                         }
                                                     ?>
                                                         </div>
                                                     <?php
                                                     }
                                                 }
-                                                $page_excerpt = get_the_excerpt( $child->ID );
+                                                $page_excerpt = nabshow_lv_excerpt( $child->ID );
                                                 if ( empty( $page_excerpt ) ) {
                                                     $page_excerpt = 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever…';
                                                 }

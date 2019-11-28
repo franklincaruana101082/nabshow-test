@@ -19,7 +19,7 @@ $class_name         = isset( $attributes['className'] ) && ! empty( $attributes[
 
 if ( $show_filter ) {
 
-	require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-product-winner-filter.php' );
+	include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-product-winner-filter.php' );
 }
 
 foreach ( $taxonomies as $current_taxonomy ) {

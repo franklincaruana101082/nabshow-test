@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow, relatedContentDropdown } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
@@ -233,7 +233,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <li className={'side-img-info' === listingLayout ? 'active side-img-info' : 'side-img-info'} onClick={() => setAttributes({ listingLayout: 'side-img-info' })}>{relatedContSideImgInfo}</li>
                                                 <li className={'side-info' === listingLayout ? 'active side-info' : 'side-info'} onClick={() => setAttributes({ listingLayout: 'side-info' })}>{realtedContentInfoOnly}</li>
                                                 <li className={'plan-your-show' === listingLayout ? 'active plan-your-show' : 'plan-your-show'} onClick={() => setAttributes({ listingLayout: 'plan-your-show' })}>{realtedContentPlanShow}</li>
-                                                <li className={'drop-down-list' === listingLayout ? 'active drop-down-list' : 'drop-down-list'} onClick={() => setAttributes({ listingLayout: 'drop-down-list' })}>{realtedContentPlanShow}</li>
+                                                <li className={'drop-down-list' === listingLayout ? 'active drop-down-list' : 'drop-down-list'} onClick={() => setAttributes({ listingLayout: 'drop-down-list' })}>{relatedContentDropdown}</li>
                                             </ul>
                                         </PanelRow>
                                         { ( 'destination' === listingLayout || 'featured-happenings' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout ) &&
@@ -246,6 +246,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         { 'drop-down-list' === listingLayout &&
                                             <TextControl
                                                 type="string"
+                                                label={__('Dropdown Title')}
                                                 name={dropdownTitle}
                                                 onChange={title => setAttributes({dropdownTitle: title }) }
                                             />

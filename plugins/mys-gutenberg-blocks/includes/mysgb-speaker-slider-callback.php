@@ -87,7 +87,7 @@ if ( $query->have_posts() || $listing_page ) {
 
     if ( $listing_page ) {
 
-        require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-speaker-filter.php' );
+        include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-speaker-filter.php' );
 
         $this->date_picker = true;
         $this->mysgb_enqueue_front_script();

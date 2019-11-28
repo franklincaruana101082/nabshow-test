@@ -25,7 +25,7 @@ if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $pare
     $term_counter = 1;
 
 	if ( $show_filter ) {
-		require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-product-categories-filter.php' );
+		include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-product-categories-filter.php' );
     }
     ?>
 	<div class="category-listing-main <?php echo esc_attr( $class_name ); ?>">

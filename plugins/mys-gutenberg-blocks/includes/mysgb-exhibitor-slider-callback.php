@@ -88,7 +88,7 @@ if ( $query->have_posts() || $listing_page ) {
 
     if ( $listing_page ) {
 
-        require_once( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-exhibitor-filter.php' );
+        include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-exhibitor-filter.php' );
     }
 
     $show_code = $this->mysgb_get_mys_show_code();
