@@ -252,38 +252,43 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             />
                                         }
                                     </div>
-                                    <label>{__('Select Fields to Display')}</label>
-                                    <div className="fix-height-select">
-
-                                        {this.state.displayFieldsList.map((field, index) => (
-
-                                            <Fragment key={index}>
-
-                                                <CheckboxControl checked={-1 < displayField.indexOf(field.value)} label={field.label} name="displayfields[]" value={field.value} onChange={(isChecked) => {
-
-                                                    let index,
-                                                        tempDisplayField = [...displayField];
-
-                                                    if (isChecked) {
-                                                        tempDisplayField.push(field.value);
-                                                    } else {
-                                                        index = tempDisplayField.indexOf(field.value);
-                                                        tempDisplayField.splice(index, 1);
-                                                    }
-
-                                                    this.props.setAttributes({ displayField: tempDisplayField });
-                                                }
-                                                }
-                                                />
-
-                                            </Fragment>
-
-                                        ))
-                                        }
-                                    </div>
-
                                 </Fragment>
                             }
+
+                            <label>{__('Select Fields to Display')}</label>
+
+                            <div className="fix-height-select">
+
+                                {this.state.displayFieldsList.map((field, index) => (
+
+                                    <Fragment key={index}>
+
+                                        <CheckboxControl checked={-1 < displayField.indexOf(field.value)} label={field.label} name="displayfields[]" value={field.value} onChange={(isChecked) => {
+
+                                            let index,
+                                                tempDisplayField = [...displayField];
+
+                                            if (isChecked) {
+                                                tempDisplayField.push(field.value);
+                                            } else {
+                                                index = tempDisplayField.indexOf(field.value);
+                                                tempDisplayField.splice(index, 1);
+                                            }
+
+                                            this.props.setAttributes({ displayField: tempDisplayField });
+                                            if ( sliderActive ) {
+                                                this.setState({ bxinit: true });
+                                            }
+                                        }
+                                        }
+                                        />
+
+                                    </Fragment>
+
+                                ))
+                                }
+                            </div>
+
                             {sliderActive &&
                                 <Fragment>
                                     <ToggleControl

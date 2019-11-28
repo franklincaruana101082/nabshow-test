@@ -1010,7 +1010,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box.key-contacts{text-align:left}
 .row.related-content-rowbox .related-content-box.key-contacts .read-more::after{content:'';margin:0}
 .row.related-content-rowbox .related-content-box.product-categories, .row.related-content-rowbox .related-content-box.browse-happenings{border:0;height:100%;padding:0}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span, .row.related-content-rowbox .related-content-box.destination .info-block>span{padding:0 0 0 5px;position:relative}
+.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span, .row.related-content-rowbox .related-content-box.destination .info-block>span{padding:0 0 0 5px;position:relative;display:block}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date::after{content:'|';position:absolute;right:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date{padding-right:20px}
 .row.related-content-rowbox .related-content-box.featured-happenings, .row.related-content-rowbox .related-content-box.exhibitor-resources{padding:0 0 30px}
@@ -1021,8 +1021,6 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{font-family:'Gotham Bold';font-size:18px}
 .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .related-content-box.key-contacts h2.title{font-family:'Gotham Bold';font-size:20px}
 .exhibitor-resources-page .is-block-center.related-content-with-block-main p.has-medium-font-size{font-size:14px}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title::before,.row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title::before{content:'|';padding:0 7px 0 0}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title:first-child::before,.row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title:first-child::before{content:'';padding:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title:empty,.row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title:empty{display:none}
 
 /* news-conference-schedule css */

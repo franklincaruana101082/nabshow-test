@@ -438,6 +438,7 @@ body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:16px}
 
 /* header css */
 #page{padding-top:266px}
+.logged-in #page{padding-top:235px}
 .site-header{color:#000000;padding:35px 0;box-shadow:0 0 16px 0 rgba(119, 119, 119, 0.9);background:#fff;z-index:11111;height:266px;position:absolute;top:0;right:0;left:0}
 .site-header a{color:#000000;text-decoration:underline}
 .site-header a:hover{text-decoration:none}
@@ -1262,10 +1263,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .row.related-content-rowbox .related-content-box.key-contacts .read-more::after{content:'';margin:0}
 .row.related-content-rowbox .related-content-box.product-categories, .row.related-content-rowbox .related-content-box.browse-happenings{border:0;height:100%;padding:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span, .row.related-content-rowbox .related-content-box.destination .info-block>span{padding:0 0 0 5px;position:relative}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title, .row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title{display:inline}
+.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title, .row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title{display:block;margin:8px 0 0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block+p, .row.related-content-rowbox .related-content-box.destination .info-block+p{margin-top:15px}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title::before,.row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title::before{content:'|';padding:0 7px 0 0}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title:first-child::before,.row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title:first-child::before{content:'';padding:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.sub-title:empty,.row.related-content-rowbox .related-content-box.destination .info-block>span.sub-title:empty{display:none}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date::after{content:'|';position:absolute;right:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date{padding-right:20px}
