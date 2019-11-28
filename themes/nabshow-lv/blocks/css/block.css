@@ -296,6 +296,7 @@ div[data-type="nab/blc"]{padding-top:5px;padding-bottom:5px}
 .wp-block-columns.button-column-auto .wp-block-column{flex-basis:auto;margin-right:15px;margin-left:0}
 .wp-block-columns.button-column-auto .wp-block-column:last-child{margin-right:0}
 body.modal-open{overflow:hidden}
+ol li a, ul li a{vertical-align:top}
 
 /* Default class css */
 
@@ -1274,6 +1275,23 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .browse-product-categories-filter, .browse-happenings-filter, .browse-destinations-filter, .browse-learn-filter{padding:0 15px}
 .related-main-wrapper .related-content-with-block-main .opportunities-filter{display:none}
 
+/* toggle css */
+.components-form-toggle{width:70px;height:30px;background:#fff;border:1px solid #0f6cb6;padding:0 0;display:flex;align-items:center;justify-content:center;box-shadow:1px 1px 1px 0 #00000024}
+.components-form-toggle span{display:none!important}
+.components-form-toggle input{width:50px!important;margin:0!important;right:0}
+.components-form-toggle::after{content:"ON";right:0;color:#000!important}
+.components-form-toggle::before{content:"OFF";left:0;color:#fff!important}
+.components-form-toggle::before, .components-form-toggle::after{position:absolute;top:0;width:50%;height:100%;display:flex;align-items:center;justify-content:center;border:none!important;color:#fff;font-size:11px;z-index:9;transition:0.5s all}
+.components-form-toggle svg{display:none}
+.components-form-toggle.is-checked::before{background:none;color:#000!important}
+.components-form-toggle.is-checked::after{color:#fff!important}
+.components-form-toggle input[type=checkbox]{width:70px!important;height:30px!important;margin:0!important;padding:0!important;z-index:99!important}
+.inspector-field.inspector-field-Numberofitems+.components-toggle-control label{padding-right:70px}
+.components-form-toggle span.components-form-toggle__thumb{display:block!important;background:#0f6cb6!important;border:none!important;top:0;bottom:0;left:0;right:0;width:50%;height:100%;z-index:0;border-radius:0!important;-webkit-font-smoothing:antialiased;transform-origin:0% 0%;transform:translate(0, 0);transition:transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1)}
+.components-form-toggle.is-checked span.components-form-toggle__thumb{-webkit-font-smoothing:antialiased;transform-origin:100% 0%;transform:translate(100%, 0);transition:transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1)}
+
+/* toggle css */
+
 ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
 .browse-product-categories-filter .select-items.col-lg-12{width:100%}
 .browse-product-categories-filter .col-12.display-flex-box .browse-select.category{min-width:200px;max-width:100%;margin-right:30px}
@@ -1291,3 +1309,5 @@ ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
 .nab-box-slider.less-items{display:flex;flex-wrap:wrap;margin:0 -15px}
 .nab-box-slider.less-items .item{padding:0 15px;width:25%;border:0}
 .related-content-slider-info.nab-box-slider.less-items .item-inner, .related-content-slider-events.nab-box-slider.less-items .item-inner{border:3px solid #d9d9d9;height:100%;background:#fff}
+
+.is-reusable{box-shadow:0 0 3px 0 #ffff00;border:2px solid #e2e21a}

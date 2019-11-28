@@ -435,14 +435,14 @@ span.nab-media-slider-overlay{position:absolute!important;top:0;bottom:0;left:0;
 body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:16px}
 
 /* header css */
-.site-header{color:#000000;padding:35px 0;box-shadow:0 0 16px 0 rgba(119, 119, 119, 0.9);background:#fff;transition:all 0.5s ease-in-out;z-index:11111}
+.site-header{color:#000000;padding:35px 0;box-shadow:0 0 16px 0 rgba(119, 119, 119, 0.9);background:#fff;z-index:11111;height:266px}
 .site-header a{color:#000000;text-decoration:underline}
 .site-header a:hover{text-decoration:none}
 .site-header ul{list-style:none;margin:0;padding:0}
 .blue-btn{background-color:#0f6cb6;color:#fff;border-radius:0;padding:7px 35px}
 .site-header #site-navigation ul.menu li a.blue-btn{text-transform:capitalize;color:#fff;font-size:14px}
 .super-menu-main .super-menu-icons{transition:inherit}
-.super-menu-main .super-menu-icons li{margin-bottom:10px;margin-left:15px;display:inline-block}
+.super-menu-main .super-menu-icons li{margin-bottom:10px;margin-left:15px;display:inline-block;vertical-align:top}
 .super-menu-main .super-menu-icons li i.fa{font-size:24px;cursor:pointer}
 .super-menu-main .super-menu li{margin-left:12px;display:inline-block}
 .site-header #site-navigation ul.menu{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;justify-content:space-between;align-items:center}
@@ -450,11 +450,10 @@ body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:16px}
 .site-header #site-navigation ul.menu>li p.menu-item-description{font-size:10px;color:#bbbbbb;display:block;text-transform:initial;font-family:"Gotham Book", sans-serif;transition:all 0.3s ease-in-out;margin-bottom:0}
 .site-header #site-navigation ul.menu>li>a{text-decoration:none;font-size:18px;font-family:"Gotham Bold", sans-serif;text-transform:uppercase;width:100%}
 .site-header #site-navigation ul.menu li.menu-has-children ul.sub-menu{display:none}
-.site-header #logo img{max-width:100%;transition:all 0.3s ease-in-out}
+.site-header #logo img{max-width:100%}
 .site-header .header-left span{display:block;font-size:11px;margin-bottom:10px}
 .site-header .header-left a,.super-menu-main>span,.site-header a{font-size:11px}
-nav#site-navigation{margin-top:40px;transition:all 0.3s ease-in-out;position:static}
-.sticky{position:fixed;top:0;width:100%}
+nav#site-navigation{margin-top:40px;position:static}
 .site-header.sticky .header-left>a,.site-header.sticky #site-navigation ul li span,.sticky .super-menu-main>span,.sticky .super-menu-main>.super-menu{display:none}
 .site-header.sticky #logo img{max-width:240px}
 .site-header.sticky{padding:26px 0}
@@ -1536,9 +1535,8 @@ header .header-right.active .fa-search::before{content:"\f00d"}
 .related-main-wrapper .related-content-with-block-main .opportunities-filter{display:none}
 
 /* Menu css */
-header#masthead{position:fixed;width:100%;transition:all 0.4s ease;height:266px}
-header#masthead.sticky{height:104px}
-.site-content{padding-top:265px}
+.sticky{height:104px;position:fixed;z-index:99;width:100%;top:0;background:#fff;box-shadow:0 1px 3px rgba(0, 0, 0, 0.11);-webkit-animation-name:fadeInDown;animation-name:fadeInDown;-webkit-animation-duration:900ms;animation-duration:900ms;-webkit-animation-timing-function:cubic-bezier(0.2, 1, 0.22, 1);animation-timing-function:cubic-bezier(0.2, 1, 0.22, 1);-webkit-animation-delay:0s;animation-delay:0s;-webkit-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-direction:normal;animation-direction:normal;-webkit-animation-fill-mode:none;animation-fill-mode:none;-webkit-animation-play-state:running;animation-play-state:running;border-bottom:0;display:block}
+@-webkit-keyframes fadeInDown{from{opacity:0;-webkit-transform:translate3d(0, -100%, 0);transform:translate3d(0, -100%, 0)}to{opacity:1;-webkit-transform:none;transform:none}}@keyframes fadeInDown{from{opacity:0;-webkit-transform:translate3d(0, -100%, 0);transform:translate3d(0, -100%, 0)}to{opacity:1;-webkit-transform:none;transform:none}}
 .sticky .col-md-4.header-left{display:none}
 .sticky .header-center.col-md-3{display:flex;align-items:center}
 .sticky .super-menu-main .super-menu-icons li.hide{display:none}
@@ -1549,8 +1547,8 @@ header#masthead.sticky{height:104px}
 .sticky .super-menu-main .super-menu-icons li,.sticky.site-header #site-navigation ul li{margin-bottom:0}
 .sticky .row{height:100%;align-items:center;justify-content:space-around;position:relative}
 .header-right form.search-form{width:283px;z-index:11;padding:5px;top:-200%;right:115px}
-.sticky .header-right form.search-form{right:130px}
-.sticky .header-right.active form.search-form{top:40px;right:130px}
+.sticky .header-right form.search-form{right:0}
+.sticky .header-right.active form.search-form{top:50px;right:0}
 .header-right form.search-form label span.screen-reader-text{display:none}
 header .header-right.active .search-form input.search-submit{float:right}
 .sticky .header-right.active form.search-form label, header .header-right.active .search-form label,header .header-right .search-form label{display:block;margin:0;width:100%}
@@ -1561,7 +1559,8 @@ header .show-sm{display:none}
 
 /* Mega Menu Static */
 .site-header #site-navigation ul.sub-menu{position:absolute;left:0;width:100%;background:#fff;top:150%;transition:all 0.5s ease-in-out;opacity:0}
-.site-header #site-navigation ul.sub-menu li{text-align:left;margin:0;width:100%}
+.site-header #site-navigation ul.sub-menu li{text-align:left;margin:0;width:100%;height:0}
+.site-header #site-navigation .clicked ul.sub-menu li{height:auto}
 .site-header #site-navigation ul.menu,.site-header #site-navigation ul.menu>li{position:static}
 .site-header #site-navigation ul.sub-menu ul{position:static;border:0;box-shadow:none;display:inline-block;width:100%;float:none}
 .site-header #site-navigation .submenu-child a{width:auto;font-size:inherit}

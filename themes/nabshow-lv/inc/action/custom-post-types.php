@@ -78,6 +78,7 @@ function nabshow_lv_featured_category_taxonomies() {
 	);
 
 	$args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $labels,
 		'show_in_rest'      => true,
@@ -162,6 +163,7 @@ function nabshow_lv_register_news_releases_taxonomy() {
 	);
 
 	$args = array(
+		'public'            => false,
 		'hierarchical'      => true,
 		'labels'            => $labels,
 		'show_in_rest'      => true,
@@ -187,7 +189,7 @@ function nabshow_lv_thought_gallery_archive() {
         'name'               => _x( 'Thought Gallery', 'post type general name', 'nabshow-lv' ),
         'singular_name'      => _x( 'Thought Gallery', 'post type singular name', 'nabshow-lv' ),
         'add_new_item'       => __( 'Add New', 'nabshow-lv' ),
-        'all_items'         => __('All Thought Galleries', 'nabshow-lv'),
+        'all_items'          => __('All Thought Galleries', 'nabshow-lv'),
         'edit_item'          => __( 'Edit', 'nabshow-lv' ),
         'new_item'           => __( 'New', 'nabshow-lv' ),
         'view_item'          => __( 'View', 'nabshow-lv' ),
@@ -209,7 +211,7 @@ function nabshow_lv_thought_gallery_archive() {
         'hierarchical'       => true,
         'menu_position'      => null,
         'menu_icon'          => 'dashicons-format-gallery',
-        'show_in_rest' => true,
+        'show_in_rest'       => true,
         'supports'           => array(
             'title',
             'editor',
@@ -237,31 +239,32 @@ function nabshow_lv_create_featured_tag_taxonomies(){
 
 	// Add new taxonomy, NOT hierarchical (like tags)
     $labels = array(
-        'name' => _x( 'Tags', 'taxonomy general name', 'nabshow-lv' ),
-        'singular_name' => _x( 'Tag', 'taxonomy singular name', 'nabshow-lv' ),
-        'search_items' =>  __( 'Search Tags', 'nabshow-lv' ),
-        'popular_items' => __( 'Popular Tags', 'nabshow-lv' ),
-        'all_items' => __( 'All Tags', 'nabshow-lv' ),
-        'parent_item' => null,
-        'parent_item_colon' => null,
-        'edit_item' => __( 'Edit Tag', 'nabshow-lv' ),
-        'update_item' => __( 'Update Tag', 'nabshow-lv' ),
-        'add_new_item' => __( 'Add New Tag', 'nabshow-lv' ),
-        'new_item_name' => __( 'New Tag Name', 'nabshow-lv' ),
-        'separate_items_with_commas' => __( 'Separate tags with commas', 'nabshow-lv' ),
-        'add_or_remove_items' => __( 'Add or remove tags', 'nabshow-lv' ),
-        'choose_from_most_used' => __( 'Choose from the most used tags', 'nabshow-lv' ),
-        'menu_name' => __( 'Tags', 'nabshow-lv' ),
+        'name'                          => _x( 'Tags', 'taxonomy general name', 'nabshow-lv' ),
+        'singular_name'                 => _x( 'Tag', 'taxonomy singular name', 'nabshow-lv' ),
+        'search_items'                  =>  __( 'Search Tags', 'nabshow-lv' ),
+        'popular_items'                 => __( 'Popular Tags', 'nabshow-lv' ),
+        'all_items'                     => __( 'All Tags', 'nabshow-lv' ),
+        'parent_item'                   => null,
+        'parent_item_colon'             => null,
+        'edit_item'                     => __( 'Edit Tag', 'nabshow-lv' ),
+        'update_item'                   => __( 'Update Tag', 'nabshow-lv' ),
+        'add_new_item'                  => __( 'Add New Tag', 'nabshow-lv' ),
+        'new_item_name'                 => __( 'New Tag Name', 'nabshow-lv' ),
+        'separate_items_with_commas'    => __( 'Separate tags with commas', 'nabshow-lv' ),
+        'add_or_remove_items'           => __( 'Add or remove tags', 'nabshow-lv' ),
+        'choose_from_most_used'         => __( 'Choose from the most used tags', 'nabshow-lv' ),
+        'menu_name'                     => __( 'Tags', 'nabshow-lv' ),
     );
 
     register_taxonomy('featured-tag',array( 'not-to-be-missed' ),array(
-        'hierarchical' => false,
-        'labels' => $labels,
-        'show_in_rest' => true,
-        'show_ui' => true,
+        'public'                => false,
+    	'hierarchical'          => false,
+        'labels'                => $labels,
+        'show_in_rest'          => true,
+        'show_ui'               => true,
         'update_count_callback' => '_update_post_term_count',
-        'query_var' => true,
-        'rewrite' => array( 'slug' => 'featured-tag' ),
+        'query_var'             => true,
+        'rewrite'               => array( 'slug' => 'featured-tag' ),
     ));
 }
 
@@ -325,7 +328,7 @@ function nabshow_lv_thought_gallery_tags_taxonomies() {
         'hierarchical'      => false,
         'labels'            => $labels,
         'show_ui'           => true,
-        'show_in_rest' => true,
+        'show_in_rest'      => true,
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array( 'slug' => 'thought-gallery-tags' ),
@@ -357,6 +360,7 @@ function nabshow_lv_page_category_taxonomy() {
     );
 
     $args = array(
+    	'public'            => false,
         'hierarchical'      => true,
         'labels'            => $labels,
         'show_in_rest'      => true,

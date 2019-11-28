@@ -277,4 +277,6 @@ function nabshow_lv_scripts() {
 			'nabshow_lv_news_releases_nonce' => wp_create_nonce( 'news_releases_nonce' )
 		) );
 	endif;
+
+	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
 }

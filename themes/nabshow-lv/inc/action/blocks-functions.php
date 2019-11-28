@@ -252,6 +252,9 @@ function nabshow_lv_register_dynamic_blocks() {
                 'showFilter'    => array(
                     'type' => 'boolean',
                     'default' => false
+                ),
+                'dropdownTitle' => array(
+                    'type' => 'string'
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -653,7 +656,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                             foreach ( $children as $child ) {
                                 if ( $post_limit >= $page_count ) {
                                 ?>
-                                    <li><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( get_the_title( $child->ID ) ); ?></a></li>
+                                    <li><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a></li>
                                 <?php
                                 } else {
                                     break;
@@ -668,6 +671,31 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                 </div>
             </div>
         <?php
+        } elseif ( ! $slider_active && 'drop-down-list' === $listing_layout ) {
+
+            $dropdown_title = isset( $attributes[ 'dropdownTitle' ] ) && ! empty( $attributes[ 'dropdownTitle' ] ) ? $attributes[ 'dropdownTitle' ] : '-- Select --';
+            ?>
+            <select class="plan-your-show-drp">
+                <option><?php echo esc_html( $dropdown_title ); ?></option>
+                <?php
+                if ( count( $children ) > 0 ) {
+
+                    $page_count = 1;
+
+                    foreach ( $children as $child ) {
+                        if ( $post_limit >= $page_count ) {
+                            ?>
+                            <option value="<?php echo esc_url( get_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></option>
+                            <?php
+                        } else {
+                            break;
+                        }
+                        $page_count++;
+                    }
+                }
+                ?>
+            </select>
+            <?php
         } else {
 
             if ( ! $slider_active && $show_filter ) {
@@ -933,7 +961,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                     <?php
                                                     }
                                                 }
-                                                $page_excerpt = nabshow_lv_excerpt( $child->ID );
+                                                $page_excerpt = get_the_excerpt( $child->ID );
                                                 if ( empty( $page_excerpt ) ) {
                                                     $page_excerpt = 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever…';
                                                 }
