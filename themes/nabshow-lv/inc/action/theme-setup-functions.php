@@ -101,9 +101,6 @@ if ( ! function_exists( 'nabshow_lv_setup' ) ) :
 		    $contributor_role = get_role( 'contributor' );
 		    if ( ! empty( $contributor_role ) ) {
 			    $contributor_role->add_cap( 'edit_pages' );
-			    //@to-do Remove following 2 lines once pushed.
-			    $contributor_role->remove_cap( 'edit_published_posts' );
-			    $contributor_role->remove_cap( 'edit_published_pages' );
 		    }
 	    }
     }
