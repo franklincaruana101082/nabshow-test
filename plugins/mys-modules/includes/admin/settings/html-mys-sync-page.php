@@ -102,7 +102,7 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 <?php if ( "1" === get_option( 'nab_mys_show_wizard' ) ) {
 	?>
 	<div class="next-bottom-btn">
-		<a class="button-primary button" style="display:none" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a> <!--id="nextstep"-->
-		<br><a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">skip</a> <!--id="nextstep" class="skip"-->
+		<a class="button-primary button" style="display:none" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">Next</a>
+		<br><a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-exhibitors' ) ); ?>">skip</a>
 	</div>
 <?php } ?>

@@ -56,7 +56,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 	          HistoryStatus int(11) unsigned NOT NULL,
 	          HistoryUser int(11) unsigned NOT NULL,
 	          HistoryDataType varchar(50) NOT NULL,
-	          HistoryStartTime datetime DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	          HistoryStartTime datetime NOT NULL,
 	          HistoryEndTime datetime NOT NULL,
 	          HistoryItemsAffected int(11) unsigned NOT NULL,
 	          HistoryData longtext NOT NULL,
@@ -78,7 +78,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 	          ItemStatus int(11) unsigned NOT NULL,
 	          DataType varchar(50) NOT NULL,
 	          ModifiedID int(11) unsigned NOT NULL,
-	          DataStartTime datetime DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	          DataStartTime datetime NOT NULL,
 	          DataEndTime datetime NOT NULL,
 	          DataJson longtext NOT NULL,
 	          PRIMARY KEY (DataID),
@@ -859,9 +859,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					wp_update_term( $track_post_id, 'tracks', array(
 						'name' => $title,
-						array(
-							'description' => $description
-						)
+						'description' => $description,
 					) );
 
 					$return_detail .= "old";
@@ -1112,7 +1110,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$group_hisotry = $wpdb->get_results(
 				$wpdb->prepare( "SELECT * FROM %1smys_history
-					WHERE HistoryGroupID = %s 
+					WHERE HistoryGroupID = %s
 					", $wpdb->prefix, $groupid ) );
 
 			return $group_hisotry;
