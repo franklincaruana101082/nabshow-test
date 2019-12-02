@@ -40,9 +40,7 @@ $tags_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-tags' );
         <?php
 	}
 	?>
-    <h3 class="post-title is-medium-title">
-        <a href="<?php echo esc_url( get_the_permalink() ); ?>" rel="bookmark"><?php echo esc_html( get_the_title() ); ?></a>
-    </h3>
+    <h3 class="post-title is-medium-title"><?php echo esc_html( get_the_title() ); ?></h3>
     <div class="post-meta-info">
         <span class="meta-info-decs">by</span>
         <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( get_the_author() ); ?> </a>

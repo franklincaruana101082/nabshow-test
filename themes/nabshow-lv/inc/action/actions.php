@@ -104,3 +104,6 @@ add_action( 'wp_dashboard_setup', 'nabshow_lv_add_help_support_dashboard_widget'
 
 // Action for enqueue script on admin side
 add_action( 'admin_enqueue_scripts', 'nabhsow_lv_enqueue_admin_script' );
+
+// Action for set thought-gallery post type in author.php
+add_action( 'pre_get_posts', 'nabshow_lv_set_author_list_post_type' );

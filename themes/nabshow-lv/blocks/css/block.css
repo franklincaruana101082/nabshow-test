@@ -1010,7 +1010,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box.key-contacts{text-align:left}
 .row.related-content-rowbox .related-content-box.key-contacts .read-more::after{content:'';margin:0}
 .row.related-content-rowbox .related-content-box.product-categories, .row.related-content-rowbox .related-content-box.browse-happenings{border:0;height:100%;padding:0}
-.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span, .row.related-content-rowbox .related-content-box.destination .info-block>span{padding:0 0 0 5px;position:relative;display:block}
+.row.related-content-rowbox .related-content-box.featured-happenings .info-block>span, .row.related-content-rowbox .related-content-box.destination .info-block>span{padding:0 0 0 5px;position:relative;display:block;font-family:"Gotham Book", sans-serif}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date::after{content:'|';position:absolute;right:0}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block>span.date{padding-right:20px}
 .row.related-content-rowbox .related-content-box.featured-happenings, .row.related-content-rowbox .related-content-box.exhibitor-resources{padding:0 0 30px}
@@ -1313,3 +1313,4 @@ ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
 .related-content-slider-info.nab-box-slider.less-items .item-inner, .related-content-slider-events.nab-box-slider.less-items .item-inner{border:3px solid #d9d9d9;height:100%;background:#fff}
 
 .is-reusable{box-shadow:0 0 3px 0 #ffff00;border:2px solid #e2e21a}
+.main-exhibitor-block .related-content-with-block-main .box-main-filter{display:none}

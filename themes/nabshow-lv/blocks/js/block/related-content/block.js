@@ -200,6 +200,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             }
                         </PanelBody>
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
+                            <ToggleControl
+                                label={__('Slider On/Off')}
+                                checked={sliderActive}
+                                onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
+                            />
+
                             {sliderActive &&
                                 <div>
                                     <label>{__('Select Slider Layout')}</label>
@@ -212,11 +218,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     </PanelRow>
                                 </div>
                             }
-                            <ToggleControl
-                                label={__('Slider On/Off')}
-                                checked={sliderActive}
-                                onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
-                            />
+
                             {! sliderActive &&
                                 <Fragment>
                                     <div>
@@ -257,7 +259,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
                             <label>{__('Select Fields to Display')}</label>
 
-                            <div className="fix-height-select">
+                            <div className="fix-height-select mb20">
 
                                 {this.state.displayFieldsList.map((field, index) => (
 

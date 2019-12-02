@@ -414,6 +414,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement(
                             PanelBody,
                             { title: __('Slider Settings '), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Slider On/Off'),
+                                checked: sliderActive,
+                                onChange: function onChange() {
+                                    setAttributes({ sliderActive: !sliderActive });_this4.setState({ bxinit: !sliderActive });
+                                }
+                            }),
                             sliderActive && wp.element.createElement(
                                 "div",
                                 null,
@@ -452,13 +459,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     )
                                 )
                             ),
-                            wp.element.createElement(ToggleControl, {
-                                label: __('Slider On/Off'),
-                                checked: sliderActive,
-                                onChange: function onChange() {
-                                    setAttributes({ sliderActive: !sliderActive });_this4.setState({ bxinit: !sliderActive });
-                                }
-                            }),
                             !sliderActive && wp.element.createElement(
                                 Fragment,
                                 null,
@@ -579,7 +579,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             ),
                             wp.element.createElement(
                                 "div",
-                                { className: "fix-height-select" },
+                                { className: "fix-height-select mb20" },
                                 this.state.displayFieldsList.map(function (field, index) {
                                     return wp.element.createElement(
                                         Fragment,

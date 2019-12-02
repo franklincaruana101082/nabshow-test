@@ -36,6 +36,12 @@ get_header();
                         ?>
                     </div>
                 </div>
+                <div class="nab-banner-main " style="text-align: center">
+                    <div class="nab-banner-inner">
+                        <p class="banner-text">Advertisement</p>
+                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/st-footer-banner.png' ); ?>" class="banner-img" alt="image">
+                    </div>
+                </div>
             </div>
         </div>
     </div><!-- #primary -->

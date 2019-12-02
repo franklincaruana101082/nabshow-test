@@ -14,13 +14,13 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'1.0'
+		'1.1'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'1.0'
+		'1.1'
 	);
 
 	wp_register_style(
@@ -358,5 +358,20 @@ function nabhsow_lv_enqueue_admin_script() {
 		}
 
 		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
+	}
+}
+
+/**
+ * Set thought-gallery post in author post listing.
+ *
+ * @param $query
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_set_author_list_post_type( $query ) {
+
+	if ( $query->is_author() && $query->is_main_query() ) {
+
+		$query->set( 'post_type', array( 'thought-gallery' ) );
 	}
 }

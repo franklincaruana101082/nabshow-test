@@ -16,28 +16,18 @@
     // nab-media-slider start
     if (0 < $('.nab-media-slider').length) {
       $('.nab-media-slider').each(function () {
-        let nabautoplay = 'true' === $(this).attr('data-autoplay') ? true : false;
-        let nabinfiniteloop =
-          'true' === $(this).attr('data-infiniteloop') ? true : false;
-        let nabpager = 'true' === $(this).attr('data-pager') ? true : false;
-        let nabcontrols = 'true' === $(this).attr('data-controls') ? true : false;
-        let nabadaptiveheight =
-          'true' === $(this).attr('data-adaptiveheight') ? true : false;
-        let nabmode = $(this).attr('nabmode');
         let nabanimation = $(this).attr('data-animation');
-        let touchEnabledStatus =
-          0 === $(this).find('.nab-media-slider-link').length ? true : false;
 
         $(this).bxSlider({
-          mode: nabmode,
-          auto: nabautoplay,
+          mode: $(this).attr('nabmode'),
+          auto: 'true' === $(this).attr('data-autoplay') ? true : false,
           speed: $(this).attr('data-speed'),
-          infiniteLoop: nabinfiniteloop,
-          pager: nabpager,
-          controls: nabcontrols,
+          infiniteLoop: 'true' === $(this).attr('data-infiniteloop') ? true : false,
+          pager: 'true' === $(this).attr('data-pager') ? true : false,
+          controls: 'true' === $(this).attr('data-controls') ? true : false,
           captions: true,
-          adaptiveHeight: nabadaptiveheight,
-          touchEnabled: touchEnabledStatus,
+          adaptiveHeight: 'true' === $(this).attr('data-adaptiveheight') ? true : false,
+          touchEnabled: 0 === $(this).find('.nab-media-slider-link').length ? true : false,
           stopAutoOnClick: true,
           autoHover: true,
 
@@ -1275,7 +1265,7 @@
     $('.main-navigation .menu .menu-item').removeClass('clicked');
     self.toggleClass('clicked');
 
-    if ('#' === self.find('a').attr('href')) {
+    if ('#' === $('.main-navigation .menu .menu-item > a').attr('href')) {
       $('.main-navigation .menu .menu-item').removeClass('clicked');
       self.toggleClass('clicked');
       return false;
