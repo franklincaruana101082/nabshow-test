@@ -886,6 +886,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .row.related-content-rowbox .related-content-box a.btn-with-arrow{color:#0f6cb6;font-size:18px;font-family:'Gotham Bold';text-decoration:none;text-align:center;display:inline-block}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow::after{content:"\f178";font-family:'FontAwesome';margin-left:6px}
 .related-content-box .title{text-transform:capitalize}
+.related-content-box img.logo{margin:0 auto;margin-bottom:15px;display:block}
 
 /* tracks block css */
 .category-slider{display:flex;flex-wrap:wrap;margin:0 -15px}

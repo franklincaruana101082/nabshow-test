@@ -232,7 +232,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		private function nab_mys_sync_exh_finish() {
 
 			// if there are no rows.. make main modified-exhibitors row's status from 0 to 1 in history table
-			$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "finish", $this->group_id );
+			if ( 'empty' !== $this->requested_for ) {
+				$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "finish", $this->group_id );
+			}
 			// This will open a lock !!
 
 			//If the stack is still not empty, re call main function to fetch next data.

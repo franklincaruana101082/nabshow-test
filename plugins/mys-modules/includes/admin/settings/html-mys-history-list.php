@@ -104,7 +104,7 @@ $history_data = $this->history_data;
 
 		if ( 0 === count( $string_of_totals ) ) {
 
-			$string_of_totals = 1 === (int) $h_status ? 'Everything was upto date.' : 'No items found.';
+			$string_of_totals = 5 === (int) $h_status ? 'Everything was upto date.' : 'No items found.';
 
 		} else {
 			$string_of_totals = implode( ', ', $string_of_totals );

@@ -600,7 +600,7 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .head-section span.date{display:block;font-size:14px}
 .head-section a.location{color:#0f6cb6;font-size:14px;text-decoration:underline;margin-bottom:30px;display:inline-block}
 .related-content-box{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px}
-.related-content-box img.logo{margin-bottom:15px}
+.related-content-box img.logo{margin:0 auto;margin-bottom:15px;display:block}
 .related-content-box .title{margin-bottom:0;color:#000;text-transform:capitalize}
 .related-content-box .sub-title{font-size:13px;margin-bottom:20px;display:block}
 

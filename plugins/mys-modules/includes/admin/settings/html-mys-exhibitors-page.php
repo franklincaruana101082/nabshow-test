@@ -107,5 +107,6 @@ require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-hea
 	?>
 	<div class="next-bottom-btn">
 		<a class="button-primary button" id="nextstep" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-dashboard&setup-success=true' ) ); ?>">Finish</a>
+        <br><a class="button-primary button" href="<?php echo esc_url( admin_url( 'admin.php?page=mys-dashboard&setup-success=true' ) ); ?>">skip</a>
 	</div>
 <?php } ?>

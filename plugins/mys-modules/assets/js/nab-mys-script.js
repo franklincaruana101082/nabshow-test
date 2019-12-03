@@ -244,6 +244,11 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  //Trigger Master Crom for Exhibitor Upload
+    if ( window.location.href.indexOf('success=1') > -1 && window.location.href.indexOf('exh-inserted') > -1 ) {
+        triggerMasterCron();
+    }
+
   // mys-popup
   $('.popup-btn').on('click', function () {
     $(this).parent().find('.mys-popup').addClass('active');
