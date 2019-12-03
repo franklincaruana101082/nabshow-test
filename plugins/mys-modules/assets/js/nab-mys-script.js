@@ -19,6 +19,7 @@ jQuery(document).ready(function ($) {
   var lastItemSessionLoop = '';
   var lastItemSessionLoopOriginal = 'Sponsors';
   var isValid = '';
+  var exhInserted = location.href.split('exh-inserted');
 
   $('.mys-cred-edit').on('click', function () {
     $('.show-hide-fields').toggleClass('show-labels');
@@ -245,9 +246,9 @@ jQuery(document).ready(function ($) {
   }
 
   //Trigger Master Crom for Exhibitor Upload
-    if ( window.location.href.indexOf('success=1') > -1 && window.location.href.indexOf('exh-inserted') > -1 ) {
-        triggerMasterCron();
-    }
+  if (2 === exhInserted.length) {
+      triggerMasterCron();
+  }
 
   // mys-popup
   $('.popup-btn').on('click', function () {
