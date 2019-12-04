@@ -7,8 +7,11 @@
  * @package NABShow_LV
  */
 
-$tax_thought_galleries  = get_the_terms( get_the_ID(), 'thought-gallery-category' );
-$tags_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-tags' );
+$current_post_id        = get_the_ID();
+$current_post_title     = get_the_title();
+$current_post_link      = get_the_permalink();
+$tax_thought_galleries  = get_the_terms( $current_post_id, 'thought-gallery-category' );
+$tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags' );
 ?>
 <article class="post-wrap post-details post-list">
 	<?php
@@ -40,13 +43,13 @@ $tags_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-tags' );
         <?php
 	}
 	?>
-    <h3 class="post-title is-medium-title"><?php echo esc_html( get_the_title() ); ?></h3>
+    <h3 class="post-title is-medium-title"><?php echo esc_html( $current_post_title ); ?></h3>
     <div class="post-meta-info">
         <span class="meta-info-decs">by</span>
         <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( get_the_author() ); ?> </a>
     </div>
     <div class="feature-image">
-        <img width="350" height="350" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>"/>
+        <img width="350" height="350" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="<?php echo esc_attr( $current_post_title ); ?>"/>
     </div>
 
     <?php the_content(); ?>
@@ -71,10 +74,15 @@ $tags_thought_galleries = get_the_terms( get_the_ID(), 'thought-gallery-tags' );
 			}
 			?>
         </ul>
+        <?php
+        $facebook_link  = "https://www.facebook.com/sharer.php?u=" . $current_post_link;
+        $twitter_link   = "https://twitter.com/intent/tweet?url=" . $current_post_link . "&text=" . $current_post_title;
+        $mailto_link    = "mailto:?subject=" . $current_post_title . "&body=Check out this link: " . $current_post_link;
+        ?>
         <ul class="social-share">
-            <li><a href="#" class="facebook"><i class="fa fa-facebook-f"></i></a></li>
-            <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#" class="envelope"><i class="fa fa-envelope"></i></a></li>
+            <li><a href="<?php echo esc_url( $facebook_link ); ?>" class="facebook" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1080');return false;"><i class="fa fa-facebook-f"></i></a></li>
+            <li><a href="<?php echo esc_url( $twitter_link ); ?>" class="twitter" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1080');return false;"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="<?php echo esc_url( $mailto_link ); ?>" class="envelope"><i class="fa fa-envelope"></i></a></li>
         </ul>
     </div>
 

@@ -14,18 +14,20 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'1.1'
+		'1.2'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'1.1'
+		'1.2'
 	);
 
 	wp_register_style(
 		'nab-gutenberg-block',
-		get_template_directory_uri() . '/blocks/css/block.css'
+		get_template_directory_uri() . '/blocks/css/block.css',
+		array(),
+		'1.0'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -374,4 +376,49 @@ function nabshow_lv_set_author_list_post_type( $query ) {
 
 		$query->set( 'post_type', array( 'thought-gallery' ) );
 	}
+}
+
+/**
+ * Change author and contributor user role capability.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_change_user_role_cap() {
+
+    // Change author role cap
+	$role = get_role( 'author' );
+
+	if ( $role ) {
+		$role->add_cap( 'unfiltered_html' );
+    }
+
+
+	// Change contributor role cap
+	$role = get_role( 'contributor' );
+
+	if ( $role ) {
+		$role->add_cap( 'unfiltered_html' );
+    }
+
+}
+
+/**
+ * Allowed Administrator, editor, author and contributor user to enter unfiltered html.
+ *
+ * @param $caps
+ * @param $cap
+ * @param $user_id
+ *
+ * @return array
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_add_unfiltered_html_capability_to_users( $caps, $cap, $user_id ) {
+
+	if ( 'unfiltered_html' === $cap && ( user_can( $user_id, 'administrator' ) || user_can( $user_id, 'editor' ) || user_can( $user_id, 'author' ) || user_can( $user_id, 'contributor' ) ) ) {
+		$caps = array( 'unfiltered_html' );
+	}
+
+	return $caps;
+
 }

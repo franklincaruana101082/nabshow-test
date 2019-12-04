@@ -1257,36 +1257,20 @@
     hide = true;
   });
 
-  $('body').on('click', '.main-navigation .menu .menu-item', function () {
+  $(document).on('click', '.main-navigation .menu .menu-item a', function () {
     var self = $(this);
-    if (self.hasClass('clicked')) {
-      $('.main-navigation .menu .menu-item').removeClass('clicked');
+    if (self.parent().hasClass('clicked')) {
+      self.parent().removeClass('clicked');
     }
-    $('.main-navigation .menu .menu-item').removeClass('clicked');
-    self.toggleClass('clicked');
+    self.parent().removeClass('clicked');
+    self.parent().toggleClass('clicked');
 
-    if ('#' === $('.main-navigation .menu .menu-item > a').attr('href')) {
-      $('.main-navigation .menu .menu-item').removeClass('clicked');
-      self.toggleClass('clicked');
+    if ('#' === self.attr('href')) {
+      self.parent().removeClass('clicked');
+      self.parent().toggleClass('clicked');
       return false;
     }
     hide = false;
-  });
-
-  $('body').on('click', '.main-navigation .menu .menu-item', function () {
-    $('.main-navigation .menu .menu-item').each(function () {
-      let $this = $(this);
-      $($this).on('click', function () {
-        if ($this.hasClass('clicked')) {
-          $this.removeClass('clicked');
-        }
-        else {
-          $this.removeClass('clicked');
-          $this.addClass('clicked');
-
-        }
-      });
-    });
   });
 
 

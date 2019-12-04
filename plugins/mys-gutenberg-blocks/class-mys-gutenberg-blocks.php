@@ -147,7 +147,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.1' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.2' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -174,7 +174,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
 	            if ( ! wp_script_is( 'bootstrap' ) && ! wp_script_is( 'bootstrap-js' ) ) {
-		            wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/modal.min.js', __FILE__ ), array( 'jquery' ), null, true );
+		            wp_enqueue_script( 'bootstrap-modal', plugins_url( 'assets/js/modal.min.js', __FILE__ ), array( 'jquery' ), null, true );
 	            }
 
                 wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/mysgb-blocks.js', __FILE__ ), array( 'jquery' ), null, true );

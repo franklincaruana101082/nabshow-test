@@ -138,7 +138,12 @@ $total_paged = $wp_query->max_num_pages;
 
 				endif;
 				?>
-
+                <div class="nab-banner-main " style="text-align: center">
+                    <div class="nab-banner-inner">
+                        <p class="banner-text">Advertisement</p>
+                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/st-footer-banner.png' ); ?>" class="banner-img" alt="image">
+                    </div>
+                </div>
 			</div>
 		</main><!-- #main -->
 	</section><!-- #primary -->

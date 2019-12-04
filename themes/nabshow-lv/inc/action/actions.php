@@ -107,3 +107,9 @@ add_action( 'admin_enqueue_scripts', 'nabhsow_lv_enqueue_admin_script' );
 
 // Action for set thought-gallery post type in author.php
 add_action( 'pre_get_posts', 'nabshow_lv_set_author_list_post_type' );
+
+// Action for change user role capability
+add_action( 'admin_init', 'nabshow_lv_change_user_role_cap' );
+
+// Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
+add_filter( 'map_meta_cap', 'nabshow_lv_add_unfiltered_html_capability_to_users', 1, 3 );
