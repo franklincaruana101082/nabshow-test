@@ -473,7 +473,7 @@ ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
 .white-box .title{margin-bottom:0;font-size:20px;font-family:"Gotham Bold"}
 .white-box a{color:#404040;text-decoration:none;border-bottom:1px solid #404040}
 .schedule-main .schedule-data{border:3px solid #d9d9d9;padding:15px 0;position:relative;padding-bottom:70px}
-.schedule-main .schedule-data .schedule-row{border-bottom:0;padding:15px 0;display:flex;align-items:center}
+.schedule-main .schedule-data .schedule-row{padding:15px 0;display:flex;align-items:center;position:relative;border-top:1px solid #fff;border-bottom:1px solid #fff}
 .schedule-main .schedule-data .schedule-row>div{padding:0 20px}
 .schedule-main .schedule-data .schedule-row:last-child{border-bottom:0}
 .schedule-main .schedule-data .schedule-row div p:last-child{margin-bottom:0}
@@ -494,6 +494,11 @@ ul.button-prev li.active{box-shadow:0 1px 2px 0 #00000094}
 .schedule-main .schedule-data .schedule-row.hide-row{display:none}
 .schedule-main .schedule-data .row-expand{position:absolute;bottom:0;width:100%;padding:15px 0;text-align:center}
 .schedule-main .schedule-data .row-expand a{text-transform:capitalize;cursor:pointer;font-family:"Gotham Bold";margin-bottom:0;font-size:16px;padding:5px 20px;color:#363636;border:2px solid #363636;display:inline-block;text-decoration:none;outline:none}
+.schedule-main .schedule-data .schedule-row .move-item{position:absolute;bottom:100%;left:10px;display:flex;justify-content:center;align-items:center;opacity:0;transition:0.5s all;border:1px solid #ccc;padding:0;background:#fff}
+.schedule-main .schedule-data .schedule-row .move-item i{cursor:pointer;font-size:16px;color:#333;padding:8px 8px}
+.schedule-main .schedule-data .schedule-row:hover .move-item{opacity:1}
+.schedule-main .schedule-data .schedule-row:hover{border-top:1px solid #ccc;border-bottom:1px solid #ccc}
+.schedule-main .schedule-data .schedule-row .move-item i:hover{background:#0f6cb6;color:#fff}
 
 /* add-remove-btn css */
 .add-remove-btn{display:block;width:100%;text-align:center;padding:20px 0;box-sizing:border-box;line-height:1}
@@ -861,7 +866,7 @@ span.remove-button button svg{color:#fff!important;border:none!important;box-sha
 .inspector-field-toggleCal{display:flex;align-items:center;justify-content:space-between}
 .nab-banner-main{position:relative;text-align:center}
 .nab-banner-main .nab-banner-inner{position:relative;display:inline-block}
-.nab-banner-main .banner-text{position:absolute;bottom:40px;left:-50px;transform:rotate(-90deg);font-size:14px}
+.nab-banner-main .banner-text{position:absolute;bottom:17px;left:-37px;transform:rotate(-90deg);font-size:10px;text-transform:uppercase;color:#bbb!important}
 .block-editor__container .nab-banner-main img.banner-img{padding-left:15px}
 
 /* Sponsors and Partners */
@@ -1300,11 +1305,12 @@ ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
 .browse-product-categories-filter .col-12.display-flex-box .search-box{min-width:330px;max-width:100%;text-align:left}
 
 /* Menu css */
-.submenu-child ul li a{color:#000;text-decoration:none}
-.submenu-child ul li{font-size:16px;font-family:"Gotham Bold", sans-serif;list-style:none}
+.submenu-child ul li a{color:#000!important;font-size:14px;font-family:"Gotham Book", sans-serif;text-decoration:none}
+.submenu-child ul li{color:#000!important;font-size:14px;font-family:"Gotham Bold", sans-serif;list-style:none}
 .submenu-child ul{padding:0!important;margin:0!important;list-style:none}
 .submenu-child p{color:#000000;line-height:32px}
 .submenu-child ul.light-list li{font-family:"Gotham Book", sans-serif}
+.submenu-child h4 a{color:#000!important}
 
 /* Less Slider Items */
 .nab-box-slider.less-items{display:flex;flex-wrap:wrap;margin:0 -15px}
@@ -1313,3 +1319,14 @@ ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
 
 .is-reusable{box-shadow:0 0 3px 0 #ffff00;border:2px solid #e2e21a}
 .main-exhibitor-block .related-content-with-block-main .box-main-filter{display:none}
+button.components-button.has-text.hideBtn, .block-editor-block-settings-menu__popover .block-editor-block-settings-menu__separator+.hideBtn{height:0;opacity:0;display:none}
+
+/* .birds-of-a-feather */
+.birds-of-a-feather .box-main .box-item .box-inner{align-items:flex-start;text-align:left}
+.birds-of-a-feather .box-main .box-item .box-inner .title{margin-bottom:5px}
+.birds-of-a-feather .box-main .box-item .box-inner .date-time{margin-bottom:20px}
+.birds-of-a-feather .box-main .box-item .box-inner span{margin-right:5px;font-size:14px;font-family:"Gotham Book", sans-serif}
+.birds-of-a-feather .box-main .box-item .box-inner .description{font-style:normal}
+.birds-of-a-feather .box-main .box-item .box-inner span.dashicons{font-family:dashicons;margin:0;font-size:20px}
+.birds-of-feather-filter .category:last-of-type{margin:0}
+.birds-of-feather-filter .category{margin-right:15px}

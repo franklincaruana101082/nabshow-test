@@ -307,6 +307,8 @@ body ul{margin-left:0}
 .nab-btn-main a.with-arrow{position:relative}
 /* stylelint-disable-next-line selector-pseudo-element-colon-notation,font-family-no-missing-generic-family-keyword  */
 .nab-btn-main a.with-arrow:after,.stay-in-loop-box form button:after{content:"\f178";font-family:FontAwesome;margin-left:6px;cursor:pointer}
+.stay-in-loop-box form button::before{content:"Sign Up";display:inline-block;font-size:18px}
+.stay-in-loop-box form button::after{font-size:18px}
 .nab-media-slider-item img.media-slider-img{margin:0 auto;display:block}
 img{max-width:100%}
 .nab-btn-main a{margin-bottom:10px}
@@ -460,11 +462,12 @@ body{overflow-x:hidden;font-family:"Gotham Book", sans-serif;font-size:16px}
 nav#site-navigation{margin-top:40px;position:static}
 .site-header.sticky .header-left>a,.site-header.sticky #site-navigation ul li span,.sticky .super-menu-main>span,.sticky .super-menu-main>.super-menu{display:none}
 .site-header.sticky #logo img{max-width:240px}
-.site-header.sticky{padding:26px 0}
+.site-header.sticky{padding:20px 0 26px}
 .sticky nav#site-navigation{margin-top:0}
 .super-menu-main .super-menu-icons li.hide{opacity:0;visibility:hidden;transition:all 0.3s ease-in-out}
 .site-header #site-navigation ul.menu>li:last-child>a{background-color:#0f6cb6;border-radius:0;padding:7px 35px;text-transform:capitalize;color:#fff!important;font-size:16px}
 .site-header section{margin-bottom:0}
+.header-sticky-menu-logo{display:none}
 
 /* header css */
 
@@ -505,7 +508,7 @@ section.widget_custom_html{margin:0}
 .stay-in-loop-box img{width:100%}
 .stay-in-loop-box .mktoFieldDescriptor.mktoFormCol, .stay-in-loop-box .mktoFieldWrap{width:100%}
 .stay-in-loop-box .mktoButtonRow{margin:0!important}
-.stay-in-loop-box .mktoButtonRow button.mktoButton{background:transparent!important;padding-right:0!important;color:#000!important;text-transform:capitalize;margin-bottom:15px}
+.stay-in-loop-box .mktoButtonRow button.mktoButton{background:transparent!important;padding-right:0!important;color:#000!important;text-transform:capitalize;margin-bottom:15px;font-size:0!important}
 .stay-in-loop-box .mktoFieldWrap input#Email{color:#000!important;padding:0!important;font-family:"Gotham Book", sans-serif;margin-top:0!important}
 .stay-in-loop-box .mktoOffset, .stay-in-loop-box .mktoGutter.mktoHasWidth{display:none}
 
@@ -536,9 +539,10 @@ section.slider-block{margin-top:70px;margin-bottom:70px}
 .resource-list .menu-footer-middle-menu-container{display:inline-block}
 body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .wp-block-columns.left-align .wp-block-column{text-align:left!important}
+.home .nab-box-slider .item{display:inline-block;width:22%;margin-right:30px}
 
 /* Flip box */
-.flip-box{background-color:transparent;width:172px;height:172px;border:0;perspective:600px;-webkit-perspective:600px;-moz-perspective:600px}
+.flip-box{background-color:transparent;width:172px;height:172px;border:0;perspective:600px;-webkit-perspective:600px;-moz-perspective:600px;margin:0 auto}
 .flip-box img{-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;backface-visibility:hidden}
 .flip-box-inner{position:relative;width:100%;height:100%;text-align:center;-webkit-transition:-webkit-transform 0.8s;-o-transition:transform 0.8s;transition:transform 0.8s, -webkit-transform 0.8s;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
 .flip-box:hover .flip-box-inner{transform:rotateY(180deg)}
@@ -932,7 +936,7 @@ ul.banner-navigation li a{color:#0f6cb6;font-family:'Gotham Bold';font-size:16px
 /* Exhibitor Slider Title */
 .exhibitors{display:flex}
 .exhibitors .item{display:flex;justify-content:center;align-items:center}
-.exhibitors .item .exhibitor-title{margin:0}
+.exhibitors .item .exhibitor-title{margin:0;text-align:center}
 
 /* Product Winners css */
 .product-main{display:flex;flex-wrap:wrap;margin:0 -20px}
@@ -1048,7 +1052,7 @@ body .quote-slider .quote-inner .quote-item:first-child, .nab-media-slider .nab-
 /* Ad Block CSS */
 .nab-banner-main{position:relative;text-align:center;margin-bottom:20px;margin-top:20px}
 .nab-banner-main .nab-banner-inner{position:relative;display:inline-block}
-.nab-banner-main .banner-text{position:absolute;bottom:30px;left:-50px;transform:rotate(-90deg)}
+.nab-banner-main .banner-text{position:absolute;bottom:17px;left:-37px;transform:rotate(-90deg);font-size:10px;text-transform:uppercase;color:#bbb!important}
 .nab-banner-main img.banner-img{padding-left:20px}
 
 .fab-filter{display:flex;justify-content:flex-end}
@@ -1098,7 +1102,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .filter-block .search-box .search-item input{width:450px;max-width:100%}
 .filter-block label{font-size:20px;font-family:"Gotham Bold", sans-serif}
 .filter-block .feature-btn .featured-btn.active{background:#f1f7fc}
-.filter-block .keyword select{width:210px;height:40px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a}
+.filter-block .keyword select{width:210px;height:40px;background-color:#fff;padding:5px 23px 5px 15px;font-size:14px;font-family:"Gotham Bold", sans-serif;border:1px solid #69767a}
 .session .item.featured::before{background:#f1f7fc}
 .news-release-head p.has-medium-font-size{line-height:inherit}
 
@@ -1283,7 +1287,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .exhibitor-resources-page .is-block-center.related-content-with-block-main p.has-medium-font-size{font-size:16px}
 
 /* news-conference-schedule css */
-.news-conference-schedule .box-main .box-item .box-inner{text-align:left;padding:25px;height:auto}
+.news-conference-schedule .box-main .box-item .box-inner{text-align:left;padding:25px;height:auto;align-items:flex-start}
 .news-conference-schedule .box-main .box-item p{display:block;width:100%;text-align:left}
 .news-conference-schedule .box-main .box-item .box-inner .contact-item{width:100%;position:relative;margin-bottom:15px}
 .news-conference-schedule .box-main .box-item .box-inner .contact-item>span{position:absolute;top:50%;right:-20px;z-index:9;background:red!important;color:#fff;border-radius:50%;vertical-align:bottom;padding:1px;cursor:pointer;margin-top:-13px;display:none;font-size:7px}
@@ -1298,8 +1302,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .news-conference-schedule .box-main .box-item .box-inner .contact-item:last-child{margin-bottom:0}
 .news-conference-schedule .box-main .box-item .box-inner .contact-item input{text-align:left;font-size:16px;padding:0}
 .news-conference-schedule .box-main .box-item .box-inner .new-contact button{display:inline-block;border:1px solid #000;padding:5px 15px 4px 11px}
-.news-conference-schedule .box-main{display:flex;flex-flow:column wrap}
-.news-conference-schedule .box-main .box-item{position:relative;overflow:hidden;width:25%;flex-basis:auto!important;padding-bottom:20px;opacity:1!important;margin-bottom:0}
+.news-conference-schedule .box-main, .birds-of-a-feather .box-main{display:flex;flex-flow:column wrap}
+.news-conference-schedule .box-main .box-item,.birds-of-a-feather .box-main .box-item{position:relative;overflow:hidden;width:25%;flex-basis:auto!important;padding-bottom:20px;opacity:1!important;margin-bottom:0}
 .main-filter.news-conference .div-left{width:calc(100% - 330px)}
 .main-filter.news-conference .div-right{width:330px}
 .box-main.four-grid.without-masonry{flex-flow:initial;flex-wrap:wrap}
@@ -1575,6 +1579,8 @@ header.sticky .header-right.clicked .header-get-updates,header.sticky .header-ri
 header .header-right .header-get-updates .remove{position:absolute;right:-11px;top:-13px;background:red;color:#fff;width:25px;height:25px;text-align:center;border-radius:50%;cursor:pointer;box-shadow:1px 1px 7px #060606a3;line-height:24px;display:block!important}
 header .header-right .header-get-updates.sign-up-error{border-color:yellow;box-shadow:2px 2px 6px #d6d60b57;-webkit-animation-name:shake;animation-name:shake;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both}
 @-webkit-keyframes shake{0%,to{-webkit-transform:translateZ(0);transform:translateZ(0)}10%,30%,50%,70%,90%{-webkit-transform:translate3d(-10px, 0, 0);transform:translate3d(-10px, 0, 0)}20%,40%,60%,80%{-webkit-transform:translate3d(10px, 0, 0);transform:translate3d(10px, 0, 0)}}@keyframes shake{0%,to{-webkit-transform:translateZ(0);transform:translateZ(0)}10%,30%,50%,70%,90%{-webkit-transform:translate3d(-10px, 0, 0);transform:translate3d(-10px, 0, 0)}20%,40%,60%,80%{-webkit-transform:translate3d(10px, 0, 0);transform:translate3d(10px, 0, 0)}}
+.sticky #logo a.custom-logo-link{display:none}
+.sticky #logo .header-sticky-menu-logo{display:block}
 
 /* Mega Menu Static */
 .site-header #site-navigation ul.sub-menu{position:absolute;left:0;width:100%;background:#fff;top:150%;transition:all 0.5s ease-in-out;opacity:0}
@@ -1596,13 +1602,16 @@ header .header-right .header-get-updates.sign-up-error{border-color:yellow;box-s
 .sticky.site-header #site-navigation ul.menu>li:last-child>a{padding:7px 35px}
 .sticky.site-header #site-navigation ul.menu>li.clicked:last-child>a{border-color:transparent;background-color:#0f6cb6}
 
-.site-header #site-navigation .submenu-child ul li a, .submenu-child ul li a{color:#000;text-decoration:none}
-.site-header #site-navigation .submenu-child ul li, .submenu-child ul li{font-size:16px;font-family:"Gotham Bold", sans-serif;margin-bottom:10px}
+.site-header #site-navigation .submenu-child ul li a, .submenu-child ul li a{color:#000;text-decoration:none;font-size:14px;font-family:"Gotham Book", sans-serif}
+.site-header #site-navigation .submenu-child ul li, .submenu-child ul li{margin-bottom:5px;display:inline-block;list-style:none;width:100%}
 .site-header #site-navigation .submenu-child ul, .submenu-child ul{padding:0!important;margin:0!important;list-style:none}
-.site-header #site-navigation .submenu-child p, .submenu-child p{color:#000000;line-height:32px}
+.site-header #site-navigation .submenu-child p, .submenu-child p{color:#000000;line-height:26px;font-size:14px}
 .site-header #site-navigation .submenu-child ul.light-list li, .submenu-child ul.light-list li{font-family:"Gotham Book", sans-serif}
 .site-header #site-navigation .submenu-child a:hover{color:#0f6cb6!important}
+.site-header #site-navigation .submenu-child a.btn-white:hover{color:#000000!important}
+.site-header #site-navigation .clicked ul.sub-menu .more-list li:last-of-type a{font-style:italic}
 
+/* Sign up page content */
 .sign-up-page-content{display:flex;justify-content:center;align-items:center}
 .sign-up-page-content input.get-updates-field{height:40px;border:1px solid #ccc!important;margin:0;border-radius:0;width:80%;width:calc(100% - 80px);font-size:12px;padding:0 10px}
 .sign-up-page-content input.get-updates-submit{background:#E6272E!important;color:white!important;padding:12px;font-weight:500!important;text-transform:uppercase;font-size:12px!important;height:40px;text-shadow:none!important;border:0!important;border-radius:0;cursor:pointer;width:80px}
@@ -1615,3 +1624,16 @@ header .header-right .header-get-updates.sign-up-error{border-color:yellow;box-s
 .nab-not-to-be-missed-list{display:flex;flex-wrap:wrap;margin:0 -15px}
 .nab-not-to-be-missed-list .cards a img{height:100%}
 .main-exhibitor-block.exhibitor-resources-page .box-main-filter{display:none}
+
+/* birds-of-a-feather */
+.birds-of-a-feather .box-main .box-item .box-inner{align-items:flex-start;text-align:left}
+.birds-of-a-feather .box-main .box-item .box-inner .title{margin-bottom:5px}
+.birds-of-a-feather .box-main .box-item .box-inner .date-time{margin-bottom:20px}
+.birds-of-a-feather .box-main .box-item .box-inner .bottom-info p b{margin-right:5px;font-size:14px;font-family:"Gotham Bold", sans-serif}
+.birds-of-a-feather .box-main .box-item .box-inner .bottom-info p{margin-bottom:5px;font-size:14px}
+.birds-of-a-feather .box-main .box-item .box-inner .bottom-info p:last-of-type{margin:0}
+.box-main-filter.main-filter.birds-of-feather-filter .category{width:24%}
+.box-main-filter.main-filter.birds-of-feather-filter label{font-size:16px}
+.main-filter.birds-of-feather-filter .div-left{width:calc(100% - 260px)}
+.main-filter.birds-of-feather-filter .div-right{width:260px}
+.main-filter.birds-of-feather-filter .div-right .search-box{width:250px}

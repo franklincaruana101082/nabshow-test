@@ -134,3 +134,10 @@ wp.domReady( function() {
     );
     wp.blocks.updateCategory('nabshow', { icon: nabShowIcon });
   })();
+
+// Remove  'Remove from Reusable Blocks' button  from Reusable Blocks
+setInterval(function () {
+    $('.components-button.block-editor-block-settings-menu__control').each(function () {
+        if ('Remove from Reusable Blocks' === $(this).text()) { $(this).addClass('hideBtn'); }
+    });
+}, 0.5);

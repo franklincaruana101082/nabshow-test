@@ -174,6 +174,9 @@
   if (0 < $('.news-conference-schedule .box-main').length) {
     window.onload = window.onresize = CustomMasonryGrids;
   }
+  if (0 < $('.birds-of-a-feather .box-main').length) {
+    window.onload = window.onresize = CustomMasonryGrids;
+  }
 
   $(document).on('change', '.plan-your-show-drp', function () {
     if ('' !== $(this).val()) {
@@ -345,7 +348,7 @@
    * Filter - Related content details js box-main
    */
   if (0 < $('.box-main-filter, .schedule-glance-filter, .main-filter, .meet-team-select').length) {
-    if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length) {
+    if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length || 0 < $('.birds-of-a-feather').length) {
 
       $('.new-this-year .box-main .box-item').each(function () {
         if ('' !== $(this).find('.title').html()) {
@@ -433,6 +436,36 @@
         }
       });
 
+      $('.birds-of-a-feather .box-main .box-item').each(function () {
+        if ('' !== $(this).find('.attend').html().split(',')) {
+          $.map(
+            $(this).find('.attend').text().split(','),
+            function (val, i) {
+              insertOptions(val.trim(), 'attend-filter');
+            }
+          );
+        }
+        if ('' !== $(this).find('.hosting').html().split(',')) {
+          $.map(
+            $(this).find('.hosting').text().split(','),
+            function (val, i) {
+              insertOptions(val.trim(), 'hosting-filter');
+            }
+          );
+        }
+        if ('' !== $(this).find('.organizer').html().split(',')) {
+          $.map(
+            $(this).find('.organizer').text().split(','),
+            function (val, i) {
+              insertOptions(val.trim(), 'organizer-filter');
+            }
+          );
+        }
+        if ('' !== $(this).find('.date-time').html()) {
+          insertOptions($(this).find('.date-time').text().split('|')[0], 'birdDate-filter');
+        }
+      });
+
 
       $('.sponsorship-opportunities-page .related-main-wrapper').each(function () {
         if ('' !== $(this).find('.parent-main-title').html()) {
@@ -477,7 +510,7 @@
         searchKeyword = '.title';
         searchId = '#box-main-search';
       }
-      if (0 < $('.news-conference-schedule').length) {
+      if (0 < $('.news-conference-schedule, .birds-of-a-feather').length) {
         selectedItem = '.box-item';
         searchKeyword = '.title';
       }
@@ -490,7 +523,7 @@
         selectedLetter = $(this).html();
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
-      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type', function () {
+      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type, #attend-filter, #hosting-filter, #organizer-filter, #birdDate-filter', function () {
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
       $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
@@ -1917,6 +1950,7 @@ function CustomMasonryGrids() {
     mainDiv[0].style.height = highest + 'px';
   } else {
     jQuery('.news-conference-schedule .box-main').addClass('without-masonry');
+    jQuery('.birds-of-a-feather .box-main').addClass('without-masonry');
   }
 }
 
@@ -2016,7 +2050,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('.related-main-wrapper, .parent-main-title').show();
   }
 
-  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat, filterMediaTopics, filterMediaFormats, filterMediaLocation;
+  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat, filterMediaTopics, filterMediaFormats, filterMediaLocation, filterAttendee, filterHostingOrg, filterOrganizers, filterBirdDate;
 
   if (0 < jQuery('#box-main-category').length) {
     filterMainData = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
@@ -2075,6 +2109,13 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     filterMediaTopics = 0 < jQuery('#topic-type')[0].selectedIndex ? jQuery('#topic-type').val() : null;
     filterMediaFormats = 0 < jQuery('#format-type')[0].selectedIndex ? jQuery('#format-type').val() : null;
     filterMediaLocation = 0 < jQuery('#location-type')[0].selectedIndex ? jQuery('#location-type').val() : null;
+  }
+
+  if (0 < jQuery('.birds-of-a-feather').length) {
+    filterAttendee = 0 < jQuery('#attend-filter')[0].selectedIndex ? jQuery('#attend-filter').val() : null;
+    filterHostingOrg = 0 < jQuery('#hosting-filter')[0].selectedIndex ? jQuery('#hosting-filter').val() : null;
+    filterOrganizers = 0 < jQuery('#organizer-filter')[0].selectedIndex ? jQuery('#organizer-filter').val() : null;
+    filterBirdDate = 0 < jQuery('#birdDate-filter')[0].selectedIndex ? jQuery('#birdDate-filter').val() : null;
   }
 
   // Dropdown Filter
@@ -2200,6 +2241,18 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (null !== filterMediaLocation && undefined !== filterMediaLocation) {
     jQuery(`${selectedItem}:not([data-locations*="${filterMediaLocation}"])`).hide();
+  }
+  if (null !== filterAttendee && undefined !== filterAttendee) {
+    jQuery(`${selectedItem} .attend:not(:contains("${filterAttendee}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterHostingOrg && undefined !== filterHostingOrg) {
+    jQuery(`${selectedItem} .hosting:not(:contains("${filterHostingOrg}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterOrganizers && undefined !== filterOrganizers) {
+    jQuery(`${selectedItem} .organizer:not(:contains("${filterOrganizers}"))`).parents(`${selectedItem}`).hide();
+  }
+  if (null !== filterBirdDate && undefined !== filterBirdDate) {
+    jQuery(`${selectedItem} .date-time:not(:contains("${filterBirdDate}"))`).parents(`${selectedItem}`).hide();
   }
 
 
