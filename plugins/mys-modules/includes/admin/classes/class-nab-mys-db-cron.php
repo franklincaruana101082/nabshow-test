@@ -468,9 +468,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						$update_post = array(
 							'ID'           => $update_post_id,
-							'post_title'   => $title . '-crontest',
+							'post_title'   => $title,
 							'post_content' => $description,
-							'post_author'  => 1,
 							'post_status'  => 'publish',
 						);
 
@@ -500,7 +499,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						$post_id = wp_insert_post(
 							array(
-								'post_title'   => $title . '-crontest',
+								'post_title'   => $title,
 								'post_type'    => $post_type,
 								'post_content' => $description,
 								'post_status'  => 'publish',

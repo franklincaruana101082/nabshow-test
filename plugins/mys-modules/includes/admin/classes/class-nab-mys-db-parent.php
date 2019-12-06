@@ -102,6 +102,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$this->group_id = $group_id;
 
 
+
 			if ( "insert" === $query_type ) {
 
 				$sql = $this->wpdb->insert(
@@ -173,7 +174,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$previous_date = $wpdb->get_var(
 				$wpdb->prepare( "SELECT HistoryStartTime FROM %1smys_history
 					WHERE HistoryDataType LIKE %s
-					AND HistoryStatus != 0 
+					AND HistoryStatus != 0
 					ORDER BY HistoryID DESC LIMIT 1",
 					$wpdb->prefix, '%' . $data_type . '%' ) );
 

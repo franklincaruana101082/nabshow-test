@@ -360,3 +360,100 @@ function nabhsow_lv_enqueue_admin_script() {
 		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
 	}
 }
+
+/**
+ * Set thought-gallery post in author post listing.
+ *
+ * @param $query
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_set_author_list_post_type( $query ) {
+
+	if ( $query->is_author() && $query->is_main_query() ) {
+
+		$query->set( 'post_type', array( 'thought-gallery' ) );
+	}
+}
+
+
+/**
+ * Send email to Admins when any Author publishes any page/post.
+ *
+ * @param string $new_status New post/page status.
+ * @param string $old_status Old post/page status.
+ * @param array $post The post details.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_send_mails_on_publish( $new_status, $old_status, $post ) {
+
+	$post_type = get_post_type( $post );
+	if ( 'page' !== $post_type &&
+	     'post' !== $post_type &&
+	     'post' !== $post_type &&
+	     'publish' !== $new_status
+	) {
+		return;
+	}
+
+	$administrators = get_users( array( 'role' => 'administrator' ) );
+	$emails         = array();
+	$link           = get_permalink( $post );
+
+	foreach ( $administrators as $admin ) {
+		$emails[] = $admin->user_email;
+	}
+
+	$body = sprintf( 'Hey there is a new entry!
+        See <%s>',
+		$link
+	);
+
+	wp_mail( $emails, '003 New entry!', $body );
+}
+
+/**
+ * Change author and contributor user role capability.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_change_user_role_cap() {
+
+    // Change author role cap
+	$role = get_role( 'author' );
+
+	if ( $role ) {
+		$role->add_cap( 'unfiltered_html' );
+    }
+
+
+	// Change contributor role cap
+	$role = get_role( 'contributor' );
+
+	if ( $role ) {
+		$role->add_cap( 'unfiltered_html' );
+    }
+
+}
+
+/**
+ * Allowed Administrator, editor, author and contributor user to enter unfiltered html.
+ *
+ * @param $caps
+ * @param $cap
+ * @param $user_id
+ *
+ * @return array
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_add_unfiltered_html_capability_to_users( $caps, $cap, $user_id ) {
+
+	if ( 'unfiltered_html' === $cap && ( user_can( $user_id, 'administrator' ) || user_can( $user_id, 'editor' ) || user_can( $user_id, 'author' ) || user_can( $user_id, 'contributor' ) ) ) {
+		$caps = array( 'unfiltered_html' );
+	}
+
+	return $caps;
+
+}
