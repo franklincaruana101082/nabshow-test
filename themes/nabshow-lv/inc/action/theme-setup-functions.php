@@ -89,14 +89,6 @@ if ( ! function_exists( 'nabshow_lv_setup' ) ) :
 		    if ( ! empty( $author_role ) ) {
 			    $author_role->add_cap( 'edit_pages' );
 		    }
-
-		    // Update Contributor role capabilities
-		    $contributor_role = get_role( 'contributor' );
-		    if ( ! empty( $contributor_role ) ) {
-			    $contributor_role->remove_cap( 'edit_pages' );
-			    $contributor_role->remove_cap( 'edit_published_posts' );
-			    $contributor_role->remove_cap( 'edit_published_pages' );
-		    }
 	    }
     }
 endif;
