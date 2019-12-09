@@ -209,9 +209,11 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 		 */
 		private function nab_mys_history_set_ordering() {
 
-			global $wp;
+			global $current_site;
 
-			$current_url = home_url( add_query_arg( array( $_GET ), $wp->request ) );
+			$main_site_blog_id = $current_site->blog_id;
+			$home_url = get_home_url( $main_site_blog_id );
+			$current_url = $home_url . add_query_arg( array( $_GET ) );
 
 			$current_url_without_pageno                       = explode( '&paged=', $current_url );
 			$this->request_data['current_url_without_pageno'] = $current_url_without_pageno[0];
