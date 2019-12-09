@@ -380,37 +380,33 @@ function nabshow_lv_set_author_list_post_type( $query ) {
 /**
  * Send email to Admins when any Author publishes any page/post.
  *
- * @param string $new_status New post/page status.
- * @param string $old_status Old post/page status.
- * @param array $post The post details.
- *
- * @since 1.0.0
+ * @param array $postid The post id.
  */
-function nabshow_lv_send_mails_on_publish( $new_status, $old_status, $post ) {
+function send_mails_on_publish( $postid ) {
 
-	$post_type = get_post_type( $post );
-	if ( 'page' !== $post_type &&
-	     'post' !== $post_type &&
-	     'post' !== $post_type &&
-	     'publish' !== $new_status
-	) {
-		return;
-	}
+	$user = wp_get_current_user();
 
+	$ucaps = (array) $user->roles;
+	$ucaps = implode( ', ', $ucaps );
+
+	$uname          = $user->data->display_name;
 	$administrators = get_users( array( 'role' => 'administrator' ) );
 	$emails         = array();
-	$link           = get_permalink( $post );
+	$link           = get_permalink( $postid );
 
 	foreach ( $administrators as $admin ) {
 		$emails[] = $admin->user_email;
 	}
 
-	$body = sprintf( 'Hey there is a new entry!
-        See <%s>',
-		$link
-	);
+	$body = sprintf( 'Hi Admin,<br><br>
+		The content on the following link has been updated.<br><br>
+        Link: %s<br>
+        Updated by:  %s (%s)', $link, $uname, $ucaps );
 
-	wp_mail( $emails, '003 New entry!', $body );
+	$headers = array( 'Content-Type: text/html' );
+
+	wp_mail( $emails, "Content updated by $uname | NABShow", $body, $headers );
+
 }
 
 /**
