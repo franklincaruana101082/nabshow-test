@@ -378,6 +378,39 @@ function nabshow_lv_set_author_list_post_type( $query ) {
 	}
 }
 
+
+/**
+ * Send email to Admins when any Author publishes any page/post.
+ *
+ * @param array $postid The post id.
+ */
+function send_mails_on_publish( $postid ) {
+
+	$user = wp_get_current_user();
+
+	$ucaps = (array) $user->roles;
+	$ucaps = implode( ', ', $ucaps );
+
+	$uname          = $user->data->display_name;
+	$administrators = get_users( array( 'role' => 'administrator' ) );
+	$emails         = array();
+	$link           = get_permalink( $postid );
+
+	foreach ( $administrators as $admin ) {
+		$emails[] = $admin->user_email;
+	}
+
+	$body = sprintf( 'Hi Admin,<br><br>
+		The content on the following link has been updated.<br><br>
+        Link: %s<br>
+        Updated by:  %s (%s)', $link, $uname, $ucaps );
+
+	$headers = array( 'Content-Type: text/html' );
+
+	wp_mail( $emails, "Content updated by $uname | NABShow", $body, $headers );
+
+}
+
 /**
  * Change author and contributor user role capability.
  *

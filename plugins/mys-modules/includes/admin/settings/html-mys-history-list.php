@@ -53,7 +53,6 @@ $history_data = $this->history_data;
 
 		$offset ++;
 
-		$detail_history_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
 
 		$single_history = $single_history_data['Details'];
 		$item_totals    = $single_history_data['Totals'];
@@ -102,12 +101,19 @@ $history_data = $this->history_data;
 			$string_of_totals[] = "$single_total $item_name";
 		}
 
+		$detail_history_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
+
 		if ( 0 === count( $string_of_totals ) ) {
 
 			$string_of_totals = 5 === (int) $h_status ? 'Everything was upto date.' : 'No items found.';
 
+			$detail_history_url_groupid = $groupid;
+			$detail_history_url_heading = $heading;
 		} else {
 			$string_of_totals = implode( ', ', $string_of_totals );
+
+			$detail_history_url_groupid = "<a href='" . esc_url( $detail_history_url ) . "'>" . esc_html( $groupid ) . "</a>";
+			$detail_history_url_heading = "<a href='" . esc_url( $detail_history_url ) . "'>" . esc_html( $heading ) . "</a>";
 		}
 
 		switch ( $h_status ) {
@@ -147,8 +153,8 @@ $history_data = $this->history_data;
 		?>
 		<tr class="<?php esc_attr_e( $row_class ); ?>">
 			<td class="num"><?php esc_html_e( $offset ); ?></td>
-			<td class="groupid"><a href="<?php echo esc_url( $detail_history_url ) ?>"><?php esc_html_e( $groupid ); ?></a></td>
-			<td class="heading"><a href="<?php echo esc_url( $detail_history_url ) ?>"><?php esc_html_e( $heading ); ?></a></td>
+			<td class="groupid"><?php echo wp_kses( $detail_history_url_groupid, $allowed_tags ) ?></td>
+			<td class="heading"><?php echo wp_kses( $detail_history_url_heading, $allowed_tags ) ?></td>
 			<td class="details-row"><?php echo wp_kses( $string_of_totals, $allowed_tags ); ?></td>
 			<td class="user-row"><?php esc_html_e( $user_name ); ?></td>
 			<td class="start-row"><?php esc_html_e( $start_date ); ?></td>
