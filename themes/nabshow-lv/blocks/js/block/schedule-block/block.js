@@ -2,14 +2,13 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload, InspectorControls } = wpEditor;
+  const { RichText, InspectorControls } = wpEditor;
   const {
-    Button,
     PanelBody,
     PanelRow,
     ToggleControl,
-    IconButton,
-    Tooltip
+    Tooltip,
+    DropdownMenu
   } = wpComponents;
 
   const scheduleBlockIcon = (
@@ -146,176 +145,98 @@
       setAttributes({
         dataArray: [
           ...dataArray,
+
           {
-            index: dataArray.length,
-            date: '',
-            name: '',
-            location: '',
-            details: 'Open to All'
+            titleIndex: dataArray.length,
+            title: '',
+            detailList: [{
+              index: dataArray.length,
+              date: '',
+              name: '',
+              location: '',
+              details: 'Open to All'
+            }]
           }
         ]
       });
     }
 
-    moveMedia(currentIndex, newIndex) {
+    moveMedia(parentIndex, currentIndex, newIndex) {
       const { setAttributes, attributes } = this.props;
       const { dataArray } = attributes;
       let allData = [...dataArray];
-      const newObject = (allData[currentIndex].index = newIndex);
-      const oldObject = (allData[newIndex].index = currentIndex);
 
-      setAttributes({ dataArry: newObject });
-      setAttributes({ dataArry: oldObject });
+      if ( -1 === newIndex && 0 < parentIndex) {
+        let prevBlockIndex = parentIndex - 1;
+        let prevDetailListIndex = allData[prevBlockIndex].detailList.length - 1;
+        allData[parentIndex].detailList[currentIndex].index = allData[prevBlockIndex].detailList[prevDetailListIndex] + 1;
+        allData[prevBlockIndex].detailList.push(allData[parentIndex].detailList[currentIndex]);
+        allData[parentIndex].detailList.splice(currentIndex, 1);
+      } else if ( undefined === allData[parentIndex].detailList[newIndex] ) {
+        let nextBlockIndex = parentIndex + 1;
+        allData[nextBlockIndex].detailList.unshift(allData[parentIndex].detailList[currentIndex]);
+        allData[parentIndex].detailList.splice(currentIndex, 1);
+        allData[nextBlockIndex].detailList.map(( data, index) => ( allData[nextBlockIndex].detailList[index].index = index ));
+      } else {
+        allData[parentIndex].detailList[currentIndex].index = newIndex;
+        allData[parentIndex].detailList[newIndex].index = currentIndex;
+      }
+
+      setAttributes({ dataArry: allData });
     }
 
-    duplicate(currentIndex) {
+    moveParentItem(currentIndex, newIndex) {
       const { setAttributes, attributes } = this.props;
       const { dataArray } = attributes;
       let allData = [...dataArray];
 
-      const newObject = allData.push({
-        index: dataArray.length,
-        date: allData[currentIndex].date,
-        name: allData[currentIndex].name,
-        location: allData[currentIndex].location,
-        details: 'Open to All'
+      allData[currentIndex].titleIndex = newIndex;
+      allData[newIndex].titleIndex = currentIndex;
+
+      setAttributes({ dataArry: allData });
+    }
+
+    MoveItemToParent( currentParentIndex, parentIndex, index ) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArray } = attributes;
+      let allData = [...dataArray];
+      allData[currentParentIndex].detailList[index].index = allData[parentIndex].detailList.length;
+      allData[parentIndex].detailList.push(allData[currentParentIndex].detailList[index]);
+      allData[currentParentIndex].detailList.splice(index, 1);
+
+      setAttributes({ dataArry: allData });
+    }
+
+    duplicate(parentIndex, currentIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArray } = attributes;
+      let allData = [...dataArray];
+
+      allData[parentIndex].detailList.push({
+        index: dataArray[parentIndex].detailList.length,
+        date: allData[parentIndex].detailList[currentIndex].date,
+        name: allData[parentIndex].detailList[currentIndex].name,
+        location: allData[parentIndex].detailList[currentIndex].location,
+        details: allData[parentIndex].detailList[currentIndex].details
       });
 
       setAttributes({ dataArray: allData });
     }
 
+    renderMoveToList( parentIndex, index ) {
+      const { dataArray } = this.props.attributes;
+      let tempDataArray = [...dataArray];
+      let renderListArray = [];
+
+      tempDataArray.map( ( parentTitle, titleIndex) => (
+        parentIndex !== titleIndex && '' !== parentTitle.title && renderListArray.push({ title: parentTitle.title, onClick: () => this.MoveItemToParent( parentIndex, titleIndex, index) })
+      ));
+      return renderListArray;
+    }
+
     render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
-      const { dataArray, showFilter, title, showTitle } = attributes;
-
-      const dataArrayList = dataArray
-        .sort((a, b) => a.index - b.index)
-        .map((data, index) => {
-          return (
-            <div className="schedule-row">
-              <div className="move-item">
-                {0 < index && (
-                  <Tooltip text="Move UP">
-                    <i
-                      onClick={() => this.moveMedia(index, index - 1)}
-                      class="fas fa-chevron-up"
-                    ></i>
-                  </Tooltip>
-                )}
-                {index + 1 < dataArray.length && (
-                  <Tooltip text="Move Down">
-                    <i
-                      onClick={() => this.moveMedia(index, index + 1)}
-                      class="fas fa-chevron-down"
-                    ></i>
-                  </Tooltip>
-                )}
-                <Tooltip text="Duplicate">
-                  <i
-                    onClick={() => this.duplicate(index)}
-                    class="fas fa-clone"
-                  ></i>
-                </Tooltip>
-                <Tooltip text="Remove">
-                  <i
-                    onClick={() => {
-                      const qewQusote = dataArray
-                        .filter(item => item.index != data.index)
-                        .map(t => {
-                          if (t.index > data.index) {
-                            t.index -= 1;
-                          }
-
-                          return t;
-                        });
-
-                      setAttributes({
-                        dataArray: qewQusote
-                      });
-                    }}
-                    class="fas fa-times"
-                  ></i>
-                </Tooltip>
-              </div>
-              <div className="date">
-                <RichText
-                  tagName="p"
-                  keepPlaceholderOnFocus="true"
-                  placeholder={__('8 a.m. - 6 p.m.')}
-                  value={data.date}
-                  onChange={date => {
-                    const newObject = Object.assign({}, data, {
-                      date: date
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(item => item.index != data.index),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-              <div className="name">
-                <RichText
-                  tagName="strong"
-                  keepPlaceholderOnFocus="true"
-                  placeholder={__('Registration Open')}
-                  value={data.name}
-                  onChange={name => {
-                    const newObject = Object.assign({}, data, {
-                      name: name
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(item => item.index != data.index),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-              <div className="location">
-                <RichText
-                  tagName="p"
-                  placeholder={__('Location')}
-                  value={data.location}
-                  keepPlaceholderOnFocus="true"
-                  onChange={location => {
-                    const newObject = Object.assign({}, data, {
-                      location: location
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(item => item.index != data.index),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-              <div className="details">
-                <RichText
-                  tagName="p"
-                  placeholder={__('Open to All')}
-                  value={data.details}
-                  keepPlaceholderOnFocus="true"
-                  onChange={details => {
-                    const newObject = Object.assign({}, data, {
-                      details: details
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(item => item.index != data.index),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-            </div>
-          );
-        });
+      const { attributes, setAttributes } = this.props;
+      const { dataArray, showFilter, showTitle } = attributes;
 
       return (
         <Fragment>
@@ -335,6 +256,14 @@
                   onChange={() => setAttributes({ showTitle: ! showTitle })}
                 />
               </PanelRow>
+            </PanelBody>
+            <PanelBody title={__('Help')} initialOpen={false}>
+              <a
+                href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4"
+                target="_blank"
+              >
+                How to use block?
+              </a>
             </PanelBody>
           </InspectorControls>
           {showFilter && (
@@ -386,48 +315,204 @@
             </div>
           )}
           <div className="schedule-main">
-            {showTitle && (
-              <RichText
-                tagName="h2"
-                onChange={value => setAttributes({ title: value })}
-                value={title}
-                keepPlaceholderOnFocus="true"
-                placeholder={__('Date')}
-              />
-            )}
-            <InspectorControls>
-              <PanelBody title={__('Help')} initialOpen={false}>
-                <a
-                  href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4"
-                  target="_blank"
-                >
-                  How to use block?
-                </a>
-              </PanelBody>
-            </InspectorControls>
-            <div className="schedule-data">
-              {dataArrayList}
-              <div className="add-remove-btn">
-                <button
-                  className="add"
-                  onClick={content => {
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray,
-                        {
-                          index: dataArray.length,
+            { 0 < dataArray.length &&
+            dataArray
+              .sort((a, b) => a.titleIndex - b.titleIndex)
+              .map( (parentData, parentIndex )  => (
+                  <Fragment>
+                    <div className="shedule-details-parent">
+                      <div className="move-item">
+                        { 0 < parentIndex && (
+                          <Tooltip text="Move UP">
+                            <i
+                              onClick={() => this.moveParentItem(parentIndex, parentIndex - 1)}
+                              className="fa fa-chevron-up"
+                            ></i>
+                          </Tooltip>
+                        )}
+                        { parentIndex + 1 < dataArray.length && (
+                          <Tooltip text="Move Down">
+                            <i
+                              onClick={() => this.moveParentItem(parentIndex, parentIndex + 1)}
+                              className="fa fa-chevron-down"
+                            ></i>
+                          </Tooltip>
+                        )}
+                      </div>
+                      <Tooltip text="Remove">
+                        <i
+                          onClick={() => {
+                            let tempDataArray = [...dataArray];
+                            tempDataArray.splice(parentIndex, 1);
+                            setAttributes({ dataArray: tempDataArray});
+                          }}
+                          className="fa fa-times details-parent"
+                        ></i>
+                      </Tooltip>
+                      {
+                        showTitle && (
+                          <RichText
+                            tagName="h2"
+                            value={parentData.title}
+                            keepPlaceholderOnFocus="true"
+                            placeholder={__('Date')}
+                            onChange={value =>  {
+                              let tempDataArray = [...dataArray];
+                              tempDataArray[parentIndex].title = value;
+                              setAttributes({ dataArray: tempDataArray});
+                            }}
+                          />
+                        )
+                      }
+                      <div className="schedule-data">
+                        { parentData.detailList
+                          .sort((a, b) => a.index - b.index)
+                          .map((data, index) => (
+                            <div className="schedule-row">
+                              <div className="move-item">
+                                { ( 0 !== parentIndex || 0 !== index ) && (
+                                  <Tooltip text="Move UP">
+                                    <i
+                                      onClick={() => this.moveMedia(parentIndex, index, index - 1)}
+                                      className="fa fa-chevron-up"
+                                    ></i>
+                                  </Tooltip>
+                                )}
+                                { ( parentIndex + 1 !== dataArray.length || index + 1 < parentData.detailList.length ) && (
+                                  <Tooltip text="Move Down">
+                                    <i
+                                      onClick={() => this.moveMedia(parentIndex, index, index + 1)}
+                                      className="fa fa-chevron-down"
+                                    ></i>
+                                  </Tooltip>
+                                )}
+                                <Tooltip text="Duplicate">
+                                  <i
+                                    onClick={() => this.duplicate(parentIndex, index)}
+                                    className="fa fa-clone"
+                                  ></i>
+                                </Tooltip>
+                                {1 < dataArray.length &&
+                                <DropdownMenu
+                                  icon="arrow-right-alt"
+                                  label="Move To"
+                                  controls={this.renderMoveToList(parentIndex, index)}
+                                />
+                                }
+                                <Tooltip text="Remove">
+                                  <i
+                                    onClick={() => {
+                                      let tempDataArray = [...dataArray];
+                                      tempDataArray[parentIndex].detailList.splice(index, 1);
+                                      setAttributes({ dataArray: tempDataArray});
+                                    }}
+                                    className="fa fa-times"
+                                  ></i>
+                                </Tooltip>
+                              </div>
+                              <div className="date">
+                                <RichText
+                                  tagName="p"
+                                  keepPlaceholderOnFocus="true"
+                                  placeholder={__('8 a.m. - 6 p.m.')}
+                                  value={data.date}
+                                  onChange={date => {
+                                    let tempDataArray = [...dataArray];
+                                    tempDataArray[parentIndex].detailList[index].date = date;
+                                    setAttributes({ dataArray: tempDataArray});
+                                  }}
+                                />
+                              </div>
+                              <div className="name">
+                                <RichText
+                                  tagName="strong"
+                                  keepPlaceholderOnFocus="true"
+                                  placeholder={__('Registration Open')}
+                                  value={data.name}
+                                  onChange={name => {
+                                    let tempDataArray = [...dataArray];
+                                    tempDataArray[parentIndex].detailList[index].name = name;
+                                    setAttributes({ dataArray: tempDataArray});
+                                  }}
+                                />
+                              </div>
+                              <div className="location">
+                                <RichText
+                                  tagName="p"
+                                  placeholder={__('Location')}
+                                  value={data.location}
+                                  keepPlaceholderOnFocus="true"
+                                  onChange={location => {
+                                    let tempDataArray = [...dataArray];
+                                    tempDataArray[parentIndex].detailList[index].location = location;
+                                    setAttributes({ dataArray: tempDataArray});
+                                  }}
+                                />
+                              </div>
+                              <div className="details">
+                                <RichText
+                                  tagName="p"
+                                  placeholder={__('Open to All')}
+                                  value={data.details}
+                                  keepPlaceholderOnFocus="true"
+                                  onChange={details => {
+                                    let tempDataArray = [...dataArray];
+                                    tempDataArray[parentIndex].detailList[index].details = details;
+                                    setAttributes({ dataArray: tempDataArray});
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          ))
+                        }
+                        <div className="add-remove-btn">
+                          <button
+                            className="add"
+                            onClick={content => {
+                              let tempDataArray = [...dataArray];
+                              tempDataArray[parentIndex].detailList.push({
+                                index: dataArray[parentIndex].detailList.length,
+                                date: '',
+                                name: '',
+                                location: '',
+                                details: 'Open to All'
+                              });
+                              setAttributes({ dataArray: tempDataArray });
+                            }}
+                          >
+                            <span className="dashicons dashicons-plus"></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </Fragment>
+                )
+              )
+            }
+            <div className="add-remove-btn">
+              <button
+                className="add"
+                onClick={content => {
+                  setAttributes({
+                    dataArray: [
+                      ...dataArray,
+                      {
+                        titleIndex: dataArray.length,
+                        title: '',
+                        detailList: [{
+                          index: 0,
                           date: '',
                           name: '',
                           location: '',
                           details: 'Open to All'
-                        }
-                      ]
-                    });
-                  }}
-                >
-                  <span className="dashicons dashicons-plus"></span>
-                </button>
-              </div>
+                        }]
+                      }
+                    ]
+                  });
+                }}
+              >
+                <span className="dashicons dashicons-plus"></span>
+              </button>
             </div>
           </div>
         </Fragment>
@@ -442,9 +527,6 @@
     category: 'nabshow',
     keywords: [__('Schedule'), __('gutenberg'), __('nab')],
     attributes: {
-      title: {
-        type: 'strong'
-      },
       dataArray: {
         type: 'array',
         default: []
@@ -462,7 +544,7 @@
 
     save: props => {
       const { attributes } = props;
-      const { dataArray, showFilter, title, showTitle } = attributes;
+      const { dataArray, showFilter, showTitle } = attributes;
 
       return (
         <Fragment>
@@ -514,43 +596,46 @@
               </div>
             </div>
           )}
-          <div className="schedule-main">
-            {showTitle && <RichText.Content tagName="h2" value={title} />}
-            <div className="schedule-data">
-              {dataArray
-                .sort((a, b) => a.index - b.index)
-                .map((data, index) => (
-                  <div className="schedule-row">
-                    <div className="date">
-                      <RichText.Content
-                        tagName="p"
-                        value={data.date === undefined ? '-' : data.date}
-                      />
+          { 0 < dataArray.length && dataArray.map( (parentData)  => (
+            <div className="schedule-main">
+              {showTitle && <RichText.Content tagName="h2" value={parentData.title} />}
+              <div className="schedule-data">
+                { parentData.detailList
+                  .sort((a, b) => a.index - b.index)
+                  .map((data) => (
+                    <div className="schedule-row">
+                      <div className="date">
+                        <RichText.Content
+                          tagName="p"
+                          value={data.date === undefined ? '-' : data.date}
+                        />
+                      </div>
+                      <div className="name">
+                        <RichText.Content
+                          tagName="strong"
+                          value={data.name === undefined ? '-' : data.name}
+                        />
+                      </div>
+                      <div className="location">
+                        <RichText.Content
+                          tagName="p"
+                          value={
+                            data.location === undefined ? '-' : data.location
+                          }
+                        />
+                      </div>
+                      <div className="details">
+                        <RichText.Content
+                          tagName="p"
+                          value={data.details === undefined ? '-' : data.details}
+                        />
+                      </div>
                     </div>
-                    <div className="name">
-                      <RichText.Content
-                        tagName="strong"
-                        value={data.name === undefined ? '-' : data.name}
-                      />
-                    </div>
-                    <div className="location">
-                      <RichText.Content
-                        tagName="p"
-                        value={
-                          data.location === undefined ? '-' : data.location
-                        }
-                      />
-                    </div>
-                    <div className="details">
-                      <RichText.Content
-                        tagName="p"
-                        value={data.details === undefined ? '-' : data.details}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
-          </div>
+          ))
+          }
         </Fragment>
       );
     }

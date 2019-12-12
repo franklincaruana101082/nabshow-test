@@ -579,6 +579,8 @@ function nabshow_lv_manage_compact_view_columns( $columns ) {
 	    $manage_columns = array();
 
 		$manage_columns['cb']    = $columns['cb'];
+		$manage_columns['featured_term'] = $columns['featured_term'];
+		$manage_columns['date'] = $columns['date'];
 		$manage_columns['title'] = $columns['title'];
 
 		return $manage_columns;

@@ -89,6 +89,9 @@
     </div>
 </div>
 <!-- Popup HTML -->
+<!-- Back To Top -->
+<div class="back-to-top"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
+<!-- Back To Top -->
 <?php wp_footer(); ?>
 </body>
 </html>

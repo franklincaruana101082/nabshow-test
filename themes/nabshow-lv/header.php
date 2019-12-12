@@ -70,7 +70,9 @@
 		                    <?php
 		                    $sticky_logo = get_theme_mod( 'menu_sticky_logo', '' );
 		                    ?>
-		                    <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="sticky-logo">
+		                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+		                        <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="nabshow-lv-logo">
+		                    </a>
 	                    </div>
                     </div>
                 </div>

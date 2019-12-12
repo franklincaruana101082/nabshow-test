@@ -212,7 +212,7 @@
           {showFilter &&
             <div className="box-main-filter main-filter delegation-filter">
               <div className="category"><label>Country</label>
-                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                <div className="box-main-select"><select id="box-main-category-delegation" className="select-opt">
                   <option>Select a Category</option>
                 </select></div>
               </div>
@@ -281,7 +281,7 @@
           {showFilter &&
             <div className="box-main-filter main-filter delegation-filter">
               <div className="category"><label>Country</label>
-                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                <div className="box-main-select"><select id="box-main-category-delegation" className="select-opt">
                   <option>Select a Category</option>
                 </select></div>
               </div>

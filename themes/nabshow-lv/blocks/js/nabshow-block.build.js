@@ -2447,7 +2447,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 { className: "box-main-select" },
                 wp.element.createElement(
                   "select",
-                  { id: "box-main-category", className: "select-opt" },
+                  { id: "box-main-category-newyr", className: "select-opt" },
                   wp.element.createElement(
                     "option",
                     null,
@@ -2567,7 +2567,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               { className: "box-main-select" },
               wp.element.createElement(
                 "select",
-                { id: "box-main-category", className: "select-opt" },
+                { id: "box-main-category-newyr", className: "select-opt" },
                 wp.element.createElement(
                   "option",
                   null,
@@ -2882,7 +2882,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 { className: "box-main-select" },
                 wp.element.createElement(
                   "select",
-                  { id: "box-main-category", className: "select-opt" },
+                  { id: "box-main-category-delegation", className: "select-opt" },
                   wp.element.createElement(
                     "option",
                     null,
@@ -2988,7 +2988,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               { className: "box-main-select" },
               wp.element.createElement(
                 "select",
-                { id: "box-main-category", className: "select-opt" },
+                { id: "box-main-category-delegation", className: "select-opt" },
                 wp.element.createElement(
                   "option",
                   null,
@@ -5237,7 +5237,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   { className: "box-main-select" },
                   wp.element.createElement(
                     "select",
-                    { id: "box-main-category", className: "select-opt" },
+                    { id: "box-main-category-offven", className: "select-opt" },
                     wp.element.createElement(
                       "option",
                       null,
@@ -5386,7 +5386,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 { className: "box-main-select" },
                 wp.element.createElement(
                   "select",
-                  { id: "box-main-category", className: "select-opt" },
+                  { id: "box-main-category-offven", className: "select-opt" },
                   wp.element.createElement(
                     "option",
                     null,

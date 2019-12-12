@@ -1,9 +1,11 @@
+import pick from 'lodash/pick';
+import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6} from "../icons";
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
   const { __ } = wpI18n;
-  const { Fragment } = wpElement;
+  const { Component, Fragment } = wpElement;
   const { registerBlockType } = wpBlocks;
-  const { InspectorControls, MediaUpload, BlockControls } = wpEditor;
-  const { PanelBody, PanelRow, DateTimePicker, Toolbar, IconButton, ToggleControl, TextControl, ServerSideRender, Button, Placeholder } = wpComponents;
+  const { InspectorControls, MediaUpload} = wpEditor;
+  const { PanelBody, PanelRow, DateTimePicker, Tooltip, IconButton, ToggleControl, TextControl, Button, Placeholder } = wpComponents;
 
   const adUploadIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="2 2 22 22" className="dashicon">
@@ -50,66 +52,42 @@
     </svg>
   );
 
-  const allAttr = {
-    imgSource: {
-      type: 'string',
-    },
-    imgID: {
-      type: 'number',
-    },
-    imgWidth: {
-      type: 'number',
-    },
-    imgHeight: {
-      type: 'number',
-    },
-    linkURL: {
-      type: 'string',
-    },
-    linkTarget: {
-      type: 'boolean',
-      default: true,
-    },
-    scheduleAd: {
-      type: 'boolean',
-      default: false,
-    },
-    startDate: {
-      type: 'string',
-    },
-    endDate: {
-      type: 'string',
-    },
-    eventCategory: {
-      type: 'string',
-    },
-    eventAction: {
-      type: 'string',
-    },
-    eventLabel: {
-      type: 'string',
-    },
-    showCal: {
-      type: 'boolean',
-      default: false,
-    },
-    addAlign: {
-      type: 'string',
-      default: 'center'
+  class NabAdvertisement extends Component {
+    constructor() {
+      super(...arguments);
+      this.state = {
+        currentSelected: 0,
+      };
     }
-  };
 
+    updateMediaData(data) {
 
-  registerBlockType('nab/advertisement', {
-    title: __('Advertisement'),
-    icon: { src: adBlockIcon},
-    category: 'nabshow',
-    keywords: [__('ad'), __('advertisement')],
-    attributes: allAttr,
-    edit(props) {
-      const { attributes: { imgSource, imgID, imgWidth, imgHeight, linkURL, linkTarget, scheduleAd, startDate, endDate, eventCategory, eventAction, eventLabel, showCal, addAlign }, setAttributes } = props;
+      const { currentSelected } = this.state;
+
+      if ('number' !== typeof currentSelected) {
+        return null;
+      }
+
+      const { attributes, setAttributes } = this.props;
+      const { imgSources } = attributes;
+
+      const newSources = imgSources.map((imgSources, index) => {
+        if (index === currentSelected) {
+          imgSources = Object.assign({}, imgSources, data);
+        }
+        return imgSources;
+      });
+
+      setAttributes({ imgSources: newSources });
+    }
+
+    render() {
+      const { attributes: { imgSources, imgWidth, imgHeight, linkTarget, scheduleAd, startDate, endDate, showCal, addAlign }, setAttributes, isSelected } = this.props;
+
+      const { currentSelected } = this.state;
 
       const style = {};
+
       imgWidth && (style.width = imgWidth + 'px');
       imgHeight && (style.height = imgHeight + 'px');
 
@@ -129,7 +107,7 @@
       });
 
 
-      if (! imgID) {
+      if (0 === imgSources.length) {
         return (
           <Placeholder
             icon={adUploadIcon}
@@ -139,7 +117,20 @@
             <MediaUpload
               allowedTypes={['image']}
               value={null}
-              onSelect={(item) => setAttributes({ imgSource: item.url, imgID: item.id })}
+              multiple
+              onSelect={(item) => {
+                const mediaInsert = item.map((source) => ({
+                  url: source.url,
+                  id: source.id,
+                }));
+
+                setAttributes({
+                  imgSources: [
+                    ...imgSources,
+                    ...mediaInsert,
+                  ]
+                });
+              }}
               render={({ open }) => (
                 <Button className="button button-large button-primary" onClick={open}>
                   {__('Add image')}
@@ -166,8 +157,11 @@
               <Fragment>
                 <div className="inspector-field inspector-field-toggleCal components-base-control">
                   <div className="toggleCalender">
-                                            <span className="cal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path
-                                              d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg></span>
+                        <span className="cal">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path>
+                          </svg>
+                        </span>
                     <span className="text">Toggle Calendar</span>
                   </div>
                   <ToggleControl
@@ -234,82 +228,156 @@
               </PanelRow>
             </PanelBody>
             <PanelBody title={__('Link Settings')} initialOpen={false}>
-              <TextControl
-                label="Link URL"
-                type="string"
-                value={linkURL}
-                placeholder="`https://`"
-                onChange={(link) => setAttributes({ linkURL: link })}
-              />
               <ToggleControl
                 label={__('Open in New Tab')}
                 checked={linkTarget}
                 onChange={() => setAttributes({ linkTarget: ! linkTarget })}
               />
             </PanelBody>
-            <PanelBody title={__('Google Event')} initialOpen={false}>
-              <TextControl
-                label="Event Category"
-                type="string"
-                value={eventCategory}
-                placeholder="Enter Category"
-                onChange={(category) => setAttributes({ eventCategory: category })}
-              />
-              <TextControl
-                label="Event Action"
-                type="string"
-                value={eventAction}
-                placeholder="Enter Action"
-                onChange={(action) => setAttributes({ eventAction: action })}
-              />
-              <TextControl
-                label="Event Label"
-                type="string"
-                value={eventLabel}
-                placeholder="Enter Label"
-                onChange={(label) => setAttributes({ eventLabel: label })}
-              />
-            </PanelBody>
             <PanelBody title={__('Help')} initialOpen={false}>
               <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/advertisement.mp4" target="_blank">How to use block?</a>
             </PanelBody>
           </InspectorControls>
-          <Fragment>
-            <BlockControls>
-              <Toolbar>
-                <MediaUpload
-                  allowedTypes={['image']}
-                  value={imgID}
-                  onSelect={(item) => setAttributes({ imgSource: item.url })}
-                  render={({ open }) => (
-                    <IconButton
-                      className="components-toolbar__control"
-                      label={__('Change image')}
-                      icon="edit"
-                      onClick={open}
-                    />
-                  )}
-                />
-              </Toolbar>
-            </BlockControls>
-          </Fragment>
           <div className="nab-banner-main" style={{textAlign: addAlign}}>
             <div className="nab-banner-inner">
               <p className="banner-text">Advertisement</p>
-              <img src={imgSource}
+              <img src={imgSources[currentSelected].url}
                    className="banner-img"
                    alt={__('image')}
                    style={style}
-
               />
+              {isSelected && (
+                <div className="nab-ad-controls">
+                  <div className="nab-controls-wrapper">
+                    <div className="nab-ad-field img-link">
+                      <TextControl
+                        label={__('Link URL')}
+                        placeholder="https://"
+                        value={imgSources[currentSelected] ? imgSources[currentSelected].bannerLink || '' : ''}
+                        onChange={(value) => this.updateMediaData({ bannerLink: value || '' })}
+                      />
+                    </div>
+                    <strong>Google Event</strong>
+                    <div className="nab-ad-field google-event">
+                      <TextControl
+                        label={__('Event Category')}
+                        placeholder="Enter Category"
+                        value={imgSources[currentSelected] ? imgSources[currentSelected].eventCategory || '' : ''}
+                        onChange={(value) => this.updateMediaData({ eventCategory: value || '' })}
+                      />
+                    </div>
+                    <div className="nab-ad-field google-event">
+                      <TextControl
+                        label={__('Event Action')}
+                        placeholder="Enter Action"
+                        value={imgSources[currentSelected] ? imgSources[currentSelected].eventAction || '' : ''}
+                        onChange={(value) => this.updateMediaData({ eventAction: value || '' })}
+                      />
+                    </div>
+                    <div className="nab-ad-field google-event">
+                      <TextControl
+                        label={__('Event Label')}
+                        placeholder="Enter Label"
+                        value={imgSources[currentSelected] ? imgSources[currentSelected].eventLabel || '' : ''}
+                        onChange={(value) => this.updateMediaData({ eventLabel: value || '' })}
+                      />
+                    </div>
+                  </div>
+                  <div className="nab-ad-list">
+                    { imgSources.map((source, index) => (
+                      <div className="nab-ad-img-list-item" key={index}>
+                        <img src={source.url}
+                             className="nab-ad-img"
+                             alt={__('Ad-Image')}
+                             height="100px"
+                             width="100px"
+                             onClick={() => {
+                               this.setState({ currentSelected: index });
+                             }}
+                        />
+                        <Tooltip text={__('Remove Image')}>
+                          <IconButton
+                            className="nab-ad-item-remove"
+                            icon="no"
+                            onClick={() => {
+                              if (index === currentSelected) { this.setState({ currentSelected: 0 }); }
+                              setAttributes({ imgSources: imgSources.filter((img, idx) => idx !== index) });
+                            }}
+                          />
+                        </Tooltip>
+                      </div>
+                    ))}
+                    <div className="nab-advertisement-add-item">
+                      <MediaUpload
+                        allowedTypes={['image']}
+                        value={null}
+                        multiple
+                        onSelect={(items) => setAttributes({
+                          imgSources: [...imgSources, ...items.map((item) => pick(item, 'url', 'id'))],
+                        })}
+                        render={({ open }) => (
+                          <IconButton
+                            label={__('Add media')}
+                            icon="plus"
+                            onClick={open}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <ServerSideRender
-            block="nab/advertisement"
-          />
         </Fragment >
       );
+    }
+
+  }
+
+  const allAttr = {
+    imgSources: {
+      type: 'array',
+      default: [],
     },
+    imgWidth: {
+      type: 'number',
+    },
+    imgHeight: {
+      type: 'number',
+    },
+    linkTarget: {
+      type: 'boolean',
+      default: true,
+    },
+    scheduleAd: {
+      type: 'boolean',
+      default: false,
+    },
+    startDate: {
+      type: 'string',
+    },
+    endDate: {
+      type: 'string',
+    },
+    showCal: {
+      type: 'boolean',
+      default: false,
+    },
+    addAlign: {
+      type: 'string',
+      default: 'center'
+    }
+  };
+
+
+  registerBlockType('nab/advertisement', {
+    title: __('Advertisement'),
+    icon: { src: adBlockIcon},
+    category: 'nabshow',
+    keywords: [__('ad'), __('advertisement')],
+    attributes: allAttr,
+    edit: NabAdvertisement,
     save() {
       return null;
     },

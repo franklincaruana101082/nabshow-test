@@ -284,7 +284,7 @@
             <div className="box-main-filter main-filter new-this-year-filter official-vendors-filter">
               <div className="ov-filter">
                 <div className="category"><label>Service</label>
-                  <div className="box-main-select"><select id="box-main-category" className="select-opt"><option>Select a Service</option></select></div>
+                  <div className="box-main-select"><select id="box-main-category-offven" className="select-opt"><option>Select a Service</option></select></div>
                 </div>
                 <div className="category">
                   <label>Vendor Name</label>
@@ -361,7 +361,7 @@
             <div className="box-main-filter main-filter new-this-year-filter official-vendors-filter">
               <div className="ov-filter">
                 <div className="category"><label>Service</label>
-                  <div className="box-main-select"><select id="box-main-category" className="select-opt"><option>Select a Service</option></select></div>
+                  <div className="box-main-select"><select id="box-main-category-offven" className="select-opt"><option>Select a Service</option></select></div>
                 </div>
                 <div className="category">
                   <label>Vendor Name</label>

@@ -130,20 +130,15 @@ function nabshow_lv_register_dynamic_blocks() {
 
 	register_block_type( 'nab/advertisement', array(
             'attributes' => array(
-                'imgSource'  => array(
-                    'type' => 'string'
-                ),
-                'imgID'      => array(
-                    'type'      => 'number'
+                'imgSources'  => array(
+                    'type'    => 'object',
+					'default' => [],
                 ),
                 'imgWidth'   => array(
                     'type'      => 'number'
                 ),
                 'imgHeight'  => array(
                     'type'      => 'number'
-                ),
-                'linkURL'    => array(
-                    'type'      => 'string'
                 ),
                 'linkTarget' => array(
                     'type'      => 'boolean',
@@ -157,15 +152,6 @@ function nabshow_lv_register_dynamic_blocks() {
                     'type'      => 'string'
                 ),
                 'endDate'    => array(
-                    'type'      => 'string'
-                ),
-                'eventCategory'    => array(
-                    'type'      => 'string'
-                ),
-                'eventAction'    => array(
-                    'type'      => 'string'
-                ),
-                'eventLabel'    => array(
                     'type'      => 'string'
                 ),
                 'addAlign'    => array(
@@ -532,61 +518,66 @@ function nabshow_lv_latest_show_news_render_callback($attributes){
  */
 function nabshow_lv_advertisement_render_callback( $attributes ) {
 
+    $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
+    $class_name   = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+    $img_sources   = isset( $attributes['imgSources'] ) && ! empty( $attributes['imgSources'] ) ? $attributes['imgSources'] : array();
+    $schedule_ad  = isset( $attributes['scheduleAd'] ) ? $attributes['scheduleAd'] : false;
+    $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
+    $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
+    $adv_align    = isset( $attributes['addAlign'] ) && ! empty( $attributes['addAlign']) ? 'text-align: ' . $attributes['addAlign'] : '';
+    $start_date   = isset( $attributes['startDate'] ) && ! empty( $attributes['startDate'] ) ? $attributes['startDate'] : $current_date;
+    $end_date     = isset( $attributes['endDate'] ) && ! empty( $attributes['endDate'] ) ? $attributes['endDate'] : $current_date;
+
+    $start_date   = new DateTime( $start_date );
+    $start_date   = $start_date->format( 'Y-m-d H:i:s' );
+    $end_date     = new DateTime( $end_date );
+    $end_date     = $end_date->format( 'Y-m-d H:i:s' );
+
+    $img_url        = '';
+    $link_url       = '';
+    $event_category = '';
+    $event_action   = '';
+    $event_label    = '';
+
+    if ( count( $img_sources ) > 0 ) {
+
+        $random_key     = array_rand( $img_sources, 1 );
+        $img_url        = isset( $img_sources[ $random_key ][ 'url' ] ) ? $img_sources[ $random_key ][ 'url' ] : $img_url;
+        $link_url       = isset( $img_sources[ $random_key ][ 'bannerLink' ] ) ? $img_sources[ $random_key ][ 'bannerLink' ] : $link_url;
+	    $event_category = isset( $img_sources[ $random_key ][ 'eventCategory' ] ) ? $img_sources[ $random_key ][ 'eventCategory' ] : $event_category;
+	    $event_action   = isset( $img_sources[ $random_key ][ 'eventAction' ] ) ? $img_sources[ $random_key ][ 'eventAction' ] : $event_action;
+	    $event_label    = isset( $img_sources[ $random_key ][ 'eventLabel' ] ) ? $img_sources[ $random_key ][ 'eventLabel' ] : $event_label;
+    }
+
     ob_start();
 
-    if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+    if ( ( ! $schedule_ad ) || ( $start_date <= $current_date && $current_date <= $end_date ) ) {
+    ?>
+        <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>" style="<?php echo esc_attr( $adv_align ); ?>">
+            <div class="nab-banner-inner">
+                <p class="banner-text">Advertisement</p>
+                <?php
 
-        ?>
-        <p style="display:none">Advertisement</p>
-        <?php
-
-    } else {
-
-        $current_date = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
-        $class_name   = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-        $img_source   = isset( $attributes['imgSource'] ) && ! empty( $attributes['imgSource'] ) ? $attributes['imgSource'] : '';
-        $schedule_ad  = isset( $attributes['scheduleAd'] ) ? $attributes['scheduleAd'] : false;
-        $img_style    = isset( $attributes['imgWidth'] ) && $attributes['imgWidth'] > 0 ? 'width: ' . $attributes['imgWidth'] . 'px;' : '';
-        $img_style    .= isset( $attributes['imgHeight'] ) && $attributes['imgHeight'] > 0 ? 'height: ' . $attributes['imgHeight'] . 'px;' : '';
-        $adv_align    = isset( $attributes['addAlign'] ) && ! empty( $attributes['addAlign']) ? 'text-align: ' . $attributes['addAlign'] : '';
-        $start_date   = isset( $attributes['startDate'] ) && ! empty( $attributes['startDate'] ) ? $attributes['startDate'] : $current_date;
-        $end_date     = isset( $attributes['endDate'] ) && ! empty( $attributes['endDate'] ) ? $attributes['endDate'] : $current_date;
-
-        $start_date   = new DateTime( $start_date );
-        $start_date   = $start_date->format( 'Y-m-d H:i:s' );
-        $end_date     = new DateTime( $end_date );
-        $end_date     = $end_date->format( 'Y-m-d H:i:s' );
-
-        if ( ( ! $schedule_ad ) || ( $start_date <= $current_date && $current_date <= $end_date ) ) {
-        ?>
-            <div class="nab-banner-main <?php echo esc_attr( $class_name ); ?>" style="<?php echo esc_attr( $adv_align ); ?>">
-                <div class="nab-banner-inner">
-                    <p class="banner-text">Advertisement</p>
-                    <?php
-
-                    if ( isset( $attributes['linkURL'] ) && ! empty( $attributes['linkURL'] ) ) {
-                        $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
-                        $event_category    = isset( $attributes['eventCategory'] ) && ! empty( $attributes['eventCategory'] ) ? $attributes['eventCategory'] : '';
-                        $event_action      = isset( $attributes['eventAction'] ) && ! empty( $attributes['eventAction'] ) ? $attributes['eventAction'] : '';
-                        $event_label       = isset( $attributes['eventLabel'] ) && ! empty( $attributes['eventLabel'] ) ? $attributes['eventLabel'] : '';
-                    ?>
-                        <a class="nab-banner-link" href="<?php echo esc_url( $attributes['linkURL'] ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
-                            <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
-                        </a>
-                    <?php
-                    } else {
-                    ?>
-                        <img src="<?php echo esc_url( $img_source ); ?>" class="banner-img" alt="image" style="<?php echo esc_attr( $img_style ); ?>"/>
-                    <?php
-                    }
-                    ?>
-                </div>
+                if ( ! empty( $link_url ) ) {
+                    $link_target       = isset( $attributes['linkTarget'] ) && $attributes['linkTarget'] ? '_blank' : '_self';
+                ?>
+                    <a class="nab-banner-link" href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>" data-category="<?php echo esc_attr( $event_category ); ?>" data-action="<?php echo esc_attr( $event_action ); ?>" data-label="<?php echo esc_attr( $event_label ); ?>">
+                        <img src="<?php echo esc_url( $img_url ); ?>" class="banner-img" alt="banner-image" style="<?php echo esc_attr( $img_style ); ?>"/>
+                    </a>
+                <?php
+                } else {
+                ?>
+                    <img src="<?php echo esc_url( $img_url ); ?>" class="banner-img" alt="banner-image" style="<?php echo esc_attr( $img_style ); ?>"/>
+                <?php
+                }
+                ?>
             </div>
-        <?php
-        }
+        </div>
+    <?php
     }
 
     $html = ob_get_clean();
+
     return $html;
 }
 
