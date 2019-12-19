@@ -505,9 +505,16 @@ function nabshow_lv_related_content_dynamic_field_display( $page_id, $display_fi
 		    }
 
 		    if ( ! empty( $sub_title ) ) {
-			    ?>
-                <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
-			    <?php
+
+			    if ( 'reg_access' === $field ) {
+				    ?>
+				    <span class="sub-title <?php echo esc_attr( $field ); ?>"><a href="https://registration.experientevent.com/ShowNAB201/Flow/ATT/#!/registrant//CustomLogin/" target="_blank"><?php echo esc_html( $sub_title ); ?></a></span>
+				    <?php
+			    } else {
+				    ?>
+				    <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
+				    <?php
+			    }
 		    }
 	    }
     }

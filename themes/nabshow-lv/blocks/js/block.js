@@ -137,7 +137,7 @@ wp.domReady( function() {
 
 // Remove  'Remove from Reusable Blocks' button  from Reusable Blocks
 setInterval(function () {
-    $('.components-button.block-editor-block-settings-menu__control').each(function () {
-        if ('Remove from Reusable Blocks' === $(this).text()) { $(this).addClass('hideBtn'); }
+    jQuery('.components-button.block-editor-block-settings-menu__control').each(function () {
+        if ('Remove from Reusable Blocks' === jQuery(this).text()) { jQuery(this).addClass('hideBtn'); }
     });
 }, 0.5);

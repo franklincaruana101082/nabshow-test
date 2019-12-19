@@ -10,10 +10,6 @@ import memoize from 'memize';
 
   const ALLOWBLOCKS = ['nab/meet-the-team-item'];
 
-  const getChildscheduleBlock = memoize(schedule => {
-    return times(schedule, n => ['nab/meet-the-team-item', { id: n + 1 }]);
-  });
-
   const removehildawardsBlock = memoize((schedule) => {
     return times(schedule, (n) => ['nab/meet-the-team-item', { id: n - 1 }]);
   });
@@ -135,8 +131,8 @@ import memoize from 'memize';
     edit: (props) => {
       const { attributes: { noOfschedule, showFilter }, className, setAttributes, clientId } = props;
 
-      $(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
-        if ('' !== $(this).parents(`#block-${clientId}`)) {
+      jQuery(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
+        if ('' !== jQuery(this).parents(`#block-${clientId}`)) {
           setAttributes({ noOfschedule: noOfschedule - 1 });
           removehildawardsBlock(noOfschedule);
         }
@@ -168,18 +164,8 @@ import memoize from 'memize';
           }
           <div className={`team-main meet-team-main ${className ? className : ''}`}>
             <InnerBlocks
-              template={getChildscheduleBlock(noOfschedule)}
-              templateLock="all"
               allowedBlocks={ALLOWBLOCKS}
             />
-            <div className="add-remove-btn">
-              <Button
-                className="add"
-                onClick={() => setAttributes({ noOfschedule: noOfschedule + 1 })}
-              >
-                <span className="dashicons dashicons-plus" />
-              </Button>
-            </div>
           </div>
         </Fragment>
       );
@@ -213,7 +199,7 @@ import memoize from 'memize';
     description: __('Meet The Team Items'),
     icon: { src: meetTeamBlockIcon },
     category: 'nabshow',
-    parent: ['nab/schedule'],
+    parent: ['nab/meet-the-team'],
     attributes: {
       name: {
         type: 'string'

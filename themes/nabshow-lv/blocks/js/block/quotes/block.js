@@ -140,7 +140,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         initSlider() {
             const { infiniteLoop, pager, controls, adaptiveHeight, speed, mode } = this.props.attributes;
             const { clientId } = this.props;
-            let sliderObj = $(`#block-${clientId} .wp-block-md-quotes-slider-block`).bxSlider({
+            let sliderObj = jQuery(`#block-${clientId} .wp-block-md-quotes-slider-block`).bxSlider({
                 mode: mode,
                 speed: speed,
                 controls: controls,

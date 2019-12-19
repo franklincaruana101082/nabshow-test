@@ -41,7 +41,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
       'Nab Button is a gutenberg block used to add a clickable button.'
     ),
     category: 'nabshow',
-    keywords: [__('Button'), __('gutenberg')],
+    keywords: [__('Button'), __('gutenberg'), __('btn')],
     attributes: {
       ButtonText: {
         type: 'string',
@@ -237,6 +237,9 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
                         <li className={'btn-light' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-light' })}>{btnLight}</li>
                         <li className={'btn-white' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-white' })}>{btnWhite}</li>
                         <li className={'with-arrow' === btnStyle ? 'active with-arrow' : 'with-arrow'} onClick={() => setAttributes({ btnStyle: 'with-arrow' })}>{arrowBtn}</li>
+                        <li className={'btn-white-outline' === btnStyle ? 'active btn-white-outline-prev' : 'btn-white-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-white-outline' })}><span>READ MORE</span></li>
+                        <li className={'btn-black-outline' === btnStyle ? 'active btn-black-outline-prev' : 'btn-black-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-black-outline' })}><span>READ MORE</span></li>
+                        <li className={'btn-blue-outline' === btnStyle ? 'active btn-blue-outline-prev' : 'btn-blue-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-blue-outline' })}><span>READ MORE</span></li>
                       </ul>
                     </div>
                   </PanelRow>

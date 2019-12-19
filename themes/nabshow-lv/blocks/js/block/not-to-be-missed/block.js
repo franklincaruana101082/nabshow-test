@@ -122,7 +122,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     setTimeout(() => this.initSlider(), 500);
                     this.setState({ bxinit: false });
                 } else {
-                    if (0 < $(`#block-${clientId} .nab-not-to-be-missed-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
+                    if (0 < jQuery(`#block-${clientId} .nab-not-to-be-missed-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
 
                         this.state.bxSliderObj.reloadSlider(
                             {
@@ -146,9 +146,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         initSlider() {
             const { clientId } = this.props;
-            if (0 < $(`#block-${clientId} .nab-not-to-be-missed-slider`).length) {
+            if (0 < jQuery(`#block-${clientId} .nab-not-to-be-missed-slider`).length) {
                 const { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderMode, slideWidth, slideMargin } = this.props.attributes;
-                const sliderObj = $(`#block-${clientId} .nab-not-to-be-missed-slider`).bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
+                const sliderObj = jQuery(`#block-${clientId} .nab-not-to-be-missed-slider`).bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
                 this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
             } else {
                 this.setState({ bxinit: true });

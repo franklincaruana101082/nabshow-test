@@ -8,15 +8,15 @@ import memoize from 'memize';
 	const { RichText, InspectorControls, InnerBlocks } = wpEditor;
 	const { TextControl, PanelBody, PanelRow, RangeControl, SelectControl, ToggleControl, ColorPalette, IconButton } = wpComponents;
 
-	$(document).on('click', '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons', function (e) {
+	jQuery(document).on('click', '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons', function (e) {
 		e.stopImmediatePropagation();
-		$(this).parent().parent().siblings().find('.accordionBody').slideUp();
-		$(this).parent().next().slideToggle();
-		if ($(this).parent().parent('.accordionWrapper').hasClass('tabClose')) {
-			$(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
-			$(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
+    jQuery(this).parent().parent().siblings().find('.accordionBody').slideUp();
+		jQuery(this).parent().next().slideToggle();
+		if (jQuery(this).parent().parent('.accordionWrapper').hasClass('tabClose')) {
+			jQuery(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
+			jQuery(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
 		} else {
-			$(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
+			jQuery(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
 		}
 	});
 
@@ -70,8 +70,8 @@ import memoize from 'memize';
 
 			setAttributes({ blockId: clientId });
 
-			$(document).on('click', `#block-${clientId} .remove-button`, function (e) {
-				if ('' !== $(this).parents(`#block-${clientId}`)) {
+			jQuery(document).on('click', `#block-${clientId} .remove-button`, function (e) {
+				if ('' !== jQuery(this).parents(`#block-${clientId}`)) {
 					setAttributes({ noOfAccordion: noOfAccordion - 1 });
 					removehildawardsBlock(noOfAccordion);
 				}

@@ -2841,9 +2841,9 @@ wp.domReady(function () {
 
 // Remove  'Remove from Reusable Blocks' button  from Reusable Blocks
 setInterval(function () {
-    $('.components-button.block-editor-block-settings-menu__control').each(function () {
-        if ('Remove from Reusable Blocks' === $(this).text()) {
-            $(this).addClass('hideBtn');
+    jQuery('.components-button.block-editor-block-settings-menu__control').each(function () {
+        if ('Remove from Reusable Blocks' === jQuery(this).text()) {
+            jQuery(this).addClass('hideBtn');
         }
     });
 }, 0.5);
@@ -4718,7 +4718,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         PanelRow = wpComponents.PanelRow,
         ColorPalette = wpComponents.ColorPalette;
 
-    var $ = jQuery;
 
     var mediaSliderBlockIcon = wp.element.createElement(
         'svg',
@@ -4877,7 +4876,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = _props$attributes.controls,
                     mode = _props$attributes.mode;
 
-                var sliderObj = $('#block-' + clientId + ' .nab-media-slider').bxSlider({
+                var sliderObj = jQuery('#block-' + clientId + ' .nab-media-slider').bxSlider({
                     mode: mode, auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, adaptiveHeight: adaptiveHeight, stopAutoOnClick: true, autoHover: true,
                     onSlideAfter: function ($slideElement, oldIndex, newIndex) {
                         this.setState({ currentSelected: newIndex });
@@ -7416,7 +7415,7 @@ module.exports = shortOut;
     icon: { src: buttonBlockIcon },
     description: __('Nab Button is a gutenberg block used to add a clickable button.'),
     category: 'nabshow',
-    keywords: [__('Button'), __('gutenberg')],
+    keywords: [__('Button'), __('gutenberg'), __('btn')],
     attributes: {
       ButtonText: {
         type: 'string',
@@ -7679,6 +7678,39 @@ module.exports = shortOut;
                             return setAttributes({ btnStyle: 'with-arrow' });
                           } },
                         __WEBPACK_IMPORTED_MODULE_0__icons__["a" /* arrowBtn */]
+                      ),
+                      wp.element.createElement(
+                        "li",
+                        { className: 'btn-white-outline' === btnStyle ? 'active btn-white-outline-prev' : 'btn-white-outline-prev', onClick: function onClick() {
+                            return setAttributes({ btnStyle: 'btn-white-outline' });
+                          } },
+                        wp.element.createElement(
+                          "span",
+                          null,
+                          "READ MORE"
+                        )
+                      ),
+                      wp.element.createElement(
+                        "li",
+                        { className: 'btn-black-outline' === btnStyle ? 'active btn-black-outline-prev' : 'btn-black-outline-prev', onClick: function onClick() {
+                            return setAttributes({ btnStyle: 'btn-black-outline' });
+                          } },
+                        wp.element.createElement(
+                          "span",
+                          null,
+                          "READ MORE"
+                        )
+                      ),
+                      wp.element.createElement(
+                        "li",
+                        { className: 'btn-blue-outline' === btnStyle ? 'active btn-blue-outline-prev' : 'btn-blue-outline-prev', onClick: function onClick() {
+                            return setAttributes({ btnStyle: 'btn-blue-outline' });
+                          } },
+                        wp.element.createElement(
+                          "span",
+                          null,
+                          "READ MORE"
+                        )
                       )
                     )
                   )
@@ -8957,7 +8989,8 @@ module.exports = shortOut;
       PanelRow = wpComponents.PanelRow,
       Button = wpComponents.Button,
       RangeControl = wpComponents.RangeControl,
-      ColorPalette = wpComponents.ColorPalette;
+      ColorPalette = wpComponents.ColorPalette,
+      ToggleControl = wpComponents.ToggleControl;
 
 
   var imageBlockIcon = wp.element.createElement(
@@ -9086,6 +9119,13 @@ module.exports = shortOut;
       ImgAlignment: {
         type: 'string',
         default: 'Left'
+      },
+      imgLink: {
+        type: 'string'
+      },
+      newWindow: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: function edit(_ref) {
@@ -9107,7 +9147,9 @@ module.exports = shortOut;
           paddingBottom = attributes.paddingBottom,
           paddingLeft = attributes.paddingLeft,
           InsertUrl = attributes.InsertUrl,
-          ImgAlignment = attributes.ImgAlignment;
+          ImgAlignment = attributes.ImgAlignment,
+          imgLink = attributes.imgLink,
+          newWindow = attributes.newWindow;
 
 
       var ImageStyle = {};
@@ -9622,6 +9664,33 @@ module.exports = shortOut;
           ),
           wp.element.createElement(
             PanelBody,
+            { title: __('Link'), initialOpen: false },
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(TextControl, {
+                type: "text",
+                placeholder: "https:",
+                value: imgLink,
+                onChange: function onChange(value) {
+                  return setAttributes({ imgLink: value });
+                }
+              })
+            ),
+            imgLink && wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(ToggleControl, {
+                label: __('Open New Tab'),
+                checked: newWindow,
+                onChange: function onChange() {
+                  return setAttributes({ newWindow: !newWindow });
+                }
+              })
+            )
+          ),
+          wp.element.createElement(
+            PanelBody,
             { title: __('Help'), initialOpen: false },
             wp.element.createElement(
               "a",
@@ -9650,7 +9719,9 @@ module.exports = shortOut;
           paddingRight = attributes.paddingRight,
           paddingBottom = attributes.paddingBottom,
           paddingLeft = attributes.paddingLeft,
-          ImgAlignment = attributes.ImgAlignment;
+          ImgAlignment = attributes.ImgAlignment,
+          imgLink = attributes.imgLink,
+          newWindow = attributes.newWindow;
 
 
       var ImageStyle = {};
@@ -9673,7 +9744,11 @@ module.exports = shortOut;
       return wp.element.createElement(
         "div",
         { className: "nab-image", style: mainStyle },
-        wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+        imgLink ? wp.element.createElement(
+          "a",
+          { href: imgLink, target: newWindow ? '_blank' : '_self', rel: "noopener noreferrer" },
+          wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+        ) : wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
       );
     }
   });
@@ -10382,7 +10457,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               date: '',
               name: '',
               location: '',
-              details: 'Open to All'
+              details: 'Open to All',
+              type: ''
             }]
           }])
         });
@@ -10462,7 +10538,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           date: allData[parentIndex].detailList[currentIndex].date,
           name: allData[parentIndex].detailList[currentIndex].name,
           location: allData[parentIndex].detailList[currentIndex].location,
-          details: allData[parentIndex].detailList[currentIndex].details
+          details: allData[parentIndex].detailList[currentIndex].details,
+          type: allData[parentIndex].detailList[currentIndex].type
         });
 
         setAttributes({ dataArray: allData });
@@ -10584,7 +10661,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   wp.element.createElement(
                     "option",
                     null,
-                    "Select a Pass Time"
+                    "Select an Open To"
                   )
                 )
               )
@@ -10832,6 +10909,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                               setAttributes({ dataArray: tempDataArray });
                             }
                           })
+                        ),
+                        wp.element.createElement(
+                          "div",
+                          { className: "type" },
+                          wp.element.createElement(RichText, {
+                            tagName: "p",
+                            placeholder: __('Type'),
+                            value: data.type,
+                            keepPlaceholderOnFocus: "true",
+                            onChange: function onChange(type) {
+                              var tempDataArray = [].concat(_toConsumableArray(dataArray));
+                              tempDataArray[parentIndex].detailList[index].type = type;
+                              setAttributes({ dataArray: tempDataArray });
+                            }
+                          })
                         )
                       );
                     }),
@@ -10849,7 +10941,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                               date: '',
                               name: '',
                               location: '',
-                              details: 'Open to All'
+                              details: 'Open to All',
+                              type: ''
                             });
                             setAttributes({ dataArray: tempDataArray });
                           }
@@ -10878,7 +10971,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           date: '',
                           name: '',
                           location: '',
-                          details: 'Open to All'
+                          details: 'Open to All',
+                          type: ''
                         }]
                       }])
                     });
@@ -10969,7 +11063,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 wp.element.createElement(
                   "option",
                   null,
-                  "Select a Pass Time"
+                  "Select an Open To"
                 )
               )
             )
@@ -11052,7 +11146,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               }).map(function (data) {
                 return wp.element.createElement(
                   "div",
-                  { className: "schedule-row" },
+                  { className: "schedule-row", "data-type": data.type },
                   wp.element.createElement(
                     "div",
                     { className: "date" },
@@ -11253,7 +11347,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     mode = _props$attributes3.mode;
                 var clientId = this.props.clientId;
 
-                var sliderObj = $("#block-" + clientId + " .wp-block-md-quotes-slider-block").bxSlider({
+                var sliderObj = jQuery("#block-" + clientId + " .wp-block-md-quotes-slider-block").bxSlider({
                     mode: mode,
                     speed: speed,
                     controls: controls,
@@ -11879,7 +11973,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-not-to-be-missed-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-not-to-be-missed-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
 
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
@@ -11903,7 +11997,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-not-to-be-missed-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-not-to-be-missed-slider").length) {
                     var _props$attributes = this.props.attributes,
                         minSlides = _props$attributes.minSlides,
                         autoplay = _props$attributes.autoplay,
@@ -11915,7 +12009,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes.slideWidth,
                         slideMargin = _props$attributes.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-not-to-be-missed-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-not-to-be-missed-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: sliderMode });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -12861,15 +12955,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 	    IconButton = wpComponents.IconButton;
 
 
-	$(document).on('click', '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons', function (e) {
+	jQuery(document).on('click', '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons', function (e) {
 		e.stopImmediatePropagation();
-		$(this).parent().parent().siblings().find('.accordionBody').slideUp();
-		$(this).parent().next().slideToggle();
-		if ($(this).parent().parent('.accordionWrapper').hasClass('tabClose')) {
-			$(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
-			$(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
+		jQuery(this).parent().parent().siblings().find('.accordionBody').slideUp();
+		jQuery(this).parent().next().slideToggle();
+		if (jQuery(this).parent().parent('.accordionWrapper').hasClass('tabClose')) {
+			jQuery(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
+			jQuery(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
 		} else {
-			$(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
+			jQuery(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
 		}
 	});
 
@@ -12935,8 +13029,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 			setAttributes({ blockId: clientId });
 
-			$(document).on('click', '#block-' + clientId + ' .remove-button', function (e) {
-				if ('' !== $(this).parents('#block-' + clientId)) {
+			jQuery(document).on('click', '#block-' + clientId + ' .remove-button', function (e) {
+				if ('' !== jQuery(this).parents('#block-' + clientId)) {
 					setAttributes({ noOfAccordion: noOfAccordion - 1 });
 					removehildawardsBlock(noOfAccordion);
 				}
@@ -14311,12 +14405,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
   var ALLOWBLOCKS = ['nab/meet-the-team-item'];
 
-  var getChildscheduleBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (schedule) {
-    return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(schedule, function (n) {
-      return ['nab/meet-the-team-item', { id: n + 1 }];
-    });
-  });
-
   var removehildawardsBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (schedule) {
     return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(schedule, function (n) {
       return ['nab/meet-the-team-item', { id: n - 1 }];
@@ -14420,8 +14508,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           clientId = props.clientId;
 
 
-      $(document).on('click', '#block-' + clientId + ' .team-box-inner .remove-button', function (e) {
-        if ('' !== $(this).parents('#block-' + clientId)) {
+      jQuery(document).on('click', '#block-' + clientId + ' .team-box-inner .remove-button', function (e) {
+        if ('' !== jQuery(this).parents('#block-' + clientId)) {
           setAttributes({ noOfschedule: noOfschedule - 1 });
           removehildawardsBlock(noOfschedule);
         }
@@ -14476,24 +14564,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           'div',
           { className: 'team-main meet-team-main ' + (className ? className : '') },
           wp.element.createElement(InnerBlocks, {
-            template: getChildscheduleBlock(noOfschedule),
-            templateLock: 'all',
             allowedBlocks: ALLOWBLOCKS
-          }),
-          wp.element.createElement(
-            'div',
-            { className: 'add-remove-btn' },
-            wp.element.createElement(
-              Button,
-              {
-                className: 'add',
-                onClick: function onClick() {
-                  return setAttributes({ noOfschedule: noOfschedule + 1 });
-                }
-              },
-              wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
-            )
-          )
+          })
         )
       );
     },
@@ -14542,7 +14614,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     description: __('Meet The Team Items'),
     icon: { src: meetTeamBlockIcon },
     category: 'nabshow',
-    parent: ['nab/schedule'],
+    parent: ['nab/meet-the-team'],
     attributes: {
       name: {
         type: 'string'
@@ -15228,8 +15300,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 clientId = props.clientId;
 
 
-            $(document).on('click', '#block-' + clientId + ' .col-lg-6 .remove-item', function (e) {
-                if ('' !== $(this).parents('#block-' + clientId)) {
+            jQuery(document).on('click', '#block-' + clientId + ' .col-lg-6 .remove-item', function (e) {
+                if ('' !== jQuery(this).parents('#block-' + clientId)) {
                     setAttributes({ noOfAwards: noOfAwards - 1 });
                     removehildawardsBlock(noOfAwards);
                 }
@@ -15902,17 +15974,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         imgWidth && (style.width = imgWidth + 'px');
         imgHeight && (style.height = imgHeight + 'px');
 
-        $(document).on('click', '.inspector-field-toggleCal .components-form-toggle__input', function (e) {
+        jQuery(document).on('click', '.inspector-field-toggleCal .components-form-toggle__input', function (e) {
           e.stopImmediatePropagation();
-          if (!$('.inspector-field-datetime .components-datetime__date').hasClass('toggled')) {
-            $('.inspector-field-datetime .components-datetime__date').show();
-            $('.components-datetime .components-datetime__date').addClass('toggled');
-            $('.components-datetime .components-datetime__date > div').removeClass('DayPicker__hidden');
+          if (!jQuery('.inspector-field-datetime .components-datetime__date').hasClass('toggled')) {
+            jQuery('.inspector-field-datetime .components-datetime__date').show();
+            jQuery('.components-datetime .components-datetime__date').addClass('toggled');
+            jQuery('.components-datetime .components-datetime__date > div').removeClass('DayPicker__hidden');
             setAttributes({ showCal: !showCal });
           } else {
-            $('.inspector-field-datetime .components-datetime__date').hide();
-            $('.components-datetime .components-datetime__date').removeClass('toggled');
-            $('.components-datetime .components-datetime__date > div').addClass('DayPicker__hidden');
+            jQuery('.inspector-field-datetime .components-datetime__date').hide();
+            jQuery('.components-datetime .components-datetime__date').removeClass('toggled');
+            jQuery('.components-datetime .components-datetime__date > div').addClass('DayPicker__hidden');
             setAttributes({ showCal: showCal });
           }
         });

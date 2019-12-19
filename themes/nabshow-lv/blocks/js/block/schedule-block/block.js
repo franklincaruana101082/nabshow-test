@@ -154,7 +154,8 @@
               date: '',
               name: '',
               location: '',
-              details: 'Open to All'
+              details: 'Open to All',
+              type: ''
             }]
           }
         ]
@@ -217,7 +218,8 @@
         date: allData[parentIndex].detailList[currentIndex].date,
         name: allData[parentIndex].detailList[currentIndex].name,
         location: allData[parentIndex].detailList[currentIndex].location,
-        details: allData[parentIndex].detailList[currentIndex].details
+        details: allData[parentIndex].detailList[currentIndex].details,
+        type: allData[parentIndex].detailList[currentIndex].type
       });
 
       setAttributes({ dataArray: allData });
@@ -280,7 +282,7 @@
                 <label>Is Open To</label>
                 <div className="schedule-select">
                   <select id="pass-type">
-                    <option>Select a Pass Time</option>
+                    <option>Select an Open To</option>
                   </select>
                 </div>
               </div>
@@ -462,6 +464,19 @@
                                   }}
                                 />
                               </div>
+                              <div className="type">
+                                <RichText
+                                  tagName="p"
+                                  placeholder={__('Type')}
+                                  value={data.type}
+                                  keepPlaceholderOnFocus="true"
+                                  onChange={type => {
+                                    let tempDataArray = [...dataArray];
+                                    tempDataArray[parentIndex].detailList[index].type = type;
+                                    setAttributes({ dataArray: tempDataArray});
+                                  }}
+                                />
+                              </div>
                             </div>
                           ))
                         }
@@ -475,7 +490,8 @@
                                 date: '',
                                 name: '',
                                 location: '',
-                                details: 'Open to All'
+                                details: 'Open to All',
+                                type: ''
                               });
                               setAttributes({ dataArray: tempDataArray });
                             }}
@@ -504,7 +520,8 @@
                           date: '',
                           name: '',
                           location: '',
-                          details: 'Open to All'
+                          details: 'Open to All',
+                          type: ''
                         }]
                       }
                     ]
@@ -562,7 +579,7 @@
                 <label>Is Open To</label>
                 <div className="schedule-select">
                   <select id="pass-type">
-                    <option>Select a Pass Time</option>
+                    <option>Select an Open To</option>
                   </select>
                 </div>
               </div>
@@ -603,7 +620,7 @@
                 { parentData.detailList
                   .sort((a, b) => a.index - b.index)
                   .map((data) => (
-                    <div className="schedule-row">
+                    <div className="schedule-row" data-type={data.type}>
                       <div className="date">
                         <RichText.Content
                           tagName="p"

@@ -2,7 +2,7 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { InspectorControls, MediaUpload, BlockControls } = wpEditor;
-  const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette } = wpComponents;
+  const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette, ToggleControl } = wpComponents;
 
   const imageBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -122,6 +122,13 @@
       ImgAlignment: {
         type: 'string',
         default: 'Left'
+      },
+      imgLink: {
+        type: 'string'
+      },
+      newWindow: {
+        type: 'boolean',
+        default: false,
       }
     },
     edit({ attributes, setAttributes }) {
@@ -142,7 +149,9 @@
         paddingBottom,
         paddingLeft,
         InsertUrl,
-        ImgAlignment
+        ImgAlignment,
+        imgLink,
+        newWindow
       } = attributes;
 
       const ImageStyle = {};
@@ -409,6 +418,25 @@
                 </div>
               </PanelRow>
             </PanelBody>
+            <PanelBody title={__('Link')} initialOpen={false}>
+              <PanelRow>
+                <TextControl
+                  type="text"
+                  placeholder="https:"
+                  value={imgLink}
+                  onChange={(value) => setAttributes({ imgLink: value })}
+                />
+              </PanelRow>
+              {imgLink && (
+                <PanelRow>
+                <ToggleControl
+                  label={__('Open New Tab')}
+                  checked={newWindow}
+                  onChange={() => setAttributes({ newWindow: ! newWindow })}
+                />
+              </PanelRow>
+              )}
+            </PanelBody>
             <PanelBody title={__('Help')} initialOpen={false}>
               <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
             </PanelBody>
@@ -434,7 +462,9 @@
         paddingRight,
         paddingBottom,
         paddingLeft,
-        ImgAlignment
+        ImgAlignment,
+        imgLink,
+        newWindow
       } = attributes;
 
       const ImageStyle = {};
@@ -456,7 +486,7 @@
 
       return (
         <div className="nab-image" style={mainStyle}>
-          <img style={ImageStyle} src={imageUrl} alt={imageAlt} />
+          {imgLink ? (<a href={imgLink} target={newWindow ? '_blank' : '_self'} rel="noopener noreferrer"><img style={ImageStyle} src={imageUrl} alt={imageAlt} /></a>) : (<img style={ImageStyle} src={imageUrl} alt={imageAlt} />)}
         </div>
       );
     }

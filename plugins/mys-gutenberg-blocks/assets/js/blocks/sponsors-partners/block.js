@@ -200,7 +200,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
                             <ToggleControl
-                                label={__('Is Listing Page?')}
+                                label={__('Browse Page Format')}
                                 checked={listingPage}
                                 help={__('Note: This option only work in nabashow-lv theme.')}
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'without-title' }) }

@@ -616,11 +616,14 @@ function mysBrowseSponsorsFilterHandler(featuredSponsor, sponsorTitle) {
 }
 
 function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker) {
-    let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
-        jobTitleSearch = jQuery('.browse-speakers-filter .speaker-title-search').val(),
-        postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
-        speakerDate = 0 < jQuery('.browse-speakers-filter #speaker_date').length ? jQuery('.browse-speakers-filter #speaker_date').val() : '',
-        orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
+  let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
+    jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
+    postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
+    speakerDate = 0 < jQuery('.browse-speakers-filter #speaker_date').length ? jQuery('.browse-speakers-filter #speaker_date').val() : '',
+    displayName = 0 < jQuery('#browse-speaker .flip-box-inner .flip-box-back h6').length,
+    displayTitle = 0 < jQuery('#browse-speaker .flip-box-inner .flip-box-back .jobtilt').length,
+    displayCompany = 0 < jQuery('#browse-speaker .flip-box-inner .flip-box-back .company').length,
+    orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
     jQuery('body').addClass('popup-loader');
 
@@ -651,39 +654,53 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
                     let itemInnerFlipBox = document.createElement('div');
                     itemInnerFlipBox.setAttribute('class', 'flip-box-inner');
 
+                    let imgLink = document.createElement('a');
+                    imgLink.setAttribute('href', '#');
+                    imgLink.setAttribute('class', 'detail-list-modal-popup');
+                    imgLink.setAttribute('data-postid', value.post_id);
+                    imgLink.setAttribute('data-posttype', 'speakers');
+
                     let innerImg = document.createElement('img');
                     innerImg.setAttribute('src', value.thumbnail_url);
                     innerImg.setAttribute('alt', 'speaker-logo');
                     innerImg.setAttribute('class', 'rounded-circle');
 
-                    itemInnerFlipBox.appendChild(innerImg);
+                    imgLink.appendChild(innerImg);
+                    itemInnerFlipBox.appendChild(imgLink);
 
                     let innerFlipBoxBack = document.createElement('div');
                     innerFlipBoxBack.setAttribute('class', 'flip-box-back rounded-circle');
 
-                    let innerHeading = document.createElement('h6');
+                    if ( displayName ) {
+                      let innerHeading = document.createElement('h6');
 
-                    let innerHeadingLink = document.createElement('a');
-                    innerHeadingLink.innerText = value.post_title;
-                    innerHeadingLink.setAttribute('href', '#');
-                    innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-                    innerHeadingLink.setAttribute('data-postid', value.post_id);
-                    innerHeadingLink.setAttribute('data-posttype', 'speakers');
+                      let innerHeadingLink = document.createElement('a');
+                      innerHeadingLink.innerText = value.post_title;
+                      innerHeadingLink.setAttribute('href', '#');
+                      innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
+                      innerHeadingLink.setAttribute('data-postid', value.post_id);
+                      innerHeadingLink.setAttribute('data-posttype', 'speakers');
 
-                    innerHeading.appendChild(innerHeadingLink);
-                    innerFlipBoxBack.appendChild(innerHeading);
+                      innerHeading.appendChild(innerHeadingLink);
+                      innerFlipBoxBack.appendChild(innerHeading);
+                    }
 
-                    let innerParagraph = document.createElement('p');
-                    innerParagraph.innerText = value.job_title;
-                    innerParagraph.setAttribute('class', 'jobtilt');
+                    if ( displayTitle ) {
+                      let innerParagraph = document.createElement('p');
+                      innerParagraph.innerText = value.job_title;
+                      innerParagraph.setAttribute('class', 'jobtilt');
 
-                    innerFlipBoxBack.appendChild(innerParagraph);
+                      innerFlipBoxBack.appendChild(innerParagraph);
+                    }
 
-                    let innerSpan = document.createElement('span');
-                    innerSpan.innerText = value.company;
-                    innerSpan.setAttribute('class', 'company');
+                    if ( displayCompany ) {
+                      let innerSpan = document.createElement('span');
+                      innerSpan.innerText = value.company;
+                      innerSpan.setAttribute('class', 'company');
 
-                    innerFlipBoxBack.appendChild(innerSpan);
+                      innerFlipBoxBack.appendChild(innerSpan);
+                    }
+
                     itemInnerFlipBox.appendChild(innerFlipBoxBack);
                     itemInnerDiv.appendChild(itemInnerFlipBox);
                     createItemDiv.appendChild(itemInnerDiv);

@@ -256,7 +256,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
-                        if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
+                        if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
                             this.state.bxSliderObj.reloadSlider({
                                 minSlides: minSlides,
                                 maxSlides: minSlides,
@@ -279,7 +279,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function initSlider() {
                 var clientId = this.props.clientId;
 
-                if (0 < $("#block-" + clientId + " .nab-dynamic-slider").length) {
+                if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length) {
                     var _props$attributes3 = this.props.attributes,
                         minSlides = _props$attributes3.minSlides,
                         autoplay = _props$attributes3.autoplay,
@@ -290,7 +290,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes3.slideWidth,
                         slideMargin = _props$attributes3.slideMargin;
 
-                    var sliderObj = $("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
+                    var sliderObj = jQuery("#block-" + clientId + " .nab-dynamic-slider").bxSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, moveSlides: 1, slideWidth: slideWidth, auto: autoplay, infiniteLoop: infiniteLoop, pager: pager, controls: controls, speed: sliderSpeed, mode: 'horizontal' });
                     this.setState({ bxSliderObj: sliderObj, bxinit: false, isDisable: false });
                 } else {
                     this.setState({ bxinit: true });
@@ -8151,8 +8151,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           clientId = props.clientId;
 
 
-      $(document).on('click', '#block-' + clientId + ' .team-box-inner .remove-button', function (e) {
-        if ('' !== $(this).parents('#block-' + clientId)) {
+      jQuery(document).on('click', '#block-' + clientId + ' .team-box-inner .remove-button', function (e) {
+        if ('' !== jQuery(this).parents('#block-' + clientId)) {
           setAttributes({ noOfschedule: noOfschedule - 1 });
           removehildawardsBlock(noOfschedule);
         }

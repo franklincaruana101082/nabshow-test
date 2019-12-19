@@ -91,17 +91,17 @@ import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sl
       imgWidth && (style.width = imgWidth + 'px');
       imgHeight && (style.height = imgHeight + 'px');
 
-      $(document).on('click', '.inspector-field-toggleCal .components-form-toggle__input', function (e) {
+      jQuery(document).on('click', '.inspector-field-toggleCal .components-form-toggle__input', function (e) {
         e.stopImmediatePropagation();
-        if (! $('.inspector-field-datetime .components-datetime__date').hasClass('toggled')) {
-          $('.inspector-field-datetime .components-datetime__date').show();
-          $('.components-datetime .components-datetime__date').addClass('toggled');
-          $('.components-datetime .components-datetime__date > div').removeClass('DayPicker__hidden');
+        if (! jQuery('.inspector-field-datetime .components-datetime__date').hasClass('toggled')) {
+          jQuery('.inspector-field-datetime .components-datetime__date').show();
+          jQuery('.components-datetime .components-datetime__date').addClass('toggled');
+          jQuery('.components-datetime .components-datetime__date > div').removeClass('DayPicker__hidden');
           setAttributes({ showCal: ! showCal });
         } else {
-          $('.inspector-field-datetime .components-datetime__date').hide();
-          $('.components-datetime .components-datetime__date').removeClass('toggled');
-          $('.components-datetime .components-datetime__date > div').addClass('DayPicker__hidden');
+          jQuery('.inspector-field-datetime .components-datetime__date').hide();
+          jQuery('.components-datetime .components-datetime__date').removeClass('toggled');
+          jQuery('.components-datetime .components-datetime__date > div').addClass('DayPicker__hidden');
           setAttributes({ showCal: showCal });
         }
       });
