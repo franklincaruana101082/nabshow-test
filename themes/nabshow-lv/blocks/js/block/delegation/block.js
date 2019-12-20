@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
   const { InspectorControls, RichText } = wpEditor;
-  const { PanelBody, PanelRow, ToggleControl, TextControl } = wpComponents;
+  const { PanelBody, PanelRow, ToggleControl, TextControl, Tooltip } = wpComponents;
 
   const delegationBlockIcon = (
     <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -81,6 +81,17 @@
       });
     }
 
+    moveParentItem(currentIndex, newIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { products } = attributes;
+      let allData = [...products];
+
+      allData[currentIndex].index = newIndex;
+      allData[newIndex].index = currentIndex;
+
+      setAttributes({ products: allData });
+    }
+
     render() {
       const { attributes, setAttributes } = this.props;
       const { products, showFilter } = attributes;
@@ -90,6 +101,24 @@
         .map((product, index) => {
           return (
             <div className="box-item">
+              <div className="move-item">
+                {0 < index && (
+                  <Tooltip text="Move Left">
+                    <i
+                      onClick={() => this.moveParentItem(index, index - 1)}
+                      className="fa fa-chevron-left"
+                    ></i>
+                  </Tooltip>
+                )}
+                {index + 1 < products.length && (
+                  <Tooltip text="Move Right">
+                    <i
+                      onClick={() => this.moveParentItem(index, index + 1)}
+                      className="fa fa-chevron-right"
+                    ></i>
+                  </Tooltip>
+                )}
+              </div>
               <div className="box-inner">
                 <span
                   className="remove"
@@ -213,7 +242,7 @@
             <div className="box-main-filter main-filter delegation-filter">
               <div className="category"><label>Country</label>
                 <div className="box-main-select"><select id="box-main-category-delegation" className="select-opt">
-                  <option>Select a Category</option>
+                  <option>Select a Country</option>
                 </select></div>
               </div>
               <div className="search-box"><label>Keyword</label>
@@ -282,7 +311,7 @@
             <div className="box-main-filter main-filter delegation-filter">
               <div className="category"><label>Country</label>
                 <div className="box-main-select"><select id="box-main-category-delegation" className="select-opt">
-                  <option>Select a Category</option>
+                  <option>Select a Country</option>
                 </select></div>
               </div>
               <div className="search-box"><label>Keyword</label>

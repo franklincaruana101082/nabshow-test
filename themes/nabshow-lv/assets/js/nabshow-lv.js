@@ -379,18 +379,19 @@
           $.map(
             $(this).find('.country').html().split(','),
             function (val, i) {
-              insertOptions(val, 'box-main-category-delegation');
+              insertOptions(val.trim(), 'box-main-category-delegation');
             }
           );
         }
       });
 
-      $('.accordionParentWrapper').each(function () {
-        if ('' !== $(this).find('.title').html()) {
-          insertOptions($(this).find('.title').html(), 'faq-category-drp');
-        }
-      });
-
+      if (0 < $('.fab-filter').length) {
+        $('.accordionParentWrapper').each(function () {
+          if ('' !== $(this).find('.title').html()) {
+            insertOptions($(this).find('.title').html(), 'faq-category-drp');
+          }
+        });
+      }
       $('.awards-main').each(function () {
         insertOptions($(this).find('.awards-winner-title').text(), 'award-name');
       });
@@ -410,7 +411,7 @@
           $.map(
             $(this).data('category').split(','),
             function (val, i) {
-              insertCheckbox(val, 'team-checkbox');
+              insertCheckbox(val.trim(), 'team-checkbox');
             }
           );
         }
@@ -509,8 +510,6 @@
       });
       $(document).on('change', '.schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type', function () {
         if (0 < $('.schedule-main').length) {
-
-          // selectedItem = '.schedule-row';
           selectedItem = '.schedule-main';
         }
       });
@@ -525,13 +524,11 @@
         }
       });
 
-      // $(document).on('change', '', function () {
       if (0 < $('.box-main, #box-main-search').length) {
         searchKeyword = '.title';
         searchId = '#box-main-search';
       }
 
-      // });
       $(document).on('change', ' #company-name, #date-filter, #location-filter, #attend-filter, #hosting-filter, #organizer-filter, #birdDate-filter', function () {
         if (0 < $('.news-conference-schedule, .birds-of-a-feather').length) {
           selectedItem = '.box-item';
@@ -552,6 +549,32 @@
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
       $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
+        if (0 < $('.box-main, #box-main-search').length) {
+          searchKeyword = '.title';
+          searchId = '#box-main-search';
+        }
+        if (0 < $('.exhibitor-committee .box-main, .badge-discounts .box-main, .new-this-year-block .box-main, .official-vendors .box-main, .delegation .box-main, .opportunities .box-main, .news-conference-schedule, .birds-of-a-feather').length) {
+          selectedItem = '.box-item';
+        }
+        if (0 < $('.accordionParentWrapper').length && 0 < $('.fab-filter').length) {
+          selectedItem = '.accordionParentWrapper';
+        }
+        if (0 < $('.awards-main').length) {
+          selectedItem = '.wp-block-nab-awards-item';
+        }
+        if (0 < $('.schedule-main').length) {
+          selectedItem = '.schedule-main';
+        }
+        if (0 < $('.team-main').length) {
+          selectedItem = '.team-box';
+        }
+        if (0 < $('.products-winners').length) {
+          selectedItem = '.product-title';
+        }
+        if (0 < $('.rc-page-block').length) {
+          selectedItem = '.rc-page-block .col-lg-4.col-md-6';
+          searchKeyword = '.title';
+        }
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
 
@@ -1538,7 +1561,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
           let innerFlipBoxBack = document.createElement('div');
           innerFlipBoxBack.setAttribute('class', 'flip-box-back rounded-circle');
 
-          if ( displayName ) {
+          if (displayName) {
             let innerHeading = document.createElement('h6');
 
             let innerHeadingLink = document.createElement('a');
@@ -1552,7 +1575,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
             innerFlipBoxBack.appendChild(innerHeading);
           }
 
-          if ( displayTitle ) {
+          if (displayTitle) {
             let innerParagraph = document.createElement('p');
             innerParagraph.innerText = value.job_title;
             innerParagraph.setAttribute('class', 'jobtilt');
@@ -1560,7 +1583,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
             innerFlipBoxBack.appendChild(innerParagraph);
           }
 
-          if ( displayCompany ) {
+          if (displayCompany) {
             let innerSpan = document.createElement('span');
             innerSpan.innerText = value.company;
             innerSpan.setAttribute('class', 'company');
@@ -2080,14 +2103,12 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   jQuery(selectedItem).addClass('slideInUp').show();
   jQuery('.no-data').hide();
 
-  if (0 != jQuery('.accordionParentWrapper').length) {
+  if (0 != jQuery('.accordionParentWrapper').length && 0 != jQuery('.fab-filter').length) {
     jQuery(selectedItem).removeClass('slideInUp').show();
+    jQuery('.accordionParentWrapper').show();
   }
   if (0 != jQuery('.badge-discounts-box').length) {
     jQuery('.badge-discounts, .badge-discounts .badge-title').show();
-  }
-  if (0 != jQuery('.accordionParentWrapper').length) {
-    jQuery('.accordionParentWrapper').show();
   }
   if (0 < jQuery('.awards-main').length) {
     jQuery('.awards-main').show();
@@ -2152,9 +2173,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('#team-checkbox .checkbox-list input:checked').parent().addClass('checked');
 
     if (0 < jQuery('#team-checkbox .checkbox-list input:checked').length) {
-
       jQuery(`${selectedItem}`).hide();
-
       jQuery('#team-checkbox .checkbox-list input:checked').each(function () {
         jQuery(`${selectedItem}[data-category*="${jQuery(this).val()}"]`).hide().show();
       });
@@ -2211,6 +2230,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   if (null !== filterDelegation && undefined !== filterDelegation) {
     comparedItem = '.country';
     jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterDelegation}"))`).parents(`${selectedItem}`).hide();
+
   }
 
   if (null !== filterNewThisYear && undefined !== filterNewThisYear) {
@@ -2246,13 +2266,13 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     if (0 < jQuery('.schedule-main').length) {
       comparedItem = '.location';
     }
-    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return ( filterLocation.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
+    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return (filterLocation.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
   }
   if (null !== filterTime && undefined !== filterTime) {
     if (0 < jQuery('.schedule-main').length) {
       comparedItem = '.details';
     }
-    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return ( filterTime.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
+    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return (filterTime.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
   }
   if (null !== filterType && undefined !== filterType) {
     if (0 < jQuery('.schedule-main').length) {
@@ -2366,7 +2386,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
   // Search Filter
   filterSearch = jQuery(searchId).val();
-  if (0 != jQuery('.accordionParentWrapper').length) {
+  if (0 != jQuery('.accordionParentWrapper').length && 0 != jQuery('.fab-filter').length) {
     searchKeyword = '.accordionHeader h3';
   }
   if (0 != jQuery('.badge-discounts-box').length) {
@@ -2418,7 +2438,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
       })
       .hide();
   }
-  if (0 != jQuery('.accordionParentWrapper').length) {
+  if (0 != jQuery('.accordionParentWrapper').length && 0 != jQuery('.fab-filter').length) {
     selectedItem = '.accordionParentWrapper';
     jQuery(`${selectedItem}`)
       .not(function () {

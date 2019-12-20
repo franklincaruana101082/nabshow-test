@@ -117,3 +117,6 @@ add_action( 'admin_init', 'nabshow_lv_change_user_role_cap' );
 
 // Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
 add_filter( 'map_meta_cap', 'nabshow_lv_add_unfiltered_html_capability_to_users', 1, 3 );
+
+// action to add the Mega Menu post type.
+add_action( 'init', 'nabshow_lv_register_mega_menu_post_type' );

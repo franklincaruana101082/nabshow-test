@@ -1,15 +1,15 @@
 /* meet the team css */
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout{display:flex;flex-wrap:wrap}
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout>div{flex-basis:25%;margin:0}
-.team-main{display:flex;flex-wrap:wrap;margin:0 -15px;margin-top:30px}
+.team-main{display:flex;flex-wrap:wrap;margin-top:30px}
 .team-main .team-box{flex-basis:25%;padding:0 15px;margin-bottom:30px;box-sizing:border-box}
 .team-main .team-box .feature-img{position:relative}
 .team-main .team-box .team-details{padding:20px 25px;font-family:"Gotham Book Italic";font-size:16px;color:#000}
 .team-main .team-box .team-box-inner{border:2px solid #d9d9d9}
-.team-main .team-box .feature-img .remove-img{position:absolute;top:0;right:0;cursor:pointer;left:0;width:100%;height:100%;background:#00000080;opacity:0;transition:0.5s all}
+.team-main .team-box .feature-img .remove-img{position:absolute;top:0;right:0;left:0;width:100%;height:100%;background:#00000080;opacity:0;transition:0.5s all;display:flex;align-items:center}
 .team-main .team-box .feature-img:hover .remove-img{opacity:1;transition:0.5s all}
-.team-main .team-box .feature-img .button-container{background:#9a9a9a;height:330px;padding:0;position:relative}
-.team-main .team-box .feature-img .button-container button{position:absolute;top:0;bottom:0;left:0;right:0;height:100%;background:#9a9a9a;border:none;width:100%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
+.team-main .team-box .feature-img .button-container{background:#9a9a9a;height:200px;padding:0;position:relative}
+.team-main .team-box .feature-img .button-container button{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);height:70%;background:#ffffff;border:none;width:70%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
 .team-main .team-box .feature-img img{width:100%;height:330px;object-fit:cover;object-position:center;vertical-align:middle}
 .team-main .team-box .team-details .name{text-transform:capitalize;font-family:"Vollkorn Italic";margin-bottom:5px;font-size:32px;color:#000}
 .team-main .team-box .team-details *{font-family:"Gotham Book", sans-serif;font-size:16px}
@@ -22,7 +22,7 @@
 .team-main .team-box .feature-img .no-image{background:#9a9a9a;height:300px;padding:0;position:relative;display:flex;width:100%;color:#fff;align-items:center;justify-content:center;font-size:20px;font-family:"Vollkorn BoldItalic", serif}
 .team-main .team-box .team-details input{border:none;padding:0;font-size:14px;box-shadow:initial!important;outline:initial!important}
 .team-main .team-box .team-details .components-base-control__field{margin-bottom:0}
-.team-main .team-box .feature-img .remove-img span{color:#fff;line-height:30px;border-radius:0;text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:25px}
+.team-main .team-box .feature-img .remove-img span{color:#fff;line-height:30px;border-radius:0;text-align:center;width:50px;height:50px;display:flex;align-items:center;justify-content:center;font-size:25px;margin:0 auto;cursor:pointer}
 .team-main .team-box .feature-img .button-container button span{display:inline-block;vertical-align:middle;line-height:15px}
 .category-list{width:100%;max-height:200px;overflow:auto}
 .category-list .components-base-control{margin-bottom:5px!important;width:100%}
@@ -34,6 +34,7 @@
 .team-main .editor-inner-blocks .nab_model_wrap .nab_pop_up_content_wrap .editor-block-list__layout.block-editor-block-list__layout>div{flex-basis:100%}
 .team-main .team-box .team-details .nab_model_head{text-align:left}
 .session .item h4 a{text-decoration:none}
+.team-main .block-list-appender{padding:0 10px;margin-top:15px!important}
 
 /* accordion css */
 .components-panel__body.editor-panel-color-settings{width:calc(100% + 32px)}
@@ -512,7 +513,7 @@ ul.button-prev li.active{box-shadow:0 0 10px #0085bacf}
 .schedule-main .schedule-data .row-expand{position:absolute;bottom:0;width:100%;padding:15px 0;text-align:center}
 .schedule-main .schedule-data .row-expand a{text-transform:capitalize;cursor:pointer;font-family:"Gotham Bold";margin-bottom:0;font-size:16px;padding:5px 20px;color:#363636;border:2px solid #363636;display:inline-block;text-decoration:none;outline:none}
 .schedule-main .schedule-data .schedule-row .move-item{position:absolute;bottom:100%;left:10px;display:flex;justify-content:center;align-items:center;opacity:0;transition:0.5s all;border:1px solid #ccc;padding:0;background:#fff}
-.schedule-main .schedule-data .schedule-row .move-item i{cursor:pointer;font-size:16px;color:#333;padding:8px 8px}
+.schedule-main .schedule-data .schedule-row .move-item i,.delegation .move-item i{cursor:pointer;font-size:16px;color:#333;padding:8px 8px}
 .schedule-main .schedule-data .schedule-row:hover .move-item{opacity:1}
 .schedule-main .schedule-data .schedule-row:hover{border-top:1px solid #ccc;border-bottom:1px solid #ccc}
 .schedule-main .schedule-data .schedule-row .move-item i:hover{background:#0f6cb6;color:#fff}
@@ -520,6 +521,12 @@ ul.button-prev li.active{box-shadow:0 0 10px #0085bacf}
 .shedule-details-parent{position:relative}
 .shedule-details-parent>i{background:red;position:absolute;top:0;right:0;z-index:1;color:#fff;width:25px;height:25px;padding:4px 0;display:flex;justify-content:center;cursor:pointer;opacity:0}
 .shedule-details-parent:hover>i{opacity:1}
+.delegation .move-item i{border:1px solid #d9d9d9;background-color:#fff}
+.delegation .move-item{opacity:0;visibility:hidden;transition:all 0.3s ease-in-out;position:relative;bottom:-4px}
+.delegation .box-item:hover .move-item{visibility:visible;opacity:1;bottom:0}
+.delegation .move-item i:hover{box-shadow:0 2px 10px rgba(25, 30, 35, 0.1), 0 0 2px rgba(25, 30, 35, 0.1)}
+.delegation .move-item i.fa-chevron-left{border-top-left-radius:4px}
+.delegation .move-item i.fa-chevron-right{border-top-right-radius:4px}
 
 /* add-remove-btn css */
 .add-remove-btn{display:block;width:100%;text-align:center;padding:20px 0;box-sizing:border-box;line-height:1}
@@ -964,9 +971,10 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .box-main .box-item .box-inner .readMore a::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#0f6cb6;font-weight:normal}
 .box-main .box-item .box-inner .media-img .no-image{width:200px;background:#9a9a9a;height:100%;color:#fff;display:flex;align-items:center;justify-content:center;max-width:100%}
-.box-main.four-grid .box-item{flex-basis:25%}
+.box-main.four-grid .box-item{flex-basis:25%;min-width:25%}
 .box-main .box-item .box-inner input[type=text]{border:none;padding:10px 0;outline:none;text-align:center;box-shadow:initial}
 .delegation .box-main .box-item.additem{min-height:230px}
+.delegation .box-main .box-item.additem:nth-child(n + 3){margin-top:30px;margin-bottom:0}
 .official-vendors .box-main .box-item .box-inner{align-items:flex-start;text-align:left}
 .official-vendors .box-main .box-item .description{font-style:normal}
 .official-vendors .box-main .box-item .companyName{font-family:"Gotham Bold", sans-serif}
