@@ -37,8 +37,11 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			add_action( 'wp_ajax_nab_mys_exhibitor_data', array( $this, 'nab_mys_sync_exhibitors' ) );
 			add_action( 'wp_ajax_nopriv_nab_mys_exhibitor_data', array( $this, 'nab_mys_sync_exhibitors' ) );
 
-			//Intitialize the Rest End Point
+			//Initialize the Rest End Point
 			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_exh_end_points' ) );
+
+			//Exhibitors Cron function.
+			add_action( 'mys_exhibitors_cron', array( $this, 'nab_mys_sync_exhibitors' ) );
 
 			//Create DB Class Object
 			$this->nab_mys_load_exh_db_class();
@@ -310,11 +313,14 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->requested_for   = 'single-exhibitor';
 
 					$exh_prev_finished_counts = (int) get_option( 'exh_prev_finished_counts' );
+					$exh_counts_matched_on = (int) get_option( 'exh_counts_matched_on' );
 
 					//Update Finished Counts to check it in the next attempt.
 					update_option( 'exh_prev_finished_counts', $this->finished_counts );
 
 					if ( $this->finished_counts === $exh_prev_finished_counts ) {
+
+						if ( $exh_counts_matched_on === $exh_prev_finished_counts ) {
 
 						//Check attempt count and stop if increased by 3.
 						$mail_data                  = array();
@@ -323,6 +329,10 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 						$mail_data['tag']           = 'mys_data_attempt_exhibitors';
 
 						$this->nab_mys_increase_attempt( $mail_data );
+
+						} else {
+							update_option( 'exh_counts_matched_on', $this->finished_counts );
+						}
 					}
 				} else {
 					update_option( 'exh_prev_finished_counts', 0 );
