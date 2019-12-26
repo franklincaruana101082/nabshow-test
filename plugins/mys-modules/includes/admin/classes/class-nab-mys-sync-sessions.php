@@ -208,6 +208,13 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			if ( $this->final_stack_item === $this->past_request || 'empty' === $this->requested_for ) {
 				$this->past_request = 'finish'; //this will stop recurring ajax
+
+				// Reset the attempt count to prevent its application on other sequences.
+				// Reset when Ajax
+				// Or when Cron with status = 'done' (i.e. sequence completed)
+				if ( "wpajax" === $this->flow || "done" === $custom_status['status'] ) {
+					update_option( 'mys_data_attempt_sessions', 0 );
+				}
 			}
 
 			//If the stack is still not empty, re call main function to fetch next data.

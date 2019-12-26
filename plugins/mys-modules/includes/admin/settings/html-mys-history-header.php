@@ -99,8 +99,8 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 						<option value="all">Status</option>
 
 						<?php if ( 'detail' === $this->page_template ) { ?>
-							<option value="1" <?php echo '5' === $request_data['status'] ? 'selected' : '' ?>>Sync Successful</option>
-							<option value="0" <?php echo '1' === $request_data['status'] ? 'selected' : '' ?>>Sync In Progress</option>
+							<option value="1" <?php echo '1' === $request_data['status'] ? 'selected' : '' ?>>Sync Successful</option>
+							<option value="0" <?php echo '0' === $request_data['status'] ? 'selected' : '' ?>>Sync In Progress</option>
 						<?php } else { ?>
 							<option value="1" <?php echo '1' === $request_data['status'] ? 'selected' : '' ?>>Pull Successful & Sync In Progress</option>
 							<option value="5" <?php echo '5' === $request_data['status'] ? 'selected' : '' ?>>Sync Successful</option>

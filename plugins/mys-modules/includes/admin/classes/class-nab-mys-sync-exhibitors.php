@@ -234,7 +234,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 */
 		private function nab_mys_sync_exh_finish() {
 
-			// if there are no rows.. make main modified-exhibitors row's status from 0 to 1 in history table
+			// if there are no rows, make main modified-exhibitors row's status from 0 to 1 in history table
 			if ( 'empty' !== $this->requested_for ) {
 				$this->nab_mys_db_exh->nab_mys_db_history_data( "modified-exhibitors", "finish", $this->group_id );
 			}
