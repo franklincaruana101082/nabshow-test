@@ -6,9 +6,6 @@
  * @package NABShow_LV
  */
 
-// Shortcode for create drop-down according to atts.
-add_shortcode('nab_dropdown', 'nabshow_lv_dropdown_func' );
-
 // Shortcode for Yoast SEO Breadcrumb.
 add_shortcode('nab_yoast_breadcumb', 'nabshow_lv_yoast_breadcrumb_callback' );
 

@@ -27,14 +27,14 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
-                <input type="button" class="orderby" value="A-Z">
+                <input type="button" class="orderby" value="Sort Alphabetically">
             </div>
         </div>
     </div>
     <div class="pass-type col-xl-7">
-        <label>Category</label>
+        <label>Company Name</label>
         <ul class="alphabets-list">
             <li>A</li>
             <li>B</li>
@@ -96,7 +96,7 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
     <div class="select-items col-lg-12">
         <div class="row">
             <div class="category col-lg-3">
-                <label for="exhibitor-category">Category</label>
+                <label for="exhibitor-category">Exhibitor Category</label>
                 <div class="browse-select">
                     <select id="exhibitor-category" class="select-opt">
                         <option>Select a Category</option>
@@ -107,7 +107,7 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
                 </div>
             </div>
             <div class="category col-lg-3">
-                <label for="exhibitor-hall">Halls</label>
+                <label for="exhibitor-hall">Location</label>
                 <div class="browse-select">
                     <select id="exhibitor-hall" class="select-opt">
                         <option>Select a Location</option>
@@ -118,23 +118,12 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
                 </div>
             </div>
             <div class="category col-lg-3">
-                <label for="exhibitor-pavilion">Pavilions</label>
+                <label for="exhibitor-pavilion">On-Floor Destination</label>
                 <div class="browse-select">
                     <select id="exhibitor-pavilion" class="select-opt">
                         <option>Select a Pavilion</option>
 				        <?php
 				        $this->mysgb_get_term_list_options( 'pavilions' );
-				        ?>
-                    </select>
-                </div>
-            </div>
-            <div class="category col-lg-3">
-                <label for="exhibitor-technology">Technology</label>
-                <div class="browse-select">
-                    <select id="exhibitor-technology" class="select-opt">
-                        <option>Select a Technology</option>
-				        <?php
-				        $this->mysgb_get_term_list_options( 'exhibitor-trends' );
 				        ?>
                     </select>
                 </div>

@@ -223,7 +223,7 @@
           {showFilter &&
             <div className="box-main-filter main-filter new-this-year-filter">
               <div className="category"><label>Category</label>
-                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                <div className="box-main-select"><select id="box-main-category-newyr" className="select-opt">
                   <option>Select a Category</option>
                 </select></div>
               </div>
@@ -297,7 +297,7 @@
           {showFilter &&
             <div className="box-main-filter main-filter new-this-year-filter">
               <div className="category"><label>Category</label>
-                <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                <div className="box-main-select"><select id="box-main-category-newyr" className="select-opt">
                   <option>Select a Category</option>
                 </select></div>
               </div>

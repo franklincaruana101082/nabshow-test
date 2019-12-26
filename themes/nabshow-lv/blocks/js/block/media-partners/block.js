@@ -60,8 +60,8 @@ import memoize from 'memize';
     edit: (props) => {
       const { attributes: { noOfschedule, showFilter }, className, setAttributes, clientId } = props;
 
-      $(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
-        if ('' !== $(this).parents(`#block-${clientId}`)) {
+      jQuery(document).on('click', `#block-${clientId} .team-box-inner .remove-button`, function (e) {
+        if ('' !== jQuery(this).parents(`#block-${clientId}`)) {
           setAttributes({ noOfschedule: noOfschedule - 1 });
           removehildawardsBlock(noOfschedule);
         }

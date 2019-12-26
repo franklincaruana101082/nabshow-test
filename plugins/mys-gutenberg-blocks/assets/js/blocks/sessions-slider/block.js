@@ -209,7 +209,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     <InspectorControls>
                         <PanelBody title={__('Data Settings ')} initialOpen={true} className="range-setting">
                             <ToggleControl
-                                label={__('Is Listing Page?')}
+                                label={__('Browse Page Format')}
                                 checked={listingPage}
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'with-featured', orderBy: 'date', listingType: listingPage ? listingType : 'none', withContent: false }) }
                             />

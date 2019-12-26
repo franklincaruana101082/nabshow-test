@@ -63,6 +63,24 @@ function nabshow_lv_customize_register( $wp_customize ) {
 			'description' => __( 'Please select footer logo', 'nabshow-lv' ),
 		) )
 	);
+
+
+	$wp_customize->add_setting( 'menu_sticky_logo', array(
+		'default'   => '',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'header_sticky_logo',
+			array(
+				'label'      => __( 'Upload Sticky Menu logo', 'nabshow-lv' ),
+				'section'    => 'title_tagline',
+				'settings'   => 'menu_sticky_logo'
+			)
+		)
+	);
 }
 
 add_action( 'customize_register', 'nabshow_lv_customize_register' );

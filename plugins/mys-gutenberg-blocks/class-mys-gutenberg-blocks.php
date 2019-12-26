@@ -42,6 +42,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             // Action to Enqueue script and style
             add_action( 'wp_enqueue_scripts', array( $this, 'mysgb_enqueue_front_script' ), 999 );
+
+            add_action( 'after_setup_theme', array( $this, 'mysgb_add_required_image_size' ) );
+        }
+
+        public function mysgb_add_required_image_size() {
+	        add_image_size( 'dynamic-slide', 275, 165 );
         }
 
 
@@ -147,7 +153,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.0' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.4' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -174,7 +180,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
 	            if ( ! wp_script_is( 'bootstrap' ) && ! wp_script_is( 'bootstrap-js' ) ) {
-		            wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/modal.min.js', __FILE__ ), array( 'jquery' ), null, true );
+		            wp_enqueue_script( 'bootstrap-modal', plugins_url( 'assets/js/modal.min.js', __FILE__ ), array( 'jquery' ), null, true );
 	            }
 
                 wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/mysgb-blocks.js', __FILE__ ), array( 'jquery' ), null, true );
@@ -365,11 +371,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         }
 
         /**
-         * Fetch dynamic product item/slide according to block attributes
+         * Fetch dynamic product item/slide according to block attributes.
          *
          * @param $attributes
          *
          * @return string
+         *
          * @since 1.0.0
          */
         public function mysgb_product_slider_render_callback( $attributes ) {
@@ -385,11 +392,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         }
 
         /**
-         * Fire on plugin activation and check the MYS Modules plugin is active or not
+         * Fire on plugin activation and check the MYS Modules plugin is active or not.
          *
          * @since 1.0.0
          */
-
         public static function mysgb_plugin_activation() {
 
             if ( ! is_plugin_active( 'mys-modules/mys-modules.php' ) ) {
@@ -402,21 +408,23 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             }
         }
 
-        /**
-        * Return the default placeholder image when speaker have not featured image.
+	    /**
+         * Return the default placeholder image when speaker have not featured image.
          *
-        * @return string
-        * @since 1.0.0
-        */
+	     * @return string
+         *
+         * @since 1.0.0
+	     */
         public function mysgb_get_speaker_thumbnail_url() {
 
             return plugins_url( 'assets/images/speaker-placeholder.png', __FILE__ );
         }
 
         /**
-         * Get mys show code
+         * Get mys show code.
          *
          * @return string
+         *
          * @since 1.0.0
          */
         public function mysgb_get_mys_show_code() {
@@ -426,15 +434,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             return $show_code;
         }
 
-        /**
-        * Return pipe separated term list from given terms array
+	    /**
+         * Return pipe separated term list from given terms array.
          *
-        * @param array $terms
-        * @param string $type
+	     * @param array $terms
+	     * @param string $type
+	     *
+	     * @return string
          *
-        * @return string
-        * @since 1.0.0
-        */
+         * @since 1.0.0
+	     */
         public function mysgb_get_pipe_separated_term_list ( $terms = array(), $type = 'name' ) {
 
             $all_terms = array();
@@ -450,15 +459,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             return implode( ' | ', $all_terms );
         }
 
-        /**
-        * Generate cache key according to taxonomies and terms
+	    /**
+         * Generate cache key according to taxonomies and terms.
          *
-        * @param $taxonomies
-        * @param $terms
+	     * @param $taxonomies
+	     * @param $terms
+	     *
+	     * @return string
          *
-        * @return string
-        * @since 1.0.0
-        */
+         * @since 1.0.0
+	     */
         public function mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms ) {
 
             $cache_key = '';
@@ -477,16 +487,17 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         }
 
-        /**
-        * Prepare tax_query argument according to given taxonomies and terms
+	    /**
+         * Prepare tax_query argument according to given taxonomies and terms.
          *
-        * @param $taxonomies
-        * @param $terms
-        * @param $taxonomy_relation
+	     * @param $taxonomies
+	     * @param $terms
+	     * @param string $taxonomy_relation
+	     *
+	     * @return array
          *
-        * @return array
-        * @since 1.0.0
-        */
+         * @since 1.0.0
+	     */
         public function mysgb_get_tax_query_argument( $taxonomies, $terms, $taxonomy_relation = 'OR' ) {
 
             $tax_query_args = array( 'relation' => $taxonomy_relation );
@@ -509,14 +520,15 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         }
 
-        /**
-        * Setup common slider attributes
+	    /**
+         * Prepare common slider attributes.
          *
-        * @param int $min_slides
+	     * @param int $min_slides
+	     *
+	     * @return array
          *
-        * @return array
-        * @since 1.0.0
-        */
+         * @since 1.0.0
+	     */
         public function mysgb_get_common_slider_attributes( $min_slides = 4 ) {
 
             $slider_attributes = array(
@@ -564,15 +576,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
            return $slider_attributes;
         }
 
-        /**
-        * Generate popup link for session, speaker and exhibitor
+	    /**
+	     * Generate popup link for session, speaker and exhibitor.
          *
-        * @param $post_id
-        * @param $post_type
-        * @param string $display_text
+	     * @param $post_id
+	     * @param $post_type
+	     * @param string $display_text
+	     * @param string $class_name
          *
-        * @since 1.0.0
-        */
+         * @since 1.0.0
+	     */
         public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '', $class_name = '') {
 
             ?>
@@ -581,7 +594,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         }
 
         /**
-         * Create drop-down options for terms
+         * Create drop-down options for given taxonomy terms.
          *
          * @param string $taxonomy
          *

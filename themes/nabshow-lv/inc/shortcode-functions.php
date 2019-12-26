@@ -7,61 +7,6 @@
  */
 
 /**
- * Create dropdown box according to attributes.
- *
- * @param $atts
- *
- * @return string
- *
- * @since 1.0.0
- */
-function nabshow_lv_dropdown_func( $atts ) {
-
-    $atts = shortcode_atts( array(
-        'first_option' => '',
-        'is_faq'       => false,
-        'parent_slug'  => '',
-    ), $atts );
-
-    ob_start();
-    ?>
-        <select id="<?php echo $atts['is_faq'] ? esc_attr('faq-category-drp') : ''; ?>" class="<?php echo ! $atts['is_faq'] ? esc_attr('plan-your-show-drp') : esc_attr('faq-category-drp'); ?>">
-            <?php
-
-            if ( isset( $atts['first_option'] ) && ! empty( $atts['first_option'] ) ) {
-            ?>
-                <option value=""><?php echo esc_html( $atts['first_option'] ); ?></option>
-            <?php
-            }
-
-            if ( ! $atts['is_faq'] && ! empty( $atts['parent_slug'] ) ) {
-
-                $page = get_page_by_path( $atts['parent_slug'] );
-
-                if ( $page ){
-
-                    $children = get_pages( array( 'child_of' => $page->ID, 'parent' => $page->ID ) );
-
-                    if ( ! empty( $children ) ) {
-
-                        foreach ( $children as $child ) {
-                        ?>
-                            <option value="<?php echo esc_url( get_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></option>
-                        <?php
-                        }
-                    }
-                }
-            }
-            ?>
-        </select>
-    <?php
-
-    $html = ob_get_clean();
-
-    return $html;
-}
-
-/**
  * Shortcode for yoast breadcrumb.
  *
  * @return string

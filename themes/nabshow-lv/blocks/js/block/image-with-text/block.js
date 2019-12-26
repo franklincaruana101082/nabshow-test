@@ -76,7 +76,8 @@
 				type: 'number',
 			},
 			BoxAlign: {
-				type: 'string'
+				type: 'string',
+				default: '1'
 			},
 			BackgroundColor: { type: 'string' },
 			InsertUrl: {
@@ -194,13 +195,13 @@
 								<div className="col-main-2 media-with-text-align">
 									<div className="col-main-inner">
 										<span
-											className="dashicons dashicons-align-left"
+											className={'1' === BoxAlign ? 'dashicons dashicons-align-left active' : 'dashicons dashicons-align-left'}
 											onClick={() => setAttributes({ BoxAlign: '1' })}
 										/>
 									</div>
 									<div className="col-main-inner">
 										<span
-											className="dashicons dashicons-align-right"
+											className={'2' === BoxAlign ? 'dashicons dashicons-align-right active' : 'dashicons dashicons-align-right'}
 											onClick={() => setAttributes({ BoxAlign: '2' })}
 										/>
 									</div>

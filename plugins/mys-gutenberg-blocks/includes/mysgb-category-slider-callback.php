@@ -82,9 +82,9 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
                     if ( ! empty( $image_id ) ) {
                         $image_url = wp_get_attachment_url( $image_id );
                     ?>
-                        <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $term->name ); ?>">
+                        <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $current_term->name ); ?>">
                     <?php } ?>
-                    <h2 class="track-title"><?php echo esc_html( $term->name ); ?></h2>
+                    <h2 class="track-title"><?php echo esc_html( $current_term->name ); ?></h2>
                 </div>
             </div>
         <?php

@@ -32,7 +32,7 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
         </div>
     </div>
     <div class="pass-type col-xl-7">
-        <label>Category</label>
+        <label>Session Name</label>
         <ul class="alphabets-list">
             <li>A</li>
             <li>B</li>

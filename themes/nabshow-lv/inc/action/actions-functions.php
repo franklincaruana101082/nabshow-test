@@ -14,18 +14,20 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'1.0'
+		'1.6'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'1.0'
+		'1.6'
 	);
 
 	wp_register_style(
 		'nab-gutenberg-block',
-		get_template_directory_uri() . '/blocks/css/block.css'
+		get_template_directory_uri() . '/blocks/css/block.css',
+		array(),
+		'1.4'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -54,18 +56,18 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 		'Blank Featured Image' => 'blank_featured_image',
 	);
 	?>
-    <select name="additional_filter">
-        <option value=""><?php esc_html_e( 'Additional Filter', 'nabshow-lv' ); ?></option>
+	<select name="additional_filter">
+		<option value=""><?php esc_html_e( 'Additional Filter', 'nabshow-lv' ); ?></option>
 		<?php
 		$additional_filter = filter_input( INPUT_GET, 'additional_filter', FILTER_SANITIZE_STRING );
 		$current_v         = isset( $additional_filter ) ? $additional_filter : '';
 		foreach ( $values as $label => $value ) { ?>
 
-            <option value="<?php echo esc_attr( $value ) ?>" <?php selected( $current_v, $value ); ?>><?php echo esc_html( $label ); ?></option>
+			<option value="<?php echo esc_attr( $value ) ?>" <?php selected( $current_v, $value ); ?>><?php echo esc_html( $label ); ?></option>
 
 		<?php }
 		?>
-    </select>
+	</select>
 	<?php
 
 	$edit_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
@@ -80,8 +82,8 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 		$admin_url_path = 'edit.php?post_type=' . $edit_post_type . '&compact_view=' . $param_val;
 		$final_url      = admin_url( $admin_url_path );
 		?>
-        <a class="compactBtn button" href="<?php echo esc_url( $final_url ); ?>"><?php echo esc_html( $link_text ); ?></a>
-        <input type="hidden" value="<?php echo esc_attr( $compact_view ); ?>" name="compact_view" />
+		<a class="compactBtn button" href="<?php echo esc_url( $final_url ); ?>"><?php echo esc_html( $link_text ); ?></a>
+		<input type="hidden" value="<?php echo esc_attr( $compact_view ); ?>" name="compact_view"/>
 		<?php
 	}
 
@@ -100,23 +102,23 @@ function nabshow_lv_custom_columns_data( $column, $post_id ) {
 	switch ( $column ) {
 		case 'featured_image':
 			if ( has_post_thumbnail() ) {
-				the_post_thumbnail('thumbnail');
+				the_post_thumbnail( 'thumbnail' );
 			} else {
 				?>
-                <span aria-hidden="true">—</span>
+				<span aria-hidden="true">—</span>
 				<?php
 			}
 			break;
 		case 'featured_term':
 
-			$taxonomies  = get_taxonomies('','names');
-			$all_terms   = wp_get_post_terms($post_id, $taxonomies);
-			$final_terms = wp_list_pluck($all_terms, 'slug');
+			$taxonomies = get_taxonomies( '', 'names' );
+			$all_terms = wp_get_post_terms( $post_id, $taxonomies );
+			$final_terms = wp_list_pluck( $all_terms, 'slug' );
 
-			if ( in_array('featured', $final_terms, true ) ){ ?>
-                <img height="25px" width="25px" alt="featured" src="<?php echo esc_url( get_template_directory_uri().'/assets/images/check.svg' )?>">
+			if ( in_array( 'featured', $final_terms, true ) ) { ?>
+				<img height="25px" width="25px" alt="featured" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/check.svg' ) ?>">
 			<?php } else { ?>
-                <span aria-hidden="true">—</span>
+				<span aria-hidden="true">—</span>
 			<?php }
 			break;
 
@@ -143,7 +145,7 @@ function nabshow_lv_remove_wp_emoji() {
  */
 function nabshow_lv_move_scripts_to_footer() {
 
-    // Remove default jQuery registration through WordPress.
+	// Remove default jQuery registration through WordPress.
 	wp_dequeue_script( 'jquery' );
 	wp_dequeue_script( 'jquery-migrate' );
 	wp_dequeue_script( 'wp-embed' );
@@ -166,7 +168,7 @@ function nabshow_lv_set_thought_gallery_views( $postID ) {
 	$count_key = 'nab_thought_gallery_views_count';
 	$count     = get_post_meta( $postID, $count_key, true );
 
-	$count     = empty( $count ) ? 1 : $count + 1;
+	$count = empty( $count ) ? 1 : $count + 1;
 
 	update_post_meta( $postID, $count_key, $count );
 }
@@ -197,11 +199,11 @@ function nabshow_lv_track_thought_gallery_views( $post_id ) {
  */
 function nabshow_lv_custom_type_to_author() {
 
-    if ( ! is_admin() ) {
+	if ( ! is_admin() ) {
 
-	    global $wp_query;
+		global $wp_query;
 
-	    if ( is_author() || is_home() ) {
+		if ( is_author() || is_home() ) {
 			$wp_query->set( 'post_type', array( 'post', 'thought-gallery', 'not-to-be-missed' ) );
 		}
 	}
@@ -216,7 +218,9 @@ function nabshow_lv_custom_type_to_author() {
  */
 function nabshow_lv_make_posts_hierarchical( $post_type ) {
 	// Return, if not post type posts
-	if ($post_type !== 'post') return;
+	if ( $post_type !== 'post' ) {
+		return;
+	}
 
 	// access $wp_post_types global variable
 	global $wp_post_types;
@@ -238,7 +242,9 @@ function nabshow_lv_make_posts_hierarchical( $post_type ) {
  */
 function nabshow_lv_enable_page_excerpt( $post_type ) {
 	// Return, if post type not page
-	if ( 'page' !== $post_type ) return;
+	if ( 'page' !== $post_type ) {
+		return;
+	}
 
 	// Adding excerpt for page
 	add_post_type_support( 'page', 'excerpt' );
@@ -266,16 +272,16 @@ function nabshow_lv_set_custom_login_logo() {
 
 	$login_logo = get_stylesheet_directory_uri() . '/assets/images/login-logo.png';
 	?>
-    <style type="text/css">
-        #login h1 a, .login h1 a {
-            background-image: url(<?php echo esc_url( $login_logo ); ?>);
-            height:65px;
-            width:320px;
-            background-size: 320px 65px;
-            background-repeat: no-repeat;
-            padding-bottom: 30px;
-        }
-    </style>
+	<style type="text/css">
+		#login h1 a, .login h1 a {
+			background-image: url(<?php echo esc_url( $login_logo ); ?>);
+			height: 65px;
+			width: 320px;
+			background-size: 320px 65px;
+			background-repeat: no-repeat;
+			padding-bottom: 30px;
+		}
+	</style>
 	<?php
 }
 
@@ -286,7 +292,7 @@ function nabshow_lv_set_custom_login_logo() {
  */
 function nabshow_lv_add_help_support_dashboard_widget() {
 
-    wp_add_dashboard_widget(
+	wp_add_dashboard_widget(
 		'nab_dashboard_help_support', // widget ID
 		'Help & Support', // widget title
 		'nabshow_lv_help_support_widget_configure' // callback #1 to display it
@@ -300,22 +306,22 @@ function nabshow_lv_add_help_support_dashboard_widget() {
  */
 function nabshow_lv_help_support_widget_configure() {
 	?>
-    <div class="inside">
-        <div id="help-support" class="help-support">
-            <p class="display-msg"></p>
-            <div class="input-text-wrap">
-                <label for="support-subject">Subject</label>
-                <input type="text" name="mail_subject" id="support-subject" autocomplete="off" required>
-            </div>
-            <div class="textarea-wrap">
-                <label for="support-content">Message</label>
-                <textarea name="mail_content" id="support-content" placeholder="Message" class="mceEditor" rows="3" cols="15" autocomplete="off" required></textarea>
-            </div>
-            <p class="submit">
-                <button id="send-mail" class="button button-primary">Send</button>
-            </p>
-        </div>
-    </div>
+	<div class="inside">
+		<div id="help-support" class="help-support">
+			<p class="display-msg"></p>
+			<div class="input-text-wrap">
+				<label for="support-subject">Subject</label>
+				<input type="text" name="mail_subject" id="support-subject" autocomplete="off" required>
+			</div>
+			<div class="textarea-wrap">
+				<label for="support-content">Message</label>
+				<textarea name="mail_content" id="support-content" placeholder="Message" class="mceEditor" rows="3" cols="15" autocomplete="off" required></textarea>
+			</div>
+			<p class="submit">
+				<button id="send-mail" class="button button-primary">Send</button>
+			</p>
+		</div>
+	</div>
 	<?php
 }
 
@@ -328,9 +334,9 @@ function nabhsow_lv_enqueue_admin_script() {
 
 	global $pagenow;
 
-	if( 'index.php' === $pagenow ) {
+	if ( 'index.php' === $pagenow ) {
 
-		wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ) );
+		wp_enqueue_script( 'nabshow-lv-admin', get_template_directory_uri() . '/assets/js/nabshow-lv-admin.js', array( 'jquery' ), '1.0' );
 
 		wp_localize_script( 'nabshow-lv-admin', 'nabshowLvAdmin', array(
 			'ajax_url'               => admin_url( 'admin-ajax.php' ),
@@ -345,19 +351,19 @@ function nabhsow_lv_enqueue_admin_script() {
 
 			$taxonomy = filter_input( INPUT_GET, 'taxonomy', FILTER_SANITIZE_STRING );
 
-			wp_enqueue_script( 'nabshow-lv-compact-view', get_template_directory_uri() . '/assets/js/nabshow-lv-admin-compact-view.js', array( 'jquery' ) );
+			wp_enqueue_script( 'nabshow-lv-compact-view', get_template_directory_uri() . '/assets/js/nabshow-lv-admin-compact-view.js', array( 'jquery' ), '1.1' );
 
 			$taxonomy = is_taxonomy_hierarchical( $taxonomy ) ? $taxonomy : '';
 
 			wp_localize_script( 'nabshow-lv-compact-view', 'nabshowCompactView', array(
 				'expandText'   => __( 'Expand All', 'nabshow-lv' ),
 				'collapseText' => __( 'Collapse All', 'nabshow-lv' ),
-				'nabTaxonomy' => $taxonomy,
+				'nabTaxonomy'  => $taxonomy,
 			) );
 
 		}
 
-		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css' );
+		wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/nabshow-lv-admin.css', array(), '1.1' );
 	}
 }
 
@@ -375,7 +381,6 @@ function nabshow_lv_set_author_list_post_type( $query ) {
 		$query->set( 'post_type', array( 'thought-gallery' ) );
 	}
 }
-
 
 /**
  * Send email to Admins when any Author publishes any page/post.
@@ -416,12 +421,12 @@ function send_mails_on_publish( $postid ) {
  */
 function nabshow_lv_change_user_role_cap() {
 
-    // Change author role cap
+	// Change author role cap
 	$role = get_role( 'author' );
 
 	if ( $role ) {
 		$role->add_cap( 'unfiltered_html' );
-    }
+	}
 
 
 	// Change contributor role cap
@@ -429,7 +434,7 @@ function nabshow_lv_change_user_role_cap() {
 
 	if ( $role ) {
 		$role->add_cap( 'unfiltered_html' );
-    }
+	}
 
 }
 

@@ -13,6 +13,9 @@ $block_post_type    = isset( $attributes['postType'] ) && ! empty( $attributes['
 $taxonomies         = isset( $attributes['taxonomies'] ) && ! empty( $attributes['taxonomies'] ) ? $attributes['taxonomies'] : array();
 $terms              = isset( $attributes['terms'] ) && ! empty( $attributes['terms'] ) ? json_decode( $attributes['terms'] ): array();
 $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+$display_name       = isset( $attributes['displayName'] ) ? $attributes['displayName'] : true;
+$display_title      = isset( $attributes['displayTitle'] ) ? $attributes['displayTitle'] : true;
+$display_company    = isset( $attributes['displayCompany'] ) ? $attributes['displayCompany'] : true;
 $slider_active      = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
 $min_slides         = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
 $slide_width        = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
@@ -27,19 +30,24 @@ $slider_margin      = isset( $attributes['slideMargin'] ) ? $attributes['slideMa
 $speaker_order      = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons        = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-$item_class         = 'circle' === $slider_shape && $slider_active ? '' : 'display-title';
+$item_class         = 'circle' === $slider_shape && $slider_active && $display_name ? '' : 'display-title';
 
 $query              = false;
 $final_key          = '';
 $cache_key          = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
 
 if ( ! empty( $cache_key ) || $with_thumbnail ) {
-    $final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );
+
+	$final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );
     $query = get_transient( $final_key );
+
 } else {
-    $speaker_key = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
-    if ( isset( $speaker_key ) && ! empty( $speaker_key ) ) {
-        $final_key  = 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' .$speaker_key;
+
+	$speaker_key = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
+
+	if ( isset( $speaker_key ) && ! empty( $speaker_key ) ) {
+
+		$final_key  = 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' .$speaker_key;
         $query      = get_transient( $final_key );
     }
 }
@@ -49,10 +57,18 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
     $query_args = array(
         'post_type'      => $block_post_type,
-        'posts_per_page' => $posts_per_page,
-        'orderby'        => $order_by,
-        'order'          => $speaker_order,
     );
+
+    if ( 'rand' === $order_by ) {
+		$query_args['posts_per_page']       = 100;
+		$query_args['fields']               = 'ids';
+		$query_args['no_found_rows']        = true;
+		$query_args['ignore_sticky_posts']  = true;
+	} else {
+		$query_args['posts_per_page']       = $posts_per_page;
+		$query_args['orderby']              = $order_by;
+		$query_args['order']                = $speaker_order;
+	}
 
     if ( ! $listing_page ) {
 
@@ -83,6 +99,14 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     }
 }
 
+if ( 'rand' === $order_by && $query->have_posts() ) {
+
+	$post_ids = $query->posts;
+	shuffle( $post_ids );
+	$post_ids = array_splice( $post_ids, 0, $posts_per_page );
+	$query    = new WP_Query( array( 'post_type' => $block_post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
+}
+
 if ( $query->have_posts() || $listing_page ) {
 
     if ( $listing_page ) {
@@ -96,8 +120,9 @@ if ( $query->have_posts() || $listing_page ) {
     <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">
 <?php
         if ( $slider_active ) {
+        	$slider_class = 'circle' === $slider_shape && ! $display_name ? 'circle-without-name' : '';
         ?>
-            <div class="nab-dynamic-slider items-md nab-box-slider speakers" data-minslides="<?php echo esc_attr( $min_slides );?>" data-slidewidth="<?php echo esc_attr( $slide_width );?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+            <div class="nab-dynamic-slider items-md nab-box-slider speakers <?php echo esc_html( $slider_class ); ?>" data-minslides="<?php echo esc_attr( $min_slides );?>" data-slidewidth="<?php echo esc_attr( $slide_width );?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
         <?php
         } else {
         ?>
@@ -131,27 +156,49 @@ if ( $query->have_posts() || $listing_page ) {
             ?>
                 <div class="flip-box">
                     <div class="flip-box-inner">
+                        <?php
+                        if ( ( ! $slider_active && 'circle' === $slider_shape ) || ( 'rectangle' === $slider_shape ) || ( $slider_active && 'circle' === $slider_shape && ! $display_name ) ) {
+                            ?>
+                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $speaker_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">
+                            <?php
+                        }
+                        ?>
 
                         <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
 
-                        <div class="flip-box-back rounded-circle">
-
-                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, get_the_title() ); ?></h6>
-
+                        <?php
+                        if ( ( ! $slider_active && 'circle' === $slider_shape ) || ( 'rectangle' === $slider_shape ) || ( $slider_active && 'circle' === $slider_shape && ! $display_name ) ) {
+                            ?>
+                            </a>
                             <?php
-                             if ( ! $slider_active ) {
+                        }
+						?>
+                        <div class="flip-box-back rounded-circle">
+							<?php
+							if ( $display_name ) {
+	                            ?>
+	                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, get_the_title() ); ?></h6>
+	                            <?php
+	                        }
+							if ( ! $slider_active ) {
 
-                                 $speaker_job_title = get_post_meta( $speaker_id, 'title', true );
-                                 $speaker_company   = get_the_terms( $speaker_id, 'speaker-companies' );
-                                 $speaker_company   = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
-                                ?>
+								if ( $display_title ) {
 
-                                <p class="jobtilt"><?php echo esc_attr( $speaker_job_title ); ?></p>
-                                <span class="company"><?php echo esc_attr( $speaker_company ); ?></span>
+									$speaker_job_title = get_post_meta( $speaker_id, 'title', true );
+									?>
+									<p class="jobtilt"><?php echo esc_attr( $speaker_job_title ); ?></p>
+									<?php
+								}
+								if ( $display_company ) {
 
-                                <?php
-                             }
-                             ?>
+									$speaker_company   = get_the_terms( $speaker_id, 'speaker-companies' );
+									$speaker_company   = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
+									?>
+									<span class="company"><?php echo esc_attr( $speaker_company ); ?></span>
+									<?php
+								}
+							}
+							?>
                         </div>
                     </div>
                 </div>

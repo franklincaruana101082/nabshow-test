@@ -13,6 +13,7 @@ import './block/meet-the-team/block';
 import './block/awards-block/block';
 import './block/advertisement/block';
 import './block/custom-block/block';
+import './block/featured-boxes/block';
 
 wp.domReady( function() {
     wp.blocks.unregisterBlockType( 'yoast/how-to-block' );
@@ -134,3 +135,10 @@ wp.domReady( function() {
     );
     wp.blocks.updateCategory('nabshow', { icon: nabShowIcon });
   })();
+
+// Remove  'Remove from Reusable Blocks' button  from Reusable Blocks
+setInterval(function () {
+    jQuery('.components-button.block-editor-block-settings-menu__control').each(function () {
+        if ('Remove from Reusable Blocks' === jQuery(this).text()) { jQuery(this).addClass('hideBtn'); }
+    });
+}, 0.5);

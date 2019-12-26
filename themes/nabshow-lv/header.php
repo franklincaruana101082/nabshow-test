@@ -14,10 +14,35 @@
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, shrink-to-fit=no">
     <link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.ico' ); ?>">
 	<?php wp_head(); ?>
+	<script>
+		"use strict";
+
+		!function() {
+			var t = window.driftt = window.drift = window.driftt || [];
+			if (!t.init) {
+				if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+				t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
+					t.factory = function(e) {
+						return function()
+
+						{ var n = Array.prototype.slice.call(arguments); return n.unshift(e), t.push(n), t; }
+							;
+					}, t.methods.forEach(function(e)
+
+					{ t[e] = t.factory(e); }
+				), t.load = function(t)
+
+				{ var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js"; var i = document.getElementsByTagName("script")[0]; i.parentNode.insertBefore(o, i); }
+				;
+			}
+		}();
+		drift.SNIPPET_VERSION = '0.3.1';
+		drift.load('t9bym32zb3py');
+	</script>
 </head>
 
 <body <?php body_class(); ?>>
@@ -40,7 +65,15 @@
                     <div id="logo" class="text-center">
 						<?php
 						the_custom_logo();
-						?>                        
+						?>
+	                    <div class="header-sticky-menu-logo">
+		                    <?php
+		                    $sticky_logo = get_theme_mod( 'menu_sticky_logo', '' );
+		                    ?>
+		                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+		                        <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="nabshow-lv-logo">
+		                    </a>
+	                    </div>
                     </div>
                 </div>
                 <div class="col-md-4 header-right text-right">

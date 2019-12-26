@@ -2,7 +2,7 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { InspectorControls, MediaUpload, BlockControls } = wpEditor;
-  const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette } = wpComponents;
+  const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette, ToggleControl } = wpComponents;
 
   const imageBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -67,6 +67,10 @@
         type: 'string',
         default: ''
       },
+      ImageMaxWidth: {
+        type: 'number',
+        default: 100
+      },
       BorderSize: {
         type: 'number',
         default: 0
@@ -122,6 +126,13 @@
       ImgAlignment: {
         type: 'string',
         default: 'Left'
+      },
+      imgLink: {
+        type: 'string'
+      },
+      newWindow: {
+        type: 'boolean',
+        default: false,
       }
     },
     edit({ attributes, setAttributes }) {
@@ -142,12 +153,16 @@
         paddingBottom,
         paddingLeft,
         InsertUrl,
-        ImgAlignment
+        ImgAlignment,
+        imgLink,
+        newWindow,
+        ImageMaxWidth
       } = attributes;
 
       const ImageStyle = {};
       ImageWidth && (ImageStyle.width = `${ImageWidth}px`);
       ImageHeight && (ImageStyle.height = `${ImageHeight}px`);
+      ImageMaxWidth && (ImageStyle.maxWidth = `${ImageMaxWidth}%`);
       marginTop && (ImageStyle.marginTop = `${marginTop}px`);
       marginBottom && (ImageStyle.marginBottom = `${marginBottom}px`);
       marginLeft && (ImageStyle.marginLeft = `${marginLeft}px`);
@@ -220,7 +235,7 @@
             <PanelBody title="Dimensions" initialOpen={true}>
               <PanelRow>
                 <div className="inspector-field inspector-image-width" >
-                  <label>Width</label>
+                  <label>Width (in px)</label>
                   <RangeControl
                     value={ImageWidth}
                     min={1}
@@ -231,12 +246,23 @@
               </PanelRow>
               <PanelRow>
                 <div className="inspector-field inspector-image-height" >
-                  <label>Height</label>
+                  <label>Height (in px)</label>
                   <RangeControl
                     value={ImageHeight}
                     min={1}
                     max={1920}
                     onChange={ImageHeight => setAttributes({ ImageHeight: ImageHeight })}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-image-width" >
+                  <label>Max Width (in %)</label>
+                  <RangeControl
+                    value={ImageMaxWidth}
+                    min={1}
+                    max={100}
+                    onChange={ImageMaxWidth => setAttributes({ ImageMaxWidth: ImageMaxWidth })}
                   />
                 </div>
               </PanelRow>
@@ -409,6 +435,25 @@
                 </div>
               </PanelRow>
             </PanelBody>
+            <PanelBody title={__('Link')} initialOpen={false}>
+              <PanelRow>
+                <TextControl
+                  type="text"
+                  placeholder="https:"
+                  value={imgLink}
+                  onChange={(value) => setAttributes({ imgLink: value })}
+                />
+              </PanelRow>
+              {imgLink && (
+                <PanelRow>
+                <ToggleControl
+                  label={__('Open New Tab')}
+                  checked={newWindow}
+                  onChange={() => setAttributes({ newWindow: ! newWindow })}
+                />
+              </PanelRow>
+              )}
+            </PanelBody>
             <PanelBody title={__('Help')} initialOpen={false}>
               <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
             </PanelBody>
@@ -434,12 +479,16 @@
         paddingRight,
         paddingBottom,
         paddingLeft,
-        ImgAlignment
+        ImgAlignment,
+        imgLink,
+        newWindow,
+        ImageMaxWidth
       } = attributes;
 
       const ImageStyle = {};
       ImageWidth && (ImageStyle.width = `${ImageWidth}px`);
       ImageHeight && (ImageStyle.height = `${ImageHeight}px`);
+      ImageMaxWidth && (ImageStyle.maxWidth = `${ImageMaxWidth}%`);
       marginTop && (ImageStyle.marginTop = `${marginTop}px`);
       marginBottom && (ImageStyle.marginBottom = `${marginBottom}px`);
       marginLeft && (ImageStyle.marginLeft = `${marginLeft}px`);
@@ -456,7 +505,7 @@
 
       return (
         <div className="nab-image" style={mainStyle}>
-          <img style={ImageStyle} src={imageUrl} alt={imageAlt} />
+          {imgLink ? (<a href={imgLink} target={newWindow ? '_blank' : '_self'} rel="noopener noreferrer"><img style={ImageStyle} src={imageUrl} alt={imageAlt} /></a>) : (<img style={ImageStyle} src={imageUrl} alt={imageAlt} />)}
         </div>
       );
     }

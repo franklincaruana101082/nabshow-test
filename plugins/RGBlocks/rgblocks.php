@@ -75,22 +75,6 @@ function rgblocks_load_text_domain() {
 
 add_action( 'plugins_loaded', 'rgblocks_load_text_domain' );
 
-/**
- * Function runs on plugin installation.
- */
-function rgblocks_install() {
-}
-
-register_activation_hook( __FILE__, 'rgblocks_install' );
-
-/**
- * Functions runs when uninstall the plugin.
- */
-function rgblocks_uninstall() {
-}
-
-register_deactivation_hook( __FILE__, 'rgblocks_uninstall' );
-
 // Admin Class File.
 require_once( dirname( __FILE__ ) . '/includes/class.rgblocks-admin.php' );
 

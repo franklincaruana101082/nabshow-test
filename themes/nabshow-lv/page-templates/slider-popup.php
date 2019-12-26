@@ -415,7 +415,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <?php
 		                            foreach ( $all_terms as $current_term ) {
 			                            if ( 'featured' !== $current_term->slug ) {
-			                                $term_tag_link = get_site_url() . '/explore/exhibits/browse-experiences/?exhibitor-key='. $current_term->slug;
+			                                $term_tag_link = get_site_url() . '/explore/exhibits/browse-exhibitors/?exhibitor-key='. $current_term->slug;
                                         ?>
                                             <li><a href="<?php echo esc_url( $term_tag_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></li>
                                         <?php
@@ -524,15 +524,13 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 								?>
                                 <li>
 									<?php
-									if ( has_post_thumbnail() ) {
-										?>
-                                        <div class="feature-img">
-                                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>"
-                                                 alt="thought-gallery">
-                                        </div>
-										<?php
-									}
-									?>
+
+                                    $image_url = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_empty_thumbnail_url();
+
+                                    ?>
+                                    <div class="feature-img">
+                                        <img src="<?php echo esc_url( $image_url ); ?>" alt="thought-gallery">
+                                    </div>
                                     <div class="details">
                                         <h4>
                                             <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>

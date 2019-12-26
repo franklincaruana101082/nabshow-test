@@ -175,10 +175,10 @@ $speakers_slider_attr = array(
 			'type' => 'string'
 		]
 	),
-	'terms'           => array(
+	'terms'     => array(
 		'type' => 'string'
 	),
-	'slideShape'      => array(
+	'slideShape'    => array(
 		'type'    => 'string',
 		'default' => 'circle'
 	),
@@ -186,10 +186,23 @@ $speakers_slider_attr = array(
 		'type'    => 'string',
 		'default' => 'date'
 	),
-	'withThumbnail'   => array(
+	'withThumbnail'  => array(
 		'type'    => 'boolean',
 		'default' => false
+	),
+	'displayName'   => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayTitle'   => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayCompany' => array(
+		'type'    => 'boolean',
+		'default' => true
 	)
+
 );
 
 register_block_type( 'mys/speaker-slider', array(

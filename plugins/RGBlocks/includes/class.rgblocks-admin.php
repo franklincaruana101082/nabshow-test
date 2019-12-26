@@ -54,9 +54,10 @@ class RGBlocks_Admin {
 				'wp-element',
 				'wp-editor',
 				'wp-components',
-			)
+			),
+			'1.0'
 		);
-		wp_enqueue_style( 'rgblocks-gutenberg-block-backend-css', RGBLOCKS_URL . 'assets/css/block.css', array( 'wp-edit-blocks' ) );
+		wp_enqueue_style( 'rgblocks-gutenberg-block-backend-css', RGBLOCKS_URL . 'assets/css/block.css', array( 'wp-edit-blocks' ) , '1.0' );
 		register_block_type(
 			'rgblocks-gutenberg-block/custom-block',
 			array(

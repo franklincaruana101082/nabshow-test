@@ -97,8 +97,8 @@ add_action( 'init', 'nabshow_lv_register_news_releases_taxonomy' );
 add_action( 'rest_api_init', 'nabshow_lv_register_api_endpoints');
 
 // Send email to Admins when any Author publishes any page/post.
-//add_action( 'publish_page', 'send_mails_on_publish', 10, 3 );
-//add_action( 'publish_post', 'send_mails_on_publish', 10, 3 );
+add_action( 'publish_page', 'send_mails_on_publish', 10, 3 );
+add_action( 'publish_post', 'send_mails_on_publish', 10, 3 );
 
 // Action for set custom login logo
 add_action( 'login_enqueue_scripts', 'nabshow_lv_set_custom_login_logo' );
@@ -108,3 +108,18 @@ add_action( 'wp_dashboard_setup', 'nabshow_lv_add_help_support_dashboard_widget'
 
 // Action for enqueue script on admin side
 add_action( 'admin_enqueue_scripts', 'nabhsow_lv_enqueue_admin_script' );
+
+// Action for set thought-gallery post type in author.php
+add_action( 'pre_get_posts', 'nabshow_lv_set_author_list_post_type' );
+
+// Action for change user role capability
+add_action( 'admin_init', 'nabshow_lv_change_user_role_cap' );
+
+// Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
+add_filter( 'map_meta_cap', 'nabshow_lv_add_unfiltered_html_capability_to_users', 1, 3 );
+
+// action to add the Mega Menu post type.
+add_action( 'init', 'nabshow_lv_register_mega_menu_post_type' );
+
+// action to add the Mega Menu post type.
+add_action( 'init', 'nabshow_lv_register_forms_data_post_type' );

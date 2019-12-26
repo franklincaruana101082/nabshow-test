@@ -505,10 +505,38 @@ function nabshow_lv_related_content_dynamic_field_display( $page_id, $display_fi
 		    }
 
 		    if ( ! empty( $sub_title ) ) {
-			    ?>
-                <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
-			    <?php
+
+			    if ( 'reg_access' === $field ) {
+				    ?>
+				    <span class="sub-title <?php echo esc_attr( $field ); ?>"><a href="https://registration.experientevent.com/ShowNAB201/Flow/ATT/#!/registrant//CustomLogin/" target="_blank"><?php echo esc_html( $sub_title ); ?></a></span>
+				    <?php
+			    } else {
+				    ?>
+				    <span class="sub-title <?php echo esc_attr( $field ); ?>"><?php echo esc_html( $sub_title ); ?></span>
+				    <?php
+			    }
 		    }
 	    }
     }
+}
+
+/**
+ * Enqueue datepicker style and script
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_enqueue_datepicker_script() {
+
+	wp_enqueue_script( 'jquery-ui-datepicker' );
+	wp_enqueue_style( 'jquery-ui', get_template_directory_uri() . '/assets/css/jquery-ui.min.css' );
+}
+
+/**
+ * Enqueue google recaptcha script
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_enqueue_google_recaptch_script() {
+
+	wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js');
 }

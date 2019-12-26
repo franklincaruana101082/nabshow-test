@@ -11,7 +11,6 @@
  *
  * @since 1.0.0
  */
-
 function nabshow_lv_not_to_be_missed_archive() {
 
     $labels = array(
@@ -372,4 +371,119 @@ function nabshow_lv_page_category_taxonomy() {
 
     register_taxonomy( 'page-category', array( 'page' ), $args );
 
+}
+
+/**
+ * Added the Mega Menu post type.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_register_mega_menu_post_type() {
+
+	$labels = array(
+		'name'               => _x( 'Mega Menu', 'post type general name', 'nabshow-lv' ),
+		'singular_name'      => _x( 'Mega Menu', 'post type singular name', 'nabshow-lv' ),
+		'add_new_item'       => __( 'Add New', 'nabshow-lv' ),
+		'edit_item'          => __( 'Edit', 'nabshow-lv' ),
+		'new_item'           => __( 'New', 'nabshow-lv' ),
+		'view_item'          => __( 'View', 'nabshow-lv' ),
+		'search_items'       => __( 'Search', 'nabshow-lv' ),
+		'not_found'          => __( 'No menu found.', 'nabshow-lv' ),
+		'not_found_in_trash' => __( 'No menu found in Trash.', 'nabshow-lv' )
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'public'              => true,
+		'publicly_queryable'  => false,
+		'exclude_from_search' => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_rest'        => true,
+		'query_var'           => true,
+		'rewrite'             => true,
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => null,
+		'menu_icon'           => 'dashicons-menu',
+		'supports'            => array(
+			'title',
+			'editor',
+			'revisions',
+			'author',
+			'custom-fields'
+		),
+	);
+
+	register_post_type( 'mega-menu', $args );
+}
+
+/**
+ * Added the forms data post type and form type taxonomy
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_register_forms_data_post_type() {
+
+	$labels = array(
+		'name'               => _x( 'Forms Data', 'post type general name', 'nabshow-lv' ),
+		'singular_name'      => _x( 'Forms Data', 'post type singular name', 'nabshow-lv' ),
+		'add_new_item'       => __( 'Add New', 'nabshow-lv' ),
+		'edit_item'          => __( 'Edit', 'nabshow-lv' ),
+		'new_item'           => __( 'New', 'nabshow-lv' ),
+		'view_item'          => __( 'View', 'nabshow-lv' ),
+		'search_items'       => __( 'Search', 'nabshow-lv' ),
+		'not_found'          => __( 'No menu found.', 'nabshow-lv' ),
+		'not_found_in_trash' => __( 'No menu found in Trash.', 'nabshow-lv' )
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'public'              => true,
+		'publicly_queryable'  => false,
+		'exclude_from_search' => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_rest'        => false,
+		'query_var'           => true,
+		'rewrite'             => true,
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => null,
+		'menu_icon'           => 'dashicons-forms',
+		'supports'            => array(
+			'title',
+			'author',
+			'custom-fields'
+		),
+	);
+
+	register_post_type( 'forms-data', $args );
+
+	$labels = array(
+		'name'              => _x( 'Category', 'taxonomy general name', 'nabshow-lv' ),
+		'singular_name'     => _x( 'Category', 'taxonomy singular name', 'nabshow-lv' ),
+		'search_items'      => __( 'Search Categories', 'nabshow-lv' ),
+		'all_items'         => __( 'All Categories', 'nabshow-lv' ),
+		'edit_item'         => __( 'Edit Category', 'nabshow-lv' ),
+		'update_item'       => __( 'Update Category', 'nabshow-lv' ),
+		'add_new_item'      => __( 'Add New Category', 'nabshow-lv' ),
+		'new_item_name'     => __( 'New Genre Category', 'nabshow-lv' ),
+		'menu_name'         => __( 'Categories', 'nabshow-lv' ),
+	);
+
+	$args = array(
+		'public'            => false,
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_in_rest'      => false,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'forms-category' ),
+	);
+
+	register_taxonomy( 'forms-category', array( 'forms-data' ), $args );
 }

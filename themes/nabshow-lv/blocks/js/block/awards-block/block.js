@@ -184,8 +184,8 @@ import memoize from 'memize';
         edit: (props, attributes) => {
             const { attributes: { title, captionText, showTitle, noOfAwards, showFilter }, className, setAttributes, clientId } = props;
 
-            $(document).on('click', `#block-${clientId} .col-lg-6 .remove-item`, function (e) {
-                if ('' !== $(this).parents(`#block-${clientId}`)) {
+          jQuery(document).on('click', `#block-${clientId} .col-lg-6 .remove-item`, function (e) {
+                if ('' !== jQuery(this).parents(`#block-${clientId}`)) {
                     setAttributes({ noOfAwards: noOfAwards - 1 });
                     removehildawardsBlock(noOfAwards);
                 }

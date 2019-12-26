@@ -25,3 +25,4 @@
 @font-face{font-family:"Vollkorn Regular";font-style:normal;font-weight:normal;src:local("Vollkorn Regular"), url("vollkorn/Vollkorn-Regular.ttf") format("truetype")}
 @font-face{font-family:"Vollkorn SemiBold";font-style:normal;font-weight:normal;src:local("Vollkorn SemiBold"), url("vollkorn/Vollkorn-SemiBold.ttf") format("truetype")}
 @font-face{font-family:"Vollkorn SemiBoldItalic";font-style:normal;font-weight:normal;src:local("Vollkorn SemiBoldItalic"), url("vollkorn/Vollkorn-SemiBoldItalic.ttf") format("truetype")}
+@font-face{font-family:"Molot";font-style:normal;font-weight:normal;src:local("Molot"), url('Molot.otf') format('opentype')}

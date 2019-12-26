@@ -6,14 +6,13 @@ class ReusableBlocksList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      NoOfPost: 12,
       onImport: false
     };
   }
 
   render() {
-    const { blocks, loadMore, reusableType  } = this.props;
-    const { NoOfPost, onImport } = this.state;
+    const { blocks } = this.props;
+    const { onImport } = this.state;
     const { BlockEdit } = wp.editor;
     return (
       <React.Fragment>
@@ -23,41 +22,47 @@ class ReusableBlocksList extends Component {
               <div className="block-grid-inner">
                 <div className="Feature-Block">
                   <div className="feature-link">
-                    <div className="show-and-insert">
-                      <a
-                          onClick={() => {
-                            fetchReusableBlock(block, this.props.data, reusableType);
-
-                            this.setState({ onImport: true });
-                          }}
-                      >
-                        <i className="fas fa-plus" />
-                      </a>
+                    <div
+                      className="normal-block"
+                      onClick={() => {
+                        fetchReusableBlock(block, this.props.data, 'normal');
+                        this.setState({ onImport: true });
+                      }}
+                    >
+                      <strong>
+                        <em>Use as a</em>Normal Block
+                      </strong>
+                    </div>
+                    <div
+                      className="reusable-block"
+                      onClick={() => {
+                        fetchReusableBlock(block, this.props.data, 'reusable');
+                        this.setState({ onImport: true });
+                      }}
+                    >
+                      <strong>
+                        <em>Use as a</em>Reusable Block
+                      </strong>
                     </div>
                   </div>
                   {block.custom_fields.preview_image ? (
-                      <img
-                          className="block-image"
-                          alt="rgblock-logo"
-                          src={block.custom_fields.preview_image ? block.custom_fields.preview_image : undefined}
-                      />
+                    <img
+                      className="block-image"
+                      alt="rgblock-logo"
+                      src={
+                        block.custom_fields.preview_image ?
+                          block.custom_fields.preview_image :
+                          undefined
+                      }
+                    />
                   ) : (
-                      <span
-                          data-title={block.blocktitle}
-                          className="No-image-found"
-                      />
+                    <span
+                      data-title={block.title.raw}
+                      className="No-image-found"
+                    />
                   )}
                 </div>
-                <div className="title-info">
-                  <a
-                      onClick={() => {
-                        fetchReusableBlock(block, this.props.data, reusableType);
-                      }}
-                      className="title"
-                  >
-                    {block.title.raw}
-                  </a>
-                </div>
+                <div className="title-info">{block.title.raw}</div>
               </div>
             </li>
           );

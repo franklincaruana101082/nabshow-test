@@ -7,7 +7,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, MediaUpload } = wpEditor;
     const { PanelBody, RangeControl, ToggleControl, SelectControl, TextControl, TextareaControl, IconButton, Button, Placeholder, Tooltip, PanelRow, ColorPalette } = wpComponents;
-    const $ = jQuery;
 
     const mediaSliderBlockIcon = (
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="2 2 22 22" className="dashicon">
@@ -137,7 +136,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         initSlider() {
             const { clientId } = this.props;
             const { adaptiveHeight, autoplay, speed, infiniteLoop, pager, controls, mode } = this.props.attributes;
-            const sliderObj = $(`#block-${clientId} .nab-media-slider`).bxSlider({
+            const sliderObj = jQuery(`#block-${clientId} .nab-media-slider`).bxSlider({
                 mode: mode, auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, adaptiveHeight: adaptiveHeight, stopAutoOnClick: true, autoHover: true,
                 onSlideAfter: function ($slideElement, oldIndex, newIndex) {
                     this.setState({ currentSelected: newIndex });
