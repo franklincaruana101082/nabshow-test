@@ -209,7 +209,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			}
 
 			//An Actual Call
-			$mys_response = wp_remote_request( $mys_request_url, $request );
+			$mys_response = vip_safe_wp_remote_get( $mys_request_url, false, 10, 5, 20,  $request );
 
 			if ( isset ( $mys_response->errors ) ) {
 

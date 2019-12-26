@@ -32,7 +32,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			add_action( 'wp_ajax_nab_mys_session_data', array( $this, 'nab_mys_sync_sessions' ) );
 			add_action( 'wp_ajax_nopriv_nab_mys_session_data', array( $this, 'nab_mys_sync_sessions' ) );
 
-			//Intitialize the Rest End Point
+			//Initialize the Rest End Point
 			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_rest_points_sessions' ) );
 
 			//Create DB Class Object
@@ -192,6 +192,13 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			if ( $this->final_stack_item === $this->past_request || 'empty' === $this->requested_for ) {
 				$this->past_request = 'finish'; //this will stop recurring ajax
+
+				// Reset the attempt count to prevent its application on other sequences.
+				// Reset when Ajax
+				// Or when Cron with status = 'done' (i.e. sequence completed)
+				if ( "wpajax" === $this->flow || "done" === $custom_status['status'] ) {
+					update_option( 'mys_data_attempt_sessions', 0 );
+				}
 			}
 
 			//If the stack is still not empty, re call main function to fetch next data.
@@ -349,9 +356,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				1 => "sessions",
 				2 => "speakers",
 				3 => "tracks",
-				4 => "sponsors",
-				5 => "exhibitors",
-				6 => "exhibitor-categories"
+				4 => "sponsors"
 			);
 
 			if ( isset( $this->datatype ) ) {

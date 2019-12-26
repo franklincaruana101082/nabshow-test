@@ -337,7 +337,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					, $wpdb->prefix, $group_id )
 			);
 
-			// Rows found? means there is a modified-sessions row with 0 status in the History table, which means lock is open for current request only if the request type is not 1 (i.e. not for sessions).
+			// Rows found? means there is a modified-sessions row
+			// with 0 status in the History table, which means
+			// lock is open for current request only if the request
+			// type is not 1 (i.e. not for sessions).
 			if ( count( $pending_data ) > 0 ) {
 
 				return $pending_data;
