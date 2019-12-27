@@ -38,9 +38,25 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			//Create DB Class Object
 			$this->nab_mys_load_sessions_db_class();
 
+			//Sessions Cron function.
+			add_action( 'mys_sessions_cron', array( $this, 'nab_mys_wpcron_api_to_custom' ), 10, 1 );
+
 			parent::__construct();
 		}
 
+		/**
+		 * Triggers WP Cron for Sessions.
+		 *
+		 * @param int $datatype The datatype number. For ex: 1 for 'sessions'.
+		 *
+		 * @return array Migrated data.
+		 */
+		public function nab_mys_wpcron_api_to_custom( $datatype ) {
+
+			$this->datatype = $datatype;
+
+			return $this->nab_mys_sync_sessions();
+		}
 
 		/**
 		 * Load Sessions DB Class.

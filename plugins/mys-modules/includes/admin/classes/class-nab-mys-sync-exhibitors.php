@@ -40,6 +40,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Initialize the Rest End Point
 			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_exh_end_points' ) );
 
+			//Exhibitors Cron function.
+			add_action( 'mys_exhibitors_cron', array( $this, 'nab_mys_sync_exhibitors' ) );
+
 			//Create DB Class Object
 			$this->nab_mys_load_exh_db_class();
 

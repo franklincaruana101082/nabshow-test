@@ -15,6 +15,9 @@ $setup_success = filter_input( INPUT_GET, 'setup-success', FILTER_SANITIZE_STRIN
 if ( isset( $setup_success ) && 'true' === $setup_success ) {
 	$pagetitle = "Your Wizard Setup Completed Successfully! Welcome to Dashboard.";
 	update_option( 'nab_mys_show_wizard', 0 );
+
+	//Setup WP CRONs.
+	$this->nab_mys_wpcron_setup();
 }
 
 $this->glance_data = $this->nab_mys_db_history_object->nab_mys_dashboard_glance();

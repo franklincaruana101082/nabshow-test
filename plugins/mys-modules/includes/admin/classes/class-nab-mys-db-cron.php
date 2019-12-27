@@ -36,6 +36,44 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			//Initialize the Rest End Point
 			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_rest_points' ) );
+
+			//WP Cron's custom timings.
+			add_filter( 'cron_schedules', array( $this, 'nab_mys_wpcron_custom_timings' ) );
+
+			//Master Cron function.
+			add_action( 'mys_master_cron', array( $this, 'nab_mys_wpcron_custom_to_master' ), 10, 1 );
+		}
+
+		/**
+		 * Custom timings for WPCron.
+		 *
+		 * @param array $schedules Default Scheduled time intervals.
+		 *
+		 * @return array Customized time intervals.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		function nab_mys_wpcron_custom_timings( $schedules ) {
+
+			$schedules['cron_every_five_min'] = array(
+				'interval' => 300,
+				'display'  => __( 'Every 5 min' )
+			);
+			$schedules['cron_every_fifteen_min'] = array(
+				'interval' => 900,
+				'display'  => __( 'Every 15 min' )
+			);
+			$schedules['cron_every_thrity_min']  = array(
+				'interval' => 1800,
+				'display'  => __( 'Every 30 min' )
+			);
+			$schedules['cron_every_fourtyfive_min']      = array(
+				'interval' => 2700,
+				'display'  => __( 'Every 45 min' )
+			);
+
+			return $schedules;
 		}
 
 		/**
@@ -134,6 +172,13 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			$groupid = isset( $parameters['groupid'] ) ? $parameters['groupid'] : '';
 
 			$result = $this->nab_mys_corn_migrate_data( $limit, $dataids, $groupid );
+
+			return $result;
+		}
+
+		public function nab_mys_wpcron_custom_to_master( $limit ) {
+
+			$result = $this->nab_mys_corn_migrate_data( $limit, '', '' );
 
 			return $result;
 		}

@@ -291,6 +291,47 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		}
 
 		/**
+		 * Setup WP Cron for MYS plugin.
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		function nab_mys_wpcron_setup() {
+
+			$sessions_datatype = array( 1 );
+			$speakers_datatype = array( 2 );
+			$tracks_datatype   = array( 3 );
+			$sponsors_datatype = array( 4 );
+
+			// Sessions Cron.
+			if ( ! wp_next_scheduled( 'mys_sessions_cron', $sessions_datatype ) ) {
+				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $sessions_datatype );
+			}
+			if ( ! wp_next_scheduled( 'mys_sessions_cron', $speakers_datatype ) ) {
+				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $speakers_datatype );
+			}
+			if ( ! wp_next_scheduled( 'mys_sessions_cron', $tracks_datatype ) ) {
+				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $tracks_datatype );
+			}
+			if ( ! wp_next_scheduled( 'mys_sessions_cron', $sponsors_datatype ) ) {
+				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $sponsors_datatype );
+			}
+
+			// Exhibitors Cron.
+			if ( ! wp_next_scheduled( 'mys_exhibitors_cron' ) ) {
+				wp_schedule_event( time(), 'hourly', 'mys_exhibitors_cron' );
+			}
+
+			// Master CRON.
+			$limit       = 100;
+			$master_args = array( $limit );
+			if ( ! wp_next_scheduled( 'mys_master_cron', $master_args ) ) {
+				wp_schedule_event( time(), 'hourly', 'mys_master_cron', $master_args );
+			}
+
+		}
+
+		/**
 		 * Plugin Setup (On Deactivation)
 		 *
 		 * @package MYS Modules
