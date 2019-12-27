@@ -313,7 +313,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 					$this->requested_for   = 'single-exhibitor';
 
 					$exh_prev_finished_counts = (int) get_option( 'exh_prev_finished_counts' );
-					$exh_counts_matched_on = (int) get_option( 'exh_counts_matched_on' );
+					$exh_counts_matched_on    = (int) get_option( 'exh_counts_matched_on' );
 
 					//Update Finished Counts to check it in the next attempt.
 					update_option( 'exh_prev_finished_counts', $this->finished_counts );
@@ -322,17 +322,21 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 
 						if ( $exh_counts_matched_on === $exh_prev_finished_counts ) {
 
-						//Check attempt count and stop if increased by 3.
-						$mail_data                  = array();
-						$mail_data['stuck_groupid'] = $this->group_id;
-						$mail_data['data']          = 'Exhibitors';
-						$mail_data['tag']           = 'mys_data_attempt_exhibitors';
+							//Check attempt count and stop if increased by 3.
+							$mail_data                  = array();
+							$mail_data['stuck_groupid'] = $this->group_id;
+							$mail_data['data']          = 'Exhibitors';
+							$mail_data['tag']           = 'mys_data_attempt_exhibitors';
 
-						$this->nab_mys_increase_attempt( $mail_data );
+							$this->nab_mys_increase_attempt( $mail_data );
 
 						} else {
 							update_option( 'exh_counts_matched_on', $this->finished_counts );
 						}
+					} else {
+						// Resetting attempt when previous counts mismatched
+						// which shows the sequence is working, and proceeding.
+						update_option( 'mys_data_attempt_exhibitors', 0 );
 					}
 				} else {
 					update_option( 'exh_prev_finished_counts', 0 );
