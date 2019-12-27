@@ -117,6 +117,7 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 						<span class="toggle-response"><i class="fa fa-toggle-off"></i> Toggle Responses</span>
 					<?php } ?>
 				</div>
+				<input type="hidden" name="timeorder" value="<?php esc_attr_e( $request_data['timeorder'] ) ?>"/>
 				<input type="hidden" name="orderby" value="<?php esc_attr_e( $request_data['orderby'] ) ?>"/>
 				<input type="hidden" name="order" value="<?php esc_attr_e( $request_data['order'] ) ?>"/>
 				<input type="hidden" name="paged" value="1"/>
