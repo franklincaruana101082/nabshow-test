@@ -38,7 +38,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			add_action( 'rest_api_init', array( $this, 'nab_mys_cron_rest_points' ) );
 
 			//WP Cron's custom timings.
-			add_filter( 'cron_schedules', array( $this, 'nab_mys_wpcron_custom_timings') );
+			add_filter( 'cron_schedules', array( $this, 'nab_mys_wpcron_custom_timings' ) );
 
 			//Master Cron function.
 			add_action( 'mys_master_cron', array( $this, 'nab_mys_wpcron_custom_to_master' ), 10, 1 );
@@ -243,32 +243,41 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		public function nab_mys_cron_stuck_or_not( $data_to_migrate ) {
 
-			$dataid       = $data_to_migrate->DataID;
-			$data_groupid = $data_to_migrate->DataGroupID;
+			$current_dataid = $data_to_migrate->DataID;
+			$data_groupid   = $data_to_migrate->DataGroupID;
 
 			//Counting attempts
 			$master_attempts = get_option( 'master_attempts' );
 			$master_attempts = explode( '#', $master_attempts );
-			$count_attempt   = isset( $master_attempts[1] ) ? (int) $master_attempts[1] + 1 : 1;
+			$previous_dataid = isset( $master_attempts[0] ) ? $master_attempts[0] : '';
 
-			if ( 2 < $count_attempt ) {
+			if ( $previous_dataid === $current_dataid ) {
 
-				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $data_groupid . '&timeorder=asc' );
+				$count_attempt = isset( $master_attempts[1] ) ? (int) $master_attempts[1] + 1 : 1;
 
-				//Prepare Email
-				$email_subject = "MYS/Wordpress Failure - Master CRON Stucked";
-				$email_body    = "The master cron was stucked at Data ID: $dataid so it is forcefully stopped. Please investigate and take necessary actions.  <a href='$history_detail_link'>Click here</a> to view details.";
-				self::nab_mys_static_email( $email_subject, $email_body );
+				if ( 2 < $count_attempt ) {
 
-				//Change the status from 0 to 4 for $dataid (Sync Forcefully Stopped)
-				$this->nab_mys_reset_dataid( $dataid );
+					$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $data_groupid . '&timeorder=asc' );
 
-				//Resetting the counter
-				update_option( 'master_attempts', 0 );
+					//Prepare Email
+					$email_subject = "MYS/Wordpress Failure - Master CRON Stucked";
+					$email_body    = "The master cron was stucked at Data ID: $current_dataid so it is forcefully stopped. Please investigate and take necessary actions.  <a href='$history_detail_link'>Click here</a> to view details.";
+					self::nab_mys_static_email( $email_subject, $email_body );
+
+					//Change the status from 0 to 4 for $current_dataid (Sync Forcefully Stopped)
+					$this->nab_mys_reset_dataid( $current_dataid );
+
+					//Resetting the counter
+					update_option( 'master_attempts', 0 );
+
+				} else {
+					//Updating the counter value
+					update_option( 'master_attempts', $current_dataid . '#' . $count_attempt );
+				}
 
 			} else {
 				//Updating the counter value
-				update_option( 'master_attempts', $dataid . '#' . $count_attempt );
+				update_option( 'master_attempts', $current_dataid . '#' . 1 );
 			}
 		}
 
@@ -902,7 +911,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					$track_post_id = $term_id;
 
 					wp_update_term( $track_post_id, 'tracks', array(
-						'name' => $title,
+						'name'        => $title,
 						'description' => $description,
 					) );
 
