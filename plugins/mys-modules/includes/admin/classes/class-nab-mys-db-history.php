@@ -110,7 +110,9 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				}
 
 				// Data Type- Filter
-				if ( null !== $data_type && 'all' !== $data_type ) {
+				if ( null === $data_type || 'all' === $data_type || '%-%' === $data_type ) {
+					$this->where_clause_history[] = "HistoryDataType LIKE '%-%'";
+				} else {
 					$this->where_clause_history[] = "HistoryDataType = '" . $data_type . "'";
 				}
 
