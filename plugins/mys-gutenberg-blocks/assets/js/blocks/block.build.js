@@ -4894,6 +4894,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(0);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -4939,6 +4941,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             _this.state = {
                 bxSliderObj: {},
                 bxinit: false,
+                hallOptions: [],
                 isDisable: false
             };
 
@@ -4947,6 +4950,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
 
         _createClass(MYSCategorySlider, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var hallList = [];
+                // Fetch all Halls
+                wp.apiFetch({ path: '/wp/v2/halls' }).then(function (halls) {
+                    if (0 < halls.length) {
+                        halls.forEach(function (hall) {
+                            hallList.push({ label: __(hall.name), value: hall.id });
+                        });
+                        _this2.setState({ hallOptions: hallList });
+                    }
+                });
+            }
+        }, {
             key: "componentDidMount",
             value: function componentDidMount() {
                 this.setState({ bxinit: true });
@@ -4954,7 +4973,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "componentDidUpdate",
             value: function componentDidUpdate() {
-                var _this2 = this;
+                var _this3 = this;
 
                 var _props = this.props,
                     clientId = _props.clientId,
@@ -4972,7 +4991,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 if (sliderActive) {
                     if (this.state.bxinit) {
                         setTimeout(function () {
-                            return _this2.initSlider();
+                            return _this3.initSlider();
                         }, 500);
                         this.setState({ bxinit: false });
                     } else {
@@ -5019,7 +5038,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "render",
             value: function render() {
-                var _this3 = this;
+                var _this4 = this;
 
                 var _props2 = this.props,
                     attributes = _props2.attributes,
@@ -5037,7 +5056,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
                     featuredTag = attributes.featuredTag,
-                    categoryType = attributes.categoryType;
+                    categoryType = attributes.categoryType,
+                    categoryHalls = attributes.categoryHalls;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -5055,7 +5075,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         min: 1,
                         max: 20,
                         onChange: function onChange(item) {
-                            setAttributes({ itemToFetch: parseInt(item) });_this3.setState({ bxinit: true, isDisable: true });
+                            setAttributes({ itemToFetch: parseInt(item) });_this4.setState({ bxinit: true, isDisable: true });
                         }
                     })
                 );
@@ -5083,22 +5103,59 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 value: categoryType,
                                 options: [{ label: __('Tracks'), value: 'tracks' }, { label: __('Exhibitors'), value: 'exhibitor-categories' }],
                                 onChange: function onChange(value) {
-                                    setAttributes({ categoryType: value });_this3.setState({ bxinit: true });
+                                    setAttributes({ categoryType: value });_this4.setState({ bxinit: true });
                                 }
                             }),
+                            'exhibitor-categories' === categoryType && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    __('Filter by Halls')
+                                ),
+                                wp.element.createElement(
+                                    "div",
+                                    { className: "fix-height-select mb20" },
+                                    this.state.hallOptions.map(function (field, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, { checked: -1 < categoryHalls.indexOf(field.value), label: field.label, name: "hallList[]", value: field.value, onChange: function onChange(isChecked) {
+
+                                                    var index = void 0,
+                                                        tempCategoryHalls = [].concat(_toConsumableArray(categoryHalls));
+
+                                                    if (isChecked) {
+                                                        tempCategoryHalls.push(field.value);
+                                                    } else {
+                                                        index = tempCategoryHalls.indexOf(field.value);
+                                                        tempCategoryHalls.splice(index, 1);
+                                                    }
+
+                                                    _this4.props.setAttributes({ categoryHalls: tempCategoryHalls });
+                                                    if (sliderActive) {
+                                                        _this4.setState({ bxinit: true });
+                                                    }
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
+                            ),
                             wp.element.createElement(SelectControl, {
                                 label: __('Display Order'),
                                 value: order,
                                 options: [{ label: __('A → Z'), value: 'ASC' }, { label: __('Z → A'), value: 'DESC' }],
                                 onChange: function onChange(value) {
-                                    setAttributes({ order: value });_this3.setState({ bxinit: true });
+                                    setAttributes({ order: value });_this4.setState({ bxinit: true });
                                 }
                             }),
                             wp.element.createElement(CheckboxControl, {
                                 label: "Featured",
                                 checked: featuredTag,
                                 onChange: function onChange() {
-                                    setAttributes({ featuredTag: !featuredTag });_this3.setState({ bxinit: true });
+                                    setAttributes({ featuredTag: !featuredTag });_this4.setState({ bxinit: true });
                                 }
                             })
                         ),
@@ -5109,7 +5166,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 label: __('Slider On/Off'),
                                 checked: sliderActive,
                                 onChange: function onChange() {
-                                    setAttributes({ sliderActive: !sliderActive });_this3.setState({ bxinit: !sliderActive });
+                                    setAttributes({ sliderActive: !sliderActive });_this4.setState({ bxinit: !sliderActive });
                                 }
                             }),
                             sliderActive && wp.element.createElement(
@@ -5237,7 +5294,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                     key: index,
                                                     onClick: function onClick(e) {
                                                         setAttributes({ arrowIcons: item.classnames });
-                                                        _this3.setState({ bxinit: true });
+                                                        _this4.setState({ bxinit: true });
                                                     }
                                                 },
                                                 item.name
@@ -5259,7 +5316,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/tracks-slider",
-                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType }
+                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls }
                     })
                 );
             }
@@ -5324,6 +5381,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         categoryType: {
             type: 'string',
             default: 'tracks'
+        },
+        categoryHalls: {
+            type: 'array',
+            default: []
         }
 
     };

@@ -8,7 +8,9 @@
     PanelRow,
     ToggleControl,
     Tooltip,
-    DropdownMenu
+    DropdownMenu,
+    MenuGroup,
+    MenuItem
   } = wpComponents;
 
   const scheduleBlockIcon = (
@@ -131,6 +133,24 @@
     </svg>
   );
 
+  // On Click Schedule at a glance
+  jQuery(document).on('click', '.move-item .components-dropdown-menu', function (e) {
+    if (jQuery(this).parents('.schedule-row').hasClass('isToggleActive')) {
+      jQuery(this).parents('.schedule-row').removeClass('isToggleActive');
+      jQuery('.schedule-row').removeClass('isToggleActive');
+    }
+    else {
+      jQuery(this).parents('.schedule-row').removeClass('isToggleActive');
+      jQuery('.schedule-row').removeClass('isToggleActive');
+      jQuery(this).parents('.schedule-row').addClass('isToggleActive');
+    }
+  });
+  jQuery(document).on('click', '.move-item > i.fa', function (e) {
+    jQuery('.schedule-row').removeClass('isToggleActive');
+    jQuery(this).parents('.schedule-row').removeClass('isToggleActive');
+  });
+
+
   class BlockComponent extends Component {
     componentDidMount() {
       const { dataArray } = this.props.attributes;
@@ -223,17 +243,6 @@
       });
 
       setAttributes({ dataArray: allData });
-    }
-
-    renderMoveToList( parentIndex, index ) {
-      const { dataArray } = this.props.attributes;
-      let tempDataArray = [...dataArray];
-      let renderListArray = [];
-
-      tempDataArray.map( ( parentTitle, titleIndex) => (
-        parentIndex !== titleIndex && '' !== parentTitle.title && renderListArray.push({ title: parentTitle.title, onClick: () => this.MoveItemToParent( parentIndex, titleIndex, index) })
-      ));
-      return renderListArray;
     }
 
     render() {
@@ -398,8 +407,27 @@
                                 <DropdownMenu
                                   icon="arrow-right-alt"
                                   label="Move To"
-                                  controls={this.renderMoveToList(parentIndex, index)}
-                                />
+                                >
+                                  { ( { onClose } ) => (
+                                    <Fragment>
+                                      <MenuGroup>
+                                        { dataArray.map( ( parentTitle, titleIndex) => (
+                                          ( '' !== parentTitle.title &&
+                                            ( parentIndex !== titleIndex &&
+                                              <MenuItem
+                                                className="schedule-move-to-list"
+                                                onClick={() => { this.MoveItemToParent( parentIndex, titleIndex, index); onClose(); }}
+                                              >
+                                                {parentTitle.title}
+                                              </MenuItem>
+                                            )
+                                          )
+                                        ))
+                                        }
+                                      </MenuGroup>
+                                    </Fragment>
+                                  ) }
+                                </DropdownMenu>
                                 }
                                 <Tooltip text="Remove">
                                   <i

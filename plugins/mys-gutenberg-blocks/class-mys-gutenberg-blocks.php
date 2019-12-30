@@ -42,6 +42,12 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             // Action to Enqueue script and style
             add_action( 'wp_enqueue_scripts', array( $this, 'mysgb_enqueue_front_script' ), 999 );
+
+            add_action( 'after_setup_theme', array( $this, 'mysgb_add_required_image_size' ) );
+        }
+
+        public function mysgb_add_required_image_size() {
+	        add_image_size( 'dynamic-slide', 275, 165 );
         }
 
 
@@ -147,7 +153,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.4' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.5' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 

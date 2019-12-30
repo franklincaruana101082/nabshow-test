@@ -406,7 +406,8 @@ import memoize from 'memize';
 											{ label: __('Vollkorn Italic'), value: 'Vollkorn Italic' },
 											{ label: __('Vollkorn Regular'), value: 'Vollkorn Regular' },
 											{ label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' },
-											{ label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }
+											{ label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' },
+											{ label: __('Molot'), value: 'Molot' }
 
 										]}
 										onChange={(value) => setAttributes({ fontFamily: value })}

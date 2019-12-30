@@ -1189,7 +1189,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
         alphabetsFilter();
 
         if ('Clear' === selectedLetter) {
-            jQuery('.products-winners .product-main .product-item').show();
+            jQuery('.products-winners .product-main .product-item, .products-winners .product-main .product-item .product-inner').show();
             jQuery('ul.alphabets-list li.clear').hide();
             jQuery('ul.alphabets-list li:not(.clear)').removeClass('active');
         }

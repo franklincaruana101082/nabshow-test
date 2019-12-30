@@ -299,7 +299,15 @@ $tracks_slider_attr = array(
 	'categoryType' => array(
 		'type'    => 'string',
 		'default' => 'tracks'
+	),
+	'categoryHalls' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'string'
+		]
 	)
+
 );
 
 register_block_type( 'mys/tracks-slider', array(

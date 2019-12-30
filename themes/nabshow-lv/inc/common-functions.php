@@ -519,3 +519,24 @@ function nabshow_lv_related_content_dynamic_field_display( $page_id, $display_fi
 	    }
     }
 }
+
+/**
+ * Enqueue datepicker style and script
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_enqueue_datepicker_script() {
+
+	wp_enqueue_script( 'jquery-ui-datepicker' );
+	wp_enqueue_style( 'jquery-ui', get_template_directory_uri() . '/assets/css/jquery-ui.min.css' );
+}
+
+/**
+ * Enqueue google recaptcha script
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_enqueue_google_recaptch_script() {
+
+	wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js');
+}

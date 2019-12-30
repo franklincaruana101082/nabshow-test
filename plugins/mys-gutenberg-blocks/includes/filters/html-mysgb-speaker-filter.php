@@ -36,12 +36,12 @@ if ( ! $display_company ) {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6">
+			<div class="col-lg-12">
 				<input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
 				<?php
 				if ( $display_name ) {
 					?>
-					<input type="button" class="orderby" value="A-Z">
+					<input type="button" class="orderby" value="Sort Alphabetically">
 					<?php
 				}
 				?>
@@ -64,7 +64,7 @@ if ( ! $display_company ) {
 	if ( $display_name ) {
 		?>
 		<div class="pass-type col-xl-7">
-			<label>Category</label>
+			<label>Speaker Name</label>
 			<ul class="alphabets-list">
 				<li>A</li>
 				<li>B</li>

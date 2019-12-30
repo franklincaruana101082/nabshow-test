@@ -67,6 +67,10 @@
         type: 'string',
         default: ''
       },
+      ImageMaxWidth: {
+        type: 'number',
+        default: 100
+      },
       BorderSize: {
         type: 'number',
         default: 0
@@ -151,12 +155,14 @@
         InsertUrl,
         ImgAlignment,
         imgLink,
-        newWindow
+        newWindow,
+        ImageMaxWidth
       } = attributes;
 
       const ImageStyle = {};
       ImageWidth && (ImageStyle.width = `${ImageWidth}px`);
       ImageHeight && (ImageStyle.height = `${ImageHeight}px`);
+      ImageMaxWidth && (ImageStyle.maxWidth = `${ImageMaxWidth}%`);
       marginTop && (ImageStyle.marginTop = `${marginTop}px`);
       marginBottom && (ImageStyle.marginBottom = `${marginBottom}px`);
       marginLeft && (ImageStyle.marginLeft = `${marginLeft}px`);
@@ -229,7 +235,7 @@
             <PanelBody title="Dimensions" initialOpen={true}>
               <PanelRow>
                 <div className="inspector-field inspector-image-width" >
-                  <label>Width</label>
+                  <label>Width (in px)</label>
                   <RangeControl
                     value={ImageWidth}
                     min={1}
@@ -240,12 +246,23 @@
               </PanelRow>
               <PanelRow>
                 <div className="inspector-field inspector-image-height" >
-                  <label>Height</label>
+                  <label>Height (in px)</label>
                   <RangeControl
                     value={ImageHeight}
                     min={1}
                     max={1920}
                     onChange={ImageHeight => setAttributes({ ImageHeight: ImageHeight })}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-image-width" >
+                  <label>Max Width (in %)</label>
+                  <RangeControl
+                    value={ImageMaxWidth}
+                    min={1}
+                    max={100}
+                    onChange={ImageMaxWidth => setAttributes({ ImageMaxWidth: ImageMaxWidth })}
                   />
                 </div>
               </PanelRow>
@@ -464,12 +481,14 @@
         paddingLeft,
         ImgAlignment,
         imgLink,
-        newWindow
+        newWindow,
+        ImageMaxWidth
       } = attributes;
 
       const ImageStyle = {};
       ImageWidth && (ImageStyle.width = `${ImageWidth}px`);
       ImageHeight && (ImageStyle.height = `${ImageHeight}px`);
+      ImageMaxWidth && (ImageStyle.maxWidth = `${ImageMaxWidth}%`);
       marginTop && (ImageStyle.marginTop = `${marginTop}px`);
       marginBottom && (ImageStyle.marginBottom = `${marginBottom}px`);
       marginLeft && (ImageStyle.marginLeft = `${marginLeft}px`);

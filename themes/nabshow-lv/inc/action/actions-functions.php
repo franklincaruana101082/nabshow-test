@@ -14,20 +14,20 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'1.6'
+		'1.7'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'1.6'
+		'1.7'
 	);
 
 	wp_register_style(
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css',
 		array(),
-		'1.4'
+		'1.5'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -260,6 +260,11 @@ function nabshow_lv_register_api_endpoints() {
 	register_rest_route( 'nab_api', '/request/page-parents', array(
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_page_parents_callback',
+	) );
+
+	register_rest_route( 'nab_api', '/request/page-acf-fields', array(
+		'methods'  => 'GET',
+		'callback' => 'nabshow_lv_get_page_acf_fields',
 	) );
 }
 

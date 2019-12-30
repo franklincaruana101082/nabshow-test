@@ -23,10 +23,15 @@ $slider_margin  = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin
 $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $featured_track = isset( $attributes['featuredTag'] ) ? $attributes['featuredTag'] : false;
 $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+$category_halls = isset( $attributes['categoryHalls'] ) && ! empty( $attributes['categoryHalls'] ) ? $attributes['categoryHalls'] : array();
+$cache_key      = '';
 $terms          = false;
 
-if ( $featured_track ) {
-    $terms = get_transient( 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order );
+if ( $featured_track || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
+
+	$hall_key   = count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ? implode( '-', $category_halls ) : '';
+	$cache_key  = 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order . '-' . $featured_track . '-' . $hall_key;
+    $terms      = get_transient( $cache_key );
 }
 
 
@@ -40,20 +45,47 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         'order'      => $category_order,
     );
 
-    if ( $featured_track ) {
-        $args[ 'meta_query' ] = array(
-                    array(
-                       'key'       => 'featured_tag',
-                       'value'     => 'on',
-                       'compare'   => '='
-                    )
-                );
+    if ( $featured_track || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
+
+    	$meta_query_args = array( 'relation' => 'AND' );
+
+    	if ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) {
+
+    		$inner_meta_query_args = array( 'relation' => 'OR' );
+
+    		foreach ( $category_halls as $hall ) {
+
+				$inner_meta_query_args[] = array (
+                            'key'       => 'category_halls',
+                            'value'     => $hall,
+                            'compare'   => 'LIKE',
+                        );
+			}
+
+    		if ( count( $inner_meta_query_args ) > 1 ) {
+
+    			$meta_query_args[] = $inner_meta_query_args;
+    		}
+    	}
+
+    	if ( $featured_track ) {
+
+    		$meta_query_args[] = array(
+                        'key'       => 'featured_tag',
+                        'value'     => 'on',
+                        'compare'   => '='
+                    );
+    	}
+
+    	if ( count( $meta_query_args ) > 1 ) {
+    		$args[ 'meta_query' ] = $meta_query_args;
+    	}
     }
 
     $terms = get_terms( $args );
 
-    if ( $featured_track ) {
-        set_transient( 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order, $terms, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+    if ( ! empty( $cache_key ) ) {
+        set_transient( $cache_key, $terms, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
     }
 
 }

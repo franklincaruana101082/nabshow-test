@@ -23,11 +23,26 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             this.state = {
                 bxSliderObj: {},
                 bxinit: false,
+                hallOptions: [],
                 isDisable: false,
             };
 
             this.initSlider = this.initSlider.bind(this);
         }
+
+      componentWillMount() {
+        let hallList = [];
+        // Fetch all Halls
+        wp.apiFetch({ path: '/wp/v2/halls' }).then((halls) => {
+          if ( 0 < halls.length ) {
+            halls.forEach(function (hall) {
+              hallList.push({ label: __(hall.name), value: hall.id });
+            });
+            this.setState({ hallOptions: hallList });
+          }
+        });
+
+      }
 
         componentDidMount() {
             this.setState({ bxinit: true });
@@ -89,7 +104,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideMargin,
                 arrowIcons,
                 featuredTag,
-                categoryType
+                categoryType,
+                categoryHalls
             } = attributes;
 
             var names = [
@@ -129,6 +145,43 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 ]}
                                 onChange={(value) => { setAttributes({ categoryType: value }); this.setState({ bxinit: true }); }}
                             />
+                            { 'exhibitor-categories' === categoryType &&
+                              <Fragment>
+                                <label>{__('Filter by Halls')}</label>
+
+                                <div className="fix-height-select mb20">
+
+                                  {this.state.hallOptions.map((field, index) => (
+
+                                    <Fragment key={index}>
+
+                                      <CheckboxControl checked={-1 < categoryHalls.indexOf(field.value)} label={field.label} name="hallList[]" value={field.value} onChange={(isChecked) => {
+
+                                        let index,
+                                          tempCategoryHalls = [...categoryHalls];
+
+                                        if (isChecked) {
+                                          tempCategoryHalls.push(field.value);
+                                        } else {
+                                          index = tempCategoryHalls.indexOf(field.value);
+                                          tempCategoryHalls.splice(index, 1);
+                                        }
+
+                                        this.props.setAttributes({ categoryHalls: tempCategoryHalls });
+                                        if ( sliderActive ) {
+                                          this.setState({ bxinit: true });
+                                        }
+                                      }
+                                      }
+                                      />
+
+                                    </Fragment>
+
+                                  ))
+                                  }
+                                </div>
+                              </Fragment>
+                            }
                             <SelectControl
                                 label={__('Display Order')}
                                 value={order}
@@ -244,7 +297,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/tracks-slider"
-                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType }}
+                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls }}
                     />
                 </Fragment >
             );
@@ -306,6 +359,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         categoryType: {
             type: 'string',
             default: 'tracks'
+        },
+        categoryHalls: {
+            type: 'array',
+            default: []
         }
 
     };

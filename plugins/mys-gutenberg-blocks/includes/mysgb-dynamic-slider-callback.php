@@ -82,9 +82,9 @@ if ( $query->have_posts() ) {
                 <a href="<?php echo esc_url( get_the_permalink() ); ?>">
             <?php
             }
-            ?>
-                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="item-logo">
-            <?php
+
+            the_post_thumbnail('dynamic-slide' );
+
             if ( 'page' === $block_post_type ) {
             ?>
                 </a>

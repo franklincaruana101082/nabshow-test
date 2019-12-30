@@ -56,6 +56,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 bxSliderObj: {},
                 bxinit: false,
                 isDisable: false,
+                hallOptions: [],
                 displayFieldsList: [{ label: __('Date'), value: 'date_group' },
                 { label: __('Halls'), value: 'page_hall' },
                 { label: __('Is Open To'), value: 'is_open_to' },
@@ -74,7 +75,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentWillMount() {
-            let pageList = [{ label: __('Select Parent Page'), value: '' }];
+            let hallFieldOptions = [],
+                pageList = [{ label: __('Select Parent Page'), value: '' }];
 
             wp.apiFetch({ path: '/nab_api/request/page-parents' }).then((parents) => {
                 if (0 < parents.length) {
@@ -83,6 +85,15 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     });
                     this.setState({ pageParentList: pageList });
                 }
+            });
+
+            wp.apiFetch({ path: '/nab_api/request/page-acf-fields' }).then((fieldOptions) => {
+              if (0 < fieldOptions.length) {
+                fieldOptions.map((field) => {
+                  hallFieldOptions.push({ label: __(field.label), value: field.value });
+                });
+                this.setState({ hallOptions: hallFieldOptions });
+              }
             });
 
         }
@@ -127,7 +138,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout, sliderLayout, showFilter, dropdownTitle }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, listingLayout, sliderLayout, showFilter, dropdownTitle }, setAttributes } = this.props;
 
             let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -188,6 +199,39 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings')}>
+                            <label>{__('Filter by Halls')}</label>
+
+                            <div className="fix-height-select mb20">
+
+                              {this.state.hallOptions.map((field, index) => (
+
+                                <Fragment key={index}>
+
+                                  <CheckboxControl checked={-1 < hallList.indexOf(field.value)} label={field.label} name="hallList[]" value={field.value} onChange={(isChecked) => {
+
+                                    let index,
+                                      tempHallList = [...hallList];
+
+                                    if (isChecked) {
+                                      tempHallList.push(field.value);
+                                    } else {
+                                      index = tempHallList.indexOf(field.value);
+                                      tempHallList.splice(index, 1);
+                                    }
+
+                                    this.props.setAttributes({ hallList: tempHallList });
+                                    if ( sliderActive ) {
+                                      this.setState({ bxinit: true });
+                                    }
+                                  }
+                                  }
+                                  />
+
+                                </Fragment>
+
+                              ))
+                              }
+                            </div>
                             {input}
                             {commonControls}
                             {'side-img-info' !== listingLayout &&
@@ -378,7 +422,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList }}
                     />
                 </Fragment>
 
@@ -448,6 +492,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             default: 'slider-arrow-1'
         },
         displayField: {
+            type: 'array',
+            default: []
+        },
+        hallList: {
             type: 'array',
             default: []
         },

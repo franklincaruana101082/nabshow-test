@@ -227,6 +227,13 @@ function nabshow_lv_register_dynamic_blocks() {
                         'type' => 'string'
                     ]
                 ),
+                'hallList' => array(
+                    'type'    => 'array',
+                    'default' => [],
+                    'items'   => [
+                        'type' => 'string'
+                    ]
+                ),
                 'listingLayout'  => array(
                     'type' => 'string',
                     'default' => 'destination'
@@ -286,6 +293,21 @@ function nabshow_lv_register_dynamic_blocks() {
                 ),
             ),
             'render_callback' => 'nabshow_lv_page_featured_image_render_callback',
+        )
+    );
+
+	register_block_type( 'nab/site-forms', array(
+            'attributes' => array(
+                'formType'  => array(
+                    'type' => 'string',
+                    'default' => 'startup-loft'
+                ),
+                'formEmail'  => array(
+                    'type' => 'string',
+                    'default' => ''
+                )
+            ),
+            'render_callback' => 'nabshow_lv_site_forms_render_callback',
         )
     );
 }
@@ -370,11 +392,11 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
 	<?php
 			if ( $slider_active ) {
 			?>
-				<div class="nab-not-to-be-missed-slider nab-box-slider" id="<?php echo esc_attr( $client_id ); ?>" data-item="<?php echo esc_attr( $posts_per_page ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+				<div class="nab-not-to-be-missed-slider nab-box-slider ntbm-parent" id="<?php echo esc_attr( $client_id ); ?>" data-item="<?php echo esc_attr( $posts_per_page ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
 			<?php
 			} else {
 			?>
-				<div class="nab-not-to-be-missed-list" id="<?php echo esc_attr( $client_id ); ?>">
+				<div class="nab-not-to-be-missed-list ntbm-parent" id="<?php echo esc_attr( $client_id ); ?>" data-item="<?php echo esc_attr( $posts_per_page ); ?>">
 			<?php
 			}
 
@@ -612,13 +634,52 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $arrow_icons      = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
     $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : array();
+    $hall_list        = isset( $attributes['hallList'] ) && ! empty( $attributes['hallList'] ) ? $attributes['hallList'] : array();
 
     ob_start();
 
     if ( ! empty( $parent_page_id ) ) {
 
         $args     = array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' );
+
         $children = get_pages( $args );
+
+        if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
+
+        	$cache_key      = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list );
+        	$children_ids   = wp_list_pluck( $children, 'ID' );
+        	$children       = get_transient( $cache_key );
+
+        	if ( false === $children || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
+
+
+	            $query_args = array(
+	                'post_type'         => 'page',
+	                'include'           => $children_ids,
+	                'numberposts'       => count( $children_ids ),
+	                'orderby'           => 'post__in',
+	                'suppress_filters'  => false
+	            );
+
+	            $meta_query_args = array( 'relation' => 'OR' );
+
+				foreach ( $hall_list as $hall_type ) {
+
+					$meta_query_args[] = array (
+	                            'key'       => 'page_hall',
+	                            'value'     => $hall_type,
+	                            'compare'   => 'LIKE',
+	                        );
+				}
+
+				if ( count( $meta_query_args ) > 1 ) {
+					$query_args[ 'meta_query' ] = $meta_query_args;
+				}
+
+		        $children = get_posts( $query_args );
+        	}
+        }
 
         if ( ( 'side-img-info' === $listing_layout || 'side-info' === $listing_layout ) && ! $slider_active ) {
         ?>
@@ -1166,4 +1227,26 @@ function nabshow_lv_page_featured_image_render_callback( $attributes ) {
 
     $html = ob_get_clean();
     return $html;
+}
+
+function nabshow_lv_site_forms_render_callback( $attributes ) {
+
+	$form_type  = isset( $attributes[ 'formType' ] ) && ! empty( $attributes[ 'formType' ] ) ? $attributes[ 'formType' ] : 'startup-loft';
+	$form_email = isset( $attributes[ 'formEmail' ] ) && ! empty( $attributes[ 'formEmail' ] ) ? $attributes[ 'formEmail' ] : '';
+
+	set_query_var( 'form_email', $form_email );
+
+	ob_start();
+
+	if ( 'startup-loft' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'startup-loft' );
+	} elseif ( 'contact-us' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'contact-us' );
+	} elseif ( 'delegation-leader-enrollment' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'delegation' );
+	}
+
+	$html = ob_get_clean();
+
+	return $html;
 }

@@ -349,12 +349,12 @@
               <div className="ov-filter">
                 <div className="category"><label>Location</label>
                   <div className="box-main-select"><select id="box-main-category" className="select-opt">
-                    <option>Select a Category</option>
+                    <option>Select a Location</option>
                   </select></div>
                 </div>
                 <div className="category"><label>Booth Size</label>
                   <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
-                    <option>Select a Category</option>
+                    <option>Select a Booth Size</option>
                   </select></div>
                 </div>
                 <div className="badgeslist"><a>International</a></div>
@@ -431,12 +431,12 @@
               <div className="ov-filter">
                 <div className="category"><label>Location</label>
                   <div className="box-main-select"><select id="box-main-category" className="select-opt">
-                    <option>Select a Category</option>
+                    <option>Select a Location</option>
                   </select></div>
                 </div>
                 <div className="category"><label>Booth Size</label>
                   <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
-                    <option>Select a Category</option>
+                    <option>Select a Booth Size</option>
                   </select></div>
                 </div>
                 <div className="badgeslist"><a>International</a></div>

@@ -43,3 +43,39 @@ function nabshow_lv_get_page_parents_callback() {
 	return new WP_REST_Response( $parent_pages, 200 );
 
 }
+
+/**
+ * Get parent page list
+ * @return WP_REST_Response
+ */
+function nabshow_lv_get_page_acf_fields() {
+
+	$page_hall_options = get_transient( 'nab-get-page-acf-list' );
+
+	if ( false === $page_hall_options ) {
+
+		$page_hall_options = array();
+
+		$acf_fields = get_field_object( 'field_5d8370834f786' );
+
+		if ( isset( $acf_fields[ 'choices' ] ) && is_array( $acf_fields[ 'choices' ] ) ) {
+
+			$cnt = 0;
+
+			foreach ( $acf_fields[ 'choices' ] as $field_val => $field_label ) {
+
+				$page_hall_options[ $cnt ][ 'label' ] = $field_label;
+				$page_hall_options[ $cnt ][ 'value' ] = $field_val;
+				$cnt++;
+			}
+
+			if ( count( $page_hall_options ) > 0 ) {
+
+				set_transient( 'nab-get-page-acf-list', $page_hall_options, 30 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+			}
+		}
+	}
+
+	return new WP_REST_Response( $page_hall_options, 200 );
+
+}
