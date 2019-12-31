@@ -465,7 +465,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 			update_option( $tag, $mys_data_attempt );
 
-			if ( $mys_data_attempt >= 3 ) {
+			if ( $mys_data_attempt > 3 ) {
 				$force_stop        = true;
 				$sequence_resetted = 1;
 
@@ -479,7 +479,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 				$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $stuck_groupid . '&timeorder=asc' );
 
-				$email_subject = "MYS/Wordpress Failure - Three sync attempts failed.";
+				$email_subject = "MYS/Wordpress Failure - Three sync attempts for $data failed.";
 				$email_body    = "There was an error with the custom MYS Module plugin. Tried to Sync $data. <a href='$history_detail_link'>Click here</a> to view details.";
 
 				NAB_MYS_DB_CRON::nab_mys_static_email( $email_subject, $email_body );
