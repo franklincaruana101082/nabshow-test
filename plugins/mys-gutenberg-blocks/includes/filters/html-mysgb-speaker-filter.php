@@ -47,18 +47,6 @@ if ( ! $display_company ) {
 				?>
 			</div>
 		</div>
-		<?php
-		if ( $display_title ) {
-			?>
-			<div class="search-box">
-				<label for="speaker-title-search">Job Title</label>
-				<div class="search-item">
-					<input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
-				</div>
-			</div>
-			<?php
-		}
-		?>
 	</div>
 	<?php
 	if ( $display_name ) {
@@ -100,6 +88,18 @@ if ( ! $display_company ) {
 	?>
 	<div class="select-items col-lg-12">
 		<div class="row">
+		<?php
+		if ( $display_title ) {
+			?>
+			<div class="search-box col-lg-5">
+				<label for="speaker-title-search">Job Title</label>
+				<div class="search-item">
+					<input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
+				</div>
+			</div>
+			<?php
+		}
+		?>
 			<?php
 			if ( $display_company ) {
 				?>

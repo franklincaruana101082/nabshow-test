@@ -93,11 +93,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 $where .= " AND trim( coalesce( $wpdb->posts.post_content , '' ) ) <> ''";
             }
 
+            if ( strpos( $where, 'destination_type_$' ) > -1 ) {
+
+	            $where = str_replace("meta_key = 'destination_type_$", "meta_key LIKE 'destination_type_%", $where );
+            }
+
             return $where;
         }
 
         /**
-         * Register custom api endpoints to fetch all terms
+         * Register custom api endpoints to fetch all terms & Sponsors Types
          *
          * @since 1.0.0
          */
@@ -107,6 +112,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 'methods'  => 'GET',
                 'callback' => array( __CLASS__, 'mysgb_get_all_terms' ),
             ) );
+
+	        register_rest_route( 'nab_api', '/request/sponsor-acf-types', array(
+		        'methods'  => 'GET',
+		        'callback' => array( __CLASS__, 'mysgb_get_sponsor_acf_types' ),
+	        ) );
         }
 
         /**
@@ -146,6 +156,44 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
         }
 
+	    /**
+	     * Get all terms according to taxonomy
+	     *
+	     * @return WP_REST_Response
+	     * @since 1.0.0
+	     */
+	    public static function mysgb_get_sponsor_acf_types() {
+
+		    $sponsors_destination = get_transient( 'mysgb-sponsors-destination-types' );
+
+		    if ( false === $sponsors_destination ) {
+
+			    $sponsors_destination = array();
+
+			    $acf_fields = get_field_object( 'field_5e09d6ef21e49' );
+
+			    if ( isset( $acf_fields[ 'choices' ] ) && is_array( $acf_fields[ 'choices' ] ) ) {
+
+				    $cnt = 0;
+
+				    foreach ( $acf_fields[ 'choices' ] as $field_val => $field_label ) {
+
+					    $sponsors_destination[ $cnt ][ 'label' ] = $field_label;
+					    $sponsors_destination[ $cnt ][ 'value' ] = $field_val;
+					    $cnt++;
+				    }
+
+				    if ( count( $sponsors_destination ) > 0 ) {
+
+					    set_transient( 'mysgb-sponsors-destination-types', $sponsors_destination, 30 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+				    }
+			    }
+		    }
+
+		    return new WP_REST_Response( $sponsors_destination, 200 );
+
+	    }
+
         /*
          * Enqueue gutenberg custom block script
          *
@@ -153,7 +201,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.5' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.6' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 

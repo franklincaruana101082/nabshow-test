@@ -37,6 +37,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 taxonomies: [],
                 taxonomiesObj: {},
                 termsObj: {},
+                sponsorTypeList: [],
                 filterTermsObj: {},
                 isDisable: false,
             };
@@ -45,6 +46,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         componentWillMount() {
             const { taxonomies } = this.props.attributes;
+            let sponsorType = [{ label: __('Select a Destination Type'), value: 'select type'}]
 
             //Fetch all taxonomies
             wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(taxonomies => {
@@ -60,6 +62,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     taxonomies: taxonomies
                 });
             });
+
+          // Fetch Sponsor destination types
+          wp.apiFetch({ path: 'nab_api/request/sponsor-acf-types' }).then((types) => {
+            if ( 0 < types.length ) {
+              types.forEach(function (type) {
+                sponsorType.push({ label: __(type.label), value: type.value });
+              });
+              this.setState({ sponsorTypeList: sponsorType });
+            }
+          });
         }
 
         componentDidMount() {
@@ -164,7 +176,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 sliderActive,
                 slideWidth,
                 slideMargin,
-                arrowIcons
+                arrowIcons,
+                destinationType
             } = attributes;
 
             let names = [
@@ -206,6 +219,14 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'without-title' }) }
                             />
                             {input}
+                            { 0 < this.state.sponsorTypeList.length &&
+                              <SelectControl
+                                label={__('Destination Types')}
+                                value={destinationType}
+                                options={this.state.sponsorTypeList}
+                                onChange={ (value) => { setAttributes({ destinationType: value }); this.setState({ bxinit: true }); }}
+                              />
+                            }
                             <SelectControl
                                 label={__('Order by')}
                                 value={orderBy}
@@ -447,7 +468,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 terms: terms,
                                 listingPage: listingPage,
                                 sliderActive: sliderActive,
-                                arrowIcons: arrowIcons
+                                arrowIcons: arrowIcons,
+                                destinationType: destinationType
                             }}
                         />
                     </div>
@@ -525,6 +547,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'string',
             default: 'slider-arrow-1'
         },
+        destinationType: {
+            type: 'string',
+            default: ''
+        }
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),

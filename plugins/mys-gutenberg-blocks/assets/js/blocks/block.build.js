@@ -3915,6 +3915,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 taxonomies: [],
                 taxonomiesObj: {},
                 termsObj: {},
+                sponsorTypeList: [],
                 filterTermsObj: {},
                 isDisable: false
             };
@@ -3929,8 +3930,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 var taxonomies = this.props.attributes.taxonomies;
 
-                //Fetch all taxonomies
+                var sponsorType = [{ label: __('Select a Destination Type'), value: 'select type' }];
 
+                //Fetch all taxonomies
                 wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(function (taxonomies) {
                     _this2.setState({ taxonomiesObj: taxonomies });
                     _this2.filterTaxonomy();
@@ -3943,6 +3945,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         filterTermsObj: terms,
                         taxonomies: taxonomies
                     });
+                });
+
+                // Fetch Sponsor destination types
+                wp.apiFetch({ path: 'nab_api/request/sponsor-acf-types' }).then(function (types) {
+                    if (0 < types.length) {
+                        types.forEach(function (type) {
+                            sponsorType.push({ label: __(type.label), value: type.value });
+                        });
+                        _this2.setState({ sponsorTypeList: sponsorType });
+                    }
                 });
             }
         }, {
@@ -4085,7 +4097,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderActive = attributes.sliderActive,
                     slideWidth = attributes.slideWidth,
                     slideMargin = attributes.slideMargin,
-                    arrowIcons = attributes.arrowIcons;
+                    arrowIcons = attributes.arrowIcons,
+                    destinationType = attributes.destinationType;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -4139,6 +4152,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             input,
+                            0 < this.state.sponsorTypeList.length && wp.element.createElement(SelectControl, {
+                                label: __('Destination Types'),
+                                value: destinationType,
+                                options: this.state.sponsorTypeList,
+                                onChange: function onChange(value) {
+                                    setAttributes({ destinationType: value });_this5.setState({ bxinit: true });
+                                }
+                            }),
                             wp.element.createElement(SelectControl, {
                                 label: __('Order by'),
                                 value: orderBy,
@@ -4461,7 +4482,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 terms: terms,
                                 listingPage: listingPage,
                                 sliderActive: sliderActive,
-                                arrowIcons: arrowIcons
+                                arrowIcons: arrowIcons,
+                                destinationType: destinationType
                             }
                         })
                     )
@@ -4540,6 +4562,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        destinationType: {
+            type: 'string',
+            default: ''
         }
     };
     registerBlockType('mys/sponsors-partners', {

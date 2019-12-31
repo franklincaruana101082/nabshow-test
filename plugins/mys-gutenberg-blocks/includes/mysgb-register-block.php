@@ -241,6 +241,10 @@ $sponsors_slider_attr = array(
 	'orderBy'     => array(
 		'type'    => 'string',
 		'default' => 'date'
+	),
+	'destinationType'   => array(
+		'type' => 'string',
+		'default' => ''
 	)
 );
 
@@ -304,7 +308,7 @@ $tracks_slider_attr = array(
 		'type'    => 'array',
 		'default' => [],
 		'items'   => [
-			'type' => 'string'
+			'type' => 'number'
 		]
 	)
 

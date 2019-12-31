@@ -584,7 +584,7 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .card-filter li{display:inline-block;color:#0f6cb6;cursor:pointer;font-size:16px;margin-right:40px;font-family:"Gotham Book";margin-bottom:10px}
 .card-filter li:last-child{margin-right:0}
 .main-filter .orderby.orderby.active{background:#f1f7fc}
-.nab-dynamic-list.speakers .item.featured .flip-box{background:#f1f7fc}
+.nab-dynamic-list.speakers .item.featured.display-title .flip-box .flip-box-back{background:#f1f7fc;border-radius:0!important;margin-top:10px;padding:10px;word-break:break-word}
 
 /* card-layout css */
 
@@ -1667,8 +1667,17 @@ section.error-404.not-found .page-content>p{margin-bottom:30px}
 
 .browse-filter.main-filter.browse-speakers-filter.without-name{display:block}
 .browse-filter.main-filter.browse-speakers-filter.without-name>div{-webkit-box-flex:0;-ms-flex:auto;flex:auto;width:auto;display:inline-block;vertical-align:top}
-.browse-filter.main-filter.browse-speakers-filter.without-name>div .row{display:block!important}
 .browse-filter.main-filter.browse-speakers-filter.without-name>div .row .col-lg-3{width:450px;display:inline-block;max-width:100%}
+
+.browse-filter.main-filter.browse-speakers-filter.without-name.without-company, .entry-content .browse-filter.main-filter.browse-speakers-filter.without-name.without-company>div .row{display:flex!important}
+.browse-filter.main-filter.browse-speakers-filter.without-name.without-company>div .row .col-lg-3{-webkit-box-flex:0;-ms-flex:0 0 25%;flex:0 0 40%;max-width:40%;width:100%}
+
+.browse-filter.main-filter.browse-speakers-filter.without-name .select-items.col-lg-12{-webkit-box-flex:0;-ms-flex:0 0 60%;flex:0 0 60%;max-width:60%}
+.browse-filter.main-filter.browse-speakers-filter.without-name .left-side.col-xl-5{-webkit-box-flex:0;-ms-flex:0 0 40%;flex:0 0 40%;max-width:40%}
+.browse-filter.main-filter.browse-speakers-filter.without-name .select-items.col-lg-12>.row>div{-webkit-box-flex:0;-ms-flex:0 0 33%;flex:0 0 33%;max-width:33%;width:auto}
+.browse-filter.main-filter.row.browse-speakers-filter.without-name.without-title.without-company .category.col-lg-3{-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%}
+.browse-filter.main-filter.row.browse-speakers-filter.without-name.without-title.without-company>div,.browse-filter.main-filter.browse-speakers-filter.without-name.without-company .select-items.col-lg-12>.row>div{-webkit-box-flex:0 0 50%;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%;width:auto}
+.browse-filter.main-filter.row.browse-speakers-filter.without-name.without-title.without-company>div .search-item{width:100%}
 
 /* GDPR CSS */
 #catapult-cookie-bar{box-sizing:border-box;max-height:0;opacity:0;z-index:99999;overflow:hidden;color:#0f142c;position:fixed;left:0;right:0;bottom:0;top:initial;background-color:#fff;width:100%!important;box-shadow:0 0 8px 0 #0000004a;max-width:100%;display:none;visibility:hidden;border:1px solid transparent;padding:10px 90px 10px 20px;border-radius:0;transition:all 0.3s ease-in-out}
