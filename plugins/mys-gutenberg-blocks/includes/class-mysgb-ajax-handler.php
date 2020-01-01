@@ -225,7 +225,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$exhibitor_pavilion     = filter_input( INPUT_GET, 'exhibitor_pavilion', FILTER_SANITIZE_STRING );
 			$exhibitor_keywords     = filter_input( INPUT_GET, 'exhibitor_keywords', FILTER_SANITIZE_STRING );
 			$order_by               = filter_input( INPUT_GET, 'exhibitor_order', FILTER_SANITIZE_STRING );
-			$exhibitor_technology   = filter_input( INPUT_GET, 'exhibitor_technology', FILTER_SANITIZE_STRING );
 			$order                  = 'date' === $order_by ? 'DESC' : 'ASC';
 
 			$query_arg = array(
@@ -267,14 +266,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					'taxonomy' => 'pavilions',
 					'field'    => 'slug',
 					'terms'    => $exhibitor_pavilion,
-				);
-			}
-
-			if ( ! empty( $exhibitor_technology ) ) {
-				$tax_query_args[] = array (
-					'taxonomy' => 'exhibitor-trends',
-					'field'    => 'slug',
-					'terms'    => $exhibitor_technology,
 				);
 			}
 

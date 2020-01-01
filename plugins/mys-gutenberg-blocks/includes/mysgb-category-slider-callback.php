@@ -91,18 +91,21 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 }
 
 if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-    ?>
-        <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
+
+	$show_code = $this->mysgb_get_mys_show_code();
+
+	?>
+    <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
     <?php
 
         if ( $slider_active ) {
-        ?>
+            ?>
             <div class="nab-dynamic-slider nab-box-slider category-slider <?php echo esc_attr( $category_type ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
-        <?php
+            <?php
         } else {
-        ?>
+            ?>
             <div class="nab-dynamic-list category-slider <?php echo esc_attr( $category_type ); ?>">
-        <?php
+            <?php
         }
 
         foreach ( $terms as $current_term ) {
@@ -112,11 +115,25 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
                 <div class="item-inner">
                     <?php
                     if ( ! empty( $image_id ) ) {
-                        $image_url = wp_get_attachment_url( $image_id );
-                    ?>
+
+                    	$image_url = wp_get_attachment_url( $image_id );
+                        ?>
                         <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $current_term->name ); ?>">
-                    <?php } ?>
-                    <h2 class="track-title"><?php echo esc_html( $current_term->name ); ?></h2>
+                        <?php
+                    }
+                    if ( 'exhibitor-categories' === $category_type ) {
+
+                    	$category_id    = get_term_meta( $current_term->term_id, 'categoryid', true );
+                    	$mys_cat_link   = 'https://' . $show_code . '.mapyourshow.com/8_0/explore/exhibitor-categories.cfm/#/show/cat-category|' . $category_id;
+						?>
+						<h2 class="track-title"><a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<?php
+                    } else {
+                    	?>
+                        <h2 class="track-title"><?php echo esc_html( $current_term->name ); ?></h2>
+                    	<?php
+                    }
+                    ?>
                 </div>
             </div>
         <?php

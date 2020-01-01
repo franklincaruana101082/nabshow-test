@@ -1,7 +1,7 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { InspectorControls, MediaUpload, BlockControls } = wpEditor;
+  const { InspectorControls, MediaUpload, BlockControls, URLInputButton  } = wpEditor;
   const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette, ToggleControl } = wpComponents;
 
   const imageBlockIcon = (
@@ -220,6 +220,12 @@
               <span
                 onClick={(value) => setAttributes({ imageUrl: '', imageAlt: '', InsertUrl: '' })}
                 className="dashicons dashicons-trash"
+              />
+            </div>
+            <div className="linkBtnBar">
+              <URLInputButton
+                url={imgLink}
+                onChange={(url, post) => setAttributes({ imgLink: url, text: (post && post.title) || 'Click here' })}
               />
             </div>
           </BlockControls>

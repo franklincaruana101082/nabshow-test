@@ -312,15 +312,14 @@
             exhibitorStartWith = '',
             exhibitorCategory = '',
             exhibitorHall = '',
-            exhibitorPavilion = '',
-            exhibitorTechnology = '';
+            exhibitorPavilion = '';
 
         $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-category', function () {
             let currentCategory = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
             if (exhibitorCategory !== currentCategory) {
                 exhibitorPageNumber = 1;
                 exhibitorCategory = currentCategory;
-                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
             }
         });
 
@@ -329,7 +328,7 @@
             if (exhibitorHall !== currentHall) {
                 exhibitorPageNumber = 1;
                 exhibitorHall = currentHall;
-                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
             }
         });
 
@@ -338,35 +337,26 @@
             if (exhibitorPavilion !== currentPavilion) {
                 exhibitorPageNumber = 1;
                 exhibitorPavilion = currentPavilion;
-                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
-            }
-        });
-
-        $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-technology', function () {
-            let currentTechnology = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-            if (exhibitorTechnology !== currentTechnology) {
-                exhibitorPageNumber = 1;
-                exhibitorTechnology = currentTechnology;
-                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
             }
         });
 
         $(document).on('keypress', '.browse-exhibitors-filter .search-item .search', function (e) {
             if (13 === e.which) {
                 exhibitorPageNumber = 1;
-                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
             }
         });
 
         $(document).on('click', '#load-more-exhibitor a', function () {
             exhibitorPageNumber = parseInt($(this).attr('data-page-number'));
-            mysAjaxForBrowseExhibitors(true, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+            mysAjaxForBrowseExhibitors(true, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
         });
 
         $(document).on('click', '.browse-exhibitors-filter .featured-btn', function () {
             $(this).toggleClass('active');
             exhibitorPageNumber = 1;
-            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
         });
 
         $(document).on('click', '.browse-exhibitors-filter .alphabets-list li:not(".clear")', function () {
@@ -379,7 +369,7 @@
             if (exhibitorStartWith !== $(this).text()) {
                 exhibitorStartWith = $(this).text();
                 exhibitorPageNumber = 1;
-                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+                mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
             }
         });
 
@@ -387,18 +377,18 @@
             $(this).hide().siblings().removeClass('active');
             exhibitorStartWith = '';
             exhibitorPageNumber = 1;
-            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
         });
 
         $(document).on('change', '.browse-exhibitors-filter .exhibitor-keywords', function () {
             exhibitorPageNumber = 1;
-            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
         });
 
         $(document).on('click', '.browse-exhibitors-filter .orderby', function () {
             $(this).toggleClass('active');
             exhibitorPageNumber = 1;
-            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology);
+            mysAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
         });
 
     }
@@ -620,9 +610,9 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
     speakerDate = 0 < jQuery('.browse-speakers-filter #speaker_date').length ? jQuery('.browse-speakers-filter #speaker_date').val() : '',
-    displayName = 0 < jQuery('#browse-speaker .flip-box-inner .flip-box-back h6').length,
-    displayTitle = 0 < jQuery('#browse-speaker .flip-box-inner .flip-box-back .jobtilt').length,
-    displayCompany = 0 < jQuery('#browse-speaker .flip-box-inner .flip-box-back .company').length,
+    displayName = 0 < jQuery('.browse-speakers-filter .alphabets-list').length,
+    displayTitle = 0 < jQuery('.browse-speakers-filter #speaker-title-search').length,
+    displayCompany = 0 < jQuery('.browse-speakers-filter #speaker-company').length,
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
     jQuery('body').addClass('popup-loader');
@@ -739,7 +729,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     });
 }
 
-function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion, exhibitorTechnology) {
+function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion) {
 
     let postPerPage = jQuery('#load-more-exhibitor a').attr('data-post-limit') ? parseInt(jQuery('#load-more-exhibitor a').attr('data-post-limit')) : 10;
     let postSearch = jQuery('.browse-exhibitors-filter .search-item .search').val();
@@ -756,7 +746,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
 
     jQuery.ajax({
         type: 'GET',
-        data: 'action=exhibitors_browse_filter&page_number=' + exhibitorPageNumber + '&browse_filter_nonce=' + mysGbCustom.mysgb_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + exhibitorStartWith + '&post_search=' + postSearch + '&exhibitor_category=' + exhibitorCategory + '&exhibitor_hall=' + exhibitorHall + '&exhibitor_pavilion=' + exhibitorPavilion + '&exhibitor_keywords=' + keywords + '&exhibitor_order=' + orderBy + '&exhibitor_technology=' + exhibitorTechnology,
+        data: 'action=exhibitors_browse_filter&page_number=' + exhibitorPageNumber + '&browse_filter_nonce=' + mysGbCustom.mysgb_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + exhibitorStartWith + '&post_search=' + postSearch + '&exhibitor_category=' + exhibitorCategory + '&exhibitor_hall=' + exhibitorHall + '&exhibitor_pavilion=' + exhibitorPavilion + '&exhibitor_keywords=' + keywords + '&exhibitor_order=' + orderBy,
         url: mysGbCustom.ajax_url,
         success: function (exhibitorData) {
 

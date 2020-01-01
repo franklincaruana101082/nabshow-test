@@ -248,6 +248,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 ),
                 'dropdownTitle' => array(
                     'type' => 'string'
+                ),
+                'excludePages' => array(
+                	'type' => 'string',
+                	'default' => ''
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -635,13 +639,13 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
     $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : array();
     $hall_list        = isset( $attributes['hallList'] ) && ! empty( $attributes['hallList'] ) ? $attributes['hallList'] : array();
+    $exclude_pages    = isset( $attributes['excludePages'] ) && ! empty( $attributes['excludePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['excludePages'] ) ) : array();
 
     ob_start();
 
     if ( ! empty( $parent_page_id ) ) {
 
         $args     = array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' );
-
         $children = get_pages( $args );
 
         if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
@@ -706,6 +710,11 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                             $page_count = 1;
 
                             foreach ( $children as $child ) {
+
+                            	if ( in_array( strval( $child->ID ), $exclude_pages, true ) ) {
+	                                continue;
+	                            }
+
                                 if ( $post_limit >= $page_count ) {
                                 ?>
                                     <li><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a></li>
@@ -735,7 +744,12 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                     $page_count = 1;
 
                     foreach ( $children as $child ) {
-                        if ( $post_limit >= $page_count ) {
+
+                    	if ( in_array( strval( $child->ID ), $exclude_pages, true ) ) {
+                            continue;
+                        }
+
+                    	if ( $post_limit >= $page_count ) {
                             ?>
                             <option value="<?php echo esc_url( get_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></option>
                             <?php
@@ -819,6 +833,10 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                         foreach ( $children as $child ) {
 
                             $cnt++;
+
+                            if ( in_array( strval( $child->ID ), $exclude_pages, true ) ) {
+                                continue;
+                            }
 
                             if ( $featured_page ) {
                                 if ( ! has_term('featured', 'page-category', $child->ID ) ) {
@@ -955,15 +973,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                             if ( 'product-categories' !== $listing_layout && 'browse-happenings' !== $listing_layout ) {
                                             ?>
                                                 <h2 class="title">
-                                                    <?php
-                                                    if ( 'plan-your-show' === $listing_layout ) {
-                                                    ?>
-                                                        <a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a>
-                                                    <?php
-                                                    } else {
-                                                        echo esc_html( $child->post_title );
-                                                    }
-                                                    ?>
+                                                    <a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a>
                                                 </h2>
 
                                                 <?php
@@ -995,8 +1005,14 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                         <span class="coming-soon"><?php echo esc_html( $coming_soon ); ?></span>
                                                     <?php
                                                     } else {
+
+                                                    	$link_text = 'Read More';
+
+                                                    	if ( 'key-contacts' === $listing_layout || 'destination' === $listing_layout ) {
+                                                    		$link_text = 'Learn More';
+                                                    	}
                                                     ?>
-                                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow"><?php echo 'key-contacts' === $listing_layout ? esc_html('Learn More') : esc_html( 'Read More' ); ?></a>
+                                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow"><?php echo esc_html( $link_text ); ?></a>
                                                     <?php
                                                     }
                                                 }

@@ -7385,7 +7385,9 @@ module.exports = shortOut;
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
   var RichText = wpEditor.RichText,
-      InspectorControls = wpEditor.InspectorControls;
+      InspectorControls = wpEditor.InspectorControls,
+      BlockControls = wpEditor.BlockControls,
+      URLInputButton = wpEditor.URLInputButton;
   var TextControl = wpComponents.TextControl,
       PanelBody = wpComponents.PanelBody,
       PanelRow = wpComponents.PanelRow,
@@ -7574,6 +7576,20 @@ module.exports = shortOut;
       return wp.element.createElement(
         "div",
         { className: "nab-btn-main", id: blockID, style: ButtonMain },
+        wp.element.createElement(
+          BlockControls,
+          null,
+          wp.element.createElement(
+            "div",
+            { className: "linkBtnBar" },
+            wp.element.createElement(URLInputButton, {
+              url: Link,
+              onChange: function onChange(url, post) {
+                return setAttributes({ Link: url, text: post && post.title || 'Click here' });
+              }
+            })
+          )
+        ),
         wp.element.createElement(RichText, {
           tagName: "a",
           style: finaleStyle,
@@ -8985,7 +9001,8 @@ module.exports = shortOut;
   var registerBlockType = wpBlocks.registerBlockType;
   var InspectorControls = wpEditor.InspectorControls,
       MediaUpload = wpEditor.MediaUpload,
-      BlockControls = wpEditor.BlockControls;
+      BlockControls = wpEditor.BlockControls,
+      URLInputButton = wpEditor.URLInputButton;
   var TextControl = wpComponents.TextControl,
       PanelBody = wpComponents.PanelBody,
       PanelRow = wpComponents.PanelRow,
@@ -9241,6 +9258,16 @@ module.exports = shortOut;
                 return setAttributes({ imageUrl: '', imageAlt: '', InsertUrl: '' });
               },
               className: "dashicons dashicons-trash"
+            })
+          ),
+          wp.element.createElement(
+            "div",
+            { className: "linkBtnBar" },
+            wp.element.createElement(URLInputButton, {
+              url: imgLink,
+              onChange: function onChange(url, post) {
+                return setAttributes({ imgLink: url, text: post && post.title || 'Click here' });
+              }
             })
           )
         ),

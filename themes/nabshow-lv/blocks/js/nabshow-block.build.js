@@ -168,7 +168,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Placeholder = wpComponents.Placeholder,
         CheckboxControl = wpComponents.CheckboxControl,
         SelectControl = wpComponents.SelectControl,
-        PanelRow = wpComponents.PanelRow;
+        PanelRow = wpComponents.PanelRow,
+        TextareaControl = wpComponents.TextareaControl;
 
 
     var relatedContentBlockIcon = wp.element.createElement(
@@ -338,6 +339,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderLayout = _props2$attributes.sliderLayout,
                     showFilter = _props2$attributes.showFilter,
                     dropdownTitle = _props2$attributes.dropdownTitle,
+                    excludePages = _props2$attributes.excludePages,
                     setAttributes = _props2.setAttributes;
 
 
@@ -453,6 +455,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             ),
                             input,
                             commonControls,
+                            wp.element.createElement(
+                                "label",
+                                null,
+                                "Exclude Page by Ids:"
+                            ),
+                            wp.element.createElement(TextareaControl, {
+                                help: "Each page id should be comma separated",
+                                value: excludePages,
+                                onChange: function onChange(ids) {
+                                    setAttributes({ excludePages: ids });_this4.setState({ bxinit: true });
+                                }
+                            }),
                             'side-img-info' !== listingLayout && wp.element.createElement(CheckboxControl, {
                                 className: "related-featured",
                                 label: "Featured Page",
@@ -790,7 +804,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "nab/related-content",
-                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList }
+                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages }
                     })
                 );
             }
@@ -882,6 +896,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         dropdownTitle: {
             type: 'string'
+        },
+        excludePages: {
+            type: 'string',
+            default: ''
         }
     };
 

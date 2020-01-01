@@ -147,7 +147,8 @@ if ( $query->have_posts() || $listing_page ) {
                     <?php
                     }
                     if ( ! $slider_active ) {
-                        $booth_number = get_post_meta( $exhibitor_id, 'boothnumbers', true );
+
+                    	$booth_number = get_post_meta( $exhibitor_id, 'boothnumbers', true );
                         $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
                         $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
                     ?>

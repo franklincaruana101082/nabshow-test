@@ -1487,9 +1487,9 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 #newsroom-and-briefing-room .wp-block-column .wp-block-nab-multipurpose-gutenberg-block.is-block-center{height:100%}
 .register-boxes{padding:0 6%}
 .info-sec-attend .on-floor-destinations .on-floor-infobox .title.nab-title, .mediapartners-block .on-floor-infobox .title.nab-title{color:#0f6cb6!important;font-style:italic}
-.programs-learn .main-filter .display-flex-box .category{width:16%;float:left;min-width:auto}
-.programs-learn .main-filter .display-flex-box .search-box{margin-right:0;width:25%;min-width:auto}
-.programs-learn .main-filter .display-flex-box{flex-wrap:nowrap}
+.programs-learn .main-filter .display-flex-box .category,.browse-learn-filter.main-filter .display-flex-box .category{width:16%;float:left;min-width:auto}
+.programs-learn .main-filter .display-flex-box .search-box,.browse-learn-filter.main-filter .display-flex-box .search-box{margin-right:0;width:25%;min-width:auto}
+.programs-learn .main-filter .display-flex-box,.browse-learn-filter.main-filter .display-flex-box{flex-wrap:nowrap}
 .row.related-content-rowbox .related-content-box.plan-your-show .sub-title{margin-bottom:5px;font-size:16px}
 .row.related-content-rowbox .related-content-box.plan-your-show .info-block{padding-bottom:10px}
 .programs-learn .browse-filter.main-filter.row.browse-learn-filter{margin-bottom:30px}

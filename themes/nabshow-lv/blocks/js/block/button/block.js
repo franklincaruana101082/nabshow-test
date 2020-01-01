@@ -3,7 +3,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
 (function (wpI18n, wpBlocks, wpEditor, wpComponents) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { RichText, InspectorControls } = wpEditor;
+  const { RichText, InspectorControls, BlockControls, URLInputButton } = wpEditor;
   const { TextControl, PanelBody, PanelRow, RangeControl, ToggleControl, SelectControl, ColorPalette } = wpComponents;
 
   const buttonBlockIcon = (
@@ -196,6 +196,14 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
 
       return (
         <div className="nab-btn-main" id={blockID} style={ButtonMain}>
+          <BlockControls>
+            <div className="linkBtnBar">
+              <URLInputButton
+                url={Link}
+                onChange={(url, post) => setAttributes({ Link: url, text: (post && post.title) || 'Click here' })}
+              />
+            </div>
+          </BlockControls>
           <RichText
             tagName="a"
             style={finaleStyle}
