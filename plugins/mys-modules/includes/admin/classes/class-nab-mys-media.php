@@ -59,6 +59,11 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					}
 					$fileSaved = $wp_filesystem->put_contents( $uploads['path'] . "/" . $filename, $image_string );
 
+					// Throw error if image not exist on given path.
+					if( false === $image_string ) {
+						throw new Exception( "The image URL is incorrect." );
+					}
+
 					if ( ! $fileSaved ) {
 						throw new Exception( "The file cannot be saved." );
 					}
