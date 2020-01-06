@@ -5471,15 +5471,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     )
                                 )
                             ) : ''
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                'a',
-                                { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4', target: '_blank' },
-                                'How to use block?'
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -8173,16 +8164,7 @@ module.exports = shortOut;
                 )
               )
             )
-          ) : '',
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              "a",
-              { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-              "How to use block?"
-            )
-          )
+          ) : ''
         )
       );
     },
@@ -8925,15 +8907,6 @@ module.exports = shortOut;
 									)
 								)
 							)
-						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							"a",
-							{ href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-							"How to use block?"
 						)
 					)
 				)
@@ -9744,15 +9717,6 @@ module.exports = shortOut;
                 }
               })
             )
-          ),
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              "a",
-              { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-              "How to use block?"
-            )
           )
         )
       );
@@ -10312,15 +10276,6 @@ module.exports = shortOut;
 								)
 							)
 						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							"a",
-							{ href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-							"How to use block?"
-						)
 					)
 				)
 			);
@@ -10664,18 +10619,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return setAttributes({ showTitle: !showTitle });
                   }
                 })
-              )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                {
-                  href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4",
-                  target: "_blank"
-                },
-                "How to use block?"
               )
             )
           ),
@@ -12447,15 +12390,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/not-to-be-missed-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
@@ -12939,15 +12873,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/latest-show-news.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -13151,15 +13076,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 									return setAttributes({ showFilter: !showFilter });
 								}
 							})
-						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							'a',
-							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4', target: '_blank' },
-							'How to use block?'
 						)
 					)
 				),
@@ -13985,15 +13901,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 									)
 								)
 							)
-						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							'a',
-							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4', target: '_blank' },
-							'How to use block?'
 						)
 					)
 				)
@@ -14966,15 +14873,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 })
               )
             )
-          ),
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              'a',
-              { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/meet-the-team.mp4', target: '_blank' },
-              'How to use block?'
-            )
           )
         ),
         wp.element.createElement(
@@ -15423,15 +15321,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                 }
                             })
                         )
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: __('Help'), initialOpen: false },
-                        wp.element.createElement(
-                            'a',
-                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4', target: '_blank' },
-                            'How to use block?'
-                        )
                     )
                 ),
                 showFilter && wp.element.createElement(
@@ -15667,15 +15556,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                     return setAttributes({ showPopup: !showPopup });
                                 }
                             })
-                        )
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: __('Help'), initialOpen: false },
-                        wp.element.createElement(
-                            'a',
-                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4', target: '_blank' },
-                            'How to use block?'
                         )
                     )
                 ),
@@ -15959,36 +15839,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
   var adUploadIcon = wp.element.createElement(
-    "svg",
-    { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22", className: "dashicon" },
-    wp.element.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" }),
-    wp.element.createElement("path", { d: "M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9.88 4h4.24l1.83 2H20v12H4V6h4.05" }),
-    wp.element.createElement("path", { d: "M15 11H9V8.5L5.5 12 9 15.5V13h6v2.5l3.5-3.5L15 8.5z" })
+    'svg',
+    { xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '2 2 22 22', className: 'dashicon' },
+    wp.element.createElement('path', { fill: 'none', d: 'M0 0h24v24H0V0z' }),
+    wp.element.createElement('path', { d: 'M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9.88 4h4.24l1.83 2H20v12H4V6h4.05' }),
+    wp.element.createElement('path', { d: 'M15 11H9V8.5L5.5 12 9 15.5V13h6v2.5l3.5-3.5L15 8.5z' })
   );
 
   var adBlockIcon = wp.element.createElement(
-    "svg",
-    { width: "150px", height: "150px", viewBox: "0 0 150 150", "enable-background": "new 0 0 150 150" },
+    'svg',
+    { width: '150px', height: '150px', viewBox: '0 0 150 150', 'enable-background': 'new 0 0 150 150' },
     wp.element.createElement(
-      "g",
+      'g',
       null,
       wp.element.createElement(
-        "g",
+        'g',
         null,
         wp.element.createElement(
-          "g",
+          'g',
           null,
-          wp.element.createElement("path", { fill: "#146DB6", d: "M133.758,4.449H16.676c-7.175,0-13.009,5.834-13.009,13.009v117.083c0,7.175,5.834,13.009,13.009,13.009 h117.082c7.176,0,13.011-5.834,13.011-13.009V17.458C146.768,10.283,140.934,4.449,133.758,4.449z M140.263,134.541 c0,3.585-2.919,6.506-6.505,6.506H16.676c-3.586,0-6.505-2.921-6.505-6.506V36.972h130.092V134.541L140.263,134.541z M140.263,30.467H10.171V17.458c0-3.586,2.918-6.504,6.505-6.504h117.082c3.586,0,6.505,2.918,6.505,6.504V30.467L140.263,30.467 z" }),
-          wp.element.createElement("circle", { fill: "#146DB6", cx: "19.928", cy: "20.71", r: "3.252" }),
-          wp.element.createElement("circle", { fill: "#146DB6", cx: "32.938", cy: "20.71", r: "3.252" }),
-          wp.element.createElement("circle", { fill: "#146DB6", cx: "45.946", cy: "20.71", r: "3.252" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M26.433,108.521h65.045c1.798,0,3.252-1.454,3.252-3.252V53.234c0-1.798-1.455-3.253-3.252-3.253H26.433 c-1.798,0-3.253,1.455-3.253,3.253v52.036C23.18,107.067,24.635,108.521,26.433,108.521z M29.685,56.485h58.541v45.533H29.685 V56.485z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M45.946,62.99c-5.379,0-9.756,4.377-9.756,9.756v19.515c0,1.797,1.455,3.252,3.253,3.252 c1.797,0,3.252-1.455,3.252-3.252V89.01h6.504v3.251c0,1.797,1.455,3.252,3.253,3.252c1.797,0,3.251-1.455,3.251-3.252V72.746 C55.704,67.367,51.327,62.99,45.946,62.99z M49.199,82.503h-6.505v-9.757c0-1.794,1.458-3.251,3.252-3.251 c1.795,0,3.253,1.458,3.253,3.251V82.503L49.199,82.503z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M71.964,62.99H65.46c-1.797,0-3.252,1.455-3.252,3.253v26.018c0,1.797,1.455,3.252,3.252,3.252h6.504 c5.381,0,9.757-4.377,9.757-9.755V72.746C81.722,67.367,77.346,62.99,71.964,62.99z M75.217,85.758 c0,1.792-1.458,3.252-3.253,3.252h-3.251V69.495h3.251c1.795,0,3.253,1.458,3.253,3.251V85.758L75.217,85.758z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M26.433,128.037h97.569c1.797,0,3.251-1.454,3.251-3.254c0-1.797-1.454-3.252-3.251-3.252H26.433 c-1.798,0-3.253,1.455-3.253,3.254C23.18,126.583,24.635,128.037,26.433,128.037z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M104.487,69.495h19.515c1.799,0,3.253-1.455,3.253-3.251c0-1.798-1.456-3.253-3.253-3.253h-19.515 c-1.798,0-3.251,1.456-3.251,3.253C101.236,68.04,102.689,69.495,104.487,69.495z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M104.487,89.01h19.515c1.799,0,3.253-1.455,3.253-3.252c0-1.8-1.456-3.255-3.253-3.255h-19.515 c-1.798,0-3.251,1.457-3.251,3.255C101.236,87.555,102.689,89.01,104.487,89.01z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M104.487,108.521h19.515c1.799,0,3.253-1.454,3.253-3.252c0-1.797-1.456-3.251-3.253-3.251h-19.515 c-1.798,0-3.251,1.454-3.251,3.251C101.236,107.067,102.689,108.521,104.487,108.521z" })
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M133.758,4.449H16.676c-7.175,0-13.009,5.834-13.009,13.009v117.083c0,7.175,5.834,13.009,13.009,13.009 h117.082c7.176,0,13.011-5.834,13.011-13.009V17.458C146.768,10.283,140.934,4.449,133.758,4.449z M140.263,134.541 c0,3.585-2.919,6.506-6.505,6.506H16.676c-3.586,0-6.505-2.921-6.505-6.506V36.972h130.092V134.541L140.263,134.541z M140.263,30.467H10.171V17.458c0-3.586,2.918-6.504,6.505-6.504h117.082c3.586,0,6.505,2.918,6.505,6.504V30.467L140.263,30.467 z' }),
+          wp.element.createElement('circle', { fill: '#146DB6', cx: '19.928', cy: '20.71', r: '3.252' }),
+          wp.element.createElement('circle', { fill: '#146DB6', cx: '32.938', cy: '20.71', r: '3.252' }),
+          wp.element.createElement('circle', { fill: '#146DB6', cx: '45.946', cy: '20.71', r: '3.252' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M26.433,108.521h65.045c1.798,0,3.252-1.454,3.252-3.252V53.234c0-1.798-1.455-3.253-3.252-3.253H26.433 c-1.798,0-3.253,1.455-3.253,3.253v52.036C23.18,107.067,24.635,108.521,26.433,108.521z M29.685,56.485h58.541v45.533H29.685 V56.485z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M45.946,62.99c-5.379,0-9.756,4.377-9.756,9.756v19.515c0,1.797,1.455,3.252,3.253,3.252 c1.797,0,3.252-1.455,3.252-3.252V89.01h6.504v3.251c0,1.797,1.455,3.252,3.253,3.252c1.797,0,3.251-1.455,3.251-3.252V72.746 C55.704,67.367,51.327,62.99,45.946,62.99z M49.199,82.503h-6.505v-9.757c0-1.794,1.458-3.251,3.252-3.251 c1.795,0,3.253,1.458,3.253,3.251V82.503L49.199,82.503z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M71.964,62.99H65.46c-1.797,0-3.252,1.455-3.252,3.253v26.018c0,1.797,1.455,3.252,3.252,3.252h6.504 c5.381,0,9.757-4.377,9.757-9.755V72.746C81.722,67.367,77.346,62.99,71.964,62.99z M75.217,85.758 c0,1.792-1.458,3.252-3.253,3.252h-3.251V69.495h3.251c1.795,0,3.253,1.458,3.253,3.251V85.758L75.217,85.758z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M26.433,128.037h97.569c1.797,0,3.251-1.454,3.251-3.254c0-1.797-1.454-3.252-3.251-3.252H26.433 c-1.798,0-3.253,1.455-3.253,3.254C23.18,126.583,24.635,128.037,26.433,128.037z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M104.487,69.495h19.515c1.799,0,3.253-1.455,3.253-3.251c0-1.798-1.456-3.253-3.253-3.253h-19.515 c-1.798,0-3.251,1.456-3.251,3.253C101.236,68.04,102.689,69.495,104.487,69.495z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M104.487,89.01h19.515c1.799,0,3.253-1.455,3.253-3.252c0-1.8-1.456-3.255-3.253-3.255h-19.515 c-1.798,0-3.251,1.457-3.251,3.255C101.236,87.555,102.689,89.01,104.487,89.01z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M104.487,108.521h19.515c1.799,0,3.253-1.454,3.253-3.252c0-1.797-1.456-3.251-3.253-3.251h-19.515 c-1.798,0-3.251,1.454-3.251,3.251C101.236,107.067,102.689,108.521,104.487,108.521z' })
         )
       )
     )
@@ -16009,7 +15889,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }
 
     _createClass(NabAdvertisement, [{
-      key: "updateMediaData",
+      key: 'updateMediaData',
       value: function updateMediaData(data) {
         var currentSelected = this.state.currentSelected;
 
@@ -16034,7 +15914,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         setAttributes({ imgSources: newSources });
       }
     }, {
-      key: "render",
+      key: 'render',
       value: function render() {
         var _this2 = this;
 
@@ -16102,7 +15982,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var open = _ref.open;
                 return wp.element.createElement(
                   Button,
-                  { className: "button button-large button-primary", onClick: open },
+                  { className: 'button button-large button-primary', onClick: open },
                   __('Add image')
                 );
               }
@@ -16133,24 +16013,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 Fragment,
                 null,
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-toggleCal components-base-control" },
+                  'div',
+                  { className: 'inspector-field inspector-field-toggleCal components-base-control' },
                   wp.element.createElement(
-                    "div",
-                    { className: "toggleCalender" },
+                    'div',
+                    { className: 'toggleCalender' },
                     wp.element.createElement(
-                      "span",
-                      { className: "cal" },
+                      'span',
+                      { className: 'cal' },
                       wp.element.createElement(
-                        "svg",
-                        { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512" },
-                        wp.element.createElement("path", { d: "M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z" })
+                        'svg',
+                        { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 448 512' },
+                        wp.element.createElement('path', { d: 'M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z' })
                       )
                     ),
                     wp.element.createElement(
-                      "span",
-                      { className: "text" },
-                      "Toggle Calendar"
+                      'span',
+                      { className: 'text' },
+                      'Toggle Calendar'
                     )
                   ),
                   wp.element.createElement(ToggleControl, {
@@ -16158,16 +16038,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   })
                 ),
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-datetime components-base-control" },
+                  'div',
+                  { className: 'inspector-field inspector-field-datetime components-base-control' },
                   wp.element.createElement(
-                    "label",
-                    { className: "inspector-mb-0" },
-                    "Select Date time to start display"
+                    'label',
+                    { className: 'inspector-mb-0' },
+                    'Select Date time to start display'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "inspector-ml-auto" },
+                    'div',
+                    { className: 'inspector-ml-auto' },
                     wp.element.createElement(DateTimePicker, {
                       currentDate: startDate,
                       onChange: function onChange(date) {
@@ -16177,16 +16057,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   )
                 ),
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-datetime components-base-control" },
+                  'div',
+                  { className: 'inspector-field inspector-field-datetime components-base-control' },
                   wp.element.createElement(
-                    "label",
-                    { className: "inspector-mb-0" },
-                    "Select Date time to remove"
+                    'label',
+                    { className: 'inspector-mb-0' },
+                    'Select Date time to remove'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "inspector-ml-auto" },
+                    'div',
+                    { className: 'inspector-ml-auto' },
                     wp.element.createElement(DateTimePicker, {
                       currentDate: endDate,
                       onChange: function onChange(date) {
@@ -16204,14 +16084,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 PanelRow,
                 null,
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field alignment-settings" },
+                  'div',
+                  { className: 'inspector-field alignment-settings' },
                   wp.element.createElement(
-                    "div",
-                    { className: "alignment-wrapper" },
+                    'div',
+                    { className: 'alignment-wrapper' },
                     wp.element.createElement(TextControl, {
-                      label: "Width",
-                      type: "number",
+                      label: 'Width',
+                      type: 'number',
                       value: imgWidth,
                       min: 1,
                       max: 1500,
@@ -16222,11 +16102,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "alignment-wrapper" },
+                    'div',
+                    { className: 'alignment-wrapper' },
                     wp.element.createElement(TextControl, {
-                      label: "Height",
-                      type: "number",
+                      label: 'Height',
+                      type: 'number',
                       value: imgHeight,
                       min: 1,
                       max: 1500,
@@ -16242,36 +16122,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 PanelRow,
                 null,
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-alignment" },
+                  'div',
+                  { className: 'inspector-field inspector-field-alignment' },
                   wp.element.createElement(
-                    "label",
-                    { className: "inspector-mb-0" },
-                    "Alignment"
+                    'label',
+                    { className: 'inspector-mb-0' },
+                    'Alignment'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "inspector-field-button-list inspector-field-button-list-fluid" },
+                    'div',
+                    { className: 'inspector-field-button-list inspector-field-button-list-fluid' },
                     wp.element.createElement(
-                      "button",
+                      'button',
                       { className: 'left' === addAlign ? 'active  inspector-button' : 'inspector-button', onClick: function onClick() {
                           return setAttributes({ addAlign: 'left' });
                         } },
-                      wp.element.createElement("i", { className: "fa fa-align-left" })
+                      wp.element.createElement('i', { className: 'fa fa-align-left' })
                     ),
                     wp.element.createElement(
-                      "button",
+                      'button',
                       { className: 'center' === addAlign ? 'active  inspector-button' : 'inspector-button', onClick: function onClick() {
                           return setAttributes({ addAlign: 'center' });
                         } },
-                      wp.element.createElement("i", { className: "fa fa-align-center" })
+                      wp.element.createElement('i', { className: 'fa fa-align-center' })
                     ),
                     wp.element.createElement(
-                      "button",
+                      'button',
                       { className: 'right' === addAlign ? 'active  inspector-button' : 'inspector-button', onClick: function onClick() {
                           return setAttributes({ addAlign: 'right' });
                         } },
-                      wp.element.createElement("i", { className: "fa fa-align-right" })
+                      wp.element.createElement('i', { className: 'fa fa-align-right' })
                     )
                   )
                 )
@@ -16287,45 +16167,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   return setAttributes({ linkTarget: !linkTarget });
                 }
               })
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/advertisement.mp4", target: "_blank" },
-                "How to use block?"
-              )
             )
           ),
           wp.element.createElement(
-            "div",
-            { className: "nab-banner-main", style: { textAlign: addAlign } },
+            'div',
+            { className: 'nab-banner-main', style: { textAlign: addAlign } },
             wp.element.createElement(
-              "div",
-              { className: "nab-banner-inner" },
+              'div',
+              { className: 'nab-banner-inner' },
               wp.element.createElement(
-                "p",
-                { className: "banner-text" },
-                "Advertisement"
+                'p',
+                { className: 'banner-text' },
+                'Advertisement'
               ),
-              wp.element.createElement("img", { src: imgSources[currentSelected].url,
-                className: "banner-img",
+              wp.element.createElement('img', { src: imgSources[currentSelected].url,
+                className: 'banner-img',
                 alt: __('image'),
                 style: style
               }),
               isSelected && wp.element.createElement(
-                "div",
-                { className: "nab-ad-controls" },
+                'div',
+                { className: 'nab-ad-controls' },
                 wp.element.createElement(
-                  "div",
-                  { className: "nab-controls-wrapper" },
+                  'div',
+                  { className: 'nab-controls-wrapper' },
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field img-link" },
+                    'div',
+                    { className: 'nab-ad-field img-link' },
                     wp.element.createElement(TextControl, {
                       label: __('Link URL'),
-                      placeholder: "https://",
+                      placeholder: 'https://',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].bannerLink || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ bannerLink: value || '' });
@@ -16333,16 +16204,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "strong",
+                    'strong',
                     null,
-                    "Google Event"
+                    'Google Event'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field google-event" },
+                    'div',
+                    { className: 'nab-ad-field google-event' },
                     wp.element.createElement(TextControl, {
                       label: __('Event Category'),
-                      placeholder: "Enter Category",
+                      placeholder: 'Enter Category',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].eventCategory || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ eventCategory: value || '' });
@@ -16350,11 +16221,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field google-event" },
+                    'div',
+                    { className: 'nab-ad-field google-event' },
                     wp.element.createElement(TextControl, {
                       label: __('Event Action'),
-                      placeholder: "Enter Action",
+                      placeholder: 'Enter Action',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].eventAction || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ eventAction: value || '' });
@@ -16362,11 +16233,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field google-event" },
+                    'div',
+                    { className: 'nab-ad-field google-event' },
                     wp.element.createElement(TextControl, {
                       label: __('Event Label'),
-                      placeholder: "Enter Label",
+                      placeholder: 'Enter Label',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].eventLabel || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ eventLabel: value || '' });
@@ -16375,17 +16246,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   )
                 ),
                 wp.element.createElement(
-                  "div",
-                  { className: "nab-ad-list" },
+                  'div',
+                  { className: 'nab-ad-list' },
                   imgSources.map(function (source, index) {
                     return wp.element.createElement(
-                      "div",
-                      { className: "nab-ad-img-list-item", key: index },
-                      wp.element.createElement("img", { src: source.url,
-                        className: "nab-ad-img",
+                      'div',
+                      { className: 'nab-ad-img-list-item', key: index },
+                      wp.element.createElement('img', { src: source.url,
+                        className: 'nab-ad-img',
                         alt: __('Ad-Image'),
-                        height: "100px",
-                        width: "100px",
+                        height: '100px',
+                        width: '100px',
                         onClick: function onClick() {
                           _this2.setState({ currentSelected: index });
                         }
@@ -16394,8 +16265,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         Tooltip,
                         { text: __('Remove Image') },
                         wp.element.createElement(IconButton, {
-                          className: "nab-ad-item-remove",
-                          icon: "no",
+                          className: 'nab-ad-item-remove',
+                          icon: 'no',
                           onClick: function onClick() {
                             if (index === currentSelected) {
                               _this2.setState({ currentSelected: 0 });
@@ -16409,8 +16280,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     );
                   }),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-advertisement-add-item" },
+                    'div',
+                    { className: 'nab-advertisement-add-item' },
                     wp.element.createElement(MediaUpload, {
                       allowedTypes: ['image'],
                       value: null,
@@ -16426,7 +16297,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         var open = _ref2.open;
                         return wp.element.createElement(IconButton, {
                           label: __('Add media'),
-                          icon: "plus",
+                          icon: 'plus',
                           onClick: open
                         });
                       }
@@ -20516,15 +20387,6 @@ var Inspector = function (_Component) {
 								)
 							)
 						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							'a',
-							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/nabshow-custom-block.mp4', target: '_blank' },
-							'How to use block?'
-						)
 					)
 				)
 			);
@@ -20986,16 +20848,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ) : '',
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                'a',
-                                { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4', target: '_blank' },
-                                'How to use block?'
-                            )
-                        )
+                        ) : ''
                     ),
                     wp.element.createElement(
                         'div',

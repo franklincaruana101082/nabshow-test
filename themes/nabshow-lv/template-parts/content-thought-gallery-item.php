@@ -31,7 +31,6 @@
                         ,
                         <?php
                     }
-
                 }
             }
             ?>
@@ -39,6 +38,6 @@
         <a href="<?php echo esc_url( get_the_permalink() ); ?>"><h4
                     class="tg-title"><?php echo esc_html( get_the_title() ); ?></h4></a>
         <span class="tg-author"> By <a
-                    href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( get_the_author() ); ?> </a></span>
+                    href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( nabhsow_lv_current_author_name() ); ?> </a></span>
     </div>
 </div>

@@ -233,11 +233,6 @@
             </div>
           }
           <div className="new-this-year new-this-year-block">
-            <InspectorControls>
-              <PanelBody title={__('Help')} initialOpen={false}>
-                <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/new-this-year.mp4" target="_blank">How to use block?</a>
-              </PanelBody>
-            </InspectorControls>
             <div className="box-main">
               {productsList}
               <div className="box-item additem">

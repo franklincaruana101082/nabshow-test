@@ -340,6 +340,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     showFilter = _props2$attributes.showFilter,
                     dropdownTitle = _props2$attributes.dropdownTitle,
                     excludePages = _props2$attributes.excludePages,
+                    orderBy = _props2$attributes.orderBy,
                     setAttributes = _props2.setAttributes;
 
 
@@ -453,6 +454,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Order By'),
+                                value: orderBy,
+                                options: [{ label: __('A → Z'), value: 'title' }, { label: __('Random'), value: 'rand' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ orderBy: value });_this4.setState({ bxinit: true });
+                                }
+                            }),
                             input,
                             commonControls,
                             wp.element.createElement(
@@ -804,7 +813,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "nab/related-content",
-                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages }
+                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages, orderBy: orderBy }
                     })
                 );
             }
@@ -900,6 +909,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         excludePages: {
             type: 'string',
             default: ''
+        },
+        orderBy: {
+            type: 'string',
+            default: 'title'
         }
     };
 
@@ -2204,15 +2217,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ postType: value });
                                 }
                             })
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/contributors-authors.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
@@ -2544,19 +2548,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           wp.element.createElement(
             "div",
             { className: "new-this-year new-this-year-block" },
-            wp.element.createElement(
-              InspectorControls,
-              null,
-              wp.element.createElement(
-                PanelBody,
-                { title: __('Help'), initialOpen: false },
-                wp.element.createElement(
-                  "a",
-                  { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/new-this-year.mp4", target: "_blank" },
-                  "How to use block?"
-                )
-              )
-            ),
             wp.element.createElement(
               "div",
               { className: "box-main" },
@@ -2966,15 +2957,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return setAttributes({ showFilter: !showFilter });
                   }
                 })
-              )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/delegation.mp4", target: "_blank" },
-                "How to use block?"
               )
             )
           ),
@@ -4133,15 +4115,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   );
                 }
               })
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-                "How to use block?"
-              )
             )
           )
         );
@@ -4454,15 +4427,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return setAttributes({ showFilter: !showFilter });
                   }
                 })
-              )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/badge-discounts.mp4", target: "_blank" },
-                "How to use block?"
               )
             )
           ),
@@ -5319,15 +5283,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   }
                 })
               )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/official-vendors.mp4", target: "_blank" },
-                "How to use block?"
-              )
             )
           ),
           showFilter && wp.element.createElement(
@@ -5916,15 +5871,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return setAttributes({ showFilter: !showFilter });
                   }
                 })
-              )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4", target: "_blank" },
-                "How to use block?"
               )
             )
           ),
@@ -7291,15 +7237,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   }
                 })
               )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/exhibitor-advisory-committee.mp4", target: "_blank" },
-                "How to use block?"
-              )
             )
           ),
           showFilter && wp.element.createElement(
@@ -7972,15 +7909,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   );
                 }
               })
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-                "How to use block?"
-              )
             )
           )
         );
@@ -8160,15 +8088,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         PanelBody,
                         { title: __('Settings') },
                         commonControl
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: __('Help'), initialOpen: false },
-                        wp.element.createElement(
-                            'a',
-                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4', target: '_blank' },
-                            'How to use block?'
-                        )
                     )
                 ),
                 wp.element.createElement(ServerSideRender, {
@@ -8289,15 +8208,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                   return setAttributes({ showFilter: !showFilter });
                 }
               })
-            )
-          ),
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              'a',
-              { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-partners.mp4', target: '_blank' },
-              'How to use block?'
             )
           )
         ),
@@ -8837,15 +8747,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                   );
                 })
               )
-            )
-          ),
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              'a',
-              { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-partners.mp4', target: '_blank' },
-              'How to use block?'
             )
           )
         ),
@@ -10640,7 +10541,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               wp.element.createElement(RadioControl, {
                 selected: formType,
                 label: "Select Form Type",
-                options: [{ label: 'StartUp Loft', value: 'startup-loft' }, { label: 'Contact Us', value: 'contact-us' }, { label: 'Delegation Leader Enrollment', value: 'delegation-leader-enrollment' }],
+                options: [{ label: 'StartUp Loft', value: 'startup-loft' }, { label: 'Contact Us', value: 'contact-us' }, { label: 'Delegation Leader Enrollment', value: 'delegation-leader-enrollment' }, { label: 'Publication Shipping Information', value: 'publication-shipping-information' }],
                 onChange: function onChange(type) {
                   return setAttributes({ formType: type });
                 }

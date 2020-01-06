@@ -142,6 +142,62 @@ get_header();
 						<?php
 					}
 
+				} elseif ( 'delegation-leader-enrollment' === $form_type ) {
+
+					$first_name = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+					$last_name  = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+					$post_title = trim( $first_name ) . '_' . trim( $last_name );
+
+					$delegation_form_fields = array( 'company', 'address', 'city', 'state_province', 'zip_postal_code', 'country', 'phone', 'email', 'country_represented', 'associated_with_the_us_department', 'estimated_number_of_delegates', 'registration_information_attending_nabshow_as_well', 'registration_information_proxy_name', 'registration_information_proxy_email', 'registration_information_registering_all_delegates_yourself' );
+
+					$inserted_post_id   = wp_insert_post(
+						array(
+							'post_title'   => $post_title,
+							'post_type'    => 'forms-data',
+							'post_status'  => 'publish',
+						)
+					);
+
+					if ( ! is_wp_error( $inserted_post_id ) ) {
+
+						add_post_meta( $inserted_post_id, 'first_name', $first_name );
+						add_post_meta( $inserted_post_id, 'last_name', $last_name );
+
+						$message = '<html><body>';
+						$message .= '<table border="1" cellpadding="10"><tr><th>Fields</th><th>Details</th></tr>';
+						$message .= '<tr><td>first_name</td><td>' . $first_name . '</td></tr>';
+						$message .= '<tr><td>last_name</td><td>' . $last_name . '</td></tr>';
+
+						foreach ( $delegation_form_fields as $form_field ) {
+
+							$field_value = filter_input( INPUT_POST, $form_field, FILTER_SANITIZE_STRING );
+
+							if ( ! empty( $field_value ) ) {
+
+								add_post_meta( $inserted_post_id, $form_field, $field_value );
+								$message .= '<tr><td>' . $form_field . '</td><td>' . $field_value . '</td></tr>';
+							}
+						}
+
+						$message .= '</table></body></html>';
+
+						wp_set_object_terms( $inserted_post_id, $form_type, 'forms-category' );
+
+						$headers = "From: NABShow <noreply@nabshow.com>\r\n";
+						$headers .= "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+						$subject = 'Delegation Leader Enrollment Form Details';
+
+						wp_mail( $to_email, $subject, $message, $headers );
+
+						?>
+						<div class="form-confirmation">
+							<p>Thank you, your submission has been received.</p>
+							<a class="gobackbtn btn-primary" href="<?php echo esc_url( get_the_permalink() ); ?>">Go back to the form</a>
+						</div>
+						<?php
+					}
 				}
 
 			} else {

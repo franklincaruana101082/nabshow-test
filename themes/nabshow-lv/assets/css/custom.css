@@ -1615,10 +1615,10 @@ header .header-right .header-get-updates.sign-up-error{border-color:yellow;box-s
 .sticky.site-header #site-navigation ul.menu>li:last-child>a{padding:7px 35px}
 .sticky.site-header #site-navigation ul.menu>li.clicked:last-child>a{border-color:transparent;background-color:#0f6cb6}
 
-.site-header #site-navigation .submenu-child ul li a, .submenu-child ul li a{color:#000;text-decoration:none;font-size:14px;font-family:"Gotham Book", sans-serif}
+.site-header #site-navigation .submenu-child ul li a, .submenu-child ul li a{color:#000;text-decoration:none;font-size:16px;font-family:"Gotham Book", sans-serif}
 .site-header #site-navigation .submenu-child ul li, .submenu-child ul li{margin-bottom:5px;display:inline-block;list-style:none;width:100%}
 .site-header #site-navigation .submenu-child ul, .submenu-child ul{padding:0!important;margin:0!important;list-style:none}
-.site-header #site-navigation .submenu-child p, .submenu-child p{color:#000000;line-height:26px;font-size:14px}
+.site-header #site-navigation .submenu-child p, .submenu-child p{color:#000000;line-height:26px;font-size:16px}
 .site-header #site-navigation .submenu-child ul.light-list li, .submenu-child ul.light-list li{font-family:"Gotham Book", sans-serif}
 .site-header #site-navigation .submenu-child a:hover{color:#0f6cb6!important}
 .site-header #site-navigation .submenu-child a.btn-white:hover{color:#000000!important}
@@ -1706,7 +1706,13 @@ span.ctcc-right-side{display:inline-block}
 .nab-form .form-fieldset{margin-bottom:20px;background-color:#fff;border:1px solid #ddd;border-radius:4px;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.05);box-shadow:0 1px 1px rgba(0, 0, 0, 0.05)}
 .nab-form .form-fieldset .panel-body{padding:15px}
 .nab-form .form-fieldset .panel-body .form-item{margin:0}
+.nab-form .form-fieldset .panel-body .help-block{border:1px solid #ddd;padding:15px 20px;margin:30px 0 15px}
+.nab-form .form-fieldset .panel-body .help-block p{margin:0}
+.nab-form .form-fieldset .panel-body .form-item+.form-item{margin-top:20px}
 
 /* UI Date Picker */
 .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{padding:0 5px}
 .related-content-slider-info .item .item-info span.sub-title, .related-content-slider-events .item span.sub-title{display:block}
+.hidden-field-items{display:none}
+.bx-viewport .nab-dynamic-slider.sponsors .item img, .bx-viewport .nab-dynamic-slider.exhibitors .item img{max-height:55%;max-width:80%}
+.bx-viewport .nab-dynamic-slider.sponsors .item, .bx-viewport .nab-dynamic-slider.exhibitors .item{padding:10px;background:#fff;height:150px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}

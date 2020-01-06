@@ -138,7 +138,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages, orderBy }, setAttributes } = this.props;
 
             let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -232,6 +232,15 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                               ))
                               }
                             </div>
+                            <SelectControl
+                              label={__('Order By')}
+                              value={orderBy}
+                              options={[
+                                { label: __('A → Z'), value: 'title' },
+                                { label: __('Random'), value: 'rand' },
+                              ]}
+                              onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
+                            />
                             {input}
                             {commonControls}
                             <label>Exclude Page by Ids:</label>
@@ -428,7 +437,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages, orderBy: orderBy }}
                     />
                 </Fragment>
 
@@ -523,6 +532,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         excludePages: {
           type: 'string',
           default: ''
+        },
+        orderBy: {
+          type: 'string',
+          default: 'title'
         }
     };
 

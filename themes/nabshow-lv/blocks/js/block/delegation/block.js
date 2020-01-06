@@ -234,9 +234,6 @@
                 />
               </PanelRow>
             </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/delegation.mp4" target="_blank">How to use block?</a>
-            </PanelBody>
           </InspectorControls>
           {showFilter &&
             <div className="box-main-filter main-filter delegation-filter">

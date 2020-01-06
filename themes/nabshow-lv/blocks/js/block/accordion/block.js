@@ -96,9 +96,6 @@ import memoize from 'memize';
 								/>
 							</PanelRow>
 						</PanelBody>
-						<PanelBody title={__('Help')} initialOpen={false}>
-							<a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4" target="_blank">How to use block?</a>
-						</PanelBody>
 					</InspectorControls>
 					{showFilter &&
 						<div className="fab-filter main-filter">
@@ -631,9 +628,6 @@ import memoize from 'memize';
 									</div>
 								</div>
 							</PanelRow>
-						</PanelBody>
-						<PanelBody title={__('Help')} initialOpen={false}>
-							<a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4" target="_blank">How to use block?</a>
 						</PanelBody>
 					</InspectorControls>
 				</div>

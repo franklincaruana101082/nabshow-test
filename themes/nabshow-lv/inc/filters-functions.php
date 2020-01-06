@@ -621,3 +621,33 @@ function nabshow_lv_add_mega_menu_in_menu_item( $item_output, $item, $depth, $ar
 
     return $item_output;
 }
+
+/**
+ * Added / end of the url if not found in redirect to url.
+ *
+ * @param $redirect_to
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabhsow_lv_modify_redirect_to( $redirect_to ) {
+
+	if ( strpos( $redirect_to, 'nabshow') && '/' !== substr( $redirect_to, -1 ) && ! strpos( $redirect_to, '/?') ) {
+		$redirect_to .= '/';
+	}
+
+	return $redirect_to;
+}
+
+/**
+ * Increase safe redirect manager rules limit
+ *
+ * @return int
+ *
+ * @since 1.0.0
+ */
+function nabhsow_lv_increase_redirect_rule_limit() {
+
+	return 500;
+}

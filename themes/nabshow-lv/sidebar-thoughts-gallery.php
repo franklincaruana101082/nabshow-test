@@ -134,7 +134,7 @@ if ( false === $popularposts ) {
 
             if( $author_query->have_posts() && 6 >= $limit_counter ) {
 
-                $contributor_image = get_avatar_url( $contributor->ID, array( 'size' => 200 ) );
+                $contributor_image = nabshow_lv_get_author_avatar_url( $contributor->ID );
                 ?>
                 <li>
                     <div class="item-inner">

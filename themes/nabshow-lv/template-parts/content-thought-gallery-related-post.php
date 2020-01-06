@@ -75,7 +75,7 @@ if ( false === $related_posts_query ) {
                     <h4 class="related-title">
                         <a href="<?php echo esc_url( get_the_permalink() ); ?>"> <?php echo esc_html( get_the_title() ); ?> </a>
                     </h4>
-                    <div class="blog-list-contributor"> By <?php echo esc_html( get_the_author() ); ?></div>
+                    <div class="blog-list-contributor"> By <?php echo esc_html( nabhsow_lv_current_author_name() ); ?></div>
                 </div>
             </li>
             <?php

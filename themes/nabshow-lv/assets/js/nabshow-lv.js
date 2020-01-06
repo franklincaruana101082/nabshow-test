@@ -87,6 +87,14 @@
         $('.captcha-error').hide();
       }
     });
+
+    $(document).on('change', '.nab-form.delegation-form #delegation-reg-info-attending-nabshow-as-well .form-radio', function(){
+      if ( 'no' === $(this).val().toLowerCase() ) {
+        $(this).parents('.panel-body').find('.hidden-field-items').show();
+      } else {
+        $(this).parents('.panel-body').find('.hidden-field-items').hide();
+      }
+    });
   }
 
   //Header Marketo custom sign up box
@@ -657,6 +665,19 @@
           });
         });
 
+      }
+
+      /* Location Redirection */
+      let args = location.search;
+      if (0 < args.length){
+        let res = args.split('=');
+        let str = res[1].split('-').join(' ');
+        Array.from($('.badgeslist a')).forEach(function (item) {
+          if (str.toLowerCase() === item.text.toLowerCase()) {
+            $(item).addClass('clicked active');
+            masterFilterFunc(selectedItem, searchId, searchKeyword);
+          }
+        });
       }
 
       /* Sponsorship Opp */
@@ -1410,6 +1431,7 @@
     $('html, body').animate({ scrollTop: 0 }, 500);
     return false;
   });
+
 
   /*  main - bracket - end */
 })(jQuery);

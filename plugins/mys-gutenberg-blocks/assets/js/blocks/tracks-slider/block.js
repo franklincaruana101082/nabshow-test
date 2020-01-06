@@ -32,6 +32,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
       componentWillMount() {
         let hallList = [];
+
         // Fetch all Halls
         wp.apiFetch({ path: '/wp/v2/halls' }).then((halls) => {
           if ( 0 < halls.length ) {
@@ -291,9 +292,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             }
                         </Fragment>
                         }
-                        <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/category-slider.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/tracks-slider"

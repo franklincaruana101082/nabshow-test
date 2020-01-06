@@ -33,7 +33,7 @@ $to_email = get_query_var('form_email' );
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-state-province">State/Province</label>
-			<input class="form-control form-text" type="text" id="state-province" name="state_province" size="60" maxlength="128">
+			<input class="form-control form-text" type="text" id="delegation-state-province" name="state_province" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-postal-code">Zip/Postal Code <span class="form-required" title="This field is required.">*</span></label>
@@ -305,7 +305,7 @@ $to_email = get_query_var('form_email' );
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-country-represented">Country / Countries being represented <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-country-represented" name="country_represented]" value="" size="60" maxlength="128">
+			<input required="required" class="form-control form-text" type="text" id="delegation-country-represented" name="country_represented" value="" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-associated-with-us-department">Associated with the U.S. Department of Commerce? <span class="form-required" title="This field is required.">*</span></label>
@@ -335,6 +335,30 @@ $to_email = get_query_var('form_email' );
 						</div>
 					</div>
 				</div>
+				<div class="hidden-field-items">
+					<div class="help-block">
+						<p>If no, will someone else service your Delegation in Las Vegas, and what is that person's name and email?</p>
+					</div>
+					<div class="form-item">
+						<label class="control-label" for="delegation-registration-information-proxy-name">Name</label>
+						<input class="form-control form-text" type="text" id="delegation-registration-information-proxy-name" name="registration_information_proxy_name" size="60" maxlength="128">
+					</div>
+					<div class="form-item">
+						<label class="control-label" for="delegation-registration-information-proxy-email">Email</label>
+						<input class="form-control form-text" type="text" id="delegation-registration-information-proxy-email" name="registration_information_proxy_email" size="60" maxlength="128">
+					</div>
+					<div class="form-item">
+						<label class="control-label" for="delegation-reg-info-registering-all-delegates-yourself">Will you be registering all Delegates yourself?</label>
+						<div id="delegation-reg-info-registering-all-delegates-yourself" class="form-radios">
+							<div class="form-type-radio">
+								<label class="control-label" for="delegation-registration-information-registering-all-delegates-yourself-1"><input type="radio" id="delegation-registration-information-registering-all-delegates-yourself-1" name="registration_information_registering_all_delegates_yourself" value="yes" class="form-radio">Yes</label>
+							</div>
+							<div class="form-type-radio">
+								<label class="control-label" for="delegation-registration-information-registering-all-delegates-yourself-2"><input type="radio" id="delegation-registration-information-registering-all-delegates-yourself-2" name="registration_information_registering_all_delegates_yourself" value="no" class="form-radio">No</label>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</fieldset>
 		<div class="captcha">
@@ -342,7 +366,7 @@ $to_email = get_query_var('form_email' );
 			<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 		</div>
 		<?php wp_nonce_field( 'nabshow_forms', 'form_details_nonce' ); ?>
-		<input type="hidden" name="form_type" value="startup-loft">
+		<input type="hidden" name="form_type" value="delegation-leader-enrollment">
 		<input type="hidden" name="to_email" value="<?php echo esc_attr( $to_email ); ?>" />
 		<div class="form-actions">
 			<button class="form-submit" type="submit" name="op" value="Submit">Submit</button>

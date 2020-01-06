@@ -480,10 +480,16 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 	wp_reset_postdata();
 } elseif ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $contributor_id ) && ! empty( $contributor_id ) ) ) {
 
-	$contributor_name  = get_the_author_meta( 'display_name', $contributor_id );
+	$contributor_name  = get_the_author_meta( 'first_name', $contributor_id ) . ' ' . get_the_author_meta( 'last_name', $contributor_id );
 	$contributor_email = get_the_author_meta( 'user_email', $contributor_id );
-	$contributor_info  = get_the_author_meta( 'user_description', $contributor_id );
-	$contributor_image = get_avatar_url( $contributor_id, array( 'size' => 160 ) );
+	$contributor_info  = get_field( 'bio',  'user_' . $contributor_id );
+	$contributor_image = nabshow_lv_get_author_avatar_url( $contributor_id );
+	$allowed_tags      = wp_kses_allowed_html( 'post' );
+
+	if ( empty( rtrim( $contributor_name ) ) ) {
+
+		$contributor_name  = get_the_author_meta( 'display_name', $contributor_id );
+	}
 	?>
     <div class="modal-popup-nab">
         <div class="modal-popup-nab-body">
@@ -503,7 +509,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                             <img class="round-img" src="<?php echo esc_url( $contributor_image ); ?>" alt="contributor">
                         </div>
                     </div>
-                    <p><?php echo esc_html( $contributor_info ); ?></p>
+	                <?php echo wp_kses( $contributor_info, $allowed_tags ); ?>
                 </div>
 
 				<?php

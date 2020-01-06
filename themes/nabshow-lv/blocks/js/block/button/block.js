@@ -495,9 +495,6 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
                 </PanelBody>
               ) : ''
             }
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
-            </PanelBody>
           </InspectorControls>
         </div >
       );

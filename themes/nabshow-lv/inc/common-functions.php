@@ -540,3 +540,43 @@ function nabshow_lv_enqueue_google_recaptch_script() {
 
 	wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js');
 }
+
+/**
+ * Get full name of current user.
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabhsow_lv_current_author_name() {
+
+	$author_full_name = get_the_author_meta( 'first_name' ) . ' ' . get_the_author_meta( 'last_name' );
+
+	if ( empty( rtrim( $author_full_name ) ) ) {
+
+		$author_full_name = get_the_author();
+	}
+
+	return $author_full_name;
+}
+
+/**
+ * Get author image according to author id.
+ *
+ * @param $author_id
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_get_author_avatar_url( $author_id ) {
+
+
+	$author_img = get_field( 'image',  'user_' . $author_id );
+
+	if ( empty( $author_img ) ) {
+		$author_img = get_template_directory_uri() . '/assets/images/contributor.png';
+	}
+
+	return $author_img;
+}

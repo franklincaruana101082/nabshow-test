@@ -1,5 +1,5 @@
 import pick from 'lodash/pick';
-import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6} from "../icons";
+import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6} from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
   const { __ } = wpI18n;
   const { Component, Fragment } = wpElement;
@@ -233,9 +233,6 @@ import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sl
                 checked={linkTarget}
                 onChange={() => setAttributes({ linkTarget: ! linkTarget })}
               />
-            </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/advertisement.mp4" target="_blank">How to use block?</a>
             </PanelBody>
           </InspectorControls>
           <div className="nab-banner-main" style={{textAlign: addAlign}}>

@@ -75,3 +75,9 @@ add_filter( 'manage_page_posts_columns', 'nabshow_lv_manage_compact_view_columns
 
 //Filter to add custom mega menu
 add_filter( 'walker_nav_menu_start_el', 'nabshow_lv_add_mega_menu_in_menu_item', 10, 4 );
+
+//Filter for modified redirect url.
+add_filter( 'srm_redirect_to', 'nabhsow_lv_modify_redirect_to', 1 );
+
+//Filter for increase redirect rules limit
+add_filter( 'srm_max_redirects', 'nabhsow_lv_increase_redirect_rule_limit' );

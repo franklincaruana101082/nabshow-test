@@ -210,9 +210,6 @@ import memoize from 'memize';
                                 />
                             </PanelRow>
                         </PanelBody>
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     {showFilter &&
                         <div className="wp-block-nab-multipurpose-gutenberg-block">
@@ -347,9 +344,6 @@ import memoize from 'memize';
                                     onChange={() => setAttributes({ showPopup: ! showPopup })}
                                 />
                             </PanelRow>
-                        </PanelBody>
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
                         </PanelBody>
                     </InspectorControls>
                     <div className='col-lg-6 col-md-6 col-sm-12'>

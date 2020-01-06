@@ -55,7 +55,7 @@
             </h2>
             <div class="post-meta-info">
                 <span class="meta-info-decs"><?php echo esc_html( 'by' ); ?></span>
-                <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( get_the_author() ); ?> </a>
+                <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( nabhsow_lv_current_author_name() ); ?> </a>
             </div>
             <p class="post-excerpt"><?php echo esc_html( nabshow_lv_excerpt() ); ?>
                 <a class="btn" href="<?php echo esc_url( get_the_permalink() ); ?>"

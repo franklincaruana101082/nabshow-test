@@ -327,9 +327,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </PanelBody>
                             ) : ''
                         }
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <div className={`nab-media-slider-block slider-arrow-main ${arrowIcons}`}>
                         <div className={'nab-media-slider'} data-animation={detailAnimation} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`}>

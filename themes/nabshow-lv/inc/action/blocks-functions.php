@@ -252,6 +252,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 'excludePages' => array(
                 	'type' => 'string',
                 	'default' => ''
+                ),
+                'orderBy' => array(
+                	'type' => 'string',
+                	'default' => ''
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -639,50 +643,76 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
     $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : array();
     $hall_list        = isset( $attributes['hallList'] ) && ! empty( $attributes['hallList'] ) ? $attributes['hallList'] : array();
+    $order_by         = isset( $attributes['orderBy'] ) && ! empty( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'title';
     $exclude_pages    = isset( $attributes['excludePages'] ) && ! empty( $attributes['excludePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['excludePages'] ) ) : array();
 
     ob_start();
 
     if ( ! empty( $parent_page_id ) ) {
 
-        $args     = array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' );
+        $args = array( $child_field => $parent_page_id );
+
         $children = get_pages( $args );
 
-        if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
+		if ( 'grandchildren' === $depth_level || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) ) {
 
-        	$cache_key      = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list );
-        	$children_ids   = wp_list_pluck( $children, 'ID' );
-        	$children       = get_transient( $cache_key );
+			$children_ids   = wp_list_pluck( $children, 'ID' );
+			$children       = false;
+			$cache_key      = '';
 
-        	if ( false === $children || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+			if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
 
+	            $cache_key      = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list );
+	            $children       = get_transient( $cache_key );
+	        }
 
+			if ( false === $children || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
 	            $query_args = array(
 	                'post_type'         => 'page',
-	                'include'           => $children_ids,
-	                'numberposts'       => count( $children_ids ),
-	                'orderby'           => 'post__in',
 	                'suppress_filters'  => false
 	            );
 
-	            $meta_query_args = array( 'relation' => 'OR' );
+	            if ( 'rand' === $order_by ) {
 
-				foreach ( $hall_list as $hall_type ) {
+	            	shuffle( $children_ids );
 
-					$meta_query_args[] = array (
-	                            'key'       => 'page_hall',
-	                            'value'     => $hall_type,
-	                            'compare'   => 'LIKE',
-	                        );
-				}
+			        $children_ids           = array_splice( $children_ids, 0, count( $children_ids ) );
+			        $query_args['include']  = $children_ids;
+			        $query_args['orderby']  = 'post__in';
 
-				if ( count( $meta_query_args ) > 1 ) {
-					$query_args[ 'meta_query' ] = $meta_query_args;
-				}
+	            } else {
+	                $query_args['include']  = $children_ids;
+			        $query_args['orderby']  = 'title';
+			        $query_args['order']    = 'ASC';
+	            }
+
+	            $query_args['numberposts']  = count( $children_ids );
+
+	            if ( ! empty( $cache_key ) ) {
+
+	            	$meta_query_args = array( 'relation' => 'OR' );
+
+					foreach ( $hall_list as $hall_type ) {
+
+						$meta_query_args[] = array (
+		                            'key'       => 'page_hall',
+		                            'value'     => $hall_type,
+		                            'compare'   => 'LIKE',
+		                        );
+					}
+
+					if ( count( $meta_query_args ) > 1 ) {
+						$query_args[ 'meta_query' ] = $meta_query_args;
+					}
+	            }
 
 		        $children = get_posts( $query_args );
-        	}
+
+	            if ( ! empty( $cache_key ) && count( $children ) > 0 ) {
+	                set_transient( $cache_key, $children, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+	            }
+            }
         }
 
         if ( ( 'side-img-info' === $listing_layout || 'side-info' === $listing_layout ) && ! $slider_active ) {
@@ -1096,7 +1126,14 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
             }
 
             if( $author_query->have_posts() && $post_limit >= $limit_counter ) {
-                $contributor_image = get_avatar_url( $contributor->ID, array( 'size' => 330 ) );
+
+            	$contributor_image  = nabshow_lv_get_author_avatar_url( $contributor->ID );
+				$contributor_name   = $contributor->first_name . ' ' . $contributor->last_name;
+
+				if ( empty( trim( $contributor_name ) ) ) {
+					$contributor_name = $contributor->display_name;
+				}
+
             ?>
                 <div class="team-box">
                     <div class="team-box-inner">
@@ -1105,7 +1142,7 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
                         </div>
                         <div class="team-details">
                             <h3 class="name">
-                                <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor->display_name ); ?></a>
+                                <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor_name ); ?></a>
                             </h3>
                             <strong class="title">Title</strong>
                             <strong class="company">Company</strong>
@@ -1260,6 +1297,8 @@ function nabshow_lv_site_forms_render_callback( $attributes ) {
 		get_template_part( 'template-parts/forms/content', 'contact-us' );
 	} elseif ( 'delegation-leader-enrollment' === $form_type ) {
 		get_template_part( 'template-parts/forms/content', 'delegation' );
+	} elseif ( 'publication-shipping-information' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'publication' );
 	}
 
 	$html = ob_get_clean();
