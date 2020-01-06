@@ -201,7 +201,12 @@ $speakers_slider_attr = array(
 	'displayCompany' => array(
 		'type'    => 'boolean',
 		'default' => true
+	),
+	'filterDates' => array(
+		'type'    => 'string',
+		'default' => ''
 	)
+
 
 );
 

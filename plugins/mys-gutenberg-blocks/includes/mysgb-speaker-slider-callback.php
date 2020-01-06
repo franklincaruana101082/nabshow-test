@@ -110,11 +110,7 @@ if ( 'rand' === $order_by && $query->have_posts() ) {
 if ( $query->have_posts() || $listing_page ) {
 
     if ( $listing_page ) {
-
         include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-speaker-filter.php' );
-
-        $this->date_picker = true;
-        $this->mysgb_enqueue_front_script();
     }
 ?>
     <div class="slider-arrow-main <?php echo esc_attr( $arrow_icons ); ?> <?php echo esc_attr( $class_name ); ?>">

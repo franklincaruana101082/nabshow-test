@@ -3134,7 +3134,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TextControl = wpComponents.TextControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        TextareaControl = wpComponents.TextareaControl;
 
 
     var speakerSliderBlockIcon = wp.element.createElement(
@@ -3331,7 +3332,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     withThumbnail = attributes.withThumbnail,
                     displayName = attributes.displayName,
                     displayTitle = attributes.displayTitle,
-                    displayCompany = attributes.displayCompany;
+                    displayCompany = attributes.displayCompany,
+                    filterDates = attributes.filterDates;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -3383,6 +3385,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ listingPage: !listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', withThumbnail: false });
                                 }
                             }),
+                            listingPage && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    "Exclude Page by Ids:"
+                                ),
+                                wp.element.createElement(TextareaControl, {
+                                    help: "Each date should be pipe(|) separated",
+                                    placeHolder: "October, 17 2019",
+                                    value: filterDates,
+                                    onChange: function onChange(dates) {
+                                        return setAttributes({ filterDates: dates });
+                                    }
+                                })
+                            ),
                             input,
                             !listingPage && wp.element.createElement(
                                 Fragment,
@@ -3711,7 +3730,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speaker-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates }
                     })
                 );
             }
@@ -3804,6 +3823,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         displayCompany: {
             type: 'boolean',
             default: true
+        },
+        filterDates: {
+            type: 'string',
+            default: ''
         }
     };
     registerBlockType('mys/speaker-slider', {

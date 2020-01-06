@@ -778,7 +778,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Gotham 
 
 /* Session slider */
 .session .item{text-align:center;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;position:relative;overflow:hidden;width:33.333%;padding:36px 33px 45px}
-.nab-dynamic-slider.session{display:flex}
+.nab-dynamic-slider.session{display:flex;flex-wrap:wrap}
 .session .item h4{font-size:18px;color:#000000;line-height:23px;font-family:"Gotham Bold", sans-serif;margin-bottom:10px}
 .session .item span.caption{font-size:16px;font-family:"Gotham Book Italic", sans-serif;display:block;width:100%;margin-bottom:15px}
 .session .item span.date-time{font-size:16px;display:block;width:100%;margin-bottom:15px!important}
@@ -1716,3 +1716,4 @@ span.ctcc-right-side{display:inline-block}
 .hidden-field-items{display:none}
 .bx-viewport .nab-dynamic-slider.sponsors .item img, .bx-viewport .nab-dynamic-slider.exhibitors .item img{max-height:55%;max-width:80%}
 .bx-viewport .nab-dynamic-slider.sponsors .item, .bx-viewport .nab-dynamic-slider.exhibitors .item{padding:10px;background:#fff;height:150px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
+.home .wp-block-md-featured-boxes .nab-dynamic-slider .item{display:inline-block}

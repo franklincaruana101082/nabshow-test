@@ -256,6 +256,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 'orderBy' => array(
                 	'type' => 'string',
                 	'default' => ''
+                ),
+                'includePages' => array(
+                	'type' => 'string',
+                	'default' => ''
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -645,6 +649,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $hall_list        = isset( $attributes['hallList'] ) && ! empty( $attributes['hallList'] ) ? $attributes['hallList'] : array();
     $order_by         = isset( $attributes['orderBy'] ) && ! empty( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'title';
     $exclude_pages    = isset( $attributes['excludePages'] ) && ! empty( $attributes['excludePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['excludePages'] ) ) : array();
+    $include_pages    = isset( $attributes['includePages'] ) && ! empty( $attributes['includePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['includePages'] ) ) : array();
 
     ob_start();
 
@@ -654,9 +659,10 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
         $children = get_pages( $args );
 
-		if ( 'grandchildren' === $depth_level || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) ) {
+		if ( 'grandchildren' === $depth_level || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
 
 			$children_ids   = wp_list_pluck( $children, 'ID' );
+			$children_ids   = array_merge( $children_ids, $include_pages);
 			$children       = false;
 			$cache_key      = '';
 

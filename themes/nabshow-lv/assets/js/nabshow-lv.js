@@ -1086,6 +1086,7 @@
     let speakerPageNumber,
       speakerStartWith = '',
       speakerCompany = '',
+      speakerDate = '',
       featuredSpeaker = 0 < $('.browse-speakers-filter .featured-btn').hasClass('active') ? 'featured' : '';
 
     $(document).on('change', '.browse-speakers-filter #speaker-company', function () {
@@ -1093,34 +1094,43 @@
       if (speakerCompany !== currentCompany) {
         speakerPageNumber = 1;
         speakerCompany = currentCompany;
-        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
+      }
+    });
+
+    $(document).on('change', '.browse-speakers-filter #speaker_date', function () {
+      let currentDate = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
+      if (speakerDate !== currentDate) {
+        speakerPageNumber = 1;
+        speakerDate = currentDate;
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
       }
     });
 
     $(document).on('keypress', '.browse-speakers-filter .search-item .search', function (e) {
       if (13 === e.which) {
         speakerPageNumber = 1;
-        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
       }
     });
 
     $(document).on('keypress', '.browse-speakers-filter .speaker-title-search', function (e) {
       if (13 === e.which) {
         speakerPageNumber = 1;
-        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
       }
     });
 
     $(document).on('click', '#load-more-speaker a', function () {
       speakerPageNumber = parseInt($(this).attr('data-page-number'));
-      nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
     $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
       $(this).toggleClass('active');
       speakerPageNumber = 1;
       featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
-      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
     $(document).on('click', '.browse-speakers-filter .alphabets-list li:not(".clear")', function () {
@@ -1133,7 +1143,7 @@
       if (speakerStartWith !== $(this).text()) {
         speakerStartWith = $(this).text();
         speakerPageNumber = 1;
-        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+        nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
       }
     });
 
@@ -1141,22 +1151,15 @@
       $(this).hide().siblings().removeClass('active');
       speakerStartWith = '';
       speakerPageNumber = 1;
-      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
     $(document).on('click', '.browse-speakers-filter .orderby', function () {
       $(this).toggleClass('active');
       speakerPageNumber = 1;
-      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
+      nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
-    if (0 < $('.browse-speakers-filter #speaker_date').length) {
-      $(window).load(function () {
-        $('.browse-speakers-filter #speaker_date').datepicker({ dateFormat: 'MM, dd yy' }).on('change', function () {
-          speakerPageNumber = 1;
-          nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker);
-        });
-      });
-    }
+
   }
 
   /**
@@ -1555,11 +1558,10 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
 
 }
 
-function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker) {
+function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate) {
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
-    speakerDate = 0 < jQuery('.browse-speakers-filter #speaker_date').length ? jQuery('.browse-speakers-filter #speaker_date').val() : '',
     displayName = 0 < jQuery('.browse-speakers-filter .alphabets-list').length,
     displayTitle = 0 < jQuery('.browse-speakers-filter #speaker-title-search').length,
     displayCompany = 0 < jQuery('.browse-speakers-filter #speaker-company').length,

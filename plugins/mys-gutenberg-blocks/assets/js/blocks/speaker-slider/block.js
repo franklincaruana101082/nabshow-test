@@ -5,7 +5,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl } = wpComponents;
 
     const speakerSliderBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -162,7 +162,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 withThumbnail,
                 displayName,
                 displayTitle,
-                displayCompany
+                displayCompany,
+                filterDates
             } = attributes;
 
             var names = [
@@ -202,6 +203,17 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={listingPage}
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', withThumbnail: false }) }
                             />
+                            {listingPage &&
+                              <Fragment>
+                                <label>Exclude Page by Ids:</label>
+                                <TextareaControl
+                                  help="Each date should be pipe(|) separated"
+                                  placeHolder="October, 17 2019"
+                                  value={ filterDates }
+                                  onChange={ (dates) => setAttributes({ filterDates: dates }) }
+                                />
+                              </Fragment>
+                            }
 
                             {input}
 
@@ -456,7 +468,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates }}
                     />
                 </Fragment >
             );
@@ -546,6 +558,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         displayCompany: {
             type: 'boolean',
             default: true
+        },
+        filterDates: {
+          type: 'string',
+          default: ''
         }
     };
     registerBlockType('mys/speaker-slider', {

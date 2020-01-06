@@ -138,7 +138,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages, orderBy }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages, orderBy, includePages }, setAttributes } = this.props;
 
             let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -248,6 +248,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                               help="Each page id should be comma separated"
                               value={ excludePages }
                               onChange={ (ids) => {  setAttributes({ excludePages: ids }); this.setState({ bxinit: true }); }}
+                            />
+                            <label>Include Page by Ids:</label>
+                            <TextareaControl
+                              help="Each page id should be comma separated"
+                              value={ includePages }
+                              onChange={ (ids) => {  setAttributes({ includePages: ids }); this.setState({ bxinit: true }); }}
                             />
                             {'side-img-info' !== listingLayout &&
                                 <CheckboxControl
@@ -437,7 +443,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages, orderBy: orderBy }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages, orderBy: orderBy, includePages: includePages }}
                     />
                 </Fragment>
 
@@ -536,6 +542,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         orderBy: {
           type: 'string',
           default: 'title'
+        },
+        includePages: {
+          type: 'string',
+          default: ''
         }
     };
 

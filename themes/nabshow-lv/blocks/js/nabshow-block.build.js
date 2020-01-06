@@ -341,6 +341,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     dropdownTitle = _props2$attributes.dropdownTitle,
                     excludePages = _props2$attributes.excludePages,
                     orderBy = _props2$attributes.orderBy,
+                    includePages = _props2$attributes.includePages,
                     setAttributes = _props2.setAttributes;
 
 
@@ -474,6 +475,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 value: excludePages,
                                 onChange: function onChange(ids) {
                                     setAttributes({ excludePages: ids });_this4.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(
+                                "label",
+                                null,
+                                "Include Page by Ids:"
+                            ),
+                            wp.element.createElement(TextareaControl, {
+                                help: "Each page id should be comma separated",
+                                value: includePages,
+                                onChange: function onChange(ids) {
+                                    setAttributes({ includePages: ids });_this4.setState({ bxinit: true });
                                 }
                             }),
                             'side-img-info' !== listingLayout && wp.element.createElement(CheckboxControl, {
@@ -813,7 +826,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "nab/related-content",
-                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages, orderBy: orderBy }
+                        attributes: { parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, excludePages: excludePages, orderBy: orderBy, includePages: includePages }
                     })
                 );
             }
@@ -913,6 +926,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         orderBy: {
             type: 'string',
             default: 'title'
+        },
+        includePages: {
+            type: 'string',
+            default: ''
         }
     };
 

@@ -116,13 +116,32 @@ if ( ! $display_company ) {
 				</div>
 				<?php
 			}
-			?>
-			<div class="category col-lg-3">
-				<label for="speaker_date">Date</label>
-				<div class="browse-select">
-					<input type="text" name="speaker_date" id="speaker_date" placeholder="MM, DD 20XX"/>
+			if ( isset( $attributes['filterDates']) && ! empty( $attributes['filterDates'] ) ) {
+
+				$filter_dates = explode( '|' , $attributes['filterDates'] );
+
+				?>
+				<div class="category col-lg-3">
+					<label for="speaker_date">Date Speaking</label>
+					<div class="browse-select">
+						<select id="speaker_date" class="select-opt">
+							<option value="select">Select a Date</option>
+							<?php
+							if ( is_array( $filter_dates ) && count( $filter_dates ) > 0 ) {
+
+								foreach ( $filter_dates as $speaking_date ) {
+									?>
+									<option value="<?php echo esc_attr( trim( $speaking_date ) ); ?>"><?php echo esc_html( trim( $speaking_date ) ); ?></option>
+									<?php
+								}
+							}
+							?>
+						</select>
+					</div>
 				</div>
-			</div>
+				<?php
+			}
+			?>
 		</div>
 	</div>
 </div>
