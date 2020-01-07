@@ -71,12 +71,9 @@ global $wp_query;
                 <div id="sidebar" class="sidebar-wrap col-lg-4 col-md-12 col-sm-12">
 					<?php get_sidebar( 'thoughts-gallery' ); ?>
                 </div>
-                <div class="nab-banner-main " style="text-align: center">
-                    <div class="nab-banner-inner">
-                        <p class="banner-text">Advertisement</p>
-                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/st-footer-banner.png' ); ?>" class="banner-img" alt="image">
-                    </div>
-                </div>
+	            <?php
+	            dynamic_sidebar( 'footer-advertisement-sidebar' );
+	            ?>
             </div>
         </div>
     </div><!-- #primary -->

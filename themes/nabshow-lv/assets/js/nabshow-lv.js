@@ -95,6 +95,29 @@
         $(this).parents('.panel-body').find('.hidden-field-items').hide();
       }
     });
+
+    $(document).on('click', '.publication-form .form-actions .form-submit', function(){
+        let formFlag = true;
+        if ( 0 === $(this).parents('.publication-form').find('#publication-distribution-type :checkbox:checked').length ) {
+          $(this).parents('.publication-form').find('#publication-distribution-type .checkbox-error').show();
+          formFlag = false;
+        }
+        if ( 0 === $(this).parents('.publication-form').find('#publication-shipping-logistics :checkbox:checked').length ) {
+          $(this).parents('.publication-form').find('#publication-shipping-logistics .checkbox-error').show();
+          formFlag = false;
+        }
+        return formFlag;
+    });
+    $(document).on('change', '.publication-form #publication-distribution-type input.form-checkbox', function() {
+      if ( 0 < $(this).parents('#publication-distribution-type').find(':checkbox:checked').length ) {
+        $(this).parents('#publication-distribution-type').find('.checkbox-error').hide();
+      }
+    });
+    $(document).on('change', '.publication-form #publication-shipping-logistics input.form-checkbox', function() {
+      if ( 0 < $(this).parents('#publication-shipping-logistics').find(':checkbox:checked').length ) {
+        $(this).parents('#publication-shipping-logistics').find('.checkbox-error').hide();
+      }
+    });
   }
 
   //Header Marketo custom sign up box

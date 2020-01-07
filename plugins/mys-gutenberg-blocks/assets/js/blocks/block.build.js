@@ -3391,7 +3391,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(
                                     "label",
                                     null,
-                                    "Exclude Page by Ids:"
+                                    "Enter Speaking Dates:"
                                 ),
                                 wp.element.createElement(TextareaControl, {
                                     help: "Each date should be pipe(|) separated",

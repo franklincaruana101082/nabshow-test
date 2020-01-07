@@ -205,7 +205,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             />
                             {listingPage &&
                               <Fragment>
-                                <label>Exclude Page by Ids:</label>
+                                <label>Enter Speaking Dates:</label>
                                 <TextareaControl
                                   help="Each date should be pipe(|) separated"
                                   placeHolder="October, 17 2019"

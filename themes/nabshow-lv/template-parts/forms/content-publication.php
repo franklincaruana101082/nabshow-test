@@ -18,19 +18,19 @@ $to_email = get_query_var('form_email' );
 				<div class="panel-body" id="bootstrap-panel-body">
 					<div class="form-item">
 						<label class="control-label" for="publication-information-name-of-publication-as-it-appears-on-cover">Name of Publication as it appears on Cover <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publication-information-name-of-publication-as-it-appears-on-cover" name="publication_information_name_of_publication_appears_on_cover" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publication-information-name-of-publication-as-it-appears-on-cover" name="publication_information_name_of_publication_appears_on_cover" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publication-information-issue-date-number">Issue Date/Number <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publication-information-issue-date-number" name="publication_information_issue_date_number" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publication-information-issue-date-number" name="publication_information_issue_date_number" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publication-information-country-of-origin">Country of Origin <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publication-information-country-of-origin" name="publication_information_country_of_origin" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publication-information-country-of-origin" name="publication_information_country_of_origin" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publication-information-total-number-of-copies">Total Number of Copies Being Sent for Distribution <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text form-number" type="text" id="publication-information-total-number-of-copies" name="publication_information_total_number_of_copies" size="6" min="0" max="50000" step="1">
+						<input required="required" pattern="\d+(,\d{2,5})?" class="form-control form-text form-number" type="text" id="publication-information-total-number-of-copies" name="publication_information_total_number_of_copies" size="6" min="0" max="50000" step="1">
 					</div>
 				</div>
 			</fieldset>
@@ -41,23 +41,23 @@ $to_email = get_query_var('form_email' );
 				<div class="panel-body" id="bootstrap-panel-2-body">
 					<div class="form-item">
 						<label class="control-label" for="publisher-information-publishing-company-name">Publishing Company Name <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publisher-information-publishing-company-name" name="publisher_information_publishing_company_name" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publisher-information-publishing-company-name" name="publisher_information_publishing_company_name" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publisher-information-name-of-contact">Name of Contact <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publisher-information-name-of-contact" name="publisher_information_name_of_contact" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publisher-information-name-of-contact" name="publisher_information_name_of_contact" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publisher-information-preshow-contact-number">Pre-Show Contact Number <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publisher-information-preshow-contact-number" name="publisher_information_preshow_contact_number" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publisher-information-preshow-contact-number" name="publisher_information_preshow_contact_number" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publisher-information-onsite-contact-number">Onsite Contact Number <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="text" id="publisher-information-onsite-contact-number" name="publisher_information_onsite_contact_number" size="60" maxlength="128">
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="publisher-information-onsite-contact-number" name="publisher_information_onsite_contact_number" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
 						<label class="control-label" for="publisher-information-email-address">Email Address <span class="form-required" title="This field is required.">*</span></label>
-						<input required="required" class="form-control form-text" type="email" id="publisher-information-email-address" name="publisher_information_email_address" size="60">
+						<input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="publisher-information-email-address" name="publisher_information_email_address" size="60">
 					</div>
 				</div>
 			</fieldset>
@@ -70,6 +70,7 @@ $to_email = get_query_var('form_email' );
 					<div class="form-type-checkbox">
 						<label class="control-label" for="publication-distribution-type-2"><input type="checkbox" id="publication-distribution-type-2" name="distribution_type_upgraded_publication_bin" value="upgraded_publication_bin" class="form-checkbox">Upgraded Publication Bin</label>
 					</div>
+					<p class="checkbox-error" style="display: none; color: red;">Distribution Type field is required.</p>
 				</div>
 			</div>
 			<div class="form-item">
@@ -84,6 +85,7 @@ $to_email = get_query_var('form_email' );
 					<div class="form-type-checkbox">
 						<label class="control-label" for="publication-shipping-logistics-3"><input type="checkbox" id="publication-shipping-logistics-3" name="shipping_logistics_hand_carry" value="hand_carry" class="form-checkbox">Publication are being hand-carried by contact to Show</label>
 					</div>
+					<p class="checkbox-error" style="display: none; color: red;">Shipping Logistics field is required.</p>
 					<div class="help-block"><p>Choose one or more of the shipping options above for your publications.</p></div>
 				</div>
 			</div>

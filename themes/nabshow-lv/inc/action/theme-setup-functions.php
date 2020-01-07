@@ -196,6 +196,16 @@ function nabshow_lv_widgets_init() {
         'before_title'  => '<h2 class="widget-title">',
         'after_title'   => '</h2>',
     ) );
+
+	register_sidebar( array(
+		'name'          => esc_html__( 'Advertisement', 'nabshow-lv' ),
+		'id'            => 'footer-advertisement-sidebar',
+		'description'   => esc_html__( 'Add widgets here.', 'nabshow-lv' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
 }
 
 /**
@@ -219,9 +229,9 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
 
-    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '1.2' );
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '1.3' );
 
-    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '1.2' );
+    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '1.3' );
 
     wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/print-css.css' );
 
@@ -233,7 +243,7 @@ function nabshow_lv_scripts() {
     wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '1.2', true );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '1.3', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
