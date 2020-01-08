@@ -3,65 +3,65 @@
   var bxSliderObj = [],
     ntbmBxSliderObj = [];
 
+  if (
+    0 < $('.nab-dynamic-slider').length ||
+    0 < $('.nab-not-to-be-missed-slider').length
+  ) {
+    configureSlider();
+    $(window).on('orientationchange resize', configureSlider);
+  }
+
+  // nab-media-slider start
+  if (0 < $('.nab-media-slider').length) {
+    $('.nab-media-slider').each(function () {
+      let nabanimation = $(this).attr('data-animation');
+
+      $(this).bxSlider({
+        mode: $(this).attr('nabmode'),
+        auto: 'true' === $(this).attr('data-autoplay') ? true : false,
+        speed: $(this).attr('data-speed'),
+        infiniteLoop: 'true' === $(this).attr('data-infiniteloop') ? true : false,
+        pager: 'true' === $(this).attr('data-pager') ? true : false,
+        controls: 'true' === $(this).attr('data-controls') ? true : false,
+        captions: true,
+        adaptiveHeight: 'true' === $(this).attr('data-adaptiveheight') ? true : false,
+        touchEnabled: 0 === $(this).find('.nab-media-slider-link').length ? true : false,
+        stopAutoOnClick: true,
+        autoHover: true,
+
+        onSlideAfter: function (currentSlideNumber, totalSlideQty, currentSlideHtmlObject) {
+          $('.nab-media-slider > .nab-media-slider-item').removeClass(`active-slide ${nabanimation}`);
+          $('.nab-media-slider > .nab-media-slider-item').eq(currentSlideHtmlObject).addClass(`active-slide ${nabanimation}`);
+        },
+        onSliderLoad: function () {
+          $('.nab-media-slider > .nab-media-slider-item').eq(0).addClass(`active-slide ${nabanimation}`);
+          $('.nab-media-slider .nab-media-slider-item').css('opacity', '1');
+        }
+      });
+    });
+  }
+
+  // quote-slider
+  if (0 < $('.quote-slider .quote-inner').length) {
+    $('.quote-slider .quote-inner').each(function () {
+      $(this).bxSlider({
+        mode: $(this).attr('data-mode'),
+        auto: 'true' === $(this).attr('data-autoplay') ? true : false,
+        speed: $(this).attr('data-speed'),
+        controls: 'true' === $(this).attr('data-controls') ? true : false,
+        infiniteLoop:
+          'true' === $(this).attr('data-infiniteloop') ? true : false,
+        pager: 'true' === $(this).attr('data-pager') ? true : false,
+        stopAutoOnClick: true,
+        autoHover: true,
+        onSliderLoad: function () {
+          $('.quote-slider .quote-item').css('opacity', '1');
+        }
+      });
+    });
+  }
+
   $(window).load(function () {
-
-    if (
-      0 < $('.nab-dynamic-slider').length ||
-      0 < $('.nab-not-to-be-missed-slider').length
-    ) {
-      configureSlider();
-      $(window).on('orientationchange resize', configureSlider);
-    }
-
-    // nab-media-slider start
-    if (0 < $('.nab-media-slider').length) {
-      $('.nab-media-slider').each(function () {
-        let nabanimation = $(this).attr('data-animation');
-
-        $(this).bxSlider({
-          mode: $(this).attr('nabmode'),
-          auto: 'true' === $(this).attr('data-autoplay') ? true : false,
-          speed: $(this).attr('data-speed'),
-          infiniteLoop: 'true' === $(this).attr('data-infiniteloop') ? true : false,
-          pager: 'true' === $(this).attr('data-pager') ? true : false,
-          controls: 'true' === $(this).attr('data-controls') ? true : false,
-          captions: true,
-          adaptiveHeight: 'true' === $(this).attr('data-adaptiveheight') ? true : false,
-          touchEnabled: 0 === $(this).find('.nab-media-slider-link').length ? true : false,
-          stopAutoOnClick: true,
-          autoHover: true,
-
-          onSlideAfter: function (currentSlideNumber, totalSlideQty, currentSlideHtmlObject) {
-            $('.nab-media-slider > .nab-media-slider-item').removeClass(`active-slide ${nabanimation}`);
-            $('.nab-media-slider > .nab-media-slider-item').eq(currentSlideHtmlObject).addClass(`active-slide ${nabanimation}`);
-          },
-          onSliderLoad: function () {
-            $('.nab-media-slider > .nab-media-slider-item').eq(0).addClass(`active-slide ${nabanimation}`);
-            $('.nab-media-slider .nab-media-slider-item').css('opacity', '1');
-          }
-        });
-      });
-    }
-
-    // quote-slider
-    if (0 < $('.quote-slider .quote-inner').length) {
-      $('.quote-slider .quote-inner').each(function () {
-        $(this).bxSlider({
-          mode: $(this).attr('data-mode'),
-          auto: 'true' === $(this).attr('data-autoplay') ? true : false,
-          speed: $(this).attr('data-speed'),
-          controls: 'true' === $(this).attr('data-controls') ? true : false,
-          infiniteLoop:
-            'true' === $(this).attr('data-infiniteloop') ? true : false,
-          pager: 'true' === $(this).attr('data-pager') ? true : false,
-          stopAutoOnClick: true,
-          autoHover: true,
-          onSliderLoad: function () {
-            $('.quote-slider .quote-item').css('opacity', '1');
-          }
-        });
-      });
-    }
 
     /**
      * Startup Loft forms datepicker
@@ -600,8 +600,8 @@
           searchKeyword = '.title';
         }
       });
-      if (0 < $('.rc-page-block').length) {
-        selectedItem = '.rc-page-block .col-lg-4.col-md-6';
+      if (0 < $('.rc-page-block, .related-content-rowbox').length) {
+        selectedItem = '.col-lg-4.col-md-6';
         searchKeyword = '.title';
       }
 
