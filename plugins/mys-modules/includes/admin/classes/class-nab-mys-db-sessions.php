@@ -343,7 +343,29 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			// type is not 1 (i.e. not for sessions).
 			if ( count( $pending_data ) > 0 ) {
 
+				$pending_groupid = $pending_data[0]->HistoryGroupID;
+
+				// Get previous state of attempt
+				$previous_rows = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT count(*) FROM %1smys_data
+							WHERE DataGroupID = %s"
+						, $wpdb->prefix, $pending_groupid )
+				);
+
+				// Record the state
+				$old_session_attempt_state = get_option( 'session_attempt_state' );
+				update_option('session_attempt_state', $previous_rows );
+
+				if( $previous_rows === $old_session_attempt_state ) {
 				return $pending_data;
+				} else {
+					// Resetting attempts as the sequence has increased records than earlier.
+					update_option( 'mys_data_attempt_sessions', 0 );
+					return 'stop';
+				}
+
+
 
 			} else {
 
