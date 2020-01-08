@@ -167,6 +167,7 @@ Fahduma Majid will be available onsite at NAB Show starting Friday, April 6 and 
 • You will only be provided with 1 (one) Publication Bin. Onsite distribution is bartered at a value of $5,575.00.  The maximum number of standard publication bins bartered for any unique media brand is 1 (one).  Only foreign language publications qualify for distribution in the International Trade Center.  All media sent for distribution must be listed as an official NAB Show Media Partner and be qualified as such.
 
 • All materials that remain at the end of the Show will be recycled.</textarea>
+					<div class="tooltip-text"></div>
 				</div>
 			</div>
 			<div class="captcha">

@@ -14,20 +14,20 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'1.3'
+		'1.5'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'1.3'
+		'1.5'
 	);
 
 	wp_register_style(
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css',
 		array(),
-		'1.4'
+		'1.5'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -463,3 +463,49 @@ function nabshow_lv_add_unfiltered_html_capability_to_users( $caps, $cap, $user_
 	return $caps;
 
 }
+
+/**
+ * Add group block to new pages.
+ *
+ * @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
+ */
+function nabshow_lv_page_type_template() {
+
+	global $pagenow;
+
+	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'post-new.php' === $pagenow && 'page' === $current_post_type ) {
+
+		$block_ids = array( 10377, 8681, 8679 );
+
+		$query_args = array(
+			'post_type' => 'wp_block',
+			'fields'    => 'ids',
+			'post__in'  => $block_ids,
+			'orderby'   => 'post__in'
+		);
+
+		$block_query = new WP_Query( $query_args );
+
+		if ( $block_query->have_posts() ) {
+
+			$block_ids = $block_query->posts;
+
+			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+
+				$block_template = array();
+
+				foreach ( $block_ids as $block_id ) {
+					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
+				}
+
+				$page_type_object           = get_post_type_object( 'page' );
+				$page_type_object->template = $block_template;
+			}
+
+		}
+	}
+
+}
+

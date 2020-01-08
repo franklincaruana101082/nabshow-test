@@ -123,3 +123,6 @@ add_action( 'init', 'nabshow_lv_register_mega_menu_post_type' );
 
 // action to add the Mega Menu post type.
 add_action( 'init', 'nabshow_lv_register_forms_data_post_type' );
+
+// Action to add default blocks on new page
+add_action( 'admin_init', 'nabshow_lv_page_type_template' );

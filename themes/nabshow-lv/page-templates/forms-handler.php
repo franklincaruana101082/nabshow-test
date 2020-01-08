@@ -251,6 +251,8 @@ get_header();
 						?>
 						<div class="form-confirmation">
 							<p>Thank you for submitting the Publication Shipping Information form! Download the shipping labels below based on the shipping method you selected in the form.</p>
+							<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NS18-ShippingLabels-PubBins-Warehouse.pdf'); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">Advance to Warehouse Shipping Label</a></p>
+							<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NS18-ShippingLabels-PubBins-ShowSite.pdf'); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">Direct to Show Site Shipping Label</a></p>
 							<p>To submit the form for another publication, <a href="<?php echo esc_url( $form_page_url ); ?>">click here</a>.</p>
 							<p><a href="<?php echo esc_url( $form_page_url ); ?>">Go back to the form</a></p>
 						</div>

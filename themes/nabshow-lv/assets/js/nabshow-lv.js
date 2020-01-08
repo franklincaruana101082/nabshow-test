@@ -1458,6 +1458,26 @@
     return false;
   });
 
+  /* Show Tooltip for Publication form */
+  let tooltip = $('.nab-form.publication-form .form-textarea-wrapper .form-textarea');
+  tooltip.each(function () {
+    let $this = $(this),
+      tooltipText = $('.tooltip-text').text($this.data('original-title'));
+    $this.on('mouseover', function () {
+      tooltipText = $('.tooltip-text').text($this.data('original-title'));
+      tooltipText.css('display', 'block');
+    });
+    $this.on('mouseout', function () {
+      tooltipText.text('');
+      tooltipText.css('display', 'none');
+    });
+    $this.on('mousemove', function (e) {
+      tooltipText.css('top', (e.pageY + 20) + 'px');
+      tooltipText.css('left', (e.pageX + 20) + 'px');
+      tooltipText.css('display', 'block');
+    });
+  });
+
 
   /*  main - bracket - end */
 })(jQuery);

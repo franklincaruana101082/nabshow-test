@@ -2,12 +2,10 @@
     'use strict';
     var bxSliderObj = [];
 
-    $(window).load(function () {
-        if (0 < $('.nab-dynamic-slider').length) {
-            configureSlider();
-            $(window).on('orientationchange resize', configureSlider);
-        }
-    });
+    if (0 < $('.nab-dynamic-slider').length) {
+        configureSlider();
+        $(window).on('orientationchange resize', configureSlider);
+    }
 
     // Slider popup
     $(document).on('click', '.detail-list-modal-popup, .modal-detail-list-modal-popup', function () {
