@@ -92,7 +92,7 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
 if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 
-	$show_code = $this->mysgb_get_mys_show_code();
+	$site_url   = get_site_url();
 
 	?>
     <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
@@ -123,8 +123,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
                     }
                     if ( 'exhibitor-categories' === $category_type ) {
 
-                    	$category_id    = get_term_meta( $current_term->term_id, 'categoryid', true );
-                    	$mys_cat_link   = 'https://' . $show_code . '.mapyourshow.com/8_0/explore/exhibitor-categories.cfm/#/show/cat-category|' . $category_id;
+                    	$mys_cat_link   = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-cat='. $current_term->slug;
 						?>
 						<h2 class="track-title"><a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank"><?php echo esc_html( $current_term->name ); ?></a></h2>
 						<?php

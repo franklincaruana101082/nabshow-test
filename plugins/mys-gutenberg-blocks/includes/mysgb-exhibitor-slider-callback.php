@@ -36,13 +36,22 @@ if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
     $query      = get_transient( $final_key );
 } else {
 
-    $get_exkey = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
+    $get_exkey      = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
+    $get_category   = filter_input( INPUT_GET, 'exhibitor-cat', FILTER_SANITIZE_STRING );
 
     if ( isset( $get_exkey ) && ! empty( $get_exkey ) ) {
-        $final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_exkey . '-' . $posts_per_page;
+
+    	$final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_exkey . '-' . $posts_per_page;
         $query      = get_transient( $final_key );
+
+    } elseif ( isset( $get_category ) && ! empty( $get_category ) ) {
+		$query = false;
+    	//$final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_category . '-' . $posts_per_page;
+        //$query      = get_transient( $final_key );
+        //var_dump( $query ); exit();
+
     } else {
-        $query = false;
+    	$query = false;
     }
 }
 
@@ -68,11 +77,21 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         }
 
     } elseif ( isset( $get_exkey ) && ! empty( $get_exkey ) ) {
-        $query_args[ 'tax_query' ] = array(
+
+    	$query_args[ 'tax_query' ] = array(
                 array(
                     'taxonomy' => 'exhibitor-keywords',
                     'field'    => 'slug',
                     'terms'    => array( $get_exkey )
+                )
+        );
+    } elseif ( isset( $get_category ) && ! empty( $get_category ) ) {
+
+    	$query_args[ 'tax_query' ] = array(
+                array(
+                    'taxonomy' => 'exhibitor-categories',
+                    'field'    => 'slug',
+                    'terms'    => array( $get_category )
                 )
         );
     }

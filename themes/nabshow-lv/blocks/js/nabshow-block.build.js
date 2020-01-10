@@ -5092,7 +5092,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }
                       },
                       wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
-                      " Add Comming Soon Item"
+                      " Add Coming Soon Item"
                     )
                   )
                 )

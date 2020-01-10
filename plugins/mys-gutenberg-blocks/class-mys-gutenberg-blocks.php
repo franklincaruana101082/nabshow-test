@@ -201,7 +201,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.5' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.1' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -641,14 +641,15 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             <?php
         }
 
-        /**
-         * Create drop-down options for given taxonomy terms.
-         *
-         * @param string $taxonomy
-         *
-         * @since 1.0.0
-         */
-        public function mysgb_get_term_list_options( $taxonomy = '' ) {
+	    /**
+	     * Create drop-down options for given taxonomy terms.
+	     *
+	     * @param string $taxonomy
+	     * @param string $pre_selected
+	     *
+	     * @since 1.0.0
+	     */
+        public function mysgb_get_term_list_options( $taxonomy = '', $pre_selected = '' ) {
 
             if ( ! empty( $taxonomy ) ) {
 
@@ -660,9 +661,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
 
                     foreach ( $all_terms as $term ) {
-                        ?>
-                        <option value="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></option>
-                        <?php
+
+                    	if ( ! empty( $pre_selected ) ) {
+                            ?>
+	                        <option value="<?php echo esc_attr( $term->slug ); ?>" <?php selected( $term->slug, $pre_selected ); ?>><?php echo esc_html( $term->name ); ?></option>
+		                    <?php
+	                    } else {
+		                    ?>
+		                    <option value="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></option>
+		                    <?php
+	                    }
                     }
                 }
             }

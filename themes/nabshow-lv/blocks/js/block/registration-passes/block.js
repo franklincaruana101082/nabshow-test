@@ -406,7 +406,7 @@
                           setAttributes({ dataArray: tempDataArray });
                         }}
                       >
-                        <span className="dashicons dashicons-plus"></span> Add Comming Soon Item
+                        <span className="dashicons dashicons-plus"></span> Add Coming Soon Item
                       </button>
                     </div>
 

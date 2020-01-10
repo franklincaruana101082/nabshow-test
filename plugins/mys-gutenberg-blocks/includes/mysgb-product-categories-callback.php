@@ -23,7 +23,7 @@ $parent_terms = get_terms( array(
 if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $parent_terms ) > 0 ) {
 
     $term_counter   = 1;
-	$show_code      = $this->mysgb_get_mys_show_code();
+	$site_url       = get_site_url();
 
 	if ( $show_filter ) {
 		include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-product-categories-filter.php' );
@@ -49,11 +49,9 @@ if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $pare
 
 					if ( 'parent-img-list' === $layout_type ) {
 
-						$category_id    = get_term_meta( $parent_term->term_id, 'categoryid', true );
-						$mys_cat_link   = 'https://' . $show_code . '.mapyourshow.com/8_0/explore/exhibitor-categories.cfm/#/show/cat-category|' . $category_id;
-
-						$image_id   = get_term_meta( $parent_term->term_id, 'tax-image-id', true );
-						$image_url  = ! empty( $image_id ) ? wp_get_attachment_url( $image_id ) : nabshow_lv_get_empty_thumbnail_url();
+						$mys_cat_link   = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-cat='. $parent_term->slug;
+						$image_id       = get_term_meta( $parent_term->term_id, 'tax-image-id', true );
+						$image_url      = ! empty( $image_id ) ? wp_get_attachment_url( $image_id ) : nabshow_lv_get_empty_thumbnail_url();
 						?>
 						<li>
 							<a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank"><img src="<?php echo esc_url( $image_url ); ?>" alt="category-logo" /></a>
@@ -76,8 +74,7 @@ if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $pare
 									<?php
 									foreach ( $child_terms as $child_term ) {
 
-										$category_id    = get_term_meta( $child_term->term_id, 'categoryid', true );
-										$mys_cat_link   = 'https://' . $show_code . '.mapyourshow.com/8_0/explore/exhibitor-categories.cfm/#/show/cat-category|' . $category_id;
+										$mys_cat_link   = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-cat='. $child_term->slug;
 										?>
 										<li>
 											<a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank">

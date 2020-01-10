@@ -308,9 +308,9 @@
     if (0 < $('.browse-exhibitors-filter').length) {
         let exhibitorPageNumber,
             exhibitorStartWith = '',
-            exhibitorCategory = '',
             exhibitorHall = '',
-            exhibitorPavilion = '';
+            exhibitorPavilion = '',
+            exhibitorCategory = 0 === $('.browse-exhibitors-filter .browse-select #exhibitor-category')[0].selectedIndex ? '' : $('.browse-exhibitors-filter .browse-select #exhibitor-category').val();
 
         $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-category', function () {
             let currentCategory = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
