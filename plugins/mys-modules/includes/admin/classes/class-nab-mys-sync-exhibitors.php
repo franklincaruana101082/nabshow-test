@@ -46,6 +46,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Create DB Class Object
 			$this->nab_mys_load_exh_db_class();
 
+			$this->nab_mys_sync_exh_categories(); //This is temp line, remove it later.
+
 			parent::__construct();
 		}
 
