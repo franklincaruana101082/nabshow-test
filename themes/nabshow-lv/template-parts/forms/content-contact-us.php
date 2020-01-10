@@ -13,19 +13,19 @@ $to_email = get_query_var('form_email' );
 	<div class="form-items-wrapper">
 		<div class="form-item">
 			<label class="control-label" for="contact-full-name">Full Name <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="contact-full-name" name="full_name" value="" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="contact-full-name" name="full_name" value="" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="contact-email">Email <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="email" id="contact-email" name="email" size="60">
+			<input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="contact-email" name="email" size="60">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="contact-phone-number">Phone Number</label>
-			<input class="form-control form-text" type="text" id="contact-phone-number" name="phone_number" step="1">
+			<input class="form-control form-text" pattern="[0-9]{1,128}" type="text" id="contact-phone-number" name="phone_number" step="1">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="contact-company">Company <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="contact-company" name="company" value="" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="contact-company" name="company" value="" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="contact-inquiry-type">Inquiry Type <span class="form-required" title="This field is required.">*</span></label>
@@ -45,6 +45,7 @@ $to_email = get_query_var('form_email' );
 			<label class="control-label" for="contact-help-you-with">What can we help you with? <span class="form-required" title="This field is required.">*</span></label>
 			<div class="form-textarea-wrapper resizable">
 				<textarea required="required" class="form-control form-textarea" id="contact-help-you-with" name="what_can_we_help_you_with" cols="60" rows="5"></textarea>
+				<p class="textarea-error" style="display: none; color: red;">This field is required.</p>
 			</div>
 		</div>
 		<div class="form-item">

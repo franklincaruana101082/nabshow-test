@@ -70,7 +70,7 @@
         $('#startup-date-founded').datepicker({
           changeMonth: true,
           changeYear: true,
-          dateFormat: 'yy-mm-dd',
+          dateFormat: 'DD, MM d, yy',
           showOn: 'button',
           yearRange: '1900:2050'
         });
@@ -94,6 +94,19 @@
       } else {
         $(this).parents('.panel-body').find('.hidden-field-items').hide();
       }
+    });
+
+    $(document).on('click', '.startup-loft-form .form-actions .form-submit, .contact-us-form .form-actions .form-submit', function () {
+        let validPattern = /\S/;
+        $(' .nab-form textarea[required]').each(function () {
+          if ( 0 < $(this).val().length && ! validPattern.test( $(this).val() ) ) {
+            $(this).parents('.form-textarea-wrapper').find('.textarea-error').show();
+            return false;
+          } else {
+            $(this).parents('.form-textarea-wrapper').find('.textarea-error').hide();
+          }
+        });
+
     });
 
     $(document).on('click', '.publication-form .form-actions .form-submit', function(){
@@ -236,7 +249,7 @@
 
   $(document).on('change', '.plan-your-show-drp', function () {
     if ('' !== $(this).val()) {
-      location.replace($(this).val());
+      window.location.assign($(this).val());
     }
   });
 
@@ -2199,7 +2212,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
   if (0 != jQuery('.accordionParentWrapper').length && 0 != jQuery('.fab-filter').length) {
     jQuery(selectedItem).removeClass('slideInUp').show();
-    jQuery('.accordionParentWrapper').show();
+    jQuery('.accordionParentWrapper, .accordionWrapper').show();
   }
   if (0 != jQuery('.badge-discounts-box').length) {
     jQuery('.badge-discounts, .badge-discounts .badge-title').show();
@@ -2412,10 +2425,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery(`${selectedItem} .cost:not(:contains("${filterCost}"))`).parents(`${selectedItem}`).hide();
   }
   if (null !== filterExclusive && undefined !== filterExclusive) {
-
-    // jQuery(`${selectedItem} .exclusivity`).filter(function () { return (filterExclusive.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(`${selectedItem}`).hide();
-    // jQuery(`${selectedItem} .exclusivity:not(:contains("${filterExclusive}"))`).parents(`${selectedItem}`).hide();
-    jQuery(`${selectedItem} .exclusivity`).filter(function () { return (filterExclusive.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(`${selectedItem}`).addClass('Juhi');
+    jQuery(`${selectedItem} .exclusivity`).filter(function () { return (filterExclusive.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(`${selectedItem}`).hide();
 
   }
   if (null !== filterAvailable && undefined !== filterAvailable) {
@@ -2485,6 +2495,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   // Search Filter
   filterSearch = jQuery(searchId).val();
   if (0 != jQuery('.accordionParentWrapper').length && 0 != jQuery('.fab-filter').length) {
+    selectedItem = '.accordionWrapper';
     searchKeyword = '.accordionHeader h3';
   }
   if (0 != jQuery('.badge-discounts-box').length) {
@@ -2495,6 +2506,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     selectedItem = '.wp-block-nab-awards-item';
   }
   if (0 < jQuery('.schedule-main').length) {
+    selectedItem = '.schedule-main .schedule-row';
     searchKeyword = '.name';
   }
   if (0 < jQuery('.products-winners').length) {

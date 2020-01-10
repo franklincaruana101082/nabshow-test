@@ -303,7 +303,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <li className={'drop-down-list' === listingLayout ? 'active drop-down-list' : 'drop-down-list'} onClick={() => setAttributes({ listingLayout: 'drop-down-list' })}>{relatedContentDropdown}</li>
                                             </ul>
                                         </PanelRow>
-                                        { ( 'destination' === listingLayout || 'featured-happenings' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout ) &&
+                                        { ( 'destination' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout ) &&
                                             <ToggleControl
                                                 label={__('Show Filter')}
                                                 checked={showFilter}

@@ -514,11 +514,11 @@ ul.button-prev li.active{box-shadow:0 0 10px #0085bacf}
 .schedule-main .schedule-data .schedule-row.hide-row{display:none}
 .schedule-main .schedule-data .row-expand{position:absolute;bottom:0;width:100%;padding:15px 0;text-align:center}
 .schedule-main .schedule-data .row-expand a{text-transform:capitalize;cursor:pointer;font-family:"Gotham Bold";margin-bottom:0;font-size:16px;padding:5px 20px;color:#363636;border:2px solid #363636;display:inline-block;text-decoration:none;outline:none}
-.schedule-main .schedule-data .schedule-row .move-item{position:absolute;bottom:100%;left:10px;display:flex;justify-content:center;align-items:center;opacity:0;transition:0.5s all;border:1px solid #ccc;padding:0;background:#fff}
-.schedule-main .schedule-data .schedule-row .move-item i,.delegation .move-item i{cursor:pointer;font-size:16px;color:#333;padding:8px 8px}
-.schedule-main .schedule-data .schedule-row:hover .move-item, .schedule-main .schedule-data .schedule-row.isToggleActive .move-item{opacity:1}
-.schedule-main .schedule-data .schedule-row:hover, .schedule-main .schedule-data .schedule-row.isToggleActive{border-top:1px solid #ccc;border-bottom:1px solid #ccc}
-.schedule-main .schedule-data .schedule-row .move-item i:hover{background:#0f6cb6;color:#fff}
+.schedule-main .schedule-data .schedule-row .move-item,.registration-item .move-item{position:absolute;bottom:100%;left:10px;display:flex;justify-content:center;align-items:center;opacity:0;transition:0.5s all;border:1px solid #ccc;padding:0;background:#fff}
+.schedule-main .schedule-data .schedule-row .move-item i,.delegation .move-item i, .registration-item .move-item i{cursor:pointer;font-size:16px;color:#333;padding:8px 8px}
+.schedule-main .schedule-data .schedule-row:hover .move-item, .schedule-main .schedule-data .schedule-row.isToggleActive .move-item, .registration-item:hover .move-item{opacity:1}
+.schedule-main .schedule-data .schedule-row:hover, .schedule-main .schedule-data .schedule-row.isToggleActive, .registration-item.re-pass-item:hover{border-top:1px solid #ccc;border-bottom:1px solid #ccc}
+.schedule-main .schedule-data .schedule-row .move-item i:hover, .registration-item .move-item i:hover{background:#0f6cb6;color:#fff}
 .schedule-main .schedule-data .add-remove-btn button{background:#0f6cb6!important;margin-bottom:10px}
 .shedule-details-parent{position:relative}
 .shedule-details-parent>i{background:red;position:absolute;top:0;right:0;z-index:1;color:#fff;width:25px;height:25px;padding:4px 0;display:flex;justify-content:center;cursor:pointer;opacity:0}
@@ -1021,9 +1021,14 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .registration-passes .registration-item .plus-sec .plus-link{position:absolute;top:0;left:100%;padding:0 10px;width:300px;background:#fff;z-index:9;height:100%;display:none}
 .registration-passes .registration-item .plus-sec:hover .plus-link{display:block;padding-top:5px}
 .registration-passes .registration-item.additem{text-align:center;display:block}
-.registration-passes .registration-item.additem button{padding:10px 15px;background:#1b73ba;color:#fff;display:inline-block;margin:0 10px}
 .registration-passes .registration-item.comming-soon .last-sec .price{font-family:"Gotham Book", sans-serif;font-size:19px;line-height:24px}
-.registration-passes .registration-item.additem button.coming-btn{background:#777b79}
+.registration-item.additem button{padding:10px 15px;background:#1b73ba;color:#fff;display:inline-block;margin:0 10px}
+.registration-item.additem button.coming-btn{background:#777b79}
+.registration-item.re-pass-item{border-top:1px solid transparent;border-bottom:1px solid transparent}
+.outer-btns.additem{text-align:center}
+.outer-btns.additem button{background:#38ba7d}
+.registration-passes .shedule-details-parent:first-of-type>.move-item,.registration-passes .shedule-details-parent:first-of-type>.fa-times{position:absolute;top:0}
+.registration-passes .shedule-details-parent:first-of-type{position:relative}
 
 /* Registration Passes css */
 

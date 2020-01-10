@@ -802,11 +802,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
             if ( ! $slider_active && $show_filter ) {
 
-                if ( 'featured-happenings' === $listing_layout ) {
-
-                    nabshow_lv_related_content_browse_happenings_filter();
-
-                } elseif ( 'plan-your-show' === $listing_layout ) {
+                if ( 'plan-your-show' === $listing_layout ) {
 
                     nabshow_lv_related_content_plan_your_show_layout_filter();
 

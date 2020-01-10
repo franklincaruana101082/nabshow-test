@@ -36,7 +36,7 @@ function nabshow_lv_related_content_browse_happenings_filter() {
             </div>
         </div>
         <div class="pass-type col-xl-7">
-            <label>Category</label>
+            <label>Name</label>
 			<?php
 			nabshow_lv_alphabets_list_filter();
 			?>
@@ -112,7 +112,7 @@ function nabshow_lv_related_content_on_floor_destination_filter() {
             </div>
         </div>
         <div class="pass-type col-xl-7">
-            <label>Category</label>
+            <label>Name</label>
 		    <?php
 		    nabshow_lv_alphabets_list_filter();
 		    ?>
