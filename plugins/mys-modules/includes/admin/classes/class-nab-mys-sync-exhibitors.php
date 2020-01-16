@@ -47,8 +47,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$this->nab_mys_load_exh_db_class();
 
 			parent::__construct();
-
-			add_action( 'admin_init', array( $this, 'nab_mys_sync_exh_categories' ) );
 		}
 
 		/**
@@ -389,6 +387,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 * @since 1.0.0
 		 */
 		public function nab_mys_exh_csv() {
+
+			//temp - remove below line
+			$this->nab_mys_sync_exh_categories();
 
 			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
 			$date_csv             = FILTER_INPUT( INPUT_POST, 'date-csv', FILTER_SANITIZE_STRING );
