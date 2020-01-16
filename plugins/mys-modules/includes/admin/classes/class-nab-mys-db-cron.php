@@ -56,19 +56,19 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		function nab_mys_wpcron_custom_timings( $schedules ) {
 
-			$schedules['cron_every_five_min'] = array(
+			$schedules['cron_every_fifteen_sec'] = array(
 				'interval' => 300,
 				'display'  => __( 'Every 5 min' )
 			);
-			$schedules['cron_every_fifteen_min'] = array(
+			$schedules['cron_every_fifteen_sec'] = array(
 				'interval' => 900,
 				'display'  => __( 'Every 15 min' )
 			);
-			$schedules['cron_every_thrity_min']  = array(
+			$schedules['cron_every_thrity_sec']  = array(
 				'interval' => 1800,
 				'display'  => __( 'Every 30 min' )
 			);
-			$schedules['cron_every_fourtyfive_min']      = array(
+			$schedules['cron_every_minute']      = array(
 				'interval' => 2700,
 				'display'  => __( 'Every 45 min' )
 			);

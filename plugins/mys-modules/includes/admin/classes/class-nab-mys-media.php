@@ -57,12 +57,13 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 						$creds = request_filesystem_credentials( site_url() );
 						wp_filesystem( $creds );
 					}
-					$fileSaved = $wp_filesystem->put_contents( $uploads['path'] . "/" . $filename, $image_string );
 
 					// Throw error if image not exist on given path.
 					if( false === $image_string ) {
 						throw new Exception( "The image URL is incorrect." );
 					}
+
+					$fileSaved = $wp_filesystem->put_contents( $uploads['path'] . "/" . $filename, $image_string );
 
 					if ( ! $fileSaved ) {
 						throw new Exception( "The file cannot be saved." );

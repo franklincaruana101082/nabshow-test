@@ -155,13 +155,16 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 				$lock_status = $this->nab_mys_db_sess->nab_mys_db_check_lock( $this->group_id );
 
-				if ( "open" !== $lock_status && ( null === $this->past_request || empty( $this->past_request ) ) ) {
+				$error_message = 'New pull request is locked because there is already a request in progress, please wait until it finishes.';
+				if ( "stop" === $lock_status ) {
+					$this->nab_mys_display_error( $error_message );
+				} else if ( "open" !== $lock_status && ( null === $this->past_request || empty( $this->past_request ) ) ) {
 
 					$mail_data                  = array();
 					$mail_data['stuck_groupid'] = $lock_status[0]->HistoryGroupID;
 					$mail_data['data']          = 'Sessions';
 					$mail_data['tag']           = 'mys_data_attempt_sessions';
-					$mail_data['error_message'] = 'New pull request is locked because there is already a request in progress, please wait until it finishes.';
+					$mail_data['error_message'] = $error_message;
 
 					$this->nab_mys_increase_attempt( $mail_data, true );
 				}
@@ -214,6 +217,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				// Or when Cron with status = 'done' (i.e. sequence completed)
 				if ( "wpajax" === $this->flow || "done" === $custom_status['status'] ) {
 					update_option( 'mys_data_attempt_sessions', 0 );
+					delete_option('session_attempt_state' );
 				}
 			}
 
