@@ -492,18 +492,19 @@ ul.button-prev li.active{box-shadow:0 0 10px #0085bacf}
 .white-box .title{margin-bottom:0;font-size:20px;font-family:"Gotham Bold"}
 .white-box a{color:#404040;text-decoration:none;border-bottom:1px solid #404040}
 .schedule-main .schedule-data{border:3px solid #d9d9d9;padding:15px 0;position:relative;padding-bottom:70px}
-.schedule-main .schedule-data .schedule-row{padding:15px 0;display:flex;align-items:center;position:relative;border-top:1px solid #fff;border-bottom:1px solid #fff}
+.shedule-details-parent .block-editor-rich-text>h2{margin:0;font-size:22px}
+.schedule-main .schedule-data .schedule-row{padding:5px 0;display:flex;align-items:center;position:relative;border-top:1px solid #fff;border-bottom:1px solid #fff}
 .schedule-main .schedule-data .schedule-row>div{padding:0 20px}
 .schedule-main .schedule-data .schedule-row:last-child{border-bottom:0}
 .schedule-main .schedule-data .schedule-row div p:last-child{margin-bottom:0}
 .schedule-main .schedule-data .schedule-row .date{flex-basis:18%;padding-left:30px}
 .schedule-main .schedule-data .schedule-row .name{flex-basis:50%}
-.schedule-main .schedule-data .schedule-row .location{flex-basis:16%}
-.schedule-main .schedule-data .schedule-row .details{flex-basis:16%}
-.schedule-main .schedule-data .schedule-row .type{flex-basis:10%}
+.schedule-main .schedule-data .schedule-row .location{flex-basis:15%}
+.schedule-main .schedule-data .schedule-row .details{flex-basis:15%}
+.schedule-main .schedule-data .schedule-row .type{flex-basis:20%}
 .schedule-main .schedule-data .schedule-row p{font-size:14px}
 .schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:14px}
-.schedule-main .schedule-data .schedule-row .name strong, .schedule-main .schedule-data .schedule-row .name a{font-size:20px;font-family:"Gotham Book", sans-serif;word-break:break-word}
+.schedule-main .schedule-data .schedule-row .name strong, .schedule-main .schedule-data .schedule-row .name a{font-size:18px;font-family:"Gotham Book", sans-serif;word-break:break-word}
 .schedule-main:last-child{margin-bottom:30px}
 .schedule-main .schedule-data .schedule-row .name a{color:#0f6cb6;border-bottom:0}
 .schedule-main .schedule-data .editor-block-list__block-edit.block-editor-block-list__block-edit{margin-top:0;margin-bottom:0}
@@ -1174,7 +1175,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 .category-listing.accordion-list.close .category-head{border-bottom:0}
 .category-listing.accordion-list.open .category-body ul{max-height:100vh;padding:20px}
 .category-listing.accordion-list.open .category-body,.category-listing.accordion-list.open .category-body ul{max-height:100vh}
-.category-listing.accordion-list.close .category-head::after{content:"\f0d8"}
+.category-listing.accordion-list.close .category-head::after{content:"\f0da"}
 
 /* Program Destination Info Box */
 .row-single-pd.has-2-columns>.editor-inner-blocks>.editor-block-list__layout>.wp-block:first-of-type{width:85px;flex-basis:auto!important;padding:0}

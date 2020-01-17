@@ -1888,7 +1888,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     taxonomyRelation = attributes.taxonomyRelation,
                     listingType = attributes.listingType,
                     withContent = attributes.withContent,
-                    upcomingSession = attributes.upcomingSession;
+                    upcomingSession = attributes.upcomingSession,
+                    displayName = attributes.displayName,
+                    displayDate = attributes.displayDate,
+                    displayTime = attributes.displayTime,
+                    displayLocation = attributes.displayLocation,
+                    displaySummary = attributes.displaySummary;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -1947,7 +1952,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             listingPage && wp.element.createElement(RadioControl, {
                                 label: "Listing Types",
                                 selected: listingType,
-                                options: [{ label: 'None', value: 'none' }, { label: 'Opent to All', value: 'open-to-all' }],
+                                options: [{ label: 'None', value: 'none' }, { label: 'Open to All', value: 'open-to-all' }],
                                 onChange: function onChange(option) {
                                     return setAttributes({ listingType: option });
                                 }
@@ -1970,17 +1975,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         setAttributes({ upcomingSession: !upcomingSession });_this5.setState({ bxinit: true });
                                     }
                                 }),
-                                wp.element.createElement(SelectControl, {
-                                    label: __('Order by'),
-                                    value: orderBy,
-                                    options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
-                                    onChange: function onChange(value) {
-                                        setAttributes({ orderBy: value });
-                                        _this5.setState({ bxinit: true });
-                                    }
-                                }),
                                 wp.element.createElement(ToggleControl, {
-                                    label: __('Date Specific Session'),
+                                    label: __('Only Select Days'),
                                     checked: metaDate,
                                     onChange: function onChange() {
                                         setAttributes({ metaDate: !metaDate });_this5.setState({ bxinit: true });
@@ -2005,6 +2001,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         })
                                     )
                                 ),
+                                wp.element.createElement(SelectControl, {
+                                    label: __('Order by'),
+                                    value: orderBy,
+                                    options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Chronological'), value: 'chronological' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
+                                    onChange: function onChange(value) {
+                                        setAttributes({ orderBy: value });
+                                        _this5.setState({ bxinit: true });
+                                    }
+                                }),
                                 wp.element.createElement(ToggleControl, {
                                     label: __('Taxonomy Relation (AND)'),
                                     checked: taxonomyRelation,
@@ -2119,6 +2124,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             )
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Display Settings'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Program Name'),
+                                checked: displayName,
+                                onChange: function onChange() {
+                                    setAttributes({ displayName: !displayName });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Date'),
+                                checked: displayDate,
+                                onChange: function onChange() {
+                                    setAttributes({ displayDate: !displayDate });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Time'),
+                                checked: displayTime,
+                                onChange: function onChange() {
+                                    setAttributes({ displayTime: !displayTime });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Location'),
+                                checked: displayLocation,
+                                onChange: function onChange() {
+                                    setAttributes({ displayLocation: !displayLocation });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Summary'),
+                                checked: displaySummary,
+                                onChange: function onChange() {
+                                    setAttributes({ displaySummary: !displaySummary });_this5.setState({ bxinit: true });
+                                }
+                            })
                         ),
                         !listingPage && wp.element.createElement(
                             PanelBody,
@@ -2334,7 +2378,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/sessions-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary }
                     })
                 );
             }
@@ -2438,6 +2482,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         upcomingSession: {
             type: 'boolean',
             default: false
+        },
+        displayName: {
+            type: 'boolean',
+            default: true
+        },
+        displayDate: {
+            type: 'boolean',
+            default: true
+        },
+        displayTime: {
+            type: 'boolean',
+            default: true
+        },
+        displayLocation: {
+            type: 'boolean',
+            default: true
+        },
+        displaySummary: {
+            type: 'boolean',
+            default: true
         }
     };
     registerBlockType('mys/sessions-slider', {
@@ -2680,7 +2744,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
                     taxonomyRelation = attributes.taxonomyRelation,
-                    withThumbnail = attributes.withThumbnail;
+                    withThumbnail = attributes.withThumbnail,
+                    displayLogo = attributes.displayLogo,
+                    displayName = attributes.displayName,
+                    displayBooth = attributes.displayBooth,
+                    displaySummary = attributes.displaySummary;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -2746,7 +2814,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(SelectControl, {
                                     label: __('Order by'),
                                     value: orderBy,
-                                    options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }],
+                                    options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                     onChange: function onChange(value) {
                                         setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                     }
@@ -2857,6 +2925,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             )
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Display Settings'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Logo'),
+                                checked: displayLogo,
+                                onChange: function onChange() {
+                                    setAttributes({ displayLogo: !displayLogo });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Exhibitor Name'),
+                                checked: displayName,
+                                onChange: function onChange() {
+                                    setAttributes({ displayName: !displayName });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Booth Number'),
+                                checked: displayBooth,
+                                onChange: function onChange() {
+                                    setAttributes({ displayBooth: !displayBooth });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Summary'),
+                                checked: displaySummary,
+                                onChange: function onChange() {
+                                    setAttributes({ displaySummary: !displaySummary });_this5.setState({ bxinit: true });
+                                }
+                            })
                         ),
                         !listingPage && wp.element.createElement(
                             PanelBody,
@@ -3006,7 +3106,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/exhibitors-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary }
                     })
                 );
             }
@@ -3087,7 +3187,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         withThumbnail: {
             type: 'boolean',
             default: false
+        },
+        displayLogo: {
+            type: 'boolean',
+            default: true
+        },
+        displayName: {
+            type: 'boolean',
+            default: true
+        },
+        displayBooth: {
+            type: 'boolean',
+            default: true
+        },
+        displaySummary: {
+            type: 'boolean',
+            default: true
         }
+
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),
@@ -3165,7 +3282,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 taxonomiesObj: {},
                 termsObj: {},
                 filterTermsObj: {},
-                isDisable: false
+                isDisable: false,
+                browseFilters: ['Keyword', 'Speaker Name', 'Featured', 'Sort Alphabetically', 'Job Title', 'Company', 'Date Speaking']
             };
 
             _this.initSlider = _this.initSlider.bind(_this);
@@ -3333,7 +3451,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayName = attributes.displayName,
                     displayTitle = attributes.displayTitle,
                     displayCompany = attributes.displayCompany,
-                    filterDates = attributes.filterDates;
+                    filterDates = attributes.filterDates,
+                    removeFilters = attributes.removeFilters;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
@@ -3400,7 +3519,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onChange: function onChange(dates) {
                                         return setAttributes({ filterDates: dates });
                                     }
-                                })
+                                }),
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    __('Remove Filter Type')
+                                ),
+                                wp.element.createElement(
+                                    "div",
+                                    { className: "fix-height-select mb20" },
+                                    this.state.browseFilters.map(function (field, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, { checked: -1 < removeFilters.indexOf(field), label: field, name: "removeFilter[]", value: field, onChange: function onChange(isChecked) {
+
+                                                    var index = void 0,
+                                                        tempRemoveFilters = [].concat(_toConsumableArray(removeFilters));
+
+                                                    if (isChecked) {
+                                                        tempRemoveFilters.push(field);
+                                                    } else {
+                                                        index = tempRemoveFilters.indexOf(field);
+                                                        tempRemoveFilters.splice(index, 1);
+                                                    }
+
+                                                    _this5.props.setAttributes({ removeFilters: tempRemoveFilters });
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
                             ),
                             input,
                             !listingPage && wp.element.createElement(
@@ -3416,7 +3565,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(SelectControl, {
                                     label: __('Order by'),
                                     value: orderBy,
-                                    options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
+                                    options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                     onChange: function onChange(value) {
                                         setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                     }
@@ -3730,7 +3879,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speaker-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters }
                     })
                 );
             }
@@ -3827,6 +3976,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         filterDates: {
             type: 'string',
             default: ''
+        },
+        removeFilters: {
+            type: 'array',
+            default: []
         }
     };
     registerBlockType('mys/speaker-slider', {
@@ -5151,7 +5304,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             wp.element.createElement(SelectControl, {
                                 label: __('Display Order'),
                                 value: order,
-                                options: [{ label: __('A → Z'), value: 'ASC' }, { label: __('Z → A'), value: 'DESC' }],
+                                options: [{ label: __('Alphabetically'), value: 'ASC' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
                                     setAttributes({ order: value });_this4.setState({ bxinit: true });
                                 }

@@ -215,7 +215,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideMargin,
                 arrowIcons,
                 taxonomyRelation,
-                withThumbnail
+                withThumbnail,
+                displayLogo,
+                displayName,
+                displayBooth,
+                displaySummary
             } = attributes;
 
             var names = [
@@ -268,8 +272,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     label={__('Order by')}
                                     value={orderBy}
                                     options={[
+                                        { label: __('Alphabetical'), value: 'title' },
                                         { label: __('Newest to Oldest'), value: 'date' },
                                         { label: __('Menu Order'), value: 'menu_order' },
+                                        { label: __('Random'), value: 'rand' },
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                                 />
@@ -386,6 +392,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             </Fragment>
                             }
                         </PanelBody>
+                        <PanelBody title={__('Display Settings')} initialOpen={false} className="range-setting">
+                          <ToggleControl
+                            label={__('Logo')}
+                            checked={displayLogo}
+                            onChange={() => { setAttributes({ displayLogo: ! displayLogo }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Exhibitor Name')}
+                            checked={displayName}
+                            onChange={() => { setAttributes({ displayName: ! displayName }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Booth Number')}
+                            checked={displayBooth}
+                            onChange={() => { setAttributes({ displayBooth: ! displayBooth }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Summary')}
+                            checked={displaySummary}
+                            onChange={() => { setAttributes({ displaySummary: ! displaySummary }); this.setState({ bxinit: true }); } }
+                          />
+                        </PanelBody>
 
                         { ! listingPage &&
 
@@ -488,7 +516,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/exhibitors-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary }}
                     />
                 </Fragment >
             );
@@ -566,7 +594,24 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         withThumbnail: {
             type: 'boolean',
             default: false
+        },
+        displayLogo: {
+          type: 'boolean',
+          default: true
+        },
+        displayName: {
+          type: 'boolean',
+          default: true
+        },
+        displayBooth: {
+          type: 'boolean',
+          default: true
+        },
+        displaySummary: {
+          type: 'boolean',
+          default: true
         }
+
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),

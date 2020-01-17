@@ -24,16 +24,40 @@ $controls          = isset( $attributes['controls'] ) ? $attributes['controls'] 
 $slider_speed      = isset( $attributes['sliderSpeed'] ) ? $attributes['sliderSpeed'] : 500;
 $order_by          = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
 $slider_margin     = isset( $attributes['slideMargin'] ) ? $attributes['slideMargin'] : 30;
+$display_logo      = isset( $attributes['displayLogo'] ) ? $attributes['displayLogo'] : true;
+$display_name      = isset( $attributes['displayName'] ) ? $attributes['displayName'] : true;
+$display_booth     = isset( $attributes['displayBooth'] ) ? $attributes['displayBooth'] : true;
+$display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
 $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $exhibitor_order   = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
 $final_key         = '';
 $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+$display_class     = '';
+
+if ( ! $display_logo ) {
+		$display_class .= 'without-logo ';
+}
+if ( ! $display_name ) {
+	$display_class .= 'without-name ';
+}
+if ( ! $display_booth ) {
+	$display_class .= 'without-booth ';
+}
+if ( ! $display_summary ) {
+	$display_class .= 'without-summary ';
+}
+
+if ( ! empty( $display_class ) ) {
+	$class_name .= rtrim( $display_class );
+}
 
 if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
-    $final_key  = mb_strimwidth( 'mysgb-exhibitor-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . '-' . $with_thumbnail . $cache_key, 0, 170 );
+
+	$final_key  = mb_strimwidth( 'mysgb-exhibitor-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . '-' . $with_thumbnail . $cache_key, 0, 170 );
     $query      = get_transient( $final_key );
+
 } else {
 
     $get_exkey      = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
@@ -45,10 +69,9 @@ if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
         $query      = get_transient( $final_key );
 
     } elseif ( isset( $get_category ) && ! empty( $get_category ) ) {
-		$query = false;
-    	//$final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_category . '-' . $posts_per_page;
-        //$query      = get_transient( $final_key );
-        //var_dump( $query ); exit();
+
+    	$final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_category . '-' . $posts_per_page;
+        $query      = get_transient( $final_key );
 
     } else {
     	$query = false;
@@ -59,10 +82,18 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
     $query_args = array(
         'post_type'      => $block_post_type,
-        'posts_per_page' => $posts_per_page,
-        'orderby'        => $order_by,
-        'order'          => $exhibitor_order,
     );
+
+    if ( 'rand' === $order_by ) {
+    	$query_args['posts_per_page']       = 100;
+		$query_args['fields']               = 'ids';
+		$query_args['no_found_rows']        = true;
+		$query_args['ignore_sticky_posts']  = true;
+    } else {
+    	$query_args['posts_per_page']       = $posts_per_page;
+		$query_args['orderby']              = $order_by;
+		$query_args['order']                = $exhibitor_order;
+    }
 
     if ( ! $listing_page ) {
 
@@ -103,6 +134,13 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     }
 }
 
+if ( 'rand' === $order_by && $query->have_posts() ) {
+	$post_ids = $query->posts;
+	shuffle( $post_ids );
+	$post_ids = array_splice( $post_ids, 0, $posts_per_page );
+	$query    = new WP_Query( array( 'post_type' => $block_post_type, 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
+}
+
 if ( $query->have_posts() || $listing_page ) {
 
     if ( $listing_page ) {
@@ -130,55 +168,74 @@ if ( $query->have_posts() || $listing_page ) {
             $query->the_post();
 
             $exhibitor_id   = get_the_ID();
+
             if ( $listing_page ) {
 
                 $featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
-            ?>
+                ?>
                 <div class="item <?php echo esc_attr( $featured_post ); ?>" data-featured="<?php echo esc_attr( $featured_post ); ?>">
-            <?php
+                <?php
             } else {
-            ?>
+                ?>
                 <div class="item">
-            <?php
+                <?php
             }
-            ?>
+                ?>
                 <div class="item-inner">
                     <?php
-                    if ( has_post_thumbnail() ) {
-                        if ( $slider_active ) {
-                        ?>
+                    if ( has_post_thumbnail() && $display_logo ) {
+
+                    	if ( $slider_active ) {
+                            ?>
                             <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">
-                        <?php
+                            <?php
                         }
                         ?>
                             <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="exhibitor-logo">
                         <?php
                         if ( $slider_active ) {
-                        ?>
+                            ?>
                             </a>
-                        <?php
+                            <?php
                         }
+
+                    } elseif ( $slider_active && $display_name ) {
                         ?>
-                    <?php
-                    } elseif ( $slider_active ) {
-                    ?>
                          <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
-                    <?php
+                        <?php
                     }
+
                     if ( ! $slider_active ) {
 
-                    	$booth_number = get_post_meta( $exhibitor_id, 'boothnumbers', true );
                         $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
                         $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
-                    ?>
-                        <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
-                        <span><?php echo esc_html( $booth_number ); ?></span>
-                        <p>
-                        <?php
-                            echo esc_html( get_the_excerpt() );
-                            $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
+
+                        if ( $display_name ) {
+                            ?>
+                            <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
+                            <?php
+                        }
+
+                        if ( $display_booth ) {
+
+                        	$booth_number = get_post_meta( $exhibitor_id, 'boothnumbers', true );
+                        	?>
+                        	<span><?php echo esc_html( $booth_number ); ?></span>
+                        	<?php
+                        }
+
+                        if ( $display_summary ) {
+
+                        	?>
+                        	<p>
+	                        <?php
+	                            echo esc_html( get_the_excerpt() );
+	                            $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
+	                        ?>
+	                        </p>
+                        	<?php
+                        }
                         ?>
-                        </p>
                         <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
                     <?php
                     }

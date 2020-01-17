@@ -1230,7 +1230,7 @@
           insertOptions(val, 'page-type');
         });
       }
-      if ('' !== $(this).data('open') && 'select' !== $(this).data('open').toLowerCase() && 0 < $('.browse-learn-filter #open-to').length) {
+      if ('' !== $(this).data('open') && 'select' !== $(this).data('open').toLowerCase() && ( 0 < $('.browse-learn-filter #open-to').length || 0 < $('.browse-destinations-filter #open-to').length ) ) {
         insertOptions($(this).data('open'), 'open-to');
       }
       if ('' !== $(this).find('.info-block .date_group').text() && 0 < $('.browse-learn-filter #page-date').length) {
@@ -1263,7 +1263,7 @@
       nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle, featuredPage);
     });
 
-    $(document).on('change', '.browse-learn-filter #open-to', function () {
+    $(document).on('change', '.browse-learn-filter #open-to, .browse-destinations-filter #open-to', function () {
       nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle, featuredPage);
     });
 
@@ -1586,8 +1586,8 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
     }
   }
 
-  if (0 < jQuery('.browse-learn-filter #open-to').length && 0 !== jQuery('.browse-learn-filter #open-to')[0].selectedIndex) {
-    let openTo = jQuery('.browse-learn-filter #open-to').val();
+  if ( ( 0 < jQuery('.browse-learn-filter #open-to').length && 0 !== jQuery('.browse-learn-filter #open-to')[0].selectedIndex ) || ( 0 < jQuery('.browse-destinations-filter #open-to').length && 0 !== jQuery('.browse-destinations-filter #open-to')[0].selectedIndex ) ) {
+    let openTo = 0 < jQuery('.browse-learn-filter #open-to').length ? jQuery('.browse-learn-filter #open-to').val() : jQuery('.browse-destinations-filter #open-to').val();
     jQuery('#related-content-list .col-lg-4.col-md-6:not([data-open="' + openTo + '"])').hide();
   }
 
@@ -1774,7 +1774,7 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
           let itemInnerDiv = document.createElement('div');
           itemInnerDiv.setAttribute('class', 'item-inner');
 
-          if ('' !== value.thumbnail_url) {
+          if ('' !== value.thumbnail_url && ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-logo') ) {
 
             let imgTag = document.createElement('img');
             imgTag.setAttribute('src', value.thumbnail_url);
@@ -1783,35 +1783,45 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
             itemInnerDiv.appendChild(imgTag);
           }
 
-          let innerHeading = document.createElement('h4');
+          if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-name') ) {
 
-          let innerHeadingLink = document.createElement('a');
-          innerHeadingLink.innerText = value.post_title;
-          innerHeadingLink.setAttribute('href', '#');
-          innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-          innerHeadingLink.setAttribute('data-postid', value.post_id);
-          innerHeadingLink.setAttribute('data-posttype', 'exhibitors');
+            let innerHeading = document.createElement('h4');
 
-          innerHeading.appendChild(innerHeadingLink);
-          itemInnerDiv.appendChild(innerHeading);
+            let innerHeadingLink = document.createElement('a');
+            innerHeadingLink.innerText = value.post_title;
+            innerHeadingLink.setAttribute('href', '#');
+            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
+            innerHeadingLink.setAttribute('data-postid', value.post_id);
+            innerHeadingLink.setAttribute('data-posttype', 'exhibitors');
 
-          let innerSpan = document.createElement('span');
-          innerSpan.innerText = value.boothnumber;
+            innerHeading.appendChild(innerHeadingLink);
+            itemInnerDiv.appendChild(innerHeading);
+          }
 
-          itemInnerDiv.appendChild(innerSpan);
+          if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-booth') ) {
 
-          let innerParagraph = document.createElement('p');
-          innerParagraph.innerText = value.post_excerpt;
+            let innerSpan = document.createElement('span');
+            innerSpan.innerText = value.boothnumber;
 
-          let innerParagraphLink = document.createElement('a');
-          innerParagraphLink.innerText = ' Read More';
-          innerParagraphLink.setAttribute('href', '#');
-          innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-          innerParagraphLink.setAttribute('data-postid', value.post_id);
-          innerParagraphLink.setAttribute('data-posttype', 'exhibitors');
+            itemInnerDiv.appendChild(innerSpan);
+          }
 
-          innerParagraph.appendChild(innerParagraphLink);
-          itemInnerDiv.appendChild(innerParagraph);
+          if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-booth') ) {
+
+            let innerParagraph = document.createElement('p');
+            innerParagraph.innerText = value.post_excerpt;
+
+            let innerParagraphLink = document.createElement('a');
+            innerParagraphLink.innerText = ' Read More';
+            innerParagraphLink.setAttribute('href', '#');
+            innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
+            innerParagraphLink.setAttribute('data-postid', value.post_id);
+            innerParagraphLink.setAttribute('data-posttype', 'exhibitors');
+
+            innerParagraph.appendChild(innerParagraphLink);
+            itemInnerDiv.appendChild(innerParagraph);
+          }
+
 
           let innerPlannerLink = document.createElement('a');
           innerPlannerLink.innerText = 'View in Planner';
@@ -1855,6 +1865,8 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
 function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession) {
   let postPerPage = jQuery('#load-more-sessions a').attr('data-post-limit') ? parseInt(jQuery('#load-more-sessions a').attr('data-post-limit')) : 10;
   let postSearch = 0 < jQuery('.browse-open-to-all-filter .search-item .search').length ? jQuery('.browse-open-to-all-filter .search-item .search').val() : jQuery('.browse-sessions-filter .search-item .search').val();
+  let withoutDate = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-date') ? 'yes' : 'no';
+  let withoutTime = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-time') ? 'yes' : 'no';
 
   jQuery('body').addClass('popup-loader');
 
@@ -1864,7 +1876,7 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&level=' + sessionLevel + '&session_type=' + sessionType + '&location=' + sessionLocation + '&listing_type=' + listingType + '&session_date=' + sessionDate + '&featured_session=' + featuredSession,
+    data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&level=' + sessionLevel + '&session_type=' + sessionType + '&location=' + sessionLocation + '&listing_type=' + listingType + '&session_date=' + sessionDate + '&featured_session=' + featuredSession + '&without_date=' + withoutDate + '&without_time=' + withoutTime,
     url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 
@@ -1895,18 +1907,25 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
             innerImg.remove();
           }
 
-          let innerHeadingLink = cloneItemDiv.querySelector('h4 > a');
-          innerHeadingLink.innerText = value.post_title;
-          innerHeadingLink.setAttribute('data-postid', value.post_id);
+          if ( ! jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-name') ) {
+            let innerHeadingLink = cloneItemDiv.querySelector('h4 > a');
+            innerHeadingLink.innerText = value.post_title;
+            innerHeadingLink.setAttribute('data-postid', value.post_id);
+          }
 
-          let innerSpanTag = cloneItemDiv.querySelector('span');
-          innerSpanTag.innerText = value.date_time;
+          if ( 'no' === withoutDate || 'no' === withoutTime ) {
+            let innerSpanTag = cloneItemDiv.querySelector('span');
+            innerSpanTag.innerText = value.date_time;
+          }
 
-          let innerParagraphTag = cloneItemDiv.querySelector('p');
-          innerParagraphTag.childNodes[0].nodeValue = value.post_excerpt;
+          if ( ! jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-summary') ) {
 
-          let innerParagraphATag = cloneItemDiv.querySelector('p > .detail-list-modal-popup');
-          innerParagraphATag.setAttribute('data-postid', value.post_id);
+            let innerParagraphTag = cloneItemDiv.querySelector('p');
+            innerParagraphTag.childNodes[0].nodeValue = value.post_excerpt;
+
+            let innerParagraphATag = cloneItemDiv.querySelector('p > .detail-list-modal-popup');
+            innerParagraphATag.setAttribute('data-postid', value.post_id);
+          }
 
           let innerATag = cloneItemDiv.querySelector('.session-planner-url');
           innerATag.setAttribute('href', value.planner_link);
@@ -1964,36 +1983,42 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
             createItemDiv.setAttribute('class', 'item');
             createItemDiv.setAttribute('data-featured', value.featured);
 
-            let innerHeading = document.createElement('h4');
+            if ( ! jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-name') ) {
+              let innerHeading = document.createElement('h4');
 
-            let innerHeadingLink = document.createElement('a');
-            innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('href', '#');
-            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
-            innerHeadingLink.setAttribute('data-posttype', 'sessions');
+              let innerHeadingLink = document.createElement('a');
+              innerHeadingLink.innerText = value.post_title;
+              innerHeadingLink.setAttribute('href', '#');
+              innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
+              innerHeadingLink.setAttribute('data-postid', value.post_id);
+              innerHeadingLink.setAttribute('data-posttype', 'sessions');
 
-            innerHeading.appendChild(innerHeadingLink);
-            createItemDiv.appendChild(innerHeading);
+              innerHeading.appendChild(innerHeadingLink);
+              createItemDiv.appendChild(innerHeading);
+            }
 
-            let innerSpan = document.createElement('span');
-            innerSpan.innerText = value.date_time;
-            innerSpan.setAttribute('class', 'date-time');
+            if ( 'no' === withoutDate || 'no' === withoutTime ) {
+              let innerSpan = document.createElement('span');
+              innerSpan.innerText = value.date_time;
+              innerSpan.setAttribute('class', 'date-time');
 
-            createItemDiv.appendChild(innerSpan);
+              createItemDiv.appendChild(innerSpan);
+            }
 
-            let innerParagraph = document.createElement('p');
-            innerParagraph.innerText = value.post_excerpt;
+            if ( ! jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-summary') ) {
+              let innerParagraph = document.createElement('p');
+              innerParagraph.innerText = value.post_excerpt;
 
-            let innerParagraphLink = document.createElement('a');
-            innerParagraphLink.innerText = ' Read More';
-            innerParagraphLink.setAttribute('href', '#');
-            innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-            innerParagraphLink.setAttribute('data-postid', value.post_id);
-            innerParagraphLink.setAttribute('data-posttype', 'sessions');
+              let innerParagraphLink = document.createElement('a');
+              innerParagraphLink.innerText = ' Read More';
+              innerParagraphLink.setAttribute('href', '#');
+              innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
+              innerParagraphLink.setAttribute('data-postid', value.post_id);
+              innerParagraphLink.setAttribute('data-posttype', 'sessions');
 
-            innerParagraph.appendChild(innerParagraphLink);
-            createItemDiv.appendChild(innerParagraph);
+              innerParagraph.appendChild(innerParagraphLink);
+              createItemDiv.appendChild(innerParagraph);
+            }
 
             let innerPlannerLink = document.createElement('a');
             innerPlannerLink.innerText = 'View in Planner';

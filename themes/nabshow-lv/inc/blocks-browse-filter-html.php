@@ -65,6 +65,14 @@ function nabshow_lv_related_content_on_floor_destination_filter() {
                         </select>
                     </div>
                 </div>
+	            <div class="category col-lg-3">
+		            <label for="page-type">Open To</label>
+		            <div class="browse-select">
+			            <select id="open-to" class="select-opt">
+				            <option>Select a Pass</option>
+			            </select>
+		            </div>
+	            </div>
             </div>
         </div>
     </div>

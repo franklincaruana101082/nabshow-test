@@ -187,8 +187,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 label={__('Display Order')}
                                 value={order}
                                 options={[
-                                    { label: __('A → Z'), value: 'ASC' },
-                                    { label: __('Z → A'), value: 'DESC' },
+                                    { label: __('Alphabetically'), value: 'ASC' },
+                                    { label: __('Random'), value: 'rand' },
                                 ]}
                                 onChange={(value) => { setAttributes({ order: value }); this.setState({ bxinit: true }); }}
                             />

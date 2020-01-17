@@ -234,6 +234,13 @@ function nabshow_lv_register_dynamic_blocks() {
                         'type' => 'string'
                     ]
                 ),
+                'topicList' => array(
+                    'type'    => 'array',
+                    'default' => [],
+                    'items'   => [
+                        'type' => 'string'
+                    ]
+                ),
                 'listingLayout'  => array(
                     'type' => 'string',
                     'default' => 'destination'
@@ -647,6 +654,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
     $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : array();
     $hall_list        = isset( $attributes['hallList'] ) && ! empty( $attributes['hallList'] ) ? $attributes['hallList'] : array();
+    $topic_list       = isset( $attributes['topicList'] ) && ! empty( $attributes['topicList'] ) ? $attributes['topicList'] : array();
     $order_by         = isset( $attributes['orderBy'] ) && ! empty( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'title';
     $exclude_pages    = isset( $attributes['excludePages'] ) && ! empty( $attributes['excludePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['excludePages'] ) ) : array();
     $include_pages    = isset( $attributes['includePages'] ) && ! empty( $attributes['includePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['includePages'] ) ) : array();
@@ -659,16 +667,16 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
         $children = get_pages( $args );
 
-		if ( 'grandchildren' === $depth_level || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
+		if ( 'grandchildren' === $depth_level || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
 
 			$children_ids   = wp_list_pluck( $children, 'ID' );
 			$children_ids   = array_merge( $children_ids, $include_pages);
 			$children       = false;
 			$cache_key      = '';
 
-			if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
+			if ( ( is_array( $hall_list ) && count( $hall_list ) > 0 )  || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) ) {
 
-	            $cache_key      = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list );
+	            $cache_key      = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list ) . '-' . implode( '-', $topic_list );
 	            $children       = get_transient( $cache_key );
 	        }
 
@@ -697,19 +705,47 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
 	            if ( ! empty( $cache_key ) ) {
 
-	            	$meta_query_args = array( 'relation' => 'OR' );
+	            	$hall_list_args     = array();
+	            	$topic_list_args    = array();
 
-					foreach ( $hall_list as $hall_type ) {
+					if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
 
-						$meta_query_args[] = array (
-		                            'key'       => 'page_hall',
-		                            'value'     => $hall_type,
-		                            'compare'   => 'LIKE',
-		                        );
+						foreach ( $hall_list as $hall_type ) {
+
+							$hall_list_args[] = array (
+			                            'key'       => 'page_hall',
+			                            'value'     => $hall_type,
+			                            'compare'   => 'LIKE',
+			                        );
+						}
 					}
 
-					if ( count( $meta_query_args ) > 1 ) {
-						$query_args[ 'meta_query' ] = $meta_query_args;
+					if ( is_array( $topic_list ) && count( $topic_list ) > 0 ) {
+
+						foreach ( $topic_list as $topic_type ) {
+
+							$topic_list_args[] = array (
+			                            'key'       => 'topics',
+			                            'value'     => $topic_type,
+			                            'compare'   => 'LIKE',
+			                        );
+						}
+					}
+
+					if ( count( $hall_list_args ) > 0 && count( $topic_list_args ) > 0 ) {
+
+						$hall_list_args     = array_merge( array( 'relation' => 'OR' ), $hall_list_args );
+						$topic_list_args    = array_merge( array( 'relation' => 'OR' ), $topic_list_args );
+
+						$query_args[ 'meta_query' ] = array( 'relation' => 'AND', $hall_list_args, $topic_list_args );
+
+					} elseif ( count( $hall_list_args ) > 0 ) {
+
+						$query_args[ 'meta_query' ] = array_merge( array( 'relation' => 'OR' ), $hall_list_args );
+
+					} elseif ( count( $topic_list_args ) > 0 ) {
+
+						$query_args[ 'meta_query' ] = array_merge( array( 'relation' => 'OR' ), $topic_list_args );
 					}
 	            }
 

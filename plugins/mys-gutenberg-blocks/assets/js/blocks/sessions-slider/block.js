@@ -168,7 +168,12 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 taxonomyRelation,
                 listingType,
                 withContent,
-                upcomingSession
+                upcomingSession,
+                displayName,
+                displayDate,
+                displayTime,
+                displayLocation,
+                displaySummary
             } = attributes;
 
             var names = [
@@ -219,7 +224,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                 selected={listingType}
                                 options={[
                                     { label: 'None', value: 'none' },
-                                    { label: 'Opent to All', value: 'open-to-all' }
+                                    { label: 'Open to All', value: 'open-to-all' }
                                 ]}
                                 onChange={ ( option ) => setAttributes({ listingType: option })}
                             />
@@ -238,10 +243,28 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                     checked={upcomingSession}
                                     onChange={() => { setAttributes({ upcomingSession: ! upcomingSession }); this.setState({ bxinit: true }); } }
                                 />
+                                <ToggleControl
+                                  label={__('Only Select Days')}
+                                  checked={metaDate}
+                                  onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
+                                />
+                                { metaDate &&
+                                <div className="inspector-field inspector-field-datetime components-base-control hide-time">
+                                  <label className="inspector-mb-0">Select Session Date</label>
+                                  <div className="inspector-ml-auto">
+                                    <DateTimePicker
+                                      currentDate={sessionDate}
+                                      onChange={(date) => { setAttributes({sessionDate: date}); this.setState({bxinit: true});}}
+                                    />
+                                  </div>
+                                </div>
+                                }
                                 <SelectControl
                                     label={__('Order by')}
                                     value={orderBy}
                                     options={[
+                                        {label: __('Alphabetical'), value: 'title' },
+                                        {label: __('Chronological'), value: 'chronological' },
                                         {label: __('Newest to Oldest'), value: 'date'},
                                         {label: __('Menu Order'), value: 'menu_order'},
                                         {label: __('Random'), value: 'rand'},
@@ -251,22 +274,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                         this.setState({bxinit: true});
                                     }}
                                 />
-                                <ToggleControl
-                                    label={__('Date Specific Session')}
-                                    checked={metaDate}
-                                    onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
-                                />
-                                { metaDate &&
-                                <div className="inspector-field inspector-field-datetime components-base-control hide-time">
-                                    <label className="inspector-mb-0">Select Session Date</label>
-                                    <div className="inspector-ml-auto">
-                                        <DateTimePicker
-                                            currentDate={sessionDate}
-                                            onChange={(date) => { setAttributes({sessionDate: date}); this.setState({bxinit: true});}}
-                                        />
-                                    </div>
-                                </div>
-                                }
+
                                 <ToggleControl
                                     label={__('Taxonomy Relation (AND)')}
                                     checked={taxonomyRelation}
@@ -388,6 +396,34 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                             </Fragment>
                             }
                         </PanelBody>
+                        <PanelBody title={__('Display Settings')} initialOpen={false} className="range-setting">
+
+                          <ToggleControl
+                            label={__('Program Name')}
+                            checked={displayName}
+                            onChange={() => { setAttributes({ displayName: ! displayName }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Date')}
+                            checked={displayDate}
+                            onChange={() => { setAttributes({ displayDate: ! displayDate }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Time')}
+                            checked={displayTime}
+                            onChange={() => { setAttributes({ displayTime: ! displayTime }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Location')}
+                            checked={displayLocation}
+                            onChange={() => { setAttributes({ displayLocation: ! displayLocation }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Summary')}
+                            checked={displaySummary}
+                            onChange={() => { setAttributes({ displaySummary: ! displaySummary }); this.setState({ bxinit: true }); } }
+                          />
+                        </PanelBody>
                         { ! listingPage &&
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
                             <ToggleControl
@@ -506,7 +542,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary }}
                     />
                 </Fragment >
             );
@@ -607,6 +643,26 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
         upcomingSession: {
             type: 'boolean',
             default: false
+        },
+        displayName: {
+          type: 'boolean',
+          default: true
+        },
+        displayDate: {
+          type: 'boolean',
+          default: true
+        },
+        displayTime: {
+          type: 'boolean',
+          default: true
+        },
+        displayLocation: {
+          type: 'boolean',
+          default: true
+        },
+        displaySummary: {
+          type: 'boolean',
+          default: true
         }
     };
     registerBlockType('mys/sessions-slider', {

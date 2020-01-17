@@ -40,10 +40,15 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     $args = array(
         'taxonomy'   => $category_type,
         'hide_empty' => false,
-        'number'     => $posts_per_page,
         'orderBy'    => 'name',
-        'order'      => $category_order,
+        'order'      => 'ASC',
     );
+
+    if ( 'rand' === $category_order ) {
+    	$args[ 'number' ] = 100;
+    } else {
+    	$args[ 'number' ] = $posts_per_page;
+    }
 
     if ( $featured_track || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
 
@@ -92,6 +97,11 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
 if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 
+	if ( 'rand' === $category_order ) {
+		shuffle($terms);
+		$terms = array_splice( $terms, 0, $posts_per_page );
+	}
+
 	$site_url   = get_site_url();
 
 	?>
@@ -125,7 +135,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 
                     	$mys_cat_link   = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-cat='. $current_term->slug;
 						?>
-						<h2 class="track-title"><a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<h2 class="track-title"><a href="<?php echo esc_url( $mys_cat_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
 						<?php
                     } else {
                     	?>

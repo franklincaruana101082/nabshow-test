@@ -102,6 +102,26 @@ $session_slider_attr = array(
 	'upcomingSession'  => array(
 		'type'    => 'boolean',
 		'default' => false
+	),
+	'displayName' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayDate' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayTime' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayLocation' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displaySummary' => array(
+		'type'    => 'boolean',
+		'default' => true
 	)
 
 );
@@ -146,6 +166,22 @@ $exhibitors_slider_attr = array(
 	'withThumbnail'    => array(
 		'type'    => 'boolean',
 		'default' => false
+	),
+	'displayLogo' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayName' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayBooth' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displaySummary' => array(
+		'type'    => 'boolean',
+		'default' => true
 	)
 );
 
@@ -205,8 +241,14 @@ $speakers_slider_attr = array(
 	'filterDates' => array(
 		'type'    => 'string',
 		'default' => ''
+	),
+	'removeFilters' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'string'
+		]
 	)
-
 
 );
 

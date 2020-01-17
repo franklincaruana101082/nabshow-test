@@ -38,6 +38,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 termsObj: {},
                 filterTermsObj: {},
                 isDisable: false,
+                browseFilters: [ 'Keyword', 'Speaker Name', 'Featured', 'Sort Alphabetically', 'Job Title', 'Company', 'Date Speaking' ]
             };
 
             this.initSlider = this.initSlider.bind(this);
@@ -163,7 +164,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 displayName,
                 displayTitle,
                 displayCompany,
-                filterDates
+                filterDates,
+                removeFilters
             } = attributes;
 
             var names = [
@@ -212,6 +214,37 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                   value={ filterDates }
                                   onChange={ (dates) => setAttributes({ filterDates: dates }) }
                                 />
+
+                                <label>{__('Remove Filter Type')}</label>
+
+                                <div className="fix-height-select mb20">
+
+                                  {this.state.browseFilters.map((field, index) => (
+
+                                    <Fragment key={index}>
+
+                                      <CheckboxControl checked={-1 < removeFilters.indexOf(field)} label={field} name="removeFilter[]" value={field} onChange={(isChecked) => {
+
+                                        let index,
+                                          tempRemoveFilters = [...removeFilters];
+
+                                        if (isChecked) {
+                                          tempRemoveFilters.push(field);
+                                        } else {
+                                          index = tempRemoveFilters.indexOf(field);
+                                          tempRemoveFilters.splice(index, 1);
+                                        }
+
+                                        this.props.setAttributes({ removeFilters: tempRemoveFilters });
+                                      }
+                                      }
+                                      />
+
+                                    </Fragment>
+
+                                  ))
+                                  }
+                                </div>
                               </Fragment>
                             }
 
@@ -228,6 +261,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     label={__('Order by')}
                                     value={orderBy}
                                     options={[
+                                        { label: __('Alphabetical'), value: 'title' },
                                         { label: __('Newest to Oldest'), value: 'date' },
                                         { label: __('Menu Order'), value: 'menu_order' },
                                         { label: __('Random'), value: 'rand' },
@@ -468,7 +502,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters }}
                     />
                 </Fragment >
             );
@@ -562,6 +596,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         filterDates: {
           type: 'string',
           default: ''
+        },
+        removeFilters: {
+          type: 'array',
+          default: []
         }
     };
     registerBlockType('mys/speaker-slider', {

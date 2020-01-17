@@ -8,7 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-$get_featured = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
+$get_featured   = filter_input( INPUT_GET, 'speaker-key', FILTER_SANITIZE_STRING );
+$remove_filter  = isset( $attributes['removeFilters'] ) && ! empty( $attributes['removeFilters'] ) ? $attributes['removeFilters'] : array();
 
 $featured_class = 'featured-btn';
 $filter_class   = '';
@@ -16,30 +17,41 @@ $filter_class   = '';
 if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
 	$featured_class .= ' active';
 }
-
 if ( ! $display_name ) {
 	$filter_class .= ' without-name';
 }
 if ( ! $display_title ) {
 	$filter_class .= ' without-title';
 }
+
 if ( ! $display_company ) {
 	$filter_class .= ' without-company';
 }
+
 ?>
 <div class="browse-filter main-filter row browse-speakers-filter<?php echo esc_attr( $filter_class ); ?>">
 	<div class="left-side col-xl-5">
-		<div class="search-box">
-			<label for="browse-search">Keyword</label>
-			<div class="search-item">
-				<input id="browse-search" class="search" name="browse-search" type="text" placeholder="Filter by keyword...">
+		<?php
+		if ( ! in_array( 'Keyword', $remove_filter, true ) ) {
+			?>
+			<div class="search-box">
+				<label for="browse-search">Keyword</label>
+				<div class="search-item">
+					<input id="browse-search" class="search" name="browse-search" type="text" placeholder="Filter by keyword...">
+				</div>
 			</div>
-		</div>
+			<?php
+		}
+		?>
 		<div class="row">
 			<div class="col-lg-12">
-				<input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
 				<?php
-				if ( $display_name ) {
+				if ( ! in_array( 'Featured', $remove_filter, true ) ) {
+					?>
+					<input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
+					<?php
+				}
+				if ( ! in_array( 'Sort Alphabetically', $remove_filter, true ) && $display_name ) {
 					?>
 					<input type="button" class="orderby" value="Sort Alphabetically">
 					<?php
@@ -49,7 +61,7 @@ if ( ! $display_company ) {
 		</div>
 	</div>
 	<?php
-	if ( $display_name ) {
+	if ( ! in_array( 'Speaker Name', $remove_filter, true ) && $display_name ) {
 		?>
 		<div class="pass-type col-xl-7">
 			<label>Speaker Name</label>
@@ -88,20 +100,18 @@ if ( ! $display_company ) {
 	?>
 	<div class="select-items col-lg-12">
 		<div class="row">
-		<?php
-		if ( $display_title ) {
-			?>
-			<div class="search-box col-lg-5">
-				<label for="speaker-title-search">Job Title</label>
-				<div class="search-item">
-					<input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
+			<?php
+			if ( ! in_array( 'Job Title', $remove_filter, true ) && $display_title ) {
+				?>
+				<div class="search-box col-lg-5">
+					<label for="speaker-title-search">Job Title</label>
+					<div class="search-item">
+						<input id="speaker-title-search" class="speaker-title-search" name="speaker-title-search" type="text" placeholder="Search by Job Title..">
+					</div>
 				</div>
-			</div>
-			<?php
-		}
-		?>
-			<?php
-			if ( $display_company ) {
+				<?php
+			}
+			if ( ! in_array( 'Company', $remove_filter, true ) && $display_company ) {
 				?>
 				<div class="category col-lg-3">
 					<label for="speaker-company">Company</label>
@@ -116,7 +126,7 @@ if ( ! $display_company ) {
 				</div>
 				<?php
 			}
-			if ( isset( $attributes['filterDates']) && ! empty( $attributes['filterDates'] ) ) {
+			if ( ! in_array( 'Date Speaking', $remove_filter, true ) && isset( $attributes['filterDates']) && ! empty( $attributes['filterDates'] ) ) {
 
 				$filter_dates = explode( '|' , $attributes['filterDates'] );
 

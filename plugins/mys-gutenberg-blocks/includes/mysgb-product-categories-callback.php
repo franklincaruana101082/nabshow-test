@@ -54,7 +54,7 @@ if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $pare
 						$image_url      = ! empty( $image_id ) ? wp_get_attachment_url( $image_id ) : nabshow_lv_get_empty_thumbnail_url();
 						?>
 						<li>
-							<a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank"><img src="<?php echo esc_url( $image_url ); ?>" alt="category-logo" /></a>
+							<a href="<?php echo esc_url( $mys_cat_link ); ?>"><img src="<?php echo esc_url( $image_url ); ?>" alt="category-logo" /></a>
 						</li>
 						<?php
 					} else {
@@ -77,7 +77,7 @@ if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $pare
 										$mys_cat_link   = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-cat='. $child_term->slug;
 										?>
 										<li>
-											<a href="<?php echo esc_url( $mys_cat_link ); ?>" target="_blank">
+											<a href="<?php echo esc_url( $mys_cat_link ); ?>">
 												<?php
 												if ( 'accordion-list' === $layout_type ) {
 													echo esc_html( $child_term->name );

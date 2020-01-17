@@ -31,15 +31,43 @@ $session_order     = 'date' === $order_by ? 'DESC' : 'ASC';
 $layout            = isset( $attributes['layout'] ) && ! empty( $attributes['layout'] ) ? $attributes['layout'] : '';
 $slider_layout     = isset( $attributes['sliderLayout'] ) && ! empty( $attributes['sliderLayout'] ) ? $attributes['sliderLayout'] : '';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
+$display_name      = isset( $attributes['displayName'] ) ? $attributes['displayName'] : true;
+$display_date      = isset( $attributes['displayDate'] ) ? $attributes['displayDate'] : true;
+$display_time      = isset( $attributes['displayTime'] ) ? $attributes['displayTime'] : true;
+$display_location  = isset( $attributes['displayLocation'] ) ? $attributes['displayLocation'] : true;
+$display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
 $query             = false;
 $listing_id        = '';
 $final_key         = '';
 $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
 $prepare_key       = 'mysgb-session-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_content . '-' . $upcoming_session;
 
+$display_class  = '';
+
+if ( ! $display_name ) {
+	$display_class .= 'without-name ';
+}
+if ( ! $display_date ) {
+	$display_class .= 'without-date ';
+}
+if ( ! $display_time ) {
+	$display_class .= 'without-time ';
+}
+if ( ! $display_location ) {
+	$display_class .= 'without-location ';
+}
+if ( ! $display_summary ) {
+	$display_class .= 'without-summary ';
+}
+
+if ( ! empty( $display_class ) ) {
+	$class_name .= rtrim( $display_class );
+}
+
+
 if ( ! $listing_page || 'none' !== $listing_type ) {
 
-    if ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) {
+    if ( 'chronological' === $order_by || ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) ) {
 
         $final_key  = mb_strimwidth( $prepare_key . '-' . $listing_type . '-' . $cache_key, 0, 170 );
         $query      = get_transient( $final_key );
@@ -75,10 +103,10 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         'post_type'      => $block_post_type,
     );
 
-    if ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) {
+    if ( 'chronological' === $order_by || ( ( 'none' !== $listing_type || 'date-group' === $layout ) &&  ! $slider_active ) ) {
 
         $query_args['posts_per_page']       = $posts_per_page;
-        $query_args['meta_key']             = 'date';
+        $query_args['meta_key']             = 'starttime';
         $query_args['orderby']              = 'meta_value';
         $query_args['order']                = 'ASC';
 
@@ -340,7 +368,28 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 $end_time   = str_replace(':00', '', $end_time );
             }
 
-            $date_display_format = ( 'layout-1' === $slider_layout || ! $slider_active ) && ! empty( $date )  ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+            $date_display_format = '';
+
+            if ( ( 'layout-1' === $slider_layout || ! $slider_active ) && ! empty( $date ) ) {
+
+            	if ( $display_date && $display_time ) {
+
+            		$date_display_format = $date . ' | ' . $start_time . ' - ' . $end_time;
+
+            	} elseif ( $display_date ) {
+
+            		$date_display_format = $date;
+
+            	} elseif ( $display_time ) {
+
+            		$date_display_format = $start_time . ' - ' . $end_time;
+            	}
+
+            } elseif ( $display_time ) {
+
+            	$date_display_format = $start_time . ' - ' . $end_time;
+            }
+
             $date_display_format = trim( $date_display_format, ' - ');
 
             $all_tracks_string   = '';
@@ -365,99 +414,110 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 $session_has_thumbnail = has_post_thumbnail();
 
                 if ( ( ! $listing_page && 'with-featured' === $layout && $session_has_thumbnail ) || ( 'none' !== $listing_type && $session_has_thumbnail ) ) {
-                ?>
+                    ?>
                     <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="session-logo">
-                <?php
+                    <?php
                 }
-                $title_text =  mb_strimwidth( get_the_title(), 0, 83, '...' );
-                ?>
 
-                <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text); ?></h4>
+                if ( $display_name ) {
+                    $title_text =  mb_strimwidth( get_the_title(), 0, 83, '...' );
+                    ?>
+                    <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text); ?></h4>
+                    <?php
+                }
 
-                <?php
                 if ( $slider_active ) {
+
+                	$sub_title = '';
 
                     if ( 'layout-1' === $slider_layout ) {
 
-                        $session_types = get_the_terms( $session_id, 'session-types' );
-                        $sub_title     =  $this->mysgb_get_pipe_separated_term_list( $session_types );
+                    	if  ( $display_location ) {
 
-                    } else {
+                    		$session_types = get_the_terms( $session_id, 'session-types' );
+                            $sub_title     =  $this->mysgb_get_pipe_separated_term_list( $session_types );
+                    	}
+
+                    } elseif ( $display_date ) {
                         $sub_title = $date;
                     }
 
-                ?>
-                    <span class="caption"><?php echo esc_html( $sub_title ); ?></span>
-                <?php
-                }
-                ?>
-
-                <span class="date-time"><?php echo esc_html( $date_display_format );?></span>
-
-                <?php
-                if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
-                    $schedule_id         = get_post_meta( $session_id, 'scheduleid', true );
-                    $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
-                ?>
-                    <p>
-                    <?php
-
-                        echo esc_html( get_the_excerpt() );
-
-                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup' );
                     ?>
-                    </p>
-
+                    <span class="caption"><?php echo esc_html( $sub_title ); ?></span>
                     <?php
-                        if ( 'with-masonry' === $layout ) {
+                }
 
-                            $speaker = get_post_meta( $session_id, 'speakers', true );
+                if ( ! empty( $date_display_format ) ) {
+                    ?>
+                    <span class="date-time"><?php echo esc_html( $date_display_format );?></span>
+                    <?php
+                }
 
-                            if ( ! empty( $speaker ) ) {
+                if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
 
-                                $speaker_ids         = explode(',', $speaker);
-                                $speaker_query_args  = array(
-                                    'post_type'      => 'speakers',
-                                    'posts_per_page' => count( $speaker_ids ),
-                                    'post__in'       => $speaker_ids
-                                );
+                	$schedule_id         = get_post_meta( $session_id, 'scheduleid', true );
+                    $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
 
-                                $speaker_query = new WP_Query( $speaker_query_args );
+                    if ( $display_summary ) {
+                        ?>
+                        <p>
+	                    <?php
 
-                                if ( $speaker_query->have_posts() ) {
+	                        echo esc_html( get_the_excerpt() );
+	                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup' );
+	                    ?>
+	                    </p>
+	                    <?php
+                    }
+                    if ( 'with-masonry' === $layout ) {
 
-                                    while ( $speaker_query->have_posts() ) {
+                        $speaker = get_post_meta( $session_id, 'speakers', true );
 
-                                        $speaker_query->the_post();
+                        if ( ! empty( $speaker ) ) {
 
-                                        if ( has_post_thumbnail() ) {
-                                            $speaker_thumbnail_url = get_the_post_thumbnail_url();
-                                        } else {
-                                            $speaker_thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
-                                        }
+                            $speaker_ids         = explode(',', $speaker);
+                            $speaker_query_args  = array(
+                                'post_type'      => 'speakers',
+                                'posts_per_page' => count( $speaker_ids ),
+                                'post__in'       => $speaker_ids
+                            );
 
-                                        $speaker_id         = get_the_ID();
-                                        $speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
-                                        $speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
-					                    $speaker_company    = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
+                            $speaker_query = new WP_Query( $speaker_query_args );
 
-                                        ?>
-                                            <div class="speaker-single">
-                                                <div class="img-box">
-                                                    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" class="rounded-circle" />
-                                                </div>
-                                                <div class="info-box">
-                                                    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
-                                                    <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
-                                                    <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
-                                                </div>
-                                            </div>
-                                        <?php
+                            if ( $speaker_query->have_posts() ) {
+
+                                while ( $speaker_query->have_posts() ) {
+
+                                    $speaker_query->the_post();
+
+                                    if ( has_post_thumbnail() ) {
+                                        $speaker_thumbnail_url = get_the_post_thumbnail_url();
+                                    } else {
+                                        $speaker_thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
                                     }
+
+                                    $speaker_id         = get_the_ID();
+                                    $speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
+                                    $speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
+				                    $speaker_company    = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
+
+                                    ?>
+                                        <div class="speaker-single">
+                                            <div class="img-box">
+                                                <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" class="rounded-circle" />
+                                            </div>
+                                            <div class="info-box">
+                                                <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
+                                                <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
+                                                <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
+                                            </div>
+                                        </div>
+                                    <?php
                                 }
-                                wp_reset_postdata();
                             }
+                            wp_reset_postdata();
                         }
+                    }
                      ?>
 
                     <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>

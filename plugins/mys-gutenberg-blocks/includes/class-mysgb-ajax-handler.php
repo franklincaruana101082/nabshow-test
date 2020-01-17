@@ -60,6 +60,8 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$listing_type       = filter_input( INPUT_GET, 'listing_type', FILTER_SANITIZE_STRING );
 			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
 			$featured_session   = filter_input( INPUT_GET, 'featured_session', FILTER_SANITIZE_STRING );
+			$without_date       = filter_input( INPUT_GET, 'without_date', FILTER_SANITIZE_STRING );
+			$without_time       = filter_input( INPUT_GET, 'without_time', FILTER_SANITIZE_STRING );
 
 			$query_arg = array(
 				'post_type'      => 'sessions',
@@ -173,7 +175,21 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 						$end_time   = str_replace(':00', '', $end_time );
 					}
 
-					$date_display_format = ! empty( $date ) ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+					$date_display_format = '';
+
+					if ( ! empty( $date ) ) {
+
+						if ( 'no' === $without_date && 'no' === $without_time ) {
+							$date_display_format = $date . ' | ' . $start_time . ' - ' . $end_time;
+						} elseif ( 'no' === $without_date ) {
+							$date_display_format = $date;
+						} elseif ( 'no' === $without_time ) {
+							$date_display_format = $start_time . ' - ' . $end_time;
+						}
+					} elseif (  'no' === $without_time ) {
+						$date_display_format = $start_time . ' - ' . $end_time;
+					}
+
 					$date_display_format = trim( $date_display_format, ' - ');
 					$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
 

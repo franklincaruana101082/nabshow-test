@@ -235,7 +235,6 @@
 
       allData[parentIndex].detailList.push({
         index: dataArray[parentIndex].detailList.length,
-        date: allData[parentIndex].detailList[currentIndex].date,
         name: allData[parentIndex].detailList[currentIndex].name,
         location: allData[parentIndex].detailList[currentIndex].location,
         details: allData[parentIndex].detailList[currentIndex].details,
@@ -432,19 +431,6 @@
                                   ></i>
                                 </Tooltip>
                               </div>
-                              <div className="date">
-                                <RichText
-                                  tagName="p"
-                                  keepPlaceholderOnFocus="true"
-                                  placeholder={__('8 a.m. - 6 p.m.')}
-                                  value={data.date}
-                                  onChange={date => {
-                                    let tempDataArray = [...dataArray];
-                                    tempDataArray[parentIndex].detailList[index].date = date;
-                                    setAttributes({ dataArray: tempDataArray});
-                                  }}
-                                />
-                              </div>
                               <div className="name">
                                 <RichText
                                   tagName="strong"
@@ -507,7 +493,6 @@
                               let tempDataArray = [...dataArray];
                               tempDataArray[parentIndex].detailList.push({
                                 index: dataArray[parentIndex].detailList.length,
-                                date: '',
                                 name: '',
                                 location: '',
                                 details: 'Open to All',
@@ -537,7 +522,6 @@
                         title: '',
                         detailList: [{
                           index: 0,
-                          date: '',
                           name: '',
                           location: '',
                           details: 'Open to All',
@@ -641,12 +625,6 @@
                   .sort((a, b) => a.index - b.index)
                   .map((data) => (
                     <div className="schedule-row" data-type={data.type}>
-                      <div className="date">
-                        <RichText.Content
-                          tagName="p"
-                          value={data.date === undefined ? '-' : data.date}
-                        />
-                      </div>
                       <div className="name">
                         <RichText.Content
                           tagName="strong"
