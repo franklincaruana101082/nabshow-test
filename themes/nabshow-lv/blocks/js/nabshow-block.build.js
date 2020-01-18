@@ -501,7 +501,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             wp.element.createElement(SelectControl, {
                                 label: __('Order By'),
                                 value: orderBy,
-                                options: [{ label: __('A → Z'), value: 'title' }, { label: __('Random'), value: 'rand' }],
+                                options: [{ label: __('A → Z'), value: 'title' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
                                     setAttributes({ orderBy: value });_this4.setState({ bxinit: true });
                                 }

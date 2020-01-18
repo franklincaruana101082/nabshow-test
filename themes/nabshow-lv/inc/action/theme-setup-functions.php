@@ -229,9 +229,9 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
 
-    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '2.2' );
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '2.3' );
 
-    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '2.2' );
+    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '2.3' );
 
     wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/print-css.css' );
 
@@ -243,7 +243,7 @@ function nabshow_lv_scripts() {
     wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '2.2', true );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '2.3', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
@@ -282,7 +282,10 @@ function nabshow_lv_scripts() {
 
 	//Marketo script
 	wp_enqueue_script( 'nabshow-lv-marketo', '//app-ab34.marketo.com/js/forms2/js/forms2.min.js', array( 'nabshow-lv-custom' ), null, true );
-	wp_add_inline_script( 'nabshow-lv-marketo', 'MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1033);');
+	wp_add_inline_script( 'nabshow-lv-marketo', 'MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1033);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1091);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1099);');
+
+	//NSPIRE Wall:
+	wp_enqueue_script( 'nabshow-lv-nspire-wall', 'https://flockler.embed.codes/M2eWmK', array( 'jquery' ), null, true );
 
 	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
 }

@@ -503,7 +503,6 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                             <h3 class="title"><?php echo esc_html( $contributor_name ); ?></h3>
                             <span class="sub-title">Title</span>
                             <strong class="company">Company</strong>
-                            <p><a href="mailto:<?php echo esc_attr( $contributor_email ); ?>">Email</a></p>
                         </div>
                         <div class="feature">
                             <img class="round-img" src="<?php echo esc_url( $contributor_image ); ?>" alt="contributor">

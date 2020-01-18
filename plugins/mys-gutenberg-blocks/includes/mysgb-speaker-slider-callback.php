@@ -35,6 +35,21 @@ $item_class         = 'circle' === $slider_shape && $slider_active && $display_n
 $query              = false;
 $final_key          = '';
 $cache_key          = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
+$display_class      = '';
+
+if ( ! $display_name ) {
+	$display_class .= 'without-name ';
+}
+if ( ! $display_title ) {
+	$display_class .= 'without-title ';
+}
+if ( ! $display_company ) {
+	$display_class .= 'without-company ';
+}
+
+if ( ! empty( $display_class ) ) {
+	$class_name .= rtrim( $display_class );
+}
 
 if ( ! empty( $cache_key ) || $with_thumbnail ) {
 

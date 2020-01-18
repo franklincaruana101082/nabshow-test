@@ -483,8 +483,19 @@ function nabshow_lv_related_content_dynamic_field_display( $page_id, $display_fi
 
 			    if ( 'date_group' === $field && ! empty( $field_val ) ) {
 
-				    $first_field_row  = isset( $field_val[0] ) ? $field_val[0] : array();
-				    $sub_title        = isset( $first_field_row[ 'page_dates' ] ) ? $first_field_row[ 'page_dates' ] : '';
+				    if ( is_array( $field_val ) && count( $field_val ) > 0 ) {
+
+				    	$dates_array = array();
+
+				    	foreach ( $field_val as $field_row ) {
+
+				    		if ( isset( $field_row[ 'page_dates' ] ) && ! empty( $field_row[ 'page_dates' ] ) ) {
+							    $dates_array[] = $field_row[ 'page_dates' ];
+						    }
+					    }
+
+					    $sub_title = implode(' | ', $dates_array );
+				    }
 
 			    } elseif ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
 

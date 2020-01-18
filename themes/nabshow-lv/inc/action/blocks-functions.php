@@ -667,7 +667,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
         $children = get_pages( $args );
 
-		if ( 'grandchildren' === $depth_level || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
+		if ( 'grandchildren' === $depth_level || 'menu_order' === $order_by || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
 
 			$children_ids   = wp_list_pluck( $children, 'ID' );
 			$children_ids   = array_merge( $children_ids, $include_pages);
@@ -687,16 +687,21 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 	                'suppress_filters'  => false
 	            );
 
+	            $query_args['include']  = $children_ids;
+
 	            if ( 'rand' === $order_by ) {
 
 	            	shuffle( $children_ids );
 
 			        $children_ids           = array_splice( $children_ids, 0, count( $children_ids ) );
-			        $query_args['include']  = $children_ids;
 			        $query_args['orderby']  = 'post__in';
 
+			    } elseif ( 'menu_order' === $order_by ) {
+
+	            	$query_args['orderby']  = $order_by;
+			        $query_args['order']    = 'ASC';
+
 	            } else {
-	                $query_args['include']  = $children_ids;
 			        $query_args['orderby']  = 'title';
 			        $query_args['order']    = 'ASC';
 	            }
@@ -1263,7 +1268,7 @@ function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
 
                 ?>
                 <div class="related-main-wrapper">
-                    <h2 class="parent-main-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                    <h2 class="parent-main-title"><?php the_title(); ?></h2>
                     <?php echo wp_kses( $content, $allowed_tags ); ?>
                 </div>
                 <?php

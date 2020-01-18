@@ -1234,7 +1234,11 @@
         insertOptions($(this).data('open'), 'open-to');
       }
       if ('' !== $(this).find('.info-block .date_group').text() && 0 < $('.browse-learn-filter #page-date').length) {
-        insertOptions($(this).find('.info-block .date_group').text(), 'page-date');
+        let cardDates = $(this).find('.info-block .date_group').text();
+        let dateGroup = cardDates.split(' | ');
+        if ( 0 < dateGroup.length ) {
+          dateGroup.map( (item) => insertOptions(item, 'page-date'));
+        }
       }
     });
     if (0 < $('#related-content-list .date-group-wrapper .happenings-date').length) {
@@ -1580,9 +1584,10 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
   }
 
   if (0 < jQuery('.browse-learn-filter #page-date').length) {
-    let happeningDate = 0 === jQuery('.browse-learn-filter #page-date')[0].selectedIndex ? '' : jQuery('.browse-learn-filter #page-date').val().toLowerCase();
+    let happeningDate = 0 === jQuery('.browse-learn-filter #page-date')[0].selectedIndex ? '' : jQuery('.browse-learn-filter #page-date').val();
     if ('' !== happeningDate) {
-      jQuery('#related-content-list span.date_group').filter(function () { return (happeningDate !== jQuery(this).text().toLowerCase()); }).parents('.col-lg-4.col-md-6').hide();
+      jQuery('#related-content-list .info-block').filter(function () { return ( 0 === jQuery(this).find('.date_group').length); }).parents('.col-lg-4.col-md-6').hide();
+      jQuery('#related-content-list span.date_group:not(:contains(' + happeningDate + '))').parents('.col-lg-4.col-md-6').hide();
     }
   }
 
@@ -1617,10 +1622,7 @@ function nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, p
 function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate) {
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
-    postSearch = jQuery('.browse-speakers-filter .search-item .search').val(),
-    displayName = 0 < jQuery('.browse-speakers-filter .alphabets-list').length,
-    displayTitle = 0 < jQuery('.browse-speakers-filter #speaker-title-search').length,
-    displayCompany = 0 < jQuery('.browse-speakers-filter #speaker-company').length,
+    postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
@@ -1668,7 +1670,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
           let innerFlipBoxBack = document.createElement('div');
           innerFlipBoxBack.setAttribute('class', 'flip-box-back rounded-circle');
 
-          if (displayName) {
+          if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('without-name') ) {
             let innerHeading = document.createElement('h6');
 
             let innerHeadingLink = document.createElement('a');
@@ -1682,7 +1684,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
             innerFlipBoxBack.appendChild(innerHeading);
           }
 
-          if (displayTitle) {
+          if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('without-title') ) {
             let innerParagraph = document.createElement('p');
             innerParagraph.innerText = value.job_title;
             innerParagraph.setAttribute('class', 'jobtilt');
@@ -1690,7 +1692,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
             innerFlipBoxBack.appendChild(innerParagraph);
           }
 
-          if (displayCompany) {
+          if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('without-company') ) {
             let innerSpan = document.createElement('span');
             innerSpan.innerText = value.company;
             innerSpan.setAttribute('class', 'company');
@@ -1739,7 +1741,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
 function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion) {
 
   let postPerPage = jQuery('#load-more-exhibitor a').attr('data-post-limit') ? parseInt(jQuery('#load-more-exhibitor a').attr('data-post-limit')) : 10;
-  let postSearch = jQuery('.browse-exhibitors-filter .search-item .search').val();
+  let postSearch = 0 < jQuery('.browse-exhibitors-filter .search-item .search').length ? jQuery('.browse-exhibitors-filter .search-item .search').val() : '';
   let keywords = new Array();
   let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
 

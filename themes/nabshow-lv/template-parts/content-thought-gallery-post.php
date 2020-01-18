@@ -78,7 +78,7 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
         $facebook_link  = "https://www.facebook.com/sharer.php?u=" . $current_post_link;
         $twitter_link   = "https://twitter.com/intent/tweet?url=" . $current_post_link . "&text=" . $current_post_title;
         $mailto_link    = "mailto:?subject=" . $current_post_title . "&body=Check out this link: " . $current_post_link;
-        ?>Result not found.
+        ?>
         <ul class="social-share">
             <li><a href="<?php echo esc_url( $facebook_link ); ?>" class="facebook" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1080');return false;"><i class="fa fa-facebook-f"></i></a></li>
             <li><a href="<?php echo esc_url( $twitter_link ); ?>" class="twitter" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1080');return false;"><i class="fa fa-twitter"></i></a></li>
