@@ -283,6 +283,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		static function nab_mys_plugin_activate( $plugin = false ) {
 
 			update_option( 'nab_mys_show_wizard', 1 );
+			update_option( 'test_modified_sequence', 1 );
 
 			if ( MYS_PLUGIN_BASE === $plugin ) {
 				wp_redirect( esc_url( admin_url( 'admin.php?page=mys-login' ) ) );
