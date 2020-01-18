@@ -83,7 +83,6 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 				//Class File - Custom Dashboard Widget
 				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-dashboard-widget.php' );
 			}
-
 		}
 
 		/**

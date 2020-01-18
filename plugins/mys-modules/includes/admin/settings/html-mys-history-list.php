@@ -104,7 +104,6 @@ $history_data = $this->history_data;
 		$detail_history_url = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
 
 		if ( 0 === count( $string_of_totals ) ) {
-
 			$string_of_totals = 5 === (int) $h_status ? 'Everything was upto date.' : 'No items found.';
 
 			$detail_history_url_groupid = $groupid;

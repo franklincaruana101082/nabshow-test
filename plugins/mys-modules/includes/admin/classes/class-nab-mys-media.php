@@ -62,7 +62,6 @@ if ( ! class_exists( 'NAB_MYS_MEDIA' ) ) {
 					if( false === $image_string ) {
 						throw new Exception( "The image URL is incorrect." );
 					}
-
 					$fileSaved = $wp_filesystem->put_contents( $uploads['path'] . "/" . $filename, $image_string );
 
 					if ( ! $fileSaved ) {
