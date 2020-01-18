@@ -887,7 +887,11 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			 */
 			$item_status = (int) $item->ItemStatus;
 
-			$session_post_id = $this->nab_mys_cron_get_wpid_from_meta( 'sessions', 'sessionid', $sessionid );
+			// if sessiond = 0, it means no sessions are assigned to track
+			$session_post_id = '';
+			if ( 0 !== $sessionid ) {
+				$session_post_id = $this->nab_mys_cron_get_wpid_from_meta( 'sessions', 'sessionid', $sessionid );
+			}
 
 			$track_post_ids = array();
 

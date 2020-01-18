@@ -133,34 +133,33 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					//Tracks
 					if ( "tracks" === $current_request ) {
 
-						$track_affected = 0;
-
 						if ( ! isset ( $item->sessions ) || ! is_array( $item->sessions ) ) {
-							continue;
-						}
 
-						foreach ( $item->sessions as $session ) {
+							$master_array[ 0 ][] = $item;
+							$total_item_statuses['Unassigned'][] = '';
 
-							if ( array_key_exists( $session->sessionid, $this->session_modified_array ) ) {
+						} else {
+							foreach ( $item->sessions as $session ) {
 
-								$item_mys_id = $session->sessionid;
+								if ( array_key_exists( $session->sessionid, $this->session_modified_array ) ) {
 
-								$item_to_add = $item;
-								unset( $item_to_add->sessions );
+									$item_mys_id = $session->sessionid;
 
-								$master_array[ $session->sessionid ][] = $item_to_add;
+									$item_to_add = $item;
+									unset( $item_to_add->sessions );
 
-								$track_affected = 1;
+									$master_array[ $session->sessionid ][] = $item_to_add;
 
+									$track_affected = 1;
+
+								}
 							}
-						}
-
-						if ( 1 === $track_affected ) {
 
 							$total_item_statuses[ $this->session_modified_array[ $item_mys_id ] ][] = '';
-
-							$affected_items ++;
 						}
+
+
+						$affected_items ++;
 
 					} else {
 
@@ -218,7 +217,13 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				foreach ( $master_array as $item_mys_id => $item ) {
 
-					$item_status = $this->session_modified_array[ $item_mys_id ];
+					// If tracks, we might not have any assigned session,
+					// so skip checking status of sessionid in modified_array.
+					if( "tracks" === $current_request ) {
+						$item_status = "Updated";
+					} else {
+						$item_status = $this->session_modified_array[ $item_mys_id ];
+					}
 
 					switch ( $item_status ) {
 
@@ -266,7 +271,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				if( 0 === count( $master_array ) ) {
 					$bulk_status = 1;
 				} else {
-				$bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+					$bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
 				}
 
 				$total_counts = $affected_items;

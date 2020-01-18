@@ -189,11 +189,15 @@ $history_data = $this->history_data;
 								$session_wpdata[ $assigned_id ]['title'] = $session_post_title;
 								$session_wpdata[ $assigned_id ]['link']  = $session_post_link;
 
+							} else if ( 0 === $assigned_id ) {
+								$session_post_title = "Not assigned to any Session.";
 							} else {
 								$session_post_title = "Session not created yet.";
 							}
 						}
-						$session_post_title .= " (sessionid: $assigned_id)";
+						if ( 0 !== $assigned_id ) {
+							$session_post_title .= " (sessionid: $assigned_id)";
+						}
 					}
 
 

@@ -144,6 +144,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Exhibitors' ) ) {
 
 					$term_post_id = $existing_term_data->term_id;
 
+					wp_update_term( $term_post_id, $taxonomy, array(
+						'name'        => $categoryname,
+						'description' => $description,
+						'parent'      => $wp_parent_id,
+					) );
+
 				} else {
 					// insert new term if not already available
 

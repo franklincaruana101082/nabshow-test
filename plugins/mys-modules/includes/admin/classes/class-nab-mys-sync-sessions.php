@@ -121,9 +121,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0 );
 
 			return $mys_response_body;
-
 		}
-
 
 		/**
 		 * Check Lock for the Session Sync.
