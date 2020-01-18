@@ -358,7 +358,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				update_option('session_attempt_state', $previous_rows );
 
 				if( $previous_rows === $old_session_attempt_state ) {
-				return $pending_data;
+					return $pending_data;
 				} else {
 					// Resetting attempts as the sequence has increased records than earlier.
 					update_option( 'mys_data_attempt_sessions', 0 );

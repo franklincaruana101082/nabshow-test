@@ -289,4 +289,5 @@ jQuery(document).ready(function ($) {
       $(this).css('border-color', '#fba');
     }
   });
+
 });

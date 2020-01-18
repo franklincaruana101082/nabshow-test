@@ -102,7 +102,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 			$this->group_id = $group_id;
 
 
-
 			if ( "insert" === $query_type ) {
 
 				$sql = $this->wpdb->insert(

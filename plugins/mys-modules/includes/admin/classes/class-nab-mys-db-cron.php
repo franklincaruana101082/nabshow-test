@@ -777,7 +777,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			}
 
 			//Flush previous comma separated relations and add new once.
-			if ( "speakers" === $post_type && "sponsors" === $post_type && null !== $data ) {
+			if ( ( "speakers" === $post_type || "sponsors" === $post_type ) && null !== $data ) {
 
 				$post_ids_to_save_in_session = implode( ',', $post_ids_to_save_in_session );
 
