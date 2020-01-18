@@ -262,7 +262,12 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				global $wpdb;
 
-				$bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+				// If there are no changes.
+				if( 0 === count( $master_array ) ) {
+					$bulk_status = 1;
+				} else {
+				    $bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
+				}
 
 				$total_counts = $affected_items;
 
