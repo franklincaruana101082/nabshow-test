@@ -433,9 +433,8 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                     if ( 'layout-1' === $slider_layout ) {
 
                     	if  ( $display_location ) {
-
-                    		$session_types = get_the_terms( $session_id, 'session-types' );
-                            $sub_title     =  $this->mysgb_get_pipe_separated_term_list( $session_types );
+							$session_tracks = $this->mysgb_get_pipe_separated_term_list( $post_tracks );
+                            $sub_title      =  $session_tracks;
                     	}
 
                     } elseif ( $display_date ) {

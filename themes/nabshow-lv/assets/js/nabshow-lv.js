@@ -375,8 +375,10 @@
   if (0 < $('.nab-photos').length) {
     $(document).on('click', '.nab-photos .popup-btn', function () {
       var imgWidth = jQuery(this).parent().parent().find('.media').attr('width');
+      let imgCaption = jQuery(this).parents('.photo-item').find('.photo-caption p.caption').text();
       jQuery('.nab-photos .photos-popup .photos-popup-img').attr('src', jQuery(this).parent().parent().find('.media').attr('src'));
       jQuery('.nab-photos .photos-dialog').css('width', 1370 > imgWidth ? imgWidth : '1370px');
+      jQuery('.nab-photos .photos-popup .popup-photo-cation').text(imgCaption);
       jQuery('.nab-photos .photos-popup').show();
       jQuery('body').addClass('overflow-hidden');
       jQuery('.nab-photos .photos-backdrop').show();
@@ -1033,7 +1035,7 @@
     let exhibitorPageNumber,
       exhibitorStartWith = '',
       exhibitorHall = '',
-      exhibitorPavilion = '',
+      exhibitorPavilion = 0 === $('.browse-exhibitors-filter .browse-select #exhibitor-pavilion')[0].selectedIndex ? '' : $('.browse-exhibitors-filter .browse-select #exhibitor-pavilion').val(),
       exhibitorCategory = 0 === $('.browse-exhibitors-filter .browse-select #exhibitor-category')[0].selectedIndex ? '' : $('.browse-exhibitors-filter .browse-select #exhibitor-category').val();
 
     $(document).on('change', '.browse-exhibitors-filter .browse-select #exhibitor-category', function () {

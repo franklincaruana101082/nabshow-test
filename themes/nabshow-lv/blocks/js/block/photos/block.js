@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Component } = wpElement;
   const { MediaUpload, InspectorControls } = wpEditor;
-  const { Button, PanelBody} = wpComponents;
+  const { Button, PanelBody, TextControl} = wpComponents;
 
   const photosBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -46,6 +46,7 @@
                   alt: item.alt,
                   id: item.id,
                   width: item.sizes.full.width,
+                  caption: ''
                 }));
                 setAttributes({
                   dataArry: [
@@ -85,6 +86,19 @@
                       }}
                       className="dashicons dashicons-no-alt remove"></span>
                     <img src={photo.media} alt={photo.alt} className="media" width={photo.width} />
+                  </div>
+                  <div className="photo-caption">
+                    <TextControl
+                      type="string"
+                      className="caption"
+                      value={photo.caption}
+                      placeholder="Caption"
+                      onChange={ cap => {
+                        let tempDataArray = [...dataArry];
+                        tempDataArray[index].caption = cap;
+                        setAttributes({ dataArry: tempDataArray});
+                      }}
+                    />
                   </div>
                 </div>
               );
@@ -148,6 +162,9 @@
                 </div>
                 <img src={photo.media} alt={photo.alt} className="media" width={photo.width} />
               </div>
+              <div className="photo-caption">
+                <p className='caption'>{photo.caption}</p>
+              </div>
             </div>
           ))}
           <div className="photos-popup">
@@ -157,6 +174,7 @@
                 <div className="photos-body">
                   <img className="photos-popup-img" src="" />
                 </div>
+                <span className="popup-photo-cation"></span>
               </div>
             </div>
             <div className="photos-backdrop"></div>

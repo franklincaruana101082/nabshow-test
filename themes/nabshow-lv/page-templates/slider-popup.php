@@ -68,7 +68,6 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											<?php
 										}
 										?>
-                                        <p><a href="#">Program Name</a></p>
                                     </div>
                                     <div class="feature">
                                         <img class="round-img" src="<?php echo esc_url( $speaker_thumbnail_url ); ?>"
@@ -105,8 +104,8 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											$session_query->the_post();
 
 											$speaker_session_id = get_the_ID();
-											$session_types      = get_the_terms( $speaker_session_id, 'session-types' );
-											$sub_title          = nabshow_lv_get_pipe_separated_term_list( $session_types );
+											$session_tracks     = get_the_terms( $speaker_session_id, 'tracks' );
+											$sub_title          = nabshow_lv_get_pipe_separated_term_list( $session_tracks );
 											$date               = get_post_meta( $speaker_session_id, 'date', true );
 											$start_time         = get_post_meta( $speaker_session_id, 'starttime', true );
 											$end_time           = get_post_meta( $speaker_session_id, 'endtime', true );
@@ -163,13 +162,26 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 						<?php
 					} elseif ( "sessions" === $current_type ) {
 
-						$all_location        = get_the_terms( $query_post_id, 'session-locations' );
-                        $location            = nabshow_lv_get_pipe_separated_term_list( $all_location );
+						$all_locations        = get_the_terms( $query_post_id, 'session-locations' );
+                        $session_tracks      = get_the_terms( $query_post_id, 'tracks' );
+                        $session_tracks      = nabshow_lv_get_pipe_separated_term_list( $session_tracks );
                         $schedule_id         = get_post_meta( $query_post_id, 'scheduleid', true );
 						$date                = get_post_meta( $query_post_id, 'date', true );
 						$start_time          = get_post_meta( $query_post_id, 'starttime', true );
 						$end_time            = get_post_meta( $query_post_id, 'endtime', true );
 					    $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
+					    $location_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/floorplan/';
+
+						$temp_locations = array();
+
+						if ( $all_locations && ! is_wp_error( $all_locations ) ) {
+
+							foreach ( $all_locations as $location ) {
+								$temp_locations[] = '<a href="' . $location_url  . '" target="_blank">' . $location->name . '</a>';
+							}
+						}
+
+						$display_location = implode( ' | ', $temp_locations );
 
 						if ( ! empty( $date ) ) {
 							$date      = date_format( date_create( $date ), 'l, F j, Y' );
@@ -192,8 +204,8 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 						$session_info = '';
 
-						if ( ! empty( $location ) ) {
-							$session_info .= $location . ' | ';
+						if ( ! empty( $display_location ) ) {
+							$session_info .= $display_location . ' | ';
 						}
 						if ( ! empty( $date ) ) {
 							$session_info .= $date . ' | ';
@@ -201,16 +213,15 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 						$session_info   .= $start_time . ' - ' . $end_time;
 						$session_info   = trim( $session_info, ' | ' );
-					    $element_array  = array( 'a' => array( 'href' => array() ) );
+					    $element_array  = array( 'a' => array( 'href' => array(), 'target' => array() ) );
 						?>
                         <div class="modal-popup-nab-inner session-popup">
                             <div class="mb50">
                                 <div class="head">
                                     <div class="details">
-                                        <span class="program-name">Program Name</span>
+                                        <span class="program-name"><?php echo esc_html( $session_tracks ); ?></span>
                                         <h3 class="title"><a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
                                         <strong class="company"><?php echo wp_kses( $session_info, $element_array ); ?></strong>
-                                        <strong><a href="https://registration.experientevent.com/ShowNAB201/Flow/ATT/#!/registrant//CustomLogin/" target="_blank">Open to Registration Package</a> | Session Length | Cost</strong>
                                     </div>
 									<?php
 									if ( has_post_thumbnail() ) {
@@ -318,12 +329,6 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 								wp_reset_postdata();
 							}
 							?>
-                            <ul class="tag-list">
-                                <li><a href="#">Tag</a></li>
-                                <li><a href="#">Tag</a></li>
-                                <li><a href="#">Tag</a></li>
-                                <li><a href="#">Tag</a></li>
-                            </ul>
                             <div class="popup-bottom">
                                 <div class="view-btn">
                                     <a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View In Planner</a>
@@ -339,6 +344,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 						$booths_halls   = get_post_meta( $query_post_id, 'booths_halls', true );
 						$exh_id         = get_post_meta( $query_post_id, 'exhid', true );
 						$exh_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+						$hall_link      = 'https://' . $show_code . '.mapyourshow.com/8_0/floorplan/';
 						?>
 
                         <ul class="modal-popup-nab-inner session-popup">
@@ -353,37 +359,17 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 	                                        if ( is_array( $all_booths_halls ) ) {
 
-	                                            $hall_param_map = array(
-	                                                    'north hall and central lobby' => 'A',
-	                                                    'central hall' => 'B',
-	                                                    'south hall (upper)' => 'C',
-	                                                    'south hall (lower)' => 'D',
-	                                                    'north hall meeting rooms' => 'E',
-	                                                    'outdoor/mobile media' => 'F',
-	                                                    'south hall meeting rooms' => 'G',
-	                                                    'silver lot' => 'H'
-                                                    );
-
 		                                        foreach ( $all_booths_halls as $booth_hall ) {
 
 			                                        $single_booth_hall  = explode( '@', $booth_hall );
 			                                        $exhibitor_info     = '';
 
 			                                        if ( isset( $single_booth_hall[1] ) ) {
-                                                        $current_hall   = strtolower( $single_booth_hall[1] );
-			                                            $hall_id        = isset( $hall_param_map[ $current_hall ] ) ? $hall_param_map[ $current_hall ] : '';
-			                                            $booth_param    = isset( $single_booth_hall[0] ) ?  'booth-' . $single_booth_hall[0] : '';
 
-			                                            if ( ! empty( $hall_id ) && ! empty( $booth_param ) ) {
-				                                            $hall_link      = 'https://nab20.mapyourshow.com/8_0/floorplan/index.cfm?hallID=' . $hall_id . '&selectedBooth=' . $booth_param;
-				                                            $exhibitor_info = '<a href="' . $hall_link .'" target="_blank">'. $single_booth_hall[1] . '</a>';
-                                                        } else {
-				                                            $exhibitor_info = $single_booth_hall[1];
-                                                        }
+			                                        	$exhibitor_info = '<a href="' . $hall_link . '" target="_blank">' . $single_booth_hall[1] . '</a>';
                                                     }
 
 			                                        $exhibitor_info     .= isset( $single_booth_hall[0] ) ?  ' | ' . $single_booth_hall[0] : '';
-			                                        $exhibitor_info     .= ' | Pavilion';
 			                                        $exhibitor_info     = trim( $exhibitor_info, ' | ' );
 			                                        $element_array      = array( 'a' => array( 'href' => array(), 'target' => array() ) );
                                                 ?>
@@ -407,20 +393,43 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <?php nabshow_lv_get_popup_content( $query_post_id, $exh_url ); ?>
                             </div>
                             <?php
-                            $all_terms = get_the_terms( $query_post_id, 'exhibitor-keywords' );
 
-                            if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+                            $all_terms      = get_the_terms( $query_post_id, 'exhibitor-keywords' );
+                            $all_pavilions  = get_the_terms( $query_post_id, 'pavilions' );
+                            $site_url       = get_site_url();
+
+                            if ( ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) ||  ( is_array( $all_pavilions ) && ! is_wp_error( $all_pavilions ) ) ) {
                             ?>
                                 <ul class="tag-list">
                                 <?php
-		                            foreach ( $all_terms as $current_term ) {
-			                            if ( 'featured' !== $current_term->slug ) {
-			                                $term_tag_link = get_site_url() . '/explore/exhibits/browse-exhibitors/?exhibitor-key='. $current_term->slug;
-                                        ?>
-                                            <li><a href="<?php echo esc_url( $term_tag_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></li>
-                                        <?php
-			                            }
-		                            }
+                                    if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
+
+                                    	foreach ( $all_terms as $current_term ) {
+
+                                    		if ( 'featured' !== $current_term->slug ) {
+
+                                    			$term_tag_link = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-key=' . $current_term->slug;
+			                                    ?>
+			                                    <li>
+				                                    <a href="<?php echo esc_url( $term_tag_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a>
+			                                    </li>
+			                                    <?php
+		                                    }
+	                                    }
+                                    }
+
+                                    if ( is_array( $all_pavilions ) && ! is_wp_error( $all_pavilions ) ) {
+
+	                                    foreach ( $all_pavilions as $pavilion ) {
+
+	                                    	$pavilion_tag_link = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-pav=' . $pavilion->slug;
+		                                    ?>
+		                                    <li>
+			                                    <a href="<?php echo esc_url( $pavilion_tag_link ); ?>"><?php echo esc_html( $pavilion->name ); ?></a>
+		                                    </li>
+		                                    <?php
+	                                    }
+                                    }
                                 ?>
                                 </ul>
                             <?php

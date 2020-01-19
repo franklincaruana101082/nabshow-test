@@ -19,7 +19,7 @@
 .modal-popup-nab .head{display:flex;margin-bottom:20px}
 .modal-popup-nab .head .details{width:calc(100% - 300px);padding-right:30px;box-sizing:border-box}
 .modal-popup-nab .head .feature{width:300px;text-align:right}
-.modal-popup-nab .head .feature img.round-img{border-radius:50%;width:160px;height:160px;object-fit:cover;object-position:center}
+.modal-popup-nab .head .feature img.round-img{width:160px;height:160px;object-fit:cover;object-position:center}
 .modal-popup-nab .head .details .title{font-size:34px;font-family:"Vollkorn BoldItalic";font-weight:normal}
 .modal-popup-nab .head .details .sub-title{display:block;font-size:20px;color:#000;font-family:"Gotham Book Italic";margin-bottom:10px}
 .modal-popup-nab .head .details .company{font-size:20px;display:block;font-family:"Gotham Bold", sans-serif;margin-bottom:10px;word-break:break-word;color:#000!important}
@@ -1076,8 +1076,8 @@ body .quote-slider .quote-inner .quote-item:first-child, .nab-media-slider .nab-
 /* Sponsors and Partners */
 ul.partner-listing{margin:0 -15px;padding:0;display:flex;flex-wrap:wrap}
 ul.partner-listing li{flex-basis:20%;padding:0 15px;list-style:none;display:flex;flex-direction:column;justify-content:center;align-items:center;margin-bottom:15px}
-ul.partner-listing li figure{margin:0;min-height:120px;display:flex;justify-content:center;align-items:center;width:100%}
-ul.partner-listing li figure img{max-width:100%;max-height:120px}
+ul.partner-listing li figure{margin:0;min-height:120px;width:100%;padding:10px;background:#fff;height:150px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
+ul.partner-listing li figure.partner-img-box img{max-height:55%;max-width:80%}
 ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", sans-serif;margin-top:20px;margin-bottom:10px;display:block}
 .destination-sponsor .wp-block-columns .wp-block-column:first-child{flex-basis:85%}
 .destination-sponsor .wp-block-columns .wp-block-column:last-child{flex-basis:15%}
@@ -1085,6 +1085,7 @@ ul.partner-listing li span{color:#000;font-size:16px;font-family:"Gotham Bold", 
 
 /* Related content page css */
 .row.related-content-rowbox .related-content-box{height:94%;background:#fff}
+.row.related-content-rowbox .related-content-box .publish-date{font-size:14px;margin-bottom:12px;display:block}
 .wp-block-nab-multipurpose-gutenberg-block.sponsors-block{max-width:100%}
 
 /* Not To Be Missed Page Animationc */
@@ -1211,6 +1212,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .nab-photos .photo-item .photo-inner::after, .nab-videos .photo-item .photo-inner::after{content:"";background:#0000007a;position:absolute;top:0;left:0;right:0;bottom:0;transition:0.5s all;opacity:0}
 .nab-photos .photo-item .photo-inner:hover::after, .nab-videos .photo-item .photo-inner:hover::after{opacity:1;transition:0.5s all;z-index:9}
 @keyframes photosAnimatetop{from{top:-300px;opacity:0}to{top:50%;opacity:1}}
+.nab-photos .photo-item .photo-caption{display:none}
+.photos-popup .popup-photo-cation{background:#000000d9;position:absolute;bottom:0;left:0;width:100%;color:#fff;padding:15px}
 
 .slider-arrow-main .no-data{display:none}
 .load-more-sessions{margin-top:20px}
@@ -1688,6 +1691,9 @@ button#catapultCookie{background-color:#0f6cb6;border-radius:0;padding:6px 12px;
 button#catapultCookie:hover{background-color:#064c84}
 span.ctcc-right-side{display:inline-block}
 #catapult-cookie-bar .ctcc-left-side{display:inline-block;margin-right:10px;margin-bottom:10px}
+.nab-box-slider.sponsors.less-items .item,.nab-box-slider.exhibitors.less-items .item{padding:10px;background:#fff;height:150px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center;width:24%;margin-right:14px}
+.nab-box-slider.sponsors.less-items .item img,.nab-box-slider.exhibitors.less-items .item img{max-height:90%;max-width:90%;display:block}
+.nab-box-slider.sponsors.less-items .item a,.nab-box-slider.exhibitors.less-items .item a{display:flex;align-items:center;width:auto;height:100%}
 
 /* Form Design CSS */
 .nab-form .form-item{display:inline-block;width:100%;margin-bottom:15px}

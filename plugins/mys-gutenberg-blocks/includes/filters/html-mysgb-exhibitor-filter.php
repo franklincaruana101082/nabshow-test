@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $get_featured = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
 $get_category = filter_input( INPUT_GET, 'exhibitor-cat', FILTER_SANITIZE_STRING );
+$get_pavilion = filter_input( INPUT_GET, 'exhibitor-pav', FILTER_SANITIZE_STRING );
 
 $featured_class = 'featured-btn';
 
@@ -124,7 +125,7 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
                     <select id="exhibitor-pavilion" class="select-opt">
                         <option>Select a Pavilion</option>
 				        <?php
-				        $this->mysgb_get_term_list_options( 'pavilions' );
+				        $this->mysgb_get_term_list_options( 'pavilions', $get_pavilion );
 				        ?>
                     </select>
                 </div>

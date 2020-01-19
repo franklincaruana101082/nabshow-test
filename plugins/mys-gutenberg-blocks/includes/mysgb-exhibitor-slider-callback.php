@@ -62,6 +62,7 @@ if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
 
     $get_exkey      = filter_input( INPUT_GET, 'exhibitor-key', FILTER_SANITIZE_STRING );
     $get_category   = filter_input( INPUT_GET, 'exhibitor-cat', FILTER_SANITIZE_STRING );
+    $get_pavilion   = filter_input( INPUT_GET, 'exhibitor-pav', FILTER_SANITIZE_STRING );
 
     if ( isset( $get_exkey ) && ! empty( $get_exkey ) ) {
 
@@ -71,6 +72,11 @@ if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
     } elseif ( isset( $get_category ) && ! empty( $get_category ) ) {
 
     	$final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_category . '-' . $posts_per_page;
+        $query      = get_transient( $final_key );
+
+    } elseif ( isset( $get_pavilion ) && ! empty( $get_pavilion ) ) {
+
+    	$final_key  = 'mysgb-exhibitors-browse-post-cache-' . $get_pavilion . '-' . $posts_per_page;
         $query      = get_transient( $final_key );
 
     } else {
@@ -123,6 +129,15 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                     'taxonomy' => 'exhibitor-categories',
                     'field'    => 'slug',
                     'terms'    => array( $get_category )
+                )
+        );
+    } elseif ( isset( $get_pavilion ) && ! empty( $get_pavilion ) ) {
+
+    	$query_args[ 'tax_query' ] = array(
+                array(
+                    'taxonomy' => 'pavilions',
+                    'field'    => 'slug',
+                    'terms'    => array( $get_pavilion )
                 )
         );
     }

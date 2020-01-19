@@ -4041,7 +4041,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var MediaUpload = wpEditor.MediaUpload,
       InspectorControls = wpEditor.InspectorControls;
   var Button = wpComponents.Button,
-      PanelBody = wpComponents.PanelBody;
+      PanelBody = wpComponents.PanelBody,
+      TextControl = wpComponents.TextControl;
 
 
   var photosBlockIcon = wp.element.createElement(
@@ -4095,7 +4096,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     media: item.url,
                     alt: item.alt,
                     id: item.id,
-                    width: item.sizes.full.width
+                    width: item.sizes.full.width,
+                    caption: ''
                   };
                 });
                 setAttributes({
@@ -4143,6 +4145,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   },
                   className: "dashicons dashicons-no-alt remove" }),
                 wp.element.createElement("img", { src: photo.media, alt: photo.alt, className: "media", width: photo.width })
+              ),
+              wp.element.createElement(
+                "div",
+                { className: "photo-caption" },
+                wp.element.createElement(TextControl, {
+                  type: "string",
+                  className: "caption",
+                  value: photo.caption,
+                  placeholder: "Caption",
+                  onChange: function onChange(cap) {
+                    var tempDataArray = [].concat(_toConsumableArray(dataArry));
+                    tempDataArray[index].caption = cap;
+                    setAttributes({ dataArry: tempDataArray });
+                  }
+                })
               )
             );
           }),
@@ -4232,6 +4249,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               ),
               wp.element.createElement("img", { src: photo.media, alt: photo.alt, className: "media", width: photo.width })
+            ),
+            wp.element.createElement(
+              "div",
+              { className: "photo-caption" },
+              wp.element.createElement(
+                "p",
+                { className: "caption" },
+                photo.caption
+              )
             )
           );
         }),
@@ -4253,7 +4279,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 "div",
                 { className: "photos-body" },
                 wp.element.createElement("img", { className: "photos-popup-img", src: "" })
-              )
+              ),
+              wp.element.createElement("span", { className: "popup-photo-cation" })
             )
           ),
           wp.element.createElement("div", { className: "photos-backdrop" })

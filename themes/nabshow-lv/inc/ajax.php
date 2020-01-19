@@ -207,6 +207,7 @@ function nabshow_lv_news_releases_load_more_post_callback() {
 			$result_post[ $i ]["post_title"]     = get_the_title();
 			$result_post[ $i ]["excerpt"]        = nabshow_lv_excerpt();
 			$result_post[ $i ]["post_permalink"] = get_the_permalink();
+			$result_post[ $i ]["post_date"]      = get_the_date();
 
 			$i ++;
 

@@ -229,9 +229,9 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
 
-    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '2.3' );
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '2.4' );
 
-    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '2.3' );
+    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '2.4' );
 
     wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/print-css.css' );
 
@@ -243,7 +243,7 @@ function nabshow_lv_scripts() {
     wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '2.3', true );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '2.4', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
@@ -273,7 +273,7 @@ function nabshow_lv_scripts() {
     endif;
 
 	if ( is_post_type_archive('news-releases' ) ):
-		wp_enqueue_script( 'nabshow-lv-news-releases', get_template_directory_uri() . '/assets/js/nabshow-lv-news-releases.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'nabshow-lv-news-releases', get_template_directory_uri() . '/assets/js/nabshow-lv-news-releases.js', array( 'jquery' ), '1.1', true );
 		wp_localize_script( 'nabshow-lv-news-releases', 'nabshowLvNewsReleases', array(
 			'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 			'nabshow_lv_news_releases_nonce' => wp_create_nonce( 'news_releases_nonce' )

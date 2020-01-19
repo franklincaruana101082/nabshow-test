@@ -127,32 +127,21 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_get_all_terms() {
 
-            //get data from the cache
-            $response = get_transient( 'mysgb-get-all-terms-cache' );
+            $return = array();
 
-            if ( false === $response ) {
+            //get all terms
+            $terms = get_terms();
 
-                $return = array();
+            //arrange term according to taxonomy
+            foreach ( $terms as $term ) {
 
-                //get all terms
-                $terms = get_terms();
-
-                //arrange term according to taxonomy
-                foreach ( $terms as $term ) {
-
-                    $return[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
-                }
-
-                //set response into the cache
-                set_transient( 'mysgb-get-all-terms-cache', $return, 60 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-
-                return new WP_REST_Response( $return, 200 );
-
-            } else {
-
-                //return cache data
-                return new WP_REST_Response( $response, 200 );
+                $return[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
             }
+
+            //set response into the cache
+            set_transient( 'mysgb-get-all-terms-cache', $return, 60 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+
+            return new WP_REST_Response( $return, 200 );
 
         }
 
@@ -164,30 +153,22 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 	     */
 	    public static function mysgb_get_sponsor_acf_types() {
 
-		    $sponsors_destination = get_transient( 'mysgb-sponsors-destination-types' );
 
-		    if ( false === $sponsors_destination ) {
+		    $sponsors_destination = array();
 
-			    $sponsors_destination = array();
+		    $acf_fields = get_field_object( 'field_5e09d6ef21e49' );
 
-			    $acf_fields = get_field_object( 'field_5e09d6ef21e49' );
+		    if ( isset( $acf_fields[ 'choices' ] ) && is_array( $acf_fields[ 'choices' ] ) ) {
 
-			    if ( isset( $acf_fields[ 'choices' ] ) && is_array( $acf_fields[ 'choices' ] ) ) {
+			    $cnt = 0;
 
-				    $cnt = 0;
+			    foreach ( $acf_fields[ 'choices' ] as $field_val => $field_label ) {
 
-				    foreach ( $acf_fields[ 'choices' ] as $field_val => $field_label ) {
-
-					    $sponsors_destination[ $cnt ][ 'label' ] = $field_label;
-					    $sponsors_destination[ $cnt ][ 'value' ] = $field_val;
-					    $cnt++;
-				    }
-
-				    if ( count( $sponsors_destination ) > 0 ) {
-
-					    set_transient( 'mysgb-sponsors-destination-types', $sponsors_destination, 30 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-				    }
+				    $sponsors_destination[ $cnt ][ 'label' ] = $field_label;
+				    $sponsors_destination[ $cnt ][ 'value' ] = $field_val;
+				    $cnt++;
 			    }
+
 		    }
 
 		    return new WP_REST_Response( $sponsors_destination, 200 );
@@ -201,7 +182,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.3' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.4' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 

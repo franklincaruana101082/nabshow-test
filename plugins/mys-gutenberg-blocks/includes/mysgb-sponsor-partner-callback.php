@@ -29,48 +29,40 @@ $order_by           = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] :
 $sponsor_order      = 'date' === $order_by ? 'DESC' : 'ASC';
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-$cache_key          = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
-$final_key          = mb_strimwidth( 'mysgb-sponsors-partners-slider-' . $block_post_type . '-' . $destination_type . '-' . $order_by . '-' . $posts_per_page . '-' . $cache_key, 0, 170 );
-$query              = get_transient( $final_key );
+$query_args = array(
+	'post_type'      => $block_post_type,
+	'meta_key'       => '_thumbnail_id',
+);
 
-if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-
-	$query_args = array(
-		'post_type'      => $block_post_type,
-		'meta_key'       => '_thumbnail_id',
-	);
-
-	if ( 'rand' === $order_by ) {
-		$query_args['posts_per_page']       = 100;
-		$query_args['fields']               = 'ids';
-		$query_args['no_found_rows']        = true;
-		$query_args['ignore_sticky_posts']  = true;
-	} else {
-		$query_args['posts_per_page']       = $posts_per_page;
-		$query_args['orderby']              = $order_by;
-		$query_args['order']                = $sponsor_order;
-	}
-
-	$tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms );
-
-	if ( count( $tax_query_args ) > 1 ) {
-		$query_args[ 'tax_query' ] = $tax_query_args;
-	}
-
-	if ( ! empty( $destination_type ) ) {
-		$query_args[ 'meta_query' ] = array(
-			array(
-				'key'		=> 'destination_type_$_destination',
-				'compare'	=> '=',
-				'value'		=> $destination_type,
-			)
-		);
-	}
-
-	$query = new WP_Query($query_args);
-
-	set_transient( $final_key, $query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+if ( 'rand' === $order_by ) {
+	$query_args['posts_per_page']       = 100;
+	$query_args['fields']               = 'ids';
+	$query_args['no_found_rows']        = true;
+	$query_args['ignore_sticky_posts']  = true;
+} else {
+	$query_args['posts_per_page']       = $posts_per_page;
+	$query_args['orderby']              = $order_by;
+	$query_args['order']                = $sponsor_order;
 }
+
+$tax_query_args = $this->mysgb_get_tax_query_argument( $taxonomies, $terms );
+
+if ( count( $tax_query_args ) > 1 ) {
+	$query_args[ 'tax_query' ] = $tax_query_args;
+}
+
+if ( ! empty( $destination_type ) ) {
+	$query_args[ 'meta_query' ] = array(
+		array(
+			'key'		=> 'destination_type_$_destination',
+			'compare'	=> '=',
+			'value'		=> $destination_type,
+		)
+	);
+}
+
+$query = new WP_Query($query_args);
+
 
 if ( 'rand' === $order_by && $query->have_posts() ) {
 	$post_ids = $query->posts;
