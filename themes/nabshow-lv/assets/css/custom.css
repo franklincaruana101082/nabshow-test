@@ -67,6 +67,7 @@
 .modal-popup-nab br{display:none}
 .modal-backdrop{z-index:999999;background-color:#00000070!important}
 .modal-open .modal{z-index:9999999}
+.modal-popup-nab .head .details .company a{display:inline}
 
 /* modal-popup-nab */
 
