@@ -355,16 +355,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
                             />
 
-                            { ! sliderActive &&
                             <div>
                                 <label>Layout</label>
                                 <ul className="ss-off-options">
-                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'without-title' }) }>{partnerSponser1}</li>
-                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-title' }) }>{partnerSponser2}</li>
-                                    <li className={'with-info' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-info' }) }>{sessionSliderOff1}</li>
+                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'without-title' }); this.setState({ bxinit: sliderActive }); } }>{partnerSponser1}</li>
+                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'with-title' }); this.setState({ bxinit: sliderActive }); }}>{partnerSponser2}</li>
+                                    { ! sliderActive &&
+                                    <li className={'with-info' === layout ? 'active ' : ''} onClick={() => setAttributes({layout: 'with-info'})}>{sessionSliderOff1}</li>
+                                    }
                                 </ul>
                             </div>
-                            }
 
                             { sliderActive &&
                             <Fragment>

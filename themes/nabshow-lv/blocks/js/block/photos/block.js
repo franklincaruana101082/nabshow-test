@@ -40,6 +40,7 @@
             <MediaUpload
               multiple
               onSelect={item => {
+
                 const photoInsert = item.map((item, index) => ({
                   index: index,
                   media: item.url,
@@ -71,15 +72,7 @@
                   <div className="photo-inner">
                     <span
                       onClick={() => {
-                        const qewQusote = dataArry
-                          .filter(item => item.index != photo.index)
-                          .map(t => {
-                            if (t.index > photo.index) {
-                              t.index -= 1;
-                            }
-
-                            return t;
-                          });
+                        const qewQusote = dataArry.filter(item => item.id != photo.id);
                         setAttributes({
                           dataArry: qewQusote
                         });

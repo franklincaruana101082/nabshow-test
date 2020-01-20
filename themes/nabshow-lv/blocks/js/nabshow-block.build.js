@@ -2267,7 +2267,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 20,
+                                    max: 100,
                                     onChange: function onChange(item) {
                                         setAttributes({ itemToFetch: parseInt(item) });
                                     }
@@ -4090,6 +4090,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             wp.element.createElement(MediaUpload, {
               multiple: true,
               onSelect: function onSelect(item) {
+
                 var photoInsert = item.map(function (item, index) {
                   return {
                     index: index,
@@ -4131,13 +4132,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 wp.element.createElement("span", {
                   onClick: function onClick() {
                     var qewQusote = dataArry.filter(function (item) {
-                      return item.index != photo.index;
-                    }).map(function (t) {
-                      if (t.index > photo.index) {
-                        t.index -= 1;
-                      }
-
-                      return t;
+                      return item.id != photo.id;
                     });
                     setAttributes({
                       dataArry: qewQusote

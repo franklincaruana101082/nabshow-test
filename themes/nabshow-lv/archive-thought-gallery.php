@@ -20,7 +20,7 @@ global $wp_query;
 	        		<p>A collection of high-level insights on topics, trends and technologies impacting the future of media and entertainment.</p>
 	        	</div>
 	        	<div class="head-right">
-	        		<a class="btn-default" href="#">Subscribe</a>
+	        		<a class="btn-default" href="<?php echo esc_url( site_url() . '/thought-gallery/feed/' ); ?>">Subscribe</a>
 	        	</div>
 	        </div>
             <div class="row">

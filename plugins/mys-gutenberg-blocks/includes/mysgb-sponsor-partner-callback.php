@@ -100,19 +100,32 @@ if ( $query->have_posts() ) {
 						<div class="item">
 							<?php
 							if ( ! empty( $partners_sponsors_link ) ) {
+								?>
+								<a href="<?php echo esc_url( $partners_sponsors_link ); ?>" target="_blank">
+								<?php
+							}
 							?>
-							<a href="<?php echo esc_url( $partners_sponsors_link ); ?>" target="_blank">
-								<?php
-								}
+
+							<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="sponsor-logo" />
+
+							<?php
+							if ( ! empty( $partners_sponsors_link ) ) {
 								?>
-								<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="sponsor-logo" />
+								</a>
 								<?php
-								if ( ! empty( $partners_sponsors_link ) ) {
+							}
+
+							if ( 'with-title' === $layout ) {
+
+								$sponsor_type = $this->mysgb_get_sponsor_type( $destination_type, get_the_ID() );
+
 								?>
-							</a>
-						<?php
-						}
-						?>
+								<div class="sponsor-info-box">
+									<span class="title-type"><?php echo esc_html( $sponsor_type ); ?></span>
+								</div>
+								<?php
+							}
+							?>
 						</div>
 						<?php
 					} else {
@@ -153,28 +166,7 @@ if ( $query->have_posts() ) {
 						<?php
 						if ( 'with-title' === $layout || 'with-info' === $layout ) {
 
-							$sponsor_type = '';
-
-							if ( ! empty( $destination_type ) ) {
-
-								$destination_field_types = get_field( 'destination_type', get_the_ID() );
-
-								if ( is_array( $destination_field_types ) && count( $destination_field_types ) > 0 ) {
-
-									foreach ( $destination_field_types as $field_type ) {
-
-										if ( isset( $field_type[ 'destination' ] ) && $destination_type === $field_type[ 'destination' ] ) {
-											$sponsor_type =	$field_type[ 'sponsor_type' ];
-											break;
-										}
-									}
-								}
-
-							} else {
-
-								$all_sponsor_type = get_the_terms( get_the_ID(), 'sponsor-types' );
-								$sponsor_type     = $this->mysgb_get_pipe_separated_term_list( $all_sponsor_type );
-							}
+							$sponsor_type = $this->mysgb_get_sponsor_type( $destination_type, get_the_ID() );
 
 							?>
 							<span><?php echo esc_html( $sponsor_type ); ?></span>

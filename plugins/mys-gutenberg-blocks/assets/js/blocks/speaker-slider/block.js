@@ -187,7 +187,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <RangeControl
                     value={itemToFetch}
                     min={1}
-                    max={20}
+                    max={100}
                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
                 />
             </div>;

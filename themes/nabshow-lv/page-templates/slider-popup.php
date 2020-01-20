@@ -359,6 +359,25 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 	                                        if ( is_array( $all_booths_halls ) ) {
 
+		                                        $hall_param_map = array(
+			                                        'North Hall & Central Lobby' => '/explore/campus/north-hall-and-central-lobby/',
+			                                        'Central Hall' => '/explore/campus/central-hall/',
+			                                        'South Hall (Upper)' => '/explore/campus/south-hall-upper/',
+			                                        'South Hall (Lower)' => '/explore/campus/south-hall-lower/',
+			                                        'Outdoor/Mobile Media' => '/explore/campus/outdoor-mobile-media/',
+			                                        'Silver Lot' => '/explore/campus/silver-lot/',
+			                                        'North Hall Meeting Rooms' => '/explore/campus/north-hall-meeting-rooms/',
+			                                        'South Hall Meeting Rooms' => '/explore/campus/south-hall-meeting-rooms/',
+			                                        'Westgate' => '/explore/campus/westgate/',
+			                                        'Encore' => '/explore/campus/encore/',
+			                                        'wynn' => '/explore/campus/wynn/',
+			                                        'Renaissance Hospitality Suites' => '/explore/campus/renaissance/',
+			                                        'West Hall' => '/explore/campus/west-hall/',
+			                                        'Other' => '/explore/campus/other/'
+		                                        );
+
+		                                        $site_url = get_site_url();
+
 		                                        foreach ( $all_booths_halls as $booth_hall ) {
 
 			                                        $single_booth_hall  = explode( '@', $booth_hall );
@@ -366,8 +385,18 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 			                                        if ( isset( $single_booth_hall[1] ) ) {
 
-			                                        	$exhibitor_info = '<a href="' . $hall_link . '" target="_blank">' . $single_booth_hall[1] . '</a>';
-                                                    }
+			                                        	$current_hall   = $single_booth_hall[1];
+				                                        $hall_url       = isset( $hall_param_map[ $current_hall ] ) ? $hall_param_map[ $current_hall ] : '';
+
+				                                        if ( ! empty( $hall_url ) ) {
+
+				                                        	$hall_url   = $site_url . $hall_url;
+					                                        $exhibitor_info = '<a href="' . $hall_url .'">'. $single_booth_hall[1] . '</a>';
+
+				                                        } else {
+					                                        $exhibitor_info = $single_booth_hall[1];
+				                                        }
+			                                        }
 
 			                                        $exhibitor_info     .= isset( $single_booth_hall[0] ) ?  ' | ' . $single_booth_hall[0] : '';
 			                                        $exhibitor_info     = trim( $exhibitor_info, ' | ' );

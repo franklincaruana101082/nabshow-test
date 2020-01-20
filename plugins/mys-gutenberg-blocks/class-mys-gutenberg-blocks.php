@@ -182,7 +182,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.4' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.5' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -655,6 +655,45 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                     }
                 }
             }
+        }
+
+	    /**
+	     * Fetch sponsor type according destination and sponsor id
+	     *
+	     * @param $destination_type
+	     * @param $current_post_ID
+	     *
+	     * @return string
+	     *
+	     * @since 1.0.0
+	     */
+        public function mysgb_get_sponsor_type( $destination_type, $current_post_ID ) {
+
+	        $sponsor_type = '';
+
+	        if ( ! empty( $destination_type ) ) {
+
+		        $destination_field_types = get_field( 'destination_type', $current_post_ID );
+
+		        if ( is_array( $destination_field_types ) && count( $destination_field_types ) > 0 ) {
+
+			        foreach ( $destination_field_types as $field_type ) {
+
+				        if ( isset( $field_type[ 'destination' ] ) && $destination_type === $field_type[ 'destination' ] ) {
+
+					        $sponsor_type =	$field_type[ 'sponsor_type' ];
+					        break;
+				        }
+			        }
+		        }
+
+	        } else {
+
+		        $all_sponsor_type = get_the_terms( $current_post_ID, 'sponsor-types' );
+		        $sponsor_type     = $this->mysgb_get_pipe_separated_term_list( $all_sponsor_type );
+	        }
+
+	        return $sponsor_type;
         }
     }
 }

@@ -1266,7 +1266,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -2769,7 +2769,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -3473,7 +3473,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -4433,7 +4433,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ sliderActive: !sliderActive });_this5.setState({ bxinit: !sliderActive });
                                 }
                             }),
-                            !sliderActive && wp.element.createElement(
+                            wp.element.createElement(
                                 "div",
                                 null,
                                 wp.element.createElement(
@@ -4447,18 +4447,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     wp.element.createElement(
                                         "li",
                                         { className: 'without-title' === layout ? 'active ' : '', onClick: function onClick() {
-                                                return setAttributes({ layout: 'without-title' });
+                                                setAttributes({ layout: 'without-title' });_this5.setState({ bxinit: sliderActive });
                                             } },
                                         __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* partnerSponser1 */]
                                     ),
                                     wp.element.createElement(
                                         "li",
                                         { className: 'with-title' === layout ? 'active ' : '', onClick: function onClick() {
-                                                return setAttributes({ layout: 'with-title' });
+                                                setAttributes({ layout: 'with-title' });_this5.setState({ bxinit: sliderActive });
                                             } },
                                         __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* partnerSponser2 */]
                                     ),
-                                    wp.element.createElement(
+                                    !sliderActive && wp.element.createElement(
                                         "li",
                                         { className: 'with-info' === layout ? 'active ' : '', onClick: function onClick() {
                                                 return setAttributes({ layout: 'with-info' });
@@ -4881,7 +4881,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 20,
+                                    max: 100,
                                     onChange: function onChange(item) {
                                         return setAttributes({ itemToFetch: parseInt(item) });
                                     }
@@ -5231,7 +5231,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this4.setState({ bxinit: true, isDisable: true });
                         }
@@ -6307,7 +6307,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }

@@ -194,7 +194,7 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                                 <RangeControl
                                     value={itemToFetch}
                                     min={1}
-                                    max={20}
+                                    max={100}
                                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); }}
                                 />
                             </div>

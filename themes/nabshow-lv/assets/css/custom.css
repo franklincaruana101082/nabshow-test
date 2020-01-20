@@ -1695,6 +1695,8 @@ span.ctcc-right-side{display:inline-block}
 .nab-box-slider.sponsors.less-items .item,.nab-box-slider.exhibitors.less-items .item{padding:10px;background:#fff;height:150px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center;width:24%;margin-right:14px}
 .nab-box-slider.sponsors.less-items .item img,.nab-box-slider.exhibitors.less-items .item img{max-height:90%;max-width:90%;display:block}
 .nab-box-slider.sponsors.less-items .item a,.nab-box-slider.exhibitors.less-items .item a{display:flex;align-items:center;width:auto;height:100%}
+.nab-box-slider.sponsors .sponsor-info-box{width:100%;text-align:center}
+.nab-box-slider.sponsors .sponsor-info-box .title-type{color:#000;font-size:16px;font-family:"Gotham Bold", sans-serif;margin-top:20px;margin-bottom:0;display:block}
 
 /* Form Design CSS */
 .nab-form .form-item{display:inline-block;width:100%;margin-bottom:15px}

@@ -1459,6 +1459,8 @@ ul.ss-off-options li.active svg>rect[stroke="#7B8080"], ul.ss-on-options li.acti
 .row.related-content-rowbox a{pointer-events:none}
 .bx-viewport .nab-dynamic-slider.sponsors .item img, .bx-viewport .nab-dynamic-slider.exhibitors .item img{max-height:55%;max-width:80%}
 .bx-viewport .nab-dynamic-slider.sponsors .item, .bx-viewport .nab-dynamic-slider.exhibitors .item{padding:10px;background:#fff;height:150px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
+.nab-box-slider.sponsors .sponsor-info-box{width:100%;text-align:center}
+.nab-box-slider.sponsors .sponsor-info-box .title-type{color:#000;font-size:16px;font-family:"Gotham Bold", sans-serif;margin-top:20px;margin-bottom:0;display:block}
 .editor-styles-wrapper .help-block p{color:#777;font-size:12px;margin:5px 0 10px;padding:0}
 
 /* Backend Media Query 1280px */
