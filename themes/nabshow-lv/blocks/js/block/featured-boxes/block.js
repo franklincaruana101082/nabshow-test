@@ -86,65 +86,77 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         componentDidMount() {
             const { attributes } = this.props;
-            if (attributes.media.length) {
+            if (attributes.media.length && attributes.sliderActive) {
                 this.initSlider();
             }
         }
 
         componentDidUpdate(prevProps) {
             const { attributes } = this.props;
-            const { media, autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = attributes;
+            const { media, autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin, sliderActive } = attributes;
             const { media: prevMedia } = prevProps.attributes;
-            if (media.length !== prevMedia.length) {
+            if (media.length !== prevMedia.length  && sliderActive) {
                 if (0 === prevMedia.length) {
                     setTimeout(() => this.initSlider(), 10);
                 } else {
                     this.state.bxSliderObj.reloadSlider();
                 }
             }
-            if (minSlides !== prevProps.attributes.minSlides) {
+            if (sliderActive !== prevProps.attributes.sliderActive) {
+                if (0 < this.state.bxSliderObj.length && ! sliderActive) {
+                    this.state.bxSliderObj.destroySlider();
+                    this.setState({ bxSliderObj: {} });
+                } else {
+                    this.initSlider();
+                }
+            }
+            if (minSlides !== prevProps.attributes.minSlides && sliderActive) {
                 this.reloadSlider();
             }
-            if (slideWidth !== prevProps.attributes.slideWidth) {
+            if (slideWidth !== prevProps.attributes.slideWidth && sliderActive) {
                 this.reloadSlider();
             }
-            if (slideMargin !== prevProps.attributes.slideMargin) {
+            if (slideMargin !== prevProps.attributes.slideMargin && sliderActive) {
                 this.reloadSlider();
             }
-            if (autoplay !== prevProps.attributes.autoplay) {
+            if (autoplay !== prevProps.attributes.autoplay && sliderActive) {
                 this.reloadSlider();
             }
-            if (speed !== prevProps.attributes.speed) {
+            if (speed !== prevProps.attributes.speed && sliderActive) {
                 this.reloadSlider();
             }
-            if (infiniteLoop !== prevProps.attributes.infiniteLoop) {
+            if (infiniteLoop !== prevProps.attributes.infiniteLoop && sliderActive) {
                 this.reloadSlider();
             }
-            if (pager !== prevProps.attributes.pager) {
+            if (pager !== prevProps.attributes.pager && sliderActive) {
                 this.reloadSlider();
             }
-            if (controls !== prevProps.attributes.controls) {
+            if (controls !== prevProps.attributes.controls && sliderActive) {
                 this.reloadSlider();
             }
         }
 
         initSlider() {
-            const { clientId } = this.props;
-            const { autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = this.props.attributes;
-            const sliderObj = jQuery(`#block-${clientId} .nab-media-slider`).bxSlider({
-                minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth,  auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true,
-                onSlideAfter: function ($slideElement, oldIndex, newIndex) {
-                    this.setState({ currentSelected: newIndex });
-                }.bind(this)
-            });
-            this.setState({ bxSliderObj: sliderObj });
+            if (this.props.attributes.sliderActive){
+                const { clientId } = this.props;
+                const { autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = this.props.attributes;
+                const sliderObj = jQuery(`#block-${clientId} .nab-media-slider`).bxSlider({
+                    minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth,  auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true,
+                    onSlideAfter: function ($slideElement, oldIndex, newIndex) {
+                        this.setState({ currentSelected: newIndex });
+                    }.bind(this)
+                });
+                this.setState({ bxSliderObj: sliderObj });
+            }
         }
 
         reloadSlider(e) {
-            const { autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = this.props.attributes;
-            this.state.bxSliderObj.reloadSlider(
-                { minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true, }
-            );
+            if (this.props.attributes.sliderActive){
+                const { autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = this.props.attributes;
+                this.state.bxSliderObj.reloadSlider(
+                    { minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true, }
+                );
+            }
         }
 
         moveMedia(currentIndex, newIndex) {
@@ -196,7 +208,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 arrowIcons,
                 minSlides,
                 slideWidth,
-                slideMargin
+                slideMargin,
+                sliderActive
             } = attributes;
 
             let arrowNames = [
@@ -245,6 +258,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Slider Settings')} initialOpen={false}>
+                            <ToggleControl
+                                label={__('Slider Active')}
+                                checked={sliderActive}
+                                onChange={() => {
+                                    setAttributes({ sliderActive: ! sliderActive });
+                                }}
+                            />
                             <ToggleControl
                                 label={__('Pager')}
                                 checked={pager}
@@ -329,7 +349,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         }
                     </InspectorControls>
                     <div className={`nab-media-slider-block slider-arrow-main ${arrowIcons}`}>
-                        <div className={'nab-media-slider'} data-animation={detailAnimation} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`}>
+                        <div className={sliderActive ? 'nab-media-slider' : 'feature-box-list'} data-animation={detailAnimation} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`}>
                             {media.map((source, index) => (
                                 <div className={'nab-media-slider-item'} key={index}
 
@@ -368,7 +388,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             height="100px"
                                             width="100px"
                                             onClick={() => {
-                                                this.state.bxSliderObj.goToSlide(index);
+                                                if (sliderActive){
+                                                    this.state.bxSliderObj.goToSlide(index);
+                                                }
                                                 this.setState({ currentSelected: index });
                                             }}
                                         />
@@ -379,7 +401,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             height="100px"
                                             width="100px"
                                             onClick={() => {
-                                                this.state.bxSliderObj.goToSlide(index);
+                                                if (sliderActive){
+                                                    this.state.bxSliderObj.goToSlide(index);
+                                                }
                                                 this.setState({ currentSelected: index });
                                             }}
                                         >
@@ -402,7 +426,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             className="nab-media-slider-item-remove"
                                             icon="no"
                                             onClick={() => {
-                                                if (index === currentSelected) { this.setState({ currentSelected: null }); }
+                                                if (index === currentSelected) { this.setState({ currentSelected: 0 }); }
                                                 setAttributes({ media: media.filter((img, idx) => idx !== index) });
                                             }}
                                         />
@@ -505,6 +529,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         media: {
             type: 'array',
             default: [],
+        },
+        sliderActive: {
+            type: 'boolean',
+            default: true,
         },
         autoplay: {
             type: 'boolean',
@@ -623,11 +651,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 controlIcon,
                 detailAnimation,
                 detailWidth,
-                arrowIcons
+                arrowIcons,
+                sliderActive
             } = attributes;
             return (
                 <div className={`slider-arrow-main ${arrowIcons}`}>
-                    <div className={'nab-dynamic-slider'} data-minslides={minSlides} data-slidewidth={slideWidth} data-slidemargin={slideMargin} data-animation={detailAnimation} data-auto={autoplay? autoplay: Boolean.valueOf(autoplay)} data-speed={`${speed}`} data-infinite={infiniteLoop ? infiniteLoop : Boolean.valueOf(infiniteLoop)} data-pager={pager ?  pager : Boolean.valueOf(pager)} data-controls={controls ? controls: Boolean.valueOf(controls)}>
+                    <div className={sliderActive ? 'nab-dynamic-slider' : 'feature-box-list'} data-minslides={minSlides} data-slidewidth={slideWidth} data-slidemargin={slideMargin} data-animation={detailAnimation} data-auto={autoplay? autoplay: Boolean.valueOf(autoplay)} data-speed={`${speed}`} data-infinite={infiniteLoop ? infiniteLoop : Boolean.valueOf(infiniteLoop)} data-pager={pager ?  pager : Boolean.valueOf(pager)} data-controls={controls ? controls: Boolean.valueOf(controls)}>
                         {media.map((source, index) => (
                             <div className={'item'} key={index}>
 
@@ -653,5 +682,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 </div >
             );
         }
+
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);

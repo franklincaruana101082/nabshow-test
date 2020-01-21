@@ -81,7 +81,7 @@ export const quotesSliderSide = (
 
 export const arrowBtn = (
   <svg version="1.1" id="Layer_1" x="0px" y="0px" width="105px" height="41.001px" viewBox="0 0 83.461 13.044" enable-background="new 0 0 83.461 13.044">
-    <text transform="matrix(1 0 0 1 0 10.0439)" font-family="'MyriadPro-Regular'" font-size="9.8">READ MORE</text>
+    <text transform="matrix(1 0 0 1 0 10.0439)" font-family="'MyriadPro-Regular'" font-size="9.8">Learn More</text>
     <path fill="#010101" d="M74.386,1.857l0.782-0.446c0.332-0.189,0.867-0.189,1.195,0l6.851,3.904c0.331,0.189,0.331,0.494,0,0.681
     l-6.851,3.906c-0.332,0.189-0.867,0.189-1.195,0l-0.782-0.446c-0.335-0.191-0.328-0.502,0.014-0.689l4.246-2.307H68.519
     c-0.469,0-0.846-0.215-0.846-0.482V5.335c0-0.267,0.377-0.482,0.846-0.482h10.127L74.4,2.546
@@ -93,35 +93,35 @@ export const btnWhite = (
   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
     width="105px" height="41.001px" viewBox="0 0 106 41" enable-background="new 0 0 106 41">
     <rect x="0.5" y="0.5" fill="#FFFFFF" stroke="#d9d9d9" stroke-miterlimit="10" width="105" height="40"/>
-    <text transform="matrix(1 0 0 1 22.5 24.8335)" font-family="'MyriadPro-Regular'" font-size="10">READ MORE</text>
+    <text transform="matrix(1 0 0 1 22.5 24.8335)" font-family="'MyriadPro-Regular'" font-size="10">Learn More</text>
   </svg>
 );
 
 export const btnPrimary = (
-  <svg version="1.1" id="btnPrimary" x="0px" y="0px" width="105px" height="41.001px" viewBox="0 0 105 41.001" enableBackground="0 0 105 41.001">
-    <rect fill="#146DB6" width="105" height="41.001"></rect>
-    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#FFFFFF" font-family="'MyanmarText-Bold'" font-size="12">READ MORE</text>
+  <svg version="1.1" id="btnPrimary" x="0px" y="0px" width="103px" height="41.001px" viewBox="0 0 100 41.001" enableBackground="0 0 100 41.001">
+    <rect fill="#00B5E0" width="100" height="41.001"></rect>
+    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#FFFFFF" font-family="'MyanmarText-Bold'" font-size="12">Learn More</text>
   </svg>
 );
 
 export const btnDefault = (
-  <svg version="1.1" id="btnDefault" x="0px" y="0px" width="105px" height="41.001px" viewBox="0 0 105 41.001" enableBackground="new 0 0 105 41.001">
-    <rect fill="#9A9A99" width="105" height="41.001" />
-    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#FFFFFF" font-family="'MyanmarText-Bold'" font-size="12">READ MORE</text>
+  <svg version="1.1" id="btnDefault" x="0px" y="0px" width="103px" height="41.001px" viewBox="0 0 100 41.001" enableBackground="new 0 0 100 41.001">
+    <rect fill="#9A9A99" width="100" height="41.001" />
+    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#FFFFFF" font-family="'MyanmarText-Bold'" font-size="12">Learn More</text>
   </svg>
 );
 
 export const btnAlt = (
-  <svg version="1.1" id="btnAlt" x="0px" y="0px" width="105px" height="41.001px" viewBox="0 0 105 41.001" enableBackground="new 0 0 105 41.001">
-    <rect fill="#8AC0E2" width="105" height="41.001" />
-    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#363636" font-family="'MyanmarText-Bold'" font-size="12">READ MORE</text>
+  <svg version="1.1" id="btnAlt" x="0px" y="0px" width="103px" height="41.001px" viewBox="0 0 100 41.001" enableBackground="new 0 0 100 41.001">
+    <rect fill="#8AC0E2" width="103" height="41.001" />
+    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#363636" font-family="'MyanmarText-Bold'" font-size="12">Learn More</text>
   </svg>
 );
 
 export const btnLight = (
-  <svg version="1.1" id="btnLight" x="0px" y="0px" width="105px" height="41.001px" viewBox="0 0 105 41.001" enableBackground="new 0 0 105 41.001">
-    <rect fill="#F1F8FD" width="105" height="41.001" />
-    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#363636" font-family="'MyanmarText-Bold'" font-size="12">READ MORE</text>
+  <svg version="1.1" id="btnLight" x="0px" y="0px" width="103px" height="41.001px" viewBox="0 0 100 41.001" enableBackground="new 0 0 100 41.001">
+    <rect fill="#F1F8FD" width="100" height="41.001" />
+    <text transform="matrix(1 0 0 1 13.7622 25.3164)" fill="#363636" font-family="'MyanmarText-Bold'" font-size="12">Learn More</text>
   </svg>
 );
 

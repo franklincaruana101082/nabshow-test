@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, partnerSponser1, partnerSponser2, sessionSliderOff1 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, partnerSponser1, partnerSponser2, sessionSliderOff1 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
@@ -186,7 +186,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' }
             ];
 
             let isCheckedTerms = {};

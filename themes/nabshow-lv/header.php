@@ -53,28 +53,13 @@
 		?>
     </a>
 
-    <header id="masthead" class="site-header">
+    <header id="masthead" class="site-header dark-header">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 header-left">
+                <div class="col-md-4 header-left col-md-8">
 					<?php
 					dynamic_sidebar( 'header-top-left-sidebar' );
 					?>
-                </div>
-                <div class="col-md-4 header-center">
-                    <div id="logo" class="text-center">
-						<?php
-						the_custom_logo();
-						?>
-	                    <div class="header-sticky-menu-logo">
-		                    <?php
-		                    $sticky_logo = get_theme_mod( 'menu_sticky_logo', '' );
-		                    ?>
-		                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-		                        <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="nabshow-lv-logo">
-		                    </a>
-	                    </div>
-                    </div>
                 </div>
                 <div class="col-md-4 header-right text-right">
 					<?php
@@ -84,36 +69,51 @@
 					dynamic_sidebar( 'header-top-right-sidebar' );
 					?>
                 </div>
-                <div class="col-md-12 header-nav">
-					<div id="menuToggle">
-						<input type="checkbox" class="menu-hamburger show-sm" />
-						<div class="hamburger show-sm">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<nav id="site-navigation" class="main-navigation">
-							<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
-								<?php
-								esc_html_e( 'Primary Menu', 'nabshow-lv' );
-								?>
-							</button>
-							<?php
-							wp_nav_menu( array(
-								'theme_location' => 'menu-1',
-								'menu_id'        => 'primary-menu',
-							) );
-							?>
-							<div class="mobile-bottom-nav header-right show-sm">
-								<?php
-								get_search_form();
-								?>
-								<?php
-								dynamic_sidebar( 'header-top-right-sidebar' );
-								?>
-							</div>
-						</nav><!-- #site-navigation -->
-					</div>
+                <div class="col-md-3 header-center head-logo">
+                    <div id="logo">
+                        <?php
+                        the_custom_logo();
+                        ?>
+                        <div class="header-sticky-menu-logo">
+                            <?php
+                            $sticky_logo = get_theme_mod( 'menu_sticky_logo', '' );
+                            ?>
+                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+                                <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="nabshow-lv-logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-nav headnav col-md-9">
+                    <div id="menuToggle">
+                        <input type="checkbox" class="menu-hamburger show-sm" />
+                        <div class="hamburger show-sm">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <nav id="site-navigation" class="main-navigation">
+                            <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                                <?php
+                                esc_html_e( 'Primary Menu', 'nabshow-lv' );
+                                ?>
+                            </button>
+                            <?php
+                            wp_nav_menu( array(
+                                'theme_location' => 'menu-1',
+                                'menu_id'        => 'primary-menu',
+                            ) );
+                            ?>
+                            <div class="mobile-bottom-nav header-right show-sm">
+                                <?php
+                                get_search_form();
+                                ?>
+                                <?php
+                                dynamic_sidebar( 'header-top-right-sidebar' );
+                                ?>
+                            </div>
+                        </nav><!-- #site-navigation -->
+                    </div>
                 </div>
             </div>
         </div>

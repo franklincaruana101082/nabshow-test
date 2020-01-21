@@ -382,6 +382,15 @@ import memoize from 'memize';
 									<SelectControl
 										value={fontFamily}
 										options={[
+											{ label: __('Molot'), value: 'Molot' },
+											{ label: __('Roboto Regular'), value: 'Roboto Regular' },
+											{ label: __('Roboto Black'), value: 'Roboto Black' },
+											{ label: __('Roboto Bold'), value: 'Roboto Bold' },
+											{ label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' },
+											{ label: __('Roboto Italic'), value: 'Roboto Italic' },
+											{ label: __('Roboto Light'), value: 'Roboto Light' },
+											{ label: __('Roboto Medium'), value: 'Roboto Medium' },
+											{ label: __('Roboto Thin'), value: 'Roboto Thin' },
 											{ label: __('Gotham Book'), value: 'Gotham Book' },
 											{ label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
 											{ label: __('Gotham Light'), value: 'Gotham Light' },
@@ -404,7 +413,6 @@ import memoize from 'memize';
 											{ label: __('Vollkorn Regular'), value: 'Vollkorn Regular' },
 											{ label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' },
 											{ label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' },
-											{ label: __('Molot'), value: 'Molot' }
 
 										]}
 										onChange={(value) => setAttributes({ fontFamily: value })}
