@@ -140,8 +140,10 @@ if ( ! $display_company ) {
 							if ( is_array( $filter_dates ) && count( $filter_dates ) > 0 ) {
 
 								foreach ( $filter_dates as $speaking_date ) {
+
+									$speaking_date_format = date_format( date_create( trim( $speaking_date ) ), 'F, j Y' );
 									?>
-									<option value="<?php echo esc_attr( trim( $speaking_date ) ); ?>"><?php echo esc_html( trim( $speaking_date ) ); ?></option>
+									<option value="<?php echo esc_attr( $speaking_date_format ); ?>"><?php echo esc_html( trim( $speaking_date ) ); ?></option>
 									<?php
 								}
 							}

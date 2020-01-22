@@ -5,7 +5,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl } = wpComponents;
+    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl, DateTimePicker } = wpComponents;
 
     const speakerSliderBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -165,7 +165,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 displayTitle,
                 displayCompany,
                 filterDates,
-                removeFilters
+                removeFilters,
+                excludeSpeaker,
+                metaDate,
+                speakerDate,
+                gridInfoRollovers,
+                slideInfoRollovers,
+              slideInfoBelow
             } = attributes;
 
             var names = [
@@ -177,6 +183,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow6, classnames: 'slider-arrow-6' },
                 { name: sliderArrow7, classnames: 'slider-arrow-7' }
             ];
+
+            if ( ! speakerDate ) {
+              setAttributes({speakerDate: moment().format('YYYY-MM-DDTHH:mm:ss')});
+            }
 
             let isCheckedTerms = {};
             if (! this.isEmpty(terms) && terms.constructor !== Object) {
@@ -249,6 +259,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                               </Fragment>
                             }
 
+                          <label>Exclude Speaker by Ids:</label>
+                          <TextareaControl
+                            help="Each speaker id should be comma separated"
+                            value={ excludeSpeaker }
+                            onChange={ (ids) => {  setAttributes({ excludeSpeaker: ids }); this.setState({ bxinit: true }); }}
+                          />
+
                             {input}
 
                             { ! listingPage &&
@@ -258,6 +275,22 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     checked={withThumbnail}
                                     onChange={() => { setAttributes({ withThumbnail: ! withThumbnail }); this.setState({ bxinit: true }); } }
                                 />
+                                <ToggleControl
+                                  label={__('Date Specific Speaker')}
+                                  checked={metaDate}
+                                  onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
+                                />
+                                { metaDate &&
+                                <div className="inspector-field inspector-field-datetime components-base-control hide-time">
+                                  <label className="inspector-mb-0">Select a Date</label>
+                                  <div className="inspector-ml-auto">
+                                    <DateTimePicker
+                                      currentDate={speakerDate}
+                                      onChange={(date) => { setAttributes({speakerDate: date}); this.setState({bxinit: true});}}
+                                    />
+                                  </div>
+                                </div>
+                                }
                                 <SelectControl
                                     label={__('Order by')}
                                     value={orderBy}
@@ -396,6 +429,21 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             checked={displayCompany}
                             onChange={() => { setAttributes({ displayCompany: ! displayCompany }); this.setState({ bxinit: true }); } }
                           />
+                          <ToggleControl
+                            label={__('Grid format with info on rollovers')}
+                            checked={gridInfoRollovers}
+                            onChange={() => { setAttributes({ gridInfoRollovers: ! gridInfoRollovers }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Slider with info on rollovers')}
+                            checked={slideInfoRollovers}
+                            onChange={() => { setAttributes({ slideInfoRollovers: ! slideInfoRollovers }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Slider with information below')}
+                            checked={slideInfoBelow}
+                            onChange={() => { setAttributes({ slideInfoBelow: ! slideInfoBelow }); this.setState({ bxinit: true }); } }
+                          />
                         </PanelBody>
                         { ! listingPage &&
                           <Fragment>
@@ -503,7 +551,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow }}
                     />
                 </Fragment >
             );
@@ -601,6 +649,29 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         removeFilters: {
           type: 'array',
           default: []
+        },
+        excludeSpeaker: {
+          type: 'string',
+          default: ''
+        },
+        metaDate: {
+          type: 'boolean',
+          default: false,
+        },
+        speakerDate: {
+          type: 'string',
+        },
+        gridInfoRollovers: {
+          type: 'boolean',
+          default: false,
+        },
+        slideInfoRollovers: {
+          type: 'boolean',
+          default: false,
+        },
+        slideInfoBelow: {
+          type: 'boolean',
+          default: false,
         }
     };
     registerBlockType('mys/speaker-slider', {

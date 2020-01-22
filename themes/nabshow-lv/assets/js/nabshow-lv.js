@@ -398,6 +398,31 @@
 
   }
 
+  // nab contributors
+  if (0 < $('.contributors-team').length) {
+    $(document).on('click', '.contributors-team .feature-img', function () {
+      var imgWidth = jQuery(this).parent().parent().find('.media').attr('width');
+      let imgCaption = jQuery(this).parents('.photo-item').find('.photo-caption p.caption').text();
+      jQuery('.contributors-team .contributor-photos-popup .contributor-photos-popup-img').attr('src', jQuery(this).parent().parent().find('.media').attr('src'));
+      jQuery('.contributors-team .contributor-photos-popup .popup-photo-cation').text(imgCaption);
+      jQuery('.contributors-team .contributor-photos-popup').show();
+      jQuery('body').addClass('overflow-hidden');
+      jQuery('.contributors-team .contributor-photos-backdrop').show();
+    });
+
+    $(document).on('click', '.contributors-team .close', function () {
+      jQuery('.contributors-team .contributor-photos-popup, .contributors-team .contributor-photos-backdrop').hide();
+      jQuery('body').removeClass('overflow-hidden');
+    });
+
+    $(document).on('click', '.contributors-team .contributor-photos-backdrop', function () {
+      jQuery('.contributors-team .contributor-photos-popup, .contributors-team .contributor-photos-backdrop').hide();
+      jQuery('body').removeClass('overflow-hidden');
+    });
+
+  }
+
+
   // nab-videos
   if (0 < $('.nab-videos').length) {
     $(document).on('click', '.nab-videos .video-popup-btn', function () {
@@ -431,8 +456,14 @@
     if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length || 0 < $('.birds-of-a-feather').length) {
 
       $('.new-this-year-block .box-main .box-item').each(function () {
-        if ('' !== $(this).find('.title').html()) {
-          insertOptions($(this).find('.title').html(), 'box-main-category-newyr');
+
+        if (null !== $(this).data('category').split(',')) {
+          $.map(
+            $(this).data('category').split(','),
+            function (val, i) {
+              insertOptions(val.trim(), 'box-main-category-newyr');
+            }
+          );
         }
       });
 
@@ -625,7 +656,7 @@
         selectedItem = '.subtitle';
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
-      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type, #attend-filter, #hosting-filter, #organizer-filter, #birdDate-filter, #box-main-category-delegation, #box-main-category-newyr, #box-main-category-offven', function () {
+      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type, #attend-filter, #hosting-filter, #organizer-filter, #birdDate-filter, #box-main-category-delegation, #box-main-category-newyr, #box-main-category-offven, .new-this-year-filter .checkbox-list input', function () {
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
       $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
@@ -1631,13 +1662,14 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
+    excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate + '&featured_speaker=' + featuredSpeaker,
+    data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate + '&featured_speaker=' + featuredSpeaker + '&exclude_speaker=' + excludeSpeaker,
     url: nabshowLvCustom.ajax_url,
     success: function (speakerData) {
 
@@ -1652,7 +1684,13 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
         if (value.post_title) {
 
           let createItemDiv = document.createElement('div');
-          createItemDiv.setAttribute('class', 'item display-title');
+
+          if ( jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('on-rollover') ) {
+            createItemDiv.setAttribute('class', 'item');
+          } else {
+            createItemDiv.setAttribute('class', 'item display-title');
+          }
+
           createItemDiv.setAttribute('data-featured', value.featured);
 
           let itemInnerDiv = document.createElement('div');
@@ -1661,19 +1699,25 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
           let itemInnerFlipBox = document.createElement('div');
           itemInnerFlipBox.setAttribute('class', 'flip-box-inner');
 
-          let imgLink = document.createElement('a');
-          imgLink.setAttribute('href', '#');
-          imgLink.setAttribute('class', 'detail-list-modal-popup');
-          imgLink.setAttribute('data-postid', value.post_id);
-          imgLink.setAttribute('data-posttype', 'speakers');
-
           let innerImg = document.createElement('img');
           innerImg.setAttribute('src', value.thumbnail_url);
           innerImg.setAttribute('alt', 'speaker-logo');
           innerImg.setAttribute('class', 'rounded-circle');
 
-          imgLink.appendChild(innerImg);
-          itemInnerFlipBox.appendChild(imgLink);
+          if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('on-rollover') ) {
+
+            let imgLink = document.createElement('a');
+            imgLink.setAttribute('href', '#');
+            imgLink.setAttribute('class', 'detail-list-modal-popup');
+            imgLink.setAttribute('data-postid', value.post_id);
+            imgLink.setAttribute('data-posttype', 'speakers');
+
+            imgLink.appendChild(innerImg);
+            itemInnerFlipBox.appendChild(imgLink);
+
+          } else {
+            itemInnerFlipBox.appendChild(innerImg);
+          }
 
           let innerFlipBoxBack = document.createElement('div');
           innerFlipBoxBack.setAttribute('class', 'flip-box-back rounded-circle');
@@ -2289,7 +2333,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   if (0 < jQuery('#box-main-category-delegation').length) {
     filterDelegation = 0 < jQuery('#box-main-category-delegation')[0].selectedIndex ? jQuery('#box-main-category-delegation').val() : null;
   }
-  if (0 < jQuery('#box-main-category-newyr').length) {
+  if (0 < jQuery('.new-this-year-inner').length) {
     filterNewThisYear = 0 < jQuery('#box-main-category-newyr')[0].selectedIndex ? jQuery('#box-main-category-newyr').val() : null;
   }
   if (0 < jQuery('#box-main-category-offven').length) {
@@ -2377,7 +2421,9 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
   if (null !== filterNewThisYear && undefined !== filterNewThisYear) {
     comparedItem = '.new-this-year-block .title';
-    jQuery(`${comparedItem}:not(:contains("${filterNewThisYear}"))`).parents(`${selectedItem}`).hide();
+    jQuery('.new-this-year-block .box-main .box-item').each(function () {
+      jQuery(`${selectedItem}:not([data-category*="${filterNewThisYear}"])`).hide();
+    });
   }
 
   if (null !== filterOffVen && undefined !== filterOffVen) {

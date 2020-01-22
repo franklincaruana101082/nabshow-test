@@ -366,6 +366,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$speaker_date       = filter_input( INPUT_GET, 'speaker_date', FILTER_SANITIZE_STRING );
 			$featured_speaker   = filter_input( INPUT_GET, 'featured_speaker', FILTER_SANITIZE_STRING );
 			$order_by           = filter_input( INPUT_GET, 'speaker_order', FILTER_SANITIZE_STRING );
+			$exclude_speaker    = filter_input( INPUT_GET, 'exclude_speaker', FILTER_SANITIZE_STRING );
 			$order              = 'date' === $order_by ? 'DESC' : 'ASC';
 
 			$query_arg = array(
@@ -375,6 +376,16 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				'orderby'        => $order_by,
 				'order'          => $order,
 			);
+
+			if ( ! empty( trim( $exclude_speaker ) ) ) {
+
+				$final_speakers = explode( ',' , str_replace( ' ', '', $exclude_speaker ) );
+
+				if ( is_array( $final_speakers ) && count( $final_speakers ) > 0 ) {
+
+					$query_arg['post__not_in'] = $final_speakers;
+				}
+			}
 
 			if ( ! empty( $post_start ) ) {
 				$query_arg[ 'starts_with' ] = $post_start;

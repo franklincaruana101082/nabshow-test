@@ -4,7 +4,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, TextControl, Button, Placeholder, CheckboxControl, SelectControl, PanelRow, TextareaControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, TextControl, Button, Placeholder, CheckboxControl, SelectControl, PanelRow, TextareaControl, DateTimePicker} = wpComponents;
 
     const relatedContentBlockIcon = (
         <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -147,7 +147,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, topicList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages, orderBy, includePages }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, topicList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages, orderBy, includePages, metaDate, pageMetaDate }, setAttributes } = this.props;
 
             let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -158,6 +158,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow6, classnames: 'slider-arrow-6' },
                 { name: sliderArrow6, classnames: 'slider-arrow-6' }
             ];
+
+            if ( ! pageMetaDate ) {
+              setAttributes({pageMetaDate: moment().format('YYYY-MM-DDTHH:mm:ss')});
+            }
 
             let commonControls = <Fragment>
                 <SelectControl
@@ -274,6 +278,22 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                               ))
                               }
                             </div>
+                            <ToggleControl
+                              label={__('Date Specific Page')}
+                              checked={metaDate}
+                              onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
+                            />
+                            { metaDate &&
+                            <div className="inspector-field inspector-field-datetime components-base-control hide-time">
+                              <label className="inspector-mb-0">Select a Date</label>
+                              <div className="inspector-ml-auto">
+                                <DateTimePicker
+                                  currentDate={pageMetaDate}
+                                  onChange={(date) => { setAttributes({pageMetaDate: date}); this.setState({bxinit: true});}}
+                                />
+                              </div>
+                            </div>
+                            }
                             <SelectControl
                               label={__('Order By')}
                               value={orderBy}
@@ -486,7 +506,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, topicList: topicList, excludePages: excludePages, orderBy: orderBy, includePages: includePages }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, topicList: topicList, excludePages: excludePages, orderBy: orderBy, includePages: includePages, metaDate: metaDate, pageMetaDate: pageMetaDate }}
                     />
                 </Fragment>
 
@@ -593,7 +613,14 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         includePages: {
           type: 'string',
           default: ''
-        }
+        },
+        metaDate: {
+          type: 'boolean',
+          default: false,
+        },
+        pageMetaDate: {
+          type: 'string',
+        },
     };
 
     registerBlockType('nab/related-content', {

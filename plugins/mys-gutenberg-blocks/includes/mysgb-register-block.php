@@ -122,6 +122,14 @@ $session_slider_attr = array(
 	'displaySummary' => array(
 		'type'    => 'boolean',
 		'default' => true
+	),
+	'displayVideo' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'displaySpeaker' => array(
+		'type'    => 'boolean',
+		'default' => false
 	)
 
 );
@@ -248,8 +256,30 @@ $speakers_slider_attr = array(
 		'items'   => [
 			'type' => 'string'
 		]
-	)
-
+	),
+	'excludeSpeaker' => array(
+		'type'    => 'string',
+		'default' => ''
+	),
+	'metaDate'      => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'speakerDate'   => array(
+		'type' => 'string',
+	),
+	'gridInfoRollovers' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'slideInfoRollovers' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'slideInfoBelow' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
 );
 
 register_block_type( 'mys/speaker-slider', array(

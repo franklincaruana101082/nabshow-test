@@ -153,7 +153,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 <?php
 } else {
 ?>
-    <p>Record Not Found.</p>
+    <p>Coming soon.</p>
 <?php
 }
 

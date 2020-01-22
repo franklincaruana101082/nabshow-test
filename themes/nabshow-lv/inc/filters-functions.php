@@ -651,3 +651,22 @@ function nabhsow_lv_increase_redirect_rule_limit() {
 
 	return 500;
 }
+
+/**
+ * Modified query where when date_group_$ found.
+ *
+ * @param $where
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_set_content_custom_posts_where( $where ) {
+
+	if ( strpos( $where, 'date_group_$' ) !== false ) {
+
+		$where = str_replace("meta_key = 'date_group_$", "meta_key LIKE 'date_group_%", $where );
+	}
+
+	return $where;
+}

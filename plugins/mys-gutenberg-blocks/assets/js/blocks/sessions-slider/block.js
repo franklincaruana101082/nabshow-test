@@ -173,7 +173,9 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 displayDate,
                 displayTime,
                 displayLocation,
-                displaySummary
+                displaySummary,
+                displaySpeaker,
+                displayVideo
             } = attributes;
 
             var names = [
@@ -194,7 +196,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 isCheckedTerms = JSON.parse(terms);
             }
 
-            let input = <div className="inspector-field inspector-field-Numberofitems ">
+            let input = <div className="inspector-field inspector-field-Numberofitems">
                 <label className="inspector-mb-0">Number of items</label>
                 <RangeControl
                     value={itemToFetch}
@@ -423,6 +425,16 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                             checked={displaySummary}
                             onChange={() => { setAttributes({ displaySummary: ! displaySummary }); this.setState({ bxinit: true }); } }
                           />
+                          <ToggleControl
+                            label={__('Speaker')}
+                            checked={displaySpeaker}
+                            onChange={() => { setAttributes({ displaySpeaker: ! displaySpeaker }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Video')}
+                            checked={displayVideo}
+                            onChange={() => { setAttributes({ displayVideo: ! displayVideo }); this.setState({ bxinit: true }); } }
+                          />
                         </PanelBody>
                         { ! listingPage &&
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
@@ -542,7 +554,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary, displayVideo: displayVideo, displaySpeaker: displaySpeaker}}
                     />
                 </Fragment >
             );
@@ -663,7 +675,16 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
         displaySummary: {
           type: 'boolean',
           default: true
+        },
+        displayVideo: {
+          type: 'boolean',
+          default: false
+        },
+        displaySpeaker: {
+          type: 'boolean',
+          default: false
         }
+
     };
     registerBlockType('mys/sessions-slider', {
         title: __('Sessions Slider'),

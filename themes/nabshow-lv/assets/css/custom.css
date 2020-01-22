@@ -83,7 +83,7 @@
 .team-main .team-box .feature-img .button-container{background:#9a9a9a;height:330px;padding:0;position:relative}
 .team-main .team-box .feature-img .button-container button{position:absolute;top:0;bottom:0;left:0;right:0;height:100%;background:#9a9a9a;border:none;width:100%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
 .team-main .team-box .feature-img img{width:100%;height:100%;object-fit:cover;object-position:center;vertical-align:middle;position:absolute;top:0;left:0;overflow:hidden;transition:opacity 0.5s linear}
-.team-main .team-box .team-details .name, .team-main .team-box .team-details .name a{text-transform:capitalize;font-family:"Roboto Italic";margin-bottom:5px;font-size:26px;line-height:30px;color:#000;word-wrap:break-word}
+.team-main .team-box .team-details .name, .team-main .team-box .team-details .name a{text-transform:capitalize;font-family:"Roboto Italic";margin-bottom:5px;font-size:26px;line-height:30px;color:#fff;word-wrap:break-word}
 .team-main .team-box .team-details .name a:hover{color:#0f6cb6}
 .team-main .team-box .team-details *{font-family:"Roboto Regular", sans-serif;font-size:16px;font-weight:normal}
 .team-main .team-box .team-details p{margin-bottom:0}
@@ -110,8 +110,8 @@
 .meet-team-select div#team-checkbox .checkbox-list::before, .new-this-year-filter #newyr-checkbox .checkbox-list::before{content:"";background:#fff;position:absolute;width:23px;height:23px;border:1px solid #69767a;margin:0;top:0;left:0}
 .meet-team-select div#team-checkbox .checkbox-list.checked::after, .new-this-year-filter #newyr-checkbox .checkbox-list.checked::after{content:"\f00c";color:#000;font-family:FontAwesome;position:absolute;width:23px;height:23px;margin:0;top:0;left:0;text-align:center;font-size:20px;line-height:25px}
 .team-main .team-box .team-details .nab_model_head{text-align:left}
-.team-main.contributors-team .team-box .team-details .title{font-family:"Roboto BoldItalic";font-weight:normal}
-.team-main .team-box .team-details .company{font-family:"Roboto Bold"}
+.team-main.contributors-team .team-box .team-details .title{font-family:"Roboto BoldItalic";font-weight:normal;color:#fff}
+.team-main .team-box .team-details .company{font-family:"Roboto Bold";color:#fff}
 .meet-team-select.main-filter{margin-top:40px}
 .new-this-year-filter #newyr-checkbox{width:calc(100% - 600px);padding-left:10px}
 .newyr-details .title,.newyr-details .description{color:#fff}
@@ -129,7 +129,7 @@
 .add-remove-btn .components-button.remove.hideButton{display:none}
 .accordionBody p:last-child{margin-bottom:0}
 .accordionParentWrapper{margin-bottom:70px}
-.accordionParentWrapper h2{color:#000;font-style:italic}
+.accordionParentWrapper h2{color:#fff;font-style:italic}
 select#faq-category-drp{width:210px;height:40px;background-color:#fff;padding:5px 15px;font-size:14px;font-family:"Roboto Bold", sans-serif;border:1px solid #69767a}
 select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:none;-moz-appearance:none;-o-appearance:none;-webkit-appearance:none;background-image:url('../images/iOS-select-arrow.svg');background-position:right 10px center;background-size:9px;background-repeat:no-repeat}
 
@@ -146,7 +146,7 @@ select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:no
 .white-box ul.event-list{margin-bottom:20px}
 .white-box .title{margin-bottom:0;font-size:20px;font-family:"Roboto Bold"}
 .white-box a{color:#404040;text-decoration:none;border-bottom:1px solid #404040}
-.schedule-main .schedule-data{border:3px solid #d9d9d9;padding:8px 0;position:relative}
+.schedule-main .schedule-data{border:3px solid #d9d9d9;padding:8px 0;position:relative;background-color:#363636}
 .schedule-main .schedule-data .schedule-row{border-bottom:0;padding:8px 0;display:flex;align-items:center}
 .schedule-main .schedule-data .schedule-row>div{padding:0 20px}
 .schedule-main .schedule-data .schedule-row:last-child{border-bottom:0}

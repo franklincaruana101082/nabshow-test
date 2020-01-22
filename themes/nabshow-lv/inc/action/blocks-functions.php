@@ -267,6 +267,13 @@ function nabshow_lv_register_dynamic_blocks() {
                 'includePages' => array(
                 	'type' => 'string',
                 	'default' => ''
+                ),
+                'metaDate'    => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                ),
+	            'pageMetaDate' => array(
+                	'type' => 'string'
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -667,17 +674,22 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
         $children = get_pages( $args );
 
-		if ( 'grandchildren' === $depth_level || 'menu_order' === $order_by || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
+		if ( ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) || 'grandchildren' === $depth_level || 'menu_order' === $order_by || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
 
 			$children_ids   = wp_list_pluck( $children, 'ID' );
 			$children_ids   = array_merge( $children_ids, $include_pages);
 			$children       = false;
 			$cache_key      = '';
 
-			if ( ( is_array( $hall_list ) && count( $hall_list ) > 0 )  || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) ) {
+			if ( ( is_array( $hall_list ) && count( $hall_list ) > 0 )  || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) ) {
 
-	            $cache_key      = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list ) . '-' . implode( '-', $topic_list );
-	            $children       = get_transient( $cache_key );
+	            $cache_key = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list ) . '-' . implode( '-', $topic_list );
+
+	            if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+	            	$cache_key .= '-' . $attributes['pageMetaDate'];
+	            }
+
+	            $children = get_transient( $cache_key );
 	        }
 
 			if ( false === $children || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
@@ -688,6 +700,14 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 	            );
 
 	            $query_args['include']  = $children_ids;
+
+	            if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+
+		            $page_meta_date     = new DateTime( $attributes['pageMetaDate'] );
+		            $page_meta_date     = $page_meta_date->format( 'Ymd' );
+		            $query_args['meta_key']   = 'date_group_$_page_dates';
+		            $query_args['meta_value'] = $page_meta_date;
+		        }
 
 	            if ( 'rand' === $order_by ) {
 
@@ -752,6 +772,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
 						$query_args[ 'meta_query' ] = array_merge( array( 'relation' => 'OR' ), $topic_list_args );
 					}
+
 	            }
 
 		        $children = get_posts( $query_args );
@@ -1171,6 +1192,7 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
 
             	$contributor_image  = nabshow_lv_get_author_avatar_url( $contributor->ID );
 				$contributor_name   = $contributor->first_name . ' ' . $contributor->last_name;
+				$author_company     = get_field( 'company',  'user_' . $contributor->ID );
 
 				if ( empty( trim( $contributor_name ) ) ) {
 					$contributor_name = $contributor->display_name;
@@ -1180,14 +1202,14 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
                 <div class="team-box">
                     <div class="team-box-inner">
                         <div class="feature-img">
-                            <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img">
+                            <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img media">
                         </div>
                         <div class="team-details">
                             <h3 class="name">
                                 <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor_name ); ?></a>
                             </h3>
                             <strong class="title">Title</strong>
-                            <strong class="company">Company</strong>
+                            <strong class="company"><?php echo esc_html( $author_company ); ?></strong>
                         </div>
                     </div>
                 </div>
@@ -1202,6 +1224,17 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
     <?php
         }
     ?>
+        <div class="contributor-photos-popup">
+            <div class="contributor-photos-dialog">
+                <span class="close">&times;</span>
+                <div class="contributor-photos-content">
+                    <div class="contributor-photos-body">
+                        <img class="contributor-photos-popup-img" src="" />
+                    </div>
+                    <span class="contributor-popup-photo-cation"></span>
+                </div>
+            </div>
+            <div class="contributor-photos-backdrop"></div>
         </div>
     <?php
     }

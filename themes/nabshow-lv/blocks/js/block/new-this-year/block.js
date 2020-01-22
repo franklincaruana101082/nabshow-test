@@ -1,9 +1,18 @@
+import times from 'lodash/times';
+import memoize from 'memize';
+
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { Fragment, Component } = wpElement;
-  const { RichText, MediaUpload, InspectorControls } = wpEditor;
-  const { Button, PanelBody, PanelRow, ToggleControl } = wpComponents;
+  const { Fragment } = wpElement;
+  const { RichText, MediaUpload, InspectorControls, InnerBlocks } = wpEditor;
+  const { Button, PanelBody, PanelRow, TextControl, CheckboxControl, IconButton, ToggleControl } = wpComponents;
+
+  const ALLOWBLOCKS = ['nab/new-this-year-item'];
+
+  const removehildawardsBlock = memoize((schedule) => {
+    return times(schedule, (n) => ['nab/new-this-year-item', { id: n - 1 }]);
+  });
 
   const newThisYearBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -35,177 +44,32 @@
     </svg>
   );
 
-  class NewThisYear extends Component {
-
-    componentDidMount() {
-      const { products } = this.props.attributes;
-      if (0 === products.length) {
-        this.initList();
+  /* Parent Block */
+  registerBlockType('nab/new-this-year', {
+    title: __('New This Year'),
+    description: __('New This Year'),
+    icon: { src: newThisYearBlockIcon },
+    category: 'nabshow',
+    keywords: [__('New This Year'), __('gutenberg'), __('nab')],
+    attributes: {
+      products: {
+        type: 'array',
+        default: [],
+      },
+      showFilter: {
+        type: 'boolean',
+        default: false
       }
-    }
+    },
+    edit: (props) => {
+      const { attributes: { noOfschedule, showFilter }, className, setAttributes, clientId } = props;
 
-    initList() {
-      const { products } = this.props.attributes;
-      const { setAttributes } = this.props;
-      setAttributes({
-        products: [
-          ...products,
-          {
-            index: products.length,
-            media: '',
-            mediaAlt: '',
-            title: '',
-            description: '',
-            readMore: 'Read More'
-          }
-        ]
-      });
-    }
-
-    render() {
-      const { attributes, setAttributes, clientId, className } = this.props;
-      const { products, showFilter } = attributes;
-
-      const getImageButton = (openEvent, index) => {
-        if (products[index].media) {
-          return (
-            <img src={products[index].media} alt={products[index].alt} className="img" />
-          );
-        } else {
-          return (
-            <Button onClick={openEvent} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Logo</Button>
-          );
+      jQuery(document).on('click', `#block-${clientId} .new-this-year-inner .remove-button`, function (e) {
+        if ('' !== jQuery(this).parents(`#block-${clientId}`)) {
+          setAttributes({ noOfschedule: noOfschedule - 1 });
+          removehildawardsBlock(noOfschedule);
         }
-      };
-
-      const productsList = products
-        .sort((a, b) => a.index - b.index)
-        .map((product, index) => {
-          return (
-            <div className="box-item">
-              <div className="box-inner">
-                <span
-                  className="remove"
-                  onClick={() => {
-                    const qewQusote = products
-                      .filter(item => item.index != product.index)
-                      .map(t => {
-                        if (t.index > product.index) {
-                          t.index -= 1;
-                        }
-
-                        return t;
-                      });
-
-                    setAttributes({
-                      products: qewQusote
-                    });
-                  }}
-                >
-                  <span className="dashicons dashicons-no-alt"></span>
-                </span>
-                <div className="media-img">
-                  <MediaUpload
-                    onSelect={media => {
-                      const newObject = Object.assign({}, product, {
-                        media: media.url,
-                        mediaAlt: media.alt
-                      });
-                      setAttributes({
-                        products: [
-                          ...products.filter(
-                            item => item.index != product.index
-                          ),
-                          newObject
-                        ]
-                      });
-                    }}
-                    type="image"
-                    value={attributes.imageID}
-                    render={({ open }) => <span onClick={open} className="dashicons dashicons-edit"></span>}
-                  />
-                  <MediaUpload
-                    onSelect={media => {
-                      const newObject = Object.assign({}, product, {
-                        media: media.url,
-                        mediaAlt: media.alt
-                      });
-                      setAttributes({
-                        products: [
-                          ...products.filter(
-                            item => item.index != product.index
-                          ),
-                          newObject
-                        ]
-                      });
-                    }}
-                    type="image"
-                    value={attributes.imageID}
-                    render={({ open }) => getImageButton(open, index)}
-                  />
-                </div>
-                <RichText
-                  tagName="h3"
-                  placeholder={__('Title')}
-                  value={product.title}
-                  className="title"
-                  onChange={title => {
-                    const newObject = Object.assign({}, product, {
-                      title: title
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  className="description"
-                  placeholder={__('Description')}
-                  value={product.description}
-                  onChange={description => {
-                    const newObject = Object.assign({}, product, {
-                      description: description
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  className="readMore"
-                  placeholder={__('Read More')}
-                  value={product.readMore}
-                  onChange={readMore => {
-                    const newObject = Object.assign({}, product, {
-                      readMore: readMore
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-            </div>
-          );
-        });
+      });
 
       return (
         <Fragment>
@@ -232,60 +96,20 @@
               </div>
             </div>
           }
-          <div className="new-this-year new-this-year-block">
-            <div className="box-main">
-              {productsList}
-              <div className="box-item additem">
-                <button
-                  className="components-button add"
-                  onClick={content => {
-                    setAttributes({
-                      products: [
-                        ...products,
-                        {
-                          index: products.length,
-                          media: '',
-                          mediaAlt: '',
-                          title: '',
-                          description: '',
-                          readMore: 'Read More'
-                        }
-                      ]
-                    });
-                  }
-                  }
-                >
-                  <span className="dashicons dashicons-plus"></span> Add New Item
-                </button>
-              </div>
+          <div className={`new-this-year new-this-year-block ${className ? className : ''}`}>
+            <div className="newyr-box box-main">
+              <InnerBlocks
+                allowedBlocks={ALLOWBLOCKS}
+              />
             </div>
           </div>
         </Fragment>
       );
-    }
-  }
-
-  registerBlockType('nab/new-this-year', {
-    title: __('New This Year'),
-    description: __('New This Year'),
-    icon: { src: newThisYearBlockIcon },
-    category: 'nabshow',
-    keywords: [__('New This Year'), __('gutenberg'), __('nab')],
-    attributes: {
-      products: {
-        type: 'array',
-        default: [],
-      },
-      showFilter: {
-        type: 'boolean',
-        default: false
-      }
     },
-    edit: NewThisYear,
 
     save: props => {
-      const { attributes } = props;
-      const { products, showFilter } = attributes;
+      const { attributes, className } = props;
+      const { showFilter } = attributes;
 
       return (
         <Fragment>
@@ -301,52 +125,219 @@
               </div>
             </div>
           }
-          <div className="new-this-year new-this-year-block">
-            <div className="box-main">
-              {products.map((product, index) => (
-                <Fragment>
-                  {
-                    product.title && (
-                      <div className="box-item">
-                        <div className="box-inner">
-                          <div className="media-img">
-                            {product.media ? (
-                              <img src={product.media} alt={product.alt} className="img" />
-                            ) : (
-                                <div className="no-image">No Logo</div>
-                              )}
-                          </div>
-                          {product.title && (
-                            <RichText.Content
-                              tagName="h3"
-                              value={product.title}
-                              className="title"
-                            />
-                          )}
-                          {product.description && (
-                            <RichText.Content
-                              tagName="p"
-                              className="description"
-                              value={product.description}
-                            />
-                          )}
-                          {product.readMore && (
-                            <RichText.Content
-                              tagName="span"
-                              className="readMore"
-                              value={product.readMore}
-                            />
-                          )}
-                        </div>
-                      </div>
-                    )
-                  }
-                </Fragment>
-              ))}
+          <div className={`new-this-year new-this-year-block ${className ? className : ''}`}>
+            <div className="newyr-box box-main">
+              <InnerBlocks.Content />
             </div>
           </div>
         </Fragment>
       );
     }
   });
+
+
+  /* schedule Block */
+  registerBlockType('nab/new-this-year-item', {
+    parent: ['nab/new-this-year'],
+    title: __('New This Year'),
+    description: __('New This Year'),
+    icon: { src: newThisYearBlockIcon },
+    category: 'nabshow',
+    keywords: [__('New This Year'), __('gutenberg'), __('nab')],
+    attributes: {
+      title: {
+        type: 'string'
+      },
+      description: {
+        type: 'string'
+      },
+      imageUrl: {
+        attribute: 'alt'
+      },
+      imageAlt: {
+        attribute: 'src'
+      },
+      ButtonText: {
+        type: 'string',
+        default: 'Read More'
+      },
+      category: {
+        type: 'string'
+      },
+      categoryList: {
+        type: 'array',
+        default: [
+          'Show Floor',
+          'Education',
+          'Experiences',
+          'For Attendees',
+          'For Partners',
+        ]
+      },
+      taxonomies: {
+        type: 'array',
+        default: []
+      }
+
+    },
+    edit: (props) => {
+      const { attributes, setAttributes, clientId } = props;
+      const { title, description, imageUrl, imageAlt, taxonomies, category, categoryList, ButtonText } = attributes;
+
+      const getImageButton = openEvent => {
+        if (imageUrl) {
+          return (
+            <img src={imageUrl} alt={imageAlt} className="main-img" />
+          );
+        } else {
+          return (
+            <div className="button-container">
+              <Button onClick={openEvent} className="button button-large">
+                <span className="dashicons dashicons-upload"></span> Image
+              </Button>
+            </div>
+          );
+        }
+      };
+
+      return (
+        <Fragment>
+          <InspectorControls>
+            <PanelBody
+              title={__('General Setting')}
+              initialOpen={true}
+              className="range-setting"
+            >
+              <PanelRow>
+                <div className="meet-new-item">
+                  <TextControl
+                    type="string"
+                    label="Add New Category"
+                    name={category}
+                    placeHolder="Add New"
+                    onChange={value => setAttributes({ category: value })}
+                  />
+                  <Button
+                    onClick={value => {
+                      if (undefined !== category && '' !== category) {
+                        let newCat = [...categoryList];
+                        newCat.push(category);
+                        setAttributes({ categoryList: newCat });
+                      }
+                    }}
+                  >
+                    <span className="dashicons dashicons-plus"></span>
+                  </Button>
+                </div>
+              </PanelRow>
+              <label>Select Category</label>
+              <PanelRow>
+                <div className="category-list">
+                  {categoryList.map((item, index) => (
+                    <Fragment key={index}>
+                      <CheckboxControl
+                        checked={-1 < taxonomies.indexOf(item)}
+                        label={item}
+                        name="item[]"
+                        value={item}
+                        onChange={isChecked => {
+                          let index,
+                            tempTaxonomies = [...taxonomies];
+
+                          if (isChecked) {
+                            tempTaxonomies.push(item);
+                          } else {
+                            index = tempTaxonomies.indexOf(item);
+                            tempTaxonomies.splice(index, 1);
+                          }
+                          setAttributes({ taxonomies: tempTaxonomies });
+                        }}
+                      />
+                    </Fragment>
+                  ))}
+                </div>
+              </PanelRow>
+            </PanelBody>
+          </InspectorControls>
+          <div className="new-this-year-inner box-item" data-category={taxonomies ? taxonomies : ''}>
+            <div className="box-inner">
+              <span className="remove-button">
+                <IconButton
+                  className="components-toolbar__control"
+                  label={__('Remove image')}
+                  icon="no"
+                  onClick={() => {
+                    wp.data.dispatch('core/editor').removeBlocks(clientId);
+                  }}
+                />
+              </span>
+              <div className="feature-img">
+                <div className="remove-img">
+                  <span
+                    onClick={value =>
+                      setAttributes({ imageUrl: '', imageAlt: '' })
+                    }
+                    className="dashicons dashicons-trash"
+                  />
+                </div>
+                <MediaUpload
+                  onSelect={media => {
+                    setAttributes({ imageAlt: media.alt, imageUrl: media.url });
+                  }}
+                  type="image"
+                  value={attributes.imageID}
+                  render={({ open }) => getImageButton(open)}
+                />
+              </div>
+              <div className="newyr-details">
+                <RichText
+                  tagName="h3"
+                  onChange={value => setAttributes({ title: value })}
+                  value={title}
+                  className="title"
+                  placeholder={__('Title')}
+                />
+                <RichText
+                  tagName="p"
+                  onChange={value => setAttributes({ description: value })}
+                  value={description}
+                  className="description"
+                  placeholder={__('Description')}
+                />
+                <RichText
+                  tagName="a"
+                  onChange={ButtonText => setAttributes({ ButtonText: ButtonText })}
+                  value={ButtonText}
+                  rel='noopener noreferrer'
+                />
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      );
+    },
+    save: (props) => {
+      const { title, description, imageUrl, imageAlt, taxonomies, ButtonText  } = props.attributes;
+      const catData = taxonomies.toString();
+
+      return (
+        <div className="new-this-year-inner box-item" data-category={catData ? catData : ''}>
+          <div className="box-inner">
+            <div className={'feature-img'}>
+              {imageUrl && <img src={imageUrl} alt={imageAlt} className="main-img" /> }
+            </div>
+            <div className="newyr-details">
+              {title && <RichText.Content tagName="h3" value={title} className="title" /> }
+              {description && <RichText.Content tagName="p" value={description} className="description" /> }
+              {ButtonText && <RichText.Content tagName="a" value={ButtonText} className="ButtonText" /> }
+            </div>
+          </div>
+        </div>
+
+      );
+
+    }
+  });
+
+
 })(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);

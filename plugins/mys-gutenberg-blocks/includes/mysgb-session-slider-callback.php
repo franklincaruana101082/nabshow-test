@@ -517,7 +517,14 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                             wp_reset_postdata();
                         }
                     }
-                     ?>
+                    if ( ! $slider_active && ! $listing_page && isset( $attributes['displayVideo'] ) && $attributes['displayVideo'] ) {
+
+                    	$video = get_post_meta( $session_id, 'video', true );
+                    	?>
+                    	<div class="video-section"><?php echo $video; ?></div>
+                    	<?php
+                    }
+                    ?>
 
                     <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
                 <?php

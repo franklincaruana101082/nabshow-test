@@ -164,13 +164,14 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 						$all_locations        = get_the_terms( $query_post_id, 'session-locations' );
                         $session_tracks      = get_the_terms( $query_post_id, 'tracks' );
-                        $session_tracks      = nabshow_lv_get_pipe_separated_term_list( $session_tracks );
                         $schedule_id         = get_post_meta( $query_post_id, 'scheduleid', true );
 						$date                = get_post_meta( $query_post_id, 'date', true );
 						$start_time          = get_post_meta( $query_post_id, 'starttime', true );
 						$end_time            = get_post_meta( $query_post_id, 'endtime', true );
 					    $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
 					    $location_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/floorplan/';
+					    $site_url            = get_site_url();
+					    $programs            = '';
 
 						$temp_locations = array();
 
@@ -183,13 +184,65 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 						$display_location = implode( ' | ', $temp_locations );
 
+
+						if ( $session_tracks && ! is_wp_error( $session_tracks ) ) {
+
+							$track_url_mapping = array(
+								'aws-hands-on-labs-for-media' => '/learn/all-badge-access-programs/aws-labs/',
+								'birds-of-a-feather' => '/learn/all-badge-access-programs/birds-of-a-feather/',
+								'broadcast-engineering-and-it-conference' => '/learn/conferences/broadcast-engineering-and-it/',
+								'cinecentral' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/cinecentral/',
+								'connected-mediaip' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/connected-media-ip/',
+								'cybersecurity-and-content-protection-summit' => '/learn/conferences/cybersecurity-and-content-protection-summit/',
+								'digital-futures' => '/learn/conferences/digital-futures/',
+								'esports-experience' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/esports-experience/',
+								'executive-leadership-summit' => '/learn/conferences/executive-leadership-summit/',
+								'field-workshops-for-creatives' => '/learn/workshops-and-training/field-workshops-for-creatives/',
+								'future-of-delivery' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/future-of-delivery/',
+								'futures-park' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/futures-park/',
+								'hands-on-studio-experience' => '/learn/workshops-and-training/hands-on-studio-experience/',
+								'hands-on-software-training' => '/learn/workshops-and-training/hands-on-software-training/',
+								'in-vehicle-experience' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/in-vehicle-experience/',
+								'ip-showcase' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/ip-showcase/',
+								'learning-labs' => '/learn/all-badge-access-programs/learning-labs/',
+								'main-stage' => '/learn/all-badge-access-programs/main-stage/',
+								'nspire' => '/learn/conferences/nspire/',
+								'podcasting-pavilion-and-studio' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/podcasting-pavilion-and-studio/',
+								'postproduction-world' => '/learn/conferences/post-production-world/',
+								'small-and-medium-market-radio-forum' => '/learn/conferences/small-to-medium-market-radio-forum/',
+								'south-upper-lobby-theater' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/south-upper-lobby-theater/',
+								'sprockit' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/sprockit/',
+								'startup-loft' => '/explore/on-floor-destinations/attractions-pavilions-and-theaters/startup-loft/',
+								'streaming-summit' => '/learn/conferences/streaming-summit/',
+								'the-nab-show-conference' => '/learn/conferences/nab-show-conference/'
+							);
+
+							$temp_tracks = array();
+
+							foreach ( $session_tracks as $track ) {
+
+								if ( isset( $track_url_mapping[ $track->slug ] ) ) {
+
+									$track_link     = $site_url . $track_url_mapping[ $track->slug ];
+									$temp_tracks[]  = '<a href="' . $track_link  . '" >' . $track->name . '</a>';
+
+								} else {
+
+									$temp_tracks[]  = $track->name;
+								}
+
+							}
+
+							$programs = implode( ' | ', $temp_tracks );
+						}
+
 						if ( ! empty( $date ) ) {
 							$date      = date_format( date_create( $date ), 'l, F j, Y' );
 							$date_day  = strtolower( Date('l', strtotime( $date ) ) );
 							$day_link  = nabshow_lv_get_day_page_link( $date_day );
 
 							if ( ! empty( $day_link ) ) {
-							    $day_link = site_url() . $day_link;
+							    $day_link = $site_url . $day_link;
 							    $date = '<a href="'. $day_link .'">'. $date . '</a>';
                             }
 						}
@@ -219,7 +272,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                             <div class="mb50">
                                 <div class="head">
                                     <div class="details">
-                                        <span class="program-name"><?php echo esc_html( $session_tracks ); ?></span>
+                                        <span class="program-name"><?php echo wp_kses( $programs, $element_array ); ?></span>
                                         <h3 class="title"><a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
                                         <strong class="company"><?php echo wp_kses( $session_info, $element_array ); ?></strong>
                                     </div>

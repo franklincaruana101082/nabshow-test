@@ -81,3 +81,6 @@ add_filter( 'srm_redirect_to', 'nabhsow_lv_modify_redirect_to', 1 );
 
 //Filter for increase redirect rules limit
 add_filter( 'srm_max_redirects', 'nabhsow_lv_increase_redirect_rule_limit' );
+
+//Filter for modified post where.
+add_filter( 'posts_where', 'nabshow_lv_set_content_custom_posts_where', 10, 1 );
