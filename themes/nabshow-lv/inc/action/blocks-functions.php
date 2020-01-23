@@ -1208,7 +1208,6 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
                             <h3 class="name">
                                 <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor_name ); ?></a>
                             </h3>
-                            <strong class="title">Title</strong>
                             <strong class="company"><?php echo esc_html( $author_company ); ?></strong>
                         </div>
                     </div>
