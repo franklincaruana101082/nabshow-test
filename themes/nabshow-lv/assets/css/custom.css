@@ -991,6 +991,7 @@ ul.banner-navigation li a{color:#00b5df;font-family:'Roboto Black';font-size:16p
 .nab-dynamic-list .item .company{font-size:10px;line-height:normal;margin-bottom:10px}
 .nab-dynamic-list.exhibitors .item .item-inner>img{max-width:150px;max-height:150px}
 .nab-dynamic-list.exhibitors .item .item-inner *{color:#fff}
+.nab-dynamic-list.speakers .item.display-title .flip-box-back h6 a{font-size:22px}
 
 /* Exhibitor Slider Title */
 .exhibitors{display:flex}
@@ -1702,6 +1703,7 @@ header.dark-header .header-right .get-updts.clicked{color:#00b5df}
 .nab-box-slider.less-items{display:flex;flex-wrap:wrap;margin:0 -15px}
 .nab-box-slider.less-items .item{padding:0 15px;width:25%;border:0}
 .related-content-slider-info.nab-box-slider.less-items .item-inner, .related-content-slider-events.nab-box-slider.less-items .item-inner{border:3px solid #d9d9d9;height:100%;background:#fff}
+.related-content-slider-info.nab-box-slider.less-items .item-inner{background:#363636}
 .nab-not-to-be-missed-list{display:flex;flex-wrap:wrap;margin:0 -15px}
 .nab-not-to-be-missed-list .cards a img{height:100%}
 .not-to-be-slider.slider-arrow-main.slider-arrow-8 .bx-controls-direction a.bx-next{transform:rotate(180deg);margin-top:-13px}
@@ -1848,7 +1850,7 @@ span.ctcc-right-side{display:inline-block}
 a:hover{color:#00b5df;text-decoration:underline}
 .related-content-box *{color:#fff}
 .session .item *{color:#fff}
-.white-color, .white-color *,form.nab-form *, .nab-dynamic-list .item *, .nab-box-slider .item *{color:#fff}
+.white-color, .white-color *,.nab-dynamic-list .item *, .nab-box-slider .item *{color:#fff}
 
 /* end new */
 

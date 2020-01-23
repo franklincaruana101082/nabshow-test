@@ -4178,7 +4178,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TextControl = wpComponents.TextControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        TextareaControl = wpComponents.TextareaControl;
 
 
     var sponsorPartnerBlockIcon = wp.element.createElement(
@@ -4390,7 +4391,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideWidth = attributes.slideWidth,
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
-                    destinationType = attributes.destinationType;
+                    destinationType = attributes.destinationType,
+                    customOrder = attributes.customOrder,
+                    customOrderIds = attributes.customOrderIds;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -4452,7 +4455,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ destinationType: value });_this5.setState({ bxinit: true });
                                 }
                             }),
-                            wp.element.createElement(SelectControl, {
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Custom Order'),
+                                checked: customOrder,
+                                onChange: function onChange() {
+                                    setAttributes({ customOrder: !customOrder });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            customOrder && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    "Enter Sponsors/Partners ids for custom order:"
+                                ),
+                                wp.element.createElement(TextareaControl, {
+                                    help: "Each Sponsors/Partners id should be comma separated",
+                                    value: customOrderIds,
+                                    onChange: function onChange(ids) {
+                                        setAttributes({ customOrderIds: ids });_this5.setState({ bxinit: true });
+                                    }
+                                })
+                            ),
+                            !customOrder && wp.element.createElement(SelectControl, {
                                 label: __('Order by'),
                                 value: orderBy,
                                 options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
@@ -4766,7 +4792,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 listingPage: listingPage,
                                 sliderActive: sliderActive,
                                 arrowIcons: arrowIcons,
-                                destinationType: destinationType
+                                destinationType: destinationType,
+                                customOrder: customOrder,
+                                customOrderIds: customOrderIds
                             }
                         })
                     )
@@ -4849,7 +4877,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         destinationType: {
             type: 'string',
             default: ''
+        },
+        customOrder: {
+            type: 'boolean',
+            default: false
+        },
+        customOrderIds: {
+            type: 'string',
+            default: ''
         }
+
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),

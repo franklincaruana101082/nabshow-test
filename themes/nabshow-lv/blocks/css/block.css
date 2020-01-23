@@ -1606,7 +1606,7 @@ ul.button-prev li.btn-pink-prev span{font-size:10px;font-family:"Roboto Bold";pa
 .new-this-year-inner .box-inner{background:#363636}
 .speakers .flip-box .jobtilt,.speakers .flip-box .company{font-size:10px;margin:2px 0;color:#fff}
 .speakers .flip-box h6{margin:0 0 5px}
-
+.contributor-photos-popup{display:none}
 .badge-discounts-box{background-color:#000;color:#fff}
 .cross-promo-outner .cross-promo-inner{border:3px solid #d9d9d9;background-color:#363636;padding:15px 20px}
 .cross-promo-outner .title,.cross-promo-outner .description,.cross-promo-outner a:not([href]):not([tabindex]){color:#fff}

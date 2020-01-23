@@ -322,6 +322,14 @@ $sponsors_slider_attr = array(
 	'destinationType'   => array(
 		'type' => 'string',
 		'default' => ''
+	),
+	'customOrder' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'customOrderIds'   => array(
+		'type' => 'string',
+		'default' => ''
 	)
 );
 

@@ -5,7 +5,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl } = wpComponents;
 
     const sponsorPartnerBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -177,7 +177,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideWidth,
                 slideMargin,
                 arrowIcons,
-                destinationType
+                destinationType,
+                customOrder,
+                customOrderIds
             } = attributes;
 
             let names = [
@@ -229,16 +231,36 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 onChange={ (value) => { setAttributes({ destinationType: value }); this.setState({ bxinit: true }); }}
                               />
                             }
-                            <SelectControl
+
+                            <ToggleControl
+                              label={__('Custom Order')}
+                              checked={customOrder}
+                              onChange={() => { setAttributes({ customOrder: ! customOrder}); this.setState({ bxinit: true }); }}
+                            />
+
+                            { customOrder &&
+                                <Fragment>
+                                  <label>Enter Sponsors/Partners ids for custom order:</label>
+                                  <TextareaControl
+                                    help="Each Sponsors/Partners id should be comma separated"
+                                    value={ customOrderIds }
+                                    onChange={ (ids) => {  setAttributes({ customOrderIds: ids }); this.setState({ bxinit: true }); }}
+                                  />
+                                </Fragment>
+                            }
+                            { ! customOrder &&
+                              <SelectControl
                                 label={__('Order by')}
                                 value={orderBy}
                                 options={[
-                                        { label: __('Newest to Oldest'), value: 'date' },
-                                        { label: __('Menu Order'), value: 'menu_order' },
-                                        { label: __('Random'), value: 'rand' },
-                                    ]}
+                                  { label: __('Newest to Oldest'), value: 'date' },
+                                  { label: __('Menu Order'), value: 'menu_order' },
+                                  { label: __('Random'), value: 'rand' },
+                                ]}
                                 onChange={ (value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                            />
+                              />
+                            }
+
                             {0 < this.state.taxonomiesList.length && (
                                 <Fragment>
                                     <label> {__('Select Taxonomy')}</label>
@@ -468,7 +490,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 listingPage: listingPage,
                                 sliderActive: sliderActive,
                                 arrowIcons: arrowIcons,
-                                destinationType: destinationType
+                                destinationType: destinationType,
+                                customOrder: customOrder,
+                                customOrderIds: customOrderIds
                             }}
                         />
                     </div>
@@ -549,7 +573,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         destinationType: {
             type: 'string',
             default: ''
+        },
+        customOrder: {
+          type: 'boolean',
+          default: false
+        },
+        customOrderIds: {
+          type: 'string',
+          default: ''
         }
+
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),
