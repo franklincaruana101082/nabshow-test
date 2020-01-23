@@ -113,6 +113,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 mode: 'horizontal'
                             }
                         );
+                    } else {
+                      setTimeout(() => this.initSlider(), 500);
                     }
                 }
             }

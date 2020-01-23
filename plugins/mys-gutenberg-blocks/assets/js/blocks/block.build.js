@@ -1854,6 +1854,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 speed: sliderSpeed,
                                 mode: 'horizontal'
                             });
+                        } else {
+                            setTimeout(function () {
+                                return _this4.initSlider();
+                            }, 500);
                         }
                     }
                 }
@@ -3445,6 +3449,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 speed: sliderSpeed,
                                 mode: 'horizontal'
                             });
+                        } else {
+                            setTimeout(function () {
+                                return _this4.initSlider();
+                            }, 500);
                         }
                     }
                 }

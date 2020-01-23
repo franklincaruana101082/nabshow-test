@@ -117,6 +117,8 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                                 mode: 'horizontal'
                             }
                         );
+                    } else {
+                      setTimeout(() => this.initSlider(), 500);
                     }
                 }
             }
