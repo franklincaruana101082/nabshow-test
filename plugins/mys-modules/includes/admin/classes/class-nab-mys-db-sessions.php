@@ -109,6 +109,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
+				$type_sessions_array    = get_option( 'type_sessions_' . $this->group_id ); // This is used to check the type of Ssssions.
 
 				// If somehow the option does not exist, return false.
 				if ( false === $session_modified_array ) {
@@ -125,17 +126,18 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 
-				$limit_reached = 0;
+				$limit_reached        = 0;
+				$master_array_deleted = array();
 
 				foreach ( $all_items as $item ) {
-
 
 					//Tracks
 					if ( "tracks" === $current_request ) {
 
 						if ( ! isset ( $item->sessions ) || ! is_array( $item->sessions ) ) {
 
-							$master_array[ 0 ][] = $item;
+							// 0 stands for No sessions are linked.
+							$master_array[0][]                   = $item;
 							$total_item_statuses['Unassigned'][] = '';
 
 						} else {
@@ -168,6 +170,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						$multiple_sessions = array();
 
 						if ( isset( $item->sessionid ) ) {
+							// Update the array to add 'type' of session, this will be used to filter items and allow only "Complete" type items.
+							if ( isset ( $session_modified_array[ $item->sessionid ] ) ) {
+								$type_sessions_array[ $item->sessionid ] = isset( $item->type ) ? $item->type : '';
+							}
 							$multiple_sessions[] = $item->sessionid;
 						} else if ( isset( $item->schedules ) ) {
 							foreach ( $item->schedules as $schedule ) {
@@ -175,21 +181,36 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							}
 						}
 
+						//Initiate the type check variable so to handle
+						//3 conditions:
+						//1) Session not available in Modified Array so SKIP it.
+						//2) Session is available but Type is NOT "Complete" so DELETE it.
+						//3) Session is available and Type is "Complete" INCLUDE it.
+						$item_type = '';
 						foreach ( $multiple_sessions as $item_mys_id ) {
 
 							if ( array_key_exists( $item_mys_id, $this->session_modified_array ) ) {
-								$item_to_add                    = $item;
-								$master_array[ $item_mys_id ][] = $item_to_add;
-
-								$item_affected = 1;
+								if ( isset ( $type_sessions_array[ $item_mys_id ] )
+								     && "Complete" === $type_sessions_array[ $item_mys_id ] ) {
+									$master_array[ $item_mys_id ][] = $item;
+									$item_affected                  = 1;
+									$item_type                      = 'valid';
+								} else {
+									$item_type = 'invalid';
+								}
 							}
 						}
 
 						if ( 1 === $item_affected ) {
-
-							$total_item_statuses[ $this->session_modified_array[ $item_mys_id ] ][] = '';
+							$total_item_statuses[ $session_modified_array[ $item_mys_id ] ][] = '';
 
 							$affected_items ++;
+
+							//For speakers & sponsors, prepare items not having even a single session with "Complete" type.
+						} else if ( "sessions" !== $current_request && "invalid" === $item_type ) {
+							//0 tells there is no need of session id because we will delete the $item anyway.
+							//$master_array_deleted[0][] = $item;
+							$master_array['trash'][] = $item;
 						}
 
 					}
@@ -199,30 +220,40 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					}
 				}
 
-				//add sessions to delete which are in modifed array and not returned in sessions array
+				if ( "sessions" === $current_request ) {
+					//Store the array which has Types of sessions.
+					add_option( 'type_sessions_' . $this->group_id, $type_sessions_array );
+				}
+
+				//Add sessions to delete which are in modified array and not returned in sessions array
 				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
 
-					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
+					$items_to_delete = array_diff_key( $session_modified_array, $master_array );
 
-					foreach ( $sessions_to_delete as $item_mys_id => $status ) {
+					foreach ( $items_to_delete as $item_mys_id => $status ) {
 
-						$master_array[ $item_mys_id ][] = $status;
-
+						$master_array[ $item_mys_id ][]   = 'Deleted';
 						$total_item_statuses['Deleted'][] = '';
 
-						$affected_items ++;
+						// Changing the status to "Delete"
+						$session_modified_array[ $item_mys_id ] = 'Deleted';
 					}
 
+					//Update the modified array as some items might have changed the status to "Deleted".
+					update_option( 'modified_sessions_' . $this->group_id, $session_modified_array );
+				} else {
+					//Handle the trash status for sponsors and speakers.
+					$session_modified_array['trash'] = 'Deleted';
 				}
 
 				foreach ( $master_array as $item_mys_id => $item ) {
 
 					// If tracks, we might not have any assigned session,
 					// so skip checking status of sessionid in modified_array.
-					if( "tracks" === $current_request ) {
+					if ( "tracks" === $current_request ) {
 						$item_status = "Updated";
 					} else {
-						$item_status = $this->session_modified_array[ $item_mys_id ];
+						$item_status = $session_modified_array[ $item_mys_id ];
 					}
 
 					switch ( $item_status ) {
@@ -238,10 +269,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						case "Deleted":
 							$item_status_int = 0;
 							break;
-					}
-
-					if ( "sessions" !== $current_request && 0 === $item_status_int ) {
-						continue;
 					}
 
 					$single_item_json = wp_json_encode( $item );
@@ -268,7 +295,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				global $wpdb;
 
 				// If there are no changes.
-				if( 0 === count( $master_array ) ) {
+				if ( 0 === count( $master_array ) ) {
 					$bulk_status = 1;
 				} else {
 					$bulk_status = $this->nab_mys_db_bulk_insert( $wpdb->prefix . 'mys_data', $rows );
@@ -283,6 +310,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
 					delete_option( 'modified_sessions_' . $this->group_id );
+					delete_option( 'type_sessions_' . $this->group_id );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'failed', 'total_item_statuses' => $total_item_statuses );
 				}
@@ -290,20 +318,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$sequence_completes = 0;
 
 				if ( "sessions" !== $current_request && "restapi" === $flow ) {
-					// Check total 4 records (sessions/tracks/speakers/sponsors) with HistoryStatus = 1 and HistoryGroupID = $this->group_id are available or not.
-					// If yes, it means CRON sequence is now completed successfully.
 
-					$completed_data = $wpdb->get_results(
-						$wpdb->prepare(
-							"SELECT HistoryID FROM %1smys_history
-								WHERE HistoryStatus = '1'
-								AND HistoryGroupID = '%s'",
-							$wpdb->prefix, $this->group_id )
-					);
-
-					if ( 4 <= count( $completed_data ) ) {
-						$sequence_completes = 1;
-					}
+					$sequence_completes = $this->nab_mys_db_check_sequence( $this->group_id );
 
 				} else if ( "sponsors" === $current_request && "wpajax" === $flow ) {
 					// If its AJAX call, and sponsors request, sequence is now completed successfully.
@@ -311,8 +327,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				}
 
 				if ( 1 === $sequence_completes ) {
-					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
-					delete_option( 'modified_sessions_' . $this->group_id );
+
+					$this->nab_mys_db_complete_sequence( $bulk_status );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'done', 'total_item_statuses' => $total_item_statuses );
 
@@ -323,6 +339,42 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
 		}
 
+		/**
+		 * Check total 4 records (sessions/tracks/speakers/sponsors)
+		 * with HistoryStatus = 1 and HistoryGroupID = $this->group_id
+		 * are available or not.
+		 *
+		 * If yes, it means CRON sequence is now completed successfully.
+		 *
+		 * @param string $group_id A unique group id.
+		 *
+		 * @return array|string Pending data or a text 'open'
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+
+		public function nab_mys_db_check_sequence( $group_id ) {
+
+			global $wpdb;
+
+			$completed_data = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT HistoryID FROM %1smys_history
+								WHERE HistoryStatus = '1'
+								AND HistoryGroupID = '%s'",
+					$wpdb->prefix, $group_id )
+			);
+
+			if ( 4 <= count( $completed_data ) ) {
+				$this->nab_mys_db_complete_sequence();
+			}
+		}
+
+		public function nab_mys_db_complete_sequence( $bulk_status = 1 ) {
+			$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
+			delete_option( 'modified_sessions_' . $this->group_id );
+		}
 
 		/**
 		 * Check a lock for sessions sequence.
@@ -365,16 +417,16 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				// Record the state
 				$old_session_attempt_state = get_option( 'session_attempt_state' );
-				update_option('session_attempt_state', $previous_rows );
+				update_option( 'session_attempt_state', $previous_rows );
 
-				if( $previous_rows === $old_session_attempt_state ) {
+				if ( $previous_rows === $old_session_attempt_state ) {
 					return $pending_data;
 				} else {
 					// Resetting attempts as the sequence has increased records than earlier.
 					update_option( 'mys_data_attempt_sessions', 0 );
+
 					return 'stop';
 				}
-
 
 
 			} else {

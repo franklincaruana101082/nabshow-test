@@ -321,7 +321,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 
 			$group_id = $pending_data[0]->HistoryGroupID;
 
-			$exist_data = $wpdb->get_results(
+ 			$exist_data = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT HistoryID FROM %1smys_history
 						WHERE HistoryDataType = '%s'
@@ -329,9 +329,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					$wpdb->prefix, $requested_for, $group_id ) );
 
 			if ( 0 === count( $exist_data ) ) {
-				return $group_id;
+				return array( 'group_id' => $group_id );
 			} else {
-				return 1;
+				return array( 'group_id' => $group_id, 'exist_already' => 1 );
 			}
 		}
 

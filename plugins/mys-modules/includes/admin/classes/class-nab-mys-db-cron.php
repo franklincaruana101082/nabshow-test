@@ -765,10 +765,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					$post_detail .= '|';
 
-				} else if ( isset( $already_available_id ) && ( "sessions" === $post_type || "exhibitors" === $post_type ) ) {
+				} else if ( isset( $already_available_id ) ) {
 
-					// Deleting sessions or exhibitors.
-
+					// Deleting item.
 					$update_post_id = $already_available_id;
 					wp_trash_post( $update_post_id );
 
@@ -788,7 +787,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				if ( '' !== $session_post_id ) {
 					$post_detail .= "to_session-$session_post_id";
 				} else {
-					$post_detail .= "not-found-sessionid-$main_mys_value";
+					$post_detail .= "-not-found-sessionid-$main_mys_value";
 				}
 			} else if ( null === $data ) {
 				$post_detail .= 'JSON data is not in correct format';
