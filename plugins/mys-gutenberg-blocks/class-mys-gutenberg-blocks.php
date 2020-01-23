@@ -182,7 +182,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.8' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '2.9' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -695,5 +695,92 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
 	        return $sponsor_type;
         }
+
+
+	    public function mysgb_get_session_speakers( $session_id, $layout_type ) {
+
+		    $speaker = get_post_meta( $session_id, 'speakers', true );
+
+		    if ( ! empty( $speaker ) ) {
+
+			    $speaker_ids         = explode(',', $speaker);
+			    $speaker_query_args  = array(
+				    'post_type'      => 'speakers',
+				    'posts_per_page' => count( $speaker_ids ),
+				    'post__in'       => $speaker_ids
+			    );
+
+			    $speaker_query = new WP_Query( $speaker_query_args );
+
+			    if ( $speaker_query->have_posts() ) {
+
+				    if ( 'bullet' === $layout_type ) {
+				    	?>
+					    <ul class="speaker-list">
+					    <?php
+				    } elseif ( 'comma-separated' === $layout_type ){
+				    	$speaker_list = array();
+				    }
+				    while ( $speaker_query->have_posts() ) {
+
+					    $speaker_query->the_post();
+
+					    if ( 'with-headshot' === $layout_type ) {
+
+						    if ( has_post_thumbnail() ) {
+							    $speaker_thumbnail_url = get_the_post_thumbnail_url();
+						    } else {
+							    $speaker_thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
+						    }
+
+						    $speaker_id         = get_the_ID();
+						    $speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
+						    $speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
+						    $speaker_company    = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
+
+						    ?>
+						    <div class="speaker-single">
+							    <div class="img-box">
+								    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" class="rounded-circle" />
+							    </div>
+							    <div class="info-box">
+								    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
+								    <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
+								    <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
+							    </div>
+						    </div>
+						    <?php
+
+					    } elseif ( 'bullet' === $layout_type ) {
+
+					    	?>
+					    	<li><?php echo esc_html( get_the_title() ); ?></li>
+						    <?php
+
+					    } elseif ( 'comma-separated' == $layout_type ) {
+						    $speaker_list[] = get_the_title();
+					    }
+				    }
+				    if ( 'bullet' === $layout_type ) {
+				    	?>
+					    </ul>
+					    <?php
+				    } elseif ( 'comma-separated' === $layout_type ) {
+
+				    	if ( count( $speaker_list ) > 0 ) {
+
+				    		$all_speaker = implode( ', ', $speaker_list );
+
+				    		?>
+						    <div class="speaker-list-comma">
+							    <span class="speakers-name"><?php echo esc_html( $all_speaker ); ?></span>
+						    </div>
+							<?php
+					    }
+				    }
+			    }
+			    wp_reset_postdata();
+		    }
+	    }
     }
 }

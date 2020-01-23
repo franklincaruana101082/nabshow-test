@@ -200,6 +200,26 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$result_post[ $i ][ 'post_excerpt' ]  = get_the_excerpt();
 					$result_post[ $i ][ 'planner_link' ]  = $session_planner_url;
 
+					$speakers       = get_post_meta( $session_id, 'speakers', true );
+					$speaker_ids    = explode(',', $speakers);
+					$total_speakers = count( $speaker_ids );
+
+					if ( ! empty( $speakers ) && $total_speakers > 0 ) {
+
+						$final_speakers = array();
+
+						foreach ( $speaker_ids as $speaker_id ) {
+
+							$final_speakers[] = get_the_title( $speaker_id );
+
+						}
+
+						if ( count( $final_speakers ) > 0 ) {
+
+							$result_post[ $i ][ 'speakers' ] = implode( ', ', $final_speakers );
+						}
+					}
+
 					if ( ! empty( $listing_type ) ) {
 						$result_post[ $i ][ 'session_date' ]  = $date;
 						$result_post[ $i ][ 'thumbnail_url' ] = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';

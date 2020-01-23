@@ -387,6 +387,10 @@ $tracks_slider_attr = array(
 		'items'   => [
 			'type' => 'number'
 		]
+	),
+	'excludeTerms' => array(
+		'type'    => 'string',
+		'default' => ''
 	)
 
 );

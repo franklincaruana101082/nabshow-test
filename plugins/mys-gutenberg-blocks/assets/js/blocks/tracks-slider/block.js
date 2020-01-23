@@ -1,11 +1,11 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl } = wpComponents;
 
     const trackSliderBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -106,7 +106,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 arrowIcons,
                 featuredTag,
                 categoryType,
-                categoryHalls
+                categoryHalls,
+                excludeTerms
             } = attributes;
 
             var names = [
@@ -115,7 +116,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
 
             let input = <div className="inspector-field inspector-field-Numberofitems ">
@@ -183,6 +186,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </div>
                               </Fragment>
                             }
+                            <label>Exclude item by Ids:</label>
+                            <TextareaControl
+                              help="Each id should be comma separated"
+                              value={ excludeTerms }
+                              onChange={ (ids) => {  setAttributes({ excludeTerms: ids }); this.setState({ bxinit: true }); }}
+                            />
                             <SelectControl
                                 label={__('Display Order')}
                                 value={order}
@@ -295,7 +304,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/tracks-slider"
-                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls }}
+                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls, excludeTerms: excludeTerms }}
                     />
                 </Fragment >
             );
@@ -361,6 +370,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         categoryHalls: {
             type: 'array',
             default: []
+        },
+        excludeTerms: {
+            type: 'string',
+            default: ''
         }
 
     };

@@ -154,16 +154,6 @@ import memoize from 'memize';
 
     const ALLOWBLOCKS = ['nab/awards-item'];
 
-
-    const getChildawardsBlock = memoize((awards) => {
-        return (
-            times(
-                awards,
-                (n) => ['nab/awards-item', { id: n + 1 }]
-            )
-        );
-    });
-
     const removehildawardsBlock = memoize((awards) => {
         return (
             times(
@@ -246,17 +236,8 @@ import memoize from 'memize';
                             </div>
                             <div className="awards-data row">
                                 <InnerBlocks
-                                    template={getChildawardsBlock(noOfAwards)}
-                                    templateLock="all"
                                     allowedBlocks={ALLOWBLOCKS}
                                 />
-                                <div className="add-remove-btn">
-                                    <Button className="add" onClick={() => {
-                                        setAttributes({ noOfAwards: noOfAwards + 1 });
-                                    }}>
-                                        <span className="dashicons dashicons-plus" />
-                                    </Button>
-                                </div>
                             </div>
                         </Fragment>
                     </div>

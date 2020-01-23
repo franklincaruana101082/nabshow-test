@@ -24,14 +24,16 @@ $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['cla
 $featured_track = isset( $attributes['featuredTag'] ) ? $attributes['featuredTag'] : false;
 $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 $category_halls = isset( $attributes['categoryHalls'] ) && ! empty( $attributes['categoryHalls'] ) ? $attributes['categoryHalls'] : array();
+$exclude_terms  = isset( $attributes['excludeTerms'] ) && ! empty( $attributes['excludeTerms'] ) ? explode( ',', str_replace( ' ', '', $attributes['excludeTerms'] ) ) : array();
 $cache_key      = '';
 $terms          = false;
 
 if ( $featured_track || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
 
-	$hall_key   = count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ? implode( '-', $category_halls ) : '';
-	$cache_key  = 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order . '-' . $featured_track . '-' . $hall_key;
-    $terms      = get_transient( $cache_key );
+	$hall_key       = count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ? implode( '-', $category_halls ) : '';
+	$exclude_list   = count ( $exclude_terms ) > 0 ? implode( '-', $exclude_terms ) : '';
+	$cache_key      = 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order . '-' . $featured_track . '-' . $hall_key . '-' . $exclude_list;
+    $terms          = get_transient( $cache_key );
 }
 
 
@@ -43,6 +45,11 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         'orderBy'    => 'name',
         'order'      => 'ASC',
     );
+
+    if ( is_array( $exclude_terms ) && count( $exclude_terms ) > 0 ) {
+
+    	$args[ 'exclude' ] = $exclude_terms;
+    }
 
     if ( 'rand' === $category_order ) {
     	$args[ 'number' ] = 100;

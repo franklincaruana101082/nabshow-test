@@ -230,7 +230,7 @@
       e.preventDefault();
       let section = $(this).attr('href');
       $('html, body').animate({
-        scrollTop: $(section).offset().top
+        scrollTop: $(section).offset().top - 100
       });
     });
 
@@ -241,7 +241,7 @@
   }
 
   if (0 < $('.news-conference-schedule .box-main').length) {
-    window.onload = window.onresize = CustomMasonryGrids;
+    window.onload = window.onresize = conferenceMasonryGrids;
   }
   if (0 < $('.birds-of-a-feather .box-main').length) {
     window.onload = window.onresize = CustomMasonryGrids;
@@ -2074,6 +2074,19 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
               createItemDiv.appendChild(innerParagraph);
             }
 
+            if ( value.speakers !== undefined ) {
+
+                let innerSpeakerDiv = document.createElement('div');
+                innerSpeakerDiv.setAttribute('class', 'speaker-list-comma');
+
+                let innerSpeakerSpan = document.createElement('span');
+                innerSpeakerSpan.setAttribute('class', 'speakers-name');
+                innerSpeakerSpan.innerText = value.speakers;
+
+                innerSpeakerDiv.appendChild(innerSpeakerSpan);
+                createItemDiv.appendChild(innerSpeakerDiv);
+            }
+
             let innerPlannerLink = document.createElement('a');
             innerPlannerLink.innerText = 'View in Planner';
             innerPlannerLink.setAttribute('href', value.planner_link);
@@ -2225,16 +2238,75 @@ function CustomMasonryGrids() {
   }
 }
 
+// news-conference filter MasonryGrids
+
+jQuery(document).on('change', '.news-conference select', function(){
+  conferenceMasonryGrids();
+});
+
+jQuery(document).on('keyup', '.news-conference .search', function () {
+  conferenceMasonryGrids();
+});
+
+function conferenceMasonryGrids() {
+  var colCount, colHeight, i, mainDiv, highest, order, divHeight;
+  colHeight = [];
+  mainDiv = document.getElementsByClassName('box-main');
+
+  if (5 < jQuery('.box-item:visible').length) {
+    jQuery('.news-conference-schedule .box-main').removeClass('without-masonry');
+    jQuery('.news-conference-schedule .box-main .box-item').css({ opacity: '0', transform: 'scale(0.8, 0.8)' });
+    if (767 > window.innerWidth) {
+      colCount = 1;
+    } else if (992 > window.innerWidth) {
+      colCount = 2;
+    } else if (1200 > window.innerWidth) {
+      colCount = 3;
+    } else {
+      colCount = 4;
+    }
+
+    for (i = 0; i <= colCount; i++) {
+      colHeight.push(0);
+    }
+
+    for (i = 0; i < jQuery('.box-item:visible').length; i++) {
+      jQuery('.box-item:visible')[i].style.height = '';
+      order = (i + 1) % colCount || colCount;
+      jQuery('.box-item:visible')[i].style.order = order;
+      divHeight = jQuery('.box-item:visible')[i].clientHeight;
+
+      if (0 === divHeight) {
+        divHeight = jQuery('.box-item:visible')[i].childNodes[1].childNodes[1].naturalHeight;
+      }
+      jQuery('.box-item:visible')[i].style.height = divHeight + 'px';
+      colHeight[order] += parseInt(divHeight);
+
+      jQuery(jQuery('.box-item:visible')[i])
+        .show('slow')
+        .css({ opacity: '1', transform: 'scale(1, 1)' });
+    }
+    highest = Math.max.apply(Math, colHeight);
+    mainDiv[0].style.height = highest + 'px';
+  } else {
+    jQuery('.news-conference-schedule .box-main').addClass('without-masonry');
+    mainDiv[0].style.height = 'auto';
+  }
+}
+
+// news-conference filter MasonryGrids
+
 /**
  * Schedule at a glance filter dropdown options append
  * @param data
  * @param id
  */
 function insertOptions(data, id) {
-  if (0 === jQuery('#' + id + ' option[value="' + data + '"]').length && undefined !== data && '' !== data) {
+  let dataValue = data.trim();
+  if (0 === jQuery('#' + id + ' option[value="' + dataValue + '"]').length && undefined !== dataValue && '' !== dataValue) {
     let node = document.createElement('option');
-    node.setAttribute('value', data);
-    let textnode = document.createTextNode(data);
+    node.setAttribute('value', dataValue);
+    let textnode = document.createTextNode(dataValue);
     let optionData = document.getElementById(id);
     node.appendChild(textnode);
     optionData.appendChild(node);

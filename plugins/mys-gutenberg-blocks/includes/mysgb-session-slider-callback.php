@@ -36,6 +36,7 @@ $display_date      = isset( $attributes['displayDate'] ) ? $attributes['displayD
 $display_time      = isset( $attributes['displayTime'] ) ? $attributes['displayTime'] : true;
 $display_location  = isset( $attributes['displayLocation'] ) ? $attributes['displayLocation'] : true;
 $display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
+$display_speaker   = isset( $attributes['displaySpeaker'] ) ? $attributes['displaySpeaker'] : false;
 $query             = false;
 $listing_id        = '';
 $final_key         = '';
@@ -452,6 +453,10 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                     <?php
                 }
 
+                if ( $slider_active && $display_speaker ) {
+                	$this->mysgb_get_session_speakers( $session_id, 'bullet' );
+                }
+
                 if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
 
                 	$schedule_id         = get_post_meta( $session_id, 'scheduleid', true );
@@ -468,55 +473,15 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 	                    </p>
 	                    <?php
                     }
-                    if ( 'with-masonry' === $layout ) {
+                    if ( 'with-masonry' === $layout && $display_speaker ) {
 
-                        $speaker = get_post_meta( $session_id, 'speakers', true );
+                    	$this->mysgb_get_session_speakers( $session_id, 'with-headshot' );
 
-                        if ( ! empty( $speaker ) ) {
+                    } elseif ( 'with-featured' === $layout ) {
 
-                            $speaker_ids         = explode(',', $speaker);
-                            $speaker_query_args  = array(
-                                'post_type'      => 'speakers',
-                                'posts_per_page' => count( $speaker_ids ),
-                                'post__in'       => $speaker_ids
-                            );
-
-                            $speaker_query = new WP_Query( $speaker_query_args );
-
-                            if ( $speaker_query->have_posts() ) {
-
-                                while ( $speaker_query->have_posts() ) {
-
-                                    $speaker_query->the_post();
-
-                                    if ( has_post_thumbnail() ) {
-                                        $speaker_thumbnail_url = get_the_post_thumbnail_url();
-                                    } else {
-                                        $speaker_thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
-                                    }
-
-                                    $speaker_id         = get_the_ID();
-                                    $speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
-                                    $speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
-				                    $speaker_company    = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
-
-                                    ?>
-                                        <div class="speaker-single">
-                                            <div class="img-box">
-                                                <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" class="rounded-circle" />
-                                            </div>
-                                            <div class="info-box">
-                                                <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
-                                                <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
-                                                <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
-                                            </div>
-                                        </div>
-                                    <?php
-                                }
-                            }
-                            wp_reset_postdata();
-                        }
+                    	$this->mysgb_get_session_speakers( $session_id, 'comma-separated' );
                     }
+
                     if ( ! $slider_active && ! $listing_page && isset( $attributes['displayVideo'] ) && $attributes['displayVideo'] ) {
 
                     	$video = get_post_meta( $session_id, 'video', true );

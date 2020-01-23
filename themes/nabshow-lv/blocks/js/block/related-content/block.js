@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow, relatedContentDropdown } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow, relatedContentDropdown } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
@@ -156,7 +156,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
                 { name: sliderArrow6, classnames: 'slider-arrow-6' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
 
             if ( ! pageMetaDate ) {

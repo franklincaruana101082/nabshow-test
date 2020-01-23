@@ -14,20 +14,20 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'2.8'
+		'2.9'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'2.8'
+		'2.9'
 	);
 
 	wp_register_style(
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css',
 		array(),
-		'2.8'
+		'2.9'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -265,6 +265,18 @@ function nabshow_lv_register_api_endpoints() {
 	register_rest_route( 'nab_api', '/request/page-acf-fields', array(
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_page_acf_fields',
+	) );
+
+	register_rest_route( 'nab_api', '/request/post-excerpt/', array(
+		'methods'  => 'GET',
+		'callback' => 'nabshow_lv_get_post_excerpt',
+		'args' => array(
+			'id' => array(
+				'validate_callback' => function( $param ) {
+					return is_numeric( $param );
+				}
+			),
+		),
 	) );
 }
 

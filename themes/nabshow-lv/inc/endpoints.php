@@ -7,7 +7,10 @@
 
 /**
  * Get parent page list
+ *
  * @return WP_REST_Response
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_page_parents_callback() {
 
@@ -46,7 +49,10 @@ function nabshow_lv_get_page_parents_callback() {
 
 /**
  * Get parent page list
+ *
  * @return WP_REST_Response
+ *
+ * @since 1.0.0
  */
 function nabshow_lv_get_page_acf_fields() {
 
@@ -99,5 +105,33 @@ function nabshow_lv_get_page_acf_fields() {
 	}
 
 	return new WP_REST_Response( $final_acf_fields, 200 );
+
+}
+
+/**
+ * Get parent page list
+ * @return WP_REST_Response
+ */
+
+/**
+ * Get excerpt according to id parameter.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_get_post_excerpt( WP_REST_Request $request ) {
+
+	$post_id = $request->get_param( 'id' );
+
+	if ( ! empty( $post_id ) ) {
+
+		$excerpt = nabshow_lv_excerpt( $post_id );
+
+		return new WP_REST_Response( $excerpt, 200 );
+
+	}
 
 }

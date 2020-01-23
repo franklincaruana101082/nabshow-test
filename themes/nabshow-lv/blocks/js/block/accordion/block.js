@@ -22,10 +22,6 @@ import memoize from 'memize';
 
 	const ALLOWBLOCKS = ['nab/accordion-item'];
 
-	const getChildAccordionBlock = memoize((accordion) => {
-		return times(accordion, (n) => ['nab/accordion-item', { id: n + 1 }]);
-	});
-
 	const removehildawardsBlock = memoize((accordion) => {
 		return times(accordion, (n) => ['nab/accordion-item', { id: n - 1 }]);
 	});
@@ -127,13 +123,8 @@ import memoize from 'memize';
 								/>) : ''
 						}
 						<InnerBlocks
-							template={getChildAccordionBlock(noOfAccordion)}
-							templateLock="all"
 							allowedBlocks={ALLOWBLOCKS}
 						/>
-						<div className="add-remove-btn">
-							<button type="button" className="components-button add" onClick={() => setAttributes({ noOfAccordion: noOfAccordion + 1 })}><span className="dashicons fa fa-plus"></span></button>
-						</div>
 					</div>
 				</Fragment>
 			);
@@ -202,7 +193,7 @@ import memoize from 'memize';
 			},
 			headerTextColor: {
 				type: 'string',
-				default: '#000'
+				default: '#fff'
 			},
 			titleBackgroundColor: {
 				type: 'string',
@@ -254,7 +245,7 @@ import memoize from 'memize';
 			},
 			borderColor: {
 				type: 'string',
-				default: '#000'
+				default: '#fff'
 			},
 			borderRadius: {
 				type: 'number',

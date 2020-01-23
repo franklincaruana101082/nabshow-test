@@ -1,4 +1,4 @@
-import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderOn1, sessionSliderOn2, sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderOn1, sessionSliderOn2, sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
@@ -184,7 +184,9 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
 
             if ( ! sessionDate ) {
