@@ -215,7 +215,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				// Or when Cron with status = 'done' (i.e. sequence completed)
 				if ( "wpajax" === $this->flow || "done" === $custom_status['status'] ) {
 					update_option( 'mys_data_attempt_sessions', 0 );
-					delete_option('session_attempt_state' );
+					delete_option( 'session_attempt_state' );
 				}
 			}
 
@@ -327,14 +327,19 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		 */
 		public function nab_mys_cron_check_sequence() {
 
-			$this->group_id = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
+			$sequence_data   = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
+			$exist_already = isset( $sequence_data['exist_already'] ) ? $sequence_data['exist_already'] : '';
+			$this->group_id  = $sequence_data['group_id'];
 
-			if ( 0 === $this->group_id ) {
+			if ( 0 === $exist_already ) {
 
 				esc_html_e( "The new CRON sequence is not started yet. Please wait for the new CRON." );
 				die();
 
-			} else if ( 1 === $this->group_id ) {
+			} else if ( 1 === $exist_already ) {
+
+				//Check if sequence is finished or not.
+				$this->nab_mys_db_sess->nab_mys_db_check_sequence( $this->group_id );
 
 				esc_html_e( "This data already pulled for current CRON, Please wait for the next CRON." );
 				die();
