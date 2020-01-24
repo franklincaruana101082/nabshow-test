@@ -416,7 +416,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$history_data = $this->nab_mys_get_specific_group_history( $groupid );
 						$history_user = $history_data->HistoryUser;
 
-						if ( 0 !== $history_user ) {
+						if ( 0 !== (int) $history_user ) {
 
 							//Prepare email
 							$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
@@ -1164,7 +1164,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$wpdb = $this->wpdb;
 
-			$group_hisotry = $wpdb->get_results(
+			$group_hisotry = $wpdb->get_row(
 				$wpdb->prepare( "SELECT * FROM %1smys_history
 					WHERE HistoryGroupID = %s
 					", $wpdb->prefix, $groupid ) );
