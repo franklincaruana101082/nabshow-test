@@ -117,6 +117,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 		        'methods'  => 'GET',
 		        'callback' => array( __CLASS__, 'mysgb_get_sponsor_acf_types' ),
 	        ) );
+
+	        register_rest_route( 'nab_api', '/request/category-block-terms', array(
+		        'methods'  => 'GET',
+		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms' ),
+	        ) );
         }
 
         /**
@@ -137,9 +142,6 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
                 $return[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
             }
-
-            //set response into the cache
-            set_transient( 'mysgb-get-all-terms-cache', $return, 60 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
 
             return new WP_REST_Response( $return, 200 );
 
@@ -175,6 +177,31 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
 	    }
 
+	    /**
+	     * Get terms for categories slider block
+	     *
+	     * @return WP_REST_Response
+	     * @since 1.0.0
+	     */
+	    public static function mysgb_get_category_block_terms() {
+
+		    $final_terms = array();
+
+		    $block_taxonomies = array( 'tracks', 'exhibitor-categories', 'session-categories' );
+
+		    //get all terms
+		    $terms = get_terms( array( 'taxonomy' => $block_taxonomies, 'hide_empty' => false ) );
+
+		    //arrange term according to taxonomy
+		    foreach ( $terms as $term ) {
+
+			    $final_terms[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
+		    }
+
+		    return new WP_REST_Response( $final_terms, 200 );
+
+	    }
+
         /*
          * Enqueue gutenberg custom block script
          *
@@ -182,7 +209,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '3.1' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '3.2' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 

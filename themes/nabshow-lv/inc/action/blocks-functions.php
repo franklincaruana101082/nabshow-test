@@ -1202,7 +1202,9 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
                 <div class="team-box">
                     <div class="team-box-inner">
                         <div class="feature-img">
-                            <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img media">
+                             <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>">
+                                <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img media">
+                            </a>
                         </div>
                         <div class="team-details">
                             <h3 class="name">
@@ -1218,24 +1220,10 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
             }
         }
         if ( 1 === $limit_counter ) {
-    ?>
+        	?>
             <p>Contributors not found</p>
-    <?php
+            <?php
         }
-    ?>
-        <div class="contributor-photos-popup">
-            <div class="contributor-photos-dialog">
-                <span class="close">&times;</span>
-                <div class="contributor-photos-content">
-                    <div class="contributor-photos-body">
-                        <img class="contributor-photos-popup-img" src="" />
-                    </div>
-                    <span class="contributor-popup-photo-cation"></span>
-                </div>
-            </div>
-            <div class="contributor-photos-backdrop"></div>
-        </div>
-    <?php
     }
 
     $html = ob_get_clean();

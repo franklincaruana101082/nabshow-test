@@ -11018,9 +11018,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     { text: "Remove" },
                     wp.element.createElement("i", {
                       onClick: function onClick() {
-                        var tempDataArray = [].concat(_toConsumableArray(dataArray));
-                        tempDataArray.splice(parentIndex, 1);
-                        setAttributes({ dataArray: tempDataArray });
+                        var toDel = confirm('Are you sure you want to delete?');
+                        if (true === toDel) {
+                          var tempDataArray = [].concat(_toConsumableArray(dataArray));
+                          tempDataArray.splice(parentIndex, 1);
+                          setAttributes({ dataArray: tempDataArray });
+                        }
                       },
                       className: "fa fa-times details-parent"
                     })
@@ -11113,9 +11116,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             { text: "Remove" },
                             wp.element.createElement("i", {
                               onClick: function onClick() {
-                                var tempDataArray = [].concat(_toConsumableArray(dataArray));
-                                tempDataArray[parentIndex].detailList.splice(index, 1);
-                                setAttributes({ dataArray: tempDataArray });
+                                var toDelete = confirm('Are you sure you want to delete?');
+                                if (true === toDelete) {
+                                  var tempDataArray = [].concat(_toConsumableArray(dataArray));
+                                  tempDataArray[parentIndex].detailList.splice(index, 1);
+                                  setAttributes({ dataArray: tempDataArray });
+                                }
                               },
                               className: "fa fa-times"
                             })

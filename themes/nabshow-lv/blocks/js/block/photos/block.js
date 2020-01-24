@@ -1,9 +1,9 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { Component } = wpElement;
+  const { Component, Fragment } = wpElement;
   const { MediaUpload, InspectorControls } = wpEditor;
-  const { Button, PanelBody, TextControl} = wpComponents;
+  const { Button, PanelBody, TextControl, RangeControl } = wpComponents;
 
   const photosBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -32,7 +32,7 @@
 
     render() {
       const { attributes, setAttributes, className } = this.props;
-      const { dataArry } = attributes;
+      const { dataArry, itemToDisplay } = attributes;
 
       if (0 === dataArry.length) {
         return (
@@ -120,6 +120,15 @@
                 render={({ open }) => <Button onClick={open} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Image</Button>}
               />
             </div>
+            <div className="inspector-field inspector-field-Numberofitems ">
+              <label className="inspector-mb-0">Number of items</label>
+              <RangeControl
+                value={itemToDisplay}
+                min={1}
+                max={100}
+                onChange={(item) => setAttributes({ itemToDisplay: parseInt(item) }) }
+              />
+            </div>
           </InspectorControls>
         </div>
       );
@@ -136,30 +145,39 @@
       dataArry: {
         type: 'array',
         default: [],
+      },
+      itemToDisplay: {
+        type: 'number',
+        default: 12
       }
     },
     edit: PhotoComponent,
 
     save: props => {
       const { attributes } = props;
-      const { dataArry } = attributes;
+      const { dataArry, itemToDisplay} = attributes;
 
       return (
         <div className="nab-photos">
           {dataArry.map((photo, index) => (
-            <div className="photo-item" key={index}>
-              <div className="photo-inner">
-                <div className="hover-items">
-                  <a className="popup-btn"><i className="fa fa-image"></i></a>
-                  <a className="download" href={photo.media} download><i className="fa fa-download"></i></a>
+              <div className={index < itemToDisplay ? 'photo-item' : 'photo-item hide-item'} key={index}>
+                <div className="photo-inner">
+                  <div className="hover-items">
+                    <a className="popup-btn"><i className="fa fa-image"></i></a>
+                    <a className="download" href={photo.media} download><i className="fa fa-download"></i></a>
+                  </div>
+                  <img src={photo.media} alt={photo.alt} className="media" width={photo.width} />
                 </div>
-                <img src={photo.media} alt={photo.alt} className="media" width={photo.width} />
+                <div className="photo-caption">
+                  <p className='caption'>{photo.caption}</p>
+                </div>
               </div>
-              <div className="photo-caption">
-                <p className='caption'>{photo.caption}</p>
-              </div>
-            </div>
           ))}
+          { dataArry.length > itemToDisplay &&
+            <div className="photos-load-more">
+              <button className="load-more-btn" data-item={itemToDisplay}>{__('Load More')}</button>
+            </div>
+          }
           <div className="photos-popup">
             <div className="photos-dialog">
               <span className="close">&times;</span>

@@ -576,7 +576,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 	$contributor_info  = get_field( 'bio',  'user_' . $contributor_id );
 	$contributor_image = nabshow_lv_get_author_avatar_url( $contributor_id );
 	$allowed_tags      = wp_kses_allowed_html( 'post' );
-
+	$author_company    = get_field( 'company',  'user_' . $contributor_id );
 	if ( empty( rtrim( $contributor_name ) ) ) {
 
 		$contributor_name  = get_the_author_meta( 'display_name', $contributor_id );
@@ -592,8 +592,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                     <div class="head">
                         <div class="details">
                             <h3 class="title"><?php echo esc_html( $contributor_name ); ?></h3>
-                            <span class="sub-title">Title</span>
-                            <strong class="company">Company</strong>
+                            <strong class="company"><?php echo esc_html( $author_company ); ?></strong>
                         </div>
                         <div class="feature">
                             <img class="round-img" src="<?php echo esc_url( $contributor_image ); ?>" alt="contributor">

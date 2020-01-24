@@ -5032,12 +5032,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
-  var Component = wpElement.Component;
+  var Component = wpElement.Component,
+      Fragment = wpElement.Fragment;
   var MediaUpload = wpEditor.MediaUpload,
       InspectorControls = wpEditor.InspectorControls;
   var Button = wpComponents.Button,
       PanelBody = wpComponents.PanelBody,
-      TextControl = wpComponents.TextControl;
+      TextControl = wpComponents.TextControl,
+      RangeControl = wpComponents.RangeControl;
 
 
   var photosBlockIcon = wp.element.createElement(
@@ -5075,7 +5077,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             attributes = _props.attributes,
             setAttributes = _props.setAttributes,
             className = _props.className;
-        var dataArry = attributes.dataArry;
+        var dataArry = attributes.dataArry,
+            itemToDisplay = attributes.itemToDisplay;
 
 
         if (0 === dataArry.length) {
@@ -5186,6 +5189,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   );
                 }
               })
+            ),
+            wp.element.createElement(
+              "div",
+              { className: "inspector-field inspector-field-Numberofitems " },
+              wp.element.createElement(
+                "label",
+                { className: "inspector-mb-0" },
+                "Number of items"
+              ),
+              wp.element.createElement(RangeControl, {
+                value: itemToDisplay,
+                min: 1,
+                max: 100,
+                onChange: function onChange(item) {
+                  return setAttributes({ itemToDisplay: parseInt(item) });
+                }
+              })
             )
           )
         );
@@ -5205,13 +5225,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       dataArry: {
         type: 'array',
         default: []
+      },
+      itemToDisplay: {
+        type: 'number',
+        default: 12
       }
     },
     edit: PhotoComponent,
 
     save: function save(props) {
       var attributes = props.attributes;
-      var dataArry = attributes.dataArry;
+      var dataArry = attributes.dataArry,
+          itemToDisplay = attributes.itemToDisplay;
 
 
       return wp.element.createElement(
@@ -5220,7 +5245,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         dataArry.map(function (photo, index) {
           return wp.element.createElement(
             "div",
-            { className: "photo-item", key: index },
+            { className: index < itemToDisplay ? 'photo-item' : 'photo-item hide-item', key: index },
             wp.element.createElement(
               "div",
               { className: "photo-inner" },
@@ -5251,6 +5276,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             )
           );
         }),
+        dataArry.length > itemToDisplay && wp.element.createElement(
+          "div",
+          { className: "photos-load-more" },
+          wp.element.createElement(
+            "button",
+            { className: "load-more-btn", "data-item": itemToDisplay },
+            __('Load More')
+          )
+        ),
         wp.element.createElement(
           "div",
           { className: "photos-popup" },

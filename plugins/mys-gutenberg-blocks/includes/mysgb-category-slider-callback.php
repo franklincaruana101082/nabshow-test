@@ -24,15 +24,15 @@ $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['cla
 $featured_track = isset( $attributes['featuredTag'] ) ? $attributes['featuredTag'] : false;
 $arrow_icons    = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 $category_halls = isset( $attributes['categoryHalls'] ) && ! empty( $attributes['categoryHalls'] ) ? $attributes['categoryHalls'] : array();
-$exclude_terms  = isset( $attributes['excludeTerms'] ) && ! empty( $attributes['excludeTerms'] ) ? explode( ',', str_replace( ' ', '', $attributes['excludeTerms'] ) ) : array();
+$include_terms  = isset( $attributes['includeTerms'] ) && ! empty( $attributes['includeTerms'] ) ? $attributes['includeTerms'] : array();
 $cache_key      = '';
 $terms          = false;
 
-if ( $featured_track || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
+if ( ( $featured_track && 'session-categories' !== $category_type ) || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
 
 	$hall_key       = count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ? implode( '-', $category_halls ) : '';
-	$exclude_list   = count ( $exclude_terms ) > 0 ? implode( '-', $exclude_terms ) : '';
-	$cache_key      = 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order . '-' . $featured_track . '-' . $hall_key . '-' . $exclude_list;
+	$include_list   = count ( $include_terms ) > 0 ? implode( '-', $include_terms ) : '';
+	$cache_key      = 'mysgb-category-slider-' . $category_type . '-' . $posts_per_page . '-' . $category_order . '-' . $featured_track . '-' . $hall_key . '-' . $include_list;
     $terms          = get_transient( $cache_key );
 }
 
@@ -46,9 +46,9 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         'order'      => 'ASC',
     );
 
-    if ( is_array( $exclude_terms ) && count( $exclude_terms ) > 0 ) {
+    if ( is_array( $include_terms ) && count( $include_terms ) > 0 ) {
 
-    	$args[ 'exclude' ] = $exclude_terms;
+    	$args[ 'include' ] = $include_terms;
     }
 
     if ( 'rand' === $category_order ) {
@@ -57,7 +57,7 @@ if ( false === $terms || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     	$args[ 'number' ] = $posts_per_page;
     }
 
-    if ( $featured_track || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
+    if ( ( $featured_track && 'session-categories' !== $category_type ) || ( count( $category_halls ) > 0 && 'exhibitor-categories' === $category_type ) ) {
 
     	$meta_query_args = array( 'relation' => 'AND' );
 
@@ -126,8 +126,10 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
         }
 
         foreach ( $terms as $current_term ) {
-             $image_id = get_term_meta( $current_term->term_id, 'tax-image-id', true );
-        ?>
+
+        	$image_id = get_term_meta( $current_term->term_id, 'tax-image-id', true );
+            ?>
+
             <div class="item">
                 <div class="item-inner">
                     <?php

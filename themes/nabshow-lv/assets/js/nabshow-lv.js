@@ -396,32 +396,20 @@
       jQuery('body').removeClass('overflow-hidden');
     });
 
-  }
-
-  // nab contributors
-  if (0 < $('.contributors-team').length) {
-    $(document).on('click', '.contributors-team .feature-img', function () {
-      var imgWidth = jQuery(this).parent().parent().find('.media').attr('width');
-      let imgCaption = jQuery(this).parents('.photo-item').find('.photo-caption p.caption').text();
-      jQuery('.contributors-team .contributor-photos-popup .contributor-photos-popup-img').attr('src', jQuery(this).parent().parent().find('.media').attr('src'));
-      jQuery('.contributors-team .contributor-photos-popup .popup-photo-cation').text(imgCaption);
-      jQuery('.contributors-team .contributor-photos-popup').show();
-      jQuery('body').addClass('overflow-hidden');
-      jQuery('.contributors-team .contributor-photos-backdrop').show();
-    });
-
-    $(document).on('click', '.contributors-team .close', function () {
-      jQuery('.contributors-team .contributor-photos-popup, .contributors-team .contributor-photos-backdrop').hide();
-      jQuery('body').removeClass('overflow-hidden');
-    });
-
-    $(document).on('click', '.contributors-team .contributor-photos-backdrop', function () {
-      jQuery('.contributors-team .contributor-photos-popup, .contributors-team .contributor-photos-backdrop').hide();
-      jQuery('body').removeClass('overflow-hidden');
+    $(document).on('click', '.nab-photos .photos-load-more .load-more-btn', function () {
+      let totalItems = $('.nab-photos .photo-item').size();
+      let itemToLoad = parseInt( $(this).data('item') );
+      let displayItems = $('.nab-photos .photo-item:visible').length;
+      itemToLoad = ( displayItems + itemToLoad <= totalItems ) ? displayItems + itemToLoad : totalItems;
+      $('.nab-photos .photo-item').removeClass('slideInUp');
+      $('.nab-photos .photo-item').addClass('slideInUp');
+      $('.nab-photos .photo-item:lt(' + itemToLoad + ')').removeClass('hide-item');
+      if ( 0 === $('.nab-photos .photo-item.hide-item').length ) {
+        $(this).hide();
+      }
     });
 
   }
-
 
   // nab-videos
   if (0 < $('.nab-videos').length) {

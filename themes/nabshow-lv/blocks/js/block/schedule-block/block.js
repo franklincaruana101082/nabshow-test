@@ -150,7 +150,6 @@
     jQuery(this).parents('.schedule-row').removeClass('isToggleActive');
   });
 
-
   class BlockComponent extends Component {
     componentDidMount() {
       const { dataArray } = this.props.attributes;
@@ -344,9 +343,12 @@
                       <Tooltip text="Remove">
                         <i
                           onClick={() => {
-                            let tempDataArray = [...dataArray];
-                            tempDataArray.splice(parentIndex, 1);
-                            setAttributes({ dataArray: tempDataArray});
+                            let toDel = confirm('Are you sure you want to delete?');
+                            if (true === toDel) {
+                              let tempDataArray = [...dataArray];
+                              tempDataArray.splice(parentIndex, 1);
+                              setAttributes({ dataArray: tempDataArray });
+                            }
                           }}
                           className="fa fa-times details-parent"
                         ></i>
@@ -423,9 +425,12 @@
                                 <Tooltip text="Remove">
                                   <i
                                     onClick={() => {
-                                      let tempDataArray = [...dataArray];
-                                      tempDataArray[parentIndex].detailList.splice(index, 1);
-                                      setAttributes({ dataArray: tempDataArray});
+                                      let toDelete = confirm('Are you sure you want to delete?');
+                                      if (true === toDelete) {
+                                        let tempDataArray = [...dataArray];
+                                        tempDataArray[parentIndex].detailList.splice(index, 1);
+                                        setAttributes({ dataArray: tempDataArray});
+                                      }
                                     }}
                                     className="fa fa-times"
                                   ></i>

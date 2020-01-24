@@ -138,7 +138,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, postType, slideWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
-                    setTimeout(() => this.initSlider(), 500);
+                    setTimeout(() => this.initSlider(), 700);
                     this.setState({ bxinit: false });
                 } else {
                     if (0 < jQuery(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
@@ -160,7 +160,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     }
                     if (postType !== prevProps.attributes.postType) {
                         this.filterTaxonomy();
-                        this.setState({ bxinit: true });
                     }
                 }
             }

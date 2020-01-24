@@ -1198,7 +1198,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this4.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -1218,7 +1218,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }
                         if (postType !== prevProps.attributes.postType) {
                             this.filterTaxonomy();
-                            this.setState({ bxinit: true });
                         }
                     }
                 }
@@ -1837,7 +1836,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this4.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -1854,10 +1853,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 speed: sliderSpeed,
                                 mode: 'horizontal'
                             });
-                        } else {
-                            setTimeout(function () {
-                                return _this4.initSlider();
-                            }, 500);
                         }
                     }
                 }
@@ -3432,7 +3427,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this4.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -3449,10 +3444,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 speed: sliderSpeed,
                                 mode: 'horizontal'
                             });
-                        } else {
-                            setTimeout(function () {
-                                return _this4.initSlider();
-                            }, 500);
                         }
                     }
                 }
@@ -5271,7 +5262,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
         RangeControl = wpComponents.RangeControl,
-        TextareaControl = wpComponents.TextareaControl;
+        TextareaControl = wpComponents.TextareaControl,
+        TextControl = wpComponents.TextControl;
 
 
     var trackSliderBlockIcon = wp.element.createElement(
@@ -5297,6 +5289,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 bxSliderObj: {},
                 bxinit: false,
                 hallOptions: [],
+                termsObj: {},
+                filterTermsObj: {},
                 isDisable: false
             };
 
@@ -5310,6 +5304,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _this2 = this;
 
                 var hallList = [];
+
+                // Fetch block categories terms
+                wp.apiFetch({ path: '/nab_api/request/category-block-terms' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms });
+                });
 
                 // Fetch all Halls
                 wp.apiFetch({ path: '/wp/v2/halls' }).then(function (halls) {
@@ -5348,7 +5347,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this3.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -5368,6 +5367,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }
                     }
                 }
+            }
+        }, {
+            key: "filterTerms",
+            value: function filterTerms(value, taxonomy) {
+                var _this4 = this;
+
+                var filterTerms = {};
+                var blockCategories = ['tracks', 'exhibitor-categories', 'session-categories'];
+                blockCategories.map(function (tax) {
+                    if (taxonomy === tax) {
+                        filterTerms[tax] = _this4.state.termsObj[tax].filter(function (term) {
+                            return -1 < term.name.toLowerCase().indexOf(value.toLowerCase());
+                        });
+                    } else {
+                        filterTerms[tax] = _this4.state.termsObj[tax];
+                    }
+                });
+                this.setState({ filterTermsObj: filterTerms });
             }
         }, {
             key: "initSlider",
@@ -5394,7 +5411,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "render",
             value: function render() {
-                var _this4 = this;
+                var _this5 = this;
 
                 var _props2 = this.props,
                     attributes = _props2.attributes,
@@ -5414,7 +5431,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     featuredTag = attributes.featuredTag,
                     categoryType = attributes.categoryType,
                     categoryHalls = attributes.categoryHalls,
-                    excludeTerms = attributes.excludeTerms;
+                    includeTerms = attributes.includeTerms;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -5432,7 +5449,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         min: 1,
                         max: 100,
                         onChange: function onChange(item) {
-                            setAttributes({ itemToFetch: parseInt(item) });_this4.setState({ bxinit: true, isDisable: true });
+                            setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
                     })
                 );
@@ -5458,11 +5475,62 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             wp.element.createElement(SelectControl, {
                                 label: __('Category Type'),
                                 value: categoryType,
-                                options: [{ label: __('Tracks'), value: 'tracks' }, { label: __('Exhibitors'), value: 'exhibitor-categories' }],
+                                options: [{ label: __('Tracks'), value: 'tracks' }, { label: __('Exhibitors Categories'), value: 'exhibitor-categories' }, { label: __('Session Categories'), value: 'session-categories' }],
                                 onChange: function onChange(value) {
-                                    setAttributes({ categoryType: value });_this4.setState({ bxinit: true });
+                                    setAttributes({ categoryType: value, includeTerms: [] });_this5.setState({ bxinit: true });
                                 }
                             }),
+                            this.state.termsObj && wp.element.createElement(
+                                Fragment,
+                                null,
+                                undefined !== this.state.filterTermsObj[categoryType] && wp.element.createElement(
+                                    "div",
+                                    null,
+                                    wp.element.createElement(
+                                        "label",
+                                        null,
+                                        __('Choose include items')
+                                    ),
+                                    7 < this.state.termsObj[categoryType].length && wp.element.createElement(TextControl, {
+                                        type: "string",
+                                        name: categoryType,
+                                        onChange: function onChange(value) {
+                                            return _this5.filterTerms(value, categoryType);
+                                        }
+                                    }),
+                                    wp.element.createElement(
+                                        "div",
+                                        { className: "fix-height-select" },
+                                        this.state.filterTermsObj[categoryType].map(function (term, index) {
+                                            return wp.element.createElement(
+                                                Fragment,
+                                                { key: index },
+                                                wp.element.createElement(CheckboxControl, {
+                                                    checked: -1 < includeTerms.indexOf(term.term_id),
+                                                    label: term.name,
+                                                    name: categoryType + "[]",
+                                                    value: term.term_id,
+                                                    onChange: function onChange(isChecked) {
+
+                                                        var index = void 0,
+                                                            tempIncludeTerms = [].concat(_toConsumableArray(includeTerms));
+
+                                                        if (isChecked) {
+                                                            tempIncludeTerms.push(term.term_id);
+                                                        } else {
+                                                            index = tempIncludeTerms.indexOf(term.term_id);
+                                                            tempIncludeTerms.splice(index, 1);
+                                                        }
+
+                                                        _this5.props.setAttributes({ includeTerms: tempIncludeTerms });
+                                                        _this5.setState({ bxinit: true });
+                                                    }
+                                                })
+                                            );
+                                        })
+                                    )
+                                )
+                            ),
                             'exhibitor-categories' === categoryType && wp.element.createElement(
                                 Fragment,
                                 null,
@@ -5490,9 +5558,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                         tempCategoryHalls.splice(index, 1);
                                                     }
 
-                                                    _this4.props.setAttributes({ categoryHalls: tempCategoryHalls });
+                                                    _this5.props.setAttributes({ categoryHalls: tempCategoryHalls });
                                                     if (sliderActive) {
-                                                        _this4.setState({ bxinit: true });
+                                                        _this5.setState({ bxinit: true });
                                                     }
                                                 }
                                             })
@@ -5500,31 +5568,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             ),
-                            wp.element.createElement(
-                                "label",
-                                null,
-                                "Exclude item by Ids:"
-                            ),
-                            wp.element.createElement(TextareaControl, {
-                                help: "Each id should be comma separated",
-                                value: excludeTerms,
-                                onChange: function onChange(ids) {
-                                    setAttributes({ excludeTerms: ids });_this4.setState({ bxinit: true });
-                                }
-                            }),
                             wp.element.createElement(SelectControl, {
                                 label: __('Display Order'),
                                 value: order,
                                 options: [{ label: __('Alphabetically'), value: 'ASC' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
-                                    setAttributes({ order: value });_this4.setState({ bxinit: true });
+                                    setAttributes({ order: value });_this5.setState({ bxinit: true });
                                 }
                             }),
                             wp.element.createElement(CheckboxControl, {
                                 label: "Featured",
                                 checked: featuredTag,
                                 onChange: function onChange() {
-                                    setAttributes({ featuredTag: !featuredTag });_this4.setState({ bxinit: true });
+                                    setAttributes({ featuredTag: !featuredTag });_this5.setState({ bxinit: true });
                                 }
                             })
                         ),
@@ -5535,7 +5591,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 label: __('Slider On/Off'),
                                 checked: sliderActive,
                                 onChange: function onChange() {
-                                    setAttributes({ sliderActive: !sliderActive });_this4.setState({ bxinit: !sliderActive });
+                                    setAttributes({ sliderActive: !sliderActive });_this5.setState({ bxinit: !sliderActive });
                                 }
                             }),
                             sliderActive && wp.element.createElement(
@@ -5663,7 +5719,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                     key: index,
                                                     onClick: function onClick(e) {
                                                         setAttributes({ arrowIcons: item.classnames });
-                                                        _this4.setState({ bxinit: true });
+                                                        _this5.setState({ bxinit: true });
                                                     }
                                                 },
                                                 item.name
@@ -5676,7 +5732,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/tracks-slider",
-                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls, excludeTerms: excludeTerms }
+                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls, includeTerms: includeTerms }
                     })
                 );
             }
@@ -5746,11 +5802,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'array',
             default: []
         },
-        excludeTerms: {
-            type: 'string',
-            default: ''
+        includeTerms: {
+            type: 'array',
+            default: []
         }
-
     };
     registerBlockType('mys/tracks-slider', {
         title: __('Category Slider'),
