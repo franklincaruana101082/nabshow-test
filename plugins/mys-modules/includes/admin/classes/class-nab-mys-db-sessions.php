@@ -395,7 +395,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					"SELECT * FROM %1smys_history
 							WHERE HistoryStatus = '0'
 							AND HistoryGroupID != %s
-							AND HistoryDataType NOT LIKE '%exhibitor%'"
+							AND HistoryDataType = 'modified-sessions'"
 					, $wpdb->prefix, $group_id )
 			);
 
