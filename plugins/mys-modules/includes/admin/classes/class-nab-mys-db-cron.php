@@ -413,22 +413,22 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$result['sequence_finished'][ $groupid ] = " --- FULL SEQUENCE FINISHED.";
 
 						//Don't send email if CRON was hit manually.
-						if( 0 === $manual_run ) {
+						if ( 0 === $manual_run ) {
 
-						//Send email if the user is not 0 (i.e. not cron).
-						$history_data = $this->nab_mys_get_specific_group_history( $groupid );
-						$history_user = $history_data->HistoryUser;
+							//Send email if the user is not 0 (i.e. not cron).
+							$history_data = $this->nab_mys_get_specific_group_history( $groupid );
+							$history_user = $history_data->HistoryUser;
 
-						if ( 0 !== (int) $history_user ) {
+							if ( 0 !== (int) $history_user ) {
 
-							//Prepare email
-							$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
-							$email_subject       = "MYS/Wordpress Success - $data_name Synced";
-							$email_body          = "The custom MYS Module plugin has finished syncing. <a href='$history_detail_link'>Click here</a> to view details.";
-							self::nab_mys_static_email( $email_subject, $email_body );
+								//Prepare email
+								$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
+								$email_subject       = "MYS/Wordpress Success - $data_name Synced";
+								$email_body          = "The custom MYS Module plugin has finished syncing. <a href='$history_detail_link'>Click here</a> to view details.";
+								self::nab_mys_static_email( $email_subject, $email_body );
 
-							$result['email'][ $groupid ] = 'sent !!';
-						}
+								$result['email'][ $groupid ] = 'sent !!';
+							}
 						}
 
 					} else {

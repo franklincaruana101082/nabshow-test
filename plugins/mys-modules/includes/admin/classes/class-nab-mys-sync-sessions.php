@@ -328,16 +328,15 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		public function nab_mys_cron_check_sequence() {
 
 			$sequence_data   = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
-
-			if( 0 === $sequence_data ) {
-				esc_html_e( "The new CRON sequence is not started yet. Please wait for the new CRON." );
-				die();
-			}
-
 			$exist_already = isset( $sequence_data['exist_already'] ) ? $sequence_data['exist_already'] : '';
 			$this->group_id  = $sequence_data['group_id'];
 
-			if ( 1 === $exist_already ) {
+			if ( 0 === $exist_already ) {
+
+				esc_html_e( "The new CRON sequence is not started yet. Please wait for the new CRON." );
+				die();
+
+			} else if ( 1 === $exist_already ) {
 
 				//Check if sequence is finished or not.
 				$this->nab_mys_db_sess->nab_mys_db_check_sequence( $this->group_id );

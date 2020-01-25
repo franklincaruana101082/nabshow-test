@@ -212,8 +212,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			global $current_site;
 
 			$main_site_blog_id = $current_site->blog_id;
-			$home_url = get_home_url( $main_site_blog_id );
-			$current_url = $home_url . add_query_arg( array( $_GET ) );
+			$home_url          = get_home_url( $main_site_blog_id );
+			$current_url       = $home_url . add_query_arg( array( $_GET ) );
 
 			$current_url_without_pageno                       = explode( '&paged=', $current_url );
 			$this->request_data['current_url_without_pageno'] = $current_url_without_pageno[0];
