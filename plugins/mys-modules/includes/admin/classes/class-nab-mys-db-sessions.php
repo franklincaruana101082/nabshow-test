@@ -247,7 +247,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					// If tracks, we might not have any assigned session,
 					// so skip checking status of sessionid in modified_array.
-					if ( "tracks" === $current_request ) {
+					if( "tracks" === $current_request ) {
 						$item_status = "Updated";
 					} else {
 						$item_status = $session_modified_array[ $item_mys_id ];
@@ -316,7 +316,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				if ( "sessions" !== $current_request && "restapi" === $flow ) {
 
-					$sequence_completes = $this->nab_mys_db_check_sequence( $this->group_id );
+					$sequence_completes = $this->nab_mys_db_check_sequence( $this->group_id, true );
 
 				} else if ( "sponsors" === $current_request && "wpajax" === $flow ) {
 					// If its AJAX call, and sponsors request, sequence is now completed successfully.
@@ -351,7 +351,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 		 * @since 1.0.0
 		 */
 
-		public function nab_mys_db_check_sequence( $group_id ) {
+		public function nab_mys_db_check_sequence( $group_id, $return = false ) {
 
 			global $wpdb;
 
@@ -364,7 +364,11 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			);
 
 			if ( 4 <= count( $completed_data ) ) {
-				$this->nab_mys_db_complete_sequence();
+				if ( false === $return ) {
+					$this->nab_mys_db_complete_sequence();
+				} else {
+					return 1;
+				}
 			}
 		}
 
