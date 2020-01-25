@@ -92,17 +92,15 @@ $to_email = get_query_var('form_email' );
 			<div class="form-item">
 				<label class="control-label" for="publication-distribution-policies">Publication Distribution Policies <span class="form-required" title="This field is required.">*</span></label>
 				<div class="form-textarea-wrapper resizable">
-					<textarea required="required" class="form-control form-textarea" data-toggle="tooltip" id="publication-distribution-policies" name="publication_distribution_policies" cols="100%" rows="15%" data-original-title="Important Information about Publication Shipping...Please Read Carefully!" aria-describedby="tooltip680768">NAB Show is pleased to distribute hundreds of industry publications onsite as a service to both our Media Partners and our attendees. Because of the large volume of publications to be received, inventoried and distributed, we ask that you comply with all terms and conditions so that we can be as efficient as possible with our resources and also provide you with the best service possible.
+					<textarea required="required" class="form-control form-textarea" data-toggle="tooltip" id="publication-distribution-policies" name="publication_distribution_policies" cols="100%" rows="15%" data-original-title="Important Information about Publication Shipping...Please Read Carefully!" aria-describedby="tooltip680768" readonly>NAB Show is pleased to distribute hundreds of industry publications onsite as a service to both our Media Partners and our attendees. Because of the large volume of publications to be received, inventoried and distributed, we ask that you comply with all terms and conditions so that we can be as efficient as possible with our resources and also provide you with the best service possible.
 
-By agreeing to the terms and conditions of onsite publication distribution, you acknowledge that you have read and understand all policies. Failure to abide by these policies may result in publications not being distributed at the 2018 NAB Show and a decline of distribution at future NAB Shows.
+By agreeing to the terms and conditions of onsite publication distribution, you acknowledge that you have read and understand all policies. Failure to abide by these policies may result in publications not being distributed at the 2020 NAB Show and a decline of distribution at future NAB Shows.
 
-If you have any questions about the Terms and Conditions of onsite publication distribution, please contact Fahduma Majid, at fmajid@nab.org or by phone +1 (202) 429-5371.
-
-Fahduma Majid will be available onsite at NAB Show starting Friday, April 6 and will be located in the Show Management Office.
+If you have any questions about the Terms and Conditions of onsite publication distribution, please contact Gabrielle Norris, at gnorris@nab.org or by phone +1 (202) 429-5364.
 
 • You must submit this form to receive official shipping labels for onsite publication distribution.
 
-• If you have secured a publication bin, submitted this form and you decide NOT TO SEND any or all of your titled publications for distribution, you must notify Fahduma Majid via email of that decision by March 23.
+• If you have secured a publication bin, submitted this form and you decide NOT TO SEND any or all of your titled publications for distribution, you must notify Gabrielle Norris via email of that decision by March 23.
 
 • This form must be received by March 23 in order to be guaranteed onsite distribution.
 
@@ -114,13 +112,13 @@ Fahduma Majid will be available onsite at NAB Show starting Friday, April 6 and 
 
 • You must submit this form even if you plan to hand-carry your publications to Show site and do not require shipping labels. Publications will not be distributed unless this form has been completed and submitted in advance.
 
-• Publications must be shipped or hand-carried as confirmed on this form.  You must notify Fahduma Majid via email of any changes in delivery method or timeframe by March 23.
+• Publications must be shipped or hand-carried as confirmed on this form. You must notify Gabrielle Norris via email of any changes in delivery method or timeframe by April 6th.
 
 • Publications received will not be distributed unless the title and issue date appear exactly indicated on this form.
 
-• If publications are to be hand-carried to Show site, you must arrange to deliver them specifically to Fahduma Majid at the Las Vegas Convention Center, who will be available starting April 6 in the Show Management Office. NAB Show will not be responsible for publications left with any other party, including Freeman directly. Please understand that we will not be able to search for publications if they are lost!
+• If publications are to be hand-carried to Show site, you must arrange to deliver them specifically to Gabrielle Norris at the Las Vegas Convention Center, NAB Show will not be responsible for publications left with any other party, including Freeman directly. Please understand that we will not be able to search for publications if they are lost!
 
-• Hand-carried publications must be delivered by Monday, April 9.
+• Hand-carried publications must be delivered by April 16th.
 
 • If you are also exhibiting, DO NOT ship publications to your booth if they are to be distributed via publication bins.
 
@@ -128,7 +126,7 @@ Fahduma Majid will be available onsite at NAB Show starting Friday, April 6 and 
 
 • You will incur drayage charges for the movement of any publications shipped to your booth that are for publication bins.
 
-• If you intend to ship publications to your booth and then bring them yourself to Fahduma Majid for distribution, we will consider those to be hand-carried, and you must deliver them as described above by Monday, April 9.
+• If you intend to ship publications to your booth and then bring them yourself to Gabrielle Norris for distribution, we will consider those to be hand-carried, and you must deliver them as described above by Monday, April 16th.
 
 • If you intend to carry materials on or off the Show Floor at any time, you must comply with all rules and regulations established in your exhibitor agreement.
 
@@ -140,25 +138,25 @@ Fahduma Majid will be available onsite at NAB Show starting Friday, April 6 and 
 
 • You must provide complete contact information as requested for the person who will be responsible for ensuring delivery of materials and who will have all delivery confirmation information on hand.
 
-• This contact should plan on checking the email address provided over the weekend prior to the Show starting (April 6 - 8) and be prepared to respond immediately to our inquiries on those days by email. Please be advised that Las Vegas, Nevada is in the Pacific Time Zone.
+• This contact should plan on checking the email address provided over the weekend prior to the Show starting (April 10 – 12) and be prepared to respond immediately to our inquiries on those days by email. Please be advised that Las Vegas, Nevada is in the Pacific Time Zone.
 
 • This person should also be prepared to receive telephone calls over the weekend specified above or in the evenings depending on difference in time zone.
 
 • This contact should be prepared to provide delivery confirmation including: number of cartons/skids delivered, date delivered, name of person who signed for delivery and tracking number if contacted.  This means you should have your shipment tracked/delivery confirmed ahead of time.
 
-• Please do not email Fahduma Majid or Laura Riggs delivery tracking info unless requested.
+• Please do not email Gabrielle Norris or Laura Riggs delivery tracking info unless requested.
 
-• Please do not contact Laura Riggs or Fahduma Majid requesting them to confirm that your publications have been received.  Please know that if we are expecting your materials, you have provided complete information on this form, we will only be contacting you if an issue arises.  Otherwise, know that we have already ensured that the materials are in-hand.
+• Please do not contact Laura Riggs or Gabrielle Norris requesting them to confirm that your publications have been received. Please know that if we are expecting your materials, you have provided complete information on this form, we will only be contacting you if an issue arises. Otherwise, know that we have already ensured that the materials are in-hand.
 
-• If for any reason you are aware of a delivery issue or find out that delivery of your publications will be delayed, you must notify Fahduma Majid via email with that information as soon as possible.
+• If for any reason you are aware of a delivery issue or find out that delivery of your publications will be delayed, you must notify Gabrielle Norris via email with that information as soon as possible.
 
 • All publications will be distributed in alphabetical order unless they are received late or if the quantity received for each distribution point is less than 1,000.
 
 • NAB Show will restock the publication bins as needed while supply lasts. Once supply has been depleted, the bin will be removed from the show floor.
 
-• We ask that you do not contact Freeman or any of their onsite staff about publication receipt or distribution.  If you have any questions or concerns while onsite, please contact Fahduma Majid.
+• We ask that you do not contact Freeman or any of their onsite staff about publication receipt or distribution. If you have any questions or concerns while onsite, please contact Gabrielle Norris.
 
-• NAB Show will not be responsible for switching out inventory of daily publications or later issues supplied in the week unless otherwise arranged with Fahduma Majid.
+• NAB Show will not be responsible for switching out inventory of daily publications or later issues supplied in the week unless otherwise arranged with Gabrielle Norris.
 
 • All publications received in a timely manner will be put out initially and restocked until inventory is gone.  Inventory is not 'rationed' over the four Show days.  Once your publications are gone, your bin will be removed from the bin bank.
 

@@ -232,8 +232,8 @@
       const { dataArray } = attributes;
       let allData = [...dataArray];
 
-      allData[parentIndex].detailList.push({
-        index: dataArray[parentIndex].detailList.length,
+      allData[parentIndex].detailList.splice( currentIndex + 1, 0, {
+        index: ( parseInt(allData[parentIndex].detailList[currentIndex].index ) + 1),
         name: allData[parentIndex].detailList[currentIndex].name,
         location: allData[parentIndex].detailList[currentIndex].location,
         details: allData[parentIndex].detailList[currentIndex].details,

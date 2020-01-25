@@ -194,10 +194,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
 
 					$result_post[ $i ][ 'post_id' ]       = $session_id;
-					$result_post[ $i ][ 'post_title' ]    = mb_strimwidth( get_the_title(), 0, 83, '...' );
+					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( mb_strimwidth( get_the_title(), 0, 83, '...' ) );
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'date_time' ]     = $date_display_format;
-					$result_post[ $i ][ 'post_excerpt' ]  = get_the_excerpt();
+					$result_post[ $i ][ 'post_excerpt' ]  = html_entity_decode( get_the_excerpt() );
 					$result_post[ $i ][ 'planner_link' ]  = $session_planner_url;
 
 					$speakers       = get_post_meta( $session_id, 'speakers', true );
@@ -344,10 +344,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
 
 					$result_post[ $i ][ 'post_id' ]       = $exhibitor_id;
-					$result_post[ $i ][ 'post_title' ]    = get_the_title();
+					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( get_the_title() );
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'boothnumber' ]   = $booth_number;
-					$result_post[ $i ][ 'post_excerpt' ]  = get_the_excerpt();
+					$result_post[ $i ][ 'post_excerpt' ]  = html_entity_decode( get_the_excerpt() );
 					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
 					$result_post[ $i ][ 'planner_link' ]  = $exh_url;
 
@@ -480,11 +480,11 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
 
 					$result_post[ $i ][ 'post_id' ]       = $speaker_id;
-					$result_post[ $i ][ 'post_title' ]    = get_the_title();
+					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( get_the_title() );
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
-					$result_post[ $i ][ 'job_title' ]     = $speaker_job_title;
-					$result_post[ $i ][ 'company' ]       = $speaker_company;
+					$result_post[ $i ][ 'job_title' ]     = html_entity_decode( $speaker_job_title );
+					$result_post[ $i ][ 'company' ]       = html_entity_decode( $speaker_company );
 
 					$i++;
 				}
