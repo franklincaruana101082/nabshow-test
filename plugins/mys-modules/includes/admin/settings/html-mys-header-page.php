@@ -147,3 +147,29 @@ if ( isset( $test ) ) {
 	</div>
 	<?php
 }
+
+$showtable = filter_input( INPUT_GET, 't', FILTER_SANITIZE_STRING );
+
+if ( isset( $showtable ) ) {
+
+	$groupid = filter_input( INPUT_GET, 'g', FILTER_SANITIZE_STRING );
+	$detail  = filter_input( INPUT_GET, 'd', FILTER_SANITIZE_STRING );
+	$limit   = filter_input( INPUT_GET, 'limit', FILTER_SANITIZE_STRING );
+	$limit   = null === $limit ? 1000 : $limit;
+	$counter = 1;
+
+	$history_data = $this->nab_mys_history_table( $groupid, $detail, $limit );
+	?>
+	<table class="wp-list-table widefat striped pages">
+		<?php foreach ( $history_data as $h ) { ?>
+			<tr>
+				<td><?php echo $counter . ' = '; ?></td>
+				<?php foreach ( $h as $col => $val ) { ?>
+					<td><?php echo $val; ?></td>
+				<?php } ?>
+			</tr>
+			<?php $counter ++;
+		} ?>
+	</table>
+	<?php
+}
