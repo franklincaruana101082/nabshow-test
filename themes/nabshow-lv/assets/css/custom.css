@@ -955,6 +955,7 @@ ul.quote-color li.active{height:50px;margin-top:15px}
 .nab_model_head .only_text_select:focus, .nab_model_head .only_text_select:hover{background:none;outline:0}
 .nab_pop_up_content_wrap{padding:30px}
 .awards-filtering .awards-name{min-width:250px}
+.awards-main .awards-header p, .awards-row .winnerSide .jobLocation p{color:#fff}
 
 /* banner-navigation */
 ul.banner-navigation{padding:0;margin:0;width:100%;display:flex;text-align:center;align-items:center;justify-content:center;flex-wrap:wrap}
