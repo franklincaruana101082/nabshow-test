@@ -135,6 +135,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 						if ( ! isset ( $item->sessions ) || ! is_array( $item->sessions ) ) {
 
+							// 0 stands for No sessions are linked.
 							$master_array[ 0 ][] = $item;
 							$total_item_statuses['Unassigned'][] = '';
 
@@ -367,7 +368,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					"SELECT * FROM %1smys_history
 							WHERE HistoryStatus = '0'
 							AND HistoryGroupID != %s
-							AND HistoryDataType NOT LIKE '%exhibitor%'"
+							AND HistoryDataType = 'modified-sessions'"
 					, $wpdb->prefix, $group_id )
 			);
 

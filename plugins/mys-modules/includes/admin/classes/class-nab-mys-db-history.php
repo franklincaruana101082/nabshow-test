@@ -530,6 +530,49 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
+		public function nab_mys_history_table( $groupid, $detail = '1', $limit = 100, $where = '' ) {
+
+			$wpdb = $this->wpdb;
+			$where = ! empty($where) ? "WHERE $where" : '';
+
+			if("1" === $detail) {
+				$table_name = $wpdb->prefix . 'mys_data';
+				$cols = '*';
+				$orderby = 'DataID';
+				$group_col = 'DataGroupID';
+			} else {
+				$table_name = $wpdb->prefix . 'mys_history';
+				$cols = 'HistoryID, HistoryGroupID, HistoryStatus,
+						HistoryDataType, HistoryStartTime, HistoryEndTime, HistoryUser, HistoryItemsAffected';
+				$orderby = 'HistoryID';
+				$group_col = 'HistoryGroupID';
+			}
+
+			if( null !== $groupid ) {
+				if ( ! empty( $where ) ) {
+					$where = "WHERE $where AND $group_col = '$groupid'";
+				} else {
+					$where = "WHERE $group_col = '$groupid'";
+				}
+			}
+
+			$history_result = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT $cols
+								FROM %1s
+							$where
+							ORDER BY %1s DESC
+							LIMIT %d",
+					$table_name, $orderby, $limit ) );
+
+			/*$history_data = array();
+			foreach ( $history_result as $h ) {
+				$history_data[ $h->HistoryGroupID ][] = $h;
+			}*/
+
+			return $history_result;
+		}
+
 		/**
 		 * Get History List Page Data.
 		 *
