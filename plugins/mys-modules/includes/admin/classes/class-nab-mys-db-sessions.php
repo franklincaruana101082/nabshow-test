@@ -107,7 +107,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$total_items_inserted = 0;
 				$insertion_values     = '';
 
-
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
 				$type_sessions_array    = get_option( 'type_sessions_' . $this->group_id ); // This is used to check the type of Ssssions.
 
@@ -170,7 +169,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						$multiple_sessions = array();
 
 						if ( isset( $item->sessionid ) ) {
-							// Update the array to add 'type' of session, this will be used to filter items and allow only "Complete" type items.
+							//Add types of sessions in the array
+							//this will be used to filter items and allow only "Complete" type items.
 							if ( isset ( $session_modified_array[ $item->sessionid ] ) ) {
 								$type_sessions_array[ $item->sessionid ] = isset( $item->type ) ? $item->type : '';
 							}
@@ -190,6 +190,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						foreach ( $multiple_sessions as $item_mys_id ) {
 
 							if ( array_key_exists( $item_mys_id, $this->session_modified_array ) ) {
+
 								if ( isset ( $type_sessions_array[ $item_mys_id ] )
 								     && "Complete" === $type_sessions_array[ $item_mys_id ] ) {
 									$master_array[ $item_mys_id ][] = $item;
@@ -207,10 +208,19 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							$affected_items ++;
 
 							//For speakers & sponsors, prepare items not having even a single session with "Complete" type.
-						} else if ( "sessions" !== $current_request && "invalid" === $item_type ) {
-							//0 tells there is no need of session id because we will delete the $item anyway.
-							//$master_array_deleted[0][] = $item;
-							$master_array['trash'][] = $item;
+						} else if ( "invalid" === $item_type ) {
+
+							if ( "sessions" === $current_request ) {
+								$master_array[ $item_mys_id ][]   = $item;
+								$total_item_statuses['Deleted'][] = '';
+
+								// Changing the status to "Delete"
+								$session_modified_array[ $item_mys_id ] = 'Deleted';
+							} else {
+								//0 tells there is no need of session id because we will delete the $item anyway.
+								//$master_array_deleted[0][] = $item;
+								$master_array['trash'][] = $item;
+							}
 						}
 
 					}
@@ -225,21 +235,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					add_option( 'type_sessions_' . $this->group_id, $type_sessions_array );
 				}
 
-				//Add sessions to delete which are in modified array and not returned in sessions array
+				//Update the modified array as some items might have changed the status to "Deleted".
 				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
-
-					$items_to_delete = array_diff_key( $session_modified_array, $master_array );
-
-					foreach ( $items_to_delete as $item_mys_id => $status ) {
-
-						$master_array[ $item_mys_id ][]   = 'Deleted';
-						$total_item_statuses['Deleted'][] = '';
-
-						// Changing the status to "Delete"
-						$session_modified_array[ $item_mys_id ] = 'Deleted';
-					}
-
-					//Update the modified array as some items might have changed the status to "Deleted".
 					update_option( 'modified_sessions_' . $this->group_id, $session_modified_array );
 				} else {
 					//Handle the trash status for sponsors and speakers.

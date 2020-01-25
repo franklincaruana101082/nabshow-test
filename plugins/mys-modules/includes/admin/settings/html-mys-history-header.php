@@ -112,7 +112,7 @@ $back_url                   = "<a class='back-url' href='" . $history_listing_ur
 					</select>
 					<input type="submit" class="button history-filter-button" value="Filter">
 					<a href='<?php echo esc_url( $clear_url ); ?>'><input type="button" class="button" value="Clear"></a>
-					<label for="limit">Limit: </label><input type="text" id="limit" class="short_text" name="limit" value="<?php esc_attr_e( $request_data['limit'] ); ?>">
+					<label for="limit">Limit: </label><input type="text" id="limit" name="limit" value="<?php esc_attr_e( $request_data['limit'] ); ?>">
 					<?php if ( 'detail' === $this->page_template ) { ?>
 						<span class="toggle-response"><i class="fa fa-toggle-off"></i> Toggle Responses</span>
 					<?php } ?>

@@ -195,7 +195,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		public function nab_mys_corn_migrate_data( $limit, $dataids, $groupid ) {
 
-			$stuck_check = 0;
+			$manual_run = 1;
 
 			$wpdb = $this->wpdb;
 
@@ -206,7 +206,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				$where_clause = "DataGroupID = '$groupid'";
 			} else {
 				$where_clause = "AddedStatus = 0";
-				$stuck_check  = 1;
+				$manual_run  = 0;
 			}
 
 			$data_to_migrate = $wpdb->get_results(
@@ -219,12 +219,12 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			if ( count( $data_to_migrate ) > 0 ) {
 
-				if ( 1 === $stuck_check ) {
+				if ( 0 === $manual_run ) {
 					//Checking Stuck Scenario only for the Auto CRONs.
 					$this->nab_mys_cron_stuck_or_not( $data_to_migrate[0] );
 				}
 
-				$result = $this->nab_mys_cron_master_flow( $data_to_migrate );
+				$result = $this->nab_mys_cron_master_flow( $data_to_migrate, $manual_run );
 			} else {
 				$result = "All data migrated successfully to the master table.";
 			}
@@ -291,7 +291,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 *
 		 * @package MYS Modules
 		 */
-		public function nab_mys_cron_master_flow( $data_to_migrate ) {
+		public function nab_mys_cron_master_flow( $data_to_migrate, $manual_run ) {
 
 			$result = $data_group_migrated = array();
 
@@ -412,19 +412,23 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$this->nab_mys_cron_migration_ends( $groupid, 'groupid' );
 						$result['sequence_finished'][ $groupid ] = " --- FULL SEQUENCE FINISHED.";
 
-						//Send email if the user is not 0 (i.e. not cron).
-						$history_data = $this->nab_mys_get_specific_group_history( $groupid );
-						$history_user = $history_data->HistoryUser;
+						//Don't send email if CRON was hit manually.
+						if( 0 === $manual_run ) {
 
-						if ( 0 !== (int) $history_user ) {
+							//Send email if the user is not 0 (i.e. not cron).
+							$history_data = $this->nab_mys_get_specific_group_history( $groupid );
+							$history_user = $history_data->HistoryUser;
 
-							//Prepare email
-							$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
-							$email_subject       = "MYS/Wordpress Success - $data_name Synced";
-							$email_body          = "The custom MYS Module plugin has finished syncing. <a href='$history_detail_link'>Click here</a> to view details.";
-							self::nab_mys_static_email( $email_subject, $email_body );
+							if ( 0 !== (int) $history_user ) {
 
-							$result['email'][ $groupid ] = 'sent !!';
+								//Prepare email
+								$history_detail_link = admin_url( 'admin.php?page=mys-history&groupid=' . $groupid . '&timeorder=asc' );
+								$email_subject       = "MYS/Wordpress Success - $data_name Synced";
+								$email_body          = "The custom MYS Module plugin has finished syncing. <a href='$history_detail_link'>Click here</a> to view details.";
+								self::nab_mys_static_email( $email_subject, $email_body );
+
+								$result['email'][ $groupid ] = 'sent !!';
+							}
 						}
 
 					} else {
