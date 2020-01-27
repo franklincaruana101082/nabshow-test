@@ -126,7 +126,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 
 				$limit_reached        = 0;
-				$master_array_deleted = array();
 
 				foreach ( $all_items as $item ) {
 
@@ -315,8 +314,20 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$sequence_completes = 0;
 
 				if ( "sessions" !== $current_request && "restapi" === $flow ) {
+					// Check total 4 records (sessions/tracks/speakers/sponsors) with HistoryStatus = 1 and HistoryGroupID = $this->group_id are available or not.
+					// If yes, it means CRON sequence is now completed successfully.
 
-					$sequence_completes = $this->nab_mys_db_check_sequence( $this->group_id, true );
+					$completed_data = $wpdb->get_results(
+						$wpdb->prepare(
+							"SELECT HistoryID FROM %1smys_history
+								WHERE HistoryStatus != '0'
+								AND HistoryGroupID = '%s'",
+							$wpdb->prefix, $this->group_id )
+					);
+
+					if ( 4 <= count( $completed_data ) ) {
+						$sequence_completes = 1;
+					}
 
 				} else if ( "sponsors" === $current_request && "wpajax" === $flow ) {
 					// If its AJAX call, and sponsors request, sequence is now completed successfully.
@@ -325,7 +336,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				if ( 1 === $sequence_completes ) {
 
-					$this->nab_mys_db_complete_sequence( $bulk_status );
+					$this->nab_mys_db_history_data( "modified-sessions", "finish", $this->group_id, $bulk_status, 'nochange' );
+					delete_option( 'modified_sessions_' . $this->group_id );
+					delete_option( 'type_sessions_' . $this->group_id );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'done', 'total_item_statuses' => $total_item_statuses );
 
@@ -334,47 +347,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			}
 
 			return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
-		}
-
-		/**
-		 * Check total 4 records (sessions/tracks/speakers/sponsors)
-		 * with HistoryStatus = 1 and HistoryGroupID = $this->group_id
-		 * are available or not.
-		 *
-		 * If yes, it means CRON sequence is now completed successfully.
-		 *
-		 * @param string $group_id A unique group id.
-		 *
-		 * @return array|string Pending data or a text 'open'
-		 *
-		 * @package MYS Modules
-		 * @since 1.0.0
-		 */
-
-		public function nab_mys_db_check_sequence( $group_id, $return = false ) {
-
-			global $wpdb;
-
-			$completed_data = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT HistoryID FROM %1smys_history
-								WHERE HistoryStatus != '0'
-								AND HistoryGroupID = '%s'",
-					$wpdb->prefix, $group_id )
-			);
-
-			if ( 4 <= count( $completed_data ) ) {
-				if ( false === $return ) {
-					$this->nab_mys_db_complete_sequence();
-				} else {
-					return 1;
-				}
-			}
-		}
-
-		public function nab_mys_db_complete_sequence( $bulk_status = 1 ) {
-			$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
-			delete_option( 'modified_sessions_' . $this->group_id );
 		}
 
 		/**
