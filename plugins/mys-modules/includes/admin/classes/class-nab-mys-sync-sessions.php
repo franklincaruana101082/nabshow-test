@@ -115,7 +115,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			$mys_response_body = $this->nab_mys_get_response();
 
-			//If fresh button clicked, Generate a uniqe 10 digit alphanumeric string for Group ID.
+			//If fresh button clicked, Generate a unique 10 digit alphanumeric string for Group ID.
 			$this->nab_mys_set_groupid();
 
 			$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0 );
