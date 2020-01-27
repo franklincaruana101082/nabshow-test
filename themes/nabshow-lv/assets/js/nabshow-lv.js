@@ -376,7 +376,7 @@
     $(document).on('click', '.nab-photos .popup-btn', function () {
       var imgWidth = jQuery(this).parent().parent().find('.media').attr('width');
       let imgCaption = jQuery(this).parents('.photo-item').find('.photo-caption p.caption').text();
-      jQuery('.nab-photos .photos-popup .photos-popup-img').attr('src', jQuery(this).parent().parent().find('.media').attr('src'));
+      jQuery('.nab-photos .photos-popup .photos-popup-img').attr('src', jQuery(this).parents('.hover-items').find('a.download').attr('href'));
       jQuery('.nab-photos .photos-dialog').css('width', 1370 > imgWidth ? imgWidth : '70vw');
       jQuery('.nab-photos .photos-popup .popup-photo-cation').text(imgCaption);
       jQuery('.nab-photos .photos-popup').show();

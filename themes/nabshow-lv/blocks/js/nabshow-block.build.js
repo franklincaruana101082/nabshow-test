@@ -5121,6 +5121,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           "div",
           { className: "nab-photos " + className },
           dataArry.map(function (photo, index) {
+            var smallMedia = photo.media + '?h=200&w=300';
             return wp.element.createElement(
               "div",
               { className: "photo-item", key: index },
@@ -5137,7 +5138,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     });
                   },
                   className: "dashicons dashicons-no-alt remove" }),
-                wp.element.createElement("img", { src: photo.media, alt: photo.alt, className: "media", width: photo.width })
+                wp.element.createElement("img", { src: smallMedia, alt: photo.alt, className: "media", width: photo.width })
               ),
               wp.element.createElement(
                 "div",
@@ -5238,7 +5239,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       var dataArry = attributes.dataArry,
           itemToDisplay = attributes.itemToDisplay;
 
-
       return wp.element.createElement(
         "div",
         { className: "nab-photos" },
@@ -5263,7 +5263,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   wp.element.createElement("i", { className: "fa fa-download" })
                 )
               ),
-              wp.element.createElement("img", { src: photo.media, alt: photo.alt, className: "media", width: photo.width })
+              wp.element.createElement("img", { src: photo.media + '?h=200&w=300', alt: photo.alt, className: "media", width: photo.width })
             ),
             wp.element.createElement(
               "div",

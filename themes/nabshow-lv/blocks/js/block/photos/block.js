@@ -67,6 +67,7 @@
         <div className={`nab-photos ${className}`}>
           {
             dataArry.map((photo, index) => {
+              let smallMedia = photo.media + '?h=200&w=300';
               return (
                 <div className="photo-item" key={index}>
                   <div className="photo-inner">
@@ -78,7 +79,7 @@
                         });
                       }}
                       className="dashicons dashicons-no-alt remove"></span>
-                    <img src={photo.media} alt={photo.alt} className="media" width={photo.width} />
+                    <img src={smallMedia} alt={photo.alt} className="media" width={photo.width} />
                   </div>
                   <div className="photo-caption">
                     <TextControl
@@ -156,23 +157,25 @@
     save: props => {
       const { attributes } = props;
       const { dataArry, itemToDisplay} = attributes;
-
       return (
         <div className="nab-photos">
-          {dataArry.map((photo, index) => (
-              <div className={index < itemToDisplay ? 'photo-item' : 'photo-item hide-item'} key={index}>
-                <div className="photo-inner">
-                  <div className="hover-items">
-                    <a className="popup-btn"><i className="fa fa-image"></i></a>
-                    <a className="download" href={photo.media} download><i className="fa fa-download"></i></a>
+          {
+            dataArry.map((photo, index) => (
+                <div className={index < itemToDisplay ? 'photo-item' : 'photo-item hide-item'} key={index}>
+                  <div className="photo-inner">
+                    <div className="hover-items">
+                      <a className="popup-btn"><i className="fa fa-image"></i></a>
+                      <a className="download" href={photo.media} download><i className="fa fa-download"></i></a>
+                    </div>
+                    <img src={photo.media + '?h=200&w=300'} alt={photo.alt} className="media" width={photo.width} />
                   </div>
-                  <img src={photo.media} alt={photo.alt} className="media" width={photo.width} />
+                  <div className="photo-caption">
+                    <p className='caption'>{photo.caption}</p>
+                  </div>
                 </div>
-                <div className="photo-caption">
-                  <p className='caption'>{photo.caption}</p>
-                </div>
-              </div>
-          ))}
+              )
+            )
+          }
           { dataArry.length > itemToDisplay &&
             <div className="photos-load-more">
               <button className="load-more-btn" data-item={itemToDisplay}>{__('Load More')}</button>
