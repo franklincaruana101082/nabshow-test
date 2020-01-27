@@ -358,7 +358,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			$completed_data = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT HistoryID FROM %1smys_history
-								WHERE HistoryStatus = '1'
+								WHERE HistoryStatus != '0'
 								AND HistoryGroupID = '%s'",
 					$wpdb->prefix, $group_id )
 			);

@@ -413,7 +413,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$result['sequence_finished'][ $groupid ] = " --- FULL SEQUENCE FINISHED.";
 
 						//Don't send email if CRON was hit manually.
-						if( 0 === $manual_run ) {
+						if ( 0 === $manual_run ) {
 
 							//Send email if the user is not 0 (i.e. not cron).
 							$history_data = $this->nab_mys_get_specific_group_history( $groupid );
