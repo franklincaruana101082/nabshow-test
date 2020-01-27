@@ -305,10 +305,11 @@ import memoize from 'memize';
                   placeholder={__('Description')}
                 />
                 <RichText
-                  tagName="a"
+                  tagName="span"
                   onChange={ButtonText => setAttributes({ ButtonText: ButtonText })}
                   value={ButtonText}
                   rel='noopener noreferrer'
+                  className="readMore"
                 />
               </div>
             </div>
@@ -329,7 +330,7 @@ import memoize from 'memize';
             <div className="newyr-details">
               {title && <RichText.Content tagName="h3" value={title} className="title" /> }
               {description && <RichText.Content tagName="p" value={description} className="description" /> }
-              {ButtonText && <RichText.Content tagName="a" value={ButtonText} className="ButtonText" /> }
+              {ButtonText && <RichText.Content tagName="span" value={ButtonText} className="readMore" /> }
             </div>
           </div>
         </div>

@@ -140,8 +140,8 @@
       const { dataArray } = attributes;
       let allData = [...dataArray];
 
-      allData[parentIndex].detailList.push({
-        index: dataArray[parentIndex].detailList.length,
+      allData[parentIndex].detailList.splice(currentIndex + 1, 0, {
+        index: (parseInt(allData[parentIndex].detailList[currentIndex].index) + 1),
         itemTitle: allData[parentIndex].detailList[currentIndex].itemTitle,
         itemDetails: allData[parentIndex].detailList[currentIndex].itemDetails,
         price: allData[parentIndex].detailList[currentIndex].price,
@@ -196,30 +196,29 @@
                     </Tooltip>
 
                     <div className="registration-head">
-                    <RichText
-                      tagName="h2"
-                      placeholder={__('Title')}
-                      value={parentData.title}
-                        className="title"
-                        onChange={value => {
-                          let tempDataArray = [...dataArray];
-                          tempDataArray[parentIndex].title = value;
-                          setAttributes({ dataArray: tempDataArray });
-                        }}
-                    />
-                    <RichText
-                      tagName="p"
-                      placeholder={__('Description')}
-                      value={parentData.details}
-                        className="description"
-                        onChange={value => {
-                          let tempDataArray = [...dataArray];
-                          tempDataArray[parentIndex].details = value;
-                          setAttributes({ dataArray: tempDataArray });
-                        }}
-                    />
+                      <RichText
+                        tagName="h2"
+                        placeholder={__('Title')}
+                        value={parentData.title}
+                          className="title"
+                          onChange={value => {
+                            let tempDataArray = [...dataArray];
+                            tempDataArray[parentIndex].title = value;
+                            setAttributes({ dataArray: tempDataArray });
+                          }}
+                      />
+                      <RichText
+                        tagName="p"
+                        placeholder={__('Description')}
+                        value={parentData.details}
+                          className="description"
+                          onChange={value => {
+                            let tempDataArray = [...dataArray];
+                            tempDataArray[parentIndex].details = value;
+                            setAttributes({ dataArray: tempDataArray });
+                          }}
+                      />
                     </div>
-
                     <div className="schedule-data">
                       {parentData.detailList
                         .sort((a, b) => a.index - b.index)
@@ -286,16 +285,6 @@
                                 ></i>
                               </Tooltip>
                             </div>
-                            {/* <span
-                              className="remove"
-                              onClick={() => {
-                                let tempDataArray = [...dataArray];
-                                tempDataArray.splice(parentIndex, 1);
-                                setAttributes({ dataArray: tempDataArray });
-                              }}
-                            >
-                              <span className="dashicons dashicons-no-alt"></span>
-                            </span> */}
                             <div className="plus-sec">
                               {false === product.comming && (
                                 <Fragment>

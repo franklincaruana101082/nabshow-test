@@ -379,7 +379,7 @@ if ( ! class_exists( 'CTCC_Public' ) ) { // Don't initialise if there's already 
 						];
 						echo sprintf(
 							'<span class="ctcc-left-side">%s %s</span><span class="ctcc-right-side">%s</span>',
-							esc_html( $notification_text ),
+							wp_kses_post( html_entity_decode( $notification_text ) ),
 							wp_kses( $more_text, $allowed_more_text_tags ),
 							wp_kses( $button_text, $allowed_button_text_tags )
 						);

@@ -13,23 +13,23 @@ $to_email = get_query_var('form_email' );
 	<div class="form-items-wrapper">
 		<div class="form-item">
 			<label class="control-label" for="delegation-first-name">First Name <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-first-name" name="first_name" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-first-name" name="first_name" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-last-name">Last Name <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-last-name" name="last_name" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-last-name" name="last_name" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-company">Company <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-company" name="company" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-company" name="company" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-address">Mailing Address <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-address" name="address" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-address" name="address" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-city">City <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-city" name="city" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-city" name="city" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-state-province">State/Province</label>
@@ -37,7 +37,7 @@ $to_email = get_query_var('form_email' );
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-postal-code">Zip/Postal Code <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-postal-code" name="zip_postal_code" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-postal-code" name="zip_postal_code" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-country">Country <span class="form-required" title="This field is required.">*</span></label>
@@ -297,15 +297,15 @@ $to_email = get_query_var('form_email' );
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-phone">Phone <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" data-toggle="tooltip" type="text" id="delegation-phone" name="phone" size="60" maxlength="128" data-original-title="Please include Country and City codes.">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" data-toggle="tooltip" type="text" id="delegation-phone" name="phone" size="60" maxlength="128" data-original-title="Please include Country and City codes.">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-email">Email <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="email" id="delegation-email" name="email" size="60">
+			<input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="delegation-email" name="email" size="60">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-country-represented">Country / Countries being represented <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="delegation-country-represented" name="country_represented" value="" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="delegation-country-represented" name="country_represented" value="" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-associated-with-us-department">Associated with the U.S. Department of Commerce? <span class="form-required" title="This field is required.">*</span></label>
@@ -317,7 +317,7 @@ $to_email = get_query_var('form_email' );
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="delegation-number-of-delegates">Please provide an estimated number of delegates that will be joining your group.</label>
-			<input class="form-control form-text" type="text" id="delegation-number-of-delegates" name="estimated_number_of_delegates" min="0" step="1">
+			<input class="form-control form-text" pattern="\d+(,\d{2,5})?" type="text" id="delegation-number-of-delegates" name="estimated_number_of_delegates" min="0" step="1">
 		</div>
 		<fieldset class="form-fieldset" id="bootstrap-panel--2">
 			<legend class="panel-heading">

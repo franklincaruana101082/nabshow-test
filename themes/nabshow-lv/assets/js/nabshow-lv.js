@@ -1848,7 +1848,7 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
             itemInnerDiv.appendChild(innerSpan);
           }
 
-          if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-booth') ) {
+          if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-summary') ) {
 
             let innerParagraph = document.createElement('p');
             innerParagraph.innerText = value.post_excerpt;
