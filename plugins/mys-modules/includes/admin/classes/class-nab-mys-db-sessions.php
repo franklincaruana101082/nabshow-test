@@ -107,8 +107,8 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$total_items_inserted = 0;
 				$insertion_values     = '';
 
-
 				$session_modified_array = $this->session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
+				$type_sessions_array    = get_option( 'type_sessions_' . $this->group_id ); // This is used to check the type of Ssssions.
 
 				// If somehow the option does not exist, return false.
 				if ( false === $session_modified_array ) {
@@ -168,6 +168,11 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						$multiple_sessions = array();
 
 						if ( isset( $item->sessionid ) ) {
+							//Add types of sessions in the array
+							//this will be used to filter items and allow only "Complete" type items.
+							if ( isset ( $session_modified_array[ $item->sessionid ] ) ) {
+								$type_sessions_array[ $item->sessionid ] = isset( $item->type ) ? $item->type : '';
+							}
 							$multiple_sessions[] = $item->sessionid;
 						} else if ( isset( $item->schedules ) ) {
 							foreach ( $item->schedules as $schedule ) {
@@ -175,13 +180,24 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							}
 						}
 
+						//Initiate the type check variable so to handle
+						//3 conditions:
+						//1) Session not available in Modified Array so SKIP it.
+						//2) Session is available but Type is NOT "Complete" so DELETE it.
+						//3) Session is available and Type is "Complete" INCLUDE it.
+						$item_type = '';
 						foreach ( $multiple_sessions as $item_mys_id ) {
 
 							if ( array_key_exists( $item_mys_id, $this->session_modified_array ) ) {
-								$item_to_add                    = $item;
-								$master_array[ $item_mys_id ][] = $item_to_add;
 
-								$item_affected = 1;
+								if ( isset ( $type_sessions_array[ $item_mys_id ] )
+								     && "Complete" === $type_sessions_array[ $item_mys_id ] ) {
+									$master_array[ $item_mys_id ][] = $item;
+									$item_affected                  = 1;
+									$item_type                      = 'valid';
+								} else {
+									$item_type = 'invalid';
+								}
 							}
 						}
 
@@ -189,6 +205,21 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 							$total_item_statuses[ $session_modified_array[ $item_mys_id ] ][] = '';
 
 							$affected_items ++;
+
+							//For speakers & sponsors, prepare items not having even a single session with "Complete" type.
+						} else if ( "invalid" === $item_type ) {
+
+							if ( "sessions" === $current_request ) {
+								$master_array[ $item_mys_id ][]   = $item;
+								$total_item_statuses['Deleted'][] = '';
+
+								// Changing the status to "Delete"
+								$session_modified_array[ $item_mys_id ] = 'Deleted';
+							} else {
+								//0 tells there is no need of session id because we will delete the $item anyway.
+								//$master_array_deleted[0][] = $item;
+								$master_array['trash'][] = $item;
+							}
 						}
 
 					}
@@ -198,20 +229,17 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					}
 				}
 
-				//add sessions to delete which are in modifed array and not returned in sessions array
+				if ( "sessions" === $current_request ) {
+					//Store the array which has Types of sessions.
+					add_option( 'type_sessions_' . $this->group_id, $type_sessions_array );
+				}
+
+				//Update the modified array as some items might have changed the status to "Deleted".
 				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
-
-					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
-
-					foreach ( $sessions_to_delete as $item_mys_id => $status ) {
-
-						$master_array[ $item_mys_id ][] = $status;
-
-						$total_item_statuses['Deleted'][] = '';
-
-						$affected_items ++;
-					}
-
+					update_option( 'modified_sessions_' . $this->group_id, $session_modified_array );
+				} else {
+					//Handle the trash status for sponsors and speakers.
+					$session_modified_array['trash'] = 'Deleted';
 				}
 
 				foreach ( $master_array as $item_mys_id => $item ) {
@@ -221,7 +249,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					if( "tracks" === $current_request ) {
 						$item_status = "Updated";
 					} else {
-						$item_status = $this->session_modified_array[ $item_mys_id ];
+						$item_status = $session_modified_array[ $item_mys_id ];
 					}
 
 					switch ( $item_status ) {
@@ -237,10 +265,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 						case "Deleted":
 							$item_status_int = 0;
 							break;
-					}
-
-					if ( "sessions" !== $current_request && 0 === $item_status_int ) {
-						continue;
 					}
 
 					$single_item_json = wp_json_encode( $item );
@@ -282,6 +306,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					$this->nab_mys_db_history_data( "modified-sessions", "update", $this->group_id, $bulk_status, 'nochange' );
 					delete_option( 'modified_sessions_' . $this->group_id );
+					delete_option( 'type_sessions_' . $this->group_id );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'failed', 'total_item_statuses' => $total_item_statuses );
 				}
@@ -289,7 +314,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				$sequence_completes = 0;
 
 				if ( "sessions" !== $current_request && "restapi" === $flow ) {
-
 					// Check total 4 records (sessions/tracks/speakers/sponsors) with HistoryStatus = 1 and HistoryGroupID = $this->group_id are available or not.
 					// If yes, it means CRON sequence is now completed successfully.
 
@@ -314,6 +338,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					$this->nab_mys_db_history_data( "modified-sessions", "finish", $this->group_id, $bulk_status, 'nochange' );
 					delete_option( 'modified_sessions_' . $this->group_id );
+					delete_option( 'type_sessions_' . $this->group_id );
 
 					return array( 'total_counts' => $total_counts, 'status' => 'done', 'total_item_statuses' => $total_item_statuses );
 
