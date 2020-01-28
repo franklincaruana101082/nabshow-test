@@ -1981,7 +1981,7 @@ a:hover{color:#00b5df;text-decoration:underline}
 .speakers .item .flip-box-inner>.detail-list-modal-popup{position:relative;width:172px;height:172px;overflow:hidden}
 .small-table-width table{width:98%}
 p.coming-soon{color:#fff}
-.custom-flag-heading.nab-heading .nab-title{color:#ffffff;text-align:left;font-family:'Roboto Black'}
+.custom-flag-heading.nab-heading .nab-title{color:#ffffff;text-align:left;font-family:'Roboto Black';margin-bottom:0}
 .custom-flag-heading.nab-heading span{background-color:#ab3192}
 .custom-flag-heading.nab-heading{background-color:#ab3192}
 
