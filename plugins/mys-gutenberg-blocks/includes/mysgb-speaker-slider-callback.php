@@ -34,6 +34,64 @@ $speaker_order          = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons            = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 $class_name             = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $exclude_speaker        = isset( $attributes['excludeSpeaker'] ) && ! empty( $attributes['excludeSpeaker'] ) ? $attributes['excludeSpeaker'] : '';
+$include_tracks         = isset( $attributes['includeTracks'] ) && ! empty( $attributes['includeTracks'] ) ? $attributes['includeTracks'] : array();
+$track_speakers         = '';
+
+if ( ! $listing_page && is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
+
+	$session_cache_key  = 'mysgb-speaker-track-session-' . implode('-', $include_tracks );
+	$session_ids        = get_transient( $session_cache_key );
+
+    if ( false === $session_ids || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
+    	$session_args = array(
+	        'post_type'      => 'sessions',
+	        'posts_per_page' => 100,
+	        'fields'         => 'ids',
+	        'meta_key'       => 'speakers',
+	        'tax_query'      => array(
+				'relation' => 'OR',
+	            array(
+					'taxonomy' => 'tracks',
+	                'field'    => 'slug',
+	                'terms'    => $include_tracks,
+				)
+	        )
+	    );
+
+		$session_query = new WP_Query( $session_args );
+
+		if ( $session_query->have_posts() ) {
+
+			$session_ids = $session_query->posts;
+
+			set_transient( $session_cache_key, $session_ids, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+		}
+    }
+
+    if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
+
+    	foreach ( $session_ids as $session_id ) {
+
+    		$post_speaker = get_post_meta( $session_id, 'speakers', true );
+
+    		if ( ! empty( $post_speaker ) ) {
+
+    			if ( empty( $track_speakers ) ) {
+
+    				$track_speakers = $post_speaker;
+
+    			} else {
+
+    				$track_speakers .= ',' . $post_speaker;
+    			}
+    		}
+    	}
+
+    	$track_speakers = trim( $track_speakers, ',' );
+    }
+
+}
 
 if ( 'circle' === $slider_shape ) {
 
@@ -79,6 +137,10 @@ if ( ! empty( $cache_key ) || $with_thumbnail ) {
 		$cache_key = $attributes['speakerDate'] . '-' . $cache_key;
 	}
 
+	if ( ! empty( $track_speakers ) && is_array( $include_tracks ) ) {
+		$cache_key = implode( '-', $include_tracks ) . '-' . $cache_key;
+	}
+
 	$final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );
     $query      = get_transient( $final_key );
 
@@ -99,6 +161,18 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     $query_args = array(
         'post_type'      => $block_post_type,
     );
+
+    if ( ! empty( $track_speakers ) ) {
+
+		$all_track_speakers = explode( ',', $track_speakers );
+
+		if ( is_array( $all_track_speakers ) && count( $all_track_speakers ) > 0 ) {
+
+			$all_track_speakers                 = array_unique( $all_track_speakers );
+			$query_args['post__in']             = $all_track_speakers;
+			$query_args['ignore_sticky_posts']  = true;
+		}
+	}
 
     if ( 'rand' === $order_by ) {
 		$query_args['posts_per_page']       = 100;
@@ -290,7 +364,7 @@ if ( $query->have_posts() || $listing_page ) {
 <?php
 } else {
 ?>
-    <p>No posts found.</p>
+    <p class="coming-soon">Coming soon.</p>
 <?php
 }
 

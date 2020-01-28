@@ -162,7 +162,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 <?php
 } else {
 ?>
-    <p>Coming soon.</p>
+    <p class="coming-soon">Coming soon.</p>
 <?php
 }
 

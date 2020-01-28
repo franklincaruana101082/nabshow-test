@@ -280,6 +280,13 @@ $speakers_slider_attr = array(
 		'type'    => 'boolean',
 		'default' => false
 	),
+	'includeTracks' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'string'
+		]
+	)
 );
 
 register_block_type( 'mys/speaker-slider', array(

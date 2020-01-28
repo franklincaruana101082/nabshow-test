@@ -42,10 +42,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     );
 
     const nabInsertMedaitoSlide = (sourceURL, attributes) => {
-
+        const {minWidth, minHeight} = attributes;
         if (nabIsImage(sourceURL)) {
             return (
-                <img src={sourceURL}
+                <img src={`${sourceURL}${minWidth ? `?h=${minWidth ? minWidth : ''}&w=${minHeight ? minHeight : ''}` : ''}`}
                     className="media-slider-img"
                     alt={__('Slider image')}
                 />
@@ -62,7 +62,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     };
 
     const nabIsImage = (sourceURL) => {
-        const imageExtension = ['jpg', 'jpeg', 'png', 'gif'];
+        const imageExtension = ['jpg', 'jpeg', 'png', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
         const fileExtension = sourceURL.split('.').pop();
         if (-1 < imageExtension.indexOf(fileExtension)) {
             return true;
@@ -209,7 +209,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 minSlides,
                 slideWidth,
                 slideMargin,
-                sliderActive
+                sliderActive,
+                minWidth,
+                minHeight
             } = attributes;
 
             let arrowNames = [
@@ -349,6 +351,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </PanelBody>
                             ) : ''
                         }
+                        <PanelBody title={__('Image Dimension')} initialOpen={false}>
+                            <PanelRow>
+                                <TextControl
+                                    type="number"
+                                    label="minWidth"
+                                    min="1"
+                                    value={minWidth}
+                                    placeholder="minWidth"
+                                    onChange={(value) => setAttributes({ minWidth: value })}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <TextControl
+                                    type="number"
+                                    label="minHeight"
+                                    min="1"
+                                    value={minHeight}
+                                    placeholder="minHeight"
+                                    onChange={(value) => setAttributes({ minHeight: value })}
+                                />
+                            </PanelRow>
+                        </PanelBody>
                     </InspectorControls>
                     <div className={`nab-media-slider-block slider-arrow-main ${arrowIcons}`}>
                         <div className={sliderActive ? 'nab-media-slider' : 'feature-box-list'} data-animation={detailAnimation} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`}>
@@ -621,7 +645,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         slideMargin: {
             type: 'number',
             default: 30
-        }
+        },
+        minWidth: {
+            type: 'number'
+        },
+        minHeight: {
+            type: 'number'
+        },
     };
 
     registerBlockType('md/featured-boxes', {
@@ -654,7 +684,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 detailAnimation,
                 detailWidth,
                 arrowIcons,
-                sliderActive
+                sliderActive,
+                minWidth,
+                minHeight
             } = attributes;
             return (
                 <div className={`slider-arrow-main ${arrowIcons}`}>

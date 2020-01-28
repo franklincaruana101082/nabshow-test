@@ -388,7 +388,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
     ob_start();
 
     if ( $query->have_posts() ) {
-	?>
+		?>
 		<div class="not-to-be-slider slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
 
 		    <div class="slider-card-filter">
@@ -415,7 +415,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
             <div class='container loader-container' id="loader_container" style="display: none">
                 <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </div>
-	<?php
+			<?php
 			if ( $slider_active ) {
 			?>
 				<div class="nab-not-to-be-missed-slider nab-box-slider ntbm-parent" id="<?php echo esc_attr( $client_id ); ?>" data-item="<?php echo esc_attr( $posts_per_page ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
@@ -451,7 +451,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
     <?php
     } else {
     ?>
-        <p>No posts found.</p>
+        <p class="coming-soon">Coming soon.</p>
     <?php
     }
 
@@ -544,7 +544,7 @@ function nabshow_lv_latest_show_news_render_callback($attributes){
     <?php
     } else {
     ?>
-        <p> No posts found.</p>
+        <p class="coming-soon">Coming soon.</p>
     <?php
     }
 
@@ -1141,13 +1141,13 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
             <?php
             } else {
             ?>
-                   <p>Page not found</p>
+                   <p class="coming-soon">Coming soon.</p>
             <?php
             }
         }
     } else {
         ?>
-            <p>Page not found</p>
+            <p class="coming-soon">Coming soon.</p>
         <?php
     }
 
@@ -1221,7 +1221,7 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
         }
         if ( 1 === $limit_counter ) {
         	?>
-            <p>Contributors not found</p>
+            <p>Contributors not found.</p>
             <?php
         }
     }
@@ -1299,6 +1299,7 @@ function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
     wp_reset_postdata();
 
     $html = ob_get_clean();
+
     return $html;
 }
 
@@ -1331,7 +1332,7 @@ function nabshow_lv_page_featured_image_render_callback( $attributes ) {
             <?php
         } else {
         ?>
-            <p>Page not found.</p>
+            <p class="coming-soon">Coming soon.</p>
         <?php
         }
     } else {

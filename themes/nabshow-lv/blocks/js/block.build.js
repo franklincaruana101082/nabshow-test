@@ -20659,9 +20659,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     var nabInsertMedaitoSlide = function nabInsertMedaitoSlide(sourceURL, attributes) {
+        var minWidth = attributes.minWidth,
+            minHeight = attributes.minHeight;
 
         if (nabIsImage(sourceURL)) {
-            return wp.element.createElement('img', { src: sourceURL,
+            return wp.element.createElement('img', { src: '' + sourceURL + (minWidth ? '?h=' + (minWidth ? minWidth : '') + '&w=' + (minHeight ? minHeight : '') : ''),
                 className: 'media-slider-img',
                 alt: __('Slider image')
             });
@@ -20674,7 +20676,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
 
     var nabIsImage = function nabIsImage(sourceURL) {
-        var imageExtension = ['jpg', 'jpeg', 'png', 'gif'];
+        var imageExtension = ['jpg', 'jpeg', 'png', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
         var fileExtension = sourceURL.split('.').pop();
         if (-1 < imageExtension.indexOf(fileExtension)) {
             return true;
@@ -20876,7 +20878,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     minSlides = attributes.minSlides,
                     slideWidth = attributes.slideWidth,
                     slideMargin = attributes.slideMargin,
-                    sliderActive = attributes.sliderActive;
+                    sliderActive = attributes.sliderActive,
+                    minWidth = attributes.minWidth,
+                    minHeight = attributes.minHeight;
 
 
                 var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -21055,7 +21059,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ) : ''
+                        ) : '',
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Image Dimension'), initialOpen: false },
+                            wp.element.createElement(
+                                PanelRow,
+                                null,
+                                wp.element.createElement(TextControl, {
+                                    type: 'number',
+                                    label: 'minWidth',
+                                    min: '1',
+                                    value: minWidth,
+                                    placeholder: 'minWidth',
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ minWidth: value });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(
+                                PanelRow,
+                                null,
+                                wp.element.createElement(TextControl, {
+                                    type: 'number',
+                                    label: 'minHeight',
+                                    min: '1',
+                                    value: minHeight,
+                                    placeholder: 'minHeight',
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ minHeight: value });
+                                    }
+                                })
+                            )
+                        )
                     ),
                     wp.element.createElement(
                         'div',
@@ -21384,6 +21420,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         slideMargin: {
             type: 'number',
             default: 30
+        },
+        minWidth: {
+            type: 'number'
+        },
+        minHeight: {
+            type: 'number'
         }
     };
 
@@ -21417,7 +21459,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 detailAnimation = attributes.detailAnimation,
                 detailWidth = attributes.detailWidth,
                 arrowIcons = attributes.arrowIcons,
-                sliderActive = attributes.sliderActive;
+                sliderActive = attributes.sliderActive,
+                minWidth = attributes.minWidth,
+                minHeight = attributes.minHeight;
 
             return wp.element.createElement(
                 'div',

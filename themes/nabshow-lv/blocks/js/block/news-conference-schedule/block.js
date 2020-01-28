@@ -503,8 +503,15 @@
                         {product.date && (
                           <RichText.Content
                             tagName="strong"
-                            value={`${product.date} | ${product.time}`}
+                            value={product.date}
                             className="date-time"
+                          />
+                        )}
+                        {product.time && (
+                          <RichText.Content
+                            tagName="strong"
+                            value={product.time}
+                            className="time"
                           />
                         )}
                         {product.location && (

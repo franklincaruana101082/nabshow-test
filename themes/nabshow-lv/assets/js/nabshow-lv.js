@@ -411,6 +411,24 @@
 
   }
 
+  // Opportunity Image Popup
+  if (0 < $('.opportunities .box-main').length) {
+    $(document).on('click', '.opportunities .media-img', function () {
+      var imgWidth = jQuery(this).parent().find('.img').attr('width');
+      jQuery('.opportunities .opportunities-popup .opportunities-popup-img').attr('src', jQuery(this).parent().find('.img').attr('src'));
+      jQuery('.opportunities .opportunities-dialog').css('width', 1370 > imgWidth ? imgWidth : '70vw');
+      jQuery('.opportunities .opportunities-popup').show();
+      jQuery('body').addClass('overflow-hidden');
+      jQuery('.opportunities .opportunities-backdrop').show();
+    });
+
+    $(document).on('click', '.opportunities .close, .opportunities .opportunities-backdrop', function () {
+      jQuery('.opportunities .opportunities-popup').hide();
+      jQuery('.opportunities .opportunities-backdrop').hide();
+      jQuery('body').removeClass('overflow-hidden');
+    });
+  }
+
   // nab-videos
   if (0 < $('.nab-videos').length) {
     $(document).on('click', '.nab-videos .video-popup-btn', function () {

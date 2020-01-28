@@ -18,7 +18,7 @@ $_term = get_queried_object();
             </div>
             <h3 class="mb30">Category: <?php echo esc_html( $_term->name ); ?></h3>
             <div class="row">
-                <div class="col-lg-9 col-md-12 col-sm-12 content-with-sidebar">
+                <div class="col-lg-8 col-md-12 col-sm-12 content-with-sidebar">
 					<?php
 					if ( have_posts() ) {
 						while ( have_posts() ) {
@@ -32,7 +32,7 @@ $_term = get_queried_object();
 					}
 					?>
                 </div>
-                <div id="sidebar" class="sidebar-wrap col-lg-3 col-md-12 col-sm-12">
+                <div id="sidebar" class="sidebar-wrap col-lg-4 col-md-12 col-sm-12">
 		            <?php get_sidebar( 'thoughts-gallery' ); ?>
                 </div>
 

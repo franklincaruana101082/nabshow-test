@@ -626,8 +626,8 @@ ul.quote-color li{width:40px;height:40px;border-radius:50%;box-shadow:0 0 2px 0 
 ul.quote-color li.black-slider{background:#000}
 .quote-slider.white-slider .quote-item{border:1px solid #fff}
 ul.quote-color li.active{box-shadow:0 0 5px 0 #0085ba}
-.quote-slider .bx-controls-direction a{width:60px!important;height:50px!important;background:url(../images/white-slider-arrow.png)!important;background-position:0 0!important;background-repeat:no-repeat;outline:none!important;box-shadow:inherit!important}
-.quote-slider .bx-controls-direction a.bx-next{background-position:-88px 0!important}
+.quote-slider .bx-controls-direction a{width:59px!important;height:59px!important;background:url(../images/white-arrow.png)!important;background-position:0 0!important;background-repeat:no-repeat;outline:none!important;box-shadow:inherit!important}
+.quote-slider .bx-controls-direction a.bx-next{transform:rotate(180deg)}
 .quote-slider .bx-controls-direction{outline:none!important}
 .quote-slider.quotes-options-2 .bx-controls-direction{width:150px;display:inline-block;position:relative}
 .quote-slider.quotes-options-2 .bx-controls-direction a{top:100%}
@@ -983,9 +983,9 @@ ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black",
 .box-main .box-item .box-inner .media-img{width:100%;position:relative;height:150px;display:flex;justify-content:center;align-items:center;margin-bottom:30px}
 .box-main .box-item .box-inner .media-img .img{max-height:100%;max-width:100%}
 .box-main .box-item .box-inner .title{margin-bottom:20px;font-size:28px;font-family:"Roboto Italic";font-weight:normal}
-.box-main .box-item .box-inner .media-img button{position:absolute;top:0;bottom:0;left:0;right:0;height:100%;background:#9a9a9a;border:none;width:100%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
+.box-main .box-item .box-inner .media-img button{position:absolute;top:0;bottom:0;left:0;right:0;height:100%;background:#9a9a9a;border:none;width:100%;font-size:18px;word-break:break-all;color:#000;font-style:italic;display:flex;align-items:center}
 .box-main .box-item span.remove{position:absolute;top:-10px;right:-10px;z-index:9;background:red!important;color:#fff;border-radius:50%;vertical-align:bottom;display:flex;padding:3px;cursor:pointer}
-.box-main .box-item .box-inner .media-img span.dashicons-edit{position:absolute;top:0;bottom:0;left:0;right:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:#0000009e;color:#fff;cursor:pointer;transition:0.5s all;opacity:0;font-size:30px}
+.box-main .box-item .box-inner .media-img span.dashicons-edit{position:absolute;top:0;bottom:0;left:0;right:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;min-height:40px;background:#0000009e;color:#fff;cursor:pointer;transition:0.5s all;opacity:0;font-size:30px}
 .box-main .box-item .box-inner .media-img:hover span.dashicons-edit{opacity:1}
 .box-main .box-item.additem{text-align:center;min-height:350px}
 .box-main .box-item.additem button{width:100%;height:100%;background:#0f6cb6a3;padding:0;display:block;font-size:16px;transition:0.5s all;outline:none;margin:0 auto}
@@ -1140,6 +1140,7 @@ ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black",
 .opportunities .box-main .box-item .box-inner .details-sec .sold-checkbox{margin-top:15px}
 .opportunities-filter .category{margin-right:20px}
 .nab-dynamic-list.session.with-masonry{max-width:initial!important}
+.opportunities-popup{display:none}
 
 /* Opportunities block css */
 

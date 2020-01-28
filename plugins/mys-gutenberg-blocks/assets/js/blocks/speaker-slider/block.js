@@ -171,7 +171,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 speakerDate,
                 gridInfoRollovers,
                 slideInfoRollovers,
-              slideInfoBelow
+                slideInfoBelow,
+                includeTracks
             } = attributes;
 
             var names = [
@@ -303,6 +304,52 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                                 />
+
+                                { this.state.termsObj &&
+                                  <Fragment>
+                                    {
+                                      undefined !== this.state.termsObj.tracks &&
+
+                                      <div>
+                                        <label>{__('Filter by Tracks')}</label>
+
+                                        <div className="fix-height-select">
+
+                                          { this.state.termsObj.tracks.map((term, index) => (
+
+                                            <Fragment key={index}>
+
+                                              <CheckboxControl
+                                                checked={ -1 < includeTracks.indexOf(term.slug)}
+                                                label={term.name}
+                                                name="tracks[]"
+                                                value={term.slug}
+                                                onChange={(isChecked) => {
+
+                                                  let index,
+                                                    tempIncludeTracks = [...includeTracks];
+
+                                                  if (isChecked) {
+                                                    tempIncludeTracks.push(term.slug);
+                                                  } else {
+                                                    index = tempIncludeTracks.indexOf(term.slug);
+                                                    tempIncludeTracks.splice(index, 1);
+                                                  }
+
+                                                  this.props.setAttributes({ includeTracks: tempIncludeTracks});
+                                                  this.setState({ bxinit: true });
+                                                }
+                                                }
+                                              />
+                                            </Fragment>
+                                          ))
+                                          }
+                                        </div>
+                                      </div>
+
+                                    }
+                                  </Fragment>
+                                }
 
                                 { 0 < this.state.taxonomiesList.length &&
 
@@ -552,7 +599,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks }}
                     />
                 </Fragment >
             );
@@ -673,7 +720,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         slideInfoBelow: {
           type: 'boolean',
           default: false,
-        }
+        },
+        includeTracks: {
+          type: 'array',
+          default: []
+        },
     };
     registerBlockType('mys/speaker-slider', {
         title: __('Speaker Slider'),

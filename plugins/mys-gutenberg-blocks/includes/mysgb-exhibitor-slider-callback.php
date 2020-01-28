@@ -276,7 +276,7 @@ if ( $query->have_posts() || $listing_page ) {
 <?php
 } else {
 ?>
-    <p>No posts found.</p>
+    <p class="coming-soon">Coming soon.</p>
 <?php
 }
 

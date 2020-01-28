@@ -300,7 +300,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
     <?php
     } else {
     ?>
-        <p>No posts found.</p>
+        <p class="coming-soon">Coming soon.</p>
     <?php
     }
 } else {
@@ -527,7 +527,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
     <?php
     } else {
     ?>
-        <p>No post found.</p>
+        <p class="coming-soon">Coming soon.</p>
     <?php
     }
 }

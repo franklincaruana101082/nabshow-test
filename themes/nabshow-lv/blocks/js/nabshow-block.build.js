@@ -7557,8 +7557,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }),
                     product.date && wp.element.createElement(RichText.Content, {
                       tagName: "strong",
-                      value: product.date + " | " + product.time,
+                      value: product.date,
                       className: "date-time"
+                    }),
+                    product.time && wp.element.createElement(RichText.Content, {
+                      tagName: "strong",
+                      value: product.time,
+                      className: "time"
                     }),
                     product.location && wp.element.createElement(RichText.Content, {
                       tagName: "strong",
@@ -7698,6 +7703,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             index: DataArray.length,
             media: '',
             mediaAlt: '',
+            width: '',
             title: '',
             cost: '',
             exclusivity: 'Exclusivity',
@@ -7773,7 +7779,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onSelect: function onSelect(media) {
                     var newObject = Object.assign({}, product, {
                       media: media.url,
-                      mediaAlt: media.alt
+                      mediaAlt: media.alt,
+                      width: media.width
                     });
                     setAttributes({
                       DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
@@ -7792,7 +7799,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onSelect: function onSelect(media) {
                     var newObject = Object.assign({}, product, {
                       media: media.url,
-                      mediaAlt: media.alt
+                      mediaAlt: media.alt,
+                      width: media.width
                     });
                     setAttributes({
                       DataArray: [].concat(_toConsumableArray(DataArray.filter(function (item) {
@@ -8059,6 +8067,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           index: DataArray.length,
                           media: '',
                           mediaAlt: '',
+                          width: '',
                           title: '',
                           cost: '',
                           exclusivity: 'Exclusivity',
@@ -8258,7 +8267,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(
                       "div",
                       { className: "media-img" },
-                      product.media ? wp.element.createElement("img", { src: product.media, alt: product.mediaAlt, className: "img" }) : wp.element.createElement(
+                      product.media ? wp.element.createElement("img", { src: product.media, alt: product.mediaAlt, className: "img", width: product.width }) : wp.element.createElement(
                         "div",
                         { className: "no-image" },
                         "No Featured Image"
@@ -8292,6 +8301,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               );
             })
+          ),
+          wp.element.createElement(
+            "div",
+            { className: "opportunities-popup" },
+            wp.element.createElement(
+              "div",
+              { className: "opportunities-dialog" },
+              wp.element.createElement(
+                "span",
+                { className: "close" },
+                "\xD7"
+              ),
+              wp.element.createElement(
+                "div",
+                { className: "opportunities-content" },
+                wp.element.createElement(
+                  "div",
+                  { className: "opportunities-body" },
+                  wp.element.createElement("img", { className: "opportunities-popup-img", src: "" })
+                )
+              )
+            ),
+            wp.element.createElement("div", { className: "opportunities-backdrop" })
           )
         )
       );

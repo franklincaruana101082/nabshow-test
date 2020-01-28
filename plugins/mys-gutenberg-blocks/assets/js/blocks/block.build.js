@@ -3517,7 +3517,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     speakerDate = attributes.speakerDate,
                     gridInfoRollovers = attributes.gridInfoRollovers,
                     slideInfoRollovers = attributes.slideInfoRollovers,
-                    slideInfoBelow = attributes.slideInfoBelow;
+                    slideInfoBelow = attributes.slideInfoBelow,
+                    includeTracks = attributes.includeTracks;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -3677,6 +3678,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                     }
                                 }),
+                                this.state.termsObj && wp.element.createElement(
+                                    Fragment,
+                                    null,
+                                    undefined !== this.state.termsObj.tracks && wp.element.createElement(
+                                        "div",
+                                        null,
+                                        wp.element.createElement(
+                                            "label",
+                                            null,
+                                            __('Filter by Tracks')
+                                        ),
+                                        wp.element.createElement(
+                                            "div",
+                                            { className: "fix-height-select" },
+                                            this.state.termsObj.tracks.map(function (term, index) {
+                                                return wp.element.createElement(
+                                                    Fragment,
+                                                    { key: index },
+                                                    wp.element.createElement(CheckboxControl, {
+                                                        checked: -1 < includeTracks.indexOf(term.slug),
+                                                        label: term.name,
+                                                        name: "tracks[]",
+                                                        value: term.slug,
+                                                        onChange: function onChange(isChecked) {
+
+                                                            var index = void 0,
+                                                                tempIncludeTracks = [].concat(_toConsumableArray(includeTracks));
+
+                                                            if (isChecked) {
+                                                                tempIncludeTracks.push(term.slug);
+                                                            } else {
+                                                                index = tempIncludeTracks.indexOf(term.slug);
+                                                                tempIncludeTracks.splice(index, 1);
+                                                            }
+
+                                                            _this5.props.setAttributes({ includeTracks: tempIncludeTracks });
+                                                            _this5.setState({ bxinit: true });
+                                                        }
+                                                    })
+                                                );
+                                            })
+                                        )
+                                    )
+                                ),
                                 0 < this.state.taxonomiesList.length && wp.element.createElement(
                                     Fragment,
                                     null,
@@ -4007,7 +4052,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speaker-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks }
                     })
                 );
             }
@@ -4131,6 +4176,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         slideInfoBelow: {
             type: 'boolean',
             default: false
+        },
+        includeTracks: {
+            type: 'array',
+            default: []
         }
     };
     registerBlockType('mys/speaker-slider', {

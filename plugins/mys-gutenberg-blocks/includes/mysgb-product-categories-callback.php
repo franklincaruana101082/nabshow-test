@@ -122,4 +122,8 @@ if ( is_array( $parent_terms ) && ! is_wp_error( $parent_terms ) && count( $pare
 	?>
 	</div>
 	<?php
+} else {
+	?>
+	<p class="coming-soon">Coming soon.</p>
+	<?php
 }
