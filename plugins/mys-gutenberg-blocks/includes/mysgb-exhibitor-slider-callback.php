@@ -55,7 +55,7 @@ if ( ! empty( $display_class ) ) {
 
 if ( ( ! $listing_page && ! empty( $cache_key ) ) || $with_thumbnail ) {
 
-	$final_key  = mb_strimwidth( 'mysgb-exhibitor-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . '-' . $with_thumbnail . $cache_key, 0, 170 );
+	$final_key  = mb_strimwidth( 'mysgb-exhibitor-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $taxonomy_relation . '-' . $with_thumbnail . $cache_key, 0, 170 );
     $query      = get_transient( $final_key );
 
 } else {

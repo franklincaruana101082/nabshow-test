@@ -48,37 +48,52 @@ get_header();
 			    $cross_tag_query = nabshow_lv_cross_tag_relation_posts( $current_post_ID );
 			    ?>
 
-                <div class="row">
+	            <div class="other-ntbms">
 
-                    <?php
-				    if ( $cross_tag_query && $cross_tag_query->have_posts() ) {
+		            <?php
 
-				        while ( $cross_tag_query->have_posts() ) {
+		            if ( $cross_tag_query && $cross_tag_query->have_posts() ) {
+			            ?>
 
-				            $cross_tag_query->the_post();
+			            <div class="nab-heading custom-flag-heading">
+				            <h2 class="title nab-title">Other Not-To-Be-Missed Content</h2>
+				            <span class="tilted-design"></span>
+			            </div>
+			            <div class="row">
 
-						    $tag_post_id = get_the_ID();
+				            <?php
 
-						    if ( $tag_post_id === $current_post_ID ) {
-							    continue;
-						    }
+				            while ( $cross_tag_query->have_posts() ) {
 
-						    ?>
+					            $cross_tag_query->the_post();
 
-                            <div class="col-lg-6">
-                                <div class="cross-promo-box">
-                                    <h2 class="title"><?php echo esc_html( get_the_title() ) ?></h2>
-                                    <p><?php echo esc_html( nabshow_lv_excerpt() ); ?></p>
-                                    <a href="<?php echo esc_url( get_the_permalink() ); ?>">Learn More</a>
-                                </div>
-                            </div>
+					            $tag_post_id = get_the_ID();
 
-						    <?php
-					    }
-					    wp_reset_postdata();
-				    }
-				    ?>
-                </div>
+					            if ( $tag_post_id === $current_post_ID ) {
+						            continue;
+					            }
+
+					            ?>
+
+					            <div class="col-lg-6">
+						            <div class="cross-promo-box">
+							            <h2 class="title"><?php echo esc_html( get_the_title() ) ?></h2>
+							            <p><?php echo esc_html( nabshow_lv_excerpt() ); ?></p>
+							            <a href="<?php echo esc_url( get_the_permalink() ); ?>">Learn More</a>
+						            </div>
+					            </div>
+
+					            <?php
+				            }
+
+				            wp_reset_postdata();
+
+				            ?>
+			            </div>
+		                <?php
+		            }
+		            ?>
+	            </div>
             </div>
         </div><!-- #primary -->
     </div>

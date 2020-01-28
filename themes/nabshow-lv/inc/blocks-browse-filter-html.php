@@ -89,12 +89,6 @@ function nabshow_lv_related_content_plan_your_show_layout_filter() {
     <div class="browse-filter main-filter row browse-learn-filter">
         <div class="col-xl-12 display-flex-box">
             <div class="category">
-                <label for="page-date">Date</label>
-                <select id="page-date" class="select-opt">
-                    <option>Select a Date</option>
-                </select>
-            </div>
-            <div class="category">
                 <label for="open-to">Open To</label>
                 <select id="open-to" class="select-opt">
                     <option>Select a Pass</option>

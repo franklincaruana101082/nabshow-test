@@ -41,7 +41,7 @@ $query             = false;
 $listing_id        = '';
 $final_key         = '';
 $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
-$prepare_key       = 'mysgb-session-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_content . '-' . $upcoming_session;
+$prepare_key       = 'mysgb-session-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_content . '-' . $upcoming_session . '-' . $taxonomy_relation;
 
 $display_class  = '';
 
