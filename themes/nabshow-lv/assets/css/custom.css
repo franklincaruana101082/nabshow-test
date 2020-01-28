@@ -550,7 +550,16 @@ footer .related-shows a{color:#fff;text-decoration:underline;font-size:11px;font
 .stay-in-loop-box p{font-size:16px;line-height:24px;font-family:"Roboto Regular", sans-serif;color:#fff}
 .stay-in-loop-box form{width:100%}
 .stay-in-loop-box form input[type="email"]{width:100%!important;border:0!important;border-bottom:2px solid #fff!important;background:transparent;height:40px;outline:none}
-.stay-in-loop-box form input[type="email"]::placeholder, .stay-in-loop-box form input[type="email"]::-webkit-input-placeholder, .stay-in-loop-box form input[type="email"]::-moz-placeholder, .stay-in-loop-box form input[type="email"]:-ms-input-placeholder, .stay-in-loop-box form input[type="email"]::-ms-input-placeholder, .schedule-glance-filter>.search-box input::-webkit-input-placeholder, .schedule-glance-filter>.search-box input::-moz-placeholder, .schedule-glance-filter>.search-box input:-ms-input-placeholder, .schedule-glance-filter>.search-box input::-ms-input-placeholder, .schedule-glance-filter>.search-box input::placeholder{color:#e398d7}
+.stay-in-loop-box form input[type="email"]::placeholder{color:#e398d7}
+.stay-in-loop-box form input[type="email"]::-webkit-input-placeholder{color:#e398d7}
+.stay-in-loop-box form input[type="email"]::-moz-placeholder{color:#e398d7}
+.stay-in-loop-box form input[type="email"]:-ms-input-placeholder{color:#e398d7}
+.stay-in-loop-box form input[type="email"]::-ms-input-placeholder{color:#e398d7}
+.schedule-glance-filter>.search-box input::-webkit-input-placeholder{color:#e398d7}
+.schedule-glance-filter>.search-box input::-moz-placeholder{color:#e398d7}
+.schedule-glance-filter>.search-box input:-ms-input-placeholder{color:#e398d7}
+.schedule-glance-filter>.search-box input::-ms-input-placeholder{color:#e398d7}
+.schedule-glance-filter>.search-box input::placeholder{color:#e398d7}
 .stay-in-loop-box form button{border:0;background:transparent;display:inline-block;float:right;padding:0;font-size:18px;font-family:"Roboto Bold", sans-serif;margin-top:30px;cursor:pointer;outline:none}
 .stay-in-loop-box img{width:100%}
 .stay-in-loop-box .mktoFieldDescriptor.mktoFormCol, .stay-in-loop-box .mktoFieldWrap{width:100%}

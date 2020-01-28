@@ -20659,11 +20659,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     var nabInsertMedaitoSlide = function nabInsertMedaitoSlide(sourceURL, attributes) {
-        var minWidth = attributes.minWidth,
-            minHeight = attributes.minHeight;
+        var fixedWidth = attributes.fixedWidth,
+            fixedHeight = attributes.fixedHeight;
 
         if (nabIsImage(sourceURL)) {
-            return wp.element.createElement('img', { src: '' + sourceURL + (minWidth ? '?h=' + (minWidth ? minWidth : '') + '&w=' + (minHeight ? minHeight : '') : ''),
+            return wp.element.createElement('img', { src: '' + sourceURL + (fixedHeight ? '?h=' + (fixedHeight ? fixedHeight : '') + '&w=' + (fixedWidth ? fixedWidth : '') : ''),
                 className: 'media-slider-img',
                 alt: __('Slider image')
             });
@@ -20879,8 +20879,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideWidth = attributes.slideWidth,
                     slideMargin = attributes.slideMargin,
                     sliderActive = attributes.sliderActive,
-                    minWidth = attributes.minWidth,
-                    minHeight = attributes.minHeight;
+                    fixedWidth = attributes.fixedWidth,
+                    fixedHeight = attributes.fixedHeight;
 
 
                 var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -21068,12 +21068,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 null,
                                 wp.element.createElement(TextControl, {
                                     type: 'number',
-                                    label: 'minWidth',
+                                    label: 'Fixed Width',
                                     min: '1',
-                                    value: minWidth,
-                                    placeholder: 'minWidth',
+                                    value: fixedWidth,
+                                    placeholder: 'Fixed Width',
                                     onChange: function onChange(value) {
-                                        return setAttributes({ minWidth: value });
+                                        return setAttributes({ fixedWidth: value });
                                     }
                                 })
                             ),
@@ -21082,12 +21082,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 null,
                                 wp.element.createElement(TextControl, {
                                     type: 'number',
-                                    label: 'minHeight',
+                                    label: 'Fixed Height',
                                     min: '1',
-                                    value: minHeight,
-                                    placeholder: 'minHeight',
+                                    value: fixedHeight,
+                                    placeholder: 'Fixed Height',
                                     onChange: function onChange(value) {
-                                        return setAttributes({ minHeight: value });
+                                        return setAttributes({ fixedHeight: value });
                                     }
                                 })
                             )
@@ -21421,10 +21421,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 30
         },
-        minWidth: {
+        fixedWidth: {
             type: 'number'
         },
-        minHeight: {
+        fixedHeight: {
             type: 'number'
         }
     };
@@ -21460,8 +21460,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 detailWidth = attributes.detailWidth,
                 arrowIcons = attributes.arrowIcons,
                 sliderActive = attributes.sliderActive,
-                minWidth = attributes.minWidth,
-                minHeight = attributes.minHeight;
+                fixedWidth = attributes.fixedWidth,
+                fixedHeight = attributes.fixedHeight;
 
             return wp.element.createElement(
                 'div',

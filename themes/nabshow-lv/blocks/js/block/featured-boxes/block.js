@@ -42,10 +42,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
     );
 
     const nabInsertMedaitoSlide = (sourceURL, attributes) => {
-        const {minWidth, minHeight} = attributes;
+        const {fixedWidth, fixedHeight} = attributes;
         if (nabIsImage(sourceURL)) {
             return (
-                <img src={`${sourceURL}${minWidth ? `?h=${minWidth ? minWidth : ''}&w=${minHeight ? minHeight : ''}` : ''}`}
+                <img src={`${sourceURL}${fixedHeight ? `?h=${fixedHeight ? fixedHeight : ''}&w=${fixedWidth ? fixedWidth : ''}` : ''}`}
                     className="media-slider-img"
                     alt={__('Slider image')}
                 />
@@ -210,8 +210,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideWidth,
                 slideMargin,
                 sliderActive,
-                minWidth,
-                minHeight
+                fixedWidth,
+                fixedHeight
             } = attributes;
 
             let arrowNames = [
@@ -355,21 +355,21 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             <PanelRow>
                                 <TextControl
                                     type="number"
-                                    label="minWidth"
+                                    label="Fixed Width"
                                     min="1"
-                                    value={minWidth}
-                                    placeholder="minWidth"
-                                    onChange={(value) => setAttributes({ minWidth: value })}
+                                    value={fixedWidth}
+                                    placeholder="Fixed Width"
+                                    onChange={(value) => setAttributes({ fixedWidth: value })}
                                 />
                             </PanelRow>
                             <PanelRow>
                                 <TextControl
                                     type="number"
-                                    label="minHeight"
+                                    label="Fixed Height"
                                     min="1"
-                                    value={minHeight}
-                                    placeholder="minHeight"
-                                    onChange={(value) => setAttributes({ minHeight: value })}
+                                    value={fixedHeight}
+                                    placeholder="Fixed Height"
+                                    onChange={(value) => setAttributes({ fixedHeight: value })}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -646,10 +646,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'number',
             default: 30
         },
-        minWidth: {
+        fixedWidth: {
             type: 'number'
         },
-        minHeight: {
+        fixedHeight: {
             type: 'number'
         },
     };
@@ -685,8 +685,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 detailWidth,
                 arrowIcons,
                 sliderActive,
-                minWidth,
-                minHeight
+                fixedWidth,
+                fixedHeight
             } = attributes;
             return (
                 <div className={`slider-arrow-main ${arrowIcons}`}>
