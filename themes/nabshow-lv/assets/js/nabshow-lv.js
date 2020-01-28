@@ -310,7 +310,7 @@
 
         if ( _this.parents('.slider-arrow-main').find('.ntbm-parent').hasClass('nab-not-to-be-missed-slider') ) {
           $('.nab-not-to-be-missed-slider').each(function (index) {
-            if ($(this).hasClass('change-slide')) {
+            if ($(this).hasClass('change-slide') && undefined !== ntbmBxSliderObj[index] ) {
               let numberOfVisibleSlides = bxNumberofVisibleSlide();
               let config = bxDynamicSliderConfig($(this), numberOfVisibleSlides);
               ntbmBxSliderObj[index].reloadSlider(config);
@@ -970,8 +970,6 @@
     let pageNumber,
       postStartWith = '',
       sessionTrack = '',
-      sessionLevel = '',
-      sessionType = '',
       sessionDate = '',
       sessionLocation = '',
       featuredSession = $('.browse-sessions-filter .featured-btn').hasClass('active') ? 'featured' : '',
@@ -984,25 +982,7 @@
       if (sessionTrack !== currentTrack) {
         pageNumber = 1;
         sessionTrack = currentTrack;
-        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
-      }
-    });
-
-    $(document).on('change', '.browse-sessions-filter #session-level', function () {
-      let currentLevel = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-      if (sessionLevel !== currentLevel) {
-        pageNumber = 1;
-        sessionLevel = currentLevel;
-        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
-      }
-    });
-
-    $(document).on('change', '.browse-sessions-filter #session-type', function () {
-      let currentType = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-      if (sessionType !== currentType) {
-        pageNumber = 1;
-        sessionType = currentType;
-        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
       }
     });
 
@@ -1011,27 +991,27 @@
       if (sessionLocation !== currentLocation) {
         pageNumber = 1;
         sessionLocation = currentLocation;
-        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
       }
     });
 
     $(document).on('keypress', '.browse-sessions-filter .search-item .search, .browse-open-to-all-filter .search-item .search', function (e) {
       if (13 === e.which) {
         pageNumber = 1;
-        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
       }
     });
 
     $(document).on('click', '#load-more-sessions a', function () {
       pageNumber = parseInt($(this).attr('data-page-number'));
-      nabAjaxForBrowseSession(sessionItem, 'load-more', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+      nabAjaxForBrowseSession(sessionItem, 'load-more', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
     });
 
     $(document).on('click', '.browse-sessions-filter .featured-btn', function () {
       $(this).toggleClass('active');
       featuredSession = $(this).hasClass('active') ? 'featured' : '';
       pageNumber = 1;
-      nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+      nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
     });
 
     $(document).on('click', '.browse-sessions-filter .alphabets-list li:not(".clear")', function () {
@@ -1044,7 +1024,7 @@
       if (postStartWith !== $(this).text()) {
         postStartWith = $(this).text();
         pageNumber = 1;
-        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+        nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
       }
     });
 
@@ -1052,14 +1032,14 @@
       $(this).hide().siblings().removeClass('active');
       postStartWith = '';
       pageNumber = 1;
-      nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+      nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
     });
     if (0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length) {
       $(window).load(function () {
         $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function () {
           pageNumber = 1;
           sessionDate = $(this).val();
-          nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession);
+          nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
         });
       });
     }
@@ -1922,7 +1902,7 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
 }
 
 
-function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLevel, sessionType, sessionLocation, listingType, sessionDate, featuredSession) {
+function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession) {
   let postPerPage = jQuery('#load-more-sessions a').attr('data-post-limit') ? parseInt(jQuery('#load-more-sessions a').attr('data-post-limit')) : 10;
   let postSearch = 0 < jQuery('.browse-open-to-all-filter .search-item .search').length ? jQuery('.browse-open-to-all-filter .search-item .search').val() : jQuery('.browse-sessions-filter .search-item .search').val();
   let withoutDate = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-date') ? 'yes' : 'no';
@@ -1936,7 +1916,7 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&level=' + sessionLevel + '&session_type=' + sessionType + '&location=' + sessionLocation + '&listing_type=' + listingType + '&session_date=' + sessionDate + '&featured_session=' + featuredSession + '&without_date=' + withoutDate + '&without_time=' + withoutTime,
+    data: 'action=sessions_browse_filter&page_number=' + pageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + postStartWith + '&post_search=' + postSearch + '&track=' + sessionTrack + '&location=' + sessionLocation + '&listing_type=' + listingType + '&session_date=' + sessionDate + '&featured_session=' + featuredSession + '&without_date=' + withoutDate + '&without_time=' + withoutTime,
     url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 

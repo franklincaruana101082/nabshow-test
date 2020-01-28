@@ -45,7 +45,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         const {fixedWidth, fixedHeight} = attributes;
         if (nabIsImage(sourceURL)) {
             return (
-                <img src={`${sourceURL}${fixedHeight ? `?h=${fixedHeight ? fixedHeight : ''}&w=${fixedWidth ? fixedWidth : ''}` : ''}`}
+                <img
+                    src={`${sourceURL}${fixedHeight || fixedWidth ? '?' : ''}${fixedHeight ? `h=${fixedHeight}&` : ''}${fixedWidth ? `w=${fixedWidth}` : ''}`}
                     className="media-slider-img"
                     alt={__('Slider image')}
                 />

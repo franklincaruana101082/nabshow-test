@@ -77,28 +77,6 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
                 </div>
             </div>
             <div class="category col-lg-3">
-                <label for="session-level">Level</label>
-                <div class="browse-select">
-                    <select id="session-level" class="select-opt">
-                        <option>Select a Level</option>
-						<?php
-						$this->mysgb_get_term_list_options( 'session-levels' );
-						?>
-                    </select>
-                </div>
-            </div>
-            <div class="category col-lg-3">
-                <label for="session-type">Types</label>
-                <div class="browse-select">
-                    <select id="session-type" class="select-opt">
-                        <option>Select a Type</option>
-						<?php
-						$this->mysgb_get_term_list_options( 'session-types' );
-						?>
-                    </select>
-                </div>
-            </div>
-            <div class="category col-lg-3">
                 <label for="session-location">Location</label>
                 <div class="browse-select">
                     <select id="session-location" class="select-opt">

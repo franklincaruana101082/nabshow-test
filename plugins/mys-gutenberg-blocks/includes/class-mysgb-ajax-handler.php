@@ -54,8 +54,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
 			$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
 			$session_track      = filter_input( INPUT_GET, 'track', FILTER_SANITIZE_STRING );
-			$session_level      = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
-			$session_type       = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
 			$session_location   = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
 			$listing_type       = filter_input( INPUT_GET, 'listing_type', FILTER_SANITIZE_STRING );
 			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
@@ -105,22 +103,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					'taxonomy' => 'tracks',
 					'field'    => 'slug',
 					'terms'    => $session_track,
-				);
-			}
-
-			if ( ! empty( $session_level ) ) {
-				$tax_query_args[] = array (
-					'taxonomy' => 'session-levels',
-					'field'    => 'slug',
-					'terms'    => $session_level,
-				);
-			}
-
-			if ( ! empty( $session_type ) ) {
-				$tax_query_args[] = array (
-					'taxonomy' => 'session-types',
-					'field'    => 'slug',
-					'terms'    => $session_type,
 				);
 			}
 

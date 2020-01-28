@@ -20663,7 +20663,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             fixedHeight = attributes.fixedHeight;
 
         if (nabIsImage(sourceURL)) {
-            return wp.element.createElement('img', { src: '' + sourceURL + (fixedHeight ? '?h=' + (fixedHeight ? fixedHeight : '') + '&w=' + (fixedWidth ? fixedWidth : '') : ''),
+            return wp.element.createElement('img', {
+                src: '' + sourceURL + (fixedHeight || fixedWidth ? '?' : '') + (fixedHeight ? 'h=' + fixedHeight + '&' : '') + (fixedWidth ? 'w=' + fixedWidth : ''),
                 className: 'media-slider-img',
                 alt: __('Slider image')
             });

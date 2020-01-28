@@ -1284,6 +1284,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .nab-photos .modal-backdrop, .nab-videos .modal-backdrop{display:none}
 
 .opportunities-popup, .photos-popup, .videos-popup{position:fixed;top:0;bottom:0;left:0;right:0;width:100%;height:100%;display:none;z-index:999999}
+.opportunities .opportunities-popup .opportunities-backdrop{background-color:rgba(0, 0, 0, 0.45)!important}
 .opportunities-popup .opportunities-backdrop, .photos-popup .photos-backdrop, .videos-popup .videos-backdrop{background-color:#000000b0!important;position:fixed;top:0;right:0;bottom:0;left:0;z-index:1040}
 .opportunities-popup .opportunities-dialog, .photos-popup .photos-dialog, .videos-popup .videos-dialog{width:auto;top:50%;left:50%;-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);max-height:98%;max-width:96%;margin:0 auto!important;position:absolute;pointer-events:auto;z-index:99999;overflow:auto;animation-name:photosAnimatetop;animation-duration:0.4s}
 .opportunities-popup .opportunities-dialog .opportunities-content, .photos-popup .photos-dialog .photos-content, .videos-popup .videos-dialog .videos-content{position:relative;background-color:#fefefe;margin:auto;padding:0;border:1px solid #888;width:100%;box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)}
