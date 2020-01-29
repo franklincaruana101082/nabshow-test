@@ -84,3 +84,6 @@ add_filter( 'srm_max_redirects', 'nabhsow_lv_increase_redirect_rule_limit' );
 
 //Filter for modified post where.
 add_filter( 'posts_where', 'nabshow_lv_set_content_custom_posts_where', 10, 1 );
+
+//Filter for add differ attribute to the script.
+add_filter( 'script_loader_tag', 'nabshow_lv_script_loader_tag', 40, 2 );

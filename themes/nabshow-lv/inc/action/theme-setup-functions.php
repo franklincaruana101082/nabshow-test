@@ -229,9 +229,9 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
 
-    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '4.1' );
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '4.2' );
 
-    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '4.1' );
+    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '4.2' );
 
     wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/print-css.css', array(), '1.4' );
 
@@ -243,11 +243,18 @@ function nabshow_lv_scripts() {
     wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '4.1', true );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '4.2', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
 	) );
+
+	wp_enqueue_script('google-analytic','https://www.googletagmanager.com/gtag/js?id=UA-2334697-2' );
+	wp_add_inline_script( 'google-analytic', "window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-2334697-2');" );
 
     if ( has_block( 'nab/not-to-be-missed-slider' ) ) {
         wp_localize_script( 'nabshow-lv-custom', 'nabshowNtbMissed', array(

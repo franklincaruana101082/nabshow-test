@@ -133,6 +133,13 @@
     });
   }
 
+  //google analytics event
+  $(document).on('click', '.nab-banner-main .nab-banner-link, .wp-block-md-featured-boxes .nab-media-slider-link', function() {
+    if ( '' !== $(this).data('category') && '' !== $(this).data('action') && '' !== $(this).data('label') ) {
+      gtag('event', $(this).data('action'), {'event_category': $(this).data('category'), 'event_label': $(this).data('label') });
+    }
+  });
+
   //Header Marketo custom sign up box
   $(document).on('click', '.header-get-updates .get-updates-submit', function () {
     var inputEmail = $(this).parents('.header-get-updates').find('.get-updates-field').val();

@@ -670,3 +670,21 @@ function nabshow_lv_set_content_custom_posts_where( $where ) {
 
 	return $where;
 }
+
+/**
+ * Function replace the tag of the script.
+ *
+ * @param $tag
+ * @param $handle
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_script_loader_tag( $tag, $handle ) {
+
+	if( 'google-analytic' === $handle ) {
+		$tag = str_replace( ' src', ' defer="defer" src', $tag );
+	}
+	return $tag;
+}
