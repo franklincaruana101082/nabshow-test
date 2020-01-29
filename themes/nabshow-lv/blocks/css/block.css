@@ -1398,6 +1398,7 @@ ul.ss-off-options.grid-full li{width:100%;margin-bottom:20px;padding:10px 10px}
 .nab-box-slider.less-items{display:flex;flex-wrap:wrap;margin:0 -15px}
 .nab-box-slider.less-items .item{padding:0 15px;width:25%;border:0}
 .related-content-slider-info.nab-box-slider.less-items .item-inner, .related-content-slider-events.nab-box-slider.less-items .item-inner{border:3px solid #d9d9d9;height:100%;background:#fff}
+.nab-box-slider.session.less-items .item h4 a{text-decoration:underline}
 
 .is-reusable{box-shadow:0 0 3px 0 #ffff00;border:2px solid #e2e21a}
 .main-exhibitor-block .related-content-with-block-main .box-main-filter{display:none}

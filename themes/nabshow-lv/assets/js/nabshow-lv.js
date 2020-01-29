@@ -173,9 +173,12 @@
   // Header Search & Get Updates js
   $('.super-menu-main .super-menu-icons li .fa-search').on('click', function () {
     $(this).closest('.header-right').toggleClass('active');
+    $(this).closest('.header-right').removeClass('clicked');
+    $(this).closest('.header-right').find('.get-updts').removeClass('clicked');
   });
   $('.super-menu-main .super-menu .get-updts').on('click', function () {
     $(this).toggleClass('clicked');
+    $(this).closest('.header-right').removeClass('active');
     $(this).closest('.header-right').toggleClass('clicked');
     return false;
   });

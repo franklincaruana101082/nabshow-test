@@ -362,7 +362,7 @@ $to_email = get_query_var('form_email' );
 			</div>
 		</fieldset>
 		<div class="captcha">
-			<div class="g-recaptcha" data-sitekey="6LeD8MkUAAAAAOsXcI7-JQI4wf60LTRb2pu44bdW"></div>
+			<div class="g-recaptcha" data-sitekey="6Lfwj9wSAAAAAGC50P7LPTXvapy4cdM6GuPJ5Zh3"></div>
 			<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 		</div>
 		<?php wp_nonce_field( 'nabshow_forms', 'form_details_nonce' ); ?>

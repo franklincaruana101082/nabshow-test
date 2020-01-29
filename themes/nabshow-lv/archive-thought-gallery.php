@@ -16,7 +16,10 @@ global $wp_query;
 	        </div>
 	        <div class="thought-gallery-head">
 	        	<div class="head-left">
-	        		<h1>Thought Gallery</h1>
+			        <div class="nab-heading custom-flag-heading">
+				        <h1 class="title nab-title">Thought Gallery</h1>
+				        <span class="tilted-design"></span>
+			        </div>
 	        		<p>A collection of high-level insights on topics, trends and technologies impacting the future of media and entertainment.</p>
 	        	</div>
 	        	<div class="head-right">
