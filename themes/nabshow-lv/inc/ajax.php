@@ -244,7 +244,7 @@ function nabshow_lv_help_support_ajax_callback() {
 
 	$mail_subject   = filter_input( INPUT_GET, 'mail_subject', FILTER_SANITIZE_STRING );
 	$mail_message   = filter_input( INPUT_GET, 'mail_message', FILTER_SANITIZE_STRING );
-	$to_email       = 'nitish.kaila@multidots.com';
+	$to_email       = 'mayur.keshwani@multidots.com';
 
 	$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 	$headers[] = 'From: NABShow <noreply@nabshow.com>';
