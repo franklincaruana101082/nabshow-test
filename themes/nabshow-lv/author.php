@@ -13,7 +13,7 @@ $author_name =  get_query_var('author_name');
         <div class="page-main thought-gallery-page">
             <h3>Posts by : <?php echo esc_html( nabhsow_lv_current_author_name() ); ?> </h3>
             <div class="row">
-                <div class="col-lg-9 col-md-12 col-sm-12 content-with-sidebar">
+                <div class="col-lg-8 col-md-12 col-sm-12 content-with-sidebar">
 					<?php
 					if ( have_posts() ) {
 						while ( have_posts() ) {
@@ -27,7 +27,7 @@ $author_name =  get_query_var('author_name');
 					?>
                 </div>
 
-                <div id="sidebar" class="sidebar-wrap col-lg-3 col-md-12 col-sm-12">
+                <div id="sidebar" class="sidebar-wrap col-lg-4 col-md-12 col-sm-12">
 		            <?php get_sidebar( 'thoughts-gallery' ); ?>
                 </div>
             </div>

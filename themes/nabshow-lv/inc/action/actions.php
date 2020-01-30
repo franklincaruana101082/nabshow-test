@@ -97,8 +97,8 @@ add_action( 'init', 'nabshow_lv_register_news_releases_taxonomy' );
 add_action( 'rest_api_init', 'nabshow_lv_register_api_endpoints');
 
 // Send email to Admins when any Author publishes any page/post.
-//add_action( 'publish_page', 'send_mails_on_publish', 10, 3 );
-//add_action( 'publish_post', 'send_mails_on_publish', 10, 3 );
+add_action( 'publish_page', 'send_mails_on_publish', 10, 3 );
+add_action( 'publish_post', 'send_mails_on_publish', 10, 3 );
 
 // Action for set custom login logo
 add_action( 'login_enqueue_scripts', 'nabshow_lv_set_custom_login_logo' );
