@@ -1253,7 +1253,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .box-main .box-item .box-inner p.description{font-size:16px;margin-bottom:20px;color:#fff}
 .box-main .box-item .box-inner .readMore,.newyr-details>a{font-size:18px;font-family:"Roboto Bold";text-decoration:none;text-align:left;display:inline-block}
 .box-main .box-item .box-inner .readMore a::after,.newyr-details>a::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
-.box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#0f6cb6;font-weight:normal}
+.box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#00b5df;font-weight:normal}
 .box-main .box-item .box-inner .media-img .no-image{width:210px;background:#9a9a9a;height:100%;color:#fff;display:flex;align-items:center;justify-content:center;max-width:100%}
 .box-main.four-grid .box-item{flex-basis:25%;min-width:25%}
 .newyr-details>a{text-decoration:none!important}
@@ -1324,7 +1324,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .ov-filter .badgeslist a{margin-bottom:0}
 .badgeslist a.active, .badgeslist a.active:hover{background:#0f6cb6;color:#fff}
 .official-vendors .box-main .box-item .box-inner .title, .official-vendors .box-main .box-item .companyName, .official-vendors .box-main .box-item .type, .official-vendors .box-main .box-item .description{color:#000!important}
-.official-vendors .box-main .box-item .email{color:#00b5df}
+.official-vendors .box-main .box-item .email, .opportunity-twocol .title>a{color:#00b5df}
 
 /* related-content-custom-box */
 .related-content-custom-box{position:relative}
@@ -1426,7 +1426,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 /* news-conference-schedule css */
 
 /* Opportunities block css */
-.opportunities .box-main .box-item .box-inner{display:flex;flex-direction:row;padding:25px;align-items:end;overflow:hidden}
+.opportunities .box-main .box-item .box-inner{display:flex;flex-direction:row;padding:25px;align-items:flex-start;overflow:hidden}
 .opportunities .main-title{font-size:28px;color:#fff;font-family:"Roboto Bold";display:block;margin-bottom:20px;font-weight:normal}
 .box-main.two-item .box-item{flex-basis:50%}
 .opportunities .box-main .box-item .box-inner .media-img{width:150px;align-items:flex-start;height:auto;margin-bottom:0}
@@ -1883,6 +1883,7 @@ span.ctcc-right-side{display:inline-block}
 
 .feature-box-list{display:flex;flex-wrap:wrap;margin:0 -15px}
 .feature-box-list .item{width:20%;padding:0 15px;box-sizing:border-box;margin-bottom:30px;text-align:center}
+.feature-box-list .item .nab-media-slider-link{display:inline-block;width:100%}
 
 .slider-arrow-main.slider-arrow-7 .bx-controls-direction a{background-image:url(../images/magenta-arrow.png)!important;background-size:cover!important;background-position:center!important;width:50px!important;height:50px!important}
 .slider-arrow-main.slider-arrow-7 .bx-controls-direction a.bx-next{transform:rotate(180deg);margin-top:-25px}

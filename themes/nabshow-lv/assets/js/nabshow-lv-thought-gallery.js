@@ -3,6 +3,7 @@
     $(document).on('click', '#load-more-tg a', function () {
 
         var pageNumber = $(this).attr('data-page-number');
+        var currentCategory = $(this).data('category') ? $(this).data('category') : '';
         var cardsDiv = '';
         var cloneCardsDiv = '';
         var list = '';
@@ -31,7 +32,7 @@
         // ajax call to get the data
         $.ajax({
             type: 'GET',
-            data: 'action=nabshow_thoughts_gallery_load_more&page_number=' + pageNumber + '&load_more_nonce=' + nabshowLvThoughtGallery.nabshow_lv_thought_gallery_nonce,
+            data: 'action=nabshow_thoughts_gallery_load_more&page_number=' + pageNumber + '&load_more_nonce=' + nabshowLvThoughtGallery.nabshow_lv_thought_gallery_nonce + '&current_category=' + currentCategory,
             url: nabshowLvThoughtGallery.ajax_url,
             success: function (getData) {
 

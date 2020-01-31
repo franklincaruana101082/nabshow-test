@@ -109,14 +109,27 @@ function nabshow_lv_thoughts_gallery_load_more_callback() {
 
 	check_ajax_referer( 'thought_gallery_nonce', 'load_more_nonce' );
 
-	$final_result = array();
-	$result_post  = array();
-	$page_number  = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$final_result       = array();
+	$result_post        = array();
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$current_category   = filter_input( INPUT_GET, 'current_category', FILTER_SANITIZE_STRING );
 
 	$post_type_args  = array(
 		'post_type' => 'thought-gallery',
 		'paged'     => $page_number,
 	);
+
+	if ( ! empty( $current_category ) ) {
+
+		$post_type_args['tax_query'] =  array(
+			array(
+				'taxonomy' => 'thought-gallery-category',
+				'field'    => 'slug',
+				'terms'    => $current_category
+			),
+		);
+	}
+
 	$post_type_query = new WP_Query( $post_type_args );
 
 	$total_pages = $post_type_query->max_num_pages;

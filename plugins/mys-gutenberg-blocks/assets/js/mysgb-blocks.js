@@ -1180,18 +1180,18 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
     // Dropdown Filter
     if (null !== filterMainData && undefined !== filterMainData) {
-        if (0 != jQuery(`${selectedItem}`).closest('.exhibitor-committee').length) {
+        if (0 != jQuery(selectedItem).closest('.exhibitor-committee').length) {
             comparedItem = '.areas';
-        } if (0 != jQuery(`${selectedItem}`).closest('.official-vendors').length || 0 != jQuery(`${selectedItem}`).closest('.new-this-year-block').length) {
+        } if (0 != jQuery(selectedItem).closest('.official-vendors').length || 0 != jQuery(selectedItem).closest('.new-this-year-block').length) {
             comparedItem = '.title';
-        } if (0 != jQuery(`${selectedItem}`).closest('.delegation').length) {
+        } if (0 != jQuery(selectedItem).closest('.delegation').length) {
             comparedItem = '.country';
         }
-        jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterMainData}"))`).parents(`${selectedItem}`).hide();
+        jQuery(selectedItem + ' ' + comparedItem + ':not(:contains("' + filterMainData + '"))').parents(selectedItem).hide();
     }
 
     if (null !== filterProduct && undefined !== filterProduct) {
-        jQuery(`${selectedItem}:not(:contains("${filterProduct}"))`).parent().hide();
+        jQuery(selectedItem + ':not(:contains("' + filterProduct + '"))').parent().hide();
     }
 
 
@@ -1226,11 +1226,11 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     }
 
     if ('' !== filterSearch && undefined !== filterSearch) {
-        jQuery(`${selectedItem}`)
+        jQuery(selectedItem)
             .filter(function () {
                 return (
                     0 >
-                    jQuery(`${searchKeyword}`, this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
+                    jQuery(searchKeyword, this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
                 );
             })
             .hide();
@@ -1238,16 +1238,16 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
     if (0 < jQuery('.products-winners').length) {
         selectedItem = '.products-winners';
-        jQuery(`${selectedItem}`)
+        jQuery(selectedItem)
             .not(function () {
                 return 0 < jQuery(this).find('.product-item:visible').length;
             })
             .hide();
     }
 
-    if (0 === jQuery(`${selectedItem}:visible`).length) {
+    if (0 === jQuery(selectedItem + ':visible').length) {
         if (0 === jQuery('.no-data').length) {
-            createResultNotFoundNode(`${selectedItem}`);
+            createResultNotFoundNode(selectedItem);
         } else {
             jQuery('.no-data').show();
         }

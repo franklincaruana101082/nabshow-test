@@ -229,9 +229,9 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
 
-    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '4.4' );
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '4.5' );
 
-    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '4.4' );
+    wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '4.5' );
 
     wp_enqueue_style( 'nabshow-lv-print-style', get_template_directory_uri() . '/assets/css/print-css.css', array(), '1.5' );
 
@@ -243,7 +243,7 @@ function nabshow_lv_scripts() {
     wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '4.4', true );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '4.5', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
@@ -271,8 +271,10 @@ function nabshow_lv_scripts() {
         ) );
     endif;
 
-    if ( is_post_type_archive('thought-gallery') ):
-        wp_enqueue_script( 'nabshow-lv-thought-gallery', get_template_directory_uri() . '/assets/js/nabshow-lv-thought-gallery.js', array( 'jquery' ), null, true );
+    $current_taxonomy_term = get_queried_object();
+
+    if ( is_post_type_archive('thought-gallery') || ( isset( $current_taxonomy_term->taxonomy ) && 'thought-gallery-category' === $current_taxonomy_term->taxonomy ) ):
+        wp_enqueue_script( 'nabshow-lv-thought-gallery', get_template_directory_uri() . '/assets/js/nabshow-lv-thought-gallery.js', array( 'jquery' ), '1.0', true );
         wp_localize_script( 'nabshow-lv-thought-gallery', 'nabshowLvThoughtGallery', array(
             'ajax_url'                    => admin_url( 'admin-ajax.php' ),
             'nabshow_lv_thought_gallery_nonce' => wp_create_nonce( 'thought_gallery_nonce' )
