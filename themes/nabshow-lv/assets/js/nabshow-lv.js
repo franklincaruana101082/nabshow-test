@@ -30,11 +30,11 @@
         autoHover: true,
 
         onSlideAfter: function (currentSlideNumber, totalSlideQty, currentSlideHtmlObject) {
-          $('.nab-media-slider > .nab-media-slider-item').removeClass(`active-slide ${nabanimation}`);
-          $('.nab-media-slider > .nab-media-slider-item').eq(currentSlideHtmlObject).addClass(`active-slide ${nabanimation}`);
+          $('.nab-media-slider > .nab-media-slider-item').removeClass('active-slide ' + nabanimation);
+          $('.nab-media-slider > .nab-media-slider-item').eq(currentSlideHtmlObject).addClass('active-slide ' + nabanimation);
         },
         onSliderLoad: function () {
-          $('.nab-media-slider > .nab-media-slider-item').eq(0).addClass(`active-slide ${nabanimation}`);
+          $('.nab-media-slider > .nab-media-slider-item').eq(0).addClass('active-slide ' + nabanimation);
           $('.nab-media-slider .nab-media-slider-item').css('opacity', '1');
         }
       });
@@ -472,14 +472,8 @@
     if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length || 0 < $('.birds-of-a-feather').length) {
 
       $('.new-this-year-block .box-main .box-item').each(function () {
-
-        if (null !== $(this).data('category').split(',')) {
-          $.map(
-            $(this).data('category').split(','),
-            function (val, i) {
-              insertOptions(val.trim(), 'box-main-category-newyr');
-            }
-          );
+        if ('' !== $(this).find('.title').html()) {
+          insertOptions($(this).find('.title').html(), 'box-main-category-newyr');
         }
       });
 
@@ -744,6 +738,8 @@
               $this.addClass('clicked');
               $(this).addClass('active');
 
+              selectedItem = '.official-vendors .box-item';
+
               masterFilterFunc(selectedItem, searchId, searchKeyword);
 
             }
@@ -876,14 +872,18 @@
           numberOfVisibleSlides :
           parseInt(elementHandler.attr('data-minslides'));
 
-    let allImgs = Array.from(
-      document.querySelectorAll('.nab-not-to-be-missed-slider .item img')
-    );
+    let allImgList = document.querySelectorAll('.nab-not-to-be-missed-slider .item img');
+
+    let allImgs = [],
+      length = allImgList.length;
+
+    for (let i = 0; i < length; i++) {
+      allImgs.push(allImgList[i]);
+    }
+
     for (let i = 0; i < allImgs.length; i++) {
       let imgWidth = allImgs[i].parentNode;
-      imgWidth.style.backgroundImage = `url('${
-        allImgs[i].attributes.src.nodeValue
-        }')`;
+      imgWidth.style.backgroundImage = 'url('+ allImgs[i].attributes.src.nodeValue +')';
     }
 
     return {
@@ -1266,7 +1266,9 @@
         let cardDates = $(this).find('.info-block .date_group').text();
         let dateGroup = cardDates.split(' | ');
         if ( 0 < dateGroup.length ) {
-          dateGroup.map( (item) => insertOptions(item, 'page-date'));
+          dateGroup.map(function (item) {
+            return insertOptions(item, 'page-date');
+          });
         }
       }
     });
@@ -2375,7 +2377,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('.products-winners, .product-item').addClass('slideInUp').show();
   }
   if (0 < jQuery('.news-conference-schedule').length) {
-    jQuery(`.news-conference-schedule ${selectedItem}`).show();
+    jQuery('.news-conference-schedule ' + selectedItem).show();
   }
   if (0 < jQuery('.opportunities').length) {
     jQuery('.opportunities').show();
@@ -2427,9 +2429,9 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('#team-checkbox .checkbox-list input:checked').parent().addClass('checked');
 
     if (0 < jQuery('#team-checkbox .checkbox-list input:checked').length) {
-      jQuery(`${selectedItem}`).hide();
+      jQuery(selectedItem).hide();
       jQuery('#team-checkbox .checkbox-list input:checked').each(function () {
-        jQuery(`${selectedItem}[data-category*="${jQuery(this).val()}"]`).hide().show();
+        jQuery(selectedItem + '[data-category*="' + jQuery(this).val() + '"]').hide().show();
       });
     }
   }
@@ -2465,43 +2467,41 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
 
   // Dropdown Filter
   if (null !== filterMainData && undefined !== filterMainData) {
-    if (0 != jQuery(`${selectedItem}`).closest('.exhibitor-committee').length) {
+    if (0 != jQuery(selectedItem).closest('.exhibitor-committee').length) {
       comparedItem = '.areas';
     }
-    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterMainData}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + comparedItem + ':not(:contains("' + filterMainData + '"))').parents(selectedItem).hide();
   }
 
   if (null !== filterBoothData && undefined !== filterBoothData) {
     comparedItem = '.boothSize';
-    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterBoothData}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + comparedItem + ':not(:contains("' + filterBoothData + '"))').parents(selectedItem).hide();
   }
 
   if (null !== filterVendorData && undefined !== filterVendorData) {
     comparedItem = '.companyName';
-    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterVendorData}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + comparedItem + ':not(:contains("'+ filterVendorData + '"))').parents(selectedItem).hide();
   }
 
   if (null !== filterDelegation && undefined !== filterDelegation) {
     comparedItem = '.country';
-    jQuery(`${selectedItem} ${comparedItem}:not(:contains("${filterDelegation}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + comparedItem + ':not(:contains("' + filterDelegation + '"))').parents(selectedItem).hide();
 
   }
 
   if (null !== filterNewThisYear && undefined !== filterNewThisYear) {
     comparedItem = '.new-this-year-block .title';
-    jQuery('.new-this-year-block .box-main .box-item').each(function () {
-      jQuery(`${selectedItem}:not([data-category*="${filterNewThisYear}"])`).hide();
-    });
+    jQuery(comparedItem + ':not(:contains("' + filterNewThisYear +'"))').parents(selectedItem).hide();
   }
 
   if (null !== filterOffVen && undefined !== filterOffVen) {
     comparedItem = '.official-vendors .title';
-    jQuery(`${comparedItem}:not(:contains("${filterOffVen}"))`).parents(`${selectedItem}`).hide();
+    jQuery(comparedItem + ':not(:contains("' + filterOffVen + '"))').parents(selectedItem).hide();
   }
 
   if (null !== filterFaqData && undefined !== filterFaqData) {
     comparedItem = '.title';
-    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return (filterFaqData.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + comparedItem).filter(function () { return (filterFaqData.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(selectedItem).hide();
   }
 
   if (null !== filterAwardData && undefined !== filterAwardData) {
@@ -2509,57 +2509,57 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     if (0 < jQuery('.awards-main').length) {
       selectedItem = '.awards-main';
     }
-    jQuery(`${selectedItem} ${comparedItem}`).filter(function () {
+    jQuery(selectedItem + ' ' + comparedItem).filter(function () {
       return (filterAwardData.toLowerCase() !== jQuery(this).text().toLowerCase());
-    }).parents(`${selectedItem}`).hide();
+    }).parents(selectedItem).hide();
   }
   if (null !== filterDate && undefined !== filterDate) {
     if (0 < jQuery('.schedule-main').length) {
       comparedItem = '.schedule-main h2';
     }
-    jQuery(`${comparedItem}:not(:contains("${filterDate}"))`).parent().hide();
+    jQuery(comparedItem + ':not(:contains("' + filterDate + '"))').parent().hide();
 
   }
   if (null !== filterLocation && undefined !== filterLocation) {
     if (0 < jQuery('.schedule-main').length) {
       comparedItem = '.location';
     }
-    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return (filterLocation.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
+    jQuery(selectedItem + ' ' + comparedItem).filter(function () { return (filterLocation.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
   }
   if (null !== filterTime && undefined !== filterTime) {
     if (0 < jQuery('.schedule-main').length) {
       comparedItem = '.details';
     }
-    jQuery(`${selectedItem} ${comparedItem}`).filter(function () { return (filterTime.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
+    jQuery(selectedItem + ' ' + comparedItem).filter(function () { return (filterTime.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
   }
   if (null !== filterType && undefined !== filterType) {
     if (0 < jQuery('.schedule-main').length) {
       comparedItem = '.schedule-row';
     }
-    jQuery(` ${selectedItem} ${comparedItem}:not([data-type="${filterType}"])`).hide();
+    jQuery(selectedItem + ' ' + comparedItem + ':not([data-type="' + filterType + '"])').hide();
   }
   if (null !== filterDepartment && undefined !== filterDepartment) {
     if (0 < jQuery('.meet-team-main').length) {
-      jQuery(`.meet-team-main ${selectedItem}:not([data-department="${filterDepartment}"])`).hide();
+      jQuery('.meet-team-main' + ' ' + selectedItem + ':not([data-department="' + filterDepartment + '"])').hide();
     }
   }
   if (null !== filterProduct && undefined !== filterProduct) {
-    jQuery(`${selectedItem}:not(:contains("${filterProduct}"))`).parent().hide();
+    jQuery(selectedItem + ':not(:contains("' + filterProduct + '"))').parent().hide();
   }
   if (null !== filterCName && undefined !== filterCName) {
-    jQuery(`${selectedItem} .title:not(:contains("${filterCName}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.title:not(:contains("' + filterCName + '"))').parents(selectedItem).hide();
   }
   if (null !== filterCDate && undefined !== filterCDate) {
-    jQuery(`${selectedItem} .date-time:not(:contains("${filterCDate}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.date-time:not(:contains("' + filterCDate + '"))').parents(selectedItem).hide();
   }
   if (null !== filterCLocation && undefined !== filterCLocation) {
-    jQuery(`${selectedItem} .location:not(:contains("${filterCLocation}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.location:not(:contains("' + filterCLocation + '"))').parents(selectedItem).hide();
   }
   if (null !== filterMainCat && undefined !== filterMainCat) {
     if (0 < jQuery('#main-category-type').length) {
       selectedItem = '.related-main-wrapper';
     }
-    jQuery(`.sponsorship-opportunities-page ${selectedItem} .parent-main-title:not(:contains("${filterMainCat}"))`).parents(`${selectedItem}`).hide();
+    jQuery('.sponsorship-opportunities-page' + ' ' + selectedItem + ' ' + '.parent-main-title:not(:contains("' + filterMainCat + '"))').parents(selectedItem).hide();
   }
   if (null !== filterSubCat && undefined !== filterSubCat) {
     if (0 < jQuery('#sub-category-type').length) {
@@ -2567,16 +2567,16 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     } else {
       selectedItem = '.box-item';
     }
-    jQuery(`${selectedItem} .main-title:not(:contains("${filterSubCat}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.main-title:not(:contains("' + filterSubCat + '"))').parents(selectedItem).hide();
   }
   if (null !== filterCost && undefined !== filterCost) {
     if (0 < jQuery('.opportunities').length) {
       selectedItem = '.box-item';
     }
-    jQuery(`${selectedItem} .cost:not(:contains("${filterCost}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.cost:not(:contains("' + filterCost + '"))').parents(selectedItem).hide();
   }
   if (null !== filterExclusive && undefined !== filterExclusive) {
-    jQuery(`${selectedItem} .exclusivity`).filter(function () { return (filterExclusive.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.exclusivity').filter(function () { return (filterExclusive.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents(selectedItem).hide();
 
   }
   if (null !== filterAvailable && undefined !== filterAvailable) {
@@ -2584,7 +2584,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
       selectedItem = '.box-item';
     }
     if ('Available' === filterAvailable) {
-      jQuery(`${selectedItem}.visible`).hide();
+      jQuery(selectedItem + '.visible').hide();
     }
     if ('Unavailable' === filterAvailable) {
       jQuery(selectedItem).not('.visible').hide();
@@ -2597,25 +2597,25 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('.media-partners .team-box').show();
   }
   if (null !== filterMediaTopics && undefined !== filterMediaTopics) {
-    jQuery(`${selectedItem}:not([data-topics*="${filterMediaTopics}"])`).hide();
+    jQuery(selectedItem + ':not([data-topics*="' + filterMediaTopics + '"])').hide();
   }
   if (null !== filterMediaFormats && undefined !== filterMediaFormats) {
-    jQuery(`${selectedItem}:not([data-formats*="${filterMediaFormats}"])`).hide();
+    jQuery(selectedItem + ':not([data-formats*="' + filterMediaFormats + '"])').hide();
   }
   if (null !== filterMediaLocation && undefined !== filterMediaLocation) {
-    jQuery(`${selectedItem}:not([data-locations*="${filterMediaLocation}"])`).hide();
+    jQuery(selectedItem + ':not([data-locations*="' + filterMediaLocation + '"])').hide();
   }
   if (null !== filterAttendee && undefined !== filterAttendee) {
-    jQuery(`${selectedItem} .attend:not(:contains("${filterAttendee}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.attend:not(:contains("' + filterAttendee + '"))').parents(selectedItem).hide();
   }
   if (null !== filterHostingOrg && undefined !== filterHostingOrg) {
-    jQuery(`${selectedItem} .hosting:not(:contains("${filterHostingOrg}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.hosting:not(:contains("' + filterHostingOrg + '"))').parents(selectedItem).hide();
   }
   if (null !== filterOrganizers && undefined !== filterOrganizers) {
-    jQuery(`${selectedItem} .organizer:not(:contains("${filterOrganizers}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.organizer:not(:contains("' + filterOrganizers + '"))').parents(selectedItem).hide();
   }
   if (null !== filterBirdDate && undefined !== filterBirdDate) {
-    jQuery(`${selectedItem} .date-time:not(:contains("${filterBirdDate}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' ' + '.date-time:not(:contains("' + filterBirdDate + '"))').parents(selectedItem).hide();
   }
 
 
@@ -2665,11 +2665,11 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
 
   if ('' !== filterSearch && undefined !== filterSearch) {
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .filter(function () {
         return (
           0 >
-          jQuery(`${searchKeyword}`, this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
+          jQuery(searchKeyword, this).text().toLowerCase().indexOf(filterSearch.toLowerCase())
         );
       })
       .hide();
@@ -2683,17 +2683,17 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (jQuery('.official-vendors-filter .badgeslist a').hasClass('active')) {
     selectedItem = '.official-vendors .box-item';
-    jQuery(`${selectedItem} .type:not(:contains("${jQuery('.ov-filter .badgeslist a.active').text()}"))`).parents(`${selectedItem}`).hide();
+    jQuery(selectedItem + ' .type:not(:contains("' + jQuery('.ov-filter .badgeslist a.active').text() + '"))').parents(selectedItem).hide();
   }
   if (jQuery('.badge-discount-filter .badgeslist a').hasClass('active')) {
-    jQuery(`.badge-discounts .badge-title:not(:contains("${jQuery('.badge-discount-filter .badgeslist a.active').text()}"))`).parent().hide();
+    jQuery('.badge-discounts .badge-title:not(:contains("' + jQuery('.badge-discount-filter .badgeslist a.active').text() + '"))').parent().hide();
   }
   if (jQuery('.exhibitor-resources-main .badgeslist a').hasClass('active')) {
-    jQuery(`.related-main-wrapper .parent-main-title:not(:contains("${jQuery('.exhibitor-resources-main .badgeslist a.active').text()}"))`).parent().hide();
+    jQuery('.related-main-wrapper .parent-main-title:not(:contains("' + jQuery('.exhibitor-resources-main .badgeslist a.active').text() + '"))').parent().hide();
   }
   if (0 != jQuery('.badge-discounts').length) {
     selectedItem = '.badge-discounts';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.box-item:visible').length;
       })
@@ -2701,7 +2701,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (0 != jQuery('.accordionParentWrapper').length && 0 != jQuery('.fab-filter').length) {
     selectedItem = '.accordionParentWrapper';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.accordionHeader h3:visible').length;
       })
@@ -2709,7 +2709,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (0 != jQuery('.schedule-main').length) {
     selectedItem = '.schedule-main';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.schedule-row:visible').length;
       })
@@ -2717,7 +2717,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (0 < jQuery('.products-winners').length) {
     selectedItem = '.products-winners';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.product-item:visible').length;
       })
@@ -2725,7 +2725,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (0 != jQuery('.opportunities').length) {
     selectedItem = '.opportunities';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.box-item:visible').length;
       })
@@ -2733,7 +2733,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (0 != jQuery('.main-exhibitor-block .related-main-wrapper').length) {
     selectedItem = '.main-exhibitor-block .related-main-wrapper';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.col-lg-4.col-md-6:visible').length;
       })
@@ -2741,16 +2741,16 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
   }
   if (0 != jQuery('.sponsorship-opportunities-page .related-main-wrapper').length) {
     selectedItem = '.sponsorship-opportunities-page .related-main-wrapper';
-    jQuery(`${selectedItem}`)
+    jQuery(selectedItem)
       .not(function () {
         return 0 < jQuery(this).find('.box-item:visible').length;
       })
       .hide();
   }
 
-  if (0 === jQuery(`${selectedItem}:visible`).length) {
+  if (0 === jQuery(selectedItem + ':visible').length) {
     if (0 === jQuery('.no-data').length) {
-      createResultNotFoundNode(`${selectedItem}`);
+      createResultNotFoundNode(selectedItem);
     } else {
       jQuery('.no-data').show();
     }

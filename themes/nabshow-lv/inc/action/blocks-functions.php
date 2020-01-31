@@ -1182,7 +1182,7 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
 
             $author_query = get_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-' . $post_type );
 
-            if ( false === $author_query ) {
+            if ( false === $author_query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $args = array( 'author' => $contributor->ID, 'post_type' => $post_type, 'posts_per_page' => 1 );
                 $author_query = new WP_Query( $args );
                 set_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-' . $post_type, $author_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );

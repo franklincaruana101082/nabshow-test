@@ -45,43 +45,44 @@ if ( false === $related_posts_query ) {
 
 	set_transient( 'nab-thought-related-post-' . $transient_key, $related_posts_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
 }
-?>
-<h2>You Might Also Like</h2>
-<ul class="related-list">
-	<?php
-	if ( $related_posts_query->have_posts() ) {
-
-	    $cnt        = 1;
-	    $exclude_id = get_the_ID();
-	    $is_exclude = true;
-
-	    while ( $related_posts_query->have_posts() ) {
-
-	        $related_posts_query->the_post();
-
-	        if ( $is_exclude && ( $exclude_id === get_the_ID() || 4 === $cnt ) ) {
-
-	            $is_exclude = false;
-                continue;
-            }
-			?>
-            <li>
-                <div class="image-effect-wrapper">
-                    <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="related-posts-img">
-                        <img width="300" height="200" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="related-post-img">
-                    </a>
-                </div>
-                <div class="related-content">
-                    <h4 class="related-title">
-                        <a href="<?php echo esc_url( get_the_permalink() ); ?>"> <?php echo esc_html( get_the_title() ); ?> </a>
-                    </h4>
-                    <div class="blog-list-contributor"> By <?php echo esc_html( nabhsow_lv_current_author_name() ); ?></div>
-                </div>
-            </li>
-            <?php
-
-            $cnt++;
-		}
-	}
+if ( $related_posts_query->have_posts() && $related_posts_query->found_posts > 1 ) {
 	?>
-</ul>
+	<h2>You Might Also Like</h2>
+	<ul class="related-list">
+		<?php
+
+		$cnt        = 1;
+		$exclude_id = get_the_ID();
+		$is_exclude = true;
+
+		while ( $related_posts_query->have_posts() ) {
+
+			$related_posts_query->the_post();
+
+			if ( $is_exclude && ( $exclude_id === get_the_ID() || 4 === $cnt ) ) {
+
+				$is_exclude = false;
+				continue;
+			}
+			?>
+			<li>
+				<div class="image-effect-wrapper">
+					<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="related-posts-img">
+						<img width="300" height="200" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="related-post-img">
+					</a>
+				</div>
+				<div class="related-content">
+					<h4 class="related-title">
+						<a href="<?php echo esc_url( get_the_permalink() ); ?>"> <?php echo esc_html( get_the_title() ); ?> </a>
+					</h4>
+					<div class="blog-list-contributor"> By <?php echo esc_html( nabhsow_lv_current_author_name() ); ?></div>
+				</div>
+			</li>
+			<?php
+
+			$cnt++;
+		}
+		?>
+	</ul>
+	<?php
+}
