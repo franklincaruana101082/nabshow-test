@@ -1389,8 +1389,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .row.related-content-rowbox .related-content-box.featured-happenings, .row.related-content-rowbox .related-content-box.exhibitor-resources{padding:0 0 30px}
 .row.related-content-rowbox .related-content-box.featured-happenings .title,.row.related-content-rowbox .related-content-box.featured-happenings p,.row.related-content-rowbox .related-content-box.featured-happenings .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .title, .row.related-content-rowbox .related-content-box.exhibitor-resources p, .row.related-content-rowbox .related-content-box.exhibitor-resources .read-more, .row.related-content-rowbox .related-content-box.exhibitor-resources .coming-soon{padding:0 30px}
 .row.related-content-rowbox .related-content-box.featured-happenings .info-block, .row.related-content-rowbox .related-content-box.exhibitor-resources .info-block{padding:0 15px}
-.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow{background:none!important;color:#fff!important;padding:10px 15px;text-decoration:none!important;margin-bottom:10px;display:inline-block;font-size:14px;border:3px solid #fff}
-.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow:hover{background-color:#454545!important;color:#fff!important}
+.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow{background:none!important;color:#000!important;padding:10px 15px;text-decoration:none!important;margin-bottom:10px;display:inline-block;font-size:14px;border:3px solid #000}
+.row.related-content-rowbox .related-content-box.key-contacts a.btn-with-arrow:hover{background-color:#000!important;color:#fff!important}
 .row.related-content-rowbox .date-group-wrapper{display:flex;flex-wrap:wrap}
 .row.related-content-rowbox .date-group-wrapper h2.happenings-date{-webkit-box-flex:0;-ms-flex:0 0 33.333333%;flex:0 0 100%;max-width:100%;width:100%;padding-left:1em;padding-right:1em}
 .key-contacts-block .related-content-rowbox .related-content-box.key-contacts{padding:0;border:0;background:transparent}
@@ -1935,6 +1935,17 @@ a:hover{color:#00b5df;text-decoration:underline}
 .nab-form.publication-form>.form-items-wrapper>.form-item{color:#fff}
 .startup-loft-form .form-type-radio{color:#fff}
 
+.special-event-form .sqr-ft span.input-group-addon{padding:9px 12px;font-size:14px;font-weight:400;line-height:1;color:#555;text-align:center;background-color:#eee;border:1px solid #ccc;z-index:11;border-radius:4px;position:absolute;right:0;top:4px;border-top-left-radius:0;border-bottom-left-radius:0}
+.special-event-form .sqr-ft .input-group{position:relative}
+.special-event-form .control-label, .special-event-form .form-item>p{color:#fff}
+.special-event-form .timelogs .form-item .form-container-inline{display:flex;align-items:center;flex-wrap:wrap}
+.special-event-form .timelogs .form-item .form-radios .control-label{color:#000}
+.special-event-form .timelogs .form-item .form-container-inline .form-type-radio{float:left;margin-right:20px}
+.special-event-form .timelogs .form-item .form-container-inline .form-radios{margin-left:20px}
+.special-event-form .timelogs .form-item .form-container-inline>span{padding:0 10px}
+.special-event-form .timelogs .form-item .form-container-inline .form-control{padding-right:22px}
+.special-event-form .sqr-ft input.form-control{padding:6px 132px 6px 12px}
+
 /* UI Date Picker */
 .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{padding:0 5px}
 .related-content-slider-info .item .item-info span.sub-title, .related-content-slider-events .item span.sub-title{display:block}
@@ -1942,7 +1953,7 @@ a:hover{color:#00b5df;text-decoration:underline}
 .bx-viewport .nab-dynamic-slider.sponsors .item img, .bx-viewport .nab-dynamic-slider.exhibitors .item img{max-height:55%;max-width:80%}
 .bx-viewport .nab-dynamic-slider.sponsors .item, .bx-viewport .nab-dynamic-slider.exhibitors .item{padding:10px;background:#fff;height:200px;display:flex;align-items:center;flex-wrap:wrap;justify-content:center}
 .home .wp-block-md-featured-boxes .nab-dynamic-slider .item{display:inline-block}
-.help-block p{color:#777;font-size:12px;margin:5px 0 10px;padding:0}
+.help-block p{color:#989898;font-size:12px;margin:5px 0 10px;padding:0}
 .nab-form.publication-form .form-textarea-wrapper .form-textarea{position:relative}
 .nab-form.publication-form .form-textarea-wrapper{overflow:hidden}
 .tooltip-text{background-color:rgba(0, 0, 0, 0.75);color:white;position:absolute;left:0;top:0;border-radius:4px;padding:5px 10px;font-size:12px;display:none}
@@ -1957,6 +1968,7 @@ a:hover{color:#00b5df;text-decoration:underline}
 .tabOpen .accordionHeader span.dashicons::before{content:'\f068'}
 .accordionBody{background:transparent!important}
 .accordionBody *{color:#fff}
+.accordionBody * a{color:#00b5df}
 .row.related-content-rowbox .related-content-box.plan-your-show a, #planyourshow .nab-heading a, #bookhotel .nab-title a, .inherit-clr .nab-title a{color:inherit}
 .related-content-slider-events .item .item-inner a{display:inline-block;width:100%}
 #whyattend a, .inherit-clr .related-content-rowbox ul.title-list li a, .inherit-clr p a, .related-content-slider-info .item .item-info a, .related-content-slider-events .item a, .related-content-slider-info .item .item-info span.sub-title, .related-content-slider-events .item span.sub-title{color:#ffffff!important}
@@ -2022,3 +2034,5 @@ p.coming-soon{color:#fff}
 .nab-dynamic-list.exhibitors .item .item-inner h4, .nab-dynamic-list.exhibitors .item .item-inner p, .nab-dynamic-list.exhibitors .item .item-inner span{color:#000}
 .nab-dynamic-list.exhibitors .item .item-inner a, .nab-dynamic-list.exhibitors .item .item-inner h4 a{color:#00b5df}
 .nab-dynamic-list.exhibitors .item .item-inner .session-planner-url, .nab-dynamic-list.session .item .session-planner-url{color:#00b5df;display:block;width:100%}
+.blackBtn{background:none!important;color:#000!important;border:3px solid #000!important;transition:all 0.3s ease-in-out}
+.blackBtn:hover{background:#000!important;color:#fff!important}

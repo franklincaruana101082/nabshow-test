@@ -98,6 +98,7 @@
                     { label: 'Contact Us', value: 'contact-us' },
                     { label: 'Delegation Leader Enrollment', value: 'delegation-leader-enrollment' },
                     { label: 'Publication Shipping Information', value: 'publication-shipping-information' },
+                    { label: 'Special Event Order', value: 'special-event-order' },
                   ]}
                   onChange={(type) => setAttributes({ formType: type }) }
                 />

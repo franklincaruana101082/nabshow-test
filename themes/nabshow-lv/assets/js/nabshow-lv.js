@@ -131,6 +131,20 @@
         $(this).parents('#publication-shipping-logistics').find('.checkbox-error').hide();
       }
     });
+
+    $(document).on('click', '.special-event-form .form-actions .form-submit', function(){
+      let formFlag = true;
+      if ( 0 === $(this).parents('.special-event-form').find('#event-date :checkbox:checked').length ) {
+        $(this).parents('.special-event-form').find('#event-date .checkbox-error').show();
+        formFlag = false;
+      }
+      return formFlag;
+    });
+    $(document).on('change', '.special-event-form #event-date input.form-checkbox', function() {
+      if ( 0 < $(this).parents('#event-date').find(':checkbox:checked').length ) {
+        $(this).parents('#event-date').find('.checkbox-error').hide();
+      }
+    });
   }
 
   //google analytics event
