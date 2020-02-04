@@ -2250,6 +2250,29 @@ function CustomMasonryGrids() {
   }
 }
 
+// video player lightbox
+jQuery(document).on('click', '.video-lightbox', function(){
+  let iFrameUrl = jQuery(this).attr('data-iframeurl');
+  var dataVideo = {'src': iFrameUrl};
+
+  // stampiamo i nostri dati nell'iframe
+  jQuery('.video-popup iframe').attr(dataVideo);
+  jQuery('body').addClass('video-popup-open');
+
+});
+
+jQuery(document).on('click', '.video-popup .close, .video-popup .overlay', function(){
+  jQuery('body').removeClass('video-popup-open');
+});
+
+jQuery(document).keydown(function(e) {
+  if (27 == e.keyCode) {
+    jQuery('body').removeClass('video-popup-open');
+  }
+});
+
+// video player lightbox
+
 // news-conference filter MasonryGrids
 
 jQuery(document).on('change', '.news-conference select', function(){

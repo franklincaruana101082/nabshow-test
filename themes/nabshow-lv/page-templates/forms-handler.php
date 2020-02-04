@@ -6,6 +6,82 @@
  */
 
 get_header();
+
+// get speakers id from the session custom fields.
+$session_ids            = array();
+$all_session_speakers   = array();
+$session_speaker        = '';
+
+$session_args = array(
+	'post_type'      => 'sessions',
+	'posts_per_page' => -1,
+	'fields'         => 'ids',
+	'meta_key'       => 'speakers'
+);
+
+$session_query = new WP_Query( $session_args );
+
+if ( $session_query->have_posts() ) {
+
+	$session_ids = $session_query->posts;
+
+}
+
+if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
+
+	foreach ( $session_ids as $session_id ) {
+
+		$post_speaker = get_post_meta( $session_id, 'speakers', true );
+
+		if ( ! empty( $post_speaker ) ) {
+
+			if ( empty( $session_speaker ) ) {
+
+				$session_speaker = $post_speaker;
+
+			} else {
+
+				$session_speaker .= ',' . $post_speaker;
+			}
+		}
+	}
+
+	$track_speakers         = trim( $session_speaker, ',' );
+	$all_session_speakers   = explode( ',', $track_speakers );
+	$all_session_speakers   = array_unique( $all_session_speakers );
+}
+
+// get speaker post id.
+$speaker_post_id = array();
+
+$speaker_args = array(
+	'post_type'      => 'speakers',
+	'posts_per_page' => -1,
+	'fields'         => 'ids'
+);
+
+$speaker_query = new WP_Query( $speaker_args );
+
+if ( $speaker_query->have_posts() ) {
+
+	$speaker_post_id = $speaker_query->posts;
+}
+
+
+$common_speakers = array_intersect( $speaker_post_id, $all_session_speakers );
+
+// Common speakers match with session
+echo "Following speaker are match with sessions. <pre>";
+print_r($common_speakers);
+
+
+$remove_speakers = array_diff( $speaker_post_id, $all_session_speakers );
+
+// Following speakers post need to remove.
+echo "<br>Following speakers post need to remove. <br>";
+print_r($remove_speakers);
+
+exit();
 ?>
 
 	<div id="primary" class="container">
