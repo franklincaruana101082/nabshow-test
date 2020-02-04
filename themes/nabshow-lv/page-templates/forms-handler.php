@@ -7,7 +7,7 @@
 
 get_header();
 
-// get speakers id from the session custom fields.
+/*// get speakers id from the session custom fields.
 $session_ids            = array();
 $all_session_speakers   = array();
 $session_speaker        = '';
@@ -81,7 +81,7 @@ $remove_speakers = array_diff( $speaker_post_id, $all_session_speakers );
 echo "<br>Following speakers post need to remove. <br>";
 print_r($remove_speakers);
 
-exit();
+exit();*/
 ?>
 
 	<div id="primary" class="container">
