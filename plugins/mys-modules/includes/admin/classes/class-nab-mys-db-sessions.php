@@ -125,7 +125,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 				}
 				$total_rows = isset ( $total_rows[1] ) ? (int) $total_rows[1] : 10000;
 
-				$limit_reached        = 0;
+				$limit_reached = 0;
 
 				foreach ( $all_items as $item ) {
 
@@ -236,6 +236,21 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				//Update the modified array as some items might have changed the status to "Deleted".
 				if ( 'sessions' === $current_request && 1 !== $limit_reached ) {
+
+					$sessions_to_delete = array_diff_key( $this->session_modified_array, $master_array );
+
+					foreach ( $sessions_to_delete as $item_mys_id => $status ) {
+
+						$master_array[ $item_mys_id ][] = 'Deleted';
+
+						// Changing the status to "Delete"
+						$session_modified_array[ $item_mys_id ] = 'Deleted';
+
+						$total_item_statuses['Deleted'][] = '';
+
+						$affected_items ++;
+					}
+
 					update_option( 'modified_sessions_' . $this->group_id, $session_modified_array );
 				} else {
 					//Handle the trash status for sponsors and speakers.
@@ -246,7 +261,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 					// If tracks, we might not have any assigned session,
 					// so skip checking status of sessionid in modified_array.
-					if( "tracks" === $current_request ) {
+					if ( "tracks" === $current_request ) {
 						$item_status = "Updated";
 					} else {
 						$item_status = $session_modified_array[ $item_mys_id ];
