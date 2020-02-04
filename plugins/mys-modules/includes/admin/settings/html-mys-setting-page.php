@@ -89,7 +89,7 @@ $remove_speakers_dry_api = $remove_speakers_api . '?dry=run';
 		<form method="post" name="remove_speakers" class="remove_speakers-form">
 			<h2>Remove Speakers unlinked from Sessions.</h2>
 			<div class="clear-history-box">
-				<a href="<?php echo esc_url( $remove_speakers_dry_api ) ?>" target="_blank" class="button-primary popup-btn dry-speakers">Dry Run</a><br><br>
+				<a href="<?php echo esc_url( $remove_speakers_dry_api ) ?>" target="_blank" class="button-primary popup-btn dry-speakers">Dry Run</a>
 				<a href="<?php echo esc_url( $remove_speakers_api ) ?>" target="_blank" class="button-primary popup-btn">Delete Speakers</a>
 			</div>
 		</form>
