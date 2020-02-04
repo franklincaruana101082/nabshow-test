@@ -206,7 +206,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				$where_clause = "DataGroupID = '$groupid'";
 			} else {
 				$where_clause = "AddedStatus = 0";
-				$manual_run  = 0;
+				$manual_run   = 0;
 			}
 
 			$data_to_migrate = $wpdb->get_results(
@@ -648,13 +648,20 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						}
 						$save_taxonomies['exhibitor-categories'] = $c_title_array;
 
+						// Check if package not empty, if not, assign as Featured.
+						$package = $individual_item['package'];
+						if ( ! empty( $package ) ) {
+							$individual_item['package_featured'] = 1;
+						}
+
 						$checkbox_cats  = array(
-							'newexhibitor' => 'First-Time Exhibitor',
-							'showsell'     => 'Show and Sell Participant',
-							'startup'      => 'Startup',
-							'member'       => 'NAB Association Member',
-							'newproducts'  => 'New Product',
-							'studentdisc'  => 'Student Discount',
+							'package_featured' => 'Featured',
+							'newexhibitor'     => 'First-Time Exhibitor',
+							'showsell'         => 'Show and Sell Participant',
+							'startup'          => 'Startup',
+							'member'           => 'NAB Association Member',
+							'newproducts'      => 'New Product',
+							'studentdisc'      => 'Student Discount',
 						);
 						$keywords_array = array();
 						foreach ( $checkbox_cats as $c_attr => $c_title ) {
