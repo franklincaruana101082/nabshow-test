@@ -210,9 +210,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			foreach ( $data_to_migrate as $item ) {
 
 				$data_json = $item->DataJson;
-				$data_id = $item->DataID;
+				$data_id   = $item->DataID;
 				$data      = json_decode( $data_json, true );
-				$result .= "|DataID-$data_id:";
+				$result    .= "|DataID-$data_id:";
 
 				//Migrating now.
 				$post_type  = 'exhibitors';
@@ -589,6 +589,15 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			//This variable is used to make a relation between post types.
 			$post_ids_to_save_in_session = array();
+
+			//Set data manually to pass SessionID when the status is 'Delete'
+			//Doing this beacuse there will be no sessionid in the Data Json
+			//So fetching it from the 'ModifiedID' column.
+			if ( 0 === $item_status && "sessions" === $post_type && ! is_array( $data[0] ) ) {
+				$data = array();
+
+				$data[0]['sessionid'] = $item->ModifiedID;
+			}
 
 			foreach ( $data as $individual_item ) {
 
