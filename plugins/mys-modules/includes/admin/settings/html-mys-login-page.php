@@ -217,7 +217,7 @@ if ( isset( $mys_login_form_nonce ) && wp_verify_nonce( $mys_login_form_nonce, '
 							<input type="text" name="exhibitors_url" value="<?php esc_attr_e( $exhibitors_url ); ?>"/>
 						</div>
 						<div class="mys-url">
-							<label for="exhibitors_category_url">Exhibitors Category<span class='small-text'>(*)</span></label>
+							<label for="exhibitors_category_url">Exhibitor Categories<span class='small-text'>(*)</span></label>
 							<input type="text" name="exhibitors_category_url" value="<?php esc_attr_e( $exhibitors_category_url ); ?>"/>
 						</div>
 					</div>

@@ -157,6 +157,112 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					'callback' => array( $this, 'nab_mys_cron_custom_migration' )
 				)
 			);
+
+			register_rest_route( 'mys', '/remove-speakers', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_remove_speakers' )
+				)
+			);
+		}
+
+		public function nab_mys_cron_remove_speakers( WP_REST_Request $request ) {
+
+			$parameters = $request->get_params();
+
+			$dry = isset( $parameters['dry'] ) ? $parameters['dry'] : '';
+
+			// Initiate vars.
+			$session_ids          = array();
+			$all_session_speakers = array();
+			$session_speaker      = '';
+
+			// Get speakers ids from the session's meta.
+			$session_args = array(
+				'post_type'      => 'sessions',
+				'posts_per_page' => - 1,
+				'fields'         => 'ids',
+				'meta_key'       => 'speakers'
+			);
+
+			$session_query = new WP_Query( $session_args );
+
+			if ( $session_query->have_posts() ) {
+
+				$session_ids = $session_query->posts;
+
+			}
+
+			if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
+
+				foreach ( $session_ids as $session_id ) {
+
+					$post_speaker = get_post_meta( $session_id, 'speakers', true );
+
+					if ( ! empty( $post_speaker ) ) {
+
+						if ( empty( $session_speaker ) ) {
+
+							$session_speaker = $post_speaker;
+
+						} else {
+
+							$session_speaker .= ',' . $post_speaker;
+						}
+					}
+				}
+
+				$track_speakers       = trim( $session_speaker, ',' );
+				$all_session_speakers = explode( ',', $track_speakers );
+				$all_session_speakers = array_unique( $all_session_speakers );
+			}
+
+			// Get speaker post ids.
+			$speaker_post_id = array();
+
+			$speaker_args = array(
+				'post_type'      => 'speakers',
+				'posts_per_page' => - 1,
+				'fields'         => 'ids',
+				'meta_key'       => 'speakerid'
+			);
+
+			$speaker_query = new WP_Query( $speaker_args );
+
+			if ( $speaker_query->have_posts() ) {
+
+				$speaker_post_id = $speaker_query->posts;
+			}
+
+			$remove_speakers = array_diff( $speaker_post_id, $all_session_speakers );
+
+			$found = 0;
+			if ( 0 !== count( $remove_speakers ) ) {
+
+				if ( ! empty( $dry ) ) {
+					// If its a Dry run, only print the results.
+
+					$found = 1;
+					echo "Speakers not linked to any session: ";
+					echo( implode( ', ', $remove_speakers ) );
+
+				} else {
+					// Delete speakers.
+					$result = '';
+					foreach ( $remove_speakers as $speaker_wpid ) {
+						wp_trash_post( $speaker_wpid );
+
+						$result .= "trashed-$speaker_wpid | ";
+					}
+
+					$found = 1;
+					echo $result;
+				}
+			}
+
+			if ( 0 === $found ) {
+				echo "All speakers are linked properly with respective sessions.";
+			}
+			die();
 		}
 
 		public function nab_mys_cron_custom_migration( WP_REST_Request $request ) {
@@ -1230,23 +1336,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					}
 				}
 				$post_detail .= "-$term_post_id";
-			}
-
-			$skip_assigns = array(
-				'exhibitor-keywords' => array( 'Featured' )
-			);
-
-			foreach ( $skip_assigns as $tax => $skip_terms ) {
-				if ( $tax === $taxonomy ) {
-					foreach ( $skip_terms as $s_term ) {
-						if ( has_term( $s_term, $taxonomy, $post_id ) ) {
-							//get wpid of $s_term and merge with $terms_ids..
-							$existing_term_data = get_term_by( 'name', $s_term, $taxonomy );
-							$terms_ids[]        = $existing_term_data->term_id;
-							$post_detail        .= "|kept-$taxonomy-$term_post_id";
-						}
-					}
-				}
 			}
 
 			//remember to flush existing one before assigning

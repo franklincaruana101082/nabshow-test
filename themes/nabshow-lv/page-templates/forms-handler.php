@@ -6,84 +6,7 @@
  */
 
 get_header();
-
-/*// get speakers id from the session custom fields.
-$session_ids            = array();
-$all_session_speakers   = array();
-$session_speaker        = '';
-
-$session_args = array(
-	'post_type'      => 'sessions',
-	'posts_per_page' => -1,
-	'fields'         => 'ids',
-	'meta_key'       => 'speakers'
-);
-
-$session_query = new WP_Query( $session_args );
-
-if ( $session_query->have_posts() ) {
-
-	$session_ids = $session_query->posts;
-
-}
-
-if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
-
-	foreach ( $session_ids as $session_id ) {
-
-		$post_speaker = get_post_meta( $session_id, 'speakers', true );
-
-		if ( ! empty( $post_speaker ) ) {
-
-			if ( empty( $session_speaker ) ) {
-
-				$session_speaker = $post_speaker;
-
-			} else {
-
-				$session_speaker .= ',' . $post_speaker;
-			}
-		}
-	}
-
-	$track_speakers         = trim( $session_speaker, ',' );
-	$all_session_speakers   = explode( ',', $track_speakers );
-	$all_session_speakers   = array_unique( $all_session_speakers );
-}
-
-// get speaker post id.
-$speaker_post_id = array();
-
-$speaker_args = array(
-	'post_type'      => 'speakers',
-	'posts_per_page' => -1,
-	'fields'         => 'ids'
-);
-
-$speaker_query = new WP_Query( $speaker_args );
-
-if ( $speaker_query->have_posts() ) {
-
-	$speaker_post_id = $speaker_query->posts;
-}
-
-
-$common_speakers = array_intersect( $speaker_post_id, $all_session_speakers );
-
-// Common speakers match with session
-echo "Following speaker are match with sessions. <pre>";
-print_r($common_speakers);
-
-
-$remove_speakers = array_diff( $speaker_post_id, $all_session_speakers );
-
-// Following speakers post need to remove.
-echo "<br>Following speakers post need to remove. <br>";
-print_r($remove_speakers);
-
-exit();*/
 ?>
-
 	<div id="primary" class="container">
 		<main id="main" class="site-main">
 			<?php
@@ -91,8 +14,8 @@ exit();*/
 
 			if ( ! empty( $form_nonce ) && wp_verify_nonce( $form_nonce, 'nabshow_forms' ) ) {
 
-				$form_type  = filter_input( INPUT_POST, 'form_type', FILTER_SANITIZE_STRING );
-				$to_email   = filter_input( INPUT_POST, 'to_email', FILTER_SANITIZE_STRING );
+				$form_type = filter_input( INPUT_POST, 'form_type', FILTER_SANITIZE_STRING );
+				$to_email  = filter_input( INPUT_POST, 'to_email', FILTER_SANITIZE_STRING );
 
 				if ( 'startup-loft' === $form_type ) {
 
@@ -102,11 +25,11 @@ exit();*/
 
 					$startup_form_fields = array( 'title', 'email', 'phone', 'company', 'company_desc', 'company_website', 'date_founded', 'number_of_employees', 'companys_gross_annual_revenue', 'what_challenge_is_your_company_solving', 'companys_competitors', 'companys_current_customers', 'additional_information' );
 
-					$inserted_post_id   = wp_insert_post(
+					$inserted_post_id = wp_insert_post(
 						array(
-							'post_title'   => $post_title,
-							'post_type'    => 'forms-data',
-							'post_status'  => 'publish',
+							'post_title'  => $post_title,
+							'post_type'   => 'forms-data',
+							'post_status' => 'publish',
 						)
 					);
 
@@ -154,18 +77,18 @@ exit();*/
 					}
 				} elseif ( 'contact-us' === $form_type ) {
 
-					$full_name      = filter_input( INPUT_POST, 'full_name', FILTER_SANITIZE_STRING );
-					$inquiry_type   = filter_input( INPUT_POST, 'inquiry_type', FILTER_SANITIZE_STRING );
-					$send_copy      = filter_input( INPUT_POST, 'send_copy', FILTER_SANITIZE_STRING );
-					$post_title     = trim( $full_name );
+					$full_name    = filter_input( INPUT_POST, 'full_name', FILTER_SANITIZE_STRING );
+					$inquiry_type = filter_input( INPUT_POST, 'inquiry_type', FILTER_SANITIZE_STRING );
+					$send_copy    = filter_input( INPUT_POST, 'send_copy', FILTER_SANITIZE_STRING );
+					$post_title   = trim( $full_name );
 
 					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with' );
 
-					$inserted_post_id   = wp_insert_post(
+					$inserted_post_id = wp_insert_post(
 						array(
-							'post_title'   => $post_title,
-							'post_type'    => 'forms-data',
-							'post_status'  => 'publish',
+							'post_title'  => $post_title,
+							'post_type'   => 'forms-data',
+							'post_status' => 'publish',
 						)
 					);
 
@@ -226,11 +149,11 @@ exit();*/
 
 					$delegation_form_fields = array( 'company', 'address', 'city', 'state_province', 'zip_postal_code', 'country', 'phone', 'email', 'country_represented', 'associated_with_the_us_department', 'estimated_number_of_delegates', 'registration_information_attending_nabshow_as_well', 'registration_information_proxy_name', 'registration_information_proxy_email', 'registration_information_registering_all_delegates_yourself' );
 
-					$inserted_post_id   = wp_insert_post(
+					$inserted_post_id = wp_insert_post(
 						array(
-							'post_title'   => $post_title,
-							'post_type'    => 'forms-data',
-							'post_status'  => 'publish',
+							'post_title'  => $post_title,
+							'post_type'   => 'forms-data',
+							'post_status' => 'publish',
 						)
 					);
 
@@ -282,11 +205,11 @@ exit();*/
 
 					$publication_form_fields = array( 'publication_information_issue_date_number', 'publication_information_country_of_origin', 'publication_information_total_number_of_copies', 'publisher_information_publishing_company_name', 'publisher_information_name_of_contact', 'publisher_information_preshow_contact_number', 'publisher_information_onsite_contact_number', 'publisher_information_email_address', 'distribution_type_regular_publication_bin', 'distribution_type_upgraded_publication_bin', 'shipping_logistics_warehouse', 'shipping_logistics_direct', 'shipping_logistics_hand_carry', 'publication_distribution_policies' );
 
-					$inserted_post_id   = wp_insert_post(
+					$inserted_post_id = wp_insert_post(
 						array(
-							'post_title'   => $publication_name,
-							'post_type'    => 'forms-data',
-							'post_status'  => 'publish',
+							'post_title'  => $publication_name,
+							'post_type'   => 'forms-data',
+							'post_status' => 'publish',
 						)
 					);
 
@@ -327,8 +250,8 @@ exit();*/
 						?>
 						<div class="form-confirmation">
 							<p>Thank you for submitting the Publication Shipping Information form! Download the shipping labels below based on the shipping method you selected in the form.</p>
-							<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NS18-ShippingLabels-PubBins-Warehouse.pdf'); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">Advance to Warehouse Shipping Label</a></p>
-							<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NS18-ShippingLabels-PubBins-ShowSite.pdf'); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">Direct to Show Site Shipping Label</a></p>
+							<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NS18-ShippingLabels-PubBins-Warehouse.pdf' ); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">Advance to Warehouse Shipping Label</a></p>
+							<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NS18-ShippingLabels-PubBins-ShowSite.pdf' ); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">Direct to Show Site Shipping Label</a></p>
 							<p>To submit the form for another publication, <a href="<?php echo esc_url( $form_page_url ); ?>">click here</a>.</p>
 							<p><a href="<?php echo esc_url( $form_page_url ); ?>">Go back to the form</a></p>
 						</div>
@@ -337,17 +260,17 @@ exit();*/
 
 				} elseif ( 'special-event-order' === $form_type ) {
 
-					$company_name   = filter_input( INPUT_POST, 'company_name', FILTER_SANITIZE_STRING );
-					$booth_number   = filter_input( INPUT_POST, 'booth_number', FILTER_SANITIZE_STRING );
-					$post_title     = trim( $company_name ) . '_' . trim( $booth_number );
+					$company_name = filter_input( INPUT_POST, 'company_name', FILTER_SANITIZE_STRING );
+					$booth_number = filter_input( INPUT_POST, 'booth_number', FILTER_SANITIZE_STRING );
+					$post_title   = trim( $company_name ) . '_' . trim( $booth_number );
 
 					$event_form_fields = array( 'booth_square_feet', 'special_event_contact_information_name', 'special_event_contact_information_phone_number', 'special_event_contact_information_email_address', 'event_date_1', 'event_date_2', 'event_date_3', 'event_date_4', 'event_hours_start_hour', 'event_hours_start_minute', 'event_hours_start_ampm', 'event_hours_end_hour', 'event_hours_end_minute', 'event_hours_end_ampm', 'nature_of_event_select', 'number_of_attendees' );
 
-					$inserted_post_id   = wp_insert_post(
+					$inserted_post_id = wp_insert_post(
 						array(
-							'post_title'   => $post_title,
-							'post_type'    => 'forms-data',
-							'post_status'  => 'publish',
+							'post_title'  => $post_title,
+							'post_type'   => 'forms-data',
+							'post_status' => 'publish',
 						)
 					);
 
@@ -388,7 +311,7 @@ exit();*/
 
 						?>
 						<div class="form-confirmation">
-							<p>Thank you for submitting the Special Events Request form.  A member of our <a href="<?php echo esc_url( site_url() . '/partner/exhibitors/exhibitor-services/key-contacts/meet-the-team/' ); ?>">Exhibit Services team</a> will get back to you if we have any questions or items to follow up on.</p>
+							<p>Thank you for submitting the Special Events Request form. A member of our <a href="<?php echo esc_url( site_url() . '/partner/exhibitors/exhibitor-services/key-contacts/meet-the-team/' ); ?>">Exhibit Services team</a> will get back to you if we have any questions or items to follow up on.</p>
 							<a href="<?php echo esc_url( get_the_permalink() ); ?>">Go back to the form</a>
 						</div>
 						<?php
