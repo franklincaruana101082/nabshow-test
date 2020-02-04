@@ -1362,6 +1362,8 @@ function nabshow_lv_site_forms_render_callback( $attributes ) {
 		get_template_part( 'template-parts/forms/content', 'delegation' );
 	} elseif ( 'publication-shipping-information' === $form_type ) {
 		get_template_part( 'template-parts/forms/content', 'publication' );
+	} elseif ( 'special-event-order' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'special-event' );
 	}
 
 	$html = ob_get_clean();

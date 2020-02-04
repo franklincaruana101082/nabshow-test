@@ -591,3 +591,33 @@ function nabshow_lv_get_author_avatar_url( $author_id ) {
 
 	return $author_img;
 }
+
+/**
+ * Get special event form hours dropdown option.
+
+ * @since 1.0.0
+ */
+function nabshow_lv_get_special_event_hours_options() {
+
+	for ( $i = 1; $i <= 12; $i++ ) {
+		?>
+			<option value="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $i ); ?></option>
+		<?php
+	}
+}
+
+/**
+ * Get special event form minutes dropdown option.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_get_special_event_minutes_options() {
+
+	for ( $i = 0; $i <= 59; $i++ ) {
+
+		$option_text = $i < 10 ? '0' . $i : $i;
+		?>
+		<option value="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $option_text ); ?></option>
+		<?php
+	}
+}

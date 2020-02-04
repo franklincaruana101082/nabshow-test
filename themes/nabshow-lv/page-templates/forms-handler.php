@@ -259,6 +259,64 @@ get_header();
 						<?php
 					}
 
+				} elseif ( 'special-event-order' === $form_type ) {
+
+					$company_name   = filter_input( INPUT_POST, 'company_name', FILTER_SANITIZE_STRING );
+					$booth_number   = filter_input( INPUT_POST, 'booth_number', FILTER_SANITIZE_STRING );
+					$post_title     = trim( $company_name ) . '_' . trim( $booth_number );
+
+					$event_form_fields = array( 'booth_square_feet', 'special_event_contact_information_name', 'special_event_contact_information_phone_number', 'special_event_contact_information_email_address', 'event_date_1', 'event_date_2', 'event_date_3', 'event_date_4', 'event_hours_start_hour', 'event_hours_start_minute', 'event_hours_start_ampm', 'event_hours_end_hour', 'event_hours_end_minute', 'event_hours_end_ampm', 'nature_of_event_select', 'number_of_attendees' );
+
+					$inserted_post_id   = wp_insert_post(
+						array(
+							'post_title'   => $post_title,
+							'post_type'    => 'forms-data',
+							'post_status'  => 'publish',
+						)
+					);
+
+					if ( ! is_wp_error( $inserted_post_id ) ) {
+
+						add_post_meta( $inserted_post_id, 'company_name', $company_name );
+						add_post_meta( $inserted_post_id, 'booth_number', $booth_number );
+
+						$message = '<html><body>';
+						$message .= '<table border="1" cellpadding="10"><tr><th>Fields</th><th>Details</th></tr>';
+						$message .= '<tr><td>company_name</td><td>' . $company_name . '</td></tr>';
+						$message .= '<tr><td>booth_number</td><td>' . $booth_number . '</td></tr>';
+
+						foreach ( $event_form_fields as $form_field ) {
+
+							$field_value = filter_input( INPUT_POST, $form_field, FILTER_SANITIZE_STRING );
+
+							if ( ! empty( $field_value ) ) {
+
+								add_post_meta( $inserted_post_id, $form_field, $field_value );
+								$message .= '<tr><td>' . $form_field . '</td><td>' . $field_value . '</td></tr>';
+							}
+						}
+
+						$message .= '</table></body></html>';
+
+						wp_set_object_terms( $inserted_post_id, $form_type, 'forms-category' );
+
+						$headers = "From: NABShow <noreply@nabshow.com>\r\n";
+						$headers .= "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+						$subject = 'Special Event Order Form Details';
+
+						if ( ! empty( $to_email ) ) {
+							wp_mail( $to_email, $subject, $message, $headers );
+						}
+
+						?>
+						<div class="form-confirmation">
+							<p>Thank you for submitting the Special Events Request form.  A member of our <a href="<?php echo esc_url( site_url() . '/partner/exhibitors/exhibitor-services/key-contacts/meet-the-team/' ); ?>">Exhibit Services team</a> will get back to you if we have any questions or items to follow up on.</p>
+							<a href="<?php echo esc_url( get_the_permalink() ); ?>">Go back to the form</a>
+						</div>
+						<?php
+					}
 				}
 
 				dynamic_sidebar( 'footer-advertisement-sidebar' );
