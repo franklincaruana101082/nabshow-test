@@ -1536,6 +1536,9 @@ ul.ss-off-options li.active svg>rect[stroke="#7B8080"], ul.ss-on-options li.acti
 .hero-banner-inner .banner-item .banner-item-inner .set-background span{margin:3px 5px 0 0}
 .bx-wrapper .hero-banner-inner .banner-item .move-item span.dashicons-arrow-up-alt2::before{content:"\f341"}
 .bx-wrapper .hero-banner-inner .banner-item .move-item span.dashicons-arrow-down-alt2::before{content:"\f345"}
+.hero-banner-inner .banner-item .banner-item-inner .background-setting{display:flex}
+.hero-banner-inner .banner-item .banner-item-inner .background-setting label{color:#fff}
+.hero-banner-inner .banner-item .banner-item-inner .background-setting .inspector-field-alignment{width:200px;margin-left:20px}
 
 .session-white-opt .bx-viewport{width:100%!important}
 .session-white-opt .item{padding:30px 0 0 0;text-align:left}

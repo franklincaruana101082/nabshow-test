@@ -2253,21 +2253,25 @@ function CustomMasonryGrids() {
 // video player lightbox
 jQuery(document).on('click', '.video-lightbox', function(){
   let iFrameUrl = jQuery(this).attr('data-iframeurl');
-  var dataVideo = {'src': iFrameUrl};
 
   // stampiamo i nostri dati nell'iframe
-  jQuery('.video-popup iframe').attr(dataVideo);
-  jQuery('body').addClass('video-popup-open');
+  jQuery(this).siblings('.video-popup').find('iframe').attr({'src': iFrameUrl});
+  jQuery(this).siblings('.video-popup').addClass('video-popup-open');
+  jQuery('body').addClass('popup-open');
 
 });
 
 jQuery(document).on('click', '.video-popup .close, .video-popup .overlay', function(){
-  jQuery('body').removeClass('video-popup-open');
+  jQuery('.video-popup').removeClass('video-popup-open');
+  jQuery('body').removeClass('popup-open');
+  jQuery('.video-popup iframe').attr({'src': ''});
 });
 
 jQuery(document).keydown(function(e) {
   if (27 == e.keyCode) {
-    jQuery('body').removeClass('video-popup-open');
+    jQuery('.video-popup').removeClass('video-popup-open');
+    jQuery('body').removeClass('popup-open');
+    jQuery('.video-popup iframe').attr({'src': ''});
   }
 });
 

@@ -13,7 +13,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
     SelectControl,
     PanelRow,
     Tooltip,
-    ColorPalette,
+    ColorPalette
   } = wpComponents;
 
   const quoteBlockIcon = (
@@ -244,7 +244,10 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         adaptiveHeight: adaptiveHeight,
         stopAutoOnClick: true,
         autoHover: true,
-        touchEnabled: false
+        touchEnabled: false,
+        onSlideAfter: function($slideElement, oldIndex, newIndex) {
+          this.setState({ currentSelected: newIndex });
+        }.bind(this)
       });
     }
 
@@ -263,6 +266,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
     }
 
     render() {
+      const { currentSelected } = this.state;
       const { attributes, setAttributes, clientId, className } = this.props;
       const {
         dataArray,
@@ -280,21 +284,29 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         headingcolor,
         disccolor,
         buttoncolor,
-        buttonBgcolor
+        buttonBgcolor,
+        headingLineHeight,
+        discLineHeight,
+        discWidth,
+        spacingTop,
+        spacingBottom
       } = attributes;
 
       const HeadingStyle = {};
-			headingFont && (HeadingStyle.fontSize = headingFont + 'px');
+      headingFont && (HeadingStyle.fontSize = headingFont + 'px');
+      headingLineHeight && (HeadingStyle.lineHeight = headingLineHeight + 'px');
       headingcolor && (HeadingStyle.color = headingcolor);
 
       const detailsStyle = {};
-			discFont && (detailsStyle.fontSize = discFont + 'px');
+      discWidth && (detailsStyle.width = discWidth + '%');
+      discFont && (detailsStyle.fontSize = discFont + 'px');
+      discLineHeight && (detailsStyle.lineHeight = discLineHeight + 'px');
       disccolor && (detailsStyle.color = disccolor);
 
       const buttonStyle = {};
-			buttonFont && (buttonStyle.fontSize = buttonFont + 'px');
-			buttoncolor && (buttonStyle.color = buttoncolor);
-			buttonBgcolor && (buttonStyle.background = buttonBgcolor);
+      buttonFont && (buttonStyle.fontSize = buttonFont + 'px');
+      buttoncolor && (buttonStyle.color = buttoncolor);
+      buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
       const heroBannerList = dataArray
         .sort((a, b) => a.index - b.index)
@@ -302,7 +314,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
           return (
             <div
               className="banner-item"
-              style={{ backgroundImage: `url(${item.backgroundImage.url})` }}
+              style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
             >
               <span
                 className="remove-item"
@@ -412,27 +424,101 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                     ''
                   )}
                 </ul>
-                <MediaUpload
-                  onSelect={img => {
-                    let arrayCopy = [...dataArray];
-                    arrayCopy[index].backgroundImage.url = img.url;
-                    arrayCopy[index].backgroundImage.id = img.id;
-                    setAttributes({ dataArray: arrayCopy });
-                  }}
-                  value={dataArray[index].backgroundImage.id}
-                  type="image"
-                  render={({ open }) => (
-                    <Button
-                      onClick={open}
-                      className="button button-large set-background"
-                    >
-                      <span className="dashicons dashicons-plus"></span>
-                      {dataArray[index].backgroundImage.url ?
-                        'Edit Image' :
-                        'Set Background Image'}
-                    </Button>
-                  )}
-                />
+                <div className="background-setting">
+                  <MediaUpload
+                    onSelect={img => {
+                      let arrayCopy = [...dataArray];
+                      arrayCopy[index].backgroundImage.url = img.url;
+                      arrayCopy[index].backgroundImage.id = img.id;
+                      setAttributes({ dataArray: arrayCopy });
+                    }}
+                    value={dataArray[index].backgroundImage.id}
+                    type="image"
+                    render={({ open }) => (
+                      <Button
+                        onClick={open}
+                        className="button button-large set-background"
+                      >
+                        <span className="dashicons dashicons-plus"></span>
+                        {dataArray[index].backgroundImage.url ?
+                          'Edit Image' :
+                          'Set Background Image'}
+                      </Button>
+                    )}
+                  />
+                  {
+                    dataArray[index].backgroundImage.url ? (
+                    <div className="inspector-field inspector-field-alignment">
+                      <label className="inspector-mb-0">
+                        Background Position
+                      </label>
+                      <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                        <button
+                          className={'left' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button'}
+                          onClick={() => {
+                            let arrayCopy = [...dataArray];
+                            arrayCopy[index].backgroundImage.backgroundPosition = 'left';
+                            setAttributes({ dataArray: arrayCopy });
+                          }}
+                        >
+                          <i className="fa fa-align-left"></i>
+                        </button>
+                        <button
+                          className={ 'center' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button' }
+                          onClick={() => {
+                            let arrayCopy = [...dataArray];
+                            arrayCopy[index].backgroundImage.backgroundPosition = 'center';
+                            setAttributes({ dataArray: arrayCopy });
+                          }}
+                        >
+                          <i className="fa fa-align-center"></i>
+                        </button>
+                        <button
+                          className={ 'right' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button' }
+                          onClick={() => {
+                            let arrayCopy = [...dataArray];
+                            arrayCopy[index].backgroundImage.backgroundPosition = 'right';
+                            setAttributes({ dataArray: arrayCopy });
+                          }}
+                        >
+                          <i className="fa fa-align-right"></i>
+                        </button>
+                      </div>
+                    </div>
+                    ):''
+                  }
+                  {
+                    dataArray[index].backgroundImage.url ? (
+                      <div className="inspector-field inspector-field-alignment">
+                        <label className="inspector-mb-0">
+                          Background Size
+                        </label>
+                        <div className="inspector-field-button-list inspector-field-button-list-fluid">
+                          <button
+                            className={'cover' === dataArray[index].backgroundImage.backgroundSize ? 'active  inspector-button' : 'inspector-button'}
+                            onClick={() => {
+                              let arrayCopy = [...dataArray];
+                              arrayCopy[index].backgroundImage.backgroundSize = 'cover';
+                              setAttributes({ dataArray: arrayCopy });
+                            }}
+                          >
+                            Cover
+                          </button>
+                          <button
+                            className={ 'contain' === dataArray[index].backgroundImage.backgroundSize ? 'active  inspector-button' : 'inspector-button' }
+                            onClick={() => {
+                              let arrayCopy = [...dataArray];
+                              arrayCopy[index].backgroundImage.backgroundSize = 'contain';
+                              setAttributes({ dataArray: arrayCopy });
+                            }}
+                          >
+                            Contain
+                          </button>
+                        </div>
+                      </div>
+                    ) : ''
+                  }
+                </div>
               </div>
             </div>
           );
@@ -451,89 +537,160 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                 />
               </PanelRow>
             </PanelBody>
-            <PanelBody title="General Settings" initialOpen={false}>
+            <PanelBody title="Typography" initialOpen={false}>
               <PanelRow>
                 <div className="inspector-field inspector-field-fontsize ">
-									<label className="inspector-mb-0">Heading Font Size</label>
-									<RangeControl
-										value={headingFont}
-										min={15}
-										onChange={(value) => setAttributes({ headingFont: value })}
-									/>
-								</div>
+                  <label className="inspector-mb-0">Heading Font Size (px)</label>
+                  <RangeControl
+                    value={headingFont}
+                    min={15}
+                    onChange={value => setAttributes({ headingFont: value })}
+                  />
+                </div>
               </PanelRow>
-              <PanelRow>
-								<div className="inspector-field inspector-field-color ">
-									<label className="inspector-mb-0">Heading Color</label>
-									<div className="inspector-ml-auto"><ColorPalette
-										value={headingcolor}
-										onChange={(headingcolor) =>
-											setAttributes({
-												headingcolor: headingcolor
-											})}
-									/>
-									</div>
-								</div>
-							</PanelRow>
               <PanelRow>
                 <div className="inspector-field inspector-field-fontsize ">
-									<label className="inspector-mb-0">Details Font Size</label>
-									<RangeControl
-										value={discFont}
-										min={15}
-										onChange={(value) => setAttributes({ discFont: value })}
-									/>
-								</div>
+                  <label className="inspector-mb-0">Heading Line Height (px)</label>
+                  <RangeControl
+                    value={headingLineHeight}
+                    min={15}
+                    onChange={value => setAttributes({ headingLineHeight: value })}
+                  />
+                </div>
               </PanelRow>
               <PanelRow>
-								<div className="inspector-field inspector-field-color ">
-									<label className="inspector-mb-0">Details Color</label>
-									<div className="inspector-ml-auto"><ColorPalette
-										value={disccolor}
-										onChange={(disccolor) =>
-											setAttributes({
-												disccolor: disccolor
-											})}
-									/>
-									</div>
-								</div>
-							</PanelRow>
+                <div className="inspector-field inspector-field-color ">
+                  <label className="inspector-mb-0">Heading Color</label>
+                  <div className="inspector-ml-auto">
+                    <ColorPalette
+                      value={headingcolor}
+                      onChange={headingcolor =>
+                        setAttributes({
+                          headingcolor: headingcolor
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </PanelRow>
               <PanelRow>
                 <div className="inspector-field inspector-field-fontsize ">
-									<label className="inspector-mb-0">Button Font Size</label>
-									<RangeControl
-										value={buttonFont}
-										min={15}
-										onChange={(value) => setAttributes({ buttonFont: value })}
-									/>
-								</div>
+                  <label className="inspector-mb-0">Details Width (%)</label>
+                  <RangeControl
+                    value={discWidth}
+                    min={40}
+                    max={100}
+                    onChange={value => setAttributes({ discWidth: value })}
+                  />
+                </div>
               </PanelRow>
               <PanelRow>
-								<div className="inspector-field inspector-field-color ">
-									<label className="inspector-mb-0">Button Color</label>
-									<div className="inspector-ml-auto"><ColorPalette
-										value={buttoncolor}
-										onChange={(buttoncolor) =>
-											setAttributes({
-												buttoncolor: buttoncolor
-											})}
-									/>
-									</div>
-								</div>
-							</PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Details Font Size (px)</label>
+                  <RangeControl
+                    value={discFont}
+                    min={15}
+                    onChange={value => setAttributes({ discFont: value })}
+                  />
+                </div>
+              </PanelRow>
               <PanelRow>
-								<div className="inspector-field inspector-field-color ">
-									<label className="inspector-mb-0">Button BG Color</label>
-									<div className="inspector-ml-auto"><ColorPalette
-										value={buttonBgcolor}
-										onChange={(buttonBgcolor) =>
-											setAttributes({
-												buttonBgcolor: buttonBgcolor
-											})}
-									/>
-									</div>
-								</div>
-							</PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Details Line Height (px)</label>
+                  <RangeControl
+                    value={discLineHeight}
+                    min={15}
+                    onChange={value => setAttributes({ discLineHeight: value })}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-color ">
+                  <label className="inspector-mb-0">Details Color</label>
+                  <div className="inspector-ml-auto">
+                    <ColorPalette
+                      value={disccolor}
+                      onChange={disccolor =>
+                        setAttributes({
+                          disccolor: disccolor
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Button Font Size (px)</label>
+                  <RangeControl
+                    value={buttonFont}
+                    min={15}
+                    onChange={value => setAttributes({ buttonFont: value })}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-color ">
+                  <label className="inspector-mb-0">Button Color</label>
+                  <div className="inspector-ml-auto">
+                    <ColorPalette
+                      value={buttoncolor}
+                      onChange={buttoncolor =>
+                        setAttributes({
+                          buttoncolor: buttoncolor
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-color ">
+                  <label className="inspector-mb-0">Button BG Color</label>
+                  <div className="inspector-ml-auto">
+                    <ColorPalette
+                      value={buttonBgcolor}
+                      onChange={buttonBgcolor =>
+                        setAttributes({
+                          buttonBgcolor: buttonBgcolor
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </PanelRow>
+            </PanelBody>
+            <PanelBody title="Height Settings" initialOpen={false}>
+              <PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Top (px)</label>
+                  <RangeControl
+                    value={spacingTop}
+                    min={20}
+                    onChange={value => {
+                      setAttributes({ spacingTop: value });
+                      if (sliderActive){
+                        this.reloadSlider();
+                      }
+                    }}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Bottom (px)</label>
+                  <RangeControl
+                    value={spacingBottom}
+                    min={20}
+                    onChange={value => {
+                      setAttributes({ spacingBottom: value });
+                      if (sliderActive){
+                        this.reloadSlider();
+                      }
+                    }}
+                  />
+                </div>
+              </PanelRow>
             </PanelBody>
             {sliderActive && (
               <PanelBody title={__('Slider Settings')} initialOpen={false}>
@@ -684,26 +841,43 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         default: 'horizontal'
       },
       headingFont: {
-				type: 'number'
+        type: 'number'
       },
       discFont: {
-				type: 'number'
+        type: 'number'
       },
       buttonFont: {
-				type: 'number'
+        type: 'number'
       },
       headingcolor: {
-				type: 'string'
+        type: 'string'
       },
       disccolor: {
-				type: 'string'
+        type: 'string'
       },
       buttoncolor: {
-				type: 'string'
+        type: 'string'
       },
       buttonBgcolor: {
         type: 'string'
-      }
+      },
+      headingLineHeight: {
+        type: 'number'
+      },
+      discLineHeight: {
+        type: 'number'
+      },
+      discWidth: {
+        type: 'number'
+      },
+      spacingTop: {
+        type: 'number',
+        default: 130
+      },
+      spacingBottom: {
+        type: 'number',
+        default: 130
+      },
     },
 
     // edit Component
@@ -725,21 +899,29 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         controls,
         adaptiveHeight,
         speed,
-        mode
+        mode,
+        headingLineHeight,
+        discLineHeight,
+        discWidth,
+        spacingTop,
+        spacingBottom
       } = props.attributes;
 
       const HeadingStyle = {};
-			headingFont && (HeadingStyle.fontSize = headingFont + 'px');
+      headingFont && (HeadingStyle.fontSize = headingFont + 'px');
+      headingLineHeight && (HeadingStyle.lineHeight = headingLineHeight + 'px');
       headingcolor && (HeadingStyle.color = headingcolor);
 
       const detailsStyle = {};
-			discFont && (detailsStyle.fontSize = discFont + 'px');
+      discWidth && (detailsStyle.width = discWidth + '%');
+      discFont && (detailsStyle.fontSize = discFont + 'px');
+      discLineHeight && (detailsStyle.lineHeight = discLineHeight + 'px');
       disccolor && (detailsStyle.color = disccolor);
 
       const buttonStyle = {};
-			buttonFont && (buttonStyle.fontSize = buttonFont + 'px');
-			buttoncolor && (buttonStyle.color = buttoncolor);
-			buttonBgcolor && (buttonStyle.background = buttonBgcolor);
+      buttonFont && (buttonStyle.fontSize = buttonFont + 'px');
+      buttoncolor && (buttonStyle.color = buttoncolor);
+      buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
       const heroBannerList = dataArray
         .sort((a, b) => a.index - b.index)
@@ -747,7 +929,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
           return (
             <div
               className="banner-item"
-              style={{ backgroundImage: `url(${item.backgroundImage.url})` }}
+              style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
             >
               <div className="banner-item-inner">
                 <RichText.Content

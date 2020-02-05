@@ -2033,12 +2033,12 @@ p.coming-soon{color:#fff}
 /* video-popup css */
 .video-popup{position:fixed;top:0;bottom:0;left:0;right:0;background:#000000de;z-index:99999999;display:none;justify-content:center;align-items:center}
 .video-lightbox{cursor:pointer}
+.popup-open{overflow:hidden}
 .video-popup .video-popup-inner{width:1000px;max-width:85%;-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:slideInDown;animation-name:slideInDown}
 .video-popup .video-popup-inner .close{display:inline-block;font:normal normal normal 14px/1 FontAwesome;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:20px;color:#fff;position:absolute;z-index:999;top:-20px;right:-20px;opacity:1}
 .video-popup .video-popup-inner .close::before{content:"\f00d"}
-.video-popup-open .video-popup{display:flex}
-.video-popup-open{overflow:hidden}
-.video-popup-open .video-popup .overlay{position:fixed;top:0;left:0;right:0;bottom:0}
+.video-popup.video-popup-open{display:flex}
+.video-popup .overlay{position:fixed;top:0;left:0;right:0;bottom:0}
 @-webkit-keyframes slideInDown{0%{-webkit-transform:translate3d(0, -100%, 0);transform:translate3d(0, -100%, 0);visibility:visible}to{-webkit-transform:translateZ(0);transform:translateZ(0)}}
 @keyframes slideInDown{0%{-webkit-transform:translate3d(0, -100%, 0);transform:translate3d(0, -100%, 0);visibility:visible}to{-webkit-transform:translateZ(0);transform:translateZ(0)}}
 

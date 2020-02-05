@@ -165,6 +165,12 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			);
 		}
 
+		/**
+		 * Cron to remove unlinked speakers from the site.
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 */
 		public function nab_mys_cron_remove_speakers( WP_REST_Request $request ) {
 
 			$parameters = $request->get_params();
@@ -265,6 +271,14 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			die();
 		}
 
+		/**
+		 * Custom Migration Function.
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return array    List of DataID -> PostID
+		 *         string   Message to show that No more data available to migrate.
+		 */
 		public function nab_mys_cron_custom_migration( WP_REST_Request $request ) {
 
 			$parameters = $request->get_params();
@@ -282,6 +296,17 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			return $result;
 		}
 
+		/**
+		 * Migrating Exhibitor Types
+		 *
+		 * @param int       $limit      Limit to migrate rows.
+		 * @param string    $dataids    Data IDs comman separated.
+		 * @param string    $groupid    Specific Group ID to migrate.
+		 * @param string    $exh_types  Anything accepted just to specify type.
+		 *
+		 * @return array    List of DataID -> PostID
+		 *         string   Message to show that No more data available to migrate.
+		 */
 		public function nab_mys_corn_migrate_exh_types( $limit, $dataids, $groupid, $exh_types ) {
 
 			if ( empty( $exh_types ) ) {

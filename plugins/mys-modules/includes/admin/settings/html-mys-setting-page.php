@@ -87,7 +87,7 @@ $remove_speakers_dry_api = $remove_speakers_api . '?dry=run';
 			<div class="notice <?php esc_attr_e( $notice_class ); ?> is-dismissible"><p><?php echo wp_kses( $notice, $allowed_tags ); ?></p></div>
 		<?php } ?>
 		<form method="post" name="remove_speakers" class="remove_speakers-form">
-			<h2>Remove Speakers unlinked from Sessions.</h2>
+			<h2>Remove Speakers unlinked from Sessions</h2>
 			<div class="clear-history-box">
 				<a href="<?php echo esc_url( $remove_speakers_dry_api ) ?>" target="_blank" class="button-primary popup-btn dry-speakers">Dry Run</a>
 				<a href="<?php echo esc_url( $remove_speakers_api ) ?>" target="_blank" class="button-primary popup-btn">Delete Speakers</a>
@@ -95,7 +95,7 @@ $remove_speakers_dry_api = $remove_speakers_api . '?dry=run';
 		</form>
 		<form method="post" name="clear_history-update" class="clear_history-form">
 			<input type="hidden" name="clear_history_form_nonce" value="<?php esc_attr_e( wp_create_nonce( 'clear_history_form_nonce' ) ) ?>"/>
-			<h2>Clear history older than 30 days.</h2>
+			<h2>Clear history older than 30 days</h2>
 			<div class="clear-history-box">
 				<span class="button-primary popup-btn">Clear History</span>
 				<div class="mys-popup">

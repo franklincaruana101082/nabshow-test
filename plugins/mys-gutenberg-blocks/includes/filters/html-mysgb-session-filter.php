@@ -66,10 +66,10 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
     <div class="select-items col-lg-12">
         <div class="row">
             <div class="category col-lg-3">
-                <label for="session-tracks">Track</label>
+                <label for="session-tracks">Program</label>
                 <div class="browse-select">
                     <select id="session-tracks" class="select-opt">
-                        <option>Select a Track</option>
+                        <option>Select a Program</option>
 						<?php
 						$this->mysgb_get_term_list_options( 'tracks' );
 						?>
