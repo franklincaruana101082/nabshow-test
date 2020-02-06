@@ -172,7 +172,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 gridInfoRollovers,
                 slideInfoRollovers,
                 slideInfoBelow,
-                includeTracks
+                includeTracks,
+                attachSession
             } = attributes;
 
             var names = [
@@ -303,6 +304,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         { label: __('Random'), value: 'rand' },
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
+                                />
+
+                                <ToggleControl
+                                  label={__('Display only speakers which are attached with session')}
+                                  checked={attachSession}
+                                  onChange={() => { setAttributes({attachSession: ! attachSession}); this.setState({bxinit: true}); }}
                                 />
 
                                 { this.state.termsObj &&
@@ -599,7 +606,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks, attachSession: attachSession }}
                     />
                 </Fragment >
             );
@@ -725,6 +732,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
           type: 'array',
           default: []
         },
+        attachSession: {
+          type: 'boolean',
+          default: false
+        }
     };
     registerBlockType('mys/speaker-slider', {
         title: __('Speaker Slider'),

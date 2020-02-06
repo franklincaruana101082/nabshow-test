@@ -18,7 +18,7 @@ $_term = get_queried_object();
 		        echo do_shortcode('[nab_yoast_breadcumb]');
 		        ?>
             </div>
-            <h3 class="mb30">Category: <?php echo esc_html( $_term->name ); ?></h3>
+            <h1 class="mb30">Category: <?php echo esc_html( $_term->name ); ?></h1>
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-sm-12 content-with-sidebar">
 	                <div class="" id="tg_wrapper">

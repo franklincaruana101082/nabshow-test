@@ -79,7 +79,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentDidUpdate(prevProps) {
-            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
+            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, imgWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
@@ -93,6 +93,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -175,6 +176,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 sliderSpeed,
                 sliderActive,
                 slideWidth,
+                imgWidth,
                 slideMargin,
                 arrowIcons,
                 destinationType,
@@ -457,6 +459,19 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         </PanelBody>
                         }
 
+                        <PanelBody title={__('Image Setting')} initialOpen={false} className="range-setting">
+                            <div className="inspector-field inspector-field-fontsize ">
+                                <label className="inspector-mb-0">Image Width</label>
+                                <RangeControl
+                                    value={imgWidth}
+                                    min={50}
+                                    max={1000}
+                                    step={1}
+                                    onChange={(width) => { setAttributes({ imgWidth: parseInt(width) }); this.setState({ bxinit: true }); }}
+                                />
+                            </div>
+                        </PanelBody>
+
                         { ! listingPage && sliderActive && controls &&
                         <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
                             <ul className="slider-arrow-main">
@@ -492,7 +507,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 arrowIcons: arrowIcons,
                                 destinationType: destinationType,
                                 customOrder: customOrder,
-                                customOrderIds: customOrderIds
+                                customOrderIds: customOrderIds,
+                                imgWidth: imgWidth
                             }}
                         />
                     </div>
@@ -561,6 +577,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         slideWidth: {
             type: 'number',
             default: 400
+        },
+        imgWidth: {
+            type: 'number',
+            default: 135
         },
         slideMargin: {
             type: 'number',

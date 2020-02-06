@@ -147,7 +147,7 @@ function nabshow_lv_get_term_list_options( $taxonomy = '' ) {
  *
  * @return string
  *
- * @since
+ * @since 1.0.0
  */
 function nabshow_lv_get_popup_content( $post_id, $planner_url = '' ) {
 

@@ -190,6 +190,10 @@ $exhibitors_slider_attr = array(
 	'displaySummary' => array(
 		'type'    => 'boolean',
 		'default' => true
+	),
+	'imgWidth' => array(
+		'type'    => 'number',
+		'default' => 135
 	)
 );
 
@@ -286,6 +290,10 @@ $speakers_slider_attr = array(
 		'items'   => [
 			'type' => 'string'
 		]
+	),
+	'attachSession' => array(
+		'type'    => 'boolean',
+		'default' => false
 	)
 );
 
@@ -337,6 +345,10 @@ $sponsors_slider_attr = array(
 	'customOrderIds'   => array(
 		'type' => 'string',
 		'default' => ''
+	),
+	'imgWidth' => array(
+		'type'    => 'number',
+		'default' => 135
 	)
 );
 

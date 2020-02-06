@@ -119,7 +119,7 @@
 .newyr-details a:not([href]):not([tabindex]){color:#00B5DF}
 .new-this-year-inner .feature-img{margin-bottom:20px}
 .new-this-year-inner .box-inner{background:#363636}
-.meet-team-select.main-filter h4, .thought-gallery-page h3.mb30, .thought-gallery-page h3{color:#fff}
+.meet-team-select.main-filter h4, .thought-gallery-page h3.mb30, .thought-gallery-page h3, .thought-gallery-page h1{color:#fff}
 .team-main .team-box .nab_model_main .nab_model_inner p{color:#000}
 .new-this-year-inner .feature-img img{max-height:200px}
 

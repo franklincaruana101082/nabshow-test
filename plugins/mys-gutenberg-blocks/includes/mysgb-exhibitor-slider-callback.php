@@ -17,6 +17,7 @@ $taxonomy_relation = isset( $attributes['taxonomyRelation'] ) && $attributes['ta
 $slider_active     = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
 $min_slides        = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
 $slide_width       = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+$img_width         = isset( $attributes['imgWidth'] ) ? $attributes['imgWidth'] : 135;
 $autoplay          = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
 $infinite_loop     = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
 $pager             = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
@@ -206,7 +207,7 @@ if ( $query->have_posts() || $listing_page ) {
                             <?php
                         }
                         ?>
-                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="exhibitor-logo">
+                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() . '?w=' . $img_width ); ?>" alt="exhibitor-logo">
                         <?php
                         if ( $slider_active ) {
                             ?>

@@ -35,12 +35,17 @@ $arrow_icons            = isset( $attributes['arrowIcons'] ) ? $attributes['arro
 $class_name             = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $exclude_speaker        = isset( $attributes['excludeSpeaker'] ) && ! empty( $attributes['excludeSpeaker'] ) ? $attributes['excludeSpeaker'] : '';
 $include_tracks         = isset( $attributes['includeTracks'] ) && ! empty( $attributes['includeTracks'] ) ? $attributes['includeTracks'] : array();
+$attach_session         = isset( $attributes['attachSession'] ) ? $attributes['attachSession'] : false;
 $track_speakers         = '';
 
-if ( ! $listing_page && is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
+if ( ! $listing_page && ( ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) || $attach_session ) ) {
 
-	$session_cache_key  = 'mysgb-speaker-track-session-' . implode('-', $include_tracks );
-	$session_ids        = get_transient( $session_cache_key );
+	if ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
+		$session_cache_key  = 'mysgb-speaker-track-session-' . implode('-', $include_tracks );
+		$session_ids        = get_transient( $session_cache_key );
+	} else {
+		$session_ids = false;
+	}
 
     if ( false === $session_ids || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
@@ -48,16 +53,20 @@ if ( ! $listing_page && is_array( $include_tracks ) && count( $include_tracks ) 
 	        'post_type'      => 'sessions',
 	        'posts_per_page' => 100,
 	        'fields'         => 'ids',
-	        'meta_key'       => 'speakers',
-	        'tax_query'      => array(
+	        'meta_key'       => 'speakers'
+	    );
+
+    	if ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
+
+    		$session_args['tax_query'] = array(
 				'relation' => 'OR',
 	            array(
 					'taxonomy' => 'tracks',
 	                'field'    => 'slug',
 	                'terms'    => $include_tracks,
 				)
-	        )
-	    );
+	        );
+    	}
 
 		$session_query = new WP_Query( $session_args );
 
@@ -65,7 +74,11 @@ if ( ! $listing_page && is_array( $include_tracks ) && count( $include_tracks ) 
 
 			$session_ids = $session_query->posts;
 
-			set_transient( $session_cache_key, $session_ids, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+			if ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
+
+				set_transient( $session_cache_key, $session_ids, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+			}
+
 		}
     }
 
@@ -139,6 +152,10 @@ if ( ! empty( $cache_key ) || $with_thumbnail ) {
 
 	if ( ! empty( $track_speakers ) && is_array( $include_tracks ) ) {
 		$cache_key = implode( '-', $include_tracks ) . '-' . $cache_key;
+	}
+
+	if ( $attach_session && ! empty( $track_speakers ) ) {
+		$cache_key = 'attachsession-' . $cache_key;
 	}
 
 	$final_key  = mb_strimwidth( 'mysgb-speaker-slider-' . $block_post_type . '-' . $order_by . '-' . $posts_per_page . '-' . $with_thumbnail .'-' . $cache_key, 0, 170 );

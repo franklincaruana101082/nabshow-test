@@ -33,7 +33,7 @@ $to_email = get_query_var('form_email' );
 				<option value="" selected="selected">- Select -</option>
 				<option value="registration">Registration</option>
 				<option value="housing">Housing and Travel</option>
-				<option value="exhibit">Exhibits</option>
+				<option value="exhibit">Exhibit Sales</option>
 				<option value="conference">Conference</option>
 				<option value="speaker">Speaker Inquiry</option>
 				<option value="sales">Sales Opportunities</option>

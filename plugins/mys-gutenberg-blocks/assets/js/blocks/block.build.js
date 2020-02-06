@@ -2716,6 +2716,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
                     slideWidth = _props$attributes.slideWidth,
+                    imgWidth = _props$attributes.imgWidth,
                     sliderActive = _props$attributes.sliderActive,
                     slideMargin = _props$attributes.slideMargin;
 
@@ -2733,6 +2734,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -2798,6 +2800,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
                     slideWidth = attributes.slideWidth,
+                    imgWidth = attributes.imgWidth,
                     orderBy = attributes.orderBy,
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
@@ -3131,6 +3134,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 )
                             )
                         ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Image Setting'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-fontsize " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Image Width"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: imgWidth,
+                                    min: 50,
+                                    max: 1000,
+                                    step: 1,
+                                    onChange: function onChange(width) {
+                                        setAttributes({ imgWidth: parseInt(width) });_this5.setState({ bxinit: true });
+                                    }
+                                })
+                            )
+                        ),
                         !listingPage && sliderActive && controls && wp.element.createElement(
                             Fragment,
                             null,
@@ -3164,7 +3189,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/exhibitors-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, imgWidth: imgWidth }
                     })
                 );
             }
@@ -3225,6 +3250,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         slideWidth: {
             type: 'number',
             default: 400
+        },
+        imgWidth: {
+            type: 'number',
+            default: 135
         },
         orderBy: {
             type: 'string',
@@ -3518,7 +3547,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     gridInfoRollovers = attributes.gridInfoRollovers,
                     slideInfoRollovers = attributes.slideInfoRollovers,
                     slideInfoBelow = attributes.slideInfoBelow,
-                    includeTracks = attributes.includeTracks;
+                    includeTracks = attributes.includeTracks,
+                    attachSession = attributes.attachSession;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -3676,6 +3706,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                     onChange: function onChange(value) {
                                         setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
+                                    }
+                                }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Display only speakers which are attached with session'),
+                                    checked: attachSession,
+                                    onChange: function onChange() {
+                                        setAttributes({ attachSession: !attachSession });_this5.setState({ bxinit: true });
                                     }
                                 }),
                                 this.state.termsObj && wp.element.createElement(
@@ -4052,7 +4089,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speaker-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks, attachSession: attachSession }
                     })
                 );
             }
@@ -4180,6 +4217,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         includeTracks: {
             type: 'array',
             default: []
+        },
+        attachSession: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/speaker-slider', {
@@ -4318,6 +4359,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
                     slideWidth = _props$attributes.slideWidth,
+                    imgWidth = _props$attributes.imgWidth,
                     sliderActive = _props$attributes.sliderActive,
                     slideMargin = _props$attributes.slideMargin;
 
@@ -4335,6 +4377,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -4437,6 +4480,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderSpeed = attributes.sliderSpeed,
                     sliderActive = attributes.sliderActive,
                     slideWidth = attributes.slideWidth,
+                    imgWidth = attributes.imgWidth,
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
                     destinationType = attributes.destinationType,
@@ -4798,6 +4842,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 )
                             )
                         ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Image Setting'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-fontsize " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Image Width"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: imgWidth,
+                                    min: 50,
+                                    max: 1000,
+                                    step: 1,
+                                    onChange: function onChange(width) {
+                                        setAttributes({ imgWidth: parseInt(width) });_this5.setState({ bxinit: true });
+                                    }
+                                })
+                            )
+                        ),
                         !listingPage && sliderActive && controls && wp.element.createElement(
                             PanelBody,
                             { title: __('Slider Arrow'), initialOpen: false, className: "range-setting" },
@@ -4842,7 +4908,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 arrowIcons: arrowIcons,
                                 destinationType: destinationType,
                                 customOrder: customOrder,
-                                customOrderIds: customOrderIds
+                                customOrderIds: customOrderIds,
+                                imgWidth: imgWidth
                             }
                         })
                     )
@@ -4913,6 +4980,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         slideWidth: {
             type: 'number',
             default: 400
+        },
+        imgWidth: {
+            type: 'number',
+            default: 135
         },
         slideMargin: {
             type: 'number',

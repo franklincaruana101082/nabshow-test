@@ -18,6 +18,7 @@ $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemTo
 $slider_active      = isset( $attributes['sliderActive'] ) ? $attributes['sliderActive'] : true;
 $min_slides         = isset( $attributes['minSlides'] ) ? $attributes['minSlides'] : 4;
 $slide_width        = isset( $attributes['slideWidth'] ) ? $attributes['slideWidth'] : 400;
+$img_width          = isset( $attributes['imgWidth'] ) ? $attributes['imgWidth'] : 135;
 $autoplay           = isset( $attributes['autoplay'] ) ? $attributes['autoplay'] : false;
 $infinite_loop      = isset( $attributes['infiniteLoop'] ) ? $attributes['infiniteLoop'] : true;
 $pager              = isset( $attributes['pager'] ) ? $attributes['pager'] : false;
@@ -107,7 +108,7 @@ if ( $query->have_posts() ) {
 
 					$query->the_post();
 
-					$thumbnail_url          = get_the_post_thumbnail_url();
+					$thumbnail_url          = get_the_post_thumbnail_url() . '?w=' . $img_width;
 					$partners_sponsors_link = get_field( 'partners_sponsors_link',  get_the_ID() );
 
 					if ( $slider_active ) {

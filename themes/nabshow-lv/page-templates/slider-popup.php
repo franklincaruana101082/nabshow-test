@@ -55,8 +55,17 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                             <div class="mb50">
                                 <div class="head">
                                     <div class="details">
-                                        <h3 class="title"><a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
-										<?php
+	                                    <?php
+	                                    if ( ! empty( $speaker_id ) ) {
+											?>
+		                                    <h3 class="title"><a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
+		                                    <?php
+	                                    } else {
+	                                    	?>
+		                                    <h3 class="title"><?php echo esc_html( get_the_title() ); ?></h3>
+		                                    <?php
+	                                    }
+
 										if ( ! empty( $speaker_title ) ) {
 											?>
                                             <span class="sub-title"><?php echo esc_html( $speaker_title ); ?></span>
@@ -74,7 +83,18 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                              alt="speaker">
                                     </div>
                                 </div>
-                                <?php nabshow_lv_get_popup_content( $query_post_id, $speaker_planner_url ); ?>
+	                            <?php
+	                            if ( ! empty( $speaker_id ) ) {
+	                                ?>
+		                            <p><?php nabshow_lv_get_popup_content( $query_post_id, $speaker_planner_url ); ?></p>
+		                            <?php
+	                            } else {
+	                            	?>
+		                            <p><?php echo esc_html( wp_strip_all_tags( get_the_content( null, false, $query_post_id ) ) ); ?></p>
+		                            <?php
+	                            }
+	                            ?>
+
                             </div>
 							<?php
 							if ( ! empty( $session_id ) ) {
@@ -151,9 +171,15 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 							}
 							?>
                             <div class="popup-bottom">
-                                <div class="view-btn">
-                                    <a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank">View In Planner</a>
-                                </div>
+	                            <?php
+	                            if ( ! empty( $speaker_id ) ) {
+	                                ?>
+		                            <div class="view-btn">
+			                            <a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank">View In Planner</a>
+		                            </div>
+		                            <?php
+	                            }
+	                            ?>
                                 <div class="close-btn">
                                     <a href="#" data-dismiss="modal">Close Window</a>
                                 </div>
