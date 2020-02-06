@@ -108,7 +108,7 @@ get_header();
 							if ( ! empty( $field_value ) ) {
 
 								add_post_meta( $inserted_post_id, $form_field, $field_value );
-								$message .= '<tr><td>' . $form_field . '</td><td>' . $field_value . '</td></tr>';
+								$message_body .= '<tr><td>' . $form_field . '</td><td>' . $field_value . '</td></tr>';
 							}
 						}
 
