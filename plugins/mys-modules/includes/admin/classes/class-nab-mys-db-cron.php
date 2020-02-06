@@ -56,19 +56,19 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		function nab_mys_wpcron_custom_timings( $schedules ) {
 
-			$schedules['cron_every_five_min'] = array(
+			$schedules['cron_every_five_min']           = array(
 				'interval' => 300,
 				'display'  => __( 'Every 5 min' )
 			);
-			$schedules['cron_every_fifteen_min'] = array(
+			$schedules['cron_every_fifteen_min']        = array(
 				'interval' => 900,
 				'display'  => __( 'Every 15 min' )
 			);
-			$schedules['cron_every_thirty_min']  = array(
+			$schedules['cron_every_thirty_min']         = array(
 				'interval' => 1800,
 				'display'  => __( 'Every 30 min' )
 			);
-			$schedules['cron_every_fourty_five_minute']      = array(
+			$schedules['cron_every_fourty_five_minute'] = array(
 				'interval' => 2700,
 				'display'  => __( 'Every 45 min' )
 			);
@@ -158,36 +158,48 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				)
 			);
 
-			register_rest_route( 'mys', '/remove-speakers', array(
+			register_rest_route( 'mys', '/remove', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_remove_speakers' )
+					'callback' => array( $this, 'nab_mys_cron_remove_posts' )
 				)
 			);
 		}
 
 		/**
-		 * Cron to remove unlinked speakers from the site.
+		 * Cron to remove unlinked speakers and sponsors from the site.
 		 *
 		 * @param WP_REST_Request $request
 		 *
 		 */
-		public function nab_mys_cron_remove_speakers( WP_REST_Request $request ) {
+		public function nab_mys_cron_remove_posts( WP_REST_Request $request ) {
 
 			$parameters = $request->get_params();
 
-			$dry = isset( $parameters['dry'] ) ? $parameters['dry'] : '';
+			$dry  = isset( $parameters['dry'] ) ? $parameters['dry'] : '';
+			$data = isset( $parameters['data'] ) ? $parameters['data'] : '';
+
+			if ( empty( $data ) || ( 'speakers' !== $data && 'sponsors' !== $data ) ) {
+				echo "Please specify the data to be deleted. (i.e. &data=speakers or &data=sponsors.";
+				die();
+			}
+
+			$data_mysid_name = '';
+			if ( 'speakers' === $data ) {
+				$data_mysid_name = 'speakerid';
+			} else if ( 'sponsors' === $data ) {
+				$data_mysid_name = 'sponsorid';
+			}
 
 			// Initiate vars.
 			$session_ids          = array();
-			$all_session_speakers = array();
-			$session_speaker      = '';
+			$comma_separated_ids  = '';
 
-			// Get speakers ids from the session's meta.
+			// Get data ids from the session's meta.
 			$session_args = array(
 				'post_type'      => 'sessions',
 				'posts_per_page' => - 1,
 				'fields'         => 'ids',
-				'meta_key'       => 'speakers'
+				'meta_key'       => $data
 			);
 
 			$session_query = new WP_Query( $session_args );
@@ -202,62 +214,62 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 				foreach ( $session_ids as $session_id ) {
 
-					$post_speaker = get_post_meta( $session_id, 'speakers', true );
+					$post_id = get_post_meta( $session_id, $data, true );
 
-					if ( ! empty( $post_speaker ) ) {
+					if ( ! empty( $post_id ) ) {
 
-						if ( empty( $session_speaker ) ) {
+						if ( empty( $comma_separated_ids ) ) {
 
-							$session_speaker = $post_speaker;
+							$comma_separated_ids = $post_id;
 
 						} else {
 
-							$session_speaker .= ',' . $post_speaker;
+							$comma_separated_ids .= ',' . $post_id;
 						}
 					}
 				}
 
-				$track_speakers       = trim( $session_speaker, ',' );
-				$all_session_speakers = explode( ',', $track_speakers );
-				$all_session_speakers = array_unique( $all_session_speakers );
+				$comma_separated_ids = trim( $comma_separated_ids, ',' );
+				$comma_separated_ids = explode( ',', $comma_separated_ids );
+				$comma_separated_ids = array_unique( $comma_separated_ids );
 			}
 
 			// Get speaker post ids.
-			$speaker_post_id = array();
+			$post_id = array();
 
-			$speaker_args = array(
-				'post_type'      => 'speakers',
+			$args = array(
+				'post_type'      => $data,
 				'posts_per_page' => - 1,
 				'fields'         => 'ids',
-				'meta_key'       => 'speakerid'
+				'meta_key'       => $data_mysid_name
 			);
 
-			$speaker_query = new WP_Query( $speaker_args );
+			$query = new WP_Query( $args );
 
-			if ( $speaker_query->have_posts() ) {
+			if ( $query->have_posts() ) {
 
-				$speaker_post_id = $speaker_query->posts;
+				$post_id = $query->posts;
 			}
 
-			$remove_speakers = array_diff( $speaker_post_id, $all_session_speakers );
+			$remove_posts = array_diff( $post_id, $comma_separated_ids );
 
 			$found = 0;
-			if ( 0 !== count( $remove_speakers ) ) {
+			if ( 0 !== count( $remove_posts ) ) {
 
 				if ( ! empty( $dry ) ) {
 					// If its a Dry run, only print the results.
 
 					$found = 1;
-					echo "Speakers not linked to any session: ";
-					echo( implode( ', ', $remove_speakers ) );
+					echo "$data not linked to any session: ";
+					echo( implode( ', ', $remove_posts ) );
 
 				} else {
 					// Delete speakers.
 					$result = '';
-					foreach ( $remove_speakers as $speaker_wpid ) {
-						wp_trash_post( $speaker_wpid );
+					foreach ( $remove_posts as $wpid ) {
+						wp_trash_post( $wpid );
 
-						$result .= "trashed-$speaker_wpid | ";
+						$result .= "trashed-$data-$wpid | ";
 					}
 
 					$found = 1;
@@ -266,7 +278,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			}
 
 			if ( 0 === $found ) {
-				echo "All speakers are linked properly with respective sessions.";
+				echo "All $data are linked properly with respective sessions.";
 			}
 			die();
 		}
@@ -299,10 +311,10 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		/**
 		 * Migrating Exhibitor Types
 		 *
-		 * @param int       $limit      Limit to migrate rows.
-		 * @param string    $dataids    Data IDs comman separated.
-		 * @param string    $groupid    Specific Group ID to migrate.
-		 * @param string    $exh_types  Anything accepted just to specify type.
+		 * @param int $limit Limit to migrate rows.
+		 * @param string $dataids Data IDs comman separated.
+		 * @param string $groupid Specific Group ID to migrate.
+		 * @param string $exh_types Anything accepted just to specify type.
 		 *
 		 * @return array    List of DataID -> PostID
 		 *         string   Message to show that No more data available to migrate.

@@ -78,8 +78,10 @@ add_action( 'admin_init', 'disallowed_admin_pages' );
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 
 $current_url             = home_url();
-$remove_speakers_api     = $current_url . '/wp-json/mys/remove-speakers';
-$remove_speakers_dry_api = $remove_speakers_api . '?dry=run';
+$remove_speakers_api     = $current_url . '/wp-json/mys/remove?data=speakers';
+$remove_speakers_dry_api = $remove_speakers_api . '&dry=run';
+$remove_sponsors_api     = $current_url . '/wp-json/mys/remove?data=sponsors';
+$remove_sponsors_dry_api = $remove_sponsors_api . '&dry=run';
 ?>
 <div class="mys-section-left settings-page">
 	<div class="mys-main-table res-cl">
@@ -91,6 +93,13 @@ $remove_speakers_dry_api = $remove_speakers_api . '?dry=run';
 			<div class="clear-history-box">
 				<a href="<?php echo esc_url( $remove_speakers_dry_api ) ?>" target="_blank" class="button-primary popup-btn dry-speakers">Dry Run</a>
 				<a href="<?php echo esc_url( $remove_speakers_api ) ?>" target="_blank" class="button-primary popup-btn">Delete Speakers</a>
+			</div>
+		</form>
+		<form method="post" name="remove_speakers" class="remove_speakers-form">
+			<h2>Remove Sponsors unlinked from Sessions</h2>
+			<div class="clear-history-box">
+				<a href="<?php echo esc_url( $remove_sponsors_dry_api ) ?>" target="_blank" class="button-primary popup-btn dry-speakers">Dry Run</a>
+				<a href="<?php echo esc_url( $remove_sponsors_api ) ?>" target="_blank" class="button-primary popup-btn">Delete Sponsors</a>
 			</div>
 		</form>
 		<form method="post" name="clear_history-update" class="clear_history-form">
