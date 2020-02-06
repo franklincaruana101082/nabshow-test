@@ -21,7 +21,7 @@ $sorting_data = $this->sorting_data;
 $history_data = $this->history_data;
 ?>
 
-<table class="wp-list-table widefat striped pages"> <!--table-outer syn-table history-table-->
+<table class="wp-list-table widefat striped pages">
 	<thead>
 	<tr>
 		<th class="num">#</th>
@@ -52,7 +52,6 @@ $history_data = $this->history_data;
 	foreach ( $history_data as $groupid => $single_history_data ) {
 
 		$offset ++;
-
 
 		$single_history = $single_history_data['Details'];
 		$item_totals    = $single_history_data['Totals'];

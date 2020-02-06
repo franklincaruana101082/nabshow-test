@@ -506,9 +506,6 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			if ( 1 === $exist_already ) {
 
-				//Check if sequence is finished or not.
-				$this->nab_mys_db_sess->nab_mys_db_check_sequence( $this->group_id );
-
 				esc_html_e( "This data already pulled for current CRON, Please wait for the next CRON." );
 				die();
 

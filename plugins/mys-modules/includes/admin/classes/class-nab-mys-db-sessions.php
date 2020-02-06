@@ -192,7 +192,6 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 									$master_array[ $item_mys_id ][] = $item;
 
-									$item_affected                  = 1;
 									$item_affected = 1;
 								} else {
 									$delete_item = 'yes';

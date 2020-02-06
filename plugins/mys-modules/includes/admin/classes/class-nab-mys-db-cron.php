@@ -56,19 +56,19 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		function nab_mys_wpcron_custom_timings( $schedules ) {
 
-			$schedules['cron_every_fifteen_sec'] = array(
+			$schedules['cron_every_five_min']           = array(
 				'interval' => 300,
 				'display'  => __( 'Every 5 min' )
 			);
-			$schedules['cron_every_fifteen_sec'] = array(
+			$schedules['cron_every_fifteen_min']        = array(
 				'interval' => 900,
 				'display'  => __( 'Every 15 min' )
 			);
-			$schedules['cron_every_thrity_sec']  = array(
+			$schedules['cron_every_thirty_min']         = array(
 				'interval' => 1800,
 				'display'  => __( 'Every 30 min' )
 			);
-			$schedules['cron_every_minute']      = array(
+			$schedules['cron_every_fourty_five_minute'] = array(
 				'interval' => 2700,
 				'display'  => __( 'Every 45 min' )
 			);
@@ -151,6 +151,259 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					'callback' => array( $this, 'nab_mys_cron_custom_to_master' )
 				)
 			);
+
+			register_rest_route( 'mys', '/migrate-custom', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_custom_migration' )
+				)
+			);
+
+			register_rest_route( 'mys', '/remove', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_remove_posts' )
+				)
+			);
+		}
+
+		/**
+		 * Cron to remove unlinked speakers and sponsors from the site.
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 */
+		public function nab_mys_cron_remove_posts( WP_REST_Request $request ) {
+
+			$parameters = $request->get_params();
+
+			$dry  = isset( $parameters['dry'] ) ? $parameters['dry'] : '';
+			$data = isset( $parameters['data'] ) ? $parameters['data'] : '';
+
+			if ( empty( $data ) || ( 'speakers' !== $data && 'sponsors' !== $data ) ) {
+				echo "Please specify the data to be deleted. (i.e. &data=speakers or &data=sponsors.";
+				die();
+			}
+
+			$data_mysid_name = '';
+			if ( 'speakers' === $data ) {
+				$data_mysid_name = 'speakerid';
+			} else if ( 'sponsors' === $data ) {
+				$data_mysid_name = 'sponsorid';
+			}
+
+			// Initiate vars.
+			$session_ids          = array();
+			$comma_separated_ids  = '';
+
+			// Get data ids from the session's meta.
+			$session_args = array(
+				'post_type'      => 'sessions',
+				'posts_per_page' => - 1,
+				'fields'         => 'ids',
+				'meta_key'       => $data
+			);
+
+			$session_query = new WP_Query( $session_args );
+
+			if ( $session_query->have_posts() ) {
+
+				$session_ids = $session_query->posts;
+
+			}
+
+			if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
+
+				foreach ( $session_ids as $session_id ) {
+
+					$post_id = get_post_meta( $session_id, $data, true );
+
+					if ( ! empty( $post_id ) ) {
+
+						if ( empty( $comma_separated_ids ) ) {
+
+							$comma_separated_ids = $post_id;
+
+						} else {
+
+							$comma_separated_ids .= ',' . $post_id;
+						}
+					}
+				}
+
+				$comma_separated_ids = trim( $comma_separated_ids, ',' );
+				$comma_separated_ids = explode( ',', $comma_separated_ids );
+				$comma_separated_ids = array_unique( $comma_separated_ids );
+			}
+
+			// Get speaker post ids.
+			$post_id = array();
+
+			$args = array(
+				'post_type'      => $data,
+				'posts_per_page' => - 1,
+				'fields'         => 'ids',
+				'meta_key'       => $data_mysid_name
+			);
+
+			$query = new WP_Query( $args );
+
+			if ( $query->have_posts() ) {
+
+				$post_id = $query->posts;
+			}
+
+			$remove_posts = array_diff( $post_id, $comma_separated_ids );
+
+			$found = 0;
+			if ( 0 !== count( $remove_posts ) ) {
+
+				if ( ! empty( $dry ) ) {
+					// If its a Dry run, only print the results.
+
+					$found = 1;
+					echo "$data not linked to any session: ";
+					echo( implode( ', ', $remove_posts ) );
+
+				} else {
+					// Delete speakers.
+					$result = '';
+					foreach ( $remove_posts as $wpid ) {
+						wp_trash_post( $wpid );
+
+						$result .= "trashed-$data-$wpid | ";
+					}
+
+					$found = 1;
+					echo $result;
+				}
+			}
+
+			if ( 0 === $found ) {
+				echo "All $data are linked properly with respective sessions.";
+			}
+			die();
+		}
+
+		/**
+		 * Custom Migration Function.
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return array    List of DataID -> PostID
+		 *         string   Message to show that No more data available to migrate.
+		 */
+		public function nab_mys_cron_custom_migration( WP_REST_Request $request ) {
+
+			$parameters = $request->get_params();
+
+			$exh_types = isset( $parameters['exh-types'] ) ? $parameters['exh-types'] : '';
+
+			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
+
+			$dataids = isset( $parameters['dataids'] ) ? $parameters['dataids'] : '';
+
+			$groupid = isset( $parameters['groupid'] ) ? $parameters['groupid'] : '';
+
+			$result = $this->nab_mys_corn_migrate_exh_types( $limit, $dataids, $groupid, $exh_types );
+
+			return $result;
+		}
+
+		/**
+		 * Migrating Exhibitor Types
+		 *
+		 * @param int $limit Limit to migrate rows.
+		 * @param string $dataids Data IDs comman separated.
+		 * @param string $groupid Specific Group ID to migrate.
+		 * @param string $exh_types Anything accepted just to specify type.
+		 *
+		 * @return array    List of DataID -> PostID
+		 *         string   Message to show that No more data available to migrate.
+		 */
+		public function nab_mys_corn_migrate_exh_types( $limit, $dataids, $groupid, $exh_types ) {
+
+			if ( empty( $exh_types ) ) {
+				return 'Please specify something ?exh-types parameter.';
+			}
+
+			$wpdb = $this->wpdb;
+
+			//Conditional Where Clause for Master Cron
+			if ( ! empty( $dataids ) ) {
+				$where_clause = "DataID IN ($dataids)";
+			} else if ( ! empty( $groupid ) ) {
+				$where_clause = "DataGroupID = '$groupid'";
+			} else {
+				return 'Please specify DataID or DataGroupID (at least one of two is mandatory).';
+			}
+			$where_clause .= " AND AddedStatus != '6'";
+
+			$data_to_migrate = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM %1smys_data
+							WHERE $where_clause
+							ORDER BY DataID ASC LIMIT %d",
+					$wpdb->prefix, $limit ) );
+
+			if ( count( $data_to_migrate ) === 0 ) {
+				return "All data migrated successfully to the master table.";
+			}
+
+			$result = '';
+			//Migration starts
+			foreach ( $data_to_migrate as $item ) {
+
+				$data_json = $item->DataJson;
+				$data_id   = $item->DataID;
+				$data      = json_decode( $data_json, true );
+				$result    .= "|DataID-$data_id:";
+
+				//Migrating now.
+				$post_type  = 'exhibitors';
+				$typeidname = 'exhid';
+
+				$item_status = (int) $item->ItemStatus;
+
+				$post_detail = '';
+
+				foreach ( $data as $individual_item ) {
+
+					$typeid = $individual_item[ $typeidname ];
+
+					//Check if post already available
+					$args              = array(
+						'post_type'  => array( $post_type ),
+						'meta_query' => array(
+							array(
+								'key'   => $typeidname,
+								'value' => $typeid,
+							),
+						),
+					);
+					$already_available = new WP_Query( $args );
+
+					if ( isset( $already_available->posts[0]->ID ) ) {
+						$post_id = $already_available_id = $already_available->posts[0]->ID;
+					}
+
+					// Restore original Post Data
+					wp_reset_postdata();
+
+					//If item does not need to be deleted, proceed with this condition.
+					$package = $individual_item['package'];
+					if ( ! empty( $package ) && 0 !== $item_status && isset ( $post_id ) && 0 !== $post_id ) {
+
+						// Check if package not empty, if not, assign as Featured.
+						$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( 'Featured', 'exhibitor-keywords', $post_id );
+
+						$result .= "=>exh=$post_id-package=$package-so-$post_detail";
+
+					} else {
+						$result .= "=>exhid=$typeid-not-eligible";
+					}
+				}
+			}
+
+			return $result;
 		}
 
 		/**
@@ -206,7 +459,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				$where_clause = "DataGroupID = '$groupid'";
 			} else {
 				$where_clause = "AddedStatus = 0";
-				$manual_run  = 0;
+				$manual_run   = 0;
 			}
 
 			$data_to_migrate = $wpdb->get_results(
@@ -480,6 +733,15 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			//This variable is used to make a relation between post types.
 			$post_ids_to_save_in_session = array();
 
+			//Set data manually to pass SessionID when the status is 'Delete'
+			//Doing this beacuse there will be no sessionid in the Data Json
+			//So fetching it from the 'ModifiedID' column.
+			if ( 0 === $item_status && "sessions" === $post_type && ! is_array( $data[0] ) ) {
+				$data = array();
+
+				$data[0]['sessionid'] = $item->ModifiedID;
+			}
+
 			foreach ( $data as $individual_item ) {
 
 				if ( 'firstname' === $title_name ) {
@@ -648,13 +910,20 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						}
 						$save_taxonomies['exhibitor-categories'] = $c_title_array;
 
+						// Check if package not empty, if not, assign as Featured.
+						$package = $individual_item['package'];
+						if ( ! empty( $package ) ) {
+							$individual_item['package_featured'] = 1;
+						}
+
 						$checkbox_cats  = array(
-							'newexhibitor' => 'First-Time Exhibitor',
-							'showsell'     => 'Show and Sell Participant',
-							'startup'      => 'Startup',
-							'member'       => 'NAB Association Member',
-							'newproducts'  => 'New Product',
-							'studentdisc'  => 'Student Discount',
+							'package_featured' => 'Featured',
+							'newexhibitor'     => 'First-Time Exhibitor',
+							'showsell'         => 'Show and Sell Participant',
+							'startup'          => 'Startup',
+							'member'           => 'NAB Association Member',
+							'newproducts'      => 'New Product',
+							'studentdisc'      => 'Student Discount',
 						);
 						$keywords_array = array();
 						foreach ( $checkbox_cats as $c_attr => $c_title ) {

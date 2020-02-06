@@ -530,30 +530,35 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 		}
 
-		public function nab_mys_history_table( $groupid, $detail = '1', $limit = 100, $where = '' ) {
+		public function nab_mys_history_table( $groupid, $detail = '1', $limit = 100, $id = '', $where = '' ) {
 
-			$wpdb = $this->wpdb;
-			$where = ! empty($where) ? "WHERE $where" : '';
+			$wpdb  = $this->wpdb;
+			$where = ! empty( $where ) ? "WHERE $where" : '';
 
-			if("1" === $detail) {
+			if ( "1" === $detail ) {
 				$table_name = $wpdb->prefix . 'mys_data';
-				$cols = '*';
-				$orderby = 'DataID';
-				$group_col = 'DataGroupID';
+				$cols       = '*';
+				$orderby    = $idcol = 'DataID';
+				$group_col  = 'DataGroupID';
 			} else {
 				$table_name = $wpdb->prefix . 'mys_history';
-				$cols = 'HistoryID, HistoryGroupID, HistoryStatus,
-						HistoryDataType, HistoryStartTime, HistoryEndTime, HistoryUser, HistoryItemsAffected';
-				$orderby = 'HistoryID';
-				$group_col = 'HistoryGroupID';
+				$cols       = 'HistoryID, HistoryGroupID, HistoryStatus,
+								HistoryDataType, HistoryStartTime, HistoryEndTime, HistoryUser, HistoryItemsAffected';
+				$orderby    = $idcol = 'HistoryID';
+				$group_col  = 'HistoryGroupID';
 			}
 
-			if( null !== $groupid ) {
+			if ( null !== $groupid ) {
 				if ( ! empty( $where ) ) {
 					$where = "WHERE $where AND $group_col = '$groupid'";
 				} else {
 					$where = "WHERE $group_col = '$groupid'";
 				}
+			}
+
+			if ( ! empty( $id ) ) {
+				$cols  = '*';
+				$where = ! empty( $where ) ? "$where AND $idcol = $id" : "WHERE $idcol = $id";
 			}
 
 			$history_result = $wpdb->get_results(

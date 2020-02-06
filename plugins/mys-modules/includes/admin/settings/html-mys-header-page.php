@@ -155,10 +155,12 @@ if ( isset( $showtable ) ) {
 	$groupid = filter_input( INPUT_GET, 'g', FILTER_SANITIZE_STRING );
 	$detail  = filter_input( INPUT_GET, 'd', FILTER_SANITIZE_STRING );
 	$limit   = filter_input( INPUT_GET, 'limit', FILTER_SANITIZE_STRING );
+	$id      = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_STRING );
+	$where   = filter_input( INPUT_GET, 'where', FILTER_SANITIZE_STRING );
 	$limit   = null === $limit ? 1000 : $limit;
 	$counter = 1;
 
-	$history_data = $this->nab_mys_history_table( $groupid, $detail, $limit );
+	$history_data = $this->nab_mys_history_table( $groupid, $detail, $limit, $id, $where );
 	?>
 	<table class="wp-list-table widefat striped pages">
 		<?php foreach ( $history_data as $h ) { ?>

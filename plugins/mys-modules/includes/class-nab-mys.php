@@ -305,28 +305,28 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 			// Sessions Cron.
 			if ( ! wp_next_scheduled( 'mys_sessions_cron', $sessions_datatype ) ) {
-				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $sessions_datatype );
+				wp_schedule_event( time(), 'cron_every_thirty_min', 'mys_sessions_cron', $sessions_datatype );
 			}
 			if ( ! wp_next_scheduled( 'mys_sessions_cron', $speakers_datatype ) ) {
-				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $speakers_datatype );
+				wp_schedule_event( time(), 'cron_every_thirty_min', 'mys_sessions_cron', $speakers_datatype );
 			}
 			if ( ! wp_next_scheduled( 'mys_sessions_cron', $tracks_datatype ) ) {
-				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $tracks_datatype );
+				wp_schedule_event( time(), 'cron_every_thirty_min', 'mys_sessions_cron', $tracks_datatype );
 			}
 			if ( ! wp_next_scheduled( 'mys_sessions_cron', $sponsors_datatype ) ) {
-				wp_schedule_event( time(), 'hourly', 'mys_sessions_cron', $sponsors_datatype );
+				wp_schedule_event( time(), 'cron_every_thirty_min', 'mys_sessions_cron', $sponsors_datatype );
 			}
 
 			// Exhibitors Cron.
 			if ( ! wp_next_scheduled( 'mys_exhibitors_cron' ) ) {
-				wp_schedule_event( time(), 'hourly', 'mys_exhibitors_cron' );
+				wp_schedule_event( time(), 'cron_every_thirty_min', 'mys_exhibitors_cron' );
 			}
 
 			// Master CRON.
 			$limit       = 100;
 			$master_args = array( $limit );
 			if ( ! wp_next_scheduled( 'mys_master_cron', $master_args ) ) {
-				wp_schedule_event( time(), 'hourly', 'mys_master_cron', $master_args );
+				wp_schedule_event( time(), 'cron_every_thirty_min', 'mys_master_cron', $master_args );
 			}
 
 		}

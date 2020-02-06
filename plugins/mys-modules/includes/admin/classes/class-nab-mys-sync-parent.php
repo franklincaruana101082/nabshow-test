@@ -333,9 +333,9 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			$main_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
 
 			$fromDate = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . ' 00:00:00';
-			$fromDate = date( "Y-m-d h:i:s", strtotime( $fromDate ) );
+			$fromDate = date( "Y-m-d H:i:s", strtotime( $fromDate ) );
 
-			$toDate         = current_time( 'Y-m-d h:i:s' );
+			$toDate         = current_time( 'Y-m-d H:i:s' );
 			$modified_dates = '?fromDate=' . $fromDate . '&toDate=' . $toDate;
 
 			$modified_sessions_url = isset ( $this->nab_mys_urls['modified_sessions_url'] ) ? $this->nab_mys_urls['modified_sessions_url'] : '';
@@ -414,7 +414,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 			if ( empty( $this->group_id ) ) {
 
-				$length = 10;
+				$length = 11;
 
 				$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 				$charactersLength = strlen( $characters );
@@ -432,7 +432,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 		/**
 		 * Display errors.
 		 *
-		 * @param strin $error_message An error message.
+		 * @param string $error_message An error message.
 		 *
 		 * @package MYS Modules
 		 * @since 1.0.0

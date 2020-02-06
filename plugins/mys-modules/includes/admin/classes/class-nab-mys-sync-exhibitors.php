@@ -390,7 +390,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			$date_csv             = FILTER_INPUT( INPUT_POST, 'date-csv', FILTER_SANITIZE_STRING );
 			$time_csv             = FILTER_INPUT( INPUT_POST, 'time-csv', FILTER_SANITIZE_STRING );
 			$csv_from_date        = "$date_csv $time_csv";
-			$current_time         = current_time( 'Y-m-d h:i:s' );
+			$current_time         = current_time( 'Y-m-d H:i:s' );
 
 			if ( empty( $date_csv ) || empty( $time_csv ) || $csv_from_date > $current_time ) {
 				wp_safe_redirect( admin_url( 'admin.php?page=mys-exhibitors&success=5' ) );
