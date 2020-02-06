@@ -213,6 +213,7 @@ $history_data = $this->history_data;
 							$row_class = 'status-force-failed';
 							break;
 						case 0:
+						case 10:
 						case 3:
 							$h_status  = "<i class='fas fa-sync fa-spin'></i><br>Sync In Progress";
 							$row_class = 'status-in-progress';

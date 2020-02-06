@@ -129,6 +129,7 @@ $history_data = $this->history_data;
 				break;
 
 			case 0:
+			case 10:
 				$h_status  = "<i class='fas fa-sync fa-spin'></i> Pull In Progress";
 				$row_class = 'status-in-progress pull-in-progress';
 				break;
@@ -139,6 +140,7 @@ $history_data = $this->history_data;
 				break;
 
 			case 3:
+			case 11:
 				$h_status  = "<i class='fas fa-times' style='color:#ff0000'></i> Pull Stopped";
 				$row_class = 'status-force-failed pull-failed';
 				break;

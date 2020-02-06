@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
   var extraDetails = '';
   var totalModified = 0;
   var totalItemStatuses = [];
+  var individual = 0;
   var totalAdded = 0;
   var totalDeleted = 0;
   var totalUpdated = 0;
@@ -75,12 +76,13 @@ jQuery(document).ready(function ($) {
         groupID = (undefined !== response.pastItem) ? response.groupID : '';
         totalCounts = (null !== response.totalCounts) ? response.totalCounts : '';
         finishedCounts = (null !== response.finishedCounts) ? response.finishedCounts : '';
+        individual = (null !== response.individual) ? response.individual : 0;
         apiError = (undefined !== response.apiError) ? response.apiError : '';
 
-        totalItemStatuses = (undefined !== response.totalItemStatuses) ? response.totalItemStatuses : '';
-        totalAdded = undefined !== totalItemStatuses.Added ? totalItemStatuses.Added.length : 0;
-        totalDeleted = undefined !== totalItemStatuses.Deleted ? totalItemStatuses.Deleted.length : 0;
-        totalUpdated = undefined !== totalItemStatuses.Updated ? totalItemStatuses.Updated.length : 0;
+        totalItemStatuses = (undefined !== response.totalItemStatuses && null !== response.totalItemStatuses) ? response.totalItemStatuses : '';
+        totalAdded = undefined !== totalItemStatuses.Added && null !== totalItemStatuses.Added ? totalItemStatuses.Added.length : 0;
+        totalDeleted = undefined !== totalItemStatuses.Deleted && null !== totalItemStatuses.Deleted ? totalItemStatuses.Deleted.length : 0;
+        totalUpdated = undefined !== totalItemStatuses.Updated && null !== totalItemStatuses.Updated ? totalItemStatuses.Updated.length : 0;
 
         if ('' !== apiError) {
 
@@ -108,7 +110,7 @@ jQuery(document).ready(function ($) {
 
                 //single-exhibitor
                 //This is previous sequence of single-exhibitors, so display the message.
-                createDomPara('- The previous pull request (' + groupID + ') is pending. Total ' + (finishedCounts - 1) + ' out of ' + totalModified + ' items were finished. So fetching pending item\'s data from MYS API. New pull request can be started later.', '.mys-message-container', 'append');
+                createDomPara('- The previous pull request (' + groupID + ') is pending. Total ' + (finishedCounts - 1) + ' out of ' + totalModified + ' exhibitors were finished. So fetching pending item\'s data from MYS API. New pull request can be started later.', '.mys-message-container', 'append');
 
               } else {
 
@@ -122,7 +124,27 @@ jQuery(document).ready(function ($) {
 
             } else {
 
-              progressJump = 20;
+              //This is for individual session.
+              if (1 === individual) {
+
+                totalModified = totalCounts;
+                progressJump = (20 / totalModified);
+
+                if (1 !== finishedCounts) {
+                  //single-session
+                  //This is previous sequence of single-sessions, so display the message.
+                  createDomPara('- The previous pull request (' + groupID + ') is pending. Total ' + (finishedCounts - 1) + ' out of ' + totalModified + ' sessions were finished individually. So fetching pending item\'s data from MYS API. New pull request can be started later.', '.mys-message-container', 'append');
+                } else {
+                  //modified-exhibitors
+                  createDomPara('- Fetching ' + totalModified + ' sessions individually from MYS server..', '.mys-message-container', 'append');
+                }
+
+                $('.mys-message-container').append('<p class="sess-counter"></p>');
+
+                //Skipping progress on sessions as it is already increased for individual sessions.
+              } else if ('sessions' !== requestedFor) {
+                progressJump = 20;
+              }
 
             }
 
@@ -130,9 +152,21 @@ jQuery(document).ready(function ($) {
 
           if ('single-exhibitor' === requestedFor) {
 
-            createDomPara(finishedCounts + ' out of ' + totalModified + ' Exhibitors fetched successfully.', '.exh-counter');
+            createDomPara('- ' + finishedCounts + ' out of ' + totalModified + ' Exhibitors fetched successfully.', '.exh-counter');
 
             currentProgress = finishedCounts * progressJump;
+
+          } else if (1 === individual) {
+
+            //Updating totalCounts to manage the sequence
+            //Above this point, totalCount was blank because
+            //It was the first attempt, now filling it with value
+            //to prevent next attepts to be counted as first one each time.
+            totalCounts = totalModified;
+
+            createDomPara('- ' + finishedCounts + ' out of ' + totalModified + ' Sessions fetched successfully.', '.sess-counter');
+
+            currentProgress = 20 + ((finishedCounts - 1) * progressJump);
 
           } else if ('exhibitors' !== requestedFor) {
 
@@ -147,11 +181,15 @@ jQuery(document).ready(function ($) {
 
             extraDetails = '';
             if ('modified-sessions' === pastItem) {
-              extraDetails = ' (Total ' + totalAdded + ' to Add / ' + totalDeleted + ' to Delete / ' + totalUpdated + ' to Update)';
+              extraDetails = ' detected.';
+            } else if ('sessions' === pastItem) {
+              extraDetails = ' fetched successfully. (Total ' + totalAdded + ' to Add / ' + totalDeleted + ' to Delete / ' + totalUpdated + ' to Update)';
+            } else {
+              extraDetails = ' fetched successfully.';
             }
 
             para = document.createElement('p');
-            paraText = document.createTextNode('- ' + totalCounts + ' ' + pastItemName + ' fetched successfully.' + extraDetails);
+            paraText = document.createTextNode('- ' + totalCounts + ' ' + pastItemName + extraDetails);
             para.appendChild(paraText);
 
             $(para).appendTo('.mys-message-container');
@@ -159,7 +197,9 @@ jQuery(document).ready(function ($) {
 
           currentProgress = currentProgress + progressJump;
           currentProgress = Math.round(currentProgress * 100) / 100;
-
+          if (100 < currentProgress) {
+            currentProgress = 100;
+          }
           $('.mys-process-bar .process').width(currentProgress + '%');
           $('#progress-percent').text(currentProgress + '%');
 
@@ -247,7 +287,7 @@ jQuery(document).ready(function ($) {
 
   //Trigger Master Crom for Exhibitor Upload
   if (2 === exhInserted.length) {
-      triggerMasterCron();
+    triggerMasterCron();
   }
 
   // mys-popup

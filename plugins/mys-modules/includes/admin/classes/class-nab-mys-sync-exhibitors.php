@@ -17,8 +17,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 	 */
 	class NAB_MYS_Exhibitors extends NAB_MYS_Sync_Parent {
 
-		private $total_counts;
-
 		private $exhid;
 
 		private $dataid;

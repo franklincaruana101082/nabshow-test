@@ -752,6 +752,19 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['session-types']     = 'type';
 						$save_taxonomies['session-locations'] = 'location';
 
+						//Fetch WP-ID of Categories
+						$categories = $individual_item['categories'];
+						$categories = explode( ',', $categories );
+						$cat_ids    = array();
+						foreach ( $categories as $cat_mys_id ) {
+							$term_data = $this->nab_mys_cron_get_wpid_from_meta( 'session-categories', 'categoryid', $cat_mys_id, 'taxonomy' );
+							if ( ! empty( $term_data ) ) {
+								$cat_ids[] = $term_data->termid;
+							}
+						}
+						//Assign Categories.
+						wp_set_post_terms( $post_id, $cat_ids, 'session-categories' );
+
 					} else if ( "speakers" === $post_type ) {
 						$save_taxonomies['speaker-companies'] = 'company';
 					}
@@ -1106,23 +1119,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				$post_detail .= "-$term_post_id";
 			}
 
-			$skip_assigns = array(
-				'exhibitor-keywords' => array( 'Featured' )
-			);
-
-			foreach ( $skip_assigns as $tax => $skip_terms ) {
-				if ( $tax === $taxonomy ) {
-					foreach ( $skip_terms as $s_term ) {
-						if ( has_term( $s_term, $taxonomy, $post_id ) ) {
-							//get wpid of $s_term and merge with $terms_ids..
-							$existing_term_data = get_term_by( 'name', $s_term, $taxonomy );
-							$terms_ids[]        = $existing_term_data->term_id;
-							$post_detail        .= "|kept-$taxonomy-$term_post_id";
-						}
-					}
-				}
-			}
-
 			//remember to flush existing one before assigning
 			wp_set_post_terms( $post_id, $terms_ids, $taxonomy );
 
@@ -1232,7 +1228,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$where_to_update1 = array( 'HistoryStatus' => 0 );
 			$where_to_update2 = array( 'HistoryStatus' => 1 );
-			$where_to_update3 = array( 'AddedStatus' => 0 );
+			$where_to_update3 = array( 'HistoryStatus' => 10 );
+			$where_to_update4 = array( 'AddedStatus' => 0 );
 
 			if ( 'global' !== $stuck_groupid ) {
 				$where_to_update1['HistoryGroupID'] = $where_to_update2['HistoryGroupID'] = $where_to_update3['DataGroupID'] = $stuck_groupid;
@@ -1249,9 +1246,21 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			), $where_to_update2 );
 
 			$wpdb->update(
+				$wpdb->prefix . 'mys_history', array(
+				'HistoryStatus' => 11,
+			), $where_to_update3 );
+
+			$wpdb->update(
 				$wpdb->prefix . 'mys_data', array(
 				'AddedStatus' => 4,
-			), $where_to_update3 );
+			), $where_to_update4 );
+
+			//Deleting all unnecessary option values.
+			$wpdb->query(
+				$wpdb->prepare( "
+						DELETE FROM %1soptions
+						WHERE option_name LIKE '%modified_sessions%'"
+					, $wpdb->prefix ) );;
 
 		}
 
