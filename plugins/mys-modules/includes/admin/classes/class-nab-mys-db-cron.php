@@ -1028,7 +1028,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						foreach ( $categories as $cat_mys_id ) {
 							$term_data = $this->nab_mys_cron_get_wpid_from_meta( 'session-categories', 'categoryid', $cat_mys_id, 'taxonomy' );
 							if ( ! empty( $term_data ) ) {
-								$cat_ids[] = $term_data->termid;
+								$cat_ids[] = $term_data->term_id;
 							}
 						}
 						//Assign Categories.
