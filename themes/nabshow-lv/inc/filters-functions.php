@@ -697,5 +697,5 @@ function nabshow_lv_script_loader_tag( $tag, $handle ) {
  * @since 1.0.0
  */
 function nabshow_lv_filter_wpseo_metadesc() {
-	return 'testing meta description';
+	return false;
 }
