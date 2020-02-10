@@ -688,14 +688,3 @@ function nabshow_lv_script_loader_tag( $tag, $handle ) {
 	}
 	return $tag;
 }
-
-/**
- * Disabled yoast seo default meta description
- *
- * @return bool
- *
- * @since 1.0.0
- */
-function nabshow_lv_filter_wpseo_metadesc() {
-	return false;
-};

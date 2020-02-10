@@ -520,19 +520,3 @@ function nabshow_lv_page_type_template() {
 	}
 
 }
-
-/**
- * Added meta description tag.
- *
- * @since 1.0.0
- */
-function nabshow_lv_add_cusotm_meta_desc_tag() {
-
-	$meta_desc = get_post_meta( get_the_ID(), '_yoast_wpseo_metadesc', true );
-
-	if ( ! empty( $meta_desc ) ) {
-		?>
-		<meta name="description" content="<?php echo esc_attr( $meta_desc ); ?>" />
-		<?php
-	}
-}
