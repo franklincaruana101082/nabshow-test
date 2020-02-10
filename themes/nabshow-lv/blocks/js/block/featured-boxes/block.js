@@ -142,7 +142,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 const { clientId } = this.props;
                 const { autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = this.props.attributes;
                 const sliderObj = jQuery(`#block-${clientId} .nab-media-slider`).bxSlider({
-                    minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth,  auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true,
+                    minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth,  auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true, touchEnabled: false,
                     onSlideAfter: function ($slideElement, oldIndex, newIndex) {
                         this.setState({ currentSelected: newIndex });
                     }.bind(this)
@@ -155,7 +155,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             if (this.props.attributes.sliderActive){
                 const { autoplay, speed, infiniteLoop, pager, controls, minSlides, slideWidth, slideMargin } = this.props.attributes;
                 this.state.bxSliderObj.reloadSlider(
-                    { minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true, }
+                    { minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true, touchEnabled: false }
                 );
             }
         }
@@ -241,6 +241,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 const mediaInsert = item.map((source) => ({
                                     url: source.url,
                                     id: source.id,
+                                    advertisement: false,
+                                    eventCategory: '',
+                                    eventAction: '',
+                                    eventLabel: '',
+                                    target: false
                                 }));
 
                                 setAttributes({
@@ -378,11 +383,24 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     <div className={`nab-media-slider-block slider-arrow-main ${arrowIcons}`}>
                         <div className={sliderActive ? 'nab-media-slider' : 'feature-box-list'} data-animation={detailAnimation} data-autoplay={`${autoplay}`} data-speed={`${speed}`} data-infiniteloop={`${infiniteLoop}`} data-pager={`${pager}`} data-controls={`${controls}`}>
                             {media.map((source, index) => (
-                                <div className={'nab-media-slider-item'} key={index}
+                                <div className={'nab-media-slider-item'} key={index}>
+                                    <MediaUpload
+                                        value={source.id}
+                                        onSelect={(item) => {
+                                            let editItem = [...media];
+                                            editItem[index].url= item.url;
+                                            editItem[index].id= item.id;
 
-                                >
+                                            setAttributes({
+                                                media: editItem
+                                            });
+                                        }}
+                                        render={({ open }) => (
+                                            <span class="dashicons dashicons-edit edit-item" onClick={open}/>
+                                        )}
+                                    />
                                     {nabInsertMedaitoSlide(source.url, attributes)}
-                                   {source.link && (
+                                    {source.link && (
                                         <a className="nab-media-slider-link"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -453,8 +471,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                             className="nab-media-slider-item-remove"
                                             icon="no"
                                             onClick={() => {
-                                                if (index === currentSelected) { this.setState({ currentSelected: 0 }); }
-                                                setAttributes({ media: media.filter((img, idx) => idx !== index) });
+                                                this.setState({ currentSelected: 0 });
+                                                let removed = [...media];
+                                                removed.splice(index, 1);
+
+                                                setAttributes({
+                                                    media: removed
+                                                });
                                             }}
                                         />
                                     </Tooltip>
@@ -464,9 +487,23 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 <MediaUpload
                                     value={currentSelected}
                                     multiple
-                                    onSelect={(items) => setAttributes({
-                                        media: [...media, ...items.map((item) => pick(item, 'id', 'url', 'alt'))],
-                                    })}
+                                    onSelect={(items) => {
+                                        let newItemInsert = items.map((item, index) => ({
+                                            url: item.url,
+                                            id: item.id,
+                                            advertisement: false,
+                                            eventCategory: '',
+                                            eventAction: '',
+                                            eventLabel: '',
+                                            target: false
+                                        }));
+                                        setAttributes({
+                                            media: [
+                                                ...media,
+                                                ...newItemInsert,
+                                            ]
+                                        });
+                                    }}
                                     render={({ open }) => (
                                         <IconButton
                                             label={__('Add media')}

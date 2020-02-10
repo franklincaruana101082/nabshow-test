@@ -1572,6 +1572,8 @@ ul.ss-off-options li.active svg>rect[stroke="#7B8080"], ul.ss-on-options li.acti
 
 .feature-box-list{display:flex;flex-wrap:wrap;margin:0 -15px}
 .feature-box-list .nab-media-slider-item{width:20%;padding:0 15px;box-sizing:border-box;margin-bottom:30px;text-align:center;position:relative}
+.nab-media-slider-block .edit-item{position:absolute;top:0;right:15px;color:#fff;z-index:1111;background:#00b5dfad;width:30px;height:30px;display:flex;justify-content:center;align-items:center;font-size:17px;cursor:pointer}
+.nab-media-slider-block .bx-wrapper .edit-item{right:0}
 
 .slider-arrow-main.slider-arrow-7 .bx-controls-direction a{background-image:url(../images/magenta-arrow.png)!important;background-size:cover!important;background-position:center!important;width:50px!important;height:50px!important;margin-top:-25px}
 .slider-arrow-main.slider-arrow-7 .bx-controls-direction a.bx-next{transform:rotate(180deg)}

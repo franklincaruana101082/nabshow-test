@@ -20790,7 +20790,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideMargin = _props$attributes.slideMargin;
 
                     var sliderObj = jQuery('#block-' + clientId + ' .nab-media-slider').bxSlider({
-                        minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true,
+                        minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true, touchEnabled: false,
                         onSlideAfter: function ($slideElement, oldIndex, newIndex) {
                             this.setState({ currentSelected: newIndex });
                         }.bind(this)
@@ -20812,7 +20812,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         slideWidth = _props$attributes2.slideWidth,
                         slideMargin = _props$attributes2.slideMargin;
 
-                    this.state.bxSliderObj.reloadSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true });
+                    this.state.bxSliderObj.reloadSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true, touchEnabled: false });
                 }
             }
         }, {
@@ -20901,7 +20901,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 var mediaInsert = item.map(function (source) {
                                     return {
                                         url: source.url,
-                                        id: source.id
+                                        id: source.id,
+                                        advertisement: false,
+                                        eventCategory: '',
+                                        eventAction: '',
+                                        eventLabel: '',
+                                        target: false
                                     };
                                 });
 
@@ -21103,9 +21108,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             media.map(function (source, index) {
                                 return wp.element.createElement(
                                     'div',
-                                    { className: 'nab-media-slider-item', key: index
+                                    { className: 'nab-media-slider-item', key: index },
+                                    wp.element.createElement(MediaUpload, {
+                                        value: source.id,
+                                        onSelect: function onSelect(item) {
+                                            var editItem = [].concat(_toConsumableArray(media));
+                                            editItem[index].url = item.url;
+                                            editItem[index].id = item.id;
 
-                                    },
+                                            setAttributes({
+                                                media: editItem
+                                            });
+                                        },
+                                        render: function render(_ref2) {
+                                            var open = _ref2.open;
+                                            return wp.element.createElement('span', { 'class': 'dashicons dashicons-edit edit-item', onClick: open });
+                                        }
+                                    }),
                                     nabInsertMedaitoSlide(source.url, attributes),
                                     source.link && wp.element.createElement('a', { className: 'nab-media-slider-link',
                                         target: '_blank',
@@ -21188,12 +21207,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             className: 'nab-media-slider-item-remove',
                                             icon: 'no',
                                             onClick: function onClick() {
-                                                if (index === currentSelected) {
-                                                    _this3.setState({ currentSelected: 0 });
-                                                }
-                                                setAttributes({ media: media.filter(function (img, idx) {
-                                                        return idx !== index;
-                                                    }) });
+                                                _this3.setState({ currentSelected: 0 });
+                                                var removed = [].concat(_toConsumableArray(media));
+                                                removed.splice(index, 1);
+
+                                                setAttributes({
+                                                    media: removed
+                                                });
                                             }
                                         })
                                     )
@@ -21206,14 +21226,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     value: currentSelected,
                                     multiple: true,
                                     onSelect: function onSelect(items) {
-                                        return setAttributes({
-                                            media: [].concat(_toConsumableArray(media), _toConsumableArray(items.map(function (item) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_lodash_pick___default()(item, 'id', 'url', 'alt');
-                                            })))
+                                        var newItemInsert = items.map(function (item, index) {
+                                            return {
+                                                url: item.url,
+                                                id: item.id,
+                                                advertisement: false,
+                                                eventCategory: '',
+                                                eventAction: '',
+                                                eventLabel: '',
+                                                target: false
+                                            };
+                                        });
+                                        setAttributes({
+                                            media: [].concat(_toConsumableArray(media), _toConsumableArray(newItemInsert))
                                         });
                                     },
-                                    render: function render(_ref2) {
-                                        var open = _ref2.open;
+                                    render: function render(_ref3) {
+                                        var open = _ref3.open;
                                         return wp.element.createElement(IconButton, {
                                             label: __('Add media'),
                                             icon: 'plus',
@@ -21438,8 +21467,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('Featured'), __('Boxes'), __('Featured Boxes'), __('nab')],
         attributes: blockAttrs,
         edit: featuredBoxesComp,
-        save: function save(_ref3) {
-            var attributes = _ref3.attributes;
+        save: function save(_ref4) {
+            var attributes = _ref4.attributes;
             var media = attributes.media,
                 minSlides = attributes.minSlides,
                 slideWidth = attributes.slideWidth,

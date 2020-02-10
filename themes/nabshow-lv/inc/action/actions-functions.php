@@ -14,20 +14,20 @@ function nabshow_lv_add_block_editor_assets() {
 	wp_register_script( 'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'wp-dom-ready' ),
-		'4.8'
+		'4.9'
 	);
 
 	wp_enqueue_script( 'nab-custom-gutenberg-block',
 		get_template_directory_uri() . '/blocks/js/nabshow-block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-		'4.8'
+		'4.9'
 	);
 
 	wp_register_style(
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css',
 		array(),
-		'4.8'
+		'4.9'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -521,3 +521,18 @@ function nabshow_lv_page_type_template() {
 
 }
 
+/**
+ * Added meta description tag.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_add_cusotm_meta_desc_tag() {
+
+	$meta_desc = get_post_meta( get_the_ID(), '_yoast_wpseo_metadesc', true );
+
+	if ( ! empty( $meta_desc ) ) {
+		?>
+		<meta name="description" content="<?php echo esc_attr( $meta_desc ); ?>" />
+		<?php
+	}
+}

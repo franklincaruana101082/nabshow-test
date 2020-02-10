@@ -87,3 +87,6 @@ add_filter( 'posts_where', 'nabshow_lv_set_content_custom_posts_where', 10, 1 );
 
 //Filter for add differ attribute to the script.
 add_filter( 'script_loader_tag', 'nabshow_lv_script_loader_tag', 40, 2 );
+
+//Filter to disable default yoast meta description
+add_filter( 'wpseo_metadesc', 'nabshow_lv_filter_wpseo_metadesc', 10 );
