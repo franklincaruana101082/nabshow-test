@@ -17,7 +17,17 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, shrink-to-fit=no">
     <link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.ico' ); ?>">
+	<meta name="google-site-verification" content="bxlFmG3yrAwWFAwi0WI6Bd_V5Ab78-ldZTGAGrgilTQ" />
 	<?php wp_head(); ?>
+	<!-- Google Tag Manager -->
+	<script>
+		(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-MQKPWN');
+	</script>
+	<!-- End Google Tag Manager -->
 	<script>
 		"use strict";
 
@@ -46,6 +56,9 @@
 </head>
 
 <body <?php body_class(); ?>>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQKPWN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div id="page" class="site">
     <a class="skip-link screen-reader-text" href="#content">
 		<?php
@@ -53,28 +66,13 @@
 		?>
     </a>
 
-    <header id="masthead" class="site-header">
+    <header id="masthead" class="site-header dark-header">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 header-left">
+                <div class="col-md-4 header-left col-md-8">
 					<?php
 					dynamic_sidebar( 'header-top-left-sidebar' );
 					?>
-                </div>
-                <div class="col-md-4 header-center">
-                    <div id="logo" class="text-center">
-						<?php
-						the_custom_logo();
-						?>
-	                    <div class="header-sticky-menu-logo">
-		                    <?php
-		                    $sticky_logo = get_theme_mod( 'menu_sticky_logo', '' );
-		                    ?>
-		                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-		                        <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="nabshow-lv-logo">
-		                    </a>
-	                    </div>
-                    </div>
                 </div>
                 <div class="col-md-4 header-right text-right">
 					<?php
@@ -84,36 +82,51 @@
 					dynamic_sidebar( 'header-top-right-sidebar' );
 					?>
                 </div>
-                <div class="col-md-12 header-nav">
-					<div id="menuToggle">
-						<input type="checkbox" class="menu-hamburger show-sm" />
-						<div class="hamburger show-sm">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<nav id="site-navigation" class="main-navigation">
-							<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
-								<?php
-								esc_html_e( 'Primary Menu', 'nabshow-lv' );
-								?>
-							</button>
-							<?php
-							wp_nav_menu( array(
-								'theme_location' => 'menu-1',
-								'menu_id'        => 'primary-menu',
-							) );
-							?>
-							<div class="mobile-bottom-nav header-right show-sm">
-								<?php
-								get_search_form();
-								?>
-								<?php
-								dynamic_sidebar( 'header-top-right-sidebar' );
-								?>
-							</div>
-						</nav><!-- #site-navigation -->
-					</div>
+                <div class="col-md-3 header-center head-logo">
+                    <div id="logo">
+                        <?php
+                        the_custom_logo();
+                        ?>
+                        <div class="header-sticky-menu-logo">
+                            <?php
+                            $sticky_logo = get_theme_mod( 'menu_sticky_logo', '' );
+                            ?>
+                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+                                <img src="<?php echo esc_url( $sticky_logo ); ?>" alt="nabshow-lv-logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-nav headnav col-md-9">
+                    <div id="menuToggle">
+                        <input type="checkbox" class="menu-hamburger show-sm" />
+                        <div class="hamburger show-sm">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <nav id="site-navigation" class="main-navigation">
+                            <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                                <?php
+                                esc_html_e( 'Primary Menu', 'nabshow-lv' );
+                                ?>
+                            </button>
+                            <?php
+                            wp_nav_menu( array(
+                                'theme_location' => 'menu-1',
+                                'menu_id'        => 'primary-menu',
+                            ) );
+                            ?>
+                            <div class="mobile-bottom-nav header-right show-sm">
+                                <?php
+                                get_search_form();
+                                ?>
+                                <?php
+                                dynamic_sidebar( 'header-top-right-sidebar' );
+                                ?>
+                            </div>
+                        </nav><!-- #site-navigation -->
+                    </div>
                 </div>
             </div>
         </div>

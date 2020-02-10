@@ -16,11 +16,14 @@ global $wp_query;
 	        </div>
 	        <div class="thought-gallery-head">
 	        	<div class="head-left">
-	        		<h1>Thought Gallery</h1>
+			        <div class="nab-heading custom-flag-heading">
+				        <h1 class="title nab-title">Thought Gallery</h1>
+				        <span class="tilted-design"></span>
+			        </div>
 	        		<p>A collection of high-level insights on topics, trends and technologies impacting the future of media and entertainment.</p>
 	        	</div>
 	        	<div class="head-right">
-	        		<a class="btn-default" href="#">Subscribe</a>
+	        		<a class="btn-default" href="<?php echo esc_url( site_url() . '/thought-gallery/feed/' ); ?>">Subscribe</a>
 	        	</div>
 	        </div>
             <div class="row">
@@ -71,12 +74,9 @@ global $wp_query;
                 <div id="sidebar" class="sidebar-wrap col-lg-4 col-md-12 col-sm-12">
 					<?php get_sidebar( 'thoughts-gallery' ); ?>
                 </div>
-                <div class="nab-banner-main " style="text-align: center">
-                    <div class="nab-banner-inner">
-                        <p class="banner-text">Advertisement</p>
-                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/st-footer-banner.png' ); ?>" class="banner-img" alt="image">
-                    </div>
-                </div>
+	            <?php
+	            dynamic_sidebar( 'footer-advertisement-sidebar' );
+	            ?>
             </div>
         </div>
     </div><!-- #primary -->

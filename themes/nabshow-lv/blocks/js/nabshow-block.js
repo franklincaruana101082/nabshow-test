@@ -15,4 +15,6 @@ import './block/videos/block';
 import './block/featured-image/block';
 import './block/media-partners/block';
 import './block/birds-of-a-feather/block';
-import  './block/nab-forms/block'
+import  './block/nab-forms/block';
+import  './block/hero-banner/block';
+

@@ -14,6 +14,7 @@ import './block/awards-block/block';
 import './block/advertisement/block';
 import './block/custom-block/block';
 import './block/featured-boxes/block';
+import './block/cross-promo/block';
 
 wp.domReady( function() {
     wp.blocks.unregisterBlockType( 'yoast/how-to-block' );

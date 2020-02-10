@@ -227,6 +227,20 @@ function nabshow_lv_register_dynamic_blocks() {
                         'type' => 'string'
                     ]
                 ),
+                'hallList' => array(
+                    'type'    => 'array',
+                    'default' => [],
+                    'items'   => [
+                        'type' => 'string'
+                    ]
+                ),
+                'topicList' => array(
+                    'type'    => 'array',
+                    'default' => [],
+                    'items'   => [
+                        'type' => 'string'
+                    ]
+                ),
                 'listingLayout'  => array(
                     'type' => 'string',
                     'default' => 'destination'
@@ -241,6 +255,25 @@ function nabshow_lv_register_dynamic_blocks() {
                 ),
                 'dropdownTitle' => array(
                     'type' => 'string'
+                ),
+                'excludePages' => array(
+                	'type' => 'string',
+                	'default' => ''
+                ),
+                'orderBy' => array(
+                	'type' => 'string',
+                	'default' => ''
+                ),
+                'includePages' => array(
+                	'type' => 'string',
+                	'default' => ''
+                ),
+                'metaDate'    => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                ),
+	            'pageMetaDate' => array(
+                	'type' => 'string'
                 )
             ),
             'render_callback' => 'nabshow_lv_related_content_render_callback',
@@ -355,7 +388,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
     ob_start();
 
     if ( $query->have_posts() ) {
-	?>
+		?>
 		<div class="not-to-be-slider slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
 
 		    <div class="slider-card-filter">
@@ -382,7 +415,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
             <div class='container loader-container' id="loader_container" style="display: none">
                 <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </div>
-	<?php
+			<?php
 			if ( $slider_active ) {
 			?>
 				<div class="nab-not-to-be-missed-slider nab-box-slider ntbm-parent" id="<?php echo esc_attr( $client_id ); ?>" data-item="<?php echo esc_attr( $posts_per_page ); ?>" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-mode="<?php echo esc_attr($slider_mode);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
@@ -418,7 +451,7 @@ function nabshow_lv_not_to_be_missed_slider_render_callback( $attributes ) {
     <?php
     } else {
     ?>
-        <p>No posts found.</p>
+        <p class="coming-soon">Coming soon.</p>
     <?php
     }
 
@@ -511,7 +544,7 @@ function nabshow_lv_latest_show_news_render_callback($attributes){
     <?php
     } else {
     ?>
-        <p> No posts found.</p>
+        <p class="coming-soon">Coming soon.</p>
     <?php
     }
 
@@ -627,13 +660,128 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
     $arrow_icons      = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
     $child_field      = 'grandchildren' === $depth_level ? 'child_of' : 'parent';
     $display_field    = isset( $attributes['displayField'] ) && ! empty( $attributes['displayField'] ) ? $attributes['displayField'] : array();
+    $hall_list        = isset( $attributes['hallList'] ) && ! empty( $attributes['hallList'] ) ? $attributes['hallList'] : array();
+    $topic_list       = isset( $attributes['topicList'] ) && ! empty( $attributes['topicList'] ) ? $attributes['topicList'] : array();
+    $order_by         = isset( $attributes['orderBy'] ) && ! empty( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'title';
+    $exclude_pages    = isset( $attributes['excludePages'] ) && ! empty( $attributes['excludePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['excludePages'] ) ) : array();
+    $include_pages    = isset( $attributes['includePages'] ) && ! empty( $attributes['includePages'] ) ? explode( ',' , str_replace( ' ', '', $attributes['includePages'] ) ) : array();
 
     ob_start();
 
     if ( ! empty( $parent_page_id ) ) {
 
-        $args     = array( $child_field => $parent_page_id,  'sort_column' => 'menu_order' );
+        $args = array( $child_field => $parent_page_id );
+
         $children = get_pages( $args );
+
+		if ( ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) || 'grandchildren' === $depth_level || 'menu_order' === $order_by || 'rand' === $order_by || ( is_array( $hall_list ) && count( $hall_list ) > 0 ) || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( is_array( $include_pages ) && count( $include_pages ) > 0 ) ) {
+
+			$children_ids   = wp_list_pluck( $children, 'ID' );
+			$children_ids   = array_merge( $children_ids, $include_pages);
+			$children       = false;
+			$cache_key      = '';
+
+			if ( ( is_array( $hall_list ) && count( $hall_list ) > 0 )  || ( is_array( $topic_list ) && count( $topic_list ) > 0 ) || ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) ) {
+
+	            $cache_key = 'related-content-meta-' . $depth_level . '-' . $parent_page_id . '-' . $post_limit . '-' . implode( '-', $hall_list ) . '-' . implode( '-', $topic_list );
+
+	            if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+	            	$cache_key .= '-' . $attributes['pageMetaDate'];
+	            }
+
+	            $children = get_transient( $cache_key );
+	        }
+
+			if ( false === $children || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+
+	            $query_args = array(
+	                'post_type'         => 'page',
+	                'suppress_filters'  => false
+	            );
+
+	            $query_args['include']  = $children_ids;
+
+	            if ( isset( $attributes['metaDate'] ) && $attributes['metaDate'] ) {
+
+		            $page_meta_date     = new DateTime( $attributes['pageMetaDate'] );
+		            $page_meta_date     = $page_meta_date->format( 'Ymd' );
+		            $query_args['meta_key']   = 'date_group_$_page_dates';
+		            $query_args['meta_value'] = $page_meta_date;
+		        }
+
+	            if ( 'rand' === $order_by ) {
+
+	            	shuffle( $children_ids );
+
+			        $children_ids           = array_splice( $children_ids, 0, count( $children_ids ) );
+			        $query_args['orderby']  = 'post__in';
+
+			    } elseif ( 'menu_order' === $order_by ) {
+
+	            	$query_args['orderby']  = $order_by;
+			        $query_args['order']    = 'ASC';
+
+	            } else {
+			        $query_args['orderby']  = 'title';
+			        $query_args['order']    = 'ASC';
+	            }
+
+	            $query_args['numberposts']  = count( $children_ids );
+
+	            if ( ! empty( $cache_key ) ) {
+
+	            	$hall_list_args     = array();
+	            	$topic_list_args    = array();
+
+					if ( is_array( $hall_list ) && count( $hall_list ) > 0 ) {
+
+						foreach ( $hall_list as $hall_type ) {
+
+							$hall_list_args[] = array (
+			                            'key'       => 'page_hall',
+			                            'value'     => $hall_type,
+			                            'compare'   => 'LIKE',
+			                        );
+						}
+					}
+
+					if ( is_array( $topic_list ) && count( $topic_list ) > 0 ) {
+
+						foreach ( $topic_list as $topic_type ) {
+
+							$topic_list_args[] = array (
+			                            'key'       => 'topics',
+			                            'value'     => $topic_type,
+			                            'compare'   => 'LIKE',
+			                        );
+						}
+					}
+
+					if ( count( $hall_list_args ) > 0 && count( $topic_list_args ) > 0 ) {
+
+						$hall_list_args     = array_merge( array( 'relation' => 'OR' ), $hall_list_args );
+						$topic_list_args    = array_merge( array( 'relation' => 'OR' ), $topic_list_args );
+
+						$query_args[ 'meta_query' ] = array( 'relation' => 'AND', $hall_list_args, $topic_list_args );
+
+					} elseif ( count( $hall_list_args ) > 0 ) {
+
+						$query_args[ 'meta_query' ] = array_merge( array( 'relation' => 'OR' ), $hall_list_args );
+
+					} elseif ( count( $topic_list_args ) > 0 ) {
+
+						$query_args[ 'meta_query' ] = array_merge( array( 'relation' => 'OR' ), $topic_list_args );
+					}
+
+	            }
+
+		        $children = get_posts( $query_args );
+
+	            if ( ! empty( $cache_key ) && count( $children ) > 0 ) {
+	                set_transient( $cache_key, $children, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
+	            }
+            }
+        }
 
         if ( ( 'side-img-info' === $listing_layout || 'side-info' === $listing_layout ) && ! $slider_active ) {
         ?>
@@ -660,6 +808,11 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                             $page_count = 1;
 
                             foreach ( $children as $child ) {
+
+                            	if ( in_array( strval( $child->ID ), $exclude_pages, true ) ) {
+	                                continue;
+	                            }
+
                                 if ( $post_limit >= $page_count ) {
                                 ?>
                                     <li><a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a></li>
@@ -689,7 +842,12 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                     $page_count = 1;
 
                     foreach ( $children as $child ) {
-                        if ( $post_limit >= $page_count ) {
+
+                    	if ( in_array( strval( $child->ID ), $exclude_pages, true ) ) {
+                            continue;
+                        }
+
+                    	if ( $post_limit >= $page_count ) {
                             ?>
                             <option value="<?php echo esc_url( get_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></option>
                             <?php
@@ -706,11 +864,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
 
             if ( ! $slider_active && $show_filter ) {
 
-                if ( 'featured-happenings' === $listing_layout ) {
-
-                    nabshow_lv_related_content_browse_happenings_filter();
-
-                } elseif ( 'plan-your-show' === $listing_layout ) {
+                if ( 'plan-your-show' === $listing_layout ) {
 
                     nabshow_lv_related_content_plan_your_show_layout_filter();
 
@@ -773,6 +927,10 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                         foreach ( $children as $child ) {
 
                             $cnt++;
+
+                            if ( in_array( strval( $child->ID ), $exclude_pages, true ) ) {
+                                continue;
+                            }
 
                             if ( $featured_page ) {
                                 if ( ! has_term('featured', 'page-category', $child->ID ) ) {
@@ -909,15 +1067,7 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                             if ( 'product-categories' !== $listing_layout && 'browse-happenings' !== $listing_layout ) {
                                             ?>
                                                 <h2 class="title">
-                                                    <?php
-                                                    if ( 'plan-your-show' === $listing_layout ) {
-                                                    ?>
-                                                        <a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a>
-                                                    <?php
-                                                    } else {
-                                                        echo esc_html( $child->post_title );
-                                                    }
-                                                    ?>
+                                                    <a href="<?php echo esc_url( get_the_permalink( $child->ID ) ); ?>"><?php echo esc_html( $child->post_title ); ?></a>
                                                 </h2>
 
                                                 <?php
@@ -933,10 +1083,9 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                     <?php
                                                     }
                                                 }
+
                                                 $page_excerpt = nabshow_lv_excerpt( $child->ID );
-                                                if ( empty( $page_excerpt ) ) {
-                                                    $page_excerpt = 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever…';
-                                                }
+
                                                 ?>
                                                 <p><?php echo esc_html( $page_excerpt ); ?></p>
                                                 <?php
@@ -949,8 +1098,14 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
                                                         <span class="coming-soon"><?php echo esc_html( $coming_soon ); ?></span>
                                                     <?php
                                                     } else {
+
+                                                    	$link_text = 'Read More';
+
+                                                    	if ( 'key-contacts' === $listing_layout || 'destination' === $listing_layout ) {
+                                                    		$link_text = 'Learn More';
+                                                    	}
                                                     ?>
-                                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow"><?php echo 'key-contacts' === $listing_layout ? esc_html('Learn More') : esc_html( 'Read More' ); ?></a>
+                                                        <a href="<?php echo esc_url( get_permalink( $child->ID ) ); ?>" class="read-more btn-with-arrow"><?php echo esc_html( $link_text ); ?></a>
                                                     <?php
                                                     }
                                                 }
@@ -986,13 +1141,13 @@ function nabshow_lv_related_content_render_callback( $attributes ) {
             <?php
             } else {
             ?>
-                   <p>Page not found</p>
+                   <p class="coming-soon">Coming soon.</p>
             <?php
             }
         }
     } else {
         ?>
-            <p>Page not found</p>
+            <p class="coming-soon">Coming soon.</p>
         <?php
     }
 
@@ -1027,26 +1182,35 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
 
             $author_query = get_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-' . $post_type );
 
-            if ( false === $author_query ) {
+            if ( false === $author_query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
                 $args = array( 'author' => $contributor->ID, 'post_type' => $post_type, 'posts_per_page' => 1 );
                 $author_query = new WP_Query( $args );
                 set_transient( 'nab-get-author-post-cache-' . $contributor->ID . '-' . $post_type, $author_query, 20 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
             }
 
             if( $author_query->have_posts() && $post_limit >= $limit_counter ) {
-                $contributor_image = get_avatar_url( $contributor->ID, array( 'size' => 330 ) );
+
+            	$contributor_image  = nabshow_lv_get_author_avatar_url( $contributor->ID );
+				$contributor_name   = $contributor->first_name . ' ' . $contributor->last_name;
+				$author_company     = get_field( 'company',  'user_' . $contributor->ID );
+
+				if ( empty( trim( $contributor_name ) ) ) {
+					$contributor_name = $contributor->display_name;
+				}
+
             ?>
                 <div class="team-box">
                     <div class="team-box-inner">
                         <div class="feature-img">
-                            <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img">
+                             <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>">
+                                <img src="<?php echo esc_url( $contributor_image ); ?>" alt="<?php echo esc_attr( $contributor->display_name ); ?>" class="main-img media">
+                            </a>
                         </div>
                         <div class="team-details">
                             <h3 class="name">
-                                <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor->display_name ); ?></a>
+                                <a href="#" class="detail-list-modal-popup" data-userid="<?php echo esc_attr( $contributor->ID ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( $contributor_name ); ?></a>
                             </h3>
-                            <strong class="title">Title</strong>
-                            <strong class="company">Company</strong>
+                            <strong class="company"><?php echo esc_html( $author_company ); ?></strong>
                         </div>
                     </div>
                 </div>
@@ -1056,13 +1220,10 @@ function nabshow_lv_contributors_render_callback( $attributes ) {
             }
         }
         if ( 1 === $limit_counter ) {
-    ?>
-            <p>Contributors not found</p>
-    <?php
+        	?>
+            <p>Contributors not found.</p>
+            <?php
         }
-    ?>
-        </div>
-    <?php
     }
 
     $html = ob_get_clean();
@@ -1127,7 +1288,7 @@ function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
 
                 ?>
                 <div class="related-main-wrapper">
-                    <h2 class="parent-main-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                    <h2 class="parent-main-title"><?php the_title(); ?></h2>
                     <?php echo wp_kses( $content, $allowed_tags ); ?>
                 </div>
                 <?php
@@ -1138,6 +1299,7 @@ function nabshow_lv_related_content_with_block_render_callback( $attributes ) {
     wp_reset_postdata();
 
     $html = ob_get_clean();
+
     return $html;
 }
 
@@ -1170,7 +1332,7 @@ function nabshow_lv_page_featured_image_render_callback( $attributes ) {
             <?php
         } else {
         ?>
-            <p>Page not found.</p>
+            <p class="coming-soon">Coming soon.</p>
         <?php
         }
     } else {
@@ -1194,6 +1356,14 @@ function nabshow_lv_site_forms_render_callback( $attributes ) {
 
 	if ( 'startup-loft' === $form_type ) {
 		get_template_part( 'template-parts/forms/content', 'startup-loft' );
+	} elseif ( 'contact-us' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'contact-us' );
+	} elseif ( 'delegation-leader-enrollment' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'delegation' );
+	} elseif ( 'publication-shipping-information' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'publication' );
+	} elseif ( 'special-event-order' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'special-event' );
 	}
 
 	$html = ob_get_clean();

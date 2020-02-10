@@ -10,6 +10,9 @@
 get_header();
 
 global $wp_query;
+
+$total_posts    = wp_count_posts( 'not-to-be-missed' )->publish;
+$posts_per_page = get_option( 'posts_per_page' );
 ?>
 
     <div id="primary" class="container ltb-slidein">
@@ -56,9 +59,17 @@ global $wp_query;
 					}
 				?>
                 </div>
-                <div class="loadmore" id="load_more">
-                    <a href="javascript:void(0);" data-term-slug="" data-page-number="2" data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>
-                </div>
+
+	            <?php
+				if ( $total_posts > $posts_per_page ) {
+					?>
+					<div class="loadmore" id="load_more">
+						<a href="javascript:void(0);" data-term-slug="" data-page-number="2"
+						   data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>
+					</div>
+					<?php
+				}
+				?>
             </div>
         </div>
     </div><!-- #primary -->

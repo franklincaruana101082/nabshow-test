@@ -301,7 +301,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                         <PanelBody title="General Settings">
                             <PanelRow>
                                 <ToggleControl
-                                    label={__('Active Slider')}
+                                    label={__('Edit Slider')}
                                     checked={sliderActive}
                                     onChange={() => setAttributes({ sliderActive: ! sliderActive })}
                                 />

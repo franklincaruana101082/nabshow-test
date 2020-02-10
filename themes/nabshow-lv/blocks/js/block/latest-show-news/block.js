@@ -194,7 +194,7 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                                 <RangeControl
                                     value={itemToFetch}
                                     min={1}
-                                    max={20}
+                                    max={100}
                                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); }}
                                 />
                             </div>
@@ -332,9 +332,6 @@ import { latestShowNews1, latestShowNews2, latestShowNews3 } from '../icons';
                                     )}
                                 </Fragment>
                             )}
-                        </PanelBody>
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/latest-show-news.mp4" target="_blank">How to use block?</a>
                         </PanelBody>
                     </InspectorControls>
                     <div className>

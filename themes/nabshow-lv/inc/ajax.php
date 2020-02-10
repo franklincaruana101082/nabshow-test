@@ -77,7 +77,7 @@ function nabshow_lv_ntb_missed_load_more_category_click_callback() {
 			$categories_string  = nabshow_lv_get_pipe_separated_term_list( $categories );
 
 			$result_post[ $i ]["post_id"]        = get_the_ID();
-			$result_post[ $i ]["post_title"]     = get_the_title();
+			$result_post[ $i ]["post_title"]     = html_entity_decode( get_the_title() );
 			$result_post[ $i ]["post_permalink"] = get_the_permalink();
 			$result_post[ $i ]["post_thumbnail"] = get_the_post_thumbnail_url();
 			$result_post[ $i ]["post_category"]  = $categories_string;
@@ -109,14 +109,27 @@ function nabshow_lv_thoughts_gallery_load_more_callback() {
 
 	check_ajax_referer( 'thought_gallery_nonce', 'load_more_nonce' );
 
-	$final_result = array();
-	$result_post  = array();
-	$page_number  = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$final_result       = array();
+	$result_post        = array();
+	$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_STRING );
+	$current_category   = filter_input( INPUT_GET, 'current_category', FILTER_SANITIZE_STRING );
 
 	$post_type_args  = array(
 		'post_type' => 'thought-gallery',
 		'paged'     => $page_number,
 	);
+
+	if ( ! empty( $current_category ) ) {
+
+		$post_type_args['tax_query'] =  array(
+			array(
+				'taxonomy' => 'thought-gallery-category',
+				'field'    => 'slug',
+				'terms'    => $current_category
+			),
+		);
+	}
+
 	$post_type_query = new WP_Query( $post_type_args );
 
 	$total_pages = $post_type_query->max_num_pages;
@@ -147,12 +160,12 @@ function nabshow_lv_thoughts_gallery_load_more_callback() {
 			}
 
 			$result_post[ $i ]["post_id"]        = $post_id;
-			$result_post[ $i ]["post_title"]     = get_the_title();
+			$result_post[ $i ]["post_title"]     = html_entity_decode( get_the_title() );
 			$result_post[ $i ]["post_permalink"] = get_the_permalink();
 			$result_post[ $i ]["post_thumbnail"] = has_post_thumbnail() ? get_the_post_thumbnail_url() : nabshow_lv_get_empty_thumbnail_url();
 			$result_post[ $i ]["post_author"]    = get_the_author();
 			$result_post[ $i ]["author_link"]    = get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) );
-			$result_post[ $i ]["excerpt"]        = $excerpt;
+			$result_post[ $i ]["excerpt"]        = html_entity_decode( $excerpt );
 			$result_post[ $i ]["category_lists"] = $category_list;
 			$result_post[ $i ]["category_links"] = $category_link_lists;
 			$result_post[ $i ]["category_slugs"] = $category_slugs;
@@ -204,9 +217,10 @@ function nabshow_lv_news_releases_load_more_post_callback() {
 
 			$news_query->the_post();
 
-			$result_post[ $i ]["post_title"]     = get_the_title();
-			$result_post[ $i ]["excerpt"]        = nabshow_lv_excerpt();
+			$result_post[ $i ]["post_title"]     = html_entity_decode( get_the_title() );
+			$result_post[ $i ]["excerpt"]        = html_entity_decode( nabshow_lv_excerpt() );
 			$result_post[ $i ]["post_permalink"] = get_the_permalink();
+			$result_post[ $i ]["post_date"]      = get_the_date();
 
 			$i ++;
 
@@ -243,7 +257,7 @@ function nabshow_lv_help_support_ajax_callback() {
 
 	$mail_subject   = filter_input( INPUT_GET, 'mail_subject', FILTER_SANITIZE_STRING );
 	$mail_message   = filter_input( INPUT_GET, 'mail_message', FILTER_SANITIZE_STRING );
-	$to_email       = 'nitish.kaila@multidots.com';
+	$to_email       = 'mayur.keshwani@multidots.com';
 
 	$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 	$headers[] = 'From: NABShow <noreply@nabshow.com>';

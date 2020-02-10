@@ -79,9 +79,6 @@ import memoize from 'memize';
                 />
               </PanelRow>
             </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-partners.mp4" target="_blank">How to use block?</a>
-            </PanelBody>
           </InspectorControls>
           {showFilter &&
             <div className="box-main-filter main-filter media-partner-filter">
@@ -445,9 +442,6 @@ import memoize from 'memize';
                   ))}
                 </div>
               </PanelRow>
-            </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-partners.mp4" target="_blank">How to use block?</a>
             </PanelBody>
           </InspectorControls>
           <div className="team-box-inner">

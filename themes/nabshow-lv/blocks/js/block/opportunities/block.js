@@ -87,6 +87,7 @@
             index: DataArray.length,
             media: '',
             mediaAlt: '',
+            width: '',
             title: '',
             cost: '',
             exclusivity: 'Exclusivity',
@@ -149,7 +150,8 @@
                     onSelect={media => {
                       const newObject = Object.assign({}, product, {
                         media: media.url,
-                        mediaAlt: media.alt
+                        mediaAlt: media.alt,
+                        width: media.width,
                       });
                       setAttributes({
                         DataArray: [
@@ -168,7 +170,8 @@
                     onSelect={media => {
                       const newObject = Object.assign({}, product, {
                         media: media.url,
-                        mediaAlt: media.alt
+                        mediaAlt: media.alt,
+                        width: media.width,
                       });
                       setAttributes({
                         DataArray: [
@@ -334,6 +337,7 @@
                           index: DataArray.length,
                           media: '',
                           mediaAlt: '',
+                          width: '',
                           title: '',
                           cost: '',
                           exclusivity: 'Exclusivity',
@@ -424,7 +428,7 @@
                           }
                           <div className="media-img">
                             {product.media ? (
-                              <img src={product.media} alt={product.mediaAlt} className="img" />
+                              <img src={product.media} alt={product.mediaAlt} className="img" width={product.width} />
                             ) : (
                                 <div className="no-image">No Featured Image</div>
                               )}
@@ -465,6 +469,17 @@
                   }
                 </Fragment>
               ))}
+            </div>
+            <div className="opportunities-popup">
+              <div className="opportunities-dialog">
+                <span className="close">&times;</span>
+                <div className="opportunities-content">
+                  <div className="opportunities-body">
+                    <img className="opportunities-popup-img" src="" />
+                  </div>
+                </div>
+              </div>
+              <div className="opportunities-backdrop"></div>
             </div>
           </div>
         </Fragment>

@@ -10,16 +10,17 @@
 get_header();
 ?>
 
-	<div id="primary" class="container">
-		<main id="main" class="site-main">
+	<div class="wp-block-nab-multipurpose-gutenberg-block has-full is-block-center wrapper-404">
+		<main class="site-main wp-block-nab-multipurpose-gutenberg-block has-semi is-block-center">
 
 			<section class="error-404 not-found">
 				<header class="page-header">
-					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'nabshow-lv' ); ?></h1>
+					<h1 class="page-title">Please Stand by</h1>
 				</header><!-- .page-header -->
 
 				<div class="page-content">
-					<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'nabshow-lv' ); ?></p>
+					<p>It seems you’ve flipped to a channel that does not exist.</p>
+					<p>Never-fear. Our site search is extra awesome. Find what you were looking for:</p>
 
 					<?php
 					get_search_form();

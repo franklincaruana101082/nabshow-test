@@ -56,12 +56,12 @@ if ( false === $most_search_post ) {
                         ?>
 
                         </ul>
-                        <p>Still can’t find what you’re looking for? <a href="#">Contact NAB Show.</a></p>
+                        <p>Still can’t find what you’re looking for? <a href="<?php echo esc_url( get_site_url() . '/about/connect/contact/' ); ?>">Contact NAB Show.</a></p>
                     <?php
 
                     } else {
                     ?>
-                        <p>Try revising your search above or Still can’t find what you’re looking for? <a href="#">Contact NAB Show.</a></p>
+                        <p>Try revising your search above or Still can’t find what you’re looking for? <a href="<?php echo esc_url( get_site_url() . '/about/connect/contact/' ); ?>">Contact NAB Show.</a></p>
                     <?php
                     }
                     wp_reset_postdata();

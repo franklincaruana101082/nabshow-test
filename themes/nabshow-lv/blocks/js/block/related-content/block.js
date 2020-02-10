@@ -1,10 +1,10 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow, relatedContentDropdown } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8, destinations, keyContacts, featuredHappening, productCategories, exhibitorResources, browseHappening, relatedContentTitleList, relatedContSideImgInfo, realtedContentCoLocatedEvents, realtedContentInfoOnly, realtedContentPlanShow, relatedContentDropdown } from '../icons';
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, TextControl, Button, Placeholder, CheckboxControl, SelectControl, PanelRow } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, RangeControl, RadioControl, ServerSideRender, TextControl, Button, Placeholder, CheckboxControl, SelectControl, PanelRow, TextareaControl, DateTimePicker} = wpComponents;
 
     const relatedContentBlockIcon = (
         <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
@@ -56,6 +56,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 bxSliderObj: {},
                 bxinit: false,
                 isDisable: false,
+                hallOptions: [],
+                topicOptions: [],
                 displayFieldsList: [{ label: __('Date'), value: 'date_group' },
                 { label: __('Halls'), value: 'page_hall' },
                 { label: __('Is Open To'), value: 'is_open_to' },
@@ -74,7 +76,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentWillMount() {
-            let pageList = [{ label: __('Select Parent Page'), value: '' }];
+            let hallFieldOptions = [],
+                topicFieldOptions = [],
+                pageList = [{ label: __('Select Parent Page'), value: '' }];
 
             wp.apiFetch({ path: '/nab_api/request/page-parents' }).then((parents) => {
                 if (0 < parents.length) {
@@ -83,6 +87,22 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     });
                     this.setState({ pageParentList: pageList });
                 }
+            });
+
+            wp.apiFetch({ path: '/nab_api/request/page-acf-fields' }).then((fieldOptions) => {
+
+              if (0 < fieldOptions.hall.length) {
+                fieldOptions.hall.map((field) => {
+                  hallFieldOptions.push({ label: __(field.label), value: field.value });
+                });
+                this.setState({ hallOptions: hallFieldOptions });
+              }
+              if (0 < fieldOptions.topic.length) {
+                fieldOptions.topic.map((field) => {
+                  topicFieldOptions.push({ label: __(field.label), value: field.value });
+                });
+                this.setState({ topicOptions: topicFieldOptions });
+              }
             });
 
         }
@@ -127,7 +147,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         render() {
-            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, listingLayout, sliderLayout, showFilter, dropdownTitle }, setAttributes } = this.props;
+            const { attributes: { parentPageId, selection, itemToFetch, depthLevel, featuredPage, minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, sliderActive, slideWidth, slideMargin, arrowIcons, displayField, hallList, topicList, listingLayout, sliderLayout, showFilter, dropdownTitle, excludePages, orderBy, includePages, metaDate, pageMetaDate }, setAttributes } = this.props;
 
             let names = [
                 { name: sliderArrow1, classnames: 'slider-arrow-1' },
@@ -136,8 +156,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
                 { name: sliderArrow6, classnames: 'slider-arrow-6' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
+
+            if ( ! pageMetaDate ) {
+              setAttributes({pageMetaDate: moment().format('YYYY-MM-DDTHH:mm:ss')});
+            }
 
             let commonControls = <Fragment>
                 <SelectControl
@@ -188,8 +213,112 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <Fragment>
                     <InspectorControls>
                         <PanelBody title={__('Data Settings')}>
+                            <label>{__('Filter by Halls')}</label>
+
+                            <div className="fix-height-select mb20">
+
+                              {this.state.hallOptions.map((field, index) => (
+
+                                <Fragment key={index}>
+
+                                  <CheckboxControl checked={-1 < hallList.indexOf(field.value)} label={field.label} name="hallList[]" value={field.value} onChange={(isChecked) => {
+
+                                    let index,
+                                      tempHallList = [...hallList];
+
+                                    if (isChecked) {
+                                      tempHallList.push(field.value);
+                                    } else {
+                                      index = tempHallList.indexOf(field.value);
+                                      tempHallList.splice(index, 1);
+                                    }
+
+                                    this.props.setAttributes({ hallList: tempHallList });
+                                    if ( sliderActive ) {
+                                      this.setState({ bxinit: true });
+                                    }
+                                  }
+                                  }
+                                  />
+
+                                </Fragment>
+
+                              ))
+                              }
+                            </div>
+                            <label>{__('Filter by Topics')}</label>
+
+                            <div className="fix-height-select mb20">
+
+                              {this.state.topicOptions.map((field, index) => (
+
+                                <Fragment key={index}>
+
+                                  <CheckboxControl checked={-1 < topicList.indexOf(field.value)} label={field.label} name="topicList[]" value={field.value} onChange={(isChecked) => {
+
+                                    let index,
+                                      tempTopicList = [...topicList];
+
+                                    if (isChecked) {
+                                      tempTopicList.push(field.value);
+                                    } else {
+                                      index = tempTopicList.indexOf(field.value);
+                                      tempTopicList.splice(index, 1);
+                                    }
+
+                                    this.props.setAttributes({ topicList: tempTopicList });
+                                    if ( sliderActive ) {
+                                      this.setState({ bxinit: true });
+                                    }
+                                  }
+                                  }
+                                  />
+
+                                </Fragment>
+
+                              ))
+                              }
+                            </div>
+                            <ToggleControl
+                              label={__('Date Specific Page')}
+                              checked={metaDate}
+                              onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
+                            />
+                            { metaDate &&
+                            <div className="inspector-field inspector-field-datetime components-base-control hide-time">
+                              <label className="inspector-mb-0">Select a Date</label>
+                              <div className="inspector-ml-auto">
+                                <DateTimePicker
+                                  currentDate={pageMetaDate}
+                                  onChange={(date) => { setAttributes({pageMetaDate: date}); this.setState({bxinit: true});}}
+                                />
+                              </div>
+                            </div>
+                            }
+                            <SelectControl
+                              label={__('Order By')}
+                              value={orderBy}
+                              options={[
+                                { label: __('A → Z'), value: 'title' },
+                                { label: __('Menu Order'), value: 'menu_order' },
+                                { label: __('Random'), value: 'rand' },
+                              ]}
+                              onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
+                            />
                             {input}
                             {commonControls}
+                            <label>Exclude Page by Ids:</label>
+                            <TextareaControl
+                              help="Each page id should be comma separated"
+                              value={ excludePages }
+                              onChange={ (ids) => {  setAttributes({ excludePages: ids }); this.setState({ bxinit: true }); }}
+                            />
+                            <label>Include Page by Ids:</label>
+                            <TextareaControl
+                              help="Each page id should be comma separated"
+                              value={ includePages }
+                              onChange={ (ids) => {  setAttributes({ includePages: ids }); this.setState({ bxinit: true }); }}
+                            />
                             {'side-img-info' !== listingLayout &&
                                 <CheckboxControl
                                     className="related-featured"
@@ -238,7 +367,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                                 <li className={'drop-down-list' === listingLayout ? 'active drop-down-list' : 'drop-down-list'} onClick={() => setAttributes({ listingLayout: 'drop-down-list' })}>{relatedContentDropdown}</li>
                                             </ul>
                                         </PanelRow>
-                                        { ( 'destination' === listingLayout || 'featured-happenings' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout ) &&
+                                        { ( 'destination' === listingLayout || 'plan-your-show' === listingLayout || 'exhibitor-resources' === listingLayout ) &&
                                             <ToggleControl
                                                 label={__('Show Filter')}
                                                 checked={showFilter}
@@ -378,7 +507,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/related-content"
-                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle }}
+                        attributes={{ parentPageId: parentPageId, itemToFetch: itemToFetch, depthLevel: depthLevel, featuredPage: featuredPage, sliderActive: sliderActive, arrowIcons: arrowIcons, displayField: displayField, listingLayout: listingLayout, sliderLayout: sliderLayout, showFilter: showFilter, dropdownTitle: dropdownTitle, hallList: hallList, topicList: topicList, excludePages: excludePages, orderBy: orderBy, includePages: includePages, metaDate: metaDate, pageMetaDate: pageMetaDate }}
                     />
                 </Fragment>
 
@@ -451,6 +580,14 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'array',
             default: []
         },
+        hallList: {
+            type: 'array',
+            default: []
+        },
+        topicList: {
+          type: 'array',
+          default: []
+        },
         listingLayout: {
             type: 'string',
             default: 'destination'
@@ -465,7 +602,26 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         },
         dropdownTitle: {
             type: 'string'
-        }
+        },
+        excludePages: {
+          type: 'string',
+          default: ''
+        },
+        orderBy: {
+          type: 'string',
+          default: 'title'
+        },
+        includePages: {
+          type: 'string',
+          default: ''
+        },
+        metaDate: {
+          type: 'boolean',
+          default: false,
+        },
+        pageMetaDate: {
+          type: 'string',
+        },
     };
 
     registerBlockType('nab/related-content', {

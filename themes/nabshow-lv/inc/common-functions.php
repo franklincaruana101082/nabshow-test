@@ -147,7 +147,7 @@ function nabshow_lv_get_term_list_options( $taxonomy = '' ) {
  *
  * @return string
  *
- * @since
+ * @since 1.0.0
  */
 function nabshow_lv_get_popup_content( $post_id, $planner_url = '' ) {
 
@@ -483,8 +483,19 @@ function nabshow_lv_related_content_dynamic_field_display( $page_id, $display_fi
 
 			    if ( 'date_group' === $field && ! empty( $field_val ) ) {
 
-				    $first_field_row  = isset( $field_val[0] ) ? $field_val[0] : array();
-				    $sub_title        = isset( $first_field_row[ 'page_dates' ] ) ? $first_field_row[ 'page_dates' ] : '';
+				    if ( is_array( $field_val ) && count( $field_val ) > 0 ) {
+
+				    	$dates_array = array();
+
+				    	foreach ( $field_val as $field_row ) {
+
+				    		if ( isset( $field_row[ 'page_dates' ] ) && ! empty( $field_row[ 'page_dates' ] ) ) {
+							    $dates_array[] = $field_row[ 'page_dates' ];
+						    }
+					    }
+
+					    $sub_title = implode(' | ', $dates_array );
+				    }
 
 			    } elseif ( ! empty( $field_val ) && ( 'page_hall' === $field || 'page_location' === $field ) ) {
 
@@ -539,4 +550,74 @@ function nabshow_lv_enqueue_datepicker_script() {
 function nabshow_lv_enqueue_google_recaptch_script() {
 
 	wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js');
+}
+
+/**
+ * Get full name of current user.
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabhsow_lv_current_author_name() {
+
+	$author_full_name = get_the_author_meta( 'first_name' ) . ' ' . get_the_author_meta( 'last_name' );
+
+	if ( empty( rtrim( $author_full_name ) ) ) {
+
+		$author_full_name = get_the_author();
+	}
+
+	return $author_full_name;
+}
+
+/**
+ * Get author image according to author id.
+ *
+ * @param $author_id
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_get_author_avatar_url( $author_id ) {
+
+
+	$author_img = get_field( 'image',  'user_' . $author_id );
+
+	if ( empty( $author_img ) ) {
+		$author_img = get_template_directory_uri() . '/assets/images/contributor.png';
+	}
+
+	return $author_img;
+}
+
+/**
+ * Get special event form hours dropdown option.
+
+ * @since 1.0.0
+ */
+function nabshow_lv_get_special_event_hours_options() {
+
+	for ( $i = 1; $i <= 12; $i++ ) {
+		?>
+			<option value="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $i ); ?></option>
+		<?php
+	}
+}
+
+/**
+ * Get special event form minutes dropdown option.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_get_special_event_minutes_options() {
+
+	for ( $i = 0; $i <= 59; $i++ ) {
+
+		$option_text = $i < 10 ? '0' . $i : $i;
+		?>
+		<option value="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $option_text ); ?></option>
+		<?php
+	}
 }

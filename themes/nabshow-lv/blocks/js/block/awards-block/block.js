@@ -154,16 +154,6 @@ import memoize from 'memize';
 
     const ALLOWBLOCKS = ['nab/awards-item'];
 
-
-    const getChildawardsBlock = memoize((awards) => {
-        return (
-            times(
-                awards,
-                (n) => ['nab/awards-item', { id: n + 1 }]
-            )
-        );
-    });
-
     const removehildawardsBlock = memoize((awards) => {
         return (
             times(
@@ -210,9 +200,6 @@ import memoize from 'memize';
                                 />
                             </PanelRow>
                         </PanelBody>
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     {showFilter &&
                         <div className="wp-block-nab-multipurpose-gutenberg-block">
@@ -249,17 +236,8 @@ import memoize from 'memize';
                             </div>
                             <div className="awards-data row">
                                 <InnerBlocks
-                                    template={getChildawardsBlock(noOfAwards)}
-                                    templateLock="all"
                                     allowedBlocks={ALLOWBLOCKS}
                                 />
-                                <div className="add-remove-btn">
-                                    <Button className="add" onClick={() => {
-                                        setAttributes({ noOfAwards: noOfAwards + 1 });
-                                    }}>
-                                        <span className="dashicons dashicons-plus" />
-                                    </Button>
-                                </div>
                             </div>
                         </Fragment>
                     </div>
@@ -348,9 +326,6 @@ import memoize from 'memize';
                                 />
                             </PanelRow>
                         </PanelBody>
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <div className='col-lg-6 col-md-6 col-sm-12'>
                         <span className="remove-item">
@@ -437,7 +412,7 @@ import memoize from 'memize';
                                 />
                                 {showPopup ?
                                     <div className="nab_model_head">
-                                        <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Learn More' />
+                                        <input type="button" onClick={modelopen} className={'nab_popup_btn btn-primary'} value='Read More' />
                                         <div className={`nab_model_main ${modelClass}`}>
                                             <div className="nab_model_inner">
                                                 <div className="nab_close_btn" onClick={modelclose}><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>
@@ -487,7 +462,7 @@ import memoize from 'memize';
                             />
                             {showPopup ?
                                 <div className="nab_model_head">
-                                    <input type="button" className={'nab_popup_btn btn-primary'} value='Learn More' />
+                                    <input type="button" className={'nab_popup_btn btn-primary'} value='Read More' />
                                     <div className="nab_model_main">
                                         <div className="nab_model_inner">
                                             <div className="nab_close_btn"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-x"><line x1="20" y1="10" x2="10" y2="20"></line><line x1="10" y1="10" x2="20" y2="20"></line></svg></div>

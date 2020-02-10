@@ -123,3 +123,14 @@ add_action( 'init', 'nabshow_lv_register_mega_menu_post_type' );
 
 // action to add the Mega Menu post type.
 add_action( 'init', 'nabshow_lv_register_forms_data_post_type' );
+
+// Action to add default blocks on new page
+add_action( 'admin_init', 'nabshow_lv_page_type_template' );
+
+// Action to enable robots.txt in multisite.
+add_action( 'init', function() {
+	add_rewrite_rule( '^robots\.txt$', 'index.php?robots=1', 'top' );
+} );
+
+// Action to add custom meta description tag
+add_action( 'wpseo_head', 'nabshow_lv_add_cusotm_meta_desc_tag', 35 );

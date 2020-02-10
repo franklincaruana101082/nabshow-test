@@ -159,6 +159,8 @@ module.exports = getNative;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return sliderArrow4; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return sliderArrow5; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return sliderArrow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return sliderArrow7; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return sliderArrow8; });
 /* unused harmony export destinations */
 /* unused harmony export keyContacts */
 /* unused harmony export featuredHappening */
@@ -243,7 +245,7 @@ var arrowBtn = wp.element.createElement(
   wp.element.createElement(
     "text",
     { transform: "matrix(1 0 0 1 0 10.0439)", "font-family": "'MyriadPro-Regular'", "font-size": "9.8" },
-    "READ MORE"
+    "Learn More"
   ),
   wp.element.createElement("path", { fill: "#010101", d: "M74.386,1.857l0.782-0.446c0.332-0.189,0.867-0.189,1.195,0l6.851,3.904c0.331,0.189,0.331,0.494,0,0.681\r l-6.851,3.906c-0.332,0.189-0.867,0.189-1.195,0l-0.782-0.446c-0.335-0.191-0.328-0.502,0.014-0.689l4.246-2.307H68.519\r c-0.469,0-0.846-0.215-0.846-0.482V5.335c0-0.267,0.377-0.482,0.846-0.482h10.127L74.4,2.546\r C74.055,2.359,74.047,2.048,74.386,1.857z" })
 );
@@ -256,51 +258,51 @@ var btnWhite = wp.element.createElement(
   wp.element.createElement(
     "text",
     { transform: "matrix(1 0 0 1 22.5 24.8335)", "font-family": "'MyriadPro-Regular'", "font-size": "10" },
-    "READ MORE"
+    "Learn More"
   )
 );
 
 var btnPrimary = wp.element.createElement(
   "svg",
-  { version: "1.1", id: "btnPrimary", x: "0px", y: "0px", width: "105px", height: "41.001px", viewBox: "0 0 105 41.001", enableBackground: "0 0 105 41.001" },
-  wp.element.createElement("rect", { fill: "#146DB6", width: "105", height: "41.001" }),
+  { version: "1.1", id: "btnPrimary", x: "0px", y: "0px", width: "103px", height: "41.001px", viewBox: "0 0 100 41.001", enableBackground: "0 0 100 41.001" },
+  wp.element.createElement("rect", { fill: "#00B5E0", width: "100", height: "41.001" }),
   wp.element.createElement(
     "text",
     { transform: "matrix(1 0 0 1 13.7622 25.3164)", fill: "#FFFFFF", "font-family": "'MyanmarText-Bold'", "font-size": "12" },
-    "READ MORE"
+    "Learn More"
   )
 );
 
 var btnDefault = wp.element.createElement(
   "svg",
-  { version: "1.1", id: "btnDefault", x: "0px", y: "0px", width: "105px", height: "41.001px", viewBox: "0 0 105 41.001", enableBackground: "new 0 0 105 41.001" },
-  wp.element.createElement("rect", { fill: "#9A9A99", width: "105", height: "41.001" }),
+  { version: "1.1", id: "btnDefault", x: "0px", y: "0px", width: "103px", height: "41.001px", viewBox: "0 0 100 41.001", enableBackground: "new 0 0 100 41.001" },
+  wp.element.createElement("rect", { fill: "#9A9A99", width: "100", height: "41.001" }),
   wp.element.createElement(
     "text",
     { transform: "matrix(1 0 0 1 13.7622 25.3164)", fill: "#FFFFFF", "font-family": "'MyanmarText-Bold'", "font-size": "12" },
-    "READ MORE"
+    "Learn More"
   )
 );
 
 var btnAlt = wp.element.createElement(
   "svg",
-  { version: "1.1", id: "btnAlt", x: "0px", y: "0px", width: "105px", height: "41.001px", viewBox: "0 0 105 41.001", enableBackground: "new 0 0 105 41.001" },
-  wp.element.createElement("rect", { fill: "#8AC0E2", width: "105", height: "41.001" }),
+  { version: "1.1", id: "btnAlt", x: "0px", y: "0px", width: "103px", height: "41.001px", viewBox: "0 0 100 41.001", enableBackground: "new 0 0 100 41.001" },
+  wp.element.createElement("rect", { fill: "#8AC0E2", width: "103", height: "41.001" }),
   wp.element.createElement(
     "text",
     { transform: "matrix(1 0 0 1 13.7622 25.3164)", fill: "#363636", "font-family": "'MyanmarText-Bold'", "font-size": "12" },
-    "READ MORE"
+    "Learn More"
   )
 );
 
 var btnLight = wp.element.createElement(
   "svg",
-  { version: "1.1", id: "btnLight", x: "0px", y: "0px", width: "105px", height: "41.001px", viewBox: "0 0 105 41.001", enableBackground: "new 0 0 105 41.001" },
-  wp.element.createElement("rect", { fill: "#F1F8FD", width: "105", height: "41.001" }),
+  { version: "1.1", id: "btnLight", x: "0px", y: "0px", width: "103px", height: "41.001px", viewBox: "0 0 100 41.001", enableBackground: "new 0 0 100 41.001" },
+  wp.element.createElement("rect", { fill: "#F1F8FD", width: "100", height: "41.001" }),
   wp.element.createElement(
     "text",
     { transform: "matrix(1 0 0 1 13.7622 25.3164)", fill: "#363636", "font-family": "'MyanmarText-Bold'", "font-size": "12" },
-    "READ MORE"
+    "Learn More"
   )
 );
 
@@ -713,6 +715,38 @@ var sliderArrow6 = wp.element.createElement(
       wp.element.createElement("circle", { fill: "#7B8080", cx: "17.283", cy: "17.503", r: "17.283" }),
       wp.element.createElement("path", { fill: "#FFFFFF", d: "M19.573,10.875c0.158,0,0.317,0.06,0.438,0.182c0.241,0.24,0.241,0.633,0,0.875l-5.607,5.614l5.607,5.612\r c0.241,0.242,0.241,0.634,0,0.874c-0.242,0.242-0.634,0.242-0.876,0l-6.043-6.049c-0.242-0.243-0.242-0.634,0-0.875l6.043-6.049\r C19.255,10.934,19.415,10.875,19.573,10.875z" })
     )
+  )
+);
+
+var sliderArrow7 = wp.element.createElement(
+  "svg",
+  { version: "1.0", xmlns: "http://www.w3.org/2000/svg",
+    width: "126.000000pt", height: "59.000000pt", viewBox: "0 0 126.000000 59.000000",
+    preserveAspectRatio: "xMidYMid meet" },
+  wp.element.createElement(
+    "g",
+    { transform: "translate(0.000000,59.000000) scale(0.100000,-0.100000)",
+      fill: "#ab3192", stroke: "none" },
+    wp.element.createElement("path", { d: "M174 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27\r -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187\r -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164\r -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106\r 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M192 357 l-62 -63 63 -62 c34 -34 66 -62 70 -62 18 0 3 28 -35 67\r l-42 43 132 0 c111 0 132 2 132 15 0 13 -21 15 -132 15 l-132 0 42 43 c39 40\r 53 67 34 67 -4 0 -36 -28 -70 -63z" }),
+    wp.element.createElement("path", { d: "M844 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27\r -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187\r -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164\r -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106\r 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M990 408 c0 -7 19 -32 42 -55 l42 -43 -132 0 c-111 0 -132 -2 -132\r -15 0 -13 21 -15 132 -15 l132 0 -42 -43 c-39 -40 -53 -67 -34 -67 4 0 36 28\r 70 63 l62 63 -63 62 c-63 63 -77 72 -77 50z" })
+  )
+);
+
+var sliderArrow8 = wp.element.createElement(
+  "svg",
+  { version: "1.0", xmlns: "http://www.w3.org/2000/svg",
+    width: "126.000000pt", height: "59.000000pt", viewBox: "0 0 126.000000 59.000000",
+    preserveAspectRatio: "xMidYMid meet" },
+  wp.element.createElement(
+    "g",
+    { transform: "translate(0.000000,59.000000) scale(0.100000,-0.100000)",
+      fill: "#ffffff", stroke: "none" },
+    wp.element.createElement("path", { d: "M174 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27\r -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187\r -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164\r -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106\r 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M192 357 l-62 -63 63 -62 c34 -34 66 -62 70 -62 18 0 3 28 -35 67\r l-42 43 132 0 c111 0 132 2 132 15 0 13 -21 15 -132 15 l-132 0 42 43 c39 40\r 53 67 34 67 -4 0 -36 -28 -70 -63z" }),
+    wp.element.createElement("path", { d: "M844 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27\r -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187\r -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164\r -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106\r 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M990 408 c0 -7 19 -32 42 -55 l42 -43 -132 0 c-111 0 -132 -2 -132\r -15 0 -13 21 -15 132 -15 l132 0 -42 -43 c-39 -40 -53 -67 -34 -67 4 0 36 28\r 70 63 l62 63 -63 62 c-63 63 -77 72 -77 50z" })
   )
 );
 
@@ -2810,6 +2844,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__block_advertisement_block__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__block_custom_block_block__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__block_featured_boxes_block__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__block_cross_promo_block__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__block_cross_promo_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__block_cross_promo_block__);
+
 
 
 
@@ -4980,7 +5017,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons;
 
 
-                var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 if (0 === media.length) {
                     return wp.element.createElement(
@@ -5471,15 +5508,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     )
                                 )
                             ) : ''
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                'a',
-                                { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4', target: '_blank' },
-                                'How to use block?'
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -7385,7 +7413,9 @@ module.exports = shortOut;
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
   var RichText = wpEditor.RichText,
-      InspectorControls = wpEditor.InspectorControls;
+      InspectorControls = wpEditor.InspectorControls,
+      BlockControls = wpEditor.BlockControls,
+      URLInputButton = wpEditor.URLInputButton;
   var TextControl = wpComponents.TextControl,
       PanelBody = wpComponents.PanelBody,
       PanelRow = wpComponents.PanelRow,
@@ -7423,7 +7453,7 @@ module.exports = shortOut;
         type: 'string',
         source: 'html',
         selector: 'a',
-        default: 'READ MORE'
+        default: 'Learn More'
       },
       Link: {
         type: 'string',
@@ -7504,6 +7534,22 @@ module.exports = shortOut;
       },
       TextUppercase: {
         type: 'string'
+      },
+      customDesign: {
+        type: 'boolean',
+        default: false
+      },
+      backgroundColorNone: {
+        type: 'boolean',
+        default: true
+      },
+      backgroundColor: {
+        type: 'string',
+        default: '#00b5e0'
+      },
+      buttonColor: {
+        type: 'string',
+        default: '#000'
       }
     },
     edit: function edit(_ref) {
@@ -7531,7 +7577,11 @@ module.exports = shortOut;
           marginRight = attributes.marginRight,
           marginBottom = attributes.marginBottom,
           marginLeft = attributes.marginLeft,
-          TextUppercase = attributes.TextUppercase;
+          TextUppercase = attributes.TextUppercase,
+          customDesign = attributes.customDesign,
+          backgroundColor = attributes.backgroundColor,
+          backgroundColorNone = attributes.backgroundColorNone,
+          buttonColor = attributes.buttonColor;
 
 
       setAttributes({ saveId: clientId });
@@ -7539,6 +7589,8 @@ module.exports = shortOut;
 
       var ButtonStyle = {};
       FontSize && (ButtonStyle.fontSize = FontSize + 'px');
+      customDesign && backgroundColor && (ButtonStyle.background = backgroundColorNone ? 'none' : backgroundColor);
+      customDesign && buttonColor && (ButtonStyle.color = buttonColor);
       paddingTop && (ButtonStyle.paddingTop = paddingTop + 'px');
       paddingBottom && (ButtonStyle.paddingBottom = paddingBottom + 'px');
       paddingLeft && (ButtonStyle.paddingLeft = paddingLeft + 'px');
@@ -7548,7 +7600,7 @@ module.exports = shortOut;
       marginLeft && (ButtonStyle.marginLeft = marginLeft + 'px');
       marginRight && (ButtonStyle.marginRight = marginRight + 'px');
       TextUppercase && (ButtonStyle.textTransform = TextUppercase);
-      BorderWidth && BorderColor && (ButtonStyle.border = BorderWidth + "px solid #" + BorderColor);
+      BorderWidth && BorderColor && (ButtonStyle.border = BorderWidth + "px solid " + BorderColor);
       BorderRadius && (ButtonStyle.borderRadius = BorderRadius + 'px');
       FontFamily && (ButtonStyle.fontFamily = "" + FontFamily);
       ButtonStyle.textDecoration = 'none';
@@ -7574,6 +7626,20 @@ module.exports = shortOut;
       return wp.element.createElement(
         "div",
         { className: "nab-btn-main", id: blockID, style: ButtonMain },
+        wp.element.createElement(
+          BlockControls,
+          null,
+          wp.element.createElement(
+            "div",
+            { className: "linkBtnBar" },
+            wp.element.createElement(URLInputButton, {
+              url: Link,
+              onChange: function onChange(url, post) {
+                return setAttributes({ Link: url, text: post && post.title || 'Click here' });
+              }
+            })
+          )
+        ),
         wp.element.createElement(RichText, {
           tagName: "a",
           style: finaleStyle,
@@ -7620,6 +7686,82 @@ module.exports = shortOut;
             PanelBody,
             { title: "Design" },
             wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(ToggleControl, {
+                label: __('Custom Design'),
+                checked: customDesign,
+                onChange: function onChange() {
+                  if (customDesign) {
+                    setAttributes({ btnStyle: 'btn-primary' });
+                  } else {
+                    setAttributes({ btnStyle: 'custom-design' });
+                  }
+                  setAttributes({ customDesign: !customDesign });
+                }
+              })
+            ),
+            customDesign ? wp.element.createElement(
+              "div",
+              null,
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
+                  "div",
+                  { className: "inspector-field inspector-field-color " },
+                  wp.element.createElement(
+                    "label",
+                    { className: "inspector-mb-0" },
+                    "Button Color"
+                  ),
+                  wp.element.createElement(
+                    "div",
+                    { className: "inspector-ml-auto" },
+                    wp.element.createElement(ColorPalette, {
+                      value: buttonColor,
+                      onChange: function onChange(buttonColor) {
+                        return setAttributes({
+                          buttonColor: buttonColor
+                        });
+                      }
+                    })
+                  )
+                )
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(ToggleControl, {
+                  label: __('Background Transparent'),
+                  checked: backgroundColorNone,
+                  onChange: function onChange() {
+                    return setAttributes({ backgroundColorNone: !backgroundColorNone });
+                  }
+                })
+              ),
+              backgroundColorNone ? '' : wp.element.createElement(
+                "div",
+                { className: "inspector-field inspector-field-color " },
+                wp.element.createElement(
+                  "label",
+                  { className: "inspector-mb-0" },
+                  "Background Color"
+                ),
+                wp.element.createElement(
+                  "div",
+                  { className: "inspector-ml-auto" },
+                  wp.element.createElement(ColorPalette, {
+                    value: backgroundColor,
+                    onChange: function onChange(backgroundColor) {
+                      return setAttributes({
+                        backgroundColor: backgroundColor
+                      });
+                    }
+                  })
+                )
+              )
+            ) : wp.element.createElement(
               PanelRow,
               null,
               wp.element.createElement(
@@ -7689,7 +7831,7 @@ module.exports = shortOut;
                         wp.element.createElement(
                           "span",
                           null,
-                          "READ MORE"
+                          "Learn More"
                         )
                       ),
                       wp.element.createElement(
@@ -7700,7 +7842,7 @@ module.exports = shortOut;
                         wp.element.createElement(
                           "span",
                           null,
-                          "READ MORE"
+                          "Learn More"
                         )
                       ),
                       wp.element.createElement(
@@ -7711,104 +7853,115 @@ module.exports = shortOut;
                         wp.element.createElement(
                           "span",
                           null,
-                          "READ MORE"
+                          "Learn More"
+                        )
+                      ),
+                      wp.element.createElement(
+                        "li",
+                        { className: 'btn-pink' === btnStyle ? 'active btn-pink-prev' : 'btn-pink-prev', onClick: function onClick() {
+                            return setAttributes({ btnStyle: 'btn-pink' });
+                          } },
+                        wp.element.createElement(
+                          "span",
+                          null,
+                          "Learn More"
                         )
                       )
                     )
                   )
-                ),
-                'with-arrow' === btnStyle ? wp.element.createElement(
+                )
+              )
+            ),
+            'with-arrow' === btnStyle ? wp.element.createElement(
+              "div",
+              { className: "inspector-field inspector-field-color " },
+              wp.element.createElement(
+                "label",
+                { className: "inspector-mb-0" },
+                "Color"
+              ),
+              wp.element.createElement(
+                "div",
+                { className: "inspector-ml-auto" },
+                wp.element.createElement(ColorPalette, {
+                  value: arrowBtnColor,
+                  onChange: function onChange(arrowBtnColor) {
+                    return setAttributes({
+                      arrowBtnColor: arrowBtnColor
+                    });
+                  }
+                })
+              )
+            ) : '',
+            'with-arrow' !== btnStyle ? wp.element.createElement(
+              "div",
+              null,
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
+                  "div",
+                  { className: "inspector-field inspector-border-width" },
+                  wp.element.createElement(
+                    "label",
+                    null,
+                    "Border Width"
+                  ),
+                  wp.element.createElement(RangeControl, {
+                    value: BorderWidth,
+                    min: 0,
+                    onChange: function onChange(BorderWidth) {
+                      return setAttributes({ BorderWidth: BorderWidth });
+                    }
+                  })
+                )
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
+                  "div",
+                  { className: "inspector-field inspector-border-radius" },
+                  wp.element.createElement(
+                    "label",
+                    null,
+                    "Border radius"
+                  ),
+                  wp.element.createElement(RangeControl, {
+                    value: BorderRadius,
+                    min: 0,
+                    onChange: function onChange(BorderRadius) {
+                      return setAttributes({ BorderRadius: BorderRadius });
+                    }
+                  })
+                )
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
                   "div",
                   { className: "inspector-field inspector-field-color " },
                   wp.element.createElement(
                     "label",
                     { className: "inspector-mb-0" },
-                    "Color"
+                    "Border Color"
                   ),
                   wp.element.createElement(
                     "div",
                     { className: "inspector-ml-auto" },
                     wp.element.createElement(ColorPalette, {
-                      value: arrowBtnColor,
-                      onChange: function onChange(arrowBtnColor) {
+                      value: BorderColor,
+                      onChange: function onChange(BorderColor) {
                         return setAttributes({
-                          arrowBtnColor: arrowBtnColor
+                          BorderColor: BorderColor
                         });
                       }
                     })
                   )
-                ) : '',
-                'with-arrow' !== btnStyle ? wp.element.createElement(
-                  "div",
-                  null,
-                  wp.element.createElement(
-                    PanelRow,
-                    null,
-                    wp.element.createElement(
-                      "div",
-                      { className: "inspector-field inspector-border-width" },
-                      wp.element.createElement(
-                        "label",
-                        null,
-                        "Border Width"
-                      ),
-                      wp.element.createElement(RangeControl, {
-                        value: BorderWidth,
-                        min: 1,
-                        onChange: function onChange(BorderWidth) {
-                          return setAttributes({ BorderWidth: BorderWidth });
-                        }
-                      })
-                    )
-                  ),
-                  wp.element.createElement(
-                    PanelRow,
-                    null,
-                    wp.element.createElement(
-                      "div",
-                      { className: "inspector-field inspector-border-radius" },
-                      wp.element.createElement(
-                        "label",
-                        null,
-                        "Border radius"
-                      ),
-                      wp.element.createElement(RangeControl, {
-                        value: BorderRadius,
-                        min: 1,
-                        onChange: function onChange(BorderRadius) {
-                          return setAttributes({ BorderRadius: BorderRadius });
-                        }
-                      })
-                    )
-                  ),
-                  wp.element.createElement(
-                    PanelRow,
-                    null,
-                    wp.element.createElement(
-                      "div",
-                      { className: "inspector-field inspector-field-color " },
-                      wp.element.createElement(
-                        "label",
-                        { className: "inspector-mb-0" },
-                        "Color"
-                      ),
-                      wp.element.createElement(
-                        "div",
-                        { className: "inspector-ml-auto" },
-                        wp.element.createElement(ColorPalette, {
-                          value: BorderColor,
-                          onChange: function onChange(BorderColor) {
-                            return setAttributes({
-                              BorderColor: BorderColor
-                            });
-                          }
-                        })
-                      )
-                    )
-                  )
-                ) : ''
+                )
               )
-            )
+            ) : ''
           ),
           wp.element.createElement(
             PanelBody,
@@ -7846,7 +7999,7 @@ module.exports = shortOut;
                 ),
                 wp.element.createElement(SelectControl, {
                   value: FontFamily,
-                  options: [{ label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }, { label: __('Molot'), value: 'Molot' }],
+                  options: [{ label: __('Molot'), value: 'Molot' }, { label: __('Roboto Regular'), value: 'Roboto Regular' }, { label: __('Roboto Black'), value: 'Roboto Black' }, { label: __('Roboto Bold'), value: 'Roboto Bold' }, { label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' }, { label: __('Roboto Italic'), value: 'Roboto Italic' }, { label: __('Roboto Light'), value: 'Roboto Light' }, { label: __('Roboto Medium'), value: 'Roboto Medium' }, { label: __('Roboto Thin'), value: 'Roboto Thin' }, { label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }],
                   onChange: function onChange(value) {
                     return setAttributes({ FontFamily: value });
                   }
@@ -8157,16 +8310,7 @@ module.exports = shortOut;
                 )
               )
             )
-          ) : '',
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              "a",
-              { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-              "How to use block?"
-            )
-          )
+          ) : ''
         )
       );
     },
@@ -8193,12 +8337,17 @@ module.exports = shortOut;
           marginRight = attributes.marginRight,
           marginBottom = attributes.marginBottom,
           marginLeft = attributes.marginLeft,
-          TextUppercase = attributes.TextUppercase;
+          TextUppercase = attributes.TextUppercase,
+          backgroundColor = attributes.backgroundColor,
+          customDesign = attributes.customDesign,
+          backgroundColorNone = attributes.backgroundColorNone,
+          buttonColor = attributes.buttonColor;
 
 
       var ButtonStyle = {};
       FontSize && (ButtonStyle.fontSize = FontSize + 'px');
-      FontFamily && (ButtonStyle.fontFamily = "" + FontFamily);
+      customDesign && backgroundColor && (ButtonStyle.background = backgroundColorNone ? 'none' : backgroundColor);
+      customDesign && buttonColor && (ButtonStyle.color = buttonColor);
       paddingTop && (ButtonStyle.paddingTop = paddingTop + 'px');
       paddingBottom && (ButtonStyle.paddingBottom = paddingBottom + 'px');
       paddingLeft && (ButtonStyle.paddingLeft = paddingLeft + 'px');
@@ -8208,8 +8357,9 @@ module.exports = shortOut;
       marginLeft && (ButtonStyle.marginLeft = marginLeft + 'px');
       marginRight && (ButtonStyle.marginRight = marginRight + 'px');
       TextUppercase && (ButtonStyle.textTransform = TextUppercase);
-      BorderWidth && (ButtonStyle.border = BorderWidth + "px solid #" + BorderColor);
+      BorderWidth && BorderColor && (ButtonStyle.border = BorderWidth + "px solid " + BorderColor);
       BorderRadius && (ButtonStyle.borderRadius = BorderRadius + 'px');
+      FontFamily && (ButtonStyle.fontFamily = "" + FontFamily);
       ButtonStyle.textDecoration = 'none';
       ButtonStyle.textAlign = 'center';
       ButtonStyle.display = 'inline-block';
@@ -8264,7 +8414,8 @@ module.exports = shortOut;
 	    PanelRow = wpComponents.PanelRow,
 	    SelectControl = wpComponents.SelectControl,
 	    ColorPalette = wpComponents.ColorPalette,
-	    RangeControl = wpComponents.RangeControl;
+	    RangeControl = wpComponents.RangeControl,
+	    CheckboxControl = wpComponents.CheckboxControl;
 
 
 	var headingBlockIcon = wp.element.createElement(
@@ -8353,6 +8504,13 @@ module.exports = shortOut;
 			fontFamily: {
 				type: 'string',
 				default: 'Gotham Bold'
+			},
+			designOpt: {
+				type: 'boolean'
+			},
+			backgroundColor: {
+				type: 'string',
+				default: ''
 			}
 		},
 		edit: function edit(_ref) {
@@ -8374,7 +8532,9 @@ module.exports = shortOut;
 			    HeadingColor = attributes.HeadingColor,
 			    TextUppercase = attributes.TextUppercase,
 			    TextAlign = attributes.TextAlign,
-			    fontFamily = attributes.fontFamily;
+			    fontFamily = attributes.fontFamily,
+			    designOpt = attributes.designOpt,
+			    backgroundColor = attributes.backgroundColor;
 
 
 			var HeadingStyle = {};
@@ -8394,10 +8554,26 @@ module.exports = shortOut;
 			TextAlign && (HeadingStyle.textAlign = TextAlign);
 			fontFamily && (HeadingStyle.fontFamily = fontFamily);
 
+			var tiltedStyle = {};
+			backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+
 			return wp.element.createElement(
 				Fragment,
 				null,
-				wp.element.createElement(RichText, {
+				true === designOpt ? wp.element.createElement(
+					"div",
+					{ className: "nab-heading", style: tiltedStyle },
+					wp.element.createElement(RichText, {
+						tagName: HeadingLevel,
+						onChange: function onChange(HeadingText) {
+							return setAttributes({ HeadingText: HeadingText });
+						},
+						value: HeadingText,
+						style: HeadingStyle,
+						className: "title nab-title"
+					}),
+					wp.element.createElement("span", { className: "tilted-design", style: tiltedStyle })
+				) : wp.element.createElement(RichText, {
 					tagName: HeadingLevel,
 					onChange: function onChange(HeadingText) {
 						return setAttributes({ HeadingText: HeadingText });
@@ -8523,6 +8699,57 @@ module.exports = shortOut;
 					),
 					wp.element.createElement(
 						PanelBody,
+						{ title: "Heading Design", initialOpen: false },
+						wp.element.createElement(
+							PanelRow,
+							null,
+							wp.element.createElement(
+								"div",
+								{ className: "inspector-field inspector-field-headings-design" },
+								wp.element.createElement(CheckboxControl, {
+									className: "in-checkbox",
+									label: "Tilted Design",
+									checked: designOpt,
+									onChange: function onChange(isChecked) {
+										if (isChecked) {
+											setAttributes({ designOpt: true });
+										} else {
+											setAttributes({ designOpt: false });
+										}
+									}
+								})
+							)
+						)
+					),
+					designOpt && wp.element.createElement(
+						PanelBody,
+						{ title: __('Background Color'), initialOpen: true, className: "bg-setting" },
+						wp.element.createElement(
+							PanelRow,
+							null,
+							wp.element.createElement(
+								"div",
+								{ className: "inspector-field inspector-field-color " },
+								wp.element.createElement(
+									"label",
+									{ className: "inspector-mb-0" },
+									"Background Color"
+								),
+								wp.element.createElement(
+									"div",
+									{ className: "inspector-ml-auto" },
+									wp.element.createElement(ColorPalette, {
+										value: backgroundColor,
+										onChange: function onChange(value) {
+											return setAttributes({ backgroundColor: value ? value : '', opacity: 0 });
+										}
+									})
+								)
+							)
+						)
+					),
+					wp.element.createElement(
+						PanelBody,
 						{ title: "Typography", initialOpen: false },
 						wp.element.createElement(
 							PanelRow,
@@ -8582,7 +8809,7 @@ module.exports = shortOut;
 								),
 								wp.element.createElement(SelectControl, {
 									value: fontFamily,
-									options: [{ label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }, { label: __('Molot'), value: 'Molot' }],
+									options: [{ label: __('Molot'), value: 'Molot' }, { label: __('Roboto Regular'), value: 'Roboto Regular' }, { label: __('Roboto Black'), value: 'Roboto Black' }, { label: __('Roboto Bold'), value: 'Roboto Bold' }, { label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' }, { label: __('Roboto Italic'), value: 'Roboto Italic' }, { label: __('Roboto Light'), value: 'Roboto Light' }, { label: __('Roboto Medium'), value: 'Roboto Medium' }, { label: __('Roboto Thin'), value: 'Roboto Thin' }, { label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }],
 									onChange: function onChange(value) {
 										return setAttributes({ fontFamily: value });
 									}
@@ -8910,15 +9137,6 @@ module.exports = shortOut;
 								)
 							)
 						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							"a",
-							{ href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-							"How to use block?"
-						)
 					)
 				)
 			);
@@ -8942,7 +9160,9 @@ module.exports = shortOut;
 			    HeadingColor = attributes.HeadingColor,
 			    TextUppercase = attributes.TextUppercase,
 			    TextAlign = attributes.TextAlign,
-			    fontFamily = attributes.fontFamily;
+			    fontFamily = attributes.fontFamily,
+			    designOpt = attributes.designOpt,
+			    backgroundColor = attributes.backgroundColor;
 
 
 			var HeadingStyle = {};
@@ -8962,10 +9182,23 @@ module.exports = shortOut;
 			TextAlign && (HeadingStyle.textAlign = TextAlign);
 			fontFamily && (HeadingStyle.fontFamily = fontFamily);
 
+			var tiltedStyle = {};
+			backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+
 			return wp.element.createElement(
 				Fragment,
 				null,
-				wp.element.createElement(RichText.Content, {
+				true === designOpt ? wp.element.createElement(
+					"div",
+					{ className: "nab-heading", style: tiltedStyle },
+					wp.element.createElement(RichText.Content, {
+						tagName: HeadingLevel,
+						value: HeadingText,
+						style: HeadingStyle,
+						className: "title nab-title"
+					}),
+					wp.element.createElement("span", { className: "tilted-design", style: tiltedStyle })
+				) : wp.element.createElement(RichText.Content, {
 					tagName: HeadingLevel,
 					value: HeadingText,
 					style: HeadingStyle,
@@ -8985,7 +9218,8 @@ module.exports = shortOut;
   var registerBlockType = wpBlocks.registerBlockType;
   var InspectorControls = wpEditor.InspectorControls,
       MediaUpload = wpEditor.MediaUpload,
-      BlockControls = wpEditor.BlockControls;
+      BlockControls = wpEditor.BlockControls,
+      URLInputButton = wpEditor.URLInputButton;
   var TextControl = wpComponents.TextControl,
       PanelBody = wpComponents.PanelBody,
       PanelRow = wpComponents.PanelRow,
@@ -9241,6 +9475,16 @@ module.exports = shortOut;
                 return setAttributes({ imageUrl: '', imageAlt: '', InsertUrl: '' });
               },
               className: "dashicons dashicons-trash"
+            })
+          ),
+          wp.element.createElement(
+            "div",
+            { className: "linkBtnBar" },
+            wp.element.createElement(URLInputButton, {
+              url: imgLink,
+              onChange: function onChange(url, post) {
+                return setAttributes({ imgLink: url, text: post && post.title || 'Click here' });
+              }
             })
           )
         ),
@@ -9716,15 +9960,6 @@ module.exports = shortOut;
                   return setAttributes({ newWindow: !newWindow });
                 }
               })
-            )
-          ),
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              "a",
-              { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-              "How to use block?"
             )
           )
         )
@@ -10285,15 +10520,6 @@ module.exports = shortOut;
 								)
 							)
 						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							"a",
-							{ href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4", target: "_blank" },
-							"How to use block?"
-						)
 					)
 				)
 			);
@@ -10583,9 +10809,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         var allData = [].concat(_toConsumableArray(dataArray));
 
-        allData[parentIndex].detailList.push({
-          index: dataArray[parentIndex].detailList.length,
-          date: allData[parentIndex].detailList[currentIndex].date,
+        allData[parentIndex].detailList.splice(currentIndex + 1, 0, {
+          index: parseInt(allData[parentIndex].detailList[currentIndex].index) + 1,
           name: allData[parentIndex].detailList[currentIndex].name,
           location: allData[parentIndex].detailList[currentIndex].location,
           details: allData[parentIndex].detailList[currentIndex].details,
@@ -10637,18 +10862,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return setAttributes({ showTitle: !showTitle });
                   }
                 })
-              )
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                {
-                  href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4",
-                  target: "_blank"
-                },
-                "How to use block?"
               )
             )
           ),
@@ -10805,9 +11018,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     { text: "Remove" },
                     wp.element.createElement("i", {
                       onClick: function onClick() {
-                        var tempDataArray = [].concat(_toConsumableArray(dataArray));
-                        tempDataArray.splice(parentIndex, 1);
-                        setAttributes({ dataArray: tempDataArray });
+                        var toDel = confirm('Are you sure you want to delete?');
+                        if (true === toDel) {
+                          var tempDataArray = [].concat(_toConsumableArray(dataArray));
+                          tempDataArray.splice(parentIndex, 1);
+                          setAttributes({ dataArray: tempDataArray });
+                        }
                       },
                       className: "fa fa-times details-parent"
                     })
@@ -10900,28 +11116,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             { text: "Remove" },
                             wp.element.createElement("i", {
                               onClick: function onClick() {
-                                var tempDataArray = [].concat(_toConsumableArray(dataArray));
-                                tempDataArray[parentIndex].detailList.splice(index, 1);
-                                setAttributes({ dataArray: tempDataArray });
+                                var toDelete = confirm('Are you sure you want to delete?');
+                                if (true === toDelete) {
+                                  var tempDataArray = [].concat(_toConsumableArray(dataArray));
+                                  tempDataArray[parentIndex].detailList.splice(index, 1);
+                                  setAttributes({ dataArray: tempDataArray });
+                                }
                               },
                               className: "fa fa-times"
                             })
                           )
-                        ),
-                        wp.element.createElement(
-                          "div",
-                          { className: "date" },
-                          wp.element.createElement(RichText, {
-                            tagName: "p",
-                            keepPlaceholderOnFocus: "true",
-                            placeholder: __('8 a.m. - 6 p.m.'),
-                            value: data.date,
-                            onChange: function onChange(date) {
-                              var tempDataArray = [].concat(_toConsumableArray(dataArray));
-                              tempDataArray[parentIndex].detailList[index].date = date;
-                              setAttributes({ dataArray: tempDataArray });
-                            }
-                          })
                         ),
                         wp.element.createElement(
                           "div",
@@ -10996,7 +11200,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             var tempDataArray = [].concat(_toConsumableArray(dataArray));
                             tempDataArray[parentIndex].detailList.push({
                               index: dataArray[parentIndex].detailList.length,
-                              date: '',
                               name: '',
                               location: '',
                               details: 'Open to All',
@@ -11026,7 +11229,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         title: '',
                         detailList: [{
                           index: 0,
-                          date: '',
                           name: '',
                           location: '',
                           details: 'Open to All',
@@ -11205,14 +11407,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 return wp.element.createElement(
                   "div",
                   { className: "schedule-row", "data-type": data.type },
-                  wp.element.createElement(
-                    "div",
-                    { className: "date" },
-                    wp.element.createElement(RichText.Content, {
-                      tagName: "p",
-                      value: data.date === undefined ? '-' : data.date
-                    })
-                  ),
                   wp.element.createElement(
                     "div",
                     { className: "name" },
@@ -11579,7 +11773,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 PanelRow,
                                 null,
                                 wp.element.createElement(ToggleControl, {
-                                    label: __('Active Slider'),
+                                    label: __('Edit Slider'),
                                     checked: sliderActive,
                                     onChange: function onChange() {
                                         return setAttributes({ sliderActive: !sliderActive });
@@ -12111,7 +12305,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     blockTitle = attributes.blockTitle;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -12129,7 +12323,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -12419,15 +12613,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         )
                                     );
                                 })
-                            )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/not-to-be-missed-slider.mp4", target: "_blank" },
-                                "How to use block?"
                             )
                         )
                     ),
@@ -12737,7 +12922,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 20,
+                                    max: 100,
                                     onChange: function onChange(item) {
                                         setAttributes({ itemToFetch: parseInt(item) });
                                     }
@@ -12912,15 +13097,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/latest-show-news.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -13027,12 +13203,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 	var ALLOWBLOCKS = ['nab/accordion-item'];
 
-	var getChildAccordionBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (accordion) {
-		return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(accordion, function (n) {
-			return ['nab/accordion-item', { id: n + 1 }];
-		});
-	});
-
 	var removehildawardsBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (accordion) {
 		return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(accordion, function (n) {
 			return ['nab/accordion-item', { id: n - 1 }];
@@ -13125,15 +13295,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 								}
 							})
 						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							'a',
-							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4', target: '_blank' },
-							'How to use block?'
-						)
 					)
 				),
 				showFilter && wp.element.createElement(
@@ -13189,21 +13350,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 						className: 'title'
 					}) : '',
 					wp.element.createElement(InnerBlocks, {
-						template: getChildAccordionBlock(noOfAccordion),
-						templateLock: 'all',
 						allowedBlocks: ALLOWBLOCKS
-					}),
-					wp.element.createElement(
-						'div',
-						{ className: 'add-remove-btn' },
-						wp.element.createElement(
-							'button',
-							{ type: 'button', className: 'components-button add', onClick: function onClick() {
-									return setAttributes({ noOfAccordion: noOfAccordion + 1 });
-								} },
-							wp.element.createElement('span', { className: 'dashicons fa fa-plus' })
-						)
-					)
+					})
 				)
 			);
 		},
@@ -13297,7 +13445,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			},
 			headerTextColor: {
 				type: 'string',
-				default: '#000'
+				default: '#fff'
 			},
 			titleBackgroundColor: {
 				type: 'string',
@@ -13349,7 +13497,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			},
 			borderColor: {
 				type: 'string',
-				default: '#000'
+				default: '#fff'
 			},
 			borderRadius: {
 				type: 'number',
@@ -13513,7 +13661,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 								),
 								wp.element.createElement(SelectControl, {
 									value: fontFamily,
-									options: [{ label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }, { label: __('Molot'), value: 'Molot' }],
+									options: [{ label: __('Molot'), value: 'Molot' }, { label: __('Roboto Regular'), value: 'Roboto Regular' }, { label: __('Roboto Black'), value: 'Roboto Black' }, { label: __('Roboto Bold'), value: 'Roboto Bold' }, { label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' }, { label: __('Roboto Italic'), value: 'Roboto Italic' }, { label: __('Roboto Light'), value: 'Roboto Light' }, { label: __('Roboto Medium'), value: 'Roboto Medium' }, { label: __('Roboto Thin'), value: 'Roboto Thin' }, { label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }],
 									onChange: function onChange(value) {
 										return setAttributes({ fontFamily: value });
 									}
@@ -13958,15 +14106,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 									)
 								)
 							)
-						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							'a',
-							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4', target: '_blank' },
-							'How to use block?'
 						)
 					)
 				)
@@ -14939,15 +15078,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 })
               )
             )
-          ),
-          wp.element.createElement(
-            PanelBody,
-            { title: __('Help'), initialOpen: false },
-            wp.element.createElement(
-              'a',
-              { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/meet-the-team.mp4', target: '_blank' },
-              'How to use block?'
-            )
           )
         ),
         wp.element.createElement(
@@ -15326,12 +15456,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
     var ALLOWBLOCKS = ['nab/awards-item'];
 
-    var getChildawardsBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (awards) {
-        return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(awards, function (n) {
-            return ['nab/awards-item', { id: n + 1 }];
-        });
-    });
-
     var removehildawardsBlock = __WEBPACK_IMPORTED_MODULE_1_memize___default()(function (awards) {
         return __WEBPACK_IMPORTED_MODULE_0_lodash_times___default()(awards, function (n) {
             return ['nab/awards-item', { id: n - 1 }];
@@ -15395,15 +15519,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                     return setAttributes({ showFilter: !showFilter });
                                 }
                             })
-                        )
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: __('Help'), initialOpen: false },
-                        wp.element.createElement(
-                            'a',
-                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4', target: '_blank' },
-                            'How to use block?'
                         )
                     )
                 ),
@@ -15482,21 +15597,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             'div',
                             { className: 'awards-data row' },
                             wp.element.createElement(InnerBlocks, {
-                                template: getChildawardsBlock(noOfAwards),
-                                templateLock: 'all',
                                 allowedBlocks: ALLOWBLOCKS
-                            }),
-                            wp.element.createElement(
-                                'div',
-                                { className: 'add-remove-btn' },
-                                wp.element.createElement(
-                                    Button,
-                                    { className: 'add', onClick: function onClick() {
-                                            setAttributes({ noOfAwards: noOfAwards + 1 });
-                                        } },
-                                    wp.element.createElement('span', { className: 'dashicons dashicons-plus' })
-                                )
-                            )
+                            })
                         )
                     )
                 )
@@ -15641,15 +15743,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                 }
                             })
                         )
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: __('Help'), initialOpen: false },
-                        wp.element.createElement(
-                            'a',
-                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/awards.mp4', target: '_blank' },
-                            'How to use block?'
-                        )
                     )
                 ),
                 wp.element.createElement(
@@ -15771,7 +15864,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             showPopup ? wp.element.createElement(
                                 'div',
                                 { className: 'nab_model_head' },
-                                wp.element.createElement('input', { type: 'button', onClick: modelopen, className: 'nab_popup_btn btn-primary', value: 'Learn More' }),
+                                wp.element.createElement('input', { type: 'button', onClick: modelopen, className: 'nab_popup_btn btn-primary', value: 'Read More' }),
                                 wp.element.createElement(
                                     'div',
                                     { className: 'nab_model_main ' + modelClass },
@@ -15856,7 +15949,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                         showPopup ? wp.element.createElement(
                             'div',
                             { className: 'nab_model_head' },
-                            wp.element.createElement('input', { type: 'button', className: 'nab_popup_btn btn-primary', value: 'Learn More' }),
+                            wp.element.createElement('input', { type: 'button', className: 'nab_popup_btn btn-primary', value: 'Read More' }),
                             wp.element.createElement(
                                 'div',
                                 { className: 'nab_model_main' },
@@ -15932,36 +16025,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
   var adUploadIcon = wp.element.createElement(
-    "svg",
-    { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22", className: "dashicon" },
-    wp.element.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" }),
-    wp.element.createElement("path", { d: "M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9.88 4h4.24l1.83 2H20v12H4V6h4.05" }),
-    wp.element.createElement("path", { d: "M15 11H9V8.5L5.5 12 9 15.5V13h6v2.5l3.5-3.5L15 8.5z" })
+    'svg',
+    { xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '2 2 22 22', className: 'dashicon' },
+    wp.element.createElement('path', { fill: 'none', d: 'M0 0h24v24H0V0z' }),
+    wp.element.createElement('path', { d: 'M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9.88 4h4.24l1.83 2H20v12H4V6h4.05' }),
+    wp.element.createElement('path', { d: 'M15 11H9V8.5L5.5 12 9 15.5V13h6v2.5l3.5-3.5L15 8.5z' })
   );
 
   var adBlockIcon = wp.element.createElement(
-    "svg",
-    { width: "150px", height: "150px", viewBox: "0 0 150 150", "enable-background": "new 0 0 150 150" },
+    'svg',
+    { width: '150px', height: '150px', viewBox: '0 0 150 150', 'enable-background': 'new 0 0 150 150' },
     wp.element.createElement(
-      "g",
+      'g',
       null,
       wp.element.createElement(
-        "g",
+        'g',
         null,
         wp.element.createElement(
-          "g",
+          'g',
           null,
-          wp.element.createElement("path", { fill: "#146DB6", d: "M133.758,4.449H16.676c-7.175,0-13.009,5.834-13.009,13.009v117.083c0,7.175,5.834,13.009,13.009,13.009\r h117.082c7.176,0,13.011-5.834,13.011-13.009V17.458C146.768,10.283,140.934,4.449,133.758,4.449z M140.263,134.541\r c0,3.585-2.919,6.506-6.505,6.506H16.676c-3.586,0-6.505-2.921-6.505-6.506V36.972h130.092V134.541L140.263,134.541z\r M140.263,30.467H10.171V17.458c0-3.586,2.918-6.504,6.505-6.504h117.082c3.586,0,6.505,2.918,6.505,6.504V30.467L140.263,30.467\r z" }),
-          wp.element.createElement("circle", { fill: "#146DB6", cx: "19.928", cy: "20.71", r: "3.252" }),
-          wp.element.createElement("circle", { fill: "#146DB6", cx: "32.938", cy: "20.71", r: "3.252" }),
-          wp.element.createElement("circle", { fill: "#146DB6", cx: "45.946", cy: "20.71", r: "3.252" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M26.433,108.521h65.045c1.798,0,3.252-1.454,3.252-3.252V53.234c0-1.798-1.455-3.253-3.252-3.253H26.433\r c-1.798,0-3.253,1.455-3.253,3.253v52.036C23.18,107.067,24.635,108.521,26.433,108.521z M29.685,56.485h58.541v45.533H29.685\r V56.485z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M45.946,62.99c-5.379,0-9.756,4.377-9.756,9.756v19.515c0,1.797,1.455,3.252,3.253,3.252\r c1.797,0,3.252-1.455,3.252-3.252V89.01h6.504v3.251c0,1.797,1.455,3.252,3.253,3.252c1.797,0,3.251-1.455,3.251-3.252V72.746\r C55.704,67.367,51.327,62.99,45.946,62.99z M49.199,82.503h-6.505v-9.757c0-1.794,1.458-3.251,3.252-3.251\r c1.795,0,3.253,1.458,3.253,3.251V82.503L49.199,82.503z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M71.964,62.99H65.46c-1.797,0-3.252,1.455-3.252,3.253v26.018c0,1.797,1.455,3.252,3.252,3.252h6.504\r c5.381,0,9.757-4.377,9.757-9.755V72.746C81.722,67.367,77.346,62.99,71.964,62.99z M75.217,85.758\r c0,1.792-1.458,3.252-3.253,3.252h-3.251V69.495h3.251c1.795,0,3.253,1.458,3.253,3.251V85.758L75.217,85.758z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M26.433,128.037h97.569c1.797,0,3.251-1.454,3.251-3.254c0-1.797-1.454-3.252-3.251-3.252H26.433\r c-1.798,0-3.253,1.455-3.253,3.254C23.18,126.583,24.635,128.037,26.433,128.037z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M104.487,69.495h19.515c1.799,0,3.253-1.455,3.253-3.251c0-1.798-1.456-3.253-3.253-3.253h-19.515\r c-1.798,0-3.251,1.456-3.251,3.253C101.236,68.04,102.689,69.495,104.487,69.495z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M104.487,89.01h19.515c1.799,0,3.253-1.455,3.253-3.252c0-1.8-1.456-3.255-3.253-3.255h-19.515\r c-1.798,0-3.251,1.457-3.251,3.255C101.236,87.555,102.689,89.01,104.487,89.01z" }),
-          wp.element.createElement("path", { fill: "#146DB6", d: "M104.487,108.521h19.515c1.799,0,3.253-1.454,3.253-3.252c0-1.797-1.456-3.251-3.253-3.251h-19.515\r c-1.798,0-3.251,1.454-3.251,3.251C101.236,107.067,102.689,108.521,104.487,108.521z" })
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M133.758,4.449H16.676c-7.175,0-13.009,5.834-13.009,13.009v117.083c0,7.175,5.834,13.009,13.009,13.009\r h117.082c7.176,0,13.011-5.834,13.011-13.009V17.458C146.768,10.283,140.934,4.449,133.758,4.449z M140.263,134.541\r c0,3.585-2.919,6.506-6.505,6.506H16.676c-3.586,0-6.505-2.921-6.505-6.506V36.972h130.092V134.541L140.263,134.541z\r M140.263,30.467H10.171V17.458c0-3.586,2.918-6.504,6.505-6.504h117.082c3.586,0,6.505,2.918,6.505,6.504V30.467L140.263,30.467\r z' }),
+          wp.element.createElement('circle', { fill: '#146DB6', cx: '19.928', cy: '20.71', r: '3.252' }),
+          wp.element.createElement('circle', { fill: '#146DB6', cx: '32.938', cy: '20.71', r: '3.252' }),
+          wp.element.createElement('circle', { fill: '#146DB6', cx: '45.946', cy: '20.71', r: '3.252' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M26.433,108.521h65.045c1.798,0,3.252-1.454,3.252-3.252V53.234c0-1.798-1.455-3.253-3.252-3.253H26.433\r c-1.798,0-3.253,1.455-3.253,3.253v52.036C23.18,107.067,24.635,108.521,26.433,108.521z M29.685,56.485h58.541v45.533H29.685\r V56.485z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M45.946,62.99c-5.379,0-9.756,4.377-9.756,9.756v19.515c0,1.797,1.455,3.252,3.253,3.252\r c1.797,0,3.252-1.455,3.252-3.252V89.01h6.504v3.251c0,1.797,1.455,3.252,3.253,3.252c1.797,0,3.251-1.455,3.251-3.252V72.746\r C55.704,67.367,51.327,62.99,45.946,62.99z M49.199,82.503h-6.505v-9.757c0-1.794,1.458-3.251,3.252-3.251\r c1.795,0,3.253,1.458,3.253,3.251V82.503L49.199,82.503z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M71.964,62.99H65.46c-1.797,0-3.252,1.455-3.252,3.253v26.018c0,1.797,1.455,3.252,3.252,3.252h6.504\r c5.381,0,9.757-4.377,9.757-9.755V72.746C81.722,67.367,77.346,62.99,71.964,62.99z M75.217,85.758\r c0,1.792-1.458,3.252-3.253,3.252h-3.251V69.495h3.251c1.795,0,3.253,1.458,3.253,3.251V85.758L75.217,85.758z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M26.433,128.037h97.569c1.797,0,3.251-1.454,3.251-3.254c0-1.797-1.454-3.252-3.251-3.252H26.433\r c-1.798,0-3.253,1.455-3.253,3.254C23.18,126.583,24.635,128.037,26.433,128.037z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M104.487,69.495h19.515c1.799,0,3.253-1.455,3.253-3.251c0-1.798-1.456-3.253-3.253-3.253h-19.515\r c-1.798,0-3.251,1.456-3.251,3.253C101.236,68.04,102.689,69.495,104.487,69.495z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M104.487,89.01h19.515c1.799,0,3.253-1.455,3.253-3.252c0-1.8-1.456-3.255-3.253-3.255h-19.515\r c-1.798,0-3.251,1.457-3.251,3.255C101.236,87.555,102.689,89.01,104.487,89.01z' }),
+          wp.element.createElement('path', { fill: '#146DB6', d: 'M104.487,108.521h19.515c1.799,0,3.253-1.454,3.253-3.252c0-1.797-1.456-3.251-3.253-3.251h-19.515\r c-1.798,0-3.251,1.454-3.251,3.251C101.236,107.067,102.689,108.521,104.487,108.521z' })
         )
       )
     )
@@ -15982,7 +16075,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }
 
     _createClass(NabAdvertisement, [{
-      key: "updateMediaData",
+      key: 'updateMediaData',
       value: function updateMediaData(data) {
         var currentSelected = this.state.currentSelected;
 
@@ -16007,7 +16100,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         setAttributes({ imgSources: newSources });
       }
     }, {
-      key: "render",
+      key: 'render',
       value: function render() {
         var _this2 = this;
 
@@ -16075,7 +16168,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var open = _ref.open;
                 return wp.element.createElement(
                   Button,
-                  { className: "button button-large button-primary", onClick: open },
+                  { className: 'button button-large button-primary', onClick: open },
                   __('Add image')
                 );
               }
@@ -16106,24 +16199,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 Fragment,
                 null,
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-toggleCal components-base-control" },
+                  'div',
+                  { className: 'inspector-field inspector-field-toggleCal components-base-control' },
                   wp.element.createElement(
-                    "div",
-                    { className: "toggleCalender" },
+                    'div',
+                    { className: 'toggleCalender' },
                     wp.element.createElement(
-                      "span",
-                      { className: "cal" },
+                      'span',
+                      { className: 'cal' },
                       wp.element.createElement(
-                        "svg",
-                        { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512" },
-                        wp.element.createElement("path", { d: "M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z" })
+                        'svg',
+                        { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 448 512' },
+                        wp.element.createElement('path', { d: 'M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z' })
                       )
                     ),
                     wp.element.createElement(
-                      "span",
-                      { className: "text" },
-                      "Toggle Calendar"
+                      'span',
+                      { className: 'text' },
+                      'Toggle Calendar'
                     )
                   ),
                   wp.element.createElement(ToggleControl, {
@@ -16131,16 +16224,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   })
                 ),
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-datetime components-base-control" },
+                  'div',
+                  { className: 'inspector-field inspector-field-datetime components-base-control' },
                   wp.element.createElement(
-                    "label",
-                    { className: "inspector-mb-0" },
-                    "Select Date time to start display"
+                    'label',
+                    { className: 'inspector-mb-0' },
+                    'Select Date time to start display'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "inspector-ml-auto" },
+                    'div',
+                    { className: 'inspector-ml-auto' },
                     wp.element.createElement(DateTimePicker, {
                       currentDate: startDate,
                       onChange: function onChange(date) {
@@ -16150,16 +16243,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   )
                 ),
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-datetime components-base-control" },
+                  'div',
+                  { className: 'inspector-field inspector-field-datetime components-base-control' },
                   wp.element.createElement(
-                    "label",
-                    { className: "inspector-mb-0" },
-                    "Select Date time to remove"
+                    'label',
+                    { className: 'inspector-mb-0' },
+                    'Select Date time to remove'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "inspector-ml-auto" },
+                    'div',
+                    { className: 'inspector-ml-auto' },
                     wp.element.createElement(DateTimePicker, {
                       currentDate: endDate,
                       onChange: function onChange(date) {
@@ -16177,14 +16270,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 PanelRow,
                 null,
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field alignment-settings" },
+                  'div',
+                  { className: 'inspector-field alignment-settings' },
                   wp.element.createElement(
-                    "div",
-                    { className: "alignment-wrapper" },
+                    'div',
+                    { className: 'alignment-wrapper' },
                     wp.element.createElement(TextControl, {
-                      label: "Width",
-                      type: "number",
+                      label: 'Width',
+                      type: 'number',
                       value: imgWidth,
                       min: 1,
                       max: 1500,
@@ -16195,11 +16288,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "alignment-wrapper" },
+                    'div',
+                    { className: 'alignment-wrapper' },
                     wp.element.createElement(TextControl, {
-                      label: "Height",
-                      type: "number",
+                      label: 'Height',
+                      type: 'number',
                       value: imgHeight,
                       min: 1,
                       max: 1500,
@@ -16215,36 +16308,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 PanelRow,
                 null,
                 wp.element.createElement(
-                  "div",
-                  { className: "inspector-field inspector-field-alignment" },
+                  'div',
+                  { className: 'inspector-field inspector-field-alignment' },
                   wp.element.createElement(
-                    "label",
-                    { className: "inspector-mb-0" },
-                    "Alignment"
+                    'label',
+                    { className: 'inspector-mb-0' },
+                    'Alignment'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "inspector-field-button-list inspector-field-button-list-fluid" },
+                    'div',
+                    { className: 'inspector-field-button-list inspector-field-button-list-fluid' },
                     wp.element.createElement(
-                      "button",
+                      'button',
                       { className: 'left' === addAlign ? 'active  inspector-button' : 'inspector-button', onClick: function onClick() {
                           return setAttributes({ addAlign: 'left' });
                         } },
-                      wp.element.createElement("i", { className: "fa fa-align-left" })
+                      wp.element.createElement('i', { className: 'fa fa-align-left' })
                     ),
                     wp.element.createElement(
-                      "button",
+                      'button',
                       { className: 'center' === addAlign ? 'active  inspector-button' : 'inspector-button', onClick: function onClick() {
                           return setAttributes({ addAlign: 'center' });
                         } },
-                      wp.element.createElement("i", { className: "fa fa-align-center" })
+                      wp.element.createElement('i', { className: 'fa fa-align-center' })
                     ),
                     wp.element.createElement(
-                      "button",
+                      'button',
                       { className: 'right' === addAlign ? 'active  inspector-button' : 'inspector-button', onClick: function onClick() {
                           return setAttributes({ addAlign: 'right' });
                         } },
-                      wp.element.createElement("i", { className: "fa fa-align-right" })
+                      wp.element.createElement('i', { className: 'fa fa-align-right' })
                     )
                   )
                 )
@@ -16260,45 +16353,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   return setAttributes({ linkTarget: !linkTarget });
                 }
               })
-            ),
-            wp.element.createElement(
-              PanelBody,
-              { title: __('Help'), initialOpen: false },
-              wp.element.createElement(
-                "a",
-                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/advertisement.mp4", target: "_blank" },
-                "How to use block?"
-              )
             )
           ),
           wp.element.createElement(
-            "div",
-            { className: "nab-banner-main", style: { textAlign: addAlign } },
+            'div',
+            { className: 'nab-banner-main', style: { textAlign: addAlign } },
             wp.element.createElement(
-              "div",
-              { className: "nab-banner-inner" },
+              'div',
+              { className: 'nab-banner-inner' },
               wp.element.createElement(
-                "p",
-                { className: "banner-text" },
-                "Advertisement"
+                'p',
+                { className: 'banner-text' },
+                'Advertisement'
               ),
-              wp.element.createElement("img", { src: imgSources[currentSelected].url,
-                className: "banner-img",
+              wp.element.createElement('img', { src: imgSources[currentSelected].url,
+                className: 'banner-img',
                 alt: __('image'),
                 style: style
               }),
               isSelected && wp.element.createElement(
-                "div",
-                { className: "nab-ad-controls" },
+                'div',
+                { className: 'nab-ad-controls' },
                 wp.element.createElement(
-                  "div",
-                  { className: "nab-controls-wrapper" },
+                  'div',
+                  { className: 'nab-controls-wrapper' },
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field img-link" },
+                    'div',
+                    { className: 'nab-ad-field img-link' },
                     wp.element.createElement(TextControl, {
                       label: __('Link URL'),
-                      placeholder: "https://",
+                      placeholder: 'https://',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].bannerLink || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ bannerLink: value || '' });
@@ -16306,16 +16390,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "strong",
+                    'strong',
                     null,
-                    "Google Event"
+                    'Google Event'
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field google-event" },
+                    'div',
+                    { className: 'nab-ad-field google-event' },
                     wp.element.createElement(TextControl, {
                       label: __('Event Category'),
-                      placeholder: "Enter Category",
+                      placeholder: 'Enter Category',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].eventCategory || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ eventCategory: value || '' });
@@ -16323,11 +16407,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field google-event" },
+                    'div',
+                    { className: 'nab-ad-field google-event' },
                     wp.element.createElement(TextControl, {
                       label: __('Event Action'),
-                      placeholder: "Enter Action",
+                      placeholder: 'Enter Action',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].eventAction || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ eventAction: value || '' });
@@ -16335,11 +16419,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     })
                   ),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-ad-field google-event" },
+                    'div',
+                    { className: 'nab-ad-field google-event' },
                     wp.element.createElement(TextControl, {
                       label: __('Event Label'),
-                      placeholder: "Enter Label",
+                      placeholder: 'Enter Label',
                       value: imgSources[currentSelected] ? imgSources[currentSelected].eventLabel || '' : '',
                       onChange: function onChange(value) {
                         return _this2.updateMediaData({ eventLabel: value || '' });
@@ -16348,17 +16432,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   )
                 ),
                 wp.element.createElement(
-                  "div",
-                  { className: "nab-ad-list" },
+                  'div',
+                  { className: 'nab-ad-list' },
                   imgSources.map(function (source, index) {
                     return wp.element.createElement(
-                      "div",
-                      { className: "nab-ad-img-list-item", key: index },
-                      wp.element.createElement("img", { src: source.url,
-                        className: "nab-ad-img",
+                      'div',
+                      { className: 'nab-ad-img-list-item', key: index },
+                      wp.element.createElement('img', { src: source.url,
+                        className: 'nab-ad-img',
                         alt: __('Ad-Image'),
-                        height: "100px",
-                        width: "100px",
+                        height: '100px',
+                        width: '100px',
                         onClick: function onClick() {
                           _this2.setState({ currentSelected: index });
                         }
@@ -16367,8 +16451,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         Tooltip,
                         { text: __('Remove Image') },
                         wp.element.createElement(IconButton, {
-                          className: "nab-ad-item-remove",
-                          icon: "no",
+                          className: 'nab-ad-item-remove',
+                          icon: 'no',
                           onClick: function onClick() {
                             if (index === currentSelected) {
                               _this2.setState({ currentSelected: 0 });
@@ -16382,8 +16466,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     );
                   }),
                   wp.element.createElement(
-                    "div",
-                    { className: "nab-advertisement-add-item" },
+                    'div',
+                    { className: 'nab-advertisement-add-item' },
                     wp.element.createElement(MediaUpload, {
                       allowedTypes: ['image'],
                       value: null,
@@ -16399,7 +16483,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         var open = _ref2.open;
                         return wp.element.createElement(IconButton, {
                           label: __('Add media'),
-                          icon: "plus",
+                          icon: 'plus',
                           onClick: open
                         });
                       }
@@ -20489,15 +20573,6 @@ var Inspector = function (_Component) {
 								)
 							)
 						)
-					),
-					wp.element.createElement(
-						PanelBody,
-						{ title: __('Help'), initialOpen: false },
-						wp.element.createElement(
-							'a',
-							{ href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/nabshow-custom-block.mp4', target: '_blank' },
-							'How to use block?'
-						)
 					)
 				)
 			);
@@ -20584,9 +20659,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     var nabInsertMedaitoSlide = function nabInsertMedaitoSlide(sourceURL, attributes) {
+        var fixedWidth = attributes.fixedWidth,
+            fixedHeight = attributes.fixedHeight;
 
         if (nabIsImage(sourceURL)) {
-            return wp.element.createElement('img', { src: sourceURL,
+            return wp.element.createElement('img', {
+                src: '' + sourceURL + (fixedHeight || fixedWidth ? '?' : '') + (fixedHeight ? 'h=' + fixedHeight + '&' : '') + (fixedWidth ? 'w=' + fixedWidth : ''),
                 className: 'media-slider-img',
                 alt: __('Slider image')
             });
@@ -20599,7 +20677,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
 
     var nabIsImage = function nabIsImage(sourceURL) {
-        var imageExtension = ['jpg', 'jpeg', 'png', 'gif'];
+        var imageExtension = ['jpg', 'jpeg', 'png', 'gif', 'PNG', 'JPG', 'JPEG', 'GIF'];
         var fileExtension = sourceURL.split('.').pop();
         if (-1 < imageExtension.indexOf(fileExtension)) {
             return true;
@@ -20632,7 +20710,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function componentDidMount() {
                 var attributes = this.props.attributes;
 
-                if (attributes.media.length) {
+                if (attributes.media.length && attributes.sliderActive) {
                     this.initSlider();
                 }
             }
@@ -20650,10 +20728,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = attributes.controls,
                     minSlides = attributes.minSlides,
                     slideWidth = attributes.slideWidth,
-                    slideMargin = attributes.slideMargin;
+                    slideMargin = attributes.slideMargin,
+                    sliderActive = attributes.sliderActive;
                 var prevMedia = prevProps.attributes.media;
 
-                if (media.length !== prevMedia.length) {
+                if (media.length !== prevMedia.length && sliderActive) {
                     if (0 === prevMedia.length) {
                         setTimeout(function () {
                             return _this2.initSlider();
@@ -20662,67 +20741,79 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         this.state.bxSliderObj.reloadSlider();
                     }
                 }
-                if (minSlides !== prevProps.attributes.minSlides) {
+                if (sliderActive !== prevProps.attributes.sliderActive) {
+                    if (0 < this.state.bxSliderObj.length && !sliderActive) {
+                        this.state.bxSliderObj.destroySlider();
+                        this.setState({ bxSliderObj: {} });
+                    } else {
+                        this.initSlider();
+                    }
+                }
+                if (minSlides !== prevProps.attributes.minSlides && sliderActive) {
                     this.reloadSlider();
                 }
-                if (slideWidth !== prevProps.attributes.slideWidth) {
+                if (slideWidth !== prevProps.attributes.slideWidth && sliderActive) {
                     this.reloadSlider();
                 }
-                if (slideMargin !== prevProps.attributes.slideMargin) {
+                if (slideMargin !== prevProps.attributes.slideMargin && sliderActive) {
                     this.reloadSlider();
                 }
-                if (autoplay !== prevProps.attributes.autoplay) {
+                if (autoplay !== prevProps.attributes.autoplay && sliderActive) {
                     this.reloadSlider();
                 }
-                if (speed !== prevProps.attributes.speed) {
+                if (speed !== prevProps.attributes.speed && sliderActive) {
                     this.reloadSlider();
                 }
-                if (infiniteLoop !== prevProps.attributes.infiniteLoop) {
+                if (infiniteLoop !== prevProps.attributes.infiniteLoop && sliderActive) {
                     this.reloadSlider();
                 }
-                if (pager !== prevProps.attributes.pager) {
+                if (pager !== prevProps.attributes.pager && sliderActive) {
                     this.reloadSlider();
                 }
-                if (controls !== prevProps.attributes.controls) {
+                if (controls !== prevProps.attributes.controls && sliderActive) {
                     this.reloadSlider();
                 }
             }
         }, {
             key: 'initSlider',
             value: function initSlider() {
-                var clientId = this.props.clientId;
-                var _props$attributes = this.props.attributes,
-                    autoplay = _props$attributes.autoplay,
-                    speed = _props$attributes.speed,
-                    infiniteLoop = _props$attributes.infiniteLoop,
-                    pager = _props$attributes.pager,
-                    controls = _props$attributes.controls,
-                    minSlides = _props$attributes.minSlides,
-                    slideWidth = _props$attributes.slideWidth,
-                    slideMargin = _props$attributes.slideMargin;
+                if (this.props.attributes.sliderActive) {
+                    var clientId = this.props.clientId;
+                    var _props$attributes = this.props.attributes,
+                        autoplay = _props$attributes.autoplay,
+                        speed = _props$attributes.speed,
+                        infiniteLoop = _props$attributes.infiniteLoop,
+                        pager = _props$attributes.pager,
+                        controls = _props$attributes.controls,
+                        minSlides = _props$attributes.minSlides,
+                        slideWidth = _props$attributes.slideWidth,
+                        slideMargin = _props$attributes.slideMargin;
 
-                var sliderObj = jQuery('#block-' + clientId + ' .nab-media-slider').bxSlider({
-                    minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true,
-                    onSlideAfter: function ($slideElement, oldIndex, newIndex) {
-                        this.setState({ currentSelected: newIndex });
-                    }.bind(this)
-                });
-                this.setState({ bxSliderObj: sliderObj });
+                    var sliderObj = jQuery('#block-' + clientId + ' .nab-media-slider').bxSlider({
+                        minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, controls: controls, infiniteLoop: infiniteLoop, pager: pager, stopAutoOnClick: true, autoHover: true, touchEnabled: false,
+                        onSlideAfter: function ($slideElement, oldIndex, newIndex) {
+                            this.setState({ currentSelected: newIndex });
+                        }.bind(this)
+                    });
+                    this.setState({ bxSliderObj: sliderObj });
+                }
             }
         }, {
             key: 'reloadSlider',
             value: function reloadSlider(e) {
-                var _props$attributes2 = this.props.attributes,
-                    autoplay = _props$attributes2.autoplay,
-                    speed = _props$attributes2.speed,
-                    infiniteLoop = _props$attributes2.infiniteLoop,
-                    pager = _props$attributes2.pager,
-                    controls = _props$attributes2.controls,
-                    minSlides = _props$attributes2.minSlides,
-                    slideWidth = _props$attributes2.slideWidth,
-                    slideMargin = _props$attributes2.slideMargin;
+                if (this.props.attributes.sliderActive) {
+                    var _props$attributes2 = this.props.attributes,
+                        autoplay = _props$attributes2.autoplay,
+                        speed = _props$attributes2.speed,
+                        infiniteLoop = _props$attributes2.infiniteLoop,
+                        pager = _props$attributes2.pager,
+                        controls = _props$attributes2.controls,
+                        minSlides = _props$attributes2.minSlides,
+                        slideWidth = _props$attributes2.slideWidth,
+                        slideMargin = _props$attributes2.slideMargin;
 
-                this.state.bxSliderObj.reloadSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true });
+                    this.state.bxSliderObj.reloadSlider({ minSlides: minSlides, maxSlides: minSlides, slideMargin: slideMargin, slideWidth: slideWidth, auto: autoplay, speed: speed, infiniteLoop: infiniteLoop, pager: pager, controls: controls, stopAutoOnClick: true, autoHover: true, touchEnabled: false });
+                }
             }
         }, {
             key: 'moveMedia',
@@ -20787,10 +20878,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons,
                     minSlides = attributes.minSlides,
                     slideWidth = attributes.slideWidth,
-                    slideMargin = attributes.slideMargin;
+                    slideMargin = attributes.slideMargin,
+                    sliderActive = attributes.sliderActive,
+                    fixedWidth = attributes.fixedWidth,
+                    fixedHeight = attributes.fixedHeight;
 
 
-                var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var arrowNames = [{ name: __WEBPACK_IMPORTED_MODULE_1__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_1__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 if (0 === media.length) {
                     return wp.element.createElement(
@@ -20807,7 +20901,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 var mediaInsert = item.map(function (source) {
                                     return {
                                         url: source.url,
-                                        id: source.id
+                                        id: source.id,
+                                        advertisement: false,
+                                        eventCategory: '',
+                                        eventAction: '',
+                                        eventLabel: '',
+                                        target: false
                                     };
                                 });
 
@@ -20835,6 +20934,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement(
                             PanelBody,
                             { title: __('Slider Settings'), initialOpen: false },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Slider Active'),
+                                checked: sliderActive,
+                                onChange: function onChange() {
+                                    setAttributes({ sliderActive: !sliderActive });
+                                }
+                            }),
                             wp.element.createElement(ToggleControl, {
                                 label: __('Pager'),
                                 checked: pager,
@@ -20962,11 +21068,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         ) : '',
                         wp.element.createElement(
                             PanelBody,
-                            { title: __('Help'), initialOpen: false },
+                            { title: __('Image Dimension'), initialOpen: false },
                             wp.element.createElement(
-                                'a',
-                                { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/media-slider.mp4', target: '_blank' },
-                                'How to use block?'
+                                PanelRow,
+                                null,
+                                wp.element.createElement(TextControl, {
+                                    type: 'number',
+                                    label: 'Fixed Width',
+                                    min: '1',
+                                    value: fixedWidth,
+                                    placeholder: 'Fixed Width',
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ fixedWidth: value });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(
+                                PanelRow,
+                                null,
+                                wp.element.createElement(TextControl, {
+                                    type: 'number',
+                                    label: 'Fixed Height',
+                                    min: '1',
+                                    value: fixedHeight,
+                                    placeholder: 'Fixed Height',
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ fixedHeight: value });
+                                    }
+                                })
                             )
                         )
                     ),
@@ -20975,13 +21104,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         { className: 'nab-media-slider-block slider-arrow-main ' + arrowIcons },
                         wp.element.createElement(
                             'div',
-                            { className: 'nab-media-slider', 'data-animation': detailAnimation, 'data-autoplay': '' + autoplay, 'data-speed': '' + speed, 'data-infiniteloop': '' + infiniteLoop, 'data-pager': '' + pager, 'data-controls': '' + controls },
+                            { className: sliderActive ? 'nab-media-slider' : 'feature-box-list', 'data-animation': detailAnimation, 'data-autoplay': '' + autoplay, 'data-speed': '' + speed, 'data-infiniteloop': '' + infiniteLoop, 'data-pager': '' + pager, 'data-controls': '' + controls },
                             media.map(function (source, index) {
                                 return wp.element.createElement(
                                     'div',
-                                    { className: 'nab-media-slider-item', key: index
+                                    { className: 'nab-media-slider-item', key: index },
+                                    wp.element.createElement(MediaUpload, {
+                                        value: source.id,
+                                        onSelect: function onSelect(item) {
+                                            var editItem = [].concat(_toConsumableArray(media));
+                                            editItem[index].url = item.url;
+                                            editItem[index].id = item.id;
 
-                                    },
+                                            setAttributes({
+                                                media: editItem
+                                            });
+                                        },
+                                        render: function render(_ref2) {
+                                            var open = _ref2.open;
+                                            return wp.element.createElement('span', { 'class': 'dashicons dashicons-edit edit-item', onClick: open });
+                                        }
+                                    }),
                                     nabInsertMedaitoSlide(source.url, attributes),
                                     source.link && wp.element.createElement('a', { className: 'nab-media-slider-link',
                                         target: '_blank',
@@ -21022,7 +21165,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         height: '100px',
                                         width: '100px',
                                         onClick: function onClick() {
-                                            _this3.state.bxSliderObj.goToSlide(index);
+                                            if (sliderActive) {
+                                                _this3.state.bxSliderObj.goToSlide(index);
+                                            }
                                             _this3.setState({ currentSelected: index });
                                         }
                                     }),
@@ -21031,7 +21176,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         height: '100px',
                                         width: '100px',
                                         onClick: function onClick() {
-                                            _this3.state.bxSliderObj.goToSlide(index);
+                                            if (sliderActive) {
+                                                _this3.state.bxSliderObj.goToSlide(index);
+                                            }
                                             _this3.setState({ currentSelected: index });
                                         }
                                     }),
@@ -21060,12 +21207,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             className: 'nab-media-slider-item-remove',
                                             icon: 'no',
                                             onClick: function onClick() {
-                                                if (index === currentSelected) {
-                                                    _this3.setState({ currentSelected: null });
-                                                }
-                                                setAttributes({ media: media.filter(function (img, idx) {
-                                                        return idx !== index;
-                                                    }) });
+                                                _this3.setState({ currentSelected: 0 });
+                                                var removed = [].concat(_toConsumableArray(media));
+                                                removed.splice(index, 1);
+
+                                                setAttributes({
+                                                    media: removed
+                                                });
                                             }
                                         })
                                     )
@@ -21078,14 +21226,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     value: currentSelected,
                                     multiple: true,
                                     onSelect: function onSelect(items) {
-                                        return setAttributes({
-                                            media: [].concat(_toConsumableArray(media), _toConsumableArray(items.map(function (item) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_lodash_pick___default()(item, 'id', 'url', 'alt');
-                                            })))
+                                        var newItemInsert = items.map(function (item, index) {
+                                            return {
+                                                url: item.url,
+                                                id: item.id,
+                                                advertisement: false,
+                                                eventCategory: '',
+                                                eventAction: '',
+                                                eventLabel: '',
+                                                target: false
+                                            };
+                                        });
+                                        setAttributes({
+                                            media: [].concat(_toConsumableArray(media), _toConsumableArray(newItemInsert))
                                         });
                                     },
-                                    render: function render(_ref2) {
-                                        var open = _ref2.open;
+                                    render: function render(_ref3) {
+                                        var open = _ref3.open;
                                         return wp.element.createElement(IconButton, {
                                             label: __('Add media'),
                                             icon: 'plus',
@@ -21204,6 +21361,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'array',
             default: []
         },
+        sliderActive: {
+            type: 'boolean',
+            default: true
+        },
         autoplay: {
             type: 'boolean',
             default: false
@@ -21289,6 +21450,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         slideMargin: {
             type: 'number',
             default: 30
+        },
+        fixedWidth: {
+            type: 'number'
+        },
+        fixedHeight: {
+            type: 'number'
         }
     };
 
@@ -21300,8 +21467,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('Featured'), __('Boxes'), __('Featured Boxes'), __('nab')],
         attributes: blockAttrs,
         edit: featuredBoxesComp,
-        save: function save(_ref3) {
-            var attributes = _ref3.attributes;
+        save: function save(_ref4) {
+            var attributes = _ref4.attributes;
             var media = attributes.media,
                 minSlides = attributes.minSlides,
                 slideWidth = attributes.slideWidth,
@@ -21321,14 +21488,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 controlIcon = attributes.controlIcon,
                 detailAnimation = attributes.detailAnimation,
                 detailWidth = attributes.detailWidth,
-                arrowIcons = attributes.arrowIcons;
+                arrowIcons = attributes.arrowIcons,
+                sliderActive = attributes.sliderActive,
+                fixedWidth = attributes.fixedWidth,
+                fixedHeight = attributes.fixedHeight;
 
             return wp.element.createElement(
                 'div',
                 { className: 'slider-arrow-main ' + arrowIcons },
                 wp.element.createElement(
                     'div',
-                    { className: 'nab-dynamic-slider', 'data-minslides': minSlides, 'data-slidewidth': slideWidth, 'data-slidemargin': slideMargin, 'data-animation': detailAnimation, 'data-auto': autoplay ? autoplay : Boolean.valueOf(autoplay), 'data-speed': '' + speed, 'data-infinite': infiniteLoop ? infiniteLoop : Boolean.valueOf(infiniteLoop), 'data-pager': pager ? pager : Boolean.valueOf(pager), 'data-controls': controls ? controls : Boolean.valueOf(controls) },
+                    { className: sliderActive ? 'nab-dynamic-slider' : 'feature-box-list', 'data-minslides': minSlides, 'data-slidewidth': slideWidth, 'data-slidemargin': slideMargin, 'data-animation': detailAnimation, 'data-auto': autoplay ? autoplay : Boolean.valueOf(autoplay), 'data-speed': '' + speed, 'data-infinite': infiniteLoop ? infiniteLoop : Boolean.valueOf(infiniteLoop), 'data-pager': pager ? pager : Boolean.valueOf(pager), 'data-controls': controls ? controls : Boolean.valueOf(controls) },
                     media.map(function (source, index) {
                         return wp.element.createElement(
                             'div',
@@ -21354,8 +21524,165 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
             );
         }
+
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports) {
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment;
+  var RichText = wpEditor.RichText,
+      InspectorControls = wpEditor.InspectorControls;
+  var Button = wpComponents.Button,
+      PanelBody = wpComponents.PanelBody,
+      TextControl = wpComponents.TextControl;
+
+
+  var crossPromoBlockIcon = wp.element.createElement(
+    "svg",
+    { version: "1.1", id: "crossPromoBlockIcon", width: "150px", height: "150px", viewBox: "200 200 150 150", "enable-background": "new 200 200 150 150" },
+    wp.element.createElement(
+      "g",
+      null,
+      wp.element.createElement(
+        "g",
+        null,
+        wp.element.createElement("path", { fill: "#146DB6", d: "M332.136,233.885V223.15c0-7.089-5.767-12.856-12.855-12.856h-88.56c-7.088,0-12.855,5.767-12.855,12.856\r v10.735c-4.987,1.769-8.57,6.532-8.57,12.119v91.417c0,2.366,1.918,4.284,4.285,4.284h122.842c2.366,0,4.284-1.918,4.284-4.284\r v-91.417C340.706,240.417,337.123,235.654,332.136,233.885z M266.43,241.719h17.14v8.57c0,4.726-3.844,8.57-8.57,8.57\r c-4.726,0-8.57-3.844-8.57-8.57L266.43,241.719L266.43,241.719z M232.149,333.136h-14.284v-66.682\r c1.81,0.638,3.737,0.976,5.714,0.976c3.121,0,6.047-0.842,8.57-2.306L232.149,333.136L232.149,333.136z M232.149,250.289\r c0,4.726-3.845,8.57-8.57,8.57c-2.133,0-4.152-0.783-5.713-2.183v-10.672c0-2.363,1.922-4.285,4.285-4.285h9.999V250.289\r L232.149,250.289z M240.719,250.289v-8.57h17.141v8.57c0,4.726-3.845,8.57-8.57,8.57S240.719,255.015,240.719,250.289z\r M259.217,275.898c4.726,0,8.57,3.845,8.57,8.57s-3.845,8.57-8.57,8.57c-4.726,0-8.57-3.845-8.57-8.57\r S254.491,275.898,259.217,275.898z M290.642,324.464c-4.727,0-8.57-3.845-8.57-8.57c0-4.727,3.844-8.57,8.57-8.57\r c4.726,0,8.569,3.844,8.569,8.57C299.211,320.619,295.367,324.464,290.642,324.464z M298.027,281.887l-39.995,39.995\r c-0.836,0.836-1.933,1.254-3.03,1.254s-2.193-0.417-3.03-1.254c-1.673-1.674-1.673-4.388,0-6.061l39.996-39.995\r c1.673-1.673,4.386-1.673,6.059,0C299.701,277.5,299.701,280.214,298.027,281.887z M309.282,250.289\r c0,4.726-3.846,8.57-8.571,8.57s-8.57-3.844-8.57-8.57v-8.57h17.142V250.289L309.282,250.289z M332.136,333.136h-14.283v-68.012\r c2.522,1.463,5.449,2.306,8.569,2.306c1.978,0,3.904-0.338,5.714-0.976V333.136L332.136,333.136z M332.136,256.676\r c-1.562,1.4-3.58,2.183-5.714,2.183c-4.726,0-8.569-3.844-8.569-8.57v-8.571h9.998c2.362,0,4.285,1.923,4.285,4.286V256.676z" })
+      )
+    )
+  );
+
+  registerBlockType('nab/cross-promo', {
+    title: __('Cross Promo'),
+    icon: { src: crossPromoBlockIcon },
+    category: 'nabshow',
+    keywords: [__('cross'), __('promo'), __('nab')],
+    attributes: {
+      title: {
+        type: 'string'
+      },
+      description: {
+        type: 'string',
+        default: ''
+      },
+      ButtonText: {
+        type: 'string',
+        default: 'Learn More'
+      },
+      postID: {
+        type: 'number'
+      }
+    },
+    edit: function edit(props) {
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes;
+      var title = attributes.title,
+          description = attributes.description,
+          ButtonText = attributes.ButtonText,
+          postID = attributes.postID;
+
+
+      var getExcerpt = function getExcerpt() {
+
+        if (postID) {
+          wp.apiFetch({ path: '/nab_api/request/post-excerpt/?id=' + postID }).then(function (excerpt) {
+
+            if ('' !== excerpt) {
+              setAttributes({ description: excerpt });
+            } else if ('' === description) {
+              setAttributes({ description: 'Post excerpt not found for given id. Either change the id or enter manually.' });
+            }
+          });
+        }
+      };
+
+      return wp.element.createElement(
+        Fragment,
+        null,
+        wp.element.createElement(
+          InspectorControls,
+          null,
+          wp.element.createElement(
+            PanelBody,
+            { title: "Settings" },
+            wp.element.createElement(TextControl, {
+              type: "number",
+              label: "Enter post ID to fetch excerpt",
+              value: postID,
+              onChange: function onChange(value) {
+                return setAttributes({ postID: parseInt(value) });
+              }
+            }),
+            wp.element.createElement(
+              Button,
+              { className: "button button-large button-primary", onClick: getExcerpt },
+              __('Fetch')
+            )
+          )
+        ),
+        wp.element.createElement(
+          "div",
+          { className: "cross-promo-outner" },
+          wp.element.createElement(
+            "div",
+            { className: "cross-promo-inner" },
+            wp.element.createElement(RichText, {
+              tagName: "h3",
+              onChange: function onChange(value) {
+                return setAttributes({ title: value });
+              },
+              value: title,
+              className: "title",
+              placeholder: __('Title')
+            }),
+            wp.element.createElement(RichText, {
+              tagName: "p",
+              onChange: function onChange(value) {
+                return setAttributes({ description: value });
+              },
+              value: description,
+              className: "description",
+              placeholder: __('Description')
+            }),
+            wp.element.createElement(RichText, {
+              tagName: "a",
+              className: "promo-link",
+              onChange: function onChange(ButtonText) {
+                return setAttributes({ ButtonText: ButtonText });
+              },
+              value: ButtonText,
+              rel: "noopener noreferrer"
+            })
+          )
+        )
+      );
+    },
+    save: function save(props) {
+      var _props$attributes = props.attributes,
+          title = _props$attributes.title,
+          description = _props$attributes.description,
+          ButtonText = _props$attributes.ButtonText;
+
+
+      return wp.element.createElement(
+        "div",
+        { className: "cross-promo-outner" },
+        wp.element.createElement(
+          "div",
+          { className: "cross-promo-inner" },
+          title && wp.element.createElement(RichText.Content, { tagName: "h3", value: title, className: "title" }),
+          description && wp.element.createElement(RichText.Content, { tagName: "p", value: description, className: "description" }),
+          ButtonText && wp.element.createElement(RichText.Content, { tagName: "a", value: ButtonText, className: "promo-link" })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
 
 /***/ })
 /******/ ]);

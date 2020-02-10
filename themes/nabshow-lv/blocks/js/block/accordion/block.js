@@ -22,10 +22,6 @@ import memoize from 'memize';
 
 	const ALLOWBLOCKS = ['nab/accordion-item'];
 
-	const getChildAccordionBlock = memoize((accordion) => {
-		return times(accordion, (n) => ['nab/accordion-item', { id: n + 1 }]);
-	});
-
 	const removehildawardsBlock = memoize((accordion) => {
 		return times(accordion, (n) => ['nab/accordion-item', { id: n - 1 }]);
 	});
@@ -96,9 +92,6 @@ import memoize from 'memize';
 								/>
 							</PanelRow>
 						</PanelBody>
-						<PanelBody title={__('Help')} initialOpen={false}>
-							<a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4" target="_blank">How to use block?</a>
-						</PanelBody>
 					</InspectorControls>
 					{showFilter &&
 						<div className="fab-filter main-filter">
@@ -130,13 +123,8 @@ import memoize from 'memize';
 								/>) : ''
 						}
 						<InnerBlocks
-							template={getChildAccordionBlock(noOfAccordion)}
-							templateLock="all"
 							allowedBlocks={ALLOWBLOCKS}
 						/>
-						<div className="add-remove-btn">
-							<button type="button" className="components-button add" onClick={() => setAttributes({ noOfAccordion: noOfAccordion + 1 })}><span className="dashicons fa fa-plus"></span></button>
-						</div>
 					</div>
 				</Fragment>
 			);
@@ -205,7 +193,7 @@ import memoize from 'memize';
 			},
 			headerTextColor: {
 				type: 'string',
-				default: '#000'
+				default: '#fff'
 			},
 			titleBackgroundColor: {
 				type: 'string',
@@ -257,7 +245,7 @@ import memoize from 'memize';
 			},
 			borderColor: {
 				type: 'string',
-				default: '#000'
+				default: '#fff'
 			},
 			borderRadius: {
 				type: 'number',
@@ -385,6 +373,15 @@ import memoize from 'memize';
 									<SelectControl
 										value={fontFamily}
 										options={[
+											{ label: __('Molot'), value: 'Molot' },
+											{ label: __('Roboto Regular'), value: 'Roboto Regular' },
+											{ label: __('Roboto Black'), value: 'Roboto Black' },
+											{ label: __('Roboto Bold'), value: 'Roboto Bold' },
+											{ label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' },
+											{ label: __('Roboto Italic'), value: 'Roboto Italic' },
+											{ label: __('Roboto Light'), value: 'Roboto Light' },
+											{ label: __('Roboto Medium'), value: 'Roboto Medium' },
+											{ label: __('Roboto Thin'), value: 'Roboto Thin' },
 											{ label: __('Gotham Book'), value: 'Gotham Book' },
 											{ label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
 											{ label: __('Gotham Light'), value: 'Gotham Light' },
@@ -407,7 +404,6 @@ import memoize from 'memize';
 											{ label: __('Vollkorn Regular'), value: 'Vollkorn Regular' },
 											{ label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' },
 											{ label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' },
-											{ label: __('Molot'), value: 'Molot' }
 
 										]}
 										onChange={(value) => setAttributes({ fontFamily: value })}
@@ -631,9 +627,6 @@ import memoize from 'memize';
 									</div>
 								</div>
 							</PanelRow>
-						</PanelBody>
-						<PanelBody title={__('Help')} initialOpen={false}>
-							<a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/accordion.mp4" target="_blank">How to use block?</a>
 						</PanelBody>
 					</InspectorControls>
 				</div>

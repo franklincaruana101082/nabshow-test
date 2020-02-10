@@ -96,11 +96,13 @@
             index: dataArry.length,
             title: '',
             date: '',
+            time: '',
             location: '',
             description: '',
             arrayContact: [
               {
                 contact: '',
+                jobTitle: '',
                 phone: '',
                 email: ''
               }
@@ -108,6 +110,15 @@
           }
         ]
       });
+    }
+
+    moveMedia(currentIndex, newIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArry } = attributes;
+      let arrayCopy = [...dataArry];
+      arrayCopy[currentIndex].index = newIndex;
+      arrayCopy[newIndex].index = currentIndex;
+      setAttributes({ dataArry: arrayCopy });
     }
 
     render() {
@@ -139,10 +150,29 @@
                 >
                   <span className="dashicons dashicons-no-alt"></span>
                 </span>
+                <div className="move-item">
+                  {0 < index && (
+                    <span
+                      onClick={() => {
+                        this.moveMedia(index, index - 1);
+                      }}
+                      class="dashicons dashicons-arrow-left-alt2"
+                    ></span>
+                  )}
+                  {index + 1 < dataArry.length && (
+                    <span
+                      onClick={() => {
+                        this.moveMedia(index, index + 1);
+                      }}
+                      class="dashicons dashicons-arrow-right-alt2"
+                    ></span>
+                  )}
+                </div>
                 <RichText
                   tagName="h3"
                   placeholder={__('Title')}
                   value={product.title}
+                  keepPlaceholderOnFocus="true"
                   className="title"
                   onChange={title => {
                     const newObject = Object.assign({}, product, {
@@ -160,9 +190,10 @@
                 />
                 <RichText
                   tagName="strong"
-                  placeholder={__('Date | Time')}
+                  placeholder={__('Date')}
                   value={product.date}
                   className="date-time"
+                  keepPlaceholderOnFocus="true"
                   onChange={date => {
                     const newObject = Object.assign({}, product, {
                       date: date
@@ -179,12 +210,13 @@
                 />
                 <RichText
                   tagName="strong"
-                  placeholder={__('Location')}
-                  value={product.location}
-                  className="location"
-                  onChange={location => {
+                  placeholder={__('Time')}
+                  value={product.time}
+                  className="date-time"
+                  keepPlaceholderOnFocus="true"
+                  onChange={time => {
                     const newObject = Object.assign({}, product, {
-                      location: location
+                      time: time
                     });
                     setAttributes({
                       dataArry: [
@@ -197,13 +229,14 @@
                   }}
                 />
                 <RichText
-                  tagName="p"
-                  className="description"
-                  placeholder={__('Details')}
-                  value={product.description}
-                  onChange={description => {
+                  tagName="strong"
+                  placeholder={__('Location')}
+                  value={product.location}
+                  className="location"
+                  keepPlaceholderOnFocus="true"
+                  onChange={location => {
                     const newObject = Object.assign({}, product, {
-                      description: description
+                      location: location
                     });
                     setAttributes({
                       dataArry: [
@@ -233,6 +266,7 @@
                           className="contact-name"
                           placeholder={__('Contact: Name')}
                           value={data.contact}
+                          keepPlaceholderOnFocus="true"
                           onChange={value => {
                             let tempProdcut = [...dataArry];
                             tempProdcut[index].arrayContact[i].contact = value;
@@ -241,8 +275,21 @@
                         />
                         <RichText
                           tagName="p"
+                          className="job-title"
+                          placeholder={__('Job title')}
+                          value={data.jobTitle}
+                          keepPlaceholderOnFocus="true"
+                          onChange={value => {
+                            let tempProdcut = [...dataArry];
+                            tempProdcut[index].arrayContact[i].jobTitle = value;
+                            setAttributes({ dataArry: tempProdcut });
+                          }}
+                        />
+                        <RichText
+                          tagName="p"
                           className="phone"
                           placeholder={__('Phone')}
+                          keepPlaceholderOnFocus="true"
                           value={data.phone}
                           onChange={value => {
                             let tempProdcut = [...dataArry];
@@ -273,6 +320,7 @@
                       const newObject = tempProdcut[index].arrayContact.push(
                         {
                           contact: '',
+                          jobTitle: '',
                           phone: '',
                           email: ''
                         }
@@ -284,6 +332,26 @@
                     <span className="dashicons dashicons-plus"></span> Add New Contact
                   </button>
                 </div>
+                <RichText
+                  tagName="p"
+                  className="description"
+                  placeholder={__('Details')}
+                  value={product.description}
+                  keepPlaceholderOnFocus="true"
+                  onChange={description => {
+                    const newObject = Object.assign({}, product, {
+                      description: description
+                    });
+                    setAttributes({
+                      dataArry: [
+                        ...dataArry.filter(
+                          item => item.index != product.index
+                        ),
+                        newObject
+                      ]
+                    });
+                  }}
+                />
               </div>
             </div>
           );
@@ -300,9 +368,6 @@
                   onChange={() => setAttributes({ showFilter: ! showFilter })}
                 />
               </PanelRow>
-            </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4" target="_blank">How to use block?</a>
             </PanelBody>
           </InspectorControls>
           {showFilter &&
@@ -345,11 +410,13 @@
                           index: dataArry.length,
                           title: '',
                           date: '',
+                          time: '',
                           location: '',
                           description: '',
                           arrayContact: [
                             {
                               contact: '',
+                              jobTitle: '',
                               phone: '',
                               email: ''
                             }
@@ -440,18 +507,18 @@
                             className="date-time"
                           />
                         )}
+                        {product.time && (
+                          <RichText.Content
+                            tagName="strong"
+                            value={product.time}
+                            className="time"
+                          />
+                        )}
                         {product.location && (
                           <RichText.Content
                             tagName="strong"
                             value={product.location}
                             className="location"
-                          />
-                        )}
-                        {product.description && (
-                          <RichText.Content
-                            tagName="p"
-                            className="description"
-                            value={product.description}
                           />
                         )}
                         {
@@ -463,6 +530,13 @@
                                     tagName="p"
                                     className="contact-name"
                                     value={data.contact}
+                                  />
+                                )}
+                                {data.jobTitle && (
+                                  <RichText.Content
+                                    tagName="p"
+                                    className="job-title"
+                                    value={data.jobTitle}
                                   />
                                 )}
                                 {data.phone && (
@@ -481,6 +555,13 @@
                             );
                           })
                         }
+                        {product.description && (
+                          <RichText.Content
+                            tagName="p"
+                            className="description"
+                            value={product.description}
+                          />
+                        )}
                       </div>
                     </div>
                   )

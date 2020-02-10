@@ -17,13 +17,17 @@
                     if (value.post_title) {
                         let cloneItemDiv = cardsDiv[0].cloneNode(true);
 
-                        let innerHeading = cloneItemDiv.querySelector('h2');
-                        innerHeading.innerText = value.post_title;
+                        let innerSpan = cloneItemDiv.querySelector('span.publish-date');
+                        innerSpan.innerText = value.post_date;
+
+                        let innerHeadingLink = cloneItemDiv.querySelector('h2 > a');
+                        innerHeadingLink.innerText = value.post_title;
+                        innerHeadingLink.setAttribute('href', value.post_permalink);
 
                         let innerParagraph = cloneItemDiv.querySelector('p');
                         innerParagraph.innerText = value.excerpt;
 
-                        let innerLink = cloneItemDiv.querySelector('a');
+                        let innerLink = cloneItemDiv.querySelector('a.read-more');
                         innerLink.setAttribute('href', value.post_permalink);
 
                         let newsReleaseList = document.getElementById('news-release-archive');

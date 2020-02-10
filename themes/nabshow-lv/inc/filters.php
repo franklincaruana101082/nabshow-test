@@ -75,3 +75,18 @@ add_filter( 'manage_page_posts_columns', 'nabshow_lv_manage_compact_view_columns
 
 //Filter to add custom mega menu
 add_filter( 'walker_nav_menu_start_el', 'nabshow_lv_add_mega_menu_in_menu_item', 10, 4 );
+
+//Filter for modified redirect url.
+add_filter( 'srm_redirect_to', 'nabhsow_lv_modify_redirect_to', 1 );
+
+//Filter for increase redirect rules limit
+add_filter( 'srm_max_redirects', 'nabhsow_lv_increase_redirect_rule_limit' );
+
+//Filter for modified post where.
+add_filter( 'posts_where', 'nabshow_lv_set_content_custom_posts_where', 10, 1 );
+
+//Filter for add differ attribute to the script.
+add_filter( 'script_loader_tag', 'nabshow_lv_script_loader_tag', 40, 2 );
+
+//Filter to disable default yoast meta description
+add_filter( 'wpseo_metadesc', 'nabshow_lv_filter_wpseo_metadesc', 10 );

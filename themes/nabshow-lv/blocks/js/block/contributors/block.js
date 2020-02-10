@@ -95,7 +95,7 @@
                                 <RangeControl
                                     value={itemToFetch}
                                     min={1}
-                                    max={20}
+                                    max={100}
                                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); }}
                                 />
                             </div>
@@ -105,9 +105,6 @@
                                 options={this.state.postTypeList}
                                 onChange={(value) => { setAttributes({ postType: value }); }}
                             />
-                        </PanelBody>
-                        <PanelBody title={__('Help')} initialOpen={false}>
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/contributors-authors.mp4" target="_blank">How to use block?</a>
                         </PanelBody>
                     </InspectorControls>
                     <ServerSideRender

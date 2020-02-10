@@ -43,10 +43,10 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
         <?php
 	}
 	?>
-    <h3 class="post-title is-medium-title"><?php echo esc_html( $current_post_title ); ?></h3>
+    <h1 class="post-title is-medium-title"><?php echo esc_html( $current_post_title ); ?></h1>
     <div class="post-meta-info">
         <span class="meta-info-decs">by</span>
-        <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( get_the_author() ); ?> </a>
+        <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( nabhsow_lv_current_author_name() ); ?> </a>
     </div>
     <div class="feature-image">
         <img width="350" height="350" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="<?php echo esc_attr( $current_post_title ); ?>"/>
@@ -88,7 +88,8 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
 
     <?php
         $current_author_id  = get_the_author_meta('ID');
-        $author_image       = get_avatar_url( $current_author_id, array( 'size' => 184 ) );
+        $author_image       = nabshow_lv_get_author_avatar_url( $current_author_id );
+        $contributor_info   = wp_strip_all_tags( get_field( 'bio',  'user_' . $current_author_id ) );
     ?>
 
     <div class="author-section">
@@ -98,8 +99,8 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
             </div>
 
             <div class="author-user">
-                <h3 class="author-heading"><?php echo esc_html( get_the_author() ); ?></h3>
-                <p class="author-description"><?php echo esc_html( get_the_author_meta( 'user_description') ); ?>... <a class="author-link detail-list-modal-popup" data-posttype="thought-gallery" data-userid="<?php echo esc_attr( $current_author_id ); ?>" href="#" rel="author">Read More</a></p>
+                <h3 class="author-heading"><?php echo esc_html( nabhsow_lv_current_author_name() ); ?></h3>
+                <p class="author-description"><?php echo esc_html( mb_strimwidth( $contributor_info, 0, 253, '...' ) ); ?> <a class="author-link detail-list-modal-popup" data-posttype="thought-gallery" data-userid="<?php echo esc_attr( $current_author_id ); ?>" href="#" rel="author">Read More</a></p>
             </div>
         </div>
     </div>

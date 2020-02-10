@@ -13,37 +13,38 @@ $to_email = get_query_var('form_email' );
 	<div class="form-items-wrapper">
 		<div class="form-item">
 			<label class="control-label" for="startup-first-name">First Name <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="startup-first-name" name="first_name" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="startup-first-name" name="first_name" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-last-name">Last Name <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="startup-last-name" name="last_name" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="startup-last-name" name="last_name" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-title">Title <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="startup-title" name="title" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="startup-title" name="title" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-email">Email <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="email" id="startup-email" name="email" size="60">
+			<input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="startup-email" name="email" size="60">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-phone">Phone <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="startup-phone" name="phone" size="60" maxlength="128">
+			<input required="required" pattern="[0-9]{1,128}" class="form-control form-text" type="text" id="startup-phone" name="phone" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-company">Company <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="startup-company" name="company" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="startup-company" name="company" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-company-desc">Company Description (Your Company’s Pitch) <span class="form-required" title="This field is required.">*</span></label>
 			<div class="form-textarea-wrapper resizable">
 				<textarea required="required" class="form-control form-textarea" id="startup-company-desc" name="company_desc" cols="60" rows="5"></textarea>
+				<p class="textarea-error" style="display: none; color: red;">This field is required.</p>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-company-website">Company Website <span class="form-required" title="This field is required.">*</span></label>
-			<input required="required" class="form-control form-text" type="text" id="startup-company-website" name="company_website" size="60" maxlength="128">
+			<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="startup-company-website" name="company_website" size="60" maxlength="128">
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-date-founded">Date Founded <span class="form-required" title="This field is required.">*</span></label>
@@ -95,29 +96,33 @@ $to_email = get_query_var('form_email' );
 		<div class="form-item">
 			<label class="control-label" for="startup-company-challenge-solving">What challenge is your company solving? How is your company uniquely addressing this issue? <span class="form-required" title="This field is required.">*</span></label>
 			<div class="form-textarea-wrapper resizable">
-				<textarea required="required" class="form-control form-textarea" id="startup-company-challenge-solving" name="what_challenge_is_your_company_solving" cols="60" rows="5"></textarea>
+				<textarea required="required" pattern=".*\S+.*" class="form-control form-textarea" id="startup-company-challenge-solving" name="what_challenge_is_your_company_solving" cols="60" rows="5"></textarea>
+				<p class="textarea-error" style="display: none; color: red;">This field is required.</p>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-companys-competitors">Who are your company's competitors? How are you different from them? <span class="form-required" title="This field is required.">*</span></label>
 			<div class="form-textarea-wrapper resizable">
-				<textarea required="required" class="form-control form-textarea" id="startup-companys-competitors" name="companys_competitors" cols="60" rows="5"></textarea>
+				<textarea required="required" pattern=".*\S+.*" class="form-control form-textarea" id="startup-companys-competitors" name="companys_competitors" cols="60" rows="5"></textarea>
+				<p class="textarea-error" style="display: none; color: red;">This field is required.</p>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-companys-current-customers">Please provide the names of your company’s current customers. <span class="form-required" title="This field is required.">*</span></label>
 			<div class="form-textarea-wrapper resizable">
-				<textarea required="required" class="form-control form-textarea" id="startup-companys-current-customers" name="companys_current_customers" cols="60" rows="5"></textarea>
+				<textarea required="required" pattern=".*\S+.*" class="form-control form-textarea" id="startup-companys-current-customers" name="companys_current_customers" cols="60" rows="5"></textarea>
+				<p class="textarea-error" style="display: none; color: red;">This field is required.</p>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="control-label" for="startup-additional-information">Please provide any additional information below you would like to share. <span class="form-required" title="This field is required.">*</span></label>
 			<div class="form-textarea-wrapper resizable">
-				<textarea required="required" class="form-control form-textarea" id="startup-additional-information" name="additional_information" cols="60" rows="5"></textarea>
+				<textarea required="required" pattern=".*\S+.*" class="form-control form-textarea" id="startup-additional-information" name="additional_information" cols="60" rows="5"></textarea>
+				<p class="textarea-error" style="display: none; color: red;">This field is required.</p>
 			</div>
 		</div>
 		<div class="captcha">
-			<div class="g-recaptcha" data-sitekey="6LeD8MkUAAAAAOsXcI7-JQI4wf60LTRb2pu44bdW"></div>
+			<div class="g-recaptcha" data-sitekey="6Lfwj9wSAAAAAGC50P7LPTXvapy4cdM6GuPJ5Zh3"></div>
 			<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 		</div>
 		<?php wp_nonce_field( 'nabshow_forms', 'form_details_nonce' ); ?>

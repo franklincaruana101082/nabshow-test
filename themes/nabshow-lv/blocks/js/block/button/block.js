@@ -3,7 +3,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
 (function (wpI18n, wpBlocks, wpEditor, wpComponents) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
-  const { RichText, InspectorControls } = wpEditor;
+  const { RichText, InspectorControls, BlockControls, URLInputButton } = wpEditor;
   const { TextControl, PanelBody, PanelRow, RangeControl, ToggleControl, SelectControl, ColorPalette } = wpComponents;
 
   const buttonBlockIcon = (
@@ -47,7 +47,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
         type: 'string',
         source: 'html',
         selector: 'a',
-        default: 'READ MORE'
+        default: 'Learn More'
       },
       Link: {
         type: 'string',
@@ -129,6 +129,22 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
       TextUppercase: {
         type: 'string'
       },
+      customDesign: {
+        type: 'boolean',
+        default: false,
+      },
+      backgroundColorNone: {
+        type: 'boolean',
+        default: true,
+      },
+      backgroundColor: {
+        type: 'string',
+        default: '#00b5e0'
+      },
+      buttonColor: {
+        type: 'string',
+        default: '#000'
+      },
     },
     edit({ attributes, setAttributes, clientId }) {
       const {
@@ -153,7 +169,11 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
         marginRight,
         marginBottom,
         marginLeft,
-        TextUppercase
+        TextUppercase,
+        customDesign,
+        backgroundColor,
+        backgroundColorNone,
+        buttonColor
       } = attributes;
 
       setAttributes({ saveId: clientId });
@@ -161,6 +181,8 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
 
       const ButtonStyle = {};
       FontSize && (ButtonStyle.fontSize = FontSize + 'px');
+      customDesign && backgroundColor && (ButtonStyle.background = backgroundColorNone ? 'none' : backgroundColor);
+      customDesign && buttonColor && (ButtonStyle.color = buttonColor);
       paddingTop && (ButtonStyle.paddingTop = paddingTop + 'px');
       paddingBottom && (ButtonStyle.paddingBottom = paddingBottom + 'px');
       paddingLeft && (ButtonStyle.paddingLeft = paddingLeft + 'px');
@@ -171,7 +193,7 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
       marginRight && (ButtonStyle.marginRight = marginRight + 'px');
       TextUppercase && (ButtonStyle.textTransform = TextUppercase);
       BorderWidth && BorderColor &&
-        (ButtonStyle.border = `${BorderWidth}px solid #${BorderColor}`);
+        (ButtonStyle.border = `${BorderWidth}px solid ${BorderColor}`);
       BorderRadius && (ButtonStyle.borderRadius = BorderRadius + 'px');
       FontFamily && (ButtonStyle.fontFamily = `${FontFamily}`);
       ButtonStyle.textDecoration = 'none';
@@ -196,6 +218,14 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
 
       return (
         <div className="nab-btn-main" id={blockID} style={ButtonMain}>
+          <BlockControls>
+            <div className="linkBtnBar">
+              <URLInputButton
+                url={Link}
+                onChange={(url, post) => setAttributes({ Link: url, text: (post && post.title) || 'Click here' })}
+              />
+            </div>
+          </BlockControls>
           <RichText
             tagName="a"
             style={finaleStyle}
@@ -226,6 +256,59 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
             </PanelBody>
             <PanelBody title="Design">
               <PanelRow>
+                <ToggleControl
+                  label={__('Custom Design')}
+                  checked={customDesign}
+                  onChange={() => {
+                    if (customDesign){
+                      setAttributes({ btnStyle: 'btn-primary' });
+                    } else {
+                      setAttributes({ btnStyle: 'custom-design' });
+                    }
+                    setAttributes({ customDesign: ! customDesign });
+                  }}
+                />
+              </PanelRow>
+              {customDesign ? (
+                <div>
+                <PanelRow>
+                  <div className="inspector-field inspector-field-color ">
+                    <label className="inspector-mb-0">Button Color</label>
+                    <div className="inspector-ml-auto">
+                      <ColorPalette
+                        value={buttonColor}
+                        onChange={(buttonColor) =>
+                          setAttributes({
+                            buttonColor: buttonColor
+                          })}
+                      />
+                    </div>
+                  </div>
+                </PanelRow>
+                <PanelRow>
+                  <ToggleControl
+                    label={__('Background Transparent')}
+                    checked={backgroundColorNone}
+                    onChange={() => setAttributes({ backgroundColorNone: ! backgroundColorNone })}
+                  />
+                </PanelRow>
+                {backgroundColorNone ? '' : (
+                    <div className="inspector-field inspector-field-color ">
+                      <label className="inspector-mb-0">Background Color</label>
+                      <div className="inspector-ml-auto">
+                        <ColorPalette
+                          value={backgroundColor}
+                          onChange={(backgroundColor) =>
+                            setAttributes({
+                              backgroundColor: backgroundColor
+                            })}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <PanelRow>
                 <div className="inspector-field inspector-buttons">
                   <PanelRow>
                     <div className="inspector-field inspector-btn-styles ">
@@ -237,69 +320,73 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
                         <li className={'btn-light' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-light' })}>{btnLight}</li>
                         <li className={'btn-white' === btnStyle ? 'active' : ''} onClick={() => setAttributes({ btnStyle: 'btn-white' })}>{btnWhite}</li>
                         <li className={'with-arrow' === btnStyle ? 'active with-arrow' : 'with-arrow'} onClick={() => setAttributes({ btnStyle: 'with-arrow' })}>{arrowBtn}</li>
-                        <li className={'btn-white-outline' === btnStyle ? 'active btn-white-outline-prev' : 'btn-white-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-white-outline' })}><span>READ MORE</span></li>
-                        <li className={'btn-black-outline' === btnStyle ? 'active btn-black-outline-prev' : 'btn-black-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-black-outline' })}><span>READ MORE</span></li>
-                        <li className={'btn-blue-outline' === btnStyle ? 'active btn-blue-outline-prev' : 'btn-blue-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-blue-outline' })}><span>READ MORE</span></li>
+                        <li className={'btn-white-outline' === btnStyle ? 'active btn-white-outline-prev' : 'btn-white-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-white-outline' })}><span>Learn More</span></li>
+                        <li className={'btn-black-outline' === btnStyle ? 'active btn-black-outline-prev' : 'btn-black-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-black-outline' })}><span>Learn More</span></li>
+                        <li className={'btn-blue-outline' === btnStyle ? 'active btn-blue-outline-prev' : 'btn-blue-outline-prev'} onClick={() => setAttributes({ btnStyle: 'btn-blue-outline' })}><span>Learn More</span></li>
+                        <li className={'btn-pink' === btnStyle ? 'active btn-pink-prev' : 'btn-pink-prev'} onClick={() => setAttributes({ btnStyle: 'btn-pink' })}><span>Learn More</span></li>
                       </ul>
                     </div>
                   </PanelRow>
-                  {
-                    'with-arrow' === btnStyle ? (
-                      <div className="inspector-field inspector-field-color ">
-                        <label className="inspector-mb-0">Color</label>
-                        <div className="inspector-ml-auto">
-                          <ColorPalette
-                            value={arrowBtnColor}
-                            onChange={(arrowBtnColor) =>
-                              setAttributes({
-                                arrowBtnColor: arrowBtnColor
-                              })}
-                          />
-                        </div>
-                      </div>
-                    ) : ''
-                  }
-                  {
-                    'with-arrow' !== btnStyle ? (
-                      <div>
-                        <PanelRow>
-                          <div className="inspector-field inspector-border-width" >
-                            <label>Border Width</label>
-                            <RangeControl
-                              value={BorderWidth}
-                              min={1}
-                              onChange={BorderWidth => setAttributes({ BorderWidth: BorderWidth })}
-                            />
-                          </div>
-                        </PanelRow>
-                        <PanelRow>
-                          <div className="inspector-field inspector-border-radius" >
-                            <label>Border radius</label>
-                            <RangeControl
-                              value={BorderRadius}
-                              min={1}
-                              onChange={BorderRadius => setAttributes({ BorderRadius: BorderRadius })}
-                            />
-                          </div>
-                        </PanelRow>
-                        <PanelRow>
-                          <div className="inspector-field inspector-field-color ">
-                            <label className="inspector-mb-0">Color</label>
-                            <div className="inspector-ml-auto"><ColorPalette
-                              value={BorderColor}
-                              onChange={(BorderColor) =>
-                                setAttributes({
-                                  BorderColor: BorderColor
-                                })}
-                            />
-                            </div>
-                          </div>
-                        </PanelRow>
-                      </div>
-                    ) : ''
-                  }
                 </div>
               </PanelRow>
+              )}
+
+              {
+                'with-arrow' === btnStyle ? (
+                  <div className="inspector-field inspector-field-color ">
+                    <label className="inspector-mb-0">Color</label>
+                    <div className="inspector-ml-auto">
+                      <ColorPalette
+                        value={arrowBtnColor}
+                        onChange={(arrowBtnColor) =>
+                          setAttributes({
+                            arrowBtnColor: arrowBtnColor
+                          })}
+                      />
+                    </div>
+                  </div>
+                ) : ''
+              }
+              {
+                'with-arrow' !== btnStyle ? (
+                  <div>
+                    <PanelRow>
+                      <div className="inspector-field inspector-border-width" >
+                        <label>Border Width</label>
+                        <RangeControl
+                          value={BorderWidth}
+                          min={0}
+                          onChange={BorderWidth => setAttributes({ BorderWidth: BorderWidth })}
+                        />
+                      </div>
+                    </PanelRow>
+                    <PanelRow>
+                      <div className="inspector-field inspector-border-radius" >
+                        <label>Border radius</label>
+                        <RangeControl
+                          value={BorderRadius}
+                          min={0}
+                          onChange={BorderRadius => setAttributes({ BorderRadius: BorderRadius })}
+                        />
+                      </div>
+                    </PanelRow>
+                    <PanelRow>
+                      <div className="inspector-field inspector-field-color ">
+                        <label className="inspector-mb-0">Border Color</label>
+                        <div className="inspector-ml-auto"><ColorPalette
+                          value={BorderColor}
+                          onChange={(BorderColor) =>
+                            setAttributes({
+                              BorderColor: BorderColor
+                            })}
+                        />
+                        </div>
+                      </div>
+                    </PanelRow>
+                  </div>
+                ) : ''
+              }
+
             </PanelBody>
             <PanelBody title="Typography" initialOpen={false}>
               <PanelRow>
@@ -319,29 +406,37 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
                   <SelectControl
                     value={FontFamily}
                     options={[
-                      { label: __('Gotham Book'), value: 'Gotham Book' },
-                      { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
-                      { label: __('Gotham Light'), value: 'Gotham Light' },
-                      { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' },
-                      { label: __('Gotham Medium'), value: 'Gotham Medium' },
-                      { label: __('Gotham Bold'), value: 'Gotham Bold' },
-                      { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' },
-                      { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' },
-                      { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' },
-                      { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' },
-                      { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' },
-                      { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
-                      { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' },
-                      { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' },
-                      { label: __('Vollkorn Black'), value: 'Vollkorn Black' },
-                      { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' },
-                      { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' },
-                      { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' },
-                      { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' },
-                      { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' },
-                      { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' },
-                      { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' },
-                      { label: __('Molot'), value: 'Molot' }
+                      { label: __('Molot'), value: 'Molot' },
+											{ label: __('Roboto Regular'), value: 'Roboto Regular' },
+											{ label: __('Roboto Black'), value: 'Roboto Black' },
+											{ label: __('Roboto Bold'), value: 'Roboto Bold' },
+											{ label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' },
+											{ label: __('Roboto Italic'), value: 'Roboto Italic' },
+											{ label: __('Roboto Light'), value: 'Roboto Light' },
+											{ label: __('Roboto Medium'), value: 'Roboto Medium' },
+											{ label: __('Roboto Thin'), value: 'Roboto Thin' },
+											{ label: __('Gotham Book'), value: 'Gotham Book' },
+											{ label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
+											{ label: __('Gotham Light'), value: 'Gotham Light' },
+											{ label: __('Gotham Light Italic'), value: 'Gotham Light Italic' },
+											{ label: __('Gotham Medium'), value: 'Gotham Medium' },
+											{ label: __('Gotham Bold'), value: 'Gotham Bold' },
+											{ label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' },
+											{ label: __('Gotham Black Regular'), value: 'Gotham Black Regular' },
+											{ label: __('Gotham Light Regular'), value: 'Gotham Light Regular' },
+											{ label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' },
+											{ label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' },
+											{ label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
+											{ label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' },
+											{ label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' },
+											{ label: __('Vollkorn Black'), value: 'Vollkorn Black' },
+											{ label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' },
+											{ label: __('Vollkorn Bold'), value: 'Vollkorn Bold' },
+											{ label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' },
+											{ label: __('Vollkorn Italic'), value: 'Vollkorn Italic' },
+											{ label: __('Vollkorn Regular'), value: 'Vollkorn Regular' },
+											{ label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' },
+											{ label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }
 
                     ]}
                     onChange={(value) => setAttributes({ FontFamily: value })}
@@ -487,9 +582,6 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
                 </PanelBody>
               ) : ''
             }
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
-            </PanelBody>
           </InspectorControls>
         </div >
       );
@@ -517,12 +609,17 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
         marginRight,
         marginBottom,
         marginLeft,
-        TextUppercase
+        TextUppercase,
+        backgroundColor,
+        customDesign,
+        backgroundColorNone,
+        buttonColor
       } = attributes;
 
       const ButtonStyle = {};
       FontSize && (ButtonStyle.fontSize = FontSize + 'px');
-      FontFamily && (ButtonStyle.fontFamily = `${FontFamily}`);
+      customDesign && backgroundColor && (ButtonStyle.background = backgroundColorNone ? 'none' : backgroundColor);
+      customDesign && buttonColor && (ButtonStyle.color = buttonColor);
       paddingTop && (ButtonStyle.paddingTop = paddingTop + 'px');
       paddingBottom && (ButtonStyle.paddingBottom = paddingBottom + 'px');
       paddingLeft && (ButtonStyle.paddingLeft = paddingLeft + 'px');
@@ -532,9 +629,10 @@ import { btnPrimary, btnDefault, btnAlt, btnLight, arrowBtn, btnWhite } from '..
       marginLeft && (ButtonStyle.marginLeft = marginLeft + 'px');
       marginRight && (ButtonStyle.marginRight = marginRight + 'px');
       TextUppercase && (ButtonStyle.textTransform = TextUppercase);
-      BorderWidth &&
-        (ButtonStyle.border = `${BorderWidth}px solid #${BorderColor}`);
+      BorderWidth && BorderColor &&
+        (ButtonStyle.border = `${BorderWidth}px solid ${BorderColor}`);
       BorderRadius && (ButtonStyle.borderRadius = BorderRadius + 'px');
+      FontFamily && (ButtonStyle.fontFamily = `${FontFamily}`);
       ButtonStyle.textDecoration = 'none';
       ButtonStyle.textAlign = 'center';
       ButtonStyle.display = 'inline-block';

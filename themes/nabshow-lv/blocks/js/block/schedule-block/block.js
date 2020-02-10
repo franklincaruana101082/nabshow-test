@@ -150,7 +150,6 @@
     jQuery(this).parents('.schedule-row').removeClass('isToggleActive');
   });
 
-
   class BlockComponent extends Component {
     componentDidMount() {
       const { dataArray } = this.props.attributes;
@@ -233,9 +232,8 @@
       const { dataArray } = attributes;
       let allData = [...dataArray];
 
-      allData[parentIndex].detailList.push({
-        index: dataArray[parentIndex].detailList.length,
-        date: allData[parentIndex].detailList[currentIndex].date,
+      allData[parentIndex].detailList.splice( currentIndex + 1, 0, {
+        index: ( parseInt(allData[parentIndex].detailList[currentIndex].index ) + 1),
         name: allData[parentIndex].detailList[currentIndex].name,
         location: allData[parentIndex].detailList[currentIndex].location,
         details: allData[parentIndex].detailList[currentIndex].details,
@@ -267,14 +265,6 @@
                   onChange={() => setAttributes({ showTitle: ! showTitle })}
                 />
               </PanelRow>
-            </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a
-                href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/news-conference-schedule.mp4"
-                target="_blank"
-              >
-                How to use block?
-              </a>
             </PanelBody>
           </InspectorControls>
           {showFilter && (
@@ -353,9 +343,12 @@
                       <Tooltip text="Remove">
                         <i
                           onClick={() => {
-                            let tempDataArray = [...dataArray];
-                            tempDataArray.splice(parentIndex, 1);
-                            setAttributes({ dataArray: tempDataArray});
+                            let toDel = confirm('Are you sure you want to delete?');
+                            if (true === toDel) {
+                              let tempDataArray = [...dataArray];
+                              tempDataArray.splice(parentIndex, 1);
+                              setAttributes({ dataArray: tempDataArray });
+                            }
                           }}
                           className="fa fa-times details-parent"
                         ></i>
@@ -432,26 +425,16 @@
                                 <Tooltip text="Remove">
                                   <i
                                     onClick={() => {
-                                      let tempDataArray = [...dataArray];
-                                      tempDataArray[parentIndex].detailList.splice(index, 1);
-                                      setAttributes({ dataArray: tempDataArray});
+                                      let toDelete = confirm('Are you sure you want to delete?');
+                                      if (true === toDelete) {
+                                        let tempDataArray = [...dataArray];
+                                        tempDataArray[parentIndex].detailList.splice(index, 1);
+                                        setAttributes({ dataArray: tempDataArray});
+                                      }
                                     }}
                                     className="fa fa-times"
                                   ></i>
                                 </Tooltip>
-                              </div>
-                              <div className="date">
-                                <RichText
-                                  tagName="p"
-                                  keepPlaceholderOnFocus="true"
-                                  placeholder={__('8 a.m. - 6 p.m.')}
-                                  value={data.date}
-                                  onChange={date => {
-                                    let tempDataArray = [...dataArray];
-                                    tempDataArray[parentIndex].detailList[index].date = date;
-                                    setAttributes({ dataArray: tempDataArray});
-                                  }}
-                                />
                               </div>
                               <div className="name">
                                 <RichText
@@ -515,7 +498,6 @@
                               let tempDataArray = [...dataArray];
                               tempDataArray[parentIndex].detailList.push({
                                 index: dataArray[parentIndex].detailList.length,
-                                date: '',
                                 name: '',
                                 location: '',
                                 details: 'Open to All',
@@ -545,7 +527,6 @@
                         title: '',
                         detailList: [{
                           index: 0,
-                          date: '',
                           name: '',
                           location: '',
                           details: 'Open to All',
@@ -649,12 +630,6 @@
                   .sort((a, b) => a.index - b.index)
                   .map((data) => (
                     <div className="schedule-row" data-type={data.type}>
-                      <div className="date">
-                        <RichText.Content
-                          tagName="p"
-                          value={data.date === undefined ? '-' : data.date}
-                        />
-                      </div>
                       <div className="name">
                         <RichText.Content
                           tagName="strong"

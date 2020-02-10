@@ -621,3 +621,81 @@ function nabshow_lv_add_mega_menu_in_menu_item( $item_output, $item, $depth, $ar
 
     return $item_output;
 }
+
+/**
+ * Added / end of the url if not found in redirect to url.
+ *
+ * @param $redirect_to
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabhsow_lv_modify_redirect_to( $redirect_to ) {
+
+	if ( strpos( $redirect_to, 'nabshow') && '/' !== substr( $redirect_to, -1 ) && ! strpos( $redirect_to, '/?') ) {
+		$redirect_to .= '/';
+	}
+
+	return $redirect_to;
+}
+
+/**
+ * Increase safe redirect manager rules limit
+ *
+ * @return int
+ *
+ * @since 1.0.0
+ */
+function nabhsow_lv_increase_redirect_rule_limit() {
+
+	return 500;
+}
+
+/**
+ * Modified query where when date_group_$ found.
+ *
+ * @param $where
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_set_content_custom_posts_where( $where ) {
+
+	if ( strpos( $where, 'date_group_$' ) !== false ) {
+
+		$where = str_replace("meta_key = 'date_group_$", "meta_key LIKE 'date_group_%", $where );
+	}
+
+	return $where;
+}
+
+/**
+ * Function replace the tag of the script.
+ *
+ * @param $tag
+ * @param $handle
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_script_loader_tag( $tag, $handle ) {
+
+	if( 'google-analytic' === $handle ) {
+		$tag = str_replace( ' src', ' defer="defer" src', $tag );
+	}
+	return $tag;
+}
+
+/**
+ * Disabled yoast seo default meta description
+ *
+ * @return bool
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_filter_wpseo_metadesc() {
+	return false;
+}

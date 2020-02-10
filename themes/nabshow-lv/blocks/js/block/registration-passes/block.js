@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
   const { RichText } = wpEditor;
-  const { TextControl } = wpComponents;
+  const { TextControl, Tooltip, DropdownMenu, MenuGroup, MenuItem } = wpComponents;
 
   const registrationPassesAwardBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -71,185 +71,344 @@
         dataArray: [
           ...dataArray,
           {
-            index: dataArray.length,
-            itemTitle: '',
-            itemDetails: '',
-            price: '',
-            subPrice: '',
-            link: '',
-            comming: false
+            titleIndex: dataArray.length,
+            title: '',
+            details: '',
+            detailList: [{
+              index: dataArray.length,
+              itemTitle: '',
+              itemDetails: '',
+              price: '',
+              subPrice: '',
+              link: '',
+              comming: false
+            }]
           }
         ]
       });
+    }
+
+
+    moveMedia(parentIndex, currentIndex, newIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArray } = attributes;
+      let allData = [...dataArray];
+
+      if (-1 === newIndex && 0 < parentIndex) {
+        let prevBlockIndex = parentIndex - 1;
+        let prevDetailListIndex = allData[prevBlockIndex].detailList.length - 1;
+        allData[parentIndex].detailList[currentIndex].index = allData[prevBlockIndex].detailList[prevDetailListIndex] + 1;
+        allData[prevBlockIndex].detailList.push(allData[parentIndex].detailList[currentIndex]);
+        allData[parentIndex].detailList.splice(currentIndex, 1);
+      } else if (undefined === allData[parentIndex].detailList[newIndex]) {
+        let nextBlockIndex = parentIndex + 1;
+        allData[nextBlockIndex].detailList.unshift(allData[parentIndex].detailList[currentIndex]);
+        allData[parentIndex].detailList.splice(currentIndex, 1);
+        allData[nextBlockIndex].detailList.map((data, index) => (allData[nextBlockIndex].detailList[index].index = index));
+      } else {
+        allData[parentIndex].detailList[currentIndex].index = newIndex;
+        allData[parentIndex].detailList[newIndex].index = currentIndex;
+      }
+
+      setAttributes({ dataArry: allData });
+    }
+
+    moveParentItem(currentIndex, newIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArray } = attributes;
+      let allData = [...dataArray];
+
+      allData[currentIndex].titleIndex = newIndex;
+      allData[newIndex].titleIndex = currentIndex;
+
+      setAttributes({ dataArry: allData });
+    }
+
+    MoveItemToParent(currentParentIndex, parentIndex, index) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArray } = attributes;
+      let allData = [...dataArray];
+      allData[currentParentIndex].detailList[index].index = allData[parentIndex].detailList.length;
+      allData[parentIndex].detailList.push(allData[currentParentIndex].detailList[index]);
+      allData[currentParentIndex].detailList.splice(index, 1);
+
+      setAttributes({ dataArry: allData });
+    }
+
+    duplicate(parentIndex, currentIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { dataArray } = attributes;
+      let allData = [...dataArray];
+
+      allData[parentIndex].detailList.splice(currentIndex + 1, 0, {
+        index: (parseInt(allData[parentIndex].detailList[currentIndex].index) + 1),
+        itemTitle: allData[parentIndex].detailList[currentIndex].itemTitle,
+        itemDetails: allData[parentIndex].detailList[currentIndex].itemDetails,
+        price: allData[parentIndex].detailList[currentIndex].price,
+        subPrice: allData[parentIndex].detailList[currentIndex].subPrice,
+        link: allData[parentIndex].detailList[currentIndex].link,
+        comming: allData[parentIndex].detailList[currentIndex].comming
+      });
+
+      setAttributes({ dataArray: allData });
     }
 
     render() {
       const { attributes, setAttributes } = this.props;
       const { dataArray, title, details } = attributes;
 
-      const itemList = dataArray
-        .sort((a, b) => a.index - b.index)
-        .map((product, index) => {
-          return (
-            <div className={`registration-item ${product.comming ? 'comming-soon' : ''}`}>
-              <span
-                className="remove"
-                onClick={() => {
-                  const qewQusote = dataArray
-                    .filter(item => item.index != product.index)
-                    .map(t => {
-                      if (t.index > product.index) {
-                        t.index -= 1;
-                      }
-
-                      return t;
-                    });
-
-                  setAttributes({
-                    dataArray: qewQusote
-                  });
-                }}
-              >
-                <span className="dashicons dashicons-no-alt"></span>
-              </span>
-              <div className="plus-sec">
-                {false === product.comming && (
-                  <Fragment>
-                    <span>+</span>
-                    <div className="plus-link">
-                      <TextControl
-                        type="string"
-                        value={product.link}
-                        placeholder="#"
-                        onChange={link => {
-                          const newObject = Object.assign({}, product, {
-                            link: link
-                          });
-                          setAttributes({
-                            dataArray: [
-                              ...dataArray.filter(
-                                item => item.index != product.index
-                              ),
-                              newObject
-                            ]
-                          });
+      return (
+        <Fragment>
+        <div className="registration-passes">
+          {0 < dataArray.length &&
+            dataArray
+              .sort((a, b) => a.titleIndex - b.titleIndex)
+              .map((parentData, parentIndex) => (
+                <Fragment>
+                  <div className="shedule-details-parent">
+                    <div className="move-item">
+                      {0 < parentIndex && (
+                        <Tooltip text="Move UP">
+                          <i
+                            onClick={() => this.moveParentItem(parentIndex, parentIndex - 1)}
+                            className="fa fa-chevron-up"
+                          ></i>
+                        </Tooltip>
+                      )}
+                      {parentIndex + 1 < dataArray.length && (
+                        <Tooltip text="Move Down">
+                          <i
+                            onClick={() => this.moveParentItem(parentIndex, parentIndex + 1)}
+                            className="fa fa-chevron-down"
+                          ></i>
+                        </Tooltip>
+                      )}
+                    </div>
+                    <Tooltip text="Remove">
+                      <i
+                        onClick={() => {
+                          let tempDataArray = [...dataArray];
+                          tempDataArray.splice(parentIndex, 1);
+                          setAttributes({ dataArray: tempDataArray });
                         }}
+                        className="fa fa-times details-parent"
+                      ></i>
+                    </Tooltip>
+
+                    <div className="registration-head">
+                      <RichText
+                        tagName="h2"
+                        placeholder={__('Title')}
+                        value={parentData.title}
+                          className="title"
+                          onChange={value => {
+                            let tempDataArray = [...dataArray];
+                            tempDataArray[parentIndex].title = value;
+                            setAttributes({ dataArray: tempDataArray });
+                          }}
+                      />
+                      <RichText
+                        tagName="p"
+                        placeholder={__('Description')}
+                        value={parentData.details}
+                          className="description"
+                          onChange={value => {
+                            let tempDataArray = [...dataArray];
+                            tempDataArray[parentIndex].details = value;
+                            setAttributes({ dataArray: tempDataArray });
+                          }}
                       />
                     </div>
-                  </Fragment>
-                )}
-              </div>
-              <div className="middle-sec">
-                <RichText
-                  tagName="h3"
-                  placeholder={__('Item Title')}
-                  value={product.itemTitle}
-                  className="item-title"
-                  onChange={itemTitle => {
-                    const newObject = Object.assign({}, product, {
-                      itemTitle: itemTitle
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  placeholder={__('Description')}
-                  value={product.itemDetails}
-                  className="item-description"
-                  onChange={itemDetails => {
-                    const newObject = Object.assign({}, product, {
-                      itemDetails: itemDetails
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-              <div className="last-sec">
-                <RichText
-                  tagName="p"
-                  placeholder={__('Price')}
-                  value={product.price}
-                  className="price"
-                  onChange={price => {
-                    const newObject = Object.assign({}, product, {
-                      price: price
-                    });
-                    setAttributes({
-                      dataArray: [
-                        ...dataArray.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                {
-                  false == product.comming ? (
-                    <RichText
-                      tagName="span"
-                      placeholder={__('Sub Price')}
-                      value={product.subPrice}
-                      className="sub-price"
-                      onChange={subPrice => {
-                        const newObject = Object.assign({}, product, {
-                          subPrice: subPrice
-                        });
-                        setAttributes({
-                          dataArray: [
-                            ...dataArray.filter(
-                              item => item.index != product.index
-                            ),
-                            newObject
-                          ]
-                        });
-                      }}
-                    />
-                  ) : ''}
-              </div>
-            </div>
-          );
-        });
+                    <div className="schedule-data">
+                      {parentData.detailList
+                        .sort((a, b) => a.index - b.index)
+                        .map((product, index) => (
+                          <div className={`registration-item re-pass-item ${product.comming ? 'comming-soon' : ''}`}>
 
-      return (
-        <div className="registration-passes">
-          <div className="registration-head">
-            <RichText
-              tagName="h2"
-              placeholder={__('Title')}
-              value={title}
-              className="title"
-              onChange={title => {
-                setAttributes({ title: title });
-              }}
-            />
-            <RichText
-              tagName="p"
-              placeholder={__('Description')}
-              value={details}
-              className="description"
-              onChange={details => {
-                setAttributes({ details: details });
-              }}
-            />
-          </div>
-          {itemList}
-          <div className="registration-item additem">
+                            <div className="move-item">
+                              {(0 !== parentIndex || 0 !== index) && (
+                                <Tooltip text="Move UP">
+                                  <i
+                                    onClick={() => this.moveMedia(parentIndex, index, index - 1)}
+                                    className="fa fa-chevron-up"
+                                  ></i>
+                                </Tooltip>
+                              )}
+                              {(parentIndex + 1 !== dataArray.length || index + 1 < parentData.detailList.length) && (
+                                <Tooltip text="Move Down">
+                                  <i
+                                    onClick={() => this.moveMedia(parentIndex, index, index + 1)}
+                                    className="fa fa-chevron-down"
+                                  ></i>
+                                </Tooltip>
+                              )}
+                              <Tooltip text="Duplicate">
+                                <i
+                                  onClick={() => this.duplicate(parentIndex, index)}
+                                  className="fa fa-clone"
+                                ></i>
+                              </Tooltip>
+                              {1 < dataArray.length &&
+                                <DropdownMenu
+                                  icon="arrow-right-alt"
+                                  label="Move To"
+                                >
+                                  {({ onClose }) => (
+                                    <Fragment>
+                                      <MenuGroup>
+                                        {dataArray.map((parentTitle, titleIndex) => (
+                                          ('' !== parentTitle.title &&
+                                            (parentIndex !== titleIndex &&
+                                              <MenuItem
+                                                className="schedule-move-to-list"
+                                                onClick={() => { this.MoveItemToParent(parentIndex, titleIndex, index); onClose(); }}
+                                              >
+                                                {parentTitle.title}
+                                              </MenuItem>
+                                            )
+                                          )
+                                        ))
+                                        }
+                                      </MenuGroup>
+                                    </Fragment>
+                                  )}
+                                </DropdownMenu>
+                              }
+                              <Tooltip text="Remove">
+                                <i
+                                  onClick={() => {
+                                    let tempDataArray = [...dataArray];
+                                    tempDataArray[parentIndex].detailList.splice(index, 1);
+                                    setAttributes({ dataArray: tempDataArray });
+                                  }}
+                                  className="fa fa-times"
+                                ></i>
+                              </Tooltip>
+                            </div>
+                            <div className="plus-sec">
+                              {false === product.comming && (
+                                <Fragment>
+                                  <span>+</span>
+                                  <div className="plus-link">
+                                    <TextControl
+                                      type="string"
+                                      value={product.link}
+                                      placeholder="#"
+                                      onChange={link => {
+                                        let tempDataArray = [...dataArray];
+                                        tempDataArray[parentIndex].detailList[index].link = link;
+                                        setAttributes({ dataArray: tempDataArray });
+                                      }}
+                                    />
+                                  </div>
+                                </Fragment>
+                              )}
+                            </div>
+                            <div className="middle-sec">
+                              <RichText
+                                tagName="h3"
+                                placeholder={__('Item Title')}
+                                value={product.itemTitle}
+                                className="item-title"
+                                onChange={itemTitle => {
+                                  let tempDataArray = [...dataArray];
+                                  tempDataArray[parentIndex].detailList[index].itemTitle = itemTitle;
+                                  setAttributes({ dataArray: tempDataArray });
+                                }}
+                              />
+                              <RichText
+                                tagName="p"
+                                placeholder={__('Description')}
+                                value={product.itemDetails}
+                                className="item-description"
+                                onChange={itemDetails => {
+                                  let tempDataArray = [...dataArray];
+                                  tempDataArray[parentIndex].detailList[index].itemDetails = itemDetails;
+                                  setAttributes({ dataArray: tempDataArray });
+                                }}
+                              />
+                            </div>
+                            <div className="last-sec">
+                              <RichText
+                                tagName="p"
+                                placeholder={__('Price')}
+                                value={product.price}
+                                className="price"
+                                onChange={price => {
+                                  let tempDataArray = [...dataArray];
+                                  tempDataArray[parentIndex].detailList[index].price = price;
+                                  setAttributes({ dataArray: tempDataArray });
+                                }}
+                              />
+                              {
+                                false == product.comming ? (
+                                  <RichText
+                                    tagName="span"
+                                    placeholder={__('Sub Price')}
+                                    value={product.subPrice}
+                                    className="sub-price"
+                                    onChange={subPrice => {
+                                      let tempDataArray = [...dataArray];
+                                      tempDataArray[parentIndex].detailList[index].subPrice = subPrice;
+                                      setAttributes({ dataArray: tempDataArray });
+                                    }}
+                                  />
+                                ) : ''}
+                            </div>
+                          </div>
+
+                        ))}
+                    </div>
+                    {/* Inner Buttons */}
+                    <div className="registration-item additem">
+                      <button
+                        className="components-button add"
+                        onClick={content => {
+                          let tempDataArray = [...dataArray];
+                          tempDataArray[parentIndex].detailList.push({
+                            index: dataArray[parentIndex].detailList.length,
+                            itemTitle: '',
+                            itemDetails: '',
+                            price: '',
+                            subPrice: '',
+                            link: '',
+                            comming: false
+                          });
+                          setAttributes({ dataArray: tempDataArray });
+                        }}
+                      >
+                        <span className="dashicons dashicons-plus"></span> Add New Item
+                      </button>
+                      <button
+                        className="components-button add coming-btn"
+                        onClick={content => {
+                          let tempDataArray = [...dataArray];
+                          tempDataArray[parentIndex].detailList.push({
+                            index: dataArray[parentIndex].detailList.length,
+                            itemTitle: '',
+                            itemDetails: '',
+                            price: 'Registration Coming Soon!',
+                            subPrice: '',
+                            link: '',
+                            comming: true
+                          });
+                          setAttributes({ dataArray: tempDataArray });
+                        }}
+                      >
+                        <span className="dashicons dashicons-plus"></span> Add Coming Soon Item
+                      </button>
+                    </div>
+
+
+                  </div>
+                </Fragment>
+              )
+            )
+          }
+        </div>
+
+          {/* outer Buttons */}
+          <div className="registration-item outer-btns additem">
             <button
               className="components-button add"
               onClick={content => {
@@ -257,45 +416,28 @@
                   dataArray: [
                     ...dataArray,
                     {
-                      index: dataArray.length,
-                      itemTitle: '',
-                      itemDetails: '',
-                      price: '',
-                      subPrice: '',
-                      link: '',
-                      comming: false
+                      titleIndex: dataArray.length,
+                      title: '',
+                      details: '',
+                      detailList: [{
+                        index: dataArray.length,
+                        itemTitle: '',
+                        itemDetails: '',
+                        price: '',
+                        subPrice: '',
+                        link: '',
+                        comming: false
+                      }]
                     }
                   ]
                 });
               }
               }
             >
-              <span className="dashicons dashicons-plus"></span> Add New Item
-              </button>
-            <button
-              className="components-button add coming-btn"
-              onClick={content => {
-                setAttributes({
-                  dataArray: [
-                    ...dataArray,
-                    {
-                      index: dataArray.length,
-                      itemTitle: '',
-                      itemDetails: '',
-                      price: 'Registration Coming Soon!',
-                      subPrice: '',
-                      link: '',
-                      comming: true
-                    }
-                  ]
-                });
-              }
-              }
-            >
-              <span className="dashicons dashicons-plus"></span> Add Comming Soon
+              <span className="dashicons dashicons-plus"></span> Add New Block
               </button>
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
@@ -325,62 +467,67 @@
       const { dataArray, title, details } = attributes;
 
       return (
-        <div className="registration-passes">
-          <div className="registration-head">
-            <RichText.Content
-              tagName="h2"
-              value={title}
-              className="title"
-            />
-            <RichText.Content
-              tagName="p"
-              value={details}
-              className="description"
-            />
-          </div>
-          {dataArray.map((product, index) => (
-            <Fragment>{
-              product.itemTitle && (
-                <div className={`registration-item ${product.comming ? 'comming-soon' : ''}`}>
-                  <div className="plus-sec">
-                    {product.link && (
-                      <a href={product.link} target="_blank" rel="noopener noreferrer">+</a>
-                    )}
-                  </div>
-                  <div className="middle-sec">
-                    <RichText.Content
-                      tagName="h3"
-                      value={product.itemTitle}
-                      className="item-title"
-                    />
-                    <RichText.Content
-                      tagName="p"
-                      value={product.itemDetails}
-                      className="item-description"
-                    />
-                  </div>
-                  <div className="last-sec">
-                    {product.price && (
-                      <RichText.Content
-                        tagName="p"
-                        value={product.price}
-                        className="price"
-                      />
-                    )}
-                    {product.subPrice && (
-                      <RichText.Content
-                        tagName="span"
-                        value={product.subPrice}
-                        className="sub-price"
-                      />
-                    )}
-                  </div>
+        <Fragment>
+          { 0 < dataArray.length && dataArray.map((parentData) => (
+            <div className="registration-passes">
+              <div className="registration-head">
+                <RichText.Content
+                  tagName="h2"
+                  value={parentData.title}
+                  className="title"
+                />
+                <RichText.Content
+                  tagName="p"
+                  value={parentData.details}
+                  className="description"
+                />
                 </div>
-              )
-            }
-            </Fragment>
-          ))}
-        </div>
+                {parentData.detailList
+                  .sort((a, b) => a.index - b.index)
+                  .map((product) => (
+                  <Fragment>
+                    { product.itemTitle && (
+                      <div className={`registration-item ${product.comming ? 'comming-soon' : ''}`}>
+                        <div className="plus-sec">
+                          {product.link && (
+                            <a href={product.link} target="_blank" rel="noopener noreferrer">+</a>
+                          )}
+                        </div>
+                        <div className="middle-sec">
+                          <RichText.Content
+                            tagName="h3"
+                            value={product.itemTitle}
+                            className="item-title"
+                          />
+                          <RichText.Content
+                            tagName="p"
+                            value={product.itemDetails}
+                            className="item-description"
+                          />
+                        </div>
+                        <div className="last-sec">
+                          {product.price && (
+                            <RichText.Content
+                              tagName="p"
+                              value={product.price}
+                              className="price"
+                            />
+                          )}
+                          {product.subPrice && (
+                            <RichText.Content
+                              tagName="span"
+                              value={product.subPrice}
+                              className="sub-price"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </Fragment>
+                  ))}
+                </div>
+            ))}
+        </Fragment>
       );
     }
   });

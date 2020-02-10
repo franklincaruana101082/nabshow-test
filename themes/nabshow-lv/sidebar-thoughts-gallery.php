@@ -24,13 +24,6 @@ if ( false === $popularposts ) {
 }
 ?>
 <div class="sidebar-inner">
-    <aside class="widget widget_search">
-        <form method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-            <input type="search" placeholder="Search Thought Gallery...." value="<?php echo esc_attr( get_search_query() ); ?>" name="s"/>
-            <input type="hidden" value="<?php echo esc_attr( 'thought-gallery' ); ?>" name="post_type"/>
-            <button>Search</button>
-        </form>
-    </aside>
     <aside class="widget widget_popular">
         <div class="widget-title">
             <h2>Most Popular</h2>
@@ -134,7 +127,7 @@ if ( false === $popularposts ) {
 
             if( $author_query->have_posts() && 6 >= $limit_counter ) {
 
-                $contributor_image = get_avatar_url( $contributor->ID, array( 'size' => 200 ) );
+                $contributor_image = nabshow_lv_get_author_avatar_url( $contributor->ID );
                 ?>
                 <li>
                     <div class="item-inner">
@@ -160,4 +153,11 @@ if ( false === $popularposts ) {
     <?php
     }
     ?>
+	<aside class="widget widget_search">
+		<form method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+			<input type="search" placeholder="Search Thought Gallery...." value="<?php echo esc_attr( get_search_query() ); ?>" name="s"/>
+			<input type="hidden" value="<?php echo esc_attr( 'thought-gallery' ); ?>" name="post_type"/>
+			<button>Search</button>
+		</form>
+	</aside>
 </div>

@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
   const { RichText, MediaUpload, InspectorControls } = wpEditor;
-  const { PanelBody, PanelRow, ToggleControl, Button, TextControl, CheckboxControl } = wpComponents;
+  const { PanelBody, PanelRow, ToggleControl, Button, TextControl, CheckboxControl, Tooltip } = wpComponents;
 
   const exhibitorCommitteeBlockIcon = (
     <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -88,6 +88,40 @@
       });
     }
 
+    moveParentItem(currentIndex, newIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { committee } = attributes;
+      let allData = [...committee];
+
+      allData[currentIndex].index = newIndex;
+      allData[newIndex].index = currentIndex;
+
+      setAttributes({ committee: allData });
+    }
+
+    duplicate(currentIndex) {
+      const { setAttributes, attributes } = this.props;
+      const { committee } = attributes;
+      let allData = [...committee];
+
+      allData.splice(currentIndex + 1, 0, {
+        index: (parseInt(allData[currentIndex].index) + 1),
+        name: allData[currentIndex].name,
+        company: allData[currentIndex].company,
+        areas: allData[currentIndex].areas,
+        boothSize: allData[currentIndex].boothSize,
+        address: allData[currentIndex].address,
+        phone: allData[currentIndex].phone,
+        emailAdd: allData[currentIndex].emailAdd,
+        media: allData[currentIndex].media,
+        mediaAlt: allData[currentIndex].mediaAlt,
+        international: allData[currentIndex].international
+    });
+
+      setAttributes({ committee: allData });
+    }
+
+
     render() {
       const { attributes, setAttributes } = this.props;
       const { committee, showFilter } = attributes;
@@ -99,234 +133,10 @@
           );
         } else {
           return (
-            <Button onClick={openEvent} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Logo</Button>
+            <Button onClick={openEvent} className="button button-large"><span className="dashicons dashicons-upload"></span> Upload Image</Button>
           );
         }
       };
-
-      const committeeMembers = committee.sort((a, b) => a.index - b.index).map((member, index) => {
-        return (
-          <div className={`box-item ${member.international ? 'International' : ''} `}>
-            <div className='box-inner'>
-              <div className="info-box">
-                <span
-                  className="remove"
-                  onClick={() => {
-                    const removeMember = committee.filter(item => item.index !== member.index).map(item => {
-                      if (item.index > member.index) {
-                        item.index -= 1;
-                      }
-                      return item;
-                    });
-                    setAttributes({
-                      committee: removeMember
-                    });
-                  }}
-                >
-                  <span className="dashicons dashicons-no-alt"></span>
-                </span>
-                <RichText
-                  tagName="h2"
-                  placeholder={__('Member Name')}
-                  value={member.name}
-                  onChange={name => {
-                    const newObject = Object.assign({}, member, {
-                      name: name
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="h4"
-                  placeholder={__('Company')}
-                  value={member.company}
-                  onChange={company => {
-                    const newObject = Object.assign({}, member, {
-                      company: company
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  placeholder={__('Areas')}
-                  value={member.areas}
-                  onChange={areas => {
-                    const newObject = Object.assign({}, member, {
-                      areas: areas
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  placeholder={__('Booth Size')}
-                  value={member.boothSize}
-                  onChange={boothSize => {
-                    const newObject = Object.assign({}, member, {
-                      boothSize: boothSize
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  placeholder={__('Address')}
-                  value={member.address}
-                  onChange={address => {
-                    const newObject = Object.assign({}, member, {
-                      address: address
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <RichText
-                  tagName="p"
-                  placeholder={__('Phone')}
-                  value={member.phone}
-                  onChange={phone => {
-                    const newObject = Object.assign({}, member, {
-                      phone: phone
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <TextControl
-                  type="text"
-                  className="email"
-                  value={member.email}
-                  placeholder="Email Address"
-                  onChange={email => {
-                    const newObject = Object.assign({}, member, {
-                      email: email
-                    });
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-                <CheckboxControl
-                  className="in-checkbox"
-                  label="International"
-                  checked={member.international}
-                  onChange={isChecked => {
-                    let newObject;
-                    if (isChecked) {
-                      newObject = Object.assign({}, member, {
-                        international: true
-                      });
-                    }
-                    else {
-                      newObject = Object.assign({}, member, {
-                        international: false
-                      });
-                    }
-                    setAttributes({
-                      committee: [
-                        ...committee.filter(
-                          item => item.index != member.index
-                        ),
-                        newObject
-                      ]
-                    });
-                  }}
-                />
-              </div>
-              <div className="media-box">
-                <div className="media-img">
-                  <MediaUpload
-                    onSelect={media => {
-                      const newObject = Object.assign({}, member, {
-                        media: media.url,
-                        mediaAlt: media.alt
-                      });
-                      setAttributes({
-                        committee: [
-                          ...committee.filter(
-                            item => item.index != member.index
-                          ),
-                          newObject
-                        ]
-                      });
-                    }}
-                    type="image"
-                    value={attributes.imageID}
-                    render={({ open }) => <span onClick={open} className="dashicons dashicons-edit"></span>}
-                  />
-                  <MediaUpload
-                    onSelect={media => {
-                      const newObject = Object.assign({}, member, {
-                        media: media.url,
-                        mediaAlt: media.alt
-                      });
-                      setAttributes({
-                        committee: [
-                          ...committee.filter(
-                            item => item.index != member.index
-                          ),
-                          newObject
-                        ]
-                      });
-                    }}
-                    type="image"
-                    value={attributes.imageID}
-                    render={({ open }) => getImageButton(open, index)}
-                  />
-                </div>
-
-              </div>
-            </div>
-          </div>
-        );
-      });
 
       return (
         <Fragment>
@@ -339,9 +149,6 @@
                   onChange={() => setAttributes({ showFilter: ! showFilter })}
                 />
               </PanelRow>
-            </PanelBody>
-            <PanelBody title={__('Help')} initialOpen={false}>
-              <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/exhibitor-advisory-committee.mp4" target="_blank">How to use block?</a>
             </PanelBody>
           </InspectorControls>
           {showFilter &&
@@ -366,7 +173,181 @@
           }
           <div className="exhibitor-committee">
             <div className="box-main two-grid">
-              {committeeMembers}
+              {0 < committee.length &&
+                committee.sort((a, b) => a.index - b.index).map((member, index) => {
+                  return (
+                    <div className={`box-item ${member.international ? 'International' : ''} `}>
+
+                      <div className="move-item">
+                        {(0 !== index) && (
+                          <Tooltip text="Move UP">
+                            <i
+                              onClick={() => this.moveParentItem(index, index - 1)}
+                              className="fa fa-chevron-up"
+                            ></i>
+                          </Tooltip>
+                        )}
+                        <Tooltip text="Move Down">
+                          <i
+                            onClick={() => this.moveParentItem(index, index + 1)}
+                            className="fa fa-chevron-down"
+                          ></i>
+                        </Tooltip>
+                        <Tooltip text="Duplicate">
+                          <i
+                            onClick={() => this.duplicate(index)}
+                            className="fa fa-clone"
+                          ></i>
+                        </Tooltip>
+                        <Tooltip text="Remove">
+                          <i
+                            onClick={() => {
+                              let tempcommittee = [...committee];
+                              tempcommittee.splice(index, 1);
+                              setAttributes({ committee: tempcommittee });
+                            }}
+                            className="fa fa-times"
+                          ></i>
+                        </Tooltip>
+                      </div>
+
+                      <div className='box-inner'>
+                        <div className="info-box">
+                          <RichText
+                            tagName="h2"
+                            placeholder={__('Member Name')}
+                            value={member.name}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].name = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="h4"
+                            placeholder={__('Company')}
+                            value={member.company}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].company = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Areas')}
+                            value={member.areas}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].areas = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Booth Size')}
+                            value={member.boothSize}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].boothSize = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Address')}
+                            value={member.address}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].address = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Phone')}
+                            value={member.phone}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].phone = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <TextControl
+                            type="text"
+                            className="email"
+                            value={member.email}
+                            placeholder="Email Address"
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].email = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <CheckboxControl
+                            className="in-checkbox"
+                            label="International"
+                            checked={member.international}
+                            onChange={isChecked => {
+                              let tempDataArray = [...committee];
+                              if (isChecked) {
+                                tempDataArray[index].international = true;
+                              }
+                              else {
+                                tempDataArray[index].international = false;
+                              }
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                        </div>
+                        <div className="media-box">
+                          <div className="media-img">
+                            <MediaUpload
+                              onSelect={media => {
+                                const newObject = Object.assign({}, member, {
+                                  media: media.url,
+                                  mediaAlt: media.alt
+                                });
+                                setAttributes({
+                                  committee: [
+                                    ...committee.filter(
+                                      item => item.index != member.index
+                                    ),
+                                    newObject
+                                  ]
+                                });
+                              }}
+                              type="image"
+                              value={attributes.imageID}
+                              render={({ open }) => <span onClick={open} className="dashicons dashicons-edit"></span>}
+                            />
+                            <MediaUpload
+                              onSelect={media => {
+                                const newObject = Object.assign({}, member, {
+                                  media: media.url,
+                                  mediaAlt: media.alt
+                                });
+                                setAttributes({
+                                  committee: [
+                                    ...committee.filter(
+                                      item => item.index != member.index
+                                    ),
+                                    newObject
+                                  ]
+                                });
+                              }}
+                              type="image"
+                              value={attributes.imageID}
+                              render={({ open }) => getImageButton(open, index)}
+                            />
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              }
               <div className="box-item additem">
                 <button
                   className="components-button add"
@@ -448,7 +429,9 @@
           }
           <div className="exhibitor-committee">
             <div className="box-main two-grid">
-              {committee.map((member, index) => (
+              {committee
+                .sort((a, b) => a.index - b.index)
+                .map((member, index) => (
                 <Fragment>
                   {
                     member.name && (
@@ -506,7 +489,7 @@
                               {member.media ? (
                                 <img src={member.media} alt={member.alt} className="img" />
                               ) : (
-                                  <div className="no-image">No Logo</div>
+                                  <div className="no-image">No Image</div>
                                 )}
                             </div>
                           </div>

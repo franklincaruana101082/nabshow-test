@@ -3,7 +3,7 @@
 	const { registerBlockType } = wpBlocks;
 	const { Fragment } = wpElement;
 	const { RichText, InspectorControls } = wpEditor;
-	const { TextControl, PanelBody, PanelRow, SelectControl, ColorPalette, RangeControl } = wpComponents;
+	const { TextControl, PanelBody, PanelRow, SelectControl, ColorPalette, RangeControl, CheckboxControl } = wpComponents;
 
 	const headingBlockIcon = (
 		<svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -97,7 +97,14 @@
 			fontFamily: {
 				type: 'string',
 				default: 'Gotham Bold'
-			}
+			},
+			designOpt: {
+				type: 'boolean'
+			},
+			backgroundColor: {
+				type: 'string',
+				default: ''
+			},
 		},
 		edit({ attributes, setAttributes }) {
 			const {
@@ -117,7 +124,9 @@
 				HeadingColor,
 				TextUppercase,
 				TextAlign,
-				fontFamily
+				fontFamily,
+				designOpt,
+				backgroundColor
 			} = attributes;
 
 			const HeadingStyle = {};
@@ -137,15 +146,30 @@
 			TextAlign && (HeadingStyle.textAlign = TextAlign);
 			fontFamily && (HeadingStyle.fontFamily = fontFamily);
 
+			const tiltedStyle = {};
+			backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+
 			return (
 				<Fragment>
-					<RichText
-						tagName={HeadingLevel}
-						onChange={(HeadingText) => setAttributes({ HeadingText: HeadingText })}
-						value={HeadingText}
-						style={HeadingStyle}
-						className="title nab-title"
-					/>
+					{true === designOpt ?
+						<div className="nab-heading" style={tiltedStyle}>
+							<RichText
+								tagName={HeadingLevel}
+								onChange={(HeadingText) => setAttributes({ HeadingText: HeadingText })}
+								value={HeadingText}
+								style={HeadingStyle}
+								className="title nab-title"
+							/>
+							<span className='tilted-design' style={tiltedStyle}></span>
+						</div> :
+						<RichText
+							tagName={HeadingLevel}
+							onChange={(HeadingText) => setAttributes({ HeadingText: HeadingText })}
+							value={HeadingText}
+							style={HeadingStyle}
+							className="title nab-title"
+						/>
+					}
 					<InspectorControls>
 						<PanelBody title="Heading" initialOpen={true}>
 							<PanelRow>
@@ -203,6 +227,39 @@
 								</div>
 							</PanelRow>
 						</PanelBody>
+						<PanelBody title="Heading Design" initialOpen={false}>
+							<PanelRow>
+								<div className="inspector-field inspector-field-headings-design">
+									<CheckboxControl
+										className="in-checkbox"
+										label="Tilted Design"
+										checked={designOpt}
+										onChange={isChecked => {
+											if (isChecked) {
+												setAttributes({ designOpt: true });
+											} else {
+												setAttributes({ designOpt: false });
+											}
+										}}
+									/>
+								</div>
+							</PanelRow>
+						</PanelBody>
+						{designOpt &&
+							<PanelBody title={__('Background Color')} initialOpen={true} className="bg-setting">
+								<PanelRow>
+									<div className="inspector-field inspector-field-color ">
+										<label className="inspector-mb-0">Background Color</label>
+										<div className="inspector-ml-auto">
+											<ColorPalette
+												value={backgroundColor}
+												onChange={(value) => setAttributes({ backgroundColor: value ? value : '', opacity: 0 })}
+											/>
+										</div>
+									</div>
+								</PanelRow>
+							</PanelBody>
+						}
 						<PanelBody title="Typography" initialOpen={false}>
 							<PanelRow>
 								<div className="inspector-field inspector-field-color ">
@@ -234,6 +291,15 @@
 									<SelectControl
 										value={fontFamily}
 										options={[
+											{ label: __('Molot'), value: 'Molot' },
+											{ label: __('Roboto Regular'), value: 'Roboto Regular' },
+											{ label: __('Roboto Black'), value: 'Roboto Black' },
+											{ label: __('Roboto Bold'), value: 'Roboto Bold' },
+											{ label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' },
+											{ label: __('Roboto Italic'), value: 'Roboto Italic' },
+											{ label: __('Roboto Light'), value: 'Roboto Light' },
+											{ label: __('Roboto Medium'), value: 'Roboto Medium' },
+											{ label: __('Roboto Thin'), value: 'Roboto Thin' },
 											{ label: __('Gotham Book'), value: 'Gotham Book' },
 											{ label: __('Gotham Book Italic'), value: 'Gotham Book Italic' },
 											{ label: __('Gotham Light'), value: 'Gotham Light' },
@@ -256,7 +322,6 @@
 											{ label: __('Vollkorn Regular'), value: 'Vollkorn Regular' },
 											{ label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' },
 											{ label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' },
-											{ label: __('Molot'), value: 'Molot' }
 
 										]}
 										onChange={(value) => setAttributes({ fontFamily: value })}
@@ -401,9 +466,6 @@
 								</div>
 							</PanelRow>
 						</PanelBody>
-						<PanelBody title={__('Help')} initialOpen={false}>
-							<a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/miscellaneous-blocks.mp4" target="_blank">How to use block?</a>
-						</PanelBody>
 					</InspectorControls >
 				</Fragment >
 			);
@@ -426,7 +488,9 @@
 				HeadingColor,
 				TextUppercase,
 				TextAlign,
-				fontFamily
+				fontFamily,
+				designOpt,
+				backgroundColor
 			} = attributes;
 
 			const HeadingStyle = {};
@@ -446,14 +510,29 @@
 			TextAlign && (HeadingStyle.textAlign = TextAlign);
 			fontFamily && (HeadingStyle.fontFamily = fontFamily);
 
+
+			const tiltedStyle = {};
+			backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+
 			return (
 				<Fragment>
-					<RichText.Content
-						tagName={HeadingLevel}
-						value={HeadingText}
-						style={HeadingStyle}
-						className="title nab-title"
-					/>
+					{true === designOpt ?
+						<div className="nab-heading" style={tiltedStyle}>
+							<RichText.Content
+								tagName={HeadingLevel}
+								value={HeadingText}
+								style={HeadingStyle}
+								className="title nab-title"
+							/>
+							<span className='tilted-design' style={tiltedStyle}></span>
+						</div> :
+						<RichText.Content
+							tagName={HeadingLevel}
+							value={HeadingText}
+							style={HeadingStyle}
+							className="title nab-title"
+						/>
+					}
 				</Fragment>
 			);
 		}
