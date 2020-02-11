@@ -16438,6 +16438,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return wp.element.createElement(
                       'div',
                       { className: 'nab-ad-img-list-item', key: index },
+                      wp.element.createElement(MediaUpload, {
+                        value: source.id,
+                        onSelect: function onSelect(item) {
+                          var editItem = [].concat(_toConsumableArray(imgSources));
+                          editItem[index].url = item.url;
+                          editItem[index].id = item.id;
+
+                          setAttributes({
+                            imgSources: editItem
+                          });
+                        },
+                        render: function render(_ref2) {
+                          var open = _ref2.open;
+                          return wp.element.createElement('span', { 'class': 'dashicons dashicons-edit edit-item', onClick: open });
+                        }
+                      }),
                       wp.element.createElement('img', { src: source.url,
                         className: 'nab-ad-img',
                         alt: __('Ad-Image'),
@@ -16454,12 +16470,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           className: 'nab-ad-item-remove',
                           icon: 'no',
                           onClick: function onClick() {
-                            if (index === currentSelected) {
-                              _this2.setState({ currentSelected: 0 });
-                            }
-                            setAttributes({ imgSources: imgSources.filter(function (img, idx) {
-                                return idx !== index;
-                              }) });
+                            _this2.setState({ currentSelected: 0 });
+                            var removed = [].concat(_toConsumableArray(imgSources));
+                            removed.splice(index, 1);
+
+                            setAttributes({
+                              imgSources: removed
+                            });
                           }
                         })
                       )
@@ -16479,8 +16496,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           })))
                         });
                       },
-                      render: function render(_ref2) {
-                        var open = _ref2.open;
+                      render: function render(_ref3) {
+                        var open = _ref3.open;
                         return wp.element.createElement(IconButton, {
                           label: __('Add media'),
                           icon: 'plus',

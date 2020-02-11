@@ -1,22 +1,11 @@
-import { quotesSliderBottom, quotesSliderSide } from '../icons';
-
 (function(wpI18n, wpBlocks, wpEditor, wpComponents, wpElement, wpBlockEditor) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { MediaUpload, InspectorControls, RichText } = wpBlockEditor;
-  const { Component } = wpElement;
-  const {
-    PanelBody,
-    RangeControl,
-    ToggleControl,
-    Button,
-    SelectControl,
-    PanelRow,
-    Tooltip,
-    ColorPalette
-  } = wpComponents;
+  const { Component, Fragment } = wpElement;
+  const { PanelBody, RangeControl, ToggleControl, Button, PanelRow, ColorPalette } = wpComponents;
 
-  const quoteBlockIcon = (
+  const bannerBlockIcon = (
     <svg
       width="150px"
       height="150px"
@@ -124,7 +113,9 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         infiniteLoop,
         pager,
         controls,
-        mode
+        mode,
+        dataArray,
+
       } = this.props.attributes;
       if (this.state.bxSliderObj.length === undefined && sliderActive) {
         this.initSlider();
@@ -193,7 +184,8 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
               id: '',
               backgroundSize: 'cover',
               backgroundPosition: 'center'
-            }
+            },
+            drafted: false
           }
         ]
       });
@@ -206,9 +198,10 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         controls,
         adaptiveHeight,
         speed,
-        mode
+        mode,
       } = this.props.attributes;
       const { clientId } = this.props;
+
       let sliderObj = jQuery(
         `#block-${clientId} .wp-block-nab-hero-banner`
       ).bxSlider({
@@ -224,6 +217,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
       });
 
       this.setState({ bxSliderObj: sliderObj });
+
     }
 
     reloadSlider() {
@@ -308,14 +302,24 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      const heroBannerList = dataArray
+      let remainingList;
+
+      if ( sliderActive ) {
+        remainingList = dataArray.filter(element => false === element.drafted);
+      } else {
+        remainingList = dataArray;
+      }
+
+      const heroBannerList = remainingList
         .sort((a, b) => a.index - b.index)
         .map((item, index) => {
           return (
+            <Fragment>
             <div
               className="banner-item"
               style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
-            >
+              data-draft-item={item.drafted ? 'true' : 'false'}
+      >
               <span
                 className="remove-item"
                 onClick={() => {
@@ -517,10 +521,30 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                         </div>
                       </div>
                     ) : ''
+                    }
+                  </div>
+                  {false === sliderActive &&
+                    <div className="draft-setting">
+                      <div className="inspector-field inspector-field-alignment">
+                          <ToggleControl
+                            label={__('Draft This Slider:')}
+                            checked={item.drafted}
+                            className={true === dataArray[index].drafted ? 'inspector-button active' : 'inspector-button'}
+                            onChange={() => {
+                              let arrayCopy = [...dataArray];
+                              arrayCopy[index].drafted = ! item.drafted;
+                              setAttributes({
+                                dataArray: arrayCopy
+                              });
+
+                            }}
+                          />
+                      </div>
+                    </div>
                   }
-                </div>
               </div>
             </div>
+          </Fragment>
           );
         });
       return (
@@ -777,7 +801,8 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                         id: '',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'
-                      }
+                      },
+                      drafted: false
                     }
                   ]
                 });
@@ -795,9 +820,9 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
 
   registerBlockType('nab/hero-banner', {
     title: __('Hero Banner'),
-    icon: { src: quoteBlockIcon },
+    icon: { src: bannerBlockIcon },
     category: 'nabshow',
-    keywords: [__('Hero Banner'), __('gts')],
+    keywords: [__('Hero Banner'), __('Guternberg')],
 
     attributes: {
       id: {
@@ -878,6 +903,10 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         type: 'number',
         default: 130
       },
+      draftSlide: {
+        type: 'boolean',
+        default: false
+      }
     },
 
     // edit Component
@@ -904,7 +933,8 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
         discLineHeight,
         discWidth,
         spacingTop,
-        spacingBottom
+        spacingBottom,
+        sliderActive
       } = props.attributes;
 
       const HeadingStyle = {};
@@ -923,13 +953,23 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      const heroBannerList = dataArray
+      let remainingList;
+
+      if (sliderActive) {
+        remainingList = dataArray.filter(element => false === element.drafted);
+      } else {
+        remainingList = dataArray;
+      }
+
+      const heroBannerList = remainingList
         .sort((a, b) => a.index - b.index)
         .map((item, index) => {
           return (
+            <Fragment>
             <div
               className="banner-item"
               style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
+              data-draft-item={item.drafted ? 'true' : 'false'}
             >
               <div className="banner-item-inner">
                 <RichText.Content
@@ -960,6 +1000,7 @@ import { quotesSliderBottom, quotesSliderSide } from '../icons';
                 </ul>
               </div>
             </div>
+            </Fragment>
           );
         });
 
