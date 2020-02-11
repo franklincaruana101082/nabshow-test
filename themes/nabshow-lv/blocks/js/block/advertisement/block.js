@@ -283,6 +283,21 @@ import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sl
                   <div className="nab-ad-list">
                     { imgSources.map((source, index) => (
                       <div className="nab-ad-img-list-item" key={index}>
+                        <MediaUpload
+                          value={source.id}
+                          onSelect={(item) => {
+                            let editItem = [...imgSources];
+                            editItem[index].url = item.url;
+                            editItem[index].id = item.id;
+
+                            setAttributes({
+                              imgSources: editItem
+                            });
+                          }}
+                          render={({ open }) => (
+                            <span class="dashicons dashicons-edit edit-item" onClick={open} />
+                          )}
+                        />
                         <img src={source.url}
                              className="nab-ad-img"
                              alt={__('Ad-Image')}
@@ -297,8 +312,13 @@ import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sl
                             className="nab-ad-item-remove"
                             icon="no"
                             onClick={() => {
-                              if (index === currentSelected) { this.setState({ currentSelected: 0 }); }
-                              setAttributes({ imgSources: imgSources.filter((img, idx) => idx !== index) });
+                              this.setState({ currentSelected: 0 });
+                              let removed = [...imgSources];
+                              removed.splice(index, 1);
+
+                              setAttributes({
+                                imgSources: removed
+                              });
                             }}
                           />
                         </Tooltip>

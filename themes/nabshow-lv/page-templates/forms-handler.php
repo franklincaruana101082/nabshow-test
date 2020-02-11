@@ -141,8 +141,8 @@ get_header();
 						}
 						?>
 						<div class="form-confirmation">
-							<p>Thank you for contact us! A member of our team will be in touch to answer your question.</p>
-							<a class="gobackbtn btn-primary" href="<?php echo esc_url( get_the_permalink() ); ?>">Go back to the form</a>
+							<p>Thank you for contacting NAB Show. Someone will be in touch with you within 24 hours.</p>
+							<a class="gobackbtn btn-primary" href="<?php echo esc_url( get_the_permalink() ); ?>">Go Back to Contact Form</a>
 						</div>
 						<?php
 					}
