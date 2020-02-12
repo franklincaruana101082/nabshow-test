@@ -785,6 +785,11 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Roboto 
 .thought-gallery-slider .item .tg-imgCap a .tg-title{font-family:"Roboto Black";color:#000;font-style:unset;line-height:1.2}
 .thought-gallery-page .thought-gallery-head .head-left .custom-flag-heading h1{margin-right:0}
 
+/* custom thought gallery banner */
+.custom-head-with-title{margin-top:-40px;margin-bottom:40px;background-image:url('../images/header-image-default.jpg');background-position:center;background-repeat:no-repeat;background-size:cover}
+.custom-is-block-center{padding-top:40px;padding-bottom:20px}
+.custom-is-block-center .custom-title{color:#ffffff;margin:0 0 10px;padding:0;text-align:left;font-family:'Molot', sans-serif}
+
 /* thought-gallery-detail-page */
 .thought-gallery-detail-page h3.post-title{font-size:36px;color:#fff;margin-bottom:15px;font-family:"Roboto BoldItalic"}
 .thought-gallery-detail-page h3.post-title a{color:inherit}

@@ -1427,12 +1427,13 @@ button.components-button.has-text.hideBtn, .block-editor-block-settings-menu__po
 .nab-ad-controls .nab-controls-wrapper{padding:30px 30px 20px 30px;text-align:left;box-shadow:0 0 3px 0 #00000096}
 .nab-ad-controls .nab-controls-wrapper label, .nab-ad-controls .nab-controls-wrapper strong{font-size:13px;font-weight:600!important;margin-bottom:5px;color:#191e23;font-family:sans-serif;display:block}
 .nab-ad-controls .nab-controls-wrapper input{border:1px solid #ccc!important;height:45px;padding:10px 10px!important;border-radius:3px!important;margin-bottom:10px}
-.nab-ad-list .nab-advertisement-add-item button{padding:10px 10px;box-sizing:border-box;border:1px solid #fff;color:#fff;display:flex}
+.nab-ad-list .nab-advertisement-add-item button{padding:10px 10px;box-sizing:border-box;border:1px solid #b3b3b3;color:#fff;display:flex;background:#b3b3b3;transition:all 0.3s ease-in-out}
 .nab-ad-controls .nab-controls-wrapper strong{font-size:15px;margin-bottom:10px!important;color:#fff}
-.nab-ad-controls .nab-controls-wrapper label{color:#fff}
+.nab-ad-controls .nab-controls-wrapper label{color:#808080}
 .nab-ad-list .nab-advertisement-add-item{margin-left:20px}
-.nab-ad-list .nab-ad-img-list-item .edit-item{position:absolute;top:0;left:5px;color:#fff;z-index:1111;background:#00b5dfad;width:30px;height:30px;display:flex;justify-content:center;align-items:center;font-size:17px;cursor:pointer}
+.nab-ad-list .nab-ad-img-list-item .edit-item{position:absolute;top:0;left:5px;color:#fff;z-index:1111;background:#00b5dfad;width:25px;height:25px;display:flex;justify-content:center;align-items:center;font-size:16px;cursor:pointer}
 .wp-block[data-type="nab/advertisement"] .components-placeholder, .wp-block[data-type="md/featured-boxes"] .components-placeholder{color:#fff}
+.admedia-placeholder .components-placeholder__label, .admedia-placeholder .components-placeholder__instructions{color:#808080}
 
 /* sidebar related changes */
 ul.ss-off-options li.active *[fill="#7B8080"], ul.ss-on-options li.active *[fill="#7B8080"],ul.layout-options li.active svg *[fill="#7B8080"], ul.quote-options li.active *[fill="#7B8080"]{fill:#0f6cb6!important}
@@ -1651,7 +1652,7 @@ ul.button-prev li.btn-pink-prev span{font-size:10px;font-family:"Roboto Bold";pa
 /* Hero Banner Draft css */
 .hero-banner-inner .banner-item .banner-item-inner .draft-setting{margin-top:10px;color:#fff;position:absolute;left:0;bottom:0;width:100%}
 .hero-banner-inner .banner-item .banner-item-inner .draft-setting .inspector-field-alignment .inspector-button{padding:11px 20px;background:#000000c4;border-color:#000000}
-.hero-banner-inner .banner-item .banner-item-inner .draft-setting .inspector-field-alignment{width:100%;margin-bottom:0}
+.hero-banner-inner .banner-item .banner-item-inner .draft-setting .inspector-field-alignment{width:100%;margin-bottom:0;margin-left:0}
 .hero-banner-inner .banner-item .banner-item-inner .draft-setting .inspector-field-alignment .inspector-button .components-base-control__field{align-items:center;margin:0;width:100%}
 .hero-banner-inner .banner-item .banner-item-inner .draft-setting label{font-size:17px;color:#fff;font-weight:600}
 .hero-banner-inner .banner-item .banner-item-inner .draft-setting .inspector-field-alignment .inspector-button.active{background:#00b5e0c4;border-color:#00b5e0}

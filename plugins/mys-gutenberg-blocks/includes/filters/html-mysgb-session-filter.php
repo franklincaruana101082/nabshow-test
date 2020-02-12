@@ -66,34 +66,12 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
     <div class="select-items col-lg-12">
         <div class="row">
             <div class="category col-lg-3">
-                <label for="session-tracks">Track</label>
+                <label for="session-tracks">Program</label>
                 <div class="browse-select">
                     <select id="session-tracks" class="select-opt">
-                        <option>Select a Track</option>
+                        <option>Select a Program</option>
 						<?php
 						$this->mysgb_get_term_list_options( 'tracks' );
-						?>
-                    </select>
-                </div>
-            </div>
-            <div class="category col-lg-3">
-                <label for="session-level">Level</label>
-                <div class="browse-select">
-                    <select id="session-level" class="select-opt">
-                        <option>Select a Level</option>
-						<?php
-						$this->mysgb_get_term_list_options( 'session-levels' );
-						?>
-                    </select>
-                </div>
-            </div>
-            <div class="category col-lg-3">
-                <label for="session-type">Types</label>
-                <div class="browse-select">
-                    <select id="session-type" class="select-opt">
-                        <option>Select a Type</option>
-						<?php
-						$this->mysgb_get_term_list_options( 'session-types' );
 						?>
                     </select>
                 </div>

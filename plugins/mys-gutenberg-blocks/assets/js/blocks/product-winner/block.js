@@ -126,7 +126,7 @@
                                 <RangeControl
                                     value={itemToFetch}
                                     min={1}
-                                    max={20}
+                                    max={100}
                                     onChange={(item) => setAttributes({ itemToFetch: parseInt(item) }) }
                                 />
 

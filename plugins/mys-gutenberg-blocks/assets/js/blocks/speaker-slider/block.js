@@ -1,11 +1,11 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sqrImgOption, circleImgOption } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8, sqrImgOption, circleImgOption } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, PanelRow, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl, DateTimePicker } = wpComponents;
 
     const speakerSliderBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -38,6 +38,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 termsObj: {},
                 filterTermsObj: {},
                 isDisable: false,
+                browseFilters: [ 'Keyword', 'Speaker Name', 'Featured', 'Sort Alphabetically', 'Job Title', 'Company', 'Date Speaking' ]
             };
 
             this.initSlider = this.initSlider.bind(this);
@@ -93,7 +94,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
-                    setTimeout(() => this.initSlider(), 500);
+                    setTimeout(() => this.initSlider(), 700);
                     this.setState({ bxinit: false });
                 } else {
                     if (0 < jQuery(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
@@ -162,7 +163,17 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 withThumbnail,
                 displayName,
                 displayTitle,
-                displayCompany
+                displayCompany,
+                filterDates,
+                removeFilters,
+                excludeSpeaker,
+                metaDate,
+                speakerDate,
+                gridInfoRollovers,
+                slideInfoRollovers,
+                slideInfoBelow,
+                includeTracks,
+                attachSession
             } = attributes;
 
             var names = [
@@ -171,8 +182,14 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
+
+            if ( ! speakerDate ) {
+              setAttributes({speakerDate: moment().format('YYYY-MM-DDTHH:mm:ss')});
+            }
 
             let isCheckedTerms = {};
             if (! this.isEmpty(terms) && terms.constructor !== Object) {
@@ -184,7 +201,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <RangeControl
                     value={itemToFetch}
                     min={1}
-                    max={20}
+                    max={100}
                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
                 />
             </div>;
@@ -202,6 +219,55 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 checked={listingPage}
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', withThumbnail: false }) }
                             />
+                            {listingPage &&
+                              <Fragment>
+                                <label>Enter Speaking Dates:</label>
+                                <TextareaControl
+                                  help="Each date should be pipe(|) separated"
+                                  placeHolder="October, 17 2019"
+                                  value={ filterDates }
+                                  onChange={ (dates) => setAttributes({ filterDates: dates }) }
+                                />
+
+                                <label>{__('Remove Filter Type')}</label>
+
+                                <div className="fix-height-select mb20">
+
+                                  {this.state.browseFilters.map((field, index) => (
+
+                                    <Fragment key={index}>
+
+                                      <CheckboxControl checked={-1 < removeFilters.indexOf(field)} label={field} name="removeFilter[]" value={field} onChange={(isChecked) => {
+
+                                        let index,
+                                          tempRemoveFilters = [...removeFilters];
+
+                                        if (isChecked) {
+                                          tempRemoveFilters.push(field);
+                                        } else {
+                                          index = tempRemoveFilters.indexOf(field);
+                                          tempRemoveFilters.splice(index, 1);
+                                        }
+
+                                        this.props.setAttributes({ removeFilters: tempRemoveFilters });
+                                      }
+                                      }
+                                      />
+
+                                    </Fragment>
+
+                                  ))
+                                  }
+                                </div>
+                              </Fragment>
+                            }
+
+                          <label>Exclude Speaker by Ids:</label>
+                          <TextareaControl
+                            help="Each speaker id should be comma separated"
+                            value={ excludeSpeaker }
+                            onChange={ (ids) => {  setAttributes({ excludeSpeaker: ids }); this.setState({ bxinit: true }); }}
+                          />
 
                             {input}
 
@@ -212,16 +278,85 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     checked={withThumbnail}
                                     onChange={() => { setAttributes({ withThumbnail: ! withThumbnail }); this.setState({ bxinit: true }); } }
                                 />
+                                <ToggleControl
+                                  label={__('Date Specific Speaker')}
+                                  checked={metaDate}
+                                  onChange={() => { setAttributes({metaDate: ! metaDate}); this.setState({bxinit: true}); }}
+                                />
+                                { metaDate &&
+                                <div className="inspector-field inspector-field-datetime components-base-control hide-time">
+                                  <label className="inspector-mb-0">Select a Date</label>
+                                  <div className="inspector-ml-auto">
+                                    <DateTimePicker
+                                      currentDate={speakerDate}
+                                      onChange={(date) => { setAttributes({speakerDate: date}); this.setState({bxinit: true});}}
+                                    />
+                                  </div>
+                                </div>
+                                }
                                 <SelectControl
                                     label={__('Order by')}
                                     value={orderBy}
                                     options={[
+                                        { label: __('Alphabetical'), value: 'title' },
                                         { label: __('Newest to Oldest'), value: 'date' },
                                         { label: __('Menu Order'), value: 'menu_order' },
                                         { label: __('Random'), value: 'rand' },
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                                 />
+
+                                <ToggleControl
+                                  label={__('Display only speakers which are attached with session')}
+                                  checked={attachSession}
+                                  onChange={() => { setAttributes({attachSession: ! attachSession}); this.setState({bxinit: true}); }}
+                                />
+
+                                { this.state.termsObj &&
+                                  <Fragment>
+                                    {
+                                      undefined !== this.state.termsObj.tracks &&
+
+                                      <div>
+                                        <label>{__('Filter by Tracks')}</label>
+
+                                        <div className="fix-height-select">
+
+                                          { this.state.termsObj.tracks.map((term, index) => (
+
+                                            <Fragment key={index}>
+
+                                              <CheckboxControl
+                                                checked={ -1 < includeTracks.indexOf(term.slug)}
+                                                label={term.name}
+                                                name="tracks[]"
+                                                value={term.slug}
+                                                onChange={(isChecked) => {
+
+                                                  let index,
+                                                    tempIncludeTracks = [...includeTracks];
+
+                                                  if (isChecked) {
+                                                    tempIncludeTracks.push(term.slug);
+                                                  } else {
+                                                    index = tempIncludeTracks.indexOf(term.slug);
+                                                    tempIncludeTracks.splice(index, 1);
+                                                  }
+
+                                                  this.props.setAttributes({ includeTracks: tempIncludeTracks});
+                                                  this.setState({ bxinit: true });
+                                                }
+                                                }
+                                              />
+                                            </Fragment>
+                                          ))
+                                          }
+                                        </div>
+                                      </div>
+
+                                    }
+                                  </Fragment>
+                                }
 
                                 { 0 < this.state.taxonomiesList.length &&
 
@@ -349,6 +484,21 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             checked={displayCompany}
                             onChange={() => { setAttributes({ displayCompany: ! displayCompany }); this.setState({ bxinit: true }); } }
                           />
+                          <ToggleControl
+                            label={__('Grid format with info on rollovers')}
+                            checked={gridInfoRollovers}
+                            onChange={() => { setAttributes({ gridInfoRollovers: ! gridInfoRollovers }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Slider with info on rollovers')}
+                            checked={slideInfoRollovers}
+                            onChange={() => { setAttributes({ slideInfoRollovers: ! slideInfoRollovers }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Slider with information below')}
+                            checked={slideInfoBelow}
+                            onChange={() => { setAttributes({ slideInfoBelow: ! slideInfoBelow }); this.setState({ bxinit: true }); } }
+                          />
                         </PanelBody>
                         { ! listingPage &&
                           <Fragment>
@@ -453,13 +603,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 </ul>
                             </PanelBody>
                         }
-                        <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/speaker-slider.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks, attachSession: attachSession }}
                     />
                 </Fragment >
             );
@@ -549,6 +696,45 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         displayCompany: {
             type: 'boolean',
             default: true
+        },
+        filterDates: {
+          type: 'string',
+          default: ''
+        },
+        removeFilters: {
+          type: 'array',
+          default: []
+        },
+        excludeSpeaker: {
+          type: 'string',
+          default: ''
+        },
+        metaDate: {
+          type: 'boolean',
+          default: false,
+        },
+        speakerDate: {
+          type: 'string',
+        },
+        gridInfoRollovers: {
+          type: 'boolean',
+          default: false,
+        },
+        slideInfoRollovers: {
+          type: 'boolean',
+          default: false,
+        },
+        slideInfoBelow: {
+          type: 'boolean',
+          default: false,
+        },
+        includeTracks: {
+          type: 'array',
+          default: []
+        },
+        attachSession: {
+          type: 'boolean',
+          default: false
         }
     };
     registerBlockType('mys/speaker-slider', {

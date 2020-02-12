@@ -109,35 +109,37 @@ import {sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sl
 
       if (0 === imgSources.length) {
         return (
-          <Placeholder
-            icon={adUploadIcon}
-            label={__('Advertisement')}
-            instructions={__('No image selected. Add image to start using this block.')}
-          >
-            <MediaUpload
-              allowedTypes={['image']}
-              value={null}
-              multiple
-              onSelect={(item) => {
-                const mediaInsert = item.map((source) => ({
-                  url: source.url,
-                  id: source.id,
-                }));
+          <div className="admedia-placeholder">
+            <Placeholder
+              icon={adUploadIcon}
+              label={__('Advertisement')}
+              instructions={__('No image selected. Add image to start using this block.')}
+            >
+              <MediaUpload
+                allowedTypes={['image']}
+                value={null}
+                multiple
+                onSelect={(item) => {
+                  const mediaInsert = item.map((source) => ({
+                    url: source.url,
+                    id: source.id,
+                  }));
 
-                setAttributes({
-                  imgSources: [
-                    ...imgSources,
-                    ...mediaInsert,
-                  ]
-                });
-              }}
-              render={({ open }) => (
-                <Button className="button button-large button-primary" onClick={open}>
-                  {__('Add image')}
-                </Button>
-              )}
-            />
-          </Placeholder>
+                  setAttributes({
+                    imgSources: [
+                      ...imgSources,
+                      ...mediaInsert,
+                    ]
+                  });
+                }}
+                render={({ open }) => (
+                  <Button className="button button-large button-primary" onClick={open}>
+                    {__('Add image')}
+                  </Button>
+                )}
+              />
+            </Placeholder>
+          </div>
         );
       }
 

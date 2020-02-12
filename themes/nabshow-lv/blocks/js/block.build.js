@@ -16142,37 +16142,41 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         if (0 === imgSources.length) {
           return wp.element.createElement(
-            Placeholder,
-            {
-              icon: adUploadIcon,
-              label: __('Advertisement'),
-              instructions: __('No image selected. Add image to start using this block.')
-            },
-            wp.element.createElement(MediaUpload, {
-              allowedTypes: ['image'],
-              value: null,
-              multiple: true,
-              onSelect: function onSelect(item) {
-                var mediaInsert = item.map(function (source) {
-                  return {
-                    url: source.url,
-                    id: source.id
-                  };
-                });
-
-                setAttributes({
-                  imgSources: [].concat(_toConsumableArray(imgSources), _toConsumableArray(mediaInsert))
-                });
+            'div',
+            { className: 'admedia-placeholder' },
+            wp.element.createElement(
+              Placeholder,
+              {
+                icon: adUploadIcon,
+                label: __('Advertisement'),
+                instructions: __('No image selected. Add image to start using this block.')
               },
-              render: function render(_ref) {
-                var open = _ref.open;
-                return wp.element.createElement(
-                  Button,
-                  { className: 'button button-large button-primary', onClick: open },
-                  __('Add image')
-                );
-              }
-            })
+              wp.element.createElement(MediaUpload, {
+                allowedTypes: ['image'],
+                value: null,
+                multiple: true,
+                onSelect: function onSelect(item) {
+                  var mediaInsert = item.map(function (source) {
+                    return {
+                      url: source.url,
+                      id: source.id
+                    };
+                  });
+
+                  setAttributes({
+                    imgSources: [].concat(_toConsumableArray(imgSources), _toConsumableArray(mediaInsert))
+                  });
+                },
+                render: function render(_ref) {
+                  var open = _ref.open;
+                  return wp.element.createElement(
+                    Button,
+                    { className: 'button button-large button-primary', onClick: open },
+                    __('Add image')
+                  );
+                }
+              })
+            )
           );
         }
 

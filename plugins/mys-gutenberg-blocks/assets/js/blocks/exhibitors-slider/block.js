@@ -1,4 +1,4 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
@@ -148,7 +148,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentDidUpdate() {
-            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
+            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, imgWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
@@ -162,6 +162,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -211,11 +212,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 taxonomies,
                 terms,
                 slideWidth,
+                imgWidth,
                 orderBy,
                 slideMargin,
                 arrowIcons,
                 taxonomyRelation,
-                withThumbnail
+                withThumbnail,
+                displayLogo,
+                displayName,
+                displayBooth,
+                displaySummary
             } = attributes;
 
             var names = [
@@ -224,7 +230,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
 
             let isCheckedTerms = {};
@@ -237,7 +245,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <RangeControl
                     value={itemToFetch}
                     min={1}
-                    max={20}
+                    max={100}
                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
                 />
 
@@ -268,8 +276,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     label={__('Order by')}
                                     value={orderBy}
                                     options={[
+                                        { label: __('Alphabetical'), value: 'title' },
                                         { label: __('Newest to Oldest'), value: 'date' },
                                         { label: __('Menu Order'), value: 'menu_order' },
+                                        { label: __('Random'), value: 'rand' },
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                                 />
@@ -386,6 +396,28 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             </Fragment>
                             }
                         </PanelBody>
+                        <PanelBody title={__('Display Settings')} initialOpen={false} className="range-setting">
+                          <ToggleControl
+                            label={__('Logo')}
+                            checked={displayLogo}
+                            onChange={() => { setAttributes({ displayLogo: ! displayLogo }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Exhibitor Name')}
+                            checked={displayName}
+                            onChange={() => { setAttributes({ displayName: ! displayName }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Booth Number')}
+                            checked={displayBooth}
+                            onChange={() => { setAttributes({ displayBooth: ! displayBooth }); this.setState({ bxinit: true }); } }
+                          />
+                          <ToggleControl
+                            label={__('Summary')}
+                            checked={displaySummary}
+                            onChange={() => { setAttributes({ displaySummary: ! displaySummary }); this.setState({ bxinit: true }); } }
+                          />
+                        </PanelBody>
 
                         { ! listingPage &&
 
@@ -462,6 +494,19 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         </PanelBody>
                         }
 
+                        <PanelBody title={__('Image Setting')} initialOpen={false} className="range-setting">
+                            <div className="inspector-field inspector-field-fontsize ">
+                                <label className="inspector-mb-0">Image Width</label>
+                                <RangeControl
+                                    value={imgWidth}
+                                    min={50}
+                                    max={1000}
+                                    step={1}
+                                    onChange={(width) => { setAttributes({ imgWidth: parseInt(width) }); this.setState({ bxinit: true }); }}
+                                />
+                            </div>
+                        </PanelBody>
+
                         { ! listingPage && sliderActive && controls &&
                             <Fragment>
                                 {controls &&
@@ -485,13 +530,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 }
                             </Fragment>
                         }
-                        <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/exhibitors-slider.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/exhibitors-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, imgWidth: imgWidth }}
                     />
                 </Fragment >
             );
@@ -550,6 +592,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'number',
             default: 400
         },
+        imgWidth: {
+            type: 'number',
+            default: 135
+        },
         orderBy: {
             type: 'string',
             default: 'date'
@@ -569,7 +615,24 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         withThumbnail: {
             type: 'boolean',
             default: false
+        },
+        displayLogo: {
+          type: 'boolean',
+          default: true
+        },
+        displayName: {
+          type: 'boolean',
+          default: true
+        },
+        displayBooth: {
+          type: 'boolean',
+          default: true
+        },
+        displaySummary: {
+          type: 'boolean',
+          default: true
         }
+
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),

@@ -1,11 +1,11 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, partnerSponser1, partnerSponser2, sessionSliderOff1 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8, partnerSponser1, partnerSponser2, sessionSliderOff1 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, TextControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl } = wpComponents;
 
     const sponsorPartnerBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -37,6 +37,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 taxonomies: [],
                 taxonomiesObj: {},
                 termsObj: {},
+                sponsorTypeList: [],
                 filterTermsObj: {},
                 isDisable: false,
             };
@@ -45,6 +46,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
 
         componentWillMount() {
             const { taxonomies } = this.props.attributes;
+            let sponsorType = [{ label: __('Select a Destination Type'), value: 'select type'}];
 
             //Fetch all taxonomies
             wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(taxonomies => {
@@ -60,6 +62,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     taxonomies: taxonomies
                 });
             });
+
+          // Fetch Sponsor destination types
+          wp.apiFetch({ path: 'nab_api/request/sponsor-acf-types' }).then((types) => {
+            if ( 0 < types.length ) {
+              types.forEach(function (type) {
+                sponsorType.push({ label: __(type.label), value: type.value });
+              });
+              this.setState({ sponsorTypeList: sponsorType });
+            }
+          });
         }
 
         componentDidMount() {
@@ -67,7 +79,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         }
 
         componentDidUpdate(prevProps) {
-            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
+            const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, imgWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
                     setTimeout(() => this.initSlider(), 500);
@@ -81,6 +93,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -163,8 +176,12 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 sliderSpeed,
                 sliderActive,
                 slideWidth,
+                imgWidth,
                 slideMargin,
-                arrowIcons
+                arrowIcons,
+                destinationType,
+                customOrder,
+                customOrderIds
             } = attributes;
 
             let names = [
@@ -173,7 +190,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
 
             let isCheckedTerms = {};
@@ -206,16 +225,45 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 onChange={() => setAttributes({ listingPage: ! listingPage, sliderActive: false, layout: 'without-title' }) }
                             />
                             {input}
-                            <SelectControl
+                            { 0 < this.state.sponsorTypeList.length &&
+                              <SelectControl
+                                label={__('Destination Types')}
+                                value={destinationType}
+                                options={this.state.sponsorTypeList}
+                                onChange={ (value) => { setAttributes({ destinationType: value }); this.setState({ bxinit: true }); }}
+                              />
+                            }
+
+                            <ToggleControl
+                              label={__('Custom Order')}
+                              checked={customOrder}
+                              onChange={() => { setAttributes({ customOrder: ! customOrder}); this.setState({ bxinit: true }); }}
+                            />
+
+                            { customOrder &&
+                                <Fragment>
+                                  <label>Enter Sponsors/Partners ids for custom order:</label>
+                                  <TextareaControl
+                                    help="Each Sponsors/Partners id should be comma separated"
+                                    value={ customOrderIds }
+                                    onChange={ (ids) => {  setAttributes({ customOrderIds: ids }); this.setState({ bxinit: true }); }}
+                                  />
+                                </Fragment>
+                            }
+                            { ! customOrder &&
+                              <SelectControl
                                 label={__('Order by')}
                                 value={orderBy}
                                 options={[
-                                        { label: __('Newest to Oldest'), value: 'date' },
-                                        { label: __('Menu Order'), value: 'menu_order' },
-                                        { label: __('Random'), value: 'rand' },
-                                    ]}
+                                    { label: __('Alphabetical'), value: 'title' },
+                                    { label: __('Newest to Oldest'), value: 'date' },
+                                    { label: __('Menu Order'), value: 'menu_order' },
+                                    { label: __('Random'), value: 'rand' },
+                                ]}
                                 onChange={ (value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                            />
+                              />
+                            }
+
                             {0 < this.state.taxonomiesList.length && (
                                 <Fragment>
                                     <label> {__('Select Taxonomy')}</label>
@@ -334,16 +382,16 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 onChange={() => { setAttributes({ sliderActive: ! sliderActive }); this.setState({ bxinit: ! sliderActive }); }}
                             />
 
-                            { ! sliderActive &&
                             <div>
                                 <label>Layout</label>
                                 <ul className="ss-off-options">
-                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'without-title' }) }>{partnerSponser1}</li>
-                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-title' }) }>{partnerSponser2}</li>
-                                    <li className={'with-info' === layout ? 'active ' : ''} onClick={() => setAttributes({ layout: 'with-info' }) }>{sessionSliderOff1}</li>
+                                    <li className={'without-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'without-title' }); this.setState({ bxinit: sliderActive }); } }>{partnerSponser1}</li>
+                                    <li className={'with-title' === layout ? 'active ' : ''} onClick={() => { setAttributes({ layout: 'with-title' }); this.setState({ bxinit: sliderActive }); }}>{partnerSponser2}</li>
+                                    { ! sliderActive &&
+                                    <li className={'with-info' === layout ? 'active ' : ''} onClick={() => setAttributes({layout: 'with-info'})}>{sessionSliderOff1}</li>
+                                    }
                                 </ul>
                             </div>
-                            }
 
                             { sliderActive &&
                             <Fragment>
@@ -412,6 +460,19 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                         </PanelBody>
                         }
 
+                        <PanelBody title={__('Image Setting')} initialOpen={false} className="range-setting">
+                            <div className="inspector-field inspector-field-fontsize ">
+                                <label className="inspector-mb-0">Image Width</label>
+                                <RangeControl
+                                    value={imgWidth}
+                                    min={50}
+                                    max={1000}
+                                    step={1}
+                                    onChange={(width) => { setAttributes({ imgWidth: parseInt(width) }); this.setState({ bxinit: true }); }}
+                                />
+                            </div>
+                        </PanelBody>
+
                         { ! listingPage && sliderActive && controls &&
                         <PanelBody title={__('Slider Arrow')} initialOpen={false} className="range-setting">
                             <ul className="slider-arrow-main">
@@ -431,9 +492,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             </ul>
                         </PanelBody>
                         }
-                        <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/sponsors-partners-slider.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <div>
                         <ServerSideRender
@@ -447,7 +505,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 terms: terms,
                                 listingPage: listingPage,
                                 sliderActive: sliderActive,
-                                arrowIcons: arrowIcons
+                                arrowIcons: arrowIcons,
+                                destinationType: destinationType,
+                                customOrder: customOrder,
+                                customOrderIds: customOrderIds,
+                                imgWidth: imgWidth
                             }}
                         />
                     </div>
@@ -517,6 +579,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'number',
             default: 400
         },
+        imgWidth: {
+            type: 'number',
+            default: 135
+        },
         slideMargin: {
             type: 'number',
             default: 30
@@ -525,6 +591,19 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             type: 'string',
             default: 'slider-arrow-1'
         },
+        destinationType: {
+            type: 'string',
+            default: ''
+        },
+        customOrder: {
+          type: 'boolean',
+          default: false
+        },
+        customOrderIds: {
+          type: 'string',
+          default: ''
+        }
+
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),

@@ -1,11 +1,11 @@
-import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6 } from '../icons';
+import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, sliderArrow6, sliderArrow7, sliderArrow8 } from '../icons';
 
 (function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, Disabled, ToggleControl, SelectControl, ServerSideRender, CheckboxControl, RangeControl } = wpComponents;
+    const { PanelBody, Disabled, ToggleControl, SelectControl, ServerSideRender, CheckboxControl, RangeControl, TextareaControl, TextControl } = wpComponents;
 
     const trackSliderBlockIcon = (
         <svg width="150px" height="150px" viewBox="0 0 150 150" enable-background="new 0 0 150 150">
@@ -23,11 +23,34 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             this.state = {
                 bxSliderObj: {},
                 bxinit: false,
+                hallOptions: [],
+                termsObj: {},
+                filterTermsObj: {},
                 isDisable: false,
             };
 
             this.initSlider = this.initSlider.bind(this);
         }
+
+      componentWillMount() {
+        let hallList = [];
+
+        // Fetch block categories terms
+        wp.apiFetch({ path: '/nab_api/request/category-block-terms' }).then((terms) => {
+          this.setState({ termsObj: terms, filterTermsObj: terms });
+        });
+
+        // Fetch all Halls
+        wp.apiFetch({ path: '/wp/v2/halls' }).then((halls) => {
+          if ( 0 < halls.length ) {
+            halls.forEach(function (hall) {
+              hallList.push({ label: __(hall.name), value: hall.id });
+            });
+            this.setState({ hallOptions: hallList });
+          }
+        });
+
+      }
 
         componentDidMount() {
             this.setState({ bxinit: true });
@@ -37,7 +60,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
             const { clientId, attributes: { minSlides, autoplay, infiniteLoop, pager, controls, sliderSpeed, slideWidth, sliderActive, slideMargin } } = this.props;
             if (sliderActive) {
                 if (this.state.bxinit) {
-                    setTimeout(() => this.initSlider(), 500);
+                    setTimeout(() => this.initSlider(), 700);
                     this.setState({ bxinit: false });
                 } else {
                     if (0 < jQuery(`#block-${clientId} .nab-dynamic-slider`).length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider ) {
@@ -59,6 +82,20 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     }
                 }
             }
+        }
+
+        filterTerms(value, taxonomy) {
+          let filterTerms = {};
+          let blockCategories = ['tracks', 'exhibitor-categories', 'session-categories'];
+          blockCategories.map((tax) => {
+            if (taxonomy === tax) {
+              filterTerms[tax] = this.state.termsObj[tax].filter(term => -1 < term.name.toLowerCase().indexOf(value.toLowerCase()));
+            } else {
+              filterTerms[tax] = this.state.termsObj[tax];
+            }
+
+          });
+          this.setState({ filterTermsObj: filterTerms });
         }
 
         initSlider() {
@@ -89,7 +126,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 slideMargin,
                 arrowIcons,
                 featuredTag,
-                categoryType
+                categoryType,
+                categoryHalls,
+                includeTerms
             } = attributes;
 
             var names = [
@@ -98,7 +137,9 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 { name: sliderArrow3, classnames: 'slider-arrow-3' },
                 { name: sliderArrow4, classnames: 'slider-arrow-4' },
                 { name: sliderArrow5, classnames: 'slider-arrow-5' },
-                { name: sliderArrow6, classnames: 'slider-arrow-6' }
+                { name: sliderArrow6, classnames: 'slider-arrow-6' },
+                { name: sliderArrow7, classnames: 'slider-arrow-7' },
+                { name: sliderArrow8, classnames: 'slider-arrow-8' }
             ];
 
             let input = <div className="inspector-field inspector-field-Numberofitems ">
@@ -106,7 +147,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 <RangeControl
                     value={itemToFetch}
                     min={1}
-                    max={20}
+                    max={100}
                     onChange={(item) => { setAttributes({ itemToFetch: parseInt(item) }); this.setState({ bxinit: true, isDisable: true }); }}
                 />
             </div>;
@@ -125,16 +166,109 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 value={categoryType}
                                 options={[
                                     { label: __('Tracks'), value: 'tracks' },
-                                    { label: __('Exhibitors'), value: 'exhibitor-categories' },
+                                    { label: __('Exhibitors Categories'), value: 'exhibitor-categories' },
+                                    { label: __('Session Categories'), value: 'session-categories' },
                                 ]}
-                                onChange={(value) => { setAttributes({ categoryType: value }); this.setState({ bxinit: true }); }}
+                                onChange={(value) => { setAttributes({ categoryType: value, includeTerms: [] }); this.setState({ bxinit: true }); }}
                             />
+
+                            { this.state.termsObj &&
+                              <Fragment>
+
+                                { undefined !== this.state.filterTermsObj[categoryType] &&
+
+                                    <div>
+                                      <label>{__('Choose include items')}</label>
+
+                                      { 7 < this.state.termsObj[categoryType].length &&
+                                      <TextControl
+                                        type="string"
+                                        name={categoryType}
+                                        onChange={value => this.filterTerms(value, categoryType)}
+                                      />
+                                      }
+
+                                      <div className="fix-height-select">
+
+                                        {this.state.filterTermsObj[categoryType].map((term, index) => (
+
+                                          <Fragment key={index}>
+
+                                            <CheckboxControl
+                                              checked={ -1 < includeTerms.indexOf(term.term_id)}
+                                              label={term.name}
+                                              name={`${categoryType}[]`}
+                                              value={term.term_id}
+                                              onChange={(isChecked) => {
+
+                                                let index,
+                                                  tempIncludeTerms = [...includeTerms];
+
+                                                if (isChecked) {
+                                                  tempIncludeTerms.push(term.term_id);
+                                                } else {
+                                                  index = tempIncludeTerms.indexOf(term.term_id);
+                                                  tempIncludeTerms.splice(index, 1);
+                                                }
+
+                                                this.props.setAttributes({ includeTerms: tempIncludeTerms});
+                                                this.setState({ bxinit: true });
+                                              }
+                                              }
+                                            />
+                                          </Fragment>
+                                        ))
+                                        }
+                                      </div>
+                                    </div>
+                                }
+                              </Fragment>
+                            }
+
+                            { 'exhibitor-categories' === categoryType &&
+                              <Fragment>
+                                <label>{__('Filter by Halls')}</label>
+
+                                <div className="fix-height-select mb20">
+
+                                  {this.state.hallOptions.map((field, index) => (
+
+                                    <Fragment key={index}>
+
+                                      <CheckboxControl checked={-1 < categoryHalls.indexOf(field.value)} label={field.label} name="hallList[]" value={field.value} onChange={(isChecked) => {
+
+                                        let index,
+                                          tempCategoryHalls = [...categoryHalls];
+
+                                        if (isChecked) {
+                                          tempCategoryHalls.push(field.value);
+                                        } else {
+                                          index = tempCategoryHalls.indexOf(field.value);
+                                          tempCategoryHalls.splice(index, 1);
+                                        }
+
+                                        this.props.setAttributes({ categoryHalls: tempCategoryHalls });
+                                        if ( sliderActive ) {
+                                          this.setState({ bxinit: true });
+                                        }
+                                      }
+                                      }
+                                      />
+
+                                    </Fragment>
+
+                                  ))
+                                  }
+                                </div>
+                              </Fragment>
+                            }
+
                             <SelectControl
                                 label={__('Display Order')}
                                 value={order}
                                 options={[
-                                    { label: __('A → Z'), value: 'ASC' },
-                                    { label: __('Z → A'), value: 'DESC' },
+                                    { label: __('Alphabetically'), value: 'ASC' },
+                                    { label: __('Random'), value: 'rand' },
                                 ]}
                                 onChange={(value) => { setAttributes({ order: value }); this.setState({ bxinit: true }); }}
                             />
@@ -238,13 +372,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             }
                         </Fragment>
                         }
-                        <PanelBody title={__('Help')} initialOpen={false} className="range-setting">
-                            <a href="https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/category-slider.mp4" target="_blank">How to use block?</a>
-                        </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/tracks-slider"
-                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType }}
+                        attributes={{ itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls, includeTerms: includeTerms }}
                     />
                 </Fragment >
             );
@@ -306,8 +437,15 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         categoryType: {
             type: 'string',
             default: 'tracks'
-        }
-
+        },
+        categoryHalls: {
+            type: 'array',
+            default: []
+        },
+        includeTerms: {
+          type: 'array',
+          default: []
+        },
     };
     registerBlockType('mys/tracks-slider', {
         title: __('Category Slider'),

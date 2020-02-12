@@ -102,6 +102,34 @@ $session_slider_attr = array(
 	'upcomingSession'  => array(
 		'type'    => 'boolean',
 		'default' => false
+	),
+	'displayName' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayDate' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayTime' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayLocation' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displaySummary' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayVideo' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'displaySpeaker' => array(
+		'type'    => 'boolean',
+		'default' => false
 	)
 
 );
@@ -146,6 +174,26 @@ $exhibitors_slider_attr = array(
 	'withThumbnail'    => array(
 		'type'    => 'boolean',
 		'default' => false
+	),
+	'displayLogo' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayName' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displayBooth' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'displaySummary' => array(
+		'type'    => 'boolean',
+		'default' => true
+	),
+	'imgWidth' => array(
+		'type'    => 'number',
+		'default' => 135
 	)
 );
 
@@ -201,8 +249,52 @@ $speakers_slider_attr = array(
 	'displayCompany' => array(
 		'type'    => 'boolean',
 		'default' => true
+	),
+	'filterDates' => array(
+		'type'    => 'string',
+		'default' => ''
+	),
+	'removeFilters' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'string'
+		]
+	),
+	'excludeSpeaker' => array(
+		'type'    => 'string',
+		'default' => ''
+	),
+	'metaDate'      => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'speakerDate'   => array(
+		'type' => 'string',
+	),
+	'gridInfoRollovers' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'slideInfoRollovers' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'slideInfoBelow' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'includeTracks' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'string'
+		]
+	),
+	'attachSession' => array(
+		'type'    => 'boolean',
+		'default' => false
 	)
-
 );
 
 register_block_type( 'mys/speaker-slider', array(
@@ -241,6 +333,22 @@ $sponsors_slider_attr = array(
 	'orderBy'     => array(
 		'type'    => 'string',
 		'default' => 'date'
+	),
+	'destinationType'   => array(
+		'type' => 'string',
+		'default' => ''
+	),
+	'customOrder' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
+	'customOrderIds'   => array(
+		'type' => 'string',
+		'default' => ''
+	),
+	'imgWidth' => array(
+		'type'    => 'number',
+		'default' => 135
 	)
 );
 
@@ -299,7 +407,22 @@ $tracks_slider_attr = array(
 	'categoryType' => array(
 		'type'    => 'string',
 		'default' => 'tracks'
-	)
+	),
+	'categoryHalls' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'number'
+		]
+	),
+	'includeTerms' => array(
+		'type'    => 'array',
+		'default' => [],
+		'items'   => [
+			'type' => 'number'
+		]
+	),
+
 );
 
 register_block_type( 'mys/tracks-slider', array(

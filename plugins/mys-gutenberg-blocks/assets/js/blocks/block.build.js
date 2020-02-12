@@ -81,7 +81,9 @@
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return sliderArrow4; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return sliderArrow5; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return sliderArrow6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return sqrImgOption; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return sliderArrow7; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return sliderArrow8; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return sqrImgOption; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return circleImgOption; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return exhibitorAccordion; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exhibitorParentImageListing; });
@@ -680,6 +682,38 @@ var sliderArrow6 = wp.element.createElement(
   )
 );
 
+var sliderArrow7 = wp.element.createElement(
+  "svg",
+  { version: "1.0", xmlns: "http://www.w3.org/2000/svg",
+    width: "126.000000pt", height: "59.000000pt", viewBox: "0 0 126.000000 59.000000",
+    preserveAspectRatio: "xMidYMid meet" },
+  wp.element.createElement(
+    "g",
+    { transform: "translate(0.000000,59.000000) scale(0.100000,-0.100000)",
+      fill: "#ab3192", stroke: "none" },
+    wp.element.createElement("path", { d: "M174 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27 -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187 -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164 -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M192 357 l-62 -63 63 -62 c34 -34 66 -62 70 -62 18 0 3 28 -35 67 l-42 43 132 0 c111 0 132 2 132 15 0 13 -21 15 -132 15 l-132 0 42 43 c39 40 53 67 34 67 -4 0 -36 -28 -70 -63z" }),
+    wp.element.createElement("path", { d: "M844 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27 -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187 -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164 -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M990 408 c0 -7 19 -32 42 -55 l42 -43 -132 0 c-111 0 -132 -2 -132 -15 0 -13 21 -15 132 -15 l132 0 -42 -43 c-39 -40 -53 -67 -34 -67 4 0 36 28 70 63 l62 63 -63 62 c-63 63 -77 72 -77 50z" })
+  )
+);
+
+var sliderArrow8 = wp.element.createElement(
+  "svg",
+  { version: "1.0", xmlns: "http://www.w3.org/2000/svg",
+    width: "126.000000pt", height: "59.000000pt", viewBox: "0 0 126.000000 59.000000",
+    preserveAspectRatio: "xMidYMid meet" },
+  wp.element.createElement(
+    "g",
+    { transform: "translate(0.000000,59.000000) scale(0.100000,-0.100000)",
+      fill: "#ffffff", stroke: "none" },
+    wp.element.createElement("path", { d: "M174 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27 -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187 -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164 -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M192 357 l-62 -63 63 -62 c34 -34 66 -62 70 -62 18 0 3 28 -35 67 l-42 43 132 0 c111 0 132 2 132 15 0 13 -21 15 -132 15 l-132 0 42 43 c39 40 53 67 34 67 -4 0 -36 -28 -70 -63z" }),
+    wp.element.createElement("path", { d: "M844 571 c-60 -27 -119 -84 -148 -144 -33 -66 -36 -188 -7 -253 27 -60 84 -119 144 -148 73 -37 191 -37 264 0 60 29 117 88 144 148 29 65 26 187 -7 253 -29 60 -88 117 -148 144 -57 26 -185 26 -242 0z m246 -38 c103 -53 164 -175 142 -282 -23 -111 -93 -186 -201 -218 -180 -52 -371 123 -333 306 22 106 84 177 185 213 67 24 134 17 207 -19z" }),
+    wp.element.createElement("path", { d: "M990 408 c0 -7 19 -32 42 -55 l42 -43 -132 0 c-111 0 -132 -2 -132 -15 0 -13 21 -15 132 -15 l132 0 -42 -43 c-39 -40 -53 -67 -34 -67 4 0 36 28 70 63 l62 63 -63 62 c-63 63 -77 72 -77 50z" })
+  )
+);
+
 var sqrImgOption = wp.element.createElement(
   "svg",
   { version: "1.1", id: "sqrImgOption", x: "0px", y: "0px", width: "91px", height: "91px", viewBox: "0 0 91 91", enableBackground: "new 0 0 91 91" },
@@ -1164,7 +1198,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this4.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -1184,7 +1218,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }
                         if (postType !== prevProps.attributes.postType) {
                             this.filterTaxonomy();
-                            this.setState({ bxinit: true });
                         }
                     }
                 }
@@ -1248,7 +1281,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -1266,7 +1299,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -1558,15 +1591,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/dynamic-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -1812,7 +1836,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this4.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -1897,10 +1921,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     taxonomyRelation = attributes.taxonomyRelation,
                     listingType = attributes.listingType,
                     withContent = attributes.withContent,
-                    upcomingSession = attributes.upcomingSession;
+                    upcomingSession = attributes.upcomingSession,
+                    displayName = attributes.displayName,
+                    displayDate = attributes.displayDate,
+                    displayTime = attributes.displayTime,
+                    displayLocation = attributes.displayLocation,
+                    displaySummary = attributes.displaySummary,
+                    displaySpeaker = attributes.displaySpeaker,
+                    displayVideo = attributes.displayVideo;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 if (!sessionDate) {
                     setAttributes({ sessionDate: moment().format('YYYY-MM-DDTHH:mm:ss') });
@@ -1913,7 +1944,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 var input = wp.element.createElement(
                     "div",
-                    { className: "inspector-field inspector-field-Numberofitems " },
+                    { className: "inspector-field inspector-field-Numberofitems" },
                     wp.element.createElement(
                         "label",
                         { className: "inspector-mb-0" },
@@ -1956,7 +1987,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             listingPage && wp.element.createElement(RadioControl, {
                                 label: "Listing Types",
                                 selected: listingType,
-                                options: [{ label: 'None', value: 'none' }, { label: 'Opent to All', value: 'open-to-all' }],
+                                options: [{ label: 'None', value: 'none' }, { label: 'Open to All', value: 'open-to-all' }],
                                 onChange: function onChange(option) {
                                     return setAttributes({ listingType: option });
                                 }
@@ -1979,17 +2010,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         setAttributes({ upcomingSession: !upcomingSession });_this5.setState({ bxinit: true });
                                     }
                                 }),
-                                wp.element.createElement(SelectControl, {
-                                    label: __('Order by'),
-                                    value: orderBy,
-                                    options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
-                                    onChange: function onChange(value) {
-                                        setAttributes({ orderBy: value });
-                                        _this5.setState({ bxinit: true });
-                                    }
-                                }),
                                 wp.element.createElement(ToggleControl, {
-                                    label: __('Date Specific Session'),
+                                    label: __('Only Select Days'),
                                     checked: metaDate,
                                     onChange: function onChange() {
                                         setAttributes({ metaDate: !metaDate });_this5.setState({ bxinit: true });
@@ -2014,6 +2036,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         })
                                     )
                                 ),
+                                wp.element.createElement(SelectControl, {
+                                    label: __('Order by'),
+                                    value: orderBy,
+                                    options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Chronological'), value: 'chronological' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
+                                    onChange: function onChange(value) {
+                                        setAttributes({ orderBy: value });
+                                        _this5.setState({ bxinit: true });
+                                    }
+                                }),
                                 wp.element.createElement(ToggleControl, {
                                     label: __('Taxonomy Relation (AND)'),
                                     checked: taxonomyRelation,
@@ -2128,6 +2159,59 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             )
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Display Settings'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Program Name'),
+                                checked: displayName,
+                                onChange: function onChange() {
+                                    setAttributes({ displayName: !displayName });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Date'),
+                                checked: displayDate,
+                                onChange: function onChange() {
+                                    setAttributes({ displayDate: !displayDate });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Time'),
+                                checked: displayTime,
+                                onChange: function onChange() {
+                                    setAttributes({ displayTime: !displayTime });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Location'),
+                                checked: displayLocation,
+                                onChange: function onChange() {
+                                    setAttributes({ displayLocation: !displayLocation });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Summary'),
+                                checked: displaySummary,
+                                onChange: function onChange() {
+                                    setAttributes({ displaySummary: !displaySummary });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Speaker'),
+                                checked: displaySpeaker,
+                                onChange: function onChange() {
+                                    setAttributes({ displaySpeaker: !displaySpeaker });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Video'),
+                                checked: displayVideo,
+                                onChange: function onChange() {
+                                    setAttributes({ displayVideo: !displayVideo });_this5.setState({ bxinit: true });
+                                }
+                            })
                         ),
                         !listingPage && wp.element.createElement(
                             PanelBody,
@@ -2339,20 +2423,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/sessions-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/sessions-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary, displayVideo: displayVideo, displaySpeaker: displaySpeaker }
                     })
                 );
             }
@@ -2456,7 +2531,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         upcomingSession: {
             type: 'boolean',
             default: false
+        },
+        displayName: {
+            type: 'boolean',
+            default: true
+        },
+        displayDate: {
+            type: 'boolean',
+            default: true
+        },
+        displayTime: {
+            type: 'boolean',
+            default: true
+        },
+        displayLocation: {
+            type: 'boolean',
+            default: true
+        },
+        displaySummary: {
+            type: 'boolean',
+            default: true
+        },
+        displayVideo: {
+            type: 'boolean',
+            default: false
+        },
+        displaySpeaker: {
+            type: 'boolean',
+            default: false
         }
+
     };
     registerBlockType('mys/sessions-slider', {
         title: __('Sessions Slider'),
@@ -2612,6 +2716,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
                     slideWidth = _props$attributes.slideWidth,
+                    imgWidth = _props$attributes.imgWidth,
                     sliderActive = _props$attributes.sliderActive,
                     slideMargin = _props$attributes.slideMargin;
 
@@ -2629,6 +2734,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -2694,14 +2800,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     taxonomies = attributes.taxonomies,
                     terms = attributes.terms,
                     slideWidth = attributes.slideWidth,
+                    imgWidth = attributes.imgWidth,
                     orderBy = attributes.orderBy,
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
                     taxonomyRelation = attributes.taxonomyRelation,
-                    withThumbnail = attributes.withThumbnail;
+                    withThumbnail = attributes.withThumbnail,
+                    displayLogo = attributes.displayLogo,
+                    displayName = attributes.displayName,
+                    displayBooth = attributes.displayBooth,
+                    displaySummary = attributes.displaySummary;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -2719,7 +2830,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -2764,7 +2875,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(SelectControl, {
                                     label: __('Order by'),
                                     value: orderBy,
-                                    options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }],
+                                    options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                     onChange: function onChange(value) {
                                         setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                     }
@@ -2875,6 +2986,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             )
+                        ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Display Settings'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Logo'),
+                                checked: displayLogo,
+                                onChange: function onChange() {
+                                    setAttributes({ displayLogo: !displayLogo });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Exhibitor Name'),
+                                checked: displayName,
+                                onChange: function onChange() {
+                                    setAttributes({ displayName: !displayName });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Booth Number'),
+                                checked: displayBooth,
+                                onChange: function onChange() {
+                                    setAttributes({ displayBooth: !displayBooth });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Summary'),
+                                checked: displaySummary,
+                                onChange: function onChange() {
+                                    setAttributes({ displaySummary: !displaySummary });_this5.setState({ bxinit: true });
+                                }
+                            })
                         ),
                         !listingPage && wp.element.createElement(
                             PanelBody,
@@ -2991,6 +3134,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 )
                             )
                         ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Image Setting'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-fontsize " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Image Width"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: imgWidth,
+                                    min: 50,
+                                    max: 1000,
+                                    step: 1,
+                                    onChange: function onChange(width) {
+                                        setAttributes({ imgWidth: parseInt(width) });_this5.setState({ bxinit: true });
+                                    }
+                                })
+                            )
+                        ),
                         !listingPage && sliderActive && controls && wp.element.createElement(
                             Fragment,
                             null,
@@ -3020,20 +3185,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/exhibitors-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/exhibitors-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, imgWidth: imgWidth }
                     })
                 );
             }
@@ -3095,6 +3251,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 400
         },
+        imgWidth: {
+            type: 'number',
+            default: 135
+        },
         orderBy: {
             type: 'string',
             default: 'date'
@@ -3114,7 +3274,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         withThumbnail: {
             type: 'boolean',
             default: false
+        },
+        displayLogo: {
+            type: 'boolean',
+            default: true
+        },
+        displayName: {
+            type: 'boolean',
+            default: true
+        },
+        displayBooth: {
+            type: 'boolean',
+            default: true
+        },
+        displaySummary: {
+            type: 'boolean',
+            default: true
         }
+
     };
     registerBlockType('mys/exhibitors-slider', {
         title: __('Exhibitors Slider'),
@@ -3161,7 +3338,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TextControl = wpComponents.TextControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        TextareaControl = wpComponents.TextareaControl,
+        DateTimePicker = wpComponents.DateTimePicker;
 
 
     var speakerSliderBlockIcon = wp.element.createElement(
@@ -3191,7 +3370,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 taxonomiesObj: {},
                 termsObj: {},
                 filterTermsObj: {},
-                isDisable: false
+                isDisable: false,
+                browseFilters: ['Keyword', 'Speaker Name', 'Featured', 'Sort Alphabetically', 'Job Title', 'Company', 'Date Speaking']
             };
 
             _this.initSlider = _this.initSlider.bind(_this);
@@ -3276,7 +3456,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     if (this.state.bxinit) {
                         setTimeout(function () {
                             return _this4.initSlider();
-                        }, 500);
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -3358,10 +3538,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     withThumbnail = attributes.withThumbnail,
                     displayName = attributes.displayName,
                     displayTitle = attributes.displayTitle,
-                    displayCompany = attributes.displayCompany;
+                    displayCompany = attributes.displayCompany,
+                    filterDates = attributes.filterDates,
+                    removeFilters = attributes.removeFilters,
+                    excludeSpeaker = attributes.excludeSpeaker,
+                    metaDate = attributes.metaDate,
+                    speakerDate = attributes.speakerDate,
+                    gridInfoRollovers = attributes.gridInfoRollovers,
+                    slideInfoRollovers = attributes.slideInfoRollovers,
+                    slideInfoBelow = attributes.slideInfoBelow,
+                    includeTracks = attributes.includeTracks,
+                    attachSession = attributes.attachSession;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
+
+                if (!speakerDate) {
+                    setAttributes({ speakerDate: moment().format('YYYY-MM-DDTHH:mm:ss') });
+                }
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -3379,7 +3573,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -3410,6 +3604,65 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ listingPage: !listingPage, sliderActive: false, orderBy: 'date', slideShape: 'circle', withThumbnail: false });
                                 }
                             }),
+                            listingPage && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    "Enter Speaking Dates:"
+                                ),
+                                wp.element.createElement(TextareaControl, {
+                                    help: "Each date should be pipe(|) separated",
+                                    placeHolder: "October, 17 2019",
+                                    value: filterDates,
+                                    onChange: function onChange(dates) {
+                                        return setAttributes({ filterDates: dates });
+                                    }
+                                }),
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    __('Remove Filter Type')
+                                ),
+                                wp.element.createElement(
+                                    "div",
+                                    { className: "fix-height-select mb20" },
+                                    this.state.browseFilters.map(function (field, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, { checked: -1 < removeFilters.indexOf(field), label: field, name: "removeFilter[]", value: field, onChange: function onChange(isChecked) {
+
+                                                    var index = void 0,
+                                                        tempRemoveFilters = [].concat(_toConsumableArray(removeFilters));
+
+                                                    if (isChecked) {
+                                                        tempRemoveFilters.push(field);
+                                                    } else {
+                                                        index = tempRemoveFilters.indexOf(field);
+                                                        tempRemoveFilters.splice(index, 1);
+                                                    }
+
+                                                    _this5.props.setAttributes({ removeFilters: tempRemoveFilters });
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
+                            ),
+                            wp.element.createElement(
+                                "label",
+                                null,
+                                "Exclude Speaker by Ids:"
+                            ),
+                            wp.element.createElement(TextareaControl, {
+                                help: "Each speaker id should be comma separated",
+                                value: excludeSpeaker,
+                                onChange: function onChange(ids) {
+                                    setAttributes({ excludeSpeaker: ids });_this5.setState({ bxinit: true });
+                                }
+                            }),
                             input,
                             !listingPage && wp.element.createElement(
                                 Fragment,
@@ -3421,14 +3674,91 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         setAttributes({ withThumbnail: !withThumbnail });_this5.setState({ bxinit: true });
                                     }
                                 }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Date Specific Speaker'),
+                                    checked: metaDate,
+                                    onChange: function onChange() {
+                                        setAttributes({ metaDate: !metaDate });_this5.setState({ bxinit: true });
+                                    }
+                                }),
+                                metaDate && wp.element.createElement(
+                                    "div",
+                                    { className: "inspector-field inspector-field-datetime components-base-control hide-time" },
+                                    wp.element.createElement(
+                                        "label",
+                                        { className: "inspector-mb-0" },
+                                        "Select a Date"
+                                    ),
+                                    wp.element.createElement(
+                                        "div",
+                                        { className: "inspector-ml-auto" },
+                                        wp.element.createElement(DateTimePicker, {
+                                            currentDate: speakerDate,
+                                            onChange: function onChange(date) {
+                                                setAttributes({ speakerDate: date });_this5.setState({ bxinit: true });
+                                            }
+                                        })
+                                    )
+                                ),
                                 wp.element.createElement(SelectControl, {
                                     label: __('Order by'),
                                     value: orderBy,
-                                    options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
+                                    options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                     onChange: function onChange(value) {
                                         setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                     }
                                 }),
+                                wp.element.createElement(ToggleControl, {
+                                    label: __('Display only speakers which are attached with session'),
+                                    checked: attachSession,
+                                    onChange: function onChange() {
+                                        setAttributes({ attachSession: !attachSession });_this5.setState({ bxinit: true });
+                                    }
+                                }),
+                                this.state.termsObj && wp.element.createElement(
+                                    Fragment,
+                                    null,
+                                    undefined !== this.state.termsObj.tracks && wp.element.createElement(
+                                        "div",
+                                        null,
+                                        wp.element.createElement(
+                                            "label",
+                                            null,
+                                            __('Filter by Tracks')
+                                        ),
+                                        wp.element.createElement(
+                                            "div",
+                                            { className: "fix-height-select" },
+                                            this.state.termsObj.tracks.map(function (term, index) {
+                                                return wp.element.createElement(
+                                                    Fragment,
+                                                    { key: index },
+                                                    wp.element.createElement(CheckboxControl, {
+                                                        checked: -1 < includeTracks.indexOf(term.slug),
+                                                        label: term.name,
+                                                        name: "tracks[]",
+                                                        value: term.slug,
+                                                        onChange: function onChange(isChecked) {
+
+                                                            var index = void 0,
+                                                                tempIncludeTracks = [].concat(_toConsumableArray(includeTracks));
+
+                                                            if (isChecked) {
+                                                                tempIncludeTracks.push(term.slug);
+                                                            } else {
+                                                                index = tempIncludeTracks.indexOf(term.slug);
+                                                                tempIncludeTracks.splice(index, 1);
+                                                            }
+
+                                                            _this5.props.setAttributes({ includeTracks: tempIncludeTracks });
+                                                            _this5.setState({ bxinit: true });
+                                                        }
+                                                    })
+                                                );
+                                            })
+                                        )
+                                    )
+                                ),
                                 0 < this.state.taxonomiesList.length && wp.element.createElement(
                                     Fragment,
                                     null,
@@ -3557,6 +3887,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 onChange: function onChange() {
                                     setAttributes({ displayCompany: !displayCompany });_this5.setState({ bxinit: true });
                                 }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Grid format with info on rollovers'),
+                                checked: gridInfoRollovers,
+                                onChange: function onChange() {
+                                    setAttributes({ gridInfoRollovers: !gridInfoRollovers });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Slider with info on rollovers'),
+                                checked: slideInfoRollovers,
+                                onChange: function onChange() {
+                                    setAttributes({ slideInfoRollovers: !slideInfoRollovers });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Slider with information below'),
+                                checked: slideInfoBelow,
+                                onChange: function onChange() {
+                                    setAttributes({ slideInfoBelow: !slideInfoBelow });_this5.setState({ bxinit: true });
+                                }
                             })
                         ),
                         !listingPage && wp.element.createElement(
@@ -3584,7 +3935,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 { className: 'rectangle' === slideShape ? 'active ' : '', onClick: function onClick() {
                                                         setAttributes({ slideShape: 'rectangle' });_this5.setState({ bxinit: true });
                                                     } },
-                                                __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sqrImgOption */]
+                                                __WEBPACK_IMPORTED_MODULE_0__icons__["t" /* sqrImgOption */]
                                             ),
                                             wp.element.createElement(
                                                 "li",
@@ -3734,20 +4085,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/speaker-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speaker-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks, attachSession: attachSession }
                     })
                 );
             }
@@ -3840,6 +4182,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         displayCompany: {
             type: 'boolean',
             default: true
+        },
+        filterDates: {
+            type: 'string',
+            default: ''
+        },
+        removeFilters: {
+            type: 'array',
+            default: []
+        },
+        excludeSpeaker: {
+            type: 'string',
+            default: ''
+        },
+        metaDate: {
+            type: 'boolean',
+            default: false
+        },
+        speakerDate: {
+            type: 'string'
+        },
+        gridInfoRollovers: {
+            type: 'boolean',
+            default: false
+        },
+        slideInfoRollovers: {
+            type: 'boolean',
+            default: false
+        },
+        slideInfoBelow: {
+            type: 'boolean',
+            default: false
+        },
+        includeTracks: {
+            type: 'array',
+            default: []
+        },
+        attachSession: {
+            type: 'boolean',
+            default: false
         }
     };
     registerBlockType('mys/speaker-slider', {
@@ -3886,7 +4267,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TextControl = wpComponents.TextControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        TextareaControl = wpComponents.TextareaControl;
 
 
     var sponsorPartnerBlockIcon = wp.element.createElement(
@@ -3915,6 +4297,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 taxonomies: [],
                 taxonomiesObj: {},
                 termsObj: {},
+                sponsorTypeList: [],
                 filterTermsObj: {},
                 isDisable: false
             };
@@ -3929,8 +4312,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 var taxonomies = this.props.attributes.taxonomies;
 
-                //Fetch all taxonomies
+                var sponsorType = [{ label: __('Select a Destination Type'), value: 'select type' }];
 
+                //Fetch all taxonomies
                 wp.apiFetch({ path: '/wp/v2/taxonomies' }).then(function (taxonomies) {
                     _this2.setState({ taxonomiesObj: taxonomies });
                     _this2.filterTaxonomy();
@@ -3943,6 +4327,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         filterTermsObj: terms,
                         taxonomies: taxonomies
                     });
+                });
+
+                // Fetch Sponsor destination types
+                wp.apiFetch({ path: 'nab_api/request/sponsor-acf-types' }).then(function (types) {
+                    if (0 < types.length) {
+                        types.forEach(function (type) {
+                            sponsorType.push({ label: __(type.label), value: type.value });
+                        });
+                        _this2.setState({ sponsorTypeList: sponsorType });
+                    }
                 });
             }
         }, {
@@ -3965,6 +4359,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     controls = _props$attributes.controls,
                     sliderSpeed = _props$attributes.sliderSpeed,
                     slideWidth = _props$attributes.slideWidth,
+                    imgWidth = _props$attributes.imgWidth,
                     sliderActive = _props$attributes.sliderActive,
                     slideMargin = _props$attributes.slideMargin;
 
@@ -3982,6 +4377,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 moveSlides: 1,
                                 slideMargin: slideMargin,
                                 slideWidth: slideWidth,
+                                imgWidth: imgWidth,
                                 auto: autoplay,
                                 infiniteLoop: infiniteLoop,
                                 pager: pager,
@@ -4084,11 +4480,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderSpeed = attributes.sliderSpeed,
                     sliderActive = attributes.sliderActive,
                     slideWidth = attributes.slideWidth,
+                    imgWidth = attributes.imgWidth,
                     slideMargin = attributes.slideMargin,
-                    arrowIcons = attributes.arrowIcons;
+                    arrowIcons = attributes.arrowIcons,
+                    destinationType = attributes.destinationType,
+                    customOrder = attributes.customOrder,
+                    customOrderIds = attributes.customOrderIds;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -4139,10 +4539,41 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             input,
-                            wp.element.createElement(SelectControl, {
+                            0 < this.state.sponsorTypeList.length && wp.element.createElement(SelectControl, {
+                                label: __('Destination Types'),
+                                value: destinationType,
+                                options: this.state.sponsorTypeList,
+                                onChange: function onChange(value) {
+                                    setAttributes({ destinationType: value });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Custom Order'),
+                                checked: customOrder,
+                                onChange: function onChange() {
+                                    setAttributes({ customOrder: !customOrder });_this5.setState({ bxinit: true });
+                                }
+                            }),
+                            customOrder && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    "Enter Sponsors/Partners ids for custom order:"
+                                ),
+                                wp.element.createElement(TextareaControl, {
+                                    help: "Each Sponsors/Partners id should be comma separated",
+                                    value: customOrderIds,
+                                    onChange: function onChange(ids) {
+                                        setAttributes({ customOrderIds: ids });_this5.setState({ bxinit: true });
+                                    }
+                                })
+                            ),
+                            !customOrder && wp.element.createElement(SelectControl, {
                                 label: __('Order by'),
                                 value: orderBy,
-                                options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
+                                options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
                                     setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                 }
@@ -4272,7 +4703,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     setAttributes({ sliderActive: !sliderActive });_this5.setState({ bxinit: !sliderActive });
                                 }
                             }),
-                            !sliderActive && wp.element.createElement(
+                            wp.element.createElement(
                                 "div",
                                 null,
                                 wp.element.createElement(
@@ -4286,18 +4717,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     wp.element.createElement(
                                         "li",
                                         { className: 'without-title' === layout ? 'active ' : '', onClick: function onClick() {
-                                                return setAttributes({ layout: 'without-title' });
+                                                setAttributes({ layout: 'without-title' });_this5.setState({ bxinit: sliderActive });
                                             } },
                                         __WEBPACK_IMPORTED_MODULE_0__icons__["e" /* partnerSponser1 */]
                                     ),
                                     wp.element.createElement(
                                         "li",
                                         { className: 'with-title' === layout ? 'active ' : '', onClick: function onClick() {
-                                                return setAttributes({ layout: 'with-title' });
+                                                setAttributes({ layout: 'with-title' });_this5.setState({ bxinit: sliderActive });
                                             } },
                                         __WEBPACK_IMPORTED_MODULE_0__icons__["f" /* partnerSponser2 */]
                                     ),
-                                    wp.element.createElement(
+                                    !sliderActive && wp.element.createElement(
                                         "li",
                                         { className: 'with-info' === layout ? 'active ' : '', onClick: function onClick() {
                                                 return setAttributes({ layout: 'with-info' });
@@ -4411,6 +4842,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 )
                             )
                         ),
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Image Setting'), initialOpen: false, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-fontsize " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Image Width"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: imgWidth,
+                                    min: 50,
+                                    max: 1000,
+                                    step: 1,
+                                    onChange: function onChange(width) {
+                                        setAttributes({ imgWidth: parseInt(width) });_this5.setState({ bxinit: true });
+                                    }
+                                })
+                            )
+                        ),
                         !listingPage && sliderActive && controls && wp.element.createElement(
                             PanelBody,
                             { title: __('Slider Arrow'), initialOpen: false, className: "range-setting" },
@@ -4436,15 +4889,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 })
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/sponsors-partners-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -4461,7 +4905,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 terms: terms,
                                 listingPage: listingPage,
                                 sliderActive: sliderActive,
-                                arrowIcons: arrowIcons
+                                arrowIcons: arrowIcons,
+                                destinationType: destinationType,
+                                customOrder: customOrder,
+                                customOrderIds: customOrderIds,
+                                imgWidth: imgWidth
                             }
                         })
                     )
@@ -4533,6 +4981,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 400
         },
+        imgWidth: {
+            type: 'number',
+            default: 135
+        },
         slideMargin: {
             type: 'number',
             default: 30
@@ -4540,7 +4992,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         arrowIcons: {
             type: 'string',
             default: 'slider-arrow-1'
+        },
+        destinationType: {
+            type: 'string',
+            default: ''
+        },
+        customOrder: {
+            type: 'boolean',
+            default: false
+        },
+        customOrderIds: {
+            type: 'string',
+            default: ''
         }
+
     };
     registerBlockType('mys/sponsors-partners', {
         title: __('Sponsors and Partners'),
@@ -4724,7 +5189,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 20,
+                                    max: 100,
                                     onChange: function onChange(item) {
                                         return setAttributes({ itemToFetch: parseInt(item) });
                                     }
@@ -4894,6 +5359,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icons__ = __webpack_require__(0);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -4914,7 +5381,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         SelectControl = wpComponents.SelectControl,
         ServerSideRender = wpComponents.ServerSideRender,
         CheckboxControl = wpComponents.CheckboxControl,
-        RangeControl = wpComponents.RangeControl;
+        RangeControl = wpComponents.RangeControl,
+        TextareaControl = wpComponents.TextareaControl,
+        TextControl = wpComponents.TextControl;
 
 
     var trackSliderBlockIcon = wp.element.createElement(
@@ -4939,6 +5408,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             _this.state = {
                 bxSliderObj: {},
                 bxinit: false,
+                hallOptions: [],
+                termsObj: {},
+                filterTermsObj: {},
                 isDisable: false
             };
 
@@ -4947,6 +5419,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
 
         _createClass(MYSCategorySlider, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var hallList = [];
+
+                // Fetch block categories terms
+                wp.apiFetch({ path: '/nab_api/request/category-block-terms' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms });
+                });
+
+                // Fetch all Halls
+                wp.apiFetch({ path: '/wp/v2/halls' }).then(function (halls) {
+                    if (0 < halls.length) {
+                        halls.forEach(function (hall) {
+                            hallList.push({ label: __(hall.name), value: hall.id });
+                        });
+                        _this2.setState({ hallOptions: hallList });
+                    }
+                });
+            }
+        }, {
             key: "componentDidMount",
             value: function componentDidMount() {
                 this.setState({ bxinit: true });
@@ -4954,7 +5448,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "componentDidUpdate",
             value: function componentDidUpdate() {
-                var _this2 = this;
+                var _this3 = this;
 
                 var _props = this.props,
                     clientId = _props.clientId,
@@ -4972,8 +5466,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 if (sliderActive) {
                     if (this.state.bxinit) {
                         setTimeout(function () {
-                            return _this2.initSlider();
-                        }, 500);
+                            return _this3.initSlider();
+                        }, 700);
                         this.setState({ bxinit: false });
                     } else {
                         if (0 < jQuery("#block-" + clientId + " .nab-dynamic-slider").length && this.state.bxSliderObj && undefined !== this.state.bxSliderObj.reloadSlider) {
@@ -4993,6 +5487,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }
                     }
                 }
+            }
+        }, {
+            key: "filterTerms",
+            value: function filterTerms(value, taxonomy) {
+                var _this4 = this;
+
+                var filterTerms = {};
+                var blockCategories = ['tracks', 'exhibitor-categories', 'session-categories'];
+                blockCategories.map(function (tax) {
+                    if (taxonomy === tax) {
+                        filterTerms[tax] = _this4.state.termsObj[tax].filter(function (term) {
+                            return -1 < term.name.toLowerCase().indexOf(value.toLowerCase());
+                        });
+                    } else {
+                        filterTerms[tax] = _this4.state.termsObj[tax];
+                    }
+                });
+                this.setState({ filterTermsObj: filterTerms });
             }
         }, {
             key: "initSlider",
@@ -5019,7 +5531,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "render",
             value: function render() {
-                var _this3 = this;
+                var _this5 = this;
 
                 var _props2 = this.props,
                     attributes = _props2.attributes,
@@ -5037,10 +5549,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     slideMargin = attributes.slideMargin,
                     arrowIcons = attributes.arrowIcons,
                     featuredTag = attributes.featuredTag,
-                    categoryType = attributes.categoryType;
+                    categoryType = attributes.categoryType,
+                    categoryHalls = attributes.categoryHalls,
+                    includeTerms = attributes.includeTerms;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 var input = wp.element.createElement(
                     "div",
@@ -5053,9 +5567,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
-                            setAttributes({ itemToFetch: parseInt(item) });_this3.setState({ bxinit: true, isDisable: true });
+                            setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
                     })
                 );
@@ -5081,24 +5595,112 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             wp.element.createElement(SelectControl, {
                                 label: __('Category Type'),
                                 value: categoryType,
-                                options: [{ label: __('Tracks'), value: 'tracks' }, { label: __('Exhibitors'), value: 'exhibitor-categories' }],
+                                options: [{ label: __('Tracks'), value: 'tracks' }, { label: __('Exhibitors Categories'), value: 'exhibitor-categories' }, { label: __('Session Categories'), value: 'session-categories' }],
                                 onChange: function onChange(value) {
-                                    setAttributes({ categoryType: value });_this3.setState({ bxinit: true });
+                                    setAttributes({ categoryType: value, includeTerms: [] });_this5.setState({ bxinit: true });
                                 }
                             }),
+                            this.state.termsObj && wp.element.createElement(
+                                Fragment,
+                                null,
+                                undefined !== this.state.filterTermsObj[categoryType] && wp.element.createElement(
+                                    "div",
+                                    null,
+                                    wp.element.createElement(
+                                        "label",
+                                        null,
+                                        __('Choose include items')
+                                    ),
+                                    7 < this.state.termsObj[categoryType].length && wp.element.createElement(TextControl, {
+                                        type: "string",
+                                        name: categoryType,
+                                        onChange: function onChange(value) {
+                                            return _this5.filterTerms(value, categoryType);
+                                        }
+                                    }),
+                                    wp.element.createElement(
+                                        "div",
+                                        { className: "fix-height-select" },
+                                        this.state.filterTermsObj[categoryType].map(function (term, index) {
+                                            return wp.element.createElement(
+                                                Fragment,
+                                                { key: index },
+                                                wp.element.createElement(CheckboxControl, {
+                                                    checked: -1 < includeTerms.indexOf(term.term_id),
+                                                    label: term.name,
+                                                    name: categoryType + "[]",
+                                                    value: term.term_id,
+                                                    onChange: function onChange(isChecked) {
+
+                                                        var index = void 0,
+                                                            tempIncludeTerms = [].concat(_toConsumableArray(includeTerms));
+
+                                                        if (isChecked) {
+                                                            tempIncludeTerms.push(term.term_id);
+                                                        } else {
+                                                            index = tempIncludeTerms.indexOf(term.term_id);
+                                                            tempIncludeTerms.splice(index, 1);
+                                                        }
+
+                                                        _this5.props.setAttributes({ includeTerms: tempIncludeTerms });
+                                                        _this5.setState({ bxinit: true });
+                                                    }
+                                                })
+                                            );
+                                        })
+                                    )
+                                )
+                            ),
+                            'exhibitor-categories' === categoryType && wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    "label",
+                                    null,
+                                    __('Filter by Halls')
+                                ),
+                                wp.element.createElement(
+                                    "div",
+                                    { className: "fix-height-select mb20" },
+                                    this.state.hallOptions.map(function (field, index) {
+                                        return wp.element.createElement(
+                                            Fragment,
+                                            { key: index },
+                                            wp.element.createElement(CheckboxControl, { checked: -1 < categoryHalls.indexOf(field.value), label: field.label, name: "hallList[]", value: field.value, onChange: function onChange(isChecked) {
+
+                                                    var index = void 0,
+                                                        tempCategoryHalls = [].concat(_toConsumableArray(categoryHalls));
+
+                                                    if (isChecked) {
+                                                        tempCategoryHalls.push(field.value);
+                                                    } else {
+                                                        index = tempCategoryHalls.indexOf(field.value);
+                                                        tempCategoryHalls.splice(index, 1);
+                                                    }
+
+                                                    _this5.props.setAttributes({ categoryHalls: tempCategoryHalls });
+                                                    if (sliderActive) {
+                                                        _this5.setState({ bxinit: true });
+                                                    }
+                                                }
+                                            })
+                                        );
+                                    })
+                                )
+                            ),
                             wp.element.createElement(SelectControl, {
                                 label: __('Display Order'),
                                 value: order,
-                                options: [{ label: __('A → Z'), value: 'ASC' }, { label: __('Z → A'), value: 'DESC' }],
+                                options: [{ label: __('Alphabetically'), value: 'ASC' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
-                                    setAttributes({ order: value });_this3.setState({ bxinit: true });
+                                    setAttributes({ order: value });_this5.setState({ bxinit: true });
                                 }
                             }),
                             wp.element.createElement(CheckboxControl, {
                                 label: "Featured",
                                 checked: featuredTag,
                                 onChange: function onChange() {
-                                    setAttributes({ featuredTag: !featuredTag });_this3.setState({ bxinit: true });
+                                    setAttributes({ featuredTag: !featuredTag });_this5.setState({ bxinit: true });
                                 }
                             })
                         ),
@@ -5109,7 +5711,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 label: __('Slider On/Off'),
                                 checked: sliderActive,
                                 onChange: function onChange() {
-                                    setAttributes({ sliderActive: !sliderActive });_this3.setState({ bxinit: !sliderActive });
+                                    setAttributes({ sliderActive: !sliderActive });_this5.setState({ bxinit: !sliderActive });
                                 }
                             }),
                             sliderActive && wp.element.createElement(
@@ -5237,7 +5839,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                     key: index,
                                                     onClick: function onClick(e) {
                                                         setAttributes({ arrowIcons: item.classnames });
-                                                        _this3.setState({ bxinit: true });
+                                                        _this5.setState({ bxinit: true });
                                                     }
                                                 },
                                                 item.name
@@ -5246,20 +5848,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/category-slider.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/tracks-slider",
-                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType }
+                        attributes: { itemToFetch: itemToFetch, sliderActive: sliderActive, order: order, arrowIcons: arrowIcons, featuredTag: featuredTag, categoryType: categoryType, categoryHalls: categoryHalls, includeTerms: includeTerms }
                     })
                 );
             }
@@ -5324,8 +5917,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         categoryType: {
             type: 'string',
             default: 'tracks'
+        },
+        categoryHalls: {
+            type: 'array',
+            default: []
+        },
+        includeTerms: {
+            type: 'array',
+            default: []
         }
-
     };
     registerBlockType('mys/tracks-slider', {
         title: __('Category Slider'),
@@ -5473,15 +6073,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     _this3.filterTerms(value);
                                 }
                             })
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/session-filters.mp4", target: "_blank" },
-                                "How to use block?"
-                            )
                         )
                     ),
                     wp.element.createElement(
@@ -5815,15 +6406,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return setAttributes({ showFilter: !showFilter });
                             }
                         })
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: __('Help'), initialOpen: false, className: 'range-setting' },
-                        wp.element.createElement(
-                            'a',
-                            { href: 'https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/product-categories.mp4', target: '_blank' },
-                            'How to use block?'
-                        )
                     )
                 ),
                 wp.element.createElement(ServerSideRender, {
@@ -6097,7 +6679,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons;
 
 
-                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }];
+                var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
 
                 var isCheckedTerms = {};
                 if (!this.isEmpty(terms) && terms.constructor !== Object) {
@@ -6115,7 +6697,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 20,
+                        max: 100,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -6395,15 +6977,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         )
                                     );
                                 })
-                            )
-                        ),
-                        wp.element.createElement(
-                            PanelBody,
-                            { title: __('Help'), initialOpen: false, className: "range-setting" },
-                            wp.element.createElement(
-                                "a",
-                                { href: "https://nabshow-com.go-vip.net/2020/wp-content/uploads/sites/3/2019/11/product-slider.mp4", target: "_blank" },
-                                "How to use block?"
                             )
                         )
                     ),

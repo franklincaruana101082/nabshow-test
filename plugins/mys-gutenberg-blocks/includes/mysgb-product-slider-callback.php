@@ -99,7 +99,7 @@ if ( $query->have_posts() ) {
 <?php
 } else {
 ?>
-    <p>No posts found.</p>
+    <p class="coming-soon">Coming soon.</p>
 <?php
 }
 

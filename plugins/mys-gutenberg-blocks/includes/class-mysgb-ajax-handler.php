@@ -54,12 +54,12 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$post_start         = filter_input( INPUT_GET, 'post_start', FILTER_SANITIZE_STRING );
 			$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
 			$session_track      = filter_input( INPUT_GET, 'track', FILTER_SANITIZE_STRING );
-			$session_level      = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
-			$session_type       = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
 			$session_location   = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
 			$listing_type       = filter_input( INPUT_GET, 'listing_type', FILTER_SANITIZE_STRING );
 			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
 			$featured_session   = filter_input( INPUT_GET, 'featured_session', FILTER_SANITIZE_STRING );
+			$without_date       = filter_input( INPUT_GET, 'without_date', FILTER_SANITIZE_STRING );
+			$without_time       = filter_input( INPUT_GET, 'without_time', FILTER_SANITIZE_STRING );
 
 			$query_arg = array(
 				'post_type'      => 'sessions',
@@ -103,22 +103,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					'taxonomy' => 'tracks',
 					'field'    => 'slug',
 					'terms'    => $session_track,
-				);
-			}
-
-			if ( ! empty( $session_level ) ) {
-				$tax_query_args[] = array (
-					'taxonomy' => 'session-levels',
-					'field'    => 'slug',
-					'terms'    => $session_level,
-				);
-			}
-
-			if ( ! empty( $session_type ) ) {
-				$tax_query_args[] = array (
-					'taxonomy' => 'session-types',
-					'field'    => 'slug',
-					'terms'    => $session_type,
 				);
 			}
 
@@ -173,16 +157,50 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 						$end_time   = str_replace(':00', '', $end_time );
 					}
 
-					$date_display_format = ! empty( $date ) ? $date . ' | ' . $start_time . ' - ' . $end_time : $start_time . ' - ' . $end_time;
+					$date_display_format = '';
+
+					if ( ! empty( $date ) ) {
+
+						if ( 'no' === $without_date && 'no' === $without_time ) {
+							$date_display_format = $date . ' | ' . $start_time . ' - ' . $end_time;
+						} elseif ( 'no' === $without_date ) {
+							$date_display_format = $date;
+						} elseif ( 'no' === $without_time ) {
+							$date_display_format = $start_time . ' - ' . $end_time;
+						}
+					} elseif (  'no' === $without_time ) {
+						$date_display_format = $start_time . ' - ' . $end_time;
+					}
+
 					$date_display_format = trim( $date_display_format, ' - ');
 					$featured_post       = has_term( 'featured', 'session-categories' ) ? 'featured' : '';
 
 					$result_post[ $i ][ 'post_id' ]       = $session_id;
-					$result_post[ $i ][ 'post_title' ]    = mb_strimwidth( get_the_title(), 0, 83, '...' );
+					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( mb_strimwidth( get_the_title(), 0, 83, '...' ) );
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'date_time' ]     = $date_display_format;
-					$result_post[ $i ][ 'post_excerpt' ]  = get_the_excerpt();
+					$result_post[ $i ][ 'post_excerpt' ]  = html_entity_decode( get_the_excerpt() );
 					$result_post[ $i ][ 'planner_link' ]  = $session_planner_url;
+
+					$speakers       = get_post_meta( $session_id, 'speakers', true );
+					$speaker_ids    = explode(',', $speakers);
+					$total_speakers = count( $speaker_ids );
+
+					if ( ! empty( $speakers ) && $total_speakers > 0 ) {
+
+						$final_speakers = array();
+
+						foreach ( $speaker_ids as $speaker_id ) {
+
+							$final_speakers[] = get_the_title( $speaker_id );
+
+						}
+
+						if ( count( $final_speakers ) > 0 ) {
+
+							$result_post[ $i ][ 'speakers' ] = implode( ', ', $final_speakers );
+						}
+					}
 
 					if ( ! empty( $listing_type ) ) {
 						$result_post[ $i ][ 'session_date' ]  = $date;
@@ -225,7 +243,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$exhibitor_pavilion     = filter_input( INPUT_GET, 'exhibitor_pavilion', FILTER_SANITIZE_STRING );
 			$exhibitor_keywords     = filter_input( INPUT_GET, 'exhibitor_keywords', FILTER_SANITIZE_STRING );
 			$order_by               = filter_input( INPUT_GET, 'exhibitor_order', FILTER_SANITIZE_STRING );
-			$exhibitor_technology   = filter_input( INPUT_GET, 'exhibitor_technology', FILTER_SANITIZE_STRING );
 			$order                  = 'date' === $order_by ? 'DESC' : 'ASC';
 
 			$query_arg = array(
@@ -270,14 +287,6 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				);
 			}
 
-			if ( ! empty( $exhibitor_technology ) ) {
-				$tax_query_args[] = array (
-					'taxonomy' => 'exhibitor-trends',
-					'field'    => 'slug',
-					'terms'    => $exhibitor_technology,
-				);
-			}
-
 			if ( ! empty( $exhibitor_keywords ) ) {
 
 				$all_keywords     = explode(',', $exhibitor_keywords );
@@ -317,10 +326,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
 
 					$result_post[ $i ][ 'post_id' ]       = $exhibitor_id;
-					$result_post[ $i ][ 'post_title' ]    = get_the_title();
+					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( get_the_title() );
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'boothnumber' ]   = $booth_number;
-					$result_post[ $i ][ 'post_excerpt' ]  = get_the_excerpt();
+					$result_post[ $i ][ 'post_excerpt' ]  = html_entity_decode( get_the_excerpt() );
 					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
 					$result_post[ $i ][ 'planner_link' ]  = $exh_url;
 
@@ -359,6 +368,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$speaker_date       = filter_input( INPUT_GET, 'speaker_date', FILTER_SANITIZE_STRING );
 			$featured_speaker   = filter_input( INPUT_GET, 'featured_speaker', FILTER_SANITIZE_STRING );
 			$order_by           = filter_input( INPUT_GET, 'speaker_order', FILTER_SANITIZE_STRING );
+			$exclude_speaker    = filter_input( INPUT_GET, 'exclude_speaker', FILTER_SANITIZE_STRING );
 			$order              = 'date' === $order_by ? 'DESC' : 'ASC';
 
 			$query_arg = array(
@@ -368,6 +378,16 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				'orderby'        => $order_by,
 				'order'          => $order,
 			);
+
+			if ( ! empty( trim( $exclude_speaker ) ) ) {
+
+				$final_speakers = explode( ',' , str_replace( ' ', '', $exclude_speaker ) );
+
+				if ( is_array( $final_speakers ) && count( $final_speakers ) > 0 ) {
+
+					$query_arg['post__not_in'] = $final_speakers;
+				}
+			}
 
 			if ( ! empty( $post_start ) ) {
 				$query_arg[ 'starts_with' ] = $post_start;
@@ -442,11 +462,11 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
 
 					$result_post[ $i ][ 'post_id' ]       = $speaker_id;
-					$result_post[ $i ][ 'post_title' ]    = get_the_title();
+					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( get_the_title() );
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
-					$result_post[ $i ][ 'job_title' ]     = $speaker_job_title;
-					$result_post[ $i ][ 'company' ]       = $speaker_company;
+					$result_post[ $i ][ 'job_title' ]     = html_entity_decode( $speaker_job_title );
+					$result_post[ $i ][ 'company' ]       = html_entity_decode( $speaker_company );
 
 					$i++;
 				}

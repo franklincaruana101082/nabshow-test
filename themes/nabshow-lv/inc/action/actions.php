@@ -131,6 +131,3 @@ add_action( 'admin_init', 'nabshow_lv_page_type_template' );
 add_action( 'init', function() {
 	add_rewrite_rule( '^robots\.txt$', 'index.php?robots=1', 'top' );
 } );
-
-// Action to add custom meta description tag
-add_action( 'wpseo_head', 'nabshow_lv_add_cusotm_meta_desc_tag', 35 );

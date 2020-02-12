@@ -93,11 +93,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 $where .= " AND trim( coalesce( $wpdb->posts.post_content , '' ) ) <> ''";
             }
 
+            if ( strpos( $where, 'destination_type_$' ) > -1 ) {
+
+	            $where = str_replace("meta_key = 'destination_type_$", "meta_key LIKE 'destination_type_%", $where );
+            }
+
             return $where;
         }
 
         /**
-         * Register custom api endpoints to fetch all terms
+         * Register custom api endpoints to fetch all terms & Sponsors Types
          *
          * @since 1.0.0
          */
@@ -107,6 +112,16 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 'methods'  => 'GET',
                 'callback' => array( __CLASS__, 'mysgb_get_all_terms' ),
             ) );
+
+	        register_rest_route( 'nab_api', '/request/sponsor-acf-types', array(
+		        'methods'  => 'GET',
+		        'callback' => array( __CLASS__, 'mysgb_get_sponsor_acf_types' ),
+	        ) );
+
+	        register_rest_route( 'nab_api', '/request/category-block-terms', array(
+		        'methods'  => 'GET',
+		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms' ),
+	        ) );
         }
 
         /**
@@ -117,34 +132,75 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_get_all_terms() {
 
-            //get data from the cache
-            $response = get_transient( 'mysgb-get-all-terms-cache' );
+            $return = array();
 
-            if ( false === $response ) {
+            //get all terms
+            $terms = get_terms();
 
-                $return = array();
+            //arrange term according to taxonomy
+            foreach ( $terms as $term ) {
 
-                //get all terms
-                $terms = get_terms();
-
-                //arrange term according to taxonomy
-                foreach ( $terms as $term ) {
-
-                    $return[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
-                }
-
-                //set response into the cache
-                set_transient( 'mysgb-get-all-terms-cache', $return, 60 * MINUTE_IN_SECONDS + wp_rand( 1, 60 ) );
-
-                return new WP_REST_Response( $return, 200 );
-
-            } else {
-
-                //return cache data
-                return new WP_REST_Response( $response, 200 );
+                $return[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
             }
 
+            return new WP_REST_Response( $return, 200 );
+
         }
+
+	    /**
+	     * Get all terms according to taxonomy
+	     *
+	     * @return WP_REST_Response
+	     * @since 1.0.0
+	     */
+	    public static function mysgb_get_sponsor_acf_types() {
+
+
+		    $sponsors_destination = array();
+
+		    $acf_fields = get_field_object( 'field_5e09d6ef21e49' );
+
+		    if ( isset( $acf_fields[ 'choices' ] ) && is_array( $acf_fields[ 'choices' ] ) ) {
+
+			    $cnt = 0;
+
+			    foreach ( $acf_fields[ 'choices' ] as $field_val => $field_label ) {
+
+				    $sponsors_destination[ $cnt ][ 'label' ] = $field_label;
+				    $sponsors_destination[ $cnt ][ 'value' ] = $field_val;
+				    $cnt++;
+			    }
+
+		    }
+
+		    return new WP_REST_Response( $sponsors_destination, 200 );
+
+	    }
+
+	    /**
+	     * Get terms for categories slider block
+	     *
+	     * @return WP_REST_Response
+	     * @since 1.0.0
+	     */
+	    public static function mysgb_get_category_block_terms() {
+
+		    $final_terms = array();
+
+		    $block_taxonomies = array( 'tracks', 'exhibitor-categories', 'session-categories' );
+
+		    //get all terms
+		    $terms = get_terms( array( 'taxonomy' => $block_taxonomies, 'hide_empty' => false ) );
+
+		    //arrange term according to taxonomy
+		    foreach ( $terms as $term ) {
+
+			    $final_terms[ $term->taxonomy ][] = array( "term_id" => $term->term_id, "name" => $term->name, "slug" => $term->slug );
+		    }
+
+		    return new WP_REST_Response( $final_terms, 200 );
+
+	    }
 
         /*
          * Enqueue gutenberg custom block script
@@ -153,7 +209,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '1.4' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.4' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -593,14 +649,15 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             <?php
         }
 
-        /**
-         * Create drop-down options for given taxonomy terms.
-         *
-         * @param string $taxonomy
-         *
-         * @since 1.0.0
-         */
-        public function mysgb_get_term_list_options( $taxonomy = '' ) {
+	    /**
+	     * Create drop-down options for given taxonomy terms.
+	     *
+	     * @param string $taxonomy
+	     * @param string $pre_selected
+	     *
+	     * @since 1.0.0
+	     */
+        public function mysgb_get_term_list_options( $taxonomy = '', $pre_selected = '' ) {
 
             if ( ! empty( $taxonomy ) ) {
 
@@ -612,12 +669,145 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 if ( is_array( $all_terms ) && ! is_wp_error( $all_terms ) ) {
 
                     foreach ( $all_terms as $term ) {
-                        ?>
-                        <option value="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></option>
-                        <?php
+
+                    	if ( ! empty( $pre_selected ) ) {
+                            ?>
+	                        <option value="<?php echo esc_attr( $term->slug ); ?>" <?php selected( $term->slug, $pre_selected ); ?>><?php echo esc_html( $term->name ); ?></option>
+		                    <?php
+	                    } else {
+		                    ?>
+		                    <option value="<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></option>
+		                    <?php
+	                    }
                     }
                 }
             }
         }
+
+	    /**
+	     * Fetch sponsor type according destination and sponsor id
+	     *
+	     * @param $destination_type
+	     * @param $current_post_ID
+	     *
+	     * @return string
+	     *
+	     * @since 1.0.0
+	     */
+        public function mysgb_get_sponsor_type( $destination_type, $current_post_ID ) {
+
+	        $sponsor_type = '';
+
+	        if ( ! empty( $destination_type ) ) {
+
+		        $destination_field_types = get_field( 'destination_type', $current_post_ID );
+
+		        if ( is_array( $destination_field_types ) && count( $destination_field_types ) > 0 ) {
+
+			        foreach ( $destination_field_types as $field_type ) {
+
+				        if ( isset( $field_type[ 'destination' ] ) && $destination_type === $field_type[ 'destination' ] ) {
+
+					        $sponsor_type =	$field_type[ 'sponsor_type' ];
+					        break;
+				        }
+			        }
+		        }
+
+	        } else {
+
+		        $all_sponsor_type = get_the_terms( $current_post_ID, 'sponsor-types' );
+		        $sponsor_type     = $this->mysgb_get_pipe_separated_term_list( $all_sponsor_type );
+	        }
+
+	        return $sponsor_type;
+        }
+
+
+	    public function mysgb_get_session_speakers( $session_id, $layout_type ) {
+
+		    $speaker = get_post_meta( $session_id, 'speakers', true );
+
+		    if ( ! empty( $speaker ) ) {
+
+			    $speaker_ids         = explode(',', $speaker);
+			    $speaker_query_args  = array(
+				    'post_type'      => 'speakers',
+				    'posts_per_page' => count( $speaker_ids ),
+				    'post__in'       => $speaker_ids
+			    );
+
+			    $speaker_query = new WP_Query( $speaker_query_args );
+
+			    if ( $speaker_query->have_posts() ) {
+
+				    if ( 'bullet' === $layout_type ) {
+				    	?>
+					    <ul class="speaker-list">
+					    <?php
+				    } elseif ( 'comma-separated' === $layout_type ){
+				    	$speaker_list = array();
+				    }
+				    while ( $speaker_query->have_posts() ) {
+
+					    $speaker_query->the_post();
+
+					    if ( 'with-headshot' === $layout_type ) {
+
+						    if ( has_post_thumbnail() ) {
+							    $speaker_thumbnail_url = get_the_post_thumbnail_url();
+						    } else {
+							    $speaker_thumbnail_url = $this->mysgb_get_speaker_thumbnail_url();
+						    }
+
+						    $speaker_id         = get_the_ID();
+						    $speaker_job_title  = get_post_meta( $speaker_id, 'title', true );
+						    $speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
+						    $speaker_company    = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
+
+						    ?>
+						    <div class="speaker-single">
+							    <div class="img-box">
+								    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" />
+							    </div>
+							    <div class="info-box">
+								    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
+								    <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
+								    <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
+							    </div>
+						    </div>
+						    <?php
+
+					    } elseif ( 'bullet' === $layout_type ) {
+
+					    	?>
+					    	<li><?php echo esc_html( get_the_title() ); ?></li>
+						    <?php
+
+					    } elseif ( 'comma-separated' == $layout_type ) {
+						    $speaker_list[] = get_the_title();
+					    }
+				    }
+				    if ( 'bullet' === $layout_type ) {
+				    	?>
+					    </ul>
+					    <?php
+				    } elseif ( 'comma-separated' === $layout_type ) {
+
+				    	if ( count( $speaker_list ) > 0 ) {
+
+				    		$all_speaker = implode( ', ', $speaker_list );
+
+				    		?>
+						    <div class="speaker-list-comma">
+							    <span class="speakers-name"><?php echo esc_html( $all_speaker ); ?></span>
+						    </div>
+							<?php
+					    }
+				    }
+			    }
+			    wp_reset_postdata();
+		    }
+	    }
     }
 }
