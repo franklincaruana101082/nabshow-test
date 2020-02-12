@@ -255,9 +255,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 label={__('Order by')}
                                 value={orderBy}
                                 options={[
-                                  { label: __('Newest to Oldest'), value: 'date' },
-                                  { label: __('Menu Order'), value: 'menu_order' },
-                                  { label: __('Random'), value: 'rand' },
+                                    { label: __('Alphabetical'), value: 'title' },
+                                    { label: __('Newest to Oldest'), value: 'date' },
+                                    { label: __('Menu Order'), value: 'menu_order' },
+                                    { label: __('Random'), value: 'rand' },
                                 ]}
                                 onChange={ (value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
                               />

@@ -8,6 +8,11 @@ get_header();
 ?>
     <div id="primary" class="container">
         <div class="page-main thought-gallery-page thought-gallery-detail-page">
+            <div class="custom-head-with-title has-full">
+                <div class="custom-is-block-center has-fixed">
+                    <h1 class="title nab-title custom-title"><?php echo esc_html( get_the_title() ); ?></h1>
+                </div>
+            </div>
             <div class="breadcrumbs-nospace">
                 <?php
                     echo do_shortcode('[nab_yoast_breadcumb]');

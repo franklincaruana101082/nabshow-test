@@ -4573,7 +4573,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             !customOrder && wp.element.createElement(SelectControl, {
                                 label: __('Order by'),
                                 value: orderBy,
-                                options: [{ label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
+                                options: [{ label: __('Alphabetical'), value: 'title' }, { label: __('Newest to Oldest'), value: 'date' }, { label: __('Menu Order'), value: 'menu_order' }, { label: __('Random'), value: 'rand' }],
                                 onChange: function onChange(value) {
                                     setAttributes({ orderBy: value });_this5.setState({ bxinit: true });
                                 }

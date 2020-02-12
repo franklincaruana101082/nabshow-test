@@ -43,7 +43,6 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
         <?php
 	}
 	?>
-    <h1 class="post-title is-medium-title"><?php echo esc_html( $current_post_title ); ?></h1>
     <div class="post-meta-info">
         <span class="meta-info-decs">by</span>
         <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( nabhsow_lv_current_author_name() ); ?> </a>

@@ -9,6 +9,11 @@ global $wp_query;
 ?>
     <div id="primary" class="container">
         <div class="page-main thought-gallery-page">
+            <div class="custom-head-with-title has-full">
+                <div class="custom-is-block-center has-fixed">
+                    <h1 class="title nab-title custom-title">Thought Gallery</h1>
+                </div>
+            </div>
         	 <div class="breadcrumbs-nospace">
 	            <?php
 	        		echo do_shortcode('[nab_yoast_breadcumb]');
@@ -16,10 +21,6 @@ global $wp_query;
 	        </div>
 	        <div class="thought-gallery-head">
 	        	<div class="head-left">
-			        <div class="nab-heading custom-flag-heading">
-				        <h1 class="title nab-title">Thought Gallery</h1>
-				        <span class="tilted-design"></span>
-			        </div>
 	        		<p>A collection of high-level insights on topics, trends and technologies impacting the future of media and entertainment.</p>
 	        	</div>
 	        	<div class="head-right">
