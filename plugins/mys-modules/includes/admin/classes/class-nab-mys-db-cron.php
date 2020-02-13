@@ -163,6 +163,56 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					'callback' => array( $this, 'nab_mys_cron_remove_posts' )
 				)
 			);
+
+			register_rest_route( 'mys', '/getwpid', array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'nab_mys_cron_get_wpids' )
+				)
+			);
+		}
+
+		/**
+		 * Get WP ID of the provided mys ids.
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 */
+		public function nab_mys_cron_get_wpids( WP_REST_Request $request ) {
+
+			$parameters = $request->get_params();
+
+			$mysids = isset( $parameters['mysids'] ) ? $parameters['mysids'] : '';
+			$name   = isset( $parameters['name'] ) ? $parameters['name'] : '';
+			$key    = isset( $parameters['key'] ) ? $parameters['key'] : '';
+			$type   = isset( $parameters['type'] ) ? $parameters['type '] : 'post_type';
+
+			if ( empty( $mysids ) || empty( $name ) || empty( $key ) ) {
+				echo "Following parameters are mandatory: mysids, name, key.";
+				die();
+			}
+
+			$mysids = explode( ',', $mysids );
+
+			$all_wp_ids = array();
+			$data       = '';
+			foreach ( $mysids as $mysid ) {
+				$wpid = $this->nab_mys_cron_get_wpid_from_meta( $name, $key, $mysid, $type );
+
+				if ( ! empty( $wpid ) ) {
+
+					if ( 'post_type' !== $type ) {
+						$wpid = $wpid->term_id;
+					}
+
+					$all_wp_ids[ $mysid ] = $wpid;
+				} else {
+					$all_wp_ids[ $mysid ] = 'Not found in the site';
+				}
+
+			}
+
+			print_r( $all_wp_ids );
+			die();
 		}
 
 		/**
@@ -191,8 +241,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			}
 
 			// Initiate vars.
-			$session_ids          = array();
-			$comma_separated_ids  = '';
+			$session_ids         = array();
+			$comma_separated_ids = '';
 
 			// Get data ids from the session's meta.
 			$session_args = array(
