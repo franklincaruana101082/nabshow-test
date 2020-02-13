@@ -1073,14 +1073,34 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						//Fetch WP-ID of Categories
 						$categories = $individual_item['categories'];
-						$categories = explode( ',', $categories );
+						$categories = explode( '||', $categories );
+
+						$categories_group = $categories[0];
+						$categories_group = explode( ',', $categories_group );
+
+						$categories_children = isset($categories[1]) ? $categories[1] : array();
+						$categories_children = explode( ',', $categories_children );
+
 						$cat_ids    = array();
-						foreach ( $categories as $cat_mys_id ) {
+
+						//Assigning Groups as Parents
+						foreach ( $categories_group as $cat_mys_id ) {
+							$term_data = $this->nab_mys_cron_get_wpid_from_meta( 'session-categories', 'categorygroupid', $cat_mys_id, 'taxonomy' );
+							if ( ! empty( $term_data ) ) {
+								$cat_ids[] = $term_data->term_id;
+							}
+						}
+
+						//Assigning Children
+						foreach ( $categories_children as $cat_mys_id ) {
 							$term_data = $this->nab_mys_cron_get_wpid_from_meta( 'session-categories', 'categoryid', $cat_mys_id, 'taxonomy' );
 							if ( ! empty( $term_data ) ) {
 								$cat_ids[] = $term_data->term_id;
 							}
 						}
+
+						$post_detail .= "|assigned-sessions-cats:" . implode(',', $cat_ids);
+
 						//Assign Categories.
 						wp_set_post_terms( $post_id, $cat_ids, 'session-categories' );
 

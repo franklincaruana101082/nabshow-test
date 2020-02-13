@@ -127,10 +127,10 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		/**
 		 * Getting isActive parameter from individual sessions.
 		 *
-		 * @package MYS Modules
+		 * @return array MYS Response and the insertion status.
 		 * @since 1.0.0
 		 *
-		 * @return array MYS Response and the insertion status.
+		 * @package MYS Modules
 		 */
 		public function nab_mys_sync_sess_individual() {
 
@@ -215,23 +215,31 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 						if ( 1 === $isactive ) {
 							$session_cats = $single_session->categories;
 
-							$catid_array = $cat_data = array();
+							$catgripid_array = $catid_array = $cat_data = array();
 							foreach ( $session_cats as $session_cat ) {
-								$catid              = $catid_array[] = $session_cat->categoryid;
-								$cat_data[ $catid ] = $session_cat;
+								$cat_grp_id                        = $catgripid_array[] = $session_cat->categorygroupid;
+								$catid                             = $catid_array[] = $session_cat->categoryid;
+								$cat_data[ $cat_grp_id ][ $catid ] = $session_cat;
 							}
-							$catids = implode( ',', $catid_array );
+							$catids          = implode( ',', $catid_array );
+							$catgripid_array = array_unique( $catgripid_array );
+							$catgrpids       = implode( ',', $catgripid_array );
 
 							// Updating catdata to store in one go at
 							// the end of all individual sessions fetch
 							$prev_cat_data = get_option( 'session_cats' );
 							if ( is_array( $prev_cat_data ) ) {
-								$cat_data = array_replace( $cat_data, $prev_cat_data );
+								foreach ( $prev_cat_data as $grpid => $prev_cat ) {
+
+									foreach ( $prev_cat as $catid => $cdata ) {
+										$cat_data[ $grpid ] [ $catid ] = $cdata;
+									}
+								}
 							}
 							update_option( 'session_cats', $cat_data );
 
 							// keep updating modified array with separated cat ids
-							$session_modified_array[ $sessionid ]['categories'] = $catids;
+							$session_modified_array[ $sessionid ]['categories'] = $catgrpids . '||' . $catids;
 						}
 
 						// keep updating modified array with isactive

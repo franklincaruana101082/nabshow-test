@@ -367,10 +367,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 		 *
 		 * @param string $group_id The Group id.
 		 *
-		 * @package MYS Modules
+		 * @return array
 		 * @since 1.0.0
 		 *
-		 * @return array
+		 * @package MYS Modules
 		 */
 		public function nab_mys_db_get_sessions( $group_id ) {
 
@@ -403,54 +403,111 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 			$taxonomy      = 'session-categories';
 			$mys_item_name = 'categoryid';
+			$args          = array(
+				'taxonomy'      => $taxonomy,
+				'mys_item_name' => $mys_item_name,
+				'parent'        => 0
+			);
+			$parent_ids    = array();
 
-			foreach ( $session_categories as $single_cat ) {
+			foreach ( $session_categories as $grpid => $cat_data ) {
 
-				$categoryname = $single_cat->categoryname;
+				foreach ( $cat_data as $single_cat ) {
 
-				$mys_item_id = isset( $single_cat->categoryid ) ? $single_cat->categoryid : 0;
-				$description = isset( $single_cat->categorydisplay ) ? $single_cat->categorydisplay : '';
+					$parent       = 0;
+					$mys_item_id  = isset( $single_cat->categoryid ) ? $single_cat->categoryid : 0;
+					$categoryname = isset( $single_cat->categoryname ) ? $single_cat->categoryname : '';
+					$description  = isset( $single_cat->categorydisplay ) ? $single_cat->categorydisplay : '';
 
-				//Check if same name available
-				$existing_term_data = get_term_by( 'name', $categoryname, $taxonomy );
+					$categorygroupid = isset( $single_cat->categorygroupid ) ? $single_cat->categorygroupid : 0;
+					$categorygroup   = isset( $single_cat->categorygroup ) ? $single_cat->categorygroup : '';
 
-				if ( isset( $existing_term_data->term_id ) ) {
+					//get parent's wp/term id
+					if ( 0 !== $categorygroupid ) {
 
-					$term_post_id = $existing_term_data->term_id;
+						$parent = isset ( $parent_ids[ $categorygroupid ] ) ? $parent_ids[ $categorygroupid ] : 0;
 
-					wp_update_term( $term_post_id, $taxonomy, array(
-						'name'        => $categoryname,
-						'description' => $description,
-					) );
+						if ( 0 === $parent ) {
+							$args['categoryname']  = $categorygroup;
+							$args['mys_item_id']   = $categorygroupid;
+							$args['mys_item_name'] = 'categorygroupid';
+							$args['description']   = '';
+							$args['parent']        = 0;
 
-				} else {
-					// insert new term if not already available
-
-					$term_id_data = wp_insert_term(
-						$categoryname,
-						$taxonomy,
-						array(
-							'description' => $description,
-						)
-					);
-
-					//Term already available on this point, then use it.
-					if ( isset( $term_id_data->error_data['term_exists'] ) ) {
-						$term_post_id = $term_id_data->error_data['term_exists'];
-					} else {
-						$term_post_id = $term_id_data['term_id'];
+							$parent                         = $this->nab_mys_db_insert_term( $args );
+							$parent_ids[ $categorygroupid ] = $parent;
+						}
 					}
 
-				}
+					$args['categoryname']  = $categoryname;
+					$args['mys_item_id']   = $mys_item_id;
+					$args['mys_item_name'] = 'categoryid';
+					$args['description']   = $description;
+					$args['parent']        = $parent;
 
-				// insert mys id to term meta.
-				if ( 0 !== $mys_item_id ) {
-					update_term_meta( $term_post_id, $mys_item_name, $mys_item_id );
+					$this->nab_mys_db_insert_term( $args );
 				}
 			}
 
 			// Delete cats from options table.
 			delete_option( 'session_cats' );
+		}
+
+		/**
+		 * Inserts/Updates term with meta.
+		 *
+		 * @param array $args Contains imp details of term.
+		 *
+		 * @return int|mixed returns the term_id.
+		 */
+		public function nab_mys_db_insert_term( $args ) {
+
+			$taxonomy      = $args['taxonomy'];
+			$description   = $args['description'];
+			$categoryname  = $args['categoryname'];
+			$mys_item_id   = $args['mys_item_id'];
+			$mys_item_name = $args['mys_item_name'];
+			$parent        = $args['parent'];
+
+			//Check if same name available
+			$existing_term_data = get_term_by( 'name', $categoryname, $taxonomy );
+
+			if ( isset( $existing_term_data->term_id ) ) {
+
+				$term_post_id = $existing_term_data->term_id;
+
+				wp_update_term( $term_post_id, $taxonomy, array(
+					'name'        => $categoryname,
+					'description' => $description,
+					'parent'      => $parent,
+				) );
+
+			} else {
+				// insert new term if not already available
+
+				$term_id_data = wp_insert_term(
+					$categoryname,
+					$taxonomy,
+					array(
+						'description' => $description,
+						'parent'      => $parent
+					)
+				);
+
+				//Term already available on this point, then use it.
+				if ( isset( $term_id_data->error_data['term_exists'] ) ) {
+					$term_post_id = $term_id_data->error_data['term_exists'];
+				} else {
+					$term_post_id = $term_id_data['term_id'];
+				}
+
+			}
+
+			if ( 0 !== $mys_item_id ) {
+				update_term_meta( $term_post_id, $mys_item_name, $mys_item_id );
+			}
+
+			return $term_post_id;
 		}
 
 		/**
