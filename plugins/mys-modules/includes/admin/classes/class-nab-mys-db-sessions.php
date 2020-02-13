@@ -151,7 +151,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 								}
 							}
 
-							$total_item_statuses[ $this->session_modified_array[ $item_mys_id ]['status'] ][] = '';
+							$total_item_statuses[ 'Updated' ][] = '';
 						}
 						$affected_items ++;
 

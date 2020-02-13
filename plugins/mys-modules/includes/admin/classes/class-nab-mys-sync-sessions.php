@@ -213,13 +213,15 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 						//If isActive is 1, process categories.
 						if ( 1 === $isactive ) {
-							$session_cats = $single_session->categories;
+							$session_cats = isset( $single_session->categories ) ? $single_session->categories : array();
 
 							$catgripid_array = $catid_array = $cat_data = array();
-							foreach ( $session_cats as $session_cat ) {
-								$cat_grp_id                        = $catgripid_array[] = $session_cat->categorygroupid;
-								$catid                             = $catid_array[] = $session_cat->categoryid;
-								$cat_data[ $cat_grp_id ][ $catid ] = $session_cat;
+							if ( 0 !== count( $session_cats ) ) {
+								foreach ( $session_cats as $session_cat ) {
+									$cat_grp_id                        = $catgripid_array[] = $session_cat->categorygroupid;
+									$catid                             = $catid_array[] = $session_cat->categoryid;
+									$cat_data[ $cat_grp_id ][ $catid ] = $session_cat;
+								}
 							}
 							$catids          = implode( ',', $catid_array );
 							$catgripid_array = array_unique( $catgripid_array );
