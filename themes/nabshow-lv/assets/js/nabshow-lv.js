@@ -993,9 +993,9 @@
   if (0 < $('.browse-sessions-filter').length || 0 < $('.browse-open-to-all-filter').length) {
     let pageNumber,
       postStartWith = '',
-      sessionTrack = '',
       sessionDate = '',
       sessionLocation = '',
+      sessionTrack = 0 === $('.browse-sessions-filter .browse-select #session-tracks')[0].selectedIndex ? '' : $('.browse-sessions-filter .browse-select #session-tracks').val(),
       featuredSession = $('.browse-sessions-filter .featured-btn').hasClass('active') ? 'featured' : '',
       sessionItem = $('#browse-session .item')[0],
       listingType = 0 < $('#browse-session .listing-date-group').length ? $('#browse-session .listing-date-group:first').attr('data-listing-type') : '';

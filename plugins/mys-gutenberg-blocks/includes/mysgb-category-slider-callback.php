@@ -146,6 +146,14 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 						?>
 						<h2 class="track-title"><a href="<?php echo esc_url( $mys_cat_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
 						<?php
+
+					} elseif ( 'tracks' === $category_type ) {
+
+                    	$session_track_link = $site_url . '/learn/browse-sessions/?session-track='. $current_term->slug;
+						?>
+						<h2 class="track-title"><a href="<?php echo esc_url( $session_track_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<?php
+
                     } else {
                     	?>
                         <h2 class="track-title"><?php echo esc_html( $current_term->name ); ?></h2>

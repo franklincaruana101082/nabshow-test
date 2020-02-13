@@ -67,7 +67,7 @@
         <div className={`nab-photos ${className}`}>
           {
             dataArry.map((photo, index) => {
-              let smallMedia = photo.media + '?h=200&w=300';
+              let smallMedia = photo.media + '?h=400&w=600';
               return (
                 <div className="photo-item" key={index}>
                   <div className="photo-inner">
@@ -167,7 +167,7 @@
                       <a className="popup-btn"><i className="fa fa-image"></i></a>
                       <a className="download" href={photo.media} download><i className="fa fa-download"></i></a>
                     </div>
-                    <img src={photo.media + '?h=200&w=300'} alt={photo.alt} className="media" width={photo.width} />
+                    <img src={photo.media + '?h=400&w=600'} alt={photo.alt} className="media" width={photo.width} />
                   </div>
                   <div className="photo-caption">
                     <p className='caption'>{photo.caption}</p>

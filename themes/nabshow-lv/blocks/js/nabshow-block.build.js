@@ -5123,7 +5123,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           "div",
           { className: "nab-photos " + className },
           dataArry.map(function (photo, index) {
-            var smallMedia = photo.media + '?h=200&w=300';
+            var smallMedia = photo.media + '?h=400&w=600';
             return wp.element.createElement(
               "div",
               { className: "photo-item", key: index },
@@ -5265,7 +5265,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   wp.element.createElement("i", { className: "fa fa-download" })
                 )
               ),
-              wp.element.createElement("img", { src: photo.media + '?h=200&w=300', alt: photo.alt, className: "media", width: photo.width })
+              wp.element.createElement("img", { src: photo.media + '?h=400&w=600', alt: photo.alt, className: "media", width: photo.width })
             ),
             wp.element.createElement(
               "div",
@@ -11161,9 +11161,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 /* 39 */
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, exports) {
 
-"use strict";
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -11267,15 +11266,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       value: function componentDidUpdate(prevProps) {
         var _props$attributes = this.props.attributes,
             sliderActive = _props$attributes.sliderActive,
-            media = _props$attributes.media,
             adaptiveHeight = _props$attributes.adaptiveHeight,
             autoplay = _props$attributes.autoplay,
             speed = _props$attributes.speed,
             infiniteLoop = _props$attributes.infiniteLoop,
             pager = _props$attributes.pager,
             controls = _props$attributes.controls,
-            mode = _props$attributes.mode,
-            dataArray = _props$attributes.dataArray;
+            mode = _props$attributes.mode;
 
         if (this.state.bxSliderObj.length === undefined && sliderActive) {
           this.initSlider();
@@ -11360,9 +11357,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             controls = _props$attributes3.controls,
             adaptiveHeight = _props$attributes3.adaptiveHeight,
             speed = _props$attributes3.speed,
-            mode = _props$attributes3.mode;
-        var clientId = this.props.clientId;
+            mode = _props$attributes3.mode,
+            dataArray = _props$attributes3.dataArray;
+        var _props = this.props,
+            clientId = _props.clientId,
+            setAttributes = _props.setAttributes;
 
+
+        var darftArrs = [].concat(_toConsumableArray(dataArray));
+        var finaldarftArrs = darftArrs.filter(function (element) {
+          return false === element.drafted;
+        });
+        setAttributes({
+          newArr: finaldarftArrs
+        });
 
         var sliderObj = jQuery("#block-" + clientId + " .wp-block-nab-hero-banner").bxSlider({
           mode: mode,
@@ -11387,7 +11395,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             controls = _props$attributes4.controls,
             adaptiveHeight = _props$attributes4.adaptiveHeight,
             speed = _props$attributes4.speed,
-            mode = _props$attributes4.mode;
+            mode = _props$attributes4.mode,
+            dataArray = _props$attributes4.dataArray;
+
+
+        var darftArrs = [].concat(_toConsumableArray(dataArray));
+        var finaldarftArrs = darftArrs.filter(function (element) {
+          return false === element.drafted;
+        });
+        this.props.setAttributes({
+          newArr: finaldarftArrs
+        });
 
         this.state.bxSliderObj.reloadSlider({
           mode: mode,
@@ -11407,15 +11425,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }, {
       key: "moveMedia",
       value: function moveMedia(currentIndex, newIndex) {
-        var _props = this.props,
-            setAttributes = _props.setAttributes,
-            attributes = _props.attributes;
+        var _props2 = this.props,
+            setAttributes = _props2.setAttributes,
+            attributes = _props2.attributes;
         var dataArray = attributes.dataArray;
 
         var arrayCopy = [].concat(_toConsumableArray(dataArray));
         arrayCopy[currentIndex].index = newIndex;
         arrayCopy[newIndex].index = currentIndex;
         setAttributes({ dataArray: arrayCopy });
+
+        var darftArrs = [].concat(_toConsumableArray(dataArray));
+        var finaldarftArrs = darftArrs.filter(function (element) {
+          return false === element.drafted;
+        });
+        setAttributes({
+          newArr: finaldarftArrs
+        });
+
         this.reloadSlider();
       }
     }, {
@@ -11429,11 +11456,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var _this2 = this;
 
         var currentSelected = this.state.currentSelected;
-        var _props2 = this.props,
-            attributes = _props2.attributes,
-            setAttributes = _props2.setAttributes,
-            clientId = _props2.clientId,
-            className = _props2.className;
+        var _props3 = this.props,
+            attributes = _props3.attributes,
+            setAttributes = _props3.setAttributes,
+            clientId = _props3.clientId,
+            className = _props3.className;
         var dataArray = attributes.dataArray,
             sliderActive = attributes.sliderActive,
             autoplay = attributes.autoplay,
@@ -11454,7 +11481,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             discLineHeight = attributes.discLineHeight,
             discWidth = attributes.discWidth,
             spacingTop = attributes.spacingTop,
-            spacingBottom = attributes.spacingBottom;
+            spacingBottom = attributes.spacingBottom,
+            newArr = attributes.newArr;
 
 
         var HeadingStyle = {};
@@ -11473,29 +11501,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         buttoncolor && (buttonStyle.color = buttoncolor);
         buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-        var remainingList = void 0;
+        var finalList = void 0;
 
-        if (sliderActive) {
-          remainingList = dataArray.filter(function (element) {
-            return false === element.drafted;
-          });
-        } else {
-          remainingList = dataArray;
-        }
-
-        var heroBannerList = remainingList.sort(function (a, b) {
+        var heroBannerList = dataArray.sort(function (a, b) {
           return a.index - b.index;
         }).map(function (item, index) {
           return wp.element.createElement(
-            Fragment,
-            null,
-            wp.element.createElement(
-              "div",
-              {
-                className: "banner-item",
-                style: { paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
-                "data-draft-item": item.drafted ? 'true' : 'false'
-              },
+            "div",
+            {
+              className: "banner-item",
+              style: { paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
+              "data-draft-item": item.drafted ? 'true' : 'false'
+            },
+            false === sliderActive && wp.element.createElement(
+              Fragment,
+              null,
               wp.element.createElement(
                 "span",
                 {
@@ -11503,6 +11523,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onClick: function onClick() {
                     setAttributes({
                       dataArray: dataArray.filter(function (img, idx) {
+                        return idx !== index;
+                      }),
+                      newArr: newArr.filter(function (img, idx) {
                         return idx !== index;
                       })
                     });
@@ -11530,214 +11553,218 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   },
                   "class": "dashicons dashicons-arrow-down-alt2"
                 })
+              )
+            ),
+            wp.element.createElement(
+              "div",
+              { className: "banner-item-inner" },
+              wp.element.createElement(RichText, {
+                tagName: "h1",
+                placeholder: __('Title'),
+                value: item.title,
+                className: "title",
+                style: HeadingStyle,
+                onChange: function onChange(value) {
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].title = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: "p",
+                placeholder: __('disc'),
+                value: item.disc,
+                style: detailsStyle,
+                className: "disc",
+                onChange: function onChange(value) {
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].disc = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              wp.element.createElement(
+                "ul",
+                { className: "hero-buttons" },
+                item.button.map(function (data, i) {
+                  return wp.element.createElement(
+                    "li",
+                    { className: "button-item" },
+                    wp.element.createElement(
+                      "span",
+                      {
+                        className: "remove-item",
+                        onClick: function onClick() {
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].button.splice(i, 1);
+                          setAttributes({ dataArray: arrayCopy });
+                          _this2.reloadSlider();
+                        }
+                      },
+                      wp.element.createElement("i", { className: "fa fa-times" })
+                    ),
+                    wp.element.createElement(RichText, {
+                      tagName: "span",
+                      placeholder: __('Read More'),
+                      value: data.text,
+                      style: buttonStyle,
+                      className: "button",
+                      onChange: function onChange(value) {
+                        var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                        arrayCopy[index].button[i].text = value;
+                        setAttributes({ dataArray: arrayCopy });
+                      }
+                    })
+                  );
+                }),
+                5 > item.button.length ? wp.element.createElement(
+                  "li",
+                  {
+                    className: "new-btn",
+                    onClick: function onClick() {
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].button.push({
+                        text: 'Learn More',
+                        link: '#',
+                        target: ''
+                      });
+                      setAttributes({ dataArray: arrayCopy });
+                      _this2.reloadSlider();
+                    }
+                  },
+                  wp.element.createElement("span", { className: "dashicons dashicons-plus" })
+                ) : ''
               ),
               wp.element.createElement(
                 "div",
-                { className: "banner-item-inner" },
-                wp.element.createElement(RichText, {
-                  tagName: "h1",
-                  placeholder: __('Title'),
-                  value: item.title,
-                  className: "title",
-                  style: HeadingStyle,
-                  onChange: function onChange(value) {
+                { className: "background-setting" },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(img) {
                     var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].title = value;
+                    arrayCopy[index].backgroundImage.url = img.url;
+                    arrayCopy[index].backgroundImage.id = img.id;
                     setAttributes({ dataArray: arrayCopy });
-                  }
-                }),
-                wp.element.createElement(RichText, {
-                  tagName: "p",
-                  placeholder: __('disc'),
-                  value: item.disc,
-                  style: detailsStyle,
-                  className: "disc",
-                  onChange: function onChange(value) {
-                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].disc = value;
-                    setAttributes({ dataArray: arrayCopy });
-                  }
-                }),
-                wp.element.createElement(
-                  "ul",
-                  { className: "hero-buttons" },
-                  item.button.map(function (data, i) {
+                  },
+                  value: dataArray[index].backgroundImage.id,
+                  type: "image",
+                  render: function render(_ref) {
+                    var open = _ref.open;
                     return wp.element.createElement(
-                      "li",
-                      { className: "button-item" },
-                      wp.element.createElement(
-                        "span",
-                        {
-                          className: "remove-item",
-                          onClick: function onClick() {
-                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                            arrayCopy[index].button.splice(i, 1);
-                            setAttributes({ dataArray: arrayCopy });
-                            _this2.reloadSlider();
-                          }
-                        },
-                        wp.element.createElement("i", { className: "fa fa-times" })
-                      ),
-                      wp.element.createElement(RichText, {
-                        tagName: "span",
-                        placeholder: __('Read More'),
-                        value: data.text,
-                        style: buttonStyle,
-                        className: "button",
-                        onChange: function onChange(value) {
+                      Button,
+                      {
+                        onClick: open,
+                        className: "button button-large set-background"
+                      },
+                      wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
+                      dataArray[index].backgroundImage.url ? 'Edit Image' : 'Set Background Image'
+                    );
+                  }
+                }),
+                dataArray[index].backgroundImage.url ? wp.element.createElement(
+                  "div",
+                  { className: "inspector-field inspector-field-alignment" },
+                  wp.element.createElement(
+                    "label",
+                    { className: "inspector-mb-0" },
+                    "Background Position"
+                  ),
+                  wp.element.createElement(
+                    "div",
+                    { className: "inspector-field-button-list inspector-field-button-list-fluid" },
+                    wp.element.createElement(
+                      "button",
+                      {
+                        className: 'left' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button',
+                        onClick: function onClick() {
                           var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                          arrayCopy[index].button[i].text = value;
+                          arrayCopy[index].backgroundImage.backgroundPosition = 'left';
                           setAttributes({ dataArray: arrayCopy });
                         }
-                      })
-                    );
-                  }),
-                  5 > item.button.length ? wp.element.createElement(
-                    "li",
-                    {
-                      className: "new-btn",
-                      onClick: function onClick() {
-                        var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                        arrayCopy[index].button.push({
-                          text: 'Learn More',
-                          link: '#',
-                          target: ''
-                        });
-                        setAttributes({ dataArray: arrayCopy });
-                        _this2.reloadSlider();
-                      }
-                    },
-                    wp.element.createElement("span", { className: "dashicons dashicons-plus" })
-                  ) : ''
-                ),
-                wp.element.createElement(
+                      },
+                      wp.element.createElement("i", { className: "fa fa-align-left" })
+                    ),
+                    wp.element.createElement(
+                      "button",
+                      {
+                        className: 'center' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button',
+                        onClick: function onClick() {
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].backgroundImage.backgroundPosition = 'center';
+                          setAttributes({ dataArray: arrayCopy });
+                        }
+                      },
+                      wp.element.createElement("i", { className: "fa fa-align-center" })
+                    ),
+                    wp.element.createElement(
+                      "button",
+                      {
+                        className: 'right' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button',
+                        onClick: function onClick() {
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].backgroundImage.backgroundPosition = 'right';
+                          setAttributes({ dataArray: arrayCopy });
+                        }
+                      },
+                      wp.element.createElement("i", { className: "fa fa-align-right" })
+                    )
+                  )
+                ) : '',
+                dataArray[index].backgroundImage.url ? wp.element.createElement(
                   "div",
-                  { className: "background-setting" },
-                  wp.element.createElement(MediaUpload, {
-                    onSelect: function onSelect(img) {
-                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                      arrayCopy[index].backgroundImage.url = img.url;
-                      arrayCopy[index].backgroundImage.id = img.id;
-                      setAttributes({ dataArray: arrayCopy });
-                    },
-                    value: dataArray[index].backgroundImage.id,
-                    type: "image",
-                    render: function render(_ref) {
-                      var open = _ref.open;
-                      return wp.element.createElement(
-                        Button,
-                        {
-                          onClick: open,
-                          className: "button button-large set-background"
-                        },
-                        wp.element.createElement("span", { className: "dashicons dashicons-plus" }),
-                        dataArray[index].backgroundImage.url ? 'Edit Image' : 'Set Background Image'
-                      );
-                    }
-                  }),
-                  dataArray[index].backgroundImage.url ? wp.element.createElement(
+                  { className: "inspector-field inspector-field-alignment" },
+                  wp.element.createElement(
+                    "label",
+                    { className: "inspector-mb-0" },
+                    "Background Size"
+                  ),
+                  wp.element.createElement(
                     "div",
-                    { className: "inspector-field inspector-field-alignment" },
+                    { className: "inspector-field-button-list inspector-field-button-list-fluid" },
                     wp.element.createElement(
-                      "label",
-                      { className: "inspector-mb-0" },
-                      "Background Position"
+                      "button",
+                      {
+                        className: 'cover' === dataArray[index].backgroundImage.backgroundSize ? 'active  inspector-button' : 'inspector-button',
+                        onClick: function onClick() {
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].backgroundImage.backgroundSize = 'cover';
+                          setAttributes({ dataArray: arrayCopy });
+                        }
+                      },
+                      "Cover"
                     ),
                     wp.element.createElement(
-                      "div",
-                      { className: "inspector-field-button-list inspector-field-button-list-fluid" },
-                      wp.element.createElement(
-                        "button",
-                        {
-                          className: 'left' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button',
-                          onClick: function onClick() {
-                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                            arrayCopy[index].backgroundImage.backgroundPosition = 'left';
-                            setAttributes({ dataArray: arrayCopy });
-                          }
-                        },
-                        wp.element.createElement("i", { className: "fa fa-align-left" })
-                      ),
-                      wp.element.createElement(
-                        "button",
-                        {
-                          className: 'center' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button',
-                          onClick: function onClick() {
-                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                            arrayCopy[index].backgroundImage.backgroundPosition = 'center';
-                            setAttributes({ dataArray: arrayCopy });
-                          }
-                        },
-                        wp.element.createElement("i", { className: "fa fa-align-center" })
-                      ),
-                      wp.element.createElement(
-                        "button",
-                        {
-                          className: 'right' === dataArray[index].backgroundImage.backgroundPosition ? 'active  inspector-button' : 'inspector-button',
-                          onClick: function onClick() {
-                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                            arrayCopy[index].backgroundImage.backgroundPosition = 'right';
-                            setAttributes({ dataArray: arrayCopy });
-                          }
-                        },
-                        wp.element.createElement("i", { className: "fa fa-align-right" })
-                      )
+                      "button",
+                      {
+                        className: 'contain' === dataArray[index].backgroundImage.backgroundSize ? 'active  inspector-button' : 'inspector-button',
+                        onClick: function onClick() {
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].backgroundImage.backgroundSize = 'contain';
+                          setAttributes({ dataArray: arrayCopy });
+                        }
+                      },
+                      "Contain"
                     )
-                  ) : '',
-                  dataArray[index].backgroundImage.url ? wp.element.createElement(
-                    "div",
-                    { className: "inspector-field inspector-field-alignment" },
-                    wp.element.createElement(
-                      "label",
-                      { className: "inspector-mb-0" },
-                      "Background Size"
-                    ),
-                    wp.element.createElement(
-                      "div",
-                      { className: "inspector-field-button-list inspector-field-button-list-fluid" },
-                      wp.element.createElement(
-                        "button",
-                        {
-                          className: 'cover' === dataArray[index].backgroundImage.backgroundSize ? 'active  inspector-button' : 'inspector-button',
-                          onClick: function onClick() {
-                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                            arrayCopy[index].backgroundImage.backgroundSize = 'cover';
-                            setAttributes({ dataArray: arrayCopy });
-                          }
-                        },
-                        "Cover"
-                      ),
-                      wp.element.createElement(
-                        "button",
-                        {
-                          className: 'contain' === dataArray[index].backgroundImage.backgroundSize ? 'active  inspector-button' : 'inspector-button',
-                          onClick: function onClick() {
-                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                            arrayCopy[index].backgroundImage.backgroundSize = 'contain';
-                            setAttributes({ dataArray: arrayCopy });
-                          }
-                        },
-                        "Contain"
-                      )
-                    )
-                  ) : ''
-                ),
-                false === sliderActive && wp.element.createElement(
+                  )
+                ) : '',
+                wp.element.createElement(
                   "div",
                   { className: "draft-setting" },
                   wp.element.createElement(
                     "div",
                     { className: "inspector-field inspector-field-alignment" },
                     wp.element.createElement(ToggleControl, {
-                      label: __('Draft This Slider:'),
+                      label: __('Save Slide as Draft:'),
                       checked: item.drafted,
                       className: true === dataArray[index].drafted ? 'inspector-button active' : 'inspector-button',
                       onChange: function onChange() {
                         var arrayCopy = [].concat(_toConsumableArray(dataArray));
                         arrayCopy[index].drafted = !item.drafted;
-                        setAttributes({
-                          dataArray: arrayCopy
+                        finalList = arrayCopy.filter(function (element) {
+                          return false === element.drafted;
                         });
+                        setAttributes({
+                          newArr: finalList
+                        });
+                        return finalList;
                       }
                     })
                   )
@@ -12161,7 +12188,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     title: __('Hero Banner'),
     icon: { src: bannerBlockIcon },
     category: 'nabshow',
-    keywords: [__('Hero Banner'), __('Guternberg')],
+    keywords: [__('Hero Banner'), __('gts')],
 
     attributes: {
       id: {
@@ -12242,9 +12269,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         type: 'number',
         default: 130
       },
-      draftSlide: {
-        type: 'boolean',
-        default: false
+      newArr: {
+        type: 'array',
+        default: []
       }
     },
 
@@ -12273,7 +12300,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           discWidth = _props$attributes5.discWidth,
           spacingTop = _props$attributes5.spacingTop,
           spacingBottom = _props$attributes5.spacingBottom,
-          sliderActive = _props$attributes5.sliderActive;
+          newArr = _props$attributes5.newArr;
 
 
       var HeadingStyle = {};
@@ -12292,60 +12319,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      var remainingList = void 0;
-
-      if (sliderActive) {
-        remainingList = dataArray.filter(function (element) {
-          return false === element.drafted;
-        });
+      var finalArray = void 0;
+      if (0 < newArr.length) {
+        finalArray = newArr;
       } else {
-        remainingList = dataArray;
+        finalArray = dataArray;
       }
 
-      var heroBannerList = remainingList.sort(function (a, b) {
+      var heroBannerList = finalArray.sort(function (a, b) {
         return a.index - b.index;
       }).map(function (item, index) {
         return wp.element.createElement(
-          Fragment,
-          null,
+          "div",
+          {
+            className: "banner-item",
+            style: { paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
+            "data-draft-item": item.drafted ? 'true' : 'false'
+          },
           wp.element.createElement(
             "div",
-            {
-              className: "banner-item",
-              style: { paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
-              "data-draft-item": item.drafted ? 'true' : 'false'
-            },
+            { className: "banner-item-inner" },
+            wp.element.createElement(RichText.Content, {
+              tagName: "h1",
+              value: item.title,
+              className: "title",
+              style: HeadingStyle
+            }),
+            wp.element.createElement(RichText.Content, {
+              tagName: "p",
+              value: item.disc,
+              style: detailsStyle,
+              className: "disc"
+            }),
             wp.element.createElement(
-              "div",
-              { className: "banner-item-inner" },
-              wp.element.createElement(RichText.Content, {
-                tagName: "h1",
-                value: item.title,
-                className: "title",
-                style: HeadingStyle
-              }),
-              wp.element.createElement(RichText.Content, {
-                tagName: "p",
-                value: item.disc,
-                style: detailsStyle,
-                className: "disc"
-              }),
-              wp.element.createElement(
-                "ul",
-                { className: "hero-buttons" },
-                item.button.map(function (data, i) {
-                  return wp.element.createElement(
-                    "li",
-                    { className: "button-item" },
-                    wp.element.createElement(RichText.Content, {
-                      tagName: "span",
-                      style: buttonStyle,
-                      value: data.text,
-                      className: "button"
-                    })
-                  );
-                })
-              )
+              "ul",
+              { className: "hero-buttons" },
+              item.button.map(function (data, i) {
+                return wp.element.createElement(
+                  "li",
+                  { className: "button-item" },
+                  wp.element.createElement(RichText.Content, {
+                    tagName: "span",
+                    style: buttonStyle,
+                    value: data.text,
+                    className: "button"
+                  })
+                );
+              })
             )
           )
         );

@@ -89,12 +89,17 @@ if ( ! $listing_page || 'none' !== $listing_type ) {
 
     $listing_id  = 'browse-session';
     $session_key = filter_input( INPUT_GET, 'session-key', FILTER_SANITIZE_STRING );
+    $get_track   = filter_input( INPUT_GET, 'session-track', FILTER_SANITIZE_STRING );
 
     if ( isset( $session_key ) && ! empty( $session_key ) ) {
 
         $final_key  = mb_strimwidth( $prepare_key . '-' . $session_key . '-' . $cache_key, 0, 170 );
         $query      = get_transient( $final_key );
 
+    } elseif ( isset( $get_track ) && ! empty( $get_track ) ) {
+
+        $final_key  = mb_strimwidth( $prepare_key . '-' . $get_track . '-' . $cache_key, 0, 170 );
+        $query      = get_transient( $final_key );
     }
 }
 
@@ -162,16 +167,29 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         }
 
 
-    } elseif ( ( $listing_page && 'none' !== $listing_type ) || ( isset( $session_key ) && ! empty( $session_key ) ) ) {
+    } elseif ( ( $listing_page && 'none' !== $listing_type ) || ( isset( $session_key ) && ! empty( $session_key ) ) || ( isset( $get_track ) && ! empty( $get_track ) ) ) {
 
-        $session_term              = isset( $session_key ) && ! empty( $session_key ) ? strtolower( $session_key ) : $listing_type;
-        $query_args[ 'tax_query' ] = array(
-                array(
-                    'taxonomy' => 'session-categories',
-                    'field'    => 'slug',
-                    'terms'    => $session_term
-                )
-        );
+        if ( ( $listing_page && 'none' !== $listing_type ) || ( isset( $session_key ) && ! empty( $session_key ) ) ) {
+
+            $session_term              = isset( $session_key ) && ! empty( $session_key ) ? strtolower( $session_key ) : $listing_type;
+            $query_args[ 'tax_query' ] = array(
+                    array(
+                        'taxonomy' => 'session-categories',
+                        'field'    => 'slug',
+                        'terms'    => $session_term
+                    )
+            );
+        } elseif ( isset( $get_track ) && ! empty( $get_track ) ) {
+
+            $query_args[ 'tax_query' ] = array(
+                    array(
+                        'taxonomy' => 'tracks',
+                        'field'    => 'slug',
+                        'terms'    => $get_track
+                    )
+            );
+        }
+
     }
 
     $query = new WP_Query( $query_args );
