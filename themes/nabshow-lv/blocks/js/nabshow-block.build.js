@@ -11186,7 +11186,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       ToggleControl = wpComponents.ToggleControl,
       Button = wpComponents.Button,
       PanelRow = wpComponents.PanelRow,
-      ColorPalette = wpComponents.ColorPalette;
+      ColorPalette = wpComponents.ColorPalette,
+      TextControl = wpComponents.TextControl,
+      TextareaControl = wpComponents.TextareaControl;
 
 
   var bannerBlockIcon = wp.element.createElement(
@@ -11344,7 +11346,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             },
-            drafted: false
+            drafted: false,
+            addClass: ''
           }])
         });
       }
@@ -11363,14 +11366,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             clientId = _props.clientId,
             setAttributes = _props.setAttributes;
 
-
-        var darftArrs = [].concat(_toConsumableArray(dataArray));
-        var finaldarftArrs = darftArrs.filter(function (element) {
-          return false === element.drafted;
-        });
-        setAttributes({
-          newArr: finaldarftArrs
-        });
 
         var sliderObj = jQuery("#block-" + clientId + " .wp-block-nab-hero-banner").bxSlider({
           mode: mode,
@@ -11399,14 +11394,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             dataArray = _props$attributes4.dataArray;
 
 
-        var darftArrs = [].concat(_toConsumableArray(dataArray));
-        var finaldarftArrs = darftArrs.filter(function (element) {
-          return false === element.drafted;
-        });
-        this.props.setAttributes({
-          newArr: finaldarftArrs
-        });
-
         this.state.bxSliderObj.reloadSlider({
           mode: mode,
           speed: speed,
@@ -11434,14 +11421,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         arrayCopy[currentIndex].index = newIndex;
         arrayCopy[newIndex].index = currentIndex;
         setAttributes({ dataArray: arrayCopy });
-
-        var darftArrs = [].concat(_toConsumableArray(dataArray));
-        var finaldarftArrs = darftArrs.filter(function (element) {
-          return false === element.drafted;
-        });
-        setAttributes({
-          newArr: finaldarftArrs
-        });
 
         this.reloadSlider();
       }
@@ -11482,7 +11461,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             discWidth = attributes.discWidth,
             spacingTop = attributes.spacingTop,
             spacingBottom = attributes.spacingBottom,
-            newArr = attributes.newArr;
+            newArr = attributes.newArr,
+            minHeight = attributes.minHeight,
+            customStyles = attributes.customStyles,
+            uniqueClass = attributes.uniqueClass;
 
 
         var HeadingStyle = {};
@@ -11509,8 +11491,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           return wp.element.createElement(
             "div",
             {
-              className: "banner-item",
-              style: { paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
+              className: "banner-item " + item.addClass,
+              style: { minHeight: minHeight, paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
               "data-draft-item": item.drafted ? 'true' : 'false'
             },
             false === sliderActive && wp.element.createElement(
@@ -11765,6 +11747,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           newArr: finalList
                         });
                         return finalList;
+                      }
+                    })
+                  )
+                ),
+                wp.element.createElement(
+                  "div",
+                  { className: "additional-class" },
+                  wp.element.createElement(
+                    "div",
+                    { className: "inspector-field inspector-field-alignment" },
+                    wp.element.createElement(
+                      "label",
+                      { className: "inspector-mb-0" },
+                      "Additional CSS Class"
+                    ),
+                    wp.element.createElement(TextControl, {
+                      type: "string",
+                      placeHolder: "Add Class",
+                      value: item.addClass,
+                      onChange: function onChange(value) {
+                        var addingclass = [].concat(_toConsumableArray(dataArray));
+                        addingclass[index].addClass = value;
+                        setAttributes({ dataArray: addingclass });
                       }
                     })
                   )
@@ -12031,6 +12036,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   wp.element.createElement(
                     "label",
                     { className: "inspector-mb-0" },
+                    "Min Height (px)"
+                  ),
+                  wp.element.createElement(RangeControl, {
+                    value: minHeight,
+                    min: 100,
+                    max: 1000,
+                    onChange: function onChange(value) {
+                      setAttributes({ minHeight: value });
+                      if (sliderActive) {
+                        _this2.reloadSlider();
+                      }
+                    }
+                  })
+                )
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
+                  "div",
+                  { className: "inspector-field inspector-field-fontsize " },
+                  wp.element.createElement(
+                    "label",
+                    { className: "inspector-mb-0" },
                     "Top (px)"
                   ),
                   wp.element.createElement(RangeControl, {
@@ -12124,6 +12153,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   }
                 })
               )
+            ),
+            wp.element.createElement(
+              PanelBody,
+              { title: __('Custom CSS'), initialOpen: false },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
+                  "div",
+                  { className: "inspector-field inspector-field-customcss " },
+                  wp.element.createElement(
+                    "label",
+                    { className: "inspector-mb-0" },
+                    "Add your custom CSS here."
+                  ),
+                  wp.element.createElement(TextareaControl, {
+                    id: "custom-css-field",
+                    value: customStyles,
+                    rows: 6,
+                    onChange: function onChange(val) {
+                      setAttributes({ customStyles: val });
+                    }
+                  })
+                )
+              )
             )
           ),
           wp.element.createElement(
@@ -12167,7 +12221,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'
                       },
-                      drafted: false
+                      drafted: false,
+                      addClass: ''
                     }])
                   });
                   _this2.reloadSlider();
@@ -12176,6 +12231,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               },
               wp.element.createElement("span", { className: "dashicons dashicons-plus" })
             )
+          ),
+          '' != customStyles && wp.element.createElement(
+            "style",
+            { type: "text/css" },
+            " " + customStyles + " "
           )
         );
       }
@@ -12272,6 +12332,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       newArr: {
         type: 'array',
         default: []
+      },
+      minHeight: {
+        type: 'number',
+        default: 600
+      },
+      customStyles: {
+        type: 'string',
+        default: ''
+      },
+      uniqueClass: {
+        type: 'string',
+        default: ''
       }
     },
 
@@ -12300,7 +12372,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           discWidth = _props$attributes5.discWidth,
           spacingTop = _props$attributes5.spacingTop,
           spacingBottom = _props$attributes5.spacingBottom,
-          newArr = _props$attributes5.newArr;
+          newArr = _props$attributes5.newArr,
+          minHeight = _props$attributes5.minHeight,
+          customStyles = _props$attributes5.customStyles,
+          uniqueClass = _props$attributes5.uniqueClass;
 
 
       var HeadingStyle = {};
@@ -12319,9 +12394,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      var finalArray = void 0;
+      var finalArray = void 0,
+          remainingList = void 0;
       if (0 < newArr.length) {
-        finalArray = newArr;
+        remainingList = dataArray.filter(function (element) {
+          return false === element.drafted;
+        });
+        finalArray = remainingList;
       } else {
         finalArray = dataArray;
       }
@@ -12332,8 +12411,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         return wp.element.createElement(
           "div",
           {
-            className: "banner-item",
-            style: { paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
+            className: "banner-item " + item.addClass,
+            style: { minHeight: minHeight, paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: "url(" + item.backgroundImage.url + ")", backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize },
             "data-draft-item": item.drafted ? 'true' : 'false'
           },
           wp.element.createElement(
@@ -12389,6 +12468,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               "data-touchEnabled": "" + false
             },
             heroBannerList
+          ),
+          '' != customStyles && wp.element.createElement(
+            "style",
+            { type: "text/css" },
+            " " + customStyles + " "
           )
         );
       } else {
