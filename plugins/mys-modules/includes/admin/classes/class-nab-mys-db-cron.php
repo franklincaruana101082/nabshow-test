@@ -1071,6 +1071,39 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['session-types']     = 'type';
 						$save_taxonomies['session-locations'] = 'location';
 
+						//Fetch WP-ID of Categories
+						$categories = $individual_item['categories'];
+						$categories = explode( '||', $categories );
+
+						$categories_group = $categories[0];
+						$categories_group = explode( ',', $categories_group );
+
+						$categories_children = isset($categories[1]) ? $categories[1] : array();
+						$categories_children = explode( ',', $categories_children );
+
+						$cat_ids    = array();
+
+						//Assigning Groups as Parents
+						foreach ( $categories_group as $cat_mys_id ) {
+							$term_data = $this->nab_mys_cron_get_wpid_from_meta( 'session-categories', 'categorygroupid', $cat_mys_id, 'taxonomy' );
+							if ( ! empty( $term_data ) ) {
+								$cat_ids[] = $term_data->term_id;
+							}
+						}
+
+						//Assigning Children
+						foreach ( $categories_children as $cat_mys_id ) {
+							$term_data = $this->nab_mys_cron_get_wpid_from_meta( 'session-categories', 'categoryid', $cat_mys_id, 'taxonomy' );
+							if ( ! empty( $term_data ) ) {
+								$cat_ids[] = $term_data->term_id;
+							}
+						}
+
+						$post_detail .= "|assigned-sessions-cats:" . implode(',', $cat_ids);
+
+						//Assign Categories.
+						wp_set_post_terms( $post_id, $cat_ids, 'session-categories' );
+
 					} else if ( "speakers" === $post_type ) {
 						$save_taxonomies['speaker-companies'] = 'company';
 					}
@@ -1534,7 +1567,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 			$where_to_update1 = array( 'HistoryStatus' => 0 );
 			$where_to_update2 = array( 'HistoryStatus' => 1 );
-			$where_to_update3 = array( 'AddedStatus' => 0 );
+			$where_to_update3 = array( 'HistoryStatus' => 10 );
+			$where_to_update4 = array( 'AddedStatus' => 0 );
 
 			if ( 'global' !== $stuck_groupid ) {
 				$where_to_update1['HistoryGroupID'] = $where_to_update2['HistoryGroupID'] = $where_to_update3['DataGroupID'] = $stuck_groupid;
@@ -1551,9 +1585,21 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			), $where_to_update2 );
 
 			$wpdb->update(
+				$wpdb->prefix . 'mys_history', array(
+				'HistoryStatus' => 11,
+			), $where_to_update3 );
+
+			$wpdb->update(
 				$wpdb->prefix . 'mys_data', array(
 				'AddedStatus' => 4,
-			), $where_to_update3 );
+			), $where_to_update4 );
+
+			//Deleting all unnecessary option values.
+			$wpdb->query(
+				$wpdb->prepare( "
+						DELETE FROM %1soptions
+						WHERE option_name LIKE '%modified_sessions%'"
+					, $wpdb->prefix ) );;
 
 		}
 

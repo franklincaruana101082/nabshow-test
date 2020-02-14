@@ -23,6 +23,8 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 		private $nab_mys_db_sess;
 
+		private $individual = array();
+
 		/**
 		 * Class Constructor
 		 */
@@ -110,18 +112,185 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				$this->previous_date = $this->nab_mys_db_sess->nab_mys_db_previous_date( 'modified-sessions' );
 			}
 
-			//Get MYS API Request URL.
-			$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
+			$individual_result = $this->nab_mys_sync_sess_individual();
+			$initial_state     = $individual_result['initial_state'];
+			$mys_response_body = $individual_result['mys_response_body'];
+			$inserted          = $individual_result['inserted'];
 
-			$mys_response_body = $this->nab_mys_get_response();
-
-			//If fresh button clicked, Generate a unique 10 digit alphanumeric string for Group ID.
-			$this->nab_mys_set_groupid();
-
-			$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, 0 );
+			if ( 0 === $inserted ) {
+				$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( $this->current_request, "insert", $this->group_id, $initial_state );
+			}
 
 			return $mys_response_body;
 		}
+
+		/**
+		 * Getting isActive parameter from individual sessions.
+		 *
+		 * @return array MYS Response and the insertion status.
+		 * @since 1.0.0
+		 *
+		 * @package MYS Modules
+		 */
+		public function nab_mys_sync_sess_individual() {
+
+			//Get MYS API Request URL.
+			$inserted      = 0;
+			$initial_state = 0;
+
+			// Skipping if 2, means the individual sessions are pending to be fetched.
+			if ( 2 !== count( $this->individual ) ) {
+				$this->mys_request_url = $this->nab_mys_get_request_url( $this->current_request );
+
+				$mys_response_body = $this->nab_mys_get_response();
+
+				if ( 'modified-sessions' === $this->current_request || 'sessions' === $this->current_request ) {
+					$initial_state = 10;
+				}
+			}
+
+			//If fresh button clicked, Generate a unique alphanumeric string for Group ID.
+			$this->nab_mys_set_groupid();
+
+			if ( 'sessions' === $this->current_request ) {
+				$inserted               = 1;
+				$session_modified_array = get_option( 'modified_sessions_' . $this->group_id );
+
+				// If 1, means sessions list is pending to be fetched.
+				if ( 1 === count( $this->individual ) ) {
+					$this->history_id = $this->nab_mys_db_sess->nab_mys_db_history_data( 'sessions', "insert", $this->group_id, 10 );
+					// To make the status 10 and insert json data, update it.
+					$this->nab_mys_db_sess->nab_mys_db_set_data_json( wp_json_encode( $mys_response_body ) );
+					$this->nab_mys_db_sess->nab_mys_db_history_data( 'sessions', "update", $this->group_id, 10 );
+				}
+
+				// intersect with all sessions.
+				$total_counts  = isset ( $this->total_counts ) ? $this->total_counts : 0;
+				$first_attempt = 0;
+				if ( 2 !== count( $this->individual ) ) {
+					$first_attempt = 1;
+					$total_counts  = 0;
+					$all_sessions  = $mys_response_body[0]->sessions;
+
+					foreach ( $all_sessions as $single_session ) {
+						$sessionid = $single_session->sessionid;
+
+						if ( array_key_exists( $sessionid, $session_modified_array )
+						     && 'Deleted' !== $session_modified_array[ $sessionid ]['status'] ) {
+							$session_modified_array[ $sessionid ]['intersect'] = 1;
+							$total_counts ++;
+						}
+					}
+					// Updating array with intersect parameter.
+					update_option( 'modified_sessions_' . $this->group_id, $session_modified_array );
+				}
+
+				// Start fetching individually.
+				if ( 0 === $total_counts ) {
+					$first_attempt = 1;
+					foreach ( $session_modified_array as $sessionid => $single_mod_session ) {
+						if ( isset ( $single_mod_session['intersect'] ) && 1 === $single_mod_session['intersect'] ) {
+							$total_counts ++;
+						}
+					}
+				}
+				$finished_counts = 0;
+				foreach ( $session_modified_array as $sessionid => $single_mod_session ) {
+					$intersect = isset ( $single_mod_session['intersect'] ) ? $single_mod_session['intersect'] : 0;
+
+					if ( isset ( $single_mod_session['isActive'] ) ) {
+						$finished_counts ++;
+						continue;
+					}
+
+					if ( 1 === $intersect ) {
+						$this->mys_request_url = $this->nab_mys_urls['main_url'] . '/Sessions?sessionID=' . $sessionid;
+
+						$single_session = $this->nab_mys_get_response();
+						$single_session = $single_session[0]->sessions;
+
+						$isactive = isset( $single_session->schedules[0]->isactive ) ? $single_session->schedules[0]->isactive : 0;
+
+						//If isActive is 1, process categories.
+						if ( 1 === $isactive ) {
+							$session_cats = isset( $single_session->categories ) ? $single_session->categories : array();
+
+							$catgripid_array = $catid_array = $cat_data = array();
+							if ( 0 !== count( $session_cats ) ) {
+								foreach ( $session_cats as $session_cat ) {
+									$cat_grp_id                        = $catgripid_array[] = $session_cat->categorygroupid;
+									$catid                             = $catid_array[] = $session_cat->categoryid;
+									$cat_data[ $cat_grp_id ][ $catid ] = $session_cat;
+								}
+							}
+							$catids          = implode( ',', $catid_array );
+							$catgripid_array = array_unique( $catgripid_array );
+							$catgrpids       = implode( ',', $catgripid_array );
+
+							// Updating catdata to store in one go at
+							// the end of all individual sessions fetch
+							$prev_cat_data = get_option( 'session_cats' );
+							if ( is_array( $prev_cat_data ) ) {
+								foreach ( $prev_cat_data as $grpid => $prev_cat ) {
+
+									foreach ( $prev_cat as $catid => $cdata ) {
+										$cat_data[ $grpid ] [ $catid ] = $cdata;
+									}
+								}
+							}
+							update_option( 'session_cats', $cat_data );
+
+							// keep updating modified array with separated cat ids
+							$session_modified_array[ $sessionid ]['categories'] = $catgrpids . '||' . $catids;
+						}
+
+						// keep updating modified array with isactive
+						$session_modified_array[ $sessionid ]['isActive'] = $isactive;
+						update_option( 'modified_sessions_' . $this->group_id, $session_modified_array );
+
+						$finished_counts ++;
+						// If Ajax, send back detail to the browser.
+						if ( 'wpajax' === $this->flow ) {
+
+							$custom_status                    = array();
+							$custom_status['finished_counts'] = $finished_counts;
+							$custom_status['individual']      = 1;
+
+							// Only pass total_counts on first attempt
+							// to manage displaying message in the browser only once.
+							if ( 1 === $first_attempt ) {
+								$custom_status['total_counts'] = $total_counts;
+							}
+
+							$this->nab_mys_sync_sess_reloop( $custom_status );
+						}
+					}
+				}
+
+				// Create/Update sessions categories.
+				$cat_data = isset ( $cat_data ) ? $cat_data : get_option( 'session_cats' );
+				$this->nab_mys_db_sess->nab_mys_db_sess_categories( $cat_data );
+
+				//Now get all sessions from DB and proceed as earlier.
+				if ( ! isset( $mys_response_body[0]->sessions ) ) {
+					$session_row       = $this->nab_mys_db_sess->nab_mys_db_get_sessions( $this->group_id );
+					$this->history_id  = $session_row['HistoryID'];
+					$mys_response_body = $session_row['HistoryData'];
+				}
+				$initial_state = 0;
+
+				//Update statuses to normal
+				$this->nab_mys_db_sess->nab_mys_db_set_data_json( wp_json_encode( $session_modified_array ) );
+				$this->nab_mys_db_sess->nab_mys_db_history_data( 'modified-sessions', "update", $this->group_id, 0 );
+
+				$this->nab_mys_db_sess->nab_mys_db_set_data_json( wp_json_encode( $mys_response_body ) );
+				$this->nab_mys_db_sess->nab_mys_db_history_data( 'sessions', "update", $this->group_id, 0 );
+			}
+
+			return array( 'mys_response_body' => $mys_response_body, 'initial_state' => $initial_state, 'inserted' => $inserted );
+
+		}
+
 
 		/**
 		 * Check Lock for the Session Sync.
@@ -153,20 +322,26 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 				$lock_status = $this->nab_mys_db_sess->nab_mys_db_check_lock( $this->group_id );
 
-				$error_message = 'New pull request is locked because there is already a request in progress, please wait until it finishes.';
-				if ( "stop" === $lock_status ) {
-					$this->nab_mys_display_error( $error_message );
-				} else if ( "open" !== $lock_status && ( null === $this->past_request || empty( $this->past_request ) ) ) {
+				if ( isset( $lock_status['individual'] ) && 'yes' === $lock_status['individual'] ) {
+					$this->individual   = $lock_status['data'];
+					$this->group_id     = isset ( $lock_status['data'][0]->HistoryGroupID ) ? $lock_status['data'][0]->HistoryGroupID : '';
+					$this->past_request = 'modified-sessions';
+				} else {
 
-					$mail_data                  = array();
-					$mail_data['stuck_groupid'] = $lock_status[0]->HistoryGroupID;
-					$mail_data['data']          = 'Sessions';
-					$mail_data['tag']           = 'mys_data_attempt_sessions';
-					$mail_data['error_message'] = $error_message;
+					$error_message = 'New pull request is locked because there is already a request in progress, please wait until it finishes.';
+					if ( "stop" === $lock_status ) {
+						$this->nab_mys_display_error( $error_message );
+					} else if ( "open" !== $lock_status && ( null === $this->past_request || empty( $this->past_request ) ) ) {
 
-					$this->nab_mys_increase_attempt( $mail_data, true );
+						$mail_data                  = array();
+						$mail_data['stuck_groupid'] = $lock_status[0]->HistoryGroupID;
+						$mail_data['data']          = 'Sessions';
+						$mail_data['tag']           = 'mys_data_attempt_sessions';
+						$mail_data['error_message'] = $error_message;
+
+						$this->nab_mys_increase_attempt( $mail_data, true );
+					}
 				}
-
 			}
 
 			return true;
@@ -227,8 +402,10 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 						"pastItem"          => $this->past_request,
 						"requestedFor"      => $this->requested_for,
 						"groupID"           => $this->group_id,
-						"totalCounts"       => $custom_status['total_counts'],
-						"totalItemStatuses" => $custom_status['total_item_statuses']
+						"totalCounts"       => isset( $custom_status['total_counts'] ) ? $custom_status['total_counts'] : null,
+						"totalItemStatuses" => isset( $custom_status['total_item_statuses'] ) ? $custom_status['total_item_statuses'] : null,
+						"finishedCounts"    => isset( $custom_status['finished_counts'] ) ? $custom_status['finished_counts'] : null,
+						"individual"        => isset( $custom_status['individual'] ) ? $custom_status['individual'] : null
 					)
 				);
 				wp_die();
@@ -327,15 +504,15 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		 */
 		public function nab_mys_cron_check_sequence() {
 
-			$sequence_data   = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
+			$sequence_data = $this->nab_mys_db_sess->nab_mys_db_get_latest_groupid( $this->requested_for );
 
-			if( 0 === $sequence_data ) {
+			if ( 0 === $sequence_data ) {
 				esc_html_e( "The new CRON sequence is not started yet. Please wait for the new CRON." );
 				die();
 			}
 
-			$exist_already = isset( $sequence_data['exist_already'] ) ? $sequence_data['exist_already'] : '';
-			$this->group_id  = $sequence_data['group_id'];
+			$exist_already  = isset( $sequence_data['exist_already'] ) ? $sequence_data['exist_already'] : '';
+			$this->group_id = $sequence_data['group_id'];
 
 			if ( 1 === $exist_already ) {
 
