@@ -241,7 +241,9 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 							update_option( 'session_cats', $cat_data );
 
 							// keep updating modified array with separated cat ids
-							$session_modified_array[ $sessionid ]['categories'] = $catgrpids . '||' . $catids;
+							if ( ! empty( $catids ) ) {
+								$session_modified_array[ $sessionid ]['categories'] = $catgrpids . '||' . $catids;
+							}
 						}
 
 						// keep updating modified array with isactive
