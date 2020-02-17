@@ -18,15 +18,17 @@
 
       $(this).bxSlider({
         mode: $(this).attr('nabmode'),
-        auto: 'true' === $(this).attr('data-autoplay') ? true : false,
-        speed: $(this).attr('data-speed'),
         infiniteLoop: 'true' === $(this).attr('data-infiniteloop') ? true : false,
+        auto: 'true' === $(this).attr('data-autoplay') ? true : false,
+        stopAutoOnClick: true,
+        pause: 5000,
+        autoControls: false,
         pager: 'true' === $(this).attr('data-pager') ? true : false,
         controls: 'true' === $(this).attr('data-controls') ? true : false,
+        speed: $(this).attr('data-speed'),
         captions: true,
         adaptiveHeight: 'true' === $(this).attr('data-adaptiveheight') ? true : false,
         touchEnabled: 'true' === $(this).attr('data-touchEnabled') ? true : false,
-        stopAutoOnClick: true,
         autoHover: true,
 
         onSlideAfter: function (currentSlideNumber, totalSlideQty, currentSlideHtmlObject) {
@@ -1675,13 +1677,14 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
+    sessionSpeakers = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate + '&featured_speaker=' + featuredSpeaker + '&exclude_speaker=' + excludeSpeaker,
+    data: 'action=speakers_browse_filter&page_number=' + speakerPageNumber + '&browse_filter_nonce=' + nabshowLvCustom.nabshow_lv_browse_filter_nonce + '&post_limit=' + postPerPage + '&post_start=' + speakerStartWith + '&post_search=' + postSearch + '&speaker_company=' + speakerCompany + '&speaker_order=' + orderBy + '&speaker_job=' + jobTitleSearch + '&speaker_date=' + speakerDate + '&featured_speaker=' + featuredSpeaker + '&exclude_speaker=' + excludeSpeaker + '&session_speakers=' + sessionSpeakers,
     url: nabshowLvCustom.ajax_url,
     success: function (speakerData) {
 

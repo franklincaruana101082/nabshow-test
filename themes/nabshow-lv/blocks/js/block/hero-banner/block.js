@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { MediaUpload, InspectorControls, RichText } = wpBlockEditor;
   const { Component, Fragment } = wpElement;
-  const { PanelBody, RangeControl, ToggleControl, Button, PanelRow, ColorPalette } = wpComponents;
+  const { PanelBody, RangeControl, ToggleControl, Button, PanelRow, ColorPalette, TextControl, TextareaControl } = wpComponents;
 
   const bannerBlockIcon = (
     <svg
@@ -182,7 +182,8 @@
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             },
-            drafted: false
+            drafted: false,
+            addClass: ''
           }
         ]
       });
@@ -199,12 +200,6 @@
         dataArray
       } = this.props.attributes;
       const { clientId, setAttributes } = this.props;
-
-      let darftArrs = [...dataArray];
-      let finaldarftArrs = darftArrs.filter(element => false === element.drafted);
-      setAttributes({
-        newArr: finaldarftArrs
-      });
 
       let sliderObj = jQuery(
         `#block-${clientId} .wp-block-nab-hero-banner`
@@ -234,12 +229,6 @@
         dataArray
       } = this.props.attributes;
 
-      let darftArrs = [...dataArray];
-      let finaldarftArrs = darftArrs.filter(element => false === element.drafted);
-      this.props.setAttributes({
-        newArr: finaldarftArrs
-      });
-
       this.state.bxSliderObj.reloadSlider({
         mode: mode,
         speed: speed,
@@ -263,12 +252,6 @@
       arrayCopy[currentIndex].index = newIndex;
       arrayCopy[newIndex].index = currentIndex;
       setAttributes({ dataArray: arrayCopy });
-
-      let darftArrs = [...dataArray];
-      let finaldarftArrs = darftArrs.filter(element => false === element.drafted);
-      setAttributes({
-        newArr: finaldarftArrs
-      });
 
       this.reloadSlider();
     }
@@ -302,7 +285,10 @@
         discWidth,
         spacingTop,
         spacingBottom,
-        newArr
+        newArr,
+        minHeight,
+        customStyles,
+        uniqueClass
       } = attributes;
 
       const HeadingStyle = {};
@@ -328,8 +314,8 @@
         .map((item, index) => {
           return (
             <div
-              className="banner-item"
-              style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
+              className={`banner-item ${item.addClass}`}
+              style={{ minHeight: minHeight, paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
               data-draft-item={item.drafted ? 'true' : 'false'}
             >
               { false === sliderActive &&
@@ -555,6 +541,22 @@
                           return finalList;
                         }}
                       />
+
+                    </div>
+                  </div>
+                  <div className="additional-class">
+                    <div className="inspector-field inspector-field-alignment">
+                      <label className="inspector-mb-0">Additional CSS Class</label>
+                      <TextControl
+                        type="string"
+                        placeHolder="Add Class"
+                        value={item.addClass}
+                        onChange={(value) => {
+                          let addingclass = [...dataArray];
+                          addingclass[index].addClass = value;
+                          setAttributes({ dataArray: addingclass });
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -702,6 +704,22 @@
             <PanelBody title="Height Settings" initialOpen={false}>
               <PanelRow>
                 <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Min Height (px)</label>
+                  <RangeControl
+                    value={minHeight}
+                    min={100}
+                    max={1000}
+                    onChange={value => {
+                      setAttributes({ minHeight: value });
+                      if (sliderActive) {
+                        this.reloadSlider();
+                      }
+                    }}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
                   <label className="inspector-mb-0">Top (px)</label>
                   <RangeControl
                     value={spacingTop}
@@ -775,6 +793,19 @@
                 </div>
               </PanelBody>
             )}
+            <PanelBody title={__('Custom CSS')} initialOpen={false}>
+              <PanelRow>
+                <div className="inspector-field inspector-field-customcss ">
+                  <label className="inspector-mb-0">Add your custom CSS here.</label>
+                  <TextareaControl
+                    id="custom-css-field"
+                    value={customStyles}
+                    rows={6}
+                    onChange={(val) => { setAttributes({ customStyles: val }); }}
+                  />
+                </div>
+              </PanelRow>
+            </PanelBody>
           </InspectorControls>
           <div className={`${className} hero-banner-inner`}>
             {heroBannerList}
@@ -817,7 +848,8 @@
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'
                       },
-                      drafted: false
+                      drafted: false,
+                      addClass: ''
                     }
                   ]
                 });
@@ -828,6 +860,11 @@
               <span className="dashicons dashicons-plus"></span>
             </button>
           </div>
+          { '' != customStyles &&
+            <style type="text/css">
+              {` ${customStyles} `}
+            </style>
+          }
         </div>
       );
     }
@@ -921,6 +958,18 @@
       newArr: {
         type: 'array',
         default: []
+      },
+      minHeight: {
+        type: 'number',
+        default: 600
+      },
+      customStyles: {
+        type: 'string',
+        default: ''
+      },
+      uniqueClass: {
+        type: 'string',
+        default: ''
       }
     },
 
@@ -949,7 +998,10 @@
         discWidth,
         spacingTop,
         spacingBottom,
-        newArr
+        newArr,
+        minHeight,
+        customStyles,
+        uniqueClass
       } = props.attributes;
 
       const HeadingStyle = {};
@@ -968,9 +1020,10 @@
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      let finalArray;
+      let finalArray, remainingList;
       if (0<newArr.length){
-            finalArray = newArr;
+        remainingList = dataArray.filter(element => false === element.drafted);
+        finalArray = remainingList;
       } else {
         finalArray = dataArray;
       }
@@ -980,8 +1033,8 @@
           .map((item, index) => {
             return (
               <div
-                className="banner-item"
-                style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
+                className={`banner-item ${item.addClass}`}
+                style={{ minHeight: minHeight, paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
                 data-draft-item={item.drafted ? 'true' : 'false'}
               >
                 <div className="banner-item-inner">
@@ -1032,6 +1085,11 @@
             >
               {heroBannerList}
             </div>
+            {'' != customStyles &&
+              <style type="text/css">
+                {` ${customStyles} `}
+              </style>
+            }
           </div>
         );
       } else {

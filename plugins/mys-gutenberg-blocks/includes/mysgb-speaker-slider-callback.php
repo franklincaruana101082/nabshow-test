@@ -38,7 +38,7 @@ $include_tracks         = isset( $attributes['includeTracks'] ) && ! empty( $att
 $attach_session         = isset( $attributes['attachSession'] ) ? $attributes['attachSession'] : false;
 $track_speakers         = '';
 
-if ( ! $listing_page && ( ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) || $attach_session ) ) {
+if ( ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) || $attach_session ) {
 
 	if ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
 		$session_cache_key  = 'mysgb-speaker-track-session-' . implode('-', $include_tracks );
@@ -55,6 +55,8 @@ if ( ! $listing_page && ( ( is_array( $include_tracks ) && count( $include_track
 	        'fields'         => 'ids',
 	        'meta_key'       => 'speakers'
 	    );
+
+    	$session_args['posts_per_page'] = $listing_page ? -1 : 100;
 
     	if ( is_array( $include_tracks ) && count( $include_tracks ) > 0 ) {
 
@@ -366,6 +368,12 @@ if ( $query->have_posts() || $listing_page ) {
             if( ! empty( trim( $exclude_speaker ) ) ) {
                 ?>
                 <input type="hidden" class="exclude-speaker" value="<?php echo esc_attr( $exclude_speaker ); ?>">
+                <?php
+            }
+
+            if ( $attach_session && ! empty( $track_speakers ) ) {
+            	?>
+                <input type="hidden" class="session-speakers" value="<?php echo esc_attr( $track_speakers ); ?>">
                 <?php
             }
         ?>
