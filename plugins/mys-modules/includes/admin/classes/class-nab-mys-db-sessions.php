@@ -417,7 +417,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 					$parent       = 0;
 					$mys_item_id  = isset( $single_cat->categoryid ) ? $single_cat->categoryid : 0;
 					$categoryname = isset( $single_cat->categoryname ) ? $single_cat->categoryname : '';
-					$description  = isset( $single_cat->categorydisplay ) ? $single_cat->categorydisplay : '';
+					$description  = isset( $single_cat->categoryiddisplay ) ? $single_cat->categoryiddisplay : '';
 
 					$categorygroupid = isset( $single_cat->categorygroupid ) ? $single_cat->categorygroupid : 0;
 					$categorygroup   = isset( $single_cat->categorygroup ) ? $single_cat->categorygroup : '';

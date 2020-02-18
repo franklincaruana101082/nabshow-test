@@ -343,117 +343,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		public function nab_mys_cron_custom_migration( WP_REST_Request $request ) {
 
-			$parameters = $request->get_params();
-
-			$exh_types = isset( $parameters['exh-types'] ) ? $parameters['exh-types'] : '';
-
-			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
-
-			$dataids = isset( $parameters['dataids'] ) ? $parameters['dataids'] : '';
-
-			$groupid = isset( $parameters['groupid'] ) ? $parameters['groupid'] : '';
-
-			$result = $this->nab_mys_corn_migrate_exh_types( $limit, $dataids, $groupid, $exh_types );
-
-			return $result;
-		}
-
-		/**
-		 * Migrating Exhibitor Types
-		 *
-		 * @param int $limit Limit to migrate rows.
-		 * @param string $dataids Data IDs comman separated.
-		 * @param string $groupid Specific Group ID to migrate.
-		 * @param string $exh_types Anything accepted just to specify type.
-		 *
-		 * @return array    List of DataID -> PostID
-		 *         string   Message to show that No more data available to migrate.
-		 */
-		public function nab_mys_corn_migrate_exh_types( $limit, $dataids, $groupid, $exh_types ) {
-
-			if ( empty( $exh_types ) ) {
-				return 'Please specify something ?exh-types parameter.';
-			}
-
-			$wpdb = $this->wpdb;
-
-			//Conditional Where Clause for Master Cron
-			if ( ! empty( $dataids ) ) {
-				$where_clause = "DataID IN ($dataids)";
-			} else if ( ! empty( $groupid ) ) {
-				$where_clause = "DataGroupID = '$groupid'";
-			} else {
-				return 'Please specify DataID or DataGroupID (at least one of two is mandatory).';
-			}
-			$where_clause .= " AND AddedStatus != '6'";
-
-			$data_to_migrate = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT * FROM %1smys_data
-							WHERE $where_clause
-							ORDER BY DataID ASC LIMIT %d",
-					$wpdb->prefix, $limit ) );
-
-			if ( count( $data_to_migrate ) === 0 ) {
-				return "All data migrated successfully to the master table.";
-			}
-
-			$result = '';
-			//Migration starts
-			foreach ( $data_to_migrate as $item ) {
-
-				$data_json = $item->DataJson;
-				$data_id   = $item->DataID;
-				$data      = json_decode( $data_json, true );
-				$result    .= "|DataID-$data_id:";
-
-				//Migrating now.
-				$post_type  = 'exhibitors';
-				$typeidname = 'exhid';
-
-				$item_status = (int) $item->ItemStatus;
-
-				$post_detail = '';
-
-				foreach ( $data as $individual_item ) {
-
-					$typeid = $individual_item[ $typeidname ];
-
-					//Check if post already available
-					$args              = array(
-						'post_type'  => array( $post_type ),
-						'meta_query' => array(
-							array(
-								'key'   => $typeidname,
-								'value' => $typeid,
-							),
-						),
-					);
-					$already_available = new WP_Query( $args );
-
-					if ( isset( $already_available->posts[0]->ID ) ) {
-						$post_id = $already_available_id = $already_available->posts[0]->ID;
-					}
-
-					// Restore original Post Data
-					wp_reset_postdata();
-
-					//If item does not need to be deleted, proceed with this condition.
-					$package = $individual_item['package'];
-					if ( ! empty( $package ) && 0 !== $item_status && isset ( $post_id ) && 0 !== $post_id ) {
-
-						// Check if package not empty, if not, assign as Featured.
-						$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( 'Featured', 'exhibitor-keywords', $post_id );
-
-						$result .= "=>exh=$post_id-package=$package-so-$post_detail";
-
-					} else {
-						$result .= "=>exhid=$typeid-not-eligible";
-					}
-				}
-			}
-
-			return $result;
+			//Currently disabled, not in use, so returning true.
+			return true;
 		}
 
 		/**
@@ -1078,10 +969,10 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$categories_group = $categories[0];
 						$categories_group = explode( ',', $categories_group );
 
-						$categories_children = isset($categories[1]) ? $categories[1] : array();
+						$categories_children = isset( $categories[1] ) ? $categories[1] : array();
 						$categories_children = explode( ',', $categories_children );
 
-						$cat_ids    = array();
+						$cat_ids = array();
 
 						//Assigning Groups as Parents
 						foreach ( $categories_group as $cat_mys_id ) {
@@ -1099,7 +990,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							}
 						}
 
-						$post_detail .= "|assigned-sessions-cats:" . implode(',', $cat_ids);
+						$post_detail .= "|assigned-sessions-cats:" . implode( ',', $cat_ids );
 
 						//Assign Categories.
 						wp_set_post_terms( $post_id, $cat_ids, 'session-categories' );
