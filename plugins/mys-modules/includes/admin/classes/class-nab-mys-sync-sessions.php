@@ -710,7 +710,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 						}
 						update_option( 'pending_sess_cats', $session_ids );
 
-						if ( $limit >= $counter ) {
+						if ( $limit <= $counter ) {
 							return $details;
 						}
 					}
