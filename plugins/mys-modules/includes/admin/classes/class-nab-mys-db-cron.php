@@ -1097,7 +1097,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			} else {
 				$where_to_finish = array(
 					'HistoryID'     => $finished_id,
-					'HistoryStatus' => 0
+					'HistoryStatus' => 1
 				);
 			}
 

@@ -43,7 +43,7 @@ if ( ! class_exists( 'NAB_MYS_Scripts' ) ) {
 					'nab-mys-sync-script',
 					MYS_PLUGIN_URL . 'assets/js/nab-mys-script.min.js',
 					array( 'jquery' ),
-					'1.1',
+					'1.2',
 					true
 				);
 				wp_localize_script(
