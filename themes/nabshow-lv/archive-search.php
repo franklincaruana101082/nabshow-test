@@ -17,7 +17,7 @@ get_header(); ?>
 						}
 
 					} else {
-						echo "<h4>" . esc_html( 'No search results found.' ) . "</h4>";
+						echo "<h4 class='noresult'>" . esc_html( 'No search results found.' ) . "</h4>";
 					}
 					?>
                 </div>

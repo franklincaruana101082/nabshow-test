@@ -198,11 +198,13 @@
     $(this).closest('.header-right').toggleClass('active');
     $(this).closest('.header-right').removeClass('clicked');
     $(this).closest('.header-right').find('.get-updts').removeClass('clicked');
+    $('.header-right .search-field').focus();
   });
   $('.super-menu-main .super-menu .get-updts').on('click', function () {
     $(this).toggleClass('clicked');
     $(this).closest('.header-right').removeClass('active');
     $(this).closest('.header-right').toggleClass('clicked');
+    $('.header-right .get-updates-field').focus();
     return false;
   });
   $('.header-get-updates .remove').on('click', function () {

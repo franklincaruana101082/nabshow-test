@@ -29,7 +29,7 @@ $_term = get_queried_object();
 
 					} else {
 					    ?>
-						<h4> No results found. </h4>;
+						<h4 class="noresult"> No results found. </h4>
                                 <?php
 					}
 					?>
