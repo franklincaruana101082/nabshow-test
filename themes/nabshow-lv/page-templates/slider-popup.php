@@ -9,6 +9,11 @@ $current_type   = filter_input( INPUT_GET, 'posttype', FILTER_SANITIZE_STRING );
 $current_id     = filter_input( INPUT_GET, 'postid', FILTER_SANITIZE_NUMBER_INT );
 $contributor_id = filter_input( INPUT_GET, 'userid', FILTER_SANITIZE_NUMBER_INT );
 
+if ( empty( $current_type ) && empty( $current_id ) && empty( $contributor_id ) ) {
+	wp_safe_redirect( site_url() );
+	exit();
+}
+
 wp_head();
 
 if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current_id ) && ! empty( $current_id ) ) ) {
@@ -676,7 +681,4 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
         </div>
     </div>
 	<?php
-} else {
-	wp_safe_redirect( site_url() );
-	exit();
 }

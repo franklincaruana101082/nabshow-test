@@ -3,7 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { MediaUpload, InspectorControls, RichText } = wpBlockEditor;
   const { Component, Fragment } = wpElement;
-  const { PanelBody, RangeControl, ToggleControl, Button, PanelRow, ColorPalette } = wpComponents;
+  const { PanelBody, RangeControl, ToggleControl, Button, PanelRow, ColorPalette, TextControl, TextareaControl } = wpComponents;
 
   const bannerBlockIcon = (
     <svg
@@ -106,16 +106,13 @@
     componentDidUpdate(prevProps) {
       const {
         sliderActive,
-        media,
         adaptiveHeight,
         autoplay,
         speed,
         infiniteLoop,
         pager,
         controls,
-        mode,
-        dataArray,
-
+        mode
       } = this.props.attributes;
       if (this.state.bxSliderObj.length === undefined && sliderActive) {
         this.initSlider();
@@ -185,7 +182,8 @@
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             },
-            drafted: false
+            drafted: false,
+            addClass: ''
           }
         ]
       });
@@ -199,8 +197,9 @@
         adaptiveHeight,
         speed,
         mode,
+        dataArray
       } = this.props.attributes;
-      const { clientId } = this.props;
+      const { clientId, setAttributes } = this.props;
 
       let sliderObj = jQuery(
         `#block-${clientId} .wp-block-nab-hero-banner`
@@ -217,7 +216,6 @@
       });
 
       this.setState({ bxSliderObj: sliderObj });
-
     }
 
     reloadSlider() {
@@ -227,8 +225,10 @@
         controls,
         adaptiveHeight,
         speed,
-        mode
+        mode,
+        dataArray
       } = this.props.attributes;
+
       this.state.bxSliderObj.reloadSlider({
         mode: mode,
         speed: speed,
@@ -252,6 +252,7 @@
       arrayCopy[currentIndex].index = newIndex;
       arrayCopy[newIndex].index = currentIndex;
       setAttributes({ dataArray: arrayCopy });
+
       this.reloadSlider();
     }
 
@@ -283,7 +284,11 @@
         discLineHeight,
         discWidth,
         spacingTop,
-        spacingBottom
+        spacingBottom,
+        newArr,
+        minHeight,
+        customStyles,
+        uniqueClass
       } = attributes;
 
       const HeadingStyle = {};
@@ -302,29 +307,25 @@
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      let remainingList;
+      let finalList;
 
-      if ( sliderActive ) {
-        remainingList = dataArray.filter(element => false === element.drafted);
-      } else {
-        remainingList = dataArray;
-      }
-
-      const heroBannerList = remainingList
+      const heroBannerList = dataArray
         .sort((a, b) => a.index - b.index)
         .map((item, index) => {
           return (
-            <Fragment>
             <div
-              className="banner-item"
-              style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
+              className={`banner-item ${item.addClass}`}
+              style={{ minHeight: minHeight, paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
               data-draft-item={item.drafted ? 'true' : 'false'}
-      >
+            >
+              { false === sliderActive &&
+              <Fragment>
               <span
                 className="remove-item"
                 onClick={() => {
                   setAttributes({
-                    dataArray: dataArray.filter((img, idx) => idx !== index)
+                    dataArray: dataArray.filter((img, idx) => idx !== index),
+                    newArr: newArr.filter((img, idx) => idx !== index)
                   });
                   this.reloadSlider();
                 }}
@@ -353,6 +354,8 @@
                   ></span>
                 )}
               </div>
+              </Fragment>
+              }
               <div className="banner-item-inner">
                 <RichText
                   tagName="h1"
@@ -521,30 +524,44 @@
                         </div>
                       </div>
                     ) : ''
-                    }
-                  </div>
-                  {false === sliderActive &&
-                    <div className="draft-setting">
-                      <div className="inspector-field inspector-field-alignment">
-                          <ToggleControl
-                            label={__('Draft This Slider:')}
-                            checked={item.drafted}
-                            className={true === dataArray[index].drafted ? 'inspector-button active' : 'inspector-button'}
-                            onChange={() => {
-                              let arrayCopy = [...dataArray];
-                              arrayCopy[index].drafted = ! item.drafted;
-                              setAttributes({
-                                dataArray: arrayCopy
-                              });
-
-                            }}
-                          />
-                      </div>
-                    </div>
                   }
+                  <div className="draft-setting">
+                    <div className="inspector-field inspector-field-alignment">
+                      <ToggleControl
+                        label={__('Save Slide as Draft:')}
+                        checked={item.drafted}
+                        className={true === dataArray[index].drafted ? 'inspector-button active' : 'inspector-button'}
+                        onChange={() => {
+                          let arrayCopy = [...dataArray];
+                          arrayCopy[index].drafted = ! item.drafted;
+                          finalList = arrayCopy.filter(element => false === element.drafted);
+                          setAttributes({
+                            newArr: finalList
+                          });
+                          return finalList;
+                        }}
+                      />
+
+                    </div>
+                  </div>
+                  <div className="additional-class">
+                    <div className="inspector-field inspector-field-alignment">
+                      <label className="inspector-mb-0">Additional CSS Class</label>
+                      <TextControl
+                        type="string"
+                        placeHolder="Add Class"
+                        value={item.addClass}
+                        onChange={(value) => {
+                          let addingclass = [...dataArray];
+                          addingclass[index].addClass = value;
+                          setAttributes({ dataArray: addingclass });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </Fragment>
           );
         });
       return (
@@ -687,6 +704,22 @@
             <PanelBody title="Height Settings" initialOpen={false}>
               <PanelRow>
                 <div className="inspector-field inspector-field-fontsize ">
+                  <label className="inspector-mb-0">Min Height (px)</label>
+                  <RangeControl
+                    value={minHeight}
+                    min={100}
+                    max={1000}
+                    onChange={value => {
+                      setAttributes({ minHeight: value });
+                      if (sliderActive) {
+                        this.reloadSlider();
+                      }
+                    }}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <div className="inspector-field inspector-field-fontsize ">
                   <label className="inspector-mb-0">Top (px)</label>
                   <RangeControl
                     value={spacingTop}
@@ -760,6 +793,19 @@
                 </div>
               </PanelBody>
             )}
+            <PanelBody title={__('Custom CSS')} initialOpen={false}>
+              <PanelRow>
+                <div className="inspector-field inspector-field-customcss ">
+                  <label className="inspector-mb-0">Add your custom CSS here.</label>
+                  <TextareaControl
+                    id="custom-css-field"
+                    value={customStyles}
+                    rows={6}
+                    onChange={(val) => { setAttributes({ customStyles: val }); }}
+                  />
+                </div>
+              </PanelRow>
+            </PanelBody>
           </InspectorControls>
           <div className={`${className} hero-banner-inner`}>
             {heroBannerList}
@@ -802,7 +848,8 @@
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'
                       },
-                      drafted: false
+                      drafted: false,
+                      addClass: ''
                     }
                   ]
                 });
@@ -813,6 +860,11 @@
               <span className="dashicons dashicons-plus"></span>
             </button>
           </div>
+          { '' != customStyles &&
+            <style type="text/css">
+              {` ${customStyles} `}
+            </style>
+          }
         </div>
       );
     }
@@ -822,7 +874,7 @@
     title: __('Hero Banner'),
     icon: { src: bannerBlockIcon },
     category: 'nabshow',
-    keywords: [__('Hero Banner'), __('Guternberg')],
+    keywords: [__('Hero Banner'), __('gts')],
 
     attributes: {
       id: {
@@ -903,9 +955,21 @@
         type: 'number',
         default: 130
       },
-      draftSlide: {
-        type: 'boolean',
-        default: false
+      newArr: {
+        type: 'array',
+        default: []
+      },
+      minHeight: {
+        type: 'number',
+        default: 600
+      },
+      customStyles: {
+        type: 'string',
+        default: ''
+      },
+      uniqueClass: {
+        type: 'string',
+        default: ''
       }
     },
 
@@ -934,7 +998,10 @@
         discWidth,
         spacingTop,
         spacingBottom,
-        sliderActive
+        newArr,
+        minHeight,
+        customStyles,
+        uniqueClass
       } = props.attributes;
 
       const HeadingStyle = {};
@@ -953,56 +1020,54 @@
       buttoncolor && (buttonStyle.color = buttoncolor);
       buttonBgcolor && (buttonStyle.background = buttonBgcolor);
 
-      let remainingList;
-
-      if (sliderActive) {
+      let finalArray, remainingList;
+      if (0<newArr.length){
         remainingList = dataArray.filter(element => false === element.drafted);
+        finalArray = remainingList;
       } else {
-        remainingList = dataArray;
+        finalArray = dataArray;
       }
 
-      const heroBannerList = remainingList
-        .sort((a, b) => a.index - b.index)
-        .map((item, index) => {
-          return (
-            <Fragment>
-            <div
-              className="banner-item"
-              style={{ paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
-              data-draft-item={item.drafted ? 'true' : 'false'}
-            >
-              <div className="banner-item-inner">
-                <RichText.Content
-                  tagName="h1"
-                  value={item.title}
-                  className="title"
-                  style={HeadingStyle}
-                />
-                <RichText.Content
-                  tagName="p"
-                  value={item.disc}
-                  style={detailsStyle}
-                  className="disc"
-                />
-                <ul className="hero-buttons">
-                  {item.button.map((data, i) => {
-                    return (
-                      <li className="button-item">
-                        <RichText.Content
-                          tagName="span"
-                          style={buttonStyle}
-                          value={data.text}
-                          className="button"
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
+      const heroBannerList = finalArray
+          .sort((a, b) => a.index - b.index)
+          .map((item, index) => {
+            return (
+              <div
+                className={`banner-item ${item.addClass}`}
+                style={{ minHeight: minHeight, paddingTop: spacingTop, paddingBottom: spacingBottom, backgroundImage: `url(${item.backgroundImage.url})`, backgroundPosition: item.backgroundImage.backgroundPosition, backgroundSize: item.backgroundImage.backgroundSize }}
+                data-draft-item={item.drafted ? 'true' : 'false'}
+              >
+                <div className="banner-item-inner">
+                  <RichText.Content
+                    tagName="h1"
+                    value={item.title}
+                    className="title"
+                    style={HeadingStyle}
+                  />
+                  <RichText.Content
+                    tagName="p"
+                    value={item.disc}
+                    style={detailsStyle}
+                    className="disc"
+                  />
+                  <ul className="hero-buttons">
+                    {item.button.map((data, i) => {
+                      return (
+                        <li className="button-item">
+                          <RichText.Content
+                            tagName="span"
+                            style={buttonStyle}
+                            value={data.text}
+                            className="button"
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               </div>
-            </div>
-            </Fragment>
-          );
-        });
+            );
+          });
 
       if (0 < dataArray.length) {
         return (
@@ -1020,6 +1085,11 @@
             >
               {heroBannerList}
             </div>
+            {'' != customStyles &&
+              <style type="text/css">
+                {` ${customStyles} `}
+              </style>
+            }
           </div>
         );
       } else {

@@ -451,6 +451,14 @@ function nabshow_lv_set_post_type_search_filter( $query ) {
 		if ( isset( $search_post_type ) && ! empty( $search_post_type ) ) {
 			$query->set( 'post_type', array( $search_post_type ) );
 		}
+
+		//exclude modal popup page from the search result
+		$page_obj = get_page_by_path('modal-popup');
+
+		if ( isset( $page_obj ) && ! empty( $page_obj ) ) {
+
+			$query->set( 'post__not_in', array( $page_obj->ID ) );
+		}
 	}
 
 	return $query;

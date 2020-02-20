@@ -30,7 +30,7 @@ $_term = get_queried_object();
 							}
 						} else {
 							?>
-	                        <h4> Coming Soon. </h4>";
+	                        <h4 class="comingsoon"> Coming Soon. </h4>
 							<?php
 						}
 						?>

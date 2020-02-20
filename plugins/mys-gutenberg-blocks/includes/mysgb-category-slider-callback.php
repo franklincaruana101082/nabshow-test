@@ -146,6 +146,22 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 						?>
 						<h2 class="track-title"><a href="<?php echo esc_url( $mys_cat_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
 						<?php
+
+					} elseif ( 'tracks' === $category_type ) {
+
+                    	$session_track_link = $site_url . '/learn/browse-sessions/?session-track='. $current_term->slug;
+						?>
+						<h2 class="track-title"><a href="<?php echo esc_url( $session_track_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<?php
+
+					} elseif ( 'session-categories' === $category_type ) {
+
+                    	$category_id    = get_term_meta( $current_term->term_id, 'categoryid', true );
+                    	$category_link  = 'https://nab20.mapyourshow.com/8_0/sessions/#/searchtype/sessioncategory28/search/' . $category_id . '/show/all';
+						?>
+						<h2 class="track-title"><a href="<?php echo esc_url( $category_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<?php
+
                     } else {
                     	?>
                         <h2 class="track-title"><?php echo esc_html( $current_term->name ); ?></h2>

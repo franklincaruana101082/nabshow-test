@@ -43,6 +43,9 @@ update_post_meta( $current_post_id, 'search_view_count', $search_view_count );
 	            case 'speakers':
 		            $logo_url = nabshow_lv_get_speaker_thumbnail_url();
 		            break;
+                case 'exhibitors':
+	                $logo_url = get_template_directory_uri() . '/assets/images/exhibitor-placeholder.jpg';
+	                break;
                 default:
                     $logo_url = nabshow_lv_get_empty_thumbnail_url();
             }

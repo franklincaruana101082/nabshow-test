@@ -22,7 +22,7 @@ $author_name =  get_query_var('author_name');
 						}
 
 					} else {
-						echo "<h4>".esc_html('No results found.')."</h4>";
+						echo "<h4 class='noresult'>".esc_html('No results found.')."</h4>";
 					}
 					?>
                 </div>

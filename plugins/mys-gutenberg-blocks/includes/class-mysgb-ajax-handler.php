@@ -369,6 +369,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$featured_speaker   = filter_input( INPUT_GET, 'featured_speaker', FILTER_SANITIZE_STRING );
 			$order_by           = filter_input( INPUT_GET, 'speaker_order', FILTER_SANITIZE_STRING );
 			$exclude_speaker    = filter_input( INPUT_GET, 'exclude_speaker', FILTER_SANITIZE_STRING );
+			$session_speakers   = filter_input( INPUT_GET, 'session_speakers', FILTER_SANITIZE_STRING );
 			$order              = 'date' === $order_by ? 'DESC' : 'ASC';
 
 			$query_arg = array(
@@ -378,6 +379,18 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				'orderby'        => $order_by,
 				'order'          => $order,
 			);
+
+			if ( ! empty( $session_speakers ) ) {
+
+				$all_session_speakers = explode( ',', $session_speakers );
+
+				if ( is_array( $all_session_speakers ) && count( $all_session_speakers ) > 0 ) {
+
+					$all_session_speakers              = array_unique( $all_session_speakers );
+					$query_arg['post__in']             = $all_session_speakers;
+					$query_arg['ignore_sticky_posts']  = true;
+				}
+			}
 
 			if ( ! empty( trim( $exclude_speaker ) ) ) {
 

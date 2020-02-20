@@ -262,14 +262,20 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                               </Fragment>
                             }
 
-                          <label>Exclude Speaker by Ids:</label>
-                          <TextareaControl
-                            help="Each speaker id should be comma separated"
-                            value={ excludeSpeaker }
-                            onChange={ (ids) => {  setAttributes({ excludeSpeaker: ids }); this.setState({ bxinit: true }); }}
-                          />
+                            <label>Exclude Speaker by Ids:</label>
+                            <TextareaControl
+                              help="Each speaker id should be comma separated"
+                              value={ excludeSpeaker }
+                              onChange={ (ids) => {  setAttributes({ excludeSpeaker: ids }); this.setState({ bxinit: true }); }}
+                            />
 
-                            {input}
+                              {input}
+
+                            <ToggleControl
+                              label={__('Display only speakers which are attached with session')}
+                              checked={attachSession}
+                              onChange={() => { setAttributes({attachSession: ! attachSession}); this.setState({bxinit: true}); }}
+                            />
 
                             { ! listingPage &&
                             <Fragment>
@@ -304,12 +310,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                         { label: __('Random'), value: 'rand' },
                                     ]}
                                     onChange={(value) => { setAttributes({ orderBy: value }); this.setState({ bxinit: true }); }}
-                                />
-
-                                <ToggleControl
-                                  label={__('Display only speakers which are attached with session')}
-                                  checked={attachSession}
-                                  onChange={() => { setAttributes({attachSession: ! attachSession}); this.setState({bxinit: true}); }}
                                 />
 
                                 { this.state.termsObj &&

@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $get_featured = filter_input( INPUT_GET, 'session-key', FILTER_SANITIZE_STRING );
+$get_track    = filter_input( INPUT_GET, 'session-track', FILTER_SANITIZE_STRING );
 
 $featured_class = 'featured-btn';
 
@@ -71,7 +72,7 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
                     <select id="session-tracks" class="select-opt">
                         <option>Select a Program</option>
 						<?php
-						$this->mysgb_get_term_list_options( 'tracks' );
+						$this->mysgb_get_term_list_options( 'tracks', $get_track );
 						?>
                     </select>
                 </div>

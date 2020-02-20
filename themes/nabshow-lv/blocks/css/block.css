@@ -1526,7 +1526,7 @@ ul.ss-off-options li.active svg>rect[stroke="#7B8080"], ul.ss-on-options li.acti
 .hero-banner-inner .banner-item .move-item span:hover{opacity:0.8}
 .hero-banner .bx-viewport{width:100%!important}
 .hero-banner .bx-wrapper{margin:0}
-.hero-banner .bx-wrapper .bx-has-pager .bx-pager{padding:0 0 0 20px;bottom:50px!important;text-align:left}
+.hero-banner .bx-wrapper .bx-has-pager .bx-pager{padding:0 0 0 20px;bottom:70px!important;text-align:left}
 .nab-media-slider-block .bx-wrapper .bx-has-pager .bx-pager{text-align:center}
 .bx-wrapper .bx-has-pager .bx-pager .bx-pager-item{margin:0 3px}
 .bx-wrapper .bx-has-pager .bx-pager .bx-pager-item a{background:none!important;border:4px solid #fff;width:15px!important;height:15px!important;margin:0!important}
@@ -1540,7 +1540,9 @@ ul.ss-off-options li.active svg>rect[stroke="#7B8080"], ul.ss-on-options li.acti
 .bx-wrapper .hero-banner-inner .banner-item .move-item span.dashicons-arrow-down-alt2::before{content:"\f345"}
 .hero-banner-inner .banner-item .banner-item-inner .background-setting{display:flex}
 .hero-banner-inner .banner-item .banner-item-inner .background-setting label{color:#fff}
-.hero-banner-inner .banner-item .banner-item-inner .background-setting .inspector-field-alignment{width:200px;margin-left:20px}
+.hero-banner-inner .banner-item .banner-item-inner .background-setting .inspector-field-alignment{width:200px;margin-bottom:0;margin-left:20px}
+.hero-banner-inner .banner-item .banner-item-inner .additional-class .components-base-control__field{margin:0}
+.hero-banner-inner .banner-item .banner-item-inner .background-setting .inspector-field-button-list .inspector-button{padding:7px 5px}
 
 .session-white-opt .bx-viewport{width:100%!important}
 .session-white-opt .item{padding:30px 0 0 0;text-align:left}
