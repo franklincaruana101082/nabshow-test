@@ -1449,6 +1449,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .opportunities .box-main .box-item .box-inner .sold{position:absolute;top:13px;right:-30px;transform:rotate(45deg);background:#0f6cb6;color:#fff;font-size:15px;text-transform:uppercase;width:120px;height:34px;display:flex;justify-content:center;align-items:center;font-weight:normal;letter-spacing:1px;z-index:1}
 .opportunities-filter .category{margin-right:20px}
 .nab-dynamic-list.session.with-masonry{max-width:initial!important}
+.nab-dynamic-list.with-masonry#card_section{flex-direction:inherit;align-items:flex-start}
 .session .item h4 a{text-decoration:none}
 .opportunities-filter .search-box{margin-top:20px}
 .sponsor-main p.has-medium-font-size{line-height:27px}
