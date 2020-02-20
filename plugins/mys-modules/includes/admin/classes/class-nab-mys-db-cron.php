@@ -851,6 +851,15 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						}
 						$save_taxonomies['exhibitor-categories'] = $c_title_array;
 
+						// Making 'crossreferences' comma separated.
+						$crossreferences        = $individual_item['crossreferences'];
+						$crossreferences_string = array();
+						foreach ( $crossreferences as $crossref ) {
+							$crossreferences_string[] = $crossref['crossrefname'];
+						}
+						$crossreferences_string = implode( ',', $crossreferences_string );
+						update_post_meta( $post_id, 'crossreferences', $crossreferences_string );
+
 						// Check if package not empty, if not, assign as Featured.
 						$package = $individual_item['package'];
 						if ( ! empty( $package ) ) {
