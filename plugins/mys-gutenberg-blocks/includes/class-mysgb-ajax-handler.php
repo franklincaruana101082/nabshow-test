@@ -304,7 +304,32 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$query_arg[ 'tax_query' ] = $tax_query_args;
 			}
 
+			// Second Query for Meta search.
+			if ( ! empty( $post_search ) ) {
+				$meta_query = array( 'relation' => 'OR' );
+
+				$meta_query[] = array (
+					'key'     => 'crossreferences',
+					'value'   => $post_search,
+					'compare' => 'LIKE',
+				);
+
+				$query_arg2 = $query_arg;
+
+				unset($query_arg2['s']);
+
+				$query_arg2[ 'meta_query' ] = $meta_query;
+
+				$exhibitor_query2 = new WP_Query( $query_arg2 );
+			}
+
 			$exhibitor_query = new WP_Query( $query_arg );
+
+			// Merging both queries.
+			$result = new WP_Query();
+			$result->posts = array_unique( array_merge( $exhibitor_query->posts, $exhibitor_query2->posts ), SORT_REGULAR );
+			$exhibitor_query->posts = $result->posts;
+			$exhibitor_query->post_count = count( $result->posts );
 
 			$total_pages = $exhibitor_query->max_num_pages;
 
@@ -318,20 +343,22 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 					$exhibitor_query->the_post();
 
-					$exhibitor_id   = get_the_ID();
-					$booth_number   = get_post_meta( $exhibitor_id, 'boothnumbers', true );
-					$exh_id         = get_post_meta( $exhibitor_id, 'exhid', true );
-					$exh_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
-					$featured_post  = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
-					$thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
+					$exhibitor_id    = get_the_ID();
+					$booth_number    = get_post_meta( $exhibitor_id, 'boothnumbers', true );
+					$crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
+					$exh_id          = get_post_meta( $exhibitor_id, 'exhid', true );
+					$exh_url         = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+					$featured_post   = has_term( 'featured', 'exhibitor-keywords' ) ? 'featured' : '';
+					$thumbnail_url   = has_post_thumbnail() ? get_the_post_thumbnail_url() : '';
 
-					$result_post[ $i ][ 'post_id' ]       = $exhibitor_id;
-					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( get_the_title() );
-					$result_post[ $i ][ 'featured' ]      = $featured_post;
-					$result_post[ $i ][ 'boothnumber' ]   = $booth_number;
-					$result_post[ $i ][ 'post_excerpt' ]  = html_entity_decode( get_the_excerpt() );
-					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
-					$result_post[ $i ][ 'planner_link' ]  = $exh_url;
+					$result_post[ $i ]['post_id']         = $exhibitor_id;
+					$result_post[ $i ]['post_title']      = html_entity_decode( get_the_title() );
+					$result_post[ $i ]['featured']        = $featured_post;
+					$result_post[ $i ]['boothnumber']     = $booth_number;
+					$result_post[ $i ]['post_excerpt']    = html_entity_decode( get_the_excerpt() );
+					$result_post[ $i ]['thumbnail_url']   = $thumbnail_url;
+					$result_post[ $i ]['planner_link']    = $exh_url;
+					$result_post[ $i ]['crossreferences'] = $crossreferences;
 
 					$i++;
 				}
