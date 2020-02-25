@@ -14,55 +14,53 @@ $tax_thought_galleries  = get_the_terms( $current_post_id, 'thought-gallery-cate
 $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags' );
 ?>
 <article class="post-wrap post-details post-list">
-	<?php
-	if ( $tax_thought_galleries && ! is_wp_error( $tax_thought_galleries ) ) {
-        $i = 0;
-        ?>
-        <div class="cat-list-main">
-            <?php
-            foreach ( $tax_thought_galleries as $tax_thought_gallery ) {
-
-                $i ++;
-                $cat_link = get_term_link( $tax_thought_gallery->slug, 'thought-gallery-category' );
-
-                if ( $cat_link && ! is_wp_error( $cat_link ) ) {
-                    ?>
-                    <a href="<?php echo esc_url( $cat_link ); ?>"
-                    title="<?php echo esc_attr( $tax_thought_gallery->name ); ?>" rel="tag"
-                    class="cat-info <?php echo esc_attr( $tax_thought_gallery->slug ); ?>"><?php echo esc_html( $tax_thought_gallery->name ); ?></a>
-                    <?php
-                    if ( sizeof( $tax_thought_galleries ) > $i ) {
-                        ?>
-                        ,
-                        <?php
-                    }
-                }
-            }
-            ?>
-        </div>
-        <?php
-	}
-	?>
-    <div class="post-meta-info">
-        <span class="meta-info-decs">by</span>
-        <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) ) ); ?>"> <?php echo esc_html( nabhsow_lv_current_author_name() ); ?> </a>
-    </div>
     <div class="feature-image">
         <img width="350" height="350" src="<?php echo has_post_thumbnail() ? esc_url( get_the_post_thumbnail_url() ) : esc_url( nabshow_lv_get_empty_thumbnail_url() ); ?>" alt="<?php echo esc_attr( $current_post_title ); ?>"/>
     </div>
 
-    <?php the_content(); ?>
+	<?php the_content(); ?>
+
+	<?php
+	if ( $tax_thought_galleries && ! is_wp_error( $tax_thought_galleries ) ) {
+		$i = 0;
+		?>
+        <div class="cat-list-main">
+            <span>Category:</span>
+			<?php
+			foreach ( $tax_thought_galleries as $tax_thought_gallery ) {
+
+				$i ++;
+				$cat_link = get_term_link( $tax_thought_gallery->slug, 'thought-gallery-category' );
+
+				if ( $cat_link && ! is_wp_error( $cat_link ) ) {
+					?>
+                    <a href="<?php echo esc_url( $cat_link ); ?>"
+                       title="<?php echo esc_attr( $tax_thought_gallery->name ); ?>" rel="tag"
+                       class="cat-info <?php echo esc_attr( $tax_thought_gallery->slug ); ?>"><?php echo esc_html( $tax_thought_gallery->name ); ?></a>
+					<?php
+					if ( sizeof( $tax_thought_galleries ) > $i ) {
+						?>
+                        ,
+						<?php
+					}
+				}
+			}
+			?>
+        </div>
+		<?php
+	}
+	?>
 
     <div class="tag-icon-list">
         <ul class="detailstag">
 			<?php
 			if ( $tags_thought_galleries && ! is_wp_error( $tags_thought_galleries ) ) {
 
-			    foreach ( $tags_thought_galleries as $tags_thought_gallery ) {
+				foreach ( $tags_thought_galleries as $tags_thought_gallery ) {
 
-			        $tag_link = get_term_link( $tags_thought_gallery->slug, 'thought-gallery-tags' );
+					$tag_link = get_term_link( $tags_thought_gallery->slug, 'thought-gallery-tags' );
 
-			        if ( $tag_link && ! is_wp_error( $tag_link ) ) {
+					if ( $tag_link && ! is_wp_error( $tag_link ) ) {
 						?>
                         <li>
                             <a href="<?php echo esc_url( $tag_link ); ?>"><?php echo esc_html( $tags_thought_gallery->name ); ?></a>
@@ -73,14 +71,14 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
 			}
 			?>
         </ul>
-        <?php
-        $facebook_link  = "https://www.facebook.com/sharer.php?u=" . $current_post_link;
-        $twitter_link   = "https://twitter.com/intent/tweet?url=" . $current_post_link . "&text=" . $current_post_title;
-        $mailto_link    = "mailto:?subject=" . $current_post_title . "&body=Check out this link: " . $current_post_link;
-        $linkedin_link  = "https://www.linkedin.com/shareArticle?url=" . $current_post_link . "&title=" . $current_post_title;
-        ?>
+		<?php
+		$facebook_link  = "https://www.facebook.com/sharer.php?u=" . $current_post_link;
+		$twitter_link   = "https://twitter.com/intent/tweet?url=" . $current_post_link . "&text=" . $current_post_title;
+		$mailto_link    = "mailto:?subject=" . $current_post_title . "&body=Check out this link: " . $current_post_link;
+		$linkedin_link  = "https://www.linkedin.com/shareArticle?url=" . $current_post_link . "&title=" . $current_post_title;
+		?>
         <ul class="social-share">
-            <li>Share:&nbsp;</li>
+            <li class="shareText">Share:&nbsp;</li>
             <li><a href="<?php echo esc_url( $facebook_link ); ?>" class="facebook" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1080');return false;"><i class="fa fa-facebook-f"></i></a></li>
             <li><a href="<?php echo esc_url( $twitter_link ); ?>" class="twitter" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1080');return false;"><i class="fa fa-twitter"></i></a></li>
             <li><a href="<?php echo esc_url( $mailto_link ); ?>" class="envelope"><i class="fa fa-envelope"></i></a></li>
@@ -88,11 +86,11 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
         </ul>
     </div>
 
-    <?php
-        $current_author_id  = get_the_author_meta('ID');
-        $author_image       = nabshow_lv_get_author_avatar_url( $current_author_id );
-        $contributor_info   = wp_strip_all_tags( get_field( 'bio',  'user_' . $current_author_id ) );
-    ?>
+	<?php
+	$current_author_id  = get_the_author_meta('ID');
+	$author_image       = nabshow_lv_get_author_avatar_url( $current_author_id );
+	$contributor_info   = wp_strip_all_tags( get_field( 'bio',  'user_' . $current_author_id ) );
+	?>
 
     <div class="author-section">
         <div class="author-info">
@@ -110,11 +108,11 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
     <div class="single-post-navigation">
 		<?php
 
-        $prev_post = wpcom_vip_get_adjacent_post( false, '', true );
+		$prev_post = wpcom_vip_get_adjacent_post( false, '', true );
 
-        if ( $prev_post ) {
+		if ( $prev_post ) {
 
-            $prev_title = wp_strip_all_tags( str_replace( '"', '', $prev_post->post_title ) );
+			$prev_title = wp_strip_all_tags( str_replace( '"', '', $prev_post->post_title ) );
 			?>
             <a rel="prev" href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" title=" <?php echo esc_attr( $prev_title ); ?>" class="prev">
                 <i class="post-nav-icon fa fa-3x fa-angle-left"></i>
@@ -130,7 +128,7 @@ $tags_thought_galleries = get_the_terms( $current_post_id, 'thought-gallery-tags
 
 		if ( $next_post ) {
 
-		    $next_title = wp_strip_all_tags( str_replace( '"', '', $next_post->post_title ) );
+			$next_title = wp_strip_all_tags( str_replace( '"', '', $next_post->post_title ) );
 			?>
             <a rel="next" href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" title="<?php echo esc_attr( $next_title ); ?>" class="next">
                 <span class="post-nav-title-label">Next Post</span>

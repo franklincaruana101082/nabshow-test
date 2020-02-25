@@ -2206,6 +2206,7 @@ function masonryGrids() {
     highest = Math.max.apply(Math, colHeight);
 
     mainDiv.style.height = highest + 'px';
+    mainDiv.classList.add('custom-masonry');
   }
 }
 

@@ -686,7 +686,7 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 
 /* thought-gallery */
 .post, .page{margin:0}
-.thought-gallery-detail-page .sidebar-inner{margin-top:75px}
+.thought-gallery-detail-page .sidebar-inner{margin-top:0}
 .sidebar-wrap .widget.widget_tags a{text-transform:capitalize}
 .sidebar-wrap .widget li{margin-bottom:5px}
 .sidebar-wrap .widget *{color:#fff}
@@ -716,13 +716,14 @@ body .spacing-0 .bx-wrapper{margin-bottom:0!important}
 .single-post-navigation .next i.post-nav-icon.fa{transform:rotate(180deg);left:auto!important;right:0}
 .feature-image{margin-bottom:40px;display:block}
 .sidebar-wrap .widget.widget_search input::placeholder{color:#000;font-family:"Roboto Bold";font-weight:normal}
-.tag-icon-list ul.social-share{float:right}
+.tag-icon-list ul.social-share{float:right;margin:0}
 .tag-icon-list ul.social-share li{margin-right:8px}
 .tag-icon-list ul.social-share li a{border:none;font-size:23px;width:40px;height:40px;padding:0;text-align:center;display:flex;align-items:center;text-decoration:none;justify-content:center}
 .tag-icon-list ul.social-share li a.facebook{color:#fff;background:#3b579d}
 .tag-icon-list ul.social-share li a.twitter{color:#fff;background:#1da1f2}
 .tag-icon-list ul.social-share li a.envelope{color:#fff;background:#20af37}
 .tag-icon-list ul.social-share li a.linkedin{color:#fff;background:#0077b5}
+.tag-icon-list ul.social-share li.shareText{font-size:20px}
 ul.sidebar-contributors{display:flex;flex-wrap:wrap;margin:0 -7px 20px -7px!important;align-items:center!important}
 ul.sidebar-contributors li{padding:0 7px;margin:0 0 10px 0!important;text-align:center;flex-basis:33.33%}
 ul.sidebar-contributors li img{border-radius:50%;object-fit:cover;object-position:center;width:100%}
@@ -734,8 +735,8 @@ ul.sidebar-contributors li a{padding:0!important;background:none!important;borde
 .related-post-list .related-list li .image-effect-wrapper a{width:100%}
 .related-post-list .related-list li .image-effect-wrapper img{width:100%}
 .related-post-list .related-list li .related-content .related-title{font-size:28px;font-family:"Roboto Italic";color:#000;line-height:normal}
-.related-post-list .related-list li .related-content .blog-list-contributor{font-size:16px}
-.related-post-list .related-list li .related-content .related-title a{color:inherit}
+.related-post-list .related-list li .related-content .blog-list-contributor{font-size:16px;color:#fff}
+.related-post-list .related-list li .related-content .related-title a{color:#fff}
 
 span.post-nav-title-label{display:inline-block;font-size:16px;color:#000}
 .single-post-navigation .prev i.post-nav-icon.fa,.single-post-navigation .next i.post-nav-icon.fa{float:left;position:absolute;z-index:111;top:0;left:0}
@@ -746,7 +747,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Roboto 
 .author-user .author-heading{font-family:"Roboto BoldItalic";color:#000;font-size:28px;text-transform:capitalize}
 .author-avatar .avatar.photo{width:125px;border-radius:50%;height:125px}
 .author-avatar{display:table;float:left}
-.tag-icon-list ul{padding:0;list-style:none;display:inline-block;margin:0}
+.tag-icon-list ul{padding:0;list-style:none;display:inline-block;margin:0 0 20px}
 .tag-icon-list ul li{display:inline-block}
 .tag-icon-list ul.icontag{float:right}
 .tag-icon-list{display:inline-block;width:100%;padding:20px 0 35px}
@@ -798,6 +799,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Roboto 
 .thought-gallery-detail-page .cat-list-main .cat-info{font-size:20px;color:#fff;display:inline-block!important;font-family:"Roboto Bold";width:auto!important;margin-bottom:20px}
 .thought-gallery-detail-page .post-meta-info{border:none!important}
 .thought-gallery-detail-page .feature-image img{width:100%}
+.thought-gallery-detail-page .cat-list-main>span{font-size:20px}
 
 /* thought-gallery-detail-page */
 
@@ -1451,7 +1453,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .opportunities .box-main .box-item .box-inner .sold{position:absolute;top:13px;right:-30px;transform:rotate(45deg);background:#0f6cb6;color:#fff;font-size:15px;text-transform:uppercase;width:120px;height:34px;display:flex;justify-content:center;align-items:center;font-weight:normal;letter-spacing:1px;z-index:1}
 .opportunities-filter .category{margin-right:20px}
 .nab-dynamic-list.session.with-masonry{max-width:initial!important}
-.nab-dynamic-list.with-masonry#card_section{flex-direction:inherit;align-items:flex-start}
+.nab-dynamic-list.with-masonry#card_section{flex-flow:wrap;align-items:flex-start}
+.nab-dynamic-list.with-masonry.custom-masonry#card_section{flex-direction:column}
 .session .item h4 a{text-decoration:none}
 .opportunities-filter .search-box{margin-top:20px}
 .sponsor-main p.has-medium-font-size{line-height:27px}
