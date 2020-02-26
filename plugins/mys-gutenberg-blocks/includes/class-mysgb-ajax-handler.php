@@ -322,21 +322,20 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$query_arg2[ 'meta_query' ] = $meta_query2;
 
 				$exhibitor_query2 = new WP_Query( $query_arg2 );
+
+				$meta_query   = array( 'relation' => 'OR' );
+				$meta_query[] = array(
+					'key'     => 'crossreferences',
+					'value'   => '',
+					'compare' => 'NOT EXIST',
+				);
+				$meta_query[] = array(
+					'key'     => 'crossreferences',
+					'value'   => $post_search,
+					'compare' => 'NOT LIKE',
+				);
+				$query_arg[ 'meta_query' ] = $meta_query;
 			}
-
-			$meta_query = array( 'relation' => 'OR' );
-			$meta_query[] = array (
-				'key'     => 'crossreferences',
-				'value'   => '',
-				'compare' => 'NOT EXIST',
-			);
-			$meta_query[] = array (
-				'key'     => 'crossreferences',
-				'value'   => $post_search,
-				'compare' => 'NOT LIKE',
-			);
-
-			$query_arg[ 'meta_query' ] = $meta_query;
 
 			$exhibitor_query = new WP_Query( $query_arg );
 
