@@ -53,7 +53,7 @@
 .modal-popup-nab .head .details strong{font-family:"Roboto Bold", sans-serif;font-weight:normal;color:#000;font-size:16px}
 .modal-popup-nab .head .details .program-name{font-size:16px;color:#016cb6;margin-bottom:15px;display:block}
 .modal-popup-nab .partners-list{padding:0;margin:0 -20px 40px -20px;display:flex;list-style:none;flex-wrap:wrap}
-.modal-popup-nab .partners-list li{padding:0 20px;margin-bottom:10px;text-align:center}
+.modal-popup-nab .partners-list li{padding:0 20px;margin-bottom:10px;text-align:center;max-width:200px}
 .modal-popup-nab .speakers-list{padding:0;margin:0 -20px 40px -20px;display:flex;list-style:none;flex-wrap:wrap}
 .modal-popup-nab .speakers-list li{padding:0 20px;margin-bottom:20px;flex-basis:33.33%;display:flex;align-items:center}
 .modal-popup-nab .speakers-list li .media-sec{margin-right:20px;width:100px}
@@ -1024,7 +1024,7 @@ ul.banner-navigation li a{color:#00b5df;font-family:'Roboto Black';font-size:16p
 .nab-dynamic-list.exhibitors .item .item-inner>span{font-style:italic;margin-bottom:15px;display:inline-block;width:100%}
 .nab-dynamic-list.exhibitors .item .item-inner>h4{font-size:22px;margin-top:20px}
 .nab-dynamic-list.exhibitors .item .item-inner>h4 a{font-size:22px}
-.nab-dynamic-list.exhibitors .item p{display:block;width:100%;color:#fff;font-size:14px;line-height:normal;margin-bottom:10px}
+.nab-dynamic-list.exhibitors .item .crossreferences,.nab-dynamic-list.exhibitors .item p{display:block;width:100%;color:#fff;font-size:14px;line-height:normal;margin-bottom:10px}
 .nab-dynamic-list .item .company{font-size:14px;line-height:normal;margin-bottom:10px}
 .nab-dynamic-list.exhibitors .item .item-inner>img{max-width:150px;max-height:150px}
 .nab-dynamic-list.exhibitors .item .item-inner *{color:#fff}
@@ -1297,7 +1297,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .nab-photos .photo-item.hide-item{display:none}
 .nab-photos .photo-item img, .nab-videos .photo-item img{width:100%;position:relative}
 .nab-photos .photo-item .photo-inner, .nab-videos .photo-item .photo-inner{position:relative}
-.nab-photos .photo-item .photo-inner .hover-items, .nab-videos .photo-item .photo-inner .hover-items{position:absolute;top:50%;left:50%;transition:0.5s all;opacity:0;font-size:43px;color:#fff;z-index:99;-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%)}
+.nab-photos .photo-item .photo-inner .hover-items, .nab-videos .photo-item .photo-inner .hover-items{position:absolute;top:50%;left:50%;transition:0.5s all;opacity:0;font-size:43px;color:#fff;z-index:99;-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);width:100%;text-align:center}
 .nab-photos .photo-item .photo-inner:hover .hover-items, .nab-videos .photo-item .photo-inner:hover .hover-items{opacity:1;transition:0.5s all}
 .nab-photos .photo-item .photo-inner .hover-items a, .nab-videos .photo-item .photo-inner .hover-items a{margin:0 10px;color:#fff;cursor:pointer;text-align:center}
 .nab-photos .modal-backdrop, .nab-videos .modal-backdrop{display:none}
