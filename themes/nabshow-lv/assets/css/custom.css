@@ -1024,7 +1024,7 @@ ul.banner-navigation li a{color:#00b5df;font-family:'Roboto Black';font-size:16p
 .nab-dynamic-list.exhibitors .item .item-inner>span{font-style:italic;margin-bottom:15px;display:inline-block;width:100%}
 .nab-dynamic-list.exhibitors .item .item-inner>h4{font-size:22px;margin-top:20px}
 .nab-dynamic-list.exhibitors .item .item-inner>h4 a{font-size:22px}
-.nab-dynamic-list.exhibitors .item p{display:block;width:100%;color:#fff;font-size:14px;line-height:normal;margin-bottom:10px}
+.nab-dynamic-list.exhibitors .item .crossreferences,.nab-dynamic-list.exhibitors .item p{display:block;width:100%;color:#fff;font-size:14px;line-height:normal;margin-bottom:10px}
 .nab-dynamic-list .item .company{font-size:14px;line-height:normal;margin-bottom:10px}
 .nab-dynamic-list.exhibitors .item .item-inner>img{max-width:150px;max-height:150px}
 .nab-dynamic-list.exhibitors .item .item-inner *{color:#fff}
