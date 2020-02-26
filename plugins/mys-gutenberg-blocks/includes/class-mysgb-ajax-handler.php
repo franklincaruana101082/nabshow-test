@@ -306,9 +306,9 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 			// Second Query for Meta search.
 			if ( ! empty( $post_search ) ) {
-				$meta_query = array( 'relation' => 'OR' );
+				$meta_query2 = array( 'relation' => 'OR' );
 
-				$meta_query[] = array (
+				$meta_query2[] = array (
 					'key'     => 'crossreferences',
 					'value'   => $post_search,
 					'compare' => 'LIKE',
@@ -318,10 +318,18 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 				unset($query_arg2['s']);
 
-				$query_arg2[ 'meta_query' ] = $meta_query;
+				$query_arg2[ 'meta_query' ] = $meta_query2;
 
 				$exhibitor_query2 = new WP_Query( $query_arg2 );
 			}
+
+			$meta_query[] = array (
+				'key'     => 'crossreferences',
+				'value'   => $post_search,
+				'compare' => 'NOT LIKE',
+			);
+
+			$query_arg[ 'meta_query' ] = $meta_query;
 
 			$exhibitor_query = new WP_Query( $query_arg );
 
@@ -331,7 +339,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$exhibitor_query->posts = $result->posts;
 			$exhibitor_query->post_count = count( $result->posts );
 
-			$total_pages = $exhibitor_query->max_num_pages;
+			$total_pages = $exhibitor_query->max_num_pages + $exhibitor_query2->max_num_pages;
 
 			if ( $exhibitor_query->have_posts() ) {
 
