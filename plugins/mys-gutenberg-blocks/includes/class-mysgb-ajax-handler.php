@@ -322,32 +322,38 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$query_arg2[ 'meta_query' ] = $meta_query2;
 
 				$exhibitor_query2 = new WP_Query( $query_arg2 );
-
-				$meta_query   = array( 'relation' => 'OR' );
-				$meta_query[] = array(
-					'key'     => 'crossreferences',
-					'value'   => '',
-					'compare' => 'NOT EXIST',
-				);
-				$meta_query[] = array(
-					'key'     => 'crossreferences',
-					'value'   => $post_search,
-					'compare' => 'NOT LIKE',
-				);
-				$query_arg[ 'meta_query' ] = $meta_query;
 			}
+
+			$meta_query = array( 'relation' => 'OR' );
+			$meta_query[] = array (
+				'key'     => 'crossreferences',
+				'value'   => '',
+				'compare' => 'NOT EXIST',
+			);
+			$meta_query[] = array (
+				'key'     => 'crossreferences',
+				'value'   => $post_search,
+				'compare' => 'NOT LIKE',
+			);
+
+			$query_arg[ 'meta_query' ] = $meta_query;
 
 			$exhibitor_query = new WP_Query( $query_arg );
 
 			$total_pages = $exhibitor_query->max_num_pages;
 
 			// Merging both queries.
-			if(0 !== count($meta_query2)) {
-				$result = new WP_Query();
-				$result->posts = array_unique( array_merge( $exhibitor_query->posts, $exhibitor_query2->posts ), SORT_REGULAR );
-				$exhibitor_query->posts = $result->posts;
+			if ( 0 !== count( $meta_query2 ) ) {
+				$result                      = new WP_Query();
+				$result->posts               = array_unique( array_merge( $exhibitor_query->posts, $exhibitor_query2->posts ), SORT_REGULAR );
+				$exhibitor_query->posts      = $result->posts;
 				$exhibitor_query->post_count = count( $result->posts );
-				$total_pages = $exhibitor_query->max_num_pages + $exhibitor_query2->max_num_pages;
+
+				$found_posts = $exhibitor_query->found_posts;
+				$found_posts2 = $exhibitor_query2->found_posts;
+				$total_found_posts = $found_posts + $found_posts2;
+				$total_pages = $total_found_posts / $post_limit;
+				//$total_pages = $exhibitor_query->max_num_pages + $exhibitor_query2->max_num_pages;
 			}
 
 			if ( $exhibitor_query->have_posts() ) {
