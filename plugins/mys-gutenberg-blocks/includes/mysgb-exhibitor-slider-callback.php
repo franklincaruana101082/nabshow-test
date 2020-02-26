@@ -253,8 +253,11 @@ if ( $query->have_posts() || $listing_page ) {
                         	<?php
                         }
 
-                        if ( $crossreferences ) {
-                        	?> <span><?php echo "Also Known As: $crossreferences"; ?></span> <?php
+                        if ( ! empty( $crossreferences ) ) {
+                        	// Adding space after commas.
+                        	$crossreferences = explode(',', $crossreferences);
+                        	$crossreferences = implode(', ', $crossreferences);
+                        	?> <span class="crossreferences"><?php echo "Also Known As: $crossreferences"; ?></span> <?php
                         }
                         ?>
                         <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
