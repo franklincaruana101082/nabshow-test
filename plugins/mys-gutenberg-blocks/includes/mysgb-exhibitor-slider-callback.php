@@ -253,7 +253,10 @@ if ( $query->have_posts() || $listing_page ) {
                         	<?php
                         }
 
-                        if ( !empty( $crossreferences ) ) {
+                        if ( ! empty( $crossreferences ) ) {
+                        	// Adding space after commas.
+                        	$crossreferences = explode(',', $crossreferences);
+                        	$crossreferences = implode(', ', $crossreferences);
                         	?> <span class="crossreferences"><?php echo "Also Known As: $crossreferences"; ?></span> <?php
                         }
                         ?>
