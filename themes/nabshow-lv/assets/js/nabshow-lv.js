@@ -1893,12 +1893,6 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
             itemInnerDiv.appendChild(innerParagraph);
           }
 
-          if( '' !== value.crossreferences ) {
-            let innerCrossreferences = document.createElement('span');
-            innerCrossreferences.innerText = 'Also Known As: ' + value.crossreferences.split(',').join(', ');
-            innerCrossreferences.setAttribute('class', 'crossreferences');
-            itemInnerDiv.appendChild(innerCrossreferences);
-          }
 
           let innerPlannerLink = document.createElement('a');
           innerPlannerLink.innerText = 'View in Planner';
