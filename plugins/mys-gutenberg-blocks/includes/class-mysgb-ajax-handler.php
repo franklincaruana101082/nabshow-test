@@ -349,11 +349,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$exhibitor_query->posts      = $result->posts;
 				$exhibitor_query->post_count = count( $result->posts );
 
-				$found_posts = $exhibitor_query->found_posts;
-				$found_posts2 = $exhibitor_query2->found_posts;
+				$found_posts       = $exhibitor_query->found_posts;
+				$found_posts2      = $exhibitor_query2->found_posts;
 				$total_found_posts = $found_posts + $found_posts2;
-				$total_pages = $total_found_posts / $post_limit;
-				//$total_pages = $exhibitor_query->max_num_pages + $exhibitor_query2->max_num_pages;
+				$total_pages       = ceil( $total_found_posts / $post_limit );
 			}
 
 			if ( $exhibitor_query->have_posts() ) {
