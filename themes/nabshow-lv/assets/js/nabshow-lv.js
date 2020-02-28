@@ -63,6 +63,43 @@
     });
   }
 
+  /* Set Cookie on Page Load */
+  function createCookie(cookieName, cookieValue, daysToExpire) {
+    let date = new Date();
+    date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
+    document.cookie = cookieName + '=' + cookieValue + '; expires=' + date.toGMTString();
+  }
+  function accessCookie(cookieName) {
+    let name = cookieName + '=';
+    let allCookieArray = document.cookie.split(';');
+    for (let i = 0; i < allCookieArray.length; i++) {
+      let temp = allCookieArray[i].trim();
+      if (0 == temp.indexOf(name))
+        {return temp.substring(name.length, temp.length);}
+    }
+    return '';
+  }
+  function checkCookie() {
+    let user = accessCookie('NABFirstVisit');
+    if ('' != user)
+    {
+      $('.nab-interadv-block').hide().removeClass('nab_model_open');
+    }
+    else {
+      user= 'nabuser';
+      if ('' != user && null != user) {
+        createCookie('NABFirstVisit', user, 2);
+        $('.nab-interadv-block').show().addClass('nab_model_open');
+      }
+    }
+  }
+
+  /* Check Interstitial Ad & Set Cookies */
+  if (0 < $('.nab-interadv-block').length) {
+    checkCookie();
+  }
+
+
   $(window).load(function () {
 
     /**

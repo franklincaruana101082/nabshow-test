@@ -1,6 +1,7 @@
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
+  const { Fragment } = wpElement;
   const { InspectorControls, MediaUpload, BlockControls, URLInputButton  } = wpEditor;
   const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette, ToggleControl } = wpComponents;
 
@@ -133,7 +134,11 @@
       newWindow: {
         type: 'boolean',
         default: false,
-      }
+      },
+      headTag: {
+        type: 'boolean',
+        default: false,
+      },
     },
     edit({ attributes, setAttributes }) {
       const {
@@ -156,7 +161,8 @@
         ImgAlignment,
         imgLink,
         newWindow,
-        ImageMaxWidth
+        ImageMaxWidth,
+        headTag
       } = attributes;
 
       const ImageStyle = {};
@@ -181,7 +187,12 @@
         if (attributes.imageUrl) {
           return (
             <div className="nab-image" style={mainStyle}>
-              <img style={ImageStyle} src={attributes.imageUrl} alr={imageAlt} className="image" />
+              {headTag ?
+                  <h1 className="nab-imageHeading">
+                    <img style={ImageStyle} src={attributes.imageUrl} alt={imageAlt} className="image" />
+                </h1> :
+                <img style={ImageStyle} src={attributes.imageUrl} alt={imageAlt} className="image" />
+              }
             </div>
           );
         } else {
@@ -238,7 +249,26 @@
             render={({ open }) => getImageButton(open)}
           />
           <InspectorControls>
-            <PanelBody title="Dimensions" initialOpen={true}>
+            <PanelBody title="General Settings" initialOpen={true}>
+              <PanelRow>
+                <div className="inspector-field-alignment inspector-field altText">
+                  <label>Alt Text:</label>
+                  <TextControl
+                    type="string"
+                    value={imageAlt}
+                    onChange={(value) => setAttributes({ imageAlt: value })}
+                  />
+                </div>
+              </PanelRow>
+              <PanelRow>
+                <ToggleControl
+                  label={__('Add H1 Tag: ')}
+                  checked={headTag}
+                  onChange={() => setAttributes({ headTag: ! headTag })}
+                />
+              </PanelRow>
+            </PanelBody>
+            <PanelBody title="Dimensions" initialOpen={false}>
               <PanelRow>
                 <div className="inspector-field inspector-image-width" >
                   <label>Width (in px)</label>
@@ -485,7 +515,8 @@
         ImgAlignment,
         imgLink,
         newWindow,
-        ImageMaxWidth
+        ImageMaxWidth,
+        headTag
       } = attributes;
 
       const ImageStyle = {};
@@ -508,7 +539,22 @@
 
       return (
         <div className="nab-image" style={mainStyle}>
-          {imgLink ? (<a href={imgLink} target={newWindow ? '_blank' : '_self'} rel="noopener noreferrer"><img style={ImageStyle} src={imageUrl} alt={imageAlt} /></a>) : (<img style={ImageStyle} src={imageUrl} alt={imageAlt} />)}
+          {headTag ?
+            <Fragment>
+              <h1 className="nab-imageHeading">
+                {imgLink ?
+                  (<a href={imgLink} target={newWindow ? '_blank' : '_self'} rel="noopener noreferrer"><img style={ImageStyle} src={imageUrl} alt={imageAlt} /></a>) :
+                  (<img style={ImageStyle} src={imageUrl} alt={imageAlt} />)
+                }
+              </h1>
+            </Fragment> :
+            <Fragment>
+              {imgLink ?
+                (<a href={imgLink} target={newWindow ? '_blank' : '_self'} rel="noopener noreferrer"><img style={ImageStyle} src={imageUrl} alt={imageAlt} /></a>) :
+                (<img style={ImageStyle} src={imageUrl} alt={imageAlt} />)
+              }
+          </Fragment >
+          }
         </div>
       );
     }
