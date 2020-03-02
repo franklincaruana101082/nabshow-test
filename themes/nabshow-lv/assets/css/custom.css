@@ -1260,7 +1260,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .box-main .box-item.additem{text-align:center;min-height:350px}
 .box-main .box-item.additem button{width:calc(100% - 30px);height:100%;background:#38ba7d5e;padding:0;display:block;font-size:16px;transition:0.5s all;outline:none;margin:0 auto}
 .box-main .box-item.additem button span{display:inline-block;vertical-align:middle}
-.box-main .box-item .box-inner p.description{font-size:16px;margin-bottom:20px;color:#fff}
+.box-main .box-item .box-inner p.description{font-size:12px;margin-bottom:20px;color:#fff;font-style:italic;line-height:16px}
 .box-main .box-item .box-inner .readMore,.newyr-details>a{font-size:18px;font-family:"Roboto Bold";text-decoration:none;text-align:left;display:inline-block}
 .box-main .box-item .box-inner .readMore a::after,.newyr-details>a::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#00b5df;font-weight:normal}
@@ -2072,3 +2072,6 @@ p.coming-soon{color:#fff}
 .nab-interadv-block.nab_model_open .nab_model_inner{width:auto;max-width:95%}
 .nab-interadv-block .nab_pop_up_content_wrap{padding:0}
 .nab-interadv-block.nab_model_open .nab_bg_overlay{background:rgba(0, 0, 0, 0.9)}
+
+/* latest */
+.badge-discounts span.discount{font-size:22px;line-height:26px;margin:20px 0}
