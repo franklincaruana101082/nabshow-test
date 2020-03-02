@@ -121,7 +121,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 								}
 								if ( $session_query->have_posts() ) {
 									?>
-                                    <h3 class="section-title">Catch <?php echo esc_html( get_the_title() ); ?> at:</h3>
+                                    <h3 class="section-title">Catch <?php echo esc_html( get_the_title() ); ?> in:</h3>
                                     <ul class="session-list">
 										<?php
 										while ( $session_query->have_posts() ) {
