@@ -5344,10 +5344,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var Component = wpElement.Component,
       Fragment = wpElement.Fragment;
   var MediaUpload = wpEditor.MediaUpload,
-      InspectorControls = wpEditor.InspectorControls;
+      InspectorControls = wpEditor.InspectorControls,
+      URLInputButton = wpEditor.URLInputButton;
   var Button = wpComponents.Button,
       PanelBody = wpComponents.PanelBody,
       TextControl = wpComponents.TextControl,
+      ToggleControl = wpComponents.ToggleControl,
       RangeControl = wpComponents.RangeControl;
 
 
@@ -5405,7 +5407,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     alt: item.alt,
                     id: item.id,
                     width: item.sizes.full.width,
-                    caption: ''
+                    caption: '',
+                    imgLink: '',
+                    newWindow: false
                   };
                 });
                 setAttributes({
@@ -5460,6 +5464,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onChange: function onChange(cap) {
                     var tempDataArray = [].concat(_toConsumableArray(dataArry));
                     tempDataArray[index].caption = cap;
+                    setAttributes({ dataArry: tempDataArray });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                "div",
+                { className: "photo-linking" },
+                wp.element.createElement(URLInputButton, {
+                  url: photo.imgLink,
+                  onChange: function onChange(val) {
+                    var tempDataArray = [].concat(_toConsumableArray(dataArry));
+                    tempDataArray[index].imgLink = val;
+                    setAttributes({ dataArry: tempDataArray });
+                  }
+                }),
+                wp.element.createElement(ToggleControl, {
+                  label: __('Open New Tab'),
+                  checked: photo.newWindow,
+                  onChange: function onChange(cap) {
+                    var tempDataArray = [].concat(_toConsumableArray(dataArry));
+                    tempDataArray[index].newWindow = !photo.newWindow;
                     setAttributes({ dataArry: tempDataArray });
                   }
                 })
@@ -5570,6 +5595,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   "a",
                   { className: "download", href: photo.media, download: true },
                   wp.element.createElement("i", { className: "fa fa-download" })
+                ),
+                photo.imgLink && wp.element.createElement(
+                  "a",
+                  { className: "imgLink", href: photo.imgLink, target: photo.newWindow ? '_blank' : '_self', rel: "noopener noreferrer" },
+                  wp.element.createElement("i", { className: "fa fa-paperclip" })
                 )
               ),
               wp.element.createElement("img", { src: photo.media + '?h=400&w=600', alt: photo.alt, className: "media", width: photo.width })

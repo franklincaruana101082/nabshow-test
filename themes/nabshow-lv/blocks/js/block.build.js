@@ -9216,6 +9216,7 @@ module.exports = shortOut;
 (function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment;
   var InspectorControls = wpEditor.InspectorControls,
       MediaUpload = wpEditor.MediaUpload,
       BlockControls = wpEditor.BlockControls,
@@ -9366,6 +9367,10 @@ module.exports = shortOut;
       newWindow: {
         type: 'boolean',
         default: false
+      },
+      headTag: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: function edit(_ref) {
@@ -9390,7 +9395,8 @@ module.exports = shortOut;
           ImgAlignment = attributes.ImgAlignment,
           imgLink = attributes.imgLink,
           newWindow = attributes.newWindow,
-          ImageMaxWidth = attributes.ImageMaxWidth;
+          ImageMaxWidth = attributes.ImageMaxWidth,
+          headTag = attributes.headTag;
 
 
       var ImageStyle = {};
@@ -9416,7 +9422,11 @@ module.exports = shortOut;
           return wp.element.createElement(
             "div",
             { className: "nab-image", style: mainStyle },
-            wp.element.createElement("img", { style: ImageStyle, src: attributes.imageUrl, alr: imageAlt, className: "image" })
+            headTag ? wp.element.createElement(
+              "h1",
+              { className: "nab-imageHeading" },
+              wp.element.createElement("img", { style: ImageStyle, src: attributes.imageUrl, alt: imageAlt, className: "image" })
+            ) : wp.element.createElement("img", { style: ImageStyle, src: attributes.imageUrl, alt: imageAlt, className: "image" })
           );
         } else {
           return wp.element.createElement(
@@ -9504,7 +9514,42 @@ module.exports = shortOut;
           null,
           wp.element.createElement(
             PanelBody,
-            { title: "Dimensions", initialOpen: true },
+            { title: "General Settings", initialOpen: true },
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(
+                "div",
+                { className: "inspector-field-alignment inspector-field altText" },
+                wp.element.createElement(
+                  "label",
+                  null,
+                  "Alt Text:"
+                ),
+                wp.element.createElement(TextControl, {
+                  type: "string",
+                  value: imageAlt,
+                  onChange: function onChange(value) {
+                    return setAttributes({ imageAlt: value });
+                  }
+                })
+              )
+            ),
+            wp.element.createElement(
+              PanelRow,
+              null,
+              wp.element.createElement(ToggleControl, {
+                label: __('Add H1 Tag: '),
+                checked: headTag,
+                onChange: function onChange() {
+                  return setAttributes({ headTag: !headTag });
+                }
+              })
+            )
+          ),
+          wp.element.createElement(
+            PanelBody,
+            { title: "Dimensions", initialOpen: false },
             wp.element.createElement(
               PanelRow,
               null,
@@ -9986,7 +10031,8 @@ module.exports = shortOut;
           ImgAlignment = attributes.ImgAlignment,
           imgLink = attributes.imgLink,
           newWindow = attributes.newWindow,
-          ImageMaxWidth = attributes.ImageMaxWidth;
+          ImageMaxWidth = attributes.ImageMaxWidth,
+          headTag = attributes.headTag;
 
 
       var ImageStyle = {};
@@ -10010,11 +10056,27 @@ module.exports = shortOut;
       return wp.element.createElement(
         "div",
         { className: "nab-image", style: mainStyle },
-        imgLink ? wp.element.createElement(
-          "a",
-          { href: imgLink, target: newWindow ? '_blank' : '_self', rel: "noopener noreferrer" },
-          wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
-        ) : wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+        headTag ? wp.element.createElement(
+          Fragment,
+          null,
+          wp.element.createElement(
+            "h1",
+            { className: "nab-imageHeading" },
+            imgLink ? wp.element.createElement(
+              "a",
+              { href: imgLink, target: newWindow ? '_blank' : '_self', rel: "noopener noreferrer" },
+              wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+            ) : wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+          )
+        ) : wp.element.createElement(
+          Fragment,
+          null,
+          imgLink ? wp.element.createElement(
+            "a",
+            { href: imgLink, target: newWindow ? '_blank' : '_self', rel: "noopener noreferrer" },
+            wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+          ) : wp.element.createElement("img", { style: ImageStyle, src: imageUrl, alt: imageAlt })
+        )
       );
     }
   });

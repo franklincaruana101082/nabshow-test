@@ -1930,7 +1930,7 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
             itemInnerDiv.appendChild(innerParagraph);
           }
 
-          if( '' !== value.crossreferences ) {
+          if ( '' !== value.crossreferences ) {
             let innerCrossreferences = document.createElement('span');
             innerCrossreferences.innerText = 'Also Known As: ' + value.crossreferences.split(',').join(', ');
             innerCrossreferences.setAttribute('class', 'crossreferences');

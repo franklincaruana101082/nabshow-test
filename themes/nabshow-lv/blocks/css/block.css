@@ -996,7 +996,7 @@ ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black",
 .box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#0f6cb6;font-weight:normal}
 .box-main .box-item .box-inner .media-img .no-image{width:200px;background:#9a9a9a;height:100%;color:#fff;display:flex;align-items:center;justify-content:center;max-width:100%}
 .box-main.four-grid .box-item{flex-basis:25%;min-width:25%}
-.box-main .box-item .box-inner input[type=text]{border:none;padding:10px 0;outline:none;text-align:center;box-shadow:initial}
+.box-main .box-item .box-inner input[type=text]{border:none;padding:10px 0;outline:none;text-align:center;box-shadow:initial;background-color:transparent}
 .delegation .box-main .box-item.additem{min-height:230px}
 .delegation .box-main .box-item.additem:nth-child(n + 3){margin-top:30px;margin-bottom:0}
 .official-vendors .box-main .box-item .box-inner{align-items:flex-start;text-align:left;background-color:#fff}
@@ -1062,6 +1062,11 @@ ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black",
 .nab-photos .photo-item .photo-inner span.remove, .nab-videos .photo-item .photo-inner span.remove{position:absolute;background:#ff0000b5!important;color:#fff!important;border-radius:50%!important;top:0;right:0;cursor:pointer;display:flex;width:30px;height:30px;text-align:center;line-height:1;justify-content:center;align-items:center}
 .photos-add button.components-button.button.button-large, .videos-add button.components-button.button.button-large{width:100%;background:#0f6cb6a3;padding:0;font-size:16px;transition:0.5s all;outline:none;margin:0 auto;height:100px;display:flex;justify-content:center;align-items:center;color:#fff;margin-top:30px}
 .photos-add+.inspector-field-Numberofitems{margin-top:25px}
+.photo-linking .block-editor-url-input input[type=text]{width:100%!important}
+.photo-linking{display:flex;align-items:center;position:relative;padding-bottom:15px}
+.photo-linking .editor-url-input__button{width:70%}
+.photo-linking .editor-url-input__button form.editor-url-input__button-modal{position:absolute;width:100%;bottom:-20px;left:0}
+.photo-linking .editor-url-input__button>button.components-button.components-icon-button>svg.dashicon.dashicons-admin-links{box-shadow:inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff}
 
 /* Related Content css */
 [aria-label*="Block: Related Content"] .components-placeholder__label{font-weight:800;margin:0 0 10px 0;font-size:22px;font-family:Muli, sans-serif!important;color:#363636}

@@ -2,8 +2,8 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Component, Fragment } = wpElement;
-  const { MediaUpload, InspectorControls } = wpEditor;
-  const { Button, PanelBody, TextControl, RangeControl } = wpComponents;
+  const { MediaUpload, InspectorControls, URLInputButton } = wpEditor;
+  const { Button, PanelBody, TextControl, ToggleControl, RangeControl } = wpComponents;
 
   const photosBlockIcon = (
     <svg width="150px" height="150px" viewBox="222.64 222.641 150 150" enable-background="new 222.64 222.641 150 150">
@@ -47,7 +47,9 @@
                   alt: item.alt,
                   id: item.id,
                   width: item.sizes.full.width,
-                  caption: ''
+                  caption: '',
+                  imgLink: '',
+                  newWindow: false
                 }));
                 setAttributes({
                   dataArry: [
@@ -87,10 +89,29 @@
                       className="caption"
                       value={photo.caption}
                       placeholder="Caption"
-                      onChange={ cap => {
+                      onChange={cap => {
                         let tempDataArray = [...dataArry];
                         tempDataArray[index].caption = cap;
-                        setAttributes({ dataArry: tempDataArray});
+                        setAttributes({ dataArry: tempDataArray });
+                      }}
+                    />
+                  </div>
+                  <div className="photo-linking">
+                    <URLInputButton
+                      url={photo.imgLink}
+                      onChange={val => {
+                        let tempDataArray = [...dataArry];
+                        tempDataArray[index].imgLink = val;
+                        setAttributes({ dataArry: tempDataArray });
+                      }}
+                    />
+                    <ToggleControl
+                      label={__('Open New Tab')}
+                      checked={photo.newWindow}
+                      onChange={cap => {
+                        let tempDataArray = [...dataArry];
+                        tempDataArray[index].newWindow = ! photo.newWindow;
+                        setAttributes({ dataArry: tempDataArray });
                       }}
                     />
                   </div>
@@ -166,6 +187,7 @@
                     <div className="hover-items">
                       <a className="popup-btn"><i className="fa fa-image"></i></a>
                       <a className="download" href={photo.media} download><i className="fa fa-download"></i></a>
+                    {photo.imgLink && <a className="imgLink" href={photo.imgLink} target={photo.newWindow ? '_blank' : '_self'} rel="noopener noreferrer"><i className="fa fa-paperclip"></i></a>}
                     </div>
                     <img src={photo.media + '?h=400&w=600'} alt={photo.alt} className="media" width={photo.width} />
                   </div>

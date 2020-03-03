@@ -53,7 +53,7 @@
 .modal-popup-nab .head .details strong{font-family:"Roboto Bold", sans-serif;font-weight:normal;color:#000;font-size:16px}
 .modal-popup-nab .head .details .program-name{font-size:16px;color:#016cb6;margin-bottom:15px;display:block}
 .modal-popup-nab .partners-list{padding:0;margin:0 -20px 40px -20px;display:flex;list-style:none;flex-wrap:wrap}
-.modal-popup-nab .partners-list li{padding:0 20px;margin-bottom:10px;text-align:center}
+.modal-popup-nab .partners-list li{padding:0 20px;margin-bottom:10px;text-align:center;max-width:200px}
 .modal-popup-nab .speakers-list{padding:0;margin:0 -20px 40px -20px;display:flex;list-style:none;flex-wrap:wrap}
 .modal-popup-nab .speakers-list li{padding:0 20px;margin-bottom:20px;flex-basis:33.33%;display:flex;align-items:center}
 .modal-popup-nab .speakers-list li .media-sec{margin-right:20px;width:100px}
@@ -1260,7 +1260,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .box-main .box-item.additem{text-align:center;min-height:350px}
 .box-main .box-item.additem button{width:calc(100% - 30px);height:100%;background:#38ba7d5e;padding:0;display:block;font-size:16px;transition:0.5s all;outline:none;margin:0 auto}
 .box-main .box-item.additem button span{display:inline-block;vertical-align:middle}
-.box-main .box-item .box-inner p.description{font-size:16px;margin-bottom:20px;color:#fff}
+.box-main .box-item .box-inner p.description{font-size:12px;margin-bottom:20px;color:#fff;font-style:italic;line-height:16px}
 .box-main .box-item .box-inner .readMore,.newyr-details>a{font-size:18px;font-family:"Roboto Bold";text-decoration:none;text-align:left;display:inline-block}
 .box-main .box-item .box-inner .readMore a::after,.newyr-details>a::after{content:"\f178";font-family:FontAwesome;margin-left:6px}
 .box-main .box-item .box-inner .readMore a{text-decoration:none;cursor:pointer;color:#00b5df;font-weight:normal}
@@ -1297,7 +1297,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .nab-photos .photo-item.hide-item{display:none}
 .nab-photos .photo-item img, .nab-videos .photo-item img{width:100%;position:relative}
 .nab-photos .photo-item .photo-inner, .nab-videos .photo-item .photo-inner{position:relative}
-.nab-photos .photo-item .photo-inner .hover-items, .nab-videos .photo-item .photo-inner .hover-items{position:absolute;top:50%;left:50%;transition:0.5s all;opacity:0;font-size:43px;color:#fff;z-index:99;-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%)}
+.nab-photos .photo-item .photo-inner .hover-items, .nab-videos .photo-item .photo-inner .hover-items{position:absolute;top:50%;left:50%;transition:0.5s all;opacity:0;font-size:43px;color:#fff;z-index:99;-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);width:100%;text-align:center}
 .nab-photos .photo-item .photo-inner:hover .hover-items, .nab-videos .photo-item .photo-inner:hover .hover-items{opacity:1;transition:0.5s all}
 .nab-photos .photo-item .photo-inner .hover-items a, .nab-videos .photo-item .photo-inner .hover-items a{margin:0 10px;color:#fff;cursor:pointer;text-align:center}
 .nab-photos .modal-backdrop, .nab-videos .modal-backdrop{display:none}
@@ -2072,3 +2072,6 @@ p.coming-soon{color:#fff}
 .nab-interadv-block.nab_model_open .nab_model_inner{width:auto;max-width:95%}
 .nab-interadv-block .nab_pop_up_content_wrap{padding:0}
 .nab-interadv-block.nab_model_open .nab_bg_overlay{background:rgba(0, 0, 0, 0.9)}
+
+/* latest */
+.badge-discounts span.discount{font-size:22px;line-height:26px;margin:20px 0}
