@@ -790,9 +790,16 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					}
 
 					//Upload Image to WP Media Library and attach with the post.
-					$attach_id = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url, $post_type );
+					if ( ! empty( $image_url ) ) {
+						$attach_id   = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url, $post_type );
+						$post_detail .= '-attach_id-' . $attach_id;
+					} else {
+						if ( has_post_thumbnail( $post_id ) ) {
+							delete_post_thumbnail( $post_id );
+							$post_detail .= '-attachment_removed';
+						}
+					}
 
-					$post_detail .= '-attach_id-' . $attach_id;
 
 					/**
 					 * Preparing taxonomies data.
