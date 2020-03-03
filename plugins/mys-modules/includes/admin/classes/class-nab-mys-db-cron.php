@@ -534,7 +534,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					case 'speakers':
 
 						$prepared_data['post_type']         = 'speakers';
-						$prepared_data['exclude_from_meta'] = array( 'firstname', 'lastname', 'bio', 'photo' );
+						$prepared_data['exclude_from_meta'] = array( 'bio', 'photo' );
 						$prepared_data['typeidname']        = 'speakerid';
 						$prepared_data['title_name']        = 'firstname';
 						$prepared_data['description_name']  = 'bio';
@@ -710,6 +710,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				);
 				$already_available = new WP_Query( $args );
 
+				// Initialize
+				$post_id = $already_available_id = '';
 				if ( isset( $already_available->posts[0]->ID ) ) {
 					$post_id = $already_available_id = $already_available->posts[0]->ID;
 				}
@@ -723,7 +725,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					/**
 					 * If post item already available and it should be updated.
 					 */
-					if ( isset( $already_available_id ) && 2 === $item_status ) {
+					if ( ! empty( $already_available_id ) && 2 === $item_status ) {
 
 						$update_post_id = $already_available_id;
 
@@ -753,7 +755,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						$post_detail .= "update-$post_type-" . $post_id;
 
-					} else if ( ! isset( $already_available_id ) ) {
+					} else if ( empty( $already_available_id ) ) {
 						/**
 						 * If post is not available, creating it.
 						 */
@@ -859,7 +861,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['exhibitor-categories'] = $c_title_array;
 
 						// Making 'crossreferences' comma separated.
-						$crossreferences        = $individual_item['crossreferences'];
+						$crossreferences = $individual_item['crossreferences'];
 						if ( ! empty( $crossreferences_string ) ) {
 							$crossreferences_string = array();
 							foreach ( $crossreferences as $crossref ) {
@@ -1029,7 +1031,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					$post_detail .= '|';
 
-				} else if ( isset( $already_available_id ) ) {
+				} else if ( ! empty( $already_available_id ) ) {
 
 					// Deleting item.
 					$update_post_id = $already_available_id;
