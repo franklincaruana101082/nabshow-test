@@ -143,7 +143,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 				$sql = $this->wpdb->update(
 					$this->wpdb->prefix . 'mys_history', array(
 					'HistoryEndTime' => current_time( 'Y-m-d H:i:s' ),
-					'HistoryStatus'  => 1,
+					'HistoryStatus'  => $history_status,
 				), array(
 						'HistoryGroupID'  => $this->group_id,
 						'HistoryDataType' => $current_request,
