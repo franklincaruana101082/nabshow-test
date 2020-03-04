@@ -78,28 +78,6 @@ import pick from 'lodash/pick';
         if (imageUrl) {
           return (
             <div className={`nab-interadv-block img-link ${true=== displayOnMobile ? ' showonMobile' : ''}`}>
-              {/* <img src={imageUrl} alr={imageAlt} className="image" /> */}
-              {/* <div className="img-controls">
-                <div className="left">
-                  <TextControl
-                    label={__('Link URL')}
-                    placeholder="https://"
-                    value={imgLink ? imgLink || '' : ''}
-                    onChange={(value) => setAttributes({ imgLink: value  })}
-                  />
-                </div>
-                <div className="right">
-                  <ToggleControl
-                    label={__('Open in New Tab')}
-                    checked={imgTarget ? imgTarget || '' : ''}
-                    onChange={() => {
-                      let check = imgTarget === undefined ? false : ! imgTarget;
-                      setAttributes({ imgTarget: check });
-                    }}
-                  />
-                </div>
-              </div> */}
-
               <img src={imageUrl} alr={imageAlt} className="image" />
               {imgLink && (
                 <a className="nab-media-slider-link"

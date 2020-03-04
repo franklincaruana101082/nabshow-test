@@ -1505,7 +1505,8 @@ ul.ss-off-options li.active svg>rect[stroke="#7B8080"], ul.ss-on-options li.acti
 
 /* Other CSS */
 .related-content-slider-info .item .item-info span.sub-title, .related-content-slider-events .item span.sub-title{display:block}
-.linkBtnBar .block-editor-url-input__button{display:flex;padding:0;flex-flow:column;background:#fff;border-top:1px solid #e2e4e7;border-bottom:1px solid #e2e4e7;border-right:1px solid #e2e4e7;cursor:pointer;position:relative}
+.linkBtnBar .block-editor-url-input__button, .imgblock-edit-img .edit-item{display:flex;padding:0;flex-flow:column;background:#fff;border-top:1px solid #e2e4e7;border-bottom:1px solid #e2e4e7;border-right:1px solid #e2e4e7;cursor:pointer;position:relative}
+.imgblock-edit-img .edit-item{width:36px;height:38px;align-items:center;justify-content:center}
 .linkBtnBar .block-editor-url-input__button form.block-editor-url-input__button-modal{position:absolute;top:100%;left:-91px}
 .row.related-content-rowbox a{pointer-events:none}
 .bx-viewport .nab-dynamic-slider.sponsors .item img, .bx-viewport .nab-dynamic-slider.exhibitors .item img{max-height:55%;max-width:80%}

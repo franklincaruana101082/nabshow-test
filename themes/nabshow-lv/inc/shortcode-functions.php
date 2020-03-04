@@ -113,3 +113,14 @@ function nabshow_lv_schedule_hall_callback() {
 
 	return $html;
 }
+
+/**
+ * Display current data.
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_display_today_date() {
+    return date( 'F j, Y', current_time( 'timestamp' ) );
+}

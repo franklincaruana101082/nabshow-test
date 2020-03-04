@@ -14,3 +14,6 @@ add_shortcode( 'nab_schedule_date', 'nabshow_lv_schedule_date_callback' );
 
 // Shortcode for display Hall according to ACF field select on page.
 add_shortcode( 'nab_schedule_hall', 'nabshow_lv_schedule_hall_callback' );
+
+// Shortcode for display current data
+add_shortcode( 'nab_date_today', 'nabshow_lv_display_today_date' );
