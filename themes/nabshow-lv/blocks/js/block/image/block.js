@@ -2,7 +2,7 @@
   const { __ } = wpI18n;
   const { registerBlockType } = wpBlocks;
   const { Fragment } = wpElement;
-  const { InspectorControls, MediaUpload, BlockControls, URLInputButton  } = wpEditor;
+  const { InspectorControls, MediaUpload, BlockControls, URLInputButton, NavigableToolbar  } = wpEditor;
   const { TextControl, PanelBody, PanelRow, Button, RangeControl, ColorPalette, ToggleControl } = wpComponents;
 
   const imageBlockIcon = (
@@ -237,6 +237,18 @@
               <URLInputButton
                 url={imgLink}
                 onChange={(url, post) => setAttributes({ imgLink: url, text: (post && post.title) || 'Click here' })}
+              />
+            </div>
+            <div className="imgblock-edit-img">
+              <MediaUpload
+                onSelect={(media) => {
+                  setAttributes({ imageAlt: media.alt, imageUrl: media.url });
+                }}
+                type="image"
+                value={attributes.imageID}
+                render={({ open }) => (
+                  <span class="dashicons dashicons-edit edit-item" onClick={open} />
+                )}
               />
             </div>
           </BlockControls>

@@ -9220,7 +9220,8 @@ module.exports = shortOut;
   var InspectorControls = wpEditor.InspectorControls,
       MediaUpload = wpEditor.MediaUpload,
       BlockControls = wpEditor.BlockControls,
-      URLInputButton = wpEditor.URLInputButton;
+      URLInputButton = wpEditor.URLInputButton,
+      NavigableToolbar = wpEditor.NavigableToolbar;
   var TextControl = wpComponents.TextControl,
       PanelBody = wpComponents.PanelBody,
       PanelRow = wpComponents.PanelRow,
@@ -9496,6 +9497,21 @@ module.exports = shortOut;
                 return setAttributes({ imgLink: url, text: post && post.title || 'Click here' });
               }
             })
+          ),
+          wp.element.createElement(
+            "div",
+            { className: "imgblock-edit-img" },
+            wp.element.createElement(MediaUpload, {
+              onSelect: function onSelect(media) {
+                setAttributes({ imageAlt: media.alt, imageUrl: media.url });
+              },
+              type: "image",
+              value: attributes.imageID,
+              render: function render(_ref2) {
+                var open = _ref2.open;
+                return wp.element.createElement("span", { "class": "dashicons dashicons-edit edit-item", onClick: open });
+              }
+            })
           )
         ),
         wp.element.createElement(MediaUpload, {
@@ -9504,8 +9520,8 @@ module.exports = shortOut;
           },
           type: "image",
           value: attributes.imageID,
-          render: function render(_ref2) {
-            var open = _ref2.open;
+          render: function render(_ref3) {
+            var open = _ref3.open;
             return getImageButton(open);
           }
         }),
@@ -10010,8 +10026,8 @@ module.exports = shortOut;
         )
       );
     },
-    save: function save(_ref3) {
-      var attributes = _ref3.attributes;
+    save: function save(_ref4) {
+      var attributes = _ref4.attributes;
       var imageAlt = attributes.imageAlt,
           imageUrl = attributes.imageUrl,
           ImageWidth = attributes.ImageWidth,
