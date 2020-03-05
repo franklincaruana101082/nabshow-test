@@ -160,6 +160,9 @@ select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:no
 .schedule-main .schedule-data .schedule-row .name{flex-basis:35%;color:#fff}
 .schedule-main .schedule-data .schedule-row .location{flex-basis:25%}
 .schedule-main .schedule-data .schedule-row .details{flex-basis:40%}
+.schedule-main .schedule-data .schedule-row .time{flex-basis:13%}
+.schedule-main .schedule-data .schedule-row .time+.location{flex-basis:17%}
+.schedule-main .schedule-data .schedule-row .time+.location+.details{flex-basis:37%}
 .schedule-main .schedule-data .schedule-row p{font-size:16px;color:#fff}
 .schedule-main .schedule-data .schedule-row a{text-decoration:none;font-size:16px}
 .schedule-main .schedule-data .schedule-row .name strong, .schedule-main .schedule-data .schedule-row .name a{font-size:18px;font-family:"Roboto Regular", sans-serif;word-break:break-word}

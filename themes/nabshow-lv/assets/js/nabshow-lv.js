@@ -524,7 +524,7 @@
    * Filter - Related content details js box-main
    */
   if (0 < $('.box-main-filter, .schedule-glance-filter, .main-filter, .meet-team-select').length) {
-    if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter select#award-name').length || 0 < $('.schedule-glance-filter div select#date').length || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length || 0 < $('.birds-of-a-feather').length) {
+    if (0 < $('.box-main .box-item').length || 0 < $('.accordionParentWrapper').length || 0 < $('.schedule-glance-filter').length  || 0 < $('.team-main .team-box').length || 0 < $('.products-winners').length || 0 < $('.news-conference-schedule').length || 0 < $('.opportunities').length || 0 < $('.related-content-rowbox').length || 0 < $('.birds-of-a-feather').length) {
 
       $('.new-this-year-block .box-main .box-item').each(function () {
         if ('' !== $(this).find('.title').html()) {
@@ -573,12 +573,23 @@
       });
 
       $('.schedule-main').each(function () {
-        insertOptions($(this).find('h2').text(), 'date');
+        if ($('.schedule-glance-filter #date').length){
+          insertOptions($(this).find('h2').text(), 'date');
+        }
 
         $(this).find('.schedule-row').each(function () {
-          insertOptions($(this).find('.details p').text(), 'pass-type');
-          insertOptions($(this).find('.location p').text(), 'location');
-          insertOptions($(this).attr('data-type'), 'type');
+          if ($('.schedule-glance-filter #time').length) {
+            insertOptions($(this).find('.time p').text(), 'time');
+          }
+          if ($('.schedule-glance-filter #pass-type').length) {
+            insertOptions($(this).find('.details p').text(), 'pass-type');
+          }
+          if ($('.schedule-glance-filter #location').length) {
+            insertOptions($(this).find('.location p').text(), 'location');
+          }
+          if ($('.schedule-glance-filter #type').length) {
+            insertOptions($(this).attr('data-type'), 'type');
+          }
         });
       });
 
@@ -684,7 +695,7 @@
           selectedItem = '.awards-main';
         }
       });
-      $(document).on('change', '.schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type', function () {
+      $(document).on('change', '.schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #time, .schedule-glance-filter .schedule-select #type', function () {
         if (0 < $('.schedule-main').length) {
           selectedItem = '.schedule-main';
         }
@@ -721,7 +732,7 @@
         selectedItem = '.subtitle';
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
-      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type, #attend-filter, #hosting-filter, #organizer-filter, #birdDate-filter, #box-main-category-delegation, #box-main-category-newyr, #box-main-category-offven, .new-this-year-filter .checkbox-list input', function () {
+      $(document).on('change', '#box-main-category, #box-main-category-booth, #box-main-category-vendor, #faq-category-drp, #award-name, .schedule-glance-filter .schedule-select #date, .schedule-glance-filter .schedule-select #pass-type, .schedule-glance-filter .schedule-select #time, .schedule-glance-filter .schedule-select #location, .schedule-glance-filter .schedule-select #type, .meet-team-select #team-department, .meet-team-select .checkbox-list input, #products-category, #company-name, #date-filter, #location-filter, #main-category-type, #sub-category-type, #price-range, #exclusivity, #availability, #topic-type, #format-type, #location-type, #attend-filter, #hosting-filter, #organizer-filter, #birdDate-filter, #box-main-category-delegation, #box-main-category-newyr, #box-main-category-offven, .new-this-year-filter .checkbox-list input', function () {
         masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter);
       });
       $(document).on('keyup', '#box-main-search, #box-main-search-bd', function () {
@@ -2479,7 +2490,7 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     jQuery('.related-main-wrapper, .parent-main-title').show();
   }
 
-  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat, filterMediaTopics, filterMediaFormats, filterMediaLocation, filterAttendee, filterHostingOrg, filterOrganizers, filterBirdDate, filterDelegation, filterNewThisYear, filterOffVen;
+  let filterSearch, comparedItem, filterMainData, filterBoothData, filterVendorData, filterFaqData, filterAwardData, filterDate, filterTime, filterLocation, filterType, filterDepartment, filterProduct, filterCName, filterCDate, filterCLocation, filterSubCat, filterCost, filterExclusive, filterAvailable, filterMainCat, filterMediaTopics, filterMediaFormats, filterMediaLocation, filterAttendee, filterHostingOrg, filterOrganizers, filterBirdDate, filterDelegation, filterNewThisYear, filterOffVen, filterSchTime;
 
   if (0 < jQuery('#box-main-category').length) {
     filterMainData = 0 < jQuery('#box-main-category')[0].selectedIndex ? jQuery('#box-main-category').val() : null;
@@ -2507,10 +2518,21 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
     filterAwardData = 0 < jQuery('#award-name')[0].selectedIndex ? jQuery('#award-name').val() : null;
   }
   if (0 < jQuery('.schedule-main').length) {
-    filterDate = 0 < jQuery('.schedule-glance-filter .schedule-select #date')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #date').val() : null;
-    filterTime = 0 < jQuery('.schedule-glance-filter .schedule-select #pass-type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #pass-type').val() : null;
-    filterLocation = 0 < jQuery('.schedule-glance-filter .schedule-select #location')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #location').val() : null;
-    filterType = 0 < jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #type').val() : null;
+    if (jQuery('.schedule-glance-filter #date').length){
+      filterDate = 0 < jQuery('.schedule-glance-filter .schedule-select #date')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #date').val() : null;
+    }
+    if (jQuery('.schedule-glance-filter #time').length) {
+      filterSchTime = 0 < jQuery('.schedule-glance-filter .schedule-select #time')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #time').val() : null;
+    }
+    if (jQuery('.schedule-glance-filter #pass-type').length) {
+      filterTime = 0 < jQuery('.schedule-glance-filter .schedule-select #pass-type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #pass-type').val() : null;
+    }
+    if (jQuery('.schedule-glance-filter #location').length) {
+      filterLocation = 0 < jQuery('.schedule-glance-filter .schedule-select #location')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #location').val() : null;
+    }
+    if (jQuery('.schedule-glance-filter #type').length) {
+      filterType = 0 < jQuery('.schedule-glance-filter .schedule-select #type')[0].selectedIndex ? jQuery('.schedule-glance-filter .schedule-select #type').val() : null;
+    }
   }
   if (0 < jQuery('.meet-team-main.team-main').length) {
     filterDepartment = 0 < jQuery('.meet-team-select #team-department')[0].selectedIndex ? jQuery('.meet-team-select #team-department').val() : null;
@@ -2615,6 +2637,12 @@ function masterFilterFunc(selectedItem, searchId, searchKeyword, selectedLetter)
       comparedItem = '.location';
     }
     jQuery(selectedItem + ' ' + comparedItem).filter(function () { return (filterLocation.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
+  }
+  if (null !== filterSchTime && undefined !== filterSchTime) {
+    if (0 < jQuery('.schedule-main').length) {
+      comparedItem = '.time';
+    }
+    jQuery(selectedItem + ' ' + comparedItem).filter(function () { return (filterSchTime.toLowerCase() !== jQuery(this).text().toLowerCase()); }).parents('.schedule-row').hide();
   }
   if (null !== filterTime && undefined !== filterTime) {
     if (0 < jQuery('.schedule-main').length) {

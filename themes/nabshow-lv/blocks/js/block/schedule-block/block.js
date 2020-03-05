@@ -3,15 +3,7 @@
   const { registerBlockType } = wpBlocks;
   const { Fragment, Component } = wpElement;
   const { RichText, InspectorControls } = wpEditor;
-  const {
-    PanelBody,
-    PanelRow,
-    ToggleControl,
-    Tooltip,
-    DropdownMenu,
-    MenuGroup,
-    MenuItem
-  } = wpComponents;
+  const { PanelBody, PanelRow, ToggleControl, Tooltip, DropdownMenu, MenuGroup, MenuItem, CheckboxControl } = wpComponents;
 
   const scheduleBlockIcon = (
     <svg
@@ -172,8 +164,9 @@
               index: dataArray.length,
               date: '',
               name: '',
+              time: '',
               location: '',
-              details: 'Open to All',
+              details: 'All Registered Attendees',
               type: ''
             }]
           }
@@ -235,6 +228,7 @@
       allData[parentIndex].detailList.splice( currentIndex + 1, 0, {
         index: ( parseInt(allData[parentIndex].detailList[currentIndex].index ) + 1),
         name: allData[parentIndex].detailList[currentIndex].name,
+        time: allData[parentIndex].detailList[currentIndex].time,
         location: allData[parentIndex].detailList[currentIndex].location,
         details: allData[parentIndex].detailList[currentIndex].details,
         type: allData[parentIndex].detailList[currentIndex].type
@@ -245,7 +239,7 @@
 
     render() {
       const { attributes, setAttributes } = this.props;
-      const { dataArray, showFilter, showTitle } = attributes;
+      const { dataArray, showFilter, showTitle, showDateFilter, showOpenToFilter, showLocationFilter, showTypeFilter, showNameFilter, showTimeFilter, timeFilter } = attributes;
 
       return (
         <Fragment>
@@ -253,11 +247,108 @@
             <PanelBody title="General Settings">
               <PanelRow>
                 <ToggleControl
+                  label={__('Include Times')}
+                  checked={timeFilter}
+                  onChange={() => setAttributes({ timeFilter: ! timeFilter })}
+                />
+                </PanelRow>
+              <PanelRow>
+                <ToggleControl
                   label={__('Show Filter')}
                   checked={showFilter}
                   onChange={() => setAttributes({ showFilter: ! showFilter })}
                 />
               </PanelRow>
+                {true === showFilter &&
+                  <div className="inspector-field inspector-field-headings-design inspector-display-filter">
+                    <PanelRow>
+                      <CheckboxControl
+                        className="in-checkbox"
+                        label="Date Filter"
+                        checked={showDateFilter}
+                        onChange={isChecked => {
+                          if (isChecked) {
+                            setAttributes({ showDateFilter: true });
+                          } else {
+                            setAttributes({ showDateFilter: false });
+                          }
+                        }}
+                      />
+                    </PanelRow>
+                    <PanelRow>
+                      <CheckboxControl
+                        className="in-checkbox"
+                        label="Is Open To Filter"
+                        checked={showOpenToFilter}
+                        onChange={isChecked => {
+                          if (isChecked) {
+                            setAttributes({ showOpenToFilter: true });
+                          } else {
+                            setAttributes({ showOpenToFilter: false });
+                          }
+                        }}
+                      />
+                    </PanelRow>
+                    <PanelRow>
+                      <CheckboxControl
+                        className="in-checkbox"
+                        label="Location Filter"
+                        checked={showLocationFilter}
+                        onChange={isChecked => {
+                          if (isChecked) {
+                            setAttributes({ showLocationFilter: true });
+                          } else {
+                            setAttributes({ showLocationFilter: false });
+                          }
+                        }}
+                      />
+                    </PanelRow>
+                    {timeFilter &&
+                      <PanelRow>
+                        <CheckboxControl
+                          className="in-checkbox"
+                          label="Time Filter"
+                          checked={showTimeFilter}
+                          onChange={isChecked => {
+                            if (isChecked) {
+                              setAttributes({ showTimeFilter: true });
+                            } else {
+                              setAttributes({ showTimeFilter: false });
+                            }
+                          }}
+                        />
+                      </PanelRow>
+                    }
+                    <PanelRow>
+                      <CheckboxControl
+                        className="in-checkbox"
+                        label="Type Filter"
+                        checked={showTypeFilter}
+                        onChange={isChecked => {
+                          if (isChecked) {
+                            setAttributes({ showTypeFilter: true });
+                          } else {
+                            setAttributes({ showTypeFilter: false });
+                          }
+                        }}
+                      />
+                    </PanelRow>
+                    <PanelRow>
+                      <CheckboxControl
+                        className="in-checkbox"
+                        label="Name Filter"
+                        checked={showNameFilter}
+                        onChange={isChecked => {
+                          if (isChecked) {
+                            setAttributes({ showNameFilter: true });
+                          } else {
+                            setAttributes({ showNameFilter: false });
+                          }
+                        }}
+                      />
+                    </PanelRow>
+                  </div>
+                }
               <PanelRow>
                 <ToggleControl
                   label={__('Show Title')}
@@ -269,50 +360,70 @@
           </InspectorControls>
           {showFilter && (
             <div className="schedule-glance-filter">
-              <div className="date">
-                <label>Date</label>
-                <div className="schedule-select">
-                  <select id="date">
-                    <option>Select a Date</option>
-                  </select>
+              {showDateFilter &&
+                <div className="date">
+                  <label>Date</label>
+                  <div className="schedule-select">
+                    <select id="date">
+                      <option>Select a Date</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="pass-type">
-                <label>Is Open To</label>
-                <div className="schedule-select">
-                  <select id="pass-type">
-                    <option>Select an Open To</option>
-                  </select>
+              }
+              {showOpenToFilter &&
+                <div className="pass-type">
+                  <label>Is Open To</label>
+                  <div className="schedule-select">
+                    <select id="pass-type">
+                      <option>Select an Open To</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="location">
-                <label>Location</label>
-                <div className="schedule-select">
-                  <select id="location">
-                    <option>Select a Location</option>
-                  </select>
+              }
+              {showLocationFilter &&
+                <div className="location">
+                  <label>Location</label>
+                  <div className="schedule-select">
+                    <select id="location">
+                      <option>Select a Location</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="type">
-                <label>Type</label>
-                <div className="schedule-select">
-                  <select id="type">
-                    <option>Select a Type</option>
-                  </select>
+              }
+              {(showTimeFilter && timeFilter) &&
+                <div className="time">
+                  <label>Time</label>
+                  <div className="schedule-select">
+                    <select id="time">
+                      <option>Select Time</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="search-box">
-                <label>Name</label>
-                <div className="schedule-select">
-                  <input
-                    id="box-main-search"
-                    className="schedule-search"
-                    name="schedule-search"
-                    type="text"
-                    placeholder="Filter by name..."
-                  />
+              }
+              {showTypeFilter &&
+                <div className="type">
+                  <label>Type</label>
+                  <div className="schedule-select">
+                    <select id="type">
+                      <option>Select a Type</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
+              }
+              {showNameFilter &&
+                <div className="search-box">
+                  <label>Name</label>
+                  <div className="schedule-select">
+                    <input
+                      id="box-main-search"
+                      className="schedule-search"
+                      name="schedule-search"
+                      type="text"
+                      placeholder="Filter by name..."
+                    />
+                  </div>
+                </div>
+              }
             </div>
           )}
           <div className="schedule-main">
@@ -449,6 +560,21 @@
                                   }}
                                 />
                               </div>
+                              {timeFilter &&
+                                <div className="time">
+                                  <RichText
+                                    tagName="p"
+                                    placeholder={__('Time')}
+                                    value={data.time}
+                                    keepPlaceholderOnFocus="true"
+                                    onChange={time => {
+                                      let tempDataArray = [...dataArray];
+                                      tempDataArray[parentIndex].detailList[index].time = time;
+                                      setAttributes({ dataArray: tempDataArray });
+                                    }}
+                                  />
+                                </div>
+                              }
                               <div className="location">
                                 <RichText
                                   tagName="p"
@@ -465,7 +591,7 @@
                               <div className="details">
                                 <RichText
                                   tagName="p"
-                                  placeholder={__('Open to All')}
+                                  placeholder={__('All Registered Attendees')}
                                   value={data.details}
                                   keepPlaceholderOnFocus="true"
                                   onChange={details => {
@@ -499,8 +625,9 @@
                               tempDataArray[parentIndex].detailList.push({
                                 index: dataArray[parentIndex].detailList.length,
                                 name: '',
+                                time: '',
                                 location: '',
-                                details: 'Open to All',
+                                details: 'All Registered Attendees',
                                 type: ''
                               });
                               setAttributes({ dataArray: tempDataArray });
@@ -528,8 +655,9 @@
                         detailList: [{
                           index: 0,
                           name: '',
+                          time: '',
                           location: '',
-                          details: 'Open to All',
+                          details: 'All Registered Attendees',
                           type: ''
                         }]
                       }
@@ -561,65 +689,113 @@
         type: 'boolean',
         default: false
       },
+      timeFilter: {
+        type: 'boolean',
+        default: false
+      },
       showTitle: {
         type: 'boolean',
         default: true
-      }
+      },
+      showDateFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showOpenToFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showLocationFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showTypeFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showNameFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showTimeFilter: {
+        type: 'boolean',
+        default: true
+      },
     },
     edit: BlockComponent,
 
     save: props => {
       const { attributes } = props;
-      const { dataArray, showFilter, showTitle } = attributes;
+      const { dataArray, showFilter, showTitle, showDateFilter, showOpenToFilter, showLocationFilter, showTypeFilter, showNameFilter, showTimeFilter, timeFilter } = attributes;
 
       return (
         <Fragment>
           {showFilter && (
             <div className="schedule-glance-filter">
-              <div className="date">
-                <label>Date</label>
-                <div className="schedule-select">
-                  <select id="date">
-                    <option>Select a Date</option>
-                  </select>
+              {showDateFilter &&
+                <div className="date">
+                  <label>Date</label>
+                  <div className="schedule-select">
+                    <select id="date">
+                      <option>Select a Date</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="pass-type">
-                <label>Is Open To</label>
-                <div className="schedule-select">
-                  <select id="pass-type">
-                    <option>Select an Open To</option>
-                  </select>
+              }
+              {showOpenToFilter &&
+                <div className="pass-type">
+                  <label>Is Open To</label>
+                  <div className="schedule-select">
+                    <select id="pass-type">
+                      <option>Select an Open To</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="location">
-                <label>Location</label>
-                <div className="schedule-select">
-                  <select id="location">
-                    <option>Select a Location</option>
-                  </select>
+              }
+              { showLocationFilter &&
+                <div className="location">
+                  <label>Location</label>
+                  <div className="schedule-select">
+                    <select id="location">
+                      <option>Select a Location</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="type">
-                <label>Type</label>
-                <div className="schedule-select">
-                  <select id="type">
-                    <option>Select a Type</option>
-                  </select>
+              }
+              { (showTimeFilter && timeFilter) &&
+                <div className="time">
+                  <label>Time</label>
+                  <div className="schedule-select">
+                    <select id="time">
+                      <option>Select Time</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="search-box">
-                <label>Name</label>
-                <div className="schedule-select">
-                  <input
-                    id="box-main-search"
-                    className="schedule-search"
-                    name="schedule-search"
-                    type="text"
-                    placeholder="Filter by name..."
-                  />
+              }
+              {showTypeFilter &&
+                <div className="type">
+                  <label>Type</label>
+                  <div className="schedule-select">
+                    <select id="type">
+                      <option>Select a Type</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
+              }
+              { showNameFilter &&
+                <div className="search-box">
+                  <label>Name</label>
+                  <div className="schedule-select">
+                    <input
+                      id="box-main-search"
+                      className="schedule-search"
+                      name="schedule-search"
+                      type="text"
+                      placeholder="Filter by name..."
+                    />
+                  </div>
+                </div>
+              }
             </div>
           )}
           { 0 < dataArray.length && dataArray.map( (parentData)  => (
@@ -636,6 +812,16 @@
                           value={data.name === undefined ? '-' : data.name}
                         />
                       </div>
+                      {timeFilter &&
+                        <div className="time">
+                          <RichText.Content
+                            tagName="p"
+                            value={
+                              (data.time === undefined || '' === data.time) ? '' : data.time
+                            }
+                          />
+                        </div>
+                      }
                       <div className="location">
                         <RichText.Content
                           tagName="p"
