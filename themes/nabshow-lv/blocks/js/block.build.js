@@ -10685,7 +10685,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       Tooltip = wpComponents.Tooltip,
       DropdownMenu = wpComponents.DropdownMenu,
       MenuGroup = wpComponents.MenuGroup,
-      MenuItem = wpComponents.MenuItem;
+      MenuItem = wpComponents.MenuItem,
+      CheckboxControl = wpComponents.CheckboxControl;
 
 
   var scheduleBlockIcon = wp.element.createElement(
@@ -10810,8 +10811,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               index: dataArray.length,
               date: '',
               name: '',
+              time: '',
               location: '',
-              details: 'Open to All',
+              details: 'All Registered Attendees',
               type: ''
             }]
           }])
@@ -10890,6 +10892,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         allData[parentIndex].detailList.splice(currentIndex + 1, 0, {
           index: parseInt(allData[parentIndex].detailList[currentIndex].index) + 1,
           name: allData[parentIndex].detailList[currentIndex].name,
+          time: allData[parentIndex].detailList[currentIndex].time,
           location: allData[parentIndex].detailList[currentIndex].location,
           details: allData[parentIndex].detailList[currentIndex].details,
           type: allData[parentIndex].detailList[currentIndex].type
@@ -10907,7 +10910,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             setAttributes = _props5.setAttributes;
         var dataArray = attributes.dataArray,
             showFilter = attributes.showFilter,
-            showTitle = attributes.showTitle;
+            showTitle = attributes.showTitle,
+            showDateFilter = attributes.showDateFilter,
+            showOpenToFilter = attributes.showOpenToFilter,
+            showLocationFilter = attributes.showLocationFilter,
+            showTypeFilter = attributes.showTypeFilter,
+            showNameFilter = attributes.showNameFilter,
+            showTimeFilter = attributes.showTimeFilter,
+            timeFilter = attributes.timeFilter;
 
 
         return wp.element.createElement(
@@ -10923,12 +10933,123 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 PanelRow,
                 null,
                 wp.element.createElement(ToggleControl, {
+                  label: __('Include Times'),
+                  checked: timeFilter,
+                  onChange: function onChange() {
+                    return setAttributes({ timeFilter: !timeFilter });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(ToggleControl, {
                   label: __('Show Filter'),
                   checked: showFilter,
                   onChange: function onChange() {
                     return setAttributes({ showFilter: !showFilter });
                   }
                 })
+              ),
+              true === showFilter && wp.element.createElement(
+                "div",
+                { className: "inspector-field inspector-field-headings-design inspector-display-filter" },
+                wp.element.createElement(
+                  PanelRow,
+                  null,
+                  wp.element.createElement(CheckboxControl, {
+                    className: "in-checkbox",
+                    label: "Date Filter",
+                    checked: showDateFilter,
+                    onChange: function onChange(isChecked) {
+                      if (isChecked) {
+                        setAttributes({ showDateFilter: true });
+                      } else {
+                        setAttributes({ showDateFilter: false });
+                      }
+                    }
+                  })
+                ),
+                wp.element.createElement(
+                  PanelRow,
+                  null,
+                  wp.element.createElement(CheckboxControl, {
+                    className: "in-checkbox",
+                    label: "Is Open To Filter",
+                    checked: showOpenToFilter,
+                    onChange: function onChange(isChecked) {
+                      if (isChecked) {
+                        setAttributes({ showOpenToFilter: true });
+                      } else {
+                        setAttributes({ showOpenToFilter: false });
+                      }
+                    }
+                  })
+                ),
+                wp.element.createElement(
+                  PanelRow,
+                  null,
+                  wp.element.createElement(CheckboxControl, {
+                    className: "in-checkbox",
+                    label: "Location Filter",
+                    checked: showLocationFilter,
+                    onChange: function onChange(isChecked) {
+                      if (isChecked) {
+                        setAttributes({ showLocationFilter: true });
+                      } else {
+                        setAttributes({ showLocationFilter: false });
+                      }
+                    }
+                  })
+                ),
+                timeFilter && wp.element.createElement(
+                  PanelRow,
+                  null,
+                  wp.element.createElement(CheckboxControl, {
+                    className: "in-checkbox",
+                    label: "Time Filter",
+                    checked: showTimeFilter,
+                    onChange: function onChange(isChecked) {
+                      if (isChecked) {
+                        setAttributes({ showTimeFilter: true });
+                      } else {
+                        setAttributes({ showTimeFilter: false });
+                      }
+                    }
+                  })
+                ),
+                wp.element.createElement(
+                  PanelRow,
+                  null,
+                  wp.element.createElement(CheckboxControl, {
+                    className: "in-checkbox",
+                    label: "Type Filter",
+                    checked: showTypeFilter,
+                    onChange: function onChange(isChecked) {
+                      if (isChecked) {
+                        setAttributes({ showTypeFilter: true });
+                      } else {
+                        setAttributes({ showTypeFilter: false });
+                      }
+                    }
+                  })
+                ),
+                wp.element.createElement(
+                  PanelRow,
+                  null,
+                  wp.element.createElement(CheckboxControl, {
+                    className: "in-checkbox",
+                    label: "Name Filter",
+                    checked: showNameFilter,
+                    onChange: function onChange(isChecked) {
+                      if (isChecked) {
+                        setAttributes({ showNameFilter: true });
+                      } else {
+                        setAttributes({ showNameFilter: false });
+                      }
+                    }
+                  })
+                )
               ),
               wp.element.createElement(
                 PanelRow,
@@ -10946,7 +11067,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           showFilter && wp.element.createElement(
             "div",
             { className: "schedule-glance-filter" },
-            wp.element.createElement(
+            showDateFilter && wp.element.createElement(
               "div",
               { className: "date" },
               wp.element.createElement(
@@ -10968,7 +11089,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               )
             ),
-            wp.element.createElement(
+            showOpenToFilter && wp.element.createElement(
               "div",
               { className: "pass-type" },
               wp.element.createElement(
@@ -10990,7 +11111,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               )
             ),
-            wp.element.createElement(
+            showLocationFilter && wp.element.createElement(
               "div",
               { className: "location" },
               wp.element.createElement(
@@ -11012,7 +11133,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               )
             ),
-            wp.element.createElement(
+            showTimeFilter && wp.element.createElement(
+              "div",
+              { className: "time" },
+              wp.element.createElement(
+                "label",
+                null,
+                "Time"
+              ),
+              wp.element.createElement(
+                "div",
+                { className: "schedule-select" },
+                wp.element.createElement(
+                  "select",
+                  { id: "time" },
+                  wp.element.createElement(
+                    "option",
+                    null,
+                    "Select Time"
+                  )
+                )
+              )
+            ),
+            showTypeFilter && wp.element.createElement(
               "div",
               { className: "type" },
               wp.element.createElement(
@@ -11034,7 +11177,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               )
             ),
-            wp.element.createElement(
+            showNameFilter && wp.element.createElement(
               "div",
               { className: "search-box" },
               wp.element.createElement(
@@ -11220,6 +11363,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             }
                           })
                         ),
+                        timeFilter && wp.element.createElement(
+                          "div",
+                          { className: "time" },
+                          wp.element.createElement(RichText, {
+                            tagName: "p",
+                            placeholder: __('Time'),
+                            value: data.time,
+                            keepPlaceholderOnFocus: "true",
+                            onChange: function onChange(time) {
+                              var tempDataArray = [].concat(_toConsumableArray(dataArray));
+                              tempDataArray[parentIndex].detailList[index].time = time;
+                              setAttributes({ dataArray: tempDataArray });
+                            }
+                          })
+                        ),
                         wp.element.createElement(
                           "div",
                           { className: "location" },
@@ -11240,7 +11398,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           { className: "details" },
                           wp.element.createElement(RichText, {
                             tagName: "p",
-                            placeholder: __('Open to All'),
+                            placeholder: __('All Registered Attendees'),
                             value: data.details,
                             keepPlaceholderOnFocus: "true",
                             onChange: function onChange(details) {
@@ -11279,8 +11437,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             tempDataArray[parentIndex].detailList.push({
                               index: dataArray[parentIndex].detailList.length,
                               name: '',
+                              time: '',
                               location: '',
-                              details: 'Open to All',
+                              details: 'All Registered Attendees',
                               type: ''
                             });
                             setAttributes({ dataArray: tempDataArray });
@@ -11308,8 +11467,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         detailList: [{
                           index: 0,
                           name: '',
+                          time: '',
                           location: '',
-                          details: 'Open to All',
+                          details: 'All Registered Attendees',
                           type: ''
                         }]
                       }])
@@ -11342,7 +11502,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         type: 'boolean',
         default: false
       },
+      timeFilter: {
+        type: 'boolean',
+        default: false
+      },
       showTitle: {
+        type: 'boolean',
+        default: true
+      },
+      showDateFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showOpenToFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showLocationFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showTypeFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showNameFilter: {
+        type: 'boolean',
+        default: true
+      },
+      showTimeFilter: {
         type: 'boolean',
         default: true
       }
@@ -11353,7 +11541,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       var attributes = props.attributes;
       var dataArray = attributes.dataArray,
           showFilter = attributes.showFilter,
-          showTitle = attributes.showTitle;
+          showTitle = attributes.showTitle,
+          showDateFilter = attributes.showDateFilter,
+          showOpenToFilter = attributes.showOpenToFilter,
+          showLocationFilter = attributes.showLocationFilter,
+          showTypeFilter = attributes.showTypeFilter,
+          showNameFilter = attributes.showNameFilter,
+          showTimeFilter = attributes.showTimeFilter,
+          timeFilter = attributes.timeFilter;
 
 
       return wp.element.createElement(
@@ -11362,7 +11557,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         showFilter && wp.element.createElement(
           "div",
           { className: "schedule-glance-filter" },
-          wp.element.createElement(
+          showDateFilter && wp.element.createElement(
             "div",
             { className: "date" },
             wp.element.createElement(
@@ -11384,7 +11579,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               )
             )
           ),
-          wp.element.createElement(
+          showOpenToFilter && wp.element.createElement(
             "div",
             { className: "pass-type" },
             wp.element.createElement(
@@ -11406,7 +11601,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               )
             )
           ),
-          wp.element.createElement(
+          showLocationFilter && wp.element.createElement(
             "div",
             { className: "location" },
             wp.element.createElement(
@@ -11428,7 +11623,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               )
             )
           ),
-          wp.element.createElement(
+          showTimeFilter && wp.element.createElement(
+            "div",
+            { className: "time" },
+            wp.element.createElement(
+              "label",
+              null,
+              "Time"
+            ),
+            wp.element.createElement(
+              "div",
+              { className: "schedule-select" },
+              wp.element.createElement(
+                "select",
+                { id: "time" },
+                wp.element.createElement(
+                  "option",
+                  null,
+                  "Select Time"
+                )
+              )
+            )
+          ),
+          showTypeFilter && wp.element.createElement(
             "div",
             { className: "type" },
             wp.element.createElement(
@@ -11450,7 +11667,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               )
             )
           ),
-          wp.element.createElement(
+          showNameFilter && wp.element.createElement(
             "div",
             { className: "search-box" },
             wp.element.createElement(
@@ -11491,6 +11708,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RichText.Content, {
                       tagName: "strong",
                       value: data.name === undefined ? '-' : data.name
+                    })
+                  ),
+                  timeFilter && wp.element.createElement(
+                    "div",
+                    { className: "time" },
+                    wp.element.createElement(RichText.Content, {
+                      tagName: "p",
+                      value: data.time === undefined || '' === data.time ? '' : data.time
                     })
                   ),
                   wp.element.createElement(
