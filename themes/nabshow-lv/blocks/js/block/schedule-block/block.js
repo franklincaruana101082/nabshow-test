@@ -390,7 +390,7 @@
                   </div>
                 </div>
               }
-              {showTimeFilter &&
+              {(showTimeFilter && timeFilter) &&
                 <div className="time">
                   <label>Time</label>
                   <div className="schedule-select">
@@ -762,7 +762,7 @@
                   </div>
                 </div>
               }
-              { showTimeFilter &&
+              { (showTimeFilter && timeFilter) &&
                 <div className="time">
                   <label>Time</label>
                   <div className="schedule-select">

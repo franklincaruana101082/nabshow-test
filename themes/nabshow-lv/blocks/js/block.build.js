@@ -11133,7 +11133,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 )
               )
             ),
-            showTimeFilter && wp.element.createElement(
+            showTimeFilter && timeFilter && wp.element.createElement(
               "div",
               { className: "time" },
               wp.element.createElement(
@@ -11623,7 +11623,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               )
             )
           ),
-          showTimeFilter && wp.element.createElement(
+          showTimeFilter && timeFilter && wp.element.createElement(
             "div",
             { className: "time" },
             wp.element.createElement(
