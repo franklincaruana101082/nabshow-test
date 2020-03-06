@@ -183,7 +183,7 @@ if ( $query->have_posts() || $listing_page ) {
 
             $query->the_post();
 
-            $exhibitor_id    = get_the_ID();
+            $exhibitor_id   = get_the_ID();
             $crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
 
             if ( $listing_page ) {
@@ -253,10 +253,7 @@ if ( $query->have_posts() || $listing_page ) {
                         	<?php
                         }
 
-                        if ( ! empty( $crossreferences ) ) {
-                        	// Adding space after commas.
-                        	$crossreferences = explode(',', $crossreferences);
-                        	$crossreferences = implode(', ', $crossreferences);
+                        if ( !empty( $crossreferences ) ) {
                         	?> <span class="crossreferences"><?php echo "Also Known As: $crossreferences"; ?></span> <?php
                         }
                         ?>

@@ -1176,6 +1176,7 @@ ul.partner-listing li figure{margin:0;min-height:120px;width:100%;padding:10px;b
 ul.partner-listing li figure a{display:flex;flex-wrap:wrap;width:100%;height:100%;align-items:center;justify-content:center}
 ul.partner-listing li figure.partner-img-box img{max-height:75%;max-width:90%}
 ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Bold", sans-serif;margin-top:20px;margin-bottom:10px;display:block}
+.partner-listing.with-info li .partner-inner span{color:#000}
 .destination-sponsor .wp-block-columns .wp-block-column:first-child{flex-basis:85%}
 .destination-sponsor .wp-block-columns .wp-block-column:last-child{flex-basis:15%}
 .destination-sponsor .wp-block-columns{align-items:center}
@@ -1538,7 +1539,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 
 /* partner listing with info */
 .partner-listing.with-info li{flex-basis:25%}
-.partner-listing.with-info li .partner-inner{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:100%;width:100%}
+.partner-listing.with-info li .partner-inner{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:100%;width:100%;background-color:#fff}
 #registration .accordionParentWrapper{margin-bottom:30px}
 .select-location-box .row .col-8 p,.select-location-box .row .col-8 a{display:inline}
 .select-location-box .row:first-of-type .col-8 p.selectedDate::after,.selectedHall+.selectedHall::before{content:'|';display:inline-block;padding:0 5px 0 7px}
@@ -1573,6 +1574,8 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .related-content-slider-events.less-items .item .item-info span{display:block}
 .related-content-slider-events.less-items .item .item-info{padding:15px}
 .related-content-slider-events.less-items .item .item-info p{margin-top:15px}
+.width-50 .nab-box-slider.less-items .item{width:50%}
+.width-33 .nab-box-slider.less-items .item{width:33.33%}
 
 /* Product Listing Slider */
 .products-listing-main .product-item{border:3px solid rgba(255, 255, 255, 0.5);padding:15px;color:#fff;background:rgba(255, 255, 255, 0.25)}

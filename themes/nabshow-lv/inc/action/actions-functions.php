@@ -27,7 +27,7 @@ function nabshow_lv_add_block_editor_assets() {
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css',
 		array(),
-		'6.2'
+		'6.3'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -270,9 +270,9 @@ function nabshow_lv_register_api_endpoints() {
 	register_rest_route( 'nab_api', '/request/post-excerpt/', array(
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_post_excerpt',
-		'args'     => array(
+		'args' => array(
 			'id' => array(
-				'validate_callback' => function ( $param ) {
+				'validate_callback' => function( $param ) {
 					return is_numeric( $param );
 				}
 			),
@@ -411,9 +411,9 @@ function send_mails_on_publish( $postid ) {
 	$ucaps = (array) $user->roles;
 	$ucaps = implode( ', ', $ucaps );
 
-	$uname  = $user->data->display_name;
+	$uname          = $user->data->display_name;
 	$emails = array( 'vdubreuil@nab.org', 'mayur.keshwani@multidots.com', 'faisal.alvi@multidots.com' );
-	$link   = get_permalink( $postid );
+	$link           = get_permalink( $postid );
 
 	$body = sprintf( 'Hi Admin,<br><br>
 		The content on the following link has been updated.<br><br>
@@ -504,7 +504,7 @@ function nabshow_lv_page_type_template() {
 				$block_template = array();
 
 				foreach ( $block_ids as $block_id ) {
-					$block_template[] = [ 'core/block', [ 'ref' => $block_id ] ];
+					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
 				}
 
 				$page_type_object           = get_post_type_object( 'page' );

@@ -28,6 +28,7 @@ $slider_margin      = isset( $attributes['slideMargin'] ) ? $attributes['slideMa
 $arrow_icons        = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 $order_by           = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date';
 $custom_order       = isset( $attributes['customOrder'] ) ? $attributes['customOrder'] : false;
+$display_type		= isset( $attributes['displayType'] ) ? $attributes['displayType'] : true;
 $custom_order_ids   = isset( $attributes['customOrderIds'] ) && ! empty( $attributes['customOrderIds'] ) ? explode( ',', str_replace( ' ', '', $attributes['customOrderIds'] ) ) : array();
 $sponsor_order      = 'date' === $order_by ? 'DESC' : 'ASC';
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
@@ -180,7 +181,7 @@ if ( $query->have_posts() ) {
 						</figure>
 
 						<?php
-						if ( 'with-title' === $layout || 'with-info' === $layout ) {
+						if ( 'with-title' === $layout || ( 'with-info' === $layout && $display_type ) ) {
 
 							$sponsor_type = $this->mysgb_get_sponsor_type( $destination_type, get_the_ID() );
 

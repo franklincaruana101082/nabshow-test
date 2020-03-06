@@ -181,7 +181,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 arrowIcons,
                 destinationType,
                 customOrder,
-                customOrderIds
+                customOrderIds,
+                displayType
             } = attributes;
 
             let names = [
@@ -392,6 +393,13 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                     }
                                 </ul>
                             </div>
+                            {'with-info' === layout &&
+                                <ToggleControl
+                                    label={__('Display Type')}
+                                    checked={displayType}
+                                    onChange={() => setAttributes({ displayType: ! displayType })}
+                                />
+                            }
 
                             { sliderActive &&
                             <Fragment>
@@ -509,7 +517,8 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                                 destinationType: destinationType,
                                 customOrder: customOrder,
                                 customOrderIds: customOrderIds,
-                                imgWidth: imgWidth
+                                imgWidth: imgWidth,
+                                displayType: displayType
                             }}
                         />
                     </div>
@@ -602,6 +611,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         customOrderIds: {
           type: 'string',
           default: ''
+        },
+        displayType: {
+            type: 'boolean',
+            default: true
         }
 
     };

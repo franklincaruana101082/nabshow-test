@@ -4485,7 +4485,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrowIcons = attributes.arrowIcons,
                     destinationType = attributes.destinationType,
                     customOrder = attributes.customOrder,
-                    customOrderIds = attributes.customOrderIds;
+                    customOrderIds = attributes.customOrderIds,
+                    displayType = attributes.displayType;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -4737,6 +4738,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     )
                                 )
                             ),
+                            'with-info' === layout && wp.element.createElement(ToggleControl, {
+                                label: __('Display Type'),
+                                checked: displayType,
+                                onChange: function onChange() {
+                                    return setAttributes({ displayType: !displayType });
+                                }
+                            }),
                             sliderActive && wp.element.createElement(
                                 Fragment,
                                 null,
@@ -4909,7 +4917,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 destinationType: destinationType,
                                 customOrder: customOrder,
                                 customOrderIds: customOrderIds,
-                                imgWidth: imgWidth
+                                imgWidth: imgWidth,
+                                displayType: displayType
                             }
                         })
                     )
@@ -5004,6 +5013,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         customOrderIds: {
             type: 'string',
             default: ''
+        },
+        displayType: {
+            type: 'boolean',
+            default: true
         }
 
     };
