@@ -65,7 +65,7 @@ $history_data = $this->history_data;
 		$end_date = $single_history->HistoryEndTime;
 		$end_date = date( 'g:i:s A F j, Y', strtotime( $end_date ) );
 
-		$h_status = $single_history->HistoryStatus;
+		$h_status = (int) $single_history->HistoryStatus;
 
 		$userid = (int) $single_history->HistoryUser;
 		if ( 0 === $userid ) {
