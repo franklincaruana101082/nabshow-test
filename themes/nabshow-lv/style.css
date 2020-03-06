@@ -236,7 +236,6 @@ template{display:none}
 body,button,input,select,optgroup,textarea{color:#404040;font-family:"Gotham Book", sans-serif;font-size:16px;font-size:1rem;line-height:1.5}
 h1,h2,h3,h4,h5,h6{clear:both}
 p{margin-bottom:1.5em}
-p strong,p b {font-family: 'Roboto Bold', sans-serif}
 dfn,cite,em,i{font-style:italic}
 blockquote{margin:0 1.5em}
 address{margin:0 0 1.5em}

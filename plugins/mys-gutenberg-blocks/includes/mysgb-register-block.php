@@ -349,6 +349,10 @@ $sponsors_slider_attr = array(
 	'imgWidth' => array(
 		'type'    => 'number',
 		'default' => 135
+	),
+	'displayType' => array(
+		'type'    => 'boolean',
+		'default' => true
 	)
 );
 

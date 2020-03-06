@@ -57,7 +57,6 @@
 .accordionWrapper span.remove-button button{width:25px;height:25px}
 .accordionWrapper span.remove-button button svg{padding:0;height:100%;width:100%}
 .editor-styles-wrapper p{font-size:16px}
-.editor-styles-wrapper strong {font-family: 'Roboto Bold', sans-serif}
 .wp-core-ui select:focus{border-color:#000;color:#000;box-shadow:none}
 
 /* accordion css */
@@ -931,6 +930,7 @@ ul.partner-listing li figure{margin:0;min-height:120px;width:100%;padding:10px;b
 ul.partner-listing li figure a{display:flex;flex-wrap:wrap;width:100%;height:100%;align-items:center;justify-content:center}
 ul.partner-listing li figure.partner-img-box img{max-height:75%;max-width:90%}
 ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black", sans-serif;margin-top:20px;display:block}
+.partner-listing.with-info li .partner-inner span{color:#000}
 .partner-inner span+p{margin-top:10px}
 .destination-sponsor .wp-block-columns .block-editor-block-list__layout>[data-type="core/column"]:first-child{flex-basis:85%}
 .destination-sponsor .wp-block-columns .block-editor-block-list__layout>[data-type="core/column"]:last-child{flex-basis:15%}
@@ -1191,7 +1191,7 @@ ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black",
 
 /* partner listing with info */
 .partner-listing.with-info li{flex-basis:25%}
-.partner-listing.with-info li .partner-inner{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:100%;width:100%}
+.partner-listing.with-info li .partner-inner{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:100%;width:100%;background-color:#fff}
 
 /* category-listing css */
 .category-listing.listing .category-body ul{display:flex;flex-wrap:wrap;list-style:none;margin:0 -15px;padding:0}
