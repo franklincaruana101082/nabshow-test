@@ -36,3 +36,8 @@ Thumbs.db
 
 # node modules
 node_modules
+
+# phpcs
+composer.json
+composer.lock
+/vendor/
