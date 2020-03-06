@@ -410,6 +410,7 @@ function send_mails_on_publish( $postid ) {
 
 	$ucaps = (array) $user->roles;
 	$ucaps = implode( ', ', $ucaps );
+	$ucaps = empty( $ucaps ) ? 'user' : $ucaps;
 
 	$uname          = $user->data->display_name;
 	$emails = array( 'vdubreuil@nab.org', 'mayur.keshwani@multidots.com', 'faisal.alvi@multidots.com' );
