@@ -716,15 +716,17 @@ function filter_forms_data_by_category($post_type) {
   $taxonomy_name = $taxonomy_obj->labels->name;
   $terms = get_terms($taxonomy_slug);
 
-  echo "<select name='{$taxonomy_slug}' id='{$taxonomy_slug}' class='postform'>";
-  echo '<option value="">' . sprintf( esc_html__( 'Show All %s', 'text_domain' ), $taxonomy_name ) . '</option>';
+  echo '<select name="'  . esc_attr($taxonomy_slug) . '" id=' . esc_attr($taxonomy_slug) . ' class="postform">';
+  echo '<option value="">' . sprintf( esc_html__( 'All Categories', 'nabshow_lv' ), esc_html
+          ($taxonomy_name)
+      )  . '</option>';
   foreach ( $terms as $term ) {
     printf(
         '<option value="%1$s" %2$s>%3$s (%4$s)</option>',
-        $term->slug,
-        ( ( isset( $_GET[$taxonomy_slug] ) && ( $_GET[$taxonomy_slug] == $term->slug ) ) ? ' selected="selected"' : '' ),
-        $term->name,
-        $term->count
+        esc_attr($term->slug),
+        ( ( isset( $_GET[$taxonomy_slug] ) && ( $_GET[$taxonomy_slug] === $term->slug ) ) ? ' selected="selected"' : '' ),
+        esc_html($term->name),
+        esc_html($term->count)
     );
   }
   echo '</select>';
