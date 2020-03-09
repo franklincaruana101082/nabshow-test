@@ -53,6 +53,7 @@ $history_data = $this->history_data;
 
 		$offset ++;
 
+		$single_history = array();
 		$single_history = $single_history_data['Details'];
 		$item_totals    = $single_history_data['Totals'];
 
