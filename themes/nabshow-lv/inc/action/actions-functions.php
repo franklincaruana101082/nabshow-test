@@ -51,7 +51,12 @@ function nabshow_lv_add_block_editor_assets() {
  */
 function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 
-	$values = array(
+  $edit_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+  if ('forms-data' === $edit_post_type )
+    return;
+
+  $values = array(
 		'Post Title'           => 'post_title',
 		'Blank Featured Image' => 'blank_featured_image',
 	);
@@ -69,8 +74,6 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 		?>
 	</select>
 	<?php
-
-	$edit_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
 
 	if ( 'page' === $edit_post_type ) {
 

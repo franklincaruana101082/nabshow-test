@@ -696,3 +696,38 @@ function nabshow_lv_script_loader_tag( $tag, $handle ) {
 	}
 	return $tag;
 }
+
+/**
+ * Function to add Categories filter to forms data post type
+ *
+ * @param $post_type
+ *
+ * @return string
+ *
+ * @since 1.0.0
+ */
+
+function filter_forms_data_by_category($post_type) {
+  if ('forms-data' !== $post_type )
+    return;
+
+  $taxonomy_slug = 'forms-category';
+  $taxonomy_obj = get_taxonomy($taxonomy_slug);
+  $taxonomy_name = $taxonomy_obj->labels->name;
+  $terms = get_terms($taxonomy_slug);
+
+  echo '<select name="'  . esc_attr($taxonomy_slug) . '" id=' . esc_attr($taxonomy_slug) . ' class="postform">';
+  echo '<option value="">' . sprintf( esc_html__( 'All Categories', 'nabshow_lv' ), esc_html
+          ($taxonomy_name)
+      )  . '</option>';
+  foreach ( $terms as $term ) {
+    printf(
+        '<option value="%1$s" %2$s>%3$s (%4$s)</option>',
+        esc_attr($term->slug),
+        ( ( isset( $_GET[$taxonomy_slug] ) && ( $_GET[$taxonomy_slug] === $term->slug ) ) ? ' selected="selected"' : '' ),
+        esc_html($term->name),
+        esc_html($term->count)
+    );
+  }
+  echo '</select>';
+}
