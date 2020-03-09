@@ -610,7 +610,9 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			foreach ( $history_result as $h ) {
 				$history_data[ $h->HistoryGroupID ]['Totals'][ $h->HistoryDataType ] = $h->HistoryItemsAffected;
 
-				$history_data[ $h->HistoryGroupID ]['Details'] = $h;
+				if ( strpos( $h->HistoryDataType, '-' ) !== false ) {
+					$history_data[ $h->HistoryGroupID ]['Details'] = $h;
+				}
 			}
 
 			$history_total = $this->nab_mys_history_total( $where_history );
