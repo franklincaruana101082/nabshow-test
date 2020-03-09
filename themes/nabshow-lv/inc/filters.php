@@ -87,3 +87,7 @@ add_filter( 'posts_where', 'nabshow_lv_set_content_custom_posts_where', 10, 1 );
 
 //Filter for add differ attribute to the script.
 add_filter( 'script_loader_tag', 'nabshow_lv_script_loader_tag', 40, 2 );
+
+//Filter for the Forms Data to limit results to a Category.
+add_action( 'restrict_manage_posts', 'filter_forms_data_by_category' , 10, 2);
+
