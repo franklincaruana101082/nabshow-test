@@ -686,7 +686,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			foreach ( $data as $individual_item ) {
 
 				if ( 'firstname' === $title_name ) {
-					$title = trim( $individual_item['firstname'] ) . ' ' . trim( $individual_item['lastname'] );
+					$title = trim( $individual_item['lastname'] ) . ', ' . trim( $individual_item['firstname'] );
 				} else {
 					$title = trim( $individual_item[ $title_name ] );
 				}
@@ -710,6 +710,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				);
 				$already_available = new WP_Query( $args );
 
+				// Initialize
+				$post_id = $already_available_id = '';
 				if ( isset( $already_available->posts[0]->ID ) ) {
 					$post_id = $already_available_id = $already_available->posts[0]->ID;
 				}
@@ -723,7 +725,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					/**
 					 * If post item already available and it should be updated.
 					 */
-					if ( isset( $already_available_id ) && 2 === $item_status ) {
+					if ( ! empty( $already_available_id ) && 2 === $item_status ) {
 
 						$update_post_id = $already_available_id;
 
@@ -753,7 +755,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						$post_detail .= "update-$post_type-" . $post_id;
 
-					} else if ( ! isset( $already_available_id ) ) {
+					} else if ( empty( $already_available_id ) ) {
 						/**
 						 * If post is not available, creating it.
 						 */
@@ -790,9 +792,16 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					}
 
 					//Upload Image to WP Media Library and attach with the post.
-					$attach_id = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url, $post_type );
+					if ( ! empty( $image_url ) ) {
+						$attach_id   = $this->nab_mys_media->nab_mys_upload_media( $post_id, $image_url, $post_type );
+						$post_detail .= '-attach_id-' . $attach_id;
+					} else {
+						if ( has_post_thumbnail( $post_id ) ) {
+							delete_post_thumbnail( $post_id );
+							$post_detail .= '-attachment_removed';
+						}
+					}
 
-					$post_detail .= '-attach_id-' . $attach_id;
 
 					/**
 					 * Preparing taxonomies data.
@@ -851,6 +860,16 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						}
 						$save_taxonomies['exhibitor-categories'] = $c_title_array;
 
+						// Making 'crossreferences' comma separated.
+						$crossreferences = $individual_item['crossreferences'];
+						if ( ! empty( $crossreferences_string ) ) {
+							$crossreferences_string = array();
+							foreach ( $crossreferences as $crossref ) {
+								$crossreferences_string[] = $crossref['crossrefname'];
+							}
+							$crossreferences_string = implode( ',', $crossreferences_string );
+							update_post_meta( $post_id, 'crossreferences', $crossreferences_string );
+						}
 						// Check if package not empty, if not, assign as Featured.
 						$package = $individual_item['package'];
 						if ( ! empty( $package ) ) {
@@ -1012,7 +1031,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					$post_detail .= '|';
 
-				} else if ( isset( $already_available_id ) ) {
+				} else if ( ! empty( $already_available_id ) ) {
 
 					// Deleting item.
 					$update_post_id = $already_available_id;
@@ -1097,7 +1116,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			} else {
 				$where_to_finish = array(
 					'HistoryID'     => $finished_id,
-					'HistoryStatus' => 0
+					'HistoryStatus' => 1
 				);
 			}
 

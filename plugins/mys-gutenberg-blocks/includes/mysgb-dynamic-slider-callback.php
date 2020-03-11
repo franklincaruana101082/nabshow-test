@@ -100,7 +100,12 @@ if ( $query->have_posts() ) {
                                 <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
                             <?php
                             } else {
-                                echo esc_html( get_the_title() );
+                                $speaker_name = get_the_title();
+                            	if( 'speakers' ===  $block_post_type) {
+									$speaker_name = explode(',', $speaker_name);
+                                    $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+                            	}
+                                echo esc_html( $speaker_name );
                             }
                             ?>
                             </h6>

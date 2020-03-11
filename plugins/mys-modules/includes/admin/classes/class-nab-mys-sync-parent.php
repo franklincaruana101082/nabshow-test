@@ -23,6 +23,10 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 		protected $previous_date = null;
 
+		protected $custom_from_date = null;
+
+		protected $custom_to_date = null;
+
 		protected $current_request;
 
 		protected $past_request;
@@ -83,8 +87,10 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			$this->requested_for   = filter_input( INPUT_POST, 'requested_for', FILTER_SANITIZE_STRING );
 			$this->group_id        = isset( $this->group_id ) ? $this->group_id : filter_input( INPUT_POST, 'group_id', FILTER_SANITIZE_STRING );
 			$this->past_request    = isset( $this->past_request ) ? $this->past_request : filter_input( INPUT_POST, 'past_request', FILTER_SANITIZE_STRING );
-			$this->total_counts   = (int) filter_input( INPUT_POST, 'total_counts', FILTER_SANITIZE_STRING );
+			$this->total_counts    = (int) filter_input( INPUT_POST, 'total_counts', FILTER_SANITIZE_STRING );
 			$this->finished_counts = (int) filter_input( INPUT_POST, 'finished_counts', FILTER_SANITIZE_NUMBER_INT );
+			$this->custom_from_date  = filter_input( INPUT_POST, 'custom_from_date', FILTER_SANITIZE_STRING );
+			$this->custom_to_date  = filter_input( INPUT_POST, 'custom_to_date', FILTER_SANITIZE_STRING );
 
 			if ( isset( $this->requested_for ) ) {
 
@@ -212,7 +218,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			}
 
 			//An Actual Call
-			$mys_response = vip_safe_wp_remote_get( $mys_request_url, false, 10, 5, 20,  $request );
+			$mys_response = vip_safe_wp_remote_get( $mys_request_url, false, 10, 5, 20, $request );
 
 			if ( isset ( $mys_response->errors ) ) {
 
@@ -332,10 +338,20 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 
 			$main_url = isset ( $this->nab_mys_urls['main_url'] ) ? $this->nab_mys_urls['main_url'] : '';
 
-			$fromDate = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . ' 00:00:00';
-			$fromDate = date( "Y-m-d H:i:s", strtotime( $fromDate ) );
+			$custom_from_date = $this->custom_from_date;
+			if ( null !== $custom_from_date && ! empty( $custom_from_date ) ) {
+				$fromDate = $custom_from_date;
+			} else {
+				$fromDate = null !== $this->previous_date ? $this->previous_date : $this->nab_mys_urls['datepicker'] . ' 00:00:00';
+				$fromDate = date( "Y-m-d H:i:s", strtotime( $fromDate ) );
+			}
 
-			$toDate         = current_time( 'Y-m-d H:i:s' );
+			$custom_to_date = $this->custom_to_date;
+			if ( null !== $custom_to_date && ! empty( $custom_to_date ) ) {
+				$toDate = $custom_to_date;
+			} else {
+				$toDate = current_time( 'Y-m-d H:i:s' );
+			}
 			$modified_dates = '?fromDate=' . $fromDate . '&toDate=' . $toDate;
 
 			$modified_sessions_url = isset ( $this->nab_mys_urls['modified_sessions_url'] ) ? $this->nab_mys_urls['modified_sessions_url'] : '';

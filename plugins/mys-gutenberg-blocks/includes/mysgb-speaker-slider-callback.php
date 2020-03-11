@@ -329,8 +329,11 @@ if ( $query->have_posts() || $listing_page ) {
                         <div class="flip-box-back rounded-circle">
 							<?php
 							if ( $display_name ) {
+								$speaker_name = get_the_title();
+								$speaker_name = explode(',', $speaker_name);
+                                $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 	                            ?>
-	                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, get_the_title() ); ?></h6>
+	                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, $speaker_name ); ?></h6>
 	                            <?php
 	                        }
 							if ( ! $slider_active || $slide_info_below || $slide_info_rollovers ) {

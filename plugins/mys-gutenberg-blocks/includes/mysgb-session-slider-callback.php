@@ -272,6 +272,8 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 
                         foreach ( $speaker_ids as $speaker_id ) {
                             $speaker_name = get_the_title( $speaker_id );
+                            $speaker_name = explode(',', $speaker_name);
+                            $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
                             if ( $total_speakers !== $cnt ) {
                                 $speaker_name .= ', ';
                             }

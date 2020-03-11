@@ -186,7 +186,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 								if ( 1 === $isActive ) {
 
 									//Move sessions categories from the modified array.
-									if ( isset ( $session_modified_array[ $item_mys_id ]['categories'] ) ) {
+									if ( "sessions" === $current_request && isset ( $session_modified_array[ $item_mys_id ]['categories'] ) ) {
 										$item->categories = $session_modified_array[ $item_mys_id ]['categories'];
 									}
 
@@ -350,6 +350,9 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 
 				if ( 1 === $sequence_completes ) {
 
+					//Check if migration is already done and nothing pending, to make the status 5!
+					$bulk_status = $this->nab_mys_db_check_migration_status( $this->group_id );
+
 					$this->nab_mys_db_history_data( "modified-sessions", "finish", $this->group_id, $bulk_status, 'nochange' );
 					delete_option( 'modified_sessions_' . $this->group_id );
 
@@ -360,6 +363,34 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 			}
 
 			return array( 'total_counts' => $total_counts, 'status' => true, 'total_item_statuses' => $total_item_statuses );
+		}
+
+		/**
+		 * Checks if the migration of specific sequence is one or not.
+		 *
+		 * @param string $group_id A Group Id.
+		 *
+		 * @return int
+		 */
+		private function nab_mys_db_check_migration_status( $group_id ) {
+
+			global $wpdb;
+
+			$history_status = 1;
+
+			$migration_pending = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM %1smys_data
+							WHERE DataGroupID = %s
+							AND AddedStatus != 1"
+					, $wpdb->prefix, $group_id )
+			);
+
+			if ( 0 === count( $migration_pending ) ) {
+				$history_status = 5;
+			}
+
+			return $history_status;
 		}
 
 		/**

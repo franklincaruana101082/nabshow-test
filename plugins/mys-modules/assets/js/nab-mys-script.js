@@ -47,6 +47,17 @@ jQuery(document).ready(function ($) {
 
   });
 
+  function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+      var sParameterName = sURLVariables[i].split('=');
+      if (sParameterName[0] == sParam) {
+        return sParameterName[1];
+      }
+    }
+  }
+
   function recurringAjax(pastItem, requestedFor, groupID, totalCounts, finishedCounts) {
 
     if (-1 !== requestedFor.indexOf('exhibitor')) {
@@ -54,6 +65,10 @@ jQuery(document).ready(function ($) {
     } else {
       action = 'nab_mys_session_data';
     }
+
+    var custom_from_date = getUrlParameter('custom_from_date');
+    var custom_to_date = getUrlParameter('custom_to_date');
+
     data = {
       'action': action,
       'requested_for': requestedFor,
@@ -61,7 +76,9 @@ jQuery(document).ready(function ($) {
       'total_counts': totalCounts,
       'finished_counts': finishedCounts,
       'past_request': pastItem,
-      'security': mysHandler.security
+      'security': mysHandler.security,
+      'custom_from_date': custom_from_date,
+      'custom_to_date': custom_to_date,
     };
 
     jQuery.ajax({
