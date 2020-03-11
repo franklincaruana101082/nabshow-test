@@ -169,3 +169,4 @@
         </div><!-- .site-branding -->
     </header><!-- #masthead -->
     <div id="content" class="site-content">
+    <?php nabshow_lv_add_corona_virus_update_content(); ?>

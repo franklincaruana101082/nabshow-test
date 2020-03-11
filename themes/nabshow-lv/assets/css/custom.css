@@ -2081,3 +2081,8 @@ p.coming-soon{color:#fff}
 
 /* latest */
 .badge-discounts span.discount{font-size:22px;line-height:26px;margin:20px 0}
+
+/* coronavirus */
+.site-content>div#coronavirus>.wp-block-columns{margin:0}
+.site-content>div#coronavirus{margin-top:0!important}
+.site-content>div#coronavirus>.wp-block-columns .nab-title, .site-content>div#coronavirus>.wp-block-columns p.blackText{margin:2px 0!important}
