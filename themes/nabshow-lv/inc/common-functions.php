@@ -629,7 +629,7 @@ function nabshow_lv_add_corona_virus_update_content() {
 	
 	if ( ! is_home() && ! is_front_page() ) {
 		
-		$reuse_block = get_post( 51105 );
+		$reuse_block = get_post( 52279 );
 
 		if ( isset( $reuse_block->post_content ) && ! empty( $reuse_block->post_content ) ) {
 			
