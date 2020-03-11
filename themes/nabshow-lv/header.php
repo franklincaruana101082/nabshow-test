@@ -28,7 +28,7 @@
 		})(window,document,'script','dataLayer','GTM-MQKPWN');
 	</script>
 	<!-- End Google Tag Manager -->
-	<script>
+	<!--<script>
 		"use strict";
 
 		!function() {
@@ -52,7 +52,7 @@
 		}();
 		drift.SNIPPET_VERSION = '0.3.1';
 		drift.load('t9bym32zb3py');
-	</script>
+	</script>-->
 </head>
 
 <body <?php body_class(); ?>>
