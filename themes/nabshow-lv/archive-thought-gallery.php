@@ -7,7 +7,7 @@ get_header();
 
 global $wp_query;
 ?>
-    <div id="primary" class="container">
+    <div id="primary" class="container">		
         <div class="page-main thought-gallery-page">
             <div class="custom-head-with-title has-full">
                 <div class="custom-is-block-center has-fixed">

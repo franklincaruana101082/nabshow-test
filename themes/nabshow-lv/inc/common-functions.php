@@ -621,3 +621,21 @@ function nabshow_lv_get_special_event_minutes_options() {
 		<?php
 	}
 }
+
+/**
+ * Add corona virus update on every page except home page.
+ */
+function nabshow_lv_add_corona_virus_update_content() {
+	
+	if ( ! is_home() && ! is_front_page() ) {
+		
+		$reuse_block = get_post( 51105 );
+
+		if ( isset( $reuse_block->post_content ) && ! empty( $reuse_block->post_content ) ) {
+			
+			$reuse_block_content = apply_filters( 'the_content', $reuse_block->post_content);
+			echo wp_kses_post( $reuse_block_content );
+		}
+	}
+	
+}
