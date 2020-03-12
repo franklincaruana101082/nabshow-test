@@ -484,7 +484,7 @@ body{overflow-x:hidden;font-family:"Roboto Regular", sans-serif;font-size:16px;b
 .site-header .header-left a,.super-menu-main>span,.site-header a{font-size:13px}
 nav#site-navigation{margin-top:40px;position:static}
 .site-header.sticky .header-left>a,.site-header.sticky #site-navigation ul li span,.sticky .super-menu-main>span,.sticky .super-menu-main>.super-menu{display:none}
-.site-header.sticky #logo img{max-width:240px}
+.site-header.sticky #logo img{width:100%;max-width:240px}
 .site-header.sticky{padding:20px 0 26px}
 .sticky nav#site-navigation{margin-top:0}
 .super-menu-main .super-menu-icons li.hide{opacity:0;visibility:hidden;transition:all 0.3s ease-in-out}
