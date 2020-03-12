@@ -686,7 +686,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			foreach ( $data as $individual_item ) {
 
 				if ( 'firstname' === $title_name ) {
-					$title = trim( $individual_item['lastname'] ) . ', ' . trim( $individual_item['firstname'] );
+					$lname = $individual_item['lastname'];
+					$lname = str_replace( ',', '', $lname );
+					$title = trim( $lname ) . ', ' . trim( $individual_item['firstname'] );
 				} else {
 					$title = trim( $individual_item[ $title_name ] );
 				}
