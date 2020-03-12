@@ -752,7 +752,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
 					    $speaker_query->the_post();
 					    $speaker_name = get_the_title();
-					    $speaker_name = explode(',', $speaker_name);
+					    $speaker_name = explode(',', $speaker_name, 2);
 					    $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 
 					    if ( 'with-headshot' === $layout_type ) {

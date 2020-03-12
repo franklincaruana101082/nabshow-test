@@ -62,7 +62,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                     <div class="details">
 	                                    <?php
 	                                    $speaker_name = get_the_title();
-	                                    $speaker_name = explode(',', $speaker_name);
+	                                    $speaker_name = explode(',', $speaker_name, 2);
 	                                    $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 	                                    if ( ! empty( $speaker_id ) ) {
 											?>
@@ -345,7 +345,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 											$speaker_query->the_post();
 											$session_speaker_id = get_the_ID();
 											$speaker_name = get_the_title();
-											$speaker_name = explode(',', $speaker_name);
+											$speaker_name = explode(',', $speaker_name, 2);
 											$speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 
 											if ( has_post_thumbnail() ) {

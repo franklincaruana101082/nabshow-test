@@ -193,7 +193,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 						foreach ( $speaker_ids as $speaker_id ) {
 
 							$speaker_name = get_the_title( $speaker_id );
-							$speaker_name = explode(',', $speaker_name);
+							$speaker_name = explode(',', $speaker_name, 2);
 							$speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 							$final_speakers[] = $speaker_name;
 
@@ -529,7 +529,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$result_post[ $i ][ 'post_id' ]       = $speaker_id;
 
 					$speaker_name                    = html_entity_decode( get_the_title() );
-					$speaker_name                    = explode( ',', $speaker_name );
+					$speaker_name                    = explode( ',', $speaker_name, 2 );
 					$speaker_name                    = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 					$result_post[ $i ]['post_title'] = $speaker_name;
 
