@@ -209,7 +209,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.8' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.9' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -642,10 +642,10 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          *
          * @since 1.0.0
 	     */
-        public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '', $class_name = '') {
+        public function mysgb_generate_popup_link( $post_id, $post_type, $display_text = '', $class_name = '', $plannerlink = 'false' ) {
 
             ?>
-            <a href="#" class="detail-list-modal-popup <?php echo esc_attr( $class_name ); ?>" data-postid="<?php echo esc_attr( $post_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>"> <?php echo esc_html( $display_text ); ?></a>
+            <a href="#" class="detail-list-modal-popup <?php echo esc_attr( $class_name ); ?>" data-postid="<?php echo esc_attr( $post_id ); ?>" data-posttype="<?php echo esc_attr( $post_type ); ?>" data-plannerlink="<?php echo esc_attr( $plannerlink ); ?>"> <?php echo esc_html( $display_text ); ?></a>
             <?php
         }
 
@@ -724,7 +724,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         }
 
 
-	    public function mysgb_get_session_speakers( $session_id, $layout_type ) {
+	    public function mysgb_get_session_speakers( $session_id, $layout_type, $display_plink = 'false' ) {
 
 		    $speaker = get_post_meta( $session_id, 'speakers', true );
 
@@ -774,7 +774,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 								    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" />
 							    </div>
 							    <div class="info-box">
-								    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', $speaker_name ); ?></h4>
+								    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', $speaker_name, '', $display_plink ); ?></h4>
 								    <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
 								    <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
 							    </div>

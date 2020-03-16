@@ -29,6 +29,7 @@ $display_logo      = isset( $attributes['displayLogo'] ) ? $attributes['displayL
 $display_name      = isset( $attributes['displayName'] ) ? $attributes['displayName'] : true;
 $display_booth     = isset( $attributes['displayBooth'] ) ? $attributes['displayBooth'] : true;
 $display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
+$display_plink     = true === $attributes['displayPlannerLink'] ? 'true' : 'false';
 $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $exhibitor_order   = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
@@ -204,7 +205,7 @@ if ( $query->have_posts() || $listing_page ) {
 
                     	if ( $slider_active ) {
                             ?>
-                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">
+                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>" data-plannerlink="<?php echo esc_attr($display_plink) ?>">
                             <?php
                         }
                         ?>
@@ -218,7 +219,7 @@ if ( $query->have_posts() || $listing_page ) {
 
                     } elseif ( $slider_active && $display_name ) {
                         ?>
-                         <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
+                         <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title(), '', $display_plink ); ?></h4>
                         <?php
                     }
 
@@ -229,7 +230,7 @@ if ( $query->have_posts() || $listing_page ) {
 
                         if ( $display_name ) {
                             ?>
-                            <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
+                            <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title(), '', $display_plink ); ?></h4>
                             <?php
                         }
 
@@ -247,7 +248,7 @@ if ( $query->have_posts() || $listing_page ) {
                         	<p>
 	                        <?php
 	                            echo esc_html( get_the_excerpt() );
-	                            $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
+	                            $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup', $display_plink);
 	                        ?>
 	                        </p>
                         	<?php
@@ -256,9 +257,10 @@ if ( $query->have_posts() || $listing_page ) {
                         if ( !empty( $crossreferences ) ) {
                         	?> <span class="crossreferences"><?php echo "Also Known As: $crossreferences"; ?></span> <?php
                         }
-                        ?>
-                        <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
-                    <?php
+
+                        if( 'true' === $display_plink ) { ?>
+                            <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
+                        <?php }
                     }
                     ?>
                 </div>
@@ -279,6 +281,7 @@ if ( $query->have_posts() || $listing_page ) {
     }
     ?>
 </div>
+<input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
 <?php
 } else {
 ?>

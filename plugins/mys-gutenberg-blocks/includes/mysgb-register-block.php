@@ -130,6 +130,10 @@ $session_slider_attr = array(
 	'displaySpeaker' => array(
 		'type'    => 'boolean',
 		'default' => false
+	),
+	'displayPlannerLink' => array(
+		'type'    => 'boolean',
+		'default' => false
 	)
 
 );
@@ -190,6 +194,10 @@ $exhibitors_slider_attr = array(
 	'displaySummary' => array(
 		'type'    => 'boolean',
 		'default' => true
+	),
+	'displayPlannerLink' => array(
+		'type'    => 'boolean',
+		'default' => false
 	),
 	'imgWidth' => array(
 		'type'    => 'number',
@@ -294,7 +302,11 @@ $speakers_slider_attr = array(
 	'attachSession' => array(
 		'type'    => 'boolean',
 		'default' => false
-	)
+	),
+	'displayPlannerLink' => array(
+		'type'    => 'boolean',
+		'default' => false
+	),
 );
 
 register_block_type( 'mys/speaker-slider', array(

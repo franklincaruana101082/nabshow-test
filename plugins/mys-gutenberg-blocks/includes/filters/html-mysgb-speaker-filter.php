@@ -53,7 +53,7 @@ if ( ! $display_company ) {
 				}
 				if ( ! in_array( 'Sort Alphabetically', $remove_filter, true ) && $display_name ) {
 					?>
-					<input type="button" class="orderby" value="Order by Last Name">
+					<input type="button" class="orderby" value="Sort by Last Name">
 					<?php
 				}
 				?>

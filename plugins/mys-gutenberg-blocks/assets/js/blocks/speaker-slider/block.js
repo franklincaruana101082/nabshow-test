@@ -172,6 +172,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 gridInfoRollovers,
                 slideInfoRollovers,
                 slideInfoBelow,
+                displayPlannerLink,
                 includeTracks,
                 attachSession
             } = attributes;
@@ -499,6 +500,11 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             checked={slideInfoBelow}
                             onChange={() => { setAttributes({ slideInfoBelow: ! slideInfoBelow }); this.setState({ bxinit: true }); } }
                           />
+                          <ToggleControl
+                            label={__('Show View in Planner Buttons')}
+                            checked={displayPlannerLink}
+                            onChange={() => { setAttributes({ displayPlannerLink: ! displayPlannerLink }); this.setState({ bxinit: true }); } }
+                          />
                         </PanelBody>
                         { ! listingPage &&
                           <Fragment>
@@ -606,7 +612,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speaker-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks, attachSession: attachSession }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, displayPlannerLink: displayPlannerLink, includeTracks: includeTracks, attachSession: attachSession }}
                     />
                 </Fragment >
             );
@@ -725,6 +731,10 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
           default: false,
         },
         slideInfoBelow: {
+          type: 'boolean',
+          default: false,
+        },
+        displayPlannerLink: {
           type: 'boolean',
           default: false,
         },

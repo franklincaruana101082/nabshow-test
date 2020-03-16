@@ -12,11 +12,12 @@
         var postType = $(this).attr('data-posttype');
         var postId = $(this).attr('data-postid');
         var userId = $(this).attr('data-userid');
+        var displayPlink = $(this).attr('data-plannerlink');
         if ($(this).hasClass('modal-detail-list-modal-popup')) {
             $(this).parents('.modal').modal('hide');
         }
         $('body').addClass('popup-loader');
-        $('.modal .modal-body').load('/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId, function () {
+        $('.modal .modal-body').load('/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId + '&plannerlink=' + displayPlink, function () {
             $('.modal').modal({
                 show: true
             });
@@ -587,6 +588,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
+    displayPlink = 0 < jQuery('.display_plink').length ? jQuery('.display_plink').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
@@ -637,6 +639,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
                       imgLink.setAttribute('class', 'detail-list-modal-popup');
                       imgLink.setAttribute('data-postid', value.post_id);
                       imgLink.setAttribute('data-posttype', 'speakers');
+                      imgLink.setAttribute('data-plannerlink', displayPlink);
 
                       imgLink.appendChild(innerImg);
                       itemInnerFlipBox.appendChild(imgLink);
@@ -657,6 +660,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
                       innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
                       innerHeadingLink.setAttribute('data-postid', value.post_id);
                       innerHeadingLink.setAttribute('data-posttype', 'speakers');
+                      innerHeadingLink.setAttribute('data-plannerlink', displayPlink);
 
                       innerHeading.appendChild(innerHeadingLink);
                       innerFlipBoxBack.appendChild(innerHeading);
@@ -722,7 +726,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
     let postSearch = 0 < jQuery('.browse-exhibitors-filter .search-item .search').length ? jQuery('.browse-exhibitors-filter .search-item .search').val() : '';
     let keywords = new Array();
     let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
-
+    let displayPlink = 0 !== jQuery('.display_plink').length ? jQuery('.display_plink').val() : 'false';
     jQuery('body').addClass('popup-loader');
     jQuery('.browse-exhibitors-filter .exhibitor-keywords:checked').each(function () {
         keywords.push(jQuery(this).val());
@@ -773,6 +777,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
                       innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
                       innerHeadingLink.setAttribute('data-postid', value.post_id);
                       innerHeadingLink.setAttribute('data-posttype', 'exhibitors');
+                      innerHeadingLink.setAttribute('data-plannerlink', displayPlink);
 
                       innerHeading.appendChild(innerHeadingLink);
                       itemInnerDiv.appendChild(innerHeading);
@@ -797,18 +802,19 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
                       innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
                       innerParagraphLink.setAttribute('data-postid', value.post_id);
                       innerParagraphLink.setAttribute('data-posttype', 'exhibitors');
+                      innerParagraphLink.setAttribute('data-plannerlink', displayPlink);
 
                       innerParagraph.appendChild(innerParagraphLink);
                       itemInnerDiv.appendChild(innerParagraph);
                     }
 
-
+                  if ('true' === displayPlink) {
                     let innerPlannerLink = document.createElement('a');
                     innerPlannerLink.innerText = 'View in Planner';
                     innerPlannerLink.setAttribute('href', value.planner_link);
                     innerPlannerLink.setAttribute('target', '_blank');
-
                     itemInnerDiv.appendChild(innerPlannerLink);
+                  }
                     createItemDiv.appendChild(itemInnerDiv);
 
                     let exhibitorList = document.getElementById('browse-exhibitor');
@@ -847,6 +853,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
     let postSearch = 0 < jQuery('.browse-open-to-all-filter .search-item .search').length ? jQuery('.browse-open-to-all-filter .search-item .search').val() : jQuery('.browse-sessions-filter .search-item .search').val();
   let withoutDate = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-date') ? 'yes' : 'no';
   let withoutTime = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-time') ? 'yes' : 'no';
+  let displayPlink = 0 !== jQuery('.display_plink').length ? jQuery('.display_plink').val() : 'false';
 
     jQuery('body').addClass('popup-loader');
 
@@ -972,6 +979,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                           innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
                           innerHeadingLink.setAttribute('data-postid', value.post_id);
                           innerHeadingLink.setAttribute('data-posttype', 'sessions');
+                          innerHeadingLink.setAttribute('data-plannerlink', displayPlink);
 
                           innerHeading.appendChild(innerHeadingLink);
                           createItemDiv.appendChild(innerHeading);
@@ -995,6 +1003,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                           innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
                           innerParagraphLink.setAttribute('data-postid', value.post_id);
                           innerParagraphLink.setAttribute('data-posttype', 'sessions');
+                          innerParagraphLink.setAttribute('data-plannerlink', displayPlink);
 
                           innerParagraph.appendChild(innerParagraphLink);
                           createItemDiv.appendChild(innerParagraph);
@@ -1013,6 +1022,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                             createItemDiv.appendChild(innerSpeakerDiv);
                         }
 
+                      if ('true' === displayPlink) {
                         let innerPlannerLink = document.createElement('a');
                         innerPlannerLink.innerText = 'View in Planner';
                         innerPlannerLink.setAttribute('href', value.planner_link);
@@ -1020,7 +1030,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
                         innerPlannerLink.setAttribute('target', '_blank');
 
                         createItemDiv.appendChild(innerPlannerLink);
-
+                      }
                         let sessionList = document.getElementById('browse-session');
                         sessionList.appendChild(createItemDiv);
                     }

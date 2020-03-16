@@ -37,6 +37,7 @@ $display_time      = isset( $attributes['displayTime'] ) ? $attributes['displayT
 $display_location  = isset( $attributes['displayLocation'] ) ? $attributes['displayLocation'] : true;
 $display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
 $display_speaker   = isset( $attributes['displaySpeaker'] ) ? $attributes['displaySpeaker'] : false;
+$display_plink     = true === $attributes['displayPlannerLink'] ? 'true' : 'false';
 $query             = false;
 $listing_id        = '';
 $final_key         = '';
@@ -199,7 +200,9 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     }
 
 }
-
+?>
+<input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
+<?php
 if ( 'date-group' === $layout &&  ! $slider_active ) {
 
     if ( $query->have_posts() ) {
@@ -254,7 +257,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 <?php
                     $session_title = mb_strimwidth( get_the_title(), 0, 83, '...' );
                 ?>
-                    <strong><?php $this->mysgb_generate_popup_link( get_the_ID(), $block_post_type, $session_title ); ?> </strong>
+                    <strong><?php $this->mysgb_generate_popup_link( get_the_ID(), $block_post_type, $session_title, '', $display_plink ); ?> </strong>
                 </div>
                 <div class="details">
                 <?php
@@ -443,7 +446,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 if ( $display_name ) {
                     $title_text =  mb_strimwidth( get_the_title(), 0, 83, '...' );
                     ?>
-                    <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text); ?></h4>
+                    <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text, '', $display_plink); ?></h4>
                     <?php
                 }
 
@@ -474,7 +477,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 }
 
                 if ( $slider_active && $display_speaker ) {
-                	$this->mysgb_get_session_speakers( $session_id, 'bullet' );
+                	$this->mysgb_get_session_speakers( $session_id, 'bullet', $display_plink );
                 }
 
                 if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
@@ -488,7 +491,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 	                    <?php
 
 	                        echo esc_html( get_the_excerpt() );
-	                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup' );
+	                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup', $display_plink );
 	                    ?>
 	                    </p>
 	                    <?php
@@ -509,10 +512,10 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                     	<div class="video-section"><?php echo $video; ?></div>
                     	<?php
                     }
-                    ?>
 
-                    <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
-                <?php
+                    if( 'true' === $display_plink ) { ?>
+                        <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
+                    <?php }
                 }
                 ?>
             </div>
