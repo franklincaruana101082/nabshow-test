@@ -186,7 +186,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Sessions' ) ) {
 								if ( 1 === $isActive ) {
 
 									//Move sessions categories from the modified array.
-									if ( isset ( $session_modified_array[ $item_mys_id ]['categories'] ) ) {
+									if ( "sessions" === $current_request && isset ( $session_modified_array[ $item_mys_id ]['categories'] ) ) {
 										$item->categories = $session_modified_array[ $item_mys_id ]['categories'];
 									}
 

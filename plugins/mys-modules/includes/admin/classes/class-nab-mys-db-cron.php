@@ -534,7 +534,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					case 'speakers':
 
 						$prepared_data['post_type']         = 'speakers';
-						$prepared_data['exclude_from_meta'] = array( 'bio', 'photo' );
+						$prepared_data['exclude_from_meta'] = array( 'firstname', 'lastname', 'bio', 'photo' );
 						$prepared_data['typeidname']        = 'speakerid';
 						$prepared_data['title_name']        = 'firstname';
 						$prepared_data['description_name']  = 'bio';
@@ -686,7 +686,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			foreach ( $data as $individual_item ) {
 
 				if ( 'firstname' === $title_name ) {
-					$title = trim( $individual_item['firstname'] ) . ' ' . trim( $individual_item['lastname'] );
+					$lname = $individual_item['lastname'];
+					$lname = str_replace( ',', '', $lname );
+					$title = trim( $lname ) . ', ' . trim( $individual_item['firstname'] );
 				} else {
 					$title = trim( $individual_item[ $title_name ] );
 				}

@@ -61,13 +61,16 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                 <div class="head">
                                     <div class="details">
 	                                    <?php
+	                                    $speaker_name = get_the_title();
+	                                    $speaker_name = explode(',', $speaker_name, 2);
+	                                    $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 	                                    if ( ! empty( $speaker_id ) ) {
 											?>
-		                                    <h3 class="title"><a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a></h3>
+		                                    <h3 class="title"><a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank"><?php echo esc_html( $speaker_name ); ?></a></h3>
 		                                    <?php
 	                                    } else {
 	                                    	?>
-		                                    <h3 class="title"><?php echo esc_html( get_the_title() ); ?></h3>
+		                                    <h3 class="title"><?php echo esc_html( $speaker_name ); ?></h3>
 		                                    <?php
 	                                    }
 
@@ -341,6 +344,9 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 
 											$speaker_query->the_post();
 											$session_speaker_id = get_the_ID();
+											$speaker_name = get_the_title();
+											$speaker_name = explode(',', $speaker_name, 2);
+											$speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 
 											if ( has_post_thumbnail() ) {
 												$speaker_thumbnail_url = get_the_post_thumbnail_url();
@@ -357,7 +363,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                                     <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo"/>
                                                 </div>
                                                 <div class="details">
-                                                    <h4 class="title"><a href="#" class="modal-detail-list-modal-popup" data-postid="<?php echo esc_attr( $session_speaker_id ); ?>" data-posttype="speakers"><?php echo esc_html( get_the_title() ); ?></a></h4>
+                                                    <h4 class="title"><a href="#" class="modal-detail-list-modal-popup" data-postid="<?php echo esc_attr( $session_speaker_id ); ?>" data-posttype="speakers"><?php echo esc_html( $speaker_name ); ?></a></h4>
                                                     <span class="sub-title"><?php echo esc_html( $speaker_job_title ); ?></span>
                                                     <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
                                                 </div>

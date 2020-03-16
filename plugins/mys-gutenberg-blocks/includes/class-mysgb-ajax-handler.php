@@ -192,7 +192,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 						foreach ( $speaker_ids as $speaker_id ) {
 
-							$final_speakers[] = get_the_title( $speaker_id );
+							$speaker_name = get_the_title( $speaker_id );
+							$speaker_name = explode(',', $speaker_name, 2);
+							$speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+							$final_speakers[] = $speaker_name;
 
 						}
 
@@ -524,7 +527,12 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
 
 					$result_post[ $i ][ 'post_id' ]       = $speaker_id;
-					$result_post[ $i ][ 'post_title' ]    = html_entity_decode( get_the_title() );
+
+					$speaker_name                    = html_entity_decode( get_the_title() );
+					$speaker_name                    = explode( ',', $speaker_name, 2 );
+					$speaker_name                    = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+					$result_post[ $i ]['post_title'] = $speaker_name;
+
 					$result_post[ $i ][ 'featured' ]      = $featured_post;
 					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
 					$result_post[ $i ][ 'job_title' ]     = html_entity_decode( $speaker_job_title );

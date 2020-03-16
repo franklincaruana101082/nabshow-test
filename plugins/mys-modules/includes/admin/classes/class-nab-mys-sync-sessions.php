@@ -498,9 +498,9 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			/**
 			 * Custom cron to assign categories to the pending sessions.
 			 */
-			register_rest_route( 'mys', '/session-cats', array(
+			register_rest_route( 'mys', '/custom-session-migration', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_corn_assign_session_cats' )
+					'callback' => array( $this, 'nab_mys_corn_custom_session_migration' )
 				)
 			);
 
@@ -514,219 +514,109 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 		 * @return array    List of DataID -> PostID
 		 *         string   Message to show that No more data available to migrate.
 		 */
-		public function nab_mys_corn_assign_session_cats( WP_REST_Request $request ) {
+		public function nab_mys_corn_custom_session_migration( WP_REST_Request $request ) {
 
 			$parameters = $request->get_params();
 
-			$step  = isset( $parameters['step'] ) ? $parameters['step'] : '1';
-			$limit = isset( $parameters['limit'] ) ? $parameters['limit'] : '1';
+			$force = isset( $parameters['force'] ) ? $parameters['force'] : '';
+			$limit = isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
 
-			$taxonomy = 'session-categories';
+			if( isset( $parameters['delete'] ) ) {
+				delete_option('custom_cron_speakers');
+				return 'option deleted: custom_cron_speakers';
+			}
 
-			///Add condition if its step 0 and the option table
-			///array does not exist.
+			$result = '';
 
-			if ( '1' === $step ) {
+			$all_speakers = get_option( 'custom_cron_speakers' );
+			if ( false === $all_speakers ) {
+				$result .= 'No speakers data stored in the DB, fetching from API. ';
+				$force  = '1';
+			}
 
-				//Get all sessions which don't have custom field 'categories'
-				//Categories are still not assigned to those sessions.
+			if ( ! empty( $force ) ) {
+				// Change Speaker title format to "Lastnname, Firstname"
+				$this->mys_request_url = $this->nab_mys_get_request_url( "speakers" );
 
-				$session_args = array(
-					'post_type'      => 'sessions',
-					'posts_per_page' => - 1,
-					'fields'         => 'ids',
-					'meta_query'     => array(
+				$all_speakers = $this->nab_mys_get_response();
+				$all_speakers = $all_speakers[0]->speakers;
+
+				$new_all_speakers = array();
+				foreach ( $all_speakers as $s ) {
+					$new_all_speakers[ $s->speakerid ]['fname']     = $s->firstname;
+					$new_all_speakers[ $s->speakerid ]['lname']     = $s->lastname;
+					$new_all_speakers[ $s->speakerid ]['schedules'] = isset( $s->schedules ) ? 1 : 0;
+				}
+				$all_speakers = $new_all_speakers;
+
+				$result .= '|| Total fetched speakers : {' . count( $all_speakers ) . '} note: remove "force" from URL |';
+
+				update_option( 'custom_cron_speakers', $all_speakers );
+			}
+
+			$count = 0;
+			foreach ( $all_speakers as $speakerid => $speaker ) {
+
+				$count ++;
+				if ( $limit < $count ) {
+					break;
+				}
+
+				//Check if post already available
+				$args              = array(
+					'post_type'  => array( "speakers" ),
+					'meta_query' => array(
 						array(
-							'key'     => 'categories',
-							'compare' => 'NOT EXISTS',
-						),
-						array(
-							'key' => 'sessionid',
+							'key'   => "speakerid",
+							'value' => $speakerid,
 						),
 					),
 				);
+				$already_available = new WP_Query( $args );
 
-				$session_query = new WP_Query( $session_args );
-
-				$session_ids = array();
-
-				if ( $session_query->have_posts() ) {
-
-					$session_ids = $session_query->posts;
-
-				}
-
-				if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
-
-					add_option( 'pending_sess_cats', $session_ids );
-
-					$session_ids = implode( ',', $session_ids );
-
-					echo "Following sessions don't have assigned categories. Visit the step 2 to perform cat assignments. - $session_ids";
-					die();
-
+				// Initialize
+				$post_id = $already_available_id = '';
+				if ( isset( $already_available->posts[0]->ID ) ) {
+					$post_id = $already_available_id = $already_available->posts[0]->ID;
 				} else {
-					echo 'All sessions have assigned categories.';
-					die();
+					$result .= "|$speakerid-notfound";
+					unset( $all_speakers[ $speakerid ] );
+					continue;
 				}
 
-			} else {
-				// If its second step.
-				$session_ids = get_option( 'pending_sess_cats' );
+				// Restore original Post Data
+				wp_reset_postdata();
 
-				$details = '';
-
-				if ( is_array( $session_ids ) && count( $session_ids ) > 0 ) {
-
-					$counter = 0;
-
-					foreach ( $session_ids as $wpid ) {
-
-						$counter ++;
-
-						//Fetch all sessions one by one and prepare array with category data
-
-						//Get mys id of a session
-						$mysid   = get_post_meta( $wpid, 'sessionid', true );
-						$details .= "|$wpid=m$mysid:";
-
-						$this->mys_request_url = $this->nab_mys_urls['main_url'] . '/Sessions?sessionID=' . $mysid;
-
-						$single_session = $this->nab_mys_get_response();
-						$single_session = $single_session[0]->sessions;
-
-						$isactive = isset( $single_session->schedules[0]->isactive ) ? $single_session->schedules[0]->isactive : 0;
-
-						//If isActive is 1, process categories.
-						if ( 1 === $isactive ) {
-
-							$session_cats = isset( $single_session->categories ) ? $single_session->categories : array();
-
-							if ( 0 !== count( $session_cats ) ) {
-
-								$catgrpid_array = $catid_array = $cat_data = array();
-
-								$added_groups     = array();
-								$assigned_cat_ids = array();
-
-								foreach ( $session_cats as $session_cat ) {
-
-									$mys_cat_id  = $catid_array[] = $session_cat->categoryid;
-									$cat_name    = $session_cat->categoryname;
-									$description = $session_cat->categoryiddisplay;
-
-									$mys_grp_id = $catgrpid_array[] = $session_cat->categorygroupid;
-									$grp_name   = $session_cat->categorygroup;
-
-									//Add Group.
-
-									if ( ! in_array( $mys_grp_id, $added_groups ) ) {
-
-										//Check if same name available
-										$existing_term_data = get_term_by( 'name', $grp_name, $taxonomy );
-
-										if ( ! empty( $existing_term_data ) ) {
-											$term_post_id = $existing_term_data->term_id;
-										} else {
-											// insert new term if not already available
-
-											$term_id_data = wp_insert_term(
-												$grp_name,
-												$taxonomy
-											);
-
-											//Term already available on this point, then use it.
-											if ( isset( $term_id_data->error_data['term_exists'] ) ) {
-												$term_post_id = $term_id_data->error_data['term_exists'];
-											} else {
-												$term_post_id = $term_id_data['term_id'];
-											}
-										}
-
-										$assigned_cat_ids[] = $term_post_id;
-										$added_groups[]     = $mys_grp_id;
-
-										//Insert term meta
-										update_term_meta( $term_post_id, 'categorygroupid', $mys_grp_id );
-									}
-
-									//Add Category.
-
-									//Check if same name available
-									$existing_term_data = get_term_by( 'name', $cat_name, $taxonomy );
-
-									if ( ! empty( $existing_term_data ) ) {
-										$assigned_cat_ids[] = $term_post_id = $existing_term_data->term_id;
-									} else {
-
-										// insert new term if not already available
-										$term_id_data = wp_insert_term(
-											$cat_name,
-											$taxonomy,
-											array(
-												'description' => $description,
-												'parent'      => $term_post_id,
-											)
-										);
-
-										//Term already available on this point, then use it.
-										if ( isset( $term_id_data->error_data['term_exists'] ) ) {
-											$term_post_id = $term_id_data->error_data['term_exists'];
-										} else {
-											$term_post_id = $term_id_data['term_id'];
-										}
-
-										$assigned_cat_ids[] = $term_post_id;
-									}
-
-									//Insert term meta
-									update_term_meta( $term_post_id, 'categoryid', $mys_cat_id );
-								}
-
-								//Assign Categories Now.
-								wp_set_post_terms( $wpid, $assigned_cat_ids, 'session-categories' );
-
-								$assigned_cat_ids = implode( ',', $assigned_cat_ids );
-
-								$details .= '-assigned-cats' . $assigned_cat_ids;
-
-							} else {
-								$details .= '-no-cats-found';
-							}
-
-							//Mark session done by adding a custom field.
-							add_post_meta( $wpid, 'categories', 'added_via_script' );
-
-						} else {
-
-							$details .= '-isActive=0';
-
-							wp_trash_post( $wpid );
-						}
-
-						//Remove the element from array and update the option value.
-						if ( ( $key = array_search( $wpid, $session_ids ) ) !== false ) {
-							unset( $session_ids[ $key ] );
-						}
-						update_option( 'pending_sess_cats', $session_ids );
-
-						if ( $limit <= $counter ) {
-							return $details;
-						}
-					}
-
-				} else {
-					echo 'No data found, please visit step 1.';
-					die();
+				// Delete speaker because there are no sessions attached.
+				if ( 0 === $speaker['schedules'] && ! empty( $post_id ) ) {
+					wp_trash_post( $post_id );
+					$result .= "|$post_id-trashed";
+					unset( $all_speakers[ $speakerid ] );
+					continue;
 				}
 
-				//remove the array from options table
-				delete_option( 'pending_sess_cats' );
+				$firstname = $speaker['fname'];
+				$lastname  = $speaker['lname'];
 
-				return $details;
+				$new_title = "$lastname, $firstname";
 
+				$update_post = array(
+					'ID'         => $post_id,
+					'post_title' => $new_title,
+				);
+
+				// Title updated.
+				wp_update_post( $update_post );
+
+				$result .= "|$post_id-$new_title";
+
+				unset( $all_speakers[ $speakerid ] );
 			}
 
+			update_option( 'custom_cron_speakers', $all_speakers );
+			$result .= '=====pending_count=' . count( $all_speakers );
+
+			return $result;
 		}
 
 

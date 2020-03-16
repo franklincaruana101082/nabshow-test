@@ -209,7 +209,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.8' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.9' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -751,6 +751,9 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 				    while ( $speaker_query->have_posts() ) {
 
 					    $speaker_query->the_post();
+					    $speaker_name = get_the_title();
+					    $speaker_name = explode(',', $speaker_name, 2);
+					    $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 
 					    if ( 'with-headshot' === $layout_type ) {
 
@@ -771,7 +774,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 								    <img src="<?php echo esc_url( $speaker_thumbnail_url ); ?>" alt="speaker-logo" />
 							    </div>
 							    <div class="info-box">
-								    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', get_the_title() ); ?></h4>
+								    <h4 class="title"><?php $this->mysgb_generate_popup_link( $speaker_id, 'speakers', $speaker_name ); ?></h4>
 								    <p class="jobtilt"><?php echo esc_html( $speaker_job_title ); ?></p>
 								    <span class="company"><?php echo esc_html( $speaker_company ); ?></span>
 							    </div>
@@ -781,11 +784,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 					    } elseif ( 'bullet' === $layout_type ) {
 
 					    	?>
-					    	<li><?php echo esc_html( get_the_title() ); ?></li>
+					    	<li><?php echo esc_html( $speaker_name ); ?></li>
 						    <?php
 
 					    } elseif ( 'comma-separated' == $layout_type ) {
-						    $speaker_list[] = get_the_title();
+						    $speaker_list[] = $speaker_name;
 					    }
 				    }
 				    if ( 'bullet' === $layout_type ) {
