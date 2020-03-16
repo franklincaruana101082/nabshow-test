@@ -177,8 +177,7 @@ if ( $query->have_posts() || $listing_page ) {
     <?php
     } else {
     ?>
-        <div class="nab-dynamic-list exhibitors" id="<?php echo $listing_page ? esc_attr('browse-exhibitor') : ''; ?>">
-            <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
+        <div class="nab-dynamic-list exhibitors" id="<?php echo $listing_page ? esc_attr('browse-exhibitor') : ''; ?>" data-plannerlink="<?php echo esc_attr( $display_plink ) ?>">
     <?php
     }
 

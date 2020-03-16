@@ -726,7 +726,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
     let postSearch = 0 < jQuery('.browse-exhibitors-filter .search-item .search').length ? jQuery('.browse-exhibitors-filter .search-item .search').val() : '';
     let keywords = new Array();
     let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
-    let displayPlink = 0 !== jQuery('#browse-exhibitor .display_plink').length ? jQuery('#browse-exhibitor .display_plink').val() : 'false';
+    let displayPlink = jQuery('#browse-exhibitor').attr(' data-plannerlink');
     jQuery('body').addClass('popup-loader');
     jQuery('.browse-exhibitors-filter .exhibitor-keywords:checked').each(function () {
         keywords.push(jQuery(this).val());
