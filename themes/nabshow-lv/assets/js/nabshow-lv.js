@@ -1728,7 +1728,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
-    displayPlink = 0 < jQuery('#browse-speaker .display_plink').length ? jQuery('#browse-speaker .display_plink').val() : 'false',
+    displayPlink = jQuery('#browse-exhibitor').attr(' data-plannerlink'),
     sessionSpeakers = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
