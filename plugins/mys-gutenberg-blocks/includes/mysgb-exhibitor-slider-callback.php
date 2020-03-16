@@ -173,10 +173,12 @@ if ( $query->have_posts() || $listing_page ) {
     if ( $slider_active ) {
     ?>
         <div class="nab-dynamic-slider nab-box-slider exhibitors" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
+        <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
     <?php
     } else {
     ?>
         <div class="nab-dynamic-list exhibitors" id="<?php echo $listing_page ? esc_attr('browse-exhibitor') : ''; ?>">
+            <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
     <?php
     }
 
@@ -281,7 +283,6 @@ if ( $query->have_posts() || $listing_page ) {
     }
     ?>
 </div>
-<input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
 <?php
 } else {
 ?>

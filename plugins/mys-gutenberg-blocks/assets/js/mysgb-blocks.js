@@ -588,7 +588,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
   let postPerPage = jQuery('#load-more-speaker a').attr('data-post-limit') ? parseInt(jQuery('#load-more-speaker a').attr('data-post-limit')) : 10,
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
-    displayPlink = 0 < jQuery('.display_plink').length ? jQuery('.display_plink').val() : '',
+    displayPlink = 0 < jQuery('#browse-speaker .display_plink').length ? jQuery('#browse-speaker .display_plink').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
     orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
 
@@ -726,7 +726,7 @@ function mysAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
     let postSearch = 0 < jQuery('.browse-exhibitors-filter .search-item .search').length ? jQuery('.browse-exhibitors-filter .search-item .search').val() : '';
     let keywords = new Array();
     let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
-    let displayPlink = 0 !== jQuery('.display_plink').length ? jQuery('.display_plink').val() : 'false';
+    let displayPlink = 0 !== jQuery('#browse-exhibitor .display_plink').length ? jQuery('#browse-exhibitor .display_plink').val() : 'false';
     jQuery('body').addClass('popup-loader');
     jQuery('.browse-exhibitors-filter .exhibitor-keywords:checked').each(function () {
         keywords.push(jQuery(this).val());
@@ -853,7 +853,7 @@ function mysAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
     let postSearch = 0 < jQuery('.browse-open-to-all-filter .search-item .search').length ? jQuery('.browse-open-to-all-filter .search-item .search').val() : jQuery('.browse-sessions-filter .search-item .search').val();
   let withoutDate = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-date') ? 'yes' : 'no';
   let withoutTime = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-time') ? 'yes' : 'no';
-  let displayPlink = 0 !== jQuery('.display_plink').length ? jQuery('.display_plink').val() : 'false';
+  let displayPlink = 0 !== jQuery('#browse-session .display_plink').length ? jQuery('#browse-session .display_plink').val() : 'false';
 
     jQuery('body').addClass('popup-loader');
 

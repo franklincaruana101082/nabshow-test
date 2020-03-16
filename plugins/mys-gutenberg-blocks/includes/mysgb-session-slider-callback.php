@@ -200,9 +200,6 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     }
 
 }
-?>
-<input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
-<?php
 if ( 'date-group' === $layout &&  ! $slider_active ) {
 
     if ( $query->have_posts() ) {
@@ -367,6 +364,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
         }
     ?>
         <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo esc_attr( $listing_id ); ?>">
+            <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
     <?php
     }
         $date_group = '';
