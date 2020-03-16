@@ -1863,7 +1863,7 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
 
   let postPerPage = jQuery('#load-more-exhibitor a').attr('data-post-limit') ? parseInt(jQuery('#load-more-exhibitor a').attr('data-post-limit')) : 10;
   let postSearch = 0 < jQuery('.browse-exhibitors-filter .search-item .search').length ? jQuery('.browse-exhibitors-filter .search-item .search').val() : '';
-  let displayPlink = 0 < jQuery('#browse-exhibitor .display_plink').length ? jQuery('#browse-exhibitor .display_plink').val() : 'false';
+  let displayPlink = jQuery('#browse-exhibitor').attr(' data-plannerlink');
   let keywords = new Array();
   let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
 
