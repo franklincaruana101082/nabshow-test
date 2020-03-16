@@ -282,7 +282,7 @@ if ( $query->have_posts() || $listing_page ) {
         <?php
         } else {
         ?>
-            <div class="nab-dynamic-list nab-box-slider speakers" id="<?php echo $listing_page ? esc_attr('browse-speaker') : ''; ?>">
+            <div class="nab-dynamic-list nab-box-slider speakers" id="<?php echo $listing_page ? esc_attr('browse-speaker') : ''; ?>" data-plannerlink="<?php echo esc_attr( $display_plink ) ?>">
         <?php
         }
 
@@ -364,7 +364,6 @@ if ( $query->have_posts() || $listing_page ) {
         }
         ?>
         </div>
-        <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
         <?php
         if ( $listing_page ) {
 

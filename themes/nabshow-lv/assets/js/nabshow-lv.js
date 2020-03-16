@@ -2000,7 +2000,7 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
   let postSearch = 0 < jQuery('.browse-open-to-all-filter .search-item .search').length ? jQuery('.browse-open-to-all-filter .search-item .search').val() : jQuery('.browse-sessions-filter .search-item .search').val();
   let withoutDate = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-date') ? 'yes' : 'no';
   let withoutTime = jQuery('#browse-session').parents('.slider-arrow-main').hasClass('without-time') ? 'yes' : 'no';
-  let displayPlink = 0 !== jQuery('#browse-session .display_plink').length ? jQuery('#browse-session .display_plink').val() : 'false';
+  let displayPlink = jQuery('#browse-session').attr(' data-plannerlink');
 
   jQuery('body').addClass('popup-loader');
 

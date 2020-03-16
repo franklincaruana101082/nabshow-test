@@ -363,8 +363,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
             $listing_id = 'card_section';
         }
     ?>
-        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo esc_attr( $listing_id ); ?>">
-            <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
+        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo esc_attr( $listing_id ); ?>" data-plannerlink="<?php echo esc_attr( $display_plink ) ?>">
     <?php
     }
         $date_group = '';
