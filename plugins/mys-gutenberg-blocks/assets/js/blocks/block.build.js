@@ -1928,7 +1928,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayLocation = attributes.displayLocation,
                     displaySummary = attributes.displaySummary,
                     displaySpeaker = attributes.displaySpeaker,
-                    displayPlannerLink = attributes.displayPlannerLink,
                     displayVideo = attributes.displayVideo;
 
 
@@ -2212,13 +2211,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 onChange: function onChange() {
                                     setAttributes({ displayVideo: !displayVideo });_this5.setState({ bxinit: true });
                                 }
-                            }),
-                            wp.element.createElement(ToggleControl, {
-                                label: __('Show View in Planner Buttons'),
-                                checked: displayPlannerLink,
-                                onChange: function onChange() {
-                                    setAttributes({ displayPlannerLink: !displayPlannerLink });_this5.setState({ bxinit: true });
-                                }
                             })
                         ),
                         !listingPage && wp.element.createElement(
@@ -2435,7 +2427,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/sessions-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary, displayVideo: displayVideo, displaySpeaker: displaySpeaker, displayPlannerLink: displayPlannerLink }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary, displayVideo: displayVideo, displaySpeaker: displaySpeaker }
                     })
                 );
             }
@@ -2565,10 +2557,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             default: false
         },
         displaySpeaker: {
-            type: 'boolean',
-            default: false
-        },
-        displayPlannerLink: {
             type: 'boolean',
             default: false
         }
@@ -2821,8 +2809,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayLogo = attributes.displayLogo,
                     displayName = attributes.displayName,
                     displayBooth = attributes.displayBooth,
-                    displaySummary = attributes.displaySummary,
-                    displayPlannerLink = attributes.displayPlannerLink;
+                    displaySummary = attributes.displaySummary;
 
 
                 var names = [{ name: __WEBPACK_IMPORTED_MODULE_0__icons__["l" /* sliderArrow1 */], classnames: 'slider-arrow-1' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["m" /* sliderArrow2 */], classnames: 'slider-arrow-2' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["n" /* sliderArrow3 */], classnames: 'slider-arrow-3' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["o" /* sliderArrow4 */], classnames: 'slider-arrow-4' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["p" /* sliderArrow5 */], classnames: 'slider-arrow-5' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["q" /* sliderArrow6 */], classnames: 'slider-arrow-6' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["r" /* sliderArrow7 */], classnames: 'slider-arrow-7' }, { name: __WEBPACK_IMPORTED_MODULE_0__icons__["s" /* sliderArrow8 */], classnames: 'slider-arrow-8' }];
@@ -3030,13 +3017,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 onChange: function onChange() {
                                     setAttributes({ displaySummary: !displaySummary });_this5.setState({ bxinit: true });
                                 }
-                            }),
-                            wp.element.createElement(ToggleControl, {
-                                label: __('Show View in Planner Buttons'),
-                                checked: displayPlannerLink,
-                                onChange: function onChange() {
-                                    setAttributes({ displayPlannerLink: !displayPlannerLink });_this5.setState({ bxinit: true });
-                                }
                             })
                         ),
                         !listingPage && wp.element.createElement(
@@ -3209,7 +3189,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/exhibitors-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, displayPlannerLink: displayPlannerLink, imgWidth: imgWidth }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, imgWidth: imgWidth }
                     })
                 );
             }
@@ -3310,10 +3290,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         displaySummary: {
             type: 'boolean',
             default: true
-        },
-        displayPlannerLink: {
-            type: 'boolean',
-            default: false
         }
 
     };
@@ -3571,7 +3547,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     gridInfoRollovers = attributes.gridInfoRollovers,
                     slideInfoRollovers = attributes.slideInfoRollovers,
                     slideInfoBelow = attributes.slideInfoBelow,
-                    displayPlannerLink = attributes.displayPlannerLink,
                     includeTracks = attributes.includeTracks,
                     attachSession = attributes.attachSession;
 
@@ -3933,13 +3908,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 onChange: function onChange() {
                                     setAttributes({ slideInfoBelow: !slideInfoBelow });_this5.setState({ bxinit: true });
                                 }
-                            }),
-                            wp.element.createElement(ToggleControl, {
-                                label: __('Show View in Planner Buttons'),
-                                checked: displayPlannerLink,
-                                onChange: function onChange() {
-                                    setAttributes({ displayPlannerLink: !displayPlannerLink });_this5.setState({ bxinit: true });
-                                }
                             })
                         ),
                         !listingPage && wp.element.createElement(
@@ -4121,7 +4089,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speaker-slider",
-                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, displayPlannerLink: displayPlannerLink, includeTracks: includeTracks, attachSession: attachSession }
+                        attributes: { itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, slideShape: slideShape, orderBy: orderBy, arrowIcons: arrowIcons, listingPage: listingPage, withThumbnail: withThumbnail, displayName: displayName, displayTitle: displayTitle, displayCompany: displayCompany, filterDates: filterDates, removeFilters: removeFilters, excludeSpeaker: excludeSpeaker, metaDate: metaDate, speakerDate: speakerDate, gridInfoRollovers: gridInfoRollovers, slideInfoRollovers: slideInfoRollovers, slideInfoBelow: slideInfoBelow, includeTracks: includeTracks, attachSession: attachSession }
                     })
                 );
             }
@@ -4243,10 +4211,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             default: false
         },
         slideInfoBelow: {
-            type: 'boolean',
-            default: false
-        },
-        displayPlannerLink: {
             type: 'boolean',
             default: false
         },
