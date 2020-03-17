@@ -64,7 +64,7 @@ if ( ! $display_company ) {
 	if ( ! in_array( 'Speaker Name', $remove_filter, true ) && $display_name ) {
 		?>
 		<div class="pass-type col-xl-7">
-			<label>Speaker Name</label>
+			<label>Speaker Last Name</label>
 			<ul class="alphabets-list">
 				<li>A</li>
 				<li>B</li>
