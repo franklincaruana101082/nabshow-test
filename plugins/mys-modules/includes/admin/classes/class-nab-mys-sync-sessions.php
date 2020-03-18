@@ -592,7 +592,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				// Delete speaker if there are no sessions attached.
 				if ( 0 === $speaker['schedules'] && ! empty( $post_id ) ) {
 					wp_trash_post( $post_id );
-					$result .= "|$post_id-trashed";
+					$result .= "|$post_id-trashed-$speakerid";
 					unset( $all_speakers[ $speakerid ] );
 					continue;
 				}
