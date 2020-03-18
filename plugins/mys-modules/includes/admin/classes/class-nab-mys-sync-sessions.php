@@ -518,12 +518,13 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			$parameters = $request->get_params();
 
-			$force = isset( $parameters['force'] ) ? $parameters['force'] : '';
-			$limit = isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
+			$force             = isset( $parameters['force'] ) ? $parameters['force'] : '';
+			$limit             = isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
 			$unlinked_speakers = isset( $parameters['unlinked-speakers'] ) ? $parameters['unlinked-speakers'] : '';
 
-			if( isset( $parameters['delete'] ) ) {
-				delete_option('custom_cron_speakers');
+			if ( isset( $parameters['delete'] ) ) {
+				delete_option( 'custom_cron_speakers' );
+
 				return 'option deleted: custom_cron_speakers';
 			}
 
@@ -596,7 +597,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 					continue;
 				}
 
-				if ( ! empty( $unlinked_speakers ) ) {
+				if ( empty( $unlinked_speakers ) ) {
 					$firstname = $speaker['fname'];
 					$lastname  = $speaker['lname'];
 
