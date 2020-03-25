@@ -49,16 +49,16 @@ $to_email = get_query_var('form_email' );
 				<label class="control-label" for="event-date">Event Date <span class="form-required" title="This field is required.">*</span></label>
 				<div id="event-date" class="form-checkboxes">
 					<div class="form-type-checkbox">
-						<label class="control-label" for="event-date-1"><input id="event-date-1" class="form-checkbox" name="event_date_1" type="checkbox" value="monday_april_8">Sunday, April 19, 2020</label>
+						<label class="control-label" for="event-date-1"><input id="event-date-1" class="form-checkbox" name="event_date_1" type="checkbox" value="sunday_april_11">Sunday, April 11, 2021</label>
 					</div>
 					<div class="form-type-checkbox">
-						<label class="control-label" for="event-date-2"><input id="event-date-2" class="form-checkbox" name="event_date_2" type="checkbox" value="tuesday_april_9">Monday, April 20, 2020</label>
+						<label class="control-label" for="event-date-2"><input id="event-date-2" class="form-checkbox" name="event_date_2" type="checkbox" value="monday_april_12">Monday, April 12, 2021</label>
 					</div>
 					<div class="form-type-checkbox">
-						<label class="control-label" for="event-date-3"><input id="event-date-3" class="form-checkbox" name="event_date_3" type="checkbox" value="wednesday_april_10">Tuesday, April 21, 2020</label>
+						<label class="control-label" for="event-date-3"><input id="event-date-3" class="form-checkbox" name="event_date_3" type="checkbox" value="tuesday_april_13">Tuesday, April 13, 2021</label>
 					</div>
 					<div class="form-type-checkbox">
-						<label class="control-label" for="event-date-4"><input id="event-date-4" class="form-checkbox" name="event_date_4" type="checkbox" value="thursday_april_11">Wednesday, April 22, 2020 (before Show hours only)</label>
+						<label class="control-label" for="event-date-4"><input id="event-date-4" class="form-checkbox" name="event_date_4" type="checkbox" value="wednesday_april_14">Wednesday, April 14, 2021 (before Show hours only)</label>
 					</div>
 					<p class="checkbox-error" style="display: none; color: red;">Event Date field is required.</p>
 					<div class="help-block"><p>Please choose your event date. If you have more than one event, you can pick multiple dates.</p></div>
