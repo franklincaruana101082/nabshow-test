@@ -24,3 +24,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 body .hero-banner-inner .banner-item .title {
   color: red;
 }
+
+@media (min-width: 1200px)
+.container {
+    max-width: 1480px;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+@media (max-width: 1200px)
+.container {
+    width: 100%;
+    max-width: 96%;
+}
