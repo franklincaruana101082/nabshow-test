@@ -35,13 +35,13 @@
 				
 					<a href="http://www.nabshow.com/express">
 				
-					<img class="db  center  tc  o-show_header" src="https://nab20.mysstaging.com/mys_shared/NAB20/showfiles/imgs/NAB20_IDS_header@2x.jpg?breakcache=8DA00760-BF91-5391-ED845B8E6C55F065" alt="2020 NAB Show Express">
+					<img class="db  center  tc  o-show_header" src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/04/MYS_Express_3200x300.jpg" alt="NAB Show Express">
 				
 					</a>
 				
 			</div>
 	    </header>
-	    <nav id="nav" role="navigation" class="l-nav  theme_1  pa3  pr4  pl4  pa4-l  pr5-m  pl5-m  pr6-l  pl6-l"><div class="l-nav_content_wrapper flex items-center"><div class="l-nav_left_wrapper flex  items-center"><a href="http://www.nabshow.com/" class="bb-0"><img src="/mys_shared/NAB20/NAB20_Custom_logo.png" srcset="/mys_shared/NAB20/NAB20_Custom_logo@2x.png 2x" alt="2020 NAB Show logo" class="o-ShowLogo dn"></a> <div class="l-nav_show_info f6 flex-column ml4 justify-center dn"><p class="show-date">
+	    <nav id="nav" role="navigation" class="l-nav  theme_1  pa3  pr4  pl4  pa4-l  pr5-m  pl5-m  pr6-l  pl6-l"><div class="l-nav_content_wrapper flex items-center"><div class="l-nav_left_wrapper flex  items-center"><a href="http://www.nabshow.com/" class="bb-0"><img src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/04/NAB20-0144_CN_Express_Show_Logo_Rev_F.png" alt="NAB Show Express" class="o-ShowLogo dn"></a> <div class="l-nav_show_info f6 flex-column ml4 justify-center dn"><p class="show-date">
 							
 							April 18 - 22, 2020 | Exhibits April 19 - 22, 2020
 							
