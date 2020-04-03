@@ -6020,6 +6020,7 @@ a.to-the-top > * {
 	h1,
 	.heading-size-1 {
 		font-size: 8.4rem;
+		font-family: 'molotregular', sans-serif;
 	}
 
 	/* Helper Classes ------------------------ */
