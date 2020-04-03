@@ -53,8 +53,6 @@ with others.
 /*	0. CSS Reset
 /* -------------------------------------------------------------------------- */
 
-@import "mys.css"; 
-
 html,
 body {
 	border: none;
