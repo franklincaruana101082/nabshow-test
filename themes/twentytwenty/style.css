@@ -6021,6 +6021,7 @@ a.to-the-top > * {
 	.heading-size-1 {
 		font-size: 8.4rem;
 		font-family: 'molotregular', sans-serif;
+		letter-spacing: .05em;
 	}
 
 	/* Helper Classes ------------------------ */
