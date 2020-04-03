@@ -416,7 +416,7 @@ function send_mails_on_publish( $postid ) {
 	$ucaps = empty( $ucaps ) ? 'user' : $ucaps;
 
 	$uname          = $user->data->display_name;
-	$emails = array( 'vdubreuil@nab.org', 'mayur.keshwani@multidots.com', 'faisal.alvi@multidots.com' );
+	$emails = array( 'vdubreuil@nab.org' );
 	$link           = get_permalink( $postid );
 
 	$body = sprintf( 'Hi Admin,<br><br>
