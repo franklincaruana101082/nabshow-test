@@ -42,10 +42,8 @@
 			</div>
 	    </header>
 	    <nav id="nav" role="navigation" class="l-nav  theme_1  pa3  pr4  pl4  pa4-l  pr5-m  pl5-m  pr6-l  pl6-l"><div class="l-nav_content_wrapper flex items-center"><div class="l-nav_left_wrapper flex  items-center"><a href="http://www.nabshow.com/" class="bb-0"><img src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/04/NAB20-0144_CN_Express_Show_Logo_Rev_F.png" alt="NAB Show Express" class="o-ShowLogo dn"></a> <div class="l-nav_show_info f6 flex-column ml4 justify-center dn"><p class="show-date">
-							
-							April 18 - 22, 2020 | Exhibits April 19 - 22, 2020
-							
-						</p> <p class="show-location">Las Vegas Convention Center</p></div></div> <ul class="list ma0 js-navlinks_container js-navlinks_desktop" style="visibility: visible;"><li id="link-dd17492a-c9e1-888b-43d493108356f2af" class="l-nav_link "><a href="https://www.nabshow.com/express" target="" class="bb-0  dib "><span class="dropdown_link_hover ">Home 
+														
+						</p> </div></div> <ul class="list ma0 js-navlinks_container js-navlinks_desktop" style="visibility: visible;"><li id="link-dd17492a-c9e1-888b-43d493108356f2af" class="l-nav_link "><a href="https://www.nabshow.com/express" target="" class="bb-0  dib "><span class="dropdown_link_hover ">Home 
 							</span></a></li> <li id="link-exhibitorsearch" class="l-nav_link "><a href="http://nab20.mapyourshow.com/8_0/" target="" class="bb-0  dib "><span class="dropdown_link_hover ">Exhibitors 
 							</span></a></li> <li id="link-8D941C4F-F6DA-9901-C25829C5DD7DE772" class="l-nav_link "><a href="https://nabshow.com/express/resources" target="" class="bb-0  dib "><span class="dropdown_link_hover ">Resources 
 							</span></a></li> <li id="link-8D904DAE-E9BB-FE5F-55FF893E7E82B483" class="l-nav_link "><a href="https://nabshow.com/express/partners" target="" class="bb-0  dib "><span class="dropdown_link_hover ">Partners 
