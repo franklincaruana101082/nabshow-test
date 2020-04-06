@@ -3581,22 +3581,6 @@ img a,
     border-bottom: 0
 }
 
-h1 {
-    color: var(--color-brand-10)
-}
-
-#myshow h2,
-#myshow-myphotos h3,
-#explore-the-show h2,
-.o-Calendar_Date,
-.o-Calendar_Title,
-.o-HeadingUnderline_Left,
-.o-ProductPreview h3,
-.result-heading h2,
-.results-table .dateheader th,
-.showroom-sidebar .flex h3 {
-    color: var(--color-brand-20)
-}
 
 .search-main-form-input:focus,
 .search-main-form-select:focus {
@@ -4855,10 +4839,6 @@ section {
     display: block
 }
 
-h1 {
-    font-size: 2em;
-    margin: 0.67em 0
-}
 
 figcaption,
 figure,
