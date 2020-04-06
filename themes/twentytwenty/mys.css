@@ -884,6 +884,53 @@ i {
     object-fit: cover
 }
 
+textarea {
+    background-color: #f4f4f4;
+    border: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    min-height: 1.5rem;
+    padding: 1rem
+}
+
+input {
+    outline-style: none;
+    outline: none;
+    resize: vertical
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+    border-width: 1px
+}
+
+input[type="search"] {
+    -webkit-appearance: none
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none
+}
+
+button:focus,
+a:focus,
+a:active,
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+select::-moz-focus-inner,
+input[type="file"]>input[type="button"]::-moz-focus-inner {
+    outline: none !important
+}
+
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000
+}
 
 .fm-Input:focus,
 .fm-Textarea:focus {
@@ -2263,6 +2310,36 @@ ul.js-navlinks_desktop .l-nav-dropdown_container li {
     vertical-align: inherit
 }
 
+html {
+    cursor: default;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Oxygen, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.15;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    overflow-wrap: normal;
+    word-break: normal
+}
+
+body {
+    margin: 0
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0
+}
+
+hr {
+    height: 0;
+    overflow: visible
+}
+
 main {
     display: block
 }
@@ -2277,10 +2354,19 @@ pre {
     font-size: 1em
 }
 
+a {
+    background-color: transparent
+}
+
 abbr[title] {
     text-decoration: underline;
     -webkit-text-decoration: underline dotted;
     text-decoration: underline dotted
+}
+
+b,
+strong {
+    font-weight: bolder
 }
 
 code,
@@ -2335,6 +2421,37 @@ svg {
 
 svg:not(:root) {
     overflow: hidden
+}
+
+table {
+    border-collapse: collapse
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit
+}
+
+button,
+input,
+select {
+    margin: 0
+}
+
+button {
+    overflow: visible;
+    text-transform: none
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button
 }
 
 fieldset {
@@ -3581,6 +3698,22 @@ img a,
     border-bottom: 0
 }
 
+h1 {
+    color: var(--color-brand-10)
+}
+
+#myshow h2,
+#myshow-myphotos h3,
+#explore-the-show h2,
+.o-Calendar_Date,
+.o-Calendar_Title,
+.o-HeadingUnderline_Left,
+.o-ProductPreview h3,
+.result-heading h2,
+.results-table .dateheader th,
+.showroom-sidebar .flex h3 {
+    color: var(--color-brand-20)
+}
 
 .search-main-form-input:focus,
 .search-main-form-select:focus {
@@ -4839,6 +4972,10 @@ section {
     display: block
 }
 
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0
+}
 
 figcaption,
 figure,
