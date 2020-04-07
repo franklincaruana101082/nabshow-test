@@ -63,14 +63,6 @@ header, nav {
     max-width: 100%;
     height: auto;
 }
-.list li:before {
-    content: "";
-    padding: 0;
-}
-::before, ::after {
-    text-decoration: inherit;
-    vertical-align: inherit;
-}
 a {
     color: #1791d5;
     border-bottom: 1px solid transparent;
@@ -118,6 +110,7 @@ ul.js-navlinks_desktop li {
 
     .l-nav_show_info {
         display: none;
+    }
     }
 
 .l-header {
