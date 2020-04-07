@@ -204,10 +204,10 @@ ul.js-navlinks_desktop li {
     text-align: center;
 }
 .js-navlinks_mobile_wrapper {
-visibility: hidden;
+    display: none;
 }
 .o-ShowLogo {
-visibility: hidden;
+    display: none;
 }
 }
 
@@ -216,6 +216,6 @@ visibility: hidden;
     right: 120px;
 }
 .js-navlinks_desktop {
-visibility: hidden;
+    display: none;
 }
 }
