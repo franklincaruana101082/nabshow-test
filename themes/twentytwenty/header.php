@@ -30,7 +30,7 @@
 		wp_body_open();
 		?>
 		
-		<header class="mys-directory-header l-header" id="js-navigation">
+		<header class="header-footer-group mys-directory-header l-header" id="js-navigation site-header"  role="banner">
 			<div class="center  mw9">
 				
 					<a href="http://www.nabshow.com/express">
@@ -40,9 +40,7 @@
 					</a>
 				
 			</div>
-	    </header>
-
-		<header id="site-header" class="header-footer-group" role="banner">
+	   
 
 			<div class="header-inner section-inner">
 
