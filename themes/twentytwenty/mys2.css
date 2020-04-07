@@ -1,135 +1,47 @@
-h1, h2, h3, h4, h5, h6, .l-nav {
-    text-rendering: optimizeLegibility;
+.l-nav {
+	background-color:#000000;
+	background-image:none
 }
 
-.l-wrapper {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    height: 100vh;
-}
-nav ol, nav ul {
-    list-style: none;
-}
-a:-webkit-any-link {
-    color: -webkit-link;
-    cursor: pointer;
-}
-a, .card-Desc a.is-link {
-    color: #1791d5;
-    border-bottom: 1px solid transparent;
-    text-decoration: none;
-}
-a {
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-}
-::before, ::after {
-    text-decoration: inherit;
-    vertical-align: inherit;
-}
-.items-center {
-    -webkit-box-align: center;
-    align-items: center;
+.show-date,.show-location {
+	color:white;
+	font-size:13px;
+	max-width:none
 }
 
-.l-nav, .l-nav:after {
-    background-color: #000;
-    color: white;
-}
-.dn {
-    display: none;
+// Tweakpoint - hide show dates and location (760px) when they are too close to hamburger nav
+@media screen and (max-width: 47.500em) {
+
+    .l-nav_show_info {
+        display: none;
+    }
+
+.l-header {
+	background-color:#0068BA
 }
 
-.js-navlinks_desktop .l-nav_link a, .js-navlinks_desktop .l-nav_link span, .js-navlinks_desktop .l-nav_link a:hover, .js-navlinks_desktop .l-nav_link span:hover {
-    color: white;
-    font-size: .875rem;
-    text-shadow: none;
-    text-transform: uppercase;
+.js-navlinks_desktop .l-nav_link a,.js-navlinks_desktop .l-nav_link span,.js-navlinks_desktop .l-nav_link a:hover,.js-navlinks_desktop .l-nav_link span:hover {
+	color:white;
+	font-size:.875rem;
+	text-shadow:none;
+	text-transform:uppercase
 }
-.js-navlinks_desktop .l-nav_link span {
-    position: relative;
+
+.search-main {
+	background-color:#93d6f5;
+	background-position:center;
+	background-size:cover;
+	border-bottom:1px solid #efefef
 }
-.js-navlinks_container a {
-    font-weight: bold;
-    padding: 1rem;
+
+.l-nav_show_info.ttu {
+	text-transform:none
 }
-a, .card-Desc a.is-link {
-    color: #1791d5;
-    border-bottom: 1px solid transparent;
-    text-decoration: none;
-}
-a, .card-Desc a.is-link {
-    color: #333;
-    border-bottom: 1px solid var(--color-accent-30);
-    text-decoration: none;
+.accent {
+	color:#e5242e;
+	fill:#e5242e
 }
 
 .js-navlinks_desktop .l-nav_link span:before {
-    background-color: #0cacd0 !important;
-}
-.js-navlinks_desktop .l-nav_link span:before {
-    background-color: var(--color-nav);
-    content: '';
-    height: 2px;
-    left: 0;
-    position: absolute;
-    top: 25px;
-    -webkit-transition: width 0.3s;
-    transition: width 0.3s;
-    width: 0;
-}
-.js-navlinks_desktop .l-nav_link a {
-    color: var(--color-nav);
-    font-size: 1rem;
-}
-.l-nav .js-navlinks_container a {
-    -webkit-transition: background-color 0.15s ease-in;
-    transition: background-color 0.15s ease-in;
-}
-.js-navlinks_container a {
-    font-weight: bold;
-    padding: 1rem;
-}
-.dib {
-    display: inline-block;
-}
-
-.bb-0 {
-    border-bottom-width: 0;
-}
-
-.l-hamburger-menu_container {
-    background-color: white;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: .5rem;
-    box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.15);
-}
-.l-hamburger-menu_container {
-    cursor: pointer;
-    padding: 0.625rem 1.25rem;
-}
-
-
-@media screen and (min-width: 768px) {
-.l-nav_content_wrapper {
-    margin: 0 auto;
-    max-width: 100rem;
-    text-align: center;
-}
-.l-nav.theme_2, .l-nav.theme_1 {
-    padding-bottom: 0;
-    padding-top: 0;
-}
-}
-
-@media screen and (min-width: 60em) {
-.pr6-l {
-    padding-right: 3rem;
-}
-.pl6-l {
-    padding-left: 3rem;
-}
+	background-color: #0cacd0 !important;
 }
