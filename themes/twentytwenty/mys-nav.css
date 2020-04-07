@@ -1,11 +1,21 @@
 
+.js-navlinks_desktop, img.o-show_header {display: block;}
+.js-navlinks_mobile_wrapper, img.o-ShowLogo.dn {display: none;}
+
+@media screen and (max-width: 768px) {
+
+.js-navlinks_desktop, img.o-show_header {display: none;}
+.js-navlinks_mobile_wrapper, img.o-ShowLogo.dn {display: block;}
+
+}
+
+
 .l-wrapper {
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     flex-direction: column;
-    height: 100vh;
 }
 .l-header {
     background-color: #000000;
@@ -195,6 +205,19 @@ ul.js-navlinks_desktop li {
 .middle_bar {
     margin: 0 auto;
 }
+.justify-between {
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+.o-ShowLogo {
+    height: auto;
+    max-height: 70px;
+    max-width: 200px;
+    width: auto;
+}
+.o-ShowLogo {
+    flex-shrink: 0;
+}
 
 
 @media screen and (min-width: 768px) {
@@ -203,19 +226,13 @@ ul.js-navlinks_desktop li {
     max-width: 160rem;
     text-align: center;
 }
-.js-navlinks_mobile_wrapper {
-    display: none;
 }
-.o-ShowLogo {
-    display: none;
-}
-}
+
+
+
 
 @media screen and (min-width: 30.063em) {
 .o-recommendations_widget_menubutton_wrapper {
     right: 120px;
-}
-.js-navlinks_desktop {
-    display: none;
 }
 }
