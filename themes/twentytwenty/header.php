@@ -30,7 +30,7 @@
 		wp_body_open();
 		?>
 		
-		<header class="header-footer-group mys-directory-header l-header" id="js-navigation site-header"  role="banner">
+		<header class="header-footer-group mys-directory-header l-header" id="site-header" role="banner">
 			<div class="center  mw9">
 				
 					<a href="http://www.nabshow.com/express">
