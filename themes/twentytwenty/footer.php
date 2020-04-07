@@ -18,11 +18,14 @@
 
 					<div class="footer-credits">
 					
-					<div class="footer-related">
-						<p>Related Shows: <a style="color: #ffffff;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #ffffff;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #ffffff;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a>
-						</p></div>
 					
-						<p class="footer-copyright">&copy;
+						
+					
+						<p class="footer-copyright">
+							<span class="footer-related">Related Shows: <a style="color: #ffffff;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #ffffff;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #ffffff;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a><br /><br />
+							</span>
+
+						&copy;
 							<?php
 							echo date_i18n(
 								/* translators: Copyright date format, see https://secure.php.net/date */
