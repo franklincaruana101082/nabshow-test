@@ -17,6 +17,9 @@
 				<div class="section-inner">
 
 					<div class="footer-credits">
+					
+					<p style="text-align: center;"><span style="color: #ffffff;">Related Shows: <a style="color: #ffffff;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #ffffff;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #ffffff;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a></span></p>
+<p>&nbsp;</p>
 
 						<p class="footer-copyright">&copy;
 							<?php
