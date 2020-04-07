@@ -27,10 +27,12 @@
 							);
 							?>
 							<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.
-						</p><!-- .footer-copyright -->
-						<div class="footer-related">
-					<p>Related Shows: <a style="color: #ffffff;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #ffffff;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #ffffff;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a></p>
-					</div>
+						<span class="footer-related">
+						<p>Related Shows: <a style="color: #ffffff;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #ffffff;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #ffffff;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a></p>
+						</span>
+					
+					</p><!-- .footer-copyright -->
+						
 
 					</div><!-- .footer-credits -->
 
