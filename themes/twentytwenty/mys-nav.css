@@ -23,8 +23,22 @@ header, nav {
     margin-right: auto;
     margin-left: auto;
 }
+.items-center {
+    -webkit-box-align: center;
+    align-items: center;
+}
+.flex {
+    display: -webkit-box;
+    display: flex;
+}
+.ma0 {
+    margin: 0;
+}
 .mw9 {
-    max-width: 100rem;
+    max-width: 160rem;
+}
+.bb-0 {
+    border-bottom-width: 0;
 }
 .tc {
     text-align: center;
@@ -32,19 +46,57 @@ header, nav {
 .db {
     display: block;
 }
+.dib {
+    display: inline-block;
+}
 .o-show_header {
     max-width: 100%;
     height: auto;
 }
+.list li:before {
+    content: "";
+    padding: 0;
+}
+::before, ::after {
+    text-decoration: inherit;
+    vertical-align: inherit;
+}
+a {
+    color: #1791d5;
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
 
 
 
-
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+nav ol, nav ul {
+    list-style: none;
+}
+ul.js-navlinks_desktop li {
+    display: inline-block;
+}
 .l-nav {
 	background-color:#000000;
 	background-image:none
+ 	text-rendering: optimizeLegibility;
+ }
+.l-nav {
+    position: relative;
 }
-
+.l-nav li {
+    margin: 0 0 0 -4px;
+}
 .show-date,.show-location {
 	color:white;
 	font-size:13px;
@@ -68,12 +120,34 @@ header, nav {
 	text-shadow:none;
 	text-transform:uppercase
 }
+.l-nav .js-navlinks_container a {
+    -webkit-transition: background-color 0.15s ease-in;
+    transition: background-color 0.15s ease-in;
+}
+.js-navlinks_container a {
+    font-weight: bold;
+    padding: 1rem;
+}
 
 .search-main {
 	background-color:#93d6f5;
 	background-position:center;
 	background-size:cover;
 	border-bottom:1px solid #efefef
+}
+.js-navlinks_desktop .l-nav_link span:before {
+    background-color: var(--color-nav);
+    content: '';
+    height: 2px;
+    left: 0;
+    position: absolute;
+    top: 25px;
+    -webkit-transition: width 0.3s;
+    transition: width 0.3s;
+    width: 0;
+}
+.js-navlinks_desktop .l-nav_link span:before {
+    background-color: #0cacd0 !important;
 }
 
 .l-nav_show_info.ttu {
@@ -84,6 +158,13 @@ header, nav {
 	fill:#e5242e
 }
 
+@media screen and (min-width: 768px) {
+.l-nav_content_wrapper {
+    margin: 0 auto;
+    max-width: 160rem;
+    text-align: center;
+}
+}
 .js-navlinks_desktop .l-nav_link span:before {
 	background-color: #0cacd0 !important;
 }

@@ -35,7 +35,7 @@
 				
 					<a href="http://www.nabshow.com/express">
 				
-					<img class="db  center  tc  o-show_header" src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/04/MYS_Express_3200x300.jpg" alt="NAB Show Express">
+					<img class="db  center  tc  o-show_header" src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/04/MYS_Express_3200x300.jpg" alt="NAB Show Express" height="300">
 				
 					</a>
 				
