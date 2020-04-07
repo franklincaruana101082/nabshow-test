@@ -29,7 +29,7 @@
 		<?php
 		wp_body_open();
 		?>
-		
+		<div class="l-wrapper">
 		<header class="mys-directory-header l-header" id="js-navigation">
 			<div class="center  mw9">
 				
@@ -58,7 +58,7 @@ moon-gray"><path d="M10.88 0C10 0 9.28.6 8.8 1.52c-3.88.92-5.48 4.4-5.48 8.56v3.
 							</span></a></li> <li id="link-myshowlogin" class="l-nav_link db ma0 "><a href="http://nab20.mapyourshow.com/8_0//myshow/index.cfm" target="" class="bb-0  mb-0   is-myshow" style="display: inline-block;"><span>Planner 
 							</span></a> <span class="dib  pl0  o-recommendations_widget_mobile"><!----></span></li></ul></div></nav>
 
-
+</div>
 
 		<?php
 		// Output the menu modal.
