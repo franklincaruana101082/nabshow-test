@@ -16,22 +16,30 @@
  * - The WordPress.com VIP Team
  **/
 
-$http_host          = $_SERVER['HTTP_HOST'];
-$request_uri        = $_SERVER['REQUEST_URI'];
-$redirect_to_domain = 'nabshow.com';
-$redirect_domains = [
-	'nabshow-com.go-vip.net',
-];
+if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+    $http_host   = $_SERVER['HTTP_HOST'];
+    $request_uri = $_SERVER['REQUEST_URI'];
 
-// Safety checks for redirection:
-// 1. Don't redirect for '/cache-healthcheck?' or monitoring will break
-// 2. Don't redirect in WP CLI context
-if (
-	'/cache-healthcheck?' !== $request_uri && // safety
-	! ( defined( 'WP_CLI' ) && WP_CLI ) && // safety
-	$redirect_to_domain !== $http_host  &&
-	in_array( $http_host, $redirect_domains, true )
-) {
-	header( 'Location: https://' . $redirect_to_domain . $request_uri, true, 301 );
-	exit;
+    $redirect_domains = [
+        'nabshow.com'   => [
+            'nabshow-com.go-vip.net',        ],
+        'nabshow.com/express'   => [
+            'nabshowexpress.com',
+            'www.nabshowexpress.com',
+        ],
+    ];
+
+    // Safety checks for redirection:
+    // 1. Don't redirect for '/cache-healthcheck?' or monitoring will break
+    // 2. Don't redirect in WP CLI context 
+    foreach ( $redirect_domains as $redirect_to => $redirect_from_domains ) {
+        if (
+                '/cache-healthcheck?' !== $request_uri && // safety
+                ! ( defined( 'WP_CLI' ) && WP_CLI ) && // safety
+                $redirect_to !== $http_host && in_array( $http_host, $redirect_from_domains, true )
+            ) {
+            header( 'Location: https://' . $redirect_to . $request_uri, true, 301 );
+            exit;
+        }
+    }
 }
