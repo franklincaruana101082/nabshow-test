@@ -32,9 +32,10 @@
 								_x( 'Y', 'copyright date format', 'twentytwenty' )
 							);
 							?>
-							<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.<br />
+							<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.<br /><br />
+							<span class="footer-related">
 							<a href="https://nabshow.com/2020/about-nab-show/privacy-policy/" target="_blank">Privacy Policy</a> <a href="https://nabshow.com/2020/about-nab-show/terms-of-use/" target="_blank">Terms of Use</a> <a href="https://nabshow.com/2020/about/" tarrget="_blank">About Us</a> <a href="https://nabshow.com/2020/about/connect/contact/" target="_blank">Contact Us</a>
-						
+							</span>
 					
 					</p><!-- .footer-copyright -->
 						
