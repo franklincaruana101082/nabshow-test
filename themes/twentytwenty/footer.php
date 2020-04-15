@@ -34,7 +34,7 @@
 							?>
 							<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.<br />
 							<span class="footer-related">
-							<a href="/express/privacy-policy/">Privacy Policy</a> | <a href="/express/terms-of-use/">Terms of Use</a> | <a href="/express/contact/" target="_blank">Contact Us</a>
+							<a href="/express/privacy-policy/">Privacy Policy</a> | <a href="/express/terms-of-use/">Terms of Use</a> | <a href="/express/contact/">Contact Us</a>
 							</span>
 					
 					</p><!-- .footer-copyright -->
