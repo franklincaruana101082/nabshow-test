@@ -26,8 +26,10 @@ get_header();
 
 	?>
 	
+	<div class="entry-content">
 	<div id="flockler-embed-16ea97a3fb904adf4b2685901c2caa02"></div>
 <script src="https://flockler.embed.codes/8KBeqL" async></script>
+</div>
 
 </main><!-- #site-content -->
 
