@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Social wall Template
+ * Template Name: Social Wall Template
  * Template Post Type: post, page
  *
  * @package WordPress
