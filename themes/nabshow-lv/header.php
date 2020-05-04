@@ -27,6 +27,10 @@
 			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-MQKPWN');
 	</script>
+	<?php $the_guides = get_option( 'html_guidelines_message' );
+	if ( ! empty( $the_guides ) ) {
+		echo html_entity_decode( $the_guides );
+	} ?>
 	<!-- End Google Tag Manager -->
 	<!--<script>
 		"use strict";

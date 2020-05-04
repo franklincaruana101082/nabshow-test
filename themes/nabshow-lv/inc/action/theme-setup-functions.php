@@ -289,3 +289,36 @@ function nabshow_lv_scripts() {
 
 	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
 }
+
+/**
+ * Register Settings.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_register_settings() {
+	register_setting(
+		'general',
+		'dymanic_schema',
+		'esc_html'
+	);
+	add_settings_field(
+		'dymanic_schema',
+		'Enter Schema',
+		'nabshow_lv_register_schema_field',
+		'general'
+	);
+}
+
+/*
+ * Print schema setting field.
+ *
+ * @since 1.0.0
+ */
+function nabshow_lv_register_schema_field() {
+
+	$the_guides = get_option( 'dymanic_schema' );
+
+	$allowed_tags = [ 'textarea' => [ 'id' => [], 'name' => [], 'rows' => [], 'cols' => [], 'type' => [] ] ];
+	echo wp_kses( "<textarea id='dymanic_schema_string' name='dymanic_schema' rows='7' cols='50' type='textarea'>{$the_guides}</textarea>", $allowed_tags );
+
+}
