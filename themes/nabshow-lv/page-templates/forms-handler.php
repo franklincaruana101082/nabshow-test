@@ -93,7 +93,7 @@ get_header();
 					$content['comment_company']      = filter_input( INPUT_POST, 'company', FILTER_SANITIZE_STRING );
 					$spam_detected                   = nabshow_lv_contact_form_spam_check( $content );
 
-					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with' );
+					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with', 'security_check' );
 
 					$inserted_post_id   = wp_insert_post(
 						array(
@@ -139,7 +139,7 @@ get_header();
 						$to_inquiry_email = isset( $inquiry_emails[ $inquiry_type ] ) ? $inquiry_emails[ $inquiry_type ] : '';
 						$to_email         = ! empty( $to_email ) ? $to_email . ',' . $to_inquiry_email : $to_inquiry_email;
 
-						if ( empty( $security_check ) && ! $spam_detected ) {
+						if ( empty( $security_check ) && false === $spam_detected ) {
 							wp_mail( $to_email, $subject, $inquiry_email_template, $headers );
 						}
 
