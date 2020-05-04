@@ -297,10 +297,13 @@ function nabshow_lv_scripts() {
  * @since 1.0.0
  */
 function nabshow_lv_register_settings() {
+	$args = array(
+		'type' => 'html',
+	);
 	register_setting(
 		'general',
 		'dymanic_schema',
-		'esc_html'
+		$args
 	);
 	add_settings_field(
 		'dymanic_schema',
