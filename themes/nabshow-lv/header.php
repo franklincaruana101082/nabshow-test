@@ -27,11 +27,13 @@
 			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-MQKPWN');
 	</script>
+	<!-- End Google Tag Manager -->
+	<!-- Dynamic Schema -->
 	<?php $dymanic_schema = get_option( 'dymanic_schema' );
 	if ( ! empty( $dymanic_schema ) ) {
 		echo html_entity_decode( $dymanic_schema );
 	} ?>
-	<!-- End Google Tag Manager -->
+	<!-- End Dynamic Schema -->
 	<!--<script>
 		"use strict";
 

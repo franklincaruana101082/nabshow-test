@@ -290,6 +290,7 @@ function nabshow_lv_scripts() {
 	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
 }
 
+
 /**
  * Register Settings.
  *
@@ -316,9 +317,7 @@ function nabshow_lv_register_settings() {
  */
 function nabshow_lv_register_schema_field() {
 
-	$the_guides = get_option( 'dymanic_schema' );
-
-	$allowed_tags = [ 'textarea' => [ 'id' => [], 'name' => [], 'rows' => [], 'cols' => [], 'type' => [] ] ];
-	echo wp_kses( "<textarea id='dymanic_schema_string' name='dymanic_schema' rows='7' cols='50' type='textarea'>{$the_guides}</textarea>", $allowed_tags );
+	$dymanic_schema = get_option( 'dymanic_schema' );
+	echo "<textarea id='dymanic_schema_string' name='dymanic_schema' rows='7' cols='50' type='textarea'>{$dymanic_schema}</textarea>";
 
 }
