@@ -31,7 +31,7 @@
 	<!-- Dynamic Schema -->
 	<?php $dymanic_schema = get_option( 'dymanic_schema' );
 	if ( ! empty( $dymanic_schema ) ) {
-		echo html_entity_decode( $dymanic_schema );
+		echo $dymanic_schema;
 	} ?>
 	<!-- End Dynamic Schema -->
 	<!--<script>
