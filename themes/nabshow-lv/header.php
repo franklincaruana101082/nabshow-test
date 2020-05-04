@@ -27,9 +27,9 @@
 			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-MQKPWN');
 	</script>
-	<?php $the_guides = get_option( 'html_guidelines_message' );
-	if ( ! empty( $the_guides ) ) {
-		echo html_entity_decode( $the_guides );
+	<?php $dymanic_schema = get_option( 'dymanic_schema' );
+	if ( ! empty( $dymanic_schema ) ) {
+		echo html_entity_decode( $dymanic_schema );
 	} ?>
 	<!-- End Google Tag Manager -->
 	<!--<script>
