@@ -82,8 +82,18 @@ get_header();
 					$inquiry_type   = filter_input( INPUT_POST, 'inquiry_type', FILTER_SANITIZE_STRING );
 					$send_copy      = filter_input( INPUT_POST, 'send_copy', FILTER_SANITIZE_STRING );
 					$post_title     = trim( $full_name );
+					$security_check = filter_input( INPUT_POST, 'security_check', FILTER_SANITIZE_STRING );
 
-					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with' );
+
+					// Check Spam.
+					$content['comment_author']       = $full_name;
+					$content['comment_author_email'] = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_STRING );
+					$content['comment_content']      = filter_input( INPUT_POST, 'what_can_we_help_you_with', FILTER_SANITIZE_STRING );
+					$content['comment_phone']        = filter_input( INPUT_POST, 'phone_number', FILTER_SANITIZE_STRING );
+					$content['comment_company']      = filter_input( INPUT_POST, 'company', FILTER_SANITIZE_STRING );
+					$spam_detected                   = nabshow_lv_contact_form_spam_check( $content );
+
+					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with', 'security_check' );
 
 					$inserted_post_id   = wp_insert_post(
 						array(
@@ -129,7 +139,9 @@ get_header();
 						$to_inquiry_email = isset( $inquiry_emails[ $inquiry_type ] ) ? $inquiry_emails[ $inquiry_type ] : '';
 						$to_email         = ! empty( $to_email ) ? $to_email . ',' . $to_inquiry_email : $to_inquiry_email;
 
-						wp_mail( $to_email, $subject, $inquiry_email_template, $headers );
+						if ( empty( $security_check ) && false === $spam_detected ) {
+							wp_mail( $to_email, $subject, $inquiry_email_template, $headers );
+						}
 
 						if ( ! empty( $send_copy ) && 'yes' === $send_copy ) {
 

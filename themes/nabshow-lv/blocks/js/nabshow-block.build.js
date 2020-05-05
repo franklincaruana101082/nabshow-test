@@ -6855,6 +6855,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 tagName: "h3",
                 placeholder: __('title'),
                 value: product.title,
+                keepPlaceholderOnFocus: "true",
                 className: "title",
                 onChange: function onChange(title) {
                   var newObject = Object.assign({}, product, {
@@ -6871,6 +6872,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 tagName: "p",
                 className: "companyName",
                 placeholder: __('Company Name'),
+                keepPlaceholderOnFocus: "true",
                 value: product.companyName,
                 onChange: function onChange(companyName) {
                   var newObject = Object.assign({}, product, {
@@ -6888,6 +6890,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 className: "type",
                 placeholder: __('Type: Exclusive OR Preferred'),
                 value: product.type,
+                keepPlaceholderOnFocus: "true",
                 onChange: function onChange(type) {
                   var newObject = Object.assign({}, product, {
                     type: type
@@ -6904,6 +6907,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 className: "description",
                 placeholder: __('Description'),
                 value: product.description,
+                keepPlaceholderOnFocus: "true",
                 onChange: function onChange(description) {
                   var newObject = Object.assign({}, product, {
                     description: description
@@ -8750,7 +8754,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         setAttributes({
           committee: [].concat(_toConsumableArray(committee), [{
-            index: committee.length,
             name: '',
             company: '',
             areas: '',
@@ -8772,12 +8775,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             attributes = _props.attributes;
         var committee = attributes.committee;
 
-        var allData = [].concat(_toConsumableArray(committee));
 
-        allData[currentIndex].index = newIndex;
-        allData[newIndex].index = currentIndex;
+        var withoutCurrent = committee.filter(function (data, index) {
+          return index !== currentIndex;
+        });
+        withoutCurrent.splice(newIndex, 0, committee[currentIndex]);
 
-        setAttributes({ committee: allData });
+        setAttributes({ committee: withoutCurrent });
       }
     }, {
       key: "duplicate",
@@ -8789,19 +8793,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         var allData = [].concat(_toConsumableArray(committee));
 
-        allData.splice(currentIndex + 1, 0, {
-          index: parseInt(allData[currentIndex].index) + 1,
-          name: allData[currentIndex].name,
-          company: allData[currentIndex].company,
-          areas: allData[currentIndex].areas,
-          boothSize: allData[currentIndex].boothSize,
-          address: allData[currentIndex].address,
-          phone: allData[currentIndex].phone,
-          emailAdd: allData[currentIndex].emailAdd,
-          media: allData[currentIndex].media,
-          mediaAlt: allData[currentIndex].mediaAlt,
-          international: allData[currentIndex].international
-        });
+        allData.splice(currentIndex, 0, committee[currentIndex]);
 
         setAttributes({ committee: allData });
       }
@@ -8817,9 +8809,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             showFilter = attributes.showFilter;
 
 
+        console.log('committee:', committee);
+
         var getImageButton = function getImageButton(openEvent, index) {
           if (committee[index].media) {
-            return wp.element.createElement("img", { src: committee[index].media, alt: committee[index].alt, className: "img" });
+            return wp.element.createElement(
+              Fragment,
+              null,
+              wp.element.createElement("span", { onClick: openEvent, className: "dashicons dashicons-edit" }),
+              wp.element.createElement("img", { src: committee[index].media, alt: committee[index].alt, className: "img" })
+            );
           } else {
             return wp.element.createElement(
               Button,
@@ -8933,9 +8932,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             wp.element.createElement(
               "div",
               { className: "box-main two-grid" },
-              0 < committee.length && committee.sort(function (a, b) {
-                return a.index - b.index;
-              }).map(function (member, index) {
+              0 < committee.length && committee.map(function (member, index) {
                 return wp.element.createElement(
                   "div",
                   { className: "box-item " + (member.international ? 'International' : '') + " " },
@@ -9085,39 +9082,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         { className: "media-img" },
                         wp.element.createElement(MediaUpload, {
                           onSelect: function onSelect(media) {
-                            var newObject = Object.assign({}, member, {
-                              media: media.url,
-                              mediaAlt: media.alt
-                            });
-                            setAttributes({
-                              committee: [].concat(_toConsumableArray(committee.filter(function (item) {
-                                return item.index != member.index;
-                              })), [newObject])
-                            });
+                            var tempDataArray = [].concat(_toConsumableArray(committee));
+                            tempDataArray[index].media = media.url;
+                            tempDataArray[index].mediaAlt = media.alt;
+                            setAttributes({ committee: tempDataArray });
                           },
                           type: "image",
                           value: attributes.imageID,
                           render: function render(_ref) {
                             var open = _ref.open;
-                            return wp.element.createElement("span", { onClick: open, className: "dashicons dashicons-edit" });
-                          }
-                        }),
-                        wp.element.createElement(MediaUpload, {
-                          onSelect: function onSelect(media) {
-                            var newObject = Object.assign({}, member, {
-                              media: media.url,
-                              mediaAlt: media.alt
-                            });
-                            setAttributes({
-                              committee: [].concat(_toConsumableArray(committee.filter(function (item) {
-                                return item.index != member.index;
-                              })), [newObject])
-                            });
-                          },
-                          type: "image",
-                          value: attributes.imageID,
-                          render: function render(_ref2) {
-                            var open = _ref2.open;
                             return getImageButton(open, index);
                           }
                         })
@@ -9136,7 +9109,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     onClick: function onClick(content) {
                       setAttributes({
                         committee: [].concat(_toConsumableArray(committee), [{
-                          index: committee.length,
                           name: '',
                           company: '',
                           areas: '',
@@ -9272,9 +9244,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           wp.element.createElement(
             "div",
             { className: "box-main two-grid" },
-            committee.sort(function (a, b) {
-              return a.index - b.index;
-            }).map(function (member, index) {
+            committee.map(function (member, index) {
               return wp.element.createElement(
                 Fragment,
                 null,
