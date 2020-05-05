@@ -2,6 +2,8 @@
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout{display:flex;flex-wrap:wrap}
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout>div{flex-basis:25%;margin:0}
 .team-main{display:flex;flex-wrap:wrap;margin-top:30px}
+.team-main .block-editor-inner-blocks{width:100%}
+.team-main .block-editor-inner-blocks .wp-block{width:25%;display:inline-block;vertical-align:top}
 .team-main .team-box{flex-basis:25%;padding:0 15px;margin-bottom:30px;box-sizing:border-box}
 .team-main .team-box .feature-img{position:relative}
 .team-main .team-box .team-details{padding:20px 25px;font-family:"Roboto BoldItalic";font-size:16px;color:#fff}
@@ -11,7 +13,7 @@
 .team-main .team-box .feature-img .button-container{background:#9a9a9a;height:200px;padding:0;position:relative}
 .team-main .team-box .feature-img .button-container button{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);height:70%;background:#ffffff;border:none;width:70%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
 .team-main .team-box .feature-img img{width:100%;height:330px;object-fit:cover;object-position:center;vertical-align:middle}
-.team-main .team-box .team-details .name{text-transform:capitalize;font-family:"Roboto Italic";margin-bottom:5px;font-size:32px;color:#fff}
+.team-main .team-box .team-details .name{text-transform:capitalize;font-family:"Roboto Italic";margin-bottom:5px;font-size:22px;color:#fff}
 .team-main .team-box .team-details *{font-family:"Roboto Bold", sans-serif;font-size:16px}
 .team-main .team-box .team-details p{margin-bottom:0;color:#fff}
 .team-main .editor-inner-blocks .editor-block-list__layout.block-editor-block-list__layout>div .team-box{flex-basis:100%;padding:0}
@@ -37,6 +39,18 @@
 .team-main .team-box .team-details .nab_model_head{text-align:left}
 .session .item h4 a{text-decoration:none}
 .team-main .block-list-appender{padding:0 10px;margin-top:15px!important}
+
+/* awards-data */
+.awards-data .block-editor-block-list__layout{display:block;margin:0 -10px}
+.awards-data .block-editor-block-list__layout .wp-block{width:50%;padding:0 10px;display:inline-block}
+.awards-data .awards-row .winnerSide{display:inline-block;width:calc(100% - 70%);text-align:center}
+.awards-data .awards-row .details{display:inline-block;width:calc(100% - 33%);float:right;padding-left:30px}
+.awards-data .awards-row .winnerSide .winnerImage{width:200px;height:200px;overflow:hidden;position:relative;border-radius:50%}
+.awards-data .awards-row .winnerSide .winnerImage button{width:100%;height:100%;box-shadow:none!important}
+.awards-data .awards-row{border:3px solid #d9d9d9;padding:30px 20px;display:inline-block;width:100%;background:#363636}
+.awards-data .block-editor-block-list__layout .block-list-appender{width:100%}
+
+/* awards-data */
 
 /* accordion css */
 .components-panel__body.editor-panel-color-settings{width:calc(100% + 32px)}
@@ -947,7 +961,7 @@ ul.partner-listing li span{color:#fff;font-size:16px;font-family:"Roboto Black",
 .row.related-content-rowbox .related-content-box{padding:30px;border:3px solid #d9d9d9;text-align:center;margin-bottom:30px;height:94%;background:#363636}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow{color:#0f6cb6;font-size:18px;font-family:"Roboto Bold";text-decoration:none;text-align:center;display:inline-block}
 .row.related-content-rowbox .related-content-box a.btn-with-arrow::after{content:"\f178";font-family:'FontAwesome';margin-left:6px}
-.related-content-box .title{text-transform:capitalize}
+.related-content-box .title{text-transform:capitalize;font-size:24px}
 .related-content-box img.logo{margin:0 auto;margin-bottom:15px;display:block}
 
 /* tracks block css */
@@ -1636,7 +1650,7 @@ ul.button-prev li.btn-pink-prev span{font-size:10px;font-family:"Roboto Bold";pa
 .newyr-box.box-main .feature-img:hover .remove-img{opacity:1;transition:0.5s all}
 .newyr-box.box-main .editor-inner-blocks .editor-block-list__layout{display:flex;flex-wrap:wrap;margin:0}
 .newyr-box.box-main .feature-img .button-container{background:#9a9a9a;height:200px;padding:0;position:relative}
-.newyr-box.box-main .feature-img .button-container button{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);height:70%;background:#313131;border:none;width:70%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
+.newyr-box.box-main .feature-img .button-container button{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);height:70%;background:#313131!important;border:none;width:70%;font-size:18px;word-break:break-all;color:#000;font-style:italic}
 .newyr-box.box-main .feature-img .button-container button span{display:inline-block;vertical-align:middle;line-height:15px}
 .newyr-box.box-main{display:block;margin:0}
 .newyr-details .title,.newyr-details .description{color:#fff}
@@ -1655,7 +1669,7 @@ ul.button-prev li.btn-pink-prev span{font-size:10px;font-family:"Roboto Bold";pa
 
 .speakers .item .flip-box-inner>.detail-list-modal-popup>img{position:absolute;left:50%;top:50%;-webkit-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);transform:translate(-50%, -50%);-o-object-fit:cover;object-fit:cover;width:100%;height:100%}
 #browse-speaker.speakers .item .flip-box-inner>.detail-list-modal-popup>img{border-radius:0!important}
-.speakers .item .flip-box-inner>.detail-list-modal-popup{position:relative;width:172px;height:172px;overflow:hidden}
+.speakers .item .flip-box-inner>.detail-list-modal-popup{position:relative;width:172px;height:172px;overflow:hidden;max-width:100%}
 .wp-block[data-type="nab/page-featured-image"] [data-block] .components-placeholder{color:#fff}
 .wp-block[data-type="mys/tracks-slider"] p, .wp-block[data-type="mys/speaker-slider"] p, .wp-block[data-type="mys/sessions-slider"] p, .wp-block[data-type="md/media-slider"] .components-placeholder, .wp-block[data-type="mys/dynamic-slider"] p, .wp-block[data-type="mys/product-slider"] p, .wp-block[data-type="mys/exhibitors-slider"] p{color:#fff}
 .editor-styles-wrapper .editor-block-list__layout p.has-text-color a{color:inherit;text-decoration:underline}
