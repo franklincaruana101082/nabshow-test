@@ -112,8 +112,6 @@
       const { attributes, setAttributes } = this.props;
       const { committee, showFilter } = attributes;
 
-      console.log('committee:', committee);
-
       const getImageButton = (openEvent, index) => {
         if (committee[index].media) {
           return (
