@@ -110,7 +110,7 @@
         allData[parentIndex].detailList[newIndex].index = currentIndex;
       }
 
-      setAttributes({ dataArry: allData });
+      this.refressData(allData);
     }
 
     moveParentItem(currentIndex, newIndex) {
@@ -121,7 +121,8 @@
       allData[currentIndex].titleIndex = newIndex;
       allData[newIndex].titleIndex = currentIndex;
 
-      setAttributes({ dataArry: allData });
+      setAttributes({dataArray: allData});
+
     }
 
     MoveItemToParent(currentParentIndex, parentIndex, index) {
@@ -132,7 +133,7 @@
       allData[parentIndex].detailList.push(allData[currentParentIndex].detailList[index]);
       allData[currentParentIndex].detailList.splice(index, 1);
 
-      setAttributes({ dataArry: allData });
+      this.refressData(allData);
     }
 
     duplicate(parentIndex, currentIndex) {
@@ -148,6 +149,19 @@
         subPrice: allData[parentIndex].detailList[currentIndex].subPrice,
         link: allData[parentIndex].detailList[currentIndex].link,
         comming: allData[parentIndex].detailList[currentIndex].comming
+      });
+      this.refressData(allData);
+    }
+
+    refressData(data){
+      const { setAttributes, attributes } = this.props;
+      let allData = [...data];
+
+      data.sort((a, b) => a.index - b.index).map((parent, index) => {
+        allData[index].titleIndex = index;
+        parent.detailList.sort((a, b) => a.index - b.index).map((child, i) => {
+          allData[index].detailList[i].index = i;
+        });
       });
 
       setAttributes({ dataArray: allData });
@@ -189,7 +203,7 @@
                         onClick={() => {
                           let tempDataArray = [...dataArray];
                           tempDataArray.splice(parentIndex, 1);
-                          setAttributes({ dataArray: tempDataArray });
+                          this.refressData(tempDataArray);
                         }}
                         className="fa fa-times details-parent"
                       ></i>
@@ -279,7 +293,7 @@
                                   onClick={() => {
                                     let tempDataArray = [...dataArray];
                                     tempDataArray[parentIndex].detailList.splice(index, 1);
-                                    setAttributes({ dataArray: tempDataArray });
+                                    this.refressData(tempDataArray);
                                   }}
                                   className="fa fa-times"
                                 ></i>

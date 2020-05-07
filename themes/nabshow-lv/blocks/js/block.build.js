@@ -10847,7 +10847,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           allData[parentIndex].detailList[newIndex].index = currentIndex;
         }
 
-        setAttributes({ dataArry: allData });
+        this.refressData(allData);
       }
     }, {
       key: "moveParentItem",
@@ -10862,7 +10862,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         allData[currentIndex].titleIndex = newIndex;
         allData[newIndex].titleIndex = currentIndex;
 
-        setAttributes({ dataArry: allData });
+        setAttributes({ dataArray: allData });
       }
     }, {
       key: "MoveItemToParent",
@@ -10877,7 +10877,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         allData[parentIndex].detailList.push(allData[currentParentIndex].detailList[index]);
         allData[currentParentIndex].detailList.splice(index, 1);
 
-        setAttributes({ dataArry: allData });
+        this.refressData(allData);
       }
     }, {
       key: "duplicate",
@@ -10898,6 +10898,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           type: allData[parentIndex].detailList[currentIndex].type
         });
 
+        this.refressData(allData);
+      }
+    }, {
+      key: "refressData",
+      value: function refressData(data) {
+        var _props5 = this.props,
+            setAttributes = _props5.setAttributes,
+            attributes = _props5.attributes;
+
+        var allData = [].concat(_toConsumableArray(data));
+
+        data.sort(function (a, b) {
+          return a.index - b.index;
+        }).map(function (parent, index) {
+          allData[index].titleIndex = index;
+          parent.detailList.sort(function (a, b) {
+            return a.index - b.index;
+          }).map(function (child, i) {
+            allData[index].detailList[i].index = i;
+          });
+        });
+
         setAttributes({ dataArray: allData });
       }
     }, {
@@ -10905,9 +10927,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       value: function render() {
         var _this2 = this;
 
-        var _props5 = this.props,
-            attributes = _props5.attributes,
-            setAttributes = _props5.setAttributes;
+        var _props6 = this.props,
+            attributes = _props6.attributes,
+            setAttributes = _props6.setAttributes;
         var dataArray = attributes.dataArray,
             showFilter = attributes.showFilter,
             showTitle = attributes.showTitle,
@@ -10918,7 +10940,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             showNameFilter = attributes.showNameFilter,
             showTimeFilter = attributes.showTimeFilter,
             timeFilter = attributes.timeFilter;
-
 
         return wp.element.createElement(
           Fragment,
@@ -11243,7 +11264,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         if (true === toDel) {
                           var tempDataArray = [].concat(_toConsumableArray(dataArray));
                           tempDataArray.splice(parentIndex, 1);
-                          setAttributes({ dataArray: tempDataArray });
+                          _this2.refressData(tempDataArray);
                         }
                       },
                       className: "fa fa-times details-parent"
@@ -11341,7 +11362,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 if (true === toDelete) {
                                   var tempDataArray = [].concat(_toConsumableArray(dataArray));
                                   tempDataArray[parentIndex].detailList.splice(index, 1);
-                                  setAttributes({ dataArray: tempDataArray });
+                                  _this2.refressData(tempDataArray);
                                 }
                               },
                               className: "fa fa-times"
