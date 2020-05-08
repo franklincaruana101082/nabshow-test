@@ -77,7 +77,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				
 					<a href="http://www.nabshow.com/express">
 				
-					<img class="db  center  tc  o-show_header" src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/05/Express_Header_Sony-BNH.png" alt="NAB Show Express">
+					<img class="db  center  tc  o-show_header" src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/05/Express_Header_Final.png" alt="NAB Show Express">
 				
 					</a>
 				
