@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test safari fix</title>
+  <script src="//cdn.jsdelivr.net/g/jquery@1.11.0"></script>
+  <script src="//cdn.jsdelivr.net/jquery.cookie/1.4.0/jquery.cookie.min.js"></script>
+  <meta charset="UTF-8">
+</head>
+<body style="visibility:hidden">
+<script>
+  $.cookie('ai_test_cookie', 'fixed');
+  if (!$.cookie('ai_test_cookie')) {
+    var lang = navigator.language || navigator.userLanguage; 
+    if (lang.toUpperCase().includes("DE")) {
+      alert('Diese Webseite benötigt Cookies. Bitte ändern Sie ihre Browsereinstellungen so, dass zumindest Cookies von besuchten Webseiten erlaubt sind.');
+    } else {
+      alert('This website requires that cookies are accepted. Please change your browser settings that at least "from visited website" cookies are allowed.');
+    }
+  }
+  $.removeCookie('ai_test_cookie');
+</script>
+</body></html>
