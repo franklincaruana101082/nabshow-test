@@ -22,6 +22,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
  	// Colors
  	$nab-green: #72bf44;
  	$nab-darkblue: #333367;
+ 	$nab-purple: #AB3e97;
 
 	
 	@import 'lib/helpers';
@@ -258,7 +259,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		font-family: 'Josefin Sans', sans-serif !important;
 		font-size: 30px !important;
 		margin-bottom: 0px;
-		color: $nab-darkblue;
 	}
 
 	.plan-show-block {
@@ -266,6 +266,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			font-family: 'Josefin Sans', sans-serif !important;
 			font-size: 50px !important;
 			margin-bottom: 20px;
+			color: $nab-purple;
 		}
 		.col-pad {
 			padding: 40px;
@@ -279,6 +280,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			.banner-text {
 				color: #ffffff !important;
 			}
+		}
+	}
+
+	.purple-plain a {
+		// overwrites .white-underlined-links
+		background-color: $nab-purple !important;		
+		color: #ffffff !important;
+		text-decoration: none !important;
+		&:hover {
+
 		}
 	}
 
@@ -297,7 +308,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			font-family: 'Josefin Sans', sans-serif !important;
 			font-size: 30px !important;
 			margin-bottom: 0px;
-			color: $nab-darkblue;
+			color: $nab-purple !important;
 		}
 	}
 
