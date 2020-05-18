@@ -9,28 +9,221 @@ License: GNU General Public License v2 or later
 License URI: LICENSE
 Text Domain: nabshow-ny
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
-
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
-
 NABShow NY is based on Underscores https://underscores.me/, (C) 2012-2017 Automattic, Inc.
 Underscores is distributed under the terms of the GNU GPL v2 or later.
-
 Normalizing styles have been helped along thanks to the fine work of
 Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
  */
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Roboto&display=swap");
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto', sans-serif; }
 
-
-
-@media (min-width: 1200px)
-.container {
+@media (min-width: 1200px) {
+  .container {
     max-width: 1480px;
     padding-left: 2em;
-    padding-right: 2em;
-}
+    padding-right: 2em; } }
 
-@media (max-width: 1200px)
-.container {
+@media (max-width: 1200px) {
+  .container {
     width: 100%;
-    max-width: 96%;
-}
+    max-width: 96%; } }
+
+h1 {
+  font-family: 'Josefin Sans', sans-serif; }
+
+.custom-logo {
+  max-width: 220px !important;
+  width: 100%;
+  height: auto; }
+
+.menu-toggle {
+  display: none; }
+
+.screen-reader-text {
+  display: none; }
+
+.menu-item-description {
+  display: none !important; }
+
+.banner-item-inner {
+  padding-right: 20% !important; }
+  .banner-item-inner p {
+    width: initial !important; }
+
+.hero-banner-inner .banner-item .title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  line-height: 100px !important;
+  font-size: 100px !important;
+  margin-top: -20px;
+  margin: 0;
+  text-transform: uppercase; }
+
+.site-header #site-navigation ul.menu > li > a::after,
+.site-header #site-navigation ul.menu > li > a::before {
+  display: none; }
+
+.site-content {
+  overflow: initial !important; }
+
+#primary-menu .menu-item a {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 20px !important; }
+
+.dark-header .header-center {
+  margin-top: -16px !important; }
+
+.dark-header.site-header {
+  padding: 18px 0 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  height: 121px !important; }
+  .dark-header.site-header.sticky {
+    height: auto !important; }
+
+#custom_html-2 {
+  float: right; }
+
+.dark-header.site-header #site-navigation ul.menu > li:last-child > a {
+  padding: 5px 20px !important;
+  background-color: #72bf44 !important; }
+
+.super-menu-icons {
+  margin-right: 16px; }
+
+.wp-block-nab-hero-banner.hero-banner {
+  margin-top: -191px !important; }
+
+.wp-block-nab-hero-banner.hero-banner .bx-controls.bx-has-pager {
+  display: none; }
+
+.hero-banner-inner .banner-item ul.hero-buttons li .button {
+  background-color: #72bf44 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  padding: 12px 40px !important; }
+
+.sticky.site-header.dark-header #site-navigation ul.menu > li > a {
+  color: #ffffff !important; }
+
+.sticky .super-menu-main .super-menu-icons a, .sticky .super-menu-main .super-menu-icons li i.fa {
+  color: #ffffff !important; }
+
+.hero-banner-inner .banner-item {
+  padding-top: 200px !important; }
+
+.bx-viewport {
+  height: 620px !important; }
+
+#masthead .container {
+  max-width: 1440px !important; }
+
+.site-header #site-navigation ul.menu > li.clicked:nth-child(1) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(1) > a p.menu-item-description {
+  color: #72bf44 !important; }
+
+.site-header #site-navigation ul.menu > li.clicked:nth-child(2) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(3) > a p.menu-item-description {
+  color: #72bf44 !important; }
+
+.site-header #site-navigation ul.menu > li.clicked:nth-child(3) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(3) > a p.menu-item-description {
+  color: #72bf44 !important; }
+
+.site-header #site-navigation ul.menu > li.clicked:nth-child(4) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(4) > a p.menu-item-description {
+  color: #72bf44 !important; }
+
+.site-header #site-navigation ul.menu > li.clicked:nth-child(5) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(5) > a p.menu-item-description {
+  color: #72bf44 !important; }
+
+.all-intro {
+  color: #000000;
+  font-family: "roboto", sans-serif !important;
+  font-size: 19px !important;
+  line-height: 32px !important; }
+
+.rb-intro h2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important;
+  margin-bottom: 20px; }
+
+.rb-intro p {
+  font-family: "roboto", sans-serif;
+  font-size: 19px;
+  line-height: 32px; }
+
+.nab-title, .stay-in-loop-box h4 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important; }
+
+.nab-subtitle {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 30px !important;
+  margin-bottom: 0px;
+  color: #333367; }
+
+.plan-show-block h2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important;
+  margin-bottom: 20px; }
+
+.plan-show-block .col-pad {
+  padding: 40px; }
+  .plan-show-block .col-pad:nth-child(1) {
+    padding-left: 0 !important; }
+
+.plan-show-block .nab-banner-main .banner-text {
+  color: #ffffff !important; }
+
+.stay-in-loop-box {
+  background-color: #ffffff !important;
+  max-width: 1440px !important;
+  display: none !important; }
+  .stay-in-loop-box h4 {
+    color: #333367 !important; }
+
+.speaker-top-row h2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 30px !important;
+  margin-bottom: 0px;
+  color: #333367; }
+
+.wp-block-button__link {
+  border: 0 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 20px !important;
+  text-decoration: none !important; }
+  .wp-block-button__link:hover {
+    border: 0 !important; }
+
+.bottom-footer {
+  background-image: url("images/footer-background.jpg") !important;
+  background-position: center center !important;
+  background-size: cover !important; }
+  .bottom-footer .container {
+    max-width: 1440px !important; }
+  .bottom-footer .social-list a {
+    color: #ffffff !important;
+    text-decoration: none !important; }
+    .bottom-footer .social-list a:hover {
+      text-decoration: none !important; }
+  .bottom-footer .hashlink a {
+    color: #ffffff !important;
+    text-decoration: underline !important; }
+    .bottom-footer .hashlink a:hover {
+      text-decoration: none !important; }
+  .bottom-footer .copyright a {
+    color: #ffffff !important;
+    text-decoration: underline !important; }
+    .bottom-footer .copyright a:hover {
+      text-decoration: none !important; }
+
+.sticky.site-header #site-navigation ul.menu > li.clicked > a {
+  background-color: transparent !important;
+  border-color: transparent !important; }
+
+footer {
+  margin-bottom: -50px; }
+
+.back-to-top {
+  background-color: #72bf44 !important;
+  box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.4) !important; }
