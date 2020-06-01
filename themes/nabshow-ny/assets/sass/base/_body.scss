@@ -1,0 +1,656 @@
+// BODY
+// ====
+
+// CONTAINER
+
+	// Contains .main and .sidebar, since these are usually paired.
+
+	.main-container {
+		padding: 1em 2rem;
+		@include range(sm) {
+			margin: auto;
+ 			padding: 2rem 2rem 4rem;
+			@if ( $sidebar ) {
+				@include flex-layout( row-reverse, nowrap, flex-start, stretch );
+				max-width: 4rem + $main-width + $sidebar-width;
+			} @else {
+				@include flex-layout( row, nowrap, flex-start, stretch );
+				max-width: 4rem + $main-width;
+			}
+		}
+
+	}
+
+	.main-container-reverse {
+		@include flex-layout( row, nowrap, flex-start, stretch );
+	}
+
+	.main-container-internal-wide {
+		// @include flex-layout( row, nowrap, flex-start, stretch );
+
+		background-color: desaturate( $boma-blue, 30% );
+		max-width: 100%;
+		padding-bottom: 0;
+		// padding-top: 0px;
+		// margin-bottom: 226px;
+
+		@include range(sm) {
+			// margin-bottom: 126px;
+		}
+
+		.main {
+			border-top: none;
+			margin-top: 10px;
+			margin: 10px auto auto;
+			max-width: 72rem;
+			padding-top: 30px;
+			@include range(sm) {
+				margin: 120px auto auto;
+				border-top: none;
+				padding-top: 0;
+			}
+			// padding: 2rem;
+		}
+		.entry-title {
+			color: white;
+			a:hover {
+				color: white;
+			}
+		}
+		.entry-content {
+			margin-bottom: 0;
+		}
+
+	}
+
+	// ORIGINAL .main-container
+	// .main-container {
+	// 	@include range(sm) {
+	// 		@if ( $sidebar ) {
+	// 			@include flex-layout;
+	// 		}
+	// 	}
+	// }
+
+// PAGE (index, archive)
+// ====
+
+	.main {
+		// border-top: 1px solid gray;
+		margin-top: 10px;
+		padding-top: 30px;
+		@include range(sm) {
+			@if ( $sidebar ) {
+				// @include flex(1); // grow = 1
+			}
+			margin-top: 120px;
+			border-top: none;
+			padding-top: 0;
+		}
+
+		&.not-found {}
+
+	}
+
+	.main-header {
+		margin-bottom: 0rem;
+	}
+
+	.main-title {
+		margin: 0;
+		a {
+			@include link-color(inherit, $link-color-hover);
+			text-decoration: inherit;
+		}
+		.archive & {
+			@extend h2 !optional;
+		}
+	}
+
+	.main-type {} // e.g. Day, Month, Year, Category, Tag, Author, Search
+
+	.main-meta {
+		// font-size: .75em;
+		margin-top: .5em;
+	}
+
+		.meta-sep {}
+
+		.meta-nav {}
+
+	.main-image {
+
+		&.default {
+			margin: 0 0 1em;
+		}
+
+		img {
+			display: block;
+			margin: 0 auto;
+			max-width: 100%;
+			height: auto;
+		}
+	}
+
+	.wp-post-image-caption {
+		margin: 0;
+		font-size: .75em;
+	}
+
+	.main-content-container {}
+
+	.main-content {
+		@include wysiwyg;
+	}
+
+	.main-content-inner {}
+
+	.main-footer {
+		font-size: .75em;
+		margin-top: 1rem;
+	}
+
+// ENTRY
+// =====
+
+	// Singular article pages use .entry-*, which extends .main-*. This is my solution to an awkward dilemma, that an archive is semantically a collection of articles (entries) and not an article itself, but in most cases we want to style it identically to a singular article page.
+
+	.entry {}
+
+// HEADER
+
+	.entry-header {
+		@extend .main-header !optional;
+	}
+
+	.entry-title {
+		@extend .main-title !optional;
+
+		.orange-strong {
+			font-style: italic;
+			color: $boma-orange;
+		}
+	}
+
+	.entry-meta {
+		@extend .main-meta !optional;
+	}
+
+		.entry-author {}
+
+		.entry-date {}
+
+	.entry-image {
+		@extend .main-image !optional;
+	}
+
+// CONTENT
+
+	.entry-content-container {
+		@extend .main-content-container !optional;
+
+		li {
+			list-style-type: none;
+			margin-bottom: 10px;
+
+			&:before {
+				content: '\00b7';
+				font-size: 120px;
+				vertical-align: middle;
+				line-height: 24px;
+				position: absolute;
+				margin-left: -40px;
+				margin-top: -12px;
+			}
+
+		}
+
+	}
+
+	.entry-content {
+		@extend .main-content !optional;
+
+		// TESTIMONIAL SECTION TAG LOCATED BELOW THIS
+		// margin-bottom: 50px;
+	}
+
+	.entry-content-inner {
+		@extend .main-content-inner !optional;
+	}
+
+	// Next/Previous Page (for a paginated post)
+	.entry-content-nav {}
+
+// FOOTER
+
+	.entry-footer {
+		@extend .main-footer !optional;
+	}
+
+		.cat-links {}
+		.tag-links {}
+		.comments-link {}
+
+// NAV
+
+	.entry-nav {
+		@include flex-layout(row, nowrap, space-between, center);
+	}
+
+	.entry-nav-next {
+		text-align: right;
+	}
+
+	.entry-nav-previous {}
+
+// ARCHIVE
+// =======
+
+	// Use this container to style '.entry' when there are multiple posts on a page.
+	.archive {
+		// margin-top: 2em;
+
+		.entry:not(:first-child) {
+			margin-top: 3em;
+		}
+
+		.entry-title {
+			@extend h2;
+			margin: 0;
+		}
+	}
+
+	// Next/Previous Page
+	.archive-nav {
+		@extend .entry-nav !optional;
+	}
+
+	.archive-nav-next {
+		@extend .entry-nav-next !optional;
+	}
+
+	.archive-nav-previous {
+		@extend .entry-nav-previous !optional;
+	}
+
+// ATTACHMENT
+// ==========
+
+	// Parent Post
+	.attachment-parent-nav {
+		margin-bottom: 1em;
+	}
+
+	// Download Link
+	.attachment-download {
+		margin: 1em 0;
+	}
+
+	// Next/Previous Attachment
+	.attachment-nav {
+		@extend .entry-nav !optional;
+	}
+
+	.attachment-nav-next {
+		@extend .entry-nav-next !optional;
+		@include flex-layout(row, nowrap, center, center);
+	}
+
+	.attachment-nav-previous {
+		@extend .entry-nav-previous !optional;
+		@include flex-layout(row, nowrap, center, center);
+	}
+
+	.attachment-thumb {
+		display: inline;
+	}
+
+// HERO NAV
+
+	.homepage-hero {
+		margin: 0 auto;
+		position: relative;
+		// padding: 1rem;
+		// max-width: 4rem + $main-width + $sidebar-width;
+		@include flex-layout ( column, nowrap, space-between, stretch);
+		@include range(sm) {
+			padding: 5rem 0 0;
+			@include flex-layout ( row, nowrap, space-between, stretch);
+		}
+	}
+
+	.hero-slider {
+		max-width: 100%;
+		border-bottom: 10px solid white;
+
+		@include range(sm) {
+			max-width: 70%;
+			max-height: 470px;
+			border-bottom: none;
+			overflow-y: hidden;
+		}
+	}
+
+	.slider {
+		margin: 0 auto;
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.slick-list {
+		padding: 0 !important;
+		max-height: 476px;
+		height: 100%;
+	}
+
+	.slick-slide {
+		width: 100%;
+		div {
+			div {
+				top: 10px;
+				position: relative;
+			}
+		}
+	}
+
+	.slick-slide img {
+		min-width: 100%;
+		width: 100%;
+	}
+
+	.slick-dots {
+		bottom: 4px;
+		// position: relative;
+		@include trans(all 0.3s ease-in-out);
+		@include range(sm) {
+			bottom: 34px;
+		}
+
+	}
+
+	.slick-dotted.slick-slider {
+		margin-bottom: 0;
+	}
+
+	.slick-dots li button:before {
+		color: white;
+		opacity: 1;
+		font-size: 20px;
+	}
+
+	.slick-dots li button {
+		width: 30px;
+		height: 30px;
+	}
+
+	/* Active Button */
+	.slick-dots li.slick-active button:before {
+		color: #ef8903;
+		opacity: 1;
+	}
+
+	.slick-active {
+		opacity: 1 !important;
+	}
+
+	.slick-prev:before,
+	.slick-next:before {
+		color: black;
+	}
+
+	.slick-slide {
+		transition: all ease-in-out .3s;
+		opacity: .2;
+	}
+
+	.slick-active {
+		opacity: .5;
+	}
+
+	.slick-current {
+		opacity: 1;
+	}
+
+	.hero-nav {
+		padding-top: 10px;
+		width: 100%;
+		border-left: none;
+		@include trans(all 0.3s ease-in-out);
+
+		@include range(sm) {
+			@include flex-layout ( column, nowrap, space-between, stretch);
+			border-left: 10px solid white;
+			width: 30%;
+		}
+
+		a {
+			min-height: 140px;
+			height: 50%;
+			font: 20px/1.5 $primary-font;
+			padding: 0 30px 30px;
+			color: white;
+			font-weight: bold;
+			@include flex-layout ( column, nowrap, flex-end, stretch);
+			@include trans(all 0.3s ease-in-out);
+
+			@include range(sm) {
+				min-height: initial;
+				font: 11px/1.5 $primary-font;
+				font-weight: bold;
+			}
+
+			@include range(md) {
+				font: 14px/1.5 $primary-font;
+				font-weight: bold;
+			}
+
+			@include range(lg) {
+				font: 20px/1.5 $primary-font;
+				font-weight: bold;
+			}
+
+			&:first-child {
+				background-color: #888;
+				border-bottom: 10px solid white;
+				@include trans(all 0.3s ease-in-out);
+
+				&:hover {
+					text-decoration: none;
+					background-color: #d2d2d2;
+					background-color: lighten(#888, 10%);
+				}
+
+			}
+
+			&:nth-child(2) {
+				background-color: $boma-blue;
+				border-bottom: 10px solid white;
+				@include trans(all 0.3s ease-in-out);
+				
+				&:hover {
+					text-decoration: none;
+					// background-color: #0233ce;
+					background-color: lighten($boma-blue, 10%);
+				}
+
+			}
+
+			&:last-child {
+				border-bottom: none;
+				background-color: $boma-orange;
+				@include trans(all 0.3s ease-in-out);
+					
+				&:hover {
+					text-decoration: none;
+					// background-color: #fdac42;
+					background-color: lighten($boma-orange, 10%);
+				}
+
+			}
+		}
+	}
+
+
+// HERO CTA SUBPAGE
+
+	.hero-cta-subpage {
+		@include flex-layout ( column, wrap, flex-start, stretch);
+
+		@include range(sm) {
+			@include flex-layout ( row, wrap, flex-start, stretch);
+		}
+
+		div.bg-shell {
+			padding: 20px;
+			width: 100%;
+
+			@include range(sm) {
+				width: 33.333%;
+			}
+
+			div.content {
+				border: 4px solid $boma-blue;
+				text-align: center;
+				color: $boma-blue;
+				padding: 40px 20px;
+				height: 100%;
+
+
+				@include range(sm) {
+					flex-direction: column;
+					justify-content: space-around;
+					display: flex;
+					align-items: center;
+				}
+
+
+				h3 {
+					font: 22px/1.5 $primary-font;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+
+// TESTIMONIALS
+
+	.pusher {
+		margin-top: 52px !important;
+	}
+
+	#pusher-div {
+		max-height: 290px !important;
+	}
+
+	.testo-bar {
+		// background-color: $boma-blue;
+		background-color: desaturate( $boma-blue, 30% );
+		width: 100%;
+		position: absolute;
+		left: 0;
+		zoom: 60%;
+
+		@include range(sm) {
+			zoom: 100%;
+		}
+
+		.testo-content {
+			position: relative;
+			padding: 3em;
+			@include flex-layout ( column, wrap, flex-start, stretch);
+
+			@include range(sm) {
+				@include flex-layout ( row, nowrap, space-between, stretch);
+				margin: auto;
+ 			    padding: 0 2rem 0;
+				max-width: 4rem + $main-width + $sidebar-width;
+			}
+
+			p {
+				color: white;
+				font-size: 16px;
+				font-weight: normal;
+				margin: 0;
+				padding: 20px;
+				text-align: center;
+				width: 100%;
+				small {
+					font-size: 12px;
+					line-height: 13px;
+				}
+				@include range(sm) {
+					text-align: left;
+					width: initial;
+				}
+
+			}
+
+			img {
+				max-width: 200px;
+				width: 100%;
+				height: 100%;
+				display: none;
+
+				@include range(md){
+					display: initial;
+				}
+			}
+
+		}
+	}
+
+// BUTTONS
+
+	.button-solid-white {
+		background-color: white;
+		display: inline-table;
+		padding: 10px 50px;
+		color: $boma-orange !important;
+		font-size: 40px;
+		margin: 20px 0;
+		width: 100%;
+		text-align: center;
+		@include box-shadow(0px, 0px, 0px, 0px, rgba(#000000, .2));
+		@include trans(all 0.3s ease-in-out);
+		&:hover {
+			// background-color: lighten($boma-orange, 50%);
+			@include box-shadow(10px, 0px, 10px, 0px, rgba(#000000, .2));
+		}
+
+		@include range(sm) {
+			width: initial;
+			font-size: 30px;
+		}
+
+	}
+
+	.button-solid-orange {
+		background-color: $boma-orange !important;
+		display: inline-table;
+		border-radius: 0 !important;
+		padding: 10px 50px;
+		color: white !important;
+		font-size: 20px;
+		margin: 20px 0;
+		@include box-shadow(0px, 0px, 0px, 0px, rgba(#000000, .2));
+		@include trans(all 0.3s ease-in-out);
+		&:hover {
+			// background-color: lighten($boma-orange, 4%);
+			@include box-shadow(10px, 0px, 10px, 0px, rgba(#000000, .2));
+		}
+	}
+
+	#gform_submit_button_1 {
+		border: none;
+		border-radius: 0;
+		@include box-shadow(0px, 0px, 0px, 0px, rgba(#000000, .2));
+		@include trans(all 0.3s ease-in-out);
+		&:hover {
+			// background-color: lighten($boma-orange, 4%);
+			@include box-shadow(10px, 0px, 10px, 0px, rgba(#000000, .2));
+		}
+	}
+
+
+
+

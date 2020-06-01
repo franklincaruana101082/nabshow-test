@@ -1,0 +1,5 @@
+# Ignore nodejs node modules.
+/node_modules/
+
+
+# Unignore stuff using !node_modules or simply delete line #2.

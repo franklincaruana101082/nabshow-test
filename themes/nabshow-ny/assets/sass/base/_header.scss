@@ -1,0 +1,168 @@
+// HEADER
+// ======
+
+	.site-header {
+		margin-bottom: 2em;
+		position: relative;
+		width: 100%;
+		z-index: 1;
+
+		@include range(sm) {
+			// position: fixed;
+			background-color: white;
+			// @include box-shadow(0px, 0px, 20px, 2px, rgba(#000000, .28));
+		}
+
+		
+		.site-content {
+			margin: 0 auto;
+			position: relative;
+			padding: 1rem;
+			max-width: 4rem + $main-width + $sidebar-width;
+			@include flex-layout ( column, nowrap, space-between, stretch);
+			@include range(sm) {
+				padding: 0 2rem;
+				@include flex-layout ( row, nowrap, space-between, stretch);
+			}
+		}
+
+		.site-branding {
+			padding: 40px;
+
+			@include range(sm) {
+				margin: 0 auto;
+				max-width: 1200px;
+				padding: 40px;
+			}
+		}
+
+			.site-image img {
+				width: 50%;
+				height: auto;
+				@include trans(all 0.3s ease-in-out);
+
+				@include range(sm) {
+					width: 130px;
+					height: auto;
+					margin-top: 10px;
+				}
+			}
+
+			.site-title {
+				margin-top: 0;
+				a {
+					@include link-color(inherit, $link-color-hover);
+					font-size: 80px;
+					font-weight: 100;
+					text-decoration: inherit;
+				}
+			}
+
+			.site-description {
+				color: black;
+			}
+
+	}
+
+// MENU
+// ====
+
+	.site-menu {
+
+		padding: 0;
+		height: 100px;
+
+		@include range(sm) {
+			padding: 20px;
+		}
+
+		ul {
+			@include no-list-style;
+			// margin: 1em 0;
+			margin: 0;
+			line-height: 2rem;
+
+			@include flex-layout ( column, nowrap, space-between, stretch);
+			@include range(sm) {
+				padding: .7rem 0rem .7rem 2rem;
+				@include flex-layout ( row, nowrap, space-between, center);
+			}
+
+		}
+
+		li {
+			display: inline-block;
+			padding: 0;
+			// &:not(:first-child) { margin-left: 1em; }
+			a {
+				// font-weight: 400;
+				color: black;
+			}
+
+			@include range(sm) {
+				padding: 0 20px;
+			}
+			&:last-child {
+				margin-left: 0px;
+
+				a {
+					border: 4px solid $boma-orange;
+					padding: 0 20px;
+					display: inline-block;
+					@include trans(all 0.3s ease-in-out);
+					font-weight: bold;
+					color: $boma-blue;
+					cursor: pointer;
+					background-color: white;
+					// display: block;
+					&:hover {
+						background-color: $boma-orange;
+						color: white !important;
+					}
+				}
+
+			}
+		}
+
+	}
+
+	.current-menu-item,
+	.current-page-ancestor {
+	}
+
+// SEARCH
+// ======
+
+	.site-search {
+		display: none !important;
+	}
+
+	.searchform-container {
+		@include flex-layout;
+		max-width: 20em;
+	}
+
+	.searchform-input-container {
+		// @include flex(1 1 0); // grow = 1, shrink = 1, basis = 0
+		padding-right: .25rem;
+	}
+
+	#s { // Input
+		width: 100%;
+		border: none;
+		background: $white;
+		font-size: inherit;
+		line-height: 1.5;
+		outline: none;
+		padding: 3px 8px;
+	}
+
+	#searchsubmit { // Button
+		border: none;
+		background: transparent;
+		font-size: inherit;
+		line-height: 1.5;
+		padding: 4px 8px;
+		@include link-color(inherit, $link-color-hover);
+		@include transition(color .1s);
+	}

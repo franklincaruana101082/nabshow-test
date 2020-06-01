@@ -1,0 +1,106 @@
+// COMMENTS
+// ========
+
+// Stock comments will probably be disabled or replaced with e.g. Disqus, but just in case.
+
+@if ( $comments ) {
+
+	#disqus_thread {
+	}
+
+	.comments,
+	#disqus_thread {
+		margin-top: 2em;
+	}
+
+	.comments-list {
+
+		ul {
+			@include no-list-style;
+		}
+	}
+
+	.comments-title {
+	}
+
+	.comment {
+		display: block;
+		margin: 1.5em 0;
+		padding-left: 1em;
+		border-left: .25em solid black;
+
+		.avatar {
+			float: left;
+			margin-top: .25em;
+			margin-right: .5em;
+			margin-bottom: 1em;
+			background: $white;
+		}
+
+		.says { display: none; }
+
+		.fn {
+			font-weight: bold;
+			font-style: normal;
+			a {
+				@include invisible-link;
+			}
+		}
+	}
+
+	.comment-meta {
+		font-size: .75rem;
+		a { @include invisible-link; }
+	}
+
+	.comment-edit-link,
+	.comment-reply-link,
+	#cancel-comment-reply-link {
+		@include invisible-link;
+		font-size: .75rem;
+		font-weight: bold;
+		text-transform: uppercase;
+
+	}
+
+	.comment-form {
+
+		label[for="comment"] { display: none; }
+
+		#comment {
+			width: 100%;
+		}
+
+	}
+
+	.comments-nav-above {}
+
+	.comments-nav-below {}
+
+	.trackbacks-list {}
+
+		.ping-count {}
+
+	.comment-respond {
+		@extend .comment;
+		padding: 1em;
+		background: $white;
+
+		.comment-reply-title {
+			margin-top: 0;
+		}
+
+		.form-submit {
+			margin-bottom: 0;	
+		}
+
+	}
+
+} @else {
+
+	.comments,
+	#disqus_thread {
+		display: none;
+	}
+
+}

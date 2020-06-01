@@ -1,0 +1,148 @@
+// BLOCKS
+// ======
+
+	.entry-block-container {}
+
+	.entry-block {}
+
+	.entry-block-inner {}
+
+// NORMAL
+
+	.entry-block-normal {
+		// TESTIMONIAL SECTION TAG LOCATED ABOVE THIS
+		margin-top: 50px;
+	}
+
+// CALLOUT
+
+	.entry-callout {
+		@include wysiwyg;
+		@include no-first-last-margins;
+		padding: 1em;
+		background: $white;
+
+		.entry-heading h2 {
+			margin-top: 0;
+		}
+	}
+
+// COLUMNS
+
+	.entry-columns {
+
+		> .entry-block-inner {
+			@include range(md) {
+				@include flex-layout;
+				margin: -1em -1em;
+			}
+		}
+
+	}
+
+	.entry-column {
+		@include range(md) {
+			// @include flex(1 1 0);
+			margin: 0 1em;
+		}
+	}
+
+// TILES
+
+	.entry-tiles {
+
+		ul {
+			@include no-list-style;
+			@include range(xs) {
+				@include flex-layout( row, wrap );
+				margin: 1em 0 -1em;
+			}
+
+		}
+
+		li {
+			margin: 1em 0;
+			line-height: 1.5;
+			position: relative;
+			overflow: hidden;
+			background: $white;
+			@include range(xs) {
+				width: 12rem;
+				margin: 0 1em 1em 0;
+			}
+			@include hover-zoom;
+		}
+
+		a {
+			display: block;
+			text-decoration: none;
+			position: relative;
+			@include link-color(inherit);
+		}
+
+	}
+
+	.entry-tile-thumb-container {
+		background: $white;
+		position: relative;
+		padding-bottom: 62.5%;
+
+		> a {
+			@include absolute-cover;
+		}
+	}
+
+	.entry-tile-thumb {
+		@include absolute-cover;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.entry-tile-caption {
+		padding: .5em;
+	}
+
+	.entry-tile-title {
+		font-size: 1.5em;
+	}
+
+	.entry-tile-subtitle {
+	}
+
+	.entry-tile-content {
+		margin-top: 1em;
+		@include wysiwyg;
+		@include no-first-last-margins;
+	}
+
+// ACTIONS
+
+	.entry-actions {
+
+		ul {
+			@include no-list-style;
+			@include range(xs) {
+				@include flex-layout( row, wrap, center );
+				margin: 1em 0;
+			}
+		}
+
+		li {
+			margin: .5em 0;
+			@include range(xs) {
+				margin: 0;
+				&:not(:first-child) { margin-left: 1em; }
+			}
+		}
+
+		a {
+			display: block;
+			padding: .5em 1em;
+			background: $white;
+			text-decoration: none;
+			text-align: center;
+			@extend .button;
+			@include hover-zoom;
+		}
+
+	}

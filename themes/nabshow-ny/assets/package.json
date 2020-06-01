@@ -1,0 +1,22 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "node-sass --include-path scss sass/style.scss ../style.css --output-style compressed",
+    "build-js": "browserify js/**.js>../js/scripts.js",
+    "build": "npm run build-css && npm run build-js",
+    "start": "nodemon -e js,scss -x \"npm run build\" "
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^16.5.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "jquery": "^3.4.1"
+  }
+}
