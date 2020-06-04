@@ -10,6 +10,7 @@
 ?>
 
 		<footer id="colophon" class="site-footer" role="contentinfo">
+		<hr />
 Related Shows: <a href="https://nabshow.com" target="_blank">NAB Show</a> | <a href="https://nabshowny.com" target="_blank">NAB Show New York</a> | <a href="https://cineemerge.com" target="_blank">CineEmerge</a>
 <br /><br />
 
