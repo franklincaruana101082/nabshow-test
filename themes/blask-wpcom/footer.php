@@ -11,9 +11,14 @@
 
 		<footer id="colophon" class="site-footer" role="contentinfo">
 			<div class="site-info">
-				<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'blask' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'blask' ), 'WordPress' ); ?></a>
-				<span class="sep"> | </span>
-				<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'blask' ), 'Blask', '<a href="https://wordpress.com/themes/" rel="designer">Automattic</a>' ); ?>
+				Related Shows: <a href="https://nabshow.com" target="_blank">NAB Show</a> | <a href="https://nabshowny.com" target="_blank">NAB Show New York</a> | <a href="https://cineemerge.com" target="_blank">CineEmerge</a>
+<br /><br />
+
+&copy; <?php echo date("Y"); ?> National Association of Broadcasters. All Rights Reserved.
+<a href="/partners/privacy-policy/">Privacy Policy</a> | <a href="/partners/terms-of-use/">Terms of Use</a>
+<br /><br />
+
+<i>This website uses cookies to enhance your user experience. Read our privacy policy and terms of use for more information.</i>
 			</div><!-- .site-info -->
 		</footer><!-- #colophon -->
 
