@@ -16,7 +16,7 @@ add_action('wp_enqueue_scripts', 'waypoint_enqueue_script');
 
 function waypoint_enqueue_script() {
 
-  wp_enqueue_script('jquery-3', '//code.jquery.com/jquery-3.4.1.min.js', array(), '1.0.0', true);
+  // wp_enqueue_script('jquery-3', '//code.jquery.com/jquery-3.4.1.min.js', array(), '1.0.0', true);
   
   wp_enqueue_script('way-points', '//cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js', array(), '1.0.0', true);
 

@@ -131,6 +131,9 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		margin-top: -20px;
 		margin: 0;
 		text-transform: uppercase;
+		@extend .animated;
+		@extend .fadeIn;
+		@extend .delay-12s;
 		@include trans(all 0.3s ease-in-out);
 		@include range(md) {
 			font-size: 100px !important;
@@ -138,12 +141,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
-	.hero-banner-inner .banner-item .title {
-		// font-size: 50% !important;
-		@include range(md) {
-			// font-size: initial !important;	
-		}
-	}
 
 	.wp-block-nab-hero-banner.hero-banner {
 		margin-top: -191px !important;
@@ -179,6 +176,11 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	#internal-banner {
 		margin-top: -191px !important;
 		padding-top: 191px;
+		h1 {
+			@extend .animated;
+			@extend .fadeIn;
+			@extend .delay-06s;
+		}
 	}
 
 
@@ -402,6 +404,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			@extend .nab-title;
 			color: $nab-darkblue !important;
 		}
+	}
+
+	#mktoForm_1033 {
+		
 	}
 
 	.nab-form button.form-submit {
