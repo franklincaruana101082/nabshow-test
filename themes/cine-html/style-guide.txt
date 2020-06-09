@@ -1,0 +1,33 @@
+NAB VIDEO SHOW SITE STYLE GUIDE
+
+BOOTSTRAP: 
+This design uses the Bootstrap framework, which has built in styles for layouts, components and more. 
+When possible, use those built-in features. 
+Learn more and view examples: http://getbootstrap.com/
+
+ICONS: 
+When possible, use Font Awesome icons instead of images. 
+Learn more and view icon options: http://fontawesome.io/icons/
+
+FONTS:
+Logo: Kaushan Script
+Headers: Montserrat (or Helvetica Neue, Helvetica, Arial, sans-serif)
+Sub-Headers: Droid Serif (or Helvetica Neue, Helvetica, Arial, sans-serif)
+Paragraph Font: Roboto Slab (or Helvetica Neue, Helvetica, Arial, sans-serif)
+
+COLORS:
+Yellow: #fed136 (RGB: 254 209 54, CMYK: 1 16 88 0)
+Blue (and Television Blue): #39c3e1 (RGB: 57 195 225, CMYK: 64 0 9 0)
+Film Green: #6bc244 (RGB: 107 194 68, CMYK: 61 0 99 0)
+Video Purple: #d387d6 (RGB: 211 125 214, CMYK: 21 53 0 0)
+Muted Grey: #868e96 (RGB: 134 142 150, CMYKL 51 38 34 2)
+Dark Grey: #333 (RGB: 51 51 51, CMYK: 69 63 62 58)
+
+BUTTON CLASSES: 
+Large Button: btn-xl
+Regular Button: btn-primary
+Grey Button: btn-grey
+
+HOVER ANIMATION CLASSES:
+Button swipe to blue on hover animation: hvr-sweep-to-right
+Text link underline from the left animation: hvr-underline-from-left
