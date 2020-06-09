@@ -24,14 +24,14 @@
     <link href="/wp-content/themes/cine-html/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="/cine2019vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/wp-content/themes/cine-html/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
-    <link href="/cine2019css/nab.css" rel="stylesheet">
+    <link href="/wp-content/themes/cine-html/css/nab.css" rel="stylesheet">
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144215902-1"></script>
@@ -58,8 +58,8 @@
 	  
     <!-- Background Video -->
 	<video poster="/wp-content/themes/cine-html/img/video-alt.jpg" id="bgvid" playsinline autoplay muted loop>
-		<source src="/cine2019video/conference.webm" type="video/webm">
-		<source src="/cine2019video/conference.mp4" type="video/mp4">
+		<source src="/wp-content/themes/cine-html/video/conference.webm" type="video/webm">
+		<source src="/wp-content/themes/cine-html/video/conference.mp4" type="video/mp4">
 	</video>  
 
     <!-- Navigation -->
