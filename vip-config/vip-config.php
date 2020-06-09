@@ -35,7 +35,6 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
             'cineemerge.nabshow.com',
             'cineemerge.com',
             'www.cineemerge.com',
-            'cinemerge.nabshow.com',
         ],
     ];
 
