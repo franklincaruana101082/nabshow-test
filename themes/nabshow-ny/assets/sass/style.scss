@@ -454,7 +454,8 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			padding: 10px 40px 30px !important;
 			margin-top: 10px;
 		}
-		.mktoForm input.mktoField {
+		
+		input.mktoField {
 			box-shadow: none !important;
 			border-radius: 0 !important;
 		}
@@ -505,15 +506,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 					font-style: normal !important;
 				}
 			}
-		}
-	}
-
-	.speaker-top-row {
-		& h2 {
-			font-family: 'Josefin Sans', sans-serif !important;
-			font-size: 30px !important;
-			margin-bottom: 0px;
-			color: $nab-purple !important;
 		}
 	}
 
