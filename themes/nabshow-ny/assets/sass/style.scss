@@ -546,8 +546,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		.copyright a {
 			color: #ffffff !important;
 			text-decoration: underline !important;
+			font-size: 12px !important;
 			&:hover {
 				text-decoration: none !important;		
+			}
+		}
+		.policy-list {
+			li {
+				a {
+					font-size: 12px !important;
+				}
 			}
 		}
 	}
