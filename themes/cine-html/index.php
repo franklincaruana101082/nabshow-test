@@ -1,5 +1,4 @@
 
-<html>
 <?php /* Template Name: CineEmerge */ ?>
 
 <?php
