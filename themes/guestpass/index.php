@@ -219,10 +219,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
     foreach ($ad_options as $ad) {
 
     	// Create Booth number image
-			$booth_image = textToImage($_POST['booth'], $ad['booth_size'],$ad['color'],$ad['color'],$ad['padding'],'./fonts/Arial-BoldMT.otf');
+			$booth_image = textToImage($_POST['booth'], $ad['booth_size'],$ad['color'],$ad['color'],$ad['padding'],'/wp-content/themes/guestpass/fonts/Arial-BoldMT.otf');
 
     	// Create Code image
-			$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2,'./fonts/OpenSans.ttf');
+			$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2,'/wp-content/themes/guestpass/fonts/OpenSans.ttf');
 
 			//Scale and maintain aspect ratio of the uploaded logo image
       $old_x = imageSX($uploaded_logo);
@@ -296,9 +296,9 @@ endif;
 	<head>
 		<title>Customized Web Ads</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="https://nabshow.com/guestpass/css/bootstrap.css" rel="stylesheet" type="text/css" />
+		<link href="/wp-content/themes/guestpass/css/bootstrap.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="https://nabshow.com/guestpass/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="/wp-content/themes/guestpass/js/jquery.validate.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$("#customAdForm").validate({
@@ -342,6 +342,6 @@ endif;
 		<br />
 		<?php endif; ?>
 		<div style="width:100%;padding-bottom:70px;"></div>
-		<script type="text/javascript" src="https://nabshow.com/guestpass/js/iframeResizer.contentWindow.min.js"></script>
+		<script type="text/javascript" src="/wp-content/themes/guestpass/js/iframeResizer.contentWindow.min.js"></script>
 	</body>
 </html>
