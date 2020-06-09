@@ -209,6 +209,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	.main-navigation a {
+		display: inline !important;
+	}
+
 	.headnav {
 		margin-top: -30px !important;
 		@include range(md) {
