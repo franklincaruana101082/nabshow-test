@@ -27,11 +27,20 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
             'nabshowexpress.com',
             'www.nabshowexpress.com',
         ],
+        'nabshow.com/blog'   => [
+            'blog.nabshow.com',        ],
+        'nabshow.com/partners'   => [
+            'partners.nabshow.com',        ],
+        'nabshow.com/cine2020'   => [
+            'cineemerge.nabshow.com',
+            'cineemerge.com',
+            'www.cineemerge.com',
+        ],
     ];
 
     // Safety checks for redirection:
     // 1. Don't redirect for '/cache-healthcheck?' or monitoring will break
-    // 2. Don't redirect in WP CLI context 
+    // 2. Don't redirect in WP CLI context
     foreach ( $redirect_domains as $redirect_to => $redirect_from_domains ) {
         if (
                 '/cache-healthcheck?' !== $request_uri && // safety
