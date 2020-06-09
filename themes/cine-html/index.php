@@ -3,6 +3,6 @@
 <?php /* Template Name: CineEmerge */ ?>
 
 <?php
-header('Location: index.html');
-exit;
+// 301 Moved Permanently
+header("Location: https://nabshow.com/cine2019/index.html",TRUE,301);
 ?>
