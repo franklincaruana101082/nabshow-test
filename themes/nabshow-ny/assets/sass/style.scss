@@ -171,6 +171,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	.bx-viewport {
 		// height: 620px !important;
 		height: auto !important;
+		top: 20px;
+		@include range(md) {
+			top: 0;
+		}
 	}
 
 	#internal-banner {
@@ -224,6 +228,12 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			&.sticky {
 				height: auto !important;
 			}
+			.container {
+				padding: 0 30px;
+				@include range(md) {
+					padding: 0 20px;
+				}
+			}
 		}
 	}
 
@@ -246,6 +256,15 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		position: absolute !important;
 		right: 0;
 		top: 0;
+	}
+
+	.sticky {
+		span {
+			display: none !important;
+		}
+		.search-icon {
+			margin-top: 20px !important;
+		}
 	}
 
 	.hamburger.show-sm {
@@ -434,6 +453,12 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		color: #363636 !important;
 	}
 
+	.search-submit {
+		border: none !important;
+		border-radius: 0 !important;
+		background-color: $nab-green !important;
+	}
+
 	.speaker-top-row {
 		& h2 {
 			font-family: 'Josefin Sans', sans-serif !important;
@@ -458,8 +483,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		background-image: url("images/footer-background.jpg") !important;
 		background-position: center center !important;
 		background-size: cover !important;
+		padding: 60px 0 60px !important;
 		.container {
 			max-width: 1440px !important;
+			padding: 10px 40px;
 		}
 		.social-list a {
 			color: #ffffff !important;
