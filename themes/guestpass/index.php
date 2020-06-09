@@ -1,5 +1,6 @@
+<?php /* Template Name: Guest Pass */ ?>
+
 <?php
-/* Template Name: Guest Pass */
 
 $results = FALSE;
 $dest = $src = $error = $booth = $code = '';
