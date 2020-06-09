@@ -1,7 +1,6 @@
+<?php
 /* Template Name: Guest Pass */
 
-
-<?php
 $results = FALSE;
 $dest = $src = $error = $booth = $code = '';
 $x_diff = $y_diff = 0;
