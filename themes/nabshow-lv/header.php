@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="header-nav headnav col-md-9">
+                <div class="header-nav headnav col-md-12 col-lg-9">
                     <div id="menuToggle">
                         <input type="checkbox" class="menu-hamburger show-sm" />
                         <div class="hamburger show-sm">
