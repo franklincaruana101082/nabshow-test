@@ -296,9 +296,9 @@ endif;
 	<head>
 		<title>Customized Web Ads</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+		<link href="/guestpass/css/bootstrap.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="/guestpass/js/jquery.validate.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$("#customAdForm").validate({
@@ -342,6 +342,6 @@ endif;
 		<br />
 		<?php endif; ?>
 		<div style="width:100%;padding-bottom:70px;"></div>
-		<script type="text/javascript" src="js/iframeResizer.contentWindow.min.js"></script>
+		<script type="text/javascript" src="/guestpass/js/iframeResizer.contentWindow.min.js"></script>
 	</body>
 </html>
