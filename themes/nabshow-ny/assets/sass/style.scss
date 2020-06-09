@@ -133,7 +133,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		text-transform: uppercase;
 		@extend .animated;
 		@extend .fadeIn;
-		@extend .delay-12s;
+		@extend .delay-06s;
 		@include trans(all 0.3s ease-in-out);
 		@include range(md) {
 			font-size: 100px !important;
@@ -383,6 +383,17 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		color: #363636;
 	}
 
+	.news-block {
+		.read-more {
+			border: none !important;
+			font-family: 'Josefin Sans', sans-serif !important;
+			padding: 20px 30px;
+			color: $nab-green !important;
+			background-color: white;
+		}
+
+	}
+
 	.plan-show-block {
 		h2 {
 			font-family: 'Josefin Sans', sans-serif !important;
@@ -442,6 +453,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 			font-family: 'Josefin Sans', sans-serif !important;
 			padding: 10px 40px 30px !important;
 			margin-top: 10px;
+		}
+		.mktoForm input.mktoField {
+			box-shadow: none !important;
+			border-radius: 0 !important;
 		}
 	}
 
