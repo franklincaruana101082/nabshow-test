@@ -459,6 +459,40 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		background-color: $nab-green !important;
 	}
 
+	.searchTitle {
+		.nab-title {
+			font-size: 50px !important;
+		}
+		.container {
+			max-width: 1440px !important;
+		}
+		* {
+			color: $nab-darkblue !important;
+		}
+		.searchtab .tablinks.active {
+			background-color: $nab-green !important;
+			color: white !important;
+		}
+	}
+	.searchResult {
+		.container {
+			max-width: 1440px !important;
+		}
+		* {
+			color: black !important;
+		}
+		.tabcontent {
+			.tabInfo  {
+				h3 {
+					font-style: normal !important;
+				}
+				h4 {
+					font-style: normal !important;
+				}
+			}
+		}
+	}
+
 	.speaker-top-row {
 		& h2 {
 			font-family: 'Josefin Sans', sans-serif !important;
