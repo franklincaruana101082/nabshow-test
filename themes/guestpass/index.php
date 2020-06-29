@@ -187,9 +187,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 		wp_mkdir_p( $target_dir );
 	}
 	
-	$target_file = $target_dir . basename($_FILES["logo"]["name"]);$uploadOk = 1;
+	$target_file = $target_dir . basename($_FILES["logo"]["name"]);
+	$uploadOk = 1;
 	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 	$source_file = $_FILES["logo"]["tmp_name"];
+
+	echo $target_file = $target_dir . $filename . $imageFileType;
+	move_uploaded_file( $source_file, $target_file );
+
 	$check = getimagesize($_FILES["logo"]["tmp_name"]);
 	if($check === false || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif")) {
@@ -297,6 +302,40 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 		$results = FALSE;
 	}
 endif;
+
+
+function howardstern_save_quiz_result_card_callback() {
+	$response_result   = array( 'image_url' => '', 'link_url' => '', 'success' => false );
+	$data_image        = filter_input( INPUT_POST, 'image', FILTER_SANITIZE_STRING );
+	$page_title        = filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRING );
+	$page_description  = filter_input( INPUT_POST, 'description', FILTER_SANITIZE_STRING );
+	$quiz_url        = filter_input( INPUT_POST, 'quiz_url', FILTER_SANITIZE_STRING );
+	if ( isset( $data_image ) && ! empty( $data_image ) ) {
+	   $wp_upload_dir = wp_upload_dir();
+	   $base_string    = '0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz';
+	   $current_time   = date( 'dmYHis' );
+	   $unique_key     = $current_time . substr( str_shuffle( $base_string ), 0, 50 );
+	   $custom_sub_dir = '/quiz_result_card_images' . $wp_upload_dir['subdir'] . '/' . date( 'd' ) . '/' . $unique_key;
+	   $new_sub_dir    = $wp_upload_dir['basedir'] . $custom_sub_dir;
+	   wp_mkdir_p( $new_sub_dir );
+	   $img_file  = $data_image;
+	   $img_file  = str_replace( 'data:image/png;base64,', '', $img_file );
+	   $img_file  = str_replace( ' ', '+', $img_file );
+	   $file_data = base64_decode( $img_file );
+	   $file_path = $new_sub_dir . '/card.png';
+	   $success   = file_put_contents( $file_path, $file_data );
+	   if ( $success ) {
+		  global $wpdb;
+		  $db_image_path = 'quiz_result_card_images' . $wp_upload_dir['subdir'] . '/' . date( 'd' ) . '/' . $unique_key . '/card.png';
+		  $wpdb->query( $wpdb->prepare( "INSERT INTO `{$wpdb->prefix}quiz_result_card` (`created_at`, `title`, `description`, `image`, `unique_key`, `visible`, `quiz_url`) VALUES (%s, %s, %s, %s, %s, %d, %s)", current_time( 'Y-m-d H:i:s' ), $page_title, $page_description, $db_image_path, $unique_key, 1, $quiz_url ) );
+		  $response_result['image_url'] = $wp_upload_dir['baseurl'] . $custom_sub_dir . '/card.png';
+		  $response_result['link_url']  = get_site_url() . '/quiz-result-card/' . $unique_key . '/';
+		  $response_result['success']   = true;
+	   }
+	}
+	echo wp_json_encode( $response_result );
+	wp_die();
+ }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
