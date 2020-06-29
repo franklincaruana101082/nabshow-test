@@ -364,6 +364,6 @@ endif;
 		<br />
 		<?php endif; ?>
 		<div style="width:100%;padding-bottom:70px;"></div>
-		<!-- <script type="text/javascript" src="<?php //echo get_template_directory_uri(). '/js/iframeResizer.contentWindow.min.js';?>"></script> -->
+		<script type="text/javascript" src="<?php //echo get_template_directory_uri(). '/js/iframeResizer.contentWindow.min.js';?>"></script>
 	</body>
 </html>
