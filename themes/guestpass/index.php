@@ -197,13 +197,19 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	move_uploaded_file( $source_file, $target_file );
 
 	$check = getimagesize($_FILES["logo"]["tmp_name"]);
+	$check2 = getimagesize($target_file);
 	
 	echo "target_file = $target_file";
 	echo '<br>';
 	echo "imageFileType = $imageFileType";
 	echo '<br>';
-	echo "check = $check";
+	echo "check1 = $check";
 	echo '<br>';
+	echo "check2 = $check2";
+	echo '<br>';
+	echo "base_dir = $base_dir";
+	echo '<br>';
+	
 
 	if($check === false || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif")) {
