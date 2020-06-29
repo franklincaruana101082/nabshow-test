@@ -312,7 +312,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 			//Save new image
 			$filename = $target_dir . $current_timestamp . '_' . $_POST['booth'] . '_'.$ad['width'].'x'.$ad['height'].'.png';
 			
-			$fileurl = $source_file . $current_timestamp . '_' . $_POST['booth'] . '_'.$ad['width'].'x'.$ad['height'].'.png';
+			$fileurl = $base_url . '/custom/' . $current_timestamp . '_' . $_POST['booth'] . '_'.$ad['width'].'x'.$ad['height'].'.png';
 
 			//array_push($ad_files, $filename);
 			array_push($ad_files, $fileurl);
