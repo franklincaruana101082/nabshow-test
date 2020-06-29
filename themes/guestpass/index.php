@@ -196,16 +196,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$target_file = $target_dir . $filename;
 	move_uploaded_file( $source_file, $target_file );
 
-	$check = getimagesize($_FILES["logo"]["tmp_name"]);
-	$check2 = getimagesize($target_file);
+	$check_org = getimagesize($_FILES["logo"]["tmp_name"]);
+	$check = getimagesize($target_file);
 	
 	echo "target_file = $target_file";
 	echo '<br>';
 	echo "imageFileType = $imageFileType";
 	echo '<br>';
-	echo "check1 = $check";
+	echo "check_org = $check_org";
 	echo '<br>';
-	echo "check2 = $check2";
+	echo "check_new = ";
+	print_r($check)
 	echo '<br>';
 	echo "base_dir = $base_dir";
 	echo '<br>';
