@@ -229,9 +229,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 		$error = "Sorry, your file is too large.";
 		$uploadOk = 0;
 	}
-
+echo "001";
 	if ($uploadOk) {
-
+		echo "002";
 		$current_timestamp = time();
 
 		// Create image instances
@@ -248,21 +248,22 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 				$uploaded_logo = imagecreatefromjpeg($source_file);
 				break;
     }
-
+	echo "003";
     list($uploaded_width, $uploaded_height, $type, $attr) = getimagesize($source_file);
 
-	ech '<pre>';
+	echo '<pre>';
 	print_r(get_defined_vars());
 	die();
 
     foreach ($ad_options as $ad) {
-
+		echo "004-foreach";
     	// Create Booth number image
 			$booth_image = textToImage($_POST['booth'], $ad['booth_size'],$ad['color'],$ad['color'],$ad['padding'],'/wp-content/themes/guestpass/fonts/Arial-BoldMT.otf');
 
     	// Create Code image
 			$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2,'/wp-content/themes/guestpass/fonts/OpenSans.ttf');
 
+			echo "005-foreach";
 			//Scale and maintain aspect ratio of the uploaded logo image
       $old_x = imageSX($uploaded_logo);
       $old_y = imageSY($uploaded_logo);
@@ -288,6 +289,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
       imagecopyresampled($logo,$uploaded_logo,0,0,0,0,$thumb_w,$thumb_h,$old_x,$old_y);
 			imagealphablending($logo,true); //allows us to apply logo over ad
 
+			echo "006-foreach";
+
 			// Center logo based on aspect ratio
 			if ($thumb_w < $ad['logo_width']) {
 			  $x_diff = ($ad['logo_width'] - $thumb_w) / 2;
@@ -300,8 +303,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 			$ad_image = imagecreatefromjpeg('orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg');
 			imagealphablending($ad_image,true); //allows us to apply logo over ad
 
+			echo "007-foreach";
+
 			//Apply logo to ad
-      imagecopy($ad_image,$logo,$ad['logo_x']+$x_diff,$ad['logo_y']+$y_diff,0,0,$thumb_w,$thumb_h);
+      		imagecopy($ad_image,$logo,$ad['logo_x']+$x_diff,$ad['logo_y']+$y_diff,0,0,$thumb_w,$thumb_h);
 			//Apply booth number to ad
 			imagecopy($ad_image,$booth_image,$ad['booth_x'],$ad['booth_y'],0,0,1000,1000);
 			//Apply code to ad
@@ -323,7 +328,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 			
 			$success = imagejpeg($ad_image,$filename);
 
-			ech '<pre>';
+			echo '<pre>';
 			print_r($ad_image);
 			print_r(get_defined_vars());
 			die();
