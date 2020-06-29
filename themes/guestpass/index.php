@@ -182,7 +182,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	//$target_dir = "/wp-content/themes/guestpass/custom/";
 	
 	$wp_get_upload_dir = wp_get_upload_dir();
-	$base_dir   = wp_get_upload_dir()['basedir'];
+	$base_url   = $wp_get_upload_dir['baseurl'];
+	$base_dir   = $wp_get_upload_dir['basedir'];
 	$target_dir = $base_dir . '/custom/';
 	if ( ! file_exists( $target_dir ) ) {
 		wp_mkdir_p( $target_dir );
@@ -197,6 +198,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$target_file = $target_dir . $filename;
 	move_uploaded_file( $source_file, $target_file );
 
+	$source_file = $base_url . '/custom/'. $filename;
 	$check_org = getimagesize($_FILES["logo"]["tmp_name"]);
 	$check = getimagesize($target_file);
 	
