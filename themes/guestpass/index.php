@@ -202,8 +202,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$check_org = getimagesize($_FILES["logo"]["tmp_name"]);
 	$check = getimagesize($target_file);
 	
-	echo "wp_get_upload_dir = ";
-	print_r($wp_get_upload_dir);
+	// echo "wp_get_upload_dir = ";
+	// print_r($wp_get_upload_dir);
 	echo "target_file = $target_file";
 	echo '<br>';
 	echo "imageFileType = $imageFileType";
