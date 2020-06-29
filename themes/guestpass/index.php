@@ -320,6 +320,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 			$success = imagejpeg($ad_image,$filename);
 
 			print_r($ad_image);
+			print_r(get_defined_vars());
+			die();
 
 			imagedestroy($logo);
 			imagedestroy($ad_image);
