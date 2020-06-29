@@ -251,6 +251,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 
     list($uploaded_width, $uploaded_height, $type, $attr) = getimagesize($source_file);
 
+	ech '<pre>';
+	print_r(get_defined_vars());
+	die();
+
     foreach ($ad_options as $ad) {
 
     	// Create Booth number image
@@ -319,6 +323,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 			
 			$success = imagejpeg($ad_image,$filename);
 
+			ech '<pre>';
 			print_r($ad_image);
 			print_r(get_defined_vars());
 			die();
