@@ -325,8 +325,8 @@ echo "001";
 
 			echo '<pre>';
 			print_r($ad_image);
-			die();
-
+			echo '</pre>';
+			
 			imagedestroy($logo);
 			imagedestroy($ad_image);
 			imagedestroy($booth_image);
