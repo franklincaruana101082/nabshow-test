@@ -295,7 +295,9 @@ echo "001";
 			}
 
 			//Load the ad image
-			$ad_image = imagecreatefromjpeg('orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg');
+			//$ad_image = imagecreatefromjpeg('orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg');
+			$ad_image = imagecreatefromjpeg( get_template_directory() . '/orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg' );
+
 			imagealphablending($ad_image,true); //allows us to apply logo over ad
 
 			echo "007-foreach";
@@ -326,7 +328,7 @@ echo "001";
 			echo '<pre>';
 			print_r($ad_image);
 			echo '</pre>';
-			
+
 			imagedestroy($logo);
 			imagedestroy($ad_image);
 			imagedestroy($booth_image);
