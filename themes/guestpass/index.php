@@ -206,7 +206,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	echo "check_org = $check_org";
 	echo '<br>';
 	echo "check_new = ";
-	print_r($check)
+	print_r($check);
 	echo '<br>';
 	echo "base_dir = $base_dir";
 	echo '<br>';
