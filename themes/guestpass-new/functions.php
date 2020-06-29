@@ -755,3 +755,15 @@ function twentytwenty_get_elements_array() {
 	*/
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
+
+
+/**
+ * Register and Enqueue Scripts for Guest Pass Theme.
+ */
+function guestpass_enqueue_script() {
+
+	wp_enqueue_script( 'twentytwenty-js', get_template_directory_uri() . '/js/iframeResizer.contentWindow.min.js', array(), '1.0.0', false );	
+
+}
+
+add_action( 'wp_enqueue_scripts', 'guestpass_enqueue_script' );
