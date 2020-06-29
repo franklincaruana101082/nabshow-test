@@ -21,7 +21,7 @@ get_header();
 
 	<?php
 
-			the_content();
+			echo get_the_content();
 	}
 	?>
 
