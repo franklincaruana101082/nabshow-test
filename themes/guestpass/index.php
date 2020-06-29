@@ -21,10 +21,9 @@ get_header();
 
 	<?php
 
-			get_template_part( 'template-parts/content', get_post_type() );
+			the_content();
 	}
-	
-	get_template_part( 'template-parts/pagination' ); ?>
+	?>
 
 </main><!-- #site-content -->
 
