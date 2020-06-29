@@ -215,7 +215,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	echo '<br>';
 	echo "base_dir = $base_dir";
 	echo '<br>';
-	echo "source_file = $source_file";
+	echo "--- source_file = $source_file";
 	echo '<br>';
 	echo "000";	
 
