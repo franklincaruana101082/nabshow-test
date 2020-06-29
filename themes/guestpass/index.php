@@ -215,9 +215,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	echo '<br>';
 	echo "base_dir = $base_dir";
 	echo '<br>';
-	echo "source_file = $source_file";
+	echo "AA source_file = $source_file";
 	echo '<br>';
-	echo "000";	
 
 	if($check === false || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif")) {
@@ -326,7 +325,6 @@ echo "001";
 
 			echo '<pre>';
 			print_r($ad_image);
-			print_r(get_defined_vars());
 			die();
 
 			imagedestroy($logo);
