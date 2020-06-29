@@ -761,7 +761,7 @@ function twentytwenty_get_elements_array() {
  * Register and Enqueue Scripts for Guest Pass Theme.
  */
 function guestpass_enqueue_script() {
-	wp_enqueue_script( 'guestpass-tool-js', get_template_directory_uri() . '/js/iframeResizer.contentWindow.min.js', array(), '1.0.0', false );
+	wp_enqueue_script( 'guestpass-tool-js', get_template_directory_uri() . '/js/iframeResizer.contentWindow.min.js', array(), '1.0.0', true );
 }
 
 add_action( 'wp_enqueue_scripts', 'guestpass_enqueue_script' );
