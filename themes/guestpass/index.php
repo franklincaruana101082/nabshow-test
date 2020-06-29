@@ -179,7 +179,14 @@ function textToImage(
 
 if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$results = TRUE;
-	$target_dir = "/wp-content/themes/guestpass/custom/";
+	//$target_dir = "/wp-content/themes/guestpass/custom/";
+	
+	$base_dir   = wp_get_upload_dir()['basedir'];
+	$target_dir = $base_dir . '/custom/';
+	if ( ! file_exists( $target_dir ) ) {
+		wp_mkdir_p( $target_dir );
+	}
+	
 	$target_file = $target_dir . basename($_FILES["logo"]["name"]);$uploadOk = 1;
 	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 	$source_file = $_FILES["logo"]["tmp_name"];
