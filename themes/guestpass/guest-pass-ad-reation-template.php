@@ -318,9 +318,9 @@ endif;
 	<head>
 		<title>Customized Web Ads</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="<?php echoget_template_directory_uri(). '/css/bootstrap.css'; ?>" rel="stylesheet" type="text/css" />
+		<link href="<?php echo get_template_directory_uri(). '/css/bootstrap.css'; ?>" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="<?php echoget_template_directory_uri(). '/js/jquery.validate.min.js';?>"></script>
+		<script type="text/javascript" src="<?php echo get_template_directory_uri(). '/js/jquery.validate.min.js';?>"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$("#customAdForm").validate({
@@ -364,6 +364,6 @@ endif;
 		<br />
 		<?php endif; ?>
 		<div style="width:100%;padding-bottom:70px;"></div>
-		<script type="text/javascript" src="<?php echoget_template_directory_uri(). '/js/iframeResizer.contentWindow.min.js';?>"></script>
+		<script type="text/javascript" src="<?php echo get_template_directory_uri(). '/js/iframeResizer.contentWindow.min.js';?>"></script>
 	</body>
 </html>
