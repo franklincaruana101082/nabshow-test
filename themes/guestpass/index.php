@@ -192,7 +192,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 	$source_file = $_FILES["logo"]["tmp_name"];
 
-	echo $target_file = $target_dir . $filename . $imageFileType;
+	$filename =  $_FILES["logo"]["name"] . $imageFileType;
+	echo $target_file = $target_dir . $filename;
 	move_uploaded_file( $source_file, $target_file );
 
 	$check = getimagesize($_FILES["logo"]["tmp_name"]);
