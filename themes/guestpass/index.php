@@ -202,22 +202,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$check_org = getimagesize($_FILES["logo"]["tmp_name"]);
 	$check = getimagesize($target_file);
 	
-	// echo "wp_get_upload_dir = ";
-	// print_r($wp_get_upload_dir);
-	echo "target_file = $target_file";
-	echo '<br>';
-	echo "imageFileType = $imageFileType";
-	echo '<br>';
-	echo "check_org = $check_org";
-	echo '<br>';
-	echo "check_new = ";
-	print_r($check);
-	echo '<br>';
-	echo "base_dir = $base_dir";
-	echo '<br>';
-	echo "AA source_file = $source_file";
-	echo '<br>';
-
 	if($check === false || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif")) {
 		$error = 'Select a jpg, png or gif image file';
@@ -228,9 +212,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 		$error = "Sorry, your file is too large.";
 		$uploadOk = 0;
 	}
-echo "001";
 	if ($uploadOk) {
-		echo "002";
 		$current_timestamp = time();
 
 		// Create image instances
@@ -247,18 +229,15 @@ echo "001";
 				$uploaded_logo = imagecreatefromjpeg($source_file);
 				break;
     }
-	echo "003";
     list($uploaded_width, $uploaded_height, $type, $attr) = getimagesize($source_file);
 
     foreach ($ad_options as $ad) {
-		echo "004-foreach";
     	// Create Booth number image
 			$booth_image = textToImage($_POST['booth'], $ad['booth_size'],$ad['color'],$ad['color'],$ad['padding'],'/wp-content/themes/guestpass/fonts/Arial-BoldMT.otf');
 
     	// Create Code image
 			$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2,'/wp-content/themes/guestpass/fonts/OpenSans.ttf');
 
-			echo "005-foreach";
 			//Scale and maintain aspect ratio of the uploaded logo image
       $old_x = imageSX($uploaded_logo);
       $old_y = imageSY($uploaded_logo);
@@ -284,8 +263,6 @@ echo "001";
       imagecopyresampled($logo,$uploaded_logo,0,0,0,0,$thumb_w,$thumb_h,$old_x,$old_y);
 			imagealphablending($logo,true); //allows us to apply logo over ad
 
-			echo "006-foreach";
-
 			// Center logo based on aspect ratio
 			if ($thumb_w < $ad['logo_width']) {
 			  $x_diff = ($ad['logo_width'] - $thumb_w) / 2;
@@ -299,8 +276,6 @@ echo "001";
 			$ad_image = imagecreatefromjpeg( get_template_directory() . '/orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg' );
 
 			imagealphablending($ad_image,true); //allows us to apply logo over ad
-
-			echo "007-foreach";
 
 			//Apply logo to ad
       		imagecopy($ad_image,$logo,$ad['logo_x']+$x_diff,$ad['logo_y']+$y_diff,0,0,$thumb_w,$thumb_h);
@@ -324,10 +299,6 @@ echo "001";
 			array_push($ad_files, $fileurl);
 			
 			$success = imagejpeg($ad_image,$filename);
-
-			echo '<pre>';
-			print_r($ad_image);
-			echo '</pre>';
 
 			imagedestroy($logo);
 			imagedestroy($ad_image);
