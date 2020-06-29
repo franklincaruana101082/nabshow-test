@@ -379,7 +379,7 @@ endif;
 							<input id="code" size="8" name="code" class="required" value="<?php if (isset($_POST['code'])) print $_POST['code']; ?>" maxlength="7">
 
 
-							&nbsp;&nbsp;&nbsp;<label for="logo"> Logo (GIF, JPG, PNG, in RGB color mode, under 2MB): </label><input id="logo" name="logo" type="file" style="display:inline;" value="" class=""><?php print '<p>'.$error.'</p>'; ?><input type="submit"  style="display:inline;" value="Create Ads">
+							&nbsp;&nbsp;&nbsp;<label for="logo"> Logo (GIF, JPG, PNG, in RGB color mode, under 2MB): </label><input id="logo" name="logo" type="file" style="display:inline;" value="" class=""><?php print '<p>'.$error.'</p>'; ?><input type="submit"  style="display:inline;" value="Create ADS Now">
 
 				</fieldset>
 			</form>
