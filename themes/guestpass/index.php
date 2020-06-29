@@ -202,8 +202,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	$check_org = getimagesize($_FILES["logo"]["tmp_name"]);
 	$check = getimagesize($target_file);
 	
-	// echo "wp_get_upload_dir = ";
-	// print_r($wp_get_upload_dir);
+	echo "wp_get_upload_dir = ";
+	print_r($wp_get_upload_dir);
 	echo "target_file = $target_file";
 	echo '<br>';
 	echo "imageFileType = $imageFileType";
@@ -215,7 +215,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 	echo '<br>';
 	echo "base_dir = $base_dir";
 	echo '<br>';
-	echo "--- sourceFile = $source_file";
+	echo "source_file = $source_file";
 	echo '<br>';
 	echo "000";	
 
@@ -250,10 +250,6 @@ echo "001";
     }
 	echo "003";
     list($uploaded_width, $uploaded_height, $type, $attr) = getimagesize($source_file);
-
-	echo '<pre>';
-	print_r(get_defined_vars());
-	die();
 
     foreach ($ad_options as $ad) {
 		echo "004-foreach";
