@@ -59,6 +59,7 @@
 		drift.SNIPPET_VERSION = '0.3.1';
 		drift.load('t9bym32zb3py');
 	</script>-->
+	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body <?php body_class(); ?>>
