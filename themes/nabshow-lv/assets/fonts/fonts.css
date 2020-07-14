@@ -30,6 +30,9 @@
 /* @font-face{font-family:"Molot";font-style:normal;font-weight:normal;src:local("Molot"), url('Molot.otf') format('opentype')} */
 @font-face{font-family:"Molot";font-style:normal;font-weight:normal;src:local("Molot"), url('molot/Molot.ttf') format('truetype'), url('molot/Molot.woff') format('woff')}
 
+/* Josefin Sans */
+@font-face{font-family:"Josefin Sans";font-style:normal;font-weight:normal;src:local("Josefin Sans"), url('Josefin/JosefinSans-Bold.ttf') format('truetype')}
+
 /* Roboto */
 @font-face{font-family:"Roboto Black";font-style:normal;font-weight:normal;src:local("Roboto Black"), url('Roboto/Roboto-Black.ttf') format('truetype')}
 @font-face{font-family:"Roboto Bold";font-style:normal;font-weight:normal;src:local("Roboto Bold"), url('Roboto/Roboto-Bold.ttf') format('truetype')}

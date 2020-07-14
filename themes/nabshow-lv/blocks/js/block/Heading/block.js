@@ -291,6 +291,7 @@
 									<SelectControl
 										value={fontFamily}
 										options={[
+											{ label: __('Josefin Sans'), value: 'Josefin Sans' },
 											{ label: __('Molot'), value: 'Molot' },
 											{ label: __('Roboto Regular'), value: 'Roboto Regular' },
 											{ label: __('Roboto Black'), value: 'Roboto Black' },
