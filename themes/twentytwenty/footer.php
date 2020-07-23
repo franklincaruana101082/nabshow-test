@@ -17,10 +17,10 @@
 				<div class="section-inner">
 
 					<div class="footer-credits">
-					
-					
-						
-					
+
+
+
+
 						<p class="footer-copyright">
 							<span class="footer-related">Related Shows: <a style="color: #ffffff;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #ffffff;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #ffffff;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a><br /><br />
 							</span>
@@ -34,11 +34,11 @@
 							?>
 							<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.<br />
 							<span class="footer-related">
-							<a href="/express/privacy-policy/">Privacy Policy</a> | <a href="/express/terms-of-use/">Terms of Use</a> |  <a href="/express/partners/exhibitor-resources/">Exhibitor Resources</a> | <a href="/express/contact/">Contact Us</a>
+							<a href="/august/privacy-policy/">Privacy Policy</a> | <a href="/august/terms-of-use/">Terms of Use</a> |   <a href="/august/contact/">Contact Us</a>
 							</span>
-					
+
 					</p><!-- .footer-copyright -->
-						
+
 
 					</div><!-- .footer-credits -->
 
