@@ -19,7 +19,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
 
 		<link rel="profile" href="https://gmpg.org/xfn/11">
-		
+
 		<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -29,7 +29,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 
 		<?php wp_head(); ?>
-		
+
 		<!-- Start of Async Drift Code -->
 <script>
 "use strict";
@@ -38,7 +38,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   var t = window.driftt = window.drift = window.driftt || [];
   if (!t.init) {
     if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
     t.factory = function(e) {
       return function() {
         var n = Array.prototype.slice.call(arguments);
@@ -62,7 +62,7 @@ drift.load('t9bym32zb3py');
 	</head>
 
 	<body <?php body_class(); ?>>
-	
+
 	<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQKPWN"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -71,18 +71,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<?php
 		wp_body_open();
 		?>
-		
+
 		<header class="header-footer-group mys-directory-header l-header" id="site-header" role="banner">
 			<div class="center  mw9">
-				
+
 					<a href="http://www.nabshow.com/express">
-				
-					<img class="db  center  tc  o-show_header" src="https://nabshow.com/express/wp-content/uploads/sites/6/2020/05/Express_Header_Sony-Wide-BH.png" alt="NAB Show Express">
-				
+
+					<img class="db  center  tc  o-show_header" src="https://nabshow-com-develop.go-vip.net/august/wp-content/uploads/sites/7/2020/07/Collectively-speaking-header-wide-01.png" alt="NAB Show Collectively Speaking">
+
 					</a>
-				
+
 			</div>
-	   
+
 
 			<div class="header-inner section-inner">
 
