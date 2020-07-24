@@ -74,10 +74,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 		<header class="header-footer-group mys-directory-header l-header" id="site-header" role="banner">
 
-			<div class="center  mw9" background_image(https://nabshow-com-develop.go-vip.net/august/wp-content/uploads/sites/7/2020/07/collectively-speaking-header-sans-logo-wide-02.png)>
+			<div class="center  mw9" style="background_image: url('/wp-content/uploads/sites/7/2020/07/collectively-speaking-header-sans-logo-wide-02.png');">
 
 					<a href="https://nabshow-com-develop.go-vip.net/august/">
-						
+
 						<?php
 							// Site title or logo.
 							twentytwenty_site_logo();
