@@ -76,19 +76,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<div class="center  mw9">
 
 					<a href="https://nabshow-com-develop.go-vip.net/august/">
+						<?php
+							// Site title or logo.
+							twentytwenty_site_logo();
+
+							// Site description.
+							twentytwenty_site_description();
+						?>
 
 					<img class="db  center  tc  o-show_header" src="https://nabshow-com-develop.go-vip.net/august/wp-content/uploads/sites/7/2020/07/collectively-speaking-header-sans-logo-wide-02.png" alt="NAB Show Collectively Speaking">
 
 					</a>
 
-					<?php
-						// Site title or logo.
-						twentytwenty_site_logo();
 
-						// Site description.
-						twentytwenty_site_description();
-					?>
-					
+
 			</div>
 
 
