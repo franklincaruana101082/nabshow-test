@@ -83,7 +83,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 						<?php
 							// Site title or logo.
 							twentytwenty_site_logo();
-							twentytwenty_site_title();
+							//twentytwenty_site_title();
 							?>
 							<div class="site-description">
 							<?php
