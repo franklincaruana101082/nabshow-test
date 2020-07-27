@@ -1363,7 +1363,7 @@ ul.social-icons li {
 	z-index: 100;
 }
 
-/*.header-background {
+.header-background {
 	background-image: url(https://nabshow-com-develop.go-vip.net/wp-content/uploads/sites/7/2020/07/collectively-speaking-header-sans-logo-wide-02.png);
 	position:fixed;
 	top: 0px;
@@ -1371,7 +1371,7 @@ ul.social-icons li {
 	margin: 0px;
 	width: 100%;
 }
-*/
+
 
 /* Header Titles ----------------------------- */
 
