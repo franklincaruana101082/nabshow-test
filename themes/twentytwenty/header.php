@@ -72,7 +72,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		wp_body_open();
 		?>
 
-		<header class="header-footer-group" id="site-header" role="banner">
+		<header class="header-footer-group header-background" id="site-header" role="banner">
 			<!--<header class="header-footer-group mys-directory-header l-header" id="site-header" role="banner">-->
 
 
