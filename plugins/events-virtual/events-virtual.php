@@ -2,7 +2,7 @@
 /*
 Plugin Name: The Events Calendar: Virtual Events
 Description: Virtual Events is an add-on to The Events Calendar suite of products that optimizes your calendar, tickets, and email notifications for virtual events.
-Version: 1.0.1
+Version: 1.0.2
 Author: Modern Tribe, Inc.
 Author URI: http://m.tri.be/20
 Text Domain: events-virtual

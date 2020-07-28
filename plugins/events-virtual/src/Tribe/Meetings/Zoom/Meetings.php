@@ -11,6 +11,7 @@ namespace Tribe\Events\Virtual\Meetings\Zoom;
 
 use Tribe\Events\Virtual\Event_Meta as Virtual_Events_Meta;
 use Tribe\Events\Virtual\Meetings\Zoom\Event_Meta as Zoom_Meta;
+use \Tribe__Date_Utils as Dates;
 
 /**
  * Class Meeting
@@ -68,13 +69,16 @@ class Meetings {
 	 * Meetings constructor.
 	 *
 	 * @since 1.0.0
+	 * @since 1.0.2 - Add the Password Class
 	 *
 	 * @param Api            $api            An instance of the Zoom API handler.
 	 * @param Classic_Editor $classic_editor An instance of the Classic Editor rendering handler.
+	 * @param Password       $password       An instance of the Password handler.
 	 */
-	public function __construct( Api $api, Classic_Editor $classic_editor ) {
+	public function __construct( Api $api, Classic_Editor $classic_editor, Password $password ) {
 		$this->api            = $api;
 		$this->classic_editor = $classic_editor;
+		$this->password       = $password;
 	}
 
 	/**
@@ -119,12 +123,27 @@ class Meetings {
 			return true;
 		}
 
+		// Get the password requirements for Meetings.
+		$password_requirements = $this->password->get_password_requirements();
+
+		/**
+		 * Filters the password for the Zoom Meeting.
+		 *
+		 * @since 1.0.2
+		 *
+		 * @param null|string|int   The password for the Zoom Meeting.
+		 * @param array $password_requirements  An array of password requirements from Zoom.
+		 * @param \WP_Post $event The event post object, as decorated by the `tribe_get_event` function.
+		 */
+		$password = apply_filters( 'tribe_events_virtual_meetings_zoom_meeting_password', null, $password_requirements, $event );
+
 		$body = [
 			'topic'      => $event->post_title,
 			'type'       => self::TYPE_MEETING_SCHEDULED,
 			'start_time' => $event->dates->start->format( 'Y-m-d\TH:i:s' ),
 			'timezone'   => $event->timezone,
 			'duration'   => (int) ceil( (int) $event->duration / 60 ),
+			'password'   => $password,
 		];
 
 		/**
@@ -141,14 +160,15 @@ class Meetings {
 		$success = false;
 
 		$this->api->post(
-			Api::$api_base . 'users/me/meetings', [
+			Api::$api_base . 'users/me/meetings',
+			[
 				'headers' => [
 					'Authorization' => $this->api->token_authorization_header(),
 					'Content-Type'  => 'application/json; charset=utf-8',
 				],
-				'body'    => json_encode( $body ),
+				'body'    => wp_json_encode( $body ),
 			],
-			201
+			Api::POST_RESPONSE_CODE
 		)->then(
 			function ( array $response ) use ( $post_id, &$success ) {
 				$this->process_meeting_creation_response( $response, $post_id );
@@ -162,13 +182,18 @@ class Meetings {
 			}
 		)->or_catch(
 			function ( \WP_Error $error ) use ( $event ) {
-				do_action( 'tribe_log', 'error', __CLASS__, [
-					'action'  => __METHOD__,
-					'code'    => $error->get_error_code(),
-					'message' => $error->get_error_message(),
-				] );
+				do_action(
+					'tribe_log',
+					'error',
+					__CLASS__,
+					[
+						'action'  => __METHOD__,
+						'code'    => $error->get_error_code(),
+						'message' => $error->get_error_message(),
+					]
+				);
 
-				$error_data    = $error->get_error_data();
+				$error_data    = wp_json_encode( $error->get_error_data() );
 				$decoded       = json_decode( $error_data, true );
 				$error_message = null;
 				if ( false !== $decoded && is_array( $decoded ) && isset( $decoded['message'] ) ) {
@@ -182,6 +207,116 @@ class Meetings {
 		);
 
 		return $success;
+	}
+
+	/**
+	 * Handles update of Zoom meeting when Event details change.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param WP_Post|int $event The event (or event ID) we're updating the meeting for.
+	 *
+	 * @return void
+	 */
+	public function update( $event ) {
+		$event = tribe_get_event( $event );
+		// There is no meeting to update.
+		if ( ! ( $event instanceof \WP_Post ) || empty( $event->zoom_meeting_id ) ) {
+			return;
+		}
+		$start_date = tribe_get_request_var( 'EventStartDate' );
+		if ( empty( $start_date ) ) {
+			$start_date = $event->start_date;
+		}
+
+		$start_time = tribe_get_request_var( 'EventStartTime' );
+		if ( empty( $start_time ) ) {
+			$start_time = $event->start_time;
+		}
+
+		$time_zone = tribe_get_request_var( 'EventTimezone' );
+		if ( empty( $time_zone ) ) {
+			$time_zone = $event->timezone;
+		}
+
+		$timezone_object = \Tribe__Timezones::build_timezone_object( 'UTC' );
+
+		$zoom_date = Dates::build_date_object( $start_date . ' ' . $start_time, $time_zone )->setTimezone( $timezone_object )->format( 'Y-m-d\TH:i:s\Z' );
+		// Note the time format - because Zoom stores all dates as UTC with the trailing 'Z'.
+		$event_body = [
+			'topic'      => $event->post_title,
+			'start_time' => $zoom_date,
+			'timezone'   => $time_zone,
+			'duration'   => (int) ceil( (int) $event->duration / 60 ),
+		];
+
+		$meeting_data = get_post_meta( $event->ID, Virtual_Events_Meta::$prefix . 'zoom_meeting_data', true );
+		$meeting_body = [
+			'topic'      => $meeting_data['topic'],
+			'start_time' => $meeting_data['start_time'],
+			'timezone'   => $meeting_data['timezone'],
+			'duration'   => $meeting_data['duration'],
+		];
+
+		$diff = array_diff_assoc( $event_body, $meeting_body );
+
+		// Nothing to update.
+		if ( empty( $diff ) ) {
+			return;
+		}
+
+		$post_id = $event->ID;
+
+		/**
+		 * Filters the contents of the request that will be made to the Zoom API to update a meeting link.
+		 *
+		 * @since 1.0.2
+		 *
+		 * @param array<string,mixed> The current content of the request body.
+		 * @param \WP_Post $event The event post object, as decorated by the `tribe_get_event` function.
+		 * @param self     $this  The current API handler object instance.
+		 */
+		$body = apply_filters( 'tribe_events_virtual_meetings_zoom_meeting_update_request_body', $event_body, $event, $this );
+
+		// Update.
+		$this->api->patch(
+			Api::$api_base . 'meetings/' . $event->zoom_meeting_id,
+			[
+				'headers' => [
+					'Authorization' => $this->api->token_authorization_header(),
+					'Content-Type'  => 'application/json; charset=utf-8',
+				],
+				'body'    => wp_json_encode( $body ),
+			],
+			Api::PATCH_RESPONSE_CODE
+		)->then(
+			function ( array $response ) use ( $post_id, $event ) {
+				$this->process_meeting_update_response( $response, $event, $post_id );
+			}
+		)->or_catch(
+			function ( \WP_Error $error ) use ( $event ) {
+				do_action(
+					'tribe_log',
+					'error',
+					__CLASS__,
+					[
+						'action'  => __METHOD__,
+						'code'    => $error->get_error_code(),
+						'message' => $error->get_error_message(),
+					]
+				);
+
+				$error_data    = wp_json_encode( $error->get_error_data() );
+				$decoded       = json_decode( $error_data, true );
+				$error_message = null;
+				if ( false !== $decoded && is_array( $decoded ) && isset( $decoded['message'] ) ) {
+					$error_message = $decoded['message'];
+				}
+
+				// Do something to indicate failure with $error_message?
+				$this->classic_editor->render_meeting_generation_error_details( $event, $error_message, true );
+			}
+		);
 	}
 
 	/**
@@ -286,36 +421,109 @@ class Meetings {
 			&& false !== ( $body = json_decode( $response['body'], true ) )
 			&& isset( $body['join_url'], $body['id'] )
 		) ) {
-			do_action( 'tribe_log', 'error', __CLASS__, [
-				'action'   => __METHOD__,
-				'message'  => 'Zoom API meeting creation response is malformed.',
-				'response' => $response,
-			] );
+			do_action(
+				'tribe_log',
+				'error',
+				__CLASS__,
+				[
+					'action'   => __METHOD__,
+					'message'  => 'Zoom API meeting creation response is malformed.',
+					'response' => $response,
+				]
+			);
 
 			return [];
 		}
 
 		$data = $this->prepare_meeting_data( $body );
-
 		$this->update_post_meta( $post_id, $body, $data );
 
 		return $data;
 	}
 
 	/**
+	 * Processes the Zoom API Meeting update response to massage, filter and save the data.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param array<string,mixed> $response The entire Zoom API response.
+	 * @param WP_Post             $event The event post object.
+	 * @param int                 $post_id  The event post ID.
+	 *
+	 * @return array<string,mixed> The Zoom Meeting data.
+	 */
+	protected function process_meeting_update_response( $response, $event, $post_id ) {
+		if ( empty( $response['response']['code'] ) || 204 !== $response['response']['code'] ) {
+			return false;
+		}
+
+		$success = false;
+
+		$this->api->get(
+			Api::$api_base . 'meetings/' . $event->zoom_meeting_id,
+			[
+				'headers' => [
+					'Authorization' => $this->api->token_authorization_header(),
+					'Content-Type'  => 'application/json; charset=utf-8',
+				],
+			],
+			Api::GET_RESPONSE_CODE
+		)->then(
+			function ( array $response ) use ( $post_id, &$success ) {
+				$body = json_decode( $response['body'], true );
+
+				$data = $this->prepare_meeting_data( $body );
+				$this->update_post_meta( $post_id, $body, $data );
+
+				$success = true;
+			}
+		)->or_catch(
+			function ( \WP_Error $error ) use ( $event ) {
+				do_action(
+					'tribe_log',
+					'error',
+					__CLASS__,
+					[
+						'action'  => __METHOD__,
+						'code'    => $error->get_error_code(),
+						'message' => $error->get_error_message(),
+					]
+				);
+
+				$error_data    = wp_json_encode( $error->get_error_data() );
+				$decoded       = json_decode( $error_data, true );
+				$error_message = null;
+				if ( false !== $decoded && is_array( $decoded ) && isset( $decoded['message'] ) ) {
+					$error_message = $decoded['message'];
+				}
+
+				$this->classic_editor->render_meeting_generation_error_details( $event, $error_message, true );
+			}
+		);
+
+		return $success;
+	}
+
+	/**
 	 * Filters and massages the meeting data to prepare it to be saved in the post meta.
 	 *
 	 * @since 1.0.0
+	 * @since 1.0.2 - Added Password and Password Hash to $data.
 	 *
 	 * @param array<string,mixed> $body The response body, in raw format.
 	 *
 	 * @return array<string,mixed> The meeting data, massaged and filtered.
 	 */
 	protected function prepare_meeting_data( $body ) {
+
+		$hash_pwd = tribe( Password::class )->get_hash_pwd_from_join_url( $body['join_url'] );
+
 		$data = [
 			'id'                => $body['id'],
 			'join_url'          => $body['join_url'],
 			'join_instructions' => 'https://support.zoom.us/hc/en-us/articles/201362193-Joining-a-Meeting',
+			'password_hash'     => $hash_pwd,
+			'password'          => $body['password'],
 		];
 
 		// Dial-in numbers are NOT a given and should not be assumed.
@@ -362,6 +570,8 @@ class Meetings {
 			$prefix . 'zoom_join_url'               => 'join_url',
 			$prefix . 'zoom_join_instructions'      => 'join_instructions',
 			$prefix . 'zoom_global_dial_in_numbers' => 'global_dial_in_numbers',
+			$prefix . 'zoom_password_hash'          => 'password_hash',
+			$prefix . 'zoom_password'               => 'password',
 		];
 
 		foreach ( $map as $meta_key => $data_key ) {

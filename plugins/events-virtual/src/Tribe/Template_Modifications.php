@@ -245,7 +245,12 @@ class Template_Modifications {
 	 * @return void  Template render has no return.
 	 */
 	public function add_single_block_virtual_event_marker() {
-		$args = [ 'event' => tribe_get_event( get_the_ID() ) ];
+		$event = tribe_get_event( get_the_ID() );
+		if ( ! $event->virtual ) {
+			return;
+		}
+
+		$args = [ 'event' => $event ];
 
 		$this->template->template( 'single/virtual-marker', $args, true );
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * View: Virtual Events Metabox Show section.
+ * View: Virtual Events Metabox Share on Ticket Emails section.
  *
  * Override this template in your own theme by creating a file at:
  * [your-theme]/tribe/admin-views/metabox/show.php
@@ -8,8 +8,9 @@
  * See more documentation about our views templating system.
  *
  * @since   1.0.0
+ * @since   1.0.2 Add check for ticket provider as return of get_event_ticket_provider has changed.
  *
- * @version 1.0.0
+ * @version 1.0.2
  *
  * @link    http://m.tri.be/1aiy
  *
@@ -25,9 +26,13 @@ if ( ! class_exists( 'Tribe__Tickets__Tickets' ) ) {
 
 use Tribe\Events\Virtual\Event_Meta;
 $provider = Tribe__Tickets__Tickets::get_event_ticket_provider( $post->ID );
+if ( is_object( $provider ) ) {
+	$provider = $provider->class_name;
+}
 
 if (
-	'Tribe__Tickets__RSVP' === $provider
+	empty( $provider )
+	|| 'Tribe__Tickets__RSVP' === $provider
 	|| ! array_key_exists( $provider, \Tribe__Tickets__Tickets::modules() )
 ) {
 	return;

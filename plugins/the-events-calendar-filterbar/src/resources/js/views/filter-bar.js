@@ -62,7 +62,8 @@ tribe.events.views.filterBar = {};
 		filtersReset: '.tribe-js-filters-reset',
 		filterLive: '.tribe-filter-live',
 		visualHide: '.tribe-common-a11y-visual-hide',
-		searchForm: '.tribe-events-c-events-bar__search-form'
+		searchForm: '.tribe-events-c-events-bar__search-form',
+		selectWoo:  '.select2-container--open.tribe-dropdown'
 	};
 
 	/**
@@ -451,6 +452,7 @@ tribe.events.views.filterBar = {};
 		if (
 			$target.is( obj.selectors.filterGroup )
 			|| $target.closest( obj.selectors.filterGroup ).length
+			|| $( obj.selectors.selectWoo ).length
 		) {
 			return;
 		}

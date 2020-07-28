@@ -25,6 +25,7 @@ return array(
     'Tribe\\Events\\Virtual\\Meetings\\Zoom\\Event_Meta' => $baseDir . '/src/Tribe/Meetings/Zoom/Event_Meta.php',
     'Tribe\\Events\\Virtual\\Meetings\\Zoom\\Meetings' => $baseDir . '/src/Tribe/Meetings/Zoom/Meetings.php',
     'Tribe\\Events\\Virtual\\Meetings\\Zoom\\OAuth' => $baseDir . '/src/Tribe/Meetings/Zoom/OAuth.php',
+    'Tribe\\Events\\Virtual\\Meetings\\Zoom\\Password' => $baseDir . '/src/Tribe/Meetings/Zoom/Password.php',
     'Tribe\\Events\\Virtual\\Meetings\\Zoom\\Settings' => $baseDir . '/src/Tribe/Meetings/Zoom/Settings.php',
     'Tribe\\Events\\Virtual\\Meetings\\Zoom\\Template_Modifications' => $baseDir . '/src/Tribe/Meetings/Zoom/Template_Modifications.php',
     'Tribe\\Events\\Virtual\\Meetings\\Zoom\\Url' => $baseDir . '/src/Tribe/Meetings/Zoom/Url.php',

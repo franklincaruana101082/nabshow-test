@@ -3,7 +3,7 @@
  * Zoom details section for event single.
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events-virtual/zoom/single/single/zoom-details.php
+ * [your-theme]/tribe/events-virtual/zoom/single/zoom-details.php
  *
  * See more documentation about our views templating system.
  *

@@ -120,16 +120,20 @@ class OAuth {
 	 * @param string $code The token access code as returned from Zoom API callback.
 	 */
 	public function fetch_access_token( $code ) {
-		$this->api->post( static::$token_request_url, [
-			'headers' => [
-				'Authorization' => $this->api->authorization_header()
+		$this->api->post(
+			static::$token_request_url,
+			[
+				'headers' => [
+					'Authorization' => $this->api->authorization_header(),
+				],
+				'body'    => [
+					'grant_type'   => 'authorization_code',
+					'code'         => $code,
+					'redirect_uri' => $this->authorize_url(),
+				],
 			],
-			'body'    => [
-				'grant_type'   => 'authorization_code',
-				'code'         => $code,
-				'redirect_uri' => $this->authorize_url(),
-			],
-		] )->then( [ $this->api, 'save_access_token' ] );
+			Api::OAUTH_POST_RESPONSE_CODE
+		)->then( [ $this->api, 'save_access_token' ] );
 	}
 
 	/**
@@ -165,27 +169,18 @@ class OAuth {
 		$access_token = get_transient( Settings::$option_prefix . 'access_token' );
 
 		if ( $access_token ) {
-			$this->api->post( Url::$revoke_url, [
-				'headers' => [
-					'Authorization' => $this->api->authorization_header(),
+			$this->api->post(
+				Url::$revoke_url,
+				[
+					'headers' => [
+						'Authorization' => $this->api->authorization_header(),
+					],
+					'body'    => [
+						'token' => $access_token,
+					],
 				],
-				'body'    => [
-					'token' => $access_token,
-				],
-			] )->then( static function ( array $response ) {
-				// Let's check the response, but not making this a blocking requirement.
-				if ( ! (
-					isset( $response['body'] )
-					&& false !== ( $d = json_decode( $response['body'], true ) )
-					&& 'success' === $d['status']
-				) ) {
-					do_action( 'tribe_log', 'error', __CLASS__, [
-						'action'   => __METHOD__,
-						'message'  => 'Failed to disconnect from Zoom API.',
-						'response' => $response,
-					] );
-				}
-			} );
+				Api::OAUTH_POST_RESPONSE_CODE
+			);
 		}
 
 		tribe_update_option( Settings::$option_prefix . 'auth_code', '' );

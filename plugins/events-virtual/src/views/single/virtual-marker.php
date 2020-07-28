@@ -17,7 +17,7 @@
  */
 
 // Don't print anything when this event is not virtual.
-if ( ! $event->virtual_show_on_event ) {
+if ( ! $event->virtual || ! $event->virtual_show_on_event ) {
 	return;
 }
 

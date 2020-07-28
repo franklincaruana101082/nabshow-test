@@ -9,12 +9,13 @@
 
 namespace Tribe\Events\Virtual\Meetings;
 
+use Tribe\Events\Virtual\Event_Meta as Event_Meta;
 use Tribe\Events\Virtual\Meetings\Zoom\Event_Meta as Zoom_Meta;
 use Tribe\Events\Virtual\Meetings\Zoom\Meetings;
 use Tribe\Events\Virtual\Meetings\Zoom\OAuth;
+use Tribe\Events\Virtual\Meetings\Zoom\Password;
 use Tribe\Events\Virtual\Meetings\Zoom\Template_Modifications;
 use Tribe\Events\Virtual\Plugin;
-use Tribe\Events\Virtual\Event_Meta as Event_Meta;
 use Tribe\Events\Virtual\Traits\With_String_Routing;
 
 /**
@@ -83,6 +84,8 @@ class Zoom_Provider extends Meeting_Provider {
 
 		add_action( 'tribe_events_virtual_metabox_save', [ $this, 'on_metabox_save' ], 10, 2 );
 
+		add_action( 'save_post_tribe_events', [ $this, 'on_post_save' ], 10, 3 );
+
 		add_action(
 			'wp_ajax_events_virtual_meetings_zoom_autosave_client_keys',
 			[ Zoom\OAuth::class, 'ajax_credentials_save' ]
@@ -91,6 +94,13 @@ class Zoom_Provider extends Meeting_Provider {
 		if ( is_admin() && tribe_context()->is( 'events_virtual_request' ) ) {
 			add_filter( 'admin_init', [ $this, 'on_admin_init' ] );
 		}
+
+		add_filter(
+			'tribe_events_virtual_meetings_zoom_meeting_password',
+			[ $this, 'filter_zoom_password' ],
+			10,
+			2
+		);
 
 		add_filter(
 			'tribe_events_virtual_video_source_placeholder_text',
@@ -332,6 +342,26 @@ class Zoom_Provider extends Meeting_Provider {
 	}
 
 	/**
+	 * Handles updating Zoom meetings on post save.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param int     $post_id The post ID.
+	 * @param WP_Post $post    The post object.
+	 * @param bool    $update  Whether this is an existing post being updated or not.
+	 * @return void
+	 */
+	public function on_post_save( $post_id, $post, $update ) {
+		if ( ! $update ) {
+			return;
+		}
+
+		$event = tribe_get_event( $post_id );
+
+		$this->container->make( Meetings::class )->update( $event );
+	}
+
+	/**
 	 * Get authorized field template.
 	 *
 	 * @since 1.0.0
@@ -384,6 +414,18 @@ class Zoom_Provider extends Meeting_Provider {
 	public function action_add_event_single_zoom_details() {
 		$template_modifications = $this->container->make( Template_Modifications::class );
 		$template_modifications->add_event_single_zoom_details();
+	}
+
+	/**
+	 * Filters the password for the Zoom Meeting.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param null|string|int $password     The password for the Zoom meeting.
+	 * @param array           $requirements An array of password requirements from Zoom.
+	 */
+	public function filter_zoom_password( $password, $requirements ) {
+		return $this->container->make( Password::class )->filter_zoom_password( $password, $requirements );
 	}
 
 	/**

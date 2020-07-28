@@ -17,17 +17,20 @@
  */
 
 // Remove the query vars from the zoom URL to avoid too long a URL in display.
-if ( ! empty( $event->zoom_join_url ) ) {
-	$short_zoom_url = implode(
-		'',
-		array_intersect_key( wp_parse_url( $event->zoom_join_url ), array_flip( [ 'host', 'path' ] ) )
-	);
+if ( empty( $event->zoom_join_url ) ) {
+	return;
 }
+// The default url might not contain the password - make sure we include it for emails.
+$email_url      = tribe( \Tribe\Events\Virtual\Meetings\Zoom\Password::class )->get_zoom_meeting_link( $event, true );
+$short_zoom_url = implode(
+	'',
+	array_intersect_key( wp_parse_url( $event->zoom_join_url ), array_flip( [ 'host', 'path' ] ) )
+);
 
 ?>
 <td valign="top">
 	<a
-		href="<?php echo esc_url( $event->zoom_join_url ); ?>"
+		href="<?php echo esc_url( $email_url ); ?>"
 		class="tribe-events-virtual-email-zoom-details__zoom-link"
 		style="font-size:15px;line-height: 18px;"
 	>

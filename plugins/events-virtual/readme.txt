@@ -5,7 +5,7 @@ Tags: virtual events, events, calendar, event, venue, organizer, dates, date, sc
 Donate link: http://m.tri.be/29
 Requires at least: 4.9.14
 Tested up to: 5.4.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -120,6 +120,20 @@ Our premium products:
 * <a href="http://m.tri.be/1ako" target="_blank">Image Widget Plus</a>
 
 == Changelog ==
+
+= [1.0.2] 2020-07-27 =
+
+* Feature - Update the Zoom meeting start/end times when the event start/end times are changed. [VE-96]
+* Feature - Add password generation to the event Zooming meeting link generator. [VE-153]
+* Feature - Add the `tribe_events_virtual_meetings_zoom_meeting_password` filter to control whether Zoom Meetings should be protected by a password or not, on by default. [VE-159]
+* Feature - Add the `tribe_events_virtual_meetings_zoom_password_requirements` filter to control the requirements of the password generated for Zoom Meetings. [VE-159]
+* Feature - Add the `tribe_events_virtual_meetings_zoom_meeting_include_password` filter to control whether Zoom Meetings URLs should include the password or not; by default the password will not show to visitors that are not logged in. [VE-159]
+* Fix - Ensure we correctly check for Zoom API credentials to enable and disable the "Connect" button. [VE-149]
+* Fix - Ensure we always check that an event is virtual before outputting the virtual label/marker. [VE-146]
+* Fix - Ensure that the password is included in RSVP & ticket email links. [VE-156 & VE-157]
+* Fix - Add check for getting provider back as an object, for ET >= 4.12.3 [VE-163]
+* Tweak - Remove unused duplicate template file. [VE-163]
+* Language - 0 new strings added, 9 updated, 0 fuzzied, and 0 obsoleted
 
 = [1.0.1] 2020-06-24 =
 

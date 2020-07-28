@@ -102,7 +102,7 @@ class Settings {
 		$client_id_attrs     = [ 'id' => 'zoom-application__client-id' ];
 		$client_secret_attrs = [ 'id' => 'zoom-application__client-secret' ];
 
-		if ( $this->get_refresh_token() ) {
+		if ( $this->get_refresh_token() && $this->api->client_id() && $this->api->client_secret() ) {
 			$client_id_attrs['disabled']     = 'disabled';
 			$client_secret_attrs['disabled'] = 'disabled';
 		}

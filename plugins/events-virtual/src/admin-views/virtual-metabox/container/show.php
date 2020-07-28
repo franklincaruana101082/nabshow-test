@@ -3,7 +3,7 @@
  * View: Virtual Events Metabox Show section.
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/admin-views/virtula-metabox/container/show.php
+ * [your-theme]/tribe/admin-views/virtual-metabox/container/show.php
  *
  * See more documentation about our views templating system.
  *

@@ -86,7 +86,7 @@ class Classic_Editor {
 		if ( $this->api->is_authorized() ) {
 
 			$prefix   = Virtual_Meta::$prefix;
-			$join_url = get_post_meta( $post->ID, $prefix . 'zoom_join_url', true );
+			$join_url = tribe( Password::class )->get_zoom_meeting_link( $post );
 
 			$remove_link_url   = $this->url->to_remove_meeting_link( $post );
 			$remove_link_label = _x(

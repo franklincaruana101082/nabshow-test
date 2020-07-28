@@ -88,7 +88,7 @@ class Event_Meta {
 	public static function add_event_properties( \WP_Post $event ) {
 		$prefix                        = Virtual_Event_Meta::$prefix;
 		$event->zoom_meeting_id        = get_post_meta( $event->ID, $prefix . 'zoom_meeting_id', true );
-		$event->zoom_join_url          = get_post_meta( $event->ID, $prefix . 'zoom_join_url', true );
+		$event->zoom_join_url          = tribe( Password::class )->get_zoom_meeting_link( $event );
 		$event->zoom_join_instructions = get_post_meta( $event->ID, $prefix . 'zoom_join_instructions', true );
 		$event->zoom_display_details   = get_post_meta( $event->ID, $prefix . 'zoom_display_details', true );
 

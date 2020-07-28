@@ -64,6 +64,42 @@ class Api {
 	protected $refresh_token;
 
 	/**
+	 * Expected response code for GET requests.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @var integer
+	 */
+	const GET_RESPONSE_CODE = 200;
+
+	/**
+	 * Expected response code for POST requests.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @var integer
+	 */
+	const POST_RESPONSE_CODE = 201;
+
+	/**
+	 * Expected response code for POST OAuth requests.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @var integer
+	 */
+	const OAUTH_POST_RESPONSE_CODE = 200;
+
+	/**
+	 * Expected response code for PATCH requests.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @var integer
+	 */
+	const PATCH_RESPONSE_CODE = 204;
+
+	/**
 	 * Api constructor.
 	 *
 	 * @since 1.0.0
@@ -118,7 +154,7 @@ class Api {
 	 * @return bool Whether the current Zoom API integration is authorized or not.
 	 */
 	public function is_authorized() {
-		return ! empty( $this->refresh_token );
+		return ! empty( $this->client_id ) && ! empty( $this->client_secret ) && ! empty( $this->refresh_token );
 	}
 
 	/**
@@ -145,15 +181,19 @@ class Api {
 		$token = get_transient( Settings::$option_prefix . 'access_token' );
 
 		if ( empty( $token ) ) {
-			$this->post( OAuth::$token_request_url, [
-				'headers' => [
-					'Authorization' => $this->authorization_header()
+			$this->post(
+				OAuth::$token_request_url,
+				[
+					'headers' => [
+						'Authorization' => $this->authorization_header(),
+					],
+					'body'    => [
+						'grant_type'    => 'refresh_token',
+						'refresh_token' => $this->refresh_token,
+					],
 				],
-				'body'    => [
-					'grant_type'    => 'refresh_token',
-					'refresh_token' => $this->refresh_token,
-				],
-			] )->then( [ $this, 'save_access_token' ] );
+				200
+			)->then( [ $this, 'save_access_token' ] );
 
 			// Fetch it again, it should now be there.
 			$token = get_transient( Settings::$option_prefix . 'access_token' );
@@ -163,20 +203,20 @@ class Api {
 	}
 
 	/**
-	 * Makes a POST request to Zoom API.
+	 * Makes a request to the Zoom API.
 	 *
-	 * @since 1.0.0
+	 * @since 1.0.2
 	 *
 	 * @param string $url         The URL to make the request to.
-	 * @param array  $args        An array of arguments for the request.
+	 * @param array  $args        An array of arguments for the request. Should include 'method' (POST/GET/PATCH, etc).
 	 * @param int    $expect_code The expected response code, if not met, then the request will be considered a failure.
 	 *                            Set to `null` to avoid checking the status code.
 	 *
 	 * @return Api_Response An API response to act upon the response result.
 	 */
-	public function post( $url, array $args, $expect_code = 200 ) {
+	protected function request( $url, array $args, $expect_code = self::GET_RESPONSE_CODE ) {
 		/**
-		 * Filters the response for a Zoom API POST request to prevent the response from actually happening.
+		 * Filters the response for a Zoom API request to prevent the response from actually happening.
 		 *
 		 * @since 1.0.0
 		 *
@@ -192,16 +232,22 @@ class Api {
 			return Api_Response::ensure_response( $response );
 		}
 
-		$response = wp_remote_post( $url, $args );
+		$response = wp_remote_request( $url, $args );
 
 		if ( $response instanceof \WP_Error ) {
 			$error_message = $response->get_error_message();
 
-			do_action( 'tribe_log', 'error', __CLASS__, [
-				'action'  => __METHOD__,
-				'code'    => $response->get_error_code(),
-				'message' => $error_message,
-			] );
+			do_action(
+				'tribe_log',
+				'error',
+				__CLASS__,
+				[
+					'action'  => __METHOD__,
+					'code'    => $response->get_error_code(),
+					'message' => $error_message,
+					'method'  => $args['method'],
+				]
+			);
 
 			$user_message = sprintf(
 				// translators: the placeholder is for the error as returned from Zoom API.
@@ -213,7 +259,7 @@ class Api {
 				$error_message
 			);
 			tribe_transient_notice(
-				'events-virtual-zoom-post-error',
+				'events-virtual-zoom-request-error',
 				'<p>' . esc_html( $user_message ) . '</p>',
 				[ 'type' => 'error' ],
 				60
@@ -230,6 +276,7 @@ class Api {
 				'message'       => 'Response code is not the expected one.',
 				'expected_code' => $expect_code,
 				'response_code' => $response_code,
+				'api_method'    => $args['method'],
 			];
 			do_action( 'tribe_log', 'error', __CLASS__, $data );
 
@@ -254,6 +301,61 @@ class Api {
 		}
 
 		return new Api_Response( $response );
+	}
+
+	/**
+	 * Makes a POST request to the Zoom API.
+	 *
+	 * @since 1.0.0
+	 * @since 1.0.2 Change to a sugar function implementing $this->request().
+	 *
+	 * @param string $url         The URL to make the request to.
+	 * @param array  $args        An array of arguments for the request.
+	 * @param int    $expect_code The expected response code, if not met, then the request will be considered a failure.
+	 *                            Set to `null` to avoid checking the status code.
+	 *
+	 * @return Api_Response An API response to act upon the response result.
+	 */
+	public function post( $url, array $args, $expect_code = self::POST_RESPONSE_CODE ) {
+		$args['method'] = 'POST';
+
+		return $this->request( $url, $args, $expect_code );
+	}
+
+	/**
+	 * Makes a PATCH request to the Zoom API.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param string $url         The URL to make the request to.
+	 * @param array  $args        An array of arguments for the request.
+	 * @param int    $expect_code The expected response code, if not met, then the request will be considered a failure.
+	 *                            Set to `null` to avoid checking the status code.
+	 *
+	 * @return Api_Response An API response to act upon the response result.
+	 */
+	public function patch( $url, array $args, $expect_code = self::PATCH_RESPONSE_CODE ) {
+		$args['method'] = 'PATCH';
+
+		return $this->request( $url, $args, $expect_code );
+	}
+
+	/**
+	 * Makes a GET request to the Zoom API.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @param string $url         The URL to make the request to.
+	 * @param array  $args        An array of arguments for the request.
+	 * @param int    $expect_code The expected response code, if not met, then the request will be considered a failure.
+	 *                            Set to `null` to avoid checking the status code.
+	 *
+	 * @return Api_Response An API response to act upon the response result.
+	 */
+	public function get( $url, array $args, $expect_code = self::GET_RESPONSE_CODE ) {
+		$args['method'] = 'GET';
+
+		return $this->request( $url, $args, $expect_code );
 	}
 
 	/**
@@ -306,11 +408,16 @@ class Api {
 			&& isset( $d['access_token'], $d['refresh_token'], $d['expires_in'] )
 		)
 		) {
-			do_action( 'tribe_log', 'error', __CLASS__, [
-				'action'  => __METHOD__,
-				'code'    => wp_remote_retrieve_response_code( $response ),
-				'message' => 'Response body missing or malformed',
-			] );
+			do_action(
+				'tribe_log',
+				'error',
+				__CLASS__,
+				[
+					'action'  => __METHOD__,
+					'code'    => wp_remote_retrieve_response_code( $response ),
+					'message' => 'Response body missing or malformed',
+				]
+			);
 
 			return false;
 		}

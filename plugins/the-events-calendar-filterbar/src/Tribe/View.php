@@ -40,7 +40,7 @@ if ( ! class_exists( 'Tribe__Events__Filterbar__View' ) ) {
 		 */
 		protected static $defaultMuFilters;
 
-		const VERSION = '4.10.0';
+		const VERSION = '4.10.1';
 
 		/**
 		 * The Events Calendar Required Version
