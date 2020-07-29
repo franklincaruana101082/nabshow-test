@@ -30,7 +30,7 @@ function load_child_theme_enqueue_scripts(){
  *
  * @since Getwid Bae Child 1.0.0
  */
-function buddyboss_theme_child_languages()
+function getwid_child_languages()
 {
   /**
    * Makes child theme available for translation.
@@ -45,12 +45,12 @@ function buddyboss_theme_child_languages()
   // load_theme_textdomain( 'getwid-base-chile-theme, get_stylesheet_directory() . '/languages' );
 
 }
-add_action( 'after_setup_theme', 'getwid_base_child_theme', 9999 );
+add_action( 'after_setup_theme', 'getwid_child', 9999 );
 
 /**
  * Enqueues scripts and styles for child theme front-end.
  *
- * @since Boss Child Theme  1.0.0
+ * @since Getwid Child Theme  1.0.0
  */
 
 //add_action( 'wp_enqueue_scripts', 'getwid-base-child-theme_scripts_styles', 9999 );

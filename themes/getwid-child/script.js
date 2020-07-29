@@ -1,6 +1,6 @@
 jQuery(document).ready(function($){
 
-			console.log('Getwid Base Child theme loaded');
+			console.log('Getwid Child theme loaded');
 
 			console.log('Created for NABShow.com');
 
@@ -8,4 +8,3 @@ jQuery(document).ready(function($){
 
 
 		});
-
