@@ -234,6 +234,8 @@ class Api {
 
 		$response = wp_remote_request( $url, $args );
 
+		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM API RESPONSE', print_r( $response, true ) );
+
 		if ( $response instanceof \WP_Error ) {
 			$error_message = $response->get_error_message();
 
