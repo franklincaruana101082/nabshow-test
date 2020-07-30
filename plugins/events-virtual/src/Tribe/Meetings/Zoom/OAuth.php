@@ -183,9 +183,6 @@ class OAuth {
 			);
 		}
 
-
-		wp_mail( 'hardik.thakkar@multidots.com', 'DEAUTH', 'Deauth called' );
-
 		tribe_update_option( Settings::$option_prefix . 'auth_code', '' );
 		tribe_update_option( Settings::$option_prefix . 'refresh_token', '' );
 		delete_transient( Settings::$option_prefix . 'access_token' );
