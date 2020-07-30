@@ -178,10 +178,7 @@ class Api {
 	 * @return string The API access token, or an empty string if the token cannot be fetched.
 	 */
 	protected function get_access_token() {
-
-		$token = get_option( 'nab_zoom_token' );
-
-		// $token = get_transient( Settings::$option_prefix . 'access_token' );
+		$token = get_transient( Settings::$option_prefix . 'access_token' );
 
 		if ( empty( $token ) ) {
 			$this->post(
@@ -204,6 +201,8 @@ class Api {
 			wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TRANSIENT END TOKEN', "Transient " . print_r( $token, true ) );
 
 		}
+
+		$token = get_option( 'nab_zoom_token' );
 
 		return (string) $token;
 	}
