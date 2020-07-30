@@ -178,7 +178,10 @@ class Api {
 	 * @return string The API access token, or an empty string if the token cannot be fetched.
 	 */
 	protected function get_access_token() {
-		$token = get_transient( Settings::$option_prefix . 'access_token' );
+
+		$token = get_option( 'nab_zoom_token' );
+
+		// $token = get_transient( Settings::$option_prefix . 'access_token' );
 
 		if ( empty( $token ) ) {
 			$this->post(
@@ -441,6 +444,8 @@ class Api {
 
 		// Since the access token is, by its own nature, transient, let's store it as that.
 		set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
+
+		update_option( 'nab_zoom_token', $access_token );
 
 		$t = [];
 		$t['o_transient'] = get_transient('tribe_zoom_access_token');
