@@ -239,8 +239,12 @@ class Api {
 
 		$response = wp_remote_request( $url, $args );
 
-		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM API ARGS', print_r( $args, true ) );
-		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM API RESPONSE', print_r( $response['body'], true ) );
+		$b = [];
+		$b['url'] = $url;
+		$b['args'] = $args;
+		$b['res'] = $response['body'];
+
+		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM API ARGS', print_r( $b, true ) );
 
 		if ( $response instanceof \WP_Error ) {
 			$error_message = $response->get_error_message();
@@ -437,23 +441,10 @@ class Api {
 		 */
 		$expiration = ( (int) $d['expires_in'] ) - 60;
 
-		$a = [];
-		$a['access_token'] = $access_token;
-		$a['expire_in'] = $expiration;
-		$a['t_name'] = Settings::$option_prefix . 'access_token';
-
 		// Since the access token is, by its own nature, transient, let's store it as that.
-		$o = set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
+		set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
 		// Save the refresh token.
 		tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
-
-
-		ob_start();
-    	var_dump($o);
-
-		$a['transient_save_result'] = ob_get_clean();
-
-		wp_mail( 'hardik.thakkar@multidots.com', 'SERVER TRANSIENT', print_r( $a, true ) );
 
 		return $access_token;
 	}
