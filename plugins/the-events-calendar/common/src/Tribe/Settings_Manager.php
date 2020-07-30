@@ -142,7 +142,7 @@ class Tribe__Settings_Manager {
 		$updated = update_option( Tribe__Main::OPTIONNAME, $options );
 
 		if ( $updated ) {
-			tribe_set_var( self::OPTION_CACHE_VAR_NAME, $options );
+			//tribe_set_var( self::OPTION_CACHE_VAR_NAME, $options );
 		}
 
 		return $updated;
