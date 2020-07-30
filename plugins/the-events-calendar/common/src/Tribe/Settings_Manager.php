@@ -89,12 +89,12 @@ class Tribe__Settings_Manager {
 	 * @return array of options
 	 */
 	public static function get_options() {
-		// $options = tribe_get_var( self::OPTION_CACHE_VAR_NAME, [] );
-		$options = [];
+		$options = tribe_get_var( self::OPTION_CACHE_VAR_NAME, [] );
+
 		if ( empty( $options ) ) {
 			$options = (array) get_option( Tribe__Main::OPTIONNAME, [] );
 
-			//tribe_set_var( self::OPTION_CACHE_VAR_NAME, $options );
+			tribe_set_var( self::OPTION_CACHE_VAR_NAME, $options );
  		}
 
 		return $options;
@@ -142,7 +142,7 @@ class Tribe__Settings_Manager {
 		$updated = update_option( Tribe__Main::OPTIONNAME, $options );
 
 		if ( $updated ) {
-			//tribe_set_var( self::OPTION_CACHE_VAR_NAME, $options );
+			tribe_set_var( self::OPTION_CACHE_VAR_NAME, $options );
 		}
 
 		return $updated;

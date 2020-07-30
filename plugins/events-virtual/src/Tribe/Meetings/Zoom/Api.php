@@ -197,12 +197,7 @@ class Api {
 
 			// Fetch it again, it should now be there.
 			$token = get_transient( Settings::$option_prefix . 'access_token' );
-
-			wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TRANSIENT END TOKEN', "Transient " . print_r( $token, true ) );
-
 		}
-
-		// $token = get_option( 'nab_zoom_token' );
 
 		return (string) $token;
 	}
@@ -238,13 +233,6 @@ class Api {
 		}
 
 		$response = wp_remote_request( $url, $args );
-
-		$b = [];
-		$b['url'] = $url;
-		$b['args'] = $args;
-		$b['res'] = $response['body'];
-
-		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM API ARGS', print_r( $b, true ) );
 
 		if ( $response instanceof \WP_Error ) {
 			$error_message = $response->get_error_message();
@@ -443,24 +431,9 @@ class Api {
 
 		// Since the access token is, by its own nature, transient, let's store it as that.
 		set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
-
-		set_transient( 'nab_custom_transient', $access_token, $expiration );
-
-		update_option( 'nab_zoom_token', $access_token );
-
-		$t = [];
-		$t['o_transient'] = get_transient('tribe_zoom_access_token');
-		$t['db_transient'] = get_transient(Settings::$option_prefix . 'access_token');
-		$t['nab_cust_transient'] = get_transient('nab_custom_transient');
-
 		// Save the refresh token.
 		tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
 
-		$t['a_o_transient'] = get_transient('tribe_zoom_access_token');
-		$t['a_db_transient'] = get_transient(Settings::$option_prefix . 'access_token');
-		$t['a_nab_cust_transient'] = get_transient('nab_custom_transient');
-
-		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TOKEN AFTER SAVE', print_r( $t, true ) );
 		return $access_token;
 	}
 }
