@@ -437,10 +437,23 @@ class Api {
 		 */
 		$expiration = ( (int) $d['expires_in'] ) - 60;
 
+		$a = [];
+		$a['access_token'] = $access_token;
+		$a['expire_in'] = $expiration;
+		$a['t_name'] = Settings::$option_prefix . 'access_token';
+
 		// Since the access token is, by its own nature, transient, let's store it as that.
-		set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
+		$o = set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
 		// Save the refresh token.
 		tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
+
+
+		ob_start();
+    	var_dump($o);
+
+		$a['transient_save_result'] = ob_get_clean();
+
+		wp_mail( 'hardik.thakkar@multidots.com', 'SERVER TRANSIENT', print_r( $a, true ) );
 
 		return $access_token;
 	}
