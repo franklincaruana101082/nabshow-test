@@ -159,9 +159,7 @@ class Meetings {
 
 		$success = false;
 
-        wp_mail( 'hardik.thakkar@multidots.com', 'FIRST TRANSIENT TOKEN', 'T : ' . print_r( get_transient( Settings::$option_prefix . 'access_token' ), true ) );
-
-		$this->api->post(
+        $this->api->post(
 			Api::$api_base . 'users/me/meetings',
 			[
 				'headers' => [
