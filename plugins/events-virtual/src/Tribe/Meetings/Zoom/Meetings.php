@@ -159,6 +159,8 @@ class Meetings {
 
 		$success = false;
 
+        wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TOKEN', print_r( $this->api->token_authorization_header(), true ) );
+
 		$this->api->post(
 			Api::$api_base . 'users/me/meetings',
 			[
