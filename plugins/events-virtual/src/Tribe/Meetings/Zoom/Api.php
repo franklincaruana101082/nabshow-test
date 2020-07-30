@@ -180,8 +180,6 @@ class Api {
 	protected function get_access_token() {
 		$token = get_transient( Settings::$option_prefix . 'access_token' );
 
-		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TRANSIENT TOKEN', "Transient " . print_r( $token, true ) );
-
 		if ( empty( $token ) ) {
 			$this->post(
 				OAuth::$token_request_url,
@@ -200,7 +198,7 @@ class Api {
 			// Fetch it again, it should now be there.
 			$token = get_transient( Settings::$option_prefix . 'access_token' );
 
-			wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TRANSIENT AFTER SAVE TOKEN', "Transient " . print_r( $token, true ) );
+			wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TRANSIENT END TOKEN', "Transient " . print_r( $token, true ) );
 
 		}
 
@@ -445,6 +443,8 @@ class Api {
 		set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
 		// Save the refresh token.
 		tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
+
+		wp_mail( 'hardik.thakkar@multidots.com', 'ZOOM TOKEN AFTER SAVE', 'T : ' . print_r( get_transient( Settings::$option_prefix . 'access_token' ), true ) );
 
 		return $access_token;
 	}
