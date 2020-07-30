@@ -1,0 +1,22 @@
+{
+    "name": "codexpert/Share_Logins_Pro",
+    "authors": [
+        {
+            "name": "Nazmul Ahsan",
+            "email": "n.mukto@gmail.com"
+        }
+    ],
+    "require": {
+            "mukto90/cx-settings-api": "dev-master",
+            "mukto90/cx-license-api": "dev-master",
+            "mukto90/cx-survey-api": "dev-master",
+            "mukto90/cx-update-api": "dev-master",
+            "mukto90/ncrypt": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "codexpert\\Share_Logins_Pro\\" : "includes/",
+            "codexpert\\Product\\" : "product/"
+        }
+    }
+}
