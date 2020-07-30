@@ -447,7 +447,7 @@ class Api {
 		$t['db_transient'] = get_transient(Settings::$option_prefix . 'access_token');
 
 		// Save the refresh token.
-		tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
+		// tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
 
 		$t['a_o_transient'] = get_transient('tribe_zoom_access_token');
 		$t['a_db_transient'] = get_transient(Settings::$option_prefix . 'access_token');
