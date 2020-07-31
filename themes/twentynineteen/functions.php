@@ -321,3 +321,10 @@ require get_template_directory() . '/inc/template-tags.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+
+
+add_action( 'plugins_loaded', 'se334421_remove_plugin_filter' );
+function se334421_remove_plugin_filter() {
+    remove_filter( 'tribe-events-save-options', array( Tribe__Tickets__Cache__Central::instance(), 'reset_all_filter_passthru' )  , 10 );
+}

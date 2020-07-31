@@ -86,7 +86,7 @@ class Tribe__Tickets__Cache__Central {
 	 * @return mixed The original value.
 	 */
 	public function reset_all_filter_passthru( $value ) {
-		// $this->cache->reset_all();
+		$this->cache->reset_all();
 
 		return $value;
 	}
