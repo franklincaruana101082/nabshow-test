@@ -23,7 +23,7 @@ get_sidebar();
 	if ( $show_site_info ):
 		?>
 		<div class="site-info">
-<!--			<?php
+			<?php
 			$dateObj           = new DateTime;
 			$current_year      = $dateObj->format( "Y" );
 			$site_info_default = apply_filters( 'getwid_base_site_info',
@@ -38,24 +38,7 @@ get_sidebar();
 					$current_year
 				)
 			);
-			?> -->
-
-
-
-			<p class="footer-copyright">
-				<span class="footer-related">Related Shows: <a style="color: #000000;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #000000;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #000000;" href="https://cineemerge.nabshow.com/" target="_blank" rel="noopener noreferrer">CineEmerge</a><br /><br />
-				</span>
-
-			&copy;
-				<?php
-				echo date_i18n(
-					/* translators: Copyright date format, see https://secure.php.net/date */
-					_x( 'Y', 'copyright date format', 'getwid-base' )
-				);
-				?>
-				<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.<br />
-				<span class="footer-related">
-				<a href="/august/privacy-policy/">Privacy Policy</a> | <a href="/august/terms-of-use/">Terms of Use</a> |   <a href="/august/contact/">Contact Us</a>
+			?>
 				</span>
 
 		</p><!-- .footer-copyright -->
