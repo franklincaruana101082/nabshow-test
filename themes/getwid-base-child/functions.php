@@ -20,7 +20,7 @@ if ( !function_exists( 'chld_thm_cfg_parent_css' ) ):
     }
 endif;
 add_action( 'wp_enqueue_scripts', 'chld_thm_cfg_parent_css', 10 );
-         
+
 if ( !function_exists( 'child_theme_configurator_css' ) ):
     function child_theme_configurator_css() {
         wp_enqueue_style( 'chld_thm_cfg_ext1', trailingslashit( get_theme_root_uri() ) . 'getwid-base-child/Molot-webfont.woff' );
@@ -29,3 +29,9 @@ endif;
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 10 );
 
 // END ENQUEUE PARENT ACTION
+
+// Load Gutenberg Block Editor on VIP Go for this /*
+
+if ( function_exists( 'wpcom_vip_load_gutenberg' ) ) {
+    wpcom_vip_load_gutenberg( true );
+}
