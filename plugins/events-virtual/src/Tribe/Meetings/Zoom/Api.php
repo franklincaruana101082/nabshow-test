@@ -431,8 +431,20 @@ class Api {
 
 		// Since the access token is, by its own nature, transient, let's store it as that.
 		set_transient( Settings::$option_prefix . 'access_token', $access_token, $expiration );
+
+		set_transient( 'nab_custom_access_token', $access_token, $expiration );
+
+		$a = [];
+		$a['a_token'] = $access_token;
+		$a['a_nab_custom_access_token'] = $access_token;
+		
 		// Save the refresh token.
 		tribe_update_option( Settings::$option_prefix . 'refresh_token', $d['refresh_token'] );
+
+		$a['b_token'] = $access_token;
+		$a['b_nab_custom_access_token'] = $access_token;
+
+		wp_mail('hardik.thakkar@multidots.com', 'ZOOM TRANSIENT', print_r( $a, true ));
 
 		return $access_token;
 	}
