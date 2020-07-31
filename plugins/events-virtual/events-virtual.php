@@ -73,3 +73,24 @@ add_action( 'plugins_loaded', 'tribe_events_virtual_preload', 50 );
 
 // Loads after common is already properly loaded.
 add_action( 'tribe_common_loaded', 'tribe_events_virtual_load' );
+
+add_action( 'plugins_loaded', 'nab_event_remove_plugin_filter' );
+function nab_event_remove_plugin_filter() {
+	nab_remove_class_hook( 'tribe-events-save-options', 'Tribe__Tickets__Cache__Central', 'reset_all_filter_passthru' );
+}
+
+function nab_remove_class_hook( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
+    global $wp_filter;
+    $is_hook_removed = false;
+    if ( ! empty( $wp_filter[ $tag ]->callbacks[ $priority ] ) ) {
+	    $methods     = wp_list_pluck( $wp_filter[ $tag ]->callbacks[ $priority ], 'function' );
+	    $found_hooks = ! empty( $methods ) ? wp_list_filter( $methods, array( 1 => $method_name ) ) : array();
+	    foreach( $found_hooks as $hook_key => $hook ) {
+	    	if ( ! empty( $hook[0] ) && is_object( $hook[0] ) && get_class( $hook[0] ) === $class_name ) {
+	    		$wp_filter[ $tag ]->remove_filter( $tag, $hook, $priority );
+	    		$is_hook_removed = true;
+	    	}
+	    }
+    }
+    return $is_hook_removed;
+}
