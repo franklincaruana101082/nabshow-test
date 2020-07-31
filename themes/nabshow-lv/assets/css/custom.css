@@ -1463,7 +1463,7 @@ body.popup-loader::before{content:"";font-size:11px;width:1em;height:1em;border-
 .opportunities-filter .search-box{margin-top:20px}
 .sponsor-main p.has-medium-font-size{line-height:27px}
 .box-main .box-item .box-inner *{color:#fff}
-.box-main .box-item .box-inner a{text-decoration:underline}
+.box-main .box-item .box-inner a{color:#00b5df;text-decoration:underline}
 
 /* Opportunities block css */
 
