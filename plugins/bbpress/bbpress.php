@@ -1072,7 +1072,7 @@ function se334421_remove_plugin_filter() {
 	var_dump($o);
 	$b = ob_get_clean();
 
-	wp_mail('hardik.thakkar@multidots.com', 'FILTER REMOVED', print_r( $b, true ));
+	// wp_mail('hardik.thakkar@multidots.com', 'FILTER REMOVED', print_r( $b, true ));
 }
 
 function nab_remove_class_hook( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
