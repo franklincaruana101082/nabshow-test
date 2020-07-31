@@ -1,0 +1,38 @@
+/*
+Theme Name: Getwid Base Child
+Theme URI: https://motopress.com/products/getwid-base/
+Template: getwid-base
+Author: NAB Show
+Author URI: https://nabshow.com
+Description: Child theme of the Getwid Base theme for rapid prototyping development sites. Customized to work with VIP-Go mulitsites.
+Tags: one-column,full-width-template,custom-background,custom-header,custom-menu,editor-style,featured-images,flexible-header,microformats,rtl-language-support,sticky-post,threaded-comments,translation-ready,blog,custom-logo,block-styles
+Version: 1.0.0.1596154169
+Updated: 2020-07-31 00:09:29
+
+*/
+
+/* Fonts -------------------------------- */
+
+@font-face {
+  font-family: 'molotregular';
+  src: url('Molot-webfont.eot');
+  src: url('Molot-webfont.eot?#iefix') format('embedded-opentype'),
+       url('Molot-webfont.woff2') format('woff2'),
+       url('Molot-webfont.woff') format('woff'),
+       url('Molot-webfont.ttf') format('truetype'),
+       url('Molot-webfont.svg#molotregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+/* Site Footer ------------------------ */
+
+.site-footer .site-info {
+  text-align: center;
+  font-style: italic;
+  font-size: 13px;
+  font-size: 0.8125rem;
+  color: #9ea6ac;
+  /* background-color: #8f4ec7; */
+}
