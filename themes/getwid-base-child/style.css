@@ -26,6 +26,39 @@ Updated: 2020-07-31 00:09:29
 
 }
 
+
+/* ---- Site Title ---- */
+
+.site-title {
+  font-size: 27px;
+  font-size: 3rem;
+  font-family: "molotregular", serif;
+	font-face: "molotregular";
+  font-weight: 700;
+  margin: 0;
+	padding-bottom: 20;
+  line-height: 1;
+}
+
+/* Typography ------------------------- */
+
+body,
+button,
+input,
+select,
+optgroup,
+textarea {
+  color: #7b838b;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 18px;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  letter-spacing: .7px;
+}
+
+
+
+
 /* Site Footer ------------------------ */
 
 .site-footer .site-info {
@@ -35,4 +68,14 @@ Updated: 2020-07-31 00:09:29
   font-size: 0.8125rem;
   color: #9ea6ac;
   /* background-color: #8f4ec7; */
+}
+
+
+
+/* Event Calendar Customization ------- */
+
+
+/* hide attendance opt out checkbox on single event pages for Event Tickets Plus 4.11.3 and later */
+#tribe-tickets .tribe-tickets-attendees-list-optout--wrapper {
+	display: none;
 }
