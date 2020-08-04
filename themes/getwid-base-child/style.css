@@ -65,7 +65,11 @@ textarea {
 	display:none;
 }
 
-#tribe-events-back .tribe-events-back p.tribe-events-back {
+span.tribe-events-cost {
+  display: none;
+}
+
+.tribe-events-back p.tribe-events-back {
   display:none;
 }
 
