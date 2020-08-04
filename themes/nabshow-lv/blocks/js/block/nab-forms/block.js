@@ -71,6 +71,10 @@
       type: 'string',
       default: 'startup-loft'
     },
+    formTitle: {
+      type: 'string',
+      default: ''
+    },
     formEmail: {
       type: 'string',
       default: ''
@@ -84,7 +88,7 @@
     keywords: [__('forms'), __('startup'), __('contact')],
     attributes: allAttr,
     edit({ attributes, setAttributes }) {
-      const { formType, formEmail } = attributes;
+      const { formType, formEmail, formTitle } = attributes;
       return (
         <Fragment>
           <InspectorControls>
@@ -99,10 +103,19 @@
                     { label: 'Delegation Leader Enrollment', value: 'delegation-leader-enrollment' },
                     { label: 'Publication Shipping Information', value: 'publication-shipping-information' },
                     { label: 'Special Event Order', value: 'special-event-order' },
+                    { label: 'Download the Prospectus', value: 'download-the-prospectus' },
                   ]}
                   onChange={(type) => setAttributes({ formType: type }) }
                 />
               </div>
+                {'download-the-prospectus' === formType &&
+                <TextControl
+                    type="string"
+                    label={__('Title:')}
+                    value={formTitle}
+                    onChange={(title) => setAttributes({formTitle: title})}
+                />
+                }
               <TextControl
                 type="string"
                 label={__('Send Copy To:')}

@@ -11424,6 +11424,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       type: 'string',
       default: 'startup-loft'
     },
+    formTitle: {
+      type: 'string',
+      default: ''
+    },
     formEmail: {
       type: 'string',
       default: ''
@@ -11440,7 +11444,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       var attributes = _ref.attributes,
           setAttributes = _ref.setAttributes;
       var formType = attributes.formType,
-          formEmail = attributes.formEmail;
+          formEmail = attributes.formEmail,
+          formTitle = attributes.formTitle;
 
       return wp.element.createElement(
         Fragment,
@@ -11457,12 +11462,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               wp.element.createElement(RadioControl, {
                 selected: formType,
                 label: "Select Form Type",
-                options: [{ label: 'StartUp Loft', value: 'startup-loft' }, { label: 'Contact Us', value: 'contact-us' }, { label: 'Delegation Leader Enrollment', value: 'delegation-leader-enrollment' }, { label: 'Publication Shipping Information', value: 'publication-shipping-information' }, { label: 'Special Event Order', value: 'special-event-order' }],
+                options: [{ label: 'StartUp Loft', value: 'startup-loft' }, { label: 'Contact Us', value: 'contact-us' }, { label: 'Delegation Leader Enrollment', value: 'delegation-leader-enrollment' }, { label: 'Publication Shipping Information', value: 'publication-shipping-information' }, { label: 'Special Event Order', value: 'special-event-order' }, { label: 'Download the Prospectus', value: 'download-the-prospectus' }],
                 onChange: function onChange(type) {
                   return setAttributes({ formType: type });
                 }
               })
             ),
+            'download-the-prospectus' === formType && wp.element.createElement(TextControl, {
+              type: "string",
+              label: __('Title:'),
+              value: formTitle,
+              onChange: function onChange(title) {
+                return setAttributes({ formTitle: title });
+              }
+            }),
             wp.element.createElement(TextControl, {
               type: "string",
               label: __('Send Copy To:'),
