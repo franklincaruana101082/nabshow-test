@@ -24,7 +24,7 @@ get_sidebar();
 		?>
 		<div class="site-info">
 			<p class="footer-copyright">
-							<span class="footer-related">Related Shows: <a style="color: #000000;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a style="color: #000000;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a style="color: #000000;" href="https://nabshow.com/express/" target="_blank" rel="noopener noreferrer">NAB Show Express</a><br /><br />
+							<span class="footer-related">Related Shows: <a style="color: #000000;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show April 10 - 14, 2021</a> | <a style="color: #000000;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York October 2020</a> | <a style="color: #000000;" href="https://nabshow.com/express/" target="_blank" rel="noopener noreferrer">NAB Show Express</a><br /><br />
 							</span>
 
 						&copy;

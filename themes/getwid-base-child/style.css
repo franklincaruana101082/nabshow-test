@@ -40,6 +40,14 @@ Updated: 2020-07-31 00:09:29
   line-height: 1;
 }
 
+.site-description {
+  font-family: "Work Sans", sans-serif;
+  font-size: 13px;
+  font-size: 0.8rem;
+  margin: 0;
+/*  display: none; */
+}
+
 /* Typography ------------------------- */
 
 body,
