@@ -8,14 +8,10 @@
  */
 
 $to_email = get_query_var('form_email' );
-$form_title = get_query_var('form_title' );
 ?>
 	<form class="nab-form prospectus-form" method="post">
 		<div class="form-items-wrapper">
 			<fieldset class="form-fieldset" id="bootstrap-panel">
-				<legend class="panel-heading">
-					<span class="panel-title fieldset-legend"><?php echo esc_html( $form_title ) ?></span>
-				</legend>
 				<div class="panel-body" id="bootstrap-panel-body">
 					<div class="form-item">
 						<label class="control-label" for="uname">Name <span class="form-required" title="This field is required.">*</span></label>
@@ -46,7 +42,6 @@ $form_title = get_query_var('form_title' );
 			<?php wp_nonce_field( 'nabshow_forms', 'form_details_nonce' ); ?>
             <input type="hidden" name="form_type" value="download-the-prospectus">
 			<input type="hidden" name="to_email" value="<?php echo esc_attr( $to_email ); ?>" />
-			<input type="hidden" name="form_title" value="<?php echo esc_attr( $form_title ); ?>" />
 			<div class="form-actions">
 				<button class="form-submit" type="submit" name="op" value="Submit">Download</button>
 			</div>
