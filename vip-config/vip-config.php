@@ -36,6 +36,8 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
             'cineemerge.com',
             'www.cineemerge.com',
         ],
+         'nabshow.com/guestpass'   => [
+            'guestpass.nabshow.com',        ],
     ];
 
     // Safety checks for redirection:
