@@ -72,6 +72,7 @@ span.tribe-events-cost {
 .tribe-events-back {
   display:none;
 }
+
 p.tribe-events-back {
   display: none;
 }
@@ -81,7 +82,8 @@ p.tribe-events-back {
 }
 
 button.tribe-button.tribe-button--rsvp {
-
+  background-color: #047db9;
+  color: #FFFFFF;
 }
 
 
