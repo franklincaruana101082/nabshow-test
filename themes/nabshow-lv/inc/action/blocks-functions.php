@@ -328,6 +328,10 @@ function nabshow_lv_register_dynamic_blocks() {
                     'type' => 'string',
                     'default' => 'startup-loft'
                 ),
+                'formTitle'  => array(
+                    'type' => 'string',
+                    'default' => ''
+                ),
                 'formEmail'  => array(
                     'type' => 'string',
                     'default' => ''
@@ -1349,8 +1353,10 @@ function nabshow_lv_site_forms_render_callback( $attributes ) {
 
 	$form_type  = isset( $attributes[ 'formType' ] ) && ! empty( $attributes[ 'formType' ] ) ? $attributes[ 'formType' ] : 'startup-loft';
 	$form_email = isset( $attributes[ 'formEmail' ] ) && ! empty( $attributes[ 'formEmail' ] ) ? $attributes[ 'formEmail' ] : '';
+	$form_title = isset( $attributes[ 'formTitle' ] ) && ! empty( $attributes[ 'formTitle' ] ) ? $attributes[ 'formTitle' ] : '';
 
 	set_query_var( 'form_email', $form_email );
+	set_query_var( 'form_title', $form_title );
 
 	ob_start();
 
@@ -1362,6 +1368,8 @@ function nabshow_lv_site_forms_render_callback( $attributes ) {
 		get_template_part( 'template-parts/forms/content', 'delegation' );
 	} elseif ( 'publication-shipping-information' === $form_type ) {
 		get_template_part( 'template-parts/forms/content', 'publication' );
+	} elseif ( 'download-the-prospectus' === $form_type ) {
+		get_template_part( 'template-parts/forms/content', 'prospectus' );
 	} elseif ( 'special-event-order' === $form_type ) {
 		get_template_part( 'template-parts/forms/content', 'special-event' );
 	}

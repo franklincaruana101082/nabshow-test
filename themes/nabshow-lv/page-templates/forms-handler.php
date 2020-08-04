@@ -17,6 +17,7 @@ get_header();
 
 				$form_type  = filter_input( INPUT_POST, 'form_type', FILTER_SANITIZE_STRING );
 				$to_email   = filter_input( INPUT_POST, 'to_email', FILTER_SANITIZE_STRING );
+				$form_title   = filter_input( INPUT_POST, 'form_title', FILTER_SANITIZE_STRING );
 
 				if ( 'startup-loft' === $form_type ) {
 
@@ -203,6 +204,61 @@ get_header();
 							<p>Thank you, your submission has been received.</p>
 							<a class="gobackbtn btn-primary" href="<?php echo esc_url( get_the_permalink() ); ?>">Go back to the form</a>
 						</div>
+						<?php
+					}
+				} elseif ( 'download-the-prospectus' === $form_type ) {
+
+					$uname    = filter_input( INPUT_POST, 'uname', FILTER_SANITIZE_STRING );
+					$utitle   = filter_input( INPUT_POST, 'utitle', FILTER_SANITIZE_STRING );
+					$ucompany = filter_input( INPUT_POST, 'ucompany', FILTER_SANITIZE_STRING );
+					$uemail   = filter_input( INPUT_POST, 'uemail', FILTER_SANITIZE_STRING );
+					$uphone   = filter_input( INPUT_POST, 'uphone', FILTER_SANITIZE_STRING );
+
+					$inserted_post_id = wp_insert_post(
+						array(
+							'post_title'  => $uname,
+							'post_type'   => 'forms-data',
+							'post_status' => 'publish',
+						)
+					);
+
+					if ( ! is_wp_error( $inserted_post_id ) ) {
+
+						add_post_meta( $inserted_post_id, 'uname', $uname );
+						add_post_meta( $inserted_post_id, 'utitle', $utitle );
+						add_post_meta( $inserted_post_id, 'ucompany', $ucompany );
+						add_post_meta( $inserted_post_id, 'uemail', $uemail );
+						add_post_meta( $inserted_post_id, 'uphone', $uphone );
+
+						wp_set_object_terms( $inserted_post_id, $form_type, 'forms-category' );
+
+						$message = '<html><body>';
+						$message .= '<table border="1" cellpadding="10"><tr><th>Fields</th><th>Details</th></tr>';
+						$message .= '<tr><th colspan="2">Download the Prospectus Form</th></tr>';
+						$message .= '<tr><td>Name</td><td>' . $uname . '</td></tr>';
+						$message .= '<tr><td>Title</td><td>' . $utitle . '</td></tr>';
+						$message .= '<tr><td>Company</td><td>' . $ucompany . '</td></tr>';
+						$message .= '<tr><td>Email</td><td>' . $uemail . '</td></tr>';
+						$message .= '<tr><td>Phone</td><td>' . $uphone . '</td></tr>';
+						$message .= '</table></body></html>';
+
+						$headers = "From: NABShow <noreply@nabshow.com>\r\n";
+						$headers .= "MIME-Version: 1.0\r\n";
+						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+						$subject = 'Download the Prospectus Form Details';
+
+						if ( ! empty( $to_email ) ) {
+							wp_mail( $to_email, $subject, $message, $headers );
+						}
+
+						$form_page_url = get_the_permalink();
+						?>
+                        <div class="form-confirmation">
+                            <p>Thank you for submitting the Download the Prospectus form! Download the Prospectus below.</p>
+                            <p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">NAB Exhibitor Prospectus</a></p>
+                            <p><a href="<?php echo esc_url( $form_page_url ); ?>">Go back to the form</a></p>
+                        </div>
 						<?php
 					}
 				} elseif ( 'publication-shipping-information' === $form_type ) {
