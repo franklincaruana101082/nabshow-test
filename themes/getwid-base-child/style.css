@@ -56,6 +56,23 @@ textarea {
   letter-spacing: .7px;
 }
 
+/* Event Calendar Customization ------- */
+
+
+/* hide attendance opt out checkbox on single event pages for Event Tickets Plus 4.11.3 and later */
+
+#tribe-tickets .tribe-tickets-attendees-list-optout--wrapper {
+	display:none;
+}
+
+.tribe-events-back {
+  display:none;
+}
+
+.tribe-events-schedule span.tribe-event-date-start {
+  color:#FFFFFF;
+}
+
 
 
 
