@@ -69,12 +69,19 @@ span.tribe-events-cost {
   display: none;
 }
 
-.tribe-events-back p.tribe-events-back {
+.tribe-events-back {
   display:none;
+}
+p.tribe-events-back {
+  display: none;
 }
 
 .tribe-events-schedule span.tribe-event-date-start span.tribe-events-schedule__separator.tribe-events-schedule__separator--date {
   color:#FFFFFF;
+}
+
+button.tribe-button.tribe-button--rsvp {
+
 }
 
 
