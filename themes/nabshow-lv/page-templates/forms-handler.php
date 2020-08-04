@@ -17,7 +17,6 @@ get_header();
 
 				$form_type  = filter_input( INPUT_POST, 'form_type', FILTER_SANITIZE_STRING );
 				$to_email   = filter_input( INPUT_POST, 'to_email', FILTER_SANITIZE_STRING );
-				$form_title   = filter_input( INPUT_POST, 'form_title', FILTER_SANITIZE_STRING );
 
 				if ( 'startup-loft' === $form_type ) {
 
