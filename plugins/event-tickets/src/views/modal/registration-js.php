@@ -23,6 +23,17 @@ $has_tpp        = false;
 $event_id       = get_the_ID();
 $meta           = Tribe__Tickets_Plus__Main::instance()->meta();
 $non_meta_count = 0;
+$event_desclaimer_text = get_post_meta( $event_id, '_event_desclaimer_text', true );
+$allowed_tags = array(
+	'a'      => array( 'id' => array(), 'href' => array(), 'target' => array(), 'style' => array(), 'class' => array() ),
+	'p'      => array( 'style' => array() ),
+	'div'    => array( 'id' => array(), 'class' => array(), 'style' => array() ),
+	'img'    => array( 'src' => array(), 'title' => array(), 'alt' => array() ),
+	'span'   => array( 'id' => array(), 'class' => array() ),
+	'input'  => array( 'id' => array(), 'type' => array(), 'value' => array() ),
+	'ul'     => array( 'class' => array() ),
+	'li'     => array( 'class' => array() ),
+ );
 
 if ( ! empty( $providers ) ) {
 	$providers_arr  = array_unique( wp_list_pluck( $providers, 'attendee_object' ) );
@@ -74,6 +85,7 @@ if ( ! empty( $providers ) ) {
 						<?php echo esc_html( get_the_title( $ticket['id'] ) ); ?>
 					</h3>
 				</div>
+				<div id="event_desclaimer_text"><?php echo wp_kses( $event_desclaimer_text, $allowed_tags ); ?></div>
 		<?php endforeach; ?>
 
 		<?php
