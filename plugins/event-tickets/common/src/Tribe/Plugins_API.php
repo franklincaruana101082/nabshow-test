@@ -78,7 +78,7 @@ class Tribe__Plugins_API {
 				'link' => 'https://m.tri.be/1aj1',
 				'description' => __( 'Manage ticketing and RSVPs', 'tribe-common' ),
 				'features' => [
-					__( 'Add tickets and RSVP to any post', 'tribe-common' ),
+					__( 'Add tickets and RSVPs to any post', 'tribe-common' ),
 					__( 'Paypal integration', 'tribe-common' ),
 					__( 'Attendee reports', 'tribe-common' ),
 					__( 'Customizable ticket template', 'tribe-common' ),

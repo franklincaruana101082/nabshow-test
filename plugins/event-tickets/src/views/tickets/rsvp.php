@@ -70,7 +70,7 @@ if ( ! $already_rendered ) {
 	enctype='multipart/form-data'
 >
 	<h2 class="tribe-events-tickets-title tribe--rsvp">
-		<?php echo esc_html( tribe_get_rsvp_label_singular( 'form_heading' ) ); ?>
+		<?php echo esc_html( tribe_get_rsvp_label_plural( 'form_heading' ) ); ?>
 	</h2>
 
 	<div class="tribe-rsvp-messages">

@@ -9,7 +9,7 @@ $should_default_to_on = ! tribe_installed_before( 'Tribe__Tickets__Main', '5.0' 
 $settings = Tribe__Main::array_insert_before_key( 'tribe-form-content-end', $settings, [
 	'rsvp-display-title'         => [
 		'type' => 'html',
-		'html' => '<h3>' . __( 'RSVP Display Settings', 'event-tickets' ) . '</h3>',
+		'html' => '<h3>' . __( 'RSVPs Display Settings', 'event-tickets' ) . '</h3>',
 	],
 	'rsvp-display-description'   => [
 		'type' => 'html',
