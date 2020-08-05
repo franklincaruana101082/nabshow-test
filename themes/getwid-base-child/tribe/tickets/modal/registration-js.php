@@ -81,7 +81,7 @@ if ( ! empty( $providers ) ) {
 			}
 			?>
 				<div class="tribe-tickets__item__attendee__fields__container" data-ticket-id="<?php echo esc_attr( $ticket['id'] ); ?>">
-					<h3 class="tribe-common-h5 tribe-common-h5--min-medium tribe-common-h--alt tribe-ticket__heading">
+					<h3 class="tribe-001 tribe-common-h5 tribe-common-h5--min-medium tribe-common-h--alt tribe-ticket__heading">
 						<?php echo esc_html( get_the_title( $ticket['id'] ) ); ?>
 					</h3>
 				</div>
