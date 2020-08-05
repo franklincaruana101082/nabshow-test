@@ -69,8 +69,14 @@ if ( ! $already_rendered ) {
 	method="post"
 	enctype='multipart/form-data'
 >
-	<h2 class="tribe-events-tickets-title tribe--rsvp">
-		<?php echo esc_html( tribe_get_rsvp_label_singular( 'form_heading' ) ); ?>
+	<h2 class="tribe-events-tickets-title tribe--rsvp customized-rsvp">
+		<?php
+		// Show 'RSVPs' for Event: Collectively Speaking: Production in a Pandemic
+		if( 52 === $post->ID ) {
+			echo esc_html( tribe_get_rsvp_label_plural( 'form_heading' ) );
+		} else {
+			echo esc_html( tribe_get_rsvp_label_singular( 'form_heading' ) );
+		} ?>
 	</h2>
 
 	<div class="tribe-rsvp-messages">
