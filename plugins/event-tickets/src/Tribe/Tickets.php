@@ -2865,7 +2865,7 @@ if ( ! class_exists( 'Tribe__Tickets__Tickets' ) ) {
 				/**
 				 * Filters the position of the RSVP tickets form.
 				 *
-				 * While this setting can be handled using the Events > Settings > Tickets > "Location of RSVP form"
+				 * While this setting can be handled using the Events > Settings > Tickets > "Location of Registration form"
 				 * setting this filter allows developers to override the general setting in particular cases.
 				 * Returning an empty value here will prevent the ticket form from printing on the page.
 				 *

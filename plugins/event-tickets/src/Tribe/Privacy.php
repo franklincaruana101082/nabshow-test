@@ -93,7 +93,7 @@ class Tribe__Tickets__Privacy {
 	 */
 	public function register_exporters( $exporters ) {
 		$exporters[] = [
-			'exporter_friendly_name' => __( 'Event Tickets RSVP Attendee', 'event-tickets' ),
+			'exporter_friendly_name' => __( 'Event Tickets Registration Attendee', 'event-tickets' ),
 			'callback'               => [ $this, 'rsvp_exporter' ],
 		];
 
@@ -120,7 +120,7 @@ class Tribe__Tickets__Privacy {
 	 */
 	public function register_erasers( $erasers ) {
 		$erasers[] = [
-			'eraser_friendly_name' => __( 'Event Tickets RSVP Attendee', 'event-tickets' ),
+			'eraser_friendly_name' => __( 'Event Tickets Registration Attendee', 'event-tickets' ),
 			'callback'             => [ $this, 'rsvp_eraser' ],
 		];
 
@@ -171,7 +171,7 @@ class Tribe__Tickets__Privacy {
 			$group_id = 'rsvp-attendees';
 
 			// Set a label for the group
-			$group_label = __( 'Event Tickets RSVP Attendee Data', 'event-tickets' );
+			$group_label = __( 'Event Tickets Registration Attendee Data', 'event-tickets' );
 
 			$data = [];
 
