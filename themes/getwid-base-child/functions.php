@@ -43,7 +43,7 @@ function event_desclaimer_text_box() {
         add_meta_box(
             'event_desclaimer_meta',
             'Disclaimer Text',
-            'event_desclaimer_text_box_html', 
+            'event_desclaimer_text_box_html',
             $screen
         );
     }
@@ -54,7 +54,7 @@ function event_desclaimer_text_box_html( $post ) {
     $value = get_post_meta($post->ID, '_event_desclaimer_text', true);
 
     $content   = $value;
-    $editor_id = 'event_desclaimer_text_editor'; 
+    $editor_id = 'event_desclaimer_text_editor';
     wp_editor( $content, $editor_id );
 }
 
@@ -68,3 +68,18 @@ function save_event_desclaimer_text( $post_id ) {
     }
 }
 add_action('save_post', 'save_event_desclaimer_text');
+
+// Function to change email address
+
+function wpb_sender_email( $original_email_address ) {
+    return 'register@nab.org';
+}
+
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+    return 'Collectively Speaking, NAB Show';
+}
+
+// Hooking up our functions to WordPress filters
+add_filter( 'wp_mail_from', 'wpb_sender_email' );
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
