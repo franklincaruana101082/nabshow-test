@@ -44,6 +44,7 @@ Updated: 2020-07-31 00:09:29
   font-family: "Work Sans", sans-serif;
   font-size: 13px;
   font-size: 2rem;
+  font-weight: 500;
   color: #000000;
   margin: 0;
   font-style: italic;
@@ -104,5 +105,6 @@ button.tribe-button.tribe-button--rsvp {
   font-size: 13px;
   font-size: 0.8125rem;
   color: #9ea6ac;
-  /* background-color: #8f4ec7; */
+  display: block;
+  background-color: #C0C0C0;
 }
