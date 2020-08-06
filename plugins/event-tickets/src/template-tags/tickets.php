@@ -1306,7 +1306,7 @@ if ( ! function_exists( 'tribe_get_rsvp_label_singular' ) ) {
 		 * @param string $label   The singular version of the RSVP label. Defaults to "RSVP".
 		 * @param string $context The context in which this string is filtered, e.g. 'verb' or 'template.php'.
 		 */
-		return apply_filters( 'tribe_get_rsvp_label_singular', _x( 'RSVP', 'singular label for RSVP', 'event-tickets' ), $context );
+		return apply_filters( 'tribe_get_rsvp_label_singular', _x( 'Registration', 'singular label for RSVP', 'event-tickets' ), $context );
 	}
 }
 
@@ -1330,7 +1330,7 @@ if ( ! function_exists( 'tribe_get_rsvp_label_singular_lowercase' ) ) {
 		 * @param string $label   The lowercase singular version of the RSVP label. Defaults to "rsvp".
 		 * @param string $context The context in which this string is filtered, e.g. 'verb' or 'template.php'.
 		 */
-		return apply_filters( 'tribe_get_rsvp_label_singular_lowercase', _x( 'rsvp', 'lowercase singular label for RSVP', 'event-tickets' ), $context );
+		return apply_filters( 'tribe_get_rsvp_label_singular_lowercase', _x( 'registration', 'lowercase singular label for RSVP', 'event-tickets' ), $context );
 	}
 }
 

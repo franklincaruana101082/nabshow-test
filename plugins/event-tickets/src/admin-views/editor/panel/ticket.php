@@ -243,7 +243,7 @@ $default_module_class = empty( $default_module ) ? '' : $default_module->class_n
 					id="rsvp_form_save"
 					class="button-primary tribe-dependent tribe-validation-submit"
 					name="ticket_form_save"
-					value="<?php echo esc_attr( sprintf( _x( 'Save %s', 'RSVP form save value', 'event-tickets' ), tribe_get_rsvp_label_singular( 'form_save_value' ) ) ); ?>"
+					value="<?php echo esc_attr( sprintf( _x( 'Save %s', 'Registration form save value', 'event-tickets' ), tribe_get_rsvp_label_singular( 'form_save_value' ) ) ); ?>"
 					data-depends="#Tribe__Tickets__RSVP_radio"
 					data-condition-is-checked
 				/>

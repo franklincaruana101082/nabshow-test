@@ -76,9 +76,9 @@ class Tribe__Plugins_API {
 				'title' => __( 'Event Tickets', 'tribe-common' ),
 				'slug' => 'event-tickets',
 				'link' => 'https://m.tri.be/1aj1',
-				'description' => __( 'Manage ticketing and RSVPs', 'tribe-common' ),
+				'description' => __( 'Manage ticketing and Registrations', 'tribe-common' ),
 				'features' => [
-					__( 'Add tickets and RSVPs to any post', 'tribe-common' ),
+					__( 'Add tickets and Registrations to any post', 'tribe-common' ),
 					__( 'Paypal integration', 'tribe-common' ),
 					__( 'Attendee reports', 'tribe-common' ),
 					__( 'Customizable ticket template', 'tribe-common' ),

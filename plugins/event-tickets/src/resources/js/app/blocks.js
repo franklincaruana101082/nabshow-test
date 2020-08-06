@@ -42730,7 +42730,7 @@ var template_RSVPContainerIcon = function RSVPContainerIcon(_ref) {
 		wp.element.createElement(
 			'span',
 			{ className: 'tribe-editor__rsvp-container__icon-label' },
-			Object(external_var_wp_i18n_root_wp_i18n_["__"])('RSVP', 'event-tickets')
+			Object(external_var_wp_i18n_root_wp_i18n_["__"])('Registration', 'event-tickets')
 		)
 	);
 };
@@ -44093,7 +44093,7 @@ var utils = __webpack_require__(8);
  */
 /* harmony default export */ var blocks_rsvp = ({
 	id: 'rsvp',
-	title: Object(external_var_wp_i18n_root_wp_i18n_["__"])('RSVP', 'event-tickets'),
+	title: Object(external_var_wp_i18n_root_wp_i18n_["__"])('Registration', 'event-tickets'),
 	description: Object(external_var_wp_i18n_root_wp_i18n_["__"])('Find out who is planning to attend!', 'event-tickets'),
 	icon: wp.element.createElement(icons["RSVP"], null),
 	category: 'tribe-tickets',
