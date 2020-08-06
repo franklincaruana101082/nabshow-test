@@ -19,7 +19,7 @@ import {
  */
 export default {
 	id: 'rsvp',
-	title: __( 'RSVP', 'event-tickets' ),
+	title: __( 'Registration', 'event-tickets' ),
 	description: __(
 		'Find out who is planning to attend!',
 		'event-tickets',

@@ -65,7 +65,7 @@ class Settings_Tab {
                 ],
                 'info-box-description' => [
                     'type' => 'html',
-                    'html' => '<p>' . __( 'Customize the ticket emails. Supports RSVPs and Tickets from all ecommerce providers.', 'tribe-ext-ticket-email-settings' ) . '</p>',
+                    'html' => '<p>' . __( 'Customize the ticket emails. Supports Registrations and Tickets from all ecommerce providers.', 'tribe-ext-ticket-email-settings' ) . '</p>',
                 ],
                 'info-end' => [
                     'type' => 'html',

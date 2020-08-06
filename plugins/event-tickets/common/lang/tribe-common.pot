@@ -2162,11 +2162,11 @@ msgid "Shortcodes"
 msgstr ""
 
 #: src/Tribe/Plugins_API.php:79
-msgid "Manage ticketing and RSVPs"
+msgid "Manage ticketing and Registrations"
 msgstr ""
 
 #: src/Tribe/Plugins_API.php:81
-msgid "Add tickets and RSVP to any post"
+msgid "Add tickets and Registration to any post"
 msgstr ""
 
 #: src/Tribe/Plugins_API.php:82
