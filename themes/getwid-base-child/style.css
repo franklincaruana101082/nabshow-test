@@ -43,10 +43,11 @@ Updated: 2020-07-31 00:09:29
 .site-description {
   font-family: "Work Sans", sans-serif;
   font-size: 13px;
-  font-size: 1rem;
-  font-color: #000000;
-  margin: 10;
+  font-size: 2rem;
+  color: #000000;
+  margin: 0;
   font-style: italic;
+  padding-left: 20px;
   display: block;
 }
 
