@@ -35,10 +35,10 @@ $to_email = get_query_var('form_email' );
                     </div>
 				</div>
 			</fieldset>
-			<div class="captcha">
+			<!-- <div class="captcha">
 				<div class="g-recaptcha" data-sitekey="6Lfwj9wSAAAAAGC50P7LPTXvapy4cdM6GuPJ5Zh3"></div>
 				<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
-			</div>
+			</div> -->
 			<?php wp_nonce_field( 'nabshow_forms', 'form_details_nonce' ); ?>
             <input type="hidden" name="form_type" value="download-the-prospectus">
 			<input type="hidden" name="to_email" value="<?php echo esc_attr( $to_email ); ?>" />
@@ -48,4 +48,4 @@ $to_email = get_query_var('form_email' );
 		</div>
 	</form>
 <?php
-nabshow_lv_enqueue_google_recaptch_script();
+//nabshow_lv_enqueue_google_recaptch_script();

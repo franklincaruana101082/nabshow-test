@@ -188,7 +188,7 @@ if ( ! $already_rendered ) {
 		<?php if ( $is_there_any_product_to_sell ) : ?>
 			<tr class="tribe-tickets-meta-row">
 				<td colspan="4" class="tribe-tickets-attendees">
-					<header><?php esc_html_e( 'Send RSVP confirmation to:', 'event-tickets' ); ?></header>
+					<header><?php esc_html_e( 'Send Registration confirmation to:', 'event-tickets' ); ?></header>
 					<?php
 					/**
 					 * Allows injection of HTML before RSVP ticket confirmation fields

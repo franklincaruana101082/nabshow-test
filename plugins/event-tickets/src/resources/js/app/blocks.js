@@ -42383,7 +42383,7 @@ var template_RSVPAttendeeRegistration = function RSVPAttendeeRegistration(_ref) 
 	var linkText = hasAttendeeInfoFields ? linkTextEdit : linkTextAdd;
 
 	return wp.element.createElement(modules_elements["AttendeesRegistration"], {
-		helperText: Object(external_var_wp_i18n_root_wp_i18n_["__"])('Save your RSVP to enable attendee information fields', 'event-tickets'),
+		helperText: Object(external_var_wp_i18n_root_wp_i18n_["__"])('Save your Registration to enable attendee information fields', 'event-tickets'),
 		iframeURL: attendeeRegistrationURL,
 		isDisabled: isDisabled,
 		isModalOpen: isModalOpen,
@@ -43443,9 +43443,9 @@ var inactiveBlockProps = {
 var template_RSVPInactiveBlock = function RSVPInactiveBlock(_ref) {
 	var created = _ref.created;
 
-	inactiveBlockProps.title = created ? Object(external_var_wp_i18n_root_wp_i18n_["__"])('RSVP is not currently active', 'event-tickets') : Object(external_var_wp_i18n_root_wp_i18n_["__"])('There is no RSVP configured', 'event-tickets');
+	inactiveBlockProps.title = created ? Object(external_var_wp_i18n_root_wp_i18n_["__"])('RSVP is not currently active', 'event-tickets') : Object(external_var_wp_i18n_root_wp_i18n_["__"])('There is no Registration configured', 'event-tickets');
 
-	inactiveBlockProps.description = created ? Object(external_var_wp_i18n_root_wp_i18n_["__"])('Edit this block to change RSVP settings.', 'event-tickets') : Object(external_var_wp_i18n_root_wp_i18n_["__"])('Edit this block to create an RSVP form.', 'event-tickets');
+	inactiveBlockProps.description = created ? Object(external_var_wp_i18n_root_wp_i18n_["__"])('Edit this block to change Registration settings.', 'event-tickets') : Object(external_var_wp_i18n_root_wp_i18n_["__"])('Edit this block to create an Registration form.', 'event-tickets');
 
 	return wp.element.createElement(inactive_block_element["b" /* default */], inactiveBlockProps);
 };
