@@ -18,20 +18,20 @@ $to_email = get_query_var('form_email' );
 						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="uname" name="uname" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
-						<label class="control-label" for="utitle">Title</label>
-						<input pattern=".*\S+.*" class="form-control form-text" type="text" id="utitle" name="utitle" size="60" maxlength="128">
+						<label class="control-label" for="utitle">Title <span class="form-required" title="This field is required.">*</span></label>
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="utitle" name="utitle" size="60" maxlength="128">
 					</div>
 					<div class="form-item">
-						<label class="control-label" for="ucompany">Company</label>
-						<input pattern=".*\S+.*" class="form-control form-text" type="text" id="ucompany" name="ucompany" size="60" maxlength="128">
+						<label class="control-label" for="ucompany">Company <span class="form-required" title="This field is required.">*</span></label>
+						<input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="ucompany" name="ucompany" size="60" maxlength="128">
 					</div>
                     <div class="form-item">
                         <label class="control-label" for="uemail">Email <span class="form-required" title="This field is required.">*</span></label>
                         <input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="uemail" name="uemail" size="60">
                     </div>
                     <div class="form-item">
-                        <label class="control-label" for="uphone">Phone</label>
-                        <input pattern=".*\S+.*" class="form-control form-text" type="text" id="uphone" name="uphone" size="60" maxlength="128">
+                        <label class="control-label" for="uphone">Phone <span class="form-required" title="This field is required.">*</span></label>
+                        <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="uphone" name="uphone" size="60" maxlength="128">
                     </div>
 				</div>
 			</fieldset>

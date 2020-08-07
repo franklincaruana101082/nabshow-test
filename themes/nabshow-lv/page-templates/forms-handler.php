@@ -254,9 +254,8 @@ get_header();
 						$form_page_url = get_the_permalink();
 						?>
                         <div class="form-confirmation">
-                            <p>Thank you for your interest! Download the prospectus below.</p>
                             <p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>
-							<p>Someone from the NAB Show sales team will be in touch shortly to follow up with any questions you might have.</p>
+							<p>Thank you for your interest. We’ll connect with you soon.</p>
                             <p><a href="<?php echo esc_url( $form_page_url ); ?>">Return to the Form</a></p>
                         </div>
 						<?php
