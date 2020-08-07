@@ -23,10 +23,39 @@ get_sidebar();
 	if ( $show_site_info ):
 		?>
 		<div class="site-info">
+			<p>
+				<ul class="social-list">
+				<li>
+				<a href="https://www.facebook.com/pages/NAB-Show/195269533220" class="social-fb" target="_blank" rel="noopener noreferrer">
+				<i class="fa fa-facebook"></i>
+				</a>
+				</li>
+				<li>
+				<a href="https://twitter.com/nabshow" class="social-twitter" target="_blank" rel="noopener noreferrer">
+				<i class="fa fa-twitter"></i>
+				</a>
+				</li>
+				<li>
+				<a href="https://www.youtube.com/user/TheNABShow" class="social-youtube" target="_blank" rel="noopener noreferrer">
+				<i class="fa fa-youtube"></i>
+				</a>
+				</li>
+				<li>
+				<a href="https://www.linkedin.com/company/10428507/" class="social-linkedin" target="_blank" rel="noopener noreferrer">
+				<i class="fa fa-linkedin"></i>
+				</a>
+				</li>
+				<li>
+				<a href="http://instagram.com/nabshow?ref=badge" class="social-insta" target="_blank" rel="noopener noreferrer">
+				<i class="fa fa-instagram"></i>
+				</a>
+				</li>
+				</ul>
+			</p>
 			<p class="footer-copyright">
-							<span class="footer-related">Related Shows: <a style="color: #000000;" href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show April 10 - 14, 2021</a> | <a style="color: #000000;" href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York October 2020</a> | <a style="color: #000000;" href="https://nabshow.com/express/" target="_blank" rel="noopener noreferrer">NAB Show Express</a><br /><br />
-							</span>
+				<span class="footer-related">Related Shows: <a href="https://nabshow.com" target="_blank" rel="noopener noreferrer">NAB Show</a> | <a href="https://nabshowny.com" target="_blank" rel="noopener noreferrer">NAB Show New York</a> | <a href="https://nabshow.com/express/" target="_blank" rel="noopener noreferrer">NAB Show Express</a><br /><br />
 
+				<br />
 						&copy;
 							<?php
 							echo date_i18n(
@@ -34,15 +63,18 @@ get_sidebar();
 								_x( 'Y', 'copyright date format', 'getwid-base' )
 							);
 							?>
-							<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a>. All Rights Reserved.<br />
-							<span class="footer-related">
-							<a href="/august/privacy-policy/">Privacy Policy</a> | <a href="/august/terms-of-use/">Terms of Use</a> |   <a href="/august/contact/">Contact Us</a>
+								<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a> All Rights Reserved.<br /><br />
+								<span class="footer-related">
+								<a href="/privacy-policy/" target="_blank">Privacy Policy</a> | <a href="/terms-of-use/">Terms of Use</a> |   <a href="/contact/">Contact Us</a>
+					</span>
+				</p>
 		</div>
 	<?php
 	endif;
 	?>
-</footer><!-- #colophon --></div><!-- #page -->
+</footer><!-- #colophon -->
+</div><!-- #page -->
 
-<?php wp_footer(); ?>
+<?php // wp_footer(); ?>
 
 </body></html>
