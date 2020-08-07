@@ -26,8 +26,60 @@ Updated: 2020-07-31 00:09:29
 
 }
 
+@@font-face {
+  font-family: 'fontawesome';
+  src: url('/fonts/font-awesome/fontawesome-webfont.eot') format('eot');
+  src: url('/fonts/font-awesome/fontawesome-webfont.svg') format('svg');
+  src: url('/fonts/font-awesome/fontawesome-webfont.ttf') format('ttf');
+  src: url('/fonts/font-awesome/fontawesome-webfont.woff') format('woff');
+  src: url('/fonts/font-awesome/fontawesome-webfont.woff2') format('woff2');
+  src: url('/fonts/font-awesome/fontawesome.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+}
 
-/* ---- Site Title ---- */
+/* ---- Site Header, Branding and Title ---- */
+
+@media(max-width: 992px){
+    .site-header {
+        flex-direction: column;
+    }
+}
+
+.fa {
+  font: "fontawesome";
+}
+
+.site-header {
+/* position:sticky; */
+top:0;
+z-index:99;
+/* background:#fff; */
+}
+
+/* .site-header {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: .875rem 2.5rem;
+  border-bottom: 2px solid #f3f9fd;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: left;
+      -ms-flex-align: left;
+          align-items: left;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.site-header.has-custom-color .main-navigation,
+.site-header.has-custom-color .search-toggle:not(:hover),
+.site-header.has-custom-color .menu-toggle,
+.site-header.has-custom-color .dropdown-toggle,
+.site-header.has-custom-color .primary-menu-more-toggle {
+  color: inherit;
+} */
 
 .site-title {
   font-size: 27px;
@@ -52,6 +104,20 @@ Updated: 2020-07-31 00:09:29
   display: block;
 }
 
+
+.site-title a {
+  color: #BA202C;
+}
+
+.site-title a:hover {
+  text-decoration: none;
+}
+
+.site-title a:focus, .site-title a:active {
+  text-decoration: none;
+  outline: none;
+}
+
 /* Typography ------------------------- */
 
 body,
@@ -60,7 +126,7 @@ input,
 select,
 optgroup,
 textarea {
-  color: #7b838b;
+
   font-family: "Roboto", Arial, sans-serif;
   font-size: 18px;
   font-size: 1.08rem;
@@ -94,17 +160,70 @@ button.tribe-button.tribe-button--rsvp {
   color: #FFFFFF;
 }
 
-
-
-
 /* Site Footer ------------------------ */
 
-.site-footer .site-info {
+footer {
+  /* display: block; */
+  /* clear: both; */
+  background-color: #2b303a;
+
+}
+
+/* .site-footer::after{content:"";display:table;table-layout:fixed} */
+/* .site-footer::after{clear:both} */
+
+.edit-link .entry-footer {
+  background-color: #FFFFFF;
+}
+
+footer.site-footer .site-info a a:hover {
+  display: block;
+  max-width: 100%;
+  background-color: #040404;
   text-align: right;
   font-style: italic;
-  font-size: 13px;
-  font-size: 0.8125rem;
-  color: #9ea6ac;
-  display: block;
-  background-color: #C0C0C0;
+  font-size: 18px;
+  font-size: 1rem;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 40px;
+
+}
+
+
+/* .footer-left img{max-width:291px}
+.footer-left p{color:#fff;font-size:16px;margin-top:17px;font-family:"Roboto Bold", sans-serif} */
+.social-list{padding:0;margin:0;list-style-type:none;display:inline-block}
+.social-list li{display:inline-block;width:45px;height:45px;line-height:45px;float:left}
+.social-list li+li{margin-left:11px}
+.social-list li .fa{font-size:22px;color:#FFFFFF}
+.social-list li a.social-snapchat:hover{background-color:#fffc00;border-color:#fffc00}
+.social-list li a.social-insta:hover{background-color:#bc2a8d;border-color:#bc2a8d}
+.social-list li a.social-linkedin:hover{background-color:#0077b5;border-color:#0077b5}
+.social-list li a.social-youtube:hover{background-color:#ff0000;border-color:#ff0000}
+.social-list li a.social-twitter:hover{background-color:#1da1f2;border-color:#1da1f2}
+.social-list li a.social-fb:hover{background-color:#3b579d;border-color:#3b579d}
+.social-list li a{width:100%;text-align:center;height:100%;display:flex;justify-content:center;align-items:center;text-decoration:none;background-color:transparent;transition:all 0.3s ease-in}
+/* .footer-right{text-align:right} */
+.footer-copyright{margin-top:0;display:inline-block;color:#fff;margin-bottom:0;width:100%;font-size:14px}
+.footer-right ul.policy-list{padding:0;margin:0;list-style-type:none}
+.footer-right ul.policy-list li{display:inline-block;color:#fff}
+.footer-right ul.policy-list li a{color:#fff;text-decoration:underline;font-size:11px}
+.footer-right ul.policy-list li a::after{content:"|";display:inline-block;margin:0 2px 0 7px}
+.footer-right ul.policy-list li:last-of-type a::after{content:"";margin:0}
+.footer-right ul.policy-list li a:hover{text-decoration:none}
+/* footer .bottom-footer{padding:110px 0 90px;background-image:url("../images/rainbow-seperator.png");background-repeat:repeat-x;background-position:top left} */
+/* .bottom-footer a{color:#00b5df}
+.has-cookie-bar footer .bottom-footer{padding:110px 0 120px}
+section.widget_custom_html{margin:0} */
+.footer-related {display:inline-block;color:#fff;margin:0;font-size:14px;font-family:"Roboto Regular", sans-serif}
+.footer-related a{color:#fff;text-decoration:underline;font-size:14px;font-weight:normal}
+
+
+/* Event Calendar Customization ------- */
+
+
+/* hide attendance opt out checkbox on single event pages for Event Tickets Plus 4.11.3 and later */
+#tribe-tickets .tribe-tickets-attendees-list-optout--wrapper {
+	display: none;
 }
