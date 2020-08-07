@@ -43,7 +43,7 @@ $to_email = get_query_var('form_email' );
             <input type="hidden" name="form_type" value="download-the-prospectus">
 			<input type="hidden" name="to_email" value="<?php echo esc_attr( $to_email ); ?>" />
 			<div class="form-actions">
-				<button class="form-submit" type="submit" name="op" value="Submit">Download</button>
+				<button class="form-submit" type="submit" name="op" value="Submit">Submit</button>
 			</div>
 		</div>
 	</form>

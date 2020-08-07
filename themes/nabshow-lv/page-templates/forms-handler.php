@@ -233,7 +233,7 @@ get_header();
 
 						$message = '<html><body>';
 						$message .= '<table border="1" cellpadding="10"><tr><th>Fields</th><th>Details</th></tr>';
-						$message .= '<tr><th colspan="2">Download the Prospectus Form</th></tr>';
+						$message .= '<tr><th colspan="2">Prospectus Downloaded</th></tr>';
 						$message .= '<tr><td>Name</td><td>' . $uname . '</td></tr>';
 						$message .= '<tr><td>Title</td><td>' . $utitle . '</td></tr>';
 						$message .= '<tr><td>Company</td><td>' . $ucompany . '</td></tr>';
@@ -245,7 +245,7 @@ get_header();
 						$headers .= "MIME-Version: 1.0\r\n";
 						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-						$subject = 'Download the Prospectus Form Details';
+						$subject = 'Prospectus Downloaded';
 
 						if ( ! empty( $to_email ) ) {
 							wp_mail( $to_email, $subject, $message, $headers );
@@ -254,9 +254,10 @@ get_header();
 						$form_page_url = get_the_permalink();
 						?>
                         <div class="form-confirmation">
-                            <p>Thank you for submitting the Download the Prospectus form! Download the Prospectus below.</p>
-                            <p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary btn-blue-outline publication-btn">NAB Exhibitor Prospectus</a></p>
-                            <p><a href="<?php echo esc_url( $form_page_url ); ?>">Go back to the form</a></p>
+                            <p>Thank you for your interest! Download the prospectus below.</p>
+                            <p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>
+							<p>Someone from the NAB Show sales team will be in touch shortly to follow up with any questions you might have.</p>
+                            <p><a href="<?php echo esc_url( $form_page_url ); ?>">Return to the Form</a></p>
                         </div>
 						<?php
 					}
