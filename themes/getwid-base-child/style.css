@@ -85,23 +85,26 @@ z-index:99;
   font-size: 27px;
   font-size: 3rem;
   font-family: "molotregular", serif;
-	font-face: "molotregular";
+	font: "molotregular";
   font-weight: 700;
   margin: 0;
 	padding-bottom: 20;
   line-height: 1;
 }
 
+/* Updated */
+
 .site-description {
   font-family: "Work Sans", sans-serif;
   font-size: 13px;
-  font-size: 0.8rem;
-  margin: 0;
   font-size: 1rem;
-  font-color: #000000;
+  color: #000000;
   margin: 10;
+  font-size: 2rem;
+  color: #000000;
+  margin: 0;
   font-style: italic;
-/*  display: none; */
+  padding-left: 20px;
   display: block;
 }
 
