@@ -28,16 +28,26 @@ Updated: 2020-07-31 00:09:29
 
 @@font-face {
   font-family: 'fontawesomeregular';
-  src: url('/fonts/font-awesome/fontawesome-webfont.eot') format('eot');
+  src: url('fonts/font-awesome/fontawesome-webfont.eot') format('eot');
   src: url('fontawesome-webfont.svg') format('svg');
   /* src: url('/fonts/font-awesome/fontawesome-webfont.svg') format('svg'); */
-  src: url('/fonts/font-awesome/fontawesome-webfont.ttf') format('ttf');
-  src: url('/fonts/font-awesome/fontawesome-webfont.woff') format('woff');
-  src: url('/fonts/font-awesome/fontawesome-webfont.woff2') format('woff2');
-  src: url('/fonts/font-awesome/fontawesome.otf') format('otf');
+  src: url('fonts/font-awesome/fontawesome-webfont.ttf') format('ttf');
+  src: url('fonts/font-awesome/fontawesome-webfont.woff') format('woff');
+  src: url('fonts/font-awesome/fontawesome-webfont.woff2') format('woff2');
+  src: url('fonts/font-awesome/fontawesome.otf') format('otf');
   font-weight: normal;
   font-style: normal;
 }
+
+/* Roboto */
+@font-face{font-family:"Roboto Black";font-style:normal;font-weight:normal;src:local("Roboto Black"), url('fonts/Roboto/Roboto-Black.ttf') format('truetype')}
+@font-face{font-family:"Roboto Bold";font-style:normal;font-weight:normal;src:local("Roboto Bold"), url('fonts/Roboto/Roboto-Bold.ttf') format('truetype')}
+@font-face{font-family:"Roboto BoldItalic";font-style:normal;font-weight:normal;src:local("Roboto BoldItalic"), url('fonts/Roboto/Roboto-BoldItalic.ttf') format('truetype')}
+@font-face{font-family:"Roboto Italic";font-style:normal;font-weight:normal;src:local("Roboto Italic"), url('fonts/Roboto/Roboto-Italic.ttf') format('truetype')}
+@font-face{font-family:"Roboto Light";font-style:normal;font-weight:normal;src:local("Roboto Light"), url('fonts/Roboto/Roboto-Light.ttf') format('truetype')}
+@font-face{font-family:"Roboto Medium";font-style:normal;font-weight:normal;src:local("Roboto Medium"), url('fonts/Roboto/Roboto-Medium.ttf') format('truetype')}
+@font-face{font-family:"Roboto Thin";font-style:normal;font-weight:normal;src:local("Roboto Thin"), url('fonts/Roboto/Roboto-Thin.ttf') format('truetype')}
+@font-face{font-family:"Roboto Regular";font-style:normal;font-weight:normal;src:local("Roboto Regular"), url('fonts/Roboto/Roboto-Regular.ttf') format('truetype')}
 
 
 body,
@@ -55,7 +65,7 @@ textarea {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto Black", sans-serif;
   clear: both;
   margin-top: .5em;
   margin-bottom: .5em;
