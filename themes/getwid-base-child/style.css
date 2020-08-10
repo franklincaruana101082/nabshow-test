@@ -47,7 +47,7 @@ select,
 optgroup,
 textarea {
   color: #7b838b;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto Regular", sans-serif;
   font-size: 17px;
   font-size: 1.0625rem;
   line-height: 1.75;
@@ -211,7 +211,7 @@ footer {
   background-color: #FFFFFF;
 }
 
-footer.site-footer a a:hover {
+footer.site-footer .site-info a a:hover {
   display: block;
   max-width: 100%;
   background-color: #040404;
@@ -225,9 +225,9 @@ footer.site-footer a a:hover {
 
 }
 
-.site-info {
+/* .site-info {
   display:block;
-  /* max-width: 100%;
+  max-width: 100%;
   background-color: #040404;
   text-align: right;
   font-style: italic;
@@ -235,9 +235,9 @@ footer.site-footer a a:hover {
   font-size: 1rem;
   color: #FFFFFF;
   text-decoration: none;
-  padding: 40px; */
+  padding: 40px;
 
-}
+} */
 
 
 /* .footer-left img{max-width:291px}
