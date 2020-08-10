@@ -83,3 +83,14 @@ function wpb_sender_name( $original_email_from ) {
 // Hooking up our functions to WordPress filters
 add_filter( 'wp_mail_from', 'wpb_sender_email' );
 add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+
+// function logo_size_change(){
+// 	remove_theme_support( 'custom-logo' );
+// 	add_theme_support( 'custom-logo', array(
+// 	    'height'      => 100,
+// 	    'width'       => 400,
+// 	    'flex-height' => true,
+// 	    'flex-width'  => true,
+// 	) );
+// }
+// add_action( 'after_setup_theme', 'logo_size_change', 11 );
