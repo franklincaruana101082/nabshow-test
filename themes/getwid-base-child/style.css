@@ -216,7 +216,7 @@ footer.site-footer a a:hover {
   max-width: 100%;
   background-color: #040404;
   text-align: right;
-  font-style: italic;
+  /* font-style: italic; */
   font-size: 16px;
   font-size: 1rem;
   color: #FFFFFF;
