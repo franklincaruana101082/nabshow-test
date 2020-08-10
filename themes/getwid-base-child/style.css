@@ -225,9 +225,9 @@ footer.site-footer a a:hover {
 
 }
 
-/* .site-info {
+.site-info {
   display:block;
-  max-width: 100%;
+  /* max-width: 100%;
   background-color: #040404;
   text-align: right;
   font-style: italic;
@@ -235,9 +235,9 @@ footer.site-footer a a:hover {
   font-size: 1rem;
   color: #FFFFFF;
   text-decoration: none;
-  padding: 40px;
+  padding: 40px; */
 
-} */
+}
 
 
 /* .footer-left img{max-width:291px}
