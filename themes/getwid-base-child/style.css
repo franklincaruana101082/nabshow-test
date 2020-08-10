@@ -199,7 +199,8 @@ footer.site-footer .site-info a a:hover {
 /* .footer-left img{max-width:291px}
 .footer-left p{color:#fff;font-size:16px;margin-top:17px;font-family:"Roboto Bold", sans-serif} */
 .social-list{font-family:"fontawesomeregular"}
-.social-list{padding:0;margin:0;list-style-type:none;display:inline-block}
+/* .social-list{padding:0;margin:0;list-style-type:none;display:inline-block} */
+.social-list{padding:0;margin:0;list-style-type:none}
 .social-list li{display:inline-block;width:45px;height:45px;line-height:45px;float:left}
 .social-list li+li{margin-left:11px}
 .social-list li .fa{font-size:22px;color:#FFFFFF}
