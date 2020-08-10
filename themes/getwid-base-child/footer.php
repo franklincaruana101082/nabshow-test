@@ -65,7 +65,7 @@ get_sidebar();
 							?>
 								<a href="https://nab.org/" target="_blank">National Association of Broadcasters</a> All Rights Reserved.<br /><br />
 								<span class="footer-related">
-								<a href="/privacy-policy/" target="_blank">Privacy Policy</a> | <a href="/terms-of-use/">Terms of Use</a> |   <a href="/contact/">Contact Us</a>
+								<a href="/privacy-policy/">Privacy Policy</a> | <a href="/terms-of-use/">Terms of Use</a> |   <a href="/contact/">Contact Us</a>
 					</span>
 				</p>
 		</div>
