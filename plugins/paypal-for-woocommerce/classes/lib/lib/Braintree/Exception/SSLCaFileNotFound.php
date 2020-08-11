@@ -11,4 +11,6 @@ use Braintree\Exception;
  */
 class SSLCaFileNotFound extends Exception
 {
+
 }
+class_alias('Braintree\Exception\SSLCaFileNotFound', 'Braintree_Exception_SSLCaFileNotFound');

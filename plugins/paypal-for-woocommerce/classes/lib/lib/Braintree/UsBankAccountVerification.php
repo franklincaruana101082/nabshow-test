@@ -99,3 +99,4 @@ class UsBankAccountVerification extends Result\UsBankAccountVerification
         return Configuration::gateway()->usBankAccountVerification()->confirmMicroTransferAmounts($token, $amounts);
     }
 }
+class_alias('Braintree\UsBankAccountVerification', 'Braintree_UsBankAccountVerification');

@@ -8,12 +8,12 @@ namespace Braintree;
  *
  * @package    Braintree
  *
- * @property-read string $disbursementDate
- * @property-read boolean $fundsHeld
  * @property-read string $settlementAmount
- * @property-read string $settlementCurrencyExchangeRate
  * @property-read string $settlementCurrencyIsoCode
+ * @property-read string $settlementCurrencyExchangeRate
+ * @property-read string $fundsHeld
  * @property-read string $success
+ * @property-read string $disbursementDate
  */
 class DisbursementDetails extends Instance
 {
@@ -21,3 +21,4 @@ class DisbursementDetails extends Instance
         return !is_null($this->disbursementDate);
     }
 }
+class_alias('Braintree\DisbursementDetails', 'Braintree_DisbursementDetails');

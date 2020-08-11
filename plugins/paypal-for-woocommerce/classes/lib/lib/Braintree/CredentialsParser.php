@@ -144,3 +144,4 @@ class CredentialsParser
         return $this->_merchantId;
     }
 }
+class_alias('Braintree\CredentialsParser', 'Braintree_CredentialsParser');

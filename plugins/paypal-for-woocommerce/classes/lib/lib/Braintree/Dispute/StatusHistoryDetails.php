@@ -8,11 +8,13 @@ use Braintree\Instance;
  *
  * @package    Braintree
  *
- * @property-read \DateTime $disbursementDate
- * @property-read \DateTime $effectiveDate
+ * @property-read string $effective_date
+ * @property-read string $disbursement_date
  * @property-read string $status
- * @property-read \DateTime $timestamp
+ * @property-read date   $timestamp
  */
 class StatusHistoryDetails extends Instance
 {
 }
+
+class_alias('Braintree\Dispute\StatusHistoryDetails', 'Braintree_Dispute_StatusHistoryDetails');

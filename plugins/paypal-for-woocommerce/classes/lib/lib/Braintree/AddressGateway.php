@@ -5,6 +5,7 @@ use InvalidArgumentException;
 
 /**
  * Braintree AddressGateway module
+ * PHP Version 5
  * Creates and manages Braintree Addresses
  *
  * An Address belongs to a Customer. It can be associated to a
@@ -204,6 +205,7 @@ class AddressGateway
      */
     public static function updateSignature()
     {
+        // TODO: remove customerId from update signature
         return self::createSignature();
 
     }
@@ -309,3 +311,4 @@ class AddressGateway
 
     }
 }
+class_alias('Braintree\AddressGateway', 'Braintree_AddressGateway');

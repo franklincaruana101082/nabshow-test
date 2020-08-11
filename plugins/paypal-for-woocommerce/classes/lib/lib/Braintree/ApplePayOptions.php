@@ -25,3 +25,4 @@ class ApplePayOptions extends Base
         $this->_attributes = $attributes;
     }
 }
+class_alias('Braintree\ApplePayOptions', 'Braintree_ApplePayOptions');

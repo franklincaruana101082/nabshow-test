@@ -40,3 +40,4 @@ class AccountUpdaterDailyReport extends Base
                 Util::attributesToString($displayAttributes) .']';
     }
 }
+class_alias('Braintree\AccountUpdaterDailyReport', 'Braintree_AccountUpdaterDailyReport');

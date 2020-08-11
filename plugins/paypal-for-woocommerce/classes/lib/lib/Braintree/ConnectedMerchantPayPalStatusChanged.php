@@ -34,3 +34,4 @@ class ConnectedMerchantPayPalStatusChanged extends Base
         $this->_attributes = $attributes;
     }
 }
+class_alias('Braintree\ConnectedMerchantPayPalStatusChanged', 'Braintree_ConnectedMerchantPayPalStatusChanged');

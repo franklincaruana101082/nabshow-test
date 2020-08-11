@@ -7,6 +7,10 @@ use XMLWriter;
 use Braintree\Util;
 
 /**
+ * PHP version 5
+ */
+
+/**
  * Generates XML output from arrays using PHP's
  * built-in XMLWriter
  */
@@ -142,3 +146,4 @@ class Generator
         }
     }
 }
+class_alias('Braintree\Xml\Generator', 'Braintree_Xml_Generator');

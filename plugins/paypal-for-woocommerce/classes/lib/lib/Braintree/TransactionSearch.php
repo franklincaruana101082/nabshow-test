@@ -31,6 +31,7 @@ class TransactionSearch
     public static function customerWebsite()            { return new TextNode('customer_website'); }
     public static function disbursementDate()           { return new RangeNode("disbursementDate"); }
     public static function disputeDate()                { return new RangeNode("disputeDate"); }
+    public static function europeBankAccountIban()      { return new TextNode("europeBankAccountIban"); }
     public static function failedAt()                   { return new RangeNode("failedAt"); }
     public static function gatewayRejectedAt()          { return new RangeNode("gatewayRejectedAt"); }
     public static function id()                         { return new TextNode('id'); }
@@ -76,7 +77,6 @@ class TransactionSearch
             CreditCard::CHINA_UNION_PAY,
             CreditCard::DINERS_CLUB_INTERNATIONAL,
             CreditCard::DISCOVER,
-            CreditCard::ELO,
             CreditCard::JCB,
             CreditCard::LASER,
             CreditCard::MAESTRO,
@@ -127,3 +127,4 @@ class TransactionSearch
         ]);
     }
 }
+class_alias('Braintree\TransactionSearch', 'Braintree_TransactionSearch');

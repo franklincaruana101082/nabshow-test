@@ -18,3 +18,4 @@ class MerchantAccount
 
 
 }
+class_alias('Braintree\Test\MerchantAccount', 'Braintree_Test_MerchantAccount');

@@ -71,3 +71,4 @@ class CreditCardVerificationGateway
         return new ResourceCollection($response, $pager);
     }
 }
+class_alias('Braintree\CreditCardVerificationGateway', 'Braintree_CreditCardVerificationGateway');

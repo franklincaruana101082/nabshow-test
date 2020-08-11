@@ -175,3 +175,4 @@ class PayPalAccountGateway
         }
     }
 }
+class_alias('Braintree\PayPalAccountGateway', 'Braintree_PayPalAccountGateway');

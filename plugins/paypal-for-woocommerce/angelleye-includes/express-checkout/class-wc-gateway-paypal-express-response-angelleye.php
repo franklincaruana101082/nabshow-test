@@ -92,10 +92,4 @@ class WC_Gateway_PayPal_Express_Response_AngellEYE {
             return true;
         }
     }
-    
-    public function ec_is_response_partialsuccess($paypal_response) {
-        if (!empty($paypal_response['ACK']) && strtoupper($paypal_response['ACK']) == 'PARTIALSUCCESS') {
-            return true;
-        }
-    }
 }

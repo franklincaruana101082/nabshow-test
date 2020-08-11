@@ -61,3 +61,4 @@ class UsBankAccountVerificationSearch
         return new EndsWithNode("account_number");
     }
 }
+class_alias('Braintree\UsBankAccountVerificationSearch', 'Braintree_UsBankAccountVerificationSearch');

@@ -2,9 +2,9 @@
 Contributors: angelleye, angelleyesupport, Umangvaghela
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SG9SQU2GBXJNA
 Tags: woocommerce, paypal, express checkout, payments pro, angelleye, payflow, dodirectpayment, apple pay, google play, braintree, payments advanced, rest, credit cards, credit card payments, payments, payment
-Requires at least: 5.0
-Tested up to: 5.4.2
-Stable tag: 2.3.3
+Requires at least: 3.8
+Tested up to: 5.3.2
+Stable tag: 2.1.13
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -126,85 +126,6 @@ Automatic updates should work great for you.  As always, though, we recommend ba
 * If you are unsure, you may need to [contact PayPal](https://www.paypal.com/us/webapps/helpcenter/helphub/home/) and request the information.  Just let them know you need to enable a Payments Pro plugin on your website, but you're unsure whether you should use Website Payments Pro 3.0(DoDirectPayment) or Payments Pro 2.0 (PayFlow).  They can confirm which one you need to use.
 
 == Changelog ==
-
-= 2.3.3 - 08.08.2020 =
-* Feature - Google reCAPTCHA v3 on Checkout page with PayFlow and DDP Gateway ([PFW-668](https://github.com/angelleye/paypal-woocommerce/pull/1483))
-* Tweak - Removed "Token Payment Not Available with PFWMA" admin notice ([PFW-669](https://github.com/angelleye/paypal-woocommerce/pull/1482))
-
-= 2.3.2 - 07.30.2020 =
-* Fix - Smart Button CSS Conflict ([PFW-662](https://github.com/angelleye/paypal-woocommerce/pull/1481))
-* Fix - Credit Card Expiration Date Fields CSS Conflict ([PFW-661](https://github.com/angelleye/paypal-woocommerce/pull/1480))
-* Fix - DDP and Pay Flow Credit Card Holder Name Field Issue ([PFW-667](https://github.com/angelleye/paypal-woocommerce/pull/1479))
-* Fix - Invalid Email Results in A 404 Page Instead of The Order Review Page ([PFW-666](https://github.com/angelleye/paypal-woocommerce/pull/1478))
-
-= 2.3.1 - 07.22.2020 =
-* Fix - Fatal error resolved with the Session Function ([PFW-664](https://github.com/angelleye/paypal-woocommerce/pull/1477))
-
-= 2.3.0 - 07.22.2020 =
-* Fix - General improvement with WooCommerce Session Object Initialization and Validation ([PFW-664](https://github.com/angelleye/paypal-woocommerce/pull/1477))
-* Fix - Express checkout compatibility with Woo Subscription for the New Users ([PFW-663](https://github.com/angelleye/paypal-woocommerce/pull/1476))
-* Fix - PayPal Pro Cardholder first name and last name issue ([PFW-656](https://github.com/angelleye/paypal-woocommerce/pull/1475))
-* Fix - General improvement with order object validation to avoid fatal errors ([PFW-658](https://github.com/angelleye/paypal-woocommerce/pull/1474))
-
-= 2.2.10 - 07.13.2020 =
-* Fix - Smart button responsive issue resolved ([PFW-625](https://github.com/angelleye/paypal-woocommerce/pull/1473))
-* Tweak - Translation file update ([PFW-647](https://github.com/angelleye/paypal-woocommerce/pull/1472))
-* Fix - Billing address override issue resolved with Express Checkout ([PFW-652](https://github.com/angelleye/paypal-woocommerce/pull/1470))
-* Fix - Allow users to Re-enable Smart Payment Buttons once it's disabled ([PFW-654](https://github.com/angelleye/paypal-woocommerce/pull/1471))
-
-= 2.2.9 - 07.02.2020 =
-* Fix - Resolves Special character issue with API password ([PFW-650](https://github.com/angelleye/paypal-woocommerce/pull/1469))
-
-= 2.2.8 - 07.01.2020 =
-* Feature - Compatibility added for Split Payment across Credit Cards ([PFW-642](https://github.com/angelleye/paypal-woocommerce/pull/1466))
-
-= 2.2.7 - 07.01.2020 =
-* Fix - Special character support added for API Username ([PFW-645](https://github.com/angelleye/paypal-woocommerce/pull/1468))
-* Tweak - UI fixes on Settings page ([PFW-646](https://github.com/angelleye/paypal-woocommerce/pull/1467))
-
-= 2.2.6 - 06.24.2020 =
-* Fix - Update PayPal Payflow Iframe ([PFW-644](https://github.com/angelleye/paypal-woocommerce/pull/1465))
-* Tweak - Improved Partial Success Email Template ([PFW-643](https://github.com/angelleye/paypal-woocommerce/pull/1464))
-
-= 2.2.5 - 06.10.2020 =
-* Feature - Product Level Authorization and Capture with Express Checkout and Braintree Payment Gateway ([PFW-560](https://github.com/angelleye/paypal-woocommerce/pull/1441))
-* Tweak - Improved data accessors to use WooCommerce functions ([PFW-619](https://github.com/angelleye/paypal-woocommerce/pull/1462))
-* Fix - Call get_cart function after wp_loaded action ([PFW-641](https://github.com/angelleye/paypal-woocommerce/pull/1460))
-* Fix - Cartflow discount issue resolved ([PFW-640](https://github.com/angelleye/paypal-woocommerce/pull/1459))
-* Tweak - Partial Success Order Handling ([PFW-636](https://github.com/angelleye/paypal-woocommerce/pull/1458))
-
-= 2.2.4 - 04.06.2020 =
-* Compatibility with WooCommerce 4.2 & WordPress 5.4.1
-
-= 2.2.3 - 05.07.2020 =
-* Tweak - Added the PPREF Meta Key for the Payflow Payment Processor Gateway ([PFW-611](https://github.com/angelleye/paypal-woocommerce/pull/1452))
-* Tweak - Woo Checkout Add-Ons Compatibility ([PFW-614](https://github.com/angelleye/paypal-woocommerce/pull/1455))
-* Fix - Fixes Braintree requirement validation notice ([PFW-603](https://github.com/angelleye/paypal-woocommerce/pull/1456))
-
-= 2.2.2 - 04.30.2020 =
-* Fix - Resolves fatal error on WooCommerce Payment methods page & Cartflows checkout ([PFW-602](https://github.com/angelleye/paypal-woocommerce/pull/1450))
-
-= 2.2.1 - 04.30.2020 =
-* Tweak - PayFlow - Memo Field Adjustment ([PFW-596](https://github.com/angelleye/paypal-woocommerce/pull/1449))
-
-= 2.2.0 - 04.29.2020 =
-* Feature - Upgrades Braintree SDK from 3.34.0. to 5.0.0 ([PFW-595](https://github.com/angelleye/paypal-woocommerce/pull/1448))
-* Tweak - Added filter to override allowed product type with express checkout payment method. ([PFW-587](https://github.com/angelleye/paypal-woocommerce/pull/1447))
-
-= 2.1.16 - 04.07.2020 =
-* Verification - WooCommerce 4.0.1 and WordPress 5.4 compatibility.
-
-= 2.1.15 - 03.27.2020 =
-* Tweak - Adds required hooks for our PayPal Shipment tracking. ([PFW-563](https://github.com/angelleye/paypal-woocommerce/pull/1423))
-* Tweak – Adjustments “Thank you” page message. ([PFW-566](https://github.com/angelleye/paypal-woocommerce/pull/1425))
-* Fix - Resolves jQuery conflict. ([PFW-565](https://github.com/angelleye/paypal-woocommerce/pull/1424))
-* Fix - Correct year format as per cardinal commerce docs. ([#1430](https://github.com/angelleye/paypal-woocommerce/pull/1430))
-* Fix - "WooCommerce Booster Currency Switcher" plugin compatibility. ([PFW-571](https://github.com/angelleye/paypal-woocommerce/pull/1429))
-* Fix - Resolves a conflict with multi-currency sites with Braintree. ([PFW-574](https://github.com/angelleye/paypal-woocommerce/pull/1434))
-* Fix - Resolves a conflict with the Express Checkout PHP code. ([PFW-578](https://github.com/angelleye/paypal-woocommerce/pull/1436))
-
-= 2.1.14 - 02.03.2020 =
-* Fix - Resolves an issue with W3 Total Cache. ([PFW-561](https://github.com/angelleye/paypal-woocommerce/pull/1422))
 
 = 2.1.13 - 01.29.2020 =
 * Feature - Adds WooCommerce 3.8.0 Compatibility. ([PFW-554](https://github.com/angelleye/paypal-woocommerce/pull/1416)) ([PFW-553](https://github.com/angelleye/paypal-woocommerce/pull/1418))

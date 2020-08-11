@@ -153,3 +153,4 @@ class ResourceCollection implements Iterator
        return $this->_ids;
     }
 }
+class_alias('Braintree\ResourceCollection', 'Braintree_ResourceCollection');

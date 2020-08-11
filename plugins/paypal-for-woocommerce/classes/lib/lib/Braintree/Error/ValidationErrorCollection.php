@@ -102,6 +102,7 @@ class ValidationErrorCollection extends Collection
     {
         $output = [];
 
+        // TODO: implement scope
         if (!empty($this->_errors)) {
             $output[] = $this->_inspect($this->_errors);
         }
@@ -119,14 +120,12 @@ class ValidationErrorCollection extends Collection
     private function _inspect($errors, $scope = null)
     {
         $eOutput = '[' . __CLASS__ . '/errors:[';
-        $outputErrs = [];
         foreach($errors AS $error => $errorObj) {
-            if (is_array($errorObj->error)) {
-                $outputErrs[] = "({$errorObj->error['code']} {$errorObj->error['message']})";
-            }
+            $outputErrs[] = "({$errorObj->error['code']} {$errorObj->error['message']})";
         }
         $eOutput .= join(', ', $outputErrs) . ']]';
 
         return $eOutput;
     }
 }
+class_alias('Braintree\Error\ValidationErrorCollection', 'Braintree_Error_ValidationErrorCollection');

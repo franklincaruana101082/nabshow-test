@@ -59,3 +59,4 @@ class Transaction
         return Configuration::gateway()->testing()->settlementPending($transactionId);
     }
 }
+class_alias('Braintree\Test\Transaction', 'Braintree_Test_Transaction');

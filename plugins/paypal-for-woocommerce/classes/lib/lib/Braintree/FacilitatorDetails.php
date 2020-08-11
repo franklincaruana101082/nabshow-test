@@ -1,11 +1,6 @@
 <?php
 namespace Braintree;
 
-/**
- * @property-read string $oauthApplicationClientId
- * @property-read string $oauthApplicationName
- * @property-read string $sourcePaymentMethodToken
- */
 class FacilitatorDetails extends Base
 {
     public static function factory($attributes)
@@ -30,4 +25,6 @@ class FacilitatorDetails extends Base
         return __CLASS__ . '[' .
                 Util::attributesToString($this->_attributes) .']';
     }
+
 }
+class_alias('Braintree\FacilitatorDetails', 'Braintree_FacilitatorDetails');

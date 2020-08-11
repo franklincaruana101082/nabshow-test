@@ -11,4 +11,6 @@ use Braintree\Exception;
  */
 class TooManyRequests extends Exception
 {
+
 }
+class_alias('Braintree\Exception\TooManyRequests', 'Braintree_Exception_TooManyRequests');

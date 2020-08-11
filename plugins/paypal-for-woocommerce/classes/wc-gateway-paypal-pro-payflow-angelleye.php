@@ -166,18 +166,7 @@ class WC_Gateway_PayPal_Pro_PayFlow_AngellEYE extends WC_Payment_Gateway_CC {
         $this->fraud_codes = array('125', '128', '131', '126', '127');
         $this->fraud_error_codes = array('125', '128', '131');
         $this->fraud_warning_codes = array('126', '127');
-        $this->enable_google_recaptcha = 'yes' === $this->get_option('enable_google_recaptcha', 'no');
-        $this->recaptcha_site_key = $this->get_option('recaptcha_site_key', '');
-        $this->recaptcha_secret_key = $this->get_option('recaptcha_secret_key', '');
-        if($this->enable_google_recaptcha) {
-            if(empty($this->recaptcha_site_key) || empty($this->recaptcha_secret_key)) {
-                $this->enable_google_recaptcha = false;
-            }
-        }
         do_action('angelleye_paypal_for_woocommerce_multi_account_api_' . $this->id, $this, null, null);
-        if( $this->enable_google_recaptcha ) {
-            add_action('angelleye_pfw_payflow_add_google_recaptcha', array($this, 'own_angelleye_pfw_payflow_add_google_recaptcha'));
-        }
     }
 
     public function add_log($message, $level = 'info') {
@@ -238,6 +227,36 @@ class WC_Gateway_PayPal_Pro_PayFlow_AngellEYE extends WC_Payment_Gateway_CC {
                 'type' => 'textarea',
                 'description' => __('This controls the description which the user sees during checkout.', 'paypal-for-woocommerce'),
                 'default' => __('Pay with your credit card.', 'paypal-for-woocommerce')
+            ),
+            'invoice_id_prefix' => array(
+                'title' => __('Invoice ID Prefix', 'paypal-for-woocommerce'),
+                'type' => 'text',
+                'description' => __('Add a prefix to the invoice ID sent to PayPal. This can resolve duplicate invoice problems when working with multiple websites on the same PayPal account.', 'paypal-for-woocommerce'),
+            ),
+            'card_icon' => array(
+                'title' => __('Card Icon', 'paypal-for-woocommerce'),
+                'type' => 'text',
+                'default' => plugins_url('/assets/images/payflow-cards.png', plugin_basename(dirname(__FILE__))),
+                'class' => 'button_upload'
+            ),
+            'error_email_notify' => array(
+                'title' => __('Error Email Notifications', 'paypal-for-woocommerce'),
+                'type' => 'checkbox',
+                'label' => __('Enable admin email notifications for errors.', 'paypal-for-woocommerce'),
+                'default' => 'yes',
+                'description' => __('This will send a detailed error email to the WordPress site administrator if a PayPal API error occurs.', 'paypal-for-woocommerce')
+            ),
+            'error_display_type' => array(
+                'title' => __('Error Display Type', 'paypal-for-woocommerce'),
+                'type' => 'select',
+                'label' => __('Display detailed or generic errors', 'paypal-for-woocommerce'),
+                'class' => 'error_display_type_option wc-enhanced-select',
+                'options' => array(
+                    'detailed' => 'Detailed',
+                    'generic' => 'Generic'
+                ),
+                'description' => __('Detailed displays actual errors returned from PayPal.  Generic displays general errors that do not reveal details
+									and helps to prevent fraudulant activity on your site.', 'paypal-for-woocommerce')
             ),
             'testmode' => array(
                 'title' => __('PayPal Sandbox', 'paypal-for-woocommerce'),
@@ -305,6 +324,69 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 'default' => '',
                 'custom_attributes' => array('autocomplete' => 'new-password'),
             ),
+            'enable_3dsecure' => array(
+                'title' => __('3DSecure', 'paypal-for-woocommerce'),
+                'label' => __('Enable 3DSecure', 'paypal-for-woocommerce'),
+                'type' => 'checkbox',
+                'description' => __('Allows merchants to pass 3-D Secure authentication data to PayPal for debit and credit cards. Updating your site with 3-D Secure enables your participation in the Verified by Visa and MasterCard SecureCode programs. (Required to accept Maestro)', 'paypal-for-woocommerce'),
+                'default' => 'no'
+            ),
+            'threedsecure_type' => array(
+                'title' => __('3-D Secure authentication Type', 'paypal-for-woocommerce'),
+                'label' => __('3-D Secure authentication Type.', 'paypal-for-woocommerce'),
+                'description' => __('Using Payflow, you can authenticate cardholders with the 3-D Secure protocol in one of two ways.'),
+                'type' => 'select',
+                'class' => 'wc-enhanced-select',
+                'options' => array(
+                    'buyer_authentication_service' => 'Payflow Buyer Authentication service',
+                    'cardinalcommerce' => '3rd-Party Merchant Plug-ins (CardinalCommerce)',
+                ),
+                'default' => 'buyer_authentication_service'
+            ),
+            'centinel_pid' => array(
+                'title' => __('Centinel PID', 'paypal-for-woocommerce'),
+                'type' => 'text',
+                'description' => __('If enabling 3D Secure, enter your Cardinal Centinel Processor ID.', 'paypal-for-woocommerce'),
+                'default' => ''
+            ),
+            'centinel_mid' => array(
+                'title' => __('Centinel MID', 'paypal-for-woocommerce'),
+                'type' => 'text',
+                'description' => __('If enabling 3D Secure, enter your Cardinal Centinel Merchant ID.', 'paypal-for-woocommerce'),
+                'default' => ''
+            ),
+            'centinel_pwd' => array(
+                'title' => __('Transaction Password', 'paypal-for-woocommerce'),
+                'type' => 'password',
+                'description' => __('If enabling 3D Secure, enter your Cardinal Centinel Transaction Password.', 'paypal-for-woocommerce'),
+                'default' => ''
+            ),
+            'liability_shift' => array(
+                'title' => __('Liability Shift', 'paypal-for-woocommerce'),
+                'label' => __('Require liability shift', 'paypal-for-woocommerce'),
+                'type' => 'checkbox',
+                'description' => __('Only accept payments when liability shift has occurred.', 'paypal-for-woocommerce'),
+                'default' => 'no'
+            ),
+            'send_items' => array(
+                'title' => __('Send Item Details', 'paypal-for-woocommerce'),
+                'label' => __('Send line item details to PayPal', 'paypal-for-woocommerce'),
+                'type' => 'checkbox',
+                'description' => __('Include all line item details in the payment request to PayPal so that they can be seen from the PayPal transaction details page.', 'paypal-for-woocommerce'),
+                'default' => 'yes'
+            ),
+            'subtotal_mismatch_behavior' => array(
+                'title' => __('Subtotal Mismatch Behavior', 'paypal-for-woocommerce'),
+                'type' => 'select',
+                'class' => 'wc-enhanced-select',
+                'description' => __('Internally, WC calculates line item prices and taxes out to four decimal places; however, PayPal can only handle amounts out to two decimal places (or, depending on the currency, no decimal places at all). Occasionally, this can cause discrepancies between the way WooCommerce calculates prices versus the way PayPal calculates them. If a mismatch occurs, this option controls how the order is dealt with so payment can still be taken.', 'paypal-for-woocommerce'),
+                'default' => ($this->send_items) ? 'add' : 'drop',
+                'desc_tip' => true,
+                'options' => array(
+                    'add' => __('Add another line item', 'paypal-for-woocommerce'),
+                    'drop' => __('Do not send line items to PayPal', 'paypal-for-woocommerce'),
+                ),
+            ),
             'payment_action' => array(
                 'title' => __('Payment Action', 'paypal-for-woocommerce'),
                 'label' => __('Whether to process as a Sale or Authorization.', 'paypal-for-woocommerce'),
@@ -353,109 +435,6 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 ),
                 'default' => 'Processing',
                 'desc_tip' => true,
-            ),
-            '3dsecure'           => array(
-		'title'       => __( '3DSecure Settings', 'paypal-for-woocommerce' ),
-		'type'        => 'title',
-		'description' => '',
-            ),
-            'enable_3dsecure' => array(
-                'title' => __('3DSecure', 'paypal-for-woocommerce'),
-                'label' => __('Enable 3DSecure', 'paypal-for-woocommerce'),
-                'type' => 'checkbox',
-                'description' => __('Allows merchants to pass 3-D Secure authentication data to PayPal for debit and credit cards. Updating your site with 3-D Secure enables your participation in the Verified by Visa and MasterCard SecureCode programs. (Required to accept Maestro)', 'paypal-for-woocommerce'),
-                'default' => 'no'
-            ),
-            'threedsecure_type' => array(
-                'title' => __('3-D Secure authentication Type', 'paypal-for-woocommerce'),
-                'label' => __('3-D Secure authentication Type.', 'paypal-for-woocommerce'),
-                'description' => __('Using Payflow, you can authenticate cardholders with the 3-D Secure protocol in one of two ways.'),
-                'type' => 'select',
-                'class' => 'wc-enhanced-select',
-                'options' => array(
-                    'buyer_authentication_service' => 'Payflow Buyer Authentication service',
-                    'cardinalcommerce' => '3rd-Party Merchant Plug-ins (CardinalCommerce)',
-                ),
-                'default' => 'buyer_authentication_service'
-            ),
-            'centinel_pid' => array(
-                'title' => __('Centinel PID', 'paypal-for-woocommerce'),
-                'type' => 'text',
-                'description' => __('If enabling 3D Secure, enter your Cardinal Centinel Processor ID.', 'paypal-for-woocommerce'),
-                'default' => ''
-            ),
-            'centinel_mid' => array(
-                'title' => __('Centinel MID', 'paypal-for-woocommerce'),
-                'type' => 'text',
-                'description' => __('If enabling 3D Secure, enter your Cardinal Centinel Merchant ID.', 'paypal-for-woocommerce'),
-                'default' => ''
-            ),
-            'centinel_pwd' => array(
-                'title' => __('Transaction Password', 'paypal-for-woocommerce'),
-                'type' => 'password',
-                'description' => __('If enabling 3D Secure, enter your Cardinal Centinel Transaction Password.', 'paypal-for-woocommerce'),
-                'default' => ''
-            ),
-            'liability_shift' => array(
-                'title' => __('Liability Shift', 'paypal-for-woocommerce'),
-                'label' => __('Require liability shift', 'paypal-for-woocommerce'),
-                'type' => 'checkbox',
-                'description' => __('Only accept payments when liability shift has occurred.', 'paypal-for-woocommerce'),
-                'default' => 'no'
-            ),
-            'advanced_options'           => array(
-		'title'       => __( 'Advanced options', 'paypal-for-woocommerce' ),
-		'type'        => 'title',
-		'description' => '',
-            ),
-            'send_items' => array(
-                'title' => __('Send Item Details', 'paypal-for-woocommerce'),
-                'label' => __('Send line item details to PayPal', 'paypal-for-woocommerce'),
-                'type' => 'checkbox',
-                'description' => __('Include all line item details in the payment request to PayPal so that they can be seen from the PayPal transaction details page.', 'paypal-for-woocommerce'),
-                'default' => 'yes'
-            ),
-            'invoice_id_prefix' => array(
-                'title' => __('Invoice ID Prefix', 'paypal-for-woocommerce'),
-                'type' => 'text',
-                'description' => __('Add a prefix to the invoice ID sent to PayPal. This can resolve duplicate invoice problems when working with multiple websites on the same PayPal account.', 'paypal-for-woocommerce'),
-            ),
-            'card_icon' => array(
-                'title' => __('Card Icon', 'paypal-for-woocommerce'),
-                'type' => 'text',
-                'default' => plugins_url('/assets/images/payflow-cards.png', plugin_basename(dirname(__FILE__))),
-                'class' => 'button_upload'
-            ),
-            'error_email_notify' => array(
-                'title' => __('Error Email Notifications', 'paypal-for-woocommerce'),
-                'type' => 'checkbox',
-                'label' => __('Enable admin email notifications for errors.', 'paypal-for-woocommerce'),
-                'default' => 'yes',
-                'description' => __('This will send a detailed error email to the WordPress site administrator if a PayPal API error occurs.', 'paypal-for-woocommerce')
-            ),
-            'error_display_type' => array(
-                'title' => __('Error Display Type', 'paypal-for-woocommerce'),
-                'type' => 'select',
-                'label' => __('Display detailed or generic errors', 'paypal-for-woocommerce'),
-                'class' => 'error_display_type_option wc-enhanced-select',
-                'options' => array(
-                    'detailed' => 'Detailed',
-                    'generic' => 'Generic'
-                ),
-                'description' => __('Detailed displays actual errors returned from PayPal.  Generic displays general errors that do not reveal details
-									and helps to prevent fraudulant activity on your site.', 'paypal-for-woocommerce')
-            ),
-            'subtotal_mismatch_behavior' => array(
-                'title' => __('Subtotal Mismatch Behavior', 'paypal-for-woocommerce'),
-                'type' => 'select',
-                'class' => 'wc-enhanced-select',
-                'description' => __('Internally, WC calculates line item prices and taxes out to four decimal places; however, PayPal can only handle amounts out to two decimal places (or, depending on the currency, no decimal places at all). Occasionally, this can cause discrepancies between the way WooCommerce calculates prices versus the way PayPal calculates them. If a mismatch occurs, this option controls how the order is dealt with so payment can still be taken.', 'paypal-for-woocommerce'),
-                'default' => ($this->send_items) ? 'add' : 'drop',
-                'desc_tip' => true,
-                'options' => array(
-                    'add' => __('Add another line item', 'paypal-for-woocommerce'),
-                    'drop' => __('Do not send line items to PayPal', 'paypal-for-woocommerce'),
-                ),
             ),
             'softdescriptor' => array(
                 'title' => __('Credit Card Statement Name', 'paypal-for-woocommerce'),
@@ -527,25 +506,6 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 'description' => __('Display card holder first and last name in credit card form.', 'paypal-for-woocommerce'),
                 'default' => 'no'
             ),
-            'enable_google_recaptcha' => array(
-                'title' => __('Enable/Disable', 'paypal-for-woocommerce'),
-                'label' => __('Enable Google reCAPTCHA v3', 'paypal-for-woocommerce'),
-                'type' => 'checkbox',
-                'description' => 'Sign up and get your keys : <a target="_blank" href="https://www.google.com/recaptcha/admin/create" target="_blank">https://www.google.com/recaptcha/admin/create</a> (you will get a SITE key and a SECRET key)',
-                'default' => 'no'
-            ),
-            'recaptcha_site_key' => array(
-                'title' => __('reCAPTCHA V3 - Site Key', 'paypal-for-woocommerce'),
-                'type' => 'text',
-                'description' => __('Please enter only Google reCAPTCHA V3 Credentials, V2 Credentials are not supported', 'paypal-for-woocommerce'),
-                'default' => ''
-            ),
-            'recaptcha_secret_key' => array(
-                'title' => __('reCAPTCHA V3 - Secret Key', 'paypal-for-woocommerce'),
-                'type' => 'text',
-                'description' => __('Please enter only Google reCAPTCHA V3 Credentials, V2 Credentials are not supported', 'paypal-for-woocommerce'),
-                'default' => ''
-            ),
             'debug' => array(
                 'title' => __('Debug Log', 'paypal-for-woocommerce'),
                 'type' => 'checkbox',
@@ -575,6 +535,22 @@ of the user authorized to process transactions. Otherwise, leave this field blan
         <div id="angelleye_paypal_marketing_table">
         <table class="form-table">
             <?php
+            $this->enable_tokenized_payments = $was_enable_tokenized_payments = $this->get_option('enable_tokenized_payments', 'no');
+            if(class_exists('Paypal_For_Woocommerce_Multi_Account_Management')) {
+                $this->enable_tokenized_payments = 'no';
+                $this->is_multi_account_active = 'yes';
+            } else {
+                $this->is_multi_account_active = 'no';
+            }
+            $enable_tokenized_payments_text = '';
+            if($was_enable_tokenized_payments == 'yes' && $this->is_multi_account_active == 'yes') {
+                $enable_tokenized_payments_text = __('Payment tokenization is not available when using the PayPal Multi-Account add-on, and it has been disabled.', 'paypal-for-woocommerce');
+            } elseif($was_enable_tokenized_payments == 'no' && $this->is_multi_account_active == 'yes') {
+                $enable_tokenized_payments_text = __('Token payments are not available when using the PayPal Multi-Account add-on.', 'paypal-for-woocommerce');
+            }
+            if (!empty($enable_tokenized_payments_text) && !get_user_meta($user_id, 'ignore_token_multi_account_payflow')) {
+                echo '<div class="error angelleye-notice" style="display:none;"><div class="angelleye-notice-logo"><span></span></div><div class="angelleye-notice-message">' . $enable_tokenized_payments_text . '</div><div class="angelleye-notice-cta"><button class="angelleye-notice-dismiss angelleye-dismiss-welcome" data-msg="ignore_token_multi_account_payflow">Dismiss</button></div></div>';
+            }
              if(!get_user_meta(get_current_user_id(), 'payflow_sb_autopopulate_new_credentials')){
                echo '<div class="notice notice-info"><p>'.sprintf(__("<h3>Default PayFlow Sandbox Credentials</h3>
                 <p>These values have been auto-filled into the sandbox credential fields so that you can quickly run test orders. If you have your own PayPal Manager test account you can update the values accordingly.</p>
@@ -593,7 +569,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
             ?>
         </table>
             <p class="submit">
-                <button name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e( 'Save changes', 'paypal-for-woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'paypal-for-woocommerce' ); ?></button>
+                <button name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e( 'Save changes', 'woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'woocommerce' ); ?></button>
 		<?php wp_nonce_field( 'woocommerce-settings' ); ?>
             </p>
         </div>
@@ -626,14 +602,6 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 } else {
                     sandbox.hide();
                     production.show();
-                }
-            }).change();
-            jQuery('#woocommerce_paypal_pro_payflow_enable_google_recaptcha').change(function () {
-                var payflow_google_recaptcha_fields = jQuery('#woocommerce_paypal_pro_payflow_recaptcha_site_key, #woocommerce_paypal_pro_payflow_recaptcha_secret_key').closest('tr');
-                if (jQuery(this).is(':checked')) {
-                    payflow_google_recaptcha_fields.show();
-                } else {
-                    payflow_google_recaptcha_fields.hide();
                 }
             }).change();
             jQuery('#woocommerce_paypal_pro_payflow_send_items').change(function () {
@@ -703,13 +671,15 @@ of the user authorized to process transactions. Otherwise, leave this field blan
      * Process the payment
      */
     function process_payment($order_id) {
-        $order = wc_get_order($order_id);
+        $order = new WC_Order($order_id);
         $card = $this->get_posted_card();
-        do_action('angelleye_paypal_for_woocommerce_product_level_payment_action', $this->gateway, $this, $order_id);
+
         if (!empty($_POST['wc-paypal_pro_payflow-payment-token']) && $_POST['wc-paypal_pro_payflow-payment-token'] != 'new') {
             $this->enable_3dsecure = false;
         }
+
         if ($this->enable_3dsecure) {
+
             if ($this->threedsecure_type == 'cardinalcommerce') {
                 if (!class_exists('CentinelClient'))
                     include_once('lib/CentinelClient.php');
@@ -727,27 +697,16 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 $this->centinel_client->add('TransactionMode', 'S');
                 $this->centinel_client->add('ProductCode', 'PHY');
                 $this->centinel_client->add('CardNumber', $card->number);
-                angelleye_set_session('CardNumber', $card->number);
+                WC()->session->set('CardNumber', $card->number);
                 $this->centinel_client->add('CardExpMonth', $card->exp_month);
-                angelleye_set_session('CardExpMonth', $card->exp_month);
-                if (strlen($card->exp_year) == 2) {
-                    $card_exp_year_full += 2000;
-                } else {
-                    $card_exp_year_full = $card->exp_year;
-                }
-                $this->centinel_client->add('CardExpYear', $card_exp_year_full);
-                angelleye_set_session('CardExpYear', $card_exp_year_full);
+                WC()->session->set('CardExpMonth', $card->exp_month);
+                $this->centinel_client->add('CardExpYear', $card->exp_year);
+                WC()->session->set('CardExpYear', $card->exp_year);
                 $this->centinel_client->add('CardCode', $card->cvc);
-                angelleye_set_session('CardCode', $card->cvc);
+                WC()->session->set('CardCode', $card->cvc);
 
-                if(!empty($card->firstname) && !empty($card->lastname)) {
-                    $billing_first_name = $card->firstname;
-                    $billing_last_name = $card->lastname;
-                } else {
-                    $billing_first_name = version_compare( WC_VERSION, '3.0', '<' ) ? $order->billing_first_name : $order->get_billing_first_name();
-                    $billing_last_name = version_compare( WC_VERSION, '3.0', '<' ) ? $order->billing_last_name : $order->get_billing_last_name();
-                }
-                
+                $billing_first_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
+                $billing_last_name = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_last_name : $order->get_billing_last_name();
                 $billing_address_1 = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_address_1 : $order->get_billing_address_1();
                 $billing_address_2 = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_address_2 : $order->get_billing_address_2();
                 $billing_city = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_city : $order->get_billing_city();
@@ -794,16 +753,16 @@ of the user authorized to process transactions. Otherwise, leave this field blan
 
 
                 // Save response in session
-                angelleye_set_session('Centinel_ErrorNo', $this->get_centinel_value("ErrorNo"));
-                angelleye_set_session('Centinel_ErrorDesc', $this->get_centinel_value("ErrorDesc"));
-                angelleye_set_session('Centinel_TransactionId', $this->get_centinel_value("TransactionId"));
-                angelleye_set_session('Centinel_OrderId', $this->get_centinel_value("OrderId"));
-                angelleye_set_session('Centinel_Enrolled', $this->get_centinel_value("Enrolled"));
-                angelleye_set_session('Centinel_ACSUrl', $this->get_centinel_value("ACSUrl"));
-                angelleye_set_session('Centinel_Payload', $this->get_centinel_value("Payload"));
-                angelleye_set_session('Centinel_EciFlag', $this->get_centinel_value("EciFlag"));
-                angelleye_set_session('Centinel_card_start_month', $card->start_month);
-                angelleye_set_session('Centinel_card_start_year', $card->start_year);
+                WC()->session->set('Centinel_ErrorNo', $this->get_centinel_value("ErrorNo"));
+                WC()->session->set('Centinel_ErrorDesc', $this->get_centinel_value("ErrorDesc"));
+                WC()->session->set('Centinel_TransactionId', $this->get_centinel_value("TransactionId"));
+                WC()->session->set('Centinel_OrderId', $this->get_centinel_value("OrderId"));
+                WC()->session->set('Centinel_Enrolled', $this->get_centinel_value("Enrolled"));
+                WC()->session->set('Centinel_ACSUrl', $this->get_centinel_value("ACSUrl"));
+                WC()->session->set('Centinel_Payload', $this->get_centinel_value("Payload"));
+                WC()->session->set('Centinel_EciFlag', $this->get_centinel_value("EciFlag"));
+                WC()->session->set('Centinel_card_start_month', $card->start_month);
+                WC()->session->set('Centinel_card_start_year', $card->start_year);
 
 
                 if ($this->get_centinel_value("ErrorNo")) {
@@ -832,10 +791,10 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     $order_amt = '0.00';
                 }
                 $redirect_url = $this->get_return_url($order);
-                angelleye_set_session('acct', $card->number);
-                angelleye_set_session('exp_month', $card->exp_month);
-                angelleye_set_session('exp_year', $card->exp_year);
-                angelleye_set_session('cvv2', $card->cvc);
+                WC()->session->set('acct', $card->number);
+                WC()->session->set('exp_month', $card->exp_month);
+                WC()->session->set('exp_year', $card->exp_year);
+                WC()->session->set('cvv2', $card->cvc);
 
                 $PayPalRequestData = array(
                     'trxtype' => 'E',
@@ -885,19 +844,19 @@ of the user authorized to process transactions. Otherwise, leave this field blan
 
                 if (isset($PayPalResult['AUTHENTICATION_ID']) && $PayPalResult['RESULT'] == 0) {
                     if (!empty($PayPalResult['AUTHENTICATION_ID'])) {
-                        angelleye_set_session('AUTHENTICATION_ID', $PayPalResult['AUTHENTICATION_ID']);
+                        WC()->session->set('AUTHENTICATION_ID', $PayPalResult['AUTHENTICATION_ID']);
                     }
                     if (!empty($PayPalResult['AUTHENTICATION_STATUS'])) {
-                        angelleye_set_session('AUTHENTICATION_STATUS', $PayPalResult['AUTHENTICATION_STATUS']);
+                        WC()->session->set('AUTHENTICATION_STATUS', $PayPalResult['AUTHENTICATION_STATUS']);
                     }
                     if (!empty($PayPalResult['ACSURL'])) {
-                        angelleye_set_session('ACSURL', $PayPalResult['ACSURL']);
+                        WC()->session->set('ACSURL', $PayPalResult['ACSURL']);
                     }
                     if (!empty($PayPalResult['PAREQ'])) {
-                        angelleye_set_session('PAREQ', $PayPalResult['PAREQ']);
+                        WC()->session->set('PAREQ', $PayPalResult['PAREQ']);
                     }
                     if (!empty($PayPalResult['ECI'])) {
-                        angelleye_set_session('ECI', $PayPalResult['ECI']);
+                        WC()->session->set('ECI', $PayPalResult['ECI']);
                     }
                     if (isset($PayPalResult['AUTHENTICATION_STATUS']) && 'E' === $PayPalResult['AUTHENTICATION_STATUS']) {
                         $this->add_log('Doing 3dsecure payment authorization');
@@ -960,11 +919,11 @@ of the user authorized to process transactions. Otherwise, leave this field blan
         if (!empty($_GET['acs'])) {
             $order_id = wc_clean($_GET['acs']);
             if ($this->threedsecure_type == 'cardinalcommerce') {
-                $acsurl = angelleye_get_session('Centinel_ACSUrl');
-                $payload = angelleye_get_session('Centinel_Payload');
+                $acsurl = WC()->session->get('Centinel_ACSUrl');
+                $payload = WC()->session->get('Centinel_Payload');
             } else {
-                $acsurl = angelleye_get_session('ACSUrl');
-                $payload = angelleye_get_session('PAREQ');
+                $acsurl = WC()->session->get('ACSUrl');
+                $payload = WC()->session->get('PAREQ');
             }
             ?>
             <html>
@@ -1023,14 +982,14 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     $this->centinel_client->add("MerchantId", $this->centinel_mid);
                     $this->centinel_client->add("TransactionPwd", $this->centinel_pwd);
                     $this->centinel_client->add("TransactionType", 'C');
-                    $this->centinel_client->add('TransactionId', angelleye_get_session('Centinel_TransactionId'));
+                    $this->centinel_client->add('TransactionId', WC()->session->get('Centinel_TransactionId'));
                     $this->centinel_client->add('PAResPayload', $pares);
                     $this->centinel_client->sendHttp($this->centinel_url, "5000", "15000");
 
                     $response_to_log = $this->centinel_client->response;
                     $response_to_log['CardNumber'] = 'XXX';
                     $response_to_log['CardCode'] = 'XXX';
-                    $this->add_log('Centinal transaction ID ' . angelleye_get_session('Centinel_TransactionId'));
+                    $this->add_log('Centinal transaction ID ' . WC()->session->get('Centinel_TransactionId'));
                     $this->add_log('Centinal client request : ' . print_r($this->centinel_client->request, true));
                     $this->add_log('Centinal client response: ' . print_r($response_to_log, true));
                     $this->add_log('3dsecure pa_res_status: ' . $this->get_centinel_value("PAResStatus"));
@@ -1047,14 +1006,14 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     $card->cvc = $this->get_centinel_value("CardCode");
                     $card->exp_month = $this->get_centinel_value("CardExpMonth");
                     $card->exp_year = $this->get_centinel_value("CardExpYear");
-                    $card->start_month = angelleye_get_session('Centinel_card_start_month');
-                    $card->start_year = angelleye_get_session('Centinel_card_start_year');
+                    $card->start_month = WC()->session->get('Centinel_card_start_month');
+                    $card->start_year = WC()->session->get('Centinel_card_start_year');
                     $centinel_data = array();
                     $centinel_data['AUTHSTATUS3DS'] = $this->get_centinel_value("PAResStatus");
                     $centinel_data['XID'] = $this->get_centinel_value("Xid");
                     $centinel_data['CAVV'] = $this->get_centinel_value("Cavv");
                     $centinel_data['ECI'] = $this->get_centinel_value("EciFlag");
-                    $centinel_data['MPIVENDOR3DS'] = angelleye_get_session('Centinel_Enrolled');
+                    $centinel_data['MPIVENDOR3DS'] = WC()->session->get('Centinel_Enrolled');
                     $this->do_payment($order, $card->number, $card->exp_month . $card->exp_year, $card->cvc, $centinel_data);
                     $this->clear_centinel_session();
                     wp_safe_redirect($redirect_url);
@@ -1122,10 +1081,10 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                                 }
                             }
                             $centinel['THREEDSVERSION'] = '1.0.2';
-                            $acct = angelleye_get_session('acct');
-                            $exp_month = angelleye_get_session('exp_month');
-                            $exp_year = angelleye_get_session('exp_year');
-                            $cvv2 = angelleye_get_session('cvv2');
+                            $acct = WC()->session->get('acct');
+                            $exp_month = WC()->session->get('exp_month');
+                            $exp_year = WC()->session->get('exp_year');
+                            $cvv2 = WC()->session->get('cvv2');
                             $this->do_payment($order, $acct, $exp_month . $exp_year, $cvv2, $centinel);
                             wp_safe_redirect($redirect_url);
                             exit();
@@ -1180,11 +1139,15 @@ of the user authorized to process transactions. Otherwise, leave this field blan
             $billing_state = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_state : $order->get_billing_state();
             $billing_email = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_email : $order->get_billing_email();
 
-            if (!empty($card->firstname) && !empty($card->lastname)) {
-                $firstname = $card->firstname;
-                $lastname = $card->lastname;
+            if (!empty($_POST['paypal_pro_payflow-card-cardholder-first'])) {
+                $firstname = wc_clean($_POST['paypal_pro_payflow-card-cardholder-first']);
             } else {
                 $firstname = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
+            }
+
+            if (!empty($_POST['paypal_pro_payflow-card-cardholder-last'])) {
+                $lastname = wc_clean($_POST['paypal_pro_payflow-card-cardholder-last']);
+            } else {
                 $lastname = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_last_name : $order->get_billing_last_name();
             }
 
@@ -1207,7 +1170,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 'recurring' => '', // Identifies the transaction as recurring.  One of the following values:  Y = transaction is recurring, N = transaction is not recurring.
                 'swipe' => '', // Required for card-present transactions.  Used to pass either Track 1 or Track 2, but not both.
                 'orderid' => $this->invoice_id_prefix . str_replace("#", "", $order->get_order_number()), // Checks for duplicate order.  If you pass orderid in a request and pass it again in the future the response returns DUPLICATE=2 along with the orderid
-                'orderdesc' => $this->get_order_item_names($order),
+                'orderdesc' => 'Order ' . $order->get_order_number() . ' on ' . get_bloginfo('name'), //
                 'billtoemail' => $billing_email, // Account holder's email address.
                 'billtophonenum' => '', // Account holder's phone number.
                 'billtofirstname' => $firstname, // Account holder's first name.
@@ -1430,7 +1393,6 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     }
                 } elseif ($this->payment_action == "Authorization") {
                     if (isset($PayPalResult['PPREF']) && !empty($PayPalResult['PPREF'])) {
-	                add_post_meta($order_id, 'PPREF', $PayPalResult['PPREF']);
                         $order->add_order_note(sprintf(__('PayPal Pro Payflow payment completed (PNREF: %s) (PPREF: %s)', 'paypal-for-woocommerce'), $PayPalResult['PNREF'], $PayPalResult['PPREF']));
                     } else {
                         $order->add_order_note(sprintf(__('PayPal Pro Payflow payment completed (PNREF: %s)', 'paypal-for-woocommerce'), $PayPalResult['PNREF']));
@@ -1454,25 +1416,32 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     } else {
                         update_post_meta($order->get_id(), '_first_transaction_id', $PayPalResult['PNREF']);
                     }
-                    $payment_order_meta = array('_payment_action' => $this->payment_action);
+                    $payment_order_meta = array('_transaction_id' => $PayPalResult['PNREF'], '_payment_action' => $this->payment_action);
                     AngellEYE_Utility::angelleye_add_order_meta($order_id, $payment_order_meta);
-                    $order->set_transaction_id($PayPalResult['PNREF']);
                     AngellEYE_Utility::angelleye_paypal_for_woocommerce_add_paypal_transaction($PayPalResult, $order, $this->payment_action);
                     $angelleye_utility = new AngellEYE_Utility(null, null);
                     $angelleye_utility->angelleye_get_transactionDetails($PayPalResult['PNREF']);
                 } else {
                     if (isset($PayPalResult['PPREF']) && !empty($PayPalResult['PPREF'])) {
-	                add_post_meta($order_id, 'PPREF', $PayPalResult['PPREF']);
                         $order->add_order_note(sprintf(__('PayPal Pro Payflow payment completed (PNREF: %s) (PPREF: %s)', 'paypal-for-woocommerce'), $PayPalResult['PNREF'], $PayPalResult['PPREF']));
                     } else {
                         $order->add_order_note(sprintf(__('PayPal Pro Payflow payment completed (PNREF: %s)', 'paypal-for-woocommerce'), $PayPalResult['PNREF']));
                     }
                     if ($this->default_order_status == 'Completed' && apply_filters('angelleye_paypal_payflow_allow_default_order_status', true)) {
                         $order->update_status('completed');
+                        if ($old_wc) {
+                            update_post_meta($order_id, '_transaction_id', $PayPalResult['PNREF']);
+                        } else {
+                            update_post_meta($order->get_id(), '_transaction_id', $PayPalResult['PNREF']);
+                        }
                     } else {
                         $order->payment_complete($PayPalResult['PNREF']);
                     }
-                    $order->set_transaction_id($PayPalResult['PNREF']);                      
+                    if ($old_wc) {
+                        update_post_meta($order_id, '_transaction_id', $PayPalResult['PNREF']);
+                    } else {
+                        update_post_meta($order->get_id(), '_transaction_id', $PayPalResult['PNREF']);
+                    }
                 }
                 WC()->cart->empty_cart();
                 return array(
@@ -1543,7 +1512,6 @@ of the user authorized to process transactions. Otherwise, leave this field blan
             $this->form();
         }
         do_action('payment_fields_saved_payment_methods', $this);
-        do_action('angelleye_pfw_payflow_add_google_recaptcha');
     }
 
     public function save_payment_method_checkbox() {
@@ -1559,7 +1527,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
         $form_html = "";
         $form_html .= '<p class="form-row form-row-first">';
         $form_html .= '<label for="cc-expire-month">' . apply_filters('cc_form_label_expiry', __("Expiration Date", 'paypal-for-woocommerce'), $this->id) . '<span class="required">*</span></label>';
-        $form_html .= '<select ' . $this->field_name('card_expiration_month') . ' class="woocommerce-select woocommerce-cc-month mr5 wc-credit-card-form-card-cvc">';
+        $form_html .= '<select name="paypal_pro_payflow_card_expiration_month" id="cc-expire-month" class="woocommerce-select woocommerce-cc-month mr5">';
         $form_html .= '<option value="">' . __('Month', 'paypal-for-woocommerce') . '</option>';
         $months = array();
         for ($i = 1; $i <= 12; $i++) :
@@ -1580,7 +1548,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
             }
         }
         $form_html .= '</select>';
-        $form_html .= '<select ' . $this->field_name('card_expiration_year') . ' class="woocommerce-select woocommerce-cc-year ml5 wc-credit-card-form-card-cvc">';
+        $form_html .= '<select name="paypal_pro_payflow_card_expiration_year" id="cc-expire-year" class="woocommerce-select woocommerce-cc-year ml5">';
         $form_html .= '<option value="">' . __('Year', 'paypal-for-woocommerce') . '</option>';
         for ($i = date('y'); $i <= date('y') + 15; $i++) {
             if ($this->credit_card_year_field == 'four_digit') {
@@ -1661,7 +1629,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
      * @since    1.1.7.6
      */
     public function validate_fields() {
-        $this->angelleye_pfw_payflow_validate_google_recaptcha();
+
         if (isset($_POST['wc-paypal_pro_payflow-payment-token']) && 'new' !== $_POST['wc-paypal_pro_payflow-payment-token']) {
             $token_id = wc_clean($_POST['wc-paypal_pro_payflow-payment-token']);
             $token = WC_Payment_Tokens::get($token_id);
@@ -1671,24 +1639,31 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 return true;
             }
         }
-        $card = $this->get_posted_card();
+        $card_number = isset($_POST['paypal_pro_payflow-card-number']) ? wc_clean($_POST['paypal_pro_payflow-card-number']) : '';
+        $card_cvc = isset($_POST['paypal_pro_payflow-card-cvc']) ? wc_clean($_POST['paypal_pro_payflow-card-cvc']) : '';
+        $card_exp_year = isset($_POST['paypal_pro_payflow_card_expiration_year']) ? wc_clean($_POST['paypal_pro_payflow_card_expiration_year']) : '';
+        $card_exp_month = isset($_POST['paypal_pro_payflow_card_expiration_month']) ? wc_clean($_POST['paypal_pro_payflow_card_expiration_month']) : '';
 
-        if (strlen($card->exp_year) == 4) {
-            $card->exp_year = $card->exp_year - 2000;
+
+        // Format values
+        $card_number = str_replace(array(' ', '-'), '', $card_number);
+
+        if (strlen($card_exp_year) == 4) {
+            $card_exp_year = $card_exp_year - 2000;
         }
 
-        do_action('before_angelleye_pro_payflow_checkout_validate_fields', $card->type, $card->number, $card->cvc, $card->exp_month, $card->exp_year);
+        do_action('before_angelleye_pro_payflow_checkout_validate_fields', $card_number, $card_cvc, $card_exp_month, $card_exp_year);
 
         // Check card number
 
-        if (empty($card->number) || !ctype_digit((string) $card->number)) {
+        if (empty($card_number) || !ctype_digit((string) $card_number)) {
             wc_add_notice(__('Card number is invalid', 'paypal-for-woocommerce'), "error");
             return false;
         }
 
         // Check card security code
 
-        if (!ctype_digit((string) $card->cvc)) {
+        if (!ctype_digit((string) $card_cvc)) {
             wc_add_notice(__('Card security code is invalid (only digits are allowed)', 'paypal-for-woocommerce'), "error");
             return false;
         }
@@ -1696,18 +1671,18 @@ of the user authorized to process transactions. Otherwise, leave this field blan
         // Check card expiration data
 
         if (
-                !ctype_digit((string) $card->exp_month) ||
-                !ctype_digit((string) $card->exp_year) ||
-                $card->exp_month > 12 ||
-                $card->exp_month < 1 ||
-                $card->exp_year < date('y') ||
-                $card->exp_year > date('y') + 20
+                !ctype_digit((string) $card_exp_month) ||
+                !ctype_digit((string) $card_exp_year) ||
+                $card_exp_month > 12 ||
+                $card_exp_month < 1 ||
+                $card_exp_year < date('y') ||
+                $card_exp_year > date('y') + 20
         ) {
             wc_add_notice(__('Card expiration date is invalid', 'paypal-for-woocommerce'), "error");
             return false;
         }
 
-        do_action('after_angelleye_pro_payflow_checkout_validate_fields', $card->type, $card->number, $card->cvc, $card->exp_month, $card->exp_year);
+        do_action('after_angelleye_pro_payflow_checkout_validate_fields', $card_number, $card_cvc, $card_exp_month, $card_exp_year);
 
         return true;
     }
@@ -1721,12 +1696,12 @@ of the user authorized to process transactions. Otherwise, leave this field blan
             $fields = array(
                 'card-number-field' => '<p class="form-row form-row-wide">
                             <label for="' . esc_attr($this->id) . '-card-number">' . apply_filters('cc_form_label_card_number', __('Card number', 'paypal-for-woocommerce'), $this->id) . ' <span class="required">*</span></label>
-                            <input class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name('card-number') . ' />
+                            <input id="' . esc_attr($this->id) . '-card-number" class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name('card-number') . ' />
                         </p>',
                 'card-expiry-field' => $this->paypal_for_woocommerce_paypal_pro_payflow_credit_card_form_expiration_date_selectbox(),
                 '<p class="form-row form-row-last">
                             <label for="' . esc_attr($this->id) . '-card-cvc">' . apply_filters('cc_form_label_card_code', __('Card Security Code', 'paypal-for-woocommerce'), $this->id) . ' <span class="required">*</span></label>
-                            <input class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="4" placeholder="' . esc_attr__('CVC', 'paypal-for-woocommerce') . '" ' . $this->field_name('card-cvc') . ' style="width:100px" />
+                            <input id="' . esc_attr($this->id) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="4" placeholder="' . esc_attr__('CVC', 'paypal-for-woocommerce') . '" ' . $this->field_name('card-cvc') . ' style="width:100px" />
                         </p>'
             );
             return $fields;
@@ -1739,11 +1714,11 @@ of the user authorized to process transactions. Otherwise, leave this field blan
         if ($this->enable_cardholder_first_last_name && $current_id == $this->id) {
             $fields['card-cardholder-first'] = '<p class="form-row form-row-first">
                     <label for="' . esc_attr($this->id) . '-card-first-name">' . __('Cardholder First Name', 'paypal-for-woocommerce') . '</label>
-                    <input class="input-text wc-credit-card-form-cardholder" type="text" autocomplete="off" placeholder="' . esc_attr__('First Name', 'paypal-for-woocommerce') . '" ' . $this->field_name('card-cardholder-first') . ' />
+                    <input id="' . esc_attr($this->id) . '-card-first-name" class="input-text wc-credit-card-form-cardholder" type="text" autocomplete="off" placeholder="' . esc_attr__('First Name', 'paypal-for-woocommerce') . '" name="' . $current_id . '-card-cardholder-first' . '" />
             </p>';
             $fields['card-cardholder-last'] = '<p class="form-row form-row-last">
                     <label for="' . esc_attr($this->id) . '-card-last-name">' . __('Cardholder Last Name', 'paypal-for-woocommerce') . '</label>
-                    <input class="input-text wc-credit-card-form-cardholder" type="text" autocomplete="off" placeholder="' . __('Last Name', 'paypal-for-woocommerce') . '" ' . $this->field_name('card-cardholder-last') . ' />
+                    <input id="' . esc_attr($this->id) . '-card-last-name" class="input-text wc-credit-card-form-cardholder" type="text" autocomplete="off" placeholder="' . __('Last Name', 'paypal-for-woocommerce') . '" name="' . $current_id . '-card-cardholder-last' . '" />
             </p>';
 
             foreach ($fields as $field) {
@@ -1755,12 +1730,10 @@ of the user authorized to process transactions. Otherwise, leave this field blan
     public function get_posted_card() {
         $card_number = isset($_POST['paypal_pro_payflow-card-number']) ? wc_clean($_POST['paypal_pro_payflow-card-number']) : '';
         $card_cvc = isset($_POST['paypal_pro_payflow-card-cvc']) ? wc_clean($_POST['paypal_pro_payflow-card-cvc']) : '';
-        $card_exp_year = isset($_POST['paypal_pro_payflow-card_expiration_year']) ? wc_clean($_POST['paypal_pro_payflow-card_expiration_year']) : '';
-        $card_exp_month = isset($_POST['paypal_pro_payflow-card_expiration_month']) ? wc_clean($_POST['paypal_pro_payflow-card_expiration_month']) : '';
+        $card_exp_year = isset($_POST['paypal_pro_payflow_card_expiration_year']) ? wc_clean($_POST['paypal_pro_payflow_card_expiration_year']) : '';
+        $card_exp_month = isset($_POST['paypal_pro_payflow_card_expiration_month']) ? wc_clean($_POST['paypal_pro_payflow_card_expiration_month']) : '';
         $card_number = str_replace(array(' ', '-'), '', $card_number);
         $card_type = AngellEYE_Utility::card_type_from_account_number($card_number);
-        $firstname = isset($_POST['paypal_pro_payflow-card-cardholder-first']) ? wc_clean($_POST['paypal_pro_payflow-card-cardholder-first']) : '';
-        $lastname = isset($_POST['paypal_pro_payflow-card-cardholder-last']) ? wc_clean($_POST['paypal_pro_payflow-card-cardholder-last']) : '';
         if ($card_type == 'amex') {
             if (WC()->countries->get_base_country() == 'CA' && get_woocommerce_currency() == 'USD' && apply_filters('angelleye_paypal_pro_payflow_amex_ca_usd', true, $this)) {
                 throw new Exception(__('Your processor is unable to process the Card Type in the currency requested. Please try another card type', 'paypal-for-woocommerce'));
@@ -1784,9 +1757,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     'exp_month' => $card_exp_month,
                     'exp_year' => $card_exp_year,
                     'start_month' => '',
-                    'start_year' => '',
-                    'firstname' => $firstname,
-                    'lastname' => $lastname
+                    'start_year' => ''
         );
     }
 
@@ -1882,14 +1853,14 @@ of the user authorized to process transactions. Otherwise, leave this field blan
 
         try {
 
-            if (!empty($card->firstname)) {
-                $firstname = $card->firstname;
+            if (!empty($_POST['paypal_pro_payflow-card-cardholder-first'])) {
+                $firstname = wc_clean($_POST['paypal_pro_payflow-card-cardholder-first']);
             } else {
                 $firstname = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_first_name : $order->get_billing_first_name();
             }
 
-            if (!empty($card->lastname)) {
-                $lastname = $card->lastname;
+            if (!empty($_POST['paypal_pro_payflow-card-cardholder-last'])) {
+                $lastname = wc_clean($_POST['paypal_pro_payflow-card-cardholder-last']);
             } else {
                 $lastname = version_compare(WC_VERSION, '3.0', '<') ? $order->billing_last_name : $order->get_billing_last_name();
             }
@@ -1913,7 +1884,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                 'recurring' => '', // Identifies the transaction as recurring.  One of the following values:  Y = transaction is recurring, N = transaction is not recurring.
                 'swipe' => '', // Required for card-present transactions.  Used to pass either Track 1 or Track 2, but not both.
                 'orderid' => $this->invoice_id_prefix . $order->get_order_number(), // Checks for duplicate order.  If you pass orderid in a request and pass it again in the future the response returns DUPLICATE=2 along with the orderid
-                'orderdesc' => $this->get_order_item_names($order), //
+                'orderdesc' => 'Order ' . $order->get_order_number() . ' on ' . get_bloginfo('name'), //
                 'billtoemail' => $billing_email, // Account holder's email address.
                 'billtophonenum' => '', // Account holder's phone number.
                 'billtostreet' => $billing_address_1 . ' ' . $billing_address_2, // The cardholder's street address (number and street name).  150 char max
@@ -2063,8 +2034,7 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     } else {
                         update_post_meta($order->get_id(), '_first_transaction_id', $PayPalResult['PNREF']);
                     }
-                    $order->set_transaction_id($PayPalResult['PNREF']);
-                    $payment_order_meta = array('_payment_action' => $this->payment_action);
+                    $payment_order_meta = array('_transaction_id' => $PayPalResult['PNREF'], '_payment_action' => $this->payment_action);
                     AngellEYE_Utility::angelleye_add_order_meta($order_id, $payment_order_meta);
                     AngellEYE_Utility::angelleye_paypal_for_woocommerce_add_paypal_transaction($PayPalResult, $order, $this->payment_action);
                     $angelleye_utility = new AngellEYE_Utility(null, null);
@@ -2077,10 +2047,14 @@ of the user authorized to process transactions. Otherwise, leave this field blan
                     }
                     if ($this->default_order_status == 'Completed') {
                         $order->update_status('completed');
+                        if ($old_wc) {
+                            update_post_meta($order_id, '_transaction_id', $PayPalResult['PNREF']);
+                        } else {
+                            update_post_meta($order->get_id(), '_transaction_id', $PayPalResult['PNREF']);
+                        }
                     } else {
                         $order->payment_complete($PayPalResult['PNREF']);
                     }
-                    $order->set_transaction_id($PayPalResult['PNREF']);
                 }
                 $this->save_payment_token($order, $PayPalResult['PNREF']);
                 $this->are_reference_transactions_enabled($PayPalResult['PNREF']);
@@ -2445,16 +2419,16 @@ of the user authorized to process transactions. Otherwise, leave this field blan
     }
 
     function clear_centinel_session() {
-        angelleye_set_session('Centinel_ErrorNo', null);
-        angelleye_set_session('Centinel_ErrorDesc', null);
-        angelleye_set_session('Centinel_TransactionId', null);
-        angelleye_set_session('Centinel_OrderId', null);
-        angelleye_set_session('Centinel_Enrolled', null);
-        angelleye_set_session('Centinel_ACSUrl', null);
-        angelleye_set_session('Centinel_Payload', null);
-        angelleye_set_session('Centinel_EciFlag', null);
-        angelleye_set_session('Centinel_card_start_month', null);
-        angelleye_set_session('Centinel_card_start_year', null);
+        WC()->session->set('Centinel_ErrorNo', null);
+        WC()->session->set('Centinel_ErrorDesc', null);
+        WC()->session->set('Centinel_TransactionId', null);
+        WC()->session->set('Centinel_OrderId', null);
+        WC()->session->set('Centinel_Enrolled', null);
+        WC()->session->set('Centinel_ACSUrl', null);
+        WC()->session->set('Centinel_Payload', null);
+        WC()->session->set('Centinel_EciFlag', null);
+        WC()->session->set('Centinel_card_start_month', null);
+        WC()->session->set('Centinel_card_start_year', null);
     }
 
     /**
@@ -2464,70 +2438,10 @@ of the user authorized to process transactions. Otherwise, leave this field blan
     public function get_centinel_value($key) {
         $value = $this->centinel_client->getValue($key);
         if (empty($value)) {
-            $value = angelleye_get_session($key);
+            $value = WC()->session->get($key);
         }
         $value = wc_clean($value);
         return $value;
-    }
-    
-    public function get_order_item_names( $order ) {
-        $item_names = array();
-        foreach ( $order->get_items() as $item ) {
-            $item_names[] = $item->get_name();
-        }
-        $orderdesc = apply_filters( 'ae_pppf_paypal_orderdesc', implode( ', ', $item_names ), $order );
-        return substr($orderdesc, 0, 127);
-    }
-    
-    public function own_angelleye_pfw_payflow_add_google_recaptcha() {
-        if( $this->enable_google_recaptcha ) {
-            wp_enqueue_script('pfw_payflow_recaptcha', 'https://www.google.com/recaptcha/api.js?render='.$this->recaptcha_site_key, array(), '', true);
-            echo '<input type="hidden" id="pfw_payflow_google" name="pfw_payflow_google" value="">';
-            ?>
-            <script>
-                jQuery(document).ready(function(){
-                    var pfw_payflow_grecaptcha = function(  ) {
-                        grecaptcha.ready(function() {
-                                grecaptcha.execute('<?php echo $this->recaptcha_site_key; ?>', {action: 'submit'}).then(function(token) {
-                                document.getElementById("pfw_payflow_google").value = token;
-                            });
-                        });
-                    };
-                    jQuery(document.body).on('updated_checkout checkout_error', function () {
-                        pfw_payflow_grecaptcha();
-                    });
-                    setInterval(function(){ 
-                        pfw_payflow_grecaptcha();
-                    }, 110000);
-                });
-            </script>
-            <?php
-        }
-    }
-    
-    public function angelleye_pfw_payflow_validate_google_recaptcha() {
-        if( $this->enable_google_recaptcha ) {
-            if(isset($_POST['pfw_payflow_google']) && !empty($_POST['pfw_payflow_google']) ) {
-                $response_data = wp_remote_post( 'https://www.google.com/recaptcha/api/siteverify', array(
-                        'body'    => array('secret' => $this->recaptcha_secret_key, 'response' => $_POST['pfw_payflow_google'])
-                    ) );
-                if (is_wp_error($response_data)) {
-                    throw new Exception(__('Google recaptcha verification Failed', 'paypal-for-woocommerce'));
-                }
-                $body = wp_remote_retrieve_body($response_data);
-                if( !empty($body)) {
-                    $response = json_decode($body);
-                    if(!$response->success ) {
-                        throw new Exception(__('Google recaptcha verification Failed', 'paypal-for-woocommerce'));
-                    } 
-                    if($response->score < 0.2) {
-                        throw new Exception(__('Very likely a bot', 'paypal-for-woocommerce'));
-                    }
-                } 
-            } else {
-                throw new Exception(__('Google recaptcha verification Failed', 'paypal-for-woocommerce'));
-            }
-        }
     }
 
 }

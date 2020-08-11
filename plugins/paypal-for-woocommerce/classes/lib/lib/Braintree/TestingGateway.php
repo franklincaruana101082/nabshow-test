@@ -49,3 +49,4 @@ class TestingGateway
         }
     }
 }
+class_alias('Braintree\TestingGateway', 'Braintree_TestingGateway');

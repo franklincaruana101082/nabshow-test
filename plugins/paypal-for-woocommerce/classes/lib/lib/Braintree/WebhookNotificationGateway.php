@@ -73,3 +73,5 @@ class WebhookNotificationGateway
         return null;
     }
 }
+
+class_alias('Braintree\WebhookNotificationGateway', 'Braintree_WebhookNotificationGateway');

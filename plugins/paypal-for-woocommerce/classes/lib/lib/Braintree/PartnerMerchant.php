@@ -38,3 +38,4 @@ class PartnerMerchant extends Base
         $this->_attributes = $attributes;
     }
 }
+class_alias('Braintree\PartnerMerchant', 'Braintree_PartnerMerchant');

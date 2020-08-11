@@ -1,9 +1,6 @@
 <?php
 namespace Braintree;
 
-/**
- * @property-read array $records
- */
 class SettlementBatchSummary extends Base
 {
     /**
@@ -45,3 +42,4 @@ class SettlementBatchSummary extends Base
         return Configuration::gateway()->settlementBatchSummary()->generate($settlement_date, $groupByCustomField);
     }
 }
+class_alias('Braintree\SettlementBatchSummary', 'Braintree_SettlementBatchSummary');

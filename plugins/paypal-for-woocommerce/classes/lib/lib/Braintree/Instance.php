@@ -71,3 +71,4 @@ abstract class Instance
     }
 
 }
+class_alias('Braintree\Instance', 'Braintree_Instance');

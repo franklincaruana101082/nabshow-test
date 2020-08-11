@@ -37,7 +37,10 @@ class WC_Gateway_PayPal_Express_Function_AngellEYE {
     }
 
     public function ec_is_express_checkout() {
-        $paypal_express_checkout = angelleye_get_session( 'paypal_express_checkout' );
+        if ( ! class_exists( 'WooCommerce' ) || WC()->session == null ) {
+            return false;
+        }
+        $paypal_express_checkout = WC()->session->get( 'paypal_express_checkout' );
         if( isset($paypal_express_checkout['token']) && !empty($paypal_express_checkout['token']) && isset($paypal_express_checkout['payer_id']) && !empty($paypal_express_checkout['payer_id']) ) {
             return true;
         } else {
@@ -60,7 +63,7 @@ class WC_Gateway_PayPal_Express_Function_AngellEYE {
                     'redirect' => $this->ec_get_checkout_url('set_express_checkout'),
                 );
                 if ((isset($_POST['terms']) || isset($_POST['legal'])) && wc_get_page_id('terms') > 0) {
-                    angelleye_set_session( 'paypal_express_terms', 1);
+                    WC()->session->set( 'paypal_express_terms', 1);
                 }
                 if (is_ajax()) {
                     if ($this->ec_is_version_gte_2_4()) {
@@ -142,6 +145,5 @@ class WC_Gateway_PayPal_Express_Function_AngellEYE {
         unset(WC()->session->post_data);
         unset(WC()->session->shiptoname);
         unset(WC()->session->payeremail);
-        unset(WC()->session->validate_data);
     }
 }

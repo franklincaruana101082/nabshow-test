@@ -64,3 +64,4 @@ class TransactionLineItemGateway
         }
     }
 }
+class_alias('Braintree\TransactionLineItemGateway', 'Braintree_TransactionLineItemGateway');

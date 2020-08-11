@@ -3,6 +3,7 @@ namespace Braintree;
 
 /**
  * Braintree Address module
+ * PHP Version 5
  * Creates and manages Braintree Addresses
  *
  * An Address belongs to a Customer. It can be associated to a
@@ -13,7 +14,7 @@ namespace Braintree;
  *
  * @property-read string $company
  * @property-read string $countryName
- * @property-read \DateTime $createdAt
+ * @property-read string $createdAt
  * @property-read string $customerId
  * @property-read string $extendedAddress
  * @property-read string $firstName
@@ -23,7 +24,7 @@ namespace Braintree;
  * @property-read string $postalCode
  * @property-read string $region
  * @property-read string $streetAddress
- * @property-read \DateTime $updatedAt
+ * @property-read string $updatedAt
  */
 class Address extends Base
 {
@@ -146,3 +147,4 @@ class Address extends Base
         return Configuration::gateway()->address()->updateNoValidate($customerOrId, $addressId, $attributes);
     }
 }
+class_alias('Braintree\Address', 'Braintree_Address');

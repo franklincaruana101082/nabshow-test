@@ -34,3 +34,4 @@ class ConnectedMerchantStatusTransitioned extends Base
         $this->_attributes = $attributes;
     }
 }
+class_alias('Braintree\ConnectedMerchantStatusTransitioned', 'Braintree_ConnectedMerchantStatusTransitioned');

@@ -27,7 +27,7 @@ namespace Braintree;
  * @property-read string $last4
  * @property-read string $bankName
  * @property-read string $achMandate
- * @property-read boolean $default
+ * @property-read string $default
  * @property-read boolean $verified
  */
 class UsBankAccount extends Base
@@ -114,3 +114,4 @@ class UsBankAccount extends Base
         return Configuration::gateway()->usBankAccount()->sale($token, $transactionAttribs);
     }
 }
+class_alias('Braintree\UsBankAccount', 'Braintree_UsBankAccount');

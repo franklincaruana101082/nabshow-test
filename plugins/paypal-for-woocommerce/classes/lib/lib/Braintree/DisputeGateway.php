@@ -5,6 +5,7 @@ use InvalidArgumentException;
 
 /**
  * Braintree DisputeGateway module
+ * PHP Version 5
  * Creates and manages Braintree Disputes
  *
  * @package   Braintree
@@ -270,3 +271,4 @@ class DisputeGateway
         return new PaginatedResult($totalItems, $pageSize, $disputes);
     }
 }
+class_alias('Braintree\DisputeGateway', 'Braintree_DisputeGateway');

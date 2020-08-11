@@ -3,6 +3,7 @@ namespace Braintree;
 
 /**
  * Braintree Xml parser and generator
+ * PHP version 5
  * superclass for Braintree XML parsing and generation
  */
 class Xml
@@ -35,3 +36,4 @@ class Xml
         return Xml\Generator::arrayToXml($array);
     }
 }
+class_alias('Braintree\Xml', 'Braintree_Xml');

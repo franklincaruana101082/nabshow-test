@@ -21,3 +21,5 @@ use Braintree\Instance;
 class TransactionDetails extends Instance
 {
 }
+
+class_alias('Braintree\Dispute\TransactionDetails', 'Braintree_Dispute_TransactionDetails');

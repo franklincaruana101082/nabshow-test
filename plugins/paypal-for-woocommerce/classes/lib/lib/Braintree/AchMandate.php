@@ -3,6 +3,7 @@ namespace Braintree;
 
 /**
  * Braintree AchMandate module
+ * PHP Version 5
  *
  * @package   Braintree
  *
@@ -51,3 +52,4 @@ class AchMandate extends Base
 
     }
 }
+class_alias('Braintree\AchMandate', 'Braintree_Mandate');

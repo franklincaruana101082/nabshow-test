@@ -57,3 +57,4 @@ class Validation
         return isset($this->$varName) ? $this->$varName : null;
     }
 }
+class_alias('Braintree\Error\Validation', 'Braintree_Error_Validation');

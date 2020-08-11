@@ -4,6 +4,8 @@ namespace Braintree;
 /**
  * Braintree OAuth Revocation module
  *
+ * PHP Version 5
+ *
  * @package   Braintree
  */
 class OAuthAccessRevocation extends Base
@@ -27,3 +29,4 @@ class OAuthAccessRevocation extends Base
         $this->_attributes = $attributes;
     }
 }
+class_alias('Braintree\OAuthAccessRevocation', 'Braintree_OAuthAccessRevocation');

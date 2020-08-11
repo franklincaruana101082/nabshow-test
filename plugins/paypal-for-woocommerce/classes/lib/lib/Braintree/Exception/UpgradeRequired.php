@@ -11,4 +11,6 @@ use Braintree\Exception;
  */
 class UpgradeRequired extends Exception
 {
+
 }
+class_alias('Braintree\Exception\UpgradeRequired', 'Braintree_Exception_UpgradeRequired');

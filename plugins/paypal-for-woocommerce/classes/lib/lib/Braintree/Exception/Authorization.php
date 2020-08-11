@@ -16,3 +16,4 @@ class Authorization extends Exception
 {
 
 }
+class_alias('Braintree\Exception\Authorization', 'Braintree_Exception_Authorization');
