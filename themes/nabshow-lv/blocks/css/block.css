@@ -1715,3 +1715,25 @@ ul.button-prev li.btn-pink-prev span{font-size:10px;font-family:"Roboto Bold";pa
 .block-editor-block-inspector .components-panel__body>button.button{margin-right:10px;margin-bottom:10px}
 .block-editor-block-inspector .components-panel__body>button.button:last-child{margin-right:0}
 .block-editor-block-inspector .components-panel__body.is-opened .components-panel__body.is-opened{padding:0 0 16px 0}
+
+/* form-with-image css */
+.form-with-image .nab-form .form-fieldset{background:none;border:none}
+.form-with-image .nab-form .form-fieldset .form-item{display:flex;align-items:center}
+.form-with-image .nab-form .form-fieldset .form-item label{color:#1c3359;width:150px;text-align:right;padding-right:30px;font-size:20px}
+.form-with-image .nab-form .form-fieldset .form-item input{width:70%;width:calc(100% - 150px)}
+.form-with-image .nab-form .form-fieldset .panel-body{padding:0}
+.form-with-image .nab-form .form-items-wrapper{text-align:center}
+.form-with-image .nab-form .form-items-wrapper .captcha{padding-left:150px}
+.form-with-image .nab-form .form-items-wrapper .form-actions{margin-top:40px}
+.form-with-image .nab-form .form-items-wrapper .form-actions .form-submit{background:#2b71cb;padding:10px 30px;border-radius:5px}
+@media (max-width: 991px){
+    .form-with-image{flex-wrap:wrap;}
+    .form-with-image .wp-block-column{width:100%;flex-basis:100%!important;text-align:center;margin: 0 0 20px 0 !important;}
+}
+@media (max-width: 568px){
+    .form-with-image .nab-form .form-fieldset .form-item{flex-wrap:wrap}
+    .form-with-image .nab-form .form-fieldset .form-item label{width:100%;text-align:left;padding:0}
+    .form-with-image .nab-form .form-fieldset .form-item input{width:100%}
+    .form-with-image .nab-form .form-items-wrapper .captcha{padding:0}
+}
+/* form-with-image css */
