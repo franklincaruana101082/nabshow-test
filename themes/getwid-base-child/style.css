@@ -179,6 +179,22 @@ textarea {
   letter-spacing: .7px;
 }
 
+.partner {
+  display: inline-block;
+  width: 100%;
+  font-size: 18px;
+  text-align: left;
+  background-color: #CCCCCC;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+.partner img{
+  float: right;
+}
+
 /* Event Calendar Customization ------- */
 
 
