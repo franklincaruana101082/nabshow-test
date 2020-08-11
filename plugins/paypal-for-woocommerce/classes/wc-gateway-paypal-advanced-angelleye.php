@@ -386,7 +386,7 @@ class WC_Gateway_PayPal_Advanced_AngellEYE extends WC_Payment_Gateway {
         $order_id = absint( wp_unslash( $_REQUEST['USER1']));
 
         // Create order object
-        $order = new WC_Order($order_id);
+        $order = wc_get_order($order_id);
 
         //check for the status of the order, if completed or processing, redirect to thanks page. This case happens when silentpost is on
         $old_wc = version_compare(WC_VERSION, '3.0', '<');
@@ -717,7 +717,7 @@ class WC_Gateway_PayPal_Advanced_AngellEYE extends WC_Payment_Gateway {
             ?>
         </table><!--/.form-table-->
         <p class="submit">
-            <button name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e( 'Save changes', 'woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'woocommerce' ); ?></button>
+            <button name="save" class="button-primary woocommerce-save-button" type="submit" value="<?php esc_attr_e( 'Save changes', 'paypal-for-woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'paypal-for-woocommerce' ); ?></button>
             <?php wp_nonce_field( 'woocommerce-settings' ); ?>
         </p>
         </div>
@@ -1012,7 +1012,7 @@ class WC_Gateway_PayPal_Advanced_AngellEYE extends WC_Payment_Gateway {
      * @return void
      * */
     public function process_payment($order_id) {
-        $order = new WC_Order($order_id);
+        $order = wc_get_order($order_id);
         $order_id = version_compare(WC_VERSION, '3.0', '<') ? $order->id : $order->get_id();
         $old_wc = version_compare(WC_VERSION, '3.0', '<');
         if (!empty($_POST['wc-paypal_advanced-new-payment-method']) && $_POST['wc-paypal_advanced-new-payment-method'] == true) {
@@ -1183,7 +1183,7 @@ class WC_Gateway_PayPal_Advanced_AngellEYE extends WC_Payment_Gateway {
         //get the mode
         $PF_MODE = $this->testmode == true ? 'TEST' : 'LIVE';
         //create order object
-        $order = new WC_Order($order_id);
+        $order = wc_get_order($order_id);
 
         //get the tokens
         $old_wc = version_compare(WC_VERSION, '3.0', '<');
@@ -1201,8 +1201,7 @@ class WC_Gateway_PayPal_Advanced_AngellEYE extends WC_Payment_Gateway {
             $this->add_log(sprintf(__('Show payment form(IFRAME) for the order %s as it is configured to use Layout C', 'paypal-for-woocommerce'), $order->get_order_number()));
             //display the form
             ?>
-            <iframe id="paypal_for_woocommerce_iframe" src="<?php echo $location; ?>" width="550" height="565" scrolling="no" frameborder="0" border="0" allowtransparency="true"></iframe>
-
+            <iframe id="paypal_for_woocommerce_iframe" src="<?php echo $location; ?>" width="550" height="565" scrolling="no" frameborder="0" border="0" allowtransparency="true" sandbox="allow-top-navigation allow-scripts allow-same-origin allow-forms allow-modals"></iframe>
             <?php
         } else {
             //define the redirection url

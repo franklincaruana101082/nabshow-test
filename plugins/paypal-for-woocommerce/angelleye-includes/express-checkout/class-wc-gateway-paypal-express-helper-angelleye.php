@@ -284,7 +284,8 @@ class Angelleye_PayPal_Express_Checkout_Helper {
             if ($this->enabled == 'yes' && $this->show_on_product_page == 'yes' && $is_ec_button_enable_product_level == 'yes') {
                 $ec_html_button = '';
                 $_product = wc_get_product($product->get_id());
-                if ($_product->is_type('variation') || $_product->is_type('variable') || $_product->is_type('simple')) {
+	            $_allowed_product_type = apply_filters('angelleye_ec_product_type_allowed', array('variation', 'variable', 'simple') );
+	            if ( in_array( $_product->get_type(), $_allowed_product_type, true ) ) {
                     if ($_product->is_type('simple') && (version_compare(WC_VERSION, '3.0', '<') == false)) {
                         ?>
                         <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" />
@@ -339,7 +340,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
             if (isset($_REQUEST['express_checkout']) || isset($_REQUEST['express_checkout_x'])) {
                 wc_clear_notices();
                 if ((isset($_POST['wc-paypal_express-new-payment-method']) && $_POST['wc-paypal_express-new-payment-method'] == 'true') || ( isset($_GET['ec_save_to_account']) && $_GET['ec_save_to_account'] == true)) {
-                    WC()->session->set('ec_save_to_account', 'on');
+                    angelleye_set_session('ec_save_to_account', 'on');
                 } else {
                     unset(WC()->session->ec_save_to_account);
                 }
@@ -353,10 +354,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
 
     public function ec_get_session_data($key = '') {
         try {
-            if (!class_exists('WooCommerce') || WC()->session == null) {
-                return false;
-            }
-            $session_data = WC()->session->get('paypal_express_checkout');
+            $session_data = angelleye_get_session('paypal_express_checkout');
             if (isset($session_data[$key])) {
                 $session_data = $session_data[$key];
             }
@@ -379,7 +377,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
             if (!$this->function_helper->ec_is_express_checkout() || !$this->ec_get_session_data('shipping_details')) {
                 return;
             }
-            $post_data = WC()->session->get('post_data');
+            $post_data = angelleye_get_session('post_data');
             foreach ($this->ec_get_session_data('shipping_details') as $field => $value) {
                 if (!empty($value)) {
                     if ('state' == $field) {
@@ -400,7 +398,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
                         if ($this->angelleye_is_need_to_set_billing_address() == true) {
                             $_POST['billing_' . $field] = wc_clean(stripslashes($value));
                         } elseif (empty($post_data)) {
-                            $_POST['billing_' . $field] = wc_clean(stripslashes($value));
+                            $_POST['billing_' . $field] = '';
                         }
                         $_POST['shipping_' . $field] = wc_clean(stripslashes($value));
                     }
@@ -533,10 +531,10 @@ class Angelleye_PayPal_Express_Checkout_Helper {
             if (!class_exists('WooCommerce') || WC()->session == null) {
                 return $classes;
             }
-            $paypal_express_terms = WC()->session->get('paypal_express_terms');
+            $paypal_express_terms = angelleye_get_session('paypal_express_terms');
             if ($this->ec_is_checkout() && $this->function_helper->ec_is_express_checkout()) {
                 $classes[] = 'express-checkout';
-                if ($this->show_on_checkout && isset($paypal_express_terms)) {
+                if ($this->show_on_checkout && $paypal_express_terms === true) {
                     $classes[] = 'express-hide-terms';
                 }
             }
@@ -559,8 +557,8 @@ class Angelleye_PayPal_Express_Checkout_Helper {
         if (!$this->ec_is_available() || !$this->function_helper->ec_is_express_checkout()) {
             return $checked_default;
         }
-        $paypal_express_terms = WC()->session->get('paypal_express_terms');
-        if ($this->show_on_checkout && isset($paypal_express_terms)) {
+        $paypal_express_terms = angelleye_get_session('paypal_express_terms');
+        if ($this->show_on_checkout && $paypal_express_terms === true) {
             $checked_default = true;
         }
         return $checked_default;
@@ -574,6 +572,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
         unset(WC()->session->post_data);
         unset(WC()->session->shiptoname);
         unset(WC()->session->payeremail);
+        unset(WC()->session->validate_data);
     }
 
     public function ec_is_checkout() {
@@ -581,7 +580,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
     }
 
     public function ec_order_received_text($text, $order) {
-        $held_order_received_text = WC()->session->get('held_order_received_text');
+        $held_order_received_text = angelleye_get_session('held_order_received_text');
         if ($order && $order->has_status('on-hold') && isset($held_order_received_text)) {
             $text = $held_order_received_text;
             unset(WC()->session->held_order_received_text);
@@ -829,7 +828,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
                 $class_top = 'paypal_checkout_button_bottom';
                 $class_cc_top = 'paypal_checkout_button_cc_bottom';
                 $angelleye_smart_button = 'angelleye_smart_button_bottom';
-                $angelleye_proceed_to_checkout_button_separator = '<div class="angelleye-proceed-to-checkout-button-separator">' . __('&mdash; OR &mdash;', 'paypal-for-woocommerce') . '</div>';
+                $angelleye_proceed_to_checkout_button_separator = '<div class="angelleye-proceed-to-checkout-button-separator">&mdash; ' . __('OR', 'paypal-for-woocommerce') . ' &mdash;</div>';
                 $cart_button_html .= apply_filters('angelleye_proceed_to_checkout_button_separator', $angelleye_proceed_to_checkout_button_separator);
             }
             if ($this->enable_in_context_checkout_flow == 'no') {
@@ -955,7 +954,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
         if (!class_exists('WooCommerce') || WC()->session == null) {
             return $bool;
         }
-        $post_data = WC()->session->get('post_data');
+        $post_data = angelleye_get_session('post_data');
         if (!empty($post_data['ship_to_different_address']) && $post_data['ship_to_different_address'] == '1') {
             return 1;
         }
@@ -1046,7 +1045,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
         WC()->shipping->reset_shipping();
         WC()->cart->calculate_totals();
         if ((isset($_POST['wc-paypal_express-new-payment-method']) && $_POST['wc-paypal_express-new-payment-method'] == 'true') || ( isset($_GET['ec_save_to_account']) && $_GET['ec_save_to_account'] == true)) {
-            WC()->session->set('ec_save_to_account', 'on');
+            angelleye_set_session('ec_save_to_account', 'on');
         } else {
             unset(WC()->session->ec_save_to_account);
         }
@@ -1066,7 +1065,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
             $url = add_query_arg('ec_save_to_account', 'true', $url);
         }
         if ((isset($_POST['wc-paypal_express-new-payment-method']) && $_POST['wc-paypal_express-new-payment-method'] == 'true') || ( isset($_GET['ec_save_to_account']) && $_GET['ec_save_to_account'] == true)) {
-            WC()->session->set( 'ec_save_to_account', 'on' );
+            angelleye_set_session( 'ec_save_to_account', 'on' );
             $url = add_query_arg('ec_save_to_account', 'true', $url);
         } else {
             unset(WC()->session->ec_save_to_account);
@@ -1153,7 +1152,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
         if (!class_exists('WooCommerce') || WC()->session == null) {
             return $page_title;
         }
-        $paypal_express_checkout = WC()->session->get('paypal_express_checkout');
+        $paypal_express_checkout = angelleye_get_session('paypal_express_checkout');
         if (!is_admin() && is_main_query() && in_the_loop() && is_page() && is_checkout() && !empty($paypal_express_checkout)) {
             remove_filter('the_title', array($this, 'angelleye_paypal_for_woocommerce_page_title'));
             return $this->review_title_page;
@@ -1173,7 +1172,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
     }
 
     public function angelleye_is_need_to_set_billing_address() {
-        if ('billing_only' === get_option('woocommerce_ship_to_destination') || 'billing' === get_option('woocommerce_ship_to_destination') || $this->billing_address) {
+        if ('billing_only' === get_option('woocommerce_ship_to_destination') || $this->billing_address) {
             return true;
         } else {
             return false;
@@ -1380,7 +1379,7 @@ class Angelleye_PayPal_Express_Checkout_Helper {
         if (AngellEYE_Utility::is_cart_contains_subscription() == true) {
             return apply_filters('angelleye_ec_force_to_display_checkout_page', true);
         }
-        $paypal_express_terms = WC()->session->get('paypal_express_terms');
+        $paypal_express_terms = angelleye_get_session('paypal_express_terms');
         if (wc_get_page_id('terms') > 0 && apply_filters('woocommerce_checkout_show_terms', true)) {
             if ($this->disable_term) {
                 return apply_filters('angelleye_ec_force_to_display_checkout_page', false);
