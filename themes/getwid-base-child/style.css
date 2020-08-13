@@ -195,6 +195,17 @@ textarea {
   float: right;
 }
 
+.session-section {
+  text-transform: uppercase;
+}
+
+div div h1 {
+  height: 10px;
+}
+
+div div h3 {
+  height: 10px;
+}
 /* Event Calendar Customization ------- */
 
 
