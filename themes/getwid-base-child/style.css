@@ -184,7 +184,7 @@ textarea {
   width: 100%;
   font-size: 18px;
   text-align: left;
-  background-color: #CCCCCC;
+  background-color: #f3f3f3;
   padding-left: 20px;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -206,6 +206,13 @@ div div h1 {
 div div h3 {
   height: 10px;
 }
+
+div div h6 {
+  height: 1px;
+	text-transform: none;
+
+}
+
 /* Event Calendar Customization ------- */
 
 
