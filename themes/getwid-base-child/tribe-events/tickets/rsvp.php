@@ -151,7 +151,6 @@ if ( ! $already_rendered ) {
 							max="<?php echo esc_attr( $max_at_a_time ); ?>"
 							name="quantity_<?php echo absint( $ticket_id ); ?>"
 							value="1"
-<!-- value="0" -->
 							<?php disabled( $must_login ); ?>
 						>
 						<?php if ( - 1 !== $available && ( 0 === $threshold || $available <= $threshold ) ) : ?>
