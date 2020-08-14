@@ -195,6 +195,10 @@ textarea {
   float: right;
 }
 
+.session-type {
+  margin-bottom: unset;
+}
+
 .session-section {
   text-transform: uppercase;
   display: block;
