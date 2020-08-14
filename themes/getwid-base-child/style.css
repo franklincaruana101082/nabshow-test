@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Roboto Black", sans-serif;
   clear: both;
   margin-top: .5em;
-  margin-bottom: .5em;
+  /* margin-bottom: .5em; */
   color: #2c3847;
   line-height: 1.2;
   font-weight: 500;
@@ -209,7 +209,7 @@ textarea {
 }
 
 div div h1 {
-  padding-bottom: 20px:
+  padding-bottom: 0px:
   /* height: 1px;
   display: block;
   clear: both; */
