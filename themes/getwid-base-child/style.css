@@ -198,6 +198,7 @@ textarea {
 .session-section {
   text-transform: uppercase;
   display: block;
+  clear: both;
 }
 
 .session-time {
