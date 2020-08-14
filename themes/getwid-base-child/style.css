@@ -203,6 +203,7 @@ textarea {
   text-transform: uppercase;
   display: block;
   clear: both;
+  margin-bottom: unset;
 }
 
 .session-time {
