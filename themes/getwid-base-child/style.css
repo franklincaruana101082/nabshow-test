@@ -199,6 +199,13 @@ textarea {
   text-transform: uppercase;
 }
 
+.session-time {
+  font-size: 12px;
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+}
+
 div div h1 {
   height: 10px;
 }
@@ -212,6 +219,7 @@ div div h6 {
 	text-transform: none;
 
 }
+
 
 /* Event Calendar Customization ------- */
 
