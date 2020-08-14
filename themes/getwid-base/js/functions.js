@@ -235,7 +235,7 @@
     var Tribe_Ticket_Qty = {
         init: function () {
             var self = this;
-            // wrapper.find( 'input.tribe-ticket-quantity, .woocommerce .quantity input.qty, .edd.quantity input.edd-input' ).val(1);
+            var $inputs = '';
             if (container.length) {
                 $inputs = container.find('input.tribe-tickets-quantity, .woocommerce .quantity input.qty, .edd.quantity input.edd-input');
                 $inputs.val(1);
