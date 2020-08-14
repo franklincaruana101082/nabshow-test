@@ -209,7 +209,7 @@ textarea {
 }
 
 div div h1 {
-  height: 10px;
+  height: 1px;
   display: block;
   clear: both;
 }
@@ -219,7 +219,8 @@ div div h3 {
 }
 
 div div h6 {
-  height: 5px;
+  height: 1px;
+  margin: 0;
 	text-transform: none;
   clear: both;
 }
