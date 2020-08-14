@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: .5em;
   margin-bottom: .5em;
   color: #2c3847;
-  line-height: 1.4;
+  line-height: 1.2;
   font-weight: 500;
   letter-spacing: -.7px;
 }
@@ -209,9 +209,10 @@ textarea {
 }
 
 div div h1 {
-  height: 1px;
+  padding-bottom: 20px:
+  /* height: 1px;
   display: block;
-  clear: both;
+  clear: both; */
 }
 
 div div h3 {
@@ -228,6 +229,8 @@ div div h6 {
 /* .is-style-default {
   display: inline-block;
 } */
+
+
 
 /* Event Calendar Customization ------- */
 
@@ -276,7 +279,6 @@ footer.site-footer .site-info a a:hover {
   max-width: 100%;
   background-color: #040404;
   text-align: right;
-  /* font-style: italic; */
   font-size: 16px;
   font-size: 1rem;
   color: #FFFFFF;
@@ -300,10 +302,8 @@ footer.site-footer .site-info a a:hover {
 } */
 
 .wp-block-social-links {
-	display: block;
 	align-items: baseline;
-	margin-left: -1px;
-	margin-top; 0;
+	/* margin-left: -1px; */
 }
 
 /* .footer-left img{max-width:291px}
