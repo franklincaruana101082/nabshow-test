@@ -208,6 +208,7 @@ textarea {
 
 div div h1 {
   height: 10px;
+  clear: both;
 }
 
 div div h3 {
@@ -215,9 +216,9 @@ div div h3 {
 }
 
 div div h6 {
-  height: 1px;
+  height: 5px;
 	text-transform: none;
-
+  clear: both;
 }
 
 
