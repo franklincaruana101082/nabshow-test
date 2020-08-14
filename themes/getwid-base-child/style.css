@@ -208,6 +208,7 @@ textarea {
 
 div div h1 {
   height: 10px;
+  display: block;
   clear: both;
 }
 
