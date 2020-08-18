@@ -17,7 +17,7 @@ get_footer();
 <script>
 	jQuery( document ).ready( function() {
 		jQuery( document ).on( 'click', '.testSubmit', function() {
-			console.log( uNonce );
+			
 			// var ajURl = 'http://site2.test/wp-admin/admin-ajax.php';
 			// var ajURl = 'http://site4.wpmulti.test/wp-admin/admin-ajax.php';
 			var ajURl = 'https://nabshow-com-develop.go-vip.net/365/wp-json/cocart/v1/add-item?return_cart=true';
