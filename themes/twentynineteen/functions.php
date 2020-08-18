@@ -321,3 +321,11 @@ require get_template_directory() . '/inc/template-tags.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+
+add_filter('woogc/sync/on_post_vars', 'woogc_sync_on_post_vars');
+function woogc_sync_on_post_vars( $PostVars ) {
+	$PostVars[] = 'action=mdcart';
+
+	return $PostVars ;
+}
