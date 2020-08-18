@@ -61,10 +61,10 @@ get_footer();
 				'url': ajURl,
 				'method': 'POST',
 				'headers': {
-					'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zaXRlMy53cG11bHRpLnRlc3QiLCJpYXQiOjE1OTc3MzM3MzcsIm5iZiI6MTU5NzczMzczNywiZXhwIjoxNTk4MzM4NTM3LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIzIn19fQ.7uIi9Y_19RNmZnjjzAlpod_hPE00mvep2Fqa0DspkMQ'
+					'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbmFic2hvdy1jb20tZGV2ZWxvcC5nby12aXAubmV0XC8zNjUiLCJpYXQiOjE1OTc3NDk1MTgsIm5iZiI6MTU5Nzc0OTUxOCwiZXhwIjoxNTk4MzU0MzE4LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIyMTAifX19.9Ffc9d_KR468CFZ4OwQsMUGgv9-zkClQ3TMqBRynZi4'
 				},
 				'data': {
-					'product_id': 19
+					'product_id': 118
 				},
 			};
 			jQuery.ajax( settings ).done( function( response ) {
