@@ -16,4 +16,7 @@
  * - The WordPress.com VIP Team
  **/
 // define( 'WP_DEBUG', true );
+
+define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
+
 ?>

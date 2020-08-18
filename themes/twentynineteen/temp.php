@@ -7,7 +7,14 @@ get_header();
 ?>
 
 <form method="post" action="">
-	<input type="button" class="testSubmit" value="Add to Cart">
+	<div>
+		<input type="button" class="testSubmit" value="Add to Cart">
+	</div>
+	<br>
+	<div>
+		<input type="button" class="testUserSubmit" value="Add to Cart for Logged in users">
+	</div>
+
 </form>
 
 <?php
@@ -16,11 +23,13 @@ get_footer();
 
 <script>
 	jQuery( document ).ready( function() {
+
+		// var ajURl = 'http://site2.test/wp-admin/admin-ajax.php';
+		// var ajURl = 'http://site4.wpmulti.test/wp-admin/admin-ajax.php';
+		var ajURl = 'https://nabshow-com-develop.go-vip.net/365/wp-json/cocart/v1/add-item?return_cart=true';
+
 		jQuery( document ).on( 'click', '.testSubmit', function() {
 			
-			// var ajURl = 'http://site2.test/wp-admin/admin-ajax.php';
-			// var ajURl = 'http://site4.wpmulti.test/wp-admin/admin-ajax.php';
-			var ajURl = 'https://nabshow-com-develop.go-vip.net/365/wp-json/cocart/v1/add-item?return_cart=true';
 			jQuery.ajax( {
 				url: ajURl,
 				type: 'POST',
@@ -45,5 +54,24 @@ get_footer();
 				}
 			} );
 		} );
+
+
+		jQuery( document ).on( 'click', '.testUserSubmit', function() {
+			var settings = {
+				'url': ajURl,
+				'method': 'POST',
+				'headers': {
+					'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zaXRlMy53cG11bHRpLnRlc3QiLCJpYXQiOjE1OTc3MzM3MzcsIm5iZiI6MTU5NzczMzczNywiZXhwIjoxNTk4MzM4NTM3LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIzIn19fQ.7uIi9Y_19RNmZnjjzAlpod_hPE00mvep2Fqa0DspkMQ'
+				},
+				'data': {
+					'product_id': 19
+				},
+			};
+			jQuery.ajax( settings ).done( function( response ) {
+				console.log( response );
+			} );
+		} );
+
+
 	} );
 </script>
