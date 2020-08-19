@@ -277,9 +277,9 @@ footer {
 /* .site-footer::after{content:"";display:table;table-layout:fixed} */
 /* .site-footer::after{clear:both} */
 
-.edit-link .entry-footer {
+/* .edit-link .entry-footer {
   background-color: #FFFFFF;
-}
+} */
 
 footer.site-footer .site-info a a:hover {
   display: block;
