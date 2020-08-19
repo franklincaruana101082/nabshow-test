@@ -49,36 +49,6 @@ Updated: 2020-07-31 00:09:29
 @font-face{font-family:"Roboto Thin";font-style:normal;font-weight:normal;src:local("Roboto Thin"), url('fonts/Roboto/Roboto-Thin.ttf') format('truetype')}
 @font-face{font-family:"Roboto Regular";font-style:normal;font-weight:normal;src:local("Roboto Regular"), url('fonts/Roboto/Roboto-Regular.ttf') format('truetype')}
 
-
-body,
-button,
-input,
-select,
-optgroup,
-textarea {
-  color: #7b838b;
-  font-family: "Roboto Regular", sans-serif;
-  font-size: 17px;
-  font-size: 1.0625rem;
-  line-height: 1.75;
-  letter-spacing: .7px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto Black", sans-serif;
-  clear: both;
-  margin-top: .5em;
-  /* margin-bottom: .5em; */
-  color: #2c3847;
-  line-height: 1.2;
-  font-weight: 500;
-  letter-spacing: -.7px;
-}
-
-p { margin: 1.5em 0; }
-
-
-
 /* ---- Site Header, Branding and Title ---- */
 
 @media(max-width: 1024px){
@@ -178,6 +148,27 @@ textarea {
   line-height: 1.5;
   letter-spacing: .7px;
 }
+
+body.single .site-main>.hentry>.entry-header, body.page .site-main>.hentry>.entry-header {
+    margin-top: 1.5rem;
+}
+body.single .site-main>.hentry>.entry-header .entry-title, body.page .site-main>.hentry>.entry-header .entry-title {
+    margin: 0 auto 1.5rem;
+    font-size:2rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Roboto Black", Arial, sans-serif;
+  clear: both;
+  margin-top: .5em;
+  /* margin-bottom: .5em; */
+  color: #2c3847;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -.7px;
+}
+
+p { margin: 1.5em 0; }
 
 .partner {
   display: inline-block;
