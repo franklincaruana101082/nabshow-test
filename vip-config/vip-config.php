@@ -27,6 +27,13 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
             'nabshowexpress.com',
             'www.nabshowexpress.com',
         ],
+        'amplify.nabshow.com'   => [
+            'nabamplify.com',
+            'www.nabamplify.com',
+            'nabshowamplify.com',
+            'www.nabshowamplify.com',
+            'nabshow.com/amplify',
+        ],
         'nabshow.com/exhibitorblog'   => [
             'blog.nabshow.com',        ],
         'nabshow.com/partners'   => [
