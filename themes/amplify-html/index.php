@@ -27,6 +27,22 @@
 	</script>
 	
 		    <style>
+		    
+		    .iframe-container {
+  overflow: hidden;
+  /* 16:9 aspect ratio */
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.iframe-container iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+}
 
 				body {
 					background-color:	#404040;
@@ -336,6 +352,8 @@
 
   		<body id="bodyId">
   			
+  		<!--
+  		
   			<!-- screen -->
 		    <div id="screen" class="mktoContent">
 
@@ -409,4 +427,12 @@ background-image: linear-gradient(to bottom, #75ae4c, #99c47c);
 	  <script type="text/javascript" src="./NAB21OV_files/munchkin(1).js"></script><script>Munchkin.init('927-ARO-980', {customName: 'NAB21OV', wsInfo: 'j1RR'});</script>
 	  <script type="text/javascript" src="./NAB21OV_files/stripmkttok.js"></script>
 
-<div id="mktoStyleLoaded" style="display: none; border-top-color: rgb(18, 52, 86);"></div><form novalidate="novalidate" class="mktoForm mktoHasWidth mktoLayoutLeft" style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: rgb(51, 51, 51); visibility: hidden; position: absolute; top: -500px; left: -1000px; width: 1326px;"></form><iframe name="mktoFormsXDIframe0.6102125884940421" id="MktoForms2XDIframe" src="./NAB21OV_files/XDFrame.html" style="display: none;"></iframe></body></html>
+<div id="mktoStyleLoaded" style="display: none; border-top-color: rgb(18, 52, 86);"></div><form novalidate="novalidate" class="mktoForm mktoHasWidth mktoLayoutLeft" style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: rgb(51, 51, 51); visibility: hidden; position: absolute; top: -500px; left: -1000px; width: 1326px;"></form><iframe name="mktoFormsXDIframe0.6102125884940421" id="MktoForms2XDIframe" src="./NAB21OV_files/XDFrame.html" style="display: none;"></iframe>
+
+-->
+<div class="iframe-container">
+  <iframe src="http://go.nabshow.com/NAB21OV.html" allowfullscreen></iframe>
+</div>
+
+
+</body></html>
