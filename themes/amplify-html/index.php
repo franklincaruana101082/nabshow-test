@@ -344,7 +344,7 @@
 		    	
 		    		<div class="wrap">
 		    			<div class="inner">
-		    				<div id="brand"><img src="./NAB21OV_files/nab.brand.png"></div>
+		    				<div id="brand"><img src="https://amplify.nabshow.com/wp-content/uploads/sites/12/2020/08/nab.brand_.png"></div>
 			    			<p>Immerse yourself in a brand new, amplified NAB experience like you’ve never seen.</p>
 			    			<h1>NAB Amplify<sup>TM</sup></h1>
 			    			<p><em>Coming this November.</em></p>
