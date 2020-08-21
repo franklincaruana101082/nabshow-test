@@ -329,3 +329,10 @@ function woogc_sync_on_post_vars( $PostVars ) {
 
 	return $PostVars ;
 }
+
+/**
+ * All action hook
+ */
+require get_template_directory() . '/inc/actions.php';
+
+require get_template_directory() . '/inc/actions-functions.php';
