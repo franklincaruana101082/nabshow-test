@@ -46,36 +46,7 @@ function amplify_register_sessions_post_type() {
 		)
 	);
 
-	register_post_type( 'sessions', $args );
-    
-    // Taxonomy - Channel
-	$channel_labels = array(
-		'name'              => __( 'Channel', 'taxonomy general name', 'amplify' ),
-		'singular_name'     => __( 'Channel', 'taxonomy singular name', 'amplify' ),
-		'search_items'      => __( 'Search Channel', 'amplify' ),
-		'all_items'         => __( 'All Channel', 'amplify' ),
-		'parent_item'       => __( 'Parent Channel', 'amplify' ),
-		'parent_item_colon' => __( 'Parent Channel:', 'amplify' ),
-		'edit_item'         => __( 'Edit Channel', 'amplify' ),
-		'update_item'       => __( 'Update Channel', 'amplify' ),
-		'add_new_item'      => __( 'Add New Channel', 'amplify' ),
-		'new_item_name'     => __( 'New Genre Channel', 'amplify' ),
-		'menu_name'         => __( 'Channel', 'amplify' ),
-	);
-
-	$channel_args = array(
-		'public'            => false,
-		'hierarchical'      => true,
-		'labels'            => $channel_labels,
-		'show_in_rest'      => true,
-		'show_ui'           => true,
-		'show_admin_column' => true,
-		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'channel' ),
-	);
-
-    register_taxonomy( 'channel', array( 'sessions' ), $channel_args );
-    
+	register_post_type( 'sessions', $args );    
 
     // Taxonomy - Tags
 	$tag_labels = array(
@@ -249,4 +220,51 @@ function amplify_register_exhibitors_post_type() {
 	);
 
 	register_post_type( 'exhibitors', $args );
+}
+
+/**
+ * Register Channel post type.
+ */
+function amplify_register_channel_post_type() {
+	$labels = array(
+		'name'               => __( 'Channels', 'amplify' ),
+		'singular_name'      => __( 'Channel', 'amplify' ),
+		'add_new'            => __( 'Add New', 'amplify' ),
+		'add_new_item'       => __( 'Add New Channel', 'amplify' ),
+		'edit_item'          => __( 'Edit', 'amplify' ),
+		'new_item'           => __( 'New Channel', 'amplify' ),
+		'all_items'          => __( 'All Channels', 'amplify' ),
+		'view_item'          => __( 'View Channels', 'amplify' ),
+		'search_items'       => __( 'Search Channels', 'amplify' ),
+		'not_found'          => __( 'No Channels found', 'amplify' ),
+		'not_found_in_trash' => __( 'No Channels found in Trash', 'amplify' ),
+		'parent_item_colon'  => __( '', 'amplify' ),
+		'menu_name'          => __( 'Channels', 'amplify' )
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'public'              => true,		
+		'show_in_rest'        => true,
+		'publicly_queryable'  => false,
+		'show_ui'             => true,
+		'exclude_from_search' => false,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => false,
+		'has_archive'         => true,
+		'query_var'           => true,
+		'capability_type'     => 'post',
+		'hierarchical'        => true,		
+		'supports'            => array(
+			'title',
+			'editor',
+			'author',
+			'thumbnail',
+			'revisions',
+			'trackbacks',			
+			'custom-fields'
+		)
+	);
+
+	register_post_type( 'channels', $args );
 }
