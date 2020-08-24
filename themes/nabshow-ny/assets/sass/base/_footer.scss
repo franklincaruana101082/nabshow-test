@@ -1,0 +1,91 @@
+	// FOOTER
+	// ======
+
+	.site-footer {
+		min-height: 200px;
+	}
+
+	.social-bar {
+		height: 60px;
+
+		.icons {
+			@include flex-layout ( row, nowrap, flex-start, stretch);
+			padding: .5rem 1rem;
+
+			@include range(sm) {
+				margin: auto;
+	 			padding: .7rem 2rem;
+				@if ( $sidebar ) {
+					// @include flex-layout;
+					@include flex-layout ( row, nowrap, flex-start, stretch);
+					max-width: 4rem + $main-width + $sidebar-width;
+				} @else {
+					@include flex-layout ( row, nowrap, flex-start, stretch);
+					max-width: 4rem + $main-width;
+				}
+			}
+
+
+			.social-icons {
+
+				a {
+					text-decoration: none;
+
+					svg {
+						width: auto;
+						height: 33px;
+						margin: 4px;
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	.footer-content {
+		// @include flex-layout ( column, nowrap, flex-start, stretch);
+		padding: 1rem 2rem 3rem;
+
+		@include range(sm) {
+			margin: auto;
+ 			padding: 3rem 2rem;
+			@if ( $sidebar ) {
+				// @include flex-layout;
+				// @include flex-layout ( column, nowrap, flex-start, stretch);
+				max-width: 4rem + $main-width + $sidebar-width;
+			} @else {
+				// @include flex-layout ( column, nowrap, flex-start, stretch);
+				max-width: 4rem + $main-width;
+			}
+		}
+		
+		.info {
+
+			@include flex-layout ( column, nowrap, flex-start, flex-start);
+			font: 12px/1.8 $primary-font;
+
+			@include range(sm) {
+				font: 12px/2 $primary-font;
+				@include flex-layout ( row, nowrap, flex-start, flex-start);
+			}
+
+			img {
+				width: 100px;
+				height: auto;
+				margin-top: 14px;
+				margin-right: 14px;
+				}
+			}
+
+			.copy {
+				padding-top: 1em;
+				@include flex-layout ( column, nowrap, flex-start, flex-start);
+				p {
+					margin: 0;
+				}
+			}
+
+	}

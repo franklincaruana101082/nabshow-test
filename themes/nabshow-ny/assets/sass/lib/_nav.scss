@@ -1,0 +1,290 @@
+// HAMBURGER
+
+@media (max-width:767px) {
+	#hambur {
+		width: 26px;
+		height: 20px;
+		position: relative;
+		margin: 30px;
+		float: left;
+		z-index: 200;
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+		-webkit-transition: .5s ease-in-out;
+		transition: .5s ease-in-out;
+		cursor: pointer
+	}
+
+}
+
+@media (max-width:767px) and (max-width:767px) {
+	#hambur {
+		// float: right
+		position: absolute;
+		right: 0;
+	}
+
+}
+
+@media (max-width:767px) {
+	#hambur span {
+		-webkit-transform: rotate(0deg);
+		-webkit-transition: .25s ease-in-out;
+		background: white;
+		display: block;
+		height: 2px;
+		left: 0;
+		opacity: 1;
+		position: absolute;
+		transform: rotate(0deg);
+		transition: .25s ease-in-out;
+		width: 100%
+	}
+
+	#hambur span:nth-child(1) {
+		top: 0px
+	}
+
+	#hambur span:nth-child(2), #hambur span:nth-child(3) {
+		top: 10px
+	}
+
+	#hambur span:nth-child(4) {
+		top: 20px
+	}
+
+	#hambur.open span:nth-child(1) {
+		top: 0px;
+		width: 0%;
+		left: 50%
+	}
+
+	#hambur.open span:nth-child(2) {
+		-webkit-transform: rotate(45deg);
+		transform: rotate(45deg)
+	}
+
+	#hambur.open span:nth-child(3) {
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg)
+	}
+
+	#hambur.open span:nth-child(4) {
+		top: 20px;
+		width: 0%;
+		left: 50%;
+	}
+
+}
+
+.open span {
+	background: white !important;
+}
+
+// NAVIGATION
+
+.main-nav-outer {
+	-webkit-animation-delay: 0s !important;
+	-webkit-animation-duration: .5s !important;
+	animation-delay: 0s !important;
+	animation-duration: .5s !important;
+	// background: black;
+	display: inline-block;
+	padding: 0px;
+	top: 0px;
+	width: 100%;
+	z-index: 300;
+}
+
+@media (max-width:767px) {
+	.main-nav-outer {
+		position: fixed;
+		width: 100% !important;
+		background: transparent;
+	}
+
+}
+
+.main-nav-outer .main-nav {
+	list-style: none;
+	z-index: 100;
+	position: relative;
+	padding: 14px 0 14px 0;
+	margin: 0;
+}
+
+@media (min-width:768px) {
+	.main-nav-outer .main-nav {
+		display: block !important;
+		max-width: 1200px;
+		margin: 0 auto;
+		width: 100%;
+	}
+
+}
+
+@media (max-width:767px) {
+	.main-nav-outer .main-nav {
+		height: 100vh;
+		display: none;
+		position: absolute;
+		left: 0;
+		top: 0;
+		text-align: left;
+		width: 100%;
+		margin: 0 auto;
+		float: none;
+		background: black;
+		padding: 80px 40px;
+	}
+
+}
+
+.main-nav-outer .main-nav li {
+	display: inline;
+}
+
+.main-nav-outer .main-nav li:first-child {
+	border-left: none;
+}
+
+@media (max-width:767px) {
+	.main-nav-outer .main-nav li {
+		display: block;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+		border-left: none !important;
+		float: none;
+	}
+}
+
+.main-nav-outer .main-nav li a {
+	color: #fff;
+	display: inline;
+	font-family: helvetica, sans-serif;
+	font-size: .8rem;
+	margin: 17px 13px;
+	padding: 20px 0;
+	text-decoration: none;
+	@include trans(all 0.1s ease-in-out);
+	&:hover {
+		color: white !important;
+		text-decoration: none;
+	}
+	&:visited {
+		color: white;
+	}
+	@include range(xs){
+		margin: 17px 10px;
+	}
+	@include range(md){
+		font-size: .85rem;
+		margin: 17px 16px;
+	}
+	@include range(md){
+		margin: 17px 20px;
+		font-size: .9rem;
+	}
+}
+
+@media (max-width:767px) {
+	.main-nav-outer .main-nav li a {
+		display: block;
+		margin: 5px 0px
+	}
+
+	.main-nav-outer .main-nav li a:hover {
+		text-decoration: none;
+		color: #fff
+	}
+
+}
+
+.res-nav_click {
+	font-family: 'FontAwesome';
+	text-decoration: none !important;
+	display: none;
+	width: 34px;
+	height: 27px;
+	margin: 20px auto;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out
+}
+
+@media (max-width:767px) {
+	.res-nav_click {
+		display: block
+	}
+
+}
+
+.res-nav_click:hover, .res-nav_click:active, .res-nav_click:focus {
+	color: #788E1E !important
+}
+
+
+@media (max-width:767px) {
+	.clearHeader {
+		background-color: transparent;
+	}
+}
+
+.darkHeader {
+	background-color: black;
+}
+
+.jumper-help {
+	display: inline !important;
+	@media (max-width:767px) {
+		display: none !important;
+	}
+}
+
+.jumper {
+	display: none !important;
+	@media (max-width:767px) {
+		display: block !important;
+	}
+}
+
+.fixer {
+	left: 0;
+	max-width: initial;
+	position: fixed;
+}
+
+
+// MOBILE LOGO
+
+#mob-logo {
+	display: none;
+	position: absolute;
+	left: 20px;
+	top: 14px;
+	img {
+		width: 50px;
+		display: block;
+	}
+	@media (min-width:750px) {
+		display: none !important;
+	}
+
+}
+
+.show {
+	display: block !important;
+	@media (min-width:750px) {
+		display: none !important;
+	}
+}
+
+#primary-menu {
+	padding-left: 0px;
+	@media (min-width:750px) {
+		padding-left: 20px
+	}
+}
+
+
+
+
+

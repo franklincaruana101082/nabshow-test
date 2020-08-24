@@ -1,0 +1,232 @@
+// GLOBAL
+// ======
+
+// RANGES
+
+	$theme-ranges: (
+		// Default (Bootstrap)
+		xs:  (min:  400),
+		sm:  (min:  768),
+		md:  (min:  992),
+		lg:  (min: 1200),
+		// Add new ranges here.
+	);
+	$ranges: map-merge($ranges, $theme-ranges);
+
+// COLORS
+
+	$black: #333;
+	$white: #eee;
+	$boma-orange: #ef8903;
+	$boma-blue: #011c72;
+	$link-color: $boma-blue;
+	$link-color-hover: lighten($boma-blue, 10%);
+
+// FONTS
+	// @import url('https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,700,700i');
+	$primary-font: 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+
+// COMPONENTS
+
+	$sidebar:  true;
+	$comments: true;
+
+	$main-width:    48rem;
+	$sidebar-width: 20rem;
+
+// CONTAINERS
+
+	html,
+	body {
+		font: 16px/1.5 $primary-font;
+	}
+
+	body {
+		color: $black;
+	}
+
+	 // Container for .site-header, .main-container (.main + .sidebar), and .site-footer
+	.site-container {
+		// padding: 1em;
+		@include range(sm) {
+			// margin: auto;
+			// padding: 2rem;
+			@if ( $sidebar ) {
+				// max-width: 4rem + $main-width + $sidebar-width;
+			} @else {
+				// max-width: 4rem + $main-width;
+			}
+		}
+	}
+
+// ELEMENTS
+
+	* {
+		// @include box-sizing(border-box);
+		box-sizing: border-box;
+	}
+
+	a {
+		@include link-color($link-color, $link-color-hover);
+		@include transition(color .1s);
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+	p {
+		margin: 1em 0;
+	}
+
+	h1 {
+		// font-size: (15/5)+em;
+		margin: 0 0 (3/8)+em 0;
+		line-height: 1.2;
+		// font-weight: 300;
+		// color: $boma-blue;
+	}
+
+	h2 {
+		font-size: (12/5)+em;
+		margin: 0 0 (3/8)+em 0;
+		line-height: 1.2;
+		// font-weight: 300;
+		// color: $boma-blue;
+	}
+
+	h3 {
+		font-size: (8/5)+em;
+		margin-bottom: (5/6)+em 0;
+		line-height: 1.2;
+	}
+
+	h4 {
+		line-height: 1.2;
+	}
+	
+	h5 {}
+	h6 {}
+
+	hr {
+		margin: 2em 0;
+		border: 0;
+		height: 1px;
+		background-color: $black;
+	}
+
+	ul, ol {}
+
+	li {}
+
+	img {
+		display: block;
+		max-width: 100%;
+		height: auto;
+	}
+
+	button,
+	.button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"] {
+		outline: none;
+	}
+
+		a.button {
+			display: block;
+			@include range(sm) {
+				display: inline-block;
+			}
+		}
+
+	dl {
+		padding-left: 2em;
+	}
+
+	dt {
+		font-weight: bold;
+	}
+
+	dd {
+		margin-left: 0;
+		&:not(:last-child) {
+			margin-bottom: .5em;
+		}
+	}
+
+// WYSIWYG
+// =======
+
+	// Include this anywhere arbitrary HTML/WYSIWYG content may be displayed.
+	@mixin wysiwyg {
+		@include clear-after;
+	}
+
+	.wysiwyg {
+		@include wysiwyg;
+	}
+
+// FEATURES
+// ========
+
+	.mob-hide {
+		display: none;
+		@include range(sm){
+			display: initial;
+		}
+	}
+
+	.hidden-content {
+		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
+		height: 1px;
+		width: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+	}
+
+	.wp-caption {
+	    font-size: .75em;
+	    line-height: 1.2;
+	}
+
+	.wp-caption-text {
+		margin: .25em 0 0;
+	}
+
+	.wp-block-subhead,
+	.subtitle {
+		margin-top: 0;
+		font-weight: bold;
+	}
+
+	// Generic responsibe container for an embedded YouTube video. Inclide an inner <div> and make sure to remove width and height attributes from the iframe.
+	.video-container {
+ 		max-width: 35rem; // 560x315
+ 		margin: 2em auto;
+
+ 		> div {
+ 			position: relative;
+ 			padding-bottom: 56.25%;
+ 			height: 0;
+ 		}
+
+ 		iframe {
+ 			position: absolute;
+ 			top: 0;
+ 			left: 0;
+ 			width: 100%;
+ 			height: 100%;
+ 		}
+	}
+
+	@media only screen and (max-width: 600px) {
+		h1 {
+			font-size: 2em;
+		}
+		h2 {
+			font-size: 1.4em;
+		}
+	}
+
