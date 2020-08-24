@@ -36,11 +36,11 @@ function nab_confirm_password_matches_checkout( $errors, $username, $email ) {
 function nab_sync_login( $username, $user ) {
 	// $sites = get_sites(); // for all sites
 
-	$sites = [ 5 ]; // for NY site @todo Make in dynamic later
+	$sites = [ 12 ]; // for NY site @todo Make in dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $user->ID ) && !empty( $user->ID ) && false === is_user_member_of_blog( $user->ID, $site ) ) {
-			add_user_to_blog( $site, $user->ID, 'customer' );
+			add_user_to_blog( $site, $user->ID, 'subscriber' );
 		}
 	}
 }
