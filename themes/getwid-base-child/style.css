@@ -188,7 +188,7 @@ body.single .site-main>.hentry>.entry-header .entry-title, body.page .site-main>
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto Black", Arial, sans-serif;
+  font-family: "Roboto Regular", Arial, sans-serif;
   clear: both;
   margin-top: .5em;
   /* margin-bottom: .5em; */
@@ -308,6 +308,7 @@ button.tribe-button.tribe-button--rsvp {
   color: #FFFFFF;
 }
 
+
 /* Site Footer ------------------------ */
 
 footer {
@@ -385,15 +386,6 @@ footer.site-footer .site-info a a:hover {
 section.widget_custom_html{margin:0} */
 .footer-related {display:inline-block;color:#fff;margin:0;font-size:14px;font-family:"Roboto Regular", sans-serif}
 .footer-related a{color:#fff;text-decoration:underline;font-size:14px;font-weight:normal}
-
-
-/* Event Calendar Customization ------- */
-
-
-/* hide attendance opt out checkbox on single event pages for Event Tickets Plus 4.11.3 and later */
-#tribe-tickets .tribe-tickets-attendees-list-optout--wrapper {
-	display: none;
-}
 
 
 /* Homepage Elements Adjustments ------- */
