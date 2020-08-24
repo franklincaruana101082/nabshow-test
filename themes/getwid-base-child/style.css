@@ -405,6 +405,11 @@ section.widget_custom_html{margin:0} */
 }
 
 
+/* Live Event Page Elements Adjustments ------- */
+
+.credit { font-size:12px; margin-top: -10px }
+
+
 /* Admin Adjustments ------- */
 
 footer.entry-footer {
