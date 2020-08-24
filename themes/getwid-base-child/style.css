@@ -143,11 +143,12 @@ body.page .site-main>.hentry>.entry-header, body.page .site-main>.hentry>.entry-
 
 body.page-template-template-full-width .site-header {
   border-bottom: 0;
-  max-width: 20%;
+  max-width: 100%;
 }
 
 body.page-template-template-full-width .site-content {
   background: transparent;
+  max-width: 20%;
 }
 
 body.page-template-template-full-width .site-main > .hentry > .entry-header {
