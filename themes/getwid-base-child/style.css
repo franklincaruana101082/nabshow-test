@@ -49,6 +49,10 @@ Updated: 2020-07-31 00:09:29
 @font-face{font-family:"Roboto Thin";font-style:normal;font-weight:normal;src:local("Roboto Thin"), url('fonts/Roboto/Roboto-Thin.ttf') format('truetype')}
 @font-face{font-family:"Roboto Regular";font-style:normal;font-weight:normal;src:local("Roboto Regular"), url('fonts/Roboto/Roboto-Regular.ttf') format('truetype')}
 
+figcaption {
+    text-align: center;
+}
+
 /* ---- Site Header, Branding and Title ---- */
 
 @media(max-width: 1024px){
@@ -132,6 +136,14 @@ z-index:99;
   text-decoration: none;
   outline: none;
 }
+
+body.page .site-main>.hentry>.entry-header, body.page .site-main>.hentry>.entry-footer, body.page .site-main>.hentry>.post-thumbnail, body.page .site-main>.hentry>.entry-content>* {
+    max-width: 1000px;
+}
+
+.site-branding { padding:30px; }
+
+.custom-background { background-size:contain !important; }
 
 /* Typography ------------------------- */
 
@@ -366,4 +378,13 @@ section.widget_custom_html{margin:0} */
 /* hide attendance opt out checkbox on single event pages for Event Tickets Plus 4.11.3 and later */
 #tribe-tickets .tribe-tickets-attendees-list-optout--wrapper {
 	display: none;
+}
+
+
+/* Homepage Elements Adjustments ------- */
+
+.partner { padding: 20px;}
+
+.wp-block-image.is-style-rounded figure {
+    margin-top: 10px;
 }
