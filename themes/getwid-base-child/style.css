@@ -388,3 +388,10 @@ section.widget_custom_html{margin:0} */
 .wp-block-image.is-style-rounded figure {
     margin-top: 10px;
 }
+
+
+/* Admin Adjustments ------- */
+
+footer.entry-footer {
+    background-color: #fff !important;
+}
