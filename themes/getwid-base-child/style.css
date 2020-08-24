@@ -141,6 +141,23 @@ body.page .site-main>.hentry>.entry-header, body.page .site-main>.hentry>.entry-
     max-width: 1000px;
 }
 
+body.page-template-template-full-width .site-header {
+  border-bottom: 0;
+  max-width: 90%;
+}
+
+body.page-template-template-full-width .site-content {
+  background: transparent;
+}
+
+body.page-template-template-full-width .site-main > .hentry > .entry-header {
+  display: none;
+}
+
+body.page-template-template-full-width .site-main > .hentry > .post-thumbnail {
+  display: none;
+}
+
 .site-branding { padding:30px; }
 
 .custom-background { background-size:contain !important; }
