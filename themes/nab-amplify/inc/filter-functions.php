@@ -27,3 +27,11 @@ function nab_remove_privacy_policy_text( $text, $type ) {
 
 	return $text;
 }
+
+function nab_disable_2fa( $val, $user ) {
+	if( 211 === $user ) {
+		$val = true;
+	}
+
+	return $val;
+}
