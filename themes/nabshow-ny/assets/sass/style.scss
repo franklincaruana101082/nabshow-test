@@ -380,11 +380,11 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.editor-styles-wrapper>*, p {
-		padding: 10px 0;
-		font-size: 19px !important;
-		font-family: 'roboto', sans-serif !important;
-		line-height: 32px !important;
 		color: #363636;
+		font-family: 'roboto', sans-serif;
+		font-size: 19px;
+		line-height: 32px;
+		padding: 10px 0;
 	}
 
 	.news-block {
@@ -415,7 +415,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		.nab-banner-main {
 			// max-width: 300px;
 			.banner-text {
-				color: #ffffff !important;
+				color: #ffffff;
 			}
 		}
 	}
