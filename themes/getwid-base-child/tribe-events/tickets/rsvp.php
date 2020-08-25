@@ -152,7 +152,6 @@ if ( ! $already_rendered ) {
 							name="quantity_<?php echo absint( $ticket_id ); ?>"
 							value="0"
 							<?php disabled( $must_login ); ?>
-						>
 						<?php if ( - 1 !== $available && ( 0 === $threshold || $available <= $threshold ) ) : ?>
 							<span class="tribe-tickets-remaining">
 								<span class="available-stock" data-product-id="<?php echo esc_attr( $ticket_id ); ?>">
