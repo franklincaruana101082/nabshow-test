@@ -39,10 +39,6 @@ get_sidebar();
 				)
 			);
 			?>
-				</span>
-
-		</p><!-- .footer-copyright -->
-
 		</div>
 	<?php
 	endif;

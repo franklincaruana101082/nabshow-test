@@ -69,17 +69,28 @@ function save_event_desclaimer_text( $post_id ) {
 }
 add_action('save_post', 'save_event_desclaimer_text');
 
-// // Function to change email address
-//
-// function wpb_sender_email( $original_email_address ) {
-//     return 'register@nab.org';
+// Function to change email address
+
+function wpb_sender_email( $original_email_address ) {
+    return 'register@nab.org';
+}
+
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+    return 'Collectively Speaking, NAB Show';
+}
+
+// Hooking up our functions to WordPress filters
+add_filter( 'wp_mail_from', 'wpb_sender_email' );
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+
+// function logo_size_change(){
+// 	remove_theme_support( 'custom-logo' );
+// 	add_theme_support( 'custom-logo', array(
+// 	    'height'      => 100,
+// 	    'width'       => 400,
+// 	    'flex-height' => true,
+// 	    'flex-width'  => true,
+// 	) );
 // }
-//
-// // Function to change sender name
-// function wpb_sender_name( $original_email_from ) {
-//     return 'Collectively Speaking, NAB Show';
-// }
-//
-// // Hooking up our functions to WordPress filters
-// add_filter( 'wp_mail_from', 'wpb_sender_email' );
-// add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+// add_action( 'after_setup_theme', 'logo_size_change', 11 );
