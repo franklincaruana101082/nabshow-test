@@ -21,31 +21,24 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     $request_uri = $_SERVER['REQUEST_URI'];
 
     $redirect_domains = [
-        'nabshow.com'   => [
-            'nabshow-com.go-vip.net',        ],
-        'nabshow.com/express'   => [
-            'nabshowexpress.com',
-            'www.nabshowexpress.com',
-        ],
-        'amplify.nabshow.com'   => [
-            'nabamplify.com',
-            'www.nabamplify.com',
-            'nabshowamplify.com',
-            'www.nabshowamplify.com',
-            'nabshow.com/amplify',
-        ],
-        'nabshow.com/exhibitorblog'   => [
-            'blog.nabshow.com',        ],
-        'nabshow.com/partners'   => [
-            'partners.nabshow.com',        ],
-        'nabshow.com/cine2020'   => [
-            'cineemerge.nabshow.com',
-            'cineemerge.com',
-            'www.cineemerge.com',
-        ],
-         'nabshow.com/guestpass'   => [
-            'guestpass.nabshow.com',        ],
-    ];
+    'nabshow.com'   => [
+        'nabshow-com.go-vip.net',
+    ],
+    'nabshowexpress.com'   => [
+        'www.nabshowexpress.com',
+    ],
+    'amplify.nabshow.com'   => [
+        'nabamplify.com',
+        'www.nabamplify.com',
+        'nabshowamplify.com',
+        'www.nabshowamplify.com',
+        'nabshow.com/amplify',
+    ],
+    'cineemerge.nabshow.com'   => [
+        'cineemerge.com',
+        'www.cineemerge.com',
+    ],
+];
 
     // Safety checks for redirection:
     // 1. Don't redirect for '/cache-healthcheck?' or monitoring will break
