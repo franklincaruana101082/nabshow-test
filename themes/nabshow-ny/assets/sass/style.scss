@@ -75,6 +75,8 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Roboto&display=swap');
 
+	html { margin-top: 0 !important; } // GDPR & HEADER BG HELPER
+
 	body {
 		// background-color: #777; 
 		-webkit-font-smoothing: antialiased;
