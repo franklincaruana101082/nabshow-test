@@ -28,6 +28,7 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         'www.nabshowexpress.com',
         'express.nabshow.com',
         'nabshow.com/express',
+        'nabshow.com/2021/express',
     ],
     'amplify.nabshow.com'   => [
         'nabamplify.com',
@@ -35,6 +36,7 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         'nabshowamplify.com',
         'www.nabshowamplify.com',
         'nabshow.com/amplify',
+        'nabshow.com/2021/amplify',
     ],
     'cineemerge.nabshow.com'   => [
         'cineemerge.com',
