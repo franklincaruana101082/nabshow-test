@@ -34,6 +34,11 @@ function ny_theme_scripts() {
 
     wp_enqueue_script( 'scripts', get_stylesheet_directory_uri() . '/js/scripts.js', array(), '2.0.0', true );
 
+    wp_localize_script( 'scripts', 'mdObj', array(
+      'isUserLoggedIn' => is_user_logged_in(),
+      'mdLoggedUserId' => get_current_user_id(),
+    ) );
+
 }
 
 ?>

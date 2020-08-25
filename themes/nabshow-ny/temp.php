@@ -44,12 +44,12 @@ get_footer();
 			var pID = $( this ).data( 'pid' );
 			if ( mdObj.isUserLoggedIn ) {
 				// var ajURl = 'https://vipnabshow.md-develop.com/ny2020/wp-admin/admin-ajax.php';
-				var ajURl = 'https://sandbox.md-develop.com/wp-json/cocart/v1/add-item?return_cart=true';
+				var ajURl = 'https://nabshow-com-develop.go-vip.net/amplify/wp-json/cocart/v1/add-item?return_cart=true';
 				jQuery.ajax( {
 					url: ajURl,
 					type: 'POST',
 					headers: {
-						'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2FuZGJveC5tZC1kZXZlbG9wLmNvbSIsImlhdCI6MTU5ODM2MTcwNSwibmJmIjoxNTk4MzYxNzA1LCJleHAiOjE1OTg5NjY1MDUsImRhdGEiOnsidXNlciI6eyJpZCI6IjMifX19.WVx0nRGYU4EjtAdEvca7hWguH6gnWBE9D_P3xDeOTa4'
+						'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbmFic2hvdy1jb20tZGV2ZWxvcC5nby12aXAubmV0XC9hbXBsaWZ5IiwiaWF0IjoxNTk4MzY2NDY4LCJuYmYiOjE1OTgzNjY0NjgsImV4cCI6MTU5ODk3MTI2OCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMjExIn19fQ.SiZyNDFZCONb5F017Uyt-h3eCIIz5e-PPKK_WuPjO1Q'
 					},
 					data: {
 						'product_id': pID,
@@ -65,7 +65,7 @@ get_footer();
 					}
 				} );
 			} else {
-				var ajURl = 'https://sandbox.md-develop.com/wp-json/cocart/v1/add-item?return_cart=true';
+				var ajURl = 'https://nabshow-com-develop.go-vip.net/amplify/wp-json/cocart/v1/add-item?return_cart=true';
 				var cartKeyCookie = getCookie( 'mdcartkey' );
 				if ( cartKeyCookie ) {
 					var cartKey = cartKeyCookie;
