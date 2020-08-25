@@ -127,7 +127,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.hero-banner-inner .banner-item .title {
-		font-family: 'Josefin Sans', sans-serif !important;
+		font-family: 'Josefin Sans', sans-serif;
 		margin-top: -20px;
 		margin: 0;
 		text-transform: uppercase;
@@ -136,14 +136,14 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		@extend .delay-06s;
 		@include trans(all 0.3s ease-in-out);
 		@include range(md) {
-			font-size: 100px !important;
-			line-height: 100px !important;
+			font-size: 100px;
+			line-height: 100px;
 		}
 	}
 
 
 	.wp-block-nab-hero-banner.hero-banner {
-		margin-top: -191px !important;
+		margin-top: -191px;
 	}
 
 	.wp-block-nab-hero-banner.hero-banner .bx-controls.bx-has-pager {
@@ -151,14 +151,14 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.hero-banner-inner .banner-item ul.hero-buttons li .button {
-		background-color: $nab-green !important;
-		font-family: 'Josefin Sans', sans-serif !important;
-		padding: 12px 40px !important;
+		background-color: $nab-green;
+		font-family: 'Josefin Sans', sans-serif;
+		padding: 12px 40px;
 	}
 
 
 	.sticky .super-menu-main .super-menu-icons a, .sticky .super-menu-main .super-menu-icons li i.fa {
-		color: #ffffff !important;
+		color: #ffffff;
 	}
 
 	.hero-banner-inner .banner-item {
@@ -194,7 +194,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.site-content {
-		overflow: initial !important;
+		overflow: initial;
 	}
 
 	#primary-menu .menu-item a {
@@ -276,11 +276,11 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	#breadcrumbs * {
-		color: black !important;
+		color: black;
 		// font-family: "Roboto", sans-serif !important;
-		text-transform: uppercase !important;
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-weight: bold !important;
+		text-transform: uppercase;
+		font-family: 'Josefin Sans', sans-serif;
+		font-weight: bold;
 	}
 
 
@@ -296,18 +296,18 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	
 
 	#masthead .container {
-		max-width: 1440px !important;
+		max-width: 1440px;
 	}
 
 	#primary.container {
-		max-width: 1440px !important;
+		max-width: 1440px;
 	}
 
 	h2 {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 50px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 50px;
 		margin-bottom: 20px;
-		line-height: 100% !important;
+		line-height: 100%;
 	}
 
 	.site-header #site-navigation ul.menu > li.clicked:nth-child(1) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(1) > a p.menu-item-description {
@@ -332,15 +332,15 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	.all-intro {
 		color: #000000;
-		font-family: "roboto", sans-serif !important;
-		font-size: 19px !important;
-		line-height: 32px !important;
+		font-family: "roboto", sans-serif;
+		font-size: 19px;
+		line-height: 32px;
 	}
 	
 	// HOME INTRO
 	.rb-intro {
 		h2 {
-			font-family: 'Josefin Sans', sans-serif !important;
+			font-family: 'Josefin Sans', sans-serif;
 		}
 		p {
 			font-family: "roboto", sans-serif;
@@ -350,32 +350,32 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.rb-intro-title {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 50px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 50px;
 		margin-bottom: 20px;
 		color: $nab-darkblue;
-		line-height: 100% !important;
+		line-height: 100%;
 	}
 
 	.rb-intro-subtitle {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 30px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 30px;
 		margin-bottom: 0px;
-		color: $nab-purple !important;
+		color: $nab-purple;
 	}
 
 	.nab-title {
-		font-family: 'Josefin Sans', sans-serif !important;
+		font-family: 'Josefin Sans', sans-serif;
 		// font-size: 85px !important;
 		@include range(md) {
-			font-size: 85px !important;
+			font-size: 85px;
 		}
 
 	}
 
 	.nab-subtitle {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 30px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 30px;
 		margin-bottom: 0px;
 	}
 
@@ -588,7 +588,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.copyright {
-		font-size: 11px !important;
+		font-size: 11px;
 	}
 
 
