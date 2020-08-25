@@ -27,7 +27,7 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     'nabshowexpress.com'   => [
         'www.nabshowexpress.com',
         'express.nabshow.com',
-        'www.nabshow.com/express',
+        'nabshow.com/express',
     ],
     'amplify.nabshow.com'   => [
         'nabamplify.com',
