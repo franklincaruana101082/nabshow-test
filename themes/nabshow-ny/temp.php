@@ -112,10 +112,10 @@ get_footer();
 		$( document ).on( 'click', '.proceedToCheckout', function() {
 			var cartKeyCookie = getCookie( 'mdcartkey' );
 			if ( cartKeyCookie ) {
-				var checkoutUrl = 'https://sandbox.md-develop.com/cart?cocart-load-cart=' + cartKeyCookie;
+				var checkoutUrl = 'https://nabshow-com-develop.go-vip.net/amplify/cart/?cocart-load-cart=' + cartKeyCookie;
 				location.href = checkoutUrl;
 			} else {
-				var checkoutUrl = 'https://sandbox.md-develop.com/cart';
+				var checkoutUrl = 'https://nabshow-com-develop.go-vip.net/amplify/cart/';
 				location.href = checkoutUrl;
 			}
 		} );
