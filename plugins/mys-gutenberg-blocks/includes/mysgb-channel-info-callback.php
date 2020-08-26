@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-$page_id = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pageId' ] ) ? $attributes[ 'pageId' ] : get_the_ID();
+$page_id    = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pageId' ] ) ? $attributes[ 'pageId' ] : get_the_ID();
 $class_name = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 ?>
 <div class="nabny-sidebar-block-outer <?php echo esc_attr( $class_name ); ?>">
@@ -24,14 +24,16 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
         $date       = get_field( 'channel_date',  $page_id );
         $location   = get_field( 'session_location',  $page_id );
         $open_to    = get_field( 'is_open_to',  $page_id );
+        $is_open_to = get_field( 'is_open_to',  $page_id );
+        $is_open_to = 'Select Open To' === $is_open_to ? '' : $is_open_to;
         ?>        
         <div class="nabny-sidebar-block-meta-wrapper">
             <span><?php echo esc_html( $date ); ?></span>
             <span><?php echo esc_html( $location ); ?></span>
             <?php
-            if ( $open_to ) {
+            if ( ! empty( $is_open_to ) ) {
                 ?>
-                <span>Open To</span>
+                <span><?php echo esc_html( $is_open_to ); ?></span>
                 <?php
             }
             ?>

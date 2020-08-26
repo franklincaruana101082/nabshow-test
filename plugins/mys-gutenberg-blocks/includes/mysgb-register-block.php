@@ -560,3 +560,13 @@ register_block_type( 'mys/partners-sponsors-info', array(
 	'render_callback' => array( $this, 'mysgb_partners_sponsors_info_render_callback' ),
 	)
 );
+
+register_block_type( 'mys/session-info', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_session_info_render_callback' ),
+	)
+);
