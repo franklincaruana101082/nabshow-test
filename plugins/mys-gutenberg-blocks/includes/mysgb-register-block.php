@@ -484,3 +484,89 @@ register_block_type( 'mys/product-slider', array(
 		'render_callback' => array( $this, 'mysgb_product_slider_render_callback' ),
 	)
 );
+
+register_block_type( 'mys/session-date-list', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 10,
+		),		
+		'channels'  => array(
+			'type'    => 'array',
+			'default' => [],
+			'items'   => [
+				'type' => 'number'
+			]
+		),
+		'filterType'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_session_date_list_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/speakers-list', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 10,
+		),
+		'channels'  => array(
+			'type'    => 'array',
+			'default' => [],
+			'items'   => [
+				'type' => 'number'
+			]
+		),	
+		'includeSpeakers' => array(
+			'type'    => 'string',
+			'default' => ''
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Featured Speakers'
+		),
+		'featuredSpeaker'  => array(
+			'type'    => 'boolean',
+			'default' => false
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_speakers_list_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/channel-info', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_channel_info_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/partners-sponsors-info', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 2,
+		),
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_partners_sponsors_info_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/session-info', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_session_info_render_callback' ),
+	)
+);

@@ -34,6 +34,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			// Filter for add custom post where
 			add_filter( 'posts_where', array( $this, 'mysgb_set_custom_posts_where' ), 10, 2 );
 
+			// Session Date list ajax filters.
+			add_action( 'wp_ajax_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
+			add_action( 'wp_ajax_nopriv_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
+
 		}
 
 		/**
@@ -571,6 +575,138 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			}
 
 			return $where;
+		}
+
+		/**
+		 * Return session according to filters
+		 *
+		 * @return json
+		 * @since 1.0.0
+		 */
+		public function mysgb_sessions_date_list_filter_ajax_callback() {
+			
+			$result_post    = array();
+			$final_result   = array();
+
+			$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+			$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );		
+			$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
+			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );		
+			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );			
+
+			$query_arg = array(
+				'post_type'      => 'sessions',
+				'posts_per_page' => $post_limit,
+				'paged'          => $page_number,
+				'meta_key'       => 'session_date',
+				'orderby'        => 'meta_value',
+				'order'          => 'ASC'
+			);			
+
+			if ( ! empty( $post_search ) ) {
+				$query_arg[ 's' ] = $post_search;
+			}
+
+			if ( ! empty( $session_date ) ) {
+				$query_arg[ 'meta_value' ] = $session_date;
+			}
+
+			if ( ! empty( $channel ) ) {
+				$query_arg[ 'meta_query' ] = array(
+					array(
+						'key'     => 'session_channel',
+						'value'   => $channel						
+					)
+				);
+			}
+			
+
+			$session_query = new WP_Query( $query_arg );
+
+			$total_pages = $session_query->max_num_pages;
+
+			if ( $session_query->have_posts() ) {
+
+				$i = 0;				
+
+				while ( $session_query->have_posts() ) {
+
+					$session_query->the_post();
+
+					$session_id          = get_the_ID();
+					$date                = get_post_meta( $session_id, 'session_date', true );
+					$start_time          = get_post_meta( $session_id, 'start_time', true );
+					$end_time            = get_post_meta( $session_id, 'end_time', true );
+
+					if ( ! empty( $date ) ) {
+						$date       = date_format( date_create( $date ), 'l, F j' );
+					}
+					
+					if ( ! empty( $start_time ) ) {
+
+						$start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+						$start_time = str_replace(':00', '', $start_time );
+	
+					}
+					if ( ! empty( $end_time ) ) {
+	
+						$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
+						$end_time   = str_replace(':00', '', $end_time );
+	
+					}
+					
+					if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+						$start_time = str_replace(' a.m.', '', $start_time );
+					}
+	
+					if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+						$start_time = str_replace(' p.m.', '', $start_time );
+					}
+
+					$more_link 	= get_field( 'link',  $session_id );
+					$more_text 	= get_field( 'label_text',  $session_id );
+					$channel 	= get_field( 'session_channel',  $session_id );													
+				
+					$result_post[ $i ][ 'post_title' ]    	= get_the_title();					
+					$result_post[ $i ][ 'time' ]     	  	= $start_time . ' - ' . $end_time . ' ET';
+					$result_post[ $i ][ 'post_content' ]  	= get_the_excerpt( $session_id );
+					$result_post[ $i ][ 'more_link' ]		= $more_link;
+					$result_post[ $i ][ 'more_text' ]  		= $more_text;
+					$result_post[ $i ][ 'channel' ]  		= get_the_title( $channel );
+					$result_post[ $i ][ 'pass_name' ]  		= 'Open to Pass Name';
+					$result_post[ $i ][ 'session_date' ]  	= $date;
+					$result_post[ $i ][ 'thumbnail_url' ] 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );
+
+					$rows = get_field( 'speaker_list' );
+
+					if ( $rows ) {
+
+						$final_speakers = array();						
+
+						foreach( $rows as $row ) {
+							$speaker_id     	= $row['session_speaker'];
+							$speaker_name  		= get_the_title( $speaker_id );
+							$speaker_name   	= explode(',', $speaker_name, 2);
+							$speaker_name   	= isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+							$final_speakers[] 	= $speaker_name;							
+						}
+
+						if ( count( $final_speakers ) > 0 ) {
+
+							$result_post[ $i ][ 'speakers' ] = 'Featuring: ' . implode( ', ', $final_speakers );
+						}
+					}
+					$i++;
+				}
+			}
+			wp_reset_postdata();
+
+			$final_result[ 'next_page_number' ] = $page_number + 1;
+			$final_result[ 'total_page' ]       = $total_pages;
+			$final_result[ 'result_post' ]      = $result_post;
+
+			echo wp_json_encode( $final_result );
+			wp_die();
 		}
 
 	}

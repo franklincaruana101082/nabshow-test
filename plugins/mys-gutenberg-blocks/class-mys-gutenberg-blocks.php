@@ -121,6 +121,11 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 	        register_rest_route( 'nab_api', '/request/category-block-terms', array(
 		        'methods'  => 'GET',
 		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms' ),
+            ) );
+            
+            register_rest_route( 'nab_api', '/request/get-session-channels', array(
+		        'methods'  => 'GET',
+		        'callback' => array( __CLASS__, 'mysgb_get_session_channels' ),
 	        ) );
         }
 
@@ -200,7 +205,46 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
 		    return new WP_REST_Response( $final_terms, 200 );
 
-	    }
+        }
+        
+        /**
+         * Get all session channels.
+         *
+         * @return WP_REST_Response
+         * @since 1.0.0
+         */
+        public static function mysgb_get_session_channels() {
+
+            $return = array();
+
+            $query_args = array(
+                'post_type'      => 'channels',
+                'posts_per_page' => -1,            
+                'orderby'        => 'title',
+                'order'          => 'ASC'
+            );
+            
+            $query = new WP_Query( $query_args );
+
+            if ( $query->have_posts() ) {
+                
+                while ( $query->have_posts() ) {
+
+                    $query->the_post();
+
+                    $channel_id = get_the_ID();
+                    $title      = get_the_title();
+
+                    $return[] = array( "post_id" => $channel_id, "title" => $title );
+
+                }
+
+                wp_reset_postdata();
+            }            
+
+            return new WP_REST_Response( $return, 200 );
+
+        }
 
         /*
          * Enqueue gutenberg custom block script
@@ -209,7 +253,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.9.1' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.9.3' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -444,6 +488,106 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 	        $html = ob_get_clean();
 
 	        return $html;
+
+        }
+
+        /**
+         * List the session date wise with filter or without filter.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_session_date_list_render_callback( $attributes ) {
+
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-session-date-list-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
+
+        }
+
+        /**
+         * List the speakers.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_speakers_list_render_callback( $attributes ) {
+
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-speakers-list-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
+
+        }
+
+        /**
+         * Current channel info block.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_channel_info_render_callback( $attributes ) {
+
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-channel-info-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
+
+        }
+
+        /**
+         * Get patners and sponsors logo by current post id.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_partners_sponsors_info_render_callback( $attributes ) {
+
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-sponsors-info-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
+
+        }
+
+        /**
+         * Current session info block.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_session_info_render_callback( $attributes ) {
+
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-session-info-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
 
         }
 

@@ -8,7 +8,11 @@ import './tracks-slider/block';
 import './session-filter/block';
 import './product-categories/block';
 import './product-slider/block';
-
+import './session-date-list/block';
+import './speaker-list/block';
+import './channel-info/block';
+import './sponsors-info/block';
+import './session-info/block';
 
 (function () {
     const MysIcon = (
