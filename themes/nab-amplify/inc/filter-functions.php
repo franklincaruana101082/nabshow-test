@@ -28,10 +28,45 @@ function nab_remove_privacy_policy_text( $text, $type ) {
 	return $text;
 }
 
-function nab_disable_2fa( $val, $user ) {
-	if( 206 === $user ) {
-		$val = true;
+/**
+ * Remove mandatory fields validation
+ *
+ * @param $address_fields
+ *
+ * @return mixed
+ */
+function nab_customising_checkout_fields( $address_fields ) {
+	// Only on checkout page
+	if ( ! is_checkout() ) {
+		return $address_fields;
 	}
 
-	return $val;
+	// All field keys in this array
+	$key_fields = array( 'country', 'first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode' );
+
+	// Loop through each address fields (billing and shipping)
+	foreach ( $key_fields as $key_field ) {
+		$address_fields[ $key_field ]['required'] = false;
+	}
+
+	return $address_fields;
+}
+
+/**
+ * Remove mandatory fields validation
+ *
+ * @param $billing_fields
+ *
+ * @return mixed
+ */
+function nab_custom_billing_fields( $billing_fields ) {
+
+	// Only on checkout page
+	if ( ! is_checkout() ) {
+		return $billing_fields;
+	}
+
+	$billing_fields['billing_phone']['required'] = false;
+
+	return $billing_fields;
 }

@@ -30,19 +30,7 @@
 	<header id="masthead" class="site-header">
 		<div class="container">
 			<div class="header-inner">
-				<div class="site-branding">
-					<?php
-					the_custom_logo();
-					if ( is_front_page() && is_home() ) :
-						?>
-						<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-					<?php
-					else :
-						?>
-						<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-					<?php endif; ?>
-				</div><!-- .site-branding -->
-				<div class="nab-other-logos">
+				<div class="nab-logos">
 					<?php if ( have_rows( 'nab_logos', 'option' ) ): ?>
 						<ul>
 							<?php while ( have_rows( 'nab_logos', 'option' ) ): the_row();
@@ -54,11 +42,13 @@
 							endwhile; ?>
 						</ul>
 					<?php endif; ?>
+
 				</div>
 
 				<nav id="site-navigation" class="main-navigation">
 					<?php $cart_page_url = wc_get_cart_url(); ?>
 					<div class="nab-header-cart">
+						<i class="fa fa-shopping-cart"></i>
 						<a href="<?php echo esc_url( $cart_page_url ); ?>"><?php esc_html_e( 'Cart', 'nab-amplify' ); ?></a>
 						<span class="nab-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
 					</div>
@@ -68,26 +58,40 @@
 							$current_user = wp_get_current_user();
 							$user_thumb   = get_avatar_url( $current_user->ID );
 							?>
-							<div class="nab-avatar">
-								<img src="<?php echo esc_url( $user_thumb ); ?>"/>
-								<span><?php echo $current_user->display_name; ?></span>
+							<div class="nab-profile">
+								<div class="nab-avatar-wrp">
+									<div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"/></div>
+									<span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
+								</div>
+								<div class="nab-profile-dropdown">
+									<ul>
+										<li>
+											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'dashboard' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
+										</li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
+										</li>
+										<li>
+											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
+										</li>
+										<li><a href="#"><?php esc_html_e( 'Manage Connections', 'nab-amplify' ); ?></a></li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a>
+										</li>
+										<li><a href="#"><?php esc_html_e( 'View Inbox', 'nab-amplify' ); ?></a></li>
+										<li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
+									</ul>
+								</div>
 							</div>
-							<ul>
-								<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'dashboard' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a></li>
-								<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a></li>
-								<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
-								</li>
-								<li><a href="#"><?php esc_html_e( 'Manage Connections', 'nab-amplify' ); ?></a></li>
-								<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a></li>
-								<li><a href="#"><?php esc_html_e( 'View Inbox', 'nab-amplify' ); ?></a></li>
-								<li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
-							</ul>
+						<?php } else { ?>
+							<div class="nab-profile">
+								<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+							</div>
 						<?php } ?>
 					</div>
 				</nav><!-- #site-navigation -->
 
 			</div>
 		</div>
+
 		<div class="header-bottom">
 			<div class="container">
 				<ul>

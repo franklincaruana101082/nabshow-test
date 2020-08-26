@@ -89,22 +89,18 @@ function nab_amplify_woocommerce_active_body_class( $classes ) {
 add_filter( 'body_class', 'nab_amplify_woocommerce_active_body_class' );
 
 /**
- * Related Products Args.
- *
- * @param array $args related products args.
- * @return array $args related products args.
+ * Output the related products.
  */
-function nab_amplify_woocommerce_related_products_args( $args ) {
-	$defaults = array(
-		'posts_per_page' => 3,
-		'columns'        => 3,
+function nab_amplify_woocommerce_output_related_products() {
+	$args = array(
+		'posts_per_page' => 2,
+		'columns'        => 4,
+		'orderby'        => 'rand', // @codingStandardsIgnoreLine.
 	);
 
-	$args = wp_parse_args( $defaults, $args );
-
-	return $args;
+	woocommerce_related_products( $args );
 }
-add_filter( 'woocommerce_output_related_products_args', 'nab_amplify_woocommerce_related_products_args' );
+//add_action( 'woocommerce_after_single_product_summary', 'nab_amplify_woocommerce_output_related_products', 20 );
 
 /**
  * Remove default WooCommerce wrapper.
@@ -137,7 +133,7 @@ if ( ! function_exists( 'nab_amplify_woocommerce_wrapper_after' ) ) {
 	 * @return void
 	 */
 	function nab_amplify_woocommerce_wrapper_after() {
-		?>	
+		?>
 			</main><!-- #main -->
 		<?php
 	}
@@ -150,11 +146,19 @@ if ( ! function_exists( 'nab_amplify_woocommerce_template_loop_product_title' ) 
 	 * Show the product title in the product loop. By default this is an H2.
 	 */
 	function nab_amplify_woocommerce_template_loop_product_title() {
-		$brand_name = 'BRAND';
+		global $product;
+		$product_desc = $product->get_description();
+		$product_brands = wp_get_post_terms( $product->get_id(), 'pwb-brand' );
+		$brand_names = array();
+		foreach( $product_brands as $pb) {
+			$brand_names[] = $pb->name;
+		}
+		$brand_names = implode( ', ', $brand_names);
 
 		echo '<div class="top">';
 			echo '<h3 class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title title' ) ) . '">' . get_the_title() . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo '<strong class="brand">' . $brand_name . '</strong>';
+			echo '<strong class="brand">' . esc_html( $brand_names ) . '</strong>';
+			echo '<strong class="product_desc"><p>' . $product_desc . '</p></strong>';
 		echo '</div>';
 	}
 }
@@ -214,11 +218,6 @@ if ( ! function_exists( 'nab_amplify_woocommerce_catalog_ordering' ) ) {
 	}
 }
 add_action( 'nab_amplify_woocommerce_before_shop_loop', 'nab_amplify_woocommerce_catalog_ordering', 30 );
-
-// Removed Actions
-remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title' );
-remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close' );
-remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering' );
 
 /**
  * Sample implementation of the WooCommerce Mini Cart.

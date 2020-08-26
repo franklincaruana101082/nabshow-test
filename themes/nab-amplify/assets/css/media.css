@@ -10,8 +10,20 @@
 	.product-list.layout-list .product-item .item-inner .details .top{width:100%;padding:0}
 	.product-list.layout-list .product-item .item-inner .details .buttom{width:calc(100% - 200px)}
 	.product-list.layout-list .product-item .item-inner .details .price{flex-direction:initial;justify-content:flex-start;align-items:center}
+	.single-product div.product .woocommerce-product-gallery:before{display:none}
+	.single-product div.product .woocommerce-product-gallery{width:55%}
+	.single-product div.product .summary{width:45%}
+}
+@media (max-width:1024px){
+	.nab-profile:hover > .nab-profile-dropdown{display:none}
+	.single-product div.product .woocommerce-product-gallery{width:100%}
+	.single-product div.product .summary{width:100%;padding:40px 0 0 0}
+	.single-product div.product .product-middle-section.with_long_desc .has-fixed #middle-left{width:100%;border-bottom:1px solid #ffffff;padding:0 0 30px 0}
+	.single-product div.product .product-middle-section.with_long_desc .has-fixed #middle-right{width:100%;border:0;padding:30px 0 0 0}
+	.single-product div.product .summary .cart button{width:270px!important;}
 }
 @media (max-width:991px){
+	.site-header .nab-logos img{max-width:100px}
 	.site-footer:before{display:none}
 	.site-footer .footer-inner .col-1{order:1;width:50%}
 	.site-footer .footer-inner .col-5{order:2;width:50%}
@@ -38,8 +50,17 @@
 	.woocommerce-account .entry-content > .woocommerce .woocommerce-MyAccount-content{width:calc(100% - 300px);overflow:auto}
 	.woocommerce-MyAccount-navigation ul li a{font-size:14px;height:60px;padding:10px 15px 10px 90px}
 	.woocommerce-MyAccount-navigation ul li a::before{width:70px;height:60px;background-size:40px}
+	.single-product div.product .related.products .product-list .product-item{width:50%;margin-bottom:20px!important}
+	.single-product div.product .woocommerce-product-gallery .flex-control-thumbs{position:initial;width:100%;flex-wrap:wrap;height:auto!important;flex-direction:row;order:2}
+	.single-product div.product .woocommerce-product-gallery .flex-viewport{order:1;width:100%;height:auto!important;padding:0;margin-bottom:20px}
+	.single-product div.product .woocommerce-product-gallery{flex-wrap:wrap}
+	.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li{width:85px!important;margin:0 0 10px 0}
+	.single-product div.product .woocommerce-product-gallery .flex-viewport figure img{max-height:initial;padding-left:0;}
 }
 @media (max-width:767px){
+	.site-header .header-inner{padding:30px 0 10px 0}
+	.site-header .nab-logos{width:100%;justify-content:center;margin-bottom:30px}
+	.site-header .main-navigation{justify-content:center;width:100%}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:100%}
 	.nab-without-login-account .woocommerce .nab-login-wrap{flex-wrap:wrap}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:100%;margin-bottom:20px;text-align:center}
@@ -65,6 +86,16 @@
 	.woocommerce-orders-table th{text-align:right!important}
 	.woocommerce-orders-table td a.button{margin:5px 0 5px 5px}
 	.woocommerce-orders-table td a.button:last-child{margin:5px 0 5px 5px}
+	.single-product div.product .join-today-section .has-fixed .button{height:60px;width:200px;font-size:16px}
+	.single-product div.product .product-middle-section.with_long_desc #prod-price,
+	.single-product div.product .product-middle-section.with_long_desc #prod-published,
+	.single-product div.product .product-middle-section.with_long_desc #prod-publisher,
+	.single-product div.product .product-middle-section.with_long_desc h4{font-size:20px}
+	.single-product div.product .summary .cart button{width:130px!important;height:49px!important;margin-right:7px!important;font-size:12px!important;}
+
+	h2{font-size:28px}
+	h3{font-size:21px}
+	h4{font-size:17px}
 }
 @media (max-width:600px){
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;order:initial!important;text-align:center!important;padding:0!important}
@@ -78,6 +109,7 @@
 	.product-list.layout-list .product-item .item-inner .details .added_to_cart{text-align:left;padding:0 0 0 40px}
 }
 @media (max-width:567px){
+	.site-header .nab-logos ul li{padding-right:10px;margin-right:10px}
 	.woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions .coupon #coupon_code{width:100%;margin-bottom:20px}
 	.woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions button.button{display:block;margin:0 auto}
 	section.woocommerce-customer-details address{padding:20px}
@@ -86,4 +118,5 @@
 	.woocommerce-account .form-row.form-row-last{padding-left:0}
 	.woocommerce-MyAccount-navigation ul li a{font-size:14px;height:60px;padding:10px 15px 10px 90px}
 	.woocommerce-MyAccount-navigation ul li a::before{width:70px;height:60px;background-size:40px}
+	.single-product div.product .related.products .product-list .product-item{width:100%}
 }

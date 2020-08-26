@@ -4,10 +4,35 @@
  *  @package Nab
  */
 (function ($) {
-  // Start code here
+
+  $(document).ready(function(){
+    HeaderResponsive();
+
+    $(window).on('resize', function(){
+      HeaderResponsive();      
+    });
+  });
+
+  // on load
+  $(window).load( function (){
+
+      $('.video_added').removeClass('woocommerce-product-gallery__image');
+
+      /*$('.custom_thumb.video_added').fancybox({
+          'width': 600,
+          'height': 250,
+          'transitionIn': 'elastic', // this option is for v1.3.4
+          'transitionOut': 'elastic', // this option is for v1.3.4
+          // if using v2.x AND set class fancybox.iframe, you may not need this
+          'type': 'iframe',
+          // if you want your iframe always will be 600x250 regardless the viewport size
+          'fitToView' : false  // use autoScale for v1.3.4
+      });*/
+  });
+
 
   $(document).on( 'click', '.product-head .product-layout span', function() {
-    
+
     $('.product-head .product-layout span').removeClass('active');
     $(this).addClass('active');
 
@@ -23,13 +48,12 @@
 
   // Related products
 
-  if (3 < $('.related.products .product-list .product-item').length) {
+  if (5 < $('.related.products .product-list .product-item').length) {
     buildSliderConfiguration();
     $(window).on('resize', function(){
      buildSliderConfiguration();
     });
   }
-  
 
   function buildSliderConfiguration() {
    $('.related.products .product-list').each(function () {
@@ -42,14 +66,13 @@
       } else if (windowWidth < 1200) {
           numberOfVisibleSlides = 3;
       } else {
-          numberOfVisibleSlides = 4;
+          numberOfVisibleSlides = 3;
       }
       $(this).bxSlider({
         mode: 'horizontal',
         auto: false,
         speed: 500,
         controls: true,
-        infiniteLoop: true,
         pager: false,
         stopAutoOnClick: true,
         autoHover: true,
@@ -60,6 +83,14 @@
 
       });
     });
+  }
+
+  function HeaderResponsive(){
+    if (1024 >= $(window).width()) {
+      $(document).on( 'click', '.nab-avatar-wrp', function() {
+        $(this).next('.nab-profile-dropdown').slideToggle();
+      });
+    }
   }
 
 })(jQuery);
