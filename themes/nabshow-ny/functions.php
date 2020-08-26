@@ -26,4 +26,10 @@ function ny_enqueue_styles() {
 
 }
 
+/**
+ * Include files for theme customize hooks.
+ */
+require_once get_stylesheet_directory() . '/inc/actions.php';
+require_once get_stylesheet_directory() . '/inc/actions-functions.php';
+
 ?>
