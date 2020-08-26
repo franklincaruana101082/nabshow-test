@@ -594,6 +594,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		font-size: 11px;
 	}
 
+	// News Releases Page
+	.news-release-head {
+		h2 {
+			a {
+				&:hover {
+					color: white;
+				}
+			}
+		}
+	}
 
 
 
