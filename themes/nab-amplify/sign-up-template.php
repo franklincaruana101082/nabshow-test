@@ -17,7 +17,6 @@ get_header();
 		while ( have_posts() ) :
 			the_post();
 			?>
-
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<div class="entry-content">
 					<div class="woocommerce">
@@ -31,16 +30,18 @@ get_header();
 
 									<?php do_action( 'woocommerce_register_form_start' ); ?>
 
-									<?php if ( 'no' === get_option( 'woocommerce_registration_generate_username' ) ) : ?>
+									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+										<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="first_name" id="first_name"
+										       placeholder="<?php esc_html_e( 'First Name*', 'woocommerce' ); ?>"
+										       value="<?php echo ( ! empty( $_POST['first_name'] ) ) ? esc_attr( wp_unslash( $_POST['first_name'] ) ) : ''; ?>"/>
+									</p>
 
-										<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-											<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="reg_username"
-											       autocomplete="username"
-											       placeholder="<?php esc_html_e( 'Username*', 'woocommerce' ); ?>"
-											       value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/><?php // @codingStandardsIgnoreLine ?>
-										</p>
+									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+										<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="last_name" id="last_name"
+										       placeholder="<?php esc_html_e( 'Last Name*', 'woocommerce' ); ?>"
+										       value="<?php echo ( ! empty( $_POST['last_name'] ) ) ? esc_attr( wp_unslash( $_POST['last_name'] ) ) : ''; ?>"/>
+									</p>
 
-									<?php endif; ?>
 
 									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 										<input type="email" class="woocommerce-Input woocommerce-Input--text input-text" name="email" id="reg_email" autocomplete="email"
@@ -49,25 +50,17 @@ get_header();
 										?>
 									</p>
 
-									<?php if ( 'no' === get_option( 'woocommerce_registration_generate_password' ) ) : ?>
+									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+										<input type="password" class="woocommerce-Input woocommerce-Input--text input-text" name="password" id="reg_password"
+										       placeholder="<?php esc_html_e( 'Password*', 'woocommerce' ); ?>"
+										       autocomplete="new-password"/>
+									</p>
 
-										<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-											<input type="password" class="woocommerce-Input woocommerce-Input--text input-text" name="password" id="reg_password"
-											       placeholder="<?php esc_html_e( 'Password*', 'woocommerce' ); ?>"
-											       autocomplete="new-password"/>
-										</p>
-
-										<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-											<input type="password" class="woocommerce-Input woocommerce-Input--text input-text" name="password2" id="reg_password2"
-											       placeholder="<?php esc_html_e( 'Confirm Password*', 'woocommerce' ); ?>"
-											       autocomplete="new-password"/>
-										</p>
-
-									<?php else : ?>
-
-										<p><?php esc_html_e( 'A password will be sent to your email address.', 'woocommerce' ); ?></p>
-
-									<?php endif; ?>
+									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+										<input type="password" class="woocommerce-Input woocommerce-Input--text input-text" name="password2" id="reg_password2"
+										       placeholder="<?php esc_html_e( 'Confirm Password*', 'woocommerce' ); ?>"
+										       autocomplete="new-password"/>
+									</p>
 
 									<?php do_action( 'woocommerce_register_form' ); ?>
 

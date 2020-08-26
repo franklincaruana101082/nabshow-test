@@ -24,7 +24,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
 
-// Get product categoies.
+// Get product categories.
 $product_cats = wp_get_post_terms( $product->get_id(), 'product_cat' );
 $product_cats_names = array();
 foreach( $product_cats as $pc) {

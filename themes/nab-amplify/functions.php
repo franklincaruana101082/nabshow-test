@@ -2,7 +2,7 @@
 /**
  * Amplify functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link    https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package Amplify
  */
@@ -114,6 +114,7 @@ add_action( 'after_setup_theme', 'nab_amplify_setup' );
 function nab_amplify_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'nab_amplify_content_width', 640 );
 }
+
 add_action( 'after_setup_theme', 'nab_amplify_content_width', 0 );
 
 /**
@@ -191,6 +192,7 @@ function nab_amplify_widgets_init() {
 		)
 	);
 }
+
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );
 
 /**
@@ -205,9 +207,28 @@ function nab_amplify_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+
+	wp_enqueue_script( 'nab-amplify-fancybox-js', get_template_directory_uri() . '/assets/js/jquery.fancybox.min.js', array(), _S_VERSION, true );
+
+	wp_enqueue_style( 'nab-amplify-fancybox-css', get_template_directory_uri() . '/assets/css/jquery.fancybox.min.css', array(), _S_VERSION );
+
 }
+
 add_action( 'wp_enqueue_scripts', 'nab_amplify_scripts' );
 
+/**
+ * WooCommerce - Remove Actions
+ */
+remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
+remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
+remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+
+/**
+ * WooCommerce - Change Hooks Priority
+ */
+add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 20 );
 /**
  * Implement the Custom Header feature.
  */
