@@ -52,7 +52,11 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		public function nab_mys_register_post_types() {
 
 			//Register MYS Dependent Post Types & Taxonomies.
-			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
+			if ( 'nabshow-ny' === get_option( 'stylesheet' ) ) {
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nabny-post-types.php' );
+			} else {
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/nab-post-types.php' );
+			}
 
 			if ( 'edit-tags.php' === $this->pagenow || 'term.php' === $this->pagenow ) {
 				//Develop Tracks Custom Fields
