@@ -495,7 +495,7 @@ register_block_type( 'mys/session-date-list', array(
 			'type'    => 'array',
 			'default' => [],
 			'items'   => [
-				'type' => 'string'
+				'type' => 'number'
 			]
 		),
 		'filterType'  => array(
@@ -517,7 +517,7 @@ register_block_type( 'mys/speakers-list', array(
 			'type'    => 'array',
 			'default' => [],
 			'items'   => [
-				'type' => 'string'
+				'type' => 'number'
 			]
 		),	
 		'includeSpeakers' => array(
