@@ -308,6 +308,9 @@ button.tribe-button.tribe-button--rsvp {
   color: #FFFFFF;
 }
 
+tr.tribe-tickets-order_status-row {
+    display: none;
+}
 
 /* Site Footer ------------------------ */
 
