@@ -34,10 +34,12 @@
 					<?php if ( have_rows( 'nab_logos', 'option' ) ): ?>
 						<ul>
 							<?php while ( have_rows( 'nab_logos', 'option' ) ): the_row();
-								$nab_logo_id  = get_sub_field( 'logos' );
-								$nab_logo_img = wp_get_attachment_image_src( $nab_logo_id, 'medium' );
+								$nab_logo_id   = get_sub_field( 'logos' );
+								$nab_logo_img  = wp_get_attachment_image_src( $nab_logo_id, 'medium' );
+								$nab_logo_url  = get_sub_field( 'logo_url' );
+								$nab_logo_link = ( isset( $nab_logo_url ) && ! empty( $nab_logo_url ) ) ? $nab_logo_url : 'javascript:void(0)';
 								if ( isset( $nab_logo_img ) && ! empty( $nab_logo_img ) ) { ?>
-									<li><img src="<?php echo esc_url( $nab_logo_img[0] ); ?>" alt="nab-logo"></li>
+									<li><a href="<?php echo esc_url( $nab_logo_link ); ?>"><img src="<?php echo esc_url( $nab_logo_img[0] ); ?>" alt="nab-logo"></a></li>
 								<?php }
 							endwhile; ?>
 						</ul>

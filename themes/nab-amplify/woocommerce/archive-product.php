@@ -89,11 +89,11 @@ do_action( 'woocommerce_before_main_content' );
         </div> <!-- .left-side -->
 
         <div class="right-side">
-            <h3>Product Filter</h3>
-			<?php
-			$shop_page_url = get_permalink( woocommerce_get_page_id( 'shop' ) );
-			?>
-            <a href="<?php esc_url( $shop_page_url ); ?>" id="clear-filter">see all</a>
+            <div class="right-side-top">
+                <h3>Product Filter</h3>
+                <?php $shop_page_url = get_permalink( woocommerce_get_page_id( 'shop' ) ); ?>
+                <a href="<?php esc_url( $shop_page_url ); ?>" id="clear-filter">see all</a>
+            </div>Related products
             <div class="woo-sidebar">
 				<?php
 				do_action( 'nab_amplify_woocommerce_before_shop_loop' );

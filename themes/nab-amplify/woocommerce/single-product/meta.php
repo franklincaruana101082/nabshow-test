@@ -23,6 +23,6 @@ global $product;
 ?>
 <div class="product_meta">
 
-	<?php echo wc_get_product_tag_list( $product->get_id(), ', ', '<span class="tagged_as">' . _n( '<strong>Tag</strong>:', '<strong>Tags</strong>:', count( $product->get_tag_ids() ), 'woocommerce' ) . ' ', '</span>' ); ?>
+	<?php echo wc_get_product_tag_list( $product->get_id(), '', '<span class="tagged_as">' . _n( '<strong>Tag</strong>', '<strong>Tags</strong>', count( $product->get_tag_ids() ), 'woocommerce' ) . ' ', '</span>' ); ?>
 
 </div>

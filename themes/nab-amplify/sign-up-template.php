@@ -79,6 +79,10 @@ get_header();
 								<?php echo do_shortcode( '[miniorange_social_login apps="linkin,google,fb"]' ); ?>
 							</div>
 						</div>
+						<div class="nab-signup-now">
+							<h4><?php esc_html_e( 'Already have an account?' ); ?> <a
+										href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'woocommerce' ); ?></a></h4>
+						</div>
 					</div>
 
 				</div><!-- .entry-content -->

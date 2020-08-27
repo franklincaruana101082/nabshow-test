@@ -70,3 +70,36 @@ function nab_custom_billing_fields( $billing_fields ) {
 
 	return $billing_fields;
 }
+
+/**
+ * Orders page sorting
+ *
+ * @param $args
+ *
+ * @return array
+ */
+function nab_my_account_orders_query_change_sorting( $args ) {
+
+	if ( isset( $_GET['orderby'] ) && ( 'order-total' === $_GET['orderby'] || 'order-date' === $_GET['orderby'] ) ) {
+		if ( 'order-date' === $_GET['orderby'] ) {
+			$args['orderby'] = 'date';
+		} else {
+			$args = array_merge( $args, array(
+				'meta_key' => '_order_total',
+				'orderby'  => 'meta_value_num',
+			) );
+		}
+	}
+
+	if ( isset( $_GET['order'] ) && ( 'asc' === $_GET['order'] || 'desc' === $_GET['order'] ) ) {
+		$args['order'] = sanitize_text_field( $_GET['order'] );
+	}
+
+	return $args;
+}
+
+function nab_my_orders_columns( $columns ) {
+	unset( $columns['order-status'] );
+
+	return $columns;
+}

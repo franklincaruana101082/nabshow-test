@@ -59,14 +59,14 @@
    $('.related.products .product-list').each(function () {
       var windowWidth = $(window).width();
       var numberOfVisibleSlides;
-      if (windowWidth < 420) {
+      if (windowWidth < 567) {
           numberOfVisibleSlides = 1;
       } else if (windowWidth < 768) {
           numberOfVisibleSlides = 2;
       } else if (windowWidth < 1200) {
           numberOfVisibleSlides = 3;
       } else {
-          numberOfVisibleSlides = 3;
+          numberOfVisibleSlides = 4;
       }
       $(this).bxSlider({
         mode: 'horizontal',

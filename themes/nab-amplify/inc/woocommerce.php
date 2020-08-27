@@ -89,18 +89,23 @@ function nab_amplify_woocommerce_active_body_class( $classes ) {
 add_filter( 'body_class', 'nab_amplify_woocommerce_active_body_class' );
 
 /**
- * Output the related products.
+ * Related Products Args.
+ *
+ * @param array $args related products args.
+ * @return array $args related products args.
  */
-function nab_amplify_woocommerce_output_related_products() {
-	$args = array(
-		'posts_per_page' => 2,
+function nab_amplify_woocommerce_related_products_args( $args ) {
+	$defaults = array(
+		'posts_per_page' => 10,
 		'columns'        => 4,
-		'orderby'        => 'rand', // @codingStandardsIgnoreLine.
 	);
 
-	woocommerce_related_products( $args );
+	$args = wp_parse_args( $defaults, $args );
+
+	return $args;
 }
-//add_action( 'woocommerce_after_single_product_summary', 'nab_amplify_woocommerce_output_related_products', 20 );
+add_filter( 'woocommerce_output_related_products_args', 'nab_amplify_woocommerce_related_products_args' );
+
 
 /**
  * Remove default WooCommerce wrapper.
