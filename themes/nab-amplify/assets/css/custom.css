@@ -285,7 +285,7 @@ p{font-size:16px;color:#404040}
 .product-list.layout-list .product-item .item-inner .details .buttom{margin:0;width: 120px;}
 .product-list.layout-list .product-item .item-inner .details .top p {font-weight: normal;}
 .product-list.layout-list .product-item .item-inner .details .top p{display:block;margin-bottom: 0;}
-.product-list.layout-list .product-item .item-inner .details .added_to_cart{width:100%;text-align:right;margin-top:10px;padding-right:60px}
+.product-list.layout-list .product-item .item-inner .details .added_to_cart{width:100%;text-align:right;margin-top:10px;padding-right:60px;color: #e10189}
 .element-with-sidebar .left-side .woocommerce-result-count,.element-with-sidebar .left-side .woocommerce-ordering{display:none}
 
 /* list view */

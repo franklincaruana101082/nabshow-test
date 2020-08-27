@@ -161,7 +161,7 @@ if ( ! function_exists( 'nab_amplify_woocommerce_template_loop_product_title' ) 
 		$brand_names = implode( ', ', $brand_names);
 
 		echo '<div class="top">';
-			echo '<h3 class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title title' ) ) . '">' . get_the_title() . '</h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<h3 class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title title' ) ) . '"><a href="'. esc_url(get_the_permalink()).'">' . get_the_title() . '</a></h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '<strong class="brand">' . esc_html( $brand_names ) . '</strong>';
 			echo '<strong class="product_desc"><p>' . $product_desc . '</p></strong>';
 		echo '</div>';
