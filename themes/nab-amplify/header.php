@@ -109,7 +109,7 @@
 		$request = explode( '/', $wp->request );
 
 		// If NOT in My account dashboard pages
-		if ( end( $request ) == 'my-account' || is_account_page() ) {
+		if ( ( end( $request ) == 'my-account' || is_account_page() ) && is_user_logged_in() ) {
 
 			$user_images = nab_amplify_get_user_images();
 			?>

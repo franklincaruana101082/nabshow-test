@@ -9,8 +9,8 @@
 
 $user_id     = get_current_user_id();
 $user_fields = array(
-	'professional_title',
 	'banner_image',
+	'professional_title',
 	'professional_company',
 	'social_twitter',
 	'social_linkedin',
@@ -26,7 +26,29 @@ $user_fields = array(
 	'about_me_knowledge',
 );
 
-if ( $_POST['professional_title'] ) {
+$professional_title = filter_input( INPUT_POST, "professional_title", FILTER_SANITIZE_STRING );
+if ( $professional_title ) {
+
+	/*echo '<pre>';
+	print_r($_FILES);
+	print_r($_POST);
+	die('<br><---died here');*/
+
+	// These files need to be included as dependencies when on the front end.
+	/*require_once( ABSPATH . 'wp-admin/includes/image.php' );
+	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+	// Let WordPress handle the upload.
+	// Remember, 'my_image_upload' is the name of our file input in our form above.
+	$attachment_id = media_handle_upload( 'profile_picture_file', 0 );
+
+	if ( is_wp_error( $attachment_id ) ) {
+		// There was an error uploading the image.
+	} else {
+		// The image was uploaded successfully!
+	}*/
+
 	$user_data = array();
 	foreach ( $user_fields as $ufield ) {
 
