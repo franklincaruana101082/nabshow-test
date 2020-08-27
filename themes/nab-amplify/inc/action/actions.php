@@ -29,7 +29,7 @@ add_action( 'add_meta_boxes', 'amplify_custom_meta_boxes' );
 add_action( 'save_post', 'save_product_video_text' );
 
 // Sync login with child sites
-add_action( 'wp_login', 'nab_sync_login', 5, 2 );
+// add_action( 'wp_login', 'nab_sync_login', 5, 2 );
 
 // Registration success message
 add_action( 'wp', 'nab_reg_message' );
