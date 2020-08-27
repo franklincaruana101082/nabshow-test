@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-07-06 11:30+0530\n"
+"PO-Revision-Date: 2018-07-06 11:31+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/class-custom-related-products-admin.php:77
+#: admin/class-custom-related-products-admin.php:91
+msgid "Custom Related Products"
+msgstr "Benutzerdefinierte Ähnliche Produkte Nummer"
+
+#: admin/class-custom-related-products-admin.php:78
+#: admin/class-custom-related-products-admin.php:97
+msgid "Search for a product&hellip;"
+msgstr "Nach einem Produkt suchen&hellip;"
+
+#: admin/class-custom-related-products-admin.php:88
+#: admin/class-custom-related-products-admin.php:108
+msgid "Related products are displayed on the product detail page."
+msgstr "Verwandte Produkte werden auf der Produktdetailseite angezeigt."
+
+#: admin/class-custom-related-products-admin.php:143
+#: admin/class-custom-related-products-admin.php:146
+msgid "Custom Related Products Settings"
+msgstr "Einstellungen für ähnliche Produkte"
+
+#: admin/class-custom-related-products-admin.php:143
+#: admin/class-custom-related-products-admin.php:146
+msgid "Related Products"
+msgstr "Ähnliche Produkte"
+
+#: admin/class-custom-related-products-admin.php:158
+msgid "General"
+msgstr "Allgemein"
+
+#: admin/class-custom-related-products-admin.php:162
+msgid "Disable Woocommerce Default Related Products"
+msgstr "Deaktivieren Woocommerce Standard Verwandte Produkte"
+
+#: admin/class-custom-related-products-admin.php:166
+msgid "Disable Custom Related Products"
+msgstr "Deaktivieren Sie benutzerdefinierte Verwandte Produkte"
+
+#: admin/class-custom-related-products-admin.php:188
+#: admin/class-custom-related-products-admin.php:213
+msgid "Disable"
+msgstr "Deaktiviert"
+
+#: admin/class-custom-related-products-admin.php:223
+msgid "Please change the settings as needed"
+msgstr "Bitte ändern Sie die Einstellungen nach Bedarf"
+
+#: custom-related-products.php:86
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: custom-related-products.php:87
+msgid "Support"
+msgstr "Unterstützen"
+
+#: custom-related-products.php:88
+msgid "Review"
+msgstr "Bewertung"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:19
+msgid "I couldn't understand how to make it work"
+msgstr "Ich habe nicht verstanden, wie es funktioniert"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:21
+msgid "Would you like us to assist you?"
+msgstr "Möchtest Du Hilfe?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:25
+msgid "I found a better plugin"
+msgstr "Ich fand ein besseres Plugin"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:27
+msgid "Which plugin?"
+msgstr "Welches Plugin?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:31
+msgid "The plugin is great, but I need specific feature that you don't support"
+msgstr "Das Plugin ist großartig, aber ich brauche besondere Funktionen, die das PlugIn nicht bietet"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:33
+msgid "Could you tell us more about that feature?"
+msgstr "Können Sie uns mehr über dieses Feature erzählen?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:37
+msgid "The plugin is not working"
+msgstr "Das PlugIn funktioniert nicht"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:39
+msgid "Could you tell us a bit more whats not working?"
+msgstr "Können Sie uns mehr dazu sagen, was nicht funktioniert?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:43
+msgid "It's not what I was looking for"
+msgstr "Es ist nicht das, was ich suchte"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:49
+msgid "The plugin didn't work as expected"
+msgstr "Das PlugIn funktioniert nicht wie erwartet"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:51
+msgid "What did you expect?"
+msgstr "Was haben Sie erwartet?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:55
+msgid "Other"
+msgstr "Sonstiges"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:57
+msgid "Could you tell us a bit more?"
+msgstr "Könnten Sie uns noch etwas mehr erzählen?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:75
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr "Wenn Du einen Moment Zeit hast, lass uns wissen, warum Du das Plugin deaktivieren möchtest:"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:87
+msgid "I rather wouldn't say"
+msgstr "Ich würde das lieber nicht sagen"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:88
+msgid "Submit & Deactivate"
+msgstr "Absenden & Deaktivieren"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:89
+msgid "Cancel"
+msgstr "Abbrechen"
