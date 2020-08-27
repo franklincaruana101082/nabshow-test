@@ -68,17 +68,17 @@
 								<div class="nab-profile-dropdown">
 									<ul>
 										<li>
-											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'dashboard' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
+											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
 										</li>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
 										</li>
 										<li>
 											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
 										</li>
-										<li><a href="#"><?php esc_html_e( 'Manage Connections', 'nab-amplify' ); ?></a></li>
+<!--										<li><a href="#">--><?php //esc_html_e( 'Manage Connections', 'nab-amplify' ); ?><!--</a></li>-->
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a>
 										</li>
-										<li><a href="#"><?php esc_html_e( 'View Inbox', 'nab-amplify' ); ?></a></li>
+<!--										<li><a href="#">--><?php //esc_html_e( 'View Inbox', 'nab-amplify' ); ?><!--</a></li>-->
 										<li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
 									</ul>
 								</div>

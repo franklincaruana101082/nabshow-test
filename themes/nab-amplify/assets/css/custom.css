@@ -475,7 +475,12 @@ ins{background:none}
 .woocommerce-orders-table td,
 .woocommerce-orders-table th{padding:10px 10px;border-bottom:1px solid #e0e0e0;text-align:center!important;}
 .woocommerce-orders-table td a.button{padding:6px 10px;margin:5px 5px 5px 0;width:80px;border-radius:6px;}
-.woocommerce-orders-table td a.button:last-child{margin:5px 0 5px 0;}
+.woocommerce-orders-table td a.button:last-child{margin:5px 0 5px 0}
+.woocommerce-orders-table thead tr a{color:#fff;position: relative;padding-left: 30px;}
+.woocommerce-orders-table thead tr a:before,
+.woocommerce-orders-table thead tr a:after{content:"\f0d8";font-family:FontAwesome;left:-5px;position:absolute;top:0;left:0;font-size:20px;line-height:20px}
+.woocommerce-orders-table thead tr a:after{content:"\f0d7 "}
+.woocommerce-orders-table thead tr a:before{left:12px}
 
 /* My Account Form */
 .woocommerce-account:not(.nab-without-login-account) .entry-title{color:#6363df;text-transform:uppercase;}
@@ -533,7 +538,7 @@ ins{background:none}
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs li{width:100%!important;margin-bottom:30px;padding-right: 5px;position: relative;}
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs li img{width:100%;border-radius:10px;opacity:1!important;display: block;}
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs li:last-child{margin-bottom:0!important}
-.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li:after{content: "+";position:absolute;width:calc(100% - 5px);top:0;bottom:0;left:0;right:0;background: #ff008fbf;border-radius:10px;display: flex;color: #fff;justify-content: center;align-items: center;font-size: 50px;font-weight: normal;opacity: 0;transition: 0.2s all}
+/*.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li:after{content: "+";position:absolute;width:calc(100% - 5px);top:0;bottom:0;left:0;right:0;background: #ff008fbf;border-radius:10px;display: flex;color: #fff;justify-content: center;align-items: center;font-size: 50px;font-weight: normal;opacity: 0;transition: 0.2s all}*/
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs li:hover:after{opacity:1}
 
 body.single-product{background:#404040}
