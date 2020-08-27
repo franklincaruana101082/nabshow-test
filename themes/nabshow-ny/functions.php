@@ -24,6 +24,10 @@ function ny_enqueue_styles() {
 
     wp_enqueue_script( 'scripts', get_stylesheet_directory_uri() . '/js/scripts.js', array(), '2.0.0', true );
 
+    wp_localize_script( 'scripts', 'nabshowNy', array(
+			'site_url' => get_site_url(),			
+		) );
+
 }
 
 /**

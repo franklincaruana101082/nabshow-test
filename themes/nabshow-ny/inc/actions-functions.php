@@ -53,6 +53,5 @@ function nabny_register_channel_post_type() {
  */
 function nabny_enqueue_required_scripts() {
   
-  wp_enqueue_style( 'nabny-custom-style', get_stylesheet_directory_uri() . '/assets/css/nabshow-ny.css' );
-  wp_enqueue_script( 'nabny-custom-script', get_stylesheet_directory_uri() . '/assets/js/nabshow-ny.js', array( 'jquery' ), null, true );
+  wp_enqueue_style( 'nabny-custom-style', get_stylesheet_directory_uri() . '/assets/css/nabshow-ny.css' );  
 }

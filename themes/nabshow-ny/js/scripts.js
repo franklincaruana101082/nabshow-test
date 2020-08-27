@@ -123,6 +123,22 @@ $(function() {
       }
     });
 
+    $(document).on('click', '.speaker-detail-list-modal', function () {    
+      var postId = $(this).attr('data-postid');    
+      $('body').addClass('popup-loader');
+      $('.modal .modal-body').load( nabshowNy.site_url + 'modal-popup?speakerid=' + postId, function () {
+        $('.modal').modal({
+          show: true
+        });
+        $('body').removeClass('popup-loader');
+      });
+      return false;
+    });
+  
+    $(document).on('click', '.modal .modal-header .close, .modal .modal-footer .btn-default', function () {
+      $(this).parents('.modal').modal('hide');
+    });
+
   });
   /*  main - bracket - end */
 })(jQuery);
@@ -166,7 +182,8 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           }
   
           let scheduleDiv = document.createElement('div');
-          scheduleDiv.setAttribute('class', 'schedule-row');
+          let scheduleClass = '' === value.schedule_class ? 'schedule-row' : 'schedule-row ' + value.schedule_class;
+          scheduleDiv.setAttribute('class', scheduleClass);
   
           let timeDiv = document.createElement('div');
           timeDiv.setAttribute('class', 'date');
@@ -193,24 +210,34 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           let infoNameDiv = document.createElement('div');
           infoNameDiv.setAttribute('class', 'name');
   
-          let sessionHeading = document.createElement('h3');
-          sessionHeading.innerText = value.post_title;
-  
+          let sessionHeading = document.createElement('h3');    
+
+          let sessionHeadingLink = document.createElement('a');
+          sessionHeadingLink.setAttribute('href', value.post_link);
+          sessionHeadingLink.innerText = value.post_title;
+
+          sessionHeading.appendChild(sessionHeadingLink);
+          
           infoNameDiv.appendChild(sessionHeading);
           infoDiv.appendChild(infoNameDiv);
   
           let channelPassDiv = document.createElement('div');
           channelPassDiv.setAttribute('class', 'channel-pass');
   
+          let channelLink = document.createElement('a');
+          channelLink.setAttribute('href', value.channel_link);
+
           let channelSpan = document.createElement('span');
           channelSpan.setAttribute('class', 'channel-name');
           channelSpan.innerText = value.channel;
-  
+
+          channelLink.appendChild(channelSpan);
+                    
           let passSpan = document.createElement('span');
           passSpan.setAttribute('class', 'pass-name');
           passSpan.innerText = value.pass_name;
   
-          channelPassDiv.appendChild(channelSpan);
+          channelPassDiv.appendChild(channelLink);
           channelPassDiv.appendChild(passSpan);
           infoDiv.appendChild(channelPassDiv);
   
@@ -236,7 +263,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           detailLinkDiv.setAttribute('class', 'more-details-link');
   
           let learnMoreLink = document.createElement('a');
-          learnMoreLink.setAttribute('href', value.more_link);
+          learnMoreLink.setAttribute('href', value.post_link);
           learnMoreLink.innerText = value.more_text;
   
           detailLinkDiv.appendChild(learnMoreLink);
