@@ -441,6 +441,9 @@ section.woocommerce-customer-details address p{margin-bottom:0;}
 .woocommerce-product-gallery__trigger{display: none !important;}
 .wc-credit-card-form label{display:block;width:100%;margin-bottom:5px}
 .wc-credit-card-form input{width:100%!important;outline:none}
+mark,
+ins{background:none}
+.single-product div.product .summary  del span{color:#666666;text-decoration:line-through}
 /* cart pages */
 
 /* My Account */
@@ -540,6 +543,7 @@ body.single-product{background:#404040}
 .single-product div.product .summary .cart{margin-bottom: 20px;margin-top: 35px;}
 .single-product div.product .onsale{display:none;}
 .single-product div.product .summary .cart button{width: 50%;width: calc(50% - 10px);height:80px;align-items:center;justify-content:center;margin:0;max-width: 100%;margin-right: 15px;margin-bottom: 10px;background: #ff008f;border-radius: 10px;text-transform: uppercase;font-size: 14px;line-height: 1;font-weight: 700;cursor: pointer;box-shadow: none;border: none;outline: none;}
+.single-product div.product .summary .cart button.single_add_to_cart_button{margin-right:0}
 .single-product div.product .summary .cart button:hover{background:#fdd80f;color:#666666!important}
 .single-product div.product .summary .cart button:focus{background:#fff;color:#666666!important}
 .single-product div.product .summary .cart .quantity{display:none;}
@@ -611,4 +615,5 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .single-product div.product .woocommerce-product-gallery figure .woocommerce-product-gallery__image{text-align:center}
 .single-product div.product .product-middle-section .price del span{color:#404040;text-decoration:line-through;}
 .single-product div.product .product-middle-section .price ins{background:none;}
+.single-product div.product .summary .variations select{color:#000;width: 100%;}
 /* product details */

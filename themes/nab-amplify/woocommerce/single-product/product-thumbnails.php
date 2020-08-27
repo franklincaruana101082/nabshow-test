@@ -31,14 +31,18 @@ if ( $attachment_ids && $product->get_image_id() ) {
 		echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wc_get_gallery_image_html( $attachment_id ), $attachment_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
 	}
 
-	$video_url                   = get_post_meta( $product->get_id(), '_product_video_url', true );
-	$product_video_image_id      = get_post_meta( $product->get_id(), '_product_video_thumb', true );
-	$gallery_thumbnail           = wc_get_image_size( 'gallery_thumbnail' );
-	$thumbnail_size              = apply_filters( 'woocommerce_gallery_thumbnail_size', array( $gallery_thumbnail['width'], $gallery_thumbnail['height'] ) );
-	$product_video_thumb_100x100 = wp_get_attachment_image_src( $product_video_image_id, $thumbnail_size )[0];
-	$full_size                   = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
-	$product_video_thumb         = wp_get_attachment_image_src( $product_video_image_id, $full_size )[0];
+	$video_url              = get_post_meta( $product->get_id(), '_product_video_url', true );
+	$product_video_image_id = get_post_meta( $product->get_id(), '_product_video_thumb', true );
 
-	$html = '<div data-thumb="' . $product_video_thumb_100x100 . '" data-thumb-alt="alt text" class="woocommerce-product-gallery__image video_added custom_thumb"><a data-fancybox data-type="iframe" class="" href="javascript:void(0)" data-src="' . $video_url . '" ><img src="' . $product_video_thumb . '" /></a></div>';
-	echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, 52 ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+	if ( ! empty( $video_url ) && ! empty( $product_video_image_id ) ) {
+
+		$gallery_thumbnail           = wc_get_image_size( 'gallery_thumbnail' );
+		$thumbnail_size              = apply_filters( 'woocommerce_gallery_thumbnail_size', array( $gallery_thumbnail['width'], $gallery_thumbnail['height'] ) );
+		$product_video_thumb_100x100 = wp_get_attachment_image_src( $product_video_image_id, $thumbnail_size )[0];
+		$full_size                   = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
+		$product_video_thumb         = wp_get_attachment_image_src( $product_video_image_id, $full_size )[0];
+
+		$html = '<div data-thumb="' . $product_video_thumb_100x100 . '" data-thumb-alt="alt text" class="woocommerce-product-gallery__image video_added custom_thumb"><a data-fancybox data-type="iframe" class="" href="javascript:void(0)" data-src="' . $video_url . '" ><img src="' . $product_video_thumb . '" /></a></div>';
+		echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, 52 ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+	}
 }

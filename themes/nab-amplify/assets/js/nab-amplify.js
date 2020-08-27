@@ -48,7 +48,7 @@
 
   // Related products
 
-  if (5 < $('.related.products .product-list .product-item').length) {
+  if (4 < $('.related.products .product-list .product-item').length) {
     buildSliderConfiguration();
     $(window).on('resize', function(){
      buildSliderConfiguration();
@@ -74,13 +74,12 @@
         speed: 500,
         controls: true,
         pager: false,
+        infiniteLoop:false,
         stopAutoOnClick: true,
         autoHover: true,
         slideWidth: 500,
         minSlides: numberOfVisibleSlides,
-        maxSlides: numberOfVisibleSlides,
-        slideMargin: 10
-
+        maxSlides: numberOfVisibleSlides
       });
     });
   }

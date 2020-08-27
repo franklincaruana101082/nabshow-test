@@ -76,7 +76,7 @@ get_header();
 							</div>
 							<span><?php esc_html_e( 'Or', 'woocommerce' ); ?></span>
 							<div class="nab-social-login">
-								<?php echo do_shortcode( '[miniorange_social_login apps="linkin,google,fb"]' ); ?>
+								<?php echo do_shortcode( '[miniorange_social_login apps="google,fb"]' ); ?>
 							</div>
 						</div>
 						<div class="nab-signup-now">
