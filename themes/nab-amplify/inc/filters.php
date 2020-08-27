@@ -11,3 +11,5 @@ add_filter( 'woocommerce_billing_fields', 'nab_custom_billing_fields', 9999, 1 )
 add_filter( 'woocommerce_my_account_my_orders_query', 'nab_my_account_orders_query_change_sorting' );
 
 add_filter( 'woocommerce_account_orders_columns', 'nab_my_orders_columns', 10, 1 );
+
+add_filter( 'woocommerce_before_checkout_form', 'nab_add_login_link_on_checkout_page', 999 );

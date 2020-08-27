@@ -98,8 +98,28 @@ function nab_my_account_orders_query_change_sorting( $args ) {
 	return $args;
 }
 
+/**
+ * Remove status column from order listing
+ *
+ * @param $columns
+ *
+ * @return mixed
+ */
 function nab_my_orders_columns( $columns ) {
 	unset( $columns['order-status'] );
 
 	return $columns;
+}
+
+/**
+ * Added login link on checkout page if user is not logged in.
+ */
+function nab_add_login_link_on_checkout_page() {
+	// If checkout registration is disabled and not logged in, the user cannot checkout.
+	if ( ! is_user_logged_in() ) {
+		$current_site_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), wc_get_page_permalink( 'myaccount' ) );
+		?>
+		<a class="checkout-login-link" href="<?php echo esc_url( $current_site_url ); ?>">Login</a>
+		<?php
+	}
 }

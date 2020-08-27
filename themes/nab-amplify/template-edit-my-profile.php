@@ -9,13 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-$user_id   = get_current_user_id();
-$user_data = get_user_meta( $user_id );
-
-$profile_picture    = $user_data['profile_picture'][0];
-$banner_picture     = $user_data['banner_picture'][0];
-$professional_title = $user_data['professional_title'][0];
-
 do_action( 'woocommerce_before_account_navigation' );
 ?>
     <main id="primary" class="site-main">
@@ -33,7 +26,7 @@ do_action( 'woocommerce_before_account_navigation' );
                     </ul>
                 </nav>
 
-                <?php get_template_part( 'template-parts/content', 'edit-my-profile' ); ?>
+				<?php get_template_part( 'template-parts/content', 'edit-my-profile' ); ?>
     </main>
 <?php do_action( 'woocommerce_after_account_navigation' );
 

@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+$redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
+
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 <?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
@@ -58,6 +60,9 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 						<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"
 						       style="display: none"
 						       checked/>
+						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
+							<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect_url ); ?>">
+						<?php } ?>
 						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 						<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login"
 						        value="<?php esc_attr_e( 'Sign in', 'woocommerce' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
