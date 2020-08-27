@@ -105,14 +105,25 @@
 	</header><!-- #masthead -->
 	<div class="site-content">
         <?php
-        $banner_image = get_template_directory_uri() . '/temp.jpg';
-        ?>
-        <div class="banner-header" style="background-image: url('<?php echo esc_url( $banner_image ); ?>')">
-            <div class="container">
-	            <?php woocommerce_breadcrumb(); ?>
-	            <div id="profile-avtar">
-	                <img src="<?php echo esc_url( $banner_image ) ?>" />
-	            </div>
+		global $wp;
+		$request = explode( '/', $wp->request );
+
+		// If NOT in My account dashboard page
+		if ( end( $request ) == 'my-account' || is_account_page() ) {
+			$banner_image = get_template_directory_uri() . '/temp.jpg';
+			?>
+            <div class="banner-header" style="background-image: url('<?php echo esc_url( $banner_image ); ?>')">
+                <div class="container">
+					<?php woocommerce_breadcrumb(); ?>
+					<div id="profile-avtar">
+	                    <img src="<?php echo esc_url( $banner_image ) ?>"/>
+	                </div>
+                </div>
             </div>
-        </div>
-		<div class="container">
+		<?php } else { ?>
+            <div class="container">
+				<?php woocommerce_breadcrumb(); ?>
+            </div>
+		<?php } ?>
+
+        <div class="container">

@@ -22,10 +22,10 @@
                     <div class="flex-column">
                         <div class="flex-box">
                             <div class="nab-profile-image">
-                                <img class="profile-images" src="<?php esc_url( $profile_picture ) ?>"/>
+                                <label for="profile_picture_file"><img class="profile-images" src="<?php esc_url( $profile_picture ) ?>"/></label>
+                                <input id="profile_picture_file" type="file" name="profile_picture_file"/>
                             </div>
                             <div class="nab-profile-button">
-                                <input type="file" name="profile_picture_file"/>
                                 <button type="submit" class="button" id="profile-picture-update">Update</button>
                             </div>
                         </div>
@@ -33,10 +33,10 @@
                     <div class="flex-column">
                         <div class="flex-box">
                             <div class="nab-avtar-image">
-                                <img class="profile-images" src="<?php esc_url( $banner_picture ) ?>"/>
+                                <label for="profile_picture_file"><img class="profile-images" src="<?php esc_url( $banner_picture ) ?>"/></label>
+                                <input id="banner_picture_file" type="file" name="banner_picture_file"/>
                             </div>
                             <div class="nab-profile-button">
-                                <input type="file" name="banner_picture_file"/>
                                 <button type="submit" class="button" id="banner-picture-update">Update</button>
                                 <button type="submit" class="button" id="banner-picture-remove">Remove</button>
                             </div>

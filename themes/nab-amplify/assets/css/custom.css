@@ -476,11 +476,15 @@ ins{background:none}
 .woocommerce-orders-table th{padding:10px 10px;border-bottom:1px solid #e0e0e0;text-align:center!important;}
 .woocommerce-orders-table td a.button{padding:6px 10px;margin:5px 5px 5px 0;width:80px;border-radius:6px;}
 .woocommerce-orders-table td a.button:last-child{margin:5px 0 5px 0}
-.woocommerce-orders-table thead tr a{color:#fff;position: relative;padding-left: 30px;}
-.woocommerce-orders-table thead tr a:before,
-.woocommerce-orders-table thead tr a:after{content:"\f0d8";font-family:FontAwesome;left:-5px;position:absolute;top:0;left:0;font-size:20px;line-height:20px}
-.woocommerce-orders-table thead tr a:after{content:"\f0d7 "}
-.woocommerce-orders-table thead tr a:before{left:12px}
+.woocommerce-orders-table thead tr a{color:#fff;}
+.woocommerce-orders-table thead tr th.woocommerce-orders-table__header-order-date span,
+.woocommerce-orders-table thead tr th.woocommerce-orders-table__header-order-total span{padding-left: 35px;position: relative;}
+.woocommerce-orders-table th.woocommerce-orders-table__header-order-date span:after,
+.woocommerce-orders-table th.woocommerce-orders-table__header-order-total span:after,
+.woocommerce-orders-table th.woocommerce-orders-table__header-order-date span:before,
+.woocommerce-orders-table th.woocommerce-orders-table__header-order-total span:before{content:"\f0d8";font-family:FontAwesome;position:absolute;top:0;left: 12px;font-size:20px;line-height:20px;}
+.woocommerce-orders-table th.woocommerce-orders-table__header-order-total span:before,
+.woocommerce-orders-table th.woocommerce-orders-table__header-order-date span:before{content:"\f0d7";left: 0;}
 
 /* My Account Form */
 .woocommerce-account:not(.nab-without-login-account) .entry-title{color:#6363df;text-transform:uppercase;}
@@ -500,16 +504,16 @@ ins{background:none}
 
 /* my-account profile */
 .nab-profile .entry-title{color:#6363df;text-transform:uppercase;}
-.nab-profile h3{text-transform:uppercase;color:#666;}
+.nab-profile h3{text-transform:uppercase;color: #000;font-weight: bold;}
 .nab-profile label{color:#666;}
 .nab-profile .nab-section{margin:0 0 30px;}
-.nab-profile .nab-profile-head{display:flex;justify-content:space-between;align-items:center;}
+.nab-profile .nab-profile-head{display:flex;justify-content:space-between;align-items:center;margin-bottom: 40px;}
 .nab-profile .nab-profile-head h3{margin:0;}
-.nab-profile .nab-profile-image img{border-radius:50%;}
+.nab-profile .nab-profile-image img{border-radius:50%;height: 180px;width: 180px;max-width: 100%;}
 .nab-profile .flex-row{display:flex;align-items:center;flex-wrap:wrap;}
-.nab-profile .flex-column{width:50%;padding:0 10px;}
+.nab-profile .flex-column{width:50%;padding:0 10px;margin-bottom: 30px;}
 .nab-profile .flex-box{display:flex;align-items:center;justify-content:center;}
-.nab-profile .nab-profile-image{width:60%;}
+.nab-profile .nab-profile-image{width:60%;text-align: center;}
 .nab-profile .nab-profile-button{width:40%;padding-left:20px;}
 .nab-profile .nab-form-row{display:flex;margin-bottom:20px;}
 .nab-profile .social-icon{width:50px;text-align:center;}
@@ -521,6 +525,14 @@ ins{background:none}
 .nab-profile .row-input:last-child{margin-right:0;}
 .nab-profile .input-text{width:100%;height:40px;border:1px solid #d2d3d5;padding:0 10px;font-size:16px;line-height:1;}
 .nab-profile textarea{resize:none;width:100%;height:150px;border:1px solid #d2d3d5;padding:10px;font-size:16px;line-height:1;}
+.nab-profile .nab-profile-body .nab-section{width:100%}
+.nab-profile .nab-profile-body .section-about-me .about-me-form .nab-form-row{flex-wrap:wrap}
+.nab-profile .nab-profile-body .section-about-me .about-me-form .nab-form-row:nth-child(3)>div{width:100%;padding-left:0}
+.nab-profile .nab-profile-body .section-about-me .about-me-form .nab-form-row .row-label{margin-bottom:10px}
+.nab-profile .nab-avtar-image input,.nab-profile .nab-profile-image input{display:none}
+.nab-profile .nab-profile-button button{margin-bottom:10px}
+.nab-purchase-notice{margin-bottom:15px;}
+.nab-purchase-notice a{text-decoration:underline;color:#000;}
 
 
 /* product details */
@@ -626,10 +638,10 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 
 /* banner css */
 .banner-header,
-.banner-header .container{height:250px;position:relative}
+.banner-header .container{height: 200px;position:relative;}
 .banner-header #profile-avtar{display:inline-block;position:absolute;bottom: -60px;left:20px;}
 .banner-header #profile-avtar img{width: 120px;height: 120px;border-radius:50%;}
-.banner-header .container{height:250px;position:relative}
+.banner-header .container{}
 .banner-header{margin-bottom:80px;}
 .banner-header .woocommerce-breadcrumb a,
-.banner-header .woocommerce-breadcrumb{color:#404040;text-shadow:1px 1px 3px #000;}
+.banner-header .woocommerce-breadcrumb{color:#404040!important;text-shadow:1px 1px 3px #000;}
