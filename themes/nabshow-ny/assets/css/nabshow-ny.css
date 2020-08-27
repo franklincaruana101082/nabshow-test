@@ -107,7 +107,7 @@
 .session-date-list .schedule-row.gray_bg{background:#e1e1e1;}
 .session-date-list .schedule-row.white_bg{background:#ffffff;}
 .session-date-list .schedule-row .info .name h3 a{color:#000;text-decoration:none;}
-.session-date-list .schedule-row .channel-pass span a{color:#404040;text-decoration:none;}
+.session-date-list .schedule-row .channel-pass a{color:#404040;text-decoration:none;}
 .engagement-list-outer{border:1px solid #e1e1e1;padding:45px;}
 .engagement-list-outer h2{font-size:32px;line-height:1;margin:0 0 40px 0;font-family:'Josefin Sans',sans-serif;font-weight:400;color:#333367;}
 .engagement-list-outer h3{font-size:32px;color:000000;line-height:1;margin:0;font-family:'Josefin Sans',sans-serif;font-weight:400;}
