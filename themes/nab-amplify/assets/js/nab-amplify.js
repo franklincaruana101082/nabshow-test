@@ -78,6 +78,7 @@
         stopAutoOnClick: true,
         autoHover: true,
         slideWidth: 500,
+        moveSlides: 1,
         minSlides: numberOfVisibleSlides,
         maxSlides: numberOfVisibleSlides
       });

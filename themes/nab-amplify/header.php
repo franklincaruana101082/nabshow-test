@@ -104,4 +104,15 @@
 		</div>
 	</header><!-- #masthead -->
 	<div class="site-content">
+        <?php
+        $banner_image = get_template_directory_uri() . '/temp.jpg';
+        ?>
+        <div class="banner-header" style="background-image: url('<?php echo esc_url( $banner_image ); ?>')">
+            <div class="container">
+	            <?php woocommerce_breadcrumb(); ?>
+	            <div id="profile-avtar">
+	                <img src="<?php echo esc_url( $banner_image ) ?>" />
+	            </div>
+            </div>
+        </div>
 		<div class="container">

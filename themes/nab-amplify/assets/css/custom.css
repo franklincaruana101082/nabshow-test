@@ -280,7 +280,7 @@ p{font-size:16px;color:#404040}
 .product-list.layout-list .product-item .item-inner .details a.add_to_cart_button:hover{background:#6363df;color:#fff!important}
 .product-list.layout-list .product-item .item-inner .details a.add_to_cart_button:hover:focus{background:#666666;color:#fff!important}
 .product-list.layout-list .product-item .item-inner .details .title{font-size:24px;color:#000;text-transform:initial}
-.product-list.layout-list .product-item .item-inner .details{padding:0;display: flex;flex-wrap: wrap;}
+.product-list.layout-list .product-item .item-inner .details{padding:0;display: flex;flex-wrap: wrap;align-items: center;}
 .product-list.layout-list .product-item:last-child .item-inner{border:0}
 .product-list.layout-list .product-item .item-inner .details .buttom{margin:0;width: 120px;}
 .product-list.layout-list .product-item .item-inner .details .top p {font-weight: normal;}
@@ -622,3 +622,14 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .single-product div.product .product-middle-section .price ins{background:none;}
 .single-product div.product .summary .variations select{color:#000;width: 100%;}
 /* product details */
+
+
+/* banner css */
+.banner-header,
+.banner-header .container{height:250px;position:relative}
+.banner-header #profile-avtar{display:inline-block;position:absolute;bottom: -60px;left:20px;}
+.banner-header #profile-avtar img{width: 120px;height: 120px;border-radius:50%;}
+.banner-header .container{height:250px;position:relative}
+.banner-header{margin-bottom:80px;}
+.banner-header .woocommerce-breadcrumb a,
+.banner-header .woocommerce-breadcrumb{color:#404040;text-shadow:1px 1px 3px #000;}
