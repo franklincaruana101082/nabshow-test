@@ -162,12 +162,12 @@ p{font-size:16px;color:#404040}
 .nab-profile-dropdown li a:hover{background-color:#eee;}
 .nab-profile-menu{position:relative;padding-left:15px;margin-left:15px;border-left:1px solid #ccc;}
 .nab-profile-name{color:#fff;line-height:1;}
-
 .header-bottom{background:#404040;padding:15px 0}
 .header-bottom ul{display:inline-block;margin:0;padding:0;list-style:none}
 .header-bottom ul li{display:inline-block;margin-right:50px;color:#fff;line-height:1;font-weight:bold}
 .header-bottom ul li a{color:#fff}
 .site-header .site-branding{display:flex;align-items:center;line-height:1;}
+.site-header .main-navigation>.nab-profile-menu>.nab-profile>a{color:#fff}
 
 /* Header css */
 
@@ -344,7 +344,7 @@ p{font-size:16px;color:#404040}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:focus,
 .nab-without-login-account .woocommerce form .woocommerce-form-row button:focus{background:#666666}
 .nab-without-login-account .form-row .password-input{width:100%}
-.woocommerce-message,.woocommerce-info,.woocommerce-error,.woocommerce-noreviews,p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 15px}
+.woocommerce-message,.woocommerce-info,.woocommerce-error,.woocommerce-noreviews,p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 25px}
 
 /* login page css */
 
@@ -415,7 +415,7 @@ form.checkout.woocommerce-checkout div#order_review #payment .form-row.place-ord
 form.checkout.woocommerce-checkout .woocommerce-NoticeGroup{width:100%}
 .checkout_coupon.woocommerce-form-coupon{width:500px;background:none;border:1px solid #d2d3d5;padding:10px 30px;margin-top:20px;max-width:100%;display:inline-block;}
 .checkout_coupon.woocommerce-form-coupon input#coupon_code{width:100%;height:40px;padding:0 10px;border:1px solid #d2d3d5;outline:none;border-radius:0}
-.woocommerce-checkout-payment .wc_payment_methods.payment_methods{list-style:none;padding:0 0 0 20px}
+.woocommerce-checkout-payment .wc_payment_methods.payment_methods{list-style:none;padding:0}
 .woocommerce-checkout-payment .wc_payment_methods.payment_methods li{margin-bottom:15px}
 .woocommerce-order p.woocommerce-notice{margin:0 0 20px 0}
 .woocommerce-order .woocommerce-order-overview{padding:0;margin:0 0 30px 0;list-style:none;display:inline-block;flex-wrap:wrap;border:1px solid #e0e0e0;}
