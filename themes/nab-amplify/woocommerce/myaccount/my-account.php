@@ -25,8 +25,6 @@ defined( 'ABSPATH' ) || exit;
 
 global $wp;
 
-global $wp;
-
 if ( ! empty( $wp->query_vars ) ) {
 	foreach ( $wp->query_vars as $page_title => $value ) {
 		// Ignore pagename param.
