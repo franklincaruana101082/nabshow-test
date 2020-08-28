@@ -49,8 +49,6 @@ Updated: 2020-07-31 00:09:29
 @font-face{font-family:"Roboto Thin";font-style:normal;font-weight:normal;src:local("Roboto Thin"), url('fonts/Roboto/Roboto-Thin.ttf') format('truetype')}
 @font-face{font-family:"Roboto Regular";font-style:normal;font-weight:normal;src:local("Roboto Regular"), url('fonts/Roboto/Roboto-Regular.ttf') format('truetype')}
 
-figcaption {
-    text-align: center;
 }
 
 /* ---- Site Header, Branding and Title ---- */
@@ -165,6 +163,8 @@ body.page-template-template-full-width .site-main > .hentry > .post-thumbnail {
 
 /* Typography ------------------------- */
 
+/* Homepage Elements Adjustments ------- */
+
 body,
 button,
 input,
@@ -200,16 +200,20 @@ h1, h2, h3, h4, h5, h6 {
 
 p { margin: 1.5em 0; }
 
+figcaption {
+    text-align: center;
+
 .partner {
   display: inline-block;
   width: 100%;
   font-size: 18px;
   text-align: left;
   background-color: #f3f3f3;
-  padding-left: 20px;
+  padding: 20px;
+  /* padding-left: 20px;
   padding-bottom: 10px;
   padding-top: 0px;
-  padding-right: 10px;
+  padding-right: 10px; */
   /* align-content: center; */
   align-items: baseline;
   vertical-align: text-top;
@@ -218,6 +222,17 @@ p { margin: 1.5em 0; }
 .partner img{
   float: right;
 }
+
+
+
+.wp-block-image.is-style-rounded figure {
+    margin-top: 10px;
+}
+
+.speaker {
+
+}
+
 
 .session-type {
   margin-bottom: unset;
@@ -276,10 +291,6 @@ h1.has-text-align-center {
     margin-bottom: 1em;
 }
 
-.page-id-78 broadstreet-zone {
-    text-align: center;
-}
-
 /* .is-style-default {
   display: inline-block;
 } */
@@ -315,7 +326,6 @@ button.tribe-button.tribe-button--rsvp {
 tr.tribe-tickets-order_status-row {
     display: none;
 }
-
 
 /* Site Footer ------------------------ */
 
@@ -396,13 +406,6 @@ section.widget_custom_html{margin:0} */
 .footer-related a{color:#fff;text-decoration:underline;font-size:14px;font-weight:normal}
 
 
-/* Homepage Elements Adjustments ------- */
-
-.partner { padding: 20px;}
-
-.wp-block-image.is-style-rounded figure {
-    margin-top: 10px;
-}
 
 
 /* Live Event Page Elements Adjustments ------- */
