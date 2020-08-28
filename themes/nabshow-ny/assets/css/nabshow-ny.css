@@ -35,7 +35,7 @@
 .session-date-list .schedule-row .date{width:185px;}
 .session-date-list .schedule-row .info-more-details p,
 .session-date-list .schedule-row .info-more-details .session-speaker{line-height:1.3;font-family:"roboto",sans-serif;font-size:20px;color:#000;margin-bottom:35px;display:block;}
-.session-date-list .schedule-row .info-more-details .session-speaker{margin-bottom:0;}
+.session-date-list .schedule-row .info-more-details .session-speaker{margin-bottom:0;display:flex;}
 .load-more-date-sessions{margin:20px 0;display:inline-block;width:100%;}
 .load-more-date-sessions.text-center{text-align:center;}
 .load-more-date-sessions a{text-decoration:none;font-size:20px;color:#000;font-weight:bold;cursor:pointer;padding:5px 20px!important;display:inline-block;background:#fff;}
@@ -55,7 +55,7 @@
 /*Partners*/
 .nabny-sidebar-partners-block-outer{border:1px solid #e1e1e1;padding:45px;}
 .nabny-sidebar-partners-block-outer h3{font-family:'Josefin Sans',sans-serif;font-weight:400;font-size:32px;margin-bottom:25px;color:#333367;}
-.nabny-sidebar-partners-block-outer .nabny-sidebar-partners-logos ul{margin:0;padding:0;list-style:none;display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;-ms-flex-pack:distribute;justify-content:space-around;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.nabny-sidebar-partners-block-outer .nabny-sidebar-partners-logos ul{margin:0;padding:0;list-style:none;display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;justify-content:flex-start;align-items:center;flex-wrap:wrap;}
 
 /*add to calender*/
 .nabny-sidebar-calender-block-outer{border:1px solid #e1e1e1;padding:45px;}
@@ -112,6 +112,15 @@
 .engagement-list-outer h2{font-size:32px;line-height:1;margin:0 0 40px 0;font-family:'Josefin Sans',sans-serif;font-weight:400;color:#333367;}
 .engagement-list-outer h3{font-size:32px;color:000000;line-height:1;margin:0;font-family:'Josefin Sans',sans-serif;font-weight:400;}
 .engagement-list-outer .date-time{margin-bottom:0;font-size:20px;font-weight:400;line-height:1.3;font-family:"roboto",sans-serif;padding: 0;}
+
+.modal-dialog{position:absolute;max-width:700px;width:96%;}
+.session-date-list .schedule-row .channel-pass span.channel-name{pointer-events:none;}
+.session-date-list .schedule-row .info-more-details .session-speaker ul{list-style:none;margin:0 0 0 10px;padding:0;}
+.session-date-list .schedule-row .info-more-details .session-speaker ul li{display:inline-block;vertical-align:middle;}
+.session-date-list .schedule-row .info-more-details .session-speaker ul li:not(:last-child):after{content:",";}
+.session-date-list .schedule-row .info-more-details .session-speaker ul li a,
+.nabny-sidebar-calender-block-outer .calender-block-title a{color:inherit;text-decoration:none;}
+.nabny-sidebar-partners-block-outer .nabny-sidebar-partners-logos ul li+li{margin-left:15px;}
 
 @media (max-width:1439px){
 	.session-date-list.without-filter .schedule-row .session-img,
