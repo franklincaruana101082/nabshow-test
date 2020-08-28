@@ -22,20 +22,44 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.6.0
  */
+
+global $wp;
+
+global $wp;
+
+if ( ! empty( $wp->query_vars ) ) {
+	foreach ( $wp->query_vars as $page_title => $value ) {
+		// Ignore pagename param.
+		if ( 'pagename' === $page_title ) {
+			continue;
+		}
+	}
+}
+$page_title = str_replace( '-', ' ', $page_title );
+switch ( $page_title ) {
+    case 'edit account':
+        $page_title = 'edit my account';
+        break;
+
+    case 'edit address':
+        $page_title = 'edit addresses';
+	    break;
+}
+
 do_action( 'woocommerce_account_navigation' ); ?>
 
 <div class="woocommerce-MyAccount-content">
 
-    <header class="entry-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-    </header><!-- .entry-header -->
+    <header class="entry-header account_custom_title">
+        <h1 class="entry-title"><?php esc_html_e( $page_title ); ?></h1>
+    </header>
 
 	<?php
-		/**
-		 * My Account content.
-		 *
-		 * @since 2.6.0
-		 */
-		do_action( 'woocommerce_account_content' );
+	/**
+	 * My Account content.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'woocommerce_account_content' );
 	?>
 </div>

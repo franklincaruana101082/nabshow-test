@@ -78,7 +78,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					<?php
 					woocommerce_form_field( 'attendee_country', array(
 							'type'     => 'country',
-							'class'    => array( 'form-row-last' ),
+							'class'    => array( 'form-row-last', 'attendee-country' ),
 							'label'    => __( 'Country' ),
 							'required' => true,
 						)
@@ -95,7 +95,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					woocommerce_form_field( 'attendee_state', array(
 							'type'  => 'state',
 							'label' => __( 'State/Province', 'woocommerce' ),
-							'class' => array( 'form-row-last' ),
+							'class' => array( 'form-row-last', 'attendee-state' ),
 						)
 					);
 					?>

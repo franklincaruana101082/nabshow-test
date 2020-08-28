@@ -199,12 +199,12 @@ function nab_amplify_upload_images() {
  */
 function nab_amplify_remove_images() {
 
-    $name = filter_input( INPUT_POST, "name", FILTER_SANITIZE_STRING );
-	$name = str_replace( '_remove', '', $name);
+	$name    = filter_input( INPUT_POST, "name", FILTER_SANITIZE_STRING );
+	$name    = str_replace( '_remove', '', $name );
 	$user_id = get_current_user_id();
 
-    // update in meta
-    update_user_meta( $user_id, $name, '' );
+	// update in meta
+	update_user_meta( $user_id, $name, '' );
 
 	wp_die();
 }
@@ -318,6 +318,88 @@ function nab_amplify_my_purchases_content_callback() {
 function nab_amplify_my_purchases_endpoint() {
 	add_rewrite_endpoint( 'my-purchases', EP_ROOT | EP_PAGES );
 }
+
+// Our custom post type function
+function nab_amplify_register_post_types() {
+
+	$labels = array(
+		'name'               => _x( 'Sessions', 'Post Type General Name', 'nab-amplify' ),
+		'singular_name'      => _x( 'Session', 'Post Type Singular Name', 'nab-amplify' ),
+		'menu_name'          => __( 'Sessions', 'nab-amplify' ),
+		'parent_item_colon'  => __( 'Parent Session', 'nab-amplify' ),
+		'all_items'          => __( 'All Sessions', 'nab-amplify' ),
+		'view_item'          => __( 'View Session', 'nab-amplify' ),
+		'add_new_item'       => __( 'Add New Session', 'nab-amplify' ),
+		'add_new'            => __( 'Add New', 'nab-amplify' ),
+		'edit_item'          => __( 'Edit Session', 'nab-amplify' ),
+		'update_item'        => __( 'Update Session', 'nab-amplify' ),
+		'search_items'       => __( 'Search Session', 'nab-amplify' ),
+		'not_found'          => __( 'Not Found', 'nab-amplify' ),
+		'not_found_in_trash' => __( 'Not found in Trash', 'nab-amplify' ),
+	);
+
+	$args = array(
+		'label'               => __( 'sessions', 'nab-amplify' ),
+		'description'         => __( 'Session posts', 'nab-amplify' ),
+		'labels'              => $labels,
+		'taxonomies'          => array( 'session_categories' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'post',
+		'show_in_rest'        => true,
+
+	);
+
+	// Registering your Custom Post Type
+	register_post_type( 'sessions', $args );
+}
+
+// Hooking up our function to theme setup
+add_action( 'init', 'nab_amplify_register_post_types' );
+
+/**
+ * Register Arabic category
+ */
+function nab_amplify_session_categories() {
+
+	$labels = array(
+		'name'              => _x( 'Session Categories', 'events-master-plugin' ),
+		'singular_name'     => _x( 'Session Category', 'events-master-plugin' ),
+		'search_items'      => __( 'Search Session Category' ),
+		'all_items'         => __( 'All Session Categories' ),
+		'parent_item'       => __( 'Parent Session Category' ),
+		'parent_item_colon' => __( 'Parent Topic:' ),
+		'edit_item'         => __( 'Edit Session Category' ),
+		'update_item'       => __( 'Update Session Category' ),
+		'add_new_item'      => __( 'Add New Session Category' ),
+		'new_item_name'     => __( 'New Session Category' ),
+		'menu_name'         => __( 'Session Categories' ),
+	);
+
+	register_taxonomy(
+		'session_categories', array( 'sessions' ),
+		array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_in_rest'      => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => array( 'slug' => 'session_categories' ),
+		)
+	);
+
+}
+
+add_action( 'init', 'nab_amplify_session_categories' );
 
 /**
  * Save first and last name at Registration
