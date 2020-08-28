@@ -38,6 +38,9 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			add_action( 'wp_ajax_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
 			add_action( 'wp_ajax_nopriv_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
 
+			// Speaker info details ajax.
+			add_action( 'wp_ajax_speaker_popup_details', array( $this, 'mysgb_speaker_popup_details_ajax_callback' ) );
+			add_action( 'wp_ajax_nopriv_speaker_popup_details', array( $this, 'mysgb_speaker_popup_details_ajax_callback' ) );
 		}
 
 		/**
@@ -715,19 +718,24 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 					if ( $rows ) {
 
-						$final_speakers = array();						
+						$final_speakers = array();												
+						$cnt 			= 0;
 
 						foreach( $rows as $row ) {
 							$speaker_id     	= $row['session_speaker'];
 							$speaker_name  		= get_the_title( $speaker_id );
 							$speaker_name   	= explode(',', $speaker_name, 2);
 							$speaker_name   	= isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
-							$final_speakers[] 	= $speaker_name;							
+							
+							$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+							$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
+
+							$cnt++;
 						}
 
 						if ( count( $final_speakers ) > 0 ) {
 
-							$result_post[ $i ][ 'speakers' ] = 'Featuring: ' . implode( ', ', $final_speakers );
+							$result_post[ $i ][ 'speakers' ] = $final_speakers;
 						}
 					}
 					$i++;
@@ -741,6 +749,27 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 			echo wp_json_encode( $final_result );
 			wp_die();
+		}
+
+		/**
+		 * Return speaker details.
+		 *
+		 * @return json
+		 * @since 1.0.0
+		 */
+		public function mysgb_speaker_popup_details_ajax_callback() {
+			
+			$result_post 	= array();
+			$speaker_id		= filter_input( INPUT_GET, 'speaker_id', FILTER_SANITIZE_NUMBER_INT );
+			$thumbnail_url 	= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
+			
+			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
+			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
+			$result_post[ 'content' ] 		= get_the_excerpt( $speaker_id );
+
+			echo wp_json_encode( $result_post );
+			wp_die();
+
 		}
 
 	}

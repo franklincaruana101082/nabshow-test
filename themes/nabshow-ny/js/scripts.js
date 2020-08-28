@@ -126,12 +126,97 @@ $(function() {
     $(document).on('click', '.speaker-detail-list-modal', function () {    
       var postId = $(this).attr('data-postid');    
       $('body').addClass('popup-loader');
-      $('.modal .modal-body').load( nabshowNy.site_url + 'modal-popup?speakerid=' + postId, function () {
-        $('.modal').modal({
-          show: true
-        });
-        $('body').removeClass('popup-loader');
-      });
+      $('.modal-body').empty();
+      $.ajax({
+        type: 'GET',
+        data: 'action=speaker_popup_details&speaker_id=' + postId,
+        url: nabshowNy.ajax_url,
+        success: function (speakerDetails) {
+          let speakerObj = $.parseJSON(speakerDetails);
+          if ( undefined !== speakerObj.title && '' !== speakerObj.title ) {
+            
+            let modalMain = document.createElement('div');
+            modalMain.setAttribute('class', 'modal-popup-nab');
+  
+            let nabPopupBody = document.createElement('div');
+            nabPopupBody.setAttribute('class', 'modal-popup-nab-body');
+  
+            let popupCloseDiv = document.createElement('div');
+            popupCloseDiv.setAttribute('class', 'close-sec');
+  
+            let closeInnerBtn = document.createElement('i');
+            closeInnerBtn.setAttribute('class', 'fa fa-times');
+            closeInnerBtn.setAttribute('data-dismiss', 'modal');
+  
+            popupCloseDiv.appendChild(closeInnerBtn);
+            nabPopupBody.appendChild(popupCloseDiv);
+  
+            let popupInnerDiv = document.createElement('div');
+            popupInnerDiv.setAttribute('class', 'modal-popup-nab-inner');
+  
+            let mb50 = document.createElement('div');
+            mb50.setAttribute('class', 'mb50');
+  
+            let headDiv = document.createElement('div');
+            headDiv.setAttribute('class', 'head');
+  
+            let detailsDiv = document.createElement('div');
+            detailsDiv.setAttribute('class', 'details');
+  
+            let detailsHeading = document.createElement('h3');
+            detailsHeading.setAttribute('class', 'title');
+            detailsHeading.innerText = speakerObj.title;
+  
+            detailsDiv.appendChild(detailsHeading);
+            headDiv.appendChild(detailsDiv);
+  
+            let imgDiv = document.createElement('div');
+            imgDiv.setAttribute('class', 'feature');
+  
+            let imgTag = document.createElement('img');
+            imgTag.setAttribute('src', speakerObj.thumbnail_url);
+            imgTag.setAttribute('class', 'round-img');
+            imgTag.setAttribute('alt', 'speaker-logo');
+  
+            imgDiv.appendChild(imgTag);
+            headDiv.appendChild(imgDiv);
+            mb50.appendChild(headDiv);
+  
+            let contentP = document.createElement('p');
+            contentP.innerText = speakerObj.content;
+  
+            mb50.appendChild(contentP);
+            popupInnerDiv.appendChild(mb50);
+  
+            let popupBottom = document.createElement('div');
+            popupBottom.setAttribute('class', 'popup-bottom');
+  
+            let closeBtnDiv = document.createElement('div');
+            closeBtnDiv.setAttribute('class', 'close-btn');
+            
+            let linkClose = document.createElement('a');
+            linkClose.setAttribute('href', '#');
+            linkClose.setAttribute('data-dismiss', 'modal');   
+            linkClose.innerText = 'Close Window';
+            
+            closeBtnDiv.appendChild(linkClose);
+            popupBottom.appendChild(closeBtnDiv);
+            popupInnerDiv.appendChild(popupBottom);
+  
+            nabPopupBody.appendChild(popupInnerDiv);
+            modalMain.appendChild(nabPopupBody);
+  
+            let modalBody = document.getElementsByClassName('modal-body')[0];
+            modalBody.appendChild(modalMain);
+  
+          }
+          $('.modal').modal({
+            show: true
+          });
+  
+          $('body').removeClass('popup-loader');
+        }
+      });      
       return false;
     });
   
@@ -155,7 +240,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
   jQuery.ajax({
     type: 'GET',
     data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel,
-    url: nabshowLvCustom.ajax_url,
+    url: nabshowNy.ajax_url,
     success: function (sessionData) {
 
       let sessionObj = jQuery.parseJSON(sessionData);
@@ -188,7 +273,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           let timeDiv = document.createElement('div');
           timeDiv.setAttribute('class', 'date');
   
-          let timeP = document.createElement('div');
+          let timeP = document.createElement('p');
           timeP.innerText = value.time;
   
           timeDiv.appendChild(timeP);
@@ -249,12 +334,29 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
 
           moreDetailsDiv.appendChild(contentP);          
   
-          if ( value.speakers ) {
-            let speakerSpan = document.createElement('span');
-            speakerSpan.setAttribute('class', 'session-speaker');
-            speakerSpan.innerText = value.speakers;
-  
-            moreDetailsDiv.appendChild(speakerSpan);
+          if ( value.speakers && 0 < value.speakers.length ) {
+            let speakerDiv = document.createElement('div');
+            speakerDiv.setAttribute('class', 'session-speaker');
+            speakerDiv.innerText = 'Featuring:';
+
+            let listUl = document.createElement('ul');
+
+            for ( let i = 0; i < value.speakers.length; i++ ) {
+              
+              let listLi = document.createElement('li');
+              
+              let speakerLink = document.createElement('a');
+              speakerLink.setAttribute('href', '#');
+              speakerLink.setAttribute('class', 'speaker-detail-list-modal');
+              speakerLink.setAttribute('data-postid', value.speakers[i].speaker_id);
+              speakerLink.innerText = value.speakers[i].speaker_name;
+
+              listLi.appendChild(speakerLink);
+              listUl.appendChild(listLi);
+              
+            }
+            speakerDiv.appendChild(listUl);
+            moreDetailsDiv.appendChild(speakerDiv);
           }
           infoDiv.appendChild(moreDetailsDiv);
           scheduleDiv.appendChild(infoDiv);

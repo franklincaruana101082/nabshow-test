@@ -287,25 +287,21 @@ if ( $query->have_posts() ) {
                             
                             if ( $rows ) {
                                 ?>
-                                <span class="session-speaker">Featuring: 
-                                <?php
-                                
-                                $total_speakers = count( $rows );
-                                $cnt            = 1;
-
-                                foreach( $rows as $row ) {
-                                    $speaker_id     = $row['session_speaker'];
-                                    $speaker_name   = get_the_title( $speaker_id );
-                                    $speaker_name   = explode(',', $speaker_name, 2);
-                                    $speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
-                                    if ( $total_speakers !== $cnt ) {
-                                        $speaker_name .= ', ';
+                                <div class="session-speaker">Featuring: 
+                                    <ul>
+                                    <?php                                    
+                                    foreach( $rows as $row ) {
+                                        $speaker_id     = $row['session_speaker'];
+                                        $speaker_name   = get_the_title( $speaker_id );
+                                        $speaker_name   = explode(',', $speaker_name, 2);
+                                        $speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+                                        ?>
+                                        <li><a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $speaker_id ); ?>"><?php echo esc_html( $speaker_name ); ?></a></li>
+                                        <?php
                                     }
-                                    echo esc_html( $speaker_name );
-                                    $cnt++;
-                                }
-                            ?>
-                            </span>
+                                    ?>
+                                    </ul>
+                                </div>
                             <?php
                             }
                             ?>

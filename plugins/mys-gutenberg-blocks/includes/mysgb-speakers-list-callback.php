@@ -66,10 +66,14 @@ $query = new WP_Query( $query_args );
                 
                 ?>
                 <div class="speaker-box-outer">
-                    <div class="speaker-box-inner">                        
-                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="circle-img">                        
+                    <div class="speaker-box-inner">
+                        <a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $speaker_id ); ?>">
+                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="circle-img">
+                        </a>
                         <div class="speaker-info">
-                            <h6><?php echo esc_html( get_the_title() ); ?></h6>
+                            <h6>
+                                <a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $speaker_id ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                            </h6>
                             <p class="speaker-desc">Description</p>
                         </div>
                     </div>
