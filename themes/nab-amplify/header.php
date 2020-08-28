@@ -97,8 +97,8 @@
         <div class="header-bottom">
             <div class="container">
                 <ul>
-                    <li><a href="#">Learn</a></li>
-                    <li><a href="#">Exhibit/Sponsor</a></li>
+<!--                    <li><a href="#">Learn</a></li>-->
+<!--                    <li><a href="#">Exhibit/Sponsor</a></li>-->
                 </ul>
             </div>
         </div>
