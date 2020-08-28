@@ -7,9 +7,9 @@
  * @package Amplify
  */
 
+// Prepare variables.
 $user_id     = get_current_user_id();
 $user_fields = array(
-	'banner_image',
 	'professional_title',
 	'professional_company',
 	'social_twitter',
@@ -26,29 +26,43 @@ $user_fields = array(
 	'about_me_knowledge',
 );
 
-$professional_title = filter_input( INPUT_POST, "professional_title", FILTER_SANITIZE_STRING );
-if ( $professional_title ) {
+// Upload images.
+$images_names        = array( 'profile_picture', 'banner_image' );
+$dependencies_loaded = 0;
+foreach ( $_FILES as $file_key => $file_details ) {
 
-	/*echo '<pre>';
-	print_r($_FILES);
-	print_r($_POST);
-	die('<br><---died here');*/
+	if ( in_array( $file_key, $images_names, true ) ) {
 
-	// These files need to be included as dependencies when on the front end.
-	/*require_once( ABSPATH . 'wp-admin/includes/image.php' );
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		if ( 0 === $dependencies_loaded ) {
+			// These files need to be included as dependencies when on the front end.
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once( ABSPATH . 'wp-admin/includes/media.php' );
+			$dependencies_loaded = 1;
+		}
 
-	// Let WordPress handle the upload.
-	// Remember, 'my_image_upload' is the name of our file input in our form above.
-	$attachment_id = media_handle_upload( 'profile_picture_file', 0 );
+		// Let WordPress handle the upload.
+		$attachment_id = media_handle_upload( $file_key, 0 );
 
-	if ( is_wp_error( $attachment_id ) ) {
-		// There was an error uploading the image.
-	} else {
-		// The image was uploaded successfully!
-	}*/
+		if ( ! is_wp_error( $attachment_id ) ) {
+			// update in meta
+			update_user_meta( $user_id, $file_key, $attachment_id );
+		}
+	}
+}
 
+// Remove Images.
+$profile_picture_remove = filter_input( INPUT_POST, "profile_picture_remove", FILTER_SANITIZE_STRING );
+if ( $profile_picture_remove ) {
+	update_user_meta( $user_id, 'profile_picture', '' );
+}
+$banner_image_remove = filter_input( INPUT_POST, "banner_image_remove", FILTER_SANITIZE_STRING );
+if ( $banner_image_remove ) {
+	update_user_meta( $user_id, 'banner_image', '' );
+}
+
+// Handle for submission.
+if ( $_POST ) {
 	$user_data = array();
 	foreach ( $user_fields as $ufield ) {
 
@@ -64,13 +78,14 @@ if ( $professional_title ) {
 } else {
 	$user_data = get_user_meta( $user_id );
 }
+
+// Fetch Images.
 $user_images = nab_amplify_get_user_images();
 ?>
 
-<div class="woocommerce-MyAccount-content edit-my-profile-form">
+<div class="edit-my-profile-form">
     <form class="woocommerce-EditProfileForm edit-my-profile" action="" enctype="multipart/form-data" method="post">
         <div class="nab-profile">
-            <h2 class="entry-title"><?php the_title(); ?></h2>
             <div class="nab-section section-nab-profile">
                 <div class="nab-profile-head">
                     <h3>PROFILE PICTURES</h3>
@@ -79,27 +94,31 @@ $user_images = nab_amplify_get_user_images();
                 <div class="nab-profile-body flex-row">
                     <div class="flex-column">
                         <div class="flex-box">
-                            <div class="nab-profile-image">
+                            <div class="nab-profile-image user-image-box">
                                 <label for="profile_picture_file"><img class="profile-images" src="<?php echo esc_url( $user_images['profile_picture'] ); ?>"/></label>
-                                <input id="profile_picture_file" type="file" name="profile_picture_file"/>
+                                <input id="profile_picture_file" type="file" name="profile_picture"/>
                             </div>
                             <div class="nab-profile-button">
-                                <button type="submit" class="button" id="profile-picture-change">Change</button>
-                                <button type="submit" class="button" id="profile-picture-update">Update</button>
-                                <button type="submit" class="button" id="profile-picture-remove">Remove</button>
+                                <label for="profile_picture_file"><span class="button" id="profile_picture_update">Change</span></label>
+                                <label for="profile_picture_remove">
+                                    <span class="button">Remove</span>
+                                </label>
+                                <input type="checkbox" name="profile_picture_remove" id="profile_picture_remove"/>
                             </div>
                         </div>
                     </div>
                     <div class="flex-column">
                         <div class="flex-box">
-                            <div class="nab-avtar-image">
-                                <label for="profile_picture_file"><img class="profile-images" src="<?php echo esc_url( $user_images['banner_image'] ); ?>"/></label>
-                                <input id="banner_picture_file" type="file" name="banner_picture_file"/>
+                            <div class="nab-avtar-image user-image-box">
+                                <label for="banner_image_file"><img class="profile-images" src="<?php echo esc_url( $user_images['banner_image'] ); ?>"/></label>
+                                <input id="banner_image_file" type="file" name="banner_image"/>
                             </div>
                             <div class="nab-profile-button">
-                                <button type="submit" class="button" id="banner-picture-change">Change</button>
-                                <button type="submit" class="button" id="banner-picture-update">Update</button>
-                                <button type="submit" class="button" id="banner-picture-remove">Remove</button>
+                                <label for="banner_image_file"><span class="button" id="banner-picture-update">Change</span></label>
+                                <label for="banner_image_remove">
+                                    <span class="button">Remove</span>
+                                </label>
+                                <input type="checkbox" name="banner_image_remove" id="banner_image_remove"/>
                             </div>
                         </div>
                     </div>

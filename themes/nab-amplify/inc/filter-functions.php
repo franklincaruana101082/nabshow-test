@@ -112,6 +112,95 @@ function nab_my_orders_columns( $columns ) {
 }
 
 /**
+ * Filter for Avatar HTML.
+ *
+ * @param $avatar_html
+ * @param $id_or_email
+ * @param $size
+ * @param $default
+ * @param $alt
+ *
+ * @return string Filtered Avatar HTML.
+ */
+function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $default, $alt ) {
+
+    $user_id       = get_current_user_id();
+	$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
+	if ( $user_image_id ) {
+		$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
+		$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+	}
+
+	return $avatar_html;
+}
+
+/**
+ * Filter for Avatar URL.
+ *
+ * @param $url
+ * @param $id_or_email
+ * @param $args
+ *
+ * @return mixed Filtered Avatar URL.
+ */
+function filter_nab_amplify_get_avatar_url( $url, $id_or_email, $args ) {
+	$user_id       = get_current_user_id();
+	$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
+	if ( $user_image_id ) {
+		$url = wp_get_attachment_image_src( $user_image_id )[0];
+	}
+
+	return $url;
+}
+
+/**
+ * @param array $vars List of vars.
+ *
+ * @return mixed Updated List of vars.
+ */
+function nab_amplify_custom_menu_query_vars( $vars ) {
+
+	$vars[] = 'edit-my-profile';
+	$vars[] = 'my-purchases';
+
+	return $vars;
+}
+
+/**
+ * @param array $items My Account Menu items.
+ *
+ * @return array|string[] Updated My Account Menu items.
+ */
+function nab_amplify_update_my_account_menu_items( $items ) {
+
+	// Remove items.
+	if ( isset( $items['dashboard'] ) ) {
+		unset( $items['dashboard'] );
+	}
+	if ( isset( $items['downloads'] ) ) {
+		unset( $items['downloads'] );
+	}
+
+	$items =
+		array( 'edit-my-profile' => __( 'Edit My Profile', 'nab-amplify' ) )
+		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
+		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
+		+ array( 'edit-address' => __( 'Edit Addresses', 'nab-amplify' ) )
+		+ array( 'orders' => __( 'Order History', 'nab-amplify' ) )
+		+ array( 'customer-logout' => __( 'Logout', 'nab-amplify' ) );
+
+	// Change labels.
+	if ( isset( $items['edit-account'] ) ) {
+		$items['edit-account'] = 'Edit My Account';
+	}
+	if ( isset( $items['orders'] ) ) {
+		$items['orders'] = 'Order History';
+	}
+
+	return $items;
+}
+
+/**
  * Added login link on checkout page if user is not logged in.
  */
 function nab_add_login_link_on_checkout_page() {

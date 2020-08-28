@@ -1,5 +1,13 @@
 <?php
 
+add_filter ('get_avatar', 'filter_nab_amplify_user_avtar', 10, 5);
+
+add_filter( 'get_avatar_url', 'filter_nab_amplify_get_avatar_url', 10, 5 );
+
+add_filter( 'query_vars', 'nab_amplify_custom_menu_query_vars', 0 );
+
+add_filter( 'woocommerce_account_menu_items', 'nab_amplify_update_my_account_menu_items' );
+
 add_filter( 'woocommerce_registration_redirect', 'nab_registration_redirect' );
 
 add_filter( 'woocommerce_get_privacy_policy_text', 'nab_remove_privacy_policy_text', 99, 2 );

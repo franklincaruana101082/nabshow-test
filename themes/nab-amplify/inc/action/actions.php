@@ -22,6 +22,23 @@ add_filter( 'block_categories', 'nab_amplify_plugin_block_categories', 10, 2 );
 /* Action to check if password matches confirm password */
 add_action( 'woocommerce_registration_errors', 'nab_confirm_password_matches_checkout', 10, 3 );
 
+// Ajax to upload user images.
+add_action("wp_ajax_nab_amplify_upload_images", "nab_amplify_upload_images");
+add_action("wp_ajax_nopriv_nab_amplify_upload_images", "nab_amplify_upload_images");
+
+// Ajax to remove user images.
+add_action("wp_ajax_nab_amplify_remove_images", "nab_amplify_remove_images");
+add_action("wp_ajax_nopriv_nab_amplify_remove_images", "nab_amplify_remove_images");
+
+// Edit My Profile content.
+add_action( 'woocommerce_account_edit-my-profile_endpoint', 'nab_amplify_edit_my_profile_content_callback' );
+
+// My Purchases content.
+add_action( 'woocommerce_account_my-purchases_endpoint', 'nab_amplify_my_purchases_content_callback' );
+
+// Register edit my profile endpoint to use for My Account page.
+add_action( 'init', 'nab_amplify_add_custom_endpoints' );
+
 // Custom Meta Boxes
 add_action( 'add_meta_boxes', 'amplify_custom_meta_boxes' );
 
@@ -42,3 +59,7 @@ add_action( 'validate_password_reset', 'nab_reset_password_validation', 10, 2 );
 
 // Save first name and last name field
 add_action( 'woocommerce_created_customer', 'nab_save_name_fields', 10, 1 );
+
+add_action('woocommerce_checkout_process', 'nab_attendee_field_process');
+
+add_action('woocommerce_checkout_update_order_meta', 'nab_save_event_fields', 10, 1);

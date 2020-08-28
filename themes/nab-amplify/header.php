@@ -105,11 +105,8 @@
     </header><!-- #masthead -->
     <div class="site-content">
 		<?php
-		global $wp;
-		$request = explode( '/', $wp->request );
-
 		// If NOT in My account dashboard pages
-		if ( ( end( $request ) == 'my-account' || is_account_page() ) && is_user_logged_in() ) {
+		if ( is_account_page() && is_user_logged_in() ) {
 
 			$user_images = nab_amplify_get_user_images();
 			?>
@@ -123,7 +120,11 @@
             </div>
 		<?php } else { ?>
             <div class="container">
-				<?php woocommerce_breadcrumb(); ?>
+				<?php
+				if( ! is_account_page() && ! is_page( NAB_SIGNUP_PAGE ) ) {
+					woocommerce_breadcrumb();
+				}
+				 ?>
             </div>
 		<?php } ?>
 

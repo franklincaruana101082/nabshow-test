@@ -161,6 +161,55 @@ function product_video_text_box_html( $post ) {
 }
 
 /**
+ * Ajax to upload user images.
+ */
+function nab_amplify_upload_images() {
+
+	$user_id = get_current_user_id();
+
+	// Upload images.
+	$images_names        = array( 'profile_picture', 'banner_image' );
+	$dependencies_loaded = 0;
+	foreach ( $_FILES as $file_key => $file_details ) {
+
+		if ( in_array( $file_key, $images_names, true ) ) {
+
+			if ( 0 === $dependencies_loaded ) {
+				// These files need to be included as dependencies when on the front end.
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				require_once( ABSPATH . 'wp-admin/includes/media.php' );
+				$dependencies_loaded = 1;
+			}
+
+			// Let WordPress handle the upload.
+			$attachment_id = media_handle_upload( $file_key, 0 );
+
+			if ( ! is_wp_error( $attachment_id ) ) {
+				// update in meta
+				update_user_meta( $user_id, $file_key, $attachment_id );
+			}
+		}
+	}
+	wp_die();
+}
+
+/**
+ * Ajax to remove user images.
+ */
+function nab_amplify_remove_images() {
+
+    $name = filter_input( INPUT_POST, "name", FILTER_SANITIZE_STRING );
+	$name = str_replace( '_remove', '', $name);
+	$user_id = get_current_user_id();
+
+    // update in meta
+    update_user_meta( $user_id, $name, '' );
+
+	wp_die();
+}
+
+/**
  * Save Product Video meta values
  *
  * @param int $post_id
@@ -242,6 +291,35 @@ function nab_reset_password_validation( $errors, $user ) {
 }
 
 /**
+ * Edit My Profile content.
+ */
+function nab_amplify_edit_my_profile_content_callback() {
+	get_template_part( 'template-parts/content', 'edit-my-profile' );
+}
+
+/**
+ * Register endpoints to use for My Account page.
+ */
+function nab_amplify_add_custom_endpoints() {
+	add_rewrite_endpoint( 'edit-my-profile', EP_ROOT | EP_PAGES );
+	add_rewrite_endpoint( 'my-purchases', EP_ROOT | EP_PAGES );
+}
+
+/**
+ * My Purchases content.
+ */
+function nab_amplify_my_purchases_content_callback() {
+	get_template_part( 'template-parts/content', 'my-purchases' );
+}
+
+/**
+ * Register edit my profile endpoint to use for My Account page.
+ */
+function nab_amplify_my_purchases_endpoint() {
+	add_rewrite_endpoint( 'my-purchases', EP_ROOT | EP_PAGES );
+}
+
+/**
  * Save first and last name at Registration
  *
  * @param $customer_id
@@ -258,3 +336,71 @@ function nab_save_name_fields( $customer_id ) {
 	}
 
 }
+
+function nab_attendee_field_process() {
+	if ( ! isset( $_POST['attendee_first_name'] ) || empty( $_POST['attendee_first_name'] ) ) {
+		wc_add_notice( __( 'Please enter Attendee First Name.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_last_name'] ) || empty( $_POST['attendee_last_name'] ) ) {
+		wc_add_notice( __( 'Please enter Attendee Last Name.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_email'] ) || empty( $_POST['attendee_email'] ) ) {
+		wc_add_notice( __( 'Please enter Attendee Email.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_company'] ) || empty( $_POST['attendee_company'] ) ) {
+		wc_add_notice( __( 'Please enter Attendee Company.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_title'] ) || empty( $_POST['attendee_title'] ) ) {
+		wc_add_notice( __( 'Please enter Attendee Title.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_country'] ) || empty( $_POST['attendee_country'] ) ) {
+		wc_add_notice( __( 'Please enter Attendee Country.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_tos_agree'] ) || 'yes' !== $_POST['attendee_tos_agree'] ) {
+		wc_add_notice( __( 'You must agree with Terms and Privacy Policy.' ), 'error' );
+	}
+}
+
+function nab_save_event_fields( $order_id ) {
+
+	// Return if user is not logged in
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
+	$user_id = get_current_user_id();
+
+	$event_data = array(
+		'attendee_first_name'              => ( isset( $_POST['attendee_first_name'] ) && ! empty( $_POST['attendee_first_name'] ) ) ? sanitize_text_field( $_POST['attendee_first_name'] ) : '',
+		'attendee_last_name'               => ( isset( $_POST['attendee_last_name'] ) && ! empty( $_POST['attendee_last_name'] ) ) ? sanitize_text_field( $_POST['attendee_last_name'] ) : '',
+		'attendee_email'                   => ( isset( $_POST['attendee_email'] ) && ! empty( $_POST['attendee_email'] ) ) ? sanitize_email( $_POST['attendee_email'] ) : '',
+		'attendee_company'                 => ( isset( $_POST['attendee_company'] ) && ! empty( $_POST['attendee_company'] ) ) ? sanitize_text_field( $_POST['attendee_company'] ) : '',
+		'attendee_title'                   => ( isset( $_POST['attendee_title'] ) && ! empty( $_POST['attendee_title'] ) ) ? sanitize_text_field( $_POST['attendee_title'] ) : '',
+		'attendee_country'                 => ( isset( $_POST['attendee_country'] ) && ! empty( $_POST['attendee_country'] ) ) ? sanitize_text_field( $_POST['attendee_country'] ) : '',
+		'attendee_city'                    => ( isset( $_POST['attendee_city'] ) && ! empty( $_POST['attendee_city'] ) ) ? sanitize_text_field( $_POST['attendee_city'] ) : '',
+		'attendee_state'                   => ( isset( $_POST['attendee_state'] ) && ! empty( $_POST['attendee_state'] ) ) ? sanitize_text_field( $_POST['attendee_state'] ) : '',
+		'attendee_zip'                     => ( isset( $_POST['attendee_zip'] ) && ! empty( $_POST['attendee_zip'] ) ) ? sanitize_text_field( $_POST['attendee_zip'] ) : '',
+		'attendee_affiliation'             => ( isset( $_POST['attendee_affiliation'] ) && ! empty( $_POST['attendee_affiliation'] ) ) ? sanitize_text_field( $_POST['attendee_affiliation'] ) : '',
+		'attendee_partner_communication'   => ( isset( $_POST['attendee_partner_communication'] ) && 'yes' === $_POST['attendee_partner_communication'] ) ? sanitize_text_field( $_POST['attendee_partner_communication'] ) : '',
+		'attendee_exhibitor_communication' => ( isset( $_POST['attendee_exhibitor_communication'] ) && 'yes' === $_POST['attendee_exhibitor_communication'] ) ? sanitize_text_field( $_POST['attendee_exhibitor_communication'] ) : '',
+		'attendee_sponsor_communication'   => ( isset( $_POST['attendee_sponsor_communication'] ) && 'yes' === $_POST['attendee_sponsor_communication'] ) ? sanitize_text_field( $_POST['attendee_sponsor_communication'] ) : '',
+	);
+
+	$event_data['attendee_interest'] = isset( $_POST['attendee_interest'] ) ? $_POST['attendee_interest'] : [];
+	if ( isset( $_POST['other_interest'] ) && isset( $_POST['attendee_other_interest'] ) && ! empty( $_POST['attendee_other_interest'] ) ) {
+		array_push( $event_data['attendee_interest'], $_POST['attendee_other_interest'] );
+	}
+
+	// Save details to user meta as well as order meta
+	foreach ( $event_data as $key => $val ) {
+		update_user_meta( $user_id, $key, $val );
+	}
+
+}
+
