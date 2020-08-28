@@ -555,7 +555,11 @@ register_block_type( 'mys/partners-sponsors-info', array(
 		),
 		'pageId' => array(
 			'type'    => 'number'			
-		)
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Partners and Sponsors'
+		),
 	),
 	'render_callback' => array( $this, 'mysgb_partners_sponsors_info_render_callback' ),
 	)
@@ -568,5 +572,23 @@ register_block_type( 'mys/session-info', array(
 		)
 	),
 	'render_callback' => array( $this, 'mysgb_session_info_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/related-exhibitors', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 4,
+		),
+		'pageId' => array(
+			'type'    => 'number'
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Related Exhibitors'
+		),
+	),
+	'render_callback' => array( $this, 'mysgb_related_exhibitors_render_callback' ),
 	)
 );

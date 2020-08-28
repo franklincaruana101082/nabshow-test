@@ -592,6 +592,25 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
         }
 
         /**
+         * Fetch current page/post related exhibitors.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_related_exhibitors_render_callback( $attributes ) {
+            
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-related-exhibitors-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
+        }
+
+        /**
          * Fire on plugin activation and check the MYS Modules plugin is active or not.
          *
          * @since 1.0.0

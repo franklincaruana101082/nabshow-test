@@ -3,9 +3,9 @@
     const { Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls } = wpEditor;
-    const { PanelBody, ServerSideRender, RangeControl } = wpComponents;
+    const { PanelBody, ServerSideRender, RangeControl, TextControl } = wpComponents;
 
-    const relatedContentWithBlockIcon = (
+    const sponsorsInfoBlockIcon = (
         <svg width="150px" height="150px" viewBox="181 181 150 150" enable-background="new 181 181 150 150">
             <path fill="#0F6CB6" d="M188.344,242.002c0,1.285,1.045,2.333,2.333,2.333h60.657c1.288,0,2.333-1.048,2.333-2.333v-34.995h-65.323
                 V242.002z M193.01,211.674h32.661v9.332h23.33v18.664H216.34v-9.332h-23.33V211.674z"/>
@@ -43,17 +43,21 @@
         },
         pageId: {
             type: 'number'
-        }        
+        },
+        blockTitle: {
+            type: 'string',
+            default: 'Partners and Sponsors'
+        }
     };
 
     registerBlockType('mys/partners-sponsors-info', {
         title: __('Sponsors Info'),
-        icon: { src: relatedContentWithBlockIcon },
+        icon: { src: sponsorsInfoBlockIcon },
         category: 'mysgb',
-        keywords: [__('channel'), __('info'), __('details')],
+        keywords: [__('sponsor'), __('info'), __('details')],
         attributes: allAttr,
         edit({ attributes, setAttributes }) {
-            const { pageId, itemToFetch } = attributes;
+            const { pageId, itemToFetch, blockTitle } = attributes;
             if ( ! pageId ) {
                 setAttributes( { pageId: wp.data.select('core/editor').getCurrentPostId() });
             }
@@ -70,11 +74,17 @@
                                     onChange={(item) => setAttributes({ itemToFetch: parseInt(item) }) }
                                 />
                             </div>
+                            <label>Block Title</label>
+                            <TextControl
+                                type="string"
+                                value={blockTitle}                                
+                                onChange={ value => setAttributes({ blockTitle: value })}
+                            />
                         </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/partners-sponsors-info"
-                        attributes={ { pageId: pageId, itemToFetch: itemToFetch } }
+                        attributes={ { pageId: pageId, itemToFetch: itemToFetch, blockTitle: blockTitle } }
                     />
                 </Fragment>
             );
