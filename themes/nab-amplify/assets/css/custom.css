@@ -560,7 +560,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .single-product div.product .woocommerce-product-gallery .flex-viewport{order:2;width: 100%;padding-left: 0;margin-bottom: 0;height: 100% !important;}
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs{order:1;width: 95px;display:flex;flex-direction:column;position: absolute;top: 0;left: 0;overflow: auto;background: #404040;height: 100%;height: calc(100% - 5px);}
 .single-product div.product .woocommerce-product-gallery .flex-viewport figure{margin:0!important;height: 100%;}
-.single-product div.product .woocommerce-product-gallery .flex-viewport figure a{width:100%;display: flex;text-align: center;height: 100%;align-items: center;justify-content: center;}
+.single-product div.product .woocommerce-product-gallery .flex-viewport figure a{width:100%;display: flex;text-align: center;height: 100%;justify-content: center;}
 .single-product div.product .woocommerce-product-gallery .flex-viewport figure img{width: 100%;max-height: 500px;padding-left: 120px;}
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs li{width:100%!important;margin-bottom:30px;padding-right: 5px;position: relative;}
 .single-product div.product .woocommerce-product-gallery .flex-control-thumbs li img{width:100%;border-radius:10px;opacity:1!important;display: block;}
@@ -676,6 +676,11 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .woocommerce-checkout span.optional {display: none}
 .woocommerce-billing-fields{border-top:1px solid #404040;padding-top:50px;margin-top:60px}
 
+/* Print Order CSS */
+@media print {
+ body{ font-size: 11px; } .site-title, .site-description, h2, h3{ font-size: 12pt; } header, .woocommerce-breadcrumb, footer, .custom-header-media, .entry-title, #wc-print-button, .site-description{ display: none !important; } .site-branding, .custom-header, .page:not(.home) #content, #content .site-content { margin:0 !important; padding:0 !important; }
+}
+
 @-webkit-keyframes load4{0%,100%{box-shadow:0 -3em 0 0.2em,2em -2em 0 0em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 0}12.5%{box-shadow:0 -3em 0 0,2em -2em 0 0.2em,3em 0 0 0,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 -1em}25%{box-shadow:0 -3em 0 -0.5em,2em -2em 0 0,3em 0 0 0.2em,2em 2em 0 0,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 -1em}37.5%{box-shadow:0 -3em 0 -1em,2em -2em 0 -1em,3em 0em 0 0,2em 2em 0 0.2em,0 3em 0 0em,-2em 2em 0 -1em,-3em 0em 0 -1em,-2em -2em 0 -1em}50%{box-shadow:0 -3em 0 -1em,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 0em,0 3em 0 0.2em,-2em 2em 0 0,-3em 0em 0 -1em,-2em -2em 0 -1em}62.5%{box-shadow:0 -3em 0 -1em,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 0,-2em 2em 0 0.2em,-3em 0 0 0,-2em -2em 0 -1em}75%{box-shadow:0em -3em 0 -1em,2em -2em 0 -1em,3em 0em 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 0,-3em 0em 0 0.2em,-2em -2em 0 0}87.5%{box-shadow:0em -3em 0 0,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 0,-3em 0em 0 0,-2em -2em 0 0.2em}}
 @keyframes load4{0%,100%{box-shadow:0 -3em 0 0.2em,2em -2em 0 0em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 0}12.5%{box-shadow:0 -3em 0 0,2em -2em 0 0.2em,3em 0 0 0,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 -1em}25%{box-shadow:0 -3em 0 -0.5em,2em -2em 0 0,3em 0 0 0.2em,2em 2em 0 0,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 -1em}37.5%{box-shadow:0 -3em 0 -1em,2em -2em 0 -1em,3em 0em 0 0,2em 2em 0 0.2em,0 3em 0 0em,-2em 2em 0 -1em,-3em 0em 0 -1em,-2em -2em 0 -1em}50%{box-shadow:0 -3em 0 -1em,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 0em,0 3em 0 0.2em,-2em 2em 0 0,-3em 0em 0 -1em,-2em -2em 0 -1em}62.5%{box-shadow:0 -3em 0 -1em,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 0,-2em 2em 0 0.2em,-3em 0 0 0,-2em -2em 0 -1em}75%{box-shadow:0em -3em 0 -1em,2em -2em 0 -1em,3em 0em 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 0,-3em 0em 0 0.2em,-2em -2em 0 0}87.5%{box-shadow:0em -3em 0 0,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 0,-3em 0em 0 0,-2em -2em 0 0.2em}}
 
@@ -705,3 +710,7 @@ span.ctcc-right-side{display:inline-block!important;margin:0!important}
 .cookie-bar-bar button#catapultCookie{margin:0!important}
 #catapult-cookie-bar .ctcc-left-side a{color:#e10189}
 .has-cookie-bar #catapult-cookie-bar h3{display:none}
+.nab-event-reg-wrap label{text-transform:initial!important}
+.text-transform-initial, .text-transform-initial label{text-transform:initial!important}
+.single-product div.product .summary .buttoms{display:inline-block;vertical-align:middle;margin: -5px 0 0 30px;}
+.single-product div.product .summary .buttoms a{background:#fdd80f;color:#404040;padding: 5px 15px;border-radius:10px;display:inline-block;font-weight:bold;text-align:center;font-size: 18px;}

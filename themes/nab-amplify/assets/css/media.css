@@ -137,4 +137,8 @@
 	.nab-profile .row-input{width:100%;margin:0 0 10px 0}
 	.nab-profile .row-input-wrp{flex-wrap:wrap}
 	.nab-profile .social-input{padding-left:0}
+	.single-product div.product .summary .price{font-size:18px}
+	.single-product div.product .summary .price del{margin-right:10px}
+	.single-product div.product .summary .buttoms{margin-left:10px}
+	.single-product div.product .summary .buttoms a{font-size:14px}
 }

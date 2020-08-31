@@ -115,29 +115,53 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					);
 					?>
 
-					<h4><?php esc_html_e( 'Choose Applicable Area(s) of Interest' ); ?></h4>
+					<h4 class="text-transform-initial"><?php esc_html_e( 'I see myself in the following community(ies):' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_interest_field">
-						<div class="checkbox-custom">
-							<input type="checkbox" id="interest_cine_creative" name="attendee_interest[]" value="Cine/Creative"><label
-								for="interest_cine_creative"><?php esc_html_e( 'Cine/Creative', 'nab-amplify' ); ?></label>
-						</div>
-						<div class="checkbox-custom">
-							<input type="checkbox" id="interest_streaming" name="attendee_interest[]" value="Streaming"><label
-								for="interest_streaming"><?php esc_html_e( 'Streaming', 'nab-amplify' ); ?></label>
-						</div>
-						<div class="checkbox-custom">
-							<input type="checkbox" id="interest_live" name="attendee_interest[]" value="Live"><label
-								for="interest_live"><?php esc_html_e( 'Live', 'nab-amplify' ); ?></label>
-						</div>
-						<div class="checkbox-custom">
-							<input type="checkbox" id="interest_broadcast" name="attendee_interest[]" value="Broadcast"><label
+					<div class="checkbox-custom">
+						<input type="checkbox" id="interest_broadcast" name="attendee_interest[]" value="Broadcast"><label
 								for="interest_broadcast"><?php esc_html_e( 'Broadcast', 'nab-amplify' ); ?></label>
-						</div>
-						<div class="checkbox-custom">
-							<input type="checkbox" id="other_interest" name="other_interest" value="other_interest">
-							<input type="text" placeholder="Other - please specify" value="" name="attendee_other_interest" class="full">
-						</div>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="interest_cine_creative" name="attendee_interest[]" value="Creative/Cinema"><label
+								for="interest_cine_creative"><?php esc_html_e( 'Creative/Cinema', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="interest_live" name="attendee_interest[]" value="Live Production"><label
+								for="interest_live"><?php esc_html_e( 'Live Production', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="interest_streaming" name="attendee_interest[]" value="Streaming"><label
+								for="interest_streaming"><?php esc_html_e( 'Streaming', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="other_interest" name="other_interest" value="other_interest">
+						<input type="text" placeholder="Other - please specify" value="" name="attendee_other_interest" class="full">
+					</div>
 					</p>
+
+<!--					<h4>--><?php //esc_html_e( 'What do you want to discover?' ); ?><!--</h4>-->
+<!--					<p class="form-row form-row-wide" id="attendee_discover_field">-->
+<!--					<div class="checkbox-custom">-->
+<!--						<input type="checkbox" id="discover_trends" name="attendee_discover[]" value="New Trends"><label-->
+<!--								for="discover_trends">--><?php //esc_html_e( 'New Trends', 'nab-amplify' ); ?><!--</label>-->
+<!--					</div>-->
+<!--					<div class="checkbox-custom">-->
+<!--						<input type="checkbox" id="discover_tech" name="attendee_discover[]" value="Latest Tech"><label-->
+<!--								for="interest_cine_creative">--><?php //esc_html_e( 'Latest Tech', 'nab-amplify' ); ?><!--</label>-->
+<!--					</div>-->
+<!--					<div class="checkbox-custom">-->
+<!--						<input type="checkbox" id="discover_tools" name="attendee_discover[]" value="New Tools"><label-->
+<!--								for="discover_tools">--><?php //esc_html_e( 'New Tools', 'nab-amplify' ); ?><!--</label>-->
+<!--					</div>-->
+<!--					<div class="checkbox-custom">-->
+<!--						<input type="checkbox" id="discover_solutions" name="attendee_discover[]" value="Practical Solutions"><label-->
+<!--								for="discover_solutions">--><?php //esc_html_e( 'Practical Solutions', 'nab-amplify' ); ?><!--</label>-->
+<!--					</div>-->
+<!--					<div class="checkbox-custom">-->
+<!--						<input type="checkbox" id="discover_all" name="attendee_discover[]" value="All of it!"><label-->
+<!--								for="interest_streaming">--><?php //esc_html_e( 'All of it!', 'nab-amplify' ); ?><!--</label>-->
+<!--					</div>-->
+<!--					</p>-->
 
 				</div>
 
