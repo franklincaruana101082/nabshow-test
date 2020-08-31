@@ -1,0 +1,11 @@
+Pre-Show:
+https://players.brightcove.net/1496514776001/3G6rINcZv_default/index.html?videoId=6186230504001
+
+Primary:
+https://players.brightcove.net/1496514776001/3G6rINcZv_default/index.html?videoId=6185576126001
+
+Backup:
+https://players.brightcove.net/1496514776001/3G6rINcZv_default/index.html?videoId=6186317856001
+
+Technical Difficulties:
+https://players.brightcove.net/1496514776001/3G6rINcZv_default/index.html?videoId=6186230464001

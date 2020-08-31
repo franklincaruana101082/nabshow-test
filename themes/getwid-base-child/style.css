@@ -249,7 +249,7 @@ p { margin: 1.5em 0; }
 }
 
 .panelist {
-    font-size: 16px;
+    font-size: 14px;
   	margin: 0 0 0em;
 }
 
@@ -281,13 +281,46 @@ h1.has-text-align-center {
     margin-bottom: 1em;
 }
 
+
+
+/* Broadstreet Ad Zones */
+
 .page-id-78 broadstreet-zone {
     text-align: center;
 }
 
-/* .is-style-default {
-  display: inline-block;
-} */
+/* Live Event Page Elements Adjustments ------- */
+
+.showandtell {
+	display: none;
+}
+
+.playerbumper {
+	margin: 0 0 0em;
+}
+
+h2.has-text-align-center {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+div.wp-block-columns {
+	margin: 0 0 0 0em;
+}
+
+.wp-block-column {
+	margin-bottom: 0.5em;
+}
+
+.partner { padding: 20px;}
+
+.wp-block-image.is-style-rounded figure {
+    margin-top: 10px;
+}
+
+
+.credit { font-size:12px; margin-top: -10px }
+
 
 
 
@@ -404,16 +437,7 @@ section.widget_custom_html{margin:0} */
 
 /* Homepage Elements Adjustments ------- */
 
-.partner { padding: 20px;}
 
-.wp-block-image.is-style-rounded figure {
-    margin-top: 10px;
-}
-
-
-/* Live Event Page Elements Adjustments ------- */
-
-.credit { font-size:12px; margin-top: -10px }
 
 
 /* Admin Adjustments ------- */
