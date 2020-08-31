@@ -10,8 +10,8 @@
 // Prepare variables.
 $user_id     = get_current_user_id();
 $user_fields = array(
-	'professional_title',
-	'professional_company',
+	'attendee_title',
+	'attendee_company',
 	'social_twitter',
 	'social_linkedin',
 	'social_facebook',
@@ -125,10 +125,10 @@ $user_images = nab_amplify_get_user_images();
                         <h3>PROFESSIONAL DETAILS</h3>
                         <div class="professional-details-form">
                             <div class="nab-form-row">
-                                <input type="text" name="professional_title" class="input-text" placeholder="Title" value="<?php echo esc_attr( $user_data['professional_title'][0] ); ?>"/>
+                                <input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr( $user_data['attendee_title'][0] ); ?>"/>
                             </div>
                             <div class="nab-form-row">
-                                <input type="text" name="professional_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $user_data['professional_company'][0] ); ?>"/>
+                                <input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $user_data['attendee_company'][0] ); ?>"/>
                             </div>
                             <div class="nab-form-submit">
                                 <button type="submit" class="button" name="save_professional_details">update</button>
