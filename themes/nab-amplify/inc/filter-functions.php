@@ -262,6 +262,25 @@ function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html, $
 }
 
 /**
+ * @param array $shop_query Products query array.
+ *
+ * @return array update query array.
+ */
+function filter_nab_amplify_hide_shop_categories( $shop_query ) {
+	$hidden_categories = array( 'press-pass' );
+	if (is_shop()) {
+		$shop_query[] =
+			array(
+				'taxonomy' => 'product_cat',
+				'terms'    => $hidden_categories,
+				'field'    => 'slug',
+				'operator' => 'NOT IN'
+			);
+	}
+	return $shop_query;
+}
+
+/**
  * Ajax Cart Fragments
  *
  * @param $fragments
