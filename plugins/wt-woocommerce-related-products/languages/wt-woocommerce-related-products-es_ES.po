@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Related Products for WooCommerce\n"
+"POT-Creation-Date: 2019-06-20 09:48+0530\n"
+"PO-Revision-Date: 2019-06-20 09:50+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: custom-related-products.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: admin/class-custom-related-products-admin.php:55
+#: admin/class-custom-related-products-admin.php:69
+#: admin/class-custom-related-products-admin.php:122
+#: admin/class-custom-related-products-admin.php:125
+msgid "Related Products"
+msgstr "Productos relacionados"
+
+#: admin/class-custom-related-products-admin.php:56
+#: admin/class-custom-related-products-admin.php:75
+msgid "Search for a product&hellip;"
+msgstr "Buscar un producto&hellip;"
+
+#: admin/class-custom-related-products-admin.php:66
+#: admin/class-custom-related-products-admin.php:86
+msgid "Related products are displayed on the product detail page."
+msgstr ""
+"Los productos relacionados se muestran en la página de detalles del producto."
+
+#: admin/class-custom-related-products-admin.php:122
+#: admin/class-custom-related-products-admin.php:125
+msgid "Custom Related Products Settings"
+msgstr "Configuración personalizada de productos relacionados"
+
+#: admin/class-custom-related-products-admin.php:137
+msgid "General"
+msgstr "Général"
+
+#: admin/class-custom-related-products-admin.php:140
+msgid "Disable Woocommerce Default Related Products"
+msgstr "Deshabilitar Woocommerce Predeterminado Productos relacionados"
+
+#: admin/class-custom-related-products-admin.php:143
+msgid "Disable Custom Related Products"
+msgstr "Deshabilitar productos relacionados personalizados"
+
+#: admin/class-custom-related-products-admin.php:161
+#: admin/class-custom-related-products-admin.php:175
+msgid "Disable"
+msgstr "Inhabilitar"
+
+#: admin/class-custom-related-products-admin.php:183
+msgid "Please change the settings as needed"
+msgstr "Por favor, cambie la configuración según sea necesario"
+
+#: custom-related-products.php:88
+msgid "Settings"
+msgstr "Ajustes"
+
+#: custom-related-products.php:89
+msgid "Support"
+msgstr "Apoyo"
+
+#: custom-related-products.php:90
+msgid "Review"
+msgstr "revisión"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:19
+msgid "I couldn't understand how to make it work"
+msgstr "No pude entender cómo hacerlo funcionar"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:21
+msgid "Would you like us to assist you?"
+msgstr "¿Quieres que te ayudemos?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:25
+msgid "I found a better plugin"
+msgstr "Encontré un mejor plugin"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:27
+msgid "Which plugin?"
+msgstr "¿Qué plugin?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:31
+msgid "The plugin is great, but I need specific feature that you don't support"
+msgstr ""
+"El complemento es excelente, pero necesito una función específica que no "
+"admita"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:33
+msgid "Could you tell us more about that feature?"
+msgstr "¿Podrías decirnos más sobre esa característica?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:37
+msgid "The plugin is not working"
+msgstr "El plugin no funciona"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:39
+msgid "Could you tell us a bit more whats not working?"
+msgstr "¿Podrías decirnos un poco más qué no funciona?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:43
+msgid "It's not what I was looking for"
+msgstr "No es lo que estaba buscando"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:49
+msgid "The plugin didn't work as expected"
+msgstr "El plugin no funcionó como se esperaba"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:51
+msgid "What did you expect?"
+msgstr "¿Que esperabas?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:55
+msgid "Other"
+msgstr "Otro"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:57
+msgid "Could you tell us a bit more?"
+msgstr "¿Podrías contarnos un poco más?"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:75
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr "Si tiene un momento, háganos saber por qué está desactivando:"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:87
+msgid "I rather wouldn't say"
+msgstr "Prefiero no decir"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:88
+msgid "Submit & Deactivate"
+msgstr "Enviar y desactivar"
+
+#: includes/class-wt-relatedproducts-uninstall-feedback.php:89
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: woocommerce/single-product/related.php:46
+#: woocommerce/single-product/related.php:79
+msgid "Related products"
+msgstr "Productos relacionados"
+
+#. Plugin Name of the plugin/theme
+msgid "Related Products for WooCommerce"
+msgstr "Productos relacionados para WooCommerce"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/wt-woocommerce-related-products/"
+msgstr "https://wordpress.org/plugins/wt-woocommerce-related-products/"
+
+#. Description of the plugin/theme
+msgid ""
+"Custom Related Products for WooCommerce allows you to choose related "
+"products for the particular product."
+msgstr ""
+"Productos relacionados personalizados para WooCommerce le permite elegir "
+"productos relacionados para el producto en particular."
+
+#. Author of the plugin/theme
+msgid "WebToffee"
+msgstr "WebToffee"
+
+#. Author URI of the plugin/theme
+msgid "https://www.webtoffee.com/"
+msgstr "https://www.webtoffee.com/"
