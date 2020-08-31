@@ -1,3 +1,13 @@
+@media (max-width: 1900px) {
+	.site-footer:before {
+		bottom: -140px;
+		left: -140px;
+		top: -20%;
+		background-size: 61%;
+		background-position: bottom center;
+		background-repeat: no-repeat;
+	}
+}
 @media (max-width:1395px){
 }
 @media (max-width:1200px){
