@@ -38,78 +38,81 @@
 				<?php dynamic_sidebar( 'footer-1' ); ?>
 			</div>
 			<div class="col-2">
-<!--				<h4>Main Pages</h4>-->
-<!--				<ul class="footer-menu">-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 1</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 2</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 3</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 4</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 5</a>-->
-<!--					</li>-->
-<!--				</ul>-->
+				<!--				<h4>Main Pages</h4>-->
+				<!--				<ul class="footer-menu">-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 1</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 2</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 3</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 4</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 5</a>-->
+				<!--					</li>-->
+				<!--				</ul>-->
 				<?php dynamic_sidebar( 'footer-2' ); ?>
 			</div>
 			<div class="col-3">
-<!--				<h4>Policy</h4>-->
-<!--				<ul class="footer-menu">-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 1</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 2</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 3</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 4</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 5</a>-->
-<!--					</li>-->
-<!--				</ul>-->
+				<!--				<h4>Policy</h4>-->
+				<!--				<ul class="footer-menu">-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 1</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 2</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 3</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 4</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 5</a>-->
+				<!--					</li>-->
+				<!--				</ul>-->
 				<?php dynamic_sidebar( 'footer-3' ); ?>
 			</div>
 			<div class="col-4">
-<!--				<h4>Categories</h4>-->
-<!--				<ul class="footer-menu">-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 1</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 2</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 3</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 4</a>-->
-<!--					</li>-->
-<!--					<li>-->
-<!--						<a href="#">Menu Item 5</a>-->
-<!--					</li>-->
-<!--				</ul>-->
+				<!--				<h4>Categories</h4>-->
+				<!--				<ul class="footer-menu">-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 1</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 2</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 3</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 4</a>-->
+				<!--					</li>-->
+				<!--					<li>-->
+				<!--						<a href="#">Menu Item 5</a>-->
+				<!--					</li>-->
+				<!--				</ul>-->
 				<?php dynamic_sidebar( 'footer-4' ); ?>
 			</div>
 			<div class="col-5 subs-main">
-<!--				<h3>Subscribe</h3>-->
-<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
-<!--				<form class="subscribe-form">-->
-<!--					<input type="text" class="email" placeholder="Email Address"/>-->
-<!--					<input type="submit" class="search-submit" value="Submit">-->
-<!--				</form>-->
+				<!--				<h3>Subscribe</h3>-->
+				<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
+				<!--				<form class="subscribe-form">-->
+				<!--					<input type="text" class="email" placeholder="Email Address"/>-->
+				<!--					<input type="submit" class="search-submit" value="Submit">-->
+				<!--				</form>-->
 				<?php dynamic_sidebar( 'footer-5' ); ?>
 			</div>
 		</div><!-- .site-info -->
+		<div class="nab-amplify-copyright">
+			<?php dynamic_sidebar( 'footer-6' ); ?>
+		</div>
 	</div>
 </footer><!-- #colophon -->
 </div><!-- #page -->

@@ -44,13 +44,13 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					<h3><?php esc_html_e( 'Attendee Information', 'nab-amplify' ); ?></h3>
 
 					<p class="form-row form-row-first" id="attendee_first_name_field">
-						<label for="attendee_first_name" class=""><?php esc_html_e( "First name*" ); ?></label>
+						<label for="attendee_first_name" class=""><?php esc_html_e( "First Name*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
 							<input type="text" class="input-text" name="attendee_first_name" id="attendee_first_name" placeholder="" value="">
 						</span>
 					</p>
 					<p class="form-row form-row-last" id="attendee_last_name_field">
-						<label for="attendee_last_name" class=""><?php esc_html_e( "Last name*" ); ?></label>
+						<label for="attendee_last_name" class=""><?php esc_html_e( "Last Name*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
 							<input type="text" class="input-text" name="attendee_last_name" id="attendee_last_name" placeholder="" value="">
 						</span>
@@ -75,15 +75,12 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 							<input type="text" class="input-text" name="attendee_title" id="attendee_title" placeholder="" value="">
 						</span>
 					</p>
-					<?php
-					woocommerce_form_field( 'attendee_country', array(
-							'type'     => 'country',
-							'class'    => array( 'form-row-last', 'attendee-country' ),
-							'label'    => __( 'Country' ),
-							'required' => true,
-						)
-					);
-					?>
+					<p class="form-row form-row-last" id="attendee_affiliation_field">
+						<label for="attendee_affiliation" class=""><?php esc_html_e( "Affiliation, if applicable" ); ?></label>
+						<span class="woocommerce-input-wrapper">
+							<input type="text" class="input-text" name="attendee_affiliation" id="attendee_title" placeholder="" value="">
+						</span>
+					</p>
 
 					<p class="form-row form-row-first" id="attendee_city_field">
 						<label for="attendee_city" class=""><?php esc_html_e( "City" ); ?></label>
@@ -91,6 +88,24 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 							<input type="text" class="input-text" name="attendee_city" id="attendee_city" placeholder="" value="">
 						</span>
 					</p>
+
+
+					<p class="form-row form-row-last" id="attendee_zip_field">
+						<label for="attendee_zip" class=""><?php esc_html_e( "Zip Code" ); ?></label>
+						<span class="woocommerce-input-wrapper">
+							<input type="text" class="input-text" name="attendee_zip" id="attendee_zip" placeholder="" value="">
+						</span>
+					</p>
+
+					<?php
+					woocommerce_form_field( 'attendee_country', array(
+							'type'     => 'country',
+							'class'    => array( 'form-row-first', 'attendee-country' ),
+							'label'    => __( 'Country' ),
+							'required' => true,
+						)
+					);
+					?>
 					<?php
 					woocommerce_form_field( 'attendee_state', array(
 							'type'  => 'state',
@@ -99,21 +114,6 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 						)
 					);
 					?>
-
-					<p class="form-row form-row-first" id="attendee_zip_field">
-						<label for="attendee_zip" class=""><?php esc_html_e( "Zip Code" ); ?></label>
-						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_zip" id="attendee_zip" placeholder="" value="">
-						</span>
-					</p>
-					<p class="form-row form-row-last" id="attendee_affiliation_field">
-						<label for="attendee_affiliation" class=""><?php esc_html_e( "Affiliation" ); ?></label>
-						<select name="attendee_affiliation" id="attendee_affiliation" class="woocommerce-select">
-							<option><?php esc_html_e( 'Select Affiliation', 'nab-amplify' ); ?></option>
-							<option value="option_1"><?php esc_html_e( 'Option 1', 'nab-amplify' ); ?></option>
-							<option value="option_2"><?php esc_html_e( 'Option 2', 'nab-amplify' ); ?></option>
-						</select>
-					</p>
 
 					<h4><?php esc_html_e( 'Choose Applicable Area(s) of Interest' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_interest_field">
@@ -136,21 +136,6 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 						<div class="checkbox-custom">
 							<input type="checkbox" id="other_interest" name="other_interest" value="other_interest">
 							<input type="text" placeholder="Other - please specify" value="" name="attendee_other_interest" class="full">
-						</div>
-					</p>
-
-					<p class="form-row form-row-wide" id="nab_event_optin">
-						<div class="checkbox-custom">
-							<input type="checkbox" id="partner_comm_field" name="attendee_partner_communication" value="yes" checked>
-							<label for="partner_comm_field"><?php esc_html_e( 'Opt in for Partner Communications', 'nab-amplify' ); ?></label>
-						</div>
-						<div class="checkbox-custom">
-							<input type="checkbox" id="exhibitor_comm_field" name="attendee_exhibitor_communication" value="yes" checked>
-							<label for="exhibitor_comm_field"><?php esc_html_e( 'Opt in for Exhibitor Communications', 'nab-amplify' ); ?></label>
-						</div>
-						<div class="checkbox-custom">
-							<input type="checkbox" id="sponsor_comm_field" name="attendee_sponsor_communication" value="yes" checked>
-							<label for="sponsor_comm_field"><?php esc_html_e( 'Opt in for Sponsor Communications', 'nab-amplify' ); ?></label>
 						</div>
 					</p>
 

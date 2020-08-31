@@ -43,7 +43,7 @@ function nab_confirm_password_matches_checkout( $errors, $username, $email ) {
 function nab_sync_login( $username, $user ) {
 	// $sites = get_sites(); // for all sites
 
-	$sites = [ 5 ]; // for NY site @todo Make in dynamic later
+	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $user->ID ) && ! empty( $user->ID ) && false === is_user_member_of_blog( $user->ID, $site ) ) {
@@ -135,9 +135,7 @@ function product_video_text_box_html( $post ) {
 	<input style="width: 100%" type="text" name="product_video_url" value="<?php echo $product_video_url ?>"/>
 
 	<p>Choose or Upload an Image</p>
-	<?php if ( $product_video_thumb ) { ?>
-		<p><img src="<?php echo esc_url( $product_video_thumb ); ?>" id="product_video_thumb_img" style="max-width: 250px; cursor: pointer"/></p>
-	<?php } ?>
+    <p style="<?php if ( ! $product_video_thumb ) { echo 'dispaly: none'; } ?>"><img src="<?php echo esc_url( $product_video_thumb ); ?>" id="product_video_thumb_img" style="max-width: 250px; cursor: pointer"/></p>
 	<input type="hidden" id="product_video_thumb" name="product_video_thumb" value="<?php echo esc_attr( $product_video_id ); ?>"/>
 	<input type="button" id="product_video_thumb_button" class="button" value="Choose or Upload an Image"/>
 
@@ -147,7 +145,7 @@ function product_video_text_box_html( $post ) {
 				var send_attachment_bkp = wp.media.editor.send.attachment;
 
 				wp.media.editor.send.attachment = function( props, attachment ) {
-					jQuery( '#product_video_thumb_img' ).attr( 'src', attachment.url );
+					jQuery( '#product_video_thumb_img' ).attr( 'src', attachment.url ).show();
 					jQuery( '#product_video_thumb' ).val( attachment.id );
 					wp.media.editor.send.attachment = send_attachment_bkp;
 				};
@@ -266,7 +264,7 @@ function save_product_video_text( $post_id ) {
  */
 function nab_reg_message() {
 	if ( ! is_user_logged_in() && is_account_page() && isset( $_GET['nab_registration_complete'] ) && 'true' === $_GET['nab_registration_complete'] ) {
-		wc_add_notice( 'Registration has been completed successfully. Please login to continue!' );
+		wc_add_notice( 'You have successfully created your account . Please login to continue.' );
 	}
 }
 
@@ -419,6 +417,9 @@ function nab_save_name_fields( $customer_id ) {
 
 }
 
+/**
+ * Event for validations
+ */
 function nab_attendee_field_process() {
 	if ( ! isset( $_POST['attendee_first_name'] ) || empty( $_POST['attendee_first_name'] ) ) {
 		wc_add_notice( __( 'Please enter Attendee First Name.' ), 'error' );
@@ -449,6 +450,11 @@ function nab_attendee_field_process() {
 	}
 }
 
+/**
+ * Event form save fields
+ *
+ * @param $order_id
+ */
 function nab_save_event_fields( $order_id ) {
 
 	// Return if user is not logged in
@@ -459,19 +465,18 @@ function nab_save_event_fields( $order_id ) {
 	$user_id = get_current_user_id();
 
 	$event_data = array(
-		'attendee_first_name'              => ( isset( $_POST['attendee_first_name'] ) && ! empty( $_POST['attendee_first_name'] ) ) ? sanitize_text_field( $_POST['attendee_first_name'] ) : '',
-		'attendee_last_name'               => ( isset( $_POST['attendee_last_name'] ) && ! empty( $_POST['attendee_last_name'] ) ) ? sanitize_text_field( $_POST['attendee_last_name'] ) : '',
-		'attendee_email'                   => ( isset( $_POST['attendee_email'] ) && ! empty( $_POST['attendee_email'] ) ) ? sanitize_email( $_POST['attendee_email'] ) : '',
-		'attendee_company'                 => ( isset( $_POST['attendee_company'] ) && ! empty( $_POST['attendee_company'] ) ) ? sanitize_text_field( $_POST['attendee_company'] ) : '',
-		'attendee_title'                   => ( isset( $_POST['attendee_title'] ) && ! empty( $_POST['attendee_title'] ) ) ? sanitize_text_field( $_POST['attendee_title'] ) : '',
-		'attendee_country'                 => ( isset( $_POST['attendee_country'] ) && ! empty( $_POST['attendee_country'] ) ) ? sanitize_text_field( $_POST['attendee_country'] ) : '',
-		'attendee_city'                    => ( isset( $_POST['attendee_city'] ) && ! empty( $_POST['attendee_city'] ) ) ? sanitize_text_field( $_POST['attendee_city'] ) : '',
-		'attendee_state'                   => ( isset( $_POST['attendee_state'] ) && ! empty( $_POST['attendee_state'] ) ) ? sanitize_text_field( $_POST['attendee_state'] ) : '',
-		'attendee_zip'                     => ( isset( $_POST['attendee_zip'] ) && ! empty( $_POST['attendee_zip'] ) ) ? sanitize_text_field( $_POST['attendee_zip'] ) : '',
-		'attendee_affiliation'             => ( isset( $_POST['attendee_affiliation'] ) && ! empty( $_POST['attendee_affiliation'] ) ) ? sanitize_text_field( $_POST['attendee_affiliation'] ) : '',
-		'attendee_partner_communication'   => ( isset( $_POST['attendee_partner_communication'] ) && 'yes' === $_POST['attendee_partner_communication'] ) ? sanitize_text_field( $_POST['attendee_partner_communication'] ) : '',
-		'attendee_exhibitor_communication' => ( isset( $_POST['attendee_exhibitor_communication'] ) && 'yes' === $_POST['attendee_exhibitor_communication'] ) ? sanitize_text_field( $_POST['attendee_exhibitor_communication'] ) : '',
-		'attendee_sponsor_communication'   => ( isset( $_POST['attendee_sponsor_communication'] ) && 'yes' === $_POST['attendee_sponsor_communication'] ) ? sanitize_text_field( $_POST['attendee_sponsor_communication'] ) : '',
+		'attendee_first_name'     => ( isset( $_POST['attendee_first_name'] ) && ! empty( $_POST['attendee_first_name'] ) ) ? sanitize_text_field( $_POST['attendee_first_name'] ) : '',
+		'attendee_last_name'      => ( isset( $_POST['attendee_last_name'] ) && ! empty( $_POST['attendee_last_name'] ) ) ? sanitize_text_field( $_POST['attendee_last_name'] ) : '',
+		'attendee_email'          => ( isset( $_POST['attendee_email'] ) && ! empty( $_POST['attendee_email'] ) ) ? sanitize_email( $_POST['attendee_email'] ) : '',
+		'attendee_company'        => ( isset( $_POST['attendee_company'] ) && ! empty( $_POST['attendee_company'] ) ) ? sanitize_text_field( $_POST['attendee_company'] ) : '',
+		'attendee_title'          => ( isset( $_POST['attendee_title'] ) && ! empty( $_POST['attendee_title'] ) ) ? sanitize_text_field( $_POST['attendee_title'] ) : '',
+		'attendee_country'        => ( isset( $_POST['attendee_country'] ) && ! empty( $_POST['attendee_country'] ) ) ? sanitize_text_field( $_POST['attendee_country'] ) : '',
+		'attendee_city'           => ( isset( $_POST['attendee_city'] ) && ! empty( $_POST['attendee_city'] ) ) ? sanitize_text_field( $_POST['attendee_city'] ) : '',
+		'attendee_state'          => ( isset( $_POST['attendee_state'] ) && ! empty( $_POST['attendee_state'] ) ) ? sanitize_text_field( $_POST['attendee_state'] ) : '',
+		'attendee_zip'            => ( isset( $_POST['attendee_zip'] ) && ! empty( $_POST['attendee_zip'] ) ) ? sanitize_text_field( $_POST['attendee_zip'] ) : '',
+		'attendee_affiliation'    => ( isset( $_POST['attendee_affiliation'] ) && ! empty( $_POST['attendee_affiliation'] ) ) ? sanitize_text_field( $_POST['attendee_affiliation'] ) : '',
+		'attendee_partner_opt_in' => ( isset( $_POST['attendee_partner_opt_in'] ) && ! empty( $_POST['attendee_partner_opt_in'] ) ) ? sanitize_text_field( $_POST['attendee_partner_opt_in'] ) : '',
+		'attendee_exhibition_sponsors_opt_in' => ( isset( $_POST['attendee_exhibition_sponsors_opt_in'] ) && ! empty( $_POST['attendee_exhibition_sponsors_opt_in'] ) ) ? sanitize_text_field( $_POST['attendee_exhibition_sponsors_opt_in'] ) : '',
 	);
 
 	$event_data['attendee_interest'] = isset( $_POST['attendee_interest'] ) ? $_POST['attendee_interest'] : [];
@@ -483,6 +488,20 @@ function nab_save_event_fields( $order_id ) {
 	foreach ( $event_data as $key => $val ) {
 		update_user_meta( $user_id, $key, $val );
 	}
+}
 
+/**
+ * Header Scripts
+ */
+function nab_header_scripts() {
+	?>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+					new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-K2F9KBS');</script>
+	<!-- End Google Tag Manager -->
+<?php
 }
 

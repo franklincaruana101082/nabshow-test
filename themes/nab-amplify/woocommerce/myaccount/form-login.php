@@ -20,6 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
+$referer_url  = wp_get_referer();
+
+if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( 'checkout' ) === $referer_url ) {
+	$redirect_url = wp_get_referer();
+}
 
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 
@@ -31,7 +36,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 		<?php endif; ?>
 
-		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
+		<h2><?php esc_html_e( 'Log in', 'woocommerce' ); ?></h2>
 
 		<div class="nab-login-wrap">
 			<div class="nab-normal-login">
@@ -65,7 +70,8 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 						<?php } ?>
 						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 						<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login"
-						        value="<?php esc_attr_e( 'Sign in', 'woocommerce' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
+						        value="<?php esc_attr_e( 'Sign in', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></button>
+
 					</p>
 
 
@@ -82,13 +88,15 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 			$sign_up_page_url = get_permalink( $sign_up_page->ID );
+			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
+				$sign_up_page_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), $sign_up_page_url );
+			}
 		} else {
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
 		<div class="nab-signup-now">
-			<h4><?php esc_html_e( 'Don\'t have an account?' ); ?> <a
-						href="<?php echo esc_url( $sign_up_page_url ); ?>"><?php esc_html_e( 'Sign Up Now', 'woocommerce' ); ?></a></h4>
+            <h4>In order to access digital content, you'll need to first create an account. Please <a href="<?php echo esc_url( $sign_up_page_url ); ?>"><?php esc_html_e( 'Sign Up below', 'woocommerce' ); ?></a> and then continue to purchase your passes.</h4>
 		</div>
 
 

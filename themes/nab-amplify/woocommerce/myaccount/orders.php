@@ -23,7 +23,6 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 <?php if ( $has_orders ) : ?>
 
-	<h2 class="entry-title"><?php esc_html_e( 'ORDER HISTORY', 'nab-amplify' ); ?></h2>
 	<div class="nab-purchase-notice">
 		<span>To download purchased content visit <a href="javascript:void(0)">My Purchases</a></span>
 	</div>

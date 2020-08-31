@@ -89,7 +89,6 @@ $user_images = nab_amplify_get_user_images();
             <div class="nab-section section-nab-profile">
                 <div class="nab-profile-head">
                     <h3>PROFILE PICTURES</h3>
-                    <a href="javascript:void(0)" class="button">view profile</a>
                 </div>
                 <div class="nab-profile-body flex-row">
                     <div class="flex-column">

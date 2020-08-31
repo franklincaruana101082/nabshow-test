@@ -191,6 +191,18 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+	//© 2020 National Association of Broadcasters. All Rights Reserved
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Footer Six', 'nab-amplify' ),
+			'id'            => 'footer-6',
+			'description'   => esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );
@@ -224,7 +236,6 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_pr
 remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
-//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
 /**
  * WooCommerce - Change Hooks Priority

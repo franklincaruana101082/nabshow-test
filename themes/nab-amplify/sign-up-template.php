@@ -9,6 +9,8 @@ if ( is_user_logged_in() ) {
 }
 
 get_header();
+
+$redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 ?>
 
 	<main id="primary" class="site-main">
@@ -64,10 +66,14 @@ get_header();
 
 									<?php do_action( 'woocommerce_register_form' ); ?>
 
+									<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
+										<input type="hidden" name="checkout_redirect" value="<?php echo esc_url( $redirect_url ); ?>">
+									<?php } ?>
+
 									<p class="woocommerce-FormRow form-row">
 										<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
 										<button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register"
-										        value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+										        value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
 									</p>
 
 									<?php do_action( 'woocommerce_register_form_end' ); ?>

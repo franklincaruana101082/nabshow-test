@@ -5,14 +5,15 @@
  * @package Amplify
  */
 ?>
+    <p>Under development, coming soon.</p>
 
-    <div class="purchased-content-wrapper">
+    <!--<div class="purchased-content-wrapper">
 		<?php
-		if ( isset( $_GET['valid'] ) && ! empty( $_GET['valid'] ) && 't' === strtolower( $_GET['valid'] ) ) {
-			?>
+/*		if ( isset( $_GET['valid'] ) && ! empty( $_GET['valid'] ) && 't' === strtolower( $_GET['valid'] ) ) {
+			*/?>
             <p class="coupon-valid">Promo code applied successfully. Attached product is accessible and has been added to your purchase content.</p>
 			<?php
-		}
+/*		}
 		$current_user = wp_get_current_user();
 		$product_ids  = array();
 		if ( '' !== $current_user->user_email ) {
@@ -54,7 +55,7 @@
 				$query_args['post__in'] = $my_favourite;
 			}
 			$purchased_post = new WP_Query( $query_args );
-			?>
+			*/?>
             <div class="purchased-content-head">
                 <h2>My Purchased Content</h2>
                 <a href="javascript:void(0);" class="my-fav fusion-button fusion-button-purple fusion-button-small">My Favorites</a>
@@ -71,7 +72,7 @@
                                 <label for="wcbd_select_all">Select All</label>
                             </div>
 							<?php
-							$bundle_args    = array(
+/*							$bundle_args    = array(
 								'post_type'      => 'product',
 								'posts_per_page' => 1,
 								'fields'         => 'ids',
@@ -102,32 +103,32 @@
 											$get_product_permission = $wpdb->prepare( "SELECT product_id, download_id FROM $table_name WHERE user_id = %d AND downloads_remaining != '' AND downloads_remaining != '0'  AND product_id IN ($bundle_inc_product_ids) ORDER BY permission_id DESC", $current_user->ID );
 											$all_downloads          = $wpdb->get_results( $get_product_permission );
 											if ( $all_downloads ) {
-												?>
+												*/?>
                                                 <div class="zip-bundle-download">
-                                                    <input type="submit" class="zip-bundle-download-btn" name="submit" value="DOWNLOAD ALL <?php echo date( 'Y' ); ?> BEIT Conference PROCEEDINGS FILES (.ZIP)" id="bundle_zip_button"/>
+                                                    <input type="submit" class="zip-bundle-download-btn" name="submit" value="DOWNLOAD ALL <?php /*echo date( 'Y' ); */?> BEIT Conference PROCEEDINGS FILES (.ZIP)" id="bundle_zip_button"/>
 													<?php
-													$temp_product_array = array();
+/*													$temp_product_array = array();
 													foreach ( $all_downloads as $download ) {
 														if ( ! in_array( $download->product_id, $temp_product_array ) ) {
 															$temp_product_array[] = $download->product_id;
-															?>
-                                                            <input style="display:none;" type="checkbox" name="dwn-<?php echo esc_attr( $download->download_id ); ?>" value="yes" class="bundle_checkbox">
+															*/?>
+                                                            <input style="display:none;" type="checkbox" name="dwn-<?php /*echo esc_attr( $download->download_id ); */?>" value="yes" class="bundle_checkbox">
 															<?php
-														}
+/*														}
 													}
-													?>
+													*/?>
                                                 </div>
 												<?php
-											}
+/*											}
 										}
 									}
 								}
 							}
-							?>
+							*/?>
                             <div class="white-paper-product-list">
                                 <div class="wp-info">
 									<?php
-									if ( $purchased_post->have_posts() ) {
+/*									if ( $purchased_post->have_posts() ) {
 										while ( $purchased_post->have_posts() ) {
 											$purchased_post->the_post();
 											$current_post_id      = get_the_ID();
@@ -149,55 +150,55 @@
 											$small_abstract     = substr( $full_abstract, 0, 250 );
 											$remaining_abstract = str_replace( $small_abstract, '', $full_abstract );
 											$star_class         = is_array( $my_favourite ) && in_array( $current_post_id, $my_favourite ) ? 'fa fa-star' : 'far fa-star';
-											?>
+											*/?>
                                             <div class="wp-summary">
                                                 <h4>
-                                                    <a href="<?php echo esc_url( $current_post_link ); ?>"><?php echo esc_html( $current_post_title ); ?></a>
-                                                    <span class="starred" data-post="<?php echo esc_attr( $current_post_id ); ?>"><i class="<?php echo esc_attr( $star_class ); ?>"></i></span>
+                                                    <a href="<?php /*echo esc_url( $current_post_link ); */?>"><?php /*echo esc_html( $current_post_title ); */?></a>
+                                                    <span class="starred" data-post="<?php /*echo esc_attr( $current_post_id ); */?>"><i class="<?php /*echo esc_attr( $star_class ); */?>"></i></span>
                                                 </h4>
-                                                <div class="wp-info-date">Date: <span><?php echo esc_html( get_the_date() ); ?></span></div>
+                                                <div class="wp-info-date">Date: <span><?php /*echo esc_html( get_the_date() ); */?></span></div>
                                                 <div class="author-name">
 													<?php
-													if ( nabpilot_get_white_paper_author_count() > 1 ) {
-														?>
+/*													if ( nabpilot_get_white_paper_author_count() > 1 ) {
+														*/?>
                                                         <span>Author Names: </span>
 														<?php
-													} else {
-														?>
+/*													} else {
+														*/?>
                                                         <span>Author Name: </span>
 														<?php
-													}
-													?>
+/*													}
+													*/?>
                                                     <ul class="author-list">
-														<?php nabpilot_get_white_paper_author( get_the_date( "Y" ) ); ?>
+														<?php /*nabpilot_get_white_paper_author( get_the_date( "Y" ) ); */?>
                                                     </ul>
                                                 </div>
                                                 <p><b>Abstract:</b>
 													<?php
-													echo esc_html( $small_abstract );
+/*													echo esc_html( $small_abstract );
 													if ( strlen( $full_abstract ) > 250 ) {
-														?>
+														*/?>
                                                         <i class="more-three-dots">...</i>
-                                                        <span class="more-text" style="display:none;"><?php echo esc_html( $remaining_abstract ); ?></span>
+                                                        <span class="more-text" style="display:none;"><?php /*echo esc_html( $remaining_abstract ); */?></span>
                                                         <span class="expand-arrow"><i class="fa fa-caret-down"></i></span>
 														<?php
-													}
-													?>
+/*													}
+													*/?>
                                                 </p>
                                                 <div class="wp-last">
                                                     <div class="wp-out">
                                                         <ul>
-                                                            <li><a href="<?php echo esc_url( $current_post_link ); ?>">View Online<i class="fa fa-newspaper"></i></a></li>
-                                                            <input type="checkbox" name="dwn-<?php echo esc_attr( $download_key['key'] ? $download_key['key'] : '' ); ?>" value="yes" class="wcbd_checkbox">
-                                                            <li><a href="<?php echo esc_attr( $download_link ); ?>">Download PDF <label class="remain-class"><?php echo esc_html( $download_remaining ); ?></label><span class="rounded"><i class="fa fa-arrow-down"></i></span></a></li>
+                                                            <li><a href="<?php /*echo esc_url( $current_post_link ); */?>">View Online<i class="fa fa-newspaper"></i></a></li>
+                                                            <input type="checkbox" name="dwn-<?php /*echo esc_attr( $download_key['key'] ? $download_key['key'] : '' ); */?>" value="yes" class="wcbd_checkbox">
+                                                            <li><a href="<?php /*echo esc_attr( $download_link ); */?>">Download PDF <label class="remain-class"><?php /*echo esc_html( $download_remaining ); */?></label><span class="rounded"><i class="fa fa-arrow-down"></i></span></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
 											<?php
-										}
+/*										}
 									}
-									?>
+									*/?>
                                 </div>
                             </div>
                         </form>
@@ -214,31 +215,31 @@
 								</path>
 							</svg>
 						</div>
-						<input type="hidden" name="total_page" class="total-pages" value="<?php echo esc_attr( $purchased_post->max_num_pages ); ?>">
-						<input type="hidden" name="purchased_posts" class="purchased-posts" value="<?php echo esc_attr( $product_ids_regex ); ?>">
+						<input type="hidden" name="total_page" class="total-pages" value="<?php /*echo esc_attr( $purchased_post->max_num_pages ); */?>">
+						<input type="hidden" name="purchased_posts" class="purchased-posts" value="<?php /*echo esc_attr( $product_ids_regex ); */?>">
 						<?php
-						if ( $purchased_post->max_num_pages > 1 ) {
-							?>
+/*						if ( $purchased_post->max_num_pages > 1 ) {
+							*/?>
                             <button class="wp-btns fusion-button fusion-button-small fusion-button-purple load-more" data-page-number="2">Load More</button>
 							<?php
-						}
-						?>
+/*						}
+						*/?>
 				</span>
                 </section>
             </section>
 			<?php
-		} else {
-			?>
+/*		} else {
+			*/?>
             <div class="purchased-content-head">
                 <h2>My Purchased Content</h2>
             </div>
             <div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
-                <a class="woocommerce-Button button" href="<?php echo esc_url( get_site_url() . '/beitc-proceedings/' ); ?>"> Browse content</a>
+                <a class="woocommerce-Button button" href="<?php /*echo esc_url( get_site_url() . '/beitc-proceedings/' ); */?>"> Browse content</a>
                 Purchased content not found.
             </div>
 			<?php
-		}
-		?>
-    </div>
+/*		}
+		*/?>
+    </div>-->
 
 <?php

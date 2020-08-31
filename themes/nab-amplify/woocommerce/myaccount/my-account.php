@@ -38,9 +38,11 @@ switch ( $page_title ) {
     case 'edit account':
         $page_title = 'edit my account';
         break;
-
     case 'edit address':
-        $page_title = 'edit addresses';
+        $page_title = 'edit address';
+	    break;
+    case 'orders':
+        $page_title = 'order history';
 	    break;
 }
 
