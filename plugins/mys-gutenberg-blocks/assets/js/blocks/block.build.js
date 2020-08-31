@@ -1017,6 +1017,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__session_info_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__session_info_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__related_exhibitors_block__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__related_exhibitors_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__related_exhibitors_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__add_to_calendar_block__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__add_to_calendar_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__add_to_calendar_block__);
+
 
 
 
@@ -7908,6 +7911,52 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 wp.element.createElement(ServerSideRender, {
                     block: "mys/related-exhibitors",
                     attributes: { pageId: pageId, itemToFetch: itemToFetch, blockTitle: blockTitle }
+                })
+            );
+        },
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var ServerSideRender = wpComponents.ServerSideRender;
+
+
+    var allAttr = {
+        pageId: {
+            type: 'number'
+        }
+    };
+
+    registerBlockType('mys/add-to-calendar', {
+        title: __('Add to Calendar'),
+        icon: 'calendar-alt',
+        category: 'mysgb',
+        keywords: [__('add'), __('to'), __('calendar')],
+        attributes: allAttr,
+        edit: function edit(_ref) {
+            var attributes = _ref.attributes,
+                setAttributes = _ref.setAttributes;
+            var pageId = attributes.pageId;
+
+            if (!pageId) {
+                setAttributes({ pageId: wp.data.select('core/editor').getCurrentPostId() });
+            }
+            return wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(ServerSideRender, {
+                    block: 'mys/add-to-calendar',
+                    attributes: { pageId: pageId }
                 })
             );
         },
