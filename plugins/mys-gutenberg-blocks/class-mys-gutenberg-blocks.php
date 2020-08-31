@@ -253,7 +253,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          */
         public static function mysgb_add_block_editor_script() {
 
-            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.9.4' );
+            wp_enqueue_script( 'mysgb-gutenberg-block', plugins_url( 'assets/js/blocks/block.build.js', __FILE__ ), array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'jquery' ), '4.9.5' );
 
             if ( 'nabshow-lv' !== get_option( 'stylesheet' ) ) {
 
@@ -608,6 +608,26 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             $html = ob_get_clean();
 
             return $html;
+        }
+
+        /**
+         * Add to calendar.
+         *
+         * @param $attributes
+         *
+         * @return string
+         * @since 1.0.0
+         */
+        public function mysgb_add_to_calendar_render_callback( $attributes ) {
+
+            ob_start();
+
+	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-add-to-calendar-callback.php' );
+
+            $html = ob_get_clean();
+
+            return $html;
+
         }
 
         /**

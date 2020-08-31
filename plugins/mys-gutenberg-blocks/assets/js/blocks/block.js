@@ -14,6 +14,7 @@ import './channel-info/block';
 import './sponsors-info/block';
 import './session-info/block';
 import './related-exhibitors/block';
+import './add-to-calendar/block';
 
 (function () {
     const MysIcon = (

@@ -592,3 +592,13 @@ register_block_type( 'mys/related-exhibitors', array(
 	'render_callback' => array( $this, 'mysgb_related_exhibitors_render_callback' ),
 	)
 );
+
+register_block_type( 'mys/add-to-calendar', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_add_to_calendar_render_callback' ),
+	)
+);
