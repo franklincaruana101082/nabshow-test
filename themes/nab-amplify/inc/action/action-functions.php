@@ -47,7 +47,7 @@ function nab_sync_login( $username, $user ) {
 
 	foreach ( $sites as $site ) {
 		if ( isset( $user->ID ) && ! empty( $user->ID ) && false === is_user_member_of_blog( $user->ID, $site ) ) {
-			add_user_to_blog( $site, $user->ID, 'customer' );
+			add_user_to_blog( $site, $user->ID, 'subscriber' );
 		}
 	}
 }
