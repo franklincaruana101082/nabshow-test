@@ -483,6 +483,7 @@ function nab_save_event_fields( $order_id ) {
 		'attendee_discover'                   => ( isset( $_POST['attendee_discover'] ) && ! empty( $_POST['attendee_discover'] ) ) ? wp_unslash( $_POST['attendee_discover'] ) : [],
 		'attendee_meet'                       => ( isset( $_POST['attendee_meet'] ) && ! empty( $_POST['attendee_meet'] ) ) ? wp_unslash( $_POST['attendee_meet'] ) : [],
 		'other_interest'                      => ( isset( $_POST['other_interest'] ) && ! empty( $_POST['other_interest'] ) ) ? $_POST['other_interest'] : '',
+		'billing_phone'                       => ( isset( $_POST['billing_phone'] ) && ! empty( $_POST['billing_phone'] ) ) ? sanitize_text_field( $_POST['billing_phone'] ) : '',
 	);
 
 	$event_data['attendee_interest'] = isset( $_POST['attendee_interest'] ) ? $_POST['attendee_interest'] : [];
@@ -493,6 +494,16 @@ function nab_save_event_fields( $order_id ) {
 	// Save details to user meta
 	foreach ( $event_data as $key => $val ) {
 		update_user_meta( $user_id, $key, $val );
+	}
+}
+
+/**
+ * Redirecting templates.
+ */
+function nab_amplify_template_redirect() {
+	if ( is_singular( 'tribe_events' ) ) {
+		wp_redirect( home_url(), 301 );
+		exit;
 	}
 }
 
@@ -518,4 +529,3 @@ function nab_header_scripts() {
 	<!-- End Google Tag Manager -->
 	<?php
 }
-

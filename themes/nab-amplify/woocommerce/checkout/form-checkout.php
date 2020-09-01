@@ -33,6 +33,8 @@ $event_data = array_map( function ( $a ) {
 	return $a[0];
 }, get_user_meta( $user_id ) );
 
+$billing_phone = get_user_meta( $user_id, 'billing_phone', true );
+
 ?>
 
 <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
@@ -131,6 +133,14 @@ $event_data = array_map( function ( $a ) {
 
 					woocommerce_form_field( 'attendee_state', $state_arg, $att_state );
 					?>
+
+					<p class="form-row form-row-first validate-phone" id="billing_phone_field">
+						<label for="billing_phone" class=""><?php esc_html_e( "Phone" ); ?></label>
+						<span class="woocommerce-input-wrapper">
+							<input type="tel" class="input-text" name="billing_phone" id="billing_phone" placeholder=""
+							       value="<?php echo ( isset( $billing_phone ) ) ? esc_attr( $billing_phone ) : '' ?>">
+						</span>
+					</p>
 
 					<?php
 					$interests = ( isset( $event_data['attendee_interest'] ) && ! empty( $event_data['attendee_interest'] ) ) ? maybe_unserialize( $event_data['attendee_interest'] ) : [];
