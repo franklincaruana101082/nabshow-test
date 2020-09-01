@@ -487,7 +487,7 @@ function nab_save_event_fields( $order_id ) {
 
 	$event_data['attendee_interest'] = isset( $_POST['attendee_interest'] ) ? $_POST['attendee_interest'] : [];
 	if ( isset( $_POST['other_interest'] ) && isset( $_POST['attendee_other_interest'] ) && ! empty( $_POST['attendee_other_interest'] ) ) {
-		array_push( $event_data['attendee_interest'], $_POST['attendee_other_interest'] );
+		$event_data['attendee_other_interest'] = sanitize_text_field( $_POST['attendee_other_interest'] );
 	}
 
 	// Save details to user meta
