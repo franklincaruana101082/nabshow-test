@@ -21,7 +21,6 @@ if ( ! $event->featured || ! $event->thumbnail->exists ) {
 	return;
 }
 
-//$website = tribe_get_event_website_link();
 $event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
 ?>
 <div class="tribe-events-calendar-month__calendar-event-featured-image-wrapper">
