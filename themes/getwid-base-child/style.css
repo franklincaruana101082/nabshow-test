@@ -203,9 +203,9 @@ p { margin: 1.5em 0; }
 .partner {
   display: inline-block;
   width: 100%;
-  font-size: 18px;
-  text-align: left;
-  background-color: #f3f3f3;
+  /* font-size: 18px; */
+  text-align: right;
+  /* background-color: #f3f3f3; */
   padding-left: 20px;
   padding-bottom: 10px;
   padding-top: 0px;
@@ -250,7 +250,8 @@ p { margin: 1.5em 0; }
 
 .panelist {
     font-size: 14px;
-  	margin: 0 0 0em;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 div div h1 {
@@ -312,14 +313,21 @@ div.wp-block-columns {
 	margin-bottom: 0.5em;
 }
 
-.partner { padding: 20px;}
-
 .wp-block-image.is-style-rounded figure {
     margin-top: 10px;
 }
 
 
-.credit { font-size:12px; margin-top: -10px }
+.credit {
+  font-size:12px;
+  margin-top: -20px;
+  display: inline;
+  /* vertical-align: bottom; */
+ }
+
+/* .partnerlogo {
+display:flex;
+} */
 
 
 
