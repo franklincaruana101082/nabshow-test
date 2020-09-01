@@ -6,9 +6,19 @@ add_filter( 'get_avatar_url', 'filter_nab_amplify_get_avatar_url', 10, 5 );
 
 add_filter( 'query_vars', 'nab_amplify_custom_menu_query_vars', 0 );
 
+add_filter( 'the_password_form', 'nab_apmlify_the_password_form' );
+
 add_filter( 'woocommerce_account_menu_items', 'nab_amplify_update_my_account_menu_items' );
 
-add_filter( 'the_password_form', 'nab_apmlify_the_password_form' );
+add_filter('woocommerce_get_availability', 'nab_amplify_woocommerce_get_availability');
+
+add_filter( 'woocommerce_product_stock_status_options', 'nab_amplify_woocommerce_product_stock_status_options' );
+
+add_filter( 'woocommerce_inventory_settings', 'nab_amplify_woocommerce_inventory_settings' );
+
+add_filter( 'woocommerce_admin_reports', 'nab_amplify_woocommerce_admin_reports' );
+
+add_filter( 'woocommerce_admin_stock_html', 'nab_amplify_woocommerce_admin_stock_html' );
 
 add_filter( 'woocommerce_product_query_tax_query', 'filter_nab_amplify_hide_shop_categories');
 
@@ -33,3 +43,9 @@ add_filter( 'woocommerce_account_orders_columns', 'nab_my_orders_columns', 10, 1
 add_filter( 'woocommerce_before_checkout_form', 'nab_add_login_link_on_checkout_page', 999 );
 
 add_filter( 'woocommerce_add_to_cart_fragments', 'nab_cart_count_fragments', 10, 1 );
+
+add_filter( 'woocommerce_enable_order_notes_field', '__return_false', 9999 );
+
+add_filter( 'ae_pppf_comment1_parameter', 'nab_pppf_custom_parameter', 10, 2);
+
+add_filter( 'ae_pppf_comment2_parameter', 'nab_pppf_comment2_parameter', 10, 2);

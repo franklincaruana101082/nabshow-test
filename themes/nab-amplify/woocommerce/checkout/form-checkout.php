@@ -88,7 +88,7 @@ $event_data = array_map( function ( $a ) {
 					<p class="form-row form-row-last" id="attendee_affiliation_field">
 						<label for="attendee_affiliation" class=""><?php esc_html_e( "Affiliation, if applicable" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_affiliation" id="attendee_title" placeholder=""
+							<input type="text" class="input-text" name="attendee_affiliation" id="attendee_affiliation" placeholder=""
 							       value="<?php echo ( isset( $event_data['attendee_affiliation'] ) ) ? esc_attr( $event_data['attendee_affiliation'] ) : '' ?>">
 						</span>
 					</p>
@@ -111,21 +111,25 @@ $event_data = array_map( function ( $a ) {
 					</p>
 
 					<?php
+					$att_country = ( isset( $event_data['attendee_country'] ) && ! empty( $event_data['attendee_country'] ) ) ? $event_data['attendee_country'] : '';
 					woocommerce_form_field( 'attendee_country', array(
-							'type'     => 'country',
-							'class'    => array( 'form-row-first', 'attendee-country' ),
-							'label'    => __( 'Country' ),
-							'required' => true,
-						)
+						'type'     => 'country',
+						'class'    => array( 'form-row-first', 'attendee-country' ),
+						'label'    => __( 'Country' ),
+						'required' => true,
+					), $att_country );
+
+					$att_state = ( isset( $event_data['attendee_state'] ) && ! empty( $event_data['attendee_state'] ) ) ? $event_data['attendee_state'] : '';
+					$state_arg = array(
+						'type'  => 'state',
+						'label' => __( 'State/Province', 'woocommerce' ),
+						'class' => array( 'form-row-last', 'attendee-state' ),
 					);
-					?>
-					<?php
-					woocommerce_form_field( 'attendee_state', array(
-							'type'  => 'state',
-							'label' => __( 'State/Province', 'woocommerce' ),
-							'class' => array( 'form-row-last', 'attendee-state' ),
-						)
-					);
+					if ( isset( $att_country ) && ! empty( $att_country ) ) {
+						$state_arg['country'] = $att_country;
+					}
+
+					woocommerce_form_field( 'attendee_state', $state_arg, $att_state );
 					?>
 
 					<?php
@@ -162,28 +166,33 @@ $event_data = array_map( function ( $a ) {
 					</p>
 
 					<?php
-					$discover = ( isset( $event_data['attendee_discover'] ) && ! empty( $event_data['attendee_discover'] ) ) ? maybe_unserialize( $event_data['attendee_discover'] ) :	[];
+					$discover = ( isset( $event_data['attendee_discover'] ) && ! empty( $event_data['attendee_discover'] ) ) ? maybe_unserialize( $event_data['attendee_discover'] ) : [];
 					?>
 					<h4><?php esc_html_e( 'What do you want to discover?' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_discover_field">
 					<div class="checkbox-custom">
-						<input type="checkbox" id="discover_trends" name="attendee_discover[]" value="New Trends" <?php echo in_array( 'New Trends', $discover, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="discover_trends" name="attendee_discover[]"
+						       value="New Trends" <?php echo in_array( 'New Trends', $discover, true ) ? 'checked' : '' ?>><label
 								for="discover_trends"><?php esc_html_e( 'New Trends', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="discover_tech" name="attendee_discover[]" value="Latest Tech" <?php echo in_array( 'Latest Tech', $discover, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="discover_tech" name="attendee_discover[]"
+						       value="Latest Tech" <?php echo in_array( 'Latest Tech', $discover, true ) ? 'checked' : '' ?>><label
 								for="discover_tech"><?php esc_html_e( 'Latest Tech', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="discover_tools" name="attendee_discover[]" value="New Tools" <?php echo in_array( 'New Tools', $discover, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="discover_tools" name="attendee_discover[]"
+						       value="New Tools" <?php echo in_array( 'New Tools', $discover, true ) ? 'checked' : '' ?>><label
 								for="discover_tools"><?php esc_html_e( 'New Tools', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="discover_solutions" name="attendee_discover[]" value="Practical Solutions" <?php echo in_array( 'Practical Solutions', $discover, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="discover_solutions" name="attendee_discover[]"
+						       value="Practical Solutions" <?php echo in_array( 'Practical Solutions', $discover, true ) ? 'checked' : '' ?>><label
 								for="discover_solutions"><?php esc_html_e( 'Practical Solutions', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="discover_all" name="attendee_discover[]" value="All of it!" <?php echo in_array( 'All of it!', $discover, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="discover_all" name="attendee_discover[]"
+						       value="All of it!" <?php echo in_array( 'All of it!', $discover, true ) ? 'checked' : '' ?>><label
 								for="discover_all"><?php esc_html_e( 'All of it!', 'nab-amplify' ); ?></label>
 					</div>
 					</p>
@@ -194,23 +203,28 @@ $event_data = array_map( function ( $a ) {
 					<h4><?php esc_html_e( 'Who do you want to meet?' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_meet_field">
 					<div class="checkbox-custom">
-						<input type="checkbox" id="meet_others" name="attendee_meet[]" value="Others in my community" <?php echo in_array( 'Others in my community', $meet, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="meet_others" name="attendee_meet[]"
+						       value="Others in my community" <?php echo in_array( 'Others in my community', $meet, true ) ? 'checked' : '' ?>><label
 								for="meet_others"><?php esc_html_e( 'Others In My Community', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="meet_perspective" name="attendee_meet[]" value="Someone with a new perspective" <?php echo in_array( 'Someone with a new perspective', $meet, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="meet_perspective" name="attendee_meet[]"
+						       value="Someone with a new perspective" <?php echo in_array( 'Someone with a new perspective', $meet, true ) ? 'checked' : '' ?>><label
 								for="meet_perspective"><?php esc_html_e( 'Someone With a New Perspective', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="meet_partnership" name="attendee_meet[]" value="My next partnership" <?php echo in_array( 'My next partnership', $meet, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="meet_partnership" name="attendee_meet[]"
+						       value="My next partnership" <?php echo in_array( 'My next partnership', $meet, true ) ? 'checked' : '' ?>><label
 								for="meet_partnership"><?php esc_html_e( 'My Next Partnership', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="meet_leaders" name="attendee_meet[]" value="High profile leaders" <?php echo in_array( 'High profile leaders', $meet, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="meet_leaders" name="attendee_meet[]"
+						       value="High profile leaders" <?php echo in_array( 'High profile leaders', $meet, true ) ? 'checked' : '' ?>><label
 								for="meet_leaders"><?php esc_html_e( 'High Profile Leaders', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="meet_inspire" name="attendee_meet[]" value="Anyone who will inspire me!" <?php echo in_array( 'Anyone who will inspire me!', $meet, true ) ? 'checked' : '' ?>><label
+						<input type="checkbox" id="meet_inspire" name="attendee_meet[]"
+						       value="Anyone who will inspire me!" <?php echo in_array( 'Anyone who will inspire me!', $meet, true ) ? 'checked' : '' ?>><label
 								for="meet_inspire"><?php esc_html_e( 'Anyone who will inspire me!', 'nab-amplify' ); ?></label>
 					</div>
 					</p>

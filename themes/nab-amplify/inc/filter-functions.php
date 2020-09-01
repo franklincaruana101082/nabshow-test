@@ -81,6 +81,13 @@ function nab_customising_checkout_fields( $address_fields ) {
 		$address_fields[ $key_field ]['required'] = false;
 	}
 
+	$address_fields['address_1']['label']   = 'Billing Address';
+	$address_fields['city']['label']        = 'City';
+	$address_fields['country']['label']     = 'Country';
+	$address_fields['country']['priority']  = 79;
+	$address_fields['postcode']['label']    = 'Zip Code';
+	$address_fields['postcode']['priority'] = 71;
+
 	return $address_fields;
 }
 
@@ -235,13 +242,15 @@ function nab_add_login_link_on_checkout_page() {
 		$current_site_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), wc_get_page_permalink( 'myaccount' ) );
 
 		$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
-        if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
-	        $sign_up_page_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), get_permalink( $sign_up_page->ID ) );
+		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
+			$sign_up_page_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), get_permalink( $sign_up_page->ID ) );
 		} else {
-	        $sign_up_page_url = 'javascript:void(0)';
+			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-        <a class="checkout-login-link button" href="<?php echo esc_url( $current_site_url ); ?>">Login</a> OR <a class="checkout-signup-link button" href="<?php echo esc_url( $sign_up_page_url ); ?>">create an account</a> to proceed with your registration.
+		<a class="checkout-login-link button" href="<?php echo esc_url( $current_site_url ); ?>">Login</a> OR <a class="checkout-signup-link button"
+		                                                                                                         href="<?php echo esc_url( $sign_up_page_url ); ?>">create an
+			account</a> to proceed with your registration.
 	<?php }
 }
 
@@ -251,13 +260,15 @@ function nab_add_login_link_on_checkout_page() {
  * @return string|string[] updated message.
  */
 function filter_nab_amplify_woocommerce_coupon_to_promo( $err ) {
-	$err = str_replace( 'coupon', 'promo', $err);
-	$err = str_replace( 'Coupon', 'Promo', $err);
+	$err = str_replace( 'coupon', 'promo', $err );
+	$err = str_replace( 'Coupon', 'Promo', $err );
+
 	return $err;
 }
 
 function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html, $coupon, $discount_amount_html ) {
-    $discount_amount_html = str_replace( 'coupon', 'promo', $discount_amount_html);
+	$discount_amount_html = str_replace( 'coupon', 'promo', $discount_amount_html );
+
 	return $discount_amount_html;
 }
 
@@ -268,15 +279,16 @@ function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html, $
  */
 function filter_nab_amplify_hide_shop_categories( $shop_query ) {
 	$hidden_categories = array( 'press-pass' );
-	if (is_shop()) {
+	if ( is_shop() ) {
 		$shop_query[] =
 			array(
 				'taxonomy' => 'product_cat',
 				'terms'    => $hidden_categories,
 				'field'    => 'slug',
-				'operator' => 'NOT IN'
+				'operator' => 'NOT IN',
 			);
 	}
+
 	return $shop_query;
 }
 
@@ -287,7 +299,7 @@ function filter_nab_amplify_hide_shop_categories( $shop_query ) {
  */
 function nab_apmlify_the_password_form( $output ) {
 
-    global $post;
+	global $post;
 	$post   = get_post( $post );
 	$label  = 'pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
@@ -295,7 +307,64 @@ function nab_apmlify_the_password_form( $output ) {
 	<p><label for="' . $label . '">' . __( 'Code:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" class="button" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
 	';
 
-    return $output;
+	return $output;
+}
+
+/**
+ * @param array $availability the availability of the product.
+ *
+ * @return string[] mixed Returns the availability of the product.
+ */
+function nab_amplify_woocommerce_get_availability( $availability ) {
+	$availability['availability'] = str_ireplace( 'Out of stock', 'Sold Out', $availability['availability'] );
+
+	return $availability;
+}
+
+/**
+ * @return array Array of stock label options.
+ */
+function nab_amplify_woocommerce_product_stock_status_options() {
+	return array(
+		'instock'    => __( 'Available for Purchase', 'woocommerce' ),
+		'outofstock' => __( 'Sold Out', 'woocommerce' ),
+	);
+}
+
+/**
+ * @param array $settings Settings array.
+ *
+ * @return mixed returns modified settings array.
+ */
+function nab_amplify_woocommerce_inventory_settings( $settings ) {
+
+	$settings[7]['title'] = __( 'Sold Out threshold', 'nab-amplify' );
+	$settings[8]['title'] = __( 'Sold Out visibility', 'nab-amplify' );
+
+	return $settings;
+}
+
+/**
+ * @param array $reports Reports array.
+ *
+ * @return mixed returns modified reports array.
+ */
+function nab_amplify_woocommerce_admin_reports( $reports ) {
+	$reports['stock']['reports']['out_of_stock']['title'] = __( 'Sold Out', 'nab-amplify' );
+
+	return $reports;
+}
+
+/**
+ * @param string $stock_html HTML of product availability label.
+ *
+ * @return string|string[] returns updated HTML of product availability label.
+ */
+function nab_amplify_woocommerce_admin_stock_html( $stock_html ) {
+	$stock_html = str_replace( 'In stock', 'Available for Purchase', $stock_html );
+	$stock_html = str_replace( 'Out of stock', 'Sold Out', $stock_html );
+
+	return $stock_html;
 }
 
 /**
@@ -310,4 +379,53 @@ function nab_cart_count_fragments( $fragments ) {
 	$fragments['span.nab-cart-count'] = '<span class="nab-cart-count ' . $header_cart_class . '">' . WC()->cart->get_cart_contents_count() . '</span>';
 
 	return $fragments;
+}
+
+/**
+ * Paypal PayFlow comment field 1
+ *
+ * @param $customer_note
+ * @param $order
+ *
+ * @return string
+ */
+function nab_pppf_custom_parameter( $customer_note, $order ) {
+	if ( isset( $order ) && ! empty( $order ) ) {
+		$order_id     = $order->get_order_number();
+		$items        = $order->get_items();
+		$product_name = '';
+
+		foreach ( $items as $item ) {
+			$product_id   = $item->get_product_id();
+			$product      = wc_get_product( $product_id );
+			$product_name = $product->get_name();
+		}
+		$customer_note = $product_name . ' (' . $order_id . ')';
+	}
+
+	return $customer_note;
+}
+
+/**
+ * Paypal Payflow comment field 2
+ *
+ * @param $customer_note
+ * @param $order
+ *
+ * @return string
+ */
+function nab_pppf_comment2_parameter( $customer_note, $order ) {
+	if ( isset( $order ) && ! empty( $order ) ) {
+		$user_id  = $order->get_customer_id();
+		$order_id = $order->get_order_number();
+
+		if ( isset( $user_id ) && ! empty( $user_id ) ) {
+			$first_name = get_user_meta( $user_id, 'attendee_first_name', true );
+			$last_name  = get_user_meta( $user_id, 'attendee_last_name', true );
+
+			$customer_note = $first_name . ' ' . $last_name . ' (' . $user_id . ')';
+		}
+	}
+
+	return $customer_note;
 }
