@@ -40,14 +40,6 @@ $product_join_today_content = get_post_meta( $product_id, '_product_join_today_c
                 <div id="prod-content">
         			<?php the_content(); ?>
                 </div>
-        		<?php if ( $price_html = $product->get_price_html() ) : ?>
-                    <div id="prod-price">
-                        <span class="price"><h4>Price: </h4><?php echo $price_html; ?></span>
-                    </div>
-        		<?php endif; ?>
-                <div id="prod-published">
-                    <h4>Date Published: </h4><?php echo get_the_date( 'm-d-y' ); ?>
-                </div>
         		<?php if ( $product_publisher_content ) { ?>
                     <div id="prod-publisher">
                         <h4>Publisher info: </h4><?php echo $product_publisher_content; ?>

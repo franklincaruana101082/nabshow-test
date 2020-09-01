@@ -8,6 +8,8 @@ add_filter( 'query_vars', 'nab_amplify_custom_menu_query_vars', 0 );
 
 add_filter( 'woocommerce_account_menu_items', 'nab_amplify_update_my_account_menu_items' );
 
+add_filter( 'the_password_form', 'nab_apmlify_the_password_form' );
+
 add_filter( 'woocommerce_product_query_tax_query', 'filter_nab_amplify_hide_shop_categories');
 
 add_filter( 'woocommerce_coupon_message', 'filter_nab_amplify_woocommerce_coupon_to_promo', 10, 3 );

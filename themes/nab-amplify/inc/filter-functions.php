@@ -241,7 +241,7 @@ function nab_add_login_link_on_checkout_page() {
 	        $sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-        <a class="checkout-login-link" href="<?php echo esc_url( $current_site_url ); ?>">Login</a> or <a class="checkout-signup-link" href="<?php echo esc_url( $sign_up_page_url ); ?>">create an account</a> to proceed with your registration.
+        <a class="checkout-login-link button" href="<?php echo esc_url( $current_site_url ); ?>">Login</a> OR <a class="checkout-signup-link button" href="<?php echo esc_url( $sign_up_page_url ); ?>">create an account</a> to proceed with your registration.
 	<?php }
 }
 
@@ -278,6 +278,24 @@ function filter_nab_amplify_hide_shop_categories( $shop_query ) {
 			);
 	}
 	return $shop_query;
+}
+
+/**
+ * @param string $output HTML of the password form.
+ *
+ * @return string updated HTML of the password form.
+ */
+function nab_apmlify_the_password_form( $output ) {
+
+    global $post;
+	$post   = get_post( $post );
+	$label  = 'pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID );
+	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
+	<p>' . __( 'This content is not open to all. To view or add it to your cart, please enter your supplied code below. If you do not have a code and believe you should have access to view or add this product, please email ' ) . '<a href="mailto:register@nab.org">register@nab.org</a></p>
+	<p><label for="' . $label . '">' . __( 'Code:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" class="button" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
+	';
+
+    return $output;
 }
 
 /**

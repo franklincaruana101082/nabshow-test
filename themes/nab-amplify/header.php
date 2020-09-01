@@ -112,7 +112,7 @@
 			?>
 			<div class="banner-header" style="background-image: url('<?php echo esc_url( $user_images['banner_image'] ); ?>')">
 				<div class="container">
-					<?php woocommerce_breadcrumb(); ?>
+					<?php // woocommerce_breadcrumb(); ?>
 					<div id="profile-avtar">
 						<img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
 					</div>
@@ -122,7 +122,7 @@
 			<div class="container">
 				<?php
 				if ( ! is_account_page() && ! is_page( NAB_SIGNUP_PAGE ) ) {
-					woocommerce_breadcrumb();
+					// woocommerce_breadcrumb();
 				}
 				?>
 			</div>

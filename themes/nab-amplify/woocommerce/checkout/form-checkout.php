@@ -28,6 +28,11 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	return;
 }
 
+$user_id    = get_current_user_id();
+$event_data = array_map( function ( $a ) {
+	return $a[0];
+}, get_user_meta( $user_id ) );
+
 ?>
 
 <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
@@ -46,46 +51,53 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					<p class="form-row form-row-first" id="attendee_first_name_field">
 						<label for="attendee_first_name" class=""><?php esc_html_e( "First Name*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_first_name" id="attendee_first_name" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_first_name" id="attendee_first_name" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_first_name'] ) ) ? esc_attr( $event_data['attendee_first_name'] ) : '' ?>">
 						</span>
 					</p>
 					<p class="form-row form-row-last" id="attendee_last_name_field">
 						<label for="attendee_last_name" class=""><?php esc_html_e( "Last Name*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_last_name" id="attendee_last_name" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_last_name" id="attendee_last_name" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_last_name'] ) ) ? esc_attr( $event_data['attendee_last_name'] ) : '' ?>">
 						</span>
 					</p>
 
 					<p class="form-row form-row-first" id="attendee_email_field">
 						<label for="attendee_email" class=""><?php esc_html_e( "Email*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="email" class="input-text" name="attendee_email" id="attendee_email" placeholder="" value="">
+							<input type="email" class="input-text" name="attendee_email" id="attendee_email" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_email'] ) ) ? esc_attr( $event_data['attendee_email'] ) : '' ?>">
 						</span>
 					</p>
 					<p class="form-row form-row-last" id="attendee_company_field">
 						<label for="attendee_company" class=""><?php esc_html_e( "Company*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_company" id="attendee_company" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_company" id="attendee_company" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_company'] ) ) ? esc_attr( $event_data['attendee_company'] ) : '' ?>">
 						</span>
 					</p>
 
 					<p class="form-row form-row-first" id="attendee_title_field">
 						<label for="attendee_title" class=""><?php esc_html_e( "Title*" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_title" id="attendee_title" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_title" id="attendee_title" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_title'] ) ) ? esc_attr( $event_data['attendee_title'] ) : '' ?>">
 						</span>
 					</p>
 					<p class="form-row form-row-last" id="attendee_affiliation_field">
 						<label for="attendee_affiliation" class=""><?php esc_html_e( "Affiliation, if applicable" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_affiliation" id="attendee_title" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_affiliation" id="attendee_title" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_affiliation'] ) ) ? esc_attr( $event_data['attendee_affiliation'] ) : '' ?>">
 						</span>
 					</p>
 
 					<p class="form-row form-row-first" id="attendee_city_field">
 						<label for="attendee_city" class=""><?php esc_html_e( "City" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_city" id="attendee_city" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_city" id="attendee_city" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_city'] ) ) ? esc_attr( $event_data['attendee_city'] ) : '' ?>">
 						</span>
 					</p>
 
@@ -93,7 +105,8 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					<p class="form-row form-row-last" id="attendee_zip_field">
 						<label for="attendee_zip" class=""><?php esc_html_e( "Zip Code" ); ?></label>
 						<span class="woocommerce-input-wrapper">
-							<input type="text" class="input-text" name="attendee_zip" id="attendee_zip" placeholder="" value="">
+							<input type="text" class="input-text" name="attendee_zip" id="attendee_zip" placeholder=""
+							       value="<?php echo ( isset( $event_data['attendee_zip'] ) ) ? esc_attr( $event_data['attendee_zip'] ) : '' ?>">
 						</span>
 					</p>
 
@@ -115,53 +128,85 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 					);
 					?>
 
+					<?php
+					$interests = ( isset( $event_data['attendee_interest'] ) && ! empty( $event_data['attendee_interest'] ) ) ? maybe_unserialize( $event_data['attendee_interest'] ) : [];
+					?>
 					<h4 class="text-transform-initial"><?php esc_html_e( 'I see myself in the following community(ies):' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_interest_field">
 					<div class="checkbox-custom">
-						<input type="checkbox" id="interest_broadcast" name="attendee_interest[]" value="Broadcast"><label
-								for="interest_broadcast"><?php esc_html_e( 'Broadcast', 'nab-amplify' ); ?></label>
+						<input type="checkbox" id="interest_broadcast" name="attendee_interest[]"
+						       value="Broadcast" <?php echo in_array( 'Broadcast', $interests, true ) ? 'checked' : '' ?>>
+						<label for="interest_broadcast"><?php esc_html_e( 'Broadcast', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="interest_cine_creative" name="attendee_interest[]" value="Creative/Cinema"><label
-								for="interest_cine_creative"><?php esc_html_e( 'Creative/Cinema', 'nab-amplify' ); ?></label>
+						<input type="checkbox" id="interest_cine_creative" name="attendee_interest[]"
+						       value="Creative/Cinema" <?php echo in_array( 'Creative/Cinema', $interests, true ) ? 'checked' : '' ?>>
+						<label for="interest_cine_creative"><?php esc_html_e( 'Creative/Cinema', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="interest_live" name="attendee_interest[]" value="Live Production"><label
-								for="interest_live"><?php esc_html_e( 'Live Production', 'nab-amplify' ); ?></label>
+						<input type="checkbox" id="interest_live" name="attendee_interest[]"
+						       value="Live Production" <?php echo in_array( 'Live Production', $interests, true ) ? 'checked' : '' ?>>
+						<label for="interest_live"><?php esc_html_e( 'Live Production', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="interest_streaming" name="attendee_interest[]" value="Streaming"><label
-								for="interest_streaming"><?php esc_html_e( 'Streaming', 'nab-amplify' ); ?></label>
+						<input type="checkbox" id="interest_streaming" name="attendee_interest[]"
+						       value="Streaming" <?php echo in_array( 'Streaming', $interests, true ) ? 'checked' : '' ?>>
+						<label for="interest_streaming"><?php esc_html_e( 'Streaming', 'nab-amplify' ); ?></label>
 					</div>
 					<div class="checkbox-custom">
-						<input type="checkbox" id="other_interest" name="other_interest" value="other_interest">
-						<input type="text" placeholder="Other - please specify" value="" name="attendee_other_interest" class="full">
+						<input type="checkbox" id="other_interest" name="other_interest"
+						       value="yes">
+						<input type="text" placeholder="Other - Please Specify" value="" name="attendee_other_interest" class="full">
 					</div>
 					</p>
 
-<!--					<h4>--><?php //esc_html_e( 'What do you want to discover?' ); ?><!--</h4>-->
-<!--					<p class="form-row form-row-wide" id="attendee_discover_field">-->
-<!--					<div class="checkbox-custom">-->
-<!--						<input type="checkbox" id="discover_trends" name="attendee_discover[]" value="New Trends"><label-->
-<!--								for="discover_trends">--><?php //esc_html_e( 'New Trends', 'nab-amplify' ); ?><!--</label>-->
-<!--					</div>-->
-<!--					<div class="checkbox-custom">-->
-<!--						<input type="checkbox" id="discover_tech" name="attendee_discover[]" value="Latest Tech"><label-->
-<!--								for="interest_cine_creative">--><?php //esc_html_e( 'Latest Tech', 'nab-amplify' ); ?><!--</label>-->
-<!--					</div>-->
-<!--					<div class="checkbox-custom">-->
-<!--						<input type="checkbox" id="discover_tools" name="attendee_discover[]" value="New Tools"><label-->
-<!--								for="discover_tools">--><?php //esc_html_e( 'New Tools', 'nab-amplify' ); ?><!--</label>-->
-<!--					</div>-->
-<!--					<div class="checkbox-custom">-->
-<!--						<input type="checkbox" id="discover_solutions" name="attendee_discover[]" value="Practical Solutions"><label-->
-<!--								for="discover_solutions">--><?php //esc_html_e( 'Practical Solutions', 'nab-amplify' ); ?><!--</label>-->
-<!--					</div>-->
-<!--					<div class="checkbox-custom">-->
-<!--						<input type="checkbox" id="discover_all" name="attendee_discover[]" value="All of it!"><label-->
-<!--								for="interest_streaming">--><?php //esc_html_e( 'All of it!', 'nab-amplify' ); ?><!--</label>-->
-<!--					</div>-->
-<!--					</p>-->
+					<h4><?php esc_html_e( 'What do you want to discover?' ); ?></h4>
+					<p class="form-row form-row-wide" id="attendee_discover_field">
+					<div class="checkbox-custom">
+						<input type="checkbox" id="discover_trends" name="attendee_discover[]" value="New Trends"><label
+								for="discover_trends"><?php esc_html_e( 'New Trends', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="discover_tech" name="attendee_discover[]" value="Latest Tech"><label
+								for="discover_tech"><?php esc_html_e( 'Latest Tech', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="discover_tools" name="attendee_discover[]" value="New Tools"><label
+								for="discover_tools"><?php esc_html_e( 'New Tools', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="discover_solutions" name="attendee_discover[]" value="Practical Solutions"><label
+								for="discover_solutions"><?php esc_html_e( 'Practical Solutions', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="discover_all" name="attendee_discover[]" value="All of it!"><label
+								for="discover_all"><?php esc_html_e( 'All of it!', 'nab-amplify' ); ?></label>
+					</div>
+					</p>
+
+					<h4><?php esc_html_e( 'Who do you want to meet?' ); ?></h4>
+					<p class="form-row form-row-wide" id="attendee_meet_field">
+					<div class="checkbox-custom">
+						<input type="checkbox" id="meet_others" name="attendee_meet[]" value="Others in my community"><label
+								for="meet_others"><?php esc_html_e( 'Others In My Community', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="meet_perspective" name="attendee_meet[]" value="Someone with a new perspective"><label
+								for="meet_perspective"><?php esc_html_e( 'Someone With a New Perspective', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="meet_partnership" name="attendee_meet[]" value="My next partnership"><label
+								for="meet_partnership"><?php esc_html_e( 'My Next Partnership', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="meet_leaders" name="attendee_meet[]" value="High profile leaders"><label
+								for="meet_leaders"><?php esc_html_e( 'High Profile Leaders', 'nab-amplify' ); ?></label>
+					</div>
+					<div class="checkbox-custom">
+						<input type="checkbox" id="meet_inspire" name="attendee_meet[]" value="Anyone who will inspire me!"><label
+								for="meet_inspire"><?php esc_html_e( 'Anyone who will inspire me!', 'nab-amplify' ); ?></label>
+					</div>
+					</p>
 
 				</div>
 
