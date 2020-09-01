@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-css": "node-sass --include-path scss sass/style.scss ../style.css --output-style compressed",
-    "build-js": "browserify js/**.js>../js/scripts.js",
-    "build": "npm run build-css && npm run build-js",
+    "build": "npm run build-css",
     "start": "nodemon -e js,scss -x \"npm run build\" "
   },
   "author": "",

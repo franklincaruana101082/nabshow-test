@@ -17,7 +17,7 @@ $posts_per_page = get_option( 'posts_per_page' );
 ?>
 	<div id="internal-banner" class="wp-block-nab-multipurpose-gutenberg-block has-full is-block-center has-background-size has-background-opacity has-background-opacity-50" style="background-image:url(https://nabshow.com/ny2020/wp-content/uploads/sites/5/2020/05/homepage-hero.jpg);margin-top:-40px;margin-bottom:0px">
 		<div class="wp-block-nab-multipurpose-gutenberg-block has-fixed is-block-center" style="padding-top:40px;padding-bottom:20px">
-			<h1 style="color:#ffffff;margin-top:0px;margin-bottom:10px;margin-left:0px;margin-right:0px;padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;text-align:left;font-family:Josefin Sans" class="title nab-title">News Releases</h1>
+			<h1 style="color:#ffffff" class="title nab-title">News Releases</h1>
 		</div>
 	</div>
 
