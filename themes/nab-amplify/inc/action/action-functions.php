@@ -529,3 +529,20 @@ function nab_header_scripts() {
 	<!-- End Google Tag Manager -->
 	<?php
 }
+
+/**
+ * User sync on WooCommerce Registration
+ *
+ * @param $customer_id
+ * @param $new_customer_data
+ * @param $password_generated
+ */
+function nab_user_registration_sync( $customer_id, $new_customer_data, $password_generated ) {
+	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
+
+	foreach ( $sites as $site ) {
+		if ( isset( $customer_id ) && ! empty( $customer_id ) && false === is_user_member_of_blog( $customer_id, $site ) ) {
+			add_user_to_blog( $site, $customer_id, 'subscriber' );
+		}
+	}
+}

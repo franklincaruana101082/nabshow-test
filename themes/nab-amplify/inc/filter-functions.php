@@ -7,41 +7,21 @@
  */
 function nab_registration_redirect() {
 
-	$current_items = array();
-	$items         = WC()->cart->get_cart();
-	foreach ( $items as $item => $values ) {
-		$product_id   = $values['product_id'];
-		$quantity     = $values['quantity'];
-		$variation_id = $values['variation_id'];
-
-		$current_items[ $product_id ] = array(
-			'product_id'   => $product_id,
-			'quantity'     => $quantity,
-			'variation_id' => $variation_id,
-		);
-	}
-
-	WC()->cart->empty_cart();
-
-	foreach ( $current_items as $item ) {
-		WC()->cart->add_to_cart( $item['product_id'], $item['quantity'], $item['variation_id'] );
-	}
-
-	wp_logout();
-
-	$checkout_url = wc_get_page_permalink( 'checkout' );
 	if ( isset( $_POST['checkout_redirect'] ) && ! empty( isset( $_POST['checkout_redirect'] ) ) ) {
+		$checkout_url = wc_get_page_permalink( 'checkout' );
 		$args = array(
 			'nab_registration_complete' => 'true',
 			'r'                         => $checkout_url,
 		);
+		$redirect_url = wc_get_page_permalink( 'checkout' );
 	} else {
 		$args = array(
 			'nab_registration_complete' => 'true',
 		);
+		$redirect_url = wc_get_page_permalink('shop');
 	}
 
-	return add_query_arg( $args, wc_get_page_permalink( 'myaccount' ) );
+	return $redirect_url;
 }
 
 /**
