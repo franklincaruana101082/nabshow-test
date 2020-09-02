@@ -57,7 +57,7 @@ if ( $additional_content ) {
 }
 ?>
 	<p>We look forward to connecting with you virtually. If there is anything we can help with in the meantime please let us know <a href="mailto:register@nab.org">register@nab.org</a>.</p>
-	<p>Your NAB Team</p>
+	<p><strong>Your NAB Team</strong></p>
 <?php
 /*
  * @hooked WC_Emails::email_footer() Output the email footer
