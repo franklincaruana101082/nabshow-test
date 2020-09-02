@@ -9,16 +9,16 @@ function nab_registration_redirect() {
 
 	if ( isset( $_POST['checkout_redirect'] ) && ! empty( isset( $_POST['checkout_redirect'] ) ) ) {
 		$checkout_url = wc_get_page_permalink( 'checkout' );
-		$args = array(
+		$args         = array(
 			'nab_registration_complete' => 'true',
 			'r'                         => $checkout_url,
 		);
 		$redirect_url = wc_get_page_permalink( 'checkout' );
 	} else {
-		$args = array(
+		$args         = array(
 			'nab_registration_complete' => 'true',
 		);
-		$redirect_url = wc_get_page_permalink('shop');
+		$redirect_url = wc_get_page_permalink( 'shop' );
 	}
 
 	return $redirect_url;
@@ -85,10 +85,13 @@ function nab_custom_billing_fields( $billing_fields ) {
 		return $billing_fields;
 	}
 
+
 	$billing_fields['billing_phone']['required']   = false;
 	$billing_fields['billing_postcode']['label']   = 'Zip Code';
 	$billing_fields['billing_first_name']['label'] = 'First Name';
 	$billing_fields['billing_last_name']['label']  = 'Last Name';
+	$billing_fields['billing_email']['label']      = 'Email the invoice to:';
+	$billing_fields['billing_email']['class'][]    = 'text-transform-initial';
 
 	unset( $billing_fields['billing_phone'] );
 
@@ -232,9 +235,8 @@ function nab_add_login_link_on_checkout_page() {
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-		<a class="checkout-login-link button" href="<?php echo esc_url( $current_site_url ); ?>">Login</a> OR <a class="checkout-signup-link button"
-		                                                                                                         href="<?php echo esc_url( $sign_up_page_url ); ?>">create an
-			account</a> to proceed with your registration.
+		<p>In order to access digital content, you need to have an account. Don't have an account? <a class="checkout-signup-link button" href="<?php echo esc_url(
+				$sign_up_page_url ); ?>">Sign up</a> now.</p>
 	<?php }
 }
 
@@ -408,6 +410,13 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 	return $customer_note;
 }
 
+/**
+ * Custom Email Template for order purchase
+ *
+ * @param $email_classes
+ *
+ * @return mixed
+ */
 function nab_registration_receipt_mail( $email_classes ) {
 
 	// include our custom email class

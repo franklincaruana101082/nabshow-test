@@ -86,7 +86,8 @@ $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 							</div>
 						</div>
 						<div class="nab-signup-now">
-							<h4><?php esc_html_e( 'Already have an account?' ); ?> <a
+							<h4 class="text-transform-initial">In order to access digital content, you need to have an account.</h4>
+							<h4 class="text-transform-initial"><?php esc_html_e( 'Already have an account?' ); ?> <a
 										href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'woocommerce' ); ?></a></h4>
 						</div>
 					</div>

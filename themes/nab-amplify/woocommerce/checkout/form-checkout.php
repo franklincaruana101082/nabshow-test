@@ -23,8 +23,6 @@ do_action( 'woocommerce_before_checkout_form', $checkout );
 
 // If checkout registration is disabled and not logged in, the user cannot checkout.
 if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_required() && ! is_user_logged_in() ) {
-	echo esc_html( apply_filters( 'woocommerce_checkout_must_be_logged_in_message', __( 'You must be logged in to checkout.', 'woocommerce' ) ) ) . '<br><br>';
-
 	return;
 }
 
@@ -178,7 +176,7 @@ $billing_phone = get_user_meta( $user_id, 'billing_phone', true );
 					<?php
 					$discover = ( isset( $event_data['attendee_discover'] ) && ! empty( $event_data['attendee_discover'] ) ) ? maybe_unserialize( $event_data['attendee_discover'] ) : [];
 					?>
-					<h4><?php esc_html_e( 'What do you want to discover?' ); ?></h4>
+					<h4 class="text-transform-initial"><?php esc_html_e( 'What do you want to discover?' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_discover_field">
 					<div class="checkbox-custom">
 						<input type="checkbox" id="discover_trends" name="attendee_discover[]"
@@ -210,7 +208,7 @@ $billing_phone = get_user_meta( $user_id, 'billing_phone', true );
 					<?php
 					$meet = ( isset( $event_data['attendee_meet'] ) && ! empty( $event_data['attendee_meet'] ) ) ? maybe_unserialize( $event_data['attendee_meet'] ) : [];
 					?>
-					<h4><?php esc_html_e( 'Who do you want to meet?' ); ?></h4>
+					<h4 class="text-transform-initial"><?php esc_html_e( 'Who do you want to meet?' ); ?></h4>
 					<p class="form-row form-row-wide" id="attendee_meet_field">
 					<div class="checkbox-custom">
 						<input type="checkbox" id="meet_others" name="attendee_meet[]"
