@@ -250,12 +250,6 @@ function filter_nab_amplify_woocommerce_coupon_to_promo( $err ) {
 	return $err;
 }
 
-function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html, $coupon, $discount_amount_html ) {
-	$discount_amount_html = str_replace( 'coupon', 'promo', $discount_amount_html );
-
-	return $discount_amount_html;
-}
-
 /**
  * @param array $shop_query Products query array.
  *

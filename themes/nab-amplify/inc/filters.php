@@ -26,8 +26,6 @@ add_filter( 'woocommerce_coupon_message', 'filter_nab_amplify_woocommerce_coupon
 
 add_filter( 'woocommerce_coupon_error', 'filter_nab_amplify_woocommerce_coupon_to_promo', 10, 3 );
 
-add_filter( 'woocommerce_cart_totals_coupon_html', 'filter_nab_amplify_woocommerce_cart_totals_coupon_html', 10, 3 );
-
 add_filter( 'woocommerce_registration_redirect', 'nab_registration_redirect' );
 
 add_filter( 'woocommerce_get_privacy_policy_text', 'nab_remove_privacy_policy_text', 99, 2 );
