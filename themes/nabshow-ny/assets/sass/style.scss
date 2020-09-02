@@ -251,18 +251,26 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.dark-header.site-header #site-navigation ul.menu>li:last-child {
-		transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
-		-webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
+		// transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
+		// -webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
 	}
 
 	.dark-header.site-header #site-navigation ul.menu>li:last-child>a {
-		padding: 5px 20px !important;
+		padding: 10px 20px !important;
 		background-color: $nab-green !important;
-		font-size: 14px !important;
+		font-size: 20px !important;
 	}
 
 	.sticky.site-header.dark-header #site-navigation ul.menu>li>a {
 		color: #ffffff !important;
+	}
+
+	.sticky.site-header #site-navigation ul.menu>li:last-of-type {
+		padding-top: 0;
+	}
+
+	.sticky.site-header #site-navigation ul {
+		justify-content: flex-start !important;
 	}
 
 	.sticky .header-right.text-right.col-md-2 {
