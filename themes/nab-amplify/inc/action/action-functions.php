@@ -580,6 +580,12 @@ function nab_header_scripts() {
  * @param $password_generated
  */
 function nab_user_registration_sync( $customer_id, $new_customer_data, $password_generated ) {
+
+	$current_user = get_userdata( $customer_id );
+	if ( isset( $current_user ) && ! empty( $current_user ) ) {
+		do_action( 'wp_login', $current_user->user_login, $current_user );
+	}
+
 	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
