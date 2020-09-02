@@ -270,7 +270,8 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.sticky.site-header #site-navigation ul {
-		justify-content: flex-start !important;
+		// justify-content: flex-start !important;
+		padding-right: 80px;
 	}
 
 	.sticky .header-right.text-right.col-md-2 {
@@ -294,13 +295,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	#breadcrumbs * {
 		color: black;
-		// font-family: "Roboto", sans-serif !important;
 		text-transform: uppercase;
 		font-family: 'Josefin Sans', sans-serif;
 		font-weight: bold;
 	}
-
-
 
 	#custom_html-2 {
 		float: right; // Must clean this up. Utility nav.
@@ -309,8 +307,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	.super-menu-icons {
 		margin-right: 16px;
 	}
-
-	
 
 	#masthead .container {
 		max-width: 1440px;
