@@ -67,6 +67,8 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 						       checked/>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 							<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect_url ); ?>">
+						<?php } else { ?>
+							<input type="hidden" name="redirect" value="<?php echo esc_url( wc_get_page_permalink('shop') ); ?>">
 						<?php } ?>
 						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 						<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login"

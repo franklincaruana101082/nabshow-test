@@ -16,6 +16,9 @@ add_action( 'enqueue_block_editor_assets', 'amplify_block_editor_assets' );
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
+/*Redirecting templates.*/
+add_action( 'template_redirect', 'nab_amplify_template_redirect' );
+
 /*Action for add new block categorie.*/
 add_filter( 'block_categories', 'nab_amplify_plugin_block_categories', 10, 2 );
 
@@ -65,3 +68,5 @@ add_action( 'woocommerce_checkout_process', 'nab_attendee_field_process' );
 add_action( 'woocommerce_checkout_update_order_meta', 'nab_save_event_fields', 10, 1 );
 
 add_action( 'wp_head', 'nab_header_scripts' );
+
+add_action( 'woocommerce_created_customer', 'nab_user_registration_sync', 10, 3 );
