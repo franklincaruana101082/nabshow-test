@@ -250,6 +250,19 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	.dark-header.site-header #site-navigation ul.menu>li {
+		max-width: initial;
+		width: initial;
+	}
+
+	.dark-header.site-header #site-navigation ul.menu>li>a {
+		font-size: 14px !important;
+		@include range(lg) {
+			font-size: 18px !important;
+		}
+	}
+
+
 	.dark-header.site-header #site-navigation ul.menu>li:last-child {
 		// transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
 		// -webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
@@ -258,7 +271,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	.dark-header.site-header #site-navigation ul.menu>li:last-child>a {
 		padding: 10px 20px !important;
 		background-color: $nab-green !important;
-		font-size: 20px !important;
+		font-size: 20px;
 	}
 
 	.sticky.site-header.dark-header #site-navigation ul.menu>li>a {
@@ -267,6 +280,14 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	.sticky.site-header #site-navigation ul.menu>li:last-of-type {
 		padding-top: 0;
+	}
+
+	.site-header #site-navigation ul.menu {
+		justify-content: space-between;
+		flex-direction: column;
+		@include range(md) {
+			flex-direction: row;
+		}
 	}
 
 	.sticky.site-header #site-navigation ul {
@@ -291,6 +312,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	.hamburger.show-sm {
 		position: absolute !important;
+	}
+
+	header .header-right .search-form, header .header-right .header-get-updates {
+		top: -500%;
 	}
 
 	#breadcrumbs * {
