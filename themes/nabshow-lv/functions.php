@@ -118,4 +118,4 @@ add_filter( 'allow_subdirectory_install', '__return_true' );
 /**
  * Analytics Settings
  */
-require_once get_stylesheet_directory() . '/inc/segment-ga-prod.php';
+require get_template_directory() . '/inc/segment-ga-prod.php';
