@@ -20,16 +20,6 @@
 	<meta name="google-site-verification" content="bxlFmG3yrAwWFAwi0WI6Bd_V5Ab78-ldZTGAGrgilTQ" />
 	<?php wp_head(); ?>
 
-    <!-- Google Tag Manager -->
-    <script>
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MQKPWN');
-    </script>
-    <!-- End Google Tag Manager -->
-
 	<!-- Dynamic Schema -->
 	<?php $dymanic_schema = get_option( 'dymanic_schema' );
 	if ( ! empty( $dymanic_schema ) ) {
@@ -66,10 +56,6 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQKPWN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <div id="page" class="site">
     <a class="skip-link screen-reader-text" href="#content">
