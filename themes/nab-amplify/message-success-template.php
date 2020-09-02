@@ -352,6 +352,27 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
 
         }
 
+        @media(max-width:480px){
+            #content{
+                padding: 40px;
+            }
+        }
+        @media(max-width:400px){
+            #content{
+                padding: 30px;
+            }
+        }
+        @media(max-width:350px){
+            #content{
+                padding: 20px;
+            }
+        }
+        @media(max-width:350px){
+            #content{
+                padding: 10px;
+            }
+        }
+
     </style>
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">

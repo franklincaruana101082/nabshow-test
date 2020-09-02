@@ -150,7 +150,7 @@ function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $defa
 
 	$user_id       = get_current_user_id();
 	$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
-	if ( $user_image_id ) {
+	if ( $user_image_id && $id_or_email === $user_id ) {
 		$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
 		$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 	}
@@ -170,7 +170,8 @@ function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $defa
 function filter_nab_amplify_get_avatar_url( $url, $id_or_email, $args ) {
 	$user_id       = get_current_user_id();
 	$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
-	if ( $user_image_id ) {
+
+	if ( $user_image_id && $id_or_email === $user_id ) {
 		$url = wp_get_attachment_image_src( $user_image_id )[0];
 	}
 

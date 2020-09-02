@@ -36,7 +36,7 @@ if ( $user ) {
 <?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
 	<p><?php esc_html_e( 'We are so excited to have you join us!', 'nab-amplify' ); ?></p>
 	<p>We look forward to connecting with you virtually. If there is anything, we can help with in the meantime please let us know <a href="mailto:register@nab.org">register@nab.org</a>.</p>
-	<p><?php esc_html_e( 'Your NAB Team', 'nab-amplify' ); ?></p>
+	<p><strong>Your NAB Team</strong></p>
 
 <?php
 /**
