@@ -11,7 +11,15 @@
 		$( window ).on( 'resize', function() {
 			HeaderResponsive();
 		} );
-	} );
+
+		// Remove Billing form if no payment method available/required in checkout.
+		$(document.body).on('updated_checkout', function(){
+			if( 0 === $('ul.wc_payment_methods').length ) {
+				$('.woocommerce-billing-fields').remove();
+			}
+		});
+
+	});
 
 	// on load
 	$( window ).load( function() {
