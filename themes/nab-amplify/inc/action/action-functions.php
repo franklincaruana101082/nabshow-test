@@ -508,6 +508,34 @@ function nab_amplify_template_redirect() {
 }
 
 /**
+ * Update order status processing to completed.
+ *
+ * @param $order_id
+ */
+function nab_amplify_completed_order_after_payment_complete( $order_id ){
+	$order          = wc_get_order( $order_id );
+	$order_status   = $order->get_status();
+	$transaction_id = $order->get_transaction_id();
+	if ( ! empty( $transaction_id ) && 'processing' === strtolower( $order_status ) ) {
+		$order->update_status( 'completed' );
+		$order->save();
+	}
+}
+
+/**
+ * Auto Completed order if total amount is zero and order status is processing.
+ */
+function nab_amplify_completed_zero_order( $order_id ) {
+	if ( ! $order_id ) {
+		return;
+	}
+	$order = wc_get_order( $order_id );
+	if ( '0.00' == $order->get_total() && 'processing' === $order->get_status() ) {
+		$order->update_status( 'completed' );
+	}
+}
+
+/**
  * @param array $file_types Add file types support in file uploads.
  *
  * @return array

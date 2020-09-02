@@ -66,6 +66,10 @@ add_action( 'validate_password_reset', 'nab_reset_password_validation', 10, 2 );
 // Save first name and last name field
 add_action( 'woocommerce_created_customer', 'nab_save_name_fields', 10, 1 );
 
+add_action( 'woocommerce_payment_complete', 'nab_amplify_completed_order_after_payment_complete' );
+
+add_action( 'woocommerce_thankyou', 'nab_amplify_completed_zero_order' );
+
 add_action( 'woocommerce_checkout_process', 'nab_attendee_field_process' );
 
 add_action( 'woocommerce_checkout_update_order_meta', 'nab_save_event_fields', 10, 1 );
