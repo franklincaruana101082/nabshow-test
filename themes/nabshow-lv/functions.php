@@ -113,9 +113,3 @@ if ( function_exists( 'gutenberg_ramp_load_gutenberg' ) ) {
  * @todo can't upload to VIP server it's use for internal server only.
  */
 add_filter( 'allow_subdirectory_install', '__return_true' );
-
-
-/**
- * Analytics Settings
- */
-require get_template_directory() . '/inc/segment-ga-prod.php';
