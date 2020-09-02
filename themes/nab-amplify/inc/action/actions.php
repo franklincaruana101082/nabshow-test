@@ -60,6 +60,9 @@ add_action( 'wp_print_scripts', 'nab_remove_password_strength', 10 );
 // validates reset password form
 add_action( 'validate_password_reset', 'nab_reset_password_validation', 10, 2 );
 
+// Action to add SVG support in file uploads.
+add_action( 'upload_mimes', 'nab_amplify_add_file_types_to_uploads' );
+
 // Save first name and last name field
 add_action( 'woocommerce_created_customer', 'nab_save_name_fields', 10, 1 );
 
