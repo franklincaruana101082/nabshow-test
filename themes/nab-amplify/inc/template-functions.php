@@ -70,10 +70,10 @@ function nab_amplify_import_coupons( WP_REST_Request $request ) {
 
 		$wipe_query = $wpdb->query(
 			$wpdb->prepare( "DELETE a,b,c
-			    FROM wp_posts a
-			    LEFT JOIN wp_term_relationships b
+			    FROM {$wpdb->prefix}posts a
+			    LEFT JOIN {$wpdb->prefix}term_relationships b
 			        ON (a.ID = b.object_id)
-			    LEFT JOIN wp_postmeta c
+			    LEFT JOIN {$wpdb->prefix}postmeta c
 			        ON (a.ID = c.post_id)
 			    WHERE a.post_type = %s", $post_type ) );
 
