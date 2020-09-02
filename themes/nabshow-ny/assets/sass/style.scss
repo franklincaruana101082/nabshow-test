@@ -22,7 +22,9 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
  	// Colors
  	$nab-green: #72bf44;
  	$nab-darkblue: #333367;
- 	$nab-purple: #AB3e97;
+ 	$nab-lightblue: #00b2ba;
+ 	$nab-purple: #ab3e97;
+ 	$nab-yellow: #fdbd3b;
 
 	
 	@import 'lib/helpers';
@@ -101,6 +103,11 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	h1 {
 		font-family: 'Josefin Sans', sans-serif;
+		line-height: 100%;
+	}
+
+	hr {
+		height: 1px;
 	}
 
 	.custom-logo {
@@ -243,19 +250,49 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	.dark-header.site-header #site-navigation ul.menu>li {
+		max-width: initial;
+		width: initial;
+	}
+
+	.dark-header.site-header #site-navigation ul.menu>li>a {
+		font-size: 14px !important;
+		@include range(lg) {
+			font-size: 18px !important;
+		}
+	}
+
+
 	.dark-header.site-header #site-navigation ul.menu>li:last-child {
-		transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
-		-webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
+		// transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
+		// -webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
 	}
 
 	.dark-header.site-header #site-navigation ul.menu>li:last-child>a {
-		padding: 5px 20px !important;
+		padding: 10px 20px !important;
 		background-color: $nab-green !important;
-		font-size: 14px !important;
+		font-size: 20px;
 	}
 
 	.sticky.site-header.dark-header #site-navigation ul.menu>li>a {
 		color: #ffffff !important;
+	}
+
+	.sticky.site-header #site-navigation ul.menu>li:last-of-type {
+		padding-top: 0;
+	}
+
+	.site-header #site-navigation ul.menu {
+		justify-content: space-between;
+		flex-direction: column;
+		@include range(md) {
+			flex-direction: row;
+		}
+	}
+
+	.sticky.site-header #site-navigation ul {
+		// justify-content: flex-start !important;
+		padding-right: 80px;
 	}
 
 	.sticky .header-right.text-right.col-md-2 {
@@ -277,15 +314,26 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		position: absolute !important;
 	}
 
+	header .header-right .search-form, header .header-right .header-get-updates {
+		top: -500%;
+		right: 0px;
+	}
+
+	header .header-right.active .search-form {
+		top: 130px;
+		right: 0px;
+	}
+
+	#menuToggle input.menu-hamburger:checked~.main-navigation .header-right.active .search-form {
+		top: 50px;
+	}
+
 	#breadcrumbs * {
 		color: black;
-		// font-family: "Roboto", sans-serif !important;
 		text-transform: uppercase;
 		font-family: 'Josefin Sans', sans-serif;
 		font-weight: bold;
 	}
-
-
 
 	#custom_html-2 {
 		float: right; // Must clean this up. Utility nav.
@@ -294,8 +342,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	.super-menu-icons {
 		margin-right: 16px;
 	}
-
-	
 
 	#masthead .container {
 		max-width: 1440px;
@@ -370,7 +416,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		font-family: 'Josefin Sans', sans-serif;
 		// font-size: 85px !important;
 		@include range(md) {
-			font-size: 85px;
+			font-size: 70px;
 		}
 
 	}
@@ -593,6 +639,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		font-size: 11px;
 	}
 
+	// News Releases Page
+	.news-release-head {
+		h2 {
+			a {
+				&:hover {
+					color: white;
+				}
+			}
+		}
+	}
 
 
 

@@ -38,6 +38,9 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			add_action( 'wp_ajax_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
 			add_action( 'wp_ajax_nopriv_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
 
+			// Speaker info details ajax.
+			add_action( 'wp_ajax_speaker_popup_details', array( $this, 'mysgb_speaker_popup_details_ajax_callback' ) );
+			add_action( 'wp_ajax_nopriv_speaker_popup_details', array( $this, 'mysgb_speaker_popup_details_ajax_callback' ) );
 		}
 
 		/**
@@ -633,10 +636,44 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 					$session_query->the_post();
 
-					$session_id          = get_the_ID();
-					$date                = get_post_meta( $session_id, 'session_date', true );
-					$start_time          = get_post_meta( $session_id, 'start_time', true );
-					$end_time            = get_post_meta( $session_id, 'end_time', true );
+					$session_id     = get_the_ID();
+					$date           = get_field( 'session_date',  $session_id );
+					$start_time     = get_field( 'start_time',  $session_id );
+					$end_time       = get_field( 'end_time',  $session_id );
+					$schedule_class = 'white_bg';
+					$button_text    = 'Learn More';					
+
+					if ( ! empty( $date ) ) {
+						$current_date   = current_time('Ymd');
+						$session_date   = date_format( date_create( $date ), 'Ymd' );
+						$date1          = new DateTime( $session_date );
+						$now            = new DateTime( $current_date );
+
+						if ( $date1 < $now )  {
+							$schedule_class = 'gray_bg';
+							$button_text    = 'Watch On Demand';
+						} elseif ( $date1 > $now ) {
+							$schedule_class = 'white_bg';
+							$button_text    = 'Learn More';
+						} else if ( $session_date === $current_date ) {
+							
+							$current_time   = current_time('g:i a');                    
+							$time1          = DateTime::createFromFormat('H:i a', $current_time);
+							$time2          = DateTime::createFromFormat('H:i a', $start_time);
+							$time3          = DateTime::createFromFormat('H:i a', $end_time);
+															
+							if ( $time1 > $time2 && $time1 < $time3 ) {
+								$schedule_class = 'green_bg show_desc';
+								$button_text    = 'Tune in Now';
+							} elseif ( $time1 <= $time2) {
+								$schedule_class = 'white_bg';
+								$button_text    = 'Learn More';
+							} elseif ( $time1 >= $time3 ) {
+								$schedule_class = 'gray_bg';
+								$button_text    = 'Watch On Demand';
+							}
+						}
+					}
 
 					if ( ! empty( $date ) ) {
 						$date       = date_format( date_create( $date ), 'l, F j' );
@@ -662,38 +699,43 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
 						$start_time = str_replace(' p.m.', '', $start_time );
 					}
-
-					$more_link 	= get_field( 'link',  $session_id );
-					$more_text 	= get_field( 'label_text',  $session_id );
-					$channel 	= get_field( 'session_channel',  $session_id );													
+										
+					$channel = get_field( 'session_channel',  $session_id );													
 				
-					$result_post[ $i ][ 'post_title' ]    	= get_the_title();					
+					$result_post[ $i ][ 'post_title' ]    	= get_the_title();
+					$result_post[ $i ][ 'post_link' ]    	= get_the_permalink();										
 					$result_post[ $i ][ 'time' ]     	  	= $start_time . ' - ' . $end_time . ' ET';
-					$result_post[ $i ][ 'post_content' ]  	= get_the_excerpt( $session_id );
-					$result_post[ $i ][ 'more_link' ]		= $more_link;
-					$result_post[ $i ][ 'more_text' ]  		= $more_text;
+					$result_post[ $i ][ 'post_content' ]  	= get_the_excerpt( $session_id );					
+					$result_post[ $i ][ 'more_text' ]  		= $button_text;
 					$result_post[ $i ][ 'channel' ]  		= get_the_title( $channel );
+					$result_post[ $i ][ 'channel_link' ]  	= get_the_permalink( $channel );
 					$result_post[ $i ][ 'pass_name' ]  		= 'Open to Pass Name';
 					$result_post[ $i ][ 'session_date' ]  	= $date;
+					$result_post[ $i ][ 'schedule_class' ]	= $schedule_class;
 					$result_post[ $i ][ 'thumbnail_url' ] 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );
 
 					$rows = get_field( 'speaker_list' );
 
 					if ( $rows ) {
 
-						$final_speakers = array();						
+						$final_speakers = array();												
+						$cnt 			= 0;
 
 						foreach( $rows as $row ) {
 							$speaker_id     	= $row['session_speaker'];
 							$speaker_name  		= get_the_title( $speaker_id );
 							$speaker_name   	= explode(',', $speaker_name, 2);
 							$speaker_name   	= isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
-							$final_speakers[] 	= $speaker_name;							
+							
+							$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+							$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
+
+							$cnt++;
 						}
 
 						if ( count( $final_speakers ) > 0 ) {
 
-							$result_post[ $i ][ 'speakers' ] = 'Featuring: ' . implode( ', ', $final_speakers );
+							$result_post[ $i ][ 'speakers' ] = $final_speakers;
 						}
 					}
 					$i++;
@@ -707,6 +749,27 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 			echo wp_json_encode( $final_result );
 			wp_die();
+		}
+
+		/**
+		 * Return speaker details.
+		 *
+		 * @return json
+		 * @since 1.0.0
+		 */
+		public function mysgb_speaker_popup_details_ajax_callback() {
+			
+			$result_post 	= array();
+			$speaker_id		= filter_input( INPUT_GET, 'speaker_id', FILTER_SANITIZE_NUMBER_INT );
+			$thumbnail_url 	= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
+			
+			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
+			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
+			$result_post[ 'content' ] 		= get_the_excerpt( $speaker_id );
+
+			echo wp_json_encode( $result_post );
+			wp_die();
+
 		}
 
 	}

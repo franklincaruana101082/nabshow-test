@@ -17,6 +17,7 @@ $cache_key      = 'mysgb-session-date-list-' . $posts_per_page . '-' . $filter_t
 
 if ( ! $filter_type && is_array( $channels ) && count( $channels ) > 0 ) {
     $cache_key .= '-' . implode('-', $channels );
+    
 }
 
 $query = get_transient( $cache_key );
@@ -174,17 +175,51 @@ if ( $query->have_posts() ) {
 
             $date_group = '';
             $counter    = 0;
-            $row_count  = 1;
 
             while ( $query->have_posts() ) {
 
                 $query->the_post();
 
                 $session_id     = get_the_ID();
-                $date           = get_post_meta( $session_id, 'session_date', true );
-                $start_time     = get_post_meta( $session_id, 'start_time', true );
-                $end_time       = get_post_meta( $session_id, 'end_time', true );
+                $date           = get_field( 'session_date',  $session_id );
+                $start_time     = get_field( 'start_time',  $session_id );
+                $end_time       = get_field( 'end_time',  $session_id );
                 $session_img    = has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );
+                $schedule_class = 'white_bg';
+                $button_text    = 'Learn More';
+                $session_link   = get_the_permalink();
+
+                if ( ! empty( $date ) ) {
+                    $current_date   = current_time('Ymd');
+                    $session_date   = date_format( date_create( $date ), 'Ymd' );
+                    $date1          = new DateTime( $session_date );
+                    $now            = new DateTime( $current_date );
+
+                    if ( $date1 < $now )  {
+                        $schedule_class = 'gray_bg';
+                        $button_text    = 'Watch On Demand';
+                    } elseif ( $date1 > $now ) {
+                        $schedule_class = 'white_bg';
+                        $button_text    = 'Learn More';
+                    } else if ( $session_date === $current_date ) {
+                        
+                        $current_time   = current_time('g:i a');                    
+                        $time1          = DateTime::createFromFormat('H:i a', $current_time);
+                        $time2          = DateTime::createFromFormat('H:i a', $start_time);
+                        $time3          = DateTime::createFromFormat('H:i a', $end_time);
+                                                         
+                        if ( $time1 > $time2 && $time1 < $time3 ) {
+                            $schedule_class = 'green_bg show_desc';
+                            $button_text    = 'Tune in Now';
+                        } elseif ( $time1 <= $time2) {
+                            $schedule_class = 'white_bg';
+                            $button_text    = 'Learn More';
+                        } elseif ( $time1 >= $time3 ) {
+                            $schedule_class = 'gray_bg';
+                            $button_text    = 'Watch On Demand';
+                        }
+                    }                
+                }
 
                 if ( ! empty( $start_time ) ) {
 
@@ -209,8 +244,7 @@ if ( $query->have_posts() ) {
 
                 if ( $date_group !== $date && $filter_type) {
 
-                    $date_group = $date;
-                    $row_count = 1;
+                    $date_group = $date;                    
 
                     ?>
                     <div class="schedule-data">
@@ -218,7 +252,7 @@ if ( $query->have_posts() ) {
                     <?php 
                 } ?>
 
-                <div class="schedule-row">
+                <div class="schedule-row <?php echo esc_attr( $schedule_class ); ?>">
                     <div class="date">
                         <p><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?> ET</p>
                     </div>
@@ -227,7 +261,7 @@ if ( $query->have_posts() ) {
                     </div>
                     <div class="info">
                         <div class="name">
-                            <h3><?php echo esc_html( get_the_title() ); ?></h3>
+                            <h3><a href="<?php echo esc_url( $session_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h3>
                         </div>
                         <?php
                         if ( $filter_type ) {
@@ -237,7 +271,7 @@ if ( $query->have_posts() ) {
                                 $channel = get_field( 'session_channel',  $session_id );
                                 if ( ! empty( $channel ) ) {
                                     ?>
-                                    <span class="channel-name"><?php echo esc_html( get_the_title( $channel ) ); ?></span>
+                                    <a href="<?php echo esc_url( get_the_permalink( $channel ) ); ?>"><span class="channel-name"><?php echo esc_html( get_the_title( $channel ) ); ?></span></a>
                                     <?php
                                 }
                                 ?>					
@@ -253,54 +287,44 @@ if ( $query->have_posts() ) {
                             
                             if ( $rows ) {
                                 ?>
-                                <span class="session-speaker">Featuring: 
-                                <?php
-                                
-                                $total_speakers = count( $rows );
-                                $cnt            = 1;
-
-                                foreach( $rows as $row ) {
-                                    $speaker_id     = $row['session_speaker'];
-                                    $speaker_name   = get_the_title( $speaker_id );
-                                    $speaker_name   = explode(',', $speaker_name, 2);
-                                    $speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
-                                    if ( $total_speakers !== $cnt ) {
-                                        $speaker_name .= ', ';
+                                <div class="session-speaker">Featuring: 
+                                    <ul>
+                                    <?php                                    
+                                    foreach( $rows as $row ) {
+                                        $speaker_id     = $row['session_speaker'];
+                                        $speaker_name   = get_the_title( $speaker_id );
+                                        $speaker_name   = explode(',', $speaker_name, 2);
+                                        $speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+                                        ?>
+                                        <li><a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $speaker_id ); ?>"><?php echo esc_html( $speaker_name ); ?></a></li>
+                                        <?php
                                     }
-                                    echo esc_html( $speaker_name );
-                                    $cnt++;
-                                }
-                            ?>
-                            </span>
+                                    ?>
+                                    </ul>
+                                </div>
                             <?php
                             }
                             ?>
                         </div>
                     </div>
-                    <div class="more-details-link">
-                        <?php
-                        $more_link = get_field( 'link',  $session_id );
-                        $more_text = get_field( 'label_text',  $session_id );
-                        ?>
-                        <a href="<?php echo esc_url( ! empty( $more_link ) ? $more_link : '#' ); ?>"><?php echo esc_html( ! empty( $more_text ) ? $more_text : 'Learn More' ); ?></a>
+                    <div class="more-details-link">                        
+                        <a href="<?php echo esc_url( $session_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
                     </div>
                 </div>
                 <?php
                 $counter++;
-                $next_post_date = isset( $query->posts[$counter]->ID ) ? get_post_meta( $query->posts[$counter]->ID, 'session_date', true ) : '';
+                $next_post_date = isset( $query->posts[$counter]->ID ) ? get_field( 'session_date', $query->posts[$counter]->ID ) : '';
 
                 if ( $date_group !== $next_post_date && $filter_type ) {
                 ?>
                     </div>
                 <?php
                 }
-
-                $row_count++;
-            }            
+            }
             ?>
         </div>
         <?php
-        if ( $filter_type ) {
+        if ( $filter_type && $query->max_num_pages > 1 ) {
             $result_style = $query->have_posts() ? 'display: none;' : 'display: block;';
         ?>
             <p class="no-data" style="<?php echo esc_attr( $result_style ); ?>">Result not found.</p>

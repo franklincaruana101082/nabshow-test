@@ -1,0 +1,357 @@
+# Loco Gettext template
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Segment.com Connector 1.9.2\n"
+"Report-Msgid-Bugs-To: https://www.storeapps.org/support/contact-us/\n"
+"POT-Creation-Date: 2019-11-13 06:09+0000\n"
+"POT-Revision-Date: Thu May 24 2018 10:55:16 GMT+0530 (IST)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: StoreApps <support@storeapps.org>\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: includes/class-wc-segmentio-connector.php:49
+msgid "Segment.com Connector"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:50
+msgid ""
+"Segment.com Connector lets you send your analytics data to any service you "
+"want, without you having to integrate with each one individually."
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:416
+msgid "Payment started"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:420
+#: includes/class-wc-segmentio-connector.php:1290
+msgid "Order received"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:424
+#: includes/class-wc-segmentio-connector.php:1291
+msgid "Add payment method"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:428
+msgid "Viewed order"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:432
+#: includes/class-wc-segmentio-connector.php:1293
+msgid "Edit account"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:436
+#: includes/class-wc-segmentio-connector.php:1294
+msgid "Edit address"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:440
+#: includes/class-wc-segmentio-connector.php:1295
+msgid "Lost password"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:444
+#: includes/class-wc-segmentio-connector.php:1265
+msgid "Logged out"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:761
+msgid "Viewed Home Page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:763
+msgid " Page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:778
+msgid "Viewed product archive page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:779
+msgid "Products"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:781
+msgid "Viewed product category page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:786
+msgid "Product Category"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:790
+msgid "Viewed product tag page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:795
+msgid "Product Tag"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:802
+msgid "Viewed Author Page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:804
+msgid "Author"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:806
+msgid "Viewed Tag Page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:808
+msgid "Tag"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:810
+msgid "Viewed Category Page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:812
+msgid "Category"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:833
+msgid "Viewed Search Page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1262
+msgid "Registration form"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1263
+msgid "New user registered"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1264
+msgid "Logged in"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1266
+msgid "Viewed account"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1267
+msgid "Password changed"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1268
+msgid "Address updated"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1269
+msgid "Track post"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1270
+msgid "Track page"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1271
+msgid "Track archive"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1272
+msgid "Track search"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1273
+msgid "Product Viewed"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1274
+msgid "Product Added"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1275
+msgid "Product Removed"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1276
+msgid "Cart Viewed"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1277
+msgid "Coupon applied"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1278
+msgid "Checkout Started"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1279
+msgid "Calculated shipping"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1280
+msgid "Payment Info Entered"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1281
+msgid "Order Completed"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1282
+msgid "Order Viewed"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1283
+msgid "Tracked order"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1284
+msgid "File downloaded"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1285
+msgid "Re-ordered"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1286
+msgid "Order cancelled"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1287
+msgid "Commented"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1288
+msgid "Reviewed product"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1289
+msgid "Pay"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1292
+msgid "View order"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1296
+msgid "Logout"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1303
+msgid "API settings"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1304
+msgid "Enter your API key to start tracking."
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1309
+msgid "API key"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1310
+msgid ""
+"Log into your Segment account and go to Site Settings. Leave blank to "
+"disable tracking."
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1315
+msgid "User roles"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1316
+msgid "Configurations for user role."
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1321
+msgid "Users to Ignore"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1322
+msgid "Users of the role you select and higher will be ignored."
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1326
+msgid "No One"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1327
+msgid "Administrators and Up"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1328
+msgid "Editors and Up"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1329
+msgid "Authors and Up"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1330
+msgid "Contributors and Up"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1331
+msgid "Everyone!"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1335
+msgid "Intercom API secret"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1336
+msgid ""
+"Enter your Intercom API key here to use Secure Mode. Your Intercom API key "
+"is found in Intercom’s secure mode setup guide."
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1341
+msgid "Event names currently being tracked"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1440
+msgid "Settings"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1441
+msgid "Docs"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1442
+msgid "Support"
+msgstr ""
+
+#: includes/class-wc-segmentio-connector.php:1443
+msgid "Review"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Segment.com Connector"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Tracks WooCommerce's activity and sends it to Segment.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://woocommerce.com/products/segment-io-integration/"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StoreApps"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.storeapps.org/"
+msgstr ""

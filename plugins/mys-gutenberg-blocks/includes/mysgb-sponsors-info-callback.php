@@ -8,17 +8,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-$page_id    = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pageId' ] ) ? $attributes[ 'pageId' ] : get_the_ID();
-$item_limit = isset( $attributes[ 'itemToFetch' ] ) && ! empty( $attributes[ 'itemToFetch' ] ) ? $attributes[ 'itemToFetch' ] : 2;
-$class_name = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+$page_id        = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pageId' ] ) ? $attributes[ 'pageId' ] : get_the_ID();
+$item_limit     = isset( $attributes[ 'itemToFetch' ] ) && ! empty( $attributes[ 'itemToFetch' ] ) ? $attributes[ 'itemToFetch' ] : 2;
+$block_title    = isset( $attributes[ 'blockTitle' ] ) && ! empty( $attributes[ 'blockTitle' ] ) ? $attributes[ 'blockTitle' ] : 'Partners and Sponsors';
+$class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 ?>
 <div class="nabny-sidebar-partners-block-outer <?php echo esc_attr( $class_name ); ?>">
-    <h3>Partners and Sponsors</h3>
+    <h3><?php echo esc_html( $block_title ); ?></h3>
     <?php
     
     if ( ! empty( $page_id ) ) {
         
-        $rows = get_field('add_sponsor_logos');
+        $rows = get_field('add_sponsor_logos', $page_id);
         
         if ( $rows ) {
             ?>
