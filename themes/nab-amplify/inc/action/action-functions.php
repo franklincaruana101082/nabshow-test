@@ -508,6 +508,20 @@ function nab_amplify_template_redirect() {
 }
 
 /**
+ * @param array $file_types Add file types support in file uploads.
+ *
+ * @return array
+ */
+function nab_amplify_add_file_types_to_uploads( $file_types ) {
+	if( is_user_logged_in() && current_user_can('administrator') ) {
+		$new_filetypes        = array();
+		$new_filetypes['csv'] = 'text/csv';
+		$file_types           = array_merge( $file_types, $new_filetypes );
+	}
+	return $file_types;
+}
+
+/**
  * Header Scripts
  */
 function nab_header_scripts() {
@@ -531,20 +545,6 @@ function nab_header_scripts() {
 }
 
 /**
- * @param array $file_types Add file types support in file uploads.
- *
- * @return array
- */
-function nab_amplify_add_file_types_to_uploads( $file_types ) {
-	if( is_user_logged_in() && current_user_can('administrator') ) {
-		$new_filetypes        = array();
-		$new_filetypes['csv'] = 'text/csv';
-		$file_types           = array_merge( $file_types, $new_filetypes );
-	}
-	return $file_types;
-}
-
-/**
  * User sync on WooCommerce Registration
  *
  * @param $customer_id
@@ -552,12 +552,6 @@ function nab_amplify_add_file_types_to_uploads( $file_types ) {
  * @param $password_generated
  */
 function nab_user_registration_sync( $customer_id, $new_customer_data, $password_generated ) {
-
-	$current_user = get_userdata( $customer_id );
-	if ( isset( $current_user ) && ! empty( $current_user ) ) {
-		do_action( 'wp_login', $current_user->user_login, $current_user );
-	}
-
 	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
