@@ -48,53 +48,6 @@ function nab_amplify_get_user_images() {
 	return $user_images;
 }
 
-add_action( 'rest_api_init', 'nab_amplify_rest_points');
-function nab_amplify_rest_points() {
-	register_rest_route(
-		'import', '/coupons', array(
-			'methods'  => 'GET',
-			'callback' => 'nab_amplify_import_coupons',
-		)
-	);
-}
-
-function nab_amplify_import_coupons( WP_REST_Request $request ) {
-
-	$parameters    = $request->get_params();
-	$attachment_id = isset( $parameters['attachment_id'] ) ? $parameters['attachment_id'] : '';
-	$filepath      = get_attached_file( $attachment_id );
-	$post_type     = 'shop_coupon';
-
-	$file         = fopen( $filepath, 'r' );
-	$import_count = 0;
-	while ( ( $line = fgetcsv( $file ) ) !== false ) {
-
-
-		if ( ! get_page_by_title( $line[0], OBJECT, $post_type ) ) {
-			$inserted_id = wp_insert_post( array(
-				'post_title'   => $line[0],
-				'post_type'    => $post_type,
-				'post_content' => $line[1],
-				'post_status'  => 'publish',
-				'meta_input'   => array(
-					'discount_type' => $line[2],
-					'coupon_amount' => $line[3],
-					'product_ids'   => $line[4]
-				)
-			) );
-			$import_count ++;
-			echo "'$line[0]' coupon added successfully [$inserted_id].\n";
-		} else {
-			echo "'$line[0]' coupon already exist.\n";
-		}
-	}
-
-	echo "\n\nTotal $import_count coupons imported successfully!";
-
-	return;
-
-}
-
 /**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
