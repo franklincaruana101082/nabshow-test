@@ -512,7 +512,7 @@ function nab_amplify_template_redirect() {
  *
  * @param $order_id
  */
-function nab_amplify_completed_order_after_payment_complete( $order_id ){
+function nab_amplify_completed_order_after_payment_complete( $order_id ) {
 	$order          = wc_get_order( $order_id );
 	$order_status   = $order->get_status();
 	$transaction_id = $order->get_transaction_id();
@@ -530,6 +530,7 @@ function nab_amplify_completed_zero_order( $order_id ) {
 		return;
 	}
 	$order = wc_get_order( $order_id );
+
 	if ( '0.00' == $order->get_total() && 'processing' === $order->get_status() ) {
 		$order->update_status( 'completed' );
 	}
@@ -541,11 +542,12 @@ function nab_amplify_completed_zero_order( $order_id ) {
  * @return array
  */
 function nab_amplify_add_file_types_to_uploads( $file_types ) {
-	if( is_user_logged_in() && current_user_can('administrator') ) {
+	if ( is_user_logged_in() && current_user_can( 'administrator' ) ) {
 		$new_filetypes        = array();
 		$new_filetypes['csv'] = 'text/csv';
 		$file_types           = array_merge( $file_types, $new_filetypes );
 	}
+
 	return $file_types;
 }
 

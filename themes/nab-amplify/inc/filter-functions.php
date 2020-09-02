@@ -412,3 +412,15 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 
 	return $customer_note;
 }
+
+function nab_registration_receipt_mail( $email_classes ) {
+
+	// include our custom email class
+	require_once get_template_directory() . '/inc/nab-registration-receipt-mail.php';
+
+	// add the email class to the list of email classes that WooCommerce loads
+	$email_classes['WC_Registration_Receipt_Email'] = new WC_Registration_Receipt_Email();
+
+	return $email_classes;
+
+}

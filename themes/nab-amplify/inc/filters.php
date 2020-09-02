@@ -49,3 +49,5 @@ add_filter( 'woocommerce_enable_order_notes_field', '__return_false', 9999 );
 add_filter( 'ae_pppf_comment1_parameter', 'nab_pppf_custom_parameter', 10, 2);
 
 add_filter( 'ae_pppf_comment2_parameter', 'nab_pppf_comment2_parameter', 10, 2);
+
+add_filter( 'woocommerce_email_classes', 'nab_registration_receipt_mail' );
