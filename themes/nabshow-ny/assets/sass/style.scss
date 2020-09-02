@@ -316,6 +316,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	header .header-right .search-form, header .header-right .header-get-updates {
 		top: -500%;
+		right: 0px;
+	}
+
+	header .header-right.active .search-form {
+		top: 130px;
+		right: 0px;
+	}
+
+	#menuToggle input.menu-hamburger:checked~.main-navigation .header-right.active .search-form {
+		top: 50px;
 	}
 
 	#breadcrumbs * {
