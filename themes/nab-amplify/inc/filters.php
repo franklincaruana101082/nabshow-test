@@ -6,25 +6,29 @@ add_filter( 'get_avatar_url', 'filter_nab_amplify_get_avatar_url', 10, 5 );
 
 add_filter( 'query_vars', 'nab_amplify_custom_menu_query_vars', 0 );
 
-add_filter( 'the_password_form', 'nab_apmlify_the_password_form' );
+add_filter( 'the_password_form', 'nab_apmlify_the_password_form', 10, 3 );
 
-add_filter( 'woocommerce_account_menu_items', 'nab_amplify_update_my_account_menu_items' );
+add_filter( 'woocommerce_account_menu_items', 'nab_amplify_update_my_account_menu_items', 10, 3 );
 
-add_filter('woocommerce_get_availability', 'nab_amplify_woocommerce_get_availability');
+add_filter( 'woocommerce_get_availability', 'nab_amplify_woocommerce_get_availability', 10, 3 );
 
-add_filter( 'woocommerce_product_stock_status_options', 'nab_amplify_woocommerce_product_stock_status_options' );
+add_filter( 'woocommerce_product_stock_status_options', 'nab_amplify_woocommerce_product_stock_status_options', 10, 3 );
 
-add_filter( 'woocommerce_inventory_settings', 'nab_amplify_woocommerce_inventory_settings' );
+add_filter( 'woocommerce_inventory_settings', 'nab_amplify_woocommerce_inventory_settings', 10, 3 );
 
-add_filter( 'woocommerce_admin_reports', 'nab_amplify_woocommerce_admin_reports' );
+add_filter( 'woocommerce_admin_reports', 'nab_amplify_woocommerce_admin_reports', 10, 3 );
 
-add_filter( 'woocommerce_admin_stock_html', 'nab_amplify_woocommerce_admin_stock_html' );
+add_filter( 'woocommerce_admin_stock_html', 'nab_amplify_woocommerce_admin_stock_html', 10, 3 );
 
-add_filter( 'woocommerce_product_query_tax_query', 'filter_nab_amplify_hide_shop_categories');
+add_filter( 'woocommerce_product_query_tax_query', 'filter_nab_amplify_hide_shop_categories' );
 
 add_filter( 'woocommerce_coupon_message', 'filter_nab_amplify_woocommerce_coupon_to_promo', 10, 3 );
 
 add_filter( 'woocommerce_coupon_error', 'filter_nab_amplify_woocommerce_coupon_to_promo', 10, 3 );
+
+add_filter( 'woocommerce_cart_totals_coupon_label', 'nab_amplify_woocommerce_cart_totals_coupon_label', 10, 3 );
+
+add_filter( 'woocommerce_cart_totals_coupon_html', 'filter_nab_amplify_woocommerce_cart_totals_coupon_html', 10, 3 );
 
 add_filter( 'woocommerce_registration_redirect', 'nab_registration_redirect' );
 
@@ -44,8 +48,8 @@ add_filter( 'woocommerce_add_to_cart_fragments', 'nab_cart_count_fragments', 10,
 
 add_filter( 'woocommerce_enable_order_notes_field', '__return_false', 9999 );
 
-add_filter( 'ae_pppf_comment1_parameter', 'nab_pppf_custom_parameter', 10, 2);
+add_filter( 'ae_pppf_comment1_parameter', 'nab_pppf_custom_parameter', 10, 2 );
 
-add_filter( 'ae_pppf_comment2_parameter', 'nab_pppf_comment2_parameter', 10, 2);
+add_filter( 'ae_pppf_comment2_parameter', 'nab_pppf_comment2_parameter', 10, 2 );
 
 add_filter( 'woocommerce_email_classes', 'nab_registration_receipt_mail' );

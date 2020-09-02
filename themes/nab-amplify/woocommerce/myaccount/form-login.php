@@ -68,7 +68,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 							<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect_url ); ?>">
 						<?php } else { ?>
-							<input type="hidden" name="redirect" value="<?php echo esc_url( wc_get_page_permalink('shop') ); ?>">
+							<input type="hidden" name="redirect" value="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
 						<?php } ?>
 						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 						<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login"
@@ -98,7 +98,8 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		}
 		?>
 		<div class="nab-signup-now">
-            <h4>In order to access digital content, you'll need to first create an account. Please <a href="<?php echo esc_url( $sign_up_page_url ); ?>"><?php esc_html_e( 'Sign Up below', 'woocommerce' ); ?></a> and then continue to purchase your passes.</h4>
+			<h4 class="text-transform-initial">In order to access digital content, you need to have an account.</h4>
+			<h4 class="text-transform-initial">Don't have an account? <a href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a> now.</h4>
 		</div>
 
 
