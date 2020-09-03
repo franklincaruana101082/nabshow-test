@@ -118,7 +118,6 @@ function nab_amplify_import_coupons( WP_REST_Request $request ) {
 
 		$posts = get_posts([
 			'post_type' => $post_type,
-			'post_status' => 'publish',
 			'numberposts' => -1
 			// 'order'    => 'ASC'
 		]);
