@@ -7,7 +7,7 @@ Author URI: https://nabshow.com
 Description: Child theme of the Getwid Base theme for rapid prototyping development sites. Customized to work with VIP-Go mulitsites.
 Tags: one-column,full-width-template,custom-background,custom-header,custom-menu,editor-style,featured-images,flexible-header,microformats,rtl-language-support,sticky-post,threaded-comments,translation-ready,blog,custom-logo,block-styles
 Version: 1.0.0.1596154169
-Updated: 2020-07-31 00:09:29
+Updated: 2020-09-03 11:10:29
 
 */
 
@@ -203,9 +203,9 @@ p { margin: 1.5em 0; }
 .partner {
   display: inline-block;
   width: 100%;
-  font-size: 18px;
-  text-align: left;
-  background-color: #f3f3f3;
+  /* font-size: 18px; */
+  text-align: right;
+  background-color: #ffffff;
   padding-left: 20px;
   padding-bottom: 10px;
   padding-top: 0px;
@@ -248,6 +248,12 @@ p { margin: 1.5em 0; }
   vertical-align: text-top;
 }
 
+.panelist {
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
 div div h1 {
   /* padding-bottom: 0px:
   margin:0; */
@@ -276,9 +282,53 @@ h1.has-text-align-center {
     margin-bottom: 1em;
 }
 
-/* .is-style-default {
-  display: inline-block;
+
+
+/* Broadstreet Ad Zones */
+
+.page-id-78 broadstreet-zone {
+    text-align: center;
+}
+
+/* Live Event Page Elements Adjustments ------- */
+
+.showandtell {
+	display: none;
+}
+
+.playerbumper {
+	margin: 0 0 0em;
+}
+
+h2.has-text-align-center {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+div.wp-block-columns {
+	margin: 0 0 0 0em;
+}
+
+.wp-block-column {
+	margin-bottom: 0.5em;
+}
+
+.wp-block-image.is-style-rounded figure {
+    margin-top: 10px;
+}
+
+
+.credit {
+  font-size:12px;
+  margin-top: -20px;
+  display: inline;
+  /* vertical-align: bottom; */
+ }
+
+/* .partnerlogo {
+display:flex;
 } */
+
 
 
 
@@ -306,6 +356,10 @@ body.single-tribe_events.postid-42 .tribe-events-back {
 button.tribe-button.tribe-button--rsvp {
   background-color: #047db9;
   color: #FFFFFF;
+}
+
+tr.tribe-tickets-order_status-row {
+    display: none;
 }
 
 
@@ -354,6 +408,7 @@ footer.site-footer .site-info a a:hover {
 
 .wp-block-social-links {
 	align-items: baseline;
+
 	/* margin-left: -1px; */
 }
 
@@ -390,16 +445,9 @@ section.widget_custom_html{margin:0} */
 
 /* Homepage Elements Adjustments ------- */
 
-.partner { padding: 20px;}
-
-.wp-block-image.is-style-rounded figure {
-    margin-top: 10px;
+broadstreet-zone-container {
+    margin-bottom: 0 !important;
 }
-
-
-/* Live Event Page Elements Adjustments ------- */
-
-.credit { font-size:12px; margin-top: -10px }
 
 
 /* Admin Adjustments ------- */
