@@ -18,8 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( WC()->cart->needs_payment() ) {
-	?>
+?>
     <div class="woocommerce-billing-fields">
 		<?php if ( wc_ship_to_billing_address_only() && WC()->cart->needs_shipping() ) : ?>
 
@@ -51,8 +50,7 @@ if ( WC()->cart->needs_payment() ) {
 		<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
     </div>
 
-	<?php
-}
+<?php
 
 if ( ! is_user_logged_in() && $checkout->is_registration_enabled() ) : ?>
     <div class="woocommerce-account-fields">
