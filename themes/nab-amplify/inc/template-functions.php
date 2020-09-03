@@ -126,6 +126,7 @@ function nab_amplify_import_coupons( WP_REST_Request $request ) {
 		$data = $status_count = array();
 		foreach ( $posts as $post ) {
 			$metas = get_post_meta( $post->ID, '', true );
+			$data[$post->ID]['title'] = $post->post_title;
 			$data[$post->ID]['status'] = $post->post_status;
 			$status_count[$post->post_status] = 1;
 			foreach ( $metas as $key => $value ) {
