@@ -117,21 +117,7 @@
 </footer><!-- #colophon -->
 </div><!-- #page -->
 
-<?php wp_footer();
-
-$delete_coupon = filter_input( INPUT_GET, "delete_coupon", FILTER_SANITIZE_STRING );
-if( $delete_coupon ) {
-	$coupon_data = new WC_Coupon($delete_coupon);
-	if(!empty($coupon_data->id))
-	{
-		$deleted = wp_delete_post($coupon_data->id);
-		echo '<pre>';
-		print_r($deleted);
-		die('<br><---died here');
-
-	}
-}
-?>
+<?php wp_footer(); ?>
 
 </body>
 

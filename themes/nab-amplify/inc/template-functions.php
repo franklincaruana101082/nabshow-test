@@ -140,7 +140,6 @@ function nab_amplify_import_coupons( WP_REST_Request $request ) {
 		die('<br><---died here');
 
 
-
 	}
 }
 
