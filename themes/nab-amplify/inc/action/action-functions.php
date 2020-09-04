@@ -448,6 +448,14 @@ function nab_attendee_field_process() {
 		wc_add_notice( __( 'Please enter Attendee Country.' ), 'error' );
 	}
 
+	if ( ! isset( $_POST['attendee_partner_opt_in'] ) || empty( $_POST['attendee_partner_opt_in'] ) ) {
+		wc_add_notice( __( 'Please choose your preference for Partner Communications opt in.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_exhibition_sponsors_opt_in'] ) || empty( $_POST['attendee_exhibition_sponsors_opt_in'] ) ) {
+		wc_add_notice( __( 'Please choose your preference for Exhibitor/Sponsor Communications opt in.' ), 'error' );
+	}
+
 	if ( ! isset( $_POST['attendee_tos_agree'] ) || 'yes' !== $_POST['attendee_tos_agree'] ) {
 		wc_add_notice( __( 'You must agree with Terms and Privacy Policy.' ), 'error' );
 	}

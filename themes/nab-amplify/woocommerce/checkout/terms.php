@@ -26,6 +26,7 @@ if ( apply_filters( 'woocommerce_checkout_show_terms', true ) && function_exists
 		<div class="nab_event_opt_in">
 			<label for="attendee_partner_opt_in_field"><?php esc_html_e( 'Opt in for Partner Communications*', 'nab-amplify' ); ?></label>
 			<select name="attendee_partner_opt_in" id="attendee_partner_opt_in_field" class="woocommerce-select">
+				<option value="">---</option>
 				<option value="yes"><?php esc_html_e( 'Yes', 'nab-amplify' ); ?></option>
 				<option value="no"><?php esc_html_e( 'No', 'nab-amplify' ); ?></option>
 			</select>
@@ -34,6 +35,7 @@ if ( apply_filters( 'woocommerce_checkout_show_terms', true ) && function_exists
 		<div class="nab_event_opt_in">
 			<label for="attendee_exhibition_sponsors_opt_in_field"><?php esc_html_e( 'Opt in for Exhibitor/Sponsor Communications*', 'nab-amplify' ); ?></label>
 			<select name="attendee_exhibition_sponsors_opt_in" id="attendee_exhibition_sponsors_opt_in_field" class="woocommerce-select">
+				<option value="">---</option>
 				<option value="yes"><?php esc_html_e( 'Yes', 'nab-amplify' ); ?></option>
 				<option value="no"><?php esc_html_e( 'No', 'nab-amplify' ); ?></option>
 			</select>
