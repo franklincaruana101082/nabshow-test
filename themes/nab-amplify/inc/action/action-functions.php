@@ -609,6 +609,19 @@ function amplify_register_api_endpoints() {
 		'callback' => 'amplify_get_product_categories',
 	) );
 
+	register_rest_route( 'nab', '/request/get-product-list', array(
+		'methods'  => 'POST',
+		'callback' => 'amplify_get_product_list',
+		'permission_callback' => '__return_true',
+		'args' => array(
+			'term_id' => array(
+				'validate_callback' => function( $param ) {
+					return is_numeric( $param );
+				}
+			),
+		),
+	) );
+
 }
 
 /**
@@ -634,4 +647,58 @@ function amplify_get_product_categories() {
 	}
 
 	return new WP_REST_Response( $return, 200 );
+}
+
+/**
+ * Get all Product list.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_get_product_list( WP_REST_Request $request ) {
+
+	$term_id 	= $request->get_param( 'term_id' );
+	$return 	= array();
+
+	$args = array(
+		'post_per_page' => -1,
+		'post_type'		=> 'product',
+		'orderby'		=> 'title',
+		'fields'		=> 'ids',
+		'order'			=> 'ASC'
+	);
+	
+	if ( ! empty( $term_id ) ) {
+		
+		$args[ 'tax_query' ] = array (
+			array(
+				'taxonomy' 	=> 'product_cat',
+				'field'		=> 'term_id',
+				'terms'		=> $term_id
+			),
+		);
+	}
+
+	$query = new WP_Query( $args );
+
+	if ( $query->have_posts() ) {
+
+		while( $query->have_posts() ) {
+			
+			$query->the_post();
+			
+			$product_id 	= get_the_ID();
+			$product_name	= get_the_title();
+
+			$return[]		= array( 'product_id' => $product_id, 'product_name' => $product_name );
+		}
+	}
+
+	wp_reset_postdata();
+
+	return new WP_REST_Response( $return, 200 );
+
 }
