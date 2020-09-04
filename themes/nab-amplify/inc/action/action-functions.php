@@ -605,7 +605,7 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 function amplify_register_api_endpoints() {
 
 	register_rest_route( 'nab', '/request/get-product-categories', array(
-		'methods'  => 'GET',
+		'methods'  => 'POST',
 		'callback' => 'amplify_get_product_categories',
 	) );
 
