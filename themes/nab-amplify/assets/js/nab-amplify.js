@@ -13,11 +13,14 @@
 		} );
 
 		// Remove Billing form if no payment method available/required in checkout.
-		/*$(document.body).on('updated_checkout', function(){
+		$(document.body).on('updated_checkout', function(){
 			if( 0 === $('ul.wc_payment_methods').length ) {
 				$('.woocommerce-billing-fields').remove();
+			} else if ( 0 === $('.woocommerce-billing-fields').length ) {
+				$('#place_order').attr('disabled');
+				location.reload();
 			}
-		});*/
+		});
 
 	});
 

@@ -14,6 +14,8 @@ add_filter( 'woocommerce_get_availability', 'nab_amplify_woocommerce_get_availab
 
 add_filter( 'woocommerce_product_stock_status_options', 'nab_amplify_woocommerce_product_stock_status_options', 10, 3 );
 
+add_filter( 'woocommerce_checkout_fields' , 'nab_amplify_woocommerce_checkout_fields', 10, 3 );
+
 add_filter( 'woocommerce_inventory_settings', 'nab_amplify_woocommerce_inventory_settings', 10, 3 );
 
 add_filter( 'woocommerce_admin_reports', 'nab_amplify_woocommerce_admin_reports', 10, 3 );

@@ -18,7 +18,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-?>
+$fields = $checkout->get_checkout_fields( 'billing' );
+if( $fields ) { ?>
     <div class="woocommerce-billing-fields">
 		<?php if ( wc_ship_to_billing_address_only() && WC()->cart->needs_shipping() ) : ?>
 
@@ -30,7 +31,9 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php endif; ?>
 
-		<?php do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
+        <?php
+        
+        do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
 
         <div class="checkbox-custom">
             <input type="checkbox" id="nab_billing_same_as_attendee" value="">
@@ -38,19 +41,15 @@ defined( 'ABSPATH' ) || exit;
         </div>
 
         <div class="woocommerce-billing-fields__field-wrapper">
-			<?php
-			$fields = $checkout->get_checkout_fields( 'billing' );
-
-			foreach ( $fields as $key => $field ) {
-				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
-			}
-			?>
+            <?php
+                foreach ( $fields as $key => $field ) {
+                    woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+                }
+            ?>
         </div>
-
-		<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
+        <?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
     </div>
-
-<?php
+<?php }
 
 if ( ! is_user_logged_in() && $checkout->is_registration_enabled() ) : ?>
     <div class="woocommerce-account-fields">

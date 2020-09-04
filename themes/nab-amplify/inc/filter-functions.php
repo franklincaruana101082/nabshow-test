@@ -427,6 +427,18 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 
 	return $customer_note;
 }
+ 
+/**
+ * Update the checkout page form fields.
+ */
+function nab_amplify_woocommerce_checkout_fields( $fields ) {
+	
+	 if( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
+		unset( $fields['billing'] );
+	 }
+     
+     return $fields;
+}
 
 /**
  * Custom Email Template for order purchase
