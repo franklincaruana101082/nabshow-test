@@ -596,3 +596,42 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 		}
 	}
 }
+
+/**
+ * Register custom api endpoints.
+ *
+ * @since 1.0.0
+ */
+function amplify_register_api_endpoints() {
+
+	register_rest_route( 'nab', '/request/get-product-categories', array(
+		'methods'  => 'GET',
+		'callback' => 'amplify_get_product_categories',
+	) );
+
+}
+
+/**
+ * Get product category terms.
+ *
+ * @return WP_REST_Response
+ * @since 1.0.0
+ */
+function amplify_get_product_categories() {
+
+	$return = array();
+
+	//get all terms
+	$terms = get_terms( array(
+		'taxonomy' => 'product_cat',
+		'hide_empty' => true,
+	) );
+
+	//arrange term according to taxonomy
+	foreach ( $terms as $term ) {
+
+		$return[] = array( 'term_id' => $term->term_id, 'name' => $term->name );
+	}
+
+	return new WP_REST_Response( $return, 200 );
+}
