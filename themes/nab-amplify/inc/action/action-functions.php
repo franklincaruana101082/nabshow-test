@@ -607,6 +607,7 @@ function amplify_register_api_endpoints() {
 	register_rest_route( 'nab', '/request/get-product-categories', array(
 		'methods'  => 'POST',
 		'callback' => 'amplify_get_product_categories',
+		'permission_callback' => '__return_true',
 	) );
 
 	register_rest_route( 'nab', '/request/get-product-list', array(
@@ -622,12 +623,36 @@ function amplify_register_api_endpoints() {
 		),
 	) );
 
+	register_rest_route( 'nab', '/request/customer-bought-product', array(
+		'methods'  => 'POST',
+		'callback' => 'amplify_check_user_bought_product',
+		'permission_callback' => '__return_true',
+		'args' => array(
+			'user_email' => array(
+				'validate_callback' => function( $param ) {
+					return is_email( $param );
+				}
+			),
+			'user_id' => array(
+				'validate_callback' => function( $param ) {
+					return is_numeric( $param );
+				}
+			),
+			'product_ids' => array(
+				'validate_callback' => function( $param ) {
+					return is_array( $param );
+				}
+			),
+		),
+	) );
+
 }
 
 /**
  * Get product category terms.
  *
  * @return WP_REST_Response
+ * 
  * @since 1.0.0
  */
 function amplify_get_product_categories() {
@@ -701,4 +726,40 @@ function amplify_get_product_list( WP_REST_Request $request ) {
 
 	return new WP_REST_Response( $return, 200 );
 
+}
+
+
+/**
+ * Check user bought product.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_check_user_bought_product( WP_REST_Request $request ) {
+	
+	$user_email 	= $request->get_param( 'user_email' );
+	$user_id 		= $request->get_param( 'user_id' );
+	$product_ids 	= $request->get_param( 'product_ids' );
+	$return			= array('success' => false );
+	
+	if ( is_array( $product_ids ) && ! empty( $user_email ) && ! empty( $user_id ) ) {
+
+		foreach( $product_ids as $product_id ) {
+			
+			if ( wc_customer_bought_product( $user_email, $user_id, $product_id ) ) {
+				$return[ 'success' ] = true;
+				break;
+			}
+		}
+
+		if ( ! $return[ 'success' ] ) {
+			$return[ 'url' ]	= get_the_permalink( $product_ids[0] );
+			$return[ 'title' ]	= get_the_title( $product_ids[0] );
+		}
+	}	
+
+	return new WP_REST_Response( $return, 200 );
 }
