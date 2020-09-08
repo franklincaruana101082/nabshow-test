@@ -81,7 +81,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          */
         public function ep_restrict_post_content( $content ) {
 
-            global $post;            
+            global $post;
             
             if ( isset( $post->ID ) ) {
 
@@ -148,33 +148,23 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             $prodcut_name       = ! empty( $link ) && ! empty( $text ) ? '<a href="' . $link . '">' . $text . '</a>' : 'this';       
             $restrict_content   = '<p class="restrict-msg">You must have purchase '. $prodcut_name . ' product in order to view full content of the page.</p>';
 
-            if ( has_blocks( $content ) ) {
+            if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
+                
+                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', '', $content);                
+                
+                if ( has_blocks( $final_content ) ) {
+                                        
+                    $ep_content         = parse_blocks( $final_content );
+                    $ep_post_content    = $this->ep_serialize_blocks( $ep_content );
+                    $restrict_content   .= $ep_post_content;
 
-                $ep_blocks          = parse_blocks( $content );
-                $ep_array_search    = array_filter( $ep_blocks, array( $this, 'ep_search_block' ) );
-                $ep_post_content    = $this->ep_serialize_blocks( $ep_array_search );
-                $restrict_content   .= $ep_post_content;
-            }
+                } else {
+                    $restrict_content   .= $final_content;
+                } 
+            }            
 
             return $restrict_content;
-        }
-
-        /**
-         * Search block in the post content using classname.
-         *
-         * @param $block
-         *
-         * @return string
-         *
-         * @since 1.0.0
-         */
-        public function ep_search_block( $block ) {
-
-            if ( isset ( $block[ 'attrs' ][ 'className' ] ) ) {
-
-                return $block[ 'attrs' ][ 'className' ] === 'display-restrict-content';
-            }
-        }
+        }        
 
         /**
          * Renders an HTML-serialized form of a list of block objects.
