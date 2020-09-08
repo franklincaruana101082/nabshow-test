@@ -424,6 +424,12 @@ function nab_save_name_fields( $customer_id ) {
  * Event for validations
  */
 function nab_attendee_field_process() {
+
+	// Return if user is not logged in or is bulk purchase
+	if ( ! is_user_logged_in() || nab_is_bulk_order() ) {
+		return;
+	}
+
 	if ( ! isset( $_POST['attendee_first_name'] ) || empty( $_POST['attendee_first_name'] ) ) {
 		wc_add_notice( __( 'Please enter Attendee First Name.' ), 'error' );
 	}
@@ -448,6 +454,14 @@ function nab_attendee_field_process() {
 		wc_add_notice( __( 'Please enter Attendee Country.' ), 'error' );
 	}
 
+	if ( ! isset( $_POST['attendee_partner_opt_in'] ) || empty( $_POST['attendee_partner_opt_in'] ) ) {
+		wc_add_notice( __( 'Please choose your preference for Partner Communications opt in.' ), 'error' );
+	}
+
+	if ( ! isset( $_POST['attendee_exhibition_sponsors_opt_in'] ) || empty( $_POST['attendee_exhibition_sponsors_opt_in'] ) ) {
+		wc_add_notice( __( 'Please choose your preference for Exhibitor/Sponsor Communications opt in.' ), 'error' );
+	}
+
 	if ( ! isset( $_POST['attendee_tos_agree'] ) || 'yes' !== $_POST['attendee_tos_agree'] ) {
 		wc_add_notice( __( 'You must agree with Terms and Privacy Policy.' ), 'error' );
 	}
@@ -460,41 +474,52 @@ function nab_attendee_field_process() {
  */
 function nab_save_event_fields( $order_id ) {
 
-	// Return if user is not logged in
+	// Return if user is not logged in or is bulk purchase
 	if ( ! is_user_logged_in() ) {
 		return;
 	}
 
-	$user_id = get_current_user_id();
+	if ( nab_is_bulk_order() ) {
+		// save bulk order details
+		update_post_meta( $order_id, '_nab_bulk_order', 'yes' );
+		$nab_bulk_qty = nab_bulk_order_quantity();
+		if ( isset( $nab_bulk_qty ) && ! empty( $nab_bulk_qty ) ) {
+			update_post_meta( $order_id, '_nab_bulk_qty', $nab_bulk_qty );
+		}
+	} else {
+		$user_id = get_current_user_id();
 
-	$event_data = array(
-		'attendee_first_name'                 => ( isset( $_POST['attendee_first_name'] ) && ! empty( $_POST['attendee_first_name'] ) ) ? sanitize_text_field( $_POST['attendee_first_name'] ) : '',
-		'attendee_last_name'                  => ( isset( $_POST['attendee_last_name'] ) && ! empty( $_POST['attendee_last_name'] ) ) ? sanitize_text_field( $_POST['attendee_last_name'] ) : '',
-		'attendee_email'                      => ( isset( $_POST['attendee_email'] ) && ! empty( $_POST['attendee_email'] ) ) ? sanitize_email( $_POST['attendee_email'] ) : '',
-		'attendee_company'                    => ( isset( $_POST['attendee_company'] ) && ! empty( $_POST['attendee_company'] ) ) ? sanitize_text_field( $_POST['attendee_company'] ) : '',
-		'attendee_title'                      => ( isset( $_POST['attendee_title'] ) && ! empty( $_POST['attendee_title'] ) ) ? sanitize_text_field( $_POST['attendee_title'] ) : '',
-		'attendee_country'                    => ( isset( $_POST['attendee_country'] ) && ! empty( $_POST['attendee_country'] ) ) ? sanitize_text_field( $_POST['attendee_country'] ) : '',
-		'attendee_city'                       => ( isset( $_POST['attendee_city'] ) && ! empty( $_POST['attendee_city'] ) ) ? sanitize_text_field( $_POST['attendee_city'] ) : '',
-		'attendee_state'                      => ( isset( $_POST['attendee_state'] ) && ! empty( $_POST['attendee_state'] ) ) ? sanitize_text_field( $_POST['attendee_state'] ) : '',
-		'attendee_zip'                        => ( isset( $_POST['attendee_zip'] ) && ! empty( $_POST['attendee_zip'] ) ) ? sanitize_text_field( $_POST['attendee_zip'] ) : '',
-		'attendee_affiliation'                => ( isset( $_POST['attendee_affiliation'] ) && ! empty( $_POST['attendee_affiliation'] ) ) ? sanitize_text_field( $_POST['attendee_affiliation'] ) : '',
-		'attendee_partner_opt_in'             => ( isset( $_POST['attendee_partner_opt_in'] ) && ! empty( $_POST['attendee_partner_opt_in'] ) ) ? sanitize_text_field( $_POST['attendee_partner_opt_in'] ) : '',
-		'attendee_exhibition_sponsors_opt_in' => ( isset( $_POST['attendee_exhibition_sponsors_opt_in'] ) && ! empty( $_POST['attendee_exhibition_sponsors_opt_in'] ) ) ? sanitize_text_field( $_POST['attendee_exhibition_sponsors_opt_in'] ) : '',
-		'attendee_discover'                   => ( isset( $_POST['attendee_discover'] ) && ! empty( $_POST['attendee_discover'] ) ) ? wp_unslash( $_POST['attendee_discover'] ) : [],
-		'attendee_meet'                       => ( isset( $_POST['attendee_meet'] ) && ! empty( $_POST['attendee_meet'] ) ) ? wp_unslash( $_POST['attendee_meet'] ) : [],
-		'other_interest'                      => ( isset( $_POST['other_interest'] ) && ! empty( $_POST['other_interest'] ) ) ? $_POST['other_interest'] : '',
-		'billing_phone'                       => ( isset( $_POST['billing_phone'] ) && ! empty( $_POST['billing_phone'] ) ) ? sanitize_text_field( $_POST['billing_phone'] ) : '',
-	);
+		$event_data = array(
+			'attendee_first_name'                 => ( isset( $_POST['attendee_first_name'] ) && ! empty( $_POST['attendee_first_name'] ) ) ? sanitize_text_field( $_POST['attendee_first_name'] ) : '',
+			'attendee_last_name'                  => ( isset( $_POST['attendee_last_name'] ) && ! empty( $_POST['attendee_last_name'] ) ) ? sanitize_text_field( $_POST['attendee_last_name'] ) : '',
+			'attendee_email'                      => ( isset( $_POST['attendee_email'] ) && ! empty( $_POST['attendee_email'] ) ) ? sanitize_email( $_POST['attendee_email'] ) : '',
+			'attendee_company'                    => ( isset( $_POST['attendee_company'] ) && ! empty( $_POST['attendee_company'] ) ) ? sanitize_text_field( $_POST['attendee_company'] ) : '',
+			'attendee_title'                      => ( isset( $_POST['attendee_title'] ) && ! empty( $_POST['attendee_title'] ) ) ? sanitize_text_field( $_POST['attendee_title'] ) : '',
+			'attendee_country'                    => ( isset( $_POST['attendee_country'] ) && ! empty( $_POST['attendee_country'] ) ) ? sanitize_text_field( $_POST['attendee_country'] ) : '',
+			'attendee_city'                       => ( isset( $_POST['attendee_city'] ) && ! empty( $_POST['attendee_city'] ) ) ? sanitize_text_field( $_POST['attendee_city'] ) : '',
+			'attendee_state'                      => ( isset( $_POST['attendee_state'] ) && ! empty( $_POST['attendee_state'] ) ) ? sanitize_text_field( $_POST['attendee_state'] ) : '',
+			'attendee_zip'                        => ( isset( $_POST['attendee_zip'] ) && ! empty( $_POST['attendee_zip'] ) ) ? sanitize_text_field( $_POST['attendee_zip'] ) : '',
+			'attendee_affiliation'                => ( isset( $_POST['attendee_affiliation'] ) && ! empty( $_POST['attendee_affiliation'] ) ) ? sanitize_text_field( $_POST['attendee_affiliation'] ) : '',
+			'attendee_partner_opt_in'             => ( isset( $_POST['attendee_partner_opt_in'] ) && ! empty( $_POST['attendee_partner_opt_in'] ) ) ? sanitize_text_field( $_POST['attendee_partner_opt_in'] ) : '',
+			'attendee_exhibition_sponsors_opt_in' => ( isset( $_POST['attendee_exhibition_sponsors_opt_in'] ) && ! empty( $_POST['attendee_exhibition_sponsors_opt_in'] ) ) ? sanitize_text_field( $_POST['attendee_exhibition_sponsors_opt_in'] ) : '',
+			'attendee_discover'                   => ( isset( $_POST['attendee_discover'] ) && ! empty( $_POST['attendee_discover'] ) ) ? wp_unslash( $_POST['attendee_discover'] ) : [],
+			'attendee_meet'                       => ( isset( $_POST['attendee_meet'] ) && ! empty( $_POST['attendee_meet'] ) ) ? wp_unslash( $_POST['attendee_meet'] ) : [],
+			'other_interest'                      => ( isset( $_POST['other_interest'] ) && ! empty( $_POST['other_interest'] ) ) ? $_POST['other_interest'] : '',
+			'billing_phone'                       => ( isset( $_POST['billing_phone'] ) && ! empty( $_POST['billing_phone'] ) ) ? sanitize_text_field( $_POST['billing_phone'] ) : '',
+		);
 
-	$event_data['attendee_interest'] = isset( $_POST['attendee_interest'] ) ? $_POST['attendee_interest'] : [];
-	if ( isset( $_POST['other_interest'] ) && isset( $_POST['attendee_other_interest'] ) && ! empty( $_POST['attendee_other_interest'] ) ) {
-		$event_data['attendee_other_interest'] = sanitize_text_field( $_POST['attendee_other_interest'] );
+		$event_data['attendee_interest'] = isset( $_POST['attendee_interest'] ) ? $_POST['attendee_interest'] : [];
+		if ( isset( $_POST['other_interest'] ) && isset( $_POST['attendee_other_interest'] ) && ! empty( $_POST['attendee_other_interest'] ) ) {
+			$event_data['attendee_other_interest'] = sanitize_text_field( $_POST['attendee_other_interest'] );
+		}
+
+		// Save details to user meta
+		foreach ( $event_data as $key => $val ) {
+			update_user_meta( $user_id, $key, $val );
+		}
+
 	}
 
-	// Save details to user meta
-	foreach ( $event_data as $key => $val ) {
-		update_user_meta( $user_id, $key, $val );
-	}
 }
 
 /**
@@ -597,169 +622,33 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 	}
 }
 
-/**
- * Register custom api endpoints.
- *
- * @since 1.0.0
- */
-function amplify_register_api_endpoints() {
-
-	register_rest_route( 'nab', '/request/get-product-categories', array(
-		'methods'  => 'POST',
-		'callback' => 'amplify_get_product_categories',
-		'permission_callback' => '__return_true',
-	) );
-
-	register_rest_route( 'nab', '/request/get-product-list', array(
-		'methods'  => 'POST',
-		'callback' => 'amplify_get_product_list',
-		'permission_callback' => '__return_true',
-		'args' => array(
-			'term_id' => array(
-				'validate_callback' => function( $param ) {
-					return is_numeric( $param );
-				}
-			),
-		),
-	) );
-
-	register_rest_route( 'nab', '/request/customer-bought-product', array(
-		'methods'  => 'POST',
-		'callback' => 'amplify_check_user_bought_product',
-		'permission_callback' => '__return_true',
-		'args' => array(
-			'user_email' => array(
-				'validate_callback' => function( $param ) {
-					return is_email( $param );
-				}
-			),
-			'user_id' => array(
-				'validate_callback' => function( $param ) {
-					return is_numeric( $param );
-				}
-			),
-			'product_ids' => array(
-				'validate_callback' => function( $param ) {
-					return is_array( $param );
-				}
-			),
-		),
-	) );
-
+function nab_bulk_purchase_cart() {
+	require_once get_template_directory() . '/inc/nab-bulk-purchase.php';
 }
 
 /**
- * Get product category terms.
- *
- * @return WP_REST_Response
- * 
- * @since 1.0.0
+ * Create Attendee Import table
  */
-function amplify_get_product_categories() {
+function nab_create_attendee_table() {
+	global $wpdb;
 
-	$return = array();
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	$charset_collate = $wpdb->get_charset_collate();
 
-	//get all terms
-	$terms = get_terms( array(
-		'taxonomy' => 'product_cat',
-		'hide_empty' => true,
-	) );
+	$nab_attendee = $wpdb->prefix . 'nab_attendee';
+	$sql          = "CREATE TABLE `$nab_attendee` (
+			`id` bigint(20) NOT NULL AUTO_INCREMENT,
+			`parent_user_id` bigint(20) NOT NULL,
+			`order_id` int(10) NOT NULL,
+			`status` int(10) NOT NULL,
+			`first_name` varchar(255) NOT NULL,
+			`last_name` varchar(255) NOT NULL,
+			`email` varchar(255) NOT NULL,
+			`wp_user_id` int(10) NOT NULL,
+			`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+			) {$charset_collate};";
 
-	//arrange term according to taxonomy
-	foreach ( $terms as $term ) {
-
-		$return[] = array( 'term_id' => $term->term_id, 'name' => $term->name );
-	}
-
-	return new WP_REST_Response( $return, 200 );
-}
-
-/**
- * Get all Product list.
- *
- * @param WP_REST_Request $request
- *
- * @return WP_REST_Response
- *
- * @since 1.0.0
- */
-function amplify_get_product_list( WP_REST_Request $request ) {
-
-	$term_id 	= $request->get_param( 'term_id' );
-	$return 	= array();
-
-	$args = array(
-		'post_per_page' => -1,
-		'post_type'		=> 'product',
-		'orderby'		=> 'title',
-		'fields'		=> 'ids',
-		'order'			=> 'ASC'
-	);
-	
-	if ( ! empty( $term_id ) ) {
-		
-		$args[ 'tax_query' ] = array (
-			array(
-				'taxonomy' 	=> 'product_cat',
-				'field'		=> 'term_id',
-				'terms'		=> $term_id
-			),
-		);
-	}
-
-	$query = new WP_Query( $args );
-
-	if ( $query->have_posts() ) {
-
-		while( $query->have_posts() ) {
-			
-			$query->the_post();
-			
-			$product_id 	= get_the_ID();
-			$product_name	= get_the_title();
-
-			$return[]		= array( 'product_id' => $product_id, 'product_name' => $product_name );
-		}
-	}
-
-	wp_reset_postdata();
-
-	return new WP_REST_Response( $return, 200 );
-
-}
-
-
-/**
- * Check user bought product.
- *
- * @param WP_REST_Request $request
- *
- * @return WP_REST_Response
- *
- * @since 1.0.0
- */
-function amplify_check_user_bought_product( WP_REST_Request $request ) {
-	
-	$user_email 	= $request->get_param( 'user_email' );
-	$user_id 		= $request->get_param( 'user_id' );
-	$product_ids 	= $request->get_param( 'product_ids' );
-	$return			= array('success' => false );
-	
-	if ( is_array( $product_ids ) && ! empty( $user_email ) && ! empty( $user_id ) ) {
-
-		foreach( $product_ids as $product_id ) {
-			
-			if ( wc_customer_bought_product( $user_email, $user_id, $product_id ) ) {
-				$return[ 'success' ] = true;
-				break;
-			}
-		}
-
-		if ( ! $return[ 'success' ] ) {
-			$return[ 'url' ]	= get_the_permalink( $product_ids[0] );
-			$return[ 'title' ]	= get_the_title( $product_ids[0] );
-		}
-	}	
-
-	return new WP_REST_Response( $return, 200 );
+	dbDelta( $sql );
 }

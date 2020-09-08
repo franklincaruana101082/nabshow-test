@@ -39,10 +39,10 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 					$sort_url = add_query_arg( array( 'orderby' => $column_id, 'order' => $sort_order ) );
 					?>
 					<th class="woocommerce-orders-table__header woocommerce-orders-table__header-<?php echo esc_attr( $column_id ); ?>"><a
-								href="<?php echo esc_url( $sort_url ); ?>"><span class="nobr"><?php echo esc_html( $column_name ); ?></span></a></th>
+							href="<?php echo esc_url( $sort_url ); ?>"><span class="nobr"><?php echo esc_html( $column_name ); ?></span></a></th>
 				<?php } else { ?>
 					<th class="woocommerce-orders-table__header woocommerce-orders-table__header-<?php echo esc_attr( $column_id ); ?>"><span
-								class="nobr"><?php echo esc_html( $column_name ); ?></span></th>
+							class="nobr"><?php echo esc_html( $column_name ); ?></span></th>
 				<?php } ?>
 			<?php endforeach; ?>
 		</tr>
@@ -88,6 +88,18 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 									echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
 								}
 							}
+							$order_id      = $order->get_order_number();
+							$is_bulk_order = get_post_meta( $order_id, '_nab_bulk_order', true );
+							if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && 'completed' === $order->get_status() && false === nab_is_all_attendee_added( $order_id ) ) {
+								$bulk_qty = get_post_meta( $order_id, '_nab_bulk_qty', true ); ?>
+								<a href="javascript:void(0)" class="nab-add-attendee woocommerce-button button" data-qty="<?php echo esc_attr( $bulk_qty ); ?>"
+								   data-orderid="<?php echo esc_attr( $order_id ); ?>"><?php echo esc_html_e( 'Add Attendees', 'nab-amplify' ); ?></a>
+							<?php }
+							if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && 'completed' === $order->get_status() && 0 < nab_get_attendee_count( $order_id ) ) {
+								$bulk_qty = get_post_meta( $order_id, '_nab_bulk_qty', true ); ?>
+								<a href="javascript:void(0)" class="nab-view-attendee woocommerce-button button"
+								   data-orderid="<?php echo esc_attr( $order_id ); ?>"><?php echo esc_html_e( 'View Attendees', 'nab-amplify' ); ?></a>
+							<?php }
 							?>
 						<?php endif; ?>
 					</td>
@@ -125,3 +137,76 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 <?php endif; ?>
 
 <?php do_action( 'woocommerce_after_account_orders', $has_orders ); ?>
+
+<div id="nabAddAttendeeModal" class="nab-modal">
+
+	<!-- Modal content -->
+	<div class="modal-content">
+		<span class="nab-modal-close">&times;</span>
+		<div class="attendee-bulk-upload-form-wrap">
+			<div class="attendee-upload-message" style="display: none"></div>
+			<span class="file-title">File Upload</span>
+			<form class="attendee-bulk-upload-form">
+				<span class="input-placeholder">Upload file...</span>
+				<input type="file" id="bulk_upload_file" name="bulk_upload_file">
+				<input type="hidden" id="attendeeOrderID" name="order_id" value="">
+				<input type="hidden" id="attendeeOrderQty" name="order_qty" value="">
+				<button type="button" class="attendee-browse-btn" id="browse_files">Browse</button>
+				<button type="button" class="attendee-import-btn" id="bulk_upload" name="bulk_upload">Upload</button>
+			</form>
+		</div>
+	</div>
+
+</div>
+
+<div id="nabViewAttendeeModal" class="nab-modal">
+
+	<!-- Modal content -->
+	<div class="modal-content">
+		<span class="nab-modal-close">&times;</span>
+		<div class="attendee-view-wrap">
+
+		</div>
+	</div>
+
+</div>
+
+<style>
+	/* The Modal (background) */
+	.nab-modal {
+		display: none; /* Hidden by default */
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Sit on top */
+		left: 0;
+		top: 0;
+		width: 100%; /* Full width */
+		height: 100%; /* Full height */
+		overflow: auto; /* Enable scroll if needed */
+		background-color: rgb(0, 0, 0); /* Fallback color */
+		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	}
+
+	/* Modal Content/Box */
+	.modal-content {
+		background-color: #fefefe;
+		margin: 15% auto; /* 15% from the top and centered */
+		padding: 20px;
+		border: 1px solid #888;
+		width: 80%; /* Could be more or less, depending on screen size */
+	}
+
+	/* The Close Button */
+	.close {
+		color: #aaa;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+	}
+
+	.close:hover,
+	.close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
+</style>

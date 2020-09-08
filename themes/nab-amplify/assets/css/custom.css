@@ -431,6 +431,7 @@ form.checkout.woocommerce-checkout .woocommerce-NoticeGroup ul{display:inline-bl
 .checkout_coupon.woocommerce-form-coupon input#coupon_code{width:100%;height:40px;padding:0 10px;border:1px solid #d2d3d5;outline:none;border-radius:0}
 .woocommerce-checkout-payment .wc_payment_methods.payment_methods{list-style:none;padding:0}
 .woocommerce-checkout-payment .wc_payment_methods.payment_methods li{margin-bottom:15px}
+.woocommerce-checkout-payment .wc_payment_methods.payment_methods li label img{vertical-align:middle}
 .woocommerce-order p.woocommerce-notice{margin:0 0 20px 0}
 .woocommerce-order .woocommerce-order-overview{padding:0;margin:0 0 30px 0;list-style:none;display:block;-ms-flex-wrap:wrap;flex-wrap:wrap;border:1px solid #e0e0e0;}
 .woocommerce-order .order_details li{padding:15px 20px;border-left:1px solid #e0e0e0;font-weight:normal;border-right:0;display:inline-block;text-transform:capitalize}
@@ -735,3 +736,15 @@ span.ctcc-right-side{display:inline-block!important;margin:0!important}
 .text-transform-initial, .text-transform-initial label{text-transform:initial!important}
 .single-product div.product .summary .buttoms{display:inline-block;vertical-align:middle;margin: -5px 0 0 30px;}
 .single-product div.product .summary .buttoms a{background:#fdd80f;color:#404040;padding: 5px 15px;border-radius:10px;display:inline-block;font-weight:bold;text-align:center;font-size: 18px;}
+
+/* nab bulk purchase */
+.nab-cart-col-right{width:300px;}
+.nab-bulk-quantity-wrapper{display:flex;flex-wrap:wrap;margin-bottom:1.5em;width:100%;border:1px solid #e0e0e0;}
+.nab-bulk-quantity-wrapper .nab_bulk_head{width:100%;}
+.nab-bulk-quantity-wrapper .nab_bulk_head h2{padding:12px 20px;margin:0;font-size:15px;line-height:15px;background:#666666;color:#fff;}
+.nab-bulk-quantity-wrapper .nab_bulk_body{width:100%;}
+.nab-bulk-quantity-wrapper label{padding:10px 5px 10px 10px;}
+.nab-bulk-quantity-wrapper .nab-quantity-selector{display:flex;width:100%;border-bottom:1px solid #e0e0e0;align-items:center;justify-content:space-between;}
+.nab-bulk-quantity-wrapper .nab_bulk_select{padding:10px 10px 10px 5px;}
+.nab-bulk-quantity-wrapper .nab_bulk_select select{padding:5px;}
+.nab-bulk-quantity-wrapper .nab_bulk_passes{display:flex;width:100%;border-bottom:1px solid #e0e0e0;align-items:center;justify-content:space-between;}

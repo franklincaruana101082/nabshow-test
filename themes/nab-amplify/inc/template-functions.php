@@ -60,3 +60,87 @@ function nab_amplify_pingback_header() {
 }
 
 add_action( 'wp_head', 'nab_amplify_pingback_header' );
+
+/**
+ * Checks whether the current cart has bulk purchase or not
+ *
+ * @return bool
+ */
+function nab_is_bulk_order() {
+	foreach ( WC()->cart->get_cart() as $cart_val ) {
+		if ( isset( $cart_val['nab_bulk_order'] ) && 'yes' === $cart_val['nab_bulk_order'] ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Gets the Quantity in bulk order
+ *
+ * @return false|mixed
+ */
+function nab_bulk_order_quantity() {
+	if ( ! nab_is_bulk_order() ) {
+		return false;
+	}
+
+	foreach ( WC()->cart->get_cart() as $cart_val ) {
+		if ( isset( $cart_val['nab_qty'] ) && ! empty( $cart_val['nab_qty'] ) ) {
+			return $cart_val['nab_qty'];
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Get Attendee count
+ *
+ * @param $order_id
+ *
+ * @return int|mixed
+ */
+function nab_get_attendee_count( $order_id ) {
+	global $wpdb;
+
+	if ( empty( $order_id ) ) {
+		return 0;
+	}
+
+	$get_attendees_query = $wpdb->prepare( "SELECT COUNT(*) AS attendee_count FROM {$wpdb->prefix}nab_attendee WHERE `order_id` = %d AND `status` = 1", $order_id );
+	$get_attendees_count = $wpdb->get_results( $get_attendees_query, ARRAY_A );
+
+	if ( ! empty( $get_attendees_count ) ) {
+		$attendee_count = $get_attendees_count[0]['attendee_count'];
+	} else {
+		$attendee_count = 0;
+	}
+
+	return $attendee_count;
+}
+
+/**
+ * Checks whether all attendees are added or not
+ *
+ * @param $order_id
+ *
+ * @return bool
+ */
+function nab_is_all_attendee_added( $order_id ) {
+	// Get quantity for this order
+	$order_qty = get_post_meta( $order_id, '_nab_bulk_qty', true );
+
+	if ( ! isset( $order_qty ) || empty( $order_qty ) ) {
+		return false;
+	}
+
+	$attendee_count = nab_get_attendee_count( $order_id );
+
+	if ( $attendee_count >= $order_qty ) {
+		return true;
+	} else {
+		return false;
+	}
+}

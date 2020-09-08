@@ -26,7 +26,9 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 	<section class="woocommerce-columns woocommerce-columns--2 woocommerce-columns--addresses col2-set addresses">
 		<div class="woocommerce-column woocommerce-column--1 woocommerce-column--billing-address col-1">
 
-	<?php endif; ?>
+	<?php endif;
+	
+	if ( '0.00' !== $order->get_total() ) : ?>
 
 	<h2 class="woocommerce-column__title"><?php esc_html_e( 'Billing address', 'woocommerce' ); ?></h2>
 
@@ -41,6 +43,8 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 			<p class="woocommerce-customer-details--email"><?php echo esc_html( $order->get_billing_email() ); ?></p>
 		<?php endif; ?>
 	</address>
+	
+	<?php endif; ?>
 
 	<?php if ( $show_shipping ) : ?>
 

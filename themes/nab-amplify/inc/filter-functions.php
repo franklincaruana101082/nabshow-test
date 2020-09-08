@@ -9,16 +9,16 @@ function nab_registration_redirect() {
 
 	if ( isset( $_POST['checkout_redirect'] ) && ! empty( isset( $_POST['checkout_redirect'] ) ) ) {
 		$checkout_url = wc_get_page_permalink( 'checkout' );
-		$args = array(
+		$args         = array(
 			'nab_registration_complete' => 'true',
 			'r'                         => $checkout_url,
 		);
 		$redirect_url = wc_get_page_permalink( 'checkout' );
 	} else {
-		$args = array(
+		$args         = array(
 			'nab_registration_complete' => 'true',
 		);
-		$redirect_url = wc_get_page_permalink('shop');
+		$redirect_url = wc_get_page_permalink( 'shop' );
 	}
 
 	return $redirect_url;
@@ -85,10 +85,13 @@ function nab_custom_billing_fields( $billing_fields ) {
 		return $billing_fields;
 	}
 
+
 	$billing_fields['billing_phone']['required']   = false;
 	$billing_fields['billing_postcode']['label']   = 'Zip Code';
 	$billing_fields['billing_first_name']['label'] = 'First Name';
 	$billing_fields['billing_last_name']['label']  = 'Last Name';
+	$billing_fields['billing_email']['label']      = 'Email the invoice to:';
+	$billing_fields['billing_email']['class'][]    = 'text-transform-initial';
 
 	unset( $billing_fields['billing_phone'] );
 
@@ -147,12 +150,15 @@ function nab_my_orders_columns( $columns ) {
  * @return string Filtered Avatar HTML.
  */
 function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $default, $alt ) {
+	$user_id = get_current_user_id();
 
-	$user_id       = get_current_user_id();
-	$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
-	if ( $user_image_id ) {
-		$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
-		$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+	if ( $id_or_email === $user_id ) {
+		$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
+
+		if ( $user_image_id ) {
+			$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
+			$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+		}
 	}
 
 	return $avatar_html;
@@ -168,10 +174,14 @@ function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $defa
  * @return mixed Filtered Avatar URL.
  */
 function filter_nab_amplify_get_avatar_url( $url, $id_or_email, $args ) {
-	$user_id       = get_current_user_id();
-	$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
-	if ( $user_image_id ) {
-		$url = wp_get_attachment_image_src( $user_image_id )[0];
+	$user_id = get_current_user_id();
+
+	if ( $id_or_email === $user_id ) {
+		$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
+
+		if ( $user_image_id ) {
+			$url = wp_get_attachment_image_src( $user_image_id )[0];
+		}
 	}
 
 	return $url;
@@ -231,9 +241,8 @@ function nab_add_login_link_on_checkout_page() {
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-		<a class="checkout-login-link button" href="<?php echo esc_url( $current_site_url ); ?>">Login</a> OR <a class="checkout-signup-link button"
-		                                                                                                         href="<?php echo esc_url( $sign_up_page_url ); ?>">create an
-			account</a> to proceed with your registration.
+		<p>In order to access digital content, you need to have an account. Don't have an account? <a class="checkout-signup-link button" href="<?php echo esc_url(
+				$sign_up_page_url ); ?>">Sign up</a> now.</p>
 	<?php }
 }
 
@@ -249,10 +258,14 @@ function filter_nab_amplify_woocommerce_coupon_to_promo( $err ) {
 	return $err;
 }
 
-function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html, $coupon, $discount_amount_html ) {
-	$discount_amount_html = str_replace( 'coupon', 'promo', $discount_amount_html );
+function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html ) {
+	$coupon_html = str_replace( 'Coupon', 'Promo', $coupon_html );
 
-	return $discount_amount_html;
+	return $coupon_html;
+}
+
+function nab_amplify_woocommerce_cart_totals_coupon_label( $sprintf, $coupon ) {
+	return str_replace( 'Coupon', 'Promo', $sprintf );
 }
 
 /**
@@ -321,8 +334,10 @@ function nab_amplify_woocommerce_product_stock_status_options() {
  */
 function nab_amplify_woocommerce_inventory_settings( $settings ) {
 
-	$settings[7]['title'] = __( 'Sold Out threshold', 'nab-amplify' );
-	$settings[8]['title'] = __( 'Sold Out visibility', 'nab-amplify' );
+	foreach ( $settings as $key => $s ) {
+		$settings[ $key ]['title'] = str_replace( 'Out of stock', 'Sold Out', $s['title'] );
+		$settings[ $key ]['desc']  = str_replace( 'out of stock', 'sold out', $s['desc'] );
+	}
 
 	return $settings;
 }
@@ -412,7 +427,26 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 
 	return $customer_note;
 }
+ 
+/**
+ * Update the checkout page form fields.
+ */
+function nab_amplify_woocommerce_checkout_fields( $fields ) {
+	
+	 if( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
+		unset( $fields['billing'] );
+	 }
+     
+     return $fields;
+}
 
+/**
+ * Custom Email Template for order purchase
+ *
+ * @param $email_classes
+ *
+ * @return mixed
+ */
 function nab_registration_receipt_mail( $email_classes ) {
 
 	// include our custom email class
@@ -422,5 +456,18 @@ function nab_registration_receipt_mail( $email_classes ) {
 	$email_classes['WC_Registration_Receipt_Email'] = new WC_Registration_Receipt_Email();
 
 	return $email_classes;
+
+}
+
+function nab_bulk_order( $session_data, $values, $key ) {
+
+	if ( isset( $_POST['nab_bulk_order'] ) && 'yes' === $_POST['nab_bulk_order'] ) {
+		$session_data['nab_bulk_order'] = 'yes';
+		if ( isset( $_POST['nab_bulk_order_qty'] ) && ! empty( $_POST['nab_bulk_order_qty'] ) ) {
+			$session_data['nab_qty'] = $_POST['nab_bulk_order_qty'];
+		}
+	}
+
+	return $session_data;
 
 }
