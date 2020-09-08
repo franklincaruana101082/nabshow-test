@@ -81,7 +81,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          */
         public function ep_restrict_post_content( $content ) {
 
-            global $post;
+            global $post;            
             
             if ( isset( $post->ID ) ) {
 

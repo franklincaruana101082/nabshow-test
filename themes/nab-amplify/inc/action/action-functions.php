@@ -652,3 +652,166 @@ function nab_create_attendee_table() {
 
 	dbDelta( $sql );
 }
+
+/**
+ * Register custom api endpoints.
+ *
+ * @since 1.0.0
+ */
+function amplify_register_api_endpoints() {
+
+	register_rest_route( 'nab', '/request/get-product-categories', array(
+		'methods'  => 'POST',
+		'callback' => 'amplify_get_product_categories',
+		'permission_callback' => '__return_true',
+	) );
+
+	register_rest_route( 'nab', '/request/get-product-list', array(
+		'methods'  => 'POST',
+		'callback' => 'amplify_get_product_list',
+		'permission_callback' => '__return_true',
+		'args' => array(
+			'term_id' => array(
+				'validate_callback' => function( $param ) {
+					return is_numeric( $param );
+				}
+			),
+		),
+	) );
+
+	register_rest_route( 'nab', '/request/customer-bought-product', array(
+		'methods'  => 'POST',
+		'callback' => 'amplify_check_user_bought_product',
+		'permission_callback' => '__return_true',
+		'args' => array(
+			'user_email' => array(
+				'validate_callback' => function( $param ) {
+					return is_email( $param );
+				}
+			),
+			'user_id' => array(
+				'validate_callback' => function( $param ) {
+					return is_numeric( $param );
+				}
+			),
+			'product_ids' => array(
+				'validate_callback' => function( $param ) {
+					return is_array( $param );
+				}
+			),
+		),
+	) );
+
+}
+
+/**
+ * Get product category terms.
+ *
+ * @return WP_REST_Response
+ * 
+ * @since 1.0.0
+ */
+function amplify_get_product_categories() {
+
+	$return = array();
+	
+	$terms = get_terms( array(
+		'taxonomy' => 'product_cat',
+		'hide_empty' => true,
+	) );
+	
+	foreach ( $terms as $term ) {
+
+		$return[] = array( 'term_id' => $term->term_id, 'name' => $term->name );
+	}
+
+	return new WP_REST_Response( $return, 200 );
+}
+
+/**
+ * Get all Product list.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_get_product_list( WP_REST_Request $request ) {
+
+	$term_id 	= $request->get_param( 'term_id' );
+	$return 	= array();
+
+	$args = array(
+		'post_per_page' => -1,
+		'post_type'		=> 'product',
+		'orderby'		=> 'title',
+		'fields'		=> 'ids',
+		'order'			=> 'ASC'
+	);
+
+	if ( ! empty( $term_id ) ) {
+
+		$args[ 'tax_query' ] = array (
+			array(
+				'taxonomy' 	=> 'product_cat',
+				'field'		=> 'term_id',
+				'terms'		=> $term_id
+			),
+		);
+	}
+
+	$query = new WP_Query( $args );
+
+	if ( $query->have_posts() ) {
+
+		while( $query->have_posts() ) {
+
+			$query->the_post();
+
+			$product_id 	= get_the_ID();
+			$product_name	= get_the_title();
+
+			$return[]		= array( 'product_id' => $product_id, 'product_name' => $product_name );
+		}
+	}
+
+	wp_reset_postdata();
+
+	return new WP_REST_Response( $return, 200 );
+}
+
+/**
+ * Check user bought product.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_check_user_bought_product( WP_REST_Request $request ) {
+
+	$user_email 	= $request->get_param( 'user_email' );
+	$user_id 		= $request->get_param( 'user_id' );
+	$product_ids 	= $request->get_param( 'product_ids' );
+	$return			= array('success' => false );
+
+	if ( is_array( $product_ids ) && ! empty( $user_email ) && ! empty( $user_id ) ) {
+
+		foreach( $product_ids as $product_id ) {
+
+			if ( wc_customer_bought_product( $user_email, $user_id, $product_id ) ) {
+				$return[ 'success' ] = true;
+				break;
+			}
+		}
+
+		if ( ! $return[ 'success' ] ) {
+			$return[ 'url' ]	= get_the_permalink( $product_ids[0] );
+			$return[ 'title' ]	= get_the_title( $product_ids[0] );
+		}
+	}	
+
+	return new WP_REST_Response( $return, 200 );
+}

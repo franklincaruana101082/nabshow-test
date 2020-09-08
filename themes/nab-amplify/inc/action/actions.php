@@ -81,3 +81,6 @@ add_action( 'woocommerce_created_customer', 'nab_user_registration_sync', 10, 3 
 add_action( 'woocommerce_after_cart', 'nab_bulk_purchase_cart' );
 
 add_action( 'init', 'nab_create_attendee_table' );
+
+// Register custom rest route.
+add_action( 'rest_api_init', 'amplify_register_api_endpoints' );
