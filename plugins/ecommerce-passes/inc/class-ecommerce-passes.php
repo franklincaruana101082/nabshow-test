@@ -150,7 +150,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
                 
-                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', '', $content);                
+                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content);
                 
                 if ( has_blocks( $final_content ) ) {
                                         
@@ -161,6 +161,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 } else {
                     $restrict_content   .= $final_content;
                 } 
+            } else {
+
+                $restrict_content = $content;
             }            
 
             return $restrict_content;
