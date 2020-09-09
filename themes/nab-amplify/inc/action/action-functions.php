@@ -142,20 +142,20 @@ function product_video_text_box_html( $post ) {
 	<input type="button" id="product_video_thumb_button" class="button" value="Choose or Upload an Image"/>
 
 	<script>
-			jQuery( '#product_video_thumb_button, #product_video_thumb_img' ).click( function() {
+		jQuery( '#product_video_thumb_button, #product_video_thumb_img' ).click( function() {
 
-				var send_attachment_bkp = wp.media.editor.send.attachment;
+			var send_attachment_bkp = wp.media.editor.send.attachment;
 
-				wp.media.editor.send.attachment = function( props, attachment ) {
-					jQuery( '#product_video_thumb_img' ).attr( 'src', attachment.url ).show();
-					jQuery( '#product_video_thumb' ).val( attachment.id );
-					wp.media.editor.send.attachment = send_attachment_bkp;
-				};
+			wp.media.editor.send.attachment = function( props, attachment ) {
+				jQuery( '#product_video_thumb_img' ).attr( 'src', attachment.url ).show();
+				jQuery( '#product_video_thumb' ).val( attachment.id );
+				wp.media.editor.send.attachment = send_attachment_bkp;
+			};
 
-				wp.media.editor.open();
+			wp.media.editor.open();
 
-				return false;
-			} );
+			return false;
+		} );
 	</script>
 	<?php
 }
@@ -583,18 +583,18 @@ function nab_header_scripts() {
 	?>
 	<!-- Google Tag Manager -->
 	<script>(function( w, d, s, l, i ) {
-				w[ l ] = w[ l ] || [];
-				w[ l ].push( {
-					'gtm.start':
-						new Date().getTime(), event: 'gtm.js'
-				} );
-				var f = d.getElementsByTagName( s )[ 0 ],
-					j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
-				j.async = true;
-				j.src =
-					'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-				f.parentNode.insertBefore( j, f );
-			})( window, document, 'script', 'dataLayer', 'GTM-K2F9KBS' );</script>
+			w[ l ] = w[ l ] || [];
+			w[ l ].push( {
+				'gtm.start':
+					new Date().getTime(), event: 'gtm.js'
+			} );
+			var f = d.getElementsByTagName( s )[ 0 ],
+				j = d.createElement( s ), dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore( j, f );
+		})( window, document, 'script', 'dataLayer', 'GTM-K2F9KBS' );</script>
 	<!-- End Google Tag Manager -->
 	<?php
 }
@@ -661,43 +661,43 @@ function nab_create_attendee_table() {
 function amplify_register_api_endpoints() {
 
 	register_rest_route( 'nab', '/request/get-product-categories', array(
-		'methods'  => 'POST',
-		'callback' => 'amplify_get_product_categories',
+		'methods'             => 'POST',
+		'callback'            => 'amplify_get_product_categories',
 		'permission_callback' => '__return_true',
 	) );
 
 	register_rest_route( 'nab', '/request/get-product-list', array(
-		'methods'  => 'POST',
-		'callback' => 'amplify_get_product_list',
+		'methods'             => 'POST',
+		'callback'            => 'amplify_get_product_list',
 		'permission_callback' => '__return_true',
-		'args' => array(
+		'args'                => array(
 			'term_id' => array(
-				'validate_callback' => function( $param ) {
+				'validate_callback' => function ( $param ) {
 					return is_numeric( $param );
-				}
+				},
 			),
 		),
 	) );
 
 	register_rest_route( 'nab', '/request/customer-bought-product', array(
-		'methods'  => 'POST',
-		'callback' => 'amplify_check_user_bought_product',
+		'methods'             => 'POST',
+		'callback'            => 'amplify_check_user_bought_product',
 		'permission_callback' => '__return_true',
-		'args' => array(
-			'user_email' => array(
-				'validate_callback' => function( $param ) {
+		'args'                => array(
+			'user_email'  => array(
+				'validate_callback' => function ( $param ) {
 					return is_email( $param );
-				}
+				},
 			),
-			'user_id' => array(
-				'validate_callback' => function( $param ) {
+			'user_id'     => array(
+				'validate_callback' => function ( $param ) {
 					return is_numeric( $param );
-				}
+				},
 			),
 			'product_ids' => array(
-				'validate_callback' => function( $param ) {
+				'validate_callback' => function ( $param ) {
 					return is_array( $param );
-				}
+				},
 			),
 		),
 	) );
@@ -708,18 +708,18 @@ function amplify_register_api_endpoints() {
  * Get product category terms.
  *
  * @return WP_REST_Response
- * 
+ *
  * @since 1.0.0
  */
 function amplify_get_product_categories() {
 
 	$return = array();
-	
+
 	$terms = get_terms( array(
-		'taxonomy' => 'product_cat',
+		'taxonomy'   => 'product_cat',
 		'hide_empty' => true,
 	) );
-	
+
 	foreach ( $terms as $term ) {
 
 		$return[] = array( 'term_id' => $term->term_id, 'name' => $term->name );
@@ -739,24 +739,24 @@ function amplify_get_product_categories() {
  */
 function amplify_get_product_list( WP_REST_Request $request ) {
 
-	$term_id 	= $request->get_param( 'term_id' );
-	$return 	= array();
+	$term_id = $request->get_param( 'term_id' );
+	$return  = array();
 
 	$args = array(
-		'post_per_page' => -1,
-		'post_type'		=> 'product',
-		'orderby'		=> 'title',
-		'fields'		=> 'ids',
-		'order'			=> 'ASC'
+		'post_per_page' => - 1,
+		'post_type'     => 'product',
+		'orderby'       => 'title',
+		'fields'        => 'ids',
+		'order'         => 'ASC',
 	);
 
 	if ( ! empty( $term_id ) ) {
 
-		$args[ 'tax_query' ] = array (
+		$args['tax_query'] = array(
 			array(
-				'taxonomy' 	=> 'product_cat',
-				'field'		=> 'term_id',
-				'terms'		=> $term_id
+				'taxonomy' => 'product_cat',
+				'field'    => 'term_id',
+				'terms'    => $term_id,
 			),
 		);
 	}
@@ -765,14 +765,14 @@ function amplify_get_product_list( WP_REST_Request $request ) {
 
 	if ( $query->have_posts() ) {
 
-		while( $query->have_posts() ) {
+		while ( $query->have_posts() ) {
 
 			$query->the_post();
 
-			$product_id 	= get_the_ID();
-			$product_name	= get_the_title();
+			$product_id   = get_the_ID();
+			$product_name = get_the_title();
 
-			$return[]		= array( 'product_id' => $product_id, 'product_name' => $product_name );
+			$return[] = array( 'product_id' => $product_id, 'product_name' => $product_name );
 		}
 	}
 
@@ -792,26 +792,26 @@ function amplify_get_product_list( WP_REST_Request $request ) {
  */
 function amplify_check_user_bought_product( WP_REST_Request $request ) {
 
-	$user_email 	= $request->get_param( 'user_email' );
-	$user_id 		= $request->get_param( 'user_id' );
-	$product_ids 	= $request->get_param( 'product_ids' );
-	$return			= array('success' => false );
+	$user_email  = $request->get_param( 'user_email' );
+	$user_id     = $request->get_param( 'user_id' );
+	$product_ids = $request->get_param( 'product_ids' );
+	$return      = array( 'success' => false );
 
 	if ( is_array( $product_ids ) && ! empty( $user_email ) && ! empty( $user_id ) ) {
 
-		foreach( $product_ids as $product_id ) {
+		foreach ( $product_ids as $product_id ) {
 
 			if ( wc_customer_bought_product( $user_email, $user_id, $product_id ) ) {
-				$return[ 'success' ] = true;
+				$return['success'] = true;
 				break;
 			}
 		}
 
-		if ( ! $return[ 'success' ] ) {
-			$return[ 'url' ]	= get_the_permalink( $product_ids[0] );
-			$return[ 'title' ]	= get_the_title( $product_ids[0] );
+		if ( ! $return['success'] ) {
+			$return['url']   = get_the_permalink( $product_ids[0] );
+			$return['title'] = get_the_title( $product_ids[0] );
 		}
-	}	
+	}
 
 	return new WP_REST_Response( $return, 200 );
 }

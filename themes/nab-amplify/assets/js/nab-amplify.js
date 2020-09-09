@@ -266,19 +266,25 @@
     $( document ).on( 'change', '#nab_is_bulk', function() {
       var isBulkOrder = $( this ).val();
       if ( isBulkOrder && 'yes' === isBulkOrder ) {
+        $( '.nab-quantity-selector' ).show();
         $( '#nab_bulk_order_field' ).val( 'yes' );
       } else {
         $( '#nab_bulk_order_field' ).val( 'no' );
         $( '.nab-qty' ).val( '1' );
+        $( '.nab-quantity-selector' ).hide();
+        $( '#nab_bulk_quantity, #nab_bulk_order_qty_field' ).val( '' );
         nabRefreshCart();
       }
     } );
 
     $( document ).on( 'change', '#nab_bulk_quantity', function() {
       let selectedQty = $( this ).val();
-      let newQty = selectedQty ? selectedQty : 1;
-
-      $( '.nab-qty, #nab_bulk_order_qty_field' ).val( newQty );
+      if ( selectedQty ) {
+        $( '.nab-qty, #nab_bulk_order_qty_field' ).val( selectedQty );
+      } else {
+        $( '.nab-qty' ).val( '1' );
+        $( '#nab_bulk_quantity, #nab_bulk_order_qty_field' ).val( '' );
+      }
       nabRefreshCart();
     } );
   }
@@ -296,7 +302,14 @@
     } );
 
     $( document ).on( 'click', '.nab-modal-close', function() {
-      $( '#nabAddAttendeeModal' ).hide();
+      if ( $( this ).hasClass( 'nab-reload-on-close' ) ) {
+        location.reload();
+      } else {
+        $( '#bulk_upload_file' ).val( '' );
+        $( '.attendee-bulk-upload-form .input-placeholder' ).val( 'Upload File...' );
+        $( '#nabAddAttendeeModal, #nabViewAttendeeModal' ).hide();
+      }
+
     } );
 
     $( document ).on( 'change', '#bulk_upload_file', function( e ) {
@@ -319,6 +332,7 @@
         form_data.append( 'file', file_data );
         form_data.append( 'action', 'nab_db_add_attendee' );
         form_data.append( 'attendeeOrderID', attendeeOrderID );
+        form_data.append( 'nabNonce', amplifyJS.nabNonce );
 
         $.ajax( {
           url: amplifyJS.ajaxurl,
@@ -335,6 +349,7 @@
                 'attendeeOrderID': attendeeOrderID,
                 'totalRecords': totalRecords,
                 'loopCount': loopCount,
+                'attendeeOrderQty': attendeeOrderQty,
                 'action': 'insert_new_attendee'
               };
 
@@ -356,6 +371,9 @@
     async function processAttendeeData( attendeeData ) {
       for ( i = 0; i < attendeeData.loopCount; i ++ ) {
         attendeeData.currentIndex = i;
+        if ( attendeeData.loopCount === (attendeeData.currentIndex + 1) ) {
+          attendeeData.isLast = 'yes';
+        }
         var uploadedAttendeeResp = await uploadedAttendee( attendeeData );
       }
     }
@@ -376,12 +394,10 @@
             }
             addedAttendee = parseInt( addedAttendee ) + parseInt( data.added_attendee );
             if ( attendeeData.loopCount === (attendeeData.currentIndex + 1) ) {
-              console.log( 'completed' );
-              alert( 'completed' );
               $( '#bulk_upload_file' ).val( '' );
               $( '.attendee-bulk-upload-form .input-placeholder' ).text( 'Upload file...' );
               if ( importErrs.length > 0 ) {
-                var importErrMsg = 'Attendee import process is completed. ' + addedAttendee + ' imported successfully. There were some errors while importing data.<br><br>';
+                var importErrMsg = 'Attendee import process is completed. ' + addedAttendee + ' Attendees imported successfully. There were some errors while importing data.<br><br>';
                 $.each( importErrs, function( k, v ) {
                   $.each( v, function( j, val ) {
                     importErrMsg += val + '<br>';
@@ -391,7 +407,7 @@
                 $( '.attendee-upload-message' ).addClass( 'error' ).html( importErrMsg ).show();
               } else {
                 if ( skippedErrs.length > 0 ) {
-                  var skippedErrsMsg = 'Attendee import process is completed. ' + addedAttendee + ' imported successfully. Some records were skipped due to below reasons:<br><br>';
+                  var skippedErrsMsg = 'Attendee import process is completed. ' + addedAttendee + ' Attendees imported successfully. Some records were skipped due to below reasons:<br><br>';
                   //skippedErrsMsg += skippedErrs;
                   $.each( skippedErrs, function( k, v ) {
                     $.each( v, function( j, val ) {
@@ -400,10 +416,14 @@
                   } );
                   $( '.attendee-upload-message' ).addClass( 'error' ).html( skippedErrsMsg ).show();
                 } else {
-                  $( '.attendee-upload-message' ).addClass( 'success' ).text( 'Attendee import process is completed. ' + addedAttendee + ' imported successfully.' ).show();
+                  $( '.attendee-upload-message' ).addClass( 'success' ).text( 'Attendee import process is completed. ' + addedAttendee + ' Attendees imported successfully.' ).show();
                 }
               }
+              if ( undefined !== typeof data.totalAddedAttendees && attendeeData.attendeeOrderQty === data.totalAddedAttendees ) {
+                $( '.nab-add-attendee[data-orderid=' + attendeeData.attendeeOrderID + ']' ).hide();
+              }
               addedAttendee = 0;
+              $( '.nab-modal-close' ).addClass( 'nab-reload-on-close' );
               $( 'body' ).removeClass( 'is-loading' ); // loader
             }
             resolve( data );
@@ -423,10 +443,68 @@
       type: 'GET',
       data: {
         'orderId': orderId,
-        'action': 'get_order_attendees'
+        'action': 'get_order_attendees',
+        'nabNonce': amplifyJS.nabNonce
       },
       success: function( response ) {
-        console.log( response );
+        $( '.attendee-view-table-wrp' ).empty();
+        let attendeeTableWrap = $( '.attendee-view-table-wrp' )[ 0 ];
+
+        if ( 1 === response.err ) {
+          let errMessageElem = document.createElement( 'p' );
+          errMessageElem.innerHTML = response.message;
+          attendeeTableWrap.appendChild( errMessageElem );
+        } else if ( 0 === response.attendees.length ) {
+          let errMessageElem = document.createElement( 'p' );
+          errMessageElem.innerHTML = 'No Attendees found.';
+          attendeeTableWrap.appendChild( errMessageElem );
+        } else {
+          let attendeeTable = document.createElement( 'table' );
+          let attendeeTableTitle = document.createElement( 'h3' );
+          attendeeTableTitle.innerText = 'Attendee Details';
+          let attendeeThead = document.createElement( 'thead' );
+          let attendeeTbody = document.createElement( 'tbody' );
+          let attendeeTheadTr = document.createElement( 'tr' );
+
+          let attendeeTheadFirstName = document.createElement( 'th' );
+          attendeeTheadFirstName.innerText = 'First Name';
+          let attendeeTheadLastName = document.createElement( 'th' );
+          attendeeTheadLastName.innerText = 'Last Name';
+          let attendeeTheadEmail = document.createElement( 'th' );
+          attendeeTheadEmail.innerText = 'Email';
+
+          attendeeTheadTr.appendChild( attendeeTheadFirstName );
+          attendeeTheadTr.appendChild( attendeeTheadLastName );
+          attendeeTheadTr.appendChild( attendeeTheadEmail );
+
+          attendeeThead.appendChild( attendeeTheadTr );
+
+          attendeeTable.appendChild( attendeeThead );
+
+          let dataTitles = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'email': 'Email'
+          };
+
+          for ( let a = 0; a < response.attendees.length; a ++ ) {
+            let attendeeDataTr = document.createElement( 'tr' );
+            $.each( response.attendees[ a ], function( key, value ) {
+              let attendeeDataTd = document.createElement( 'td' );
+              let attendeeDataTdText = document.createTextNode( value );
+              attendeeDataTd.appendChild( attendeeDataTdText );
+              attendeeDataTd.setAttribute( 'data-title', dataTitles[ key ] );
+              attendeeDataTr.appendChild( attendeeDataTd );
+            } );
+            attendeeTbody.appendChild( attendeeDataTr );
+          }
+          attendeeTable.appendChild( attendeeTbody );
+
+          attendeeTableWrap.appendChild( attendeeTableTitle );
+          attendeeTableWrap.appendChild( attendeeTable );
+        }
+
+        $( '#nabViewAttendeeModal' ).show();
       },
       error: function( xhr, ajaxOptions, thrownError ) {
         $( 'body' ).removeClass( 'is-loading' ); // loader

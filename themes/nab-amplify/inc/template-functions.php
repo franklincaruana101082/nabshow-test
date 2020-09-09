@@ -68,7 +68,7 @@ add_action( 'wp_head', 'nab_amplify_pingback_header' );
  */
 function nab_is_bulk_order() {
 	foreach ( WC()->cart->get_cart() as $cart_val ) {
-		if ( isset( $cart_val['nab_bulk_order'] ) && 'yes' === $cart_val['nab_bulk_order'] ) {
+		if ( isset( $cart_val['nab_bulk_order'] ) && 'yes' === $cart_val['nab_bulk_order'] && isset( $cart_val['nab_qty'] ) && ! empty( $cart_val['nab_qty'] ) ) {
 			return true;
 		}
 	}

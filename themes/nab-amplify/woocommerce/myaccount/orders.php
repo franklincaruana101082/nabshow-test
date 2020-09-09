@@ -139,74 +139,41 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 <?php do_action( 'woocommerce_after_account_orders', $has_orders ); ?>
 
 <div id="nabAddAttendeeModal" class="nab-modal">
-
-	<!-- Modal content -->
-	<div class="modal-content">
-		<span class="nab-modal-close">&times;</span>
-		<div class="attendee-bulk-upload-form-wrap">
-			<div class="attendee-upload-message" style="display: none"></div>
-			<span class="file-title">File Upload</span>
-			<form class="attendee-bulk-upload-form">
-				<span class="input-placeholder">Upload file...</span>
-				<input type="file" id="bulk_upload_file" name="bulk_upload_file">
-				<input type="hidden" id="attendeeOrderID" name="order_id" value="">
-				<input type="hidden" id="attendeeOrderQty" name="order_qty" value="">
-				<button type="button" class="attendee-browse-btn" id="browse_files">Browse</button>
-				<button type="button" class="attendee-import-btn" id="bulk_upload" name="bulk_upload">Upload</button>
-			</form>
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
+			<div class="modal-content-wrap">
+				<div class="attendee-bulk-upload-form-wrap">
+					<div class="attendee-bulk-upload-form-cnt">
+						<div class="attendee-upload-message" style="display: none"></div>
+						<span class="file-title">File Upload</span>
+						<form class="attendee-bulk-upload-form">
+							<div class="nab-attendee-upload-wrp">
+								<span class="input-placeholder">Upload File...</span>
+								<input type="file" id="bulk_upload_file" name="bulk_upload_file">
+								<input type="hidden" id="attendeeOrderID" name="order_id" value="">
+								<input type="hidden" id="attendeeOrderQty" name="order_qty" value="">
+								<button type="button" class="attendee-browse-btn" id="browse_files">Browse</button>
+							</div>
+							<button type="button" class="attendee-import-btn" id="bulk_upload" name="bulk_upload">Upload</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-
 </div>
 
 <div id="nabViewAttendeeModal" class="nab-modal">
-
-	<!-- Modal content -->
-	<div class="modal-content">
-		<span class="nab-modal-close">&times;</span>
-		<div class="attendee-view-wrap">
-
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
+			<div class="modal-content-wrap">
+				<div class="attendee-view-wrap">
+					<div class="attendee-view-table-wrp">
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-
 </div>
-
-<style>
-	/* The Modal (background) */
-	.nab-modal {
-		display: none; /* Hidden by default */
-		position: fixed; /* Stay in place */
-		z-index: 1; /* Sit on top */
-		left: 0;
-		top: 0;
-		width: 100%; /* Full width */
-		height: 100%; /* Full height */
-		overflow: auto; /* Enable scroll if needed */
-		background-color: rgb(0, 0, 0); /* Fallback color */
-		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-	}
-
-	/* Modal Content/Box */
-	.modal-content {
-		background-color: #fefefe;
-		margin: 15% auto; /* 15% from the top and centered */
-		padding: 20px;
-		border: 1px solid #888;
-		width: 80%; /* Could be more or less, depending on screen size */
-	}
-
-	/* The Close Button */
-	.close {
-		color: #aaa;
-		float: right;
-		font-size: 28px;
-		font-weight: bold;
-	}
-
-	.close:hover,
-	.close:focus {
-		color: black;
-		text-decoration: none;
-		cursor: pointer;
-	}
-</style>

@@ -13,6 +13,14 @@ function nab_db_add_attendee_callback() {
 	$parent_user_id = get_current_user_id();
 	$order_id       = filter_input( INPUT_POST, 'attendeeOrderID' );
 
+	if ( ! isset( $_POST['nabNonce'] ) || false === wp_verify_nonce( $_POST['nabNonce'], 'nab-ajax-nonce' ) ) {
+		$response['err']     = 1;
+		$response['message'] = 'Authentication failed. Please reload the page and try again.';
+
+		wp_send_json( $response, 200 );
+		wp_die();
+	}
+
 	if ( ! isset( $order_id ) || empty( $order_id ) ) {
 		$response['err']     = 1;
 		$response['message'] = 'Something went wrong! Please try again!';
@@ -133,14 +141,15 @@ add_action( 'wp_ajax_nopriv_insert_new_attendee', 'insert_new_attendee_callback'
 function insert_new_attendee_callback() {
 	global $wpdb;
 
-	$res            = [];
-	$order_id       = filter_input( INPUT_POST, 'attendeeOrderID' );
-	$current_index  = filter_input( INPUT_POST, 'currentIndex' );
-	$offset         = ( isset( $current_index ) ) ? 10 * $current_index : 0;
-	$failed         = [];
-	$skipped        = 0;
-	$skipped_msg    = [];
-	$added_attendee = 0;
+	$res              = [];
+	$order_id         = filter_input( INPUT_POST, 'attendeeOrderID' );
+	$current_index    = filter_input( INPUT_POST, 'currentIndex' );
+	$offset           = ( isset( $current_index ) ) ? 10 * $current_index : 0;
+	$failed           = [];
+	$skipped          = 0;
+	$skipped_msg      = [];
+	$added_attendee   = 0;
+	$new_user_created = 0;
 
 	// Get Attendees to add
 	$get_attendees_query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}nab_attendee WHERE `status` = 0 AND `order_id` = %d ORDER BY `id` DESC LIMIT 10", $order_id );
@@ -160,7 +169,6 @@ function insert_new_attendee_callback() {
 
 				continue;
 			}
-
 
 			// check if this user already exist in system or not
 			if ( email_exists( $user['user_email'] ) ) {
@@ -190,7 +198,8 @@ function insert_new_attendee_callback() {
 					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}nab_attendee SET `status` = 2, `modified`= '%s' WHERE `id` = %d",
 						date( 'Y-m-d H:i:s' ), $attendee['id'] ) );
 				} else {
-					$new_user_id = $new_user;
+					$new_user_id      = $new_user;
+					$new_user_created = 1;
 				}
 			}
 
@@ -213,6 +222,9 @@ function insert_new_attendee_callback() {
 						) );
 					}
 
+					$new_order_id = $new_order->get_order_number();
+					update_post_meta( $new_order_id, '_nab_bulk_child', 'yes' );
+
 					$order_address               = $order->get_address();
 					$order_address['first_name'] = $user['first_name'];
 					$order_address['last_name']  = $user['last_name'];
@@ -223,11 +235,17 @@ function insert_new_attendee_callback() {
 					$new_order->calculate_totals();
 					$new_order->update_status( "completed" );
 
+					update_user_meta( $new_user_id, 'billing_first_name', $user['first_name'] );
+					update_user_meta( $new_user_id, 'billing_last_name', $user['first_name'] );
+
 					// update status to 1 in DB
 					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}nab_attendee SET `status` = 1, `modified`= '%s', `wp_user_id` = %d WHERE `id` = %d",
 						date( 'Y-m-d H:i:s' ), $new_user_id, $attendee['id'] ) );
 					$added_attendee ++;
 
+					if ( 1 === $new_user_created ) {
+						do_action( 'nab_bulk_user_registration', $new_order_id, $new_user_id, $user['user_pass'] );
+					}
 				} else {
 					$failed[] = $user['user_email'] . ' - Error creating order for new attendee.';
 				}
@@ -248,6 +266,10 @@ function insert_new_attendee_callback() {
 	$res['skipped_msg']    = $skipped_msg;
 	$res['added_attendee'] = $added_attendee;
 
+	if ( isset( $_POST['isLast'] ) && 'yes' === $_POST['isLast'] ) {
+		$res['totalAddedAttendees'] = nab_get_attendee_count( $order_id );
+	}
+
 	wp_send_json( $res, 200 );
 }
 
@@ -256,6 +278,14 @@ add_action( 'wp_ajax_nopriv_get_order_attendees', 'get_order_attendees_callback'
 
 function get_order_attendees_callback() {
 	global $wpdb;
+
+	if ( ! isset( $_GET['nabNonce'] ) || false === wp_verify_nonce( $_GET['nabNonce'], 'nab-ajax-nonce' ) ) {
+		$res['err']     = 1;
+		$res['message'] = 'Authentication failed. Please reload the page and try again.';
+
+		wp_send_json( $res, 200 );
+		wp_die();
+	}
 
 	$res      = [];
 	$order_id = filter_input( INPUT_GET, 'orderId' );

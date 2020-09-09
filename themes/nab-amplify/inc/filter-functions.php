@@ -427,17 +427,17 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 
 	return $customer_note;
 }
- 
+
 /**
  * Update the checkout page form fields.
  */
 function nab_amplify_woocommerce_checkout_fields( $fields ) {
-	
-	 if( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
+
+	if ( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
 		unset( $fields['billing'] );
-	 }
-     
-     return $fields;
+	}
+
+	return $fields;
 }
 
 /**
@@ -451,23 +451,64 @@ function nab_registration_receipt_mail( $email_classes ) {
 
 	// include our custom email class
 	require_once get_template_directory() . '/inc/nab-registration-receipt-mail.php';
+	require_once get_template_directory() . '/inc/nab-bulk-registration-user-mail.php';
 
 	// add the email class to the list of email classes that WooCommerce loads
 	$email_classes['WC_Registration_Receipt_Email'] = new WC_Registration_Receipt_Email();
+
+	$email_classes['WC_Bulk_Registration_User_Email'] = new WC_Bulk_Registration_User_Email();
 
 	return $email_classes;
 
 }
 
+/**
+ * Save bulk order details to cart session
+ *
+ * @param $session_data
+ * @param $values
+ * @param $key
+ *
+ * @return mixed
+ */
 function nab_bulk_order( $session_data, $values, $key ) {
 
 	if ( isset( $_POST['nab_bulk_order'] ) && 'yes' === $_POST['nab_bulk_order'] ) {
-		$session_data['nab_bulk_order'] = 'yes';
 		if ( isset( $_POST['nab_bulk_order_qty'] ) && ! empty( $_POST['nab_bulk_order_qty'] ) ) {
-			$session_data['nab_qty'] = $_POST['nab_bulk_order_qty'];
+			$session_data['nab_bulk_order'] = 'yes';
+			$session_data['nab_qty']        = $_POST['nab_bulk_order_qty'];
+		} else {
+			$session_data['nab_bulk_order'] = 'no';
+			$session_data['nab_qty']        = 1;
 		}
+	} else if ( isset( $_POST['nab_bulk_order'] ) && 'no' === $_POST['nab_bulk_order'] ) {
+		$session_data['nab_bulk_order'] = 'no';
+		$session_data['nab_qty']        = 1;
 	}
 
 	return $session_data;
 
+}
+
+/**
+ * Prevents order emails to customers in case of Attendees import
+ *
+ * @param $enable
+ * @param $order
+ *
+ * @return false
+ */
+function nab_stop_bulk_order_email( $enable, $order ) {
+
+	if ( isset( $order ) && ! empty( $order ) ) {
+		$order_id            = $order->get_order_number();
+		$is_bulk_child_order = get_post_meta( $order_id, '_nab_bulk_child', true );
+
+		// Stop email if it's a child order
+		if ( isset( $is_bulk_child_order ) && 'yes' === $is_bulk_child_order ) {
+			return false;
+		}
+	}
+
+	return $enable;
 }

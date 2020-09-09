@@ -19,7 +19,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $fields = $checkout->get_checkout_fields( 'billing' );
-if( $fields ) { ?>
+if ( $fields ) { ?>
 	<div class="woocommerce-billing-fields">
 		<?php if ( wc_ship_to_billing_address_only() && WC()->cart->needs_shipping() ) : ?>
 
@@ -35,10 +35,12 @@ if( $fields ) { ?>
 
 		do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
 
-		<div class="checkbox-custom">
-			<input type="checkbox" id="nab_billing_same_as_attendee" value="">
-			<label for="nab_billing_same_as_attendee"><?php esc_html_e( 'Same as Attendee Information', 'nab-amplify' ); ?></label>
-		</div>
+		<?php if ( false === nab_is_bulk_order() ) { ?>
+			<div class="checkbox-custom">
+				<input type="checkbox" id="nab_billing_same_as_attendee" value="">
+				<label for="nab_billing_same_as_attendee"><?php esc_html_e( 'Same as Attendee Information', 'nab-amplify' ); ?></label>
+			</div>
+		<?php } ?>
 
 		<div class="woocommerce-billing-fields__field-wrapper">
 			<?php
