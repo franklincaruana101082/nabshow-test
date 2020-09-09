@@ -341,7 +341,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           
           infoDiv.appendChild(channelPassDiv);
 
-          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') ) {
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-details') ) {
             let moreDetailsDiv = document.createElement('div');
             moreDetailsDiv.setAttribute('class', 'info-more-details');
 
