@@ -55,3 +55,5 @@ add_filter( 'ae_pppf_comment1_parameter', 'nab_pppf_custom_parameter', 10, 2 );
 add_filter( 'ae_pppf_comment2_parameter', 'nab_pppf_comment2_parameter', 10, 2 );
 
 add_filter( 'woocommerce_email_classes', 'nab_registration_receipt_mail' );
+
+add_filter( 'the_title', 'nab_title_order_received', 10, 2 );

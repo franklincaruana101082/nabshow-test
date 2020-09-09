@@ -36,7 +36,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 		<?php endif; ?>
 
-		<h2><?php esc_html_e( 'Log in', 'woocommerce' ); ?></h2>
+		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
 
 		<div class="nab-login-wrap">
 			<div class="nab-normal-login">
@@ -98,7 +98,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		}
 		?>
 		<div class="nab-signup-now">
-			<h4 class="text-transform-initial">In order to access digital content, you need to have an account.</h4>
+			<h4 class="text-transform-initial">Sign in to your NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 			<h4 class="text-transform-initial">Don't have an account? <a href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a> now.</h4>
 		</div>
 
