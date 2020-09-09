@@ -7194,7 +7194,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     setAttributes = _props.setAttributes;
                 var itemToFetch = attributes.itemToFetch,
                     filterType = attributes.filterType,
-                    channels = attributes.channels;
+                    channels = attributes.channels,
+                    keywordFilter = attributes.keywordFilter,
+                    channelFilter = attributes.channelFilter,
+                    dateFilter = attributes.dateFilter,
+                    isOpenTo = attributes.isOpenTo,
+                    sessionDetails = attributes.sessionDetails,
+                    sessionDate = attributes.sessionDate,
+                    channelSelector = attributes.channelSelector,
+                    displayOrder = attributes.displayOrder;
 
                 return wp.element.createElement(
                     Fragment,
@@ -7229,7 +7237,64 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     }
                                 })
                             ),
-                            0 < this.state.channelsObj.length && !filterType && wp.element.createElement(
+                            wp.element.createElement(SelectControl, {
+                                label: __('Display Order'),
+                                value: displayOrder,
+                                options: [{ label: __('Oldest to Newest'), value: 'ASC' }, { label: __('Newest to Oldest'), value: 'DESC' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ displayOrder: value });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Keyword filter'),
+                                checked: keywordFilter,
+                                onChange: function onChange() {
+                                    return setAttributes({ keywordFilter: !keywordFilter });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Channel filter'),
+                                checked: channelFilter,
+                                onChange: function onChange() {
+                                    return setAttributes({ channelFilter: !channelFilter });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Date filter'),
+                                checked: dateFilter,
+                                onChange: function onChange() {
+                                    return setAttributes({ dateFilter: !dateFilter });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Is Open To'),
+                                checked: isOpenTo,
+                                onChange: function onChange() {
+                                    return setAttributes({ isOpenTo: !isOpenTo });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Session Details'),
+                                checked: sessionDetails,
+                                onChange: function onChange() {
+                                    return setAttributes({ sessionDetails: !sessionDetails });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Session Date'),
+                                checked: sessionDate,
+                                onChange: function onChange() {
+                                    return setAttributes({ sessionDate: !sessionDate });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Channel Selector'),
+                                checked: channelSelector,
+                                onChange: function onChange() {
+                                    return setAttributes({ channelSelector: !channelSelector });
+                                }
+                            }),
+                            0 < this.state.channelsObj.length && channelSelector && wp.element.createElement(
                                 Fragment,
                                 null,
                                 wp.element.createElement(
@@ -7277,7 +7342,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/session-date-list",
-                        attributes: { itemToFetch: itemToFetch, channels: channels, filterType: filterType }
+                        attributes: { itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder }
                     })
                 );
             }
@@ -7298,6 +7363,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         filterType: {
             type: 'boolean',
             default: true
+        },
+        keywordFilter: {
+            type: 'boolean',
+            default: true
+        },
+        channelFilter: {
+            type: 'boolean',
+            default: true
+        },
+        dateFilter: {
+            type: 'boolean',
+            default: true
+        },
+        isOpenTo: {
+            type: 'boolean',
+            default: true
+        },
+        sessionDetails: {
+            type: 'boolean',
+            default: true
+        },
+        sessionDate: {
+            type: 'boolean',
+            default: true
+        },
+        channelSelector: {
+            type: 'boolean',
+            default: false
+        },
+        displayOrder: {
+            type: 'string',
+            default: 'ASC'
         }
     };
     registerBlockType('mys/session-date-list', {

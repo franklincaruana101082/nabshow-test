@@ -62,7 +62,7 @@
         }
         render() {
             const { attributes, setAttributes } = this.props;
-            const { itemToFetch, filterType, channels } = attributes;
+            const { itemToFetch, filterType, channels, keywordFilter, channelFilter, dateFilter, isOpenTo, sessionDetails, sessionDate, channelSelector, displayOrder } = attributes;
             return (
                 <Fragment>
                     <InspectorControls>
@@ -80,55 +80,99 @@
                                     max={100}
                                     onChange={(item) => setAttributes({ itemToFetch: parseInt(item) }) }
                                 />
-                            </div>                            
-                            { ( 0 < this.state.channelsObj.length && ! filterType) &&
+                            </div>
+                            <SelectControl
+                                label={__('Display Order')}
+                                value={displayOrder}
+                                options={[
+                                    {label: __('Oldest to Newest'), value: 'ASC' },                                    
+                                    {label: __('Newest to Oldest'), value: 'DESC'},                                    
+                                ]}
+                                onChange={(value) => { setAttributes({displayOrder: value}); }}
+                            />
+                            <ToggleControl
+                                label={__('Keyword filter')}
+                                checked={keywordFilter}
+                                onChange={() => setAttributes({ keywordFilter: ! keywordFilter }) }
+                            />
+                            <ToggleControl
+                                label={__('Channel filter')}
+                                checked={channelFilter}
+                                onChange={() => setAttributes({ channelFilter: ! channelFilter }) }
+                            />
+                            <ToggleControl
+                                label={__('Date filter')}
+                                checked={dateFilter}
+                                onChange={() => setAttributes({ dateFilter: ! dateFilter }) }
+                            />
+                            <ToggleControl
+                                label={__('Is Open To')}
+                                checked={isOpenTo}
+                                onChange={() => setAttributes({ isOpenTo: ! isOpenTo }) }
+                            />
+                            <ToggleControl
+                                label={__('Session Details')}
+                                checked={sessionDetails}
+                                onChange={() => setAttributes({ sessionDetails: ! sessionDetails }) }
+                            />
+                            <ToggleControl
+                                label={__('Session Date')}
+                                checked={sessionDate}
+                                onChange={() => setAttributes({ sessionDate: ! sessionDate }) }
+                            />
+                            <ToggleControl
+                                label={__('Channel Selector')}
+                                checked={channelSelector}
+                                onChange={() => setAttributes({ channelSelector: ! channelSelector }) }
+                            />
+                            { ( 0 < this.state.channelsObj.length && channelSelector ) &&
 
-                            <Fragment>
-                                { 
-                                <div>
-                                    <label>{__(`Select Channels`)}</label>
+                                <Fragment>
+                                    { 
+                                    <div>
+                                        <label>{__(`Select Channels`)}</label>
 
-                                    {7 < this.state.channelsObj.length &&
-                                    <TextControl
-                                        type="string"
-                                        name='channel-filter-input'
-                                        placeHolder="Search Channel"
-                                        onChange={ value => this.filterChannels(value)}
-                                    />
-                                    }
-
-                                    <div className="fix-height-select">
-
-                                        {this.state.filterChannelsObj.map((ch, index) => (
-
-                                            <Fragment key={index}>
-                                                <CheckboxControl checked={-1 < channels.indexOf(ch.post_id)} label={ch.title} name="channels[]" value={ch.post_id} onChange={(isChecked) => {                                                
-                                                    let i,
-                                                    tempChannels = [...channels];                                                    
-
-                                                    if ( isChecked ) {
-                                                        tempChannels.push(ch.post_id);
-                                                    } else {
-                                                        i = tempChannels.indexOf(ch.post_id);
-                                                        tempChannels.splice(i, 1);                                                    
-                                                    }                                                    
-                                                    this.props.setAttributes({ channels: tempChannels });                                                    
-                                                    }
-                                                }
-                                                />
-                                            </Fragment>
-                                        ))
+                                        {7 < this.state.channelsObj.length &&
+                                        <TextControl
+                                            type="string"
+                                            name='channel-filter-input'
+                                            placeHolder="Search Channel"
+                                            onChange={ value => this.filterChannels(value)}
+                                        />
                                         }
-                                    </div>
-                                </div>                                    
-                                }
-                            </Fragment>
+
+                                        <div className="fix-height-select">
+
+                                            {this.state.filterChannelsObj.map((ch, index) => (
+
+                                                <Fragment key={index}>
+                                                    <CheckboxControl checked={-1 < channels.indexOf(ch.post_id)} label={ch.title} name="channels[]" value={ch.post_id} onChange={(isChecked) => {                                                
+                                                        let i,
+                                                        tempChannels = [...channels];                                                    
+
+                                                        if ( isChecked ) {
+                                                            tempChannels.push(ch.post_id);
+                                                        } else {
+                                                            i = tempChannels.indexOf(ch.post_id);
+                                                            tempChannels.splice(i, 1);                                                    
+                                                        }                                                    
+                                                        this.props.setAttributes({ channels: tempChannels });                                                    
+                                                        }
+                                                    }
+                                                    />
+                                                </Fragment>
+                                            ))
+                                            }
+                                        </div>
+                                    </div>                                    
+                                    }
+                                </Fragment>
                             }
                         </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/session-date-list"
-                        attributes={{ itemToFetch: itemToFetch, channels: channels, filterType: filterType}}
+                        attributes={{ itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder}}
                     />
                 </Fragment >
             );
@@ -146,6 +190,38 @@
         filterType: {
             type: 'boolean',
             default: true
+        },
+        keywordFilter: {
+            type: 'boolean',
+            default: true
+        },
+        channelFilter: {
+            type: 'boolean',
+            default: true
+        },
+        dateFilter: {
+            type: 'boolean',
+            default: true
+        },
+        isOpenTo: {
+            type: 'boolean',
+            default: true
+        },
+        sessionDetails: {
+            type: 'boolean',
+            default: true
+        },
+        sessionDate: {
+            type: 'boolean',
+            default: true
+        },
+        channelSelector: {
+            type: 'boolean',
+            default: false
+        },
+        displayOrder: {
+            type: 'string',
+            default: 'ASC'
         }
     };
     registerBlockType('mys/session-date-list', {

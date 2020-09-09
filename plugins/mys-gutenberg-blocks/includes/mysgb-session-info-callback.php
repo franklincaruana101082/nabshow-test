@@ -45,7 +45,7 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
             $start_time = str_replace(' p.m.', '', $start_time );
         }
         
-        $date_time      = date_format( date_create( $date ), 'l, F j, Y' ) . ' . ' . $start_time . ' - ' .$end_time . ' ET';
+        $date_time      = date_format( date_create( $date ), 'l, F j, Y' ) . ' | ' . $start_time . ' - ' .$end_time . ' ET';
         $channel        = get_field( 'session_channel',  $page_id );
         $channel_title  = get_the_title( $channel );
         $channel_link   = get_the_permalink( $channel );

@@ -21,11 +21,12 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
             <img src="<?php echo esc_url( get_the_post_thumbnail_url( $page_id ) ); ?>" alt="ppeb">
             <?php
         }
-        $date       = get_field( 'channel_date',  $page_id );
-        $location   = get_field( 'session_location',  $page_id );
-        $open_to    = get_field( 'is_open_to',  $page_id );
-        $is_open_to = get_field( 'is_open_to',  $page_id );
-        $is_open_to = 'Select Open To' === $is_open_to ? '' : $is_open_to;
+        $date               = get_field( 'channel_date',  $page_id );
+        $registration_url   = get_field( 'registration_url',  $page_id );
+        $location           = get_field( 'session_location',  $page_id );
+        $open_to            = get_field( 'is_open_to',  $page_id );
+        $is_open_to         = get_field( 'is_open_to',  $page_id );
+        $is_open_to         = 'Select Open To' === $is_open_to ? '' : $is_open_to;
         ?>        
         <div class="nabny-sidebar-block-meta-wrapper">
             <span><?php echo esc_html( $date ); ?></span>
@@ -41,8 +42,15 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
         </div>
         <div class="nabny-sidebar-block-desc">
             <p><?php echo esc_html( get_the_excerpt( $page_id ) ); ?></p>
-        </div>
+        </div>        
         <?php
+        if ( ! empty( $registration_url ) ) {
+            ?>
+            <div class="nabny-sidebar-block-link">
+                <a href="<?php echo esc_url( $registration_url ); ?>">Register Now</a>
+            </div>
+            <?php
+        }
     } else {
         ?>
         <p class="coming-soon">Coming soon.</p>

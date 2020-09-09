@@ -501,6 +501,38 @@ register_block_type( 'mys/session-date-list', array(
 		'filterType'  => array(
 			'type'    => 'boolean',
 			'default' => true
+		),
+		'keywordFilter'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'channelFilter'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'dateFilter'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'isOpenTo'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionDetails'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionDate'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'channelSelector'  => array(
+			'type'    => 'boolean',
+			'default' => false
+		),
+		'displayOrder'  => array(
+			'type'    => 'string',
+			'default' => 'ASC'
 		)
 	),
 	'render_callback' => array( $this, 'mysgb_session_date_list_render_callback' ),
