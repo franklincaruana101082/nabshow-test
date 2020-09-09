@@ -17,7 +17,7 @@ $channel_filter     = isset( $attributes['channelFilter'] ) ? $attributes['chann
 $date_filter        = isset( $attributes['dateFilter'] ) ? $attributes['dateFilter'] : true;
 $display_open_to    = isset( $attributes['isOpenTo'] ) ? $attributes['isOpenTo'] : true;
 $session_details    = isset( $attributes['sessionDetails'] ) ? $attributes['sessionDetails'] : true;
-$session_date       = isset( $attributes['sessionDate'] ) ? $attributes['sessionDate'] : true;
+$display_date       = isset( $attributes['sessionDate'] ) ? $attributes['sessionDate'] : true;
 $channel_selector   = isset( $attributes['channelSelector'] ) ? $attributes['channelSelector'] : false;
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $class_name         .= $filter_type ? 'with-filter' : 'without-filter';
@@ -48,7 +48,7 @@ if ( $filter_type ) {
     if ( ! $session_details ) {
         $session_class .= ' without-details';
     }
-    if ( ! $session_date ) {
+    if ( ! $display_date ) {
         $session_class .= ' without-date';
     }
     if ( ! $display_open_to ) {
@@ -262,7 +262,7 @@ if ( $query->have_posts() ) {
                     $start_time = str_replace(' p.m.', '', $start_time );
                 }
 
-                if ( $date_group !== $date && $session_date) {
+                if ( $date_group !== $date && $display_date) {
 
                     $date_group = $date;                    
 
@@ -346,7 +346,7 @@ if ( $query->have_posts() ) {
                 $counter++;
                 $next_post_date = isset( $query->posts[$counter]->ID ) ? get_field( 'session_date', $query->posts[$counter]->ID ) : '';
 
-                if ( $date_group !== $next_post_date && $session_date ) {
+                if ( $date_group !== $next_post_date && $display_date ) {
                 ?>
                     </div>
                 <?php
