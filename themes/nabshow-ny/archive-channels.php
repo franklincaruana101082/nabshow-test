@@ -40,7 +40,7 @@ get_header();
 
                         <div class="channel-detail-info">
                             <p><?php echo esc_html( get_the_excerpt() ); ?></p>
-                            <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="read-more-linkt">Read More</a>
+                            <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="read-more-link">Read More</a>
                         </div>
                     </div>
                     <?php
