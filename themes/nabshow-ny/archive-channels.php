@@ -18,39 +18,43 @@ get_header();
 	</div>
 	<div id="primary" class="container">
 		<main id="main" class="site-main">
+            <div class="breadcrumbs-nospace">
+	            <?php
+	                echo do_shortcode('[nab_yoast_breadcumb]');
+	            ?>
+	        </div>
+            <?php if ( have_posts() ) : ?>
 
-		<?php if ( have_posts() ) : ?>
-
-			<?php
-			/* Start the Loop */
-			while ( have_posts() ) :
-				the_post();
-
-				?>
-                <div id="post-<?php the_ID(); ?>" class="session-archive-list">
-                    <div class="session-title-info">
-                        <h2 class="entry-title">
-                            <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
-                        </h2>                        
-                    </div>                    
-
-                    <div class="session-detail-info">
-                        <p><?php echo esc_html( get_the_excerpt() ); ?></p>
-                        <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="read-more-linkt">Read More</a>
-                    </div>
-                </div>
                 <?php
+                /* Start the Loop */
+                while ( have_posts() ) :
+                    the_post();
 
-			endwhile;
+                    ?>
+                    <div id="post-<?php the_ID(); ?>" class="session-archive-list">
+                        <div class="session-title-info">
+                            <h2 class="entry-title">
+                                <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                            </h2>                        
+                        </div>                    
 
-			the_posts_navigation();
+                        <div class="session-detail-info">
+                            <p><?php echo esc_html( get_the_excerpt() ); ?></p>
+                            <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="read-more-linkt">Read More</a>
+                        </div>
+                    </div>
+                    <?php
 
-		else :
+                endwhile;
 
-			get_template_part( 'template-parts/content', 'none' );
+                the_posts_navigation();
 
-		endif;
-		?>
+            else :
+
+                get_template_part( 'template-parts/content', 'none' );
+
+            endif;
+            ?>
 
 		</main><!-- #main -->
 	</div><!-- #primary -->
