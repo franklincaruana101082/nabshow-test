@@ -31,14 +31,14 @@ get_header();
                     the_post();
 
                     ?>
-                    <div id="post-<?php the_ID(); ?>" class="session-archive-list">
-                        <div class="session-title-info">
+                    <div id="post-<?php the_ID(); ?>" class="channel-archive-list">
+                        <div class="channel-title-info">
                             <h2 class="entry-title">
                                 <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
                             </h2>                        
                         </div>                    
 
-                        <div class="session-detail-info">
+                        <div class="channel-detail-info">
                             <p><?php echo esc_html( get_the_excerpt() ); ?></p>
                             <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="read-more-linkt">Read More</a>
                         </div>
