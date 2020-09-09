@@ -55,23 +55,3 @@ function nabny_enqueue_required_scripts() {
   
   wp_enqueue_style( 'nabny-custom-style', get_stylesheet_directory_uri() . '/assets/css/nabshow-ny.css' );  
 }
-
-/**
- * Display restricted message if user on session detail page and not purchased product.
- *
- * @param  mixed $content
- * @return string
- */
-function nabny_restrict_session_content( $content ) {
-
-	global $post;
-	
-	if ( is_singular( 'sessions' ) && ! is_user_logged_in() ) {
-		
-		$product_name 	= get_field( 'product_name', $post->ID );
-		$product_name	  = empty( $product_name ) ? 'this' : $product_name;
-		$content 		    = '<p class="restrict-msg">You must have purchase ' . $product_name . ' product in order to view.</p>';
-	}
-	
-	return $content;	
-}
