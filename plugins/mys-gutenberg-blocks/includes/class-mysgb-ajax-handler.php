@@ -595,7 +595,9 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );		
 			$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
 			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );		
-			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );			
+			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
+			$display_order      = filter_input( INPUT_GET, 'display_order', FILTER_SANITIZE_STRING );
+			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );
 
 			$query_arg = array(
 				'post_type'      => 'sessions',
@@ -603,7 +605,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				'paged'          => $page_number,
 				'meta_key'       => 'session_date',
 				'orderby'        => 'meta_value',
-				'order'          => 'ASC'
+				'order'          => $display_order
 			);			
 
 			if ( ! empty( $post_search ) ) {
@@ -614,7 +616,26 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$query_arg[ 'meta_value' ] = $session_date;
 			}
 
-			if ( ! empty( $channel ) ) {
+			if ( ! empty( $channel_list ) ) {
+				
+				$all_channel = explode( ',', $channel_list );
+				
+				if ( ! empty( $channel ) && in_array( $channel, $all_channel ) ) {
+					$all_channel = array( $channel );
+				} else if ( ! empty( $channel ) ) {
+					$all_channel = array('');
+				}
+
+				$query_arg[ 'meta_query' ] = array(
+					array(
+						'key'     => 'session_channel',
+						'value'   => $all_channel,
+						'compare' => 'IN'
+					)
+				);
+
+			} else if ( ! empty( $channel ) ) {
+				
 				$query_arg[ 'meta_query' ] = array(
 					array(
 						'key'     => 'session_channel',
@@ -640,6 +661,8 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$date           = get_field( 'session_date',  $session_id );
 					$start_time     = get_field( 'start_time',  $session_id );
 					$end_time       = get_field( 'end_time',  $session_id );
+					$is_open_to     = get_field( 'is_open_to',  $session_id );
+                	$is_open_to     = 'Select Open To' === $is_open_to ? '' : $is_open_to;
 					$schedule_class = 'white_bg';
 					$button_text    = 'Learn More';					
 
@@ -709,7 +732,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$result_post[ $i ][ 'more_text' ]  		= $button_text;
 					$result_post[ $i ][ 'channel' ]  		= get_the_title( $channel );
 					$result_post[ $i ][ 'channel_link' ]  	= get_the_permalink( $channel );
-					$result_post[ $i ][ 'pass_name' ]  		= 'Open to Pass Name';
+					$result_post[ $i ][ 'pass_name' ]  		= $is_open_to;
 					$result_post[ $i ][ 'session_date' ]  	= $date;
 					$result_post[ $i ][ 'schedule_class' ]	= $schedule_class;
 					$result_post[ $i ][ 'thumbnail_url' ] 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );

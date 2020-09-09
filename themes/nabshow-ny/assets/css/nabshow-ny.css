@@ -24,11 +24,11 @@
 .session-date-list .schedule-row .session-img img{width:100%;}
 .session-date-list .schedule-row .info .name,
 .session-date-list .schedule-row .channel-pass{line-height:1}
-.session-date-list .schedule-row .info .name h3{font-size:32px;margin-bottom:10px;line-height:1.2;font-family:'Josefin Sans',sans-serif;color:#000;}
+.session-date-list .schedule-row .info .name h3{font-size:1.3rem;margin-bottom:10px;line-height:1.2;font-family:'Josefin Sans',sans-serif;color:#000;padding-right:13px;}
 .session-date-list .schedule-row .channel-pass span{font-size:20px;font-family:"roboto",sans-serif;line-height:1.3;display:inline-block;}
 .session-date-list .schedule-row .channel-pass span.pass-name::before{content:"";width:7px;height:7px;display:inline-block;background:#000;border-radius:50%;margin-right:10px;margin-left:10px;vertical-align:middle;}
 .session-date-list .schedule-row .more-details-link{margin-left:auto;min-width:215px;-ms-flex-negative:0;flex-shrink:0;min-width:150px;}
-.session-date-list .schedule-row .more-details-link a{color:#fff;background:#ab3e97;display:block;text-align:center;text-decoration:none;font-size:19px;font-family:"roboto",sans-serif;padding:10px;margin-left:auto;}
+.session-date-list .schedule-row .more-details-link a{color:#fff;background:#ab3e97;display:block;text-align:center;text-decoration:none;font-size:19px;font-family:'Josefin Sans',sans-serif;padding:10px;margin-left:auto;}
 .session-date-list .schedule-row .more-details-link a:hover{opacity:0.8;}
 .session-date-list .schedule-row .session-img,
 .session-date-list .schedule-row .date{margin-right:30px;-ms-flex-negative:0;flex-shrink:0}
@@ -68,8 +68,8 @@
 .nabny-session-block-outer .nabny-session-info .nabny-session-image{-ms-flex-negative:0;flex-shrink:0;width:290px;margin-right:50px;}
 .nabny-session-block-outer .nabny-session-info .nabny-session-image img{width:100%;display:block;}
 .nabny-session-block-outer .nabny-session-info .nabny-session-info-wrap{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;}
-.nabny-session-block-outer .nabny-session-info .nabny-session-info-wrap h4{font-family:'Josefin Sans',sans-serif;font-weight:400;font-size:32px;margin-bottom:20px;}
-.nabny-session-block-outer .nabny-session-info .nabny-session-info-wrap p{font-size:20px;font-weight:400;line-height:0.5;font-family:"roboto",sans-serif;margin-bottom:0;}
+.nabny-session-block-outer .nabny-session-info .nabny-session-info-wrap h4{font-family:'Josefin Sans',sans-serif;font-weight:400;font-size:32px;margin-bottom:20px;line-height:36px;}
+.nabny-session-block-outer .nabny-session-info .nabny-session-info-wrap p{font-size:20px;font-weight:400;line-height:24px;font-family:"roboto",sans-serif;margin-bottom:0;}
 .nabny-session-block-outer .nabny-session-info .nabny-session-info-wrap p a{color:#ab3e97;}
 .nabny-session-block-outer .nabny-session-desc-wrapper p{margin-bottom:15px;font-size:20px;font-weight:400;line-height:1.3;font-family:"roboto",sans-serif;}
 .nabny-session-block-outer .nabny-session-desc-wrapper p:last-child{margin-bottom:0;}
@@ -95,7 +95,7 @@
 
 .nabny-sidebar-block-outer{border:1px solid #e1e1e1;padding:45px;}
 .nabny-sidebar-block-outer img{max-width:100%;}
-.nabny-sidebar-block-outer .nabny-sidebar-block-meta-wrapper{margin-top:25px;margin-bottom:40px;}
+.nabny-sidebar-block-outer .nabny-sidebar-block-meta-wrapper{margin-top:25px;margin-bottom:40px;font-style:italic;}
 .nabny-sidebar-block-outer .nabny-sidebar-block-meta-wrapper span{display:block;font-size:20px;font-weight:400;line-height:1.3;font-family:"roboto",sans-serif;}
 .nabny-sidebar-block-outer .nabny-sidebar-block-desc p{font-size:20px;font-weight:400;line-height:1.3;font-family:"roboto",sans-serif;margin-bottom:15px;}
 .nabny-sidebar-block-outer .nabny-sidebar-block-desc p:last-child{margin-bottom:0;}
@@ -135,6 +135,8 @@
 .channel-archive-list h2 a{color:#333367;text-decoration:none;}
 .session-archive-list a.read-more-link,
 .channel-archive-list a.read-more-link{background-color:#ab3e97;color:#fff;text-decoration:none;padding:10px 50px;font-family:'Josefin Sans',sans-serif;font-size:20px;}
+
+.session-date-list.session-heading-black .session-date-list-wrapper .schedule-data h2{color:#000;font-size:24px;margin-bottom:0;}
 
 @media (max-width:1439px){
 	.session-date-list.without-filter .schedule-row .session-img,

@@ -230,17 +230,27 @@ $(function() {
 
 /** Session Date wise listing filter ajax */
 function nabAjaxForDateSession( loadMore, pageNumber ) {
+  let channel = '';
+  let sessionDate = '';
   let postPerPage = jQuery('#load-more-date-sessions a').attr('data-post-limit') ? parseInt(jQuery('#load-more-date-sessions a').attr('data-post-limit')) : 10;
-  let postSearch = 0 < jQuery('.session-date-list-filter .search-item .search').length ? jQuery('.session-date-list-filter .search-item .search').val() : '';
-  let sessionDate =  0 === jQuery('.session-date-list-filter .date-box #session-date')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .date-box #session-date').val();
-  let channel = 0 === jQuery('.session-date-list-filter .channel-box #session-channel')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .channel-box #session-channel').val();
+  let postSearch = 0 < jQuery('.session-date-list-filter .search-item .search').length ? jQuery('.session-date-list-filter .search-item .search').val() : '';  
+  let displayOrder = 0 < jQuery('.session-date-list .order-type').length ? jQuery('.session-date-list .order-type').val() : 'ASC';
+  let channelList = 0 < jQuery('.session-date-list .filter-channels').length ? jQuery('.session-date-list .filter-channels').val() : '';
+
+  if ( 0 < jQuery('.session-date-list-filter .channel-box #session-channel').length ) {
+    channel = 0 === jQuery('.session-date-list-filter .channel-box #session-channel')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .channel-box #session-channel').val();
+  }
+
+  if ( 0 < jQuery('.session-date-list-filter .date-box #session-date').length ) {
+    sessionDate =  0 === jQuery('.session-date-list-filter .date-box #session-date')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .date-box #session-date').val();
+  }
 
   jQuery('.session-date-list').addClass('popup-loader');   
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel,
-    url: nabshowNy.ajax_url,
+    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList,
+    url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 
       let sessionObj = jQuery.parseJSON(sessionData);
@@ -254,17 +264,20 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
 
       if ( '' !== sessionObj.result_post && 0 < sessionObj.result_post.length ) {
         jQuery.each(sessionObj.result_post, function (key, value) {
-          if ( dateGroup !== value.session_date ) {
-            parentItem = document.createElement('div');
-            parentItem.setAttribute('class', 'schedule-data');
+          
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-date') ) {
+            if ( dateGroup !== value.session_date ) {
+              parentItem = document.createElement('div');
+              parentItem.setAttribute('class', 'schedule-data');
+    
+              let dateHeading = document.createElement('h2');
+              dateHeading.innerText = value.session_date;
+    
+              parentItem.appendChild(dateHeading);
   
-            let dateHeading = document.createElement('h2');
-            dateHeading.innerText = value.session_date;
-  
-            parentItem.appendChild(dateHeading);
-
-            dateGroup = value.session_date;
-          }
+              dateGroup = value.session_date;
+            }
+          }          
   
           let scheduleDiv = document.createElement('div');
           let scheduleClass = '' === value.schedule_class ? 'schedule-row' : 'schedule-row ' + value.schedule_class;
@@ -317,48 +330,53 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           channelSpan.innerText = value.channel;
 
           channelLink.appendChild(channelSpan);
-                    
-          let passSpan = document.createElement('span');
-          passSpan.setAttribute('class', 'pass-name');
-          passSpan.innerText = value.pass_name;
-  
           channelPassDiv.appendChild(channelLink);
-          channelPassDiv.appendChild(passSpan);
-          infoDiv.appendChild(channelPassDiv);
-  
-          let moreDetailsDiv = document.createElement('div');
-          moreDetailsDiv.setAttribute('class', 'info-more-details');
 
-          let contentP = document.createElement('p');
-          contentP.innerText = value.post_content;
-
-          moreDetailsDiv.appendChild(contentP);          
-  
-          if ( value.speakers && 0 < value.speakers.length ) {
-            let speakerDiv = document.createElement('div');
-            speakerDiv.setAttribute('class', 'session-speaker');
-            speakerDiv.innerText = 'Featuring:';
-
-            let listUl = document.createElement('ul');
-
-            for ( let i = 0; i < value.speakers.length; i++ ) {
-              
-              let listLi = document.createElement('li');
-              
-              let speakerLink = document.createElement('a');
-              speakerLink.setAttribute('href', '#');
-              speakerLink.setAttribute('class', 'speaker-detail-list-modal');
-              speakerLink.setAttribute('data-postid', value.speakers[i].speaker_id);
-              speakerLink.innerText = value.speakers[i].speaker_name;
-
-              listLi.appendChild(speakerLink);
-              listUl.appendChild(listLi);
-              
-            }
-            speakerDiv.appendChild(listUl);
-            moreDetailsDiv.appendChild(speakerDiv);
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') ) {
+            let passSpan = document.createElement('span');
+            passSpan.setAttribute('class', 'pass-name');
+            passSpan.innerText = value.pass_name;
+            channelPassDiv.appendChild(passSpan);
           }
-          infoDiv.appendChild(moreDetailsDiv);
+          
+          infoDiv.appendChild(channelPassDiv);
+
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') ) {
+            let moreDetailsDiv = document.createElement('div');
+            moreDetailsDiv.setAttribute('class', 'info-more-details');
+
+            let contentP = document.createElement('p');
+            contentP.innerText = value.post_content;
+
+            moreDetailsDiv.appendChild(contentP);          
+    
+            if ( value.speakers && 0 < value.speakers.length ) {
+              let speakerDiv = document.createElement('div');
+              speakerDiv.setAttribute('class', 'session-speaker');
+              speakerDiv.innerText = 'Featuring:';
+
+              let listUl = document.createElement('ul');
+
+              for ( let i = 0; i < value.speakers.length; i++ ) {
+                
+                let listLi = document.createElement('li');
+                
+                let speakerLink = document.createElement('a');
+                speakerLink.setAttribute('href', '#');
+                speakerLink.setAttribute('class', 'speaker-detail-list-modal');
+                speakerLink.setAttribute('data-postid', value.speakers[i].speaker_id);
+                speakerLink.innerText = value.speakers[i].speaker_name;
+
+                listLi.appendChild(speakerLink);
+                listUl.appendChild(listLi);
+                
+              }
+              speakerDiv.appendChild(listUl);
+              moreDetailsDiv.appendChild(speakerDiv);
+            }
+            infoDiv.appendChild(moreDetailsDiv);
+          }
+
           scheduleDiv.appendChild(infoDiv);
   
           let detailLinkDiv = document.createElement('div');
@@ -371,14 +389,20 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           detailLinkDiv.appendChild(learnMoreLink);
           scheduleDiv.appendChild(detailLinkDiv);
 
-          if ( '' === parentItem ) {
-            parentItem = document.getElementsByClassName('schedule-data')[jQuery('.schedule-data').length - 1];
-            parentItem.appendChild(scheduleDiv);
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-date') ) {
+            if ( '' === parentItem ) {
+              parentItem = document.getElementsByClassName('schedule-data')[jQuery('.schedule-data').length - 1];
+              parentItem.appendChild(scheduleDiv);
+            } else {
+              parentItem.appendChild(scheduleDiv);
+              let wrapperMainDiv = document.getElementById('session-date-list-wrapper');
+              wrapperMainDiv.appendChild(parentItem);
+            }
           } else {
-            parentItem.appendChild(scheduleDiv);
             let wrapperMainDiv = document.getElementById('session-date-list-wrapper');
-            wrapperMainDiv.appendChild(parentItem);
+              wrapperMainDiv.appendChild(scheduleDiv);
           }
+          
 
         });
       }

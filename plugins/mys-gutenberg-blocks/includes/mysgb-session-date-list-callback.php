@@ -20,7 +20,7 @@ $session_details    = isset( $attributes['sessionDetails'] ) ? $attributes['sess
 $display_date       = isset( $attributes['sessionDate'] ) ? $attributes['sessionDate'] : true;
 $channel_selector   = isset( $attributes['channelSelector'] ) ? $attributes['channelSelector'] : false;
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-$class_name         .= $filter_type ? 'with-filter' : 'without-filter';
+$class_name         .= $filter_type ? ' with-filter' : ' without-filter';
 $session_class      = 'session-date-list-wrapper';
 
 $query_args = array(
