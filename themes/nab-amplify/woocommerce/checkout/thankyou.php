@@ -47,8 +47,8 @@ defined( 'ABSPATH' ) || exit;
 			Check your inbox, you should have received the following 2 emails from <a href="mailto:register@nab.org">register@nab.org</a>:
 		</p>
 		<ul class="text-bolder">
-			<li><strong>Your NAB Events Registration:</strong> Your login confirmation and information on how to access and edit your account and Show(s).</li>
-			<li><strong>Your NAB Events Invoice:</strong> A copy of your invoice.</li>
+			<li><strong>NAB Amplify Account Created:</strong> Your login confirmation and information on how to access and edit your account and Show(s).</li>
+			<li><strong>Registration Confirmation:</strong> A copy of your invoice.</li>
 		</ul>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">

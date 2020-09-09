@@ -85,7 +85,6 @@ function nab_custom_billing_fields( $billing_fields ) {
 		return $billing_fields;
 	}
 
-
 	$billing_fields['billing_phone']['required']   = false;
 	$billing_fields['billing_postcode']['label']   = 'Zip Code';
 	$billing_fields['billing_first_name']['label'] = 'First Name';
