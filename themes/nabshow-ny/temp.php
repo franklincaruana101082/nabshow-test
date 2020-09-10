@@ -8,7 +8,7 @@ $c_u = wp_get_current_user();
 ?>
 
 <div class="temp-cart">
-	<h3>Cart<span class="temp-cart-qty"></span><h3>
+	<h3>Cart - <span class="temp-cart-qty">0</span><h3>
 </div>
 
 <form method="post" action="">
@@ -146,13 +146,13 @@ get_footer();
 	}
 
 	function updateCart() {
-		var currCart = $('.temp-cart-qty').val();
+		var currCart = $('.temp-cart-qty').text();
 		if( currCart ) {
 			currCart = parseInt(currCart);
 		} else {
 			currCart = 0;
 		}
 		currCart++;
-		$('.temp-cart-qty').val(currCart);
+		$('.temp-cart-qty').text(currCart);
 	}
 </script>
