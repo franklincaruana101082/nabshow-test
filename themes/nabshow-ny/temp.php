@@ -7,14 +7,18 @@ get_header();
 $c_u = wp_get_current_user();
 ?>
 
+<div class="temp-cart">
+	Cart<span class="temp-cart-qty"></span>
+</div>
+
 <form method="post" action="">
 	<div>
-		<img src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/plugins/woocommerce/assets/images/placeholder.png">
-		<input type="button" data-pid="176" class="testCartSubmit" value="Add to Cart">
+		<img src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/uploads/sites/9/2020/08/belt-2.jpg?resize=150,150">
+		<input type="button" data-pid="197" class="testCartSubmit" value="Add to Cart">
 	</div>
 	<div>
-		<img src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/plugins/woocommerce/assets/images/placeholder.png">
-		<input type="button" data-pid="118" class="testCartSubmit" value="Add to Cart">
+		<img src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/uploads/sites/9/2020/08/cap-2.jpg?resize=150,150">
+		<input type="button" data-pid="198" class="testCartSubmit" value="Add to Cart">
 	</div>
 	<br><br>
 	<input type="button" class="proceedToCheckout" value="Checkout">
