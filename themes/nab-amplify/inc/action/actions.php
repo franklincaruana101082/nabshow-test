@@ -84,3 +84,5 @@ add_action( 'init', 'nab_create_attendee_table' );
 
 // Register custom rest route.
 add_action( 'rest_api_init', 'amplify_register_api_endpoints' );
+
+add_action( 'wp_authenticate', 'nab_create_jwt_token', 10, 2 );

@@ -815,3 +815,23 @@ function amplify_check_user_bought_product( WP_REST_Request $request ) {
 
 	return new WP_REST_Response( $return, 200 );
 }
+
+function nab_create_jwt_token( $username, $password ) {
+	
+	if( ! empty( $username ) && ! empty( $password ) ) {
+		$url = home_url() . '/wp-json/jwt-auth/v1/token';
+		$data = array(
+			'username' => $username,
+			'password'=> $password,
+		);
+
+		$response = wp_remote_post( $url, array(
+			'body'    => $data,
+		) );
+
+		wp_mail( 'hardik.thakkar@multidots.com','JWT Login', print_r( $response, true ) );
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		
+	}
+}
