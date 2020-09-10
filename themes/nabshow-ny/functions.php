@@ -45,7 +45,7 @@ function nab_login_add_cart_callback() {
   $product_id = filter_input( INPUT_POST, 'product_id' );
   $user_id    = get_current_user_id();
 
-  $user_token = get_user_meta( $c_u, 'nab_jwt_token', true );
+  $user_token = get_user_meta( $user_id, 'nab_jwt_token', true );
 
   if( ! empty( $user_token ) ) {
     $url = 'https://nabshow-com-develop.go-vip.net/amplify/wp-json/cocart/v1/add-item?return_cart=true';
