@@ -782,6 +782,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-bulk-upload-form-wrap input{opacity:0;position:absolute;top:0;left:0;border:1px solid #000;width:100%;height:35px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;-webkit-box-sizing:border-box;box-sizing:border-box;cursor:pointer;font-family:'Open Sans',sans-serif;}
 .attendee-bulk-upload-form-wrap button{background:#ff008f;border:none;color:#fff;text-decoration:none;text-shadow:none;padding:10px 20px;line-height:1;cursor:pointer;margin-right:10px;height:35px;font-family:'Open Sans',sans-serif;}
 .attendee-bulk-upload-form-wrap button:last-child{margin-right:0;}
+.attendee-bulk-upload-form-wrap .nab-download-sample-data {color: #23282d;display: block;margin-bottom: 10px;font-size: 13px;margin-top: 10px}
 
 /* attendee view popup */
 #nabViewAttendeeModal.nab-modal .modal-content{max-width:980px;}
