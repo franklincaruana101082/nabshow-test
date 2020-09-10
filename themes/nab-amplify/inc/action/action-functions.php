@@ -829,7 +829,6 @@ function nab_create_jwt_token( $username, $password ) {
 			'body'    => $data,
 		) );
 
-		wp_mail( 'hardik.thakkar@multidots.com','JWT Login', print_r( $response['body'], true ) );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if( 200 === $response_code && ! empty( $response['body'] ) ) {
@@ -840,5 +839,5 @@ function nab_create_jwt_token( $username, $password ) {
 			}
 		}
 	}
-	
+
 }

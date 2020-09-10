@@ -95,27 +95,11 @@ get_footer();
 
 		} );
 
-		jQuery( document ).on( 'click', '.testUserSubmit', function() {
-			var settings = {
-				'url': ajURl,
-				'method': 'POST',
-				'headers': {
-					'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zaXRlMy53cG11bHRpLnRlc3QiLCJpYXQiOjE1OTc3MzM3MzcsIm5iZiI6MTU5NzczMzczNywiZXhwIjoxNTk4MzM4NTM3LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIzIn19fQ.7uIi9Y_19RNmZnjjzAlpod_hPE00mvep2Fqa0DspkMQ'
-				},
-				'data': {
-					'product_id': 19
-				},
-			};
-			jQuery.ajax( settings ).done( function( response ) {
-				console.log( response );
-				updateCart()
-			} );
-		} );
 
 		$( document ).on( 'click', '.proceedToCheckout', function() {
 			var cartKeyCookie = getCookie( 'mdcartkey' );
 			if ( cartKeyCookie ) {
-				var checkoutUrl = 'https://nabshow-com-develop.go-vip.net/amplify/cart/?cocart-load-cart=' + cartKeyCookie;
+				var checkoutUrl = 'https://nabshow-com-develop.go-vip.net/amplify/cart/?cocart-load-cart=' + cartKeyCookie + '&keep-cart=false';
 				location.href = checkoutUrl;
 			} else {
 				var checkoutUrl = 'https://nabshow-com-develop.go-vip.net/amplify/cart/';
