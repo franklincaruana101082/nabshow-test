@@ -27,6 +27,7 @@ function ny_enqueue_styles() {
     wp_localize_script( 'scripts', 'mdObj', array(
       'isUserLoggedIn' => is_user_logged_in(),
       'mdLoggedUserId' => get_current_user_id(),
+      'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
     ) );
 
 }
@@ -35,3 +36,35 @@ function ny_enqueue_styles() {
  * Include files for theme customize hooks.
  */
 require_once get_stylesheet_directory() . '/inc/segment-ga-dev.php';
+
+
+add_action( 'wp_ajax_nab_login_add_cart' , 'nab_login_add_cart_callback' );
+add_action( 'wp_ajax_nopriv_nab_login_add_cart' , 'nab_login_add_cart_callback' );
+
+function nab_login_add_cart_callback() {
+  $product_id = filter_input( INPUT_POST, 'product_id' );
+  $user_id    = get_current_user_id();
+
+  $user_token = get_user_meta( $c_u, 'nab_jwt_token', true );
+
+  if( ! empty( $user_token ) ) {
+    $url = 'https://nabshow-com-develop.go-vip.net/amplify/wp-json/cocart/v1/add-item?return_cart=true';
+    
+    $args = array(
+      'headers' => array(
+        'Content-Type' => 'application/json; charset=utf-8',
+        'Authorization' => 'Bearer ' . $user_token,
+      ),
+      'body' => wp_json_encode( [
+        'product_id' => $product_id,
+        'quantity' => 1
+      ] ),
+      'timeout' => 30
+    );
+
+    $response = wp_remote_post( $url, $args );
+
+    wp_send_json( $response['body'], 200 );
+    
+  }
+}
