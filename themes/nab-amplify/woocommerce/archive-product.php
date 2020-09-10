@@ -86,6 +86,7 @@ do_action( 'woocommerce_before_main_content' );
 				do_action( 'woocommerce_no_products_found' );
 			}
 			?>
+			<?php the_content(); ?>
         </div> <!-- .left-side -->
 
         <div class="right-side">
