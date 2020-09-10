@@ -513,7 +513,7 @@ function nab_stop_bulk_order_email( $enable, $order ) {
 	return $enable;
 }
 
-function two_factor_user_api_login_enable( $val, $user_id ) {
+function nab_2fa_rest_api_enable( $val, $user_id ) {
 	$user = get_user_by( $user_id );
 
 	if( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) ) {
