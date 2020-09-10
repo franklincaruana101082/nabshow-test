@@ -188,3 +188,12 @@ function nabny_session_filter_by_channel( $query ) {
 		  $query->query_vars[ 'meta_value' ]	= $current_channel;
 	}
 }
+
+/**
+ * Mobile only Registration Button in footer
+ */
+function mobile_reg_button_ny_inclusion(){ ?>
+  <!-- Mobile Only Registration Button -->
+  <a id="mobile_reg" href="https://nabshow.com/ny2020/register/" data-feathr-click-track="true">Register Now</a>
+  <!-- /Mobile Only Registration Button --> <?php
+}

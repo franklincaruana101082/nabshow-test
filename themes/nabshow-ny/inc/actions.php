@@ -19,3 +19,6 @@ add_action( 'restrict_manage_posts', 'nabny_session_channel_filter_dropdown' );
 
 //Filter for add meta key and value to filter session list table
 add_filter( 'parse_query', 'nabny_session_filter_by_channel' );
+
+// Mobile only Registration Button in footer
+add_action('wp_footer', 'mobile_reg_button_ny_inclusion');

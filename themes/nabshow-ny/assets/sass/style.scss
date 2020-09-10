@@ -101,6 +101,30 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	// function mobile_reg_button_ny_inclusion // located in actions-functions.php
+	#mobile_reg {
+		background-color: $nab-green;
+		bottom: 0;
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 1.4em;
+		padding: 20px 20px;
+		position: fixed;
+		text-align: center;
+		text-decoration: none;
+		width: 100%;
+		@include trans(all 0.3s ease-in-out);
+		@include range(xs) {
+			font-size: 2em;
+		}
+		@include range(md) {
+			display: none;
+		}
+	}
+
 	h1 {
 		font-family: 'Josefin Sans', sans-serif;
 		line-height: 100%;
@@ -576,7 +600,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		background-image: url("images/footer-background.jpg") !important;
 		background-position: center center !important;
 		background-size: cover !important;
-		padding: 60px 0 60px !important;
+		padding: 40px 0 140px !important;
+		@include range(sm) {
+			padding: 60px 0 60px !important;
+		}
 		.container {
 			max-width: 1440px !important;
 			padding: 10px 40px;
