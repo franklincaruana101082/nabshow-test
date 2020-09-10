@@ -603,7 +603,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				'post_type'      => 'sessions',
 				'posts_per_page' => $post_limit,
 				'paged'          => $page_number,
-				'meta_key'       => 'session_date',
+				'meta_key'       => '_session_datetime',
 				'orderby'        => 'meta_value',
 				'order'          => $display_order
 			);			
@@ -612,8 +612,16 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$query_arg[ 's' ] = $post_search;
 			}
 
+			$meta_query_args = array( 'relation' => 'AND' );
+
 			if ( ! empty( $session_date ) ) {
-				$query_arg[ 'meta_value' ] = $session_date;
+				
+				$meta_query_args[] = array (
+					
+					'key' 	=> 'session_date',
+					'value'	=> $session_date,
+					'type'    => 'DATE',
+				);				
 			}
 
 			if ( ! empty( $channel_list ) ) {
@@ -626,7 +634,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$all_channel = array('');
 				}
 
-				$query_arg[ 'meta_query' ] = array(
+				$meta_query_args[] = array(
 					array(
 						'key'     => 'session_channel',
 						'value'   => $all_channel,
@@ -636,12 +644,17 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 			} else if ( ! empty( $channel ) ) {
 				
-				$query_arg[ 'meta_query' ] = array(
+				$meta_query_args[] = array(
 					array(
 						'key'     => 'session_channel',
 						'value'   => $channel						
 					)
 				);
+			}
+
+			if ( count( $meta_query_args ) > 1 ) {
+				
+				$query_arg[ 'meta_query' ] = $meta_query_args;
 			}
 			
 

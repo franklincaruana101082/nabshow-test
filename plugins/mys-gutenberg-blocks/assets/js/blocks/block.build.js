@@ -7202,7 +7202,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sessionDetails = attributes.sessionDetails,
                     sessionDate = attributes.sessionDate,
                     channelSelector = attributes.channelSelector,
-                    displayOrder = attributes.displayOrder;
+                    displayOrder = attributes.displayOrder,
+                    sessionTime = attributes.sessionTime,
+                    sessionChannel = attributes.sessionChannel,
+                    sessionButton = attributes.sessionButton;
 
                 return wp.element.createElement(
                     Fragment,
@@ -7267,6 +7270,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             wp.element.createElement(ToggleControl, {
+                                label: __('Session Date'),
+                                checked: sessionDate,
+                                onChange: function onChange() {
+                                    return setAttributes({ sessionDate: !sessionDate });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Session Time'),
+                                checked: sessionTime,
+                                onChange: function onChange() {
+                                    return setAttributes({ sessionTime: !sessionTime });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Channel'),
+                                checked: sessionChannel,
+                                onChange: function onChange() {
+                                    return setAttributes({ sessionChannel: !sessionChannel });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
                                 label: __('Is Open To'),
                                 checked: isOpenTo,
                                 onChange: function onChange() {
@@ -7281,10 +7305,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             wp.element.createElement(ToggleControl, {
-                                label: __('Session Date'),
-                                checked: sessionDate,
+                                label: __('Button'),
+                                checked: sessionButton,
                                 onChange: function onChange() {
-                                    return setAttributes({ sessionDate: !sessionDate });
+                                    return setAttributes({ sessionButton: !sessionButton });
                                 }
                             }),
                             wp.element.createElement(ToggleControl, {
@@ -7342,7 +7366,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/session-date-list",
-                        attributes: { itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder }
+                        attributes: { itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder, sessionTime: sessionTime, sessionChannel: sessionChannel, sessionButton: sessionButton }
                     })
                 );
             }
@@ -7385,6 +7409,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             default: true
         },
         sessionDate: {
+            type: 'boolean',
+            default: true
+        },
+        sessionTime: {
+            type: 'boolean',
+            default: true
+        },
+        sessionChannel: {
+            type: 'boolean',
+            default: true
+        },
+        sessionButton: {
             type: 'boolean',
             default: true
         },

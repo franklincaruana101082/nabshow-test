@@ -18,6 +18,9 @@ $date_filter        = isset( $attributes['dateFilter'] ) ? $attributes['dateFilt
 $display_open_to    = isset( $attributes['isOpenTo'] ) ? $attributes['isOpenTo'] : true;
 $session_details    = isset( $attributes['sessionDetails'] ) ? $attributes['sessionDetails'] : true;
 $display_date       = isset( $attributes['sessionDate'] ) ? $attributes['sessionDate'] : true;
+$display_time       = isset( $attributes['sessionTime'] ) ? $attributes['sessionTime'] : true;
+$display_channel    = isset( $attributes['sessionChannel'] ) ? $attributes['sessionChannel'] : true;
+$display_button     = isset( $attributes['sessionButton'] ) ? $attributes['sessionButton'] : true;
 $channel_selector   = isset( $attributes['channelSelector'] ) ? $attributes['channelSelector'] : false;
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $class_name         .= $filter_type ? ' with-filter' : ' without-filter';
@@ -26,7 +29,7 @@ $session_class      = 'session-date-list-wrapper';
 $query_args = array(
     'post_type'      => 'sessions',
     'posts_per_page' => $posts_per_page,
-    'meta_key'       => 'session_date',
+    'meta_key'       => '_session_datetime',
     'orderby'        => 'meta_value',
     'order'          => $display_order
 );    
@@ -53,6 +56,15 @@ if ( $filter_type ) {
     }
     if ( ! $display_open_to ) {
         $session_class .= ' without-open-to';
+    }
+    if ( ! $display_time ) {
+        $session_class .= ' without-time';
+    }
+    if ( ! $display_channel ) {
+        $session_class .= ' without-channel';
+    }
+    if ( ! $display_button ) {
+        $session_class .= ' without-button';
     }
 }
 
@@ -273,9 +285,15 @@ if ( $query->have_posts() ) {
                 } ?>
 
                 <div class="schedule-row <?php echo esc_attr( $schedule_class ); ?>">
-                    <div class="date">
-                        <p><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?> ET</p>
-                    </div>
+                    <?php
+                    if ( $display_time ) {
+                        ?>
+                        <div class="date">
+                            <p><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?> ET</p>
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <div class="session-img">                
                         <img src="<?php echo esc_url( $session_img ); ?>" alt="session-img" />
                     </div>
@@ -289,13 +307,17 @@ if ( $query->have_posts() ) {
                             <div class="channel-pass">
                                 <?php
                                 
-                                $channel = get_field( 'session_channel',  $session_id );
+                                if ( $display_channel ) {
+                                    
+                                    $channel = get_field( 'session_channel',  $session_id );
                                 
-                                if ( ! empty( $channel ) ) {
-                                    ?>
-                                    <a href="<?php echo esc_url( get_the_permalink( $channel ) ); ?>"><span class="channel-name"><?php echo esc_html( get_the_title( $channel ) ); ?></span></a>
-                                    <?php
+                                    if ( ! empty( $channel ) ) {
+                                        ?>
+                                        <a href="<?php echo esc_url( get_the_permalink( $channel ) ); ?>"><span class="channel-name"><?php echo esc_html( get_the_title( $channel ) ); ?></span></a>
+                                        <?php
+                                    }
                                 }
+
                                 if ( $display_open_to && ! empty( $is_open_to ) ) {
                                     ?>
                                     <span class="pass-name"><?php echo esc_html( $is_open_to ); ?></span>
@@ -338,9 +360,15 @@ if ( $query->have_posts() ) {
                         }
                         ?>                        
                     </div>
-                    <div class="more-details-link">                        
-                        <a href="<?php echo esc_url( $session_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
-                    </div>
+                    <?php
+                    if ( $display_button ) {
+                        ?>
+                        <div class="more-details-link">                        
+                            <a href="<?php echo esc_url( $session_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <?php
                 $counter++;

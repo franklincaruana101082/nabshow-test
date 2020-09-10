@@ -62,7 +62,7 @@
         }
         render() {
             const { attributes, setAttributes } = this.props;
-            const { itemToFetch, filterType, channels, keywordFilter, channelFilter, dateFilter, isOpenTo, sessionDetails, sessionDate, channelSelector, displayOrder } = attributes;
+            const { itemToFetch, filterType, channels, keywordFilter, channelFilter, dateFilter, isOpenTo, sessionDetails, sessionDate, channelSelector, displayOrder, sessionTime, sessionChannel, sessionButton } = attributes;
             return (
                 <Fragment>
                     <InspectorControls>
@@ -106,6 +106,21 @@
                                 onChange={() => setAttributes({ dateFilter: ! dateFilter }) }
                             />
                             <ToggleControl
+                                label={__('Session Date')}
+                                checked={sessionDate}
+                                onChange={() => setAttributes({ sessionDate: ! sessionDate }) }
+                            />
+                            <ToggleControl
+                                label={__('Session Time')}
+                                checked={sessionTime}
+                                onChange={() => setAttributes({ sessionTime: ! sessionTime }) }
+                            />
+                            <ToggleControl
+                                label={__('Channel')}
+                                checked={sessionChannel}
+                                onChange={() => setAttributes({ sessionChannel: ! sessionChannel }) }
+                            />
+                            <ToggleControl
                                 label={__('Is Open To')}
                                 checked={isOpenTo}
                                 onChange={() => setAttributes({ isOpenTo: ! isOpenTo }) }
@@ -116,9 +131,9 @@
                                 onChange={() => setAttributes({ sessionDetails: ! sessionDetails }) }
                             />
                             <ToggleControl
-                                label={__('Session Date')}
-                                checked={sessionDate}
-                                onChange={() => setAttributes({ sessionDate: ! sessionDate }) }
+                                label={__('Button')}
+                                checked={sessionButton}
+                                onChange={() => setAttributes({ sessionButton: ! sessionButton }) }
                             />
                             <ToggleControl
                                 label={__('Channel Selector')}
@@ -172,7 +187,7 @@
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/session-date-list"
-                        attributes={{ itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder}}
+                        attributes={{ itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder, sessionTime: sessionTime, sessionChannel: sessionChannel, sessionButton: sessionButton }}
                     />
                 </Fragment >
             );
@@ -212,6 +227,18 @@
             default: true
         },
         sessionDate: {
+            type: 'boolean',
+            default: true
+        },
+        sessionTime: {
+            type: 'boolean',
+            default: true
+        },
+        sessionChannel: {
+            type: 'boolean',
+            default: true
+        },
+        sessionButton: {
             type: 'boolean',
             default: true
         },

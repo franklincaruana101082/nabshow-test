@@ -526,6 +526,18 @@ register_block_type( 'mys/session-date-list', array(
 			'type'    => 'boolean',
 			'default' => true
 		),
+		'sessionTime'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionChannel'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionButton'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
 		'channelSelector'  => array(
 			'type'    => 'boolean',
 			'default' => false
