@@ -28,6 +28,7 @@ function ny_enqueue_styles() {
       'isUserLoggedIn' => is_user_logged_in(),
       'mdLoggedUserId' => get_current_user_id(),
       'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+      'nabCartKey'     => uniqid(),
     ) );
 
 }

@@ -31,10 +31,7 @@ if( is_user_logged_in() ) {
 	</div>
 	<br><br>
 	<input type="button" class="proceedToCheckout" value="Checkout">
-	<!--	<div>-->
-	<!--		<input type="button" class="testUserSubmit" value="Add to Cart for Logged in users">-->
-	<!--	</div>-->
-
+	
 </form>
 <br><br>
 
@@ -48,14 +45,12 @@ get_footer();
 		jQuery( document ).on( 'click', '.testCartSubmit', function() {
 			var pID = $( this ).data( 'pid' );
 			if ( mdObj.isUserLoggedIn ) {
+
 				// var ajURl = 'https://vipnabshow.md-develop.com/ny2020/wp-admin/admin-ajax.php';
 				var ajURl = 'https://nabshow-com-develop.go-vip.net/amplify/wp-json/cocart/v1/add-item?return_cart=true';
 				jQuery.ajax( {
 					url: mdObj.ajaxUrl,
 					type: 'POST',
-					// headers: {
-					// 	'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbmFic2hvdy1jb20tZGV2ZWxvcC5nby12aXAubmV0XC9hbXBsaWZ5IiwiaWF0IjoxNTk4MzY2NDY4LCJuYmYiOjE1OTgzNjY0NjgsImV4cCI6MTU5ODk3MTI2OCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMjExIn19fQ.SiZyNDFZCONb5F017Uyt-h3eCIIz5e-PPKK_WuPjO1Q'
-					// },
 					data: {
 						'product_id': pID,
 						'uid': mdObj.mdLoggedUserId,
@@ -72,7 +67,7 @@ get_footer();
 				if ( cartKeyCookie ) {
 					var cartKey = cartKeyCookie;
 				} else {
-					var cartKey = (Date.now().toString( 36 ) + Math.random().toString( 36 ).substr( 2, 5 ));
+					var cartKey = (mdObj.nabCartKey + Date.now().toString( 36 ) + Math.random().toString( 36 ).substr( 2, 5 ));
 					setCookie( 'mdcartkey', cartKey, 1 );
 				}
 
