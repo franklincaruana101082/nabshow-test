@@ -4,7 +4,19 @@
  */
 
 get_header();
-$c_u = wp_get_current_user();
+
+if( is_user_logged_in() ) {
+
+	$c_u = get_current_user_id();
+
+	$jwt_token = get_user_meta( $c_u, 'nab_jwt_token', true );
+
+	echo '<pre>';
+	print_r( $jwt_token );
+	echo '</pre>';
+}
+
+
 ?>
 
 <div class="temp-cart">
