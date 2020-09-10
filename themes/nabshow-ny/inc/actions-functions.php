@@ -59,9 +59,7 @@ function nabny_enqueue_required_scripts() {
 /**
  * Added custom field to combine ACF date and start time.
  *
- * @param int $post_id 
- * 
- * @since 1.0.0
+ * @param int $post_id
  */
 function nabny_save_date_time_acf_meta( $post_id ) {
     
@@ -78,4 +76,115 @@ function nabny_save_date_time_acf_meta( $post_id ) {
     
 		update_post_meta( $post_id, '_session_datetime', $final_date );
   }
+}
+
+/**
+ * Add new column channel in the session list.
+ *
+ * @param $columns
+ *
+ * @return array 
+ */
+function nabny_add_custom_channel_column( $columns ) {
+
+  $manage_columns = array();
+
+  foreach( $columns as $key => $value ) {
+  
+  if ( 'title' === $key ) {
+    
+    $manage_columns[ $key ] 		= $value;
+    $manage_columns[ 'channel' ] 	= 'Channel';            
+  }
+  
+      $manage_columns[$key] = $value;
+  }
+
+  return $manage_columns;
+}
+
+/**
+ * Display channel name in the custom channel column.
+ *
+ * @param $column
+ * @param $post_id 
+ */
+function nabny_channel_columns_data( $column, $post_id ) {
+
+	switch ( $column ) {
+		case 'channel':
+			
+			$channel = get_post_meta( $post_id, 'session_channel', true );
+			
+			if ( ! empty( $channel ) ) {
+				echo esc_html( get_the_title( $channel ) );
+			} else {
+				?>
+				<span aria-hidden="true">—</span>
+				<?php
+			}
+			break;
+	}
+}
+
+/**
+ * Added channel filter drop-down in the session list table.
+ *
+ * @param string $post_type 
+ */
+function nabny_session_channel_filter_dropdown( $post_type ) {
+
+	if ( 'sessions' === $post_type ) {
+		
+		$channel_args = array(
+			'post_type'      => 'channels',
+			'posts_per_page' => -1,            
+			'orderby'        => 'title',
+			'order'          => 'ASC'
+		);
+		
+		$channel_query = new WP_Query( $channel_args );
+		?>
+		<select name="session_channel" id="session_channel">
+			<option value="">Select a Channel</option>
+			<?php
+			if ( $channel_query->have_posts() ) {
+							
+				$current_channel = filter_input( INPUT_GET, 'session_channel', FILTER_SANITIZE_NUMBER_INT );
+	
+				while ( $channel_query->have_posts() ) {
+	
+				  $channel_query->the_post();
+					
+          $current_channel_id = get_the_ID();
+					
+					?>
+					<option value="<?php echo esc_attr( $current_channel_id ); ?>" <?php selected( $current_channel, $current_channel_id ); ?>><?php echo esc_html( get_the_title() ); ?></option>
+					<?php
+				}			
+			}
+			wp_reset_postdata();
+			?>
+		</select>
+		<?php
+	}	
+}
+
+/**
+ * Apply channel filter in the query.
+ *
+ * @param  mixed $query  
+ */
+function nabny_session_filter_by_channel( $query ) {
+	
+	global $pagenow;	
+
+	$current_post_type 	= filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+	$current_channel 	  = filter_input( INPUT_GET, 'session_channel', FILTER_SANITIZE_NUMBER_INT );
+		
+    if ( isset( $current_post_type ) && 'sessions' === $current_post_type && isset( $current_channel ) && ! empty( $current_channel ) && 'edit.php' === $pagenow && $query->is_main_query() ) {		
+      
+      $query->query_vars[ 'meta_key' ]	  = 'session_channel';
+		  $query->query_vars[ 'meta_value' ]	= $current_channel;
+	}
 }
