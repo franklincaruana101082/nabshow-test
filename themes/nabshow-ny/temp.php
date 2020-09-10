@@ -8,7 +8,7 @@ $c_u = wp_get_current_user();
 ?>
 
 <div class="temp-cart">
-	Cart<span class="temp-cart-qty"></span>
+	<h3>Cart<span class="temp-cart-qty"></span><h3>
 </div>
 
 <form method="post" action="">
@@ -16,6 +16,7 @@ $c_u = wp_get_current_user();
 		<img src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/uploads/sites/9/2020/08/belt-2.jpg?resize=150,150">
 		<input type="button" data-pid="197" class="testCartSubmit" value="Add to Cart">
 	</div>
+	<br><br>
 	<div>
 		<img src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/uploads/sites/9/2020/08/cap-2.jpg?resize=150,150">
 		<input type="button" data-pid="198" class="testCartSubmit" value="Add to Cart">
@@ -28,14 +29,6 @@ $c_u = wp_get_current_user();
 
 </form>
 <br><br>
-<?php if ( is_user_logged_in() ) {
-	//	$p_id = 19;
-	//	$u_p  = wp_remote_get( 'http://site3.wpmulti.test/wp-json/md/request/md-has-purchased?uid=' . $c_u->ID . '&pid=' . $p_id );
-	?>
-	<!--	<div>-->
-	<!--		<h4>User purchased product with id --><?php //echo $p_id; ?><!-- : --><?php //echo ( "true" === $u_p['body'] ) ? 'true' : 'false' ?><!--</h4>-->
-	<!--	</div>-->
-<?php } ?>
 
 <?php
 get_footer();
@@ -65,7 +58,7 @@ get_footer();
 					},
 					success: function( data ) {
 						console.log( data );
-						alert( 'added' );
+						updateCart();
 					}
 				} );
 			} else {
@@ -90,7 +83,7 @@ get_footer();
 					},
 					success: function( data ) {
 						console.log( data );
-						alert( 'added' );
+						updateCart();
 					}
 				} );
 			}
@@ -110,6 +103,7 @@ get_footer();
 			};
 			jQuery.ajax( settings ).done( function( response ) {
 				console.log( response );
+				updateCart()
 			} );
 		} );
 
@@ -149,5 +143,16 @@ get_footer();
 
 	function eraseCookie( name ) {
 		document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+
+	function updateCart() {
+		var currCart = $('.temp-cart-qty').val();
+		if( currCart ) {
+			currCart = parseInt(currCart);
+		} else {
+			currCart = 0;
+		}
+		currCart++;
+		$('.temp-cart-qty').val(currCart);
 	}
 </script>
