@@ -86,7 +86,7 @@ do_action( 'woocommerce_before_main_content' );
 				do_action( 'woocommerce_no_products_found' );
 			}
 			?>
-			<?php the_content(); ?>
+			<p>The full pass price is shown here. Member, group and student discounts are available for select passes. Click the pass for more details.</p>
         </div> <!-- .left-side -->
 
         <div class="right-side">
