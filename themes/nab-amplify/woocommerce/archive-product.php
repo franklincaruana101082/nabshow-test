@@ -86,7 +86,7 @@ do_action( 'woocommerce_before_main_content' );
 				do_action( 'woocommerce_no_products_found' );
 			}
 			?>
-			<p>The full pass price is shown here. Member, group and student discounts are available for select passes. Click the pass for more details.</p>
+			<p class="small"><i>The full pass price is shown here. Member, group and student discounts are available for select passes. Click the pass for more details.</i></p>
         </div> <!-- .left-side -->
 
         <div class="right-side">
