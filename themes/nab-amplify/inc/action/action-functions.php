@@ -829,9 +829,16 @@ function nab_create_jwt_token( $username, $password ) {
 			'body'    => $data,
 		) );
 
-		wp_mail( 'hardik.thakkar@multidots.com','JWT Login', print_r( $response, true ) );
-
+		wp_mail( 'hardik.thakkar@multidots.com','JWT Login', print_r( $response['body'], true ) );
 		$response_code = wp_remote_retrieve_response_code( $response );
-		
+
+		if( 200 === $response_code && ! empty( $response['body'] ) ) {
+			$response_body = json_decode( $response['body'], true );
+			
+			if( isset( $response_body['token'] ) && isset( $response_body['user_id'] ) ) {
+				update_user_meta( $response_body['user_id'], 'nab_jwt_token', $response_body['token'] );
+			}
+		}
 	}
+	
 }

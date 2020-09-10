@@ -522,3 +522,16 @@ function nab_2fa_rest_api_enable( $val, $user_id ) {
 
 	return $val;
 }
+
+function nab_jwt_response( $data, $user ) {
+
+	if( ! empty( $data ) && ! empty( $user ) ) {
+		$token = $data['token'];
+		$data  = array(
+			'token'   => $token,
+            'user_id' => $user->data->ID,
+		);
+	}
+
+	return $data;
+}
