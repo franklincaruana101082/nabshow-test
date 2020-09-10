@@ -282,15 +282,17 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           let scheduleDiv = document.createElement('div');
           let scheduleClass = '' === value.schedule_class ? 'schedule-row' : 'schedule-row ' + value.schedule_class;
           scheduleDiv.setAttribute('class', scheduleClass);
-  
-          let timeDiv = document.createElement('div');
-          timeDiv.setAttribute('class', 'date');
-  
-          let timeP = document.createElement('p');
-          timeP.innerText = value.time;
-  
-          timeDiv.appendChild(timeP);
-          scheduleDiv.appendChild(timeDiv);
+
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-time') ) {
+            let timeDiv = document.createElement('div');
+            timeDiv.setAttribute('class', 'date');
+    
+            let timeP = document.createElement('p');
+            timeP.innerText = value.time;
+    
+            timeDiv.appendChild(timeP);
+            scheduleDiv.appendChild(timeDiv);
+          }        
   
           let imgDiv = document.createElement('div');
           imgDiv.setAttribute('class', 'session-img');
@@ -322,17 +324,19 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           let channelPassDiv = document.createElement('div');
           channelPassDiv.setAttribute('class', 'channel-pass');
   
-          let channelLink = document.createElement('a');
-          channelLink.setAttribute('href', value.channel_link);
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-channel') ) {
+            let channelLink = document.createElement('a');
+            channelLink.setAttribute('href', value.channel_link);
 
-          let channelSpan = document.createElement('span');
-          channelSpan.setAttribute('class', 'channel-name');
-          channelSpan.innerText = value.channel;
+            let channelSpan = document.createElement('span');
+            channelSpan.setAttribute('class', 'channel-name');
+            channelSpan.innerText = value.channel;
 
-          channelLink.appendChild(channelSpan);
-          channelPassDiv.appendChild(channelLink);
+            channelLink.appendChild(channelSpan);
+            channelPassDiv.appendChild(channelLink);
+          }
 
-          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') ) {
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') && '' !== value.pass_name ) {
             let passSpan = document.createElement('span');
             passSpan.setAttribute('class', 'pass-name');
             passSpan.innerText = value.pass_name;
@@ -378,16 +382,18 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           }
 
           scheduleDiv.appendChild(infoDiv);
-  
-          let detailLinkDiv = document.createElement('div');
-          detailLinkDiv.setAttribute('class', 'more-details-link');
-  
-          let learnMoreLink = document.createElement('a');
-          learnMoreLink.setAttribute('href', value.post_link);
-          learnMoreLink.innerText = value.more_text;
-  
-          detailLinkDiv.appendChild(learnMoreLink);
-          scheduleDiv.appendChild(detailLinkDiv);
+
+          if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-button') ) {
+            let detailLinkDiv = document.createElement('div');
+            detailLinkDiv.setAttribute('class', 'more-details-link');
+    
+            let learnMoreLink = document.createElement('a');
+            learnMoreLink.setAttribute('href', value.post_link);
+            learnMoreLink.innerText = value.more_text;
+    
+            detailLinkDiv.appendChild(learnMoreLink);
+            scheduleDiv.appendChild(detailLinkDiv);
+          }
 
           if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-date') ) {
             if ( '' === parentItem ) {
@@ -401,8 +407,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           } else {
             let wrapperMainDiv = document.getElementById('session-date-list-wrapper');
               wrapperMainDiv.appendChild(scheduleDiv);
-          }
-          
+          }          
 
         });
       }
