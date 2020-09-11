@@ -428,6 +428,27 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                     'callback' => array( $this, 'ep_unlink_products' ),
                 )
             );
+
+            register_rest_route(
+                'nab', '/get-postdata', array(
+                    'methods'  => 'GET',
+                    'callback' => array( $this, 'ep_get_postdata' ),
+                )
+            );
+        }
+
+        public function ep_get_postdata( WP_REST_Request $request ) {
+            $parameters = $request->get_params();
+
+            $pid = isset( $parameters['pid'] ) ? $parameters['pid'] : '';
+            if( empty( $pid ) ) {
+                die('Please pass post id in "pid" parameter.');
+            }
+
+            $post_meta = get_post_meta( $pid );
+            echo '<pre>';
+            print_r($post_meta);
+            die();
         }
 
         /**
