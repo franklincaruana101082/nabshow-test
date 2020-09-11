@@ -57,28 +57,6 @@ function nabny_enqueue_required_scripts() {
 }
 
 /**
- * Added custom field to combine ACF date and start time.
- *
- * @param int $post_id
- */
-function nabny_save_date_time_acf_meta( $post_id ) {
-    
-	$session_date 	= get_post_meta( $post_id, 'session_date', $post_id );
-	$start_time 	  = get_post_meta( $post_id, 'start_time', $post_id );
-	
-	if ( ! empty( $session_date ) ) {
-		
-		$final_date = date_format( date_create( $session_date ), 'Y-m-d' );
-
-		if ( ! empty( $start_time ) ) {
-			$final_date .= ' ' . $start_time;
-    }
-    
-		update_post_meta( $post_id, '_session_datetime', $final_date );
-  }
-}
-
-/**
  * Add new column channel in the session list.
  *
  * @param $columns

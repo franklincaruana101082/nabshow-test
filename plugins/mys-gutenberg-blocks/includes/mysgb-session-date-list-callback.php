@@ -27,15 +27,26 @@ $class_name         .= $filter_type ? ' with-filter' : ' without-filter';
 $session_class      = 'session-date-list-wrapper';
 
 $query_args = array(
-    'post_type'      => 'sessions',
-    'posts_per_page' => $posts_per_page,
-    'meta_key'       => '_session_datetime',
-    'orderby'        => 'meta_value',
-    'order'          => $display_order
-);    
+    'post_type'         => 'sessions',
+    'posts_per_page'    => $posts_per_page,
+);
+
+$meta_query_args    = array( 'relation' => 'AND' );
+
+$meta_query_args[ 'session_date_clause' ] = array (
+    'key'       => 'session_date',
+    'compare'   => 'EXISTS',
+);
+
+$meta_query_args[ 'start_time_clause' ] = array (
+    'key'       => 'start_time',
+    'compare'   => 'EXISTS',
+);
 
 if ( $channel_selector && is_array( $channels ) && count( $channels ) > 0 ) {
-    $query_args[ 'meta_query' ] = array(
+    
+    $meta_query_args[] = array(
+        
         array(
             'key'     => 'session_channel',
             'value'   => $channels,
@@ -43,6 +54,13 @@ if ( $channel_selector && is_array( $channels ) && count( $channels ) > 0 ) {
         )
     );
 }
+
+$query_args[ 'meta_query' ] = $meta_query_args;
+
+$query_args[ 'orderby' ] = array(
+    'session_date_clause'   => $display_order,
+    'start_time_clause'     => 'ASC',
+);
 
 $query = new WP_Query( $query_args );
 

@@ -22,14 +22,16 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
             <?php
         }
         $date               = get_field( 'channel_date',  $page_id );
+        $date_separator     = get_field( 'date_separator',  $page_id );
+        $end_date           = get_field( 'end_date',  $page_id );
         $registration_url   = get_field( 'registration_url',  $page_id );
-        $location           = get_field( 'session_location',  $page_id );
-        $open_to            = get_field( 'is_open_to',  $page_id );
+        $location           = get_field( 'session_location',  $page_id );        
         $is_open_to         = get_field( 'is_open_to',  $page_id );
         $is_open_to         = 'Select Open To' === $is_open_to ? '' : $is_open_to;
+        $final_date         = ! empty( $end_date ) ? $date . ' ' . $date_separator . ' ' . $end_date : $date;
         ?>        
         <div class="nabny-sidebar-block-meta-wrapper">
-            <span><?php echo esc_html( $date ); ?></span>
+            <span><?php echo esc_html( $final_date ); ?></span>
             <span><?php echo esc_html( $location ); ?></span>
             <?php
             if ( ! empty( $is_open_to ) ) {

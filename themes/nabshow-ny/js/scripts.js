@@ -168,6 +168,13 @@ $(function() {
             detailsHeading.innerText = speakerObj.title;
   
             detailsDiv.appendChild(detailsHeading);
+
+            let subTitle = document.createElement('span');
+            subTitle.setAttribute('class', 'sub-title');
+            subTitle.innerText = speakerObj.sub_title;
+
+            detailsDiv.appendChild(subTitle);
+
             headDiv.appendChild(detailsDiv);
   
             let imgDiv = document.createElement('div');

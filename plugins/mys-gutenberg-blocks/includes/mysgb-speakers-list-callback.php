@@ -60,9 +60,9 @@ $query = new WP_Query( $query_args );
 
                 $query->the_post();
 
-                $speaker_id = get_the_ID();
-
-                $thumbnail_url = has_post_thumbnail() ? get_the_post_thumbnail_url() : $this->mysgb_get_speaker_thumbnail_url();
+                $speaker_id     = get_the_ID();
+                $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : $this->mysgb_get_speaker_thumbnail_url();
+                $speaker_title  = get_field( 'title',  $speaker_id );
                 
                 ?>
                 <div class="speaker-box-outer">
@@ -74,7 +74,7 @@ $query = new WP_Query( $query_args );
                             <h6>
                                 <a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $speaker_id ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
                             </h6>
-                            <p class="speaker-desc">Description</p>
+                            <p class="speaker-desc"><?php echo esc_html( $speaker_title ); ?></p>
                         </div>
                     </div>
                 </div>

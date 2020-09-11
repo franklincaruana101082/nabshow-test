@@ -597,22 +597,29 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );		
 			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
 			$display_order      = filter_input( INPUT_GET, 'display_order', FILTER_SANITIZE_STRING );
-			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );
+			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );			
 
 			$query_arg = array(
 				'post_type'      => 'sessions',
 				'posts_per_page' => $post_limit,
-				'paged'          => $page_number,
-				'meta_key'       => '_session_datetime',
-				'orderby'        => 'meta_value',
-				'order'          => $display_order
-			);			
+				'paged'          => $page_number,				
+			);
+
+			$meta_query_args    = array( 'relation' => 'AND' );
+
+			$meta_query_args[ 'session_date_clause' ] = array (
+				'key'       => 'session_date',
+				'compare'   => 'EXISTS',
+			);
+
+			$meta_query_args[ 'start_time_clause' ] = array (
+				'key'       => 'start_time',
+				'compare'   => 'EXISTS',
+			);
 
 			if ( ! empty( $post_search ) ) {
 				$query_arg[ 's' ] = $post_search;
-			}
-
-			$meta_query_args = array( 'relation' => 'AND' );
+			}			
 
 			if ( ! empty( $session_date ) ) {
 				
@@ -620,7 +627,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					
 					'key' 	=> 'session_date',
 					'value'	=> $session_date,
-					'type'    => 'DATE',
+					'type'  => 'DATE',
 				);				
 			}
 
@@ -650,12 +657,14 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 						'value'   => $channel						
 					)
 				);
-			}
-
-			if ( count( $meta_query_args ) > 1 ) {
+			}			
 				
-				$query_arg[ 'meta_query' ] = $meta_query_args;
-			}
+			$query_arg[ 'meta_query' ] = $meta_query_args;			
+
+			$query_arg[ 'orderby' ] = array(
+				'session_date_clause'   => $display_order,
+				'start_time_clause'     => 'ASC',
+			);
 			
 
 			$session_query = new WP_Query( $query_arg );
@@ -801,6 +810,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			
 			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
 			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
+			$result_post[ 'sub_title' ]		= get_field( 'title',  $speaker_id );
 			$result_post[ 'content' ] 		= get_the_excerpt( $speaker_id );
 
 			echo wp_json_encode( $result_post );
