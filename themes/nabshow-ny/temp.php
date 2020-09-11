@@ -78,9 +78,6 @@ get_footer();
 						'product_id': pID,
 						'cart_key': cartKey
 					},
-					beforeSend: function( request ) {
-						// request.setRequestHeader( 'X-WP-Nonce', uNonce );
-					},
 					success: function( data ) {
 						console.log( data );
 						updateCart();
