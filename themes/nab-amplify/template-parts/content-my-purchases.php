@@ -59,10 +59,10 @@
 										switch_to_blog($blog_id);
 
 										foreach( $ac as $current_post_id => $val ) {
-											if( 0 === $val || in_array( $current_post_id, $shown_content ) ) {
+											if( 0 === $val || in_array( $current_post_id, $shown_content[$blog_id] ) ) {
 												continue;
 											}
-											$shown_content[] = $current_post_id;
+											$shown_content[$blog_id][] = $current_post_id;
 											$content_not_found = 0;
 											$current_post_title     = get_the_title($current_post_id);
 											$current_post_link      = get_the_permalink($current_post_id);
