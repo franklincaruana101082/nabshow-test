@@ -702,6 +702,27 @@ function amplify_register_api_endpoints() {
 		),
 	) );
 
+	register_rest_route(
+		'nab', '/get-postdata', array(
+			'methods'  => 'GET',
+			'callback' => 'amplify_get_postdata',
+		)
+	);
+
+}
+
+function amplify_get_postdata( WP_REST_Request $request ) {
+	$parameters = $request->get_params();
+
+	$pid = isset( $parameters['pid'] ) ? $parameters['pid'] : '';
+	if( empty( $pid ) ) {
+		die('Please pass post id in "pid" parameter.');
+	}
+
+	$post_meta = get_post_meta( $pid );
+	echo '<pre>';
+	print_r($post_meta);
+	die();
 }
 
 /**
