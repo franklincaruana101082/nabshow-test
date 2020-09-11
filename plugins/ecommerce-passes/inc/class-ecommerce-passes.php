@@ -402,7 +402,12 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             
 	        foreach( $unlinked_products as $product_id ) {
                 $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
-                unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+
+
+                //unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+                $associated_content[ $current_blog_id ][ $current_post_id ] = 0;
+
+
                 //print_r($associated_content);
 		        update_post_meta( $product_id, '_associated_content', $associated_content );
             }

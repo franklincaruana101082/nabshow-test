@@ -55,12 +55,14 @@
 
 									foreach( $associated_content as $blog_id => $ac ) {
 
-										$content_not_found = 0;
-										
 										// Connect to new multisite
 										switch_to_blog($blog_id);
 
 										foreach( $ac as $current_post_id => $val ) {
+											if( 0 === $val) {
+												continue;
+											}
+											$content_not_found = 0;
 											$current_post_title     = get_the_title($current_post_id);
 											$current_post_link      = get_the_permalink($current_post_id);
 											$current_post_image     = get_the_post_thumbnail_url($current_post_id);
