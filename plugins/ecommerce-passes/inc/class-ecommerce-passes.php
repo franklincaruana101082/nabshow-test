@@ -32,8 +32,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        //add_filter( 'wp_insert_post_data', array( $this, 'my_filter') );
             add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
             
-            // Initialize the Rest End Point
-	    	add_action( 'rest_api_init', array( $this, 'ep_rest_points' ) );
 	}
 
         public function ep_add_prodcut_setting_page() {
@@ -382,115 +380,24 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_filter_post_data( $data , $postarr ) {
 
 	        $shop_blog_id = $this->ep_get_shop_blog();
-	        $current_blog_id = get_current_blog_id();
 	        $current_post_id = $postarr['ID'];
-
+            
             $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true));
             $new_linked = $postarr['associate_products'];
-	        $unlinked_products = array_diff( $previous_linked, $new_linked );
+            $unlinked_products = array_diff( $previous_linked, $new_linked );
+            $unlinked_products_serial = implode( ',', $unlinked_products);
 
-	        switch_to_blog($shop_blog_id);
-            
-            // $product_id = 10;
-            // $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
-            // unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
-            // update_post_meta( $product_id, '_associated_content', $associated_content );
-            
-            // echo '<pre>';
-            // print_r($unlinked_products);
-            
-            
-	        foreach( $unlinked_products as $product_id ) {
-                $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
-
-
-                //unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
-                $associated_content[ $current_blog_id ][ $current_post_id ] = 0;
-
-
-                //print_r($associated_content);
-		        update_post_meta( $product_id, '_associated_content', $associated_content );
-            }
-            
-            
-            //die('<br><---died here');
-
-	        wp_reset_query();
-	        // Quit multisite connection
-	        restore_current_blog();
+            $url = 'https://vipnabshow.md-develop.com/amplify/wp-json/nab/unlink-products';
+            $response = wp_remote_post( $url, array(
+                'method'      => 'POST',
+                'body'        => array(
+                    'unlinked_products' => $unlinked_products_serial,
+                    'shop_blog_id' => $shop_blog_id,
+                    'current_post_id' => $current_post_id
+                )
+            ));
 
             return $data;
-        }
-
-        public function ep_rest_points() {
-            /**
-             * Flush Custom Data.
-             * wp-json/custom/flush
-             */
-            register_rest_route(
-                'nab', '/unlink-products', array(
-                    'methods'  => 'POST',
-                    'callback' => array( $this, 'ep_unlink_products' ),
-                )
-            );
-
-        }
-
-        /**
-         * Call back for Flush Custom Data.
-         *
-         * @param WP_REST_Request $request
-         *
-         * @return bool Verified or not.
-         */
-        public function ep_unlink_products( WP_REST_Request $request ) {
-
-            $parameters = $request->get_params();
-
-            $current_post_id       = isset( $parameters['current_post_id'] ) ? $parameters['current_post_id'] : '';
-            $new_linked = isset( $parameters['new_associate_products'] ) ? $parameters['new_associate_products'] : '';
-
-            if ( empty( $key ) ) {
-                return "Key is missing!, please pass key value in a 'key' parameter!";
-            }
-            if ( empty( $post_type ) ) {
-                return "Post type is missing! Please pass 'post_type' value in a parameter!";
-            }
-
-            $shop_blog_id = $this->ep_get_shop_blog();
-	        $current_blog_id = get_current_blog_id();
-	        //$current_post_id = $postarr['ID'];
-
-            $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true));
-            //$new_linked = $postarr['associate_products'];
-	        $unlinked_products = array_diff( $previous_linked, $new_linked );
-
-	        switch_to_blog($shop_blog_id);
-            
-            // $product_id = 10;
-            // $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
-            // unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
-            // update_post_meta( $product_id, '_associated_content', $associated_content );
-            
-            // echo '<pre>';
-            // print_r($unlinked_products);
-            
-            
-	        foreach( $unlinked_products as $product_id ) {
-                $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
-                unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
-                //print_r($associated_content);
-		        update_post_meta( $product_id, '_associated_content', $associated_content );
-            }
-            
-            
-            //die('<br><---died here');
-
-	        wp_reset_query();
-	        // Quit multisite connection
-	        restore_current_blog();
-
-            return "unlinked successfully!";
         }
 
         
