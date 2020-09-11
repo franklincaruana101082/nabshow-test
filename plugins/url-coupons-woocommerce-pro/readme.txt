@@ -1,9 +1,9 @@
-=== URL Coupons for WooCommerce ===
+=== URL Coupons for WooCommerce Pro ===
 Contributors: algoritmika, anbinder
 Tags: woocommerce, coupons, url coupons, woo commerce
 Requires at least: 4.4
 Tested up to: 5.5
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -40,6 +40,10 @@ With [URL Coupons for WooCommerce Pro](https://wpfactory.com/item/url-coupons-wo
 3. Start by visiting plugin settings at "WooCommerce > Settings > URL Coupons".
 
 == Changelog ==
+
+= 1.2.8 - 10/09/2020 =
+* Dev - Advanced - "WP Rocket: Disable empty cart caching" option added.
+* WC tested up to: 4.5.
 
 = 1.2.7 - 07/09/2020 =
 * Dev - "Extra cookie" options added.

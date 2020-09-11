@@ -62,7 +62,7 @@ msgstr ""
 
 #: includes/settings/class-alg-wc-url-coupons-settings-general.php:70
 #: includes/settings/class-alg-wc-url-coupons-settings-general.php:103
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:140
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:151
 msgid "Enable"
 msgstr ""
 
@@ -154,29 +154,47 @@ msgstr ""
 msgid "Custom local URL"
 msgstr ""
 
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:139
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:145
 msgid "Advanced"
 msgstr ""
 
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:139
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:150
 msgid "Extra cookie"
 msgstr ""
 
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:141
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:152
 msgid "Enable this if you want to set cookie when URL coupon has been applied."
 msgstr ""
 
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:142
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:153
 #, php-format
 msgid "Cookie name will be %s."
 msgstr ""
 
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:148
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:159
 msgid "The time the cookie expires."
 msgstr ""
 
-#: includes/settings/class-alg-wc-url-coupons-settings-general.php:149
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:160
 msgid "In seconds."
+msgstr ""
+
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:167
+msgid "WP Rocket"
+msgstr ""
+
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:167
+msgid "Disable empty cart caching"
+msgstr ""
+
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:168
+msgid "Disable"
+msgstr ""
+
+#: includes/settings/class-alg-wc-url-coupons-settings-general.php:169
+msgid ""
+"Check this if you have \"WP Rocket\" plugin installed, and having issues "
+"with cart being empty after you apply URL coupon and add a product."
 msgstr ""
 
 #: url-coupons-woocommerce.php:149

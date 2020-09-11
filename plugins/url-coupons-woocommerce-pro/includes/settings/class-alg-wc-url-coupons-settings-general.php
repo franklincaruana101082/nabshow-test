@@ -2,7 +2,7 @@
 /**
  * URL Coupons for WooCommerce - General Section Settings
  *
- * @version 1.2.7
+ * @version 1.2.8
  * @since   1.0.0
  * @author  Algoritmika Ltd.
  */
@@ -28,7 +28,7 @@ class Alg_WC_URL_Coupons_Settings_General extends Alg_WC_URL_Coupons_Settings_Se
 	/**
 	 * get_settings.
 	 *
-	 * @version 1.2.7
+	 * @version 1.2.8
 	 * @since   1.0.0
 	 */
 	function get_settings() {
@@ -136,7 +136,18 @@ class Alg_WC_URL_Coupons_Settings_General extends Alg_WC_URL_Coupons_Settings_Se
 				'custom_attributes' => apply_filters( 'alg_wc_url_coupons_settings', array( 'disabled' => 'disabled' ) ),
 			),
 			array(
-				'title'    => __( 'Advanced', 'url-coupons-for-woocommerce-by-algoritmika' ) . ': ' . __( 'Extra cookie', 'url-coupons-for-woocommerce-by-algoritmika' ),
+				'type'     => 'sectionend',
+				'id'       => 'alg_wc_url_coupons_general_options',
+			),
+		);
+		$advanced_settings = array(
+			array(
+				'title'    => __( 'Advanced', 'url-coupons-for-woocommerce-by-algoritmika' ),
+				'type'     => 'title',
+				'id'       => 'alg_wc_url_coupons_advanced_options',
+			),
+			array(
+				'title'    => __( 'Extra cookie', 'url-coupons-for-woocommerce-by-algoritmika' ),
 				'desc'     => __( 'Enable', 'url-coupons-for-woocommerce-by-algoritmika' ),
 				'desc_tip' => __( 'Enable this if you want to set cookie when URL coupon has been applied.', 'url-coupons-for-woocommerce-by-algoritmika' ) . ' ' .
 					sprintf( __( 'Cookie name will be %s.', 'url-coupons-for-woocommerce-by-algoritmika' ), '<code>alg_wc_url_coupons</code>' ),
@@ -153,11 +164,19 @@ class Alg_WC_URL_Coupons_Settings_General extends Alg_WC_URL_Coupons_Settings_Se
 				'custom_attributes' => array( 'min' => 1 ),
 			),
 			array(
+				'title'    => __( 'WP Rocket', 'url-coupons-for-woocommerce-by-algoritmika' ) . ': ' . __( 'Disable empty cart caching', 'url-coupons-for-woocommerce-by-algoritmika' ),
+				'desc'     => __( 'Disable', 'url-coupons-for-woocommerce-by-algoritmika' ),
+				'desc_tip' => __( 'Check this if you have "WP Rocket" plugin installed, and having issues with cart being empty after you apply URL coupon and add a product.', 'url-coupons-for-woocommerce-by-algoritmika' ),
+				'id'       => 'alg_wc_url_coupons_wp_rocket_disable_cache_wc_empty_cart',
+				'default'  => 'no',
+				'type'     => 'checkbox',
+			),
+			array(
 				'type'     => 'sectionend',
-				'id'       => 'alg_wc_url_coupons_general_options',
+				'id'       => 'alg_wc_url_coupons_advanced_options',
 			),
 		);
-		return array_merge( $main_settings, $general_settings );
+		return array_merge( $main_settings, $general_settings, $advanced_settings );
 	}
 
 }

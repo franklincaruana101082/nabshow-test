@@ -1,15 +1,15 @@
 <?php
 /*
-Plugin Name: URL Coupons for WooCommerce
+Plugin Name: URL Coupons for WooCommerce Pro
 Plugin URI: https://wpfactory.com/item/url-coupons-woocommerce/
 Description: WooCommerce URL coupons.
-Version: 1.2.7
+Version: 1.2.8
 Author: Algoritmika Ltd
 Author URI: https://algoritmika.com
 Text Domain: url-coupons-for-woocommerce-by-algoritmika
 Domain Path: /langs
 Copyright: © 2020 Algoritmika Ltd.
-WC tested up to: 4.4
+WC tested up to: 4.5
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -33,7 +33,7 @@ final class Alg_WC_URL_Coupons {
 	 * @var   string
 	 * @since 1.0.0
 	 */
-	public $version = '1.2.7';
+	public $version = '1.2.8';
 
 	/**
 	 * @var   Alg_WC_URL_Coupons The single instance of the class

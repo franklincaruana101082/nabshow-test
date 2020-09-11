@@ -2,7 +2,7 @@
 /**
  * URL Coupons for WooCommerce - Core Class
  *
- * @version 1.2.7
+ * @version 1.2.8
  * @since   1.0.0
  * @author  Algoritmika Ltd.
  */
@@ -16,7 +16,7 @@ class Alg_WC_URL_Coupons_Core {
 	/**
 	 * Constructor.
 	 *
-	 * @version 1.2.5
+	 * @version 1.2.8
 	 * @since   1.0.0
 	 * @todo    [maybe] hide coupons: maybe it's safer to hide coupons with CSS instead of using filter
 	 */
@@ -34,6 +34,10 @@ class Alg_WC_URL_Coupons_Core {
 			// Delay notice
 			if ( 'yes' === get_option( 'alg_wc_url_coupons_delay_notice', 'no' ) ) {
 				add_action( 'wp_head', array( $this, 'delay_notice_display' ) );
+			}
+			// WP Rocket: Disable empty cart caching
+			if ( 'yes' === get_option( 'alg_wc_url_coupons_wp_rocket_disable_cache_wc_empty_cart', 'no' ) ) {
+				add_filter( 'rocket_cache_wc_empty_cart', '__return_false', PHP_INT_MAX );
 			}
 		}
 	}
@@ -148,6 +152,7 @@ class Alg_WC_URL_Coupons_Core {
 	 *
 	 * @version 1.2.7
 	 * @since   1.0.0
+	 * @todo    [next] use `WC()->cart->apply_coupon()` instead of `WC()->cart->add_discount()`
 	 * @todo    [maybe] options to add products to cart with query arg
 	 * @todo    [maybe] `if ( ! WC()->cart->has_discount( $coupon_code ) ) {}`
 	 */
