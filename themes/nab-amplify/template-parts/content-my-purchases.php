@@ -27,7 +27,7 @@
 				foreach ($items as $item) {
 
 					$product_id = $item->get_product_id();
-					if ($product_id) {
+					if ( $product_id && ! in_array( $product_id, $product_ids ) ) {
 						$product_ids[] = $product_id;
 					}
 				}
@@ -35,20 +35,10 @@
 		}
 	}
 
-	if($_GET['testing']) {
-		echo '<pre>';
-		print_r($product_ids);
-		echo '</pre>';
-	}
-
 	$content_not_found = 1;
 	if (is_array($product_ids) && count($product_ids) > 0) {
-
-		$product_ids_regex = '"' . implode('"|"', $product_ids) . '"';
-		$current_site_url  = get_site_url();
 		$default_image     = get_template_directory_uri() . '/assets/images/avtar.jpg';
 		?>
-
 		<section class="wp-listing-block wp-listing-search my-purchased-content">
 			<div class="all-sessions">
 				<h3>MY CONTENT</h3>
@@ -59,7 +49,7 @@
 							
 							foreach ($product_ids as $product_id) {
 
-								$associated_content = maybe_unserialize( get_post_meta( $product_id, 'associated_content', true ) );
+								$associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
 
 								if( $associated_content ) {
 
