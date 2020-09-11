@@ -387,7 +387,8 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             $unlinked_products = array_diff( $previous_linked, $new_linked );
             $unlinked_products_serial = implode( ',', $unlinked_products);
 
-            $url = get_site_url(null, '/wp-json/nab/unlink-products', 'https');
+            $url = get_site_url($shop_blog_id, '/wp-json/nab/unlink-products', 'https');
+            
             $response = wp_remote_post( $url, array(
                 'method'      => 'POST',
                 'body'        => array(
