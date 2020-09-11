@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists('Ecommerce_Passes') ) {
-    
+
     class Ecommerce_Passes {
-        
+
         public function ep_init_hook() {
 
             //Action for add setting page
@@ -28,7 +28,13 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             //Save meta box fields.
             add_action( 'save_post', array( $this, 'ep_save_custom_metabox_fields' ) );
-        }
+
+	        //add_filter( 'wp_insert_post_data', array( $this, 'my_filter') );
+            add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
+            
+            // Initialize the Rest End Point
+	    	add_action( 'rest_api_init', array( $this, 'ep_rest_points' ) );
+	}
 
         public function ep_add_prodcut_setting_page() {
 
@@ -45,7 +51,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_product_settings_callback() {
 
             $parent_site_url = filter_input( INPUT_POST, 'parent_site_url', FILTER_SANITIZE_STRING );
-            
+
             if ( isset( $parent_site_url ) && ! empty( $parent_site_url ) ) {
                 $parent_site_url = rtrim( $parent_site_url, '/') . '/';
                 update_option( 'ep_parent_site_url', $parent_site_url );
@@ -74,100 +80,100 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          * Display restricted content if user has not purchased product.
          *
          * @param  string $content
-         * 
+         *
          * @return string
-         * 
+         *
          * @since 1.0.0
          */
         public function ep_restrict_post_content( $content ) {
 
             global $post;
-            
+
             if ( isset( $post->ID ) ) {
 
                 $associate_products = get_post_meta( $post->ID, '_associate_product', true );
 
                 if ( ! empty( $associate_products ) && is_array( $associate_products ) ) {
-                    
+
                     if ( ! is_user_logged_in() ) {
 
                         $content = $this->ep_get_restrict_content( $content );
 
                     } else {
-                        
+
                         $logged_user    = wp_get_current_user();
                         $end_point_url  = get_option( 'ep_parent_site_url' );
 
                         if ( ! empty( $end_point_url ) ) {
-                            
+
                             $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
 
                             $response       = wp_remote_post( $end_point_url, array(
-                                'method' => 'POST',                            
+                                'method' => 'POST',
                                 'body'	=> array(
                                     'user_email' => $logged_user->user_email,
                                     'user_id'	=> $logged_user->ID,
                                     'product_ids' => $associate_products
                                 )
                             ) );
-    
+
                             if ( ! is_wp_error( $response ) ) {
-    
+
                                 $final_response = json_decode( wp_remote_retrieve_body( $response ) );
-    
+
                                 if ( ! $final_response->success ) {
-    
-                                    $content = $this->ep_get_restrict_content( $content, $final_response->url, $final_response->title );    
+
+                                    $content = $this->ep_get_restrict_content( $content, $final_response->url, $final_response->title );
                                 }
-    
+
                             } else {
-    
+
                                 $content = $this->ep_get_restrict_content( $content );
                             }
-                        }                                                
+                        }
                     }
-                }                
+                }
             }
-            
-            return $content;	
-        }        
-                
+
+            return $content;
+        }
+
         /**
          * Display restricted content.
          *
          * @param  string $content
          * @param  string $link
          * @param  string $text
-         * 
+         *
          * @return string
-         * 
+         *
          * @since 1.0.0
          */
         public function ep_get_restrict_content( $content, $link = '', $text = '') {
-            
-            $prodcut_name       = ! empty( $link ) && ! empty( $text ) ? '<a href="' . $link . '">' . $text . '</a>' : 'this';       
+
+            $prodcut_name       = ! empty( $link ) && ! empty( $text ) ? '<a href="' . $link . '">' . $text . '</a>' : 'this';
             $restrict_content   = '<p class="restrict-msg">You must have purchase '. $prodcut_name . ' product in order to view full content of the page.</p>';
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
-                
+
                 $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content);
-                
+
                 if ( has_blocks( $final_content ) ) {
-                                        
+
                     $ep_content         = parse_blocks( $final_content );
                     $ep_post_content    = $this->ep_serialize_blocks( $ep_content );
                     $restrict_content   .= $ep_post_content;
 
                 } else {
                     $restrict_content   .= $final_content;
-                } 
+                }
             } else {
 
                 $restrict_content = $content;
-            }            
+            }
 
             return $restrict_content;
-        }        
+        }
 
         /**
          * Renders an HTML-serialized form of a list of block objects.
@@ -229,17 +235,17 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             return $output;
         }
-        
+
         /*
          * Enqueue script and style.
-         * 
+         *
          * @param int $hook Hook suffix for the current admin page.
-         * 
+         *
          * @since 1.0.0
          */
         public static function ep_enqueue_admin_script( $hook ) {
-            
-            
+
+
             if ( 'post.php' !== $hook && 'post-new.php' !== $hook ) {
                 return;
             }
@@ -250,62 +256,62 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 $end_point_url .= 'wp-json/nab/request/get-product-list/';
             }
 
-            
+
             wp_enqueue_style( 'ep-select2-style', plugins_url( 'assets/css/select2.min.css', dirname( __FILE__ ) ) );
             wp_enqueue_script( 'ep-select2-script', plugins_url( 'assets/js/select2.min.js', dirname( __FILE__ ) ));
             wp_enqueue_script( 'ep-custom-admin-script', plugins_url( 'assets/js/ecommerce-passes-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.0' );
-            
+
             wp_localize_script( 'ep-custom-admin-script', 'ePassesObj', array(
                 'product_url'       => $end_point_url
             ) );
         }
-        
+
         /**
          * Add custom meta box.
          *
          * @since 1.0.0
          */
         public function ep_add_custom_metabox() {
-            
+
             $all_post_types = get_post_types( array( 'public' => true ) );
-            
+
             unset( $all_post_types['attachment'] );
 
             foreach ( $all_post_types as $screen ) {
-                
+
                 add_meta_box(
                     'ep_product_meta_box',
                     'Associated Products',
                     array( $this, 'ep_custom_metabox_callback' ),
                     $screen
                 );
-            }            
+            }
         }
 
         /**
          * Display metabox content.
          *
          * @param  mixed $post
-         * 
+         *
          * @since 1.0.0
          */
         public function ep_custom_metabox_callback( $post ) {
-            
+
             $end_point_url      = get_option( 'ep_parent_site_url' );
             $term_remote_url    = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-categories/' : '';
             $product_remote_url = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-list/' : '';
-            ?>            
+            ?>
             <div class="product-parent-wrapper">
                 <?php
-                
+
                 if ( ! empty( $term_remote_url ) ) {
-                    
-                    $term_list = wp_remote_post( $term_remote_url );            
+
+                    $term_list = wp_remote_post( $term_remote_url );
 
                     if ( ! is_wp_error( $term_list ) ) {
-                        
+
                         $final_terms = json_decode( wp_remote_retrieve_body( $term_list ) );
-                        
+
                         if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
                             ?>
                             <div class="category-box">
@@ -325,27 +331,27 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                         }
                     }
                 }
-                
+
                 if ( ! empty( $product_remote_url ) ) {
-                    
+
                     $all_products = wp_remote_post( $product_remote_url );
 
                     if ( ! is_wp_error( $all_products ) ) {
-                        
+
                         $final_products     = json_decode( wp_remote_retrieve_body( $all_products ) );
-                        
+
                         if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
-                            
+
                             $associate_products = get_post_meta( $post->ID, '_associate_product', true );
-                            
-                            ?>                        
+
+                            ?>
                             <div class="product-name-box">
                                 <label for="all-product-list">Select Products</label>
-                                <select id='all-product-list' class="all-product-list" name="associate_products[]" multiple="multiple">                                
+                                <select id='all-product-list' class="all-product-list" name="associate_products[]" multiple="multiple">
                                     <?php
                                     foreach( $final_products as $product ) {
-                                        
-                                        $current_item = '';                                    
+
+                                        $current_item = '';
                                         if ( ! empty( $associate_products ) && is_array( $associate_products ) && in_array( $product->product_id, $associate_products ) ) {
                                             $current_item = $product->product_id;
                                         }
@@ -359,27 +365,187 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                             <?php
                         }
                     }
-                }                            
-                ?>                
+                }
+                ?>
             </div>
             <?php
         }
+
+	    /**
+         * Remove Unlinked Products.
+         *
+	     * @param $data
+	     * @param $postarr
+	     *
+	     * @return mixed
+	     */
+        public function ep_filter_post_data( $data , $postarr ) {
+
+	        $shop_blog_id = $this->ep_get_shop_blog();
+	        $current_blog_id = get_current_blog_id();
+	        $current_post_id = $postarr['ID'];
+
+            $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true));
+            $new_linked = $postarr['associate_products'];
+	        $unlinked_products = array_diff( $previous_linked, $new_linked );
+
+	        switch_to_blog($shop_blog_id);
+            
+            // $product_id = 10;
+            // $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
+            // unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+            // update_post_meta( $product_id, '_associated_content', $associated_content );
+            
+            // echo '<pre>';
+            // print_r($unlinked_products);
+            
+            
+	        foreach( $unlinked_products as $product_id ) {
+                $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
+                unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+                //print_r($associated_content);
+		        update_post_meta( $product_id, '_associated_content', $associated_content );
+            }
+            
+            
+            //die('<br><---died here');
+
+	        wp_reset_query();
+	        // Quit multisite connection
+	        restore_current_blog();
+
+            return $data;
+        }
+
+        public function ep_rest_points() {
+            /**
+             * Flush Custom Data.
+             * wp-json/custom/flush
+             */
+            register_rest_route(
+                'nab', '/unlink-products', array(
+                    'methods'  => 'POST',
+                    'callback' => array( $this, 'ep_unlink_products' ),
+                )
+            );
+        }
+
+        /**
+         * Call back for Flush Custom Data.
+         *
+         * @param WP_REST_Request $request
+         *
+         * @return bool Verified or not.
+         */
+        public function ep_unlink_products( WP_REST_Request $request ) {
+
+            $parameters = $request->get_params();
+
+            $current_post_id       = isset( $parameters['current_post_id'] ) ? $parameters['current_post_id'] : '';
+            $new_linked = isset( $parameters['new_associate_products'] ) ? $parameters['new_associate_products'] : '';
+
+            if ( empty( $key ) ) {
+                return "Key is missing!, please pass key value in a 'key' parameter!";
+            }
+            if ( empty( $post_type ) ) {
+                return "Post type is missing! Please pass 'post_type' value in a parameter!";
+            }
+
+            $shop_blog_id = $this->ep_get_shop_blog();
+	        $current_blog_id = get_current_blog_id();
+	        //$current_post_id = $postarr['ID'];
+
+            $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true));
+            //$new_linked = $postarr['associate_products'];
+	        $unlinked_products = array_diff( $previous_linked, $new_linked );
+
+	        switch_to_blog($shop_blog_id);
+            
+            // $product_id = 10;
+            // $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
+            // unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+            // update_post_meta( $product_id, '_associated_content', $associated_content );
+            
+            // echo '<pre>';
+            // print_r($unlinked_products);
+            
+            
+	        foreach( $unlinked_products as $product_id ) {
+                $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
+                unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+                //print_r($associated_content);
+		        update_post_meta( $product_id, '_associated_content', $associated_content );
+            }
+            
+            
+            //die('<br><---died here');
+
+	        wp_reset_query();
+	        // Quit multisite connection
+	        restore_current_blog();
+
+            return "unlinked successfully!";
+        }
+
         
         /**
          * Save custom metabox filed.
          *
          * @param int $post_id
-         * 
+         *
          * @since 1.0.0
          */
         public function ep_save_custom_metabox_fields( $post_id ) {
+	        $current_blog_id = get_current_blog_id();
+            $current_post_id = $post_id;
 
+	        $shop_blog_id = $this->ep_get_shop_blog();
+
+            // Link New Products.
             if ( isset( $_POST[ 'associate_products' ]) && ! empty( $_POST[ 'associate_products' ] ) ) {
+
+	            switch_to_blog($shop_blog_id);
+
+                $associate_products = $_POST['associate_products'];
+                foreach( $associate_products as $product_id ) {
+                    $associated_content = get_post_meta( $product_id, '_associated_content', true );
+	                $associated_content = $associated_content ? $associated_content : array();
+	                $associated_content[ $current_blog_id ][ $current_post_id ] = 1;
+	                update_post_meta( $product_id, '_associated_content', $associated_content );
+                }
+
+	            wp_reset_query();
+	            // Quit multisite connection
+	            restore_current_blog();
+
                 update_post_meta( $post_id, '_associate_product', $_POST['associate_products'] );
             } else {
                 delete_post_meta( $post_id, '_associate_product' );
             }
 
+        }
+
+        public function ep_get_shop_blog() {
+
+            $shop_blog_id = '';
+
+	        // Connect Shop Blog.
+	        $sites = get_sites();
+	        foreach ($sites as $site) {
+		        $sitepath = $site->path;
+		        $sitepath = str_replace('/', '', $sitepath);
+		        if( 'amplify' === $sitepath ) {
+			        $shop_blog_id = $site->blog_id;
+			        break;
+		        }
+	        }
+
+	        // Throw error if shop blog not found.
+	        if( empty( $shop_blog_id ) ) {
+		        wp_die('Shop blog id not found, please make sure there is a subsite with /amplify/ subdirecotry URL.');
+	        }
+
+	        return $shop_blog_id;
         }
     }
 }
