@@ -74,14 +74,14 @@
 											<div class="wp-summary content_card">
 												<div class="item-inner">
 													<div class="thumbnail">
-														<a href="<?php echo esc_url($current_post_link); ?>">
+														<a href="<?php echo esc_url($current_post_link); ?>" target="_blank">
 															<div class="header_content_card" style="<?php echo esc_attr($current_post_image_css); ?>">
 																<span class="category_content_card button"><?php echo esc_html( $template_name ); ?></span>
 															</div>
 														</a>
 														<div class="title_content_card">
 															<h4>
-																<a href="<?php echo esc_url($current_post_link); ?>"><?php echo esc_html($current_post_title); ?></a>
+																<a href="<?php echo esc_url($current_post_link); ?>" target="_blank"><?php echo esc_html($current_post_title); ?></a>
 															</h4>
 														</div>
 													</div>
