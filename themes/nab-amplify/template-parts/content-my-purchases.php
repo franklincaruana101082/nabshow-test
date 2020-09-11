@@ -34,7 +34,6 @@
 			}
 		}
 	}
-	$product_ids = array_unique( $product_ids );
 
 	$content_not_found = 1;
 	if (is_array($product_ids) && count($product_ids) > 0) {
@@ -47,7 +46,7 @@
 					<div class="session-product-list">
 						<div class="wp-info">
 							<?php
-							
+							$shown_content = array();
 							foreach ($product_ids as $product_id) {
 
 								$associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
@@ -60,9 +59,10 @@
 										switch_to_blog($blog_id);
 
 										foreach( $ac as $current_post_id => $val ) {
-											if( 0 === $val) {
+											if( 0 === $val || in_array( $current_post_id, $shown_content ) ) {
 												continue;
 											}
+											$shown_content[] = $current_post_id;
 											$content_not_found = 0;
 											$current_post_title     = get_the_title($current_post_id);
 											$current_post_link      = get_the_permalink($current_post_id);
