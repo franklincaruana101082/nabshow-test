@@ -78,8 +78,8 @@
 										<li>
 											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
 										</li>
-										<!--<li><a href="<?php /*echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); */?>"><?php /*esc_html_e( 'My Purchases', 'nab-amplify' ); */?></a>
-										</li>-->
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
+										</li>
 										<li>
 											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
 										</li>
