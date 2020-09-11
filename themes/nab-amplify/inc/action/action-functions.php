@@ -731,21 +731,21 @@ function nab_amplify_unlink_products( WP_REST_Request $request ) {
 
 	$current_post_id       = isset( $parameters['current_post_id'] ) ? $parameters['current_post_id'] : '';
 	$unlinked_products = isset( $parameters['unlinked_products'] ) ? explode( ',', $parameters['unlinked_products'] ) : '';
-	$shop_blog_id = isset( $parameters['shop_blog_id'] ) ? explode( ',', $parameters['shop_blog_id'] ) : '';
+	$shop_blog_id = isset( $parameters['shop_blog_id'] ) ? (int) $parameters['shop_blog_id'] : '';
+	$current_blog_id = isset( $parameters['current_blog_id'] ) ? (int) $parameters['current_blog_id'] : '';
 
-	if ( empty( $current_post_id ) || empty( $unlinked_products )) {
+	if ( empty( $current_post_id ) || empty( $unlinked_products ) || empty( $shop_blog_id ) || empty( $current_blog_id ) ) {
 		return "Please pass necessary paramters.";
 	}
-
-	$current_blog_id = get_current_blog_id();
 	
 	switch_to_blog($shop_blog_id);
 	
 	foreach( $unlinked_products as $product_id ) {
 		$associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
-		unset( $associated_content[ $current_blog_id ][ $current_post_id ] );		
-		
-		//print_r($associated_content);
+		if( isset( $associated_content[ $current_blog_id ][ $current_post_id ] ) ) {
+			unset( $associated_content[ $current_blog_id ][ $current_post_id ] );
+		}
+
 		update_post_meta( $product_id, '_associated_content', $associated_content );
 	}
 

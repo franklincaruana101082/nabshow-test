@@ -382,19 +382,26 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        $shop_blog_id = $this->ep_get_shop_blog();
 	        $current_post_id = $postarr['ID'];
             
+            $current_blog_id = get_current_blog_id();
+
             $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true));
             $new_linked = $postarr['associate_products'];
-            $unlinked_products = array_diff( $previous_linked, $new_linked );
+            if( ! $new_linked ) {
+                $unlinked_products = $previous_linked;
+            } else {
+                $unlinked_products = array_diff( $previous_linked, $new_linked );
+            }
             $unlinked_products_serial = implode( ',', $unlinked_products);
 
             $url = get_site_url($shop_blog_id, '/wp-json/nab/unlink-products', 'https');
-            
+
             $response = wp_remote_post( $url, array(
                 'method'      => 'POST',
                 'body'        => array(
                     'unlinked_products' => $unlinked_products_serial,
                     'shop_blog_id' => $shop_blog_id,
-                    'current_post_id' => $current_post_id
+                    'current_post_id' => $current_post_id,
+                    'current_blog_id' => $current_blog_id
                 )
             ));
 
