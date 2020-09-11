@@ -35,6 +35,12 @@
 		}
 	}
 
+	if($_GET['testing']) {
+		echo '<pre>';
+		print_r($product_ids);
+		echo '</pre>';
+	}
+
 	$content_not_found = 1;
 	if (is_array($product_ids) && count($product_ids) > 0) {
 
