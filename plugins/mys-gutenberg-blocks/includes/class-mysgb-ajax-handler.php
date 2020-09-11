@@ -767,15 +767,20 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 						$cnt 			= 0;
 
 						foreach( $rows as $row ) {
-							$speaker_id     	= $row['session_speaker'];
-							$speaker_name  		= get_the_title( $speaker_id );
-							$speaker_name   	= explode(',', $speaker_name, 2);
-							$speaker_name   	= isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 							
-							$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
-							$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
+							$speaker_id = $row['session_speaker'];
+							
+							if ( ! empty( $speaker_id ) ) {
+								
+								$speaker_name	= get_the_title( $speaker_id );
+								$speaker_name   = explode(',', $speaker_name, 2);
+								$speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+								
+								$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+								$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
 
-							$cnt++;
+								$cnt++;
+							}
 						}
 
 						if ( count( $final_speakers ) > 0 ) {
