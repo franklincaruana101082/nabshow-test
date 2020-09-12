@@ -1107,8 +1107,6 @@ class WC_Checkout {
 		try {
 			$nonce_value = wc_get_var( $_REQUEST['woocommerce-process-checkout-nonce'], wc_get_var( $_REQUEST['_wpnonce'], '' ) ); // @codingStandardsIgnoreLine.
 
-			wp_mail( 'hardik.thakkar@multidots.com', 'wcnonce', 'nonce : ' . $nonce_value );
-
 			if ( empty( $nonce_value ) || ! wp_verify_nonce( $nonce_value, 'woocommerce-process_checkout' ) ) {
 				WC()->session->set( 'refresh_totals', true );
 				throw new Exception( __( 'We were unable to process your order, please try again.', 'woocommerce' ) );
