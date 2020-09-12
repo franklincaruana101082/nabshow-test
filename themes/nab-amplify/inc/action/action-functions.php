@@ -886,3 +886,69 @@ function nab_create_jwt_token( $username, $password ) {
 	}
 
 }
+
+/**
+ * Apply coupon form the URL and add product to the cart if assigned to the coupon
+ */
+function amplify_apply_coupon_code_from_url() {
+	
+	if ( is_admin() ) {
+		return;
+	}
+	$coupon_code = filter_input( INPUT_GET, 'amp_apply_coupon', FILTER_SANITIZE_STRING );
+
+
+	
+	// Exit if no code in URL or if the coupon code is already set cart session
+	if ( empty( $coupon_code ) || WC()->session->get( 'custom_discount' ) ) {
+		return;
+	}
+	
+	// Start WC session if not started
+	if ( isset( WC()->session ) && ! WC()->session->has_session() ) {
+		WC()->session->set_customer_session_cookie( true );
+	}       
+
+    if ( ! WC()->session->get( 'custom_discount' ) ) {
+        
+		WC()->session->set( 'custom_discount', $coupon_code );
+		
+		// Sanitize coupon code
+		$format_coupon_code = wc_format_coupon_code( $coupon_code );
+		// Get the coupon
+		$the_coupon = new WC_Coupon( $format_coupon_code );	
+		
+		$product_ids = $the_coupon->get_product_ids();
+
+		if ( ! empty( $product_ids ) ) {
+			foreach ( $product_ids as $product_id ) {
+				if ( ! amplify_is_product_in_cart( $product_id ) ) {
+					WC()->cart->add_to_cart( $product_id );
+				}
+			}
+		}		
+        // If there is an existing non empty cart active session we apply the coupon
+        //if( ! WC()->cart->is_empty() ){
+            WC()->cart->add_discount( $coupon_code );
+        //}
+    }
+}
+
+/**
+ * check product in the cart.
+ */
+function amplify_is_product_in_cart( $product_id ) {
+	if ( 0 !== $product_id ) {
+		if ( isset( WC()->cart->cart_contents ) && is_array( WC()->cart->cart_contents ) ) {
+			foreach ( WC()->cart->cart_contents as $cart_item_key => $cart_item_data ) {
+				if (
+					( isset( $cart_item_data['product_id'] )   && $product_id == $cart_item_data['product_id'] ) ||
+					( isset( $cart_item_data['variation_id'] ) && $product_id == $cart_item_data['variation_id'] )
+				) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
