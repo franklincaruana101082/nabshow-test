@@ -887,6 +887,24 @@ function nab_create_jwt_token( $username, $password ) {
 
 }
 
+function amplify_force_start_coupon_code_session() {
+	
+	if ( is_admin() ) {
+		return;
+	}
+
+	$coupon_code = filter_input( INPUT_GET, 'amp_apply_coupon', FILTER_SANITIZE_STRING );
+	
+	// Exit if no code in URL or if the coupon code is already set cart session
+	if ( empty( $coupon_code ) || WC()->session->get( 'custom_discount' ) ) {
+		return;
+	}
+	
+	// Start WC session if not started
+	if ( isset( WC()->session ) && ! WC()->session->has_session() ) {
+		WC()->session->set_customer_session_cookie( true );
+	}	
+}
 /**
  * Apply coupon form the URL and add product to the cart if assigned to the coupon
  */
