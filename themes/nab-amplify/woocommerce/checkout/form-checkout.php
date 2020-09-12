@@ -19,6 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$is_bulk_order = nab_is_bulk_order();
+
+if ( true === $is_bulk_order ) { ?>
+	<div class="nab-bulk-purchase-checkout-info">
+		To register multiple attendees at once, you'll proceed through the usual registration check out. Make sure to input the quantity of registrations you want to pay for and
+		pay for your order. Once complete, you'll be guided through the process to submit the attendees you wish to register.
+	</div>
+<?php }
+
 do_action( 'woocommerce_before_checkout_form', $checkout );
 
 // If checkout registration is disabled and not logged in, the user cannot checkout.
@@ -32,8 +41,6 @@ $event_data = array_map( function ( $a ) {
 }, get_user_meta( $user_id ) );
 
 $billing_phone = get_user_meta( $user_id, 'billing_phone', true );
-
-$is_bulk_order = nab_is_bulk_order();
 
 $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 

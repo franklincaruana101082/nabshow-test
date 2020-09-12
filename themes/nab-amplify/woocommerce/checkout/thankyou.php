@@ -44,17 +44,18 @@ defined( 'ABSPATH' ) || exit;
 		$bulk_order_qty = get_post_meta( $order_id, '_nab_bulk_qty', true );
 
 		if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && isset( $bulk_order_qty ) && ! empty( $bulk_order_qty ) ) { ?>
-			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you for your order! In order to register your group, please follow these 4 simple steps.</p>
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you for your order! In order to register your group, please follow these 4 simple steps:</p>
 			<ol>
-				<li>Go into your profile’s <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a>.</li>
-				<li>Download the file called "Add Registrants".</li>
-				<li>Add registrant information based on the prompts in the form.</li>
-				<li>Re-upload the form into your profile’s <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a>.</li>
+				<li>Go into your profile’s <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a> and click "Add Attendees".</li>
+				<li>Download the file called "Attendee Template".</li>
+				<li>Add attendee information in the spreadsheet under the appropriate columns.</li>
+				<li>Upload the file under <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a> "Add Attendees".</li>
 			</ol>
 		<?php } else { ?>
 			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you so much for registering! We are so excited to have you join us!</p>
 		<?php } ?>
 
+		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you need to make changes to your list of attendees after uploading, please contact <a href="mailto:register@nab.org">register@nab.org</a></p>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
 			Check your inbox, you should have received the following 2 emails from <a href="mailto:register@nab.org">register@nab.org</a>:

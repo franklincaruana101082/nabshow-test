@@ -438,6 +438,7 @@
 
   $( document ).on( 'click', '.nab-view-attendee', function() {
     var orderId = $( this ).data( 'orderid' );
+    $( 'body' ).addClass( 'is-loading' ); // loader
     $.ajax( {
       url: amplifyJS.ajaxurl,
       type: 'GET',
@@ -462,6 +463,15 @@
           let attendeeTable = document.createElement( 'table' );
           let attendeeTableTitle = document.createElement( 'h3' );
           attendeeTableTitle.innerText = 'Attendee Details';
+
+          let attendeeTableCopy = document.createElement( 'span' );
+          attendeeTableCopy.className = 'nab-attendee-detail-copy';
+          attendeeTableCopy.innerText = 'The following attendees have been registered and should have received an email with a temporary password. They can each use their personal log ins to access the Show(s).';
+
+          let attendeeTableFooter = document.createElement( 'span' );
+          attendeeTableFooter.className = 'nab-attendee-detail-footer';
+          attendeeTableFooter.innerHTML = 'If you need to make changes to your list of attendees after uploading, please contact <a href="mailto:register@nab.org">register@nab.org</a>.';
+
           let attendeeThead = document.createElement( 'thead' );
           let attendeeTbody = document.createElement( 'tbody' );
           let attendeeTheadTr = document.createElement( 'tr' );
@@ -501,10 +511,13 @@
           attendeeTable.appendChild( attendeeTbody );
 
           attendeeTableWrap.appendChild( attendeeTableTitle );
+          attendeeTableWrap.appendChild( attendeeTableCopy );
           attendeeTableWrap.appendChild( attendeeTable );
+          attendeeTableWrap.appendChild( attendeeTableFooter );
         }
 
         $( '#nabViewAttendeeModal' ).show();
+        $( 'body' ).removeClass( 'is-loading' ); // loader
       },
       error: function( xhr, ajaxOptions, thrownError ) {
         $( 'body' ).removeClass( 'is-loading' ); // loader

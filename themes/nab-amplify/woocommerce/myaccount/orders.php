@@ -157,8 +157,8 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 							</div>
 							<button type="button" class="attendee-import-btn" id="bulk_upload" name="bulk_upload">Upload</button>
 						</form>
-						<span class="nab-download-sample-data">Download Sample Excel File from here -
-							<a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download</a></span>
+						<span class="nab-download-sample-data">
+							<a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download a sample attendee file here</a></span>
 					</div>
 				</div>
 			</div>
