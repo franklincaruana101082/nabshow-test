@@ -23,7 +23,7 @@ if ( isset( $get_qty ) && ! empty( $get_qty ) ) {
 	</div>
 	<div class="nab_bulk_body">
 		<div class="nab_bulk_passes">
-			<label for="nab_is_bulk"><?php esc_html_e( 'Do you want to purchase passes in bulk?', 'nab-amplify' ); ?></label>
+			<label for="nab_is_bulk"><?php esc_html_e( 'Would you like to register more than one person?', 'nab-amplify' ); ?></label>
 			<div class="nab_bulk_select">
 				<select id="nab_is_bulk">
 					<option value=""><?php esc_html_e( '---', 'nab-amplify' ); ?></option>
@@ -33,7 +33,7 @@ if ( isset( $get_qty ) && ! empty( $get_qty ) ) {
 			</div>
 		</div>
 		<div class="nab-quantity-selector" <?php echo $nab_qty ? '' : 'style="display:none"'; ?>>
-			<label for="nab_bulk_quantity" class="">Select Quantity to purchase</label>
+			<label for="nab_bulk_quantity" class="">Select Quantity</label>
 			<div class="nab_bulk_select">
 				<select id="nab_bulk_quantity">
 					<option value=""><?php esc_html_e( '---', 'nab-amplify' ); ?></option>
