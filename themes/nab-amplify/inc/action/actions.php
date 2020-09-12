@@ -89,4 +89,4 @@ add_action( 'wp_authenticate', 'nab_create_jwt_token', 10, 2 );
 
 add_action( 'wp_loaded', 'amplify_force_start_coupon_code_session' );
 
-add_action( 'wp_head', 'amplify_apply_coupon_code_from_url' );
+add_action( 'wp_footer', 'amplify_apply_coupon_code_from_url' );
