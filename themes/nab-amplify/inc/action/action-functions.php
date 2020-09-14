@@ -887,26 +887,8 @@ function nab_create_jwt_token( $username, $password ) {
 
 }
 
-function amplify_force_start_coupon_code_session() {
-	
-	if ( is_admin() ) {
-		return;
-	}
-
-	$coupon_code = filter_input( INPUT_GET, 'amp_apply_coupon', FILTER_SANITIZE_STRING );
-	
-	// Exit if no code in URL or if the coupon code is already set cart session
-	if ( empty( $coupon_code ) || WC()->session->get( 'custom_discount' ) ) {
-		return;
-	}
-	
-	// Start WC session if not started
-	if ( isset( WC()->session ) && ! WC()->session->has_session() ) {
-		WC()->session->set_customer_session_cookie( true );
-	}	
-}
 /**
- * Apply coupon form the URL and add product to the cart if assigned to the coupon
+ * Get coupon code form the url.
  */
 function amplify_apply_coupon_code_from_url() {
 	
@@ -925,35 +907,58 @@ function amplify_apply_coupon_code_from_url() {
 	// Start WC session if not started
 	if ( isset( WC()->session ) && ! WC()->session->has_session() ) {
 		WC()->session->set_customer_session_cookie( true );
-	}       
+		amplify_add_coupon_product_to_cart( $coupon_code, true );
+	} else {
+		amplify_add_coupon_product_to_cart( $coupon_code, false );
+	}
+    
+}
 
-    if ( ! WC()->session->get( 'custom_discount' ) ) {
+/**
+ * Add coupon products to the cart and apply coupon. If coupon product not exist then set a cookie for coupon. 
+ *
+ * @param  string  $coupon_code
+ * @param  boolean $force_start 
+ */
+function amplify_add_coupon_product_to_cart( $coupon_code, $force_start ) {
+		
+	if ( ! empty( $coupon_code ) && ! WC()->session->get( 'custom_discount' ) ) {
         
 		WC()->session->set( 'custom_discount', $coupon_code );
 		
 		// Sanitize coupon code
 		$format_coupon_code = wc_format_coupon_code( $coupon_code );
+		
 		// Get the coupon
 		$the_coupon = new WC_Coupon( $format_coupon_code );	
 		
-		$product_ids = $the_coupon->get_product_ids();
+		// Get coupon products
+		$product_ids = $the_coupon->get_product_ids();		
 
 		if ( ! empty( $product_ids ) ) {
+			
 			foreach ( $product_ids as $product_id ) {
+				
 				if ( ! amplify_is_product_in_cart( $product_id ) ) {
 					WC()->cart->add_to_cart( $product_id );
 				}
 			}
-		}		
-        // If there is an existing non empty cart active session we apply the coupon
-        //if( ! WC()->cart->is_empty() ){
-            WC()->cart->add_discount( $coupon_code );
-        //}
+		}
+		
+		if ( empty( $product_ids ) && $force_start ) {
+			setcookie( 'amp_wc_coupon', $coupon_code, ( time() + 1209600 ), '/');	
+		} else {
+			WC()->cart->add_discount( $coupon_code );
+		}
     }
 }
 
 /**
- * check product in the cart.
+ * Check product is already in the cart.
+ *
+ * @param  int $product_id
+ * 
+ * @return boolean
  */
 function amplify_is_product_in_cart( $product_id ) {
 	if ( 0 !== $product_id ) {
@@ -969,4 +974,22 @@ function amplify_is_product_in_cart( $product_id ) {
 		}
 	}
 	return false;
+}
+
+/**
+ * Apply coupon when add to cart if coupon cookie exist.
+ */
+function amplify_add_coupon_code_to_cart() {
+	
+	$coupon_code		= isset( $_COOKIE[ 'amp_wc_coupon' ] ) && ! empty( $_COOKIE[ 'amp_wc_coupon' ] ) ? $_COOKIE[ 'amp_wc_coupon' ] : '';
+	$applied_coupons	= WC()->session->get( 'custom_discount' );
+
+    if ( empty( $coupon_code) || in_array( $coupon_code, $applied_coupons ) ) {
+		return;
+	}
+
+	WC()->cart->add_discount( $coupon_code );
+	
+	unset( $_COOKIE[ 'amp_wc_coupon' ] );
+	setcookie( 'amp_wc_coupon', null, -1, '/');
 }
