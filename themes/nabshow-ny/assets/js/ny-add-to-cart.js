@@ -9,7 +9,7 @@
 
                 var pID = $( this ).data( 'pid' );
 
-                var ajURl = nabParentAPIUrl + 'wp-json/cocart/v1/add-item?return_cart=true';
+                var ajURl = nabParentAPIUrl + 'wp-json/cocart/v1/add-item';
 
                 var cartKeyCookie = getCookie( 'nabCartKey' );
                 if ( cartKeyCookie ) {
@@ -24,7 +24,8 @@
                     type: 'POST',
                     data: {
                         'product_id': pID,
-                        'cart_key': cartKey
+						'cart_key': cartKey,
+						'return_cart': 'true'
                     },
                     success: function( data ) {
                         console.log( data );
