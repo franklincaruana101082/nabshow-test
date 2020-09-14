@@ -646,3 +646,21 @@ register_block_type( 'mys/add-to-calendar', array(
 	'render_callback' => array( $this, 'mysgb_add_to_calendar_render_callback' ),
 	)
 );
+
+register_block_type( 'mys/session-speaker-info', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 10,
+		),
+		'pageId' => array(
+			'type'    => 'number'			
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Featured Speakers'
+		),
+	),
+	'render_callback' => array( $this, 'mysgb_session_speaker_info_render_callback' ),
+	)
+);

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $page_id        = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pageId' ] ) ? $attributes[ 'pageId' ] : get_the_ID();
 $item_limit     = isset( $attributes[ 'itemToFetch' ] ) && ! empty( $attributes[ 'itemToFetch' ] ) ? $attributes[ 'itemToFetch' ] : 2;
 $block_title    = isset( $attributes[ 'blockTitle' ] ) && ! empty( $attributes[ 'blockTitle' ] ) ? $attributes[ 'blockTitle' ] : 'Partners and Sponsors';
-$class_name     = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+$class_name     = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';
 ?>
 <div class="nabny-sidebar-partners-block-outer <?php echo esc_attr( $class_name ); ?>">
     <h3><?php echo esc_html( $block_title ); ?></h3>
@@ -25,18 +25,26 @@ $class_name     = isset( $attributes['className'] ) && ! empty( $attributes['cla
             ?>
             <div class="nabny-sidebar-partners-logos">
                 <ul>
+                
                 <?php
                 $cnt = 1;
+
                 foreach( $rows as $row ) {
                     
-                    $image = $row[ 'sponsor_logos' ];                
-                    ?>
-                    <li><img src="<?php echo esc_url( $image['url'] ); ?>" alt="sponsors-logo"></li>
-                    <?php
-                    if ( $cnt >= $item_limit ) {
-                        break;
-                    }
-                    $cnt++;
+                    $image = $row[ 'sponsor_logos' ];
+                    
+                    if ( ! empty( $image ) ) {
+                        
+                        ?>
+                        <li><img src="<?php echo esc_url( $image['url'] ); ?>" alt="sponsors-logo"></li>
+                        <?php
+                        
+                        if ( $cnt >= $item_limit ) {
+                            break;
+                        }
+                        
+                        $cnt++;
+                    }                    
                 }
                 ?>
                 </ul>
