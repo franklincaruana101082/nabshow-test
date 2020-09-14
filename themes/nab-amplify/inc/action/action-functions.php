@@ -945,7 +945,7 @@ function amplify_add_coupon_product_to_cart( $coupon_code, $force_start ) {
 			}
 		}
 		
-		if ( empty( $product_ids ) && $force_start ) {
+		if ( empty( $product_ids ) ) {
 			setcookie( 'amp_wc_coupon', $coupon_code, ( time() + 1209600 ), '/', $_SERVER['SERVER_NAME'], false );	
 		} else {
 			WC()->cart->add_discount( $coupon_code );
