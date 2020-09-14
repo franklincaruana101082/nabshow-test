@@ -1034,6 +1034,8 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
  */
 function nab_load_cart_action_cookie() {
 
+	wp_mail('hardik.thakkar@multidots.com', 'co-cart start', 'cocart-load start');
+
 	// If cookie is not present then just return
 	if ( ! isset( $_COOKIE['nabCartKey'] ) ) {
 		return;
@@ -1046,6 +1048,8 @@ function nab_load_cart_action_cookie() {
 
 	// Get the cart in the database.
 	$stored_cart = nab_cocart_get_cart( $cart_key );
+
+	wp_mail('hardik.thakkar@multidots.com', 'stored-cart', print_r( $stored_cart, true ));
 
 	if ( empty( $stored_cart ) ) {
 		return;
