@@ -85,12 +85,11 @@ function nab_custom_billing_fields( $billing_fields ) {
 		return $billing_fields;
 	}
 
-
 	$billing_fields['billing_phone']['required']   = false;
 	$billing_fields['billing_postcode']['label']   = 'Zip Code';
 	$billing_fields['billing_first_name']['label'] = 'First Name';
 	$billing_fields['billing_last_name']['label']  = 'Last Name';
-	$billing_fields['billing_email']['label']      = 'Email the invoice to:';
+	$billing_fields['billing_email']['label']      = 'Email the confirmation:';
 	$billing_fields['billing_email']['class'][]    = 'text-transform-initial';
 
 	unset( $billing_fields['billing_phone'] );
@@ -232,7 +231,7 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 function nab_add_login_link_on_checkout_page() {
 	// If checkout registration is disabled and not logged in, the user cannot checkout.
 	if ( ! is_user_logged_in() ) {
-		$current_site_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), wc_get_page_permalink( 'myaccount' ) );
+		$sign_in_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), wc_get_page_permalink( 'myaccount' ) );
 
 		$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
@@ -241,8 +240,11 @@ function nab_add_login_link_on_checkout_page() {
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-		<p>In order to access digital content, you need to have an account. Don't have an account? <a class="checkout-signup-link button" href="<?php echo esc_url(
-				$sign_up_page_url ); ?>">Sign up</a> now.</p>
+		<p>You’ll need to have an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</p>
+		<div class="nab_checkout_links">
+			<p>Don't have an account? <strong><a class="checkout-signup-link" href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a></strong></p>
+			<p>Already have an account? <strong><a class="checkout-signin-link" href="<?php echo esc_url( $sign_in_url ); ?>">Sign In</a></strong></p>
+		</div>
 	<?php }
 }
 
@@ -579,4 +581,20 @@ function nab_force_bulk_quanity( $cart_contents ) {
 	}
 
 	return $cart_contents;
+}
+
+/**
+ * Thank You page title change
+ *
+ * @param $title
+ * @param $id
+ *
+ * @return string
+ */
+function nab_title_order_received( $title, $id ) {
+	if ( is_order_received_page() && get_the_ID() === $id ) {
+		$title = "Registration Confirmation";
+	}
+
+	return $title;
 }

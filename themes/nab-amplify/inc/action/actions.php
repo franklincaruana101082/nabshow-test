@@ -78,7 +78,7 @@ add_action( 'wp_head', 'nab_header_scripts' );
 
 add_action( 'woocommerce_created_customer', 'nab_user_registration_sync', 10, 3 );
 
-add_action( 'woocommerce_after_cart', 'nab_bulk_purchase_cart' );
+add_action( 'woocommerce_before_cart_collaterals', 'nab_bulk_purchase_cart' );
 
 add_action( 'init', 'nab_create_attendee_table' );
 

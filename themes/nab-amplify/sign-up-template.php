@@ -86,7 +86,7 @@ $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 							</div>
 						</div>
 						<div class="nab-signup-now">
-							<h4 class="text-transform-initial">In order to access digital content, you need to have an account.</h4>
+						<h4 class="text-transform-initial">Sign up for an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 
 							<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 								$my_account_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), wc_get_page_permalink( 'myaccount' ) );
@@ -111,6 +111,5 @@ $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 	</main><!-- #main -->
 
 <?php
-
 
 get_footer();

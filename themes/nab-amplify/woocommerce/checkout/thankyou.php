@@ -51,18 +51,21 @@ defined( 'ABSPATH' ) || exit;
 				<li>Add attendee information in the spreadsheet under the appropriate columns.</li>
 				<li>Upload the file under <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a> "Add Attendees".</li>
 			</ol>
+
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you need to make changes to your list of attendees after uploading, please contact <a href="mailto:register@nab.org">register@nab.org</a></p>
+
 		<?php } else { ?>
-			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you so much for registering! We are so excited to have you join us!</p>
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">You’re registered! We look forward to hosting you and other professionals from the media and entertainment industry this October.</p>
 		<?php } ?>
 
-		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you need to make changes to your list of attendees after uploading, please contact <a href="mailto:register@nab.org">register@nab.org</a></p>
+		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you have any questions about your registration or NAB Amplify account, contact us at <a href="mailto:register@nab.org">register@nab.org</a>.</p>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
 			Check your inbox, you should have received the following 2 emails from <a href="mailto:register@nab.org">register@nab.org</a>:
 		</p>
 		<ul class="text-bolder">
-			<li><strong>Your NAB Events Registration:</strong> Your login confirmation and information on how to access and edit your account and Show(s).</li>
-			<li><strong>Your NAB Events Invoice:</strong> A copy of your invoice.</li>
+			<li><strong>NAB Amplify Account Created:</strong> Your login confirmation and information on how to access and edit your account and Show(s).</li>
+			<li><strong>Registration Confirmation:</strong> A copy of your invoice.</li>
 		</ul>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">

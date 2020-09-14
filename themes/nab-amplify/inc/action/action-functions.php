@@ -426,32 +426,36 @@ function nab_save_name_fields( $customer_id ) {
 function nab_attendee_field_process() {
 
 	// Return if user is not logged in or is bulk purchase
-	if ( ! is_user_logged_in() || nab_is_bulk_order() ) {
+	if ( ! is_user_logged_in() ) {
 		return;
 	}
 
-	if ( ! isset( $_POST['attendee_first_name'] ) || empty( $_POST['attendee_first_name'] ) ) {
-		wc_add_notice( __( 'Please enter Attendee First Name.' ), 'error' );
-	}
+	if( false === nab_is_bulk_order() ) {
 
-	if ( ! isset( $_POST['attendee_last_name'] ) || empty( $_POST['attendee_last_name'] ) ) {
-		wc_add_notice( __( 'Please enter Attendee Last Name.' ), 'error' );
-	}
+		if ( ! isset( $_POST['attendee_first_name'] ) || empty( $_POST['attendee_first_name'] ) ) {
+			wc_add_notice( __( 'Please enter Attendee First Name.' ), 'error' );
+		}
+	
+		if ( ! isset( $_POST['attendee_last_name'] ) || empty( $_POST['attendee_last_name'] ) ) {
+			wc_add_notice( __( 'Please enter Attendee Last Name.' ), 'error' );
+		}
+	
+		if ( ! isset( $_POST['attendee_email'] ) || empty( $_POST['attendee_email'] ) ) {
+			wc_add_notice( __( 'Please enter Attendee Email.' ), 'error' );
+		}
+	
+		if ( ! isset( $_POST['attendee_company'] ) || empty( $_POST['attendee_company'] ) ) {
+			wc_add_notice( __( 'Please enter Attendee Company.' ), 'error' );
+		}
+	
+		if ( ! isset( $_POST['attendee_title'] ) || empty( $_POST['attendee_title'] ) ) {
+			wc_add_notice( __( 'Please enter Attendee Title.' ), 'error' );
+		}
+	
+		if ( ! isset( $_POST['attendee_country'] ) || empty( $_POST['attendee_country'] ) ) {
+			wc_add_notice( __( 'Please enter Attendee Country.' ), 'error' );
+		}
 
-	if ( ! isset( $_POST['attendee_email'] ) || empty( $_POST['attendee_email'] ) ) {
-		wc_add_notice( __( 'Please enter Attendee Email.' ), 'error' );
-	}
-
-	if ( ! isset( $_POST['attendee_company'] ) || empty( $_POST['attendee_company'] ) ) {
-		wc_add_notice( __( 'Please enter Attendee Company.' ), 'error' );
-	}
-
-	if ( ! isset( $_POST['attendee_title'] ) || empty( $_POST['attendee_title'] ) ) {
-		wc_add_notice( __( 'Please enter Attendee Title.' ), 'error' );
-	}
-
-	if ( ! isset( $_POST['attendee_country'] ) || empty( $_POST['attendee_country'] ) ) {
-		wc_add_notice( __( 'Please enter Attendee Country.' ), 'error' );
 	}
 
 	if ( ! isset( $_POST['attendee_partner_opt_in'] ) || empty( $_POST['attendee_partner_opt_in'] ) ) {

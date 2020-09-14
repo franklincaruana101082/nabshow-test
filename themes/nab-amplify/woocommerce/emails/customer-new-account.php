@@ -34,9 +34,12 @@ if ( $user ) {
 <?php /* translators: %s: Customer username */ ?>
 	<p><?php printf( esc_html__( 'Dear %s,', 'woocommerce' ), esc_html( $full_name ) ); ?></p>
 <?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
-	<p><?php esc_html_e( 'We are so excited to have you join us!', 'nab-amplify' ); ?></p>
-	<p>We look forward to connecting with you virtually. If there is anything, we can help with in the meantime please let us know <a href="mailto:register@nab.org">register@nab.org</a>.</p>
-	<p><strong>Your NAB Team</strong></p>
+	<p><?php esc_html_e( 'Welcome to NAB Amplify!', 'nab-amplify' ); ?></p>
+	<p>This all-new, year-round digital platform is designed to provide you with opportunities for networking, discovery and education. It is also your registration destination for NAB Show New York, Radio Show and SMTE.</p>
+	<p>You completed step 1 – signing up! Finish building out your profile to optimize your experience, connections and event suggestions.</p>
+
+	<p>Stay Amped!<br>
+	Team NAB</p>
 
 <?php
 /**
