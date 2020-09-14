@@ -1120,6 +1120,11 @@ function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
 
 		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
 		$response = wp_remote_post( $api_url, $args );
+
+		$a = [];
+		$a['api_url'] = $api_url;
+		$a['res'] = $response['body'];
+		wp_mail('hardik.thakkar@multidots.com', 'up-cart', print_r( $a, true ));
 	}
 }
 
