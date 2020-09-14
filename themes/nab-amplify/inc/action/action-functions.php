@@ -999,3 +999,140 @@ function amplify_add_coupon_code_to_cart() {
 	unset( $_COOKIE[ 'amp_wc_coupon' ] );
 	setcookie( 'amp_wc_coupon', null, -1, '/');
 }
+
+/**
+ * Remove product from cocart session cart if removed from main cart
+ *
+ * @param string $cart_item_key
+ * @param object $instance
+ * @return void
+ */
+function nab_remove_cocart_item( $cart_item_key, $instance ) {
+
+	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+		$cart_key = $_COOKIE['nabCartKey'];
+
+		$args = array(
+			'headers' => array(
+				'Content-Type' => 'application/json; charset=utf-8',
+			),
+			'body'    => wp_json_encode( [
+				'cart_item_key' => $cart_item_key,
+			] ),
+			'method'  => 'DELETE',
+		);
+
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+		$response = wp_remote_request( $api_url, $args );
+	}
+
+}
+/**
+ * Load cart from cocart session cart
+ *
+ * @return void
+ */
+function nab_load_cart_action_cookie() {
+
+	// If cookie is not present then just return
+	if ( ! isset( $_COOKIE['nabCartKey'] ) ) {
+		return;
+	}
+
+	$cart_key      = trim( wp_unslash( $_COOKIE['nabCartKey'] ) );
+	$override_cart = false;  // Override the cart by default.
+
+	wc_nocache_headers();
+
+	// Get the cart in the database.
+	$stored_cart = nab_cocart_get_cart( $cart_key );
+
+	if ( empty( $stored_cart ) ) {
+		return;
+	}
+
+	// Get the cart currently in session if any.
+	$cart_in_session = WC()->session->get( 'cart', null );
+
+	if ( empty( $cart_in_session ) ) {
+		$cart_in_session = [];
+	}
+
+	$new_cart = array();
+
+	$new_cart['cart']                       = maybe_unserialize( $stored_cart['cart'] );
+	$new_cart['applied_coupons']            = maybe_unserialize( $stored_cart['applied_coupons'] );
+	$new_cart['coupon_discount_totals']     = maybe_unserialize( $stored_cart['coupon_discount_totals'] );
+	$new_cart['coupon_discount_tax_totals'] = maybe_unserialize( $stored_cart['coupon_discount_tax_totals'] );
+	$new_cart['removed_cart_contents']      = maybe_unserialize( $stored_cart['removed_cart_contents'] );
+
+	// Check if we are overriding the cart currently in session via the web.
+	if ( $override_cart ) {
+		// Only clear the cart if it's not already empty.
+		if ( ! WC()->cart->is_empty() ) {
+			WC()->cart->empty_cart( false );
+
+			do_action( 'cocart_load_cart_override', $new_cart, $stored_cart );
+		}
+	} else {
+		$new_cart_content = array_merge( $new_cart['cart'], $cart_in_session );
+		$new_cart['cart'] = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
+
+		$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
+		$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
+		$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
+		$new_cart['removed_cart_contents']      = array_merge( $new_cart['removed_cart_contents'], WC()->cart->get_removed_cart_contents() );
+
+		do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
+	}
+
+	// Sets the php session data for the loaded cart.
+	WC()->session->set( 'cart', $new_cart['cart'] );
+	WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
+	WC()->session->set( 'coupon_discount_totals', $new_cart['coupon_discount_totals'] );
+	WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
+	WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
+
+}
+
+/**
+ * Update cocart session cart if main cart is updated
+ *
+ * @param string $cart_item_key
+ * @param int $quantity
+ * @param int $old_quantity
+ * @return void
+ */
+function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
+
+	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+		$cart_key = $_COOKIE['nabCartKey'];
+
+		$args = array(
+			'headers' => array(
+				'Content-Type' => 'application/json; charset=utf-8',
+			),
+			'body'    => wp_json_encode( [
+				'cart_item_key' => $cart_item_key,
+				'quantity'      => $quantity,
+			] ),
+		);
+
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+		$response = wp_remote_post( $api_url, $args );
+	}
+}
+
+/**
+ * NAB Remove custom cocart cookie
+ *
+ * @return void
+ */
+function nab_maybe_clear_cart_cookie() {
+
+	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+		unset($_COOKIE['nabCartKey']); 
+		setcookie( 'nabCartKey', '', time() - 3600, '/', '.wpmulti.test' );
+	}
+
+}

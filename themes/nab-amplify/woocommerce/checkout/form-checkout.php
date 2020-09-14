@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $is_bulk_order = nab_is_bulk_order();
 
-if ( true === $is_bulk_order ) { ?>
+if ( true === $is_bulk_order && is_user_logged_in() ) { ?>
 	<div class="nab-bulk-purchase-checkout-info">
 		To register multiple attendees at once, you'll proceed through the usual registration check out. Make sure to input the quantity of registrations you want to pay for and
 		pay for your order. Once complete, you'll be guided through the process to submit the attendees you wish to register.
