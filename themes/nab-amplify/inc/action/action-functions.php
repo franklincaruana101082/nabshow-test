@@ -1034,7 +1034,7 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
  */
 function nab_load_cart_action_cookie() {
 
-	wp_mail('hardik.thakkar@multidots.com', 'co-cart start', 'cocart-load start');
+	wp_mail('hardik.thakkar@multidots.com', 'co-cart start', print_r( $_COOKIE, true ) );
 
 	// If cookie is not present then just return
 	if ( ! isset( $_COOKIE['nabCartKey'] ) ) {
