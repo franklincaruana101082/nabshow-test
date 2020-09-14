@@ -112,8 +112,8 @@ class CoCart_API_Session {
 	/**
 	 * Load cart action.
 	 *
-	 * Loads a cart in session if still valid and overrides the current cart.
-	 * Unless specified not to override, the carts will merge the current cart
+	 * Loads a cart in session if still valid and overrides the current cart. 
+	 * Unless specified not to override, the carts will merge the current cart 
 	 * and the loaded cart items together.
 	 *
 	 * @access  public
