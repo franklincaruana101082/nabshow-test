@@ -36,13 +36,15 @@
 	}
 
 	$content_not_found = 1;
+	$content_total = 0;
+    $items_per_page = 6;
 	if (is_array($product_ids) && count($product_ids) > 0) {
 		$default_image     = get_template_directory_uri() . '/assets/images/avtar.jpg';
 		?>
 		<section class="wp-listing-block wp-listing-search my-purchased-content">
 			<div class="all-sessions">
 				<h3>MY CONTENT</h3>
-				<form method="POST" action="" class="wcbd-zip-form">
+                <form method="POST" action="" class="wcbd-zip-form">
 					<div class="session-product-list">
 						<div class="wp-info">
 							<?php
@@ -70,8 +72,11 @@
 											$current_post_image     = $current_post_image ? $current_post_image : $default_image;
 											$current_post_image_css = "background-image: url('$current_post_image');";
 											$template_name = get_post_type( $current_post_id );
+                                            $item_on_page = floor( $content_total / $items_per_page ) + 1;
+                                            $content_total ++;
+                                            $style = $item_on_page > 1 ? 'display: none' : '';
 											?>
-											<div class="wp-summary content_card">
+											<div class="wp-summary content_card" data-item="<?php echo esc_attr( $item_on_page ) ?>" style="<?php echo esc_attr( $style ) ?>">
 												<div class="item-inner">
 													<div class="thumbnail">
 														<a href="<?php echo esc_url($current_post_link); ?>" target="_blank">
@@ -100,6 +105,16 @@
 						</div>
 					</div>
 				</form>
+                <?php
+                $total_pages = ceil( $content_total / $items_per_page );
+                if( $items_per_page < $content_total ) {
+                    ?>
+                    <div id="purchased-pagination">
+                        <i class="fa fa-arrow-left navigate-purchased prev-purchased"></i>
+                        <span id="current-page">1</span> of <span id="page-total"><?php echo esc_html( $total_pages ) ?></span>
+                        <i class="fa fa-arrow-right navigate-purchased next-purchased"></i>
+                    </div>
+                <?php } ?>
 			</div>
 		</section>
 	<?php

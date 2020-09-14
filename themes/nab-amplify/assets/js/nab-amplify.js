@@ -27,6 +27,28 @@
 
   } );
 
+  // My Purchase Content Pagination
+  $( document ).on( 'click', '.navigate-purchased', function() {
+    var new_current_page = '';
+    const current_page = parseInt( $('#purchased-pagination #current-page').text() );
+    const page_total = parseInt( $('#purchased-pagination #page-total').text() );
+    if( $(this).hasClass('next-purchased') ) {
+      if( current_page < page_total ) {
+                new_current_page = current_page + 1;
+
+      }
+    } else {
+            if( current_page > 1 ) {
+                new_current_page = current_page - 1;
+            }
+    }
+    if( '' !== new_current_page) {
+      $('#purchased-pagination #current-page').text(new_current_page)
+      $('.content_card').hide();
+      $('.content_card[data-item="'+ new_current_page +'"]').show();
+    }
+  });
+  
   // on load
   $( window ).load( function() {
 
