@@ -946,7 +946,7 @@ function amplify_add_coupon_product_to_cart( $coupon_code, $force_start ) {
 		}
 		
 		if ( empty( $product_ids ) ) {
-			setcookie( 'amp_wc_coupon', $coupon_code, ( time() + 1209600 ), '/', $_SERVER['SERVER_NAME'], false );	
+			setcookie( 'amp_wc_coupon', $coupon_code, ( time() + 1209600 ), '/' );	
 		} else {
 			WC()->cart->add_discount( $coupon_code );
 		}
@@ -990,6 +990,8 @@ function amplify_add_coupon_code_to_cart() {
 
 	WC()->cart->add_discount( $coupon_code );
 	
+	WC()->session->set( 'custom_discount', $coupon_code );
+
 	unset( $_COOKIE[ 'amp_wc_coupon' ] );
 	setcookie( 'amp_wc_coupon', null, -1, '/');
 }
