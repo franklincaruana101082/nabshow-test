@@ -1044,7 +1044,7 @@ function nab_load_cart_action_cookie() {
 	$cart_key      = trim( wp_unslash( $_COOKIE['nabCartKey'] ) );
 	$override_cart = false;  // Override the cart by default.
 
-	wc_nocache_headers();
+	// wc_nocache_headers();
 
 	// Get the cart in the database.
 	$stored_cart = nab_cocart_get_cart( $cart_key );
