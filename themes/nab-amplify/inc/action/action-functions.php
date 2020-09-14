@@ -1019,11 +1019,6 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
 
 		$api_url  =  home_url() . '/wp-json/cocart/v1/item';
 		$response = wp_remote_request( $api_url, $args );
-
-		$a = [];
-		$a['api_url'] = $api_url;
-		$a['res'] = $response['body'];
-		wp_mail('hardik.thakkar@multidots.com', 'rm-cart', print_r( $a, true ));
 	}
 
 }
