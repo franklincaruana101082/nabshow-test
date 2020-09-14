@@ -1126,7 +1126,7 @@ function nab_maybe_clear_cart_cookie() {
 
 	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
 		unset($_COOKIE['nabCartKey']); 
-		setcookie( 'nabCartKey', '', time() - 3600, '/', '.wpmulti.test' );
+		setcookie( 'nabCartKey', '', time() - 3600, '/', NAB_AMPLIFY_COOKIE_BASE_DOMAIN );
 	}
 
 }
