@@ -1093,6 +1093,8 @@ function nab_load_cart_action_cookie() {
 	WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 	WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
 
+	wp_mail('hardik.thakkar@multidots.com', 'up-cart', print_r( 'loaded from cocart', true ));
+
 }
 
 /**
@@ -1120,11 +1122,6 @@ function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
 
 		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
 		$response = wp_remote_post( $api_url, $args );
-
-		$a = [];
-		$a['api_url'] = $api_url;
-		$a['res'] = $response['body'];
-		wp_mail('hardik.thakkar@multidots.com', 'up-cart', print_r( $a, true ));
 	}
 }
 
