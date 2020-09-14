@@ -345,8 +345,9 @@ p{font-size:16px;color:#404040}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row{text-align:center;margin-top:0;}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button{background:#ff008f;color:#fff;height:50px;width:180px;font-size:26px;line-height:26px!important;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:0;border:none!important;outline:none;}
 .nab-without-login-account .mo-openid-app-icons a.btn i{border:none;}
-.nab-without-login-account .woocommerce .nab-signup-now{margin-top:30px;margin-bottom:50px;}
+.nab-without-login-account .woocommerce .nab-signup-now{margin-top:30px;margin-bottom:50px;width:870px;}
 .nab-without-login-account .woocommerce .nab-signup-now h4{margin:0;text-align:center;font-size:15px;color:#3d3d3d}
+.nab-without-login-account .woocommerce .nab-signup-now h4:last-child{margin:0;}
 .nab-without-login-account .woocommerce .nab-signup-now a{color:inherit;text-decoration:underline}
 .nab-without-login-account{background:#b4b4b4}
 .nab-without-login-account .woocommerce form .woocommerce-form-row button{background:#ff008f;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}

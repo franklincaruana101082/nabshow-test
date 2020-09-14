@@ -164,8 +164,6 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 <div class="nab-cart-col-right">
 	
-	<?php do_action( 'woocommerce_after_cart' ); ?>
-
 	<div class="cart-collaterals">
 		<?php
 		/**
@@ -179,3 +177,5 @@ do_action( 'woocommerce_before_cart' ); ?>
 	</div>
 
 </div>
+
+<?php do_action( 'woocommerce_after_cart' ); ?>

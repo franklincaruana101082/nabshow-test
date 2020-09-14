@@ -526,7 +526,7 @@ function nab_stop_bulk_order_email( $enable, $order ) {
 function nab_2fa_rest_api_enable( $val, $user_id ) {
 	$user = get_user_by( 'ID' ,$user_id );
 
-	if( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) ) {
+	if( ! empty( $user ) && ( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) ) ) {
 		$val = true;
 	}
 
@@ -592,6 +592,7 @@ function nab_force_bulk_quanity( $cart_contents ) {
  * @return string
  */
 function nab_title_order_received( $title, $id ) {
+	
 	if ( is_order_received_page() && get_the_ID() === $id ) {
 		$title = "Registration Confirmation";
 	}
