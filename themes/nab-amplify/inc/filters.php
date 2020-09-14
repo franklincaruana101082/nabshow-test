@@ -65,3 +65,5 @@ add_filter( 'woocommerce_email_enabled_new_order', 'nab_stop_bulk_order_email', 
 add_filter( 'two_factor_user_api_login_enable', 'nab_2fa_rest_api_enable', 10, 2 );
 
 add_filter( 'jwt_auth_token_before_dispatch', 'nab_jwt_response', 10, 2 );
+
+add_filter( 'woocommerce_cart_contents_changed', 'nab_force_bulk_quanity' );

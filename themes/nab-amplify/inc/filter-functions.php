@@ -496,7 +496,7 @@ function nab_bulk_order( $session_data, $values, $key ) {
  * @param $enable
  * @param $order
  *
- * @return false
+ * @return bool
  */
 function nab_stop_bulk_order_email( $enable, $order ) {
 
@@ -513,6 +513,14 @@ function nab_stop_bulk_order_email( $enable, $order ) {
 	return $enable;
 }
 
+/**
+ * Enables REST API for admins or superadmins
+ *
+ * @param bool $val
+ * @param object $user_id
+ * 
+ * @return bool
+ */
 function nab_2fa_rest_api_enable( $val, $user_id ) {
 	$user = get_user_by( 'ID' ,$user_id );
 
@@ -523,6 +531,14 @@ function nab_2fa_rest_api_enable( $val, $user_id ) {
 	return $val;
 }
 
+/**
+ * Changes the JWT token response
+ *
+ * @param array $data
+ * @param object $user
+ * 
+ * @return array
+ */
 function nab_jwt_response( $data, $user ) {
 
 	if( ! empty( $data ) && ! empty( $user ) ) {
@@ -534,4 +550,33 @@ function nab_jwt_response( $data, $user ) {
 	}
 
 	return $data;
+}
+
+/**
+ * Force bulk quantities to single products if bulk quantity option is selected
+ *
+ * @param array $cart_contents
+ * 
+ * @return array
+ */
+function nab_force_bulk_quanity( $cart_contents ) {
+
+	$is_bulk = nab_is_bulk_order();
+
+	if ( isset( $is_bulk ) && ! empty( $is_bulk ) ) {
+		$get_qty = nab_bulk_order_quantity();
+
+		if ( isset( $get_qty ) && ! empty( $get_qty ) && 1 < $get_qty ) {
+			$temp_cart = [];
+			foreach ( $cart_contents as $key => $values ) {
+				if ( $get_qty !== $values['quantity'] ) {
+					$values['quantity'] = $get_qty;
+				}
+				$temp_cart[ $key ] = $values;
+			}
+			$cart_contents = $temp_cart;
+		}
+	}
+
+	return $cart_contents;
 }

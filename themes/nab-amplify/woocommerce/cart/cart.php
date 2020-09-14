@@ -34,9 +34,23 @@ do_action( 'woocommerce_before_cart' ); ?>
 		</tr>
 		</thead>
 		<tbody>
-		<?php do_action( 'woocommerce_before_cart_contents' ); ?>
+		<?php 
+		
+		do_action( 'woocommerce_before_cart_contents' );
 
-		<?php
+		$is_bulk_val = '';
+		$nab_qty     = '';
+
+		$is_bulk = nab_is_bulk_order();
+		if ( isset( $is_bulk ) && ! empty( $is_bulk ) ) {
+			$is_bulk_val = 'yes';
+		}
+		$get_qty = nab_bulk_order_quantity();
+
+		if ( isset( $get_qty ) && ! empty( $get_qty ) ) {
+			$nab_qty = $get_qty;
+		}
+
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 			$_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 			$product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
@@ -100,7 +114,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 						?>
 					</td>
 					<?php
-					$product_quantity = sprintf( '<input type="hidden" class="nab-qty" name="cart[%s][qty]" value="1" />', $cart_item_key );
+					$product_quantity = sprintf( '<input type="hidden" class="nab-qty" name="cart[%s][qty]" value="%d" />', $cart_item_key, ( ! empty( $nab_qty ) ? $nab_qty : 1 ) );
 					echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
 					?>
 					<td class="product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
@@ -138,21 +152,6 @@ do_action( 'woocommerce_before_cart' ); ?>
 				<?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
 			</td>
 		</tr>
-		<?php
-
-		$is_bulk_val = '';
-		$nab_qty     = '';
-
-		$is_bulk = nab_is_bulk_order();
-		if ( isset( $is_bulk ) && ! empty( $is_bulk ) ) {
-			$is_bulk_val = 'yes';
-		}
-		$get_qty = nab_bulk_order_quantity();
-
-		if ( isset( $get_qty ) && ! empty( $get_qty ) ) {
-			$nab_qty = $get_qty;
-		}
-		?>
 		<input type="hidden" id="nab_bulk_order_qty_field" name="nab_bulk_order_qty" value="<?php echo $nab_qty; ?>">
 		<input type="hidden" id="nab_bulk_order_field" name="nab_bulk_order" value="<?php echo $is_bulk_val; ?>">
 		<?php do_action( 'woocommerce_after_cart_contents' ); ?>
