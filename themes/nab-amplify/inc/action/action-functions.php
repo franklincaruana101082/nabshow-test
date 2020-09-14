@@ -899,12 +899,11 @@ function amplify_apply_coupon_code_from_url() {
 	if ( is_admin() ) {
 		return;
 	}
+	
 	$coupon_code = filter_input( INPUT_GET, 'amp_apply_coupon', FILTER_SANITIZE_STRING );
 
-
-	
 	// Exit if no code in URL or if the coupon code is already set cart session
-	if ( empty( $coupon_code ) || WC()->session->get( 'custom_discount' ) ) {
+	if ( empty( $coupon_code ) ) {
 		return;
 	}
 	
@@ -926,9 +925,7 @@ function amplify_apply_coupon_code_from_url() {
  */
 function amplify_add_coupon_product_to_cart( $coupon_code, $force_start ) {
 		
-	if ( ! empty( $coupon_code ) && ! WC()->session->get( 'custom_discount' ) ) {
-        
-		WC()->session->set( 'custom_discount', $coupon_code );
+	if ( ! empty( $coupon_code ) ) {        
 		
 		// Sanitize coupon code
 		$format_coupon_code = wc_format_coupon_code( $coupon_code );
@@ -985,16 +982,13 @@ function amplify_is_product_in_cart( $product_id ) {
  */
 function amplify_add_coupon_code_to_cart() {
 	
-	$coupon_code		= isset( $_COOKIE[ 'amp_wc_coupon' ] ) && ! empty( $_COOKIE[ 'amp_wc_coupon' ] ) ? $_COOKIE[ 'amp_wc_coupon' ] : '';
-	$applied_coupons	= WC()->session->get( 'custom_discount' );
+	$coupon_code		= isset( $_COOKIE[ 'amp_wc_coupon' ] ) && ! empty( $_COOKIE[ 'amp_wc_coupon' ] ) ? $_COOKIE[ 'amp_wc_coupon' ] : '';	
 
-    if ( empty( $coupon_code) || in_array( $coupon_code, (array) $applied_coupons ) ) {
+    if ( empty( $coupon_code ) ) {
 		return;
 	}
 
-	WC()->cart->add_discount( $coupon_code );
-	
-	WC()->session->set( 'custom_discount', $coupon_code );
+	WC()->cart->add_discount( $coupon_code );	
 
 	unset( $_COOKIE[ 'amp_wc_coupon' ] );
 	setcookie( 'amp_wc_coupon', null, -1, '/');
