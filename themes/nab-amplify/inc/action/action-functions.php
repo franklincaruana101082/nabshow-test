@@ -984,7 +984,7 @@ function amplify_add_coupon_code_to_cart() {
 	$coupon_code		= isset( $_COOKIE[ 'amp_wc_coupon' ] ) && ! empty( $_COOKIE[ 'amp_wc_coupon' ] ) ? $_COOKIE[ 'amp_wc_coupon' ] : '';
 	$applied_coupons	= WC()->session->get( 'custom_discount' );
 
-    if ( empty( $coupon_code) || in_array( $coupon_code, $applied_coupons ) ) {
+    if ( empty( $coupon_code) || in_array( $coupon_code, (array) $applied_coupons ) ) {
 		return;
 	}
 
