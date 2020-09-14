@@ -1093,8 +1093,6 @@ function nab_load_cart_action_cookie() {
 	WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 	WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
 
-	wp_mail('hardik.thakkar@multidots.com', 'up-cart', print_r( 'loaded from cocart', true ));
-
 }
 
 /**

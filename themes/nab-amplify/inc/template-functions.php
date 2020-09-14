@@ -150,11 +150,9 @@ function nab_cocart_get_cart( $customer_id, $default = false ) {
 
 	$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $customer_id ) );
 
-	$a = [];
-	$a['query'] = $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $customer_id );
-	$a['val'] = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}cocart_carts" );
-
-	wp_mail('hardik.thakkar@multidots.com', 'query-cart', print_r( $a, true ));
+	// $a = [];
+	// $a['query'] = $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $customer_id );
+	// $a['val'] = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}cocart_carts" );
 
 	if ( is_null( $value ) ) {
 		$value = $default;
