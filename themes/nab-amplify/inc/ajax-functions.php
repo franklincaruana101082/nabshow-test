@@ -224,6 +224,7 @@ function insert_new_attendee_callback() {
 
 					$new_order_id = $new_order->get_order_number();
 					update_post_meta( $new_order_id, '_nab_bulk_child', 'yes' );
+					update_post_meta( $new_order_id, '_nab_bulk_parent_order', $order_id );
 
 					$order_address               = $order->get_address();
 					$order_address['first_name'] = $user['first_name'];

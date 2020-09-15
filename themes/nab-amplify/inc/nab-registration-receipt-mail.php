@@ -9,6 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  */
 class WC_Registration_Receipt_Email extends WC_Email {
 
+	/**
+	 * Is current order child order of bulk purchase
+	 *
+	 * @var string
+	 */
+	public $is_bulk_child;
 
 	public function __construct() {
 		$this->id             = 'nab_registration_receipt';
@@ -47,6 +53,8 @@ class WC_Registration_Receipt_Email extends WC_Email {
 			$this->recipient                      = $this->object->get_billing_email();
 			$this->placeholders['{order_date}']   = wc_format_datetime( $this->object->get_date_created() );
 			$this->placeholders['{order_number}'] = $this->object->get_order_number();
+			$is_bulk_child_order                  = get_post_meta( $order_id, '_nab_bulk_child', true );
+			$this->is_bulk_child                  = ( isset( $is_bulk_child_order ) && 'yes' === $is_bulk_child_order ) ? 'yes' : 'no';
 		}
 
 		if ( $this->is_enabled() && $this->get_recipient() ) {
@@ -91,6 +99,7 @@ class WC_Registration_Receipt_Email extends WC_Email {
 				'sent_to_admin'      => false,
 				'plain_text'         => false,
 				'email'              => $this,
+				'is_bulk_child'      => $this->is_bulk_child,
 			)
 		);
 	}
