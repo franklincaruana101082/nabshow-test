@@ -584,6 +584,49 @@ function nab_force_bulk_quanity( $cart_contents ) {
 }
 
 /**
+ * Maximum 1 quantity allowed.
+ *
+ * @param $passed
+ * @param $product_id
+ * @return bool
+ */
+function nab_amplify_woocommerce_add_to_cart_validation( $passed, $product_id ) {
+
+    foreach ( WC()->cart->get_cart() as $cart_item ) {
+        $cart_product_id = $cart_item['product_id'];
+        if($cart_product_id === $product_id) {
+            wc_add_notice( __( 'Maximum 1 quantity can be added in the cart.', 'woocommerce' ), 'error' );
+            $passed = false;
+            break;
+        }
+    }
+
+    return $passed;
+}
+
+/**
+ * Maximum 1 quantity allowed.
+ *
+ * @param $cart
+ */
+function nab_amplify_change_cart_item_quantities ( $cart ) {
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+        return;
+
+    if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 )
+        return;
+
+    $new_qty = 1;
+    // Checking cart items
+    foreach( $cart->get_cart() as $cart_item_key => $cart_item ) {
+        $product_id = $cart_item['data']->get_id();
+        if( $cart_item['quantity'] != $new_qty ){
+            $cart->set_quantity( $cart_item_key, $new_qty ); // Change quantity
+        }
+    }
+}
+
+/**
  * Thank You page title change
  *
  * @param $title
