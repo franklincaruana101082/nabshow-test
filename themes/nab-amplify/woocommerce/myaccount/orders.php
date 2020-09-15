@@ -159,7 +159,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 						</form>
 						<span class="nab-download-sample-data">In order to register your group, please upload the list of attendees via <a href="<?php echo get_template_directory_uri() . '/assets/Attendee Template.xlsx'; ?>" download>this template.</a></span>
 						<span class="nab-download-sample-data">
-						Need more assistance?<a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download a sample attendee file</a> or exit this popup and click "help" in the bottom right corner.</span>
+						Need more assistance? <a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download a sample attendee file</a> or exit this popup and click "help" in the bottom right corner.</span>
 					</div>
 				</div>
 			</div>
