@@ -482,14 +482,15 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
 	        // Connect Shop Blog.
 	        $sites = get_sites();
-	        foreach ($sites as $site) {
-		        $sitepath = $site->path;
-		        $sitepath = str_replace('/', '', $sitepath);
-		        if( 'amplify' === $sitepath ) {
-			        $shop_blog_id = $site->blog_id;
-			        break;
-		        }
-	        }
+            foreach ($sites as $site) {
+                $sitepath = $site->path;
+                $sitepath = str_replace('/', '', $sitepath);
+                $sitedomain = $site->domain;
+                if( 'amplify' === $sitepath || false !== strpos( $sitedomain, 'amplify.' ) ) {
+                    $shop_blog_id = $site->blog_id;
+                    break;
+                }
+            }
 
 	        // Throw error if shop blog not found.
 	        if( empty( $shop_blog_id ) ) {
