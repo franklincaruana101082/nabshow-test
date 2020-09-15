@@ -7,7 +7,7 @@
 
  global $wpdb;
 
- $t = $wpdb->get_results( "SHOW TABLES". ARRAY_A );
+ $t = $wpdb->get_results( "SHOW TABLES", ARRAY_A );
 
  echo '<pre>';
  print_r( $t );
