@@ -655,6 +655,17 @@ function nab_create_attendee_table() {
 			) {$charset_collate};";
 
 	dbDelta( $sql );
+
+	$tables = "CREATE TABLE {$wpdb->prefix}cocart_carts (
+					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+					cart_key char(42) NOT NULL,
+					cart_value longtext NOT NULL,
+					cart_expiry BIGINT UNSIGNED NOT NULL,
+					PRIMARY KEY (cart_id),
+					UNIQUE KEY cart_key (cart_key)
+				) {$charset_collate};";
+
+	dbDelta( $tables );
 }
 
 /**
