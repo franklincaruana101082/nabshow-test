@@ -485,7 +485,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--downloads a::before{background-image:url(../images/icon-inbox.svg);}
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--edit-address a::before{background-image:url(../images/icon-connections.svg);}
 .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--edit-account a::before{background-image:url(../images/icon-account.svg);}
-.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--my-purchases a::before{background-image:url(../images/purchases-icon.png)}
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--my-purchases a::before{background-image:url(../images/icon-purchases.svg)}
 .woocommerce-MyAccount-navigation ul li:last-child{border-bottom:0;}
 .woocommerce-MyAccount-navigation ul li.is-active a{background:#fff;}
 .woocommerce-MyAccount-content h3{text-transform:uppercase;color:#666;}
