@@ -137,6 +137,7 @@
 .channel-archive-list a.read-more-link{background-color:#ab3e97;color:#fff;text-decoration:none;padding:10px 50px;font-family:'Josefin Sans',sans-serif;font-size:20px;}
 
 .session-date-list.session-heading-black .session-date-list-wrapper .schedule-data h2{color:#000;font-size:24px;margin-bottom:0;}
+.nabny-speaker-list .speaker-box-outer .speaker-box-inner .speaker-label{display: block;font-style: italic;}
 
 @media (max-width:1439px){
 	.session-date-list.without-filter .schedule-row .session-img,
