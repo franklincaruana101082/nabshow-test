@@ -713,6 +713,19 @@ function amplify_register_api_endpoints() {
 		)
 	);
 
+	register_rest_route( 'nab', '/request/get-product-info', array(
+		'methods'             => 'POST',
+		'callback'            => 'amplify_get_product_info',
+		'permission_callback' => '__return_true',
+		'args'                => array(
+			'product_id' => array(
+				'validate_callback' => function ( $param ) {
+					return is_numeric( $param );
+				},
+			),
+		),
+	) );
+
 }
 
 /**
@@ -889,6 +902,28 @@ function nab_create_jwt_token( $username, $password ) {
 		}
 	}
 
+}
+
+/**
+ * Get product info by product id.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_get_product_info( WP_REST_Request $request ) {
+
+	$product_id	= $request->get_param( 'product_id' );
+	$return		= array();
+
+	if ( ! empty( $product_id ) ) {
+		$return[ 'url' ]   = get_the_permalink( $product_id );
+		$return[ 'title' ] = get_the_title( $product_id );
+	}	
+
+	return new WP_REST_Response( $return, 200 );
 }
 
 /**

@@ -93,14 +93,39 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                 if ( ! empty( $associate_products ) && is_array( $associate_products ) ) {
 
+                    $end_point_url  = get_option( 'ep_parent_site_url' );
+
                     if ( ! is_user_logged_in() ) {
 
-                        $content = $this->ep_get_restrict_content( $content );
+                        $success = false;
+                        
+                        $end_point_url  .= 'wp-json/nab/request/get-product-info';
+
+                        $response       = wp_remote_post( $end_point_url, array(
+                            'method' => 'POST',                            
+                            'body'	=> array(
+                                'product_id' => $associate_products[0],                                
+                            )
+                        ) );
+
+                        if ( ! is_wp_error( $response ) ) {
+                            
+                            $final_response = json_decode( wp_remote_retrieve_body( $response ) );
+                            
+                            if ( isset( $final_response->url ) && ! empty( $final_response->url ) ) {
+
+                                $success = true;
+                                $content = $this->ep_get_restrict_content( $content, $final_response->url, $final_response->title );    
+                            }
+                        }
+
+                        if ( ! $success ) {
+                            $content = $this->ep_get_restrict_content( $content );
+                        }
 
                     } else {
 
-                        $logged_user    = wp_get_current_user();
-                        $end_point_url  = get_option( 'ep_parent_site_url' );
+                        $logged_user    = wp_get_current_user();                        
 
                         if ( ! empty( $end_point_url ) ) {
 
