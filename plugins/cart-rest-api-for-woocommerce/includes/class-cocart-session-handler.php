@@ -412,7 +412,7 @@ class CoCart_Session_Handler extends WC_Session {
 				)
 			);
 
-			wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
+			// wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
 
 			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
 			if ( get_current_user_id() != $old_cart_key && ! is_object( get_user_by( 'id', $old_cart_key ) ) ) {
@@ -499,7 +499,7 @@ class CoCart_Session_Handler extends WC_Session {
 
 			$cache_duration = $this->_cart_expiration - time();
 			if ( 0 < $cache_duration ) {
-				wp_cache_add( $this->get_cache_prefix() . $customer_id, $value, COCART_CART_CACHE_GROUP, $cache_duration );
+				// wp_cache_add( $this->get_cache_prefix() . $customer_id, $value, COCART_CART_CACHE_GROUP, $cache_duration );
 			}
 		}
 
@@ -558,7 +558,7 @@ class CoCart_Session_Handler extends WC_Session {
 		global $wpdb;
 
 		// Delete cache
-		wp_cache_delete( $this->get_cache_prefix() . $customer_id, COCART_CART_CACHE_GROUP );
+		// wp_cache_delete( $this->get_cache_prefix() . $customer_id, COCART_CART_CACHE_GROUP );
 
 		// Delete cart from database.
 		$wpdb->delete( $this->_table, array( 'cart_key' => $customer_id ) );
