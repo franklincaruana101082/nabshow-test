@@ -182,7 +182,7 @@ function mobile_reg_button_ny_inclusion(){ ?>
  * @param  int $post_id
  * @param  mixed $post 
  */
-function amplify_set_speaker_last_name_meta( $post_id, $post ) {
+function nabny_set_speaker_last_name_meta( $post_id, $post ) {
 
 	if ( 'speakers' !== $post->post_type ) {
         return;
