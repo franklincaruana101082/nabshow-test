@@ -22,7 +22,8 @@ if ( $user ) {
 	<strong>Password : </strong><?php echo $user_pass; ?></p>
 	<p>We look forward to connecting with you virtually. If there is anything, we can help with in the meantime please let us know <a href="mailto:register@nab.org">register@nab.org</a>.
 	</p>
-	<p><strong>Your NAB Team</strong></p>
+	<p>Stay Amped!<br>
+	Team NAB</p>
 
 	<?php
 	/**
