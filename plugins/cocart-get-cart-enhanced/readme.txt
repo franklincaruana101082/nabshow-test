@@ -7,7 +7,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 WC requires at least: 4.0.0
 WC tested up to: 4.4.0
 License: GPLv3
@@ -38,7 +38,7 @@ This free add-on for [CoCart](https://wordpress.org/plugins/cart-rest-api-for-wo
 
 Each item added to the cart will also return the following:
 
- * **NEW** Returns the product slug.
+ * Returns the product slug.
  * Returns the product type.
  * Returns variation data formatted.
  * Returns the product dimensions.
