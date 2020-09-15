@@ -573,6 +573,8 @@ function nab_force_bulk_quanity( $cart_contents ) {
 			foreach ( $cart_contents as $key => $values ) {
 				if ( $get_qty !== $values['quantity'] ) {
 					$values['quantity'] = $get_qty;
+					$values['nab_bulk_order'] = 'yes';
+					$values['nab_qty'] = $get_qty;
 				}
 				$temp_cart[ $key ] = $values;
 			}
