@@ -809,14 +809,16 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 		 */
 		public function mysgb_speaker_popup_details_ajax_callback() {
 			
-			$result_post 	= array();
-			$speaker_id		= filter_input( INPUT_GET, 'speaker_id', FILTER_SANITIZE_NUMBER_INT );
-			$thumbnail_url 	= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
+			$result_post 		= array();
+			$speaker_id			= filter_input( INPUT_GET, 'speaker_id', FILTER_SANITIZE_NUMBER_INT );
+			$thumbnail_url 		= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
+			$speaker_content	= get_the_content( '', false, $speaker_id );
+			$speaker_content	= apply_filters( 'the_content', $speaker_content );
 			
 			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
 			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
 			$result_post[ 'sub_title' ]		= get_field( 'title',  $speaker_id );
-			$result_post[ 'content' ] 		= get_the_excerpt( $speaker_id );
+			$result_post[ 'content' ] 		= $speaker_content;
 
 			echo wp_json_encode( $result_post );
 			wp_die();

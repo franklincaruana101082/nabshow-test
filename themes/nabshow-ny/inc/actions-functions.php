@@ -175,3 +175,27 @@ function mobile_reg_button_ny_inclusion(){ ?>
   <a id="mobile_reg" href="https://nabshow.com/ny2020/register/" data-feathr-click-track="true">Register Now</a>
   <!-- /Mobile Only Registration Button --> <?php
 }
+
+/**
+ * Set speaker lastname as meta from the title.
+ *
+ * @param  int $post_id
+ * @param  mixed $post 
+ */
+function amplify_set_speaker_last_name_meta( $post_id, $post ) {
+
+	if ( 'speakers' !== $post->post_type ) {
+        return;
+	}
+
+	$lastname = $post->post_title;
+
+	if ( ! empty( $lastname ) ) {
+		
+		$split_lastname	= explode(' ', $lastname );
+		$last_index     = count( $split_lastname ) - 1;      
+		$lastname       = $split_lastname[ $last_index ];
+	}
+
+	update_post_meta( $post_id, '_lastname', $lastname );
+}

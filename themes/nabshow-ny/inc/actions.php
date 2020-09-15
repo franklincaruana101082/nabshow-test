@@ -19,3 +19,6 @@ add_filter( 'parse_query', 'nabny_session_filter_by_channel' );
 
 // Mobile only Registration Button in footer
 add_action('wp_footer', 'mobile_reg_button_ny_inclusion');
+
+// Set lastname as meta for speakers
+add_action( 'save_post', 'nabny_set_speaker_last_name_meta', 10, 2 );

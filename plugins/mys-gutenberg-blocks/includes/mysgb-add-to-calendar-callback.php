@@ -21,7 +21,7 @@ if ( ! empty( $session_date ) && ! empty( $start_time ) && ! empty( $end_time ) 
     $final_time     = $session_date . 'T' . $start_time . '/' . $session_date . 'T' . $end_time;
     $calendar_title = get_the_title( $page_id );
     $location       = get_field( 'session_location', $page_id );
-    $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time;
+    $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $page_id );
     $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
     ?>
     <p class="calender-block-title"><a href="<?php echo esc_url( $calendar_link ); ?>" target="_blank">Add to Calendar</a></p>

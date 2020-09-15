@@ -17,7 +17,10 @@ $class_name         = isset( $attributes['className'] ) && ! empty( $attributes[
 
 $query_args = array(
     'post_type'      => 'speakers',
-    'posts_per_page' => $posts_per_page,    
+    'posts_per_page' => $posts_per_page,
+    'meta_key'       => '_lastname',
+    'orderby'        => 'meta_value',
+    'order'          => 'ASC'
 );
 
 if ( ! empty( $include_speaker ) ) {
@@ -60,10 +63,11 @@ $query = new WP_Query( $query_args );
 
                 $query->the_post();
 
-                $speaker_id     = get_the_ID();
-                $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : $this->mysgb_get_speaker_thumbnail_url();
-                $speaker_title  = get_field( 'title',  $speaker_id );
-                
+                $speaker_id         = get_the_ID();
+                $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : $this->mysgb_get_speaker_thumbnail_url();
+                $speaker_title      = get_field( 'title',  $speaker_id );
+                $speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
+                $speaker_company    = $this->mysgb_get_pipe_separated_term_list( $speaker_company );
                 ?>
                 <div class="speaker-box-outer">
                     <div class="speaker-box-inner">
@@ -74,7 +78,8 @@ $query = new WP_Query( $query_args );
                             <h6>
                                 <a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $speaker_id ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
                             </h6>
-                            <p class="speaker-desc"><?php echo esc_html( $speaker_title ); ?></p>
+                            <p class="speaker-desc"><?php echo esc_html( $speaker_title ); ?></p>                            
+                            <span class="company"><?php echo esc_attr( $speaker_company ); ?></span>									
                         </div>
                     </div>
                 </div>

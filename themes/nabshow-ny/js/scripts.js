@@ -189,10 +189,11 @@ $(function() {
             headDiv.appendChild(imgDiv);
             mb50.appendChild(headDiv);
   
-            let contentP = document.createElement('p');
-            contentP.innerText = speakerObj.content;
+            let contentDiv = document.createElement('div');
+            contentDiv.setAttribute('class', 'speaker-content');
+            contentDiv.innerHTML = speakerObj.content;
   
-            mb50.appendChild(contentP);
+            mb50.appendChild(contentDiv);
             popupInnerDiv.appendChild(mb50);
   
             let popupBottom = document.createElement('div');
