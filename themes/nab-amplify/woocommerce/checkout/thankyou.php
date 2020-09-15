@@ -37,9 +37,26 @@ defined( 'ABSPATH' ) || exit;
 			<?php endif; ?>
 		</p>
 
-	<?php else : ?>
+	<?php else :
 
-		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">You’re registered! We look forward to hosting you and other professionals from the media and entertainment industry this October.</p>
+		$order_id = $order->get_order_number();
+		$is_bulk_order = get_post_meta( $order_id, '_nab_bulk_order', true );
+		$bulk_order_qty = get_post_meta( $order_id, '_nab_bulk_qty', true );
+
+		if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && isset( $bulk_order_qty ) && ! empty( $bulk_order_qty ) ) { ?>
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you for your order! In order to register your group, please follow these 4 simple steps:</p>
+			<ol>
+				<li>Go into your profile’s <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a> and click "Add Attendees".</li>
+				<li>Download the file called "Attendee Template".</li>
+				<li>Add attendee information in the spreadsheet under the appropriate columns.</li>
+				<li>Upload the file under <a href="<?php echo esc_url( wc_get_account_endpoint_url('orders') ); ?>">Order History</a> "Add Attendees".</li>
+			</ol>
+
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you need to make changes to your list of attendees after uploading, please contact <a href="mailto:register@nab.org">register@nab.org</a></p>
+
+		<?php } else { ?>
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">You’re registered! We look forward to hosting you and other professionals from the media and entertainment industry this October.</p>
+		<?php } ?>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you have any questions about your registration or NAB Amplify account, contact us at <a href="mailto:register@nab.org">register@nab.org</a>.</p>
 
@@ -53,19 +70,21 @@ defined( 'ABSPATH' ) || exit;
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
 			Please check your spam filters to ensure these emails did not end up there, and if you do not receive one or both of these emails please contact <a
-					href="mailto:register@nab.org">register@nab.org</a>.
+				href="mailto:register@nab.org">register@nab.org</a>.
 		</p>
 
 		<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 
 			<li class="woocommerce-order-overview__order order">
 				<?php esc_html_e( 'Order number:', 'woocommerce' ); ?>
-				<strong><?php echo $order->get_order_number(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+				<strong><?php echo $order->get_order_number(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?></strong>
 			</li>
 
 			<li class="woocommerce-order-overview__date date">
 				<?php esc_html_e( 'Date:', 'woocommerce' ); ?>
-				<strong><?php echo wc_format_datetime( $order->get_date_created() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+				<strong><?php echo wc_format_datetime( $order->get_date_created() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?></strong>
 			</li>
 
 			<?php if ( is_user_logged_in() && $order->get_user_id() === get_current_user_id() && $order->get_billing_email() ) : ?>
@@ -77,7 +96,8 @@ defined( 'ABSPATH' ) || exit;
 
 			<li class="woocommerce-order-overview__total total">
 				<?php esc_html_e( 'Total:', 'woocommerce' ); ?>
-				<strong><?php echo $order->get_formatted_order_total(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
+				<strong><?php echo $order->get_formatted_order_total(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?></strong>
 			</li>
 
 			<?php if ( $order->get_payment_method_title() ) : ?>

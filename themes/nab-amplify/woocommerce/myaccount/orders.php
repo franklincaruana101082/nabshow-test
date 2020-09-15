@@ -39,10 +39,10 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 					$sort_url = add_query_arg( array( 'orderby' => $column_id, 'order' => $sort_order ) );
 					?>
 					<th class="woocommerce-orders-table__header woocommerce-orders-table__header-<?php echo esc_attr( $column_id ); ?>"><a
-								href="<?php echo esc_url( $sort_url ); ?>"><span class="nobr"><?php echo esc_html( $column_name ); ?></span></a></th>
+							href="<?php echo esc_url( $sort_url ); ?>"><span class="nobr"><?php echo esc_html( $column_name ); ?></span></a></th>
 				<?php } else { ?>
 					<th class="woocommerce-orders-table__header woocommerce-orders-table__header-<?php echo esc_attr( $column_id ); ?>"><span
-								class="nobr"><?php echo esc_html( $column_name ); ?></span></th>
+							class="nobr"><?php echo esc_html( $column_name ); ?></span></th>
 				<?php } ?>
 			<?php endforeach; ?>
 		</tr>
@@ -88,6 +88,18 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 									echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
 								}
 							}
+							$order_id      = $order->get_order_number();
+							$is_bulk_order = get_post_meta( $order_id, '_nab_bulk_order', true );
+							if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && 'completed' === $order->get_status() && false === nab_is_all_attendee_added( $order_id ) ) {
+								$bulk_qty = get_post_meta( $order_id, '_nab_bulk_qty', true ); ?>
+								<a href="javascript:void(0)" class="nab-add-attendee woocommerce-button button" data-qty="<?php echo esc_attr( $bulk_qty ); ?>"
+								   data-orderid="<?php echo esc_attr( $order_id ); ?>"><?php echo esc_html_e( 'Add Attendees', 'nab-amplify' ); ?></a>
+							<?php }
+							if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && 'completed' === $order->get_status() && 0 < nab_get_attendee_count( $order_id ) ) {
+								$bulk_qty = get_post_meta( $order_id, '_nab_bulk_qty', true ); ?>
+								<a href="javascript:void(0)" class="nab-view-attendee woocommerce-button button"
+								   data-orderid="<?php echo esc_attr( $order_id ); ?>"><?php echo esc_html_e( 'View Attendees', 'nab-amplify' ); ?></a>
+							<?php }
 							?>
 						<?php endif; ?>
 					</td>
@@ -125,3 +137,45 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 <?php endif; ?>
 
 <?php do_action( 'woocommerce_after_account_orders', $has_orders ); ?>
+
+<div id="nabAddAttendeeModal" class="nab-modal">
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
+			<div class="modal-content-wrap">
+				<div class="attendee-bulk-upload-form-wrap">
+					<div class="attendee-bulk-upload-form-cnt">
+						<div class="attendee-upload-message" style="display: none"></div>
+						<span class="file-title">File Upload</span>
+						<form class="attendee-bulk-upload-form">
+							<div class="nab-attendee-upload-wrp">
+								<span class="input-placeholder">Upload File...</span>
+								<input type="file" id="bulk_upload_file" name="bulk_upload_file">
+								<input type="hidden" id="attendeeOrderID" name="order_id" value="">
+								<input type="hidden" id="attendeeOrderQty" name="order_qty" value="">
+								<button type="button" class="attendee-browse-btn" id="browse_files">Browse</button>
+							</div>
+							<button type="button" class="attendee-import-btn" id="bulk_upload" name="bulk_upload">Upload</button>
+						</form>
+						<span class="nab-download-sample-data">
+							<a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download a sample attendee file here.</a></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="nabViewAttendeeModal" class="nab-modal">
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
+			<div class="modal-content-wrap">
+				<div class="attendee-view-wrap">
+					<div class="attendee-view-table-wrp">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

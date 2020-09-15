@@ -310,3 +310,8 @@ require get_template_directory() . '/inc/filters.php';
  * Filter Callback Functions
  */
 require get_template_directory() . '/inc/filter-functions.php';
+
+/**
+ * Ajax Functions
+ */
+require_once get_template_directory() . '/inc/ajax-functions.php';

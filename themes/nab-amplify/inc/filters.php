@@ -14,7 +14,7 @@ add_filter( 'woocommerce_get_availability', 'nab_amplify_woocommerce_get_availab
 
 add_filter( 'woocommerce_product_stock_status_options', 'nab_amplify_woocommerce_product_stock_status_options', 10, 3 );
 
-add_filter( 'woocommerce_checkout_fields' , 'nab_amplify_woocommerce_checkout_fields', 10, 3 );
+add_filter( 'woocommerce_checkout_fields', 'nab_amplify_woocommerce_checkout_fields', 10, 3 );
 
 add_filter( 'woocommerce_inventory_settings', 'nab_amplify_woocommerce_inventory_settings', 10, 3 );
 
@@ -56,4 +56,17 @@ add_filter( 'ae_pppf_comment2_parameter', 'nab_pppf_comment2_parameter', 10, 2 )
 
 add_filter( 'woocommerce_email_classes', 'nab_registration_receipt_mail' );
 
+add_filter( 'woocommerce_get_cart_item_from_session', 'nab_bulk_order', 11, 3 );
+
+add_filter( 'woocommerce_email_enabled_customer_completed_order', 'nab_stop_bulk_order_email', 999, 2 );
+
+add_filter( 'woocommerce_email_enabled_new_order', 'nab_stop_bulk_order_email', 999, 2 );
+
+add_filter( 'two_factor_user_api_login_enable', 'nab_2fa_rest_api_enable', 10, 2 );
+
+add_filter( 'jwt_auth_token_before_dispatch', 'nab_jwt_response', 10, 2 );
+
+add_filter( 'woocommerce_cart_contents_changed', 'nab_force_bulk_quanity' );
+
 add_filter( 'the_title', 'nab_title_order_received', 10, 2 );
+

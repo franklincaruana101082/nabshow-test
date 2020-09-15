@@ -77,3 +77,18 @@ add_action( 'woocommerce_checkout_update_order_meta', 'nab_save_event_fields', 1
 add_action( 'wp_head', 'nab_header_scripts' );
 
 add_action( 'woocommerce_created_customer', 'nab_user_registration_sync', 10, 3 );
+
+add_action( 'woocommerce_after_cart', 'nab_bulk_purchase_cart' );
+
+add_action( 'init', 'nab_create_attendee_table' );
+
+// Register custom rest route.
+add_action( 'rest_api_init', 'amplify_register_api_endpoints' );
+
+add_action( 'wp_authenticate', 'nab_create_jwt_token', 10, 2 );
+
+// Apply coupon code from the url
+add_action( 'wp_loaded', 'amplify_apply_coupon_code_from_url', PHP_INT_MAX );
+
+// Add coupon code when a product is added to cart once
+add_action( 'woocommerce_add_to_cart', 'amplify_add_coupon_code_to_cart', PHP_INT_MAX );

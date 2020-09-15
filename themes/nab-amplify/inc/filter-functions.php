@@ -149,7 +149,7 @@ function nab_my_orders_columns( $columns ) {
  * @return string Filtered Avatar HTML.
  */
 function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $default, $alt ) {
-	$user_id       = get_current_user_id();
+	$user_id = get_current_user_id();
 
 	if ( $id_or_email === $user_id ) {
 		$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
@@ -216,7 +216,7 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 
 	$items =
 		array( 'edit-my-profile' => __( 'Edit My Profile', 'nab-amplify' ) )
-		/*+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )*/
+		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
 		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
 		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) )
 		+ array( 'orders' => __( 'Order History', 'nab-amplify' ) )
@@ -337,9 +337,9 @@ function nab_amplify_woocommerce_product_stock_status_options() {
 function nab_amplify_woocommerce_inventory_settings( $settings ) {
 
 	foreach ( $settings as $key => $s ) {
-		$settings[$key]['title'] = str_replace('Out of stock','Sold Out',$s['title']);
-		$settings[$key]['desc'] = str_replace('out of stock','sold out',$s['desc']);
-    }
+		$settings[ $key ]['title'] = str_replace( 'Out of stock', 'Sold Out', $s['title'] );
+		$settings[ $key ]['desc']  = str_replace( 'out of stock', 'sold out', $s['desc'] );
+	}
 
 	return $settings;
 }
@@ -435,11 +435,11 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
  */
 function nab_amplify_woocommerce_checkout_fields( $fields ) {
 
-	 if( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
+	if ( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
 		unset( $fields['billing'] );
-	 }
+	}
 
-     return $fields;
+	return $fields;
 }
 
 /**
@@ -453,12 +453,134 @@ function nab_registration_receipt_mail( $email_classes ) {
 
 	// include our custom email class
 	require_once get_template_directory() . '/inc/nab-registration-receipt-mail.php';
+	require_once get_template_directory() . '/inc/nab-bulk-registration-user-mail.php';
 
 	// add the email class to the list of email classes that WooCommerce loads
 	$email_classes['WC_Registration_Receipt_Email'] = new WC_Registration_Receipt_Email();
 
+	$email_classes['WC_Bulk_Registration_User_Email'] = new WC_Bulk_Registration_User_Email();
+
 	return $email_classes;
 
+}
+
+/**
+ * Save bulk order details to cart session
+ *
+ * @param $session_data
+ * @param $values
+ * @param $key
+ *
+ * @return mixed
+ */
+function nab_bulk_order( $session_data, $values, $key ) {
+
+	if ( isset( $_POST['nab_bulk_order'] ) && 'yes' === $_POST['nab_bulk_order'] ) {
+		if ( isset( $_POST['nab_bulk_order_qty'] ) && ! empty( $_POST['nab_bulk_order_qty'] ) ) {
+			$session_data['nab_bulk_order'] = 'yes';
+			$session_data['nab_qty']        = $_POST['nab_bulk_order_qty'];
+		} else {
+			$session_data['nab_bulk_order'] = 'no';
+			$session_data['nab_qty']        = 1;
+		}
+	} else if ( isset( $_POST['nab_bulk_order'] ) && 'no' === $_POST['nab_bulk_order'] ) {
+		$session_data['nab_bulk_order'] = 'no';
+		$session_data['nab_qty']        = 1;
+	}
+
+	return $session_data;
+
+}
+
+/**
+ * Prevents order emails to customers in case of Attendees import
+ *
+ * @param $enable
+ * @param $order
+ *
+ * @return bool
+ */
+function nab_stop_bulk_order_email( $enable, $order ) {
+
+	if ( isset( $order ) && ! empty( $order ) ) {
+		$order_id            = $order->get_order_number();
+		$is_bulk_child_order = get_post_meta( $order_id, '_nab_bulk_child', true );
+
+		// Stop email if it's a child order
+		if ( isset( $is_bulk_child_order ) && 'yes' === $is_bulk_child_order ) {
+			return false;
+		}
+	}
+
+	return $enable;
+}
+
+/**
+ * Enables REST API for admins or superadmins
+ *
+ * @param bool $val
+ * @param object $user_id
+ * 
+ * @return bool
+ */
+function nab_2fa_rest_api_enable( $val, $user_id ) {
+	$user = get_user_by( 'ID' ,$user_id );
+
+	if( ! empty( $user ) && ( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) ) ) {
+		$val = true;
+	}
+
+	return $val;
+}
+
+/**
+ * Changes the JWT token response
+ *
+ * @param array $data
+ * @param object $user
+ * 
+ * @return array
+ */
+function nab_jwt_response( $data, $user ) {
+
+	if( ! empty( $data ) && ! empty( $user ) ) {
+		$token = $data['token'];
+		$data  = array(
+			'token'   => $token,
+            'user_id' => $user->data->ID,
+		);
+	}
+
+	return $data;
+}
+
+/**
+ * Force bulk quantities to single products if bulk quantity option is selected
+ *
+ * @param array $cart_contents
+ * 
+ * @return array
+ */
+function nab_force_bulk_quanity( $cart_contents ) {
+
+	$is_bulk = nab_is_bulk_order();
+
+	if ( isset( $is_bulk ) && ! empty( $is_bulk ) ) {
+		$get_qty = nab_bulk_order_quantity();
+
+		if ( isset( $get_qty ) && ! empty( $get_qty ) && 1 < $get_qty ) {
+			$temp_cart = [];
+			foreach ( $cart_contents as $key => $values ) {
+				if ( $get_qty !== $values['quantity'] ) {
+					$values['quantity'] = $get_qty;
+				}
+				$temp_cart[ $key ] = $values;
+			}
+			$cart_contents = $temp_cart;
+		}
+	}
+
+	return $cart_contents;
 }
 
 /**
@@ -470,6 +592,7 @@ function nab_registration_receipt_mail( $email_classes ) {
  * @return string
  */
 function nab_title_order_received( $title, $id ) {
+	
 	if ( is_order_received_page() && get_the_ID() === $id ) {
 		$title = "Registration Confirmation";
 	}
