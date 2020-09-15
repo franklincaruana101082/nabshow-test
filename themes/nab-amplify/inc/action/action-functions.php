@@ -1021,9 +1021,6 @@ function nab_amplify_change_cart_item_quantities ( $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) )
         return;
 
-    if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 )
-        return;
-
     $new_qty = 1;
     // Checking cart items
     foreach( $cart->get_cart() as $cart_item_key => $cart_item ) {
