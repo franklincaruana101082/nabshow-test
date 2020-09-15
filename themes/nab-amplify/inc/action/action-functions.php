@@ -947,7 +947,7 @@ function amplify_apply_coupon_code_from_url() {
 		return;
 	}
 	
-	$coupon_code = filter_input( INPUT_GET, 'amp_apply_coupon', FILTER_SANITIZE_STRING );
+	$coupon_code = filter_input( INPUT_GET, 'promocode', FILTER_SANITIZE_STRING );
 
 	// Exit if no code in URL or if the coupon code is already set cart session
 	if ( empty( $coupon_code ) ) {
