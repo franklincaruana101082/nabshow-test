@@ -20,6 +20,9 @@
 					success: function( data ) {
 						console.log( data );
 						updateCart();
+					},
+					error: function(xhr, ajaxOptions, thrownError) {
+						console.log( thrownError );
 					}
 				} );
 
@@ -48,6 +51,9 @@
 						success: function( data ) {
 							console.log( data );
 							updateCart();
+						},
+						error: function(xhr, ajaxOptions, thrownError) {
+							console.log( thrownError );
 						}
 					} );
 				}
