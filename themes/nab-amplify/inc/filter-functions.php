@@ -573,6 +573,24 @@ function nab_force_bulk_quanity( $cart_contents ) {
 			foreach ( $cart_contents as $key => $values ) {
 				if ( $get_qty !== $values['quantity'] ) {
 					$values['quantity'] = $get_qty;
+					
+					// update cocart 
+					if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+						$cart_key = $_COOKIE['nabCartKey'];
+
+						$args = array(
+							'headers' => array(
+								'Content-Type' => 'application/json; charset=utf-8',
+							),
+							'body'    => wp_json_encode( [
+								'cart_item_key' => $key,
+								'quantity'      => $get_qty,
+							] ),
+						);
+
+						$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+						$response = wp_remote_post( $api_url, $args );	
+					}
 				}
 				$temp_cart[ $key ] = $values;
 			}

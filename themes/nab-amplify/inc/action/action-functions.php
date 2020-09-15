@@ -1081,14 +1081,12 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
 			),
 			'body'    => wp_json_encode( [
 				'cart_item_key' => $cart_item_key,
-				'cart_key'      => $cart_key
 			] ),
 			'method'  => 'DELETE',
 		);
 
-		$api_url  =  home_url() . '/wp-json/cocart/v1/item';
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
 		$response = wp_remote_request( $api_url, $args );
-		wp_mail( 'hardik.thakkar@multidots.com', 'Removed Cart', print_r( $response['body'], true ) );
 	}
 
 }
