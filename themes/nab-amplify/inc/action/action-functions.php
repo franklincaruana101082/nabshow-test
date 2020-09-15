@@ -1050,7 +1050,7 @@ function amplify_add_coupon_code_to_cart() {
  */
 function nab_remove_cocart_item( $cart_item_key, $instance ) {
 
-	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) && ! is_user_logged_in() ) {
 		$cart_key = $_COOKIE['nabCartKey'];
 
 		$args = array(
@@ -1076,7 +1076,7 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
 function nab_load_cart_action_cookie() {
 	
 	// If cookie is not present then just return
-	if ( ! isset( $_COOKIE['nabCartKey'] ) ) {
+	if ( ! isset( $_COOKIE['nabCartKey'] ) || is_user_logged_in() ) {
 		return;
 	}
 
@@ -1146,7 +1146,7 @@ function nab_load_cart_action_cookie() {
  */
 function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
 
-	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) && ! is_user_logged_in() ) {
 		$cart_key = $_COOKIE['nabCartKey'];
 
 		$args = array(
