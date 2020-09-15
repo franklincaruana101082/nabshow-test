@@ -74,8 +74,6 @@ add_action( 'woocommerce_checkout_process', 'nab_attendee_field_process' );
 
 add_action( 'woocommerce_checkout_update_order_meta', 'nab_save_event_fields', 10, 1 );
 
-//add_action( 'woocommerce_before_calculate_totals', 'nab_amplify_change_cart_item_quantities', 20, 1 );
-
 add_action( 'wp_head', 'nab_header_scripts' );
 
 add_action( 'woocommerce_created_customer', 'nab_user_registration_sync', 10, 3 );
