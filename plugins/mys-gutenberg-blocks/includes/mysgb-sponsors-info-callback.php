@@ -31,20 +31,29 @@ $class_name     = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ '
 
                 foreach( $rows as $row ) {
                     
-                    $image = $row[ 'sponsor_logos' ];
-                    
+                    $image  = $row[ 'sponsor_logos' ];
+                    $link   = $row[ 'sponsor_link' ];
+
                     if ( ! empty( $image ) ) {
                         
-                        ?>
-                        <li><img src="<?php echo esc_url( $image['url'] ); ?>" alt="sponsors-logo"></li>
-                        <?php
+                        if ( ! empty( $link ) ) {
+                            ?>
+                            <li>
+                                <a href="<?php echo esc_url( $link ); ?>"><img src="<?php echo esc_url( $image['url'] ); ?>" alt="sponsors-logo"></a>
+                            </li>
+                            <?php
+                        } else {
+                            ?>
+                            <li><img src="<?php echo esc_url( $image['url'] ); ?>" alt="sponsors-logo"></li>
+                            <?php
+                        }                        
                         
                         if ( $cnt >= $item_limit ) {
                             break;
                         }
                         
                         $cnt++;
-                    }                    
+                    }
                 }
                 ?>
                 </ul>

@@ -112,7 +112,7 @@ function nabny_channel_columns_data( $column, $post_id ) {
  */
 function nabny_session_channel_filter_dropdown( $post_type ) {
 
-	if ( 'sessions' === $post_type ) {
+	if ( 'sessions' === $post_type || 'speakers' === $post_type ) {
 		
 		$channel_args = array(
 			'post_type'      => 'channels',
@@ -160,7 +160,7 @@ function nabny_session_filter_by_channel( $query ) {
 	$current_post_type 	= filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
 	$current_channel 	  = filter_input( INPUT_GET, 'session_channel', FILTER_SANITIZE_NUMBER_INT );
 		
-    if ( isset( $current_post_type ) && 'sessions' === $current_post_type && isset( $current_channel ) && ! empty( $current_channel ) && 'edit.php' === $pagenow && $query->is_main_query() ) {		
+    if ( isset( $current_post_type ) && ( 'sessions' === $current_post_type || 'speakers' === $current_post_type ) && isset( $current_channel ) && ! empty( $current_channel ) && 'edit.php' === $pagenow && $query->is_main_query() ) {		
       
       $query->query_vars[ 'meta_key' ]	  = 'session_channel';
 		  $query->query_vars[ 'meta_value' ]	= $current_channel;
