@@ -1025,28 +1025,6 @@ function amplify_is_product_in_cart( $product_id ) {
 }
 
 /**
- * Maximum 1 quantity allowed.
- *
- * @param $cart
- */
-function nab_amplify_change_cart_item_quantities ( $cart ) {
-    if ( is_admin() && ! defined( 'DOING_AJAX' ) )
-        return;
-
-    if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 )
-        return;
-
-    $new_qty = 1;
-    // Checking cart items
-    foreach( $cart->get_cart() as $cart_item_key => $cart_item ) {
-        $product_id = $cart_item['data']->get_id();
-        if( $cart_item['quantity'] != $new_qty ){
-            $cart->set_quantity( $cart_item_key, $new_qty ); // Change quantity
-        }
-    }
-}
-
-/**
  * Apply coupon when add to cart if coupon cookie exist.
  */
 function amplify_add_coupon_code_to_cart() {
