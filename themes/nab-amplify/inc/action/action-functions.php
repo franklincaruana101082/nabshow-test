@@ -656,7 +656,8 @@ function nab_create_attendee_table() {
 
 	dbDelta( $sql );
 
-	$tables = "CREATE TABLE {$wpdb->prefix}cocart_carts (
+	$nab_cocart = $wpdb->prefix . 'cocart_carts';
+	$tables = "CREATE TABLE `$nab_cocart` (
 					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 					cart_key char(42) NOT NULL,
 					cart_value longtext NOT NULL,
