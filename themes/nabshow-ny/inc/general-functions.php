@@ -119,10 +119,11 @@ function nab_login_add_cart_callback() {
 
   if( 200 === wp_remote_retrieve_response_code( $response ) ) {
     $res['err'] = 0;
+    $res['body'] = json_decode( $response['body'], true );
   } else {
     $res['err'] = 1;
     $res['requested_url'] = $api_url;
-    $response_body = json_decode($response['body'], true);
+    $response_body = json_decode( $response['body'], true );
     $res['message'] = ( isset( $response_body['message'] ) && ! empty( $response_body['message'] ) ) ? $response_body['message'] : 'Something went wrong. Please try again!';
   }
 
