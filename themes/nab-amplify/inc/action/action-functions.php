@@ -1178,13 +1178,3 @@ function nab_maybe_clear_cart_cookie() {
 	}
 
 }
-
-function nab_amplify_change_cart_item_quantities ( $cart ) {
-   
-    foreach( $cart->get_cart() as $cart_item_key => $cart_item ) {
-    	
-        if( isset( $cart_item['nab_qty'] ) && ! empty( $cart_item['nab_qty'] ) ){
-            $cart->set_quantity( $cart_item_key, $cart_item['nab_qty'] ); 
-        }
-    }
-}
