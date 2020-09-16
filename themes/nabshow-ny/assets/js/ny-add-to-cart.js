@@ -7,59 +7,35 @@
 
 			var pID = $( this ).data( 'pid' );
 
+			var cartKey = '';
+
 			if ( mdObj.isUserLoggedIn ) {
-
-				jQuery.ajax( {
-					url: mdObj.ajaxUrl,
-					type: 'POST',
-					data: {
-						'product_id': pID,
-						'uid': mdObj.mdLoggedUserId,
-						'action': 'nab_login_add_cart'
-					},
-					success: function( data ) {
-						console.log( data );
-						updateCart();
-					},
-					error: function(xhr, ajaxOptions, thrownError) {
-						console.log( thrownError );
-					}
-				} );
-
-			} else {
-				
-				if( nabParentAPIUrl ) {
-	
-					var ajURl = nabParentAPIUrl + 'wp-json/cocart/v1/add-item/';
-	
-					var cartKeyCookie = getCookie( 'nabCartKey' );
-					if ( cartKeyCookie ) {
-						var cartKey = cartKeyCookie;
-					} else {
-						var cartKey = (mdObj.nabCartKey + Date.now().toString( 36 ) + Math.random().toString( 36 ).substr( 2, 5 ));
-						setCookie( 'nabCartKey', cartKey, 1 );
-					}
-	
-					$.ajax( {
-						url: ajURl,
-						type: 'POST',
-						data: {
-							'product_id': pID,
-							'cart_key': cartKey,
-							'return_cart': 'true'
-						},
-						success: function( data ) {
-							console.log( data );
-							updateCart();
-						},
-						error: function(xhr, ajaxOptions, thrownError) {
-							console.log( thrownError );
-						}
-					} );
+				var cartKeyCookie = getCookie( 'nabCartKey' );
+				if ( cartKeyCookie ) {
+					cartKey = cartKeyCookie;
+				} else {
+					cartKey = (mdObj.nabCartKey + Date.now().toString( 36 ) + Math.random().toString( 36 ).substr( 2, 5 ));
+					setCookie( 'nabCartKey', cartKey, 1 );
 				}
-
 			}
-
+				
+			$.ajax( {
+				url: mdObj.ajaxUrl,
+				type: 'POST',
+				data: {
+					'product_id': pID,
+					'cart_key': cartKey,
+					'action': 'nab_login_add_cart'
+				},
+				success: function( data ) {
+					console.log( data );
+					updateCart();
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log( thrownError );
+				}
+			} );
+			
 		} );
 
 

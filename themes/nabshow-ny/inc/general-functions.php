@@ -46,30 +46,46 @@ add_action( 'wp_ajax_nab_login_add_cart' , 'nab_login_add_cart_callback' );
 add_action( 'wp_ajax_nopriv_nab_login_add_cart' , 'nab_login_add_cart_callback' );
 
 function nab_login_add_cart_callback() {
+
   $product_id = filter_input( INPUT_POST, 'product_id' );
-  $user_id    = get_current_user_id();
+  $cart_key   = filter_input( INPUT_POST, 'cart_key' );
 
-  $user_token = get_user_meta( $user_id, 'nab_jwt_token', true );
+  $api_base_url = get_option( 'ep_parent_site_url' );
+  $api_url = $api_base_url . 'wp-json/cocart/v1/add-item/';
 
-  $api_url = get_option( 'ep_parent_site_url' );
+  if( is_user_logged_in() ) {
 
-  if( ! empty( $user_token ) && ! empty( $api_url ) ) {
-    $url = $api_url . 'wp-json/cocart/v1/add-item?return_cart=true';
-    
-    $args = array(
-      'headers' => array(
-        'Content-Type' => 'application/json; charset=utf-8',
-        'Authorization' => 'Bearer ' . $user_token,
-      ),
-      'body' => wp_json_encode( [
-        'product_id' => $product_id,
-        'quantity' => 1
-      ] ),
+    $user_id    = get_current_user_id();
+
+    $user_token = get_user_meta( $user_id, 'nab_jwt_token', true );
+
+    $args['headers'] = array(
+      'Content-Type' => 'application/json; charset=utf-8',
+      'Authorization' => 'Bearer ' . $user_token,
     );
 
-    $response = wp_remote_post( $url, $args );
+    $api_url = add_query_arg( 'return_cart', 'true', $api_url );
 
-    wp_send_json( $response['body'], 200 );
-    
+  } else {
+
+    $args['headers'] = array(
+      'Content-Type' => 'application/json; charset=utf-8',
+    );
+
+    $api_url = add_query_arg( array(
+      'cart_key'    => $cart_key,
+      'return_cart' => 'true',
+    ), $api_url );
+
   }
+
+  $args['body'] = wp_json_encode( [
+    'product_id' => $product_id,
+  ] );
+  
+
+  $response = wp_remote_post( $api_url, $args );
+
+  wp_send_json( $response['body'], 200 );
+    
 }
