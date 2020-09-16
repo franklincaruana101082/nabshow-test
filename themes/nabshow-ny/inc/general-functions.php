@@ -46,30 +46,87 @@ add_action( 'wp_ajax_nab_login_add_cart' , 'nab_login_add_cart_callback' );
 add_action( 'wp_ajax_nopriv_nab_login_add_cart' , 'nab_login_add_cart_callback' );
 
 function nab_login_add_cart_callback() {
+
   $product_id = filter_input( INPUT_POST, 'product_id' );
-  $user_id    = get_current_user_id();
+  $cart_key   = filter_input( INPUT_POST, 'cart_key' );
 
-  $user_token = get_user_meta( $user_id, 'nab_jwt_token', true );
+  $args = [];
+  $res  = [];
 
-  $api_url = get_option( 'ep_parent_site_url' );
+  if( empty( $product_id ) ) {
+    $res['err'] = 1;
+    $res['message'] = 'Product id not found';
 
-  if( ! empty( $user_token ) && ! empty( $api_url ) ) {
-    $url = $api_url . 'wp-json/cocart/v1/add-item?return_cart=true';
-    
-    $args = array(
-      'headers' => array(
-        'Content-Type' => 'application/json; charset=utf-8',
-        'Authorization' => 'Bearer ' . $user_token,
-      ),
-      'body' => wp_json_encode( [
-        'product_id' => $product_id,
-        'quantity' => 1
-      ] ),
+    wp_send_json( $res, 200 );
+  }
+
+  $api_base_url = get_option( 'ep_parent_site_url' );
+
+  if( empty( $api_base_url ) ) {
+    $res['err'] = 1;
+    $res['message'] = 'Parent site URL not found!';
+
+    wp_send_json( $res, 200 );
+  }
+
+  $api_url = $api_base_url . 'wp-json/cocart/v1/add-item/';
+
+  if( is_user_logged_in() ) {
+
+    $user_id    = get_current_user_id();
+
+    $user_token = get_user_meta( $user_id, 'nab_jwt_token', true );
+
+    if( empty( $user_token ) ) {
+      $res['err'] = 1;
+      $res['message'] = 'User token missing! Please sign out and sign in again.';
+  
+      wp_send_json( $res, 200 );
+    }
+
+    $args['headers'] = array(
+      'Content-Type' => 'application/json; charset=utf-8',
+      'Authorization' => 'Bearer ' . $user_token,
     );
 
-    $response = wp_remote_post( $url, $args );
+    $api_url = add_query_arg( 'return_cart', 'true', $api_url );
 
-    wp_send_json( $response['body'], 200 );
-    
+  } else {
+
+    if( empty( $cart_key ) ) {
+      $res['err'] = 1;
+      $res['message'] = 'Cart key missing! Please try again.';
+  
+      wp_send_json( $res, 200 );
+    }
+
+    $args['headers'] = array(
+      'Content-Type' => 'application/json; charset=utf-8',
+    );
+
+    $api_url = add_query_arg( array(
+      'cart_key'    => $cart_key,
+      'return_cart' => 'true',
+    ), $api_url );
+
   }
+
+  $args['body'] = wp_json_encode( [
+    'product_id' => $product_id,
+  ] );
+
+  $response = wp_remote_post( $api_url, $args );
+
+  if( 200 === wp_remote_retrieve_response_code( $response ) ) {
+    $res['err'] = 0;
+    $res['body'] = json_decode( $response['body'], true );
+  } else {
+    $res['err'] = 1;
+    $res['requested_url'] = $api_url;
+    $response_body = json_decode( $response['body'], true );
+    $res['message'] = ( isset( $response_body['message'] ) && ! empty( $response_body['message'] ) ) ? $response_body['message'] : 'Something went wrong. Please try again!';
+  }
+
+  wp_send_json( $res, 200 );
+    
 }
