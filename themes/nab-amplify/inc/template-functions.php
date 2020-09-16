@@ -144,3 +144,15 @@ function nab_is_all_attendee_added( $order_id ) {
 		return false;
 	}
 }
+
+function nab_cocart_get_cart( $customer_id, $default = false ) {
+	global $wpdb;
+
+	$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $customer_id ) );
+
+	if ( is_null( $value ) ) {
+		$value = $default;
+	}
+
+	return maybe_unserialize( $value );
+}
