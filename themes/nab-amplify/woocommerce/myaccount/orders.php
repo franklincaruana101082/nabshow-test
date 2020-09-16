@@ -146,7 +146,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 				<div class="attendee-bulk-upload-form-wrap">
 					<div class="attendee-bulk-upload-form-cnt">
 						<div class="attendee-upload-message" style="display: none"></div>
-						<span class="file-title">File Upload</span>
+						<span class="file-title">Add Attendees</span>
 						<form class="attendee-bulk-upload-form">
 							<div class="nab-attendee-upload-wrp">
 								<span class="input-placeholder">Upload File...</span>
@@ -157,8 +157,9 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 							</div>
 							<button type="button" class="attendee-import-btn" id="bulk_upload" name="bulk_upload">Upload</button>
 						</form>
+						<span class="nab-download-sample-data">In order to register your group, please upload the list of attendees via <a href="<?php echo get_template_directory_uri() . '/assets/Attendee Template.xlsx'; ?>" download>this template.</a></span>
 						<span class="nab-download-sample-data">
-							<a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download a sample attendee file here.</a></span>
+						Need more assistance? <a href="<?php echo get_template_directory_uri() . '/assets/Attendee-Sample-File.xlsx'; ?>" download>Download a sample attendee file</a> or exit this popup and click "help" in the bottom right corner.</span>
 					</div>
 				</div>
 			</div>
