@@ -137,6 +137,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		height: 1px;
 	}
 
+	ol li, ul li {
+		font-size: 19px;
+	}
+
 	.custom-logo {
 		max-width: 240px !important;
 		width: 100%;
