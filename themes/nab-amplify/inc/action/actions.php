@@ -104,4 +104,4 @@ add_action( 'woocommerce_after_cart_item_quantity_update', 'nab_update_cocart_it
 add_action( 'wp_logout', 'nab_maybe_clear_cart_cookie' );
 /* Parent-Child add to cart actions end */
 
-add_action( 'woocommerce_before_calculate_totals', 'nab_amplify_change_cart_item_quantities', 20, 1 );
+// add_action( 'woocommerce_before_calculate_totals', 'nab_amplify_change_cart_item_quantities', 20, 1 );
