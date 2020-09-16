@@ -29,7 +29,13 @@
 				},
 				success: function( data ) {
 					console.log( data );
-					updateCart();
+					if( 0 === data.err ) {
+						updateCart();
+					} else if( 1 === data.err ) {
+						alert( data.message );
+					} else {
+						alert('Something went wrong!');
+					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					console.log( thrownError );

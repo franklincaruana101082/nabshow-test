@@ -50,16 +50,39 @@ function nab_login_add_cart_callback() {
   $product_id = filter_input( INPUT_POST, 'product_id' );
   $cart_key   = filter_input( INPUT_POST, 'cart_key' );
 
-  $api_base_url = get_option( 'ep_parent_site_url' );
-  $api_url = $api_base_url . 'wp-json/cocart/v1/add-item/';
-
   $args = [];
+  $res  = [];
+
+  if( empty( $product_id ) ) {
+    $res['err'] = 1;
+    $res['message'] = 'Product id not found';
+
+    wp_send_json( $res, 200 );
+  }
+
+  $api_base_url = get_option( 'ep_parent_site_url' );
+
+  if( empty( $api_base_url ) ) {
+    $res['err'] = 1;
+    $res['message'] = 'Parent site URL not found!';
+
+    wp_send_json( $res, 200 );
+  }
+
+  $api_url = $api_base_url . 'wp-json/cocart/v1/add-item/';
 
   if( is_user_logged_in() ) {
 
     $user_id    = get_current_user_id();
 
     $user_token = get_user_meta( $user_id, 'nab_jwt_token', true );
+
+    if( empty( $user_token ) ) {
+      $res['err'] = 1;
+      $res['message'] = 'User token missing! Please sign out and sign in again.';
+  
+      wp_send_json( $res, 200 );
+    }
 
     $args['headers'] = array(
       'Content-Type' => 'application/json; charset=utf-8',
@@ -69,6 +92,13 @@ function nab_login_add_cart_callback() {
     $api_url = add_query_arg( 'return_cart', 'true', $api_url );
 
   } else {
+
+    if( empty( $cart_key ) ) {
+      $res['err'] = 1;
+      $res['message'] = 'Cart key missing! Please try again.';
+  
+      wp_send_json( $res, 200 );
+    }
 
     $args['headers'] = array(
       'Content-Type' => 'application/json; charset=utf-8',
@@ -87,6 +117,15 @@ function nab_login_add_cart_callback() {
 
   $response = wp_remote_post( $api_url, $args );
 
-  wp_send_json( $response['body'], 200 );
+  if( 200 === wp_remote_retrieve_response_code( $response ) ) {
+    $res['err'] = 0;
+  } else {
+    $res['err'] = 1;
+    $res['requested_url'] = $api_url;
+    $response_body = json_decode($response['body'], true);
+    $res['message'] = ( isset( $response_body['message'] ) && ! empty( $response_body['message'] ) ) ? $response_body['message'] : 'Something went wrong. Please try again!';
+  }
+
+  wp_send_json( $res, 200 );
     
 }
