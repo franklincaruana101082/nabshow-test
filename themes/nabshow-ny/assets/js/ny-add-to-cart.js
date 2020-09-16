@@ -9,7 +9,7 @@
 
 			var cartKey = '';
 
-			if ( mdObj.isUserLoggedIn ) {
+			if ( ! mdObj.isUserLoggedIn ) {
 				var cartKeyCookie = getCookie( 'nabCartKey' );
 				if ( cartKeyCookie ) {
 					cartKey = cartKeyCookie;
@@ -35,7 +35,7 @@
 					console.log( thrownError );
 				}
 			} );
-			
+
 		} );
 
 
