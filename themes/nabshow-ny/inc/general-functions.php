@@ -53,6 +53,8 @@ function nab_login_add_cart_callback() {
   $api_base_url = get_option( 'ep_parent_site_url' );
   $api_url = $api_base_url . 'wp-json/cocart/v1/add-item/';
 
+  $args = [];
+
   if( is_user_logged_in() ) {
 
     $user_id    = get_current_user_id();
@@ -83,6 +85,9 @@ function nab_login_add_cart_callback() {
     'product_id' => $product_id,
   ] );
   
+  print_r( $api_url );
+  print_r( $args );
+  die();
 
   $response = wp_remote_post( $api_url, $args );
 
