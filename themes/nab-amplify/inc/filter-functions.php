@@ -488,6 +488,10 @@ function nab_bulk_order( $session_data, $values, $key ) {
 		$session_data['nab_qty']        = 1;
 	}
 
+	if ( isset( $_POST['nab_bulk_order_qty'] ) && ! empty( $_POST['nab_bulk_order_qty'] ) ) {
+		$session_data['quantity'] = $_POST['nab_bulk_order_qty'];
+	}
+
 	return $session_data;
 
 }
