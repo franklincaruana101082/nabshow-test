@@ -24,3 +24,6 @@ add_action('wp_footer', 'mobile_reg_button_ny_inclusion');
 
 // Set lastname as meta for speakers
 add_action( 'save_post', 'nabny_set_speaker_last_name_meta', 10, 2 );
+
+// Action to add default blocks on new session page
+add_action( 'admin_init', 'nabny_session_default_template' );

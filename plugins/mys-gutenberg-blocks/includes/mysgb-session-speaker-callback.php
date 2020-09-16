@@ -12,53 +12,55 @@ $page_id        = isset( $attributes[ 'pageId' ] ) && ! empty( $attributes[ 'pag
 $item_limit     = isset( $attributes[ 'itemToFetch' ] ) && ! empty( $attributes[ 'itemToFetch' ] ) ? $attributes[ 'itemToFetch' ] : 2;
 $block_title    = isset( $attributes[ 'blockTitle' ] ) && ! empty( $attributes[ 'blockTitle' ] ) ? $attributes[ 'blockTitle' ] : 'Featured Speakers';
 $class_name     = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';
-?>
-<div class="speaker-list-outer session-speakers-info <?php echo esc_attr( $class_name ); ?>">
-    <h2><?php echo esc_html( $block_title ); ?></h2>
-    <div class="nabny-speaker-list">
-        <?php
-        if ( ! empty( $page_id ) ) {
 
-            $rows = get_field( 'speaker_list', $page_id );
+if ( ! empty( $page_id ) ) {
+
+    $rows = get_field( 'speaker_list', $page_id );
+    
+    if ( $rows ) {
+
+        $speaker_ids    = array();
+        $speaker_labels = array();
+        $cnt            = 1;
+
+        foreach( $rows as $row ) {
             
-            if ( $rows ) {
-
-                $speaker_ids    = array();
-                $speaker_labels = array();
-                $cnt            = 1;
-
-                foreach( $rows as $row ) {
-                    
-                    $speaker_id = $row[ 'session_speaker' ];                    
-                    
-                    if ( ! empty( $speaker_id ) ) {
-                        
-                        $speaker_ids[]                  = $speaker_id;
-                        $speaker_labels[ $speaker_id ]  = $row[ 'speaker_label' ];                        
-                        
-                        if ( $cnt >= $item_limit ) {
-                            break;
-                        }
-                        
-                        $cnt++;
-                    }                    
+            $speaker_id = $row[ 'session_speaker' ];                    
+            
+            if ( ! empty( $speaker_id ) ) {
+                
+                $speaker_ids[]                  = $speaker_id;
+                $speaker_labels[ $speaker_id ]  = $row[ 'speaker_label' ];                        
+                
+                if ( $cnt >= $item_limit ) {
+                    break;
                 }
                 
-                if ( count( $speaker_ids ) > 0 ) {
-                    
-                    $query_args = array(
-                        'post_type'     => 'speakers',
-                        'post_per_page' => count( $speaker_ids ),
-                        'post__in'      => $speaker_ids,
-                        'meta_key'      => '_lastname',
-                        'orderby'       => 'meta_value',
-                        'order'         => 'ASC'
-                    );
+                $cnt++;
+            }                    
+        }
+        
+        if ( count( $speaker_ids ) > 0 ) {
+            
+            $query_args = array(
+                'post_type'     => 'speakers',
+                'post_per_page' => count( $speaker_ids ),
+                'post__in'      => $speaker_ids,
+                'meta_key'      => '_lastname',
+                'orderby'       => 'meta_value',
+                'order'         => 'ASC'
+            );
 
-                    $query = new WP_Query( $query_args );
+            $query = new WP_Query( $query_args );
 
-                    if ( $query->have_posts() ) {
+            if ( $query->have_posts() ) {
 
+                ?>
+                <div class="speaker-list-outer session-speakers-info <?php echo esc_attr( $class_name ); ?>">
+                    <h2><?php echo esc_html( $block_title ); ?></h2>
+                    <div class="nabny-speaker-list">
+                        <?php
+                        
                         while ( $query->have_posts() ) {
                             
                             $query->the_post();
@@ -87,19 +89,11 @@ $class_name     = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ '
                             </div>
                             <?php
                         }
-                    } else {
-                        wp_reset_postdata();
                         ?>
-                        <p class="coming-soon">Coming soon.</p>
-                        <?php
-                    }
-                }
-            } else {
-                ?>
-                <p class="coming-soon">Coming soon.</p>
-                <?php
+                    </div>
+                </div>
+            <?php        
             }
-        }       
-        ?>        
-    </div>
-</div>
+        }
+    }
+}

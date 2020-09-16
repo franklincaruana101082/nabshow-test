@@ -199,3 +199,70 @@ function nabny_set_speaker_last_name_meta( $post_id, $post ) {
 
 	update_post_meta( $post_id, '_lastname', $lastname );
 }
+
+/**
+ * Set default layout/block in the new session
+ */
+function nabny_session_default_template() {
+	
+	global $pagenow;
+
+	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'post-new.php' === $pagenow && 'sessions' === $current_post_type ) {
+
+		$block_template = array(
+			array( 'nab/multipurpose-gutenberg-block', array(
+					'elementID' => 'internal-banner',
+					'backgroundImage' => 'https://nabshow.com/ny2020/wp-content/uploads/sites/5/2020/05/homepage-hero.jpg',
+					'backgroundSize' => true,
+					'layout' => 'full',
+					'opacity' => 50,
+					'marginTop' => '-40',
+					'marginBottom' => '40',
+					'ToggleInserter' => true
+				),
+				array(
+					array( 'nab/multipurpose-gutenberg-block', array(
+							'layout' => 'fixed',
+							'paddingTop' => '40',
+							'paddingBottom' => '20'
+						),
+						array(
+							array( 'nab/nab-heading', array(
+									'HeadingText' => 'Title',
+									'HeadingLevel' => 'h1',
+									'HeadingColor' => '#ffffff',
+									'TextUppercase' => 'capitalize',
+									'fontFamily' => 'Josefin Sans'
+								)
+							),
+						)
+					),
+				)
+			),
+			array( 'core/block', array( 
+					'ref' => 8681
+				)
+			),
+			array( 'core/columns', array(), array(
+				array( 'core/column', array( 'width' => 66.66 ), array(
+					array( 'mys/session-info', array() ),
+					array( 'core/spacer', array( 'height' => 30 ) ),
+					array( 'mys/session-speaker-info', array( 'itemToFetch' => 95 ) ),
+				) ),
+				array( 'core/column', array( 'width' => 33.33 ), array(
+					array( 'nab/multipurpose-gutenberg-block', array( 'className' => 'nabny-sidebar-calender-block-outer' ), array(
+						array( 'mys/add-to-calendar', array() ),
+					) ),
+					array( 'core/spacer', array( 'height' => 20 ) ),
+					array( 'mys/partners-sponsors-info', array() ),
+				) ),
+			) )
+
+		);
+		
+		$page_type_object           = get_post_type_object( 'sessions' );
+		$page_type_object->template = $block_template;		
+	}	
+}

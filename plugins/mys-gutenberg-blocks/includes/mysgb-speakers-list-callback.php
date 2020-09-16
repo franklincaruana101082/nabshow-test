@@ -51,14 +51,15 @@ if ( is_array( $channels ) && count( $channels ) > 0 ) {
         )
     );
 }
+
 $query = new WP_Query( $query_args );
-?>
-<div class="speaker-list-outer <?php echo esc_attr( $class_name ); ?>">
-    <h2><?php echo esc_html( $block_title ); ?></h2>
-    <div class="nabny-speaker-list">
-        <?php
-        if ( $query->have_posts() ) {
-            
+
+if ( $query->have_posts() ) {
+    ?>
+    <div class="speaker-list-outer <?php echo esc_attr( $class_name ); ?>">
+        <h2><?php echo esc_html( $block_title ); ?></h2>
+        <div class="nabny-speaker-list">
+            <?php            
             while ( $query->have_posts() ) {
 
                 $query->the_post();
@@ -83,14 +84,11 @@ $query = new WP_Query( $query_args );
                         </div>
                     </div>
                 </div>
-                <?php
-            }
-        } else {
-            ?>
-            <p class="coming-soon">Coming soon.</p>
             <?php
-        }
-        wp_reset_postdata();
-        ?>        
+            }
+            ?>
+        </div>
     </div>
-</div>
+   <?php 
+}
+wp_reset_postdata();
