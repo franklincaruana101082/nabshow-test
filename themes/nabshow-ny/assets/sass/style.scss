@@ -170,6 +170,8 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		@extend .animated;
 		@extend .fadeIn;
 		@extend .delay-06s;
+		font-size: 30px;
+		word-spacing: 1px;
 		@include trans(all 0.3s ease-in-out);
 		@include range(md) {
 			font-size: 100px;
@@ -242,6 +244,13 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		margin-top: 0px !important;
 		@include range(md) {
 			margin-top: -16px !important;
+		}
+	}
+
+	.main-navigation {
+		width: 0;
+		@include range(md) {
+			width: 100%;		
 		}
 	}
 
