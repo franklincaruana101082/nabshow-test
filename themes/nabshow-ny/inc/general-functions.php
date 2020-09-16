@@ -84,10 +84,6 @@ function nab_login_add_cart_callback() {
   $args['body'] = wp_json_encode( [
     'product_id' => $product_id,
   ] );
-  
-  print_r( $api_url );
-  print_r( $args );
-  die();
 
   $response = wp_remote_post( $api_url, $args );
 
