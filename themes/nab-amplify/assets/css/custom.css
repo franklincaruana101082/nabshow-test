@@ -813,3 +813,6 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .title_content_card h4{margin-bottom:8px;}
 
 .nab-bulk-purchase-checkout-info {margin-bottom: 20px;}
+
+/* user switch to message */
+#user_switching_switch_on{position:fixed;bottom:0;left:0;right:0;background-color:#fff;padding:30px 20px;margin:0;border-top:1px solid #ccc;box-shadow:0px 0px 10px 0px rgba(0,0,0,.3);z-index:99;}
