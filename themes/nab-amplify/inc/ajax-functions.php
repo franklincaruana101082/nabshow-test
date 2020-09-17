@@ -330,8 +330,13 @@ function nab_custom_update_cart_cb() {
 	$res = [];
 
 	if( isset( $_POST['is_bulk'] ) && 'yes' === filter_input( INPUT_POST, 'is_bulk') ) {
-		$is_bulk = 'yes';
-		$qty = ( isset( $_POST['qty'] ) && ! empty( $_POST['qty'] ) ) ? filter_input( INPUT_POST, 'qty') : 1;
+		if( isset( $_POST['qty'] ) && ! empty( $_POST['qty'] ) ) {
+			$qty = filter_input( INPUT_POST, 'qty');
+			$is_bulk = 'yes';
+		} else {
+			$qty = 1;
+			$is_bulk = 'no';
+		} 
 	} else {
 		$is_bulk = 'no';
 		$qty = 1;
