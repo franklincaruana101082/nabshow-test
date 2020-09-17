@@ -311,6 +311,42 @@
     } );
   }
 
+  function nabRefreshCart() {
+
+    block( $('.woocommerce-cart-form') );
+    block( $( 'div.cart_totals' ) );
+   
+    let nabCartData = {
+      'action' : 'nab_custom_update_cart',
+      'qty' : $('#nab_bulk_quantity').val(),
+      'is_bulk' : $('#nab_is_bulk').val(),
+    }
+
+    $.ajax( {
+          url: amplifyJS.ajaxurl,
+          type: 'POST',
+          data: nabCartData,
+          success: function( data ) {
+
+            if( 0 === data.err ) {
+              $('.woocommerce').replaceWith(data.cart_content);
+              $( '[name=\'update_cart\']' ).prop( 'disabled', true ).attr('aria-disabled', 'true');
+              unblock( $('.woocommerce-cart-form') );
+              unblock( $( 'div.cart_totals' ) );
+              $.scroll_to_notices( $( '[role="alert"]' ) );
+              $( document.body ).trigger( 'updated_wc_div' );
+            } else {
+              $( '[name=\'update_cart\']' ).prop( 'disabled', false );
+              $( '[name=\'update_cart\']' ).trigger( 'click' );
+            }
+          }, error: function( xhr, ajaxOptions, thrownError ) {
+            unblock( $('.woocommerce-cart-form') );
+            unblock( $( 'div.cart_totals' ) );
+            console.log( thrownError );
+          }
+    } );
+  }
+
   var block = function( $node ) {
     if ( ! is_blocked( $node ) ) {
       $node.addClass( 'processing' ).block( {
@@ -331,36 +367,6 @@
     $node.removeClass( 'processing' ).unblock();
   };
 
-  function nabRefreshCart() {
-
-      block( $('.woocommerce-cart-form') );
-      block( $( 'div.cart_totals' ) );
-   
-    let nabCartData = {
-      'action' : 'nab_custom_update_cart',
-      'qty' : $('#nab_bulk_quantity').val()
-    }
-
-    $.ajax( {
-          url: amplifyJS.ajaxurl,
-          type: 'POST',
-          data: nabCartData,
-          success: function( data ) {
-            $('.woocommerce').replaceWith(data);
-            $( '[name=\'update_cart\']' ).prop( 'disabled', true );
-            unblock( $('.woocommerce-cart-form') );
-            unblock( $( 'div.cart_totals' ) );
-            $.scroll_to_notices( $( '[role="alert"]' ) );
-            
-          }, error: function( xhr, ajaxOptions, thrownError ) {
-            unblock( $('.woocommerce-cart-form') );
-            unblock( $( 'div.cart_totals' ) );
-            console.log( thrownError );
-          }
-        } );
-
-
-  }
 
   if ( $( '#nabAddAttendeeModal' ).length > 0 ) {
     $( document ).on( 'click', '.nab-add-attendee', function() {
