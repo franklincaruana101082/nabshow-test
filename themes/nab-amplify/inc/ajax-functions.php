@@ -338,6 +338,8 @@ function nab_custom_update_cart_cb() {
 	}
 
 	WC()->cart->set_cart_contents( $temp );
+
+	wc_add_notice( __( 'Cart updated.', 'woocommerce' ), apply_filters( 'woocommerce_cart_updated_notice_type', 'success' ) );
 	
 	 // Refresh the page
     echo do_shortcode( '[woocommerce_cart]' );

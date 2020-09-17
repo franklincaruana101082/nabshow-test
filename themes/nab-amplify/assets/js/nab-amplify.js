@@ -346,17 +346,15 @@
           type: 'POST',
           data: nabCartData,
           success: function( data ) {
-            
-            console.log( data );
-             // $( '[name=\'update_cart\']' ).prop( 'disabled', false );
-             //  $( '[name=\'update_cart\']' ).trigger( 'click' );
-
-              $('.entry-content').html(data);
-              unblock( $('.woocommerce-cart-form') );
-              unblock( $( 'div.cart_totals' ) );
+            $('.woocommerce').replaceWith(data);
+            $( '[name=\'update_cart\']' ).prop( 'disabled', true );
+            unblock( $('.woocommerce-cart-form') );
+            unblock( $( 'div.cart_totals' ) );
+            $.scroll_to_notices( $( '[role="alert"]' ) );
             
           }, error: function( xhr, ajaxOptions, thrownError ) {
-            $( 'body' ).removeClass( 'is-loading' ); // loader
+            unblock( $('.woocommerce-cart-form') );
+            unblock( $( 'div.cart_totals' ) );
             console.log( thrownError );
           }
         } );
