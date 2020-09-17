@@ -71,18 +71,3 @@ add_filter( 'jwt_auth_token_before_dispatch', 'nab_jwt_response', 10, 2 );
 add_filter( 'woocommerce_cart_contents_changed', 'nab_force_bulk_quanity' );
 
 add_filter( 'the_title', 'nab_title_order_received', 10, 2 );
-
-add_filter('woocommerce_update_cart_action_cart_updated', 'tttt', 10, 1);
-
-function tttt( $cart_updated ) {
-
-    wp_mail( 'hardik.thakkar@mailinator.com', 'CART', print_r($_POST,  true));
-
-	foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
-		if( isset( $_POST['nab_bulk_order_qty'] )&& ! empty( $_POST['nab_bulk_order_qty'] ) ) {
-			WC()->cart->set_quantity( $cart_item_key, $_POST['nab_bulk_order_qty'] );
-		}
-	}
-
-	return $cart_updated;
-}
