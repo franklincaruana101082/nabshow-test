@@ -87,10 +87,10 @@ function nab_bulk_order_quantity() {
 	}
 
 	foreach ( WC()->cart->get_cart() as $cart_val ) {
-		// if ( isset( $cart_val['nab_qty'] ) && ! empty( $cart_val['nab_qty'] ) ) {
-		// 	return $cart_val['nab_qty'];
-		// }
-		return $cart_val['quantity'];
+		if ( isset( $cart_val['nab_qty'] ) && ! empty( $cart_val['nab_qty'] ) ) {
+			return $cart_val['nab_qty'];
+		}
+		// return $cart_val['quantity'];
 	}
 
 	return false;
