@@ -115,7 +115,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                             if ( isset( $final_response->url ) && ! empty( $final_response->url ) ) {
 
                                 $success = true;
-                                $content = $this->ep_get_restrict_content( $content, $final_response->url, $final_response->title );    
+                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );    
                             }
                         }
 
@@ -127,12 +127,12 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                         $logged_user    = wp_get_current_user();                        
 
-                        if ( ! empty( $end_point_url ) ) {
+                        if ( ! empty( $end_point_url ) ) {                            
 
                             $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
 
                             $response       = wp_remote_post( $end_point_url, array(
-                                'method' => 'POST',
+                                'method' => 'POST',                                
                                 'body'	=> array(
                                     'user_email' => $logged_user->user_email,
                                     'user_id'	=> $logged_user->ID,
@@ -146,7 +146,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                                 if ( ! $final_response->success ) {
 
-                                    $content = $this->ep_get_restrict_content( $content, $final_response->url, $final_response->title );
+                                    $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
                                 }
 
                             } else {
@@ -166,29 +166,33 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          *
          * @param  string $content
          * @param  string $link
-         * @param  string $text
+         * @param  boolean $logged_in
          *
          * @return string
          *
          * @since 1.0.0
          */
-        public function ep_get_restrict_content( $content, $link = '', $text = '') {
+        public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
-            $prodcut_name       = ! empty( $link ) && ! empty( $text ) ? '<a href="' . $link . '">' . $text . '</a>' : 'this';
-            $restrict_content   = '<p class="restrict-msg">You must have purchase '. $prodcut_name . ' product in order to view full content of the page.</p>';
+            $prodcut_name       = ! empty( $link ) ? '<a href="' . $link . '">this program</a>' : 'this program';            
+            $restrict_content   = '<p class="restrict-msg">You must be registered for '. $prodcut_name . ' in order to view this content.';
+
+            if ( ! $logged_in ) {
+                $restrict_content .= ' Please <a href="https://amplify.nabshow.com/my-account/">login</a> or <a href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
+            }
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
 
-                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content);
+                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content );
 
                 if ( has_blocks( $final_content ) ) {
 
                     $ep_content         = parse_blocks( $final_content );
                     $ep_post_content    = $this->ep_serialize_blocks( $ep_content );
-                    $restrict_content   .= $ep_post_content;
+                    $restrict_content   = $ep_post_content;
 
                 } else {
-                    $restrict_content   .= $final_content;
+                    $restrict_content   = $final_content;
                 }
             } else {
 
