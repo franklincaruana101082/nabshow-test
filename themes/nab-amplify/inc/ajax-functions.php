@@ -319,3 +319,28 @@ function get_order_attendees_callback() {
 	wp_send_json( $res, 200 );
 	wp_die();
 }
+
+
+
+add_action( 'wp_ajax_nab_custom_update_cart', 'nab_custom_update_cart_cb' );
+add_action( 'wp_ajax_nopriv_nab_custom_update_cart', 'nab_custom_update_cart_cb' );
+
+function nab_custom_update_cart_cb() {
+	$qty = filter_input( INPUT_POST, 'qty');
+
+	foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
+		$temp = [];
+		$values['quantity'] = $qty;
+		$values['nab_qty']  = $qty;
+		$temp[ $cart_item_key ] = $values;
+
+		// WC()->cart->set_quantity( $cart_item_key, $qty );
+		
+	}
+
+	WC()->cart->set_cart_contents( $temp );
+	
+	 // Refresh the page
+    echo do_shortcode( '[woocommerce_cart]' );
+    die();
+}

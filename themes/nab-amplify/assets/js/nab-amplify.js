@@ -311,9 +311,57 @@
     } );
   }
 
+  var block = function( $node ) {
+    if ( ! is_blocked( $node ) ) {
+      $node.addClass( 'processing' ).block( {
+        message: null,
+        overlayCSS: {
+          background: '#fff',
+          opacity: 0.6
+        }
+      } );
+    }
+  };
+
+  var is_blocked = function( $node ) {
+    return $node.is( '.processing' ) || $node.parents( '.processing' ).length;
+  };
+
+  var unblock = function( $node ) {
+    $node.removeClass( 'processing' ).unblock();
+  };
+
   function nabRefreshCart() {
-    $( '[name=\'update_cart\']' ).prop( 'disabled', false );
-    $( '[name=\'update_cart\']' ).trigger( 'click' );
+
+      block( $('.woocommerce-cart-form') );
+      block( $( 'div.cart_totals' ) );
+   
+    let nabCartData = {
+      'action' : 'nab_custom_update_cart',
+      'qty' : $('#nab_bulk_quantity').val()
+    }
+
+    $.ajax( {
+          url: amplifyJS.ajaxurl,
+          type: 'POST',
+          data: nabCartData,
+          success: function( data ) {
+            
+            console.log( data );
+             // $( '[name=\'update_cart\']' ).prop( 'disabled', false );
+             //  $( '[name=\'update_cart\']' ).trigger( 'click' );
+
+              $('.entry-content').html(data);
+              unblock( $('.woocommerce-cart-form') );
+              unblock( $( 'div.cart_totals' ) );
+            
+          }, error: function( xhr, ajaxOptions, thrownError ) {
+            $( 'body' ).removeClass( 'is-loading' ); // loader
+            console.log( thrownError );
+          }
+        } );
+
+
   }
 
   if ( $( '#nabAddAttendeeModal' ).length > 0 ) {
