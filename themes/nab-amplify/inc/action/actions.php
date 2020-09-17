@@ -91,7 +91,7 @@ add_action( 'wp_authenticate', 'nab_create_jwt_token', 10, 2 );
 // add_action( 'wp_loaded', 'amplify_apply_coupon_code_from_url', PHP_INT_MAX );
 
 // Add coupon code when a product is added to cart once
-add_action( 'woocommerce_add_to_cart', 'amplify_add_coupon_code_to_cart', PHP_INT_MAX );
+// add_action( 'woocommerce_add_to_cart', 'amplify_add_coupon_code_to_cart', PHP_INT_MAX );
 
 /* Parent-Child add to cart actions start */
 add_action( 'woocommerce_remove_cart_item', 'nab_remove_cocart_item', 10, 2 );
