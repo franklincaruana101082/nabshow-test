@@ -815,4 +815,5 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .nab-bulk-purchase-checkout-info {margin-bottom: 20px;}
 
 /* user switch to message */
-#user_switching_switch_on{position:fixed;bottom:0;left:0;right:0;background-color:#fff;padding:30px 20px;margin:0;border-top:1px solid #ccc;box-shadow:0px 0px 10px 0px rgba(0,0,0,.3);z-index:99;}
+#user_switching_switch_on{position:fixed;bottom:5%;right:4%;margin:0;z-index:99;}
+#user_switching_switch_on a{background-color:#fff;padding:20px 20px;border-top:1px solid #ccc;box-shadow:0px 0px 10px 0px rgba(0,0,0,.3);display:inline-block;max-width:300px;}
