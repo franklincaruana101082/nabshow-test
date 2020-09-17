@@ -327,15 +327,14 @@ add_action( 'wp_ajax_nopriv_nab_custom_update_cart', 'nab_custom_update_cart_cb'
 
 function nab_custom_update_cart_cb() {
 	$qty = filter_input( INPUT_POST, 'qty');
+	$temp = [];
 
 	foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
-		$temp = [];
+		
 		$values['quantity'] = $qty;
 		$values['nab_qty']  = $qty;
 		$temp[ $cart_item_key ] = $values;
 
-		// WC()->cart->set_quantity( $cart_item_key, $qty );
-		
 	}
 
 	WC()->cart->set_cart_contents( $temp );
