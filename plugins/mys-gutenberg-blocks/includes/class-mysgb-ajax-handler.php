@@ -814,12 +814,16 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$thumbnail_url 		= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
 			$speaker_content	= get_the_content( '', false, $speaker_id );
 			$speaker_content	= apply_filters( 'the_content', $speaker_content );
+			$MYSGutenbergBlocks = new MYSGutenbergBlocks();
+			$speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
+			$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
 			
 			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
 			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
 			$result_post[ 'sub_title' ]		= get_field( 'title',  $speaker_id );
 			$result_post[ 'content' ] 		= $speaker_content;
-
+			$result_post[ 'company' ]		= $speaker_company;
+			
 			echo wp_json_encode( $result_post );
 			wp_die();
 

@@ -175,6 +175,11 @@ $(function() {
 
             detailsDiv.appendChild(subTitle);
 
+            let companySpan = document.createElement('span');        
+            companySpan.innerText = speakerObj.company;
+
+            detailsDiv.appendChild(companySpan);
+
             headDiv.appendChild(detailsDiv);
   
             let imgDiv = document.createElement('div');
