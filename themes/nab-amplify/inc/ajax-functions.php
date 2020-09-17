@@ -327,7 +327,7 @@ add_action( 'wp_ajax_nopriv_nab_custom_update_cart', 'nab_custom_update_cart_cb'
 
 function nab_custom_update_cart_cb() {
 
-	$res = []
+	$res = [];
 
 	if( isset( $_POST['is_bulk'] ) && 'yes' === filter_input( INPUT_POST, 'is_bulk') ) {
 		$is_bulk = 'yes';
