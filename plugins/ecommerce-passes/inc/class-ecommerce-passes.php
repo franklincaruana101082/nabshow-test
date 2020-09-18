@@ -333,7 +333,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                 if ( ! empty( $term_remote_url ) ) {
 
-                    $term_list = wp_remote_post( $term_remote_url );
+                    $term_list = wp_remote_post( $term_remote_url, array( 'redirection' => 0 ) );
 
                     if ( ! is_wp_error( $term_list ) ) {
 
