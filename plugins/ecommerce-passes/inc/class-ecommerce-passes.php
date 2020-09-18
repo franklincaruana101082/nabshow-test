@@ -325,7 +325,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_custom_metabox_callback( $post ) {
 
             $end_point_url      = get_option( 'ep_parent_site_url' );
-            $term_remote_url    = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-categories/' : '';
+            $term_remote_url    = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-categories' : '';
             $product_remote_url = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-list/' : '';
             ?>
             <div class="product-parent-wrapper">
