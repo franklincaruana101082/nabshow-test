@@ -247,7 +247,7 @@ class WC_Frontend_Scripts {
 				'version' => $version,
 			),
 			'wc-checkout'                => array(
-				'src'     => self::get_asset_url( 'assets/js/frontend/checkout' . $suffix . '.js' ),
+				'src'     => self::get_asset_url( 'assets/js/frontend/checkout.js' ),
 				'deps'    => array( 'jquery', 'woocommerce', 'wc-country-select', 'wc-address-i18n' ),
 				'version' => $version,
 			),
