@@ -131,18 +131,35 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                             $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
 
-                            $response       = wp_remote_post( $end_point_url, array(
-                                'method' => 'POST',                                
-                                'body'	=> array(
-                                    'user_email' => $logged_user->user_email,
-                                    'user_id'	=> $logged_user->ID,
-                                    'product_ids' => $associate_products
-                                )
-                            ) );
+                            $query_params   = array(
+                                'user_email' => $logged_user->user_email,
+                                'user_id'	=> $logged_user->ID,
+                                'product_ids' => $associate_products
+                            );
 
-                            if ( ! is_wp_error( $response ) ) {
+                            $final_params = http_build_query($query_params);
 
-                                $final_response = json_decode( wp_remote_retrieve_body( $response ) );
+                            $curl = curl_init();
+
+                            curl_setopt_array( $curl, array(
+                                CURLOPT_URL => $end_point_url,
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => "",
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => "POST",
+                                CURLOPT_POSTFIELDS => $final_params
+                            ));
+                            
+                            $response = curl_exec( $curl );
+                            
+                            curl_close( $curl );
+
+                            $final_response = json_decode( $response );
+
+                            if ( is_object( $final_response ) ) {                                
 
                                 if ( ! $final_response->success ) {
 
