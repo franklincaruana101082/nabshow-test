@@ -510,8 +510,6 @@ jQuery( function( $ ) {
 					data:		$form.serialize(),
 					dataType:   'json',
 					success:	function( result ) {
-						console.log('checkout response: ');
-						console.log(result);
 						// Detach the unload handler that prevents a reload / redirect
 						wc_checkout_form.detachUnloadEventsOnSubmit();
 
@@ -548,8 +546,6 @@ jQuery( function( $ ) {
 						}
 					},
 					error:	function( jqXHR, textStatus, errorThrown ) {
-						console.log('checkout error: ');
-						console.log(errorThrown);
 						// Detach the unload handler that prevents a reload / redirect
 						wc_checkout_form.detachUnloadEventsOnSubmit();
 
