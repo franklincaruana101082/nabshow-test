@@ -82,3 +82,5 @@ function nab_disable_cheque_gateway( $available_gateways ) {
 
    return $available_gateways;
 }
+
+add_filter( 'jwt_auth_expire', 'nab_token_expiry_time', 10, 2 );

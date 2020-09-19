@@ -85,7 +85,7 @@ add_action( 'init', 'nab_create_attendee_table' );
 // Register custom rest route.
 add_action( 'rest_api_init', 'amplify_register_api_endpoints' );
 
-// add_action( 'wp_authenticate', 'nab_create_jwt_token', 10, 2 );
+add_action( 'wp_authenticate', 'nab_create_jwt_token', 10, 2 );
 
 // Apply coupon code from the url
 add_action( 'wp_loaded', 'amplify_apply_coupon_code_from_url', PHP_INT_MAX );
