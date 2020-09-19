@@ -72,3 +72,13 @@ add_filter( 'woocommerce_cart_contents_changed', 'nab_force_bulk_quanity' );
 
 add_filter( 'the_title', 'nab_title_order_received', 10, 2 );
 
+add_filter( 'woocommerce_available_payment_gateways', 'nab_disable_cheque_gateway' );
+  
+function nab_disable_cheque_gateway( $available_gateways ) {
+	
+   if ( isset( $available_gateways['cheque'] ) && 214 !== get_current_user_id() ) {
+      unset( $available_gateways['cheque'] );
+   }
+
+   return $available_gateways;
+}
