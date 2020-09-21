@@ -27,5 +27,7 @@ get_header();
 </div>
 <br><br>
 
+<input type="button" value="logout all" id="nabLotOut">
+
 <?php
 get_footer();
