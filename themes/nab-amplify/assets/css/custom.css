@@ -811,10 +811,13 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-view-table-wrp .att-save a.button{padding:7px 13px;border-radius:6px;text-transform:capitalize;}
 
 /* Edit attendee */
-#nabeditAttendeeModal.nab-modal .modal-content{width:80%;}
+#nabeditAttendeeModal.nab-modal .modal-content{width:80%;max-width:700px;}
 .attendee-edit-wrap{max-width:500px;margin:0 auto 1.5em;}
+.attendee-edit-wrap table:last-child{margin-bottom:0;}
 .attendee-edit-wrap td{padding:3px;}
 .attendee-edit-wrap td input{width:100%;padding:3px 8px;}
+.attendee-edit-wrap .edit-att-buttons{margin-top:10px;}
+.attendee-edit-wrap a.button{border-radius:6px;padding:8px 15px;margin-right:5px;}
 
 /* My purchases */
 .wp-info{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}

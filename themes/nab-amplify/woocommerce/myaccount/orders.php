@@ -201,6 +201,15 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 							<td>Email:</td>
 							<td><input type="text" value="rhorribine0@narod.ru"></td>
 						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<div class="edit-att-buttons">
+									<a href="javascript:void(0)">Save</a>
+									<a href="javascript:void(0)">Cancle</a>
+								</div>
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>
