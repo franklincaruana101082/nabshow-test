@@ -810,6 +810,12 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-view-table-wrp .att-actions a.fa{font-size:18px;margin:0 2px;color:#ff008f;vertical-align:middle;display:inline-block;}
 .attendee-view-table-wrp .att-save a.button{padding:7px 13px;border-radius:6px;text-transform:capitalize;}
 
+/* Edit attendee */
+#nabeditAttendeeModal.nab-modal .modal-content{width:80%;}
+.attendee-edit-wrap{max-width:500px;margin:0 auto 1.5em;}
+.attendee-edit-wrap td{padding:3px;}
+.attendee-edit-wrap td input{width:100%;padding:3px 8px;}
+
 /* My purchases */
 .wp-info{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .wp-summary{width:33.33%;padding:0 5px;margin-bottom:68px;}
