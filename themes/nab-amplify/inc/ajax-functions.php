@@ -390,19 +390,16 @@ function nab_remove_attendee() {
 	}
 
 	// Delete this order
-	$remove_attendee = wp_delete_post( $order_id );
+	$remove_attendee = wp_delete_post( $order_id, true );
 
 	if( ! empty( $remove_attendee ) ) {
-
 		// Remove from attendee table as well
 		$wpdb->delete( $wpdb->prefix . 'nab_attendee', array( 'id' => $primary_id ) );
 		$res['err']     = 0;
 		$res['message'] = 'Attendee removed successfully.';
 	} else {
-
 		$res['err']     = 1;
 		$res['message'] = 'Attendee could not be deleted. Please reload the page and try again.';
-		
 	}
 	
 	wp_send_json( $res, 200 );
