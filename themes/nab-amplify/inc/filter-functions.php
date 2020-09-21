@@ -572,10 +572,10 @@ function nab_force_bulk_quanity( $cart_contents ) {
 			$temp_cart = [];
 			foreach ( $cart_contents as $key => $values ) {
 				if ( $get_qty !== $values['quantity'] ) {
-					$values['quantity']       = $get_qty;
+					$values['quantity'] = $get_qty;
 					$values['nab_bulk_order'] = 'yes';
-					$values['nab_qty']        = $get_qty;
-					
+					$values['nab_qty'] = $get_qty;
+
 					// update cocart 
 					if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
 						$cart_key = $_COOKIE['nabCartKey'];
@@ -590,7 +590,7 @@ function nab_force_bulk_quanity( $cart_contents ) {
 							] ),
 						);
 
-						$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+						$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
 						$response = wp_remote_post( $api_url, $args );	
 					}
 				}
@@ -639,4 +639,15 @@ function nab_title_order_received( $title, $id ) {
 	}
 
 	return $title;
+}
+
+/**
+ * Change JWT Token expiry time
+ *
+ * @param int $expire
+ * @param int $issuedAt
+ * @return int
+ */
+function nab_token_expiry_time( $expire, $issuedAt ) {
+	return $issuedAt + (DAY_IN_SECONDS * 30);
 }

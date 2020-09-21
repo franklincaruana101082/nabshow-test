@@ -71,3 +71,5 @@ add_filter( 'jwt_auth_token_before_dispatch', 'nab_jwt_response', 10, 2 );
 add_filter( 'woocommerce_cart_contents_changed', 'nab_force_bulk_quanity' );
 
 add_filter( 'the_title', 'nab_title_order_received', 10, 2 );
+
+add_filter( 'jwt_auth_expire', 'nab_token_expiry_time', 10, 2 );

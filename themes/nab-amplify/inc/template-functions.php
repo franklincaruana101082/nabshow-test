@@ -151,13 +151,51 @@ function nab_cocart_get_cart( $customer_id, $default = false ) {
 
 	$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $customer_id ) );
 
-	// $a = [];
-	// $a['query'] = $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $customer_id );
-	// $a['val'] = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}cocart_carts" );
-
 	if ( is_null( $value ) ) {
 		$value = $default;
 	}
 
 	return maybe_unserialize( $value );
+}
+
+/**
+ * Generates JWT token 
+ *
+ * @param string $username
+ * @param string $password
+ */
+function nab_generate_jwt_token( $username, $password ) {
+
+	if ( ! empty( $username ) && ! empty( $password ) ) {
+		$url  = home_url() . '/wp-json/jwt-auth/v1/token';
+		$data = array(
+			'username' => $username,
+			'password' => $password,
+		);
+
+		$curl = curl_init();
+
+		curl_setopt_array( $curl, array(
+		    CURLOPT_URL => $url,
+		    CURLOPT_CUSTOMREQUEST => "POST",
+		    CURLOPT_POSTFIELDS => $data,
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_TIMEOUT => 30,
+		) );
+
+		$response = curl_exec($curl);
+
+		$response_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		curl_close($curl);
+
+		if ( 200 === $response_code && ! empty( $response ) ) {
+			$response_body = json_decode( $response, true );
+
+			if ( isset( $response_body['token'] ) && isset( $response_body['user_id'] ) ) {
+				update_user_meta( $response_body['user_id'], 'nab_jwt_token', $response_body['token'] );
+			}
+		}
+	}
+
 }

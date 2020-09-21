@@ -624,6 +624,11 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 			add_user_to_blog( $site, $customer_id, 'subscriber' );
 		}
 	}
+
+	// Generate JWT Token
+	if( isset( $new_customer_data['user_login'] ) && ! empty( $new_customer_data['user_login'] ) && isset( $new_customer_data['user_pass'] ) && ! empty( $new_customer_data['user_pass'] ) ) {
+		nab_generate_jwt_token( $new_customer_data['user_login'], $new_customer_data['user_pass'] );
+	} 
 }
 
 function nab_bulk_purchase_cart() {
@@ -890,30 +895,16 @@ function amplify_check_user_bought_product( WP_REST_Request $request ) {
 	return new WP_REST_Response( $return, 200 );
 }
 
+/**
+ * Creates JWT Token
+ *
+ * @param string $username
+ * @param string $password
+ * 
+ * @return void
+ */
 function nab_create_jwt_token( $username, $password ) {
-	
-	if( ! empty( $username ) && ! empty( $password ) ) {
-		$url = home_url() . '/wp-json/jwt-auth/v1/token';
-		$data = array(
-			'username' => $username,
-			'password'=> $password,
-		);
-
-		$response = wp_remote_post( $url, array(
-			'body'    => $data,
-		) );
-
-		$response_code = wp_remote_retrieve_response_code( $response );
-
-		if( 200 === $response_code && ! empty( $response['body'] ) ) {
-			$response_body = json_decode( $response['body'], true );
-			
-			if( isset( $response_body['token'] ) && isset( $response_body['user_id'] ) ) {
-				update_user_meta( $response_body['user_id'], 'nab_jwt_token', $response_body['token'] );
-			}
-		}
-	}
-
+	nab_generate_jwt_token( $username, $password );
 }
 
 /**
@@ -1041,6 +1032,7 @@ function amplify_add_coupon_code_to_cart() {
 	setcookie( 'amp_wc_coupon', null, -1, '/');
 }
 
+
 /**
  * Remove product from cocart session cart if removed from main cart
  *
@@ -1063,7 +1055,7 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
 			'method'  => 'DELETE',
 		);
 
-		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
 		$response = wp_remote_request( $api_url, $args );
 	}
 
@@ -1159,7 +1151,7 @@ function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
 			] ),
 		);
 
-		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
 		$response = wp_remote_post( $api_url, $args );
 	}
 }

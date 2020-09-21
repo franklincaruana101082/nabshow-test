@@ -323,27 +323,27 @@
     }
 
     $.ajax( {
-          url: amplifyJS.ajaxurl,
-          type: 'POST',
-          data: nabCartData,
-          success: function( data ) {
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: nabCartData,
+        success: function( data ) {
 
-            if( 0 === data.err ) {
-              $('.woocommerce').replaceWith(data.cart_content);
-              $( '[name=\'update_cart\']' ).prop( 'disabled', true ).attr('aria-disabled', 'true');
-              unblock( $('.woocommerce-cart-form') );
-              unblock( $( 'div.cart_totals' ) );
-              $.scroll_to_notices( $( '[role="alert"]' ) );
-              $( document.body ).trigger( 'updated_wc_div' );
-            } else {
-              $( '[name=\'update_cart\']' ).prop( 'disabled', false );
-              $( '[name=\'update_cart\']' ).trigger( 'click' );
-            }
-          }, error: function( xhr, ajaxOptions, thrownError ) {
+          if( 0 === data.err ) {
+            $('.woocommerce').replaceWith(data.cart_content);
+            $( '[name=\'update_cart\']' ).prop( 'disabled', true ).attr('aria-disabled', 'true');
             unblock( $('.woocommerce-cart-form') );
             unblock( $( 'div.cart_totals' ) );
-            console.log( thrownError );
+            $.scroll_to_notices( $( '[role="alert"]' ) );
+            $( document.body ).trigger( 'updated_wc_div' );
+          } else {
+            $( '[name=\'update_cart\']' ).prop( 'disabled', false );
+            $( '[name=\'update_cart\']' ).trigger( 'click' );
           }
+        }, error: function( xhr, ajaxOptions, thrownError ) {
+          unblock( $('.woocommerce-cart-form') );
+          unblock( $( 'div.cart_totals' ) );
+          console.log( thrownError );
+        }
     } );
   }
 
@@ -366,7 +366,6 @@
   var unblock = function( $node ) {
     $node.removeClass( 'processing' ).unblock();
   };
-
 
   if ( $( '#nabAddAttendeeModal' ).length > 0 ) {
     $( document ).on( 'click', '.nab-add-attendee', function() {
