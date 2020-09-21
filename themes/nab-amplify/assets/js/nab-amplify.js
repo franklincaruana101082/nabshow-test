@@ -581,6 +581,28 @@
               attendeeDataTr.appendChild( attendeeDataTd );
             });
 
+            let attendeeDataAction = document.createElement( 'td' );
+            attendeeDataAction.setAttribute('data-title', 'Actions');
+            attendeeDataAction.setAttribute('data-oid', response.attendees[a]['order_id'] );
+            attendeeDataAction.setAttribute('data-pid', response.attendees[a]['id'] );
+
+            let attendeeDataDefaultActions = document.createElement('div');
+            attendeeDataDefaultActions.className = 'att-actions';
+
+            let attendeeEditAction = document.createElement('a');
+            attendeeEditAction.className = 'fa fa-edit';
+            attendeeEditAction.href = 'javascript:void(0)';
+
+            let attendeeDeleteAction = document.createElement('a');
+            attendeeDeleteAction.className = 'fa fa-trash';
+            attendeeDeleteAction.href = 'javascript:void(0)';
+
+            attendeeDataDefaultActions.appendChild(attendeeEditAction);
+            attendeeDataDefaultActions.appendChild(attendeeDeleteAction);
+
+            attendeeDataAction.appendChild(attendeeDataDefaultActions);
+
+            attendeeDataTr.appendChild(attendeeDataAction);
             attendeeTbody.appendChild( attendeeDataTr );
           }
           attendeeTable.appendChild( attendeeTbody );
