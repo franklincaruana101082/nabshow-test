@@ -84,6 +84,7 @@
 		}
 		currCart++;
 		$('.temp-cart-qty').text(currCart);
+		$('.nab-cart-count ').text(currCart);
 	}
 
 	$(window).on('load', function() {
