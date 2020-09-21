@@ -218,7 +218,7 @@
 .show_sec_menu .nab-header-secondary + header .header-right.active .search-form{top:130px;}
 
 /* Secondary Header css */
-.nab-header-secondary{background:#404040;z-index:1;display:none;}
+.nab-header-secondary{background:#404040;z-index:99999;display:none;}
 .nab-header-secondary .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .nab-header-secondary .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex}
 .nab-header-secondary .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
@@ -234,12 +234,12 @@
 .nab-header-secondary .nab-avatar-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer}
 .nab-header-secondary .nab-avatar{width:40px;margin-right:10px}
 .nab-header-secondary .nab-avatar img{max-width:100%;border-radius:50%;display:block}
-.nab-header-secondary .nab-profile-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px}
+.nab-header-secondary .nab-profile-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px;z-index:99;}
 .nab-header-secondary .nab-profile-dropdown ul{display:block;background-color:#fff;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px}
 .nab-header-secondary .nab-profile-dropdown ul:before{content:'';width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:15px solid #fff;position:absolute;top:-15px;right:15%}
-.nab-header-secondary .nab-profile:hover + .nab-profile-dropdown{display:block}
-.nab-header-secondary .nab-profile-dropdown li{width:100%}
-.nab-header-secondary .nab-profile-dropdown li a{color:#404040;padding:5px 10px;display:block;text-align:center}
+.nab-header-secondary .nab-profile:hover > .nab-profile-dropdown{display:block}
+.nab-header-secondary .nab-profile-dropdown li{width:100%;margin:0;}
+.nab-header-secondary .nab-profile-dropdown li a{color:#404040;padding:5px 10px;display:block;text-align:center;text-decoration:none;font-size:15px;}
 .nab-header-secondary .nab-profile-dropdown li a:hover{background-color:#eee}
 .nab-header-secondary .nab-profile-menu{position:relative;padding-left:15px;margin-left:15px;border-left:1px solid #ccc}
 .nab-header-secondary .nab-profile-name{color:#fff;line-height:1}
