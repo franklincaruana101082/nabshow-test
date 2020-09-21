@@ -18,8 +18,14 @@
     // Remove Billing form if no payment method available/required in checkout.
     $( document.body ).on( 'updated_checkout', function() {
       if ( 0 === $( 'ul.wc_payment_methods' ).length ) {
-        $( '.woocommerce-billing-fields' ).remove();
-      } else if ( 0 === $( '.woocommerce-billing-fields' ).length ) {
+          $('.woocommerce-billing-fields__field-wrapper p:not(.bill-mandatory)').remove();
+          $('.woocommerce-billing-fields__field-wrapper p.bill-hidden').hide();
+      }
+      /**
+       * If bill is not 0.00 and the billing_country_field is missing,
+       * reload the page to get all other fields.
+       */
+      else if ( 0 === $('#billing_country_field').length ) {
         $( '#place_order' ).attr( 'disabled' );
         location.reload();
       }
