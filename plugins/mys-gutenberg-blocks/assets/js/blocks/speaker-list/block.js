@@ -57,7 +57,7 @@
         }
         render() {
             const { attributes, setAttributes } = this.props;
-            const { itemToFetch, includeSpeakers, channels, featuredSpeaker, blockTitle } = attributes;
+            const { itemToFetch, includeSpeakers, channels, featuredSpeaker, blockTitle, orderBy } = attributes;
             return (
                 <Fragment>
                     <InspectorControls>
@@ -75,7 +75,16 @@
                                     max={100}
                                     onChange={(item) => setAttributes({ itemToFetch: parseInt(item) }) }
                                 />
-                            </div>                            
+                            </div>
+                            <SelectControl
+                                label={__('Order by')}
+                                value={orderBy}
+                                options={[
+                                    { label: __('Alphabetical'), value: 'name' },                                    
+                                    { label: __('Random'), value: 'rand' },
+                                ]}
+                                onChange={ (value) => setAttributes({ orderBy: value }) }
+                            />
                             { ( 0 < this.state.channelsObj.length ) &&
 
                             <Fragment>
@@ -135,7 +144,7 @@
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/speakers-list"
-                        attributes={{ itemToFetch: itemToFetch, channels: channels, includeSpeakers: includeSpeakers, featuredSpeaker: featuredSpeaker, blockTitle: blockTitle}}
+                        attributes={{ itemToFetch: itemToFetch, channels: channels, includeSpeakers: includeSpeakers, featuredSpeaker: featuredSpeaker, blockTitle: blockTitle, orderBy: orderBy }}
                     />
                 </Fragment >
             );
@@ -157,6 +166,10 @@
         blockTitle: {
             type: 'string',
             default: 'Featured Speakers'
+        },
+        orderBy: {
+            type: 'string',
+            default: 'name'
         },
         featuredSpeaker: {
             type: 'boolean',

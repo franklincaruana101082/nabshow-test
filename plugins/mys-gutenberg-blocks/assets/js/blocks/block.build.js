@@ -7546,7 +7546,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     includeSpeakers = attributes.includeSpeakers,
                     channels = attributes.channels,
                     featuredSpeaker = attributes.featuredSpeaker,
-                    blockTitle = attributes.blockTitle;
+                    blockTitle = attributes.blockTitle,
+                    orderBy = attributes.orderBy;
 
                 return wp.element.createElement(
                     Fragment,
@@ -7581,6 +7582,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     }
                                 })
                             ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Order by'),
+                                value: orderBy,
+                                options: [{ label: __('Alphabetical'), value: 'name' }, { label: __('Random'), value: 'rand' }],
+                                onChange: function onChange(value) {
+                                    return setAttributes({ orderBy: value });
+                                }
+                            }),
                             0 < this.state.channelsObj.length && wp.element.createElement(
                                 Fragment,
                                 null,
@@ -7653,7 +7662,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/speakers-list",
-                        attributes: { itemToFetch: itemToFetch, channels: channels, includeSpeakers: includeSpeakers, featuredSpeaker: featuredSpeaker, blockTitle: blockTitle }
+                        attributes: { itemToFetch: itemToFetch, channels: channels, includeSpeakers: includeSpeakers, featuredSpeaker: featuredSpeaker, blockTitle: blockTitle, orderBy: orderBy }
                     })
                 );
             }
@@ -7678,6 +7687,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         blockTitle: {
             type: 'string',
             default: 'Featured Speakers'
+        },
+        orderBy: {
+            type: 'string',
+            default: 'name'
         },
         featuredSpeaker: {
             type: 'boolean',

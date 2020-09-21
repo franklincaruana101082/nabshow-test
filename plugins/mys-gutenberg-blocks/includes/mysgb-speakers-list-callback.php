@@ -12,16 +12,15 @@ $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemTo
 $channels           = isset( $attributes['channels'] ) && ! empty( $attributes['channels'] ) ? $attributes['channels'] : array();
 $featured_speaker   = isset( $attributes['featuredSpeaker'] ) ? $attributes['featuredSpeaker'] : false;
 $include_speaker    = isset( $attributes['includeSpeakers'] ) && ! empty( $attributes['includeSpeakers'] ) ? $attributes['includeSpeakers'] : '';
+$order_by           = isset( $attributes['orderBy'] ) && ! empty( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'name';
 $block_title        = isset( $attributes['blockTitle'] ) && ! empty( $attributes['blockTitle'] ) ? $attributes['blockTitle'] : '';
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 $query_args = array(
     'post_type'      => 'speakers',
-    'posts_per_page' => $posts_per_page,
-    'meta_key'       => '_lastname',
-    'orderby'        => 'meta_value',
-    'order'          => 'ASC'
+    'posts_per_page' => $posts_per_page    
 );
+
 
 if ( ! empty( $include_speaker ) ) {
     
@@ -32,7 +31,19 @@ if ( ! empty( $include_speaker ) ) {
     }    
 }
 
+if ( 'rand' === $order_by ) {
+    $query_args[ 'posts_per_page' ]       = 100;
+    $query_args[ 'fields' ]               = 'ids';
+    $query_args[ 'no_found_rows' ]        = true;
+    $query_args[ 'ignore_sticky_posts' ]  = true;
+} else  {
+    $query_args[ 'meta_key' ] = '_lastname';
+    $query_args[ 'orderby' ] = 'meta_value';
+    $query_args[ 'order' ] = 'ASC';
+}
+
 if ( $featured_speaker ) {
+    
     $query_args[ 'tax_query' ] = array(
         array(
             'taxonomy' => 'speaker-categories',
@@ -53,6 +64,14 @@ if ( is_array( $channels ) && count( $channels ) > 0 ) {
 }
 
 $query = new WP_Query( $query_args );
+
+if ( 'rand' === $order_by && $query->have_posts() ) {
+
+	$post_ids = $query->posts;
+	shuffle( $post_ids );
+	$post_ids = array_splice( $post_ids, 0, $posts_per_page );
+	$query    = new WP_Query( array( 'post_type' => 'speakers', 'post__in' => $post_ids, 'posts_per_page' =>  count( $post_ids ), 'orderby' => 'post__in' ) );
+}
 
 if ( $query->have_posts() ) {
     ?>
