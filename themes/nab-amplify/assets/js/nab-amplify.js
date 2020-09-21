@@ -565,10 +565,12 @@
           attendeeTheadLastName.innerText = 'Last Name';
           let attendeeTheadEmail = document.createElement( 'th' );
           attendeeTheadEmail.innerText = 'Email';
+          let attendeeTheadAction = document.createElement( 'th' );
 
           attendeeTheadTr.appendChild( attendeeTheadFirstName );
           attendeeTheadTr.appendChild( attendeeTheadLastName );
           attendeeTheadTr.appendChild( attendeeTheadEmail );
+          attendeeTheadTr.appendChild( attendeeTheadAction );
 
           attendeeThead.appendChild( attendeeTheadTr );
 
@@ -611,6 +613,18 @@
             attendeeDataDefaultActions.appendChild(attendeeDeleteAction);
 
             attendeeDataAction.appendChild(attendeeDataDefaultActions);
+
+            let attendeeDataAdvActions = document.createElement('div');
+            attendeeDataAdvActions.className = 'att-save';
+
+            let attendeeSaveAction = document.createElement('a');
+            attendeeSaveAction.className = 'nab-update-attendee';
+            attendeeSaveAction.href = 'javascript:void(0)';
+
+            attendeeDataAdvActions.appendChild(attendeeSaveAction);
+
+            attendeeDataAction.appendChild(attendeeDataDefaultActions);
+            attendeeDataAction.appendChild(attendeeDataAdvActions);
 
             attendeeDataTr.appendChild(attendeeDataAction);
             attendeeTbody.appendChild( attendeeDataTr );
