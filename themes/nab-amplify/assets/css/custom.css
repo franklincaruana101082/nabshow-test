@@ -798,12 +798,14 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-view-table-wrp tr{border-bottom:1px solid #e0e0e0;}
 .attendee-view-table-wrp tr th{background:#666666;color:#fff;}
 .attendee-view-table-wrp tr th,
-.attendee-view-table-wrp tr td{padding:10px 5px;text-align:center;word-break:break-word;}
+.attendee-view-table-wrp tr td{padding:10px 5px;text-align:center;word-break:break-word;width:25%;}
 .attendee-view-table-wrp tr th:last-child,
-.attendee-view-table-wrp tr td:last-child{min-width:120px;}
+.attendee-view-table-wrp tr td:last-child{min-width:100px;}
 .attendee-view-table-wrp tr td input{text-align:center;}
 .attendee-view-table-wrp > span{display: inline-block;width:100%;margin:0 0 20px;}
 .attendee-view-table-wrp > span:last-child{margin:0 0 10px;}
+.attendee-view-table-wrp tr th[data-title="Email"],
+.attendee-view-table-wrp tr td[data-title="Email"]{width:30%;}
 .attendee-view-table-wrp .att-actions a.fa{font-size:18px;margin:0 2px;color:#ff008f;vertical-align:middle;display:inline-block;}
 .attendee-view-table-wrp .att-save a.button{padding:7px 13px;border-radius:6px;text-transform:capitalize;}
 
