@@ -26,8 +26,5 @@ get_header();
 	</form>
 </div>
 <br><br>
-
-<input type="button" value="logout all" id="nabLogOut">
-
 <?php
 get_footer();

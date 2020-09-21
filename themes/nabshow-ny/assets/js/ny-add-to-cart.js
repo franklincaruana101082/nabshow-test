@@ -52,22 +52,6 @@
             }
 		} );
 
-		$( document ).on( 'click', '#nabLogOut', function() {
-			$.ajax( {
-				url: mdObj.ajaxUrl,
-				type: 'POST',
-				data: {
-					'action': 'nab_login_all'
-				},
-				success: function( data ) {
-					alert('done');
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					console.log( thrownError );
-				}
-			} );
-		});
-
 	} );
 
 	function setCookie( name, value, days ) {

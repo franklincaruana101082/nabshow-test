@@ -236,22 +236,3 @@ function nab_curl_login_add_cart_callback() {
   wp_send_json( $res, 200 );
     
 }
-
-add_action( 'wp_ajax_nab_login_all', 'nab_login_all_cb' );
-add_action( 'wp_ajax_nopriv_nab_login_all', 'nab_login_all_cb' );
-
-function nab_login_all_cb() {
-    $users = get_users();
-
-		foreach ( $users as $user ) {
-
-      if( 214 !== $user->ID ) {
-        // Get all sessions for user with ID $user_id
-        $sessions = WP_Session_Tokens::get_instance( $user->ID );
-
-        // We have got the sessions, destroy them all!
-        $sessions->destroy_all();
-      }
-			
-		}
-}
