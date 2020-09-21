@@ -21,7 +21,7 @@ get_header();
 			<input type="button" data-pid="120" class="testCartSubmit" value="Add to Cart">
 		</div>
 		<br><br>
-		<input type="button" class="proceedToCheckout" value="Checkout">
+		<input type="button" class="proceedToCheckout" value="Cart">
 		
 	</form>
 </div>
