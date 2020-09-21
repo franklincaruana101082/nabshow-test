@@ -616,6 +616,7 @@
 
             let attendeeDataAdvActions = document.createElement('div');
             attendeeDataAdvActions.className = 'att-save';
+            attendeeDataAdvActions.style.display = 'none';
 
             let attendeeSaveAction = document.createElement('a');
             attendeeSaveAction.className = 'nab-update-attendee';
