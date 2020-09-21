@@ -237,7 +237,7 @@
 .nab-header-secondary .nab-profile-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px}
 .nab-header-secondary .nab-profile-dropdown ul{display:block;background-color:#fff;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px}
 .nab-header-secondary .nab-profile-dropdown ul:before{content:'';width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:15px solid #fff;position:absolute;top:-15px;right:15%}
-.nab-header-secondary .nab-profile:hover > .nab-header-secondary .nab-profile-dropdown{display:block}
+.nab-header-secondary .nab-profile:hover + .nab-profile-dropdown{display:block}
 .nab-header-secondary .nab-profile-dropdown li{width:100%}
 .nab-header-secondary .nab-profile-dropdown li a{color:#404040;padding:5px 10px;display:block;text-align:center}
 .nab-header-secondary .nab-profile-dropdown li a:hover{background-color:#eee}
