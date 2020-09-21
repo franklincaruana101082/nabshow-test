@@ -69,7 +69,7 @@ get_header();
                         wp_mail( $to_email, $subject, $message_body, $headers );
                     }
                     ?>
-                    <div class="form-confirmation">
+                    <div class="lead-form-confirmation">
                         <p>Thank you for your submission. We'll be in touch shortly to schedule a conversation.</p>
                         <a class="gobackbtn btn-primary" href="<?php echo esc_url( get_the_permalink() ); ?>">Go Back to Form</a>
                     </div>
