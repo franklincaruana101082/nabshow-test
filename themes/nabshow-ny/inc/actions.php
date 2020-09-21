@@ -27,3 +27,9 @@ add_action( 'save_post', 'nabny_set_speaker_last_name_meta', 10, 2 );
 
 // Action to add default blocks on new session page
 add_action( 'admin_init', 'nabny_session_default_template' );
+
+// Action to register dynamic slider block
+add_action( 'init', 'nabny_register_dynamic_blocks' );
+
+// Action for add gutenberg custom block
+add_action( 'enqueue_block_editor_assets', 'nabny_add_block_editor_assets' );

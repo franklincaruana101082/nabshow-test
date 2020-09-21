@@ -266,3 +266,144 @@ function nabny_session_default_template() {
 		$page_type_object->template = $block_template;		
 	}	
 }
+
+/**
+ * Register dynamic block.
+ */
+function nabny_register_dynamic_blocks() {
+	
+	register_block_type( 'nab/lead-gen-form', array(
+			'attributes' => array(                
+				'formEmail'  => array(
+					'type' => 'string',
+					'default' => ''
+				)
+			),
+			'render_callback' => 'nabny_lead_gen_form_render_callback',
+		)
+	);
+}
+
+
+/**
+ * Lead genereation form block render callback.
+ *
+ * @param  array $attributes
+ * 
+ * @return string
+ */
+function nabny_lead_gen_form_render_callback( $attributes ) {
+    
+    $form_email = isset( $attributes[ 'formEmail' ] ) && ! empty( $attributes[ 'formEmail' ] ) ? $attributes[ 'formEmail' ] : '';
+
+    ob_start();
+    ?>
+    <form class="nab-form lead-gen-form" method="post">
+        <div class="form-items-wrapper">
+            <div class="form-item">
+                <label class="control-label" for="lgf-full-name">Full Name <span class="form-required" title="This field is required.">*</span></label>
+                <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-full-name" name="full_name" size="60" maxlength="128">
+            </div>
+            <div class="form-item">
+                <label class="control-label" for="lgf-title">Title <span class="form-required" title="This field is required.">*</span></label>
+                <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-title" name="title" size="60" maxlength="128">
+            </div>
+            <div class="form-item">
+                <label class="control-label" for="lgf-company">Company <span class="form-required" title="This field is required.">*</span></label>
+                <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-company" name="company" size="60" maxlength="128">
+            </div>
+            <div class="form-item">
+                <label class="control-label" for="lgf-email">Email <span class="form-required" title="This field is required.">*</span></label>
+                <input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="lgf-email" name="email" size="60">
+            </div>
+            <div class="form-item">                
+                <label class="control-label" for="lgf-phone-number">Phone Number <span class="form-required" title="This field is required.">*</span></label>
+                <input required="required" class="form-control form-text" pattern="[0-9]{1,50}" type="text" id="lgf-phone-number" name="phone_number" step="1">                
+            </div>            
+            <div class="captcha">
+                <div class="g-recaptcha" data-sitekey="6Lfwj9wSAAAAAGC50P7LPTXvapy4cdM6GuPJ5Zh3"></div>
+                <p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
+            </div>
+            <?php wp_nonce_field( 'lead_gen_form', 'lead_details_nonce' ); ?>
+            <input class="form-control form-text" type="text" id="contact-security-check" name="security_check" style="display: none">            
+            <input type="hidden" name="to_email" value="<?php echo esc_attr( $form_email ); ?>" />
+            <div class="form-actions">
+                <button class="form-submit" type="submit" name="op" value="Submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    <?php
+
+    $html = ob_get_clean();
+
+    wp_enqueue_script( 'google-recaptcha', 'https://www.google.com/recaptcha/api.js' );
+
+    return $html;
+}
+
+/**
+ * Enqueue gutenberg custom block script. 
+ */
+function nabny_add_block_editor_assets() {
+
+	wp_enqueue_script( 'nabny-custom-gutenberg-block',
+		get_stylesheet_directory_uri() . '/blocks/block.build.js',
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
+		'1.0'
+	);
+}
+
+/**
+ * Integrate Akismet to custom Form
+ *
+ * @param array $content Submitted Data.
+ *
+ * @return bool Spam or not.
+ */
+function nabny_form_input_spam_check( $content ) {
+
+	// innocent until proven guilty
+	$isSpam = false;
+
+	$content = (array) $content;
+
+	if ( function_exists( 'akismet_init' ) ) {
+
+		$wpcom_api_key = get_option( 'wordpress_api_key' );
+
+		if ( ! empty( $wpcom_api_key ) ) {
+
+			global $akismet_api_host, $akismet_api_port;
+
+			// set remaining required values for akismet api
+			$content['user_ip']    = preg_replace( '/[^0-9., ]/', '', $_SERVER['REMOTE_ADDR'] );
+			$content['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+			$content['referrer']   = $_SERVER['HTTP_REFERER'];
+			$content['blog']       = get_option( 'home' );
+
+			if ( empty( $content['referrer'] ) ) {
+				$content['referrer'] = get_permalink();
+			}
+
+			$queryString = '';
+
+			foreach ( $content as $key => $data ) {
+				if ( ! empty( $data ) ) {
+					$queryString .= $key . '=' . urlencode( stripslashes( $data ) ) . '&';
+				}
+			}
+
+			$response = akismet_http_post( $queryString, $akismet_api_host, '/1.1/comment-check', $akismet_api_port );
+
+			if ( $response[1] == 'true' ) {
+				update_option( 'akismet_spam_count', get_option( 'akismet_spam_count' ) + 1 );
+				$isSpam = true;
+			}
+
+		}
+
+	}
+
+	return $isSpam;
+
+}
