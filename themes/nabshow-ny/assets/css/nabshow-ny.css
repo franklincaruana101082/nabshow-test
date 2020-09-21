@@ -197,6 +197,8 @@
 	.channel-archive-list a.read-more-link{font-size:18px;padding:10px 40px;}
 }
 
+#page{padding-top:141px!important;}
+
 /* tmp header cart */
 .page-template-temp .super-menu-main li.cart-item{display:inline-block!important;opacity:1!important;visibility:visible!important;}
 .page-template-temp .super-menu-main li.cart-item .nab-header-cart{position:relative;}
