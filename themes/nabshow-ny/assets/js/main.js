@@ -71,17 +71,19 @@ $(function() {
 		// show_sec_menu
 
 	if ($('.nab-header-secondary').length > 0 && $('body').hasClass('show_sec_menu')) {
-		var headerSecondary = $('.nab-header-secondary');
-		var headerMain = $('.site-header');
-		if ($('.admin-bar') > 0) {
-			var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
-			$('#page').css('padding-top', totalHeight + 32);
-		} else {
-			var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
-			$('#page').css('padding-top', totalHeight);
+		if ($(window).width() > 991) {
+			var headerSecondary = $('.nab-header-secondary');
+			var headerMain = $('.site-header');
+			if ($('.admin-bar') > 0) {
+				var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
+				$('#page').css('padding-top', totalHeight + 32);
+			} else {
+				var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
+				$('#page').css('padding-top', totalHeight);
+			}
 		}
+		
 	}
-
 
 });
 
