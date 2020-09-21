@@ -280,15 +280,14 @@ add_action( 'wp_ajax_nopriv_get_order_attendees', 'get_order_attendees_callback'
 function get_order_attendees_callback() {
 	global $wpdb;
 
+	$res      = [];
 	if ( ! isset( $_GET['nabNonce'] ) || false === wp_verify_nonce( $_GET['nabNonce'], 'nab-ajax-nonce' ) ) {
 		$res['err']     = 1;
 		$res['message'] = 'Authentication failed. Please reload the page and try again.';
 
 		wp_send_json( $res, 200 );
-		wp_die();
 	}
-
-	$res      = [];
+	
 	$order_id = filter_input( INPUT_GET, 'orderId' );
 
 	if ( ! isset( $order_id ) || empty( $order_id ) ) {
@@ -296,7 +295,6 @@ function get_order_attendees_callback() {
 		$res['message'] = 'Something went wrong! Please try again';
 
 		wp_send_json( $res, 200 );
-		wp_die();
 	}
 
 	// Get Attendees
@@ -319,10 +317,7 @@ function get_order_attendees_callback() {
 	$res['err'] = 0;
 
 	wp_send_json( $res, 200 );
-	wp_die();
 }
-
-
 
 add_action( 'wp_ajax_nab_custom_update_cart', 'nab_custom_update_cart_cb' );
 add_action( 'wp_ajax_nopriv_nab_custom_update_cart', 'nab_custom_update_cart_cb' );
@@ -330,7 +325,6 @@ add_action( 'wp_ajax_nopriv_nab_custom_update_cart', 'nab_custom_update_cart_cb'
 function nab_custom_update_cart_cb() {
 
 	$res = [];
-
 	if( isset( $_POST['is_bulk'] ) && 'yes' === filter_input( INPUT_POST, 'is_bulk') ) {
 		if( isset( $_POST['qty'] ) && ! empty( $_POST['qty'] ) ) {
 			$qty = filter_input( INPUT_POST, 'qty');
@@ -365,6 +359,50 @@ function nab_custom_update_cart_cb() {
 		$res['err'] = 0;
 	} else {
 		$res['err'] = 1;
+	}
+	
+	wp_send_json( $res, 200 );
+
+}
+
+add_action( 'wp_ajax_remove_attendee', 'nab_remove_attendee' );
+add_action( 'wp_ajax_nopriv_remove_attendee', 'nab_remove_attendee' );
+
+function nab_remove_attendee() {
+	global $wpdb;
+
+	$res      = [];
+	if ( ! isset( $_POST['nabNonce'] ) || false === wp_verify_nonce( $_POST['nabNonce'], 'nab-ajax-nonce' ) ) {
+		$res['err']     = 1;
+		$res['message'] = 'Authentication failed. Please reload the page and try again.';
+
+		wp_send_json( $res, 200 );
+	}
+
+	$primary_id = filter_input( INPUT_POST, 'pID' );
+	$order_id   = filter_input( INPUT_POST, 'oID' );
+
+	if ( ! isset( $primary_id ) || empty( $primary_id || ! isset( $order_id ) || empty( $order_id ) ) ) {
+		$res['err']     = 1;
+		$res['message'] = 'Something went wrong! Please try again';
+
+		wp_send_json( $res, 200 );
+	}
+
+	// Delete this order
+	$remove_attendee = wp_delete_post( $order_id );
+
+	if( ! empty( $remove_attendee ) ) {
+
+		// Remove from attendee table as well
+		$wpdb->delete( $wpdb->prefix . 'nab_attendee', array( 'id' => $primary_id ) );
+		$res['err']     = 0;
+		$res['message'] = 'Attendee removed successfully.';
+	} else {
+
+		$res['err']     = 1;
+		$res['message'] = 'Attendee could not be deleted. Please reload the page and try again.';
+		
 	}
 	
 	wp_send_json( $res, 200 );

@@ -377,6 +377,14 @@
     $node.removeClass( 'processing' ).unblock();
   };
 
+  var showLoader = function () {
+    $( 'body' ).addClass( 'is-loading' );
+  }
+
+  var hideLoader = function () {
+    $( 'body' ).removeClass( 'is-loading' );
+  }
+
   if ( $( '#nabAddAttendeeModal' ).length > 0 ) {
     $( document ).on( 'click', '.nab-add-attendee', function() {
       $( '#attendeeOrderID' ).val( $( this ).data( 'orderid' ) );
@@ -606,7 +614,7 @@
             attendeeEditAction.href = 'javascript:void(0)';
 
             let attendeeDeleteAction = document.createElement('a');
-            attendeeDeleteAction.className = 'fa fa-trash';
+            attendeeDeleteAction.className = 'fa fa-trash nab-remove-attendee';
             attendeeDeleteAction.href = 'javascript:void(0)';
 
             attendeeDataDefaultActions.appendChild(attendeeEditAction);
@@ -647,5 +655,38 @@
       }
     } );
   } );
+
+  $(document).on('click', '.nab-remove-attendee', function(){
+    let currentAttendee = $(this);
+    let primaryID = currentAttendee.parents('td').data('pid');
+    let orderID = currentAttendee.parents('td').data('oid');
+    if( primaryID && orderID ) {
+
+      let removeConfirmation = confirm('Are you sure you want to remove this attendee?');
+      if( removeConfirmation ) {
+        showLoader();
+        $.ajax({
+          url: amplifyJS.ajaxurl,
+          type: 'POST',
+          data: {
+            'pID': primaryID,
+            'oID': orderID,
+            'action': 'remove_attendee',
+            'nabNonce': amplifyJS.nabNonce
+          },
+          success: function( response ) {
+            console.log(response);
+            alert('removed');
+            hideLoader();
+          },
+          error: function( xhr, ajaxOptions, thrownError ) {
+            hideLoader();
+            console.log( thrownError );
+          }
+        });
+      }
+    }
+
+  })
 
 })( jQuery );
