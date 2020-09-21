@@ -207,3 +207,48 @@
 	.page-template-temp .super-menu-main li.cart-item .nab-cart-count{display:inline-block!important;}
 	.page-template-temp .super-menu-main li.cart-item a{font-size:0;line-height:normal;}
 }
+
+/* Secondary Header css */
+.nab-header-secondary{background:#404040;position:relative;z-index:1;display:none;}
+.nab-header-secondary .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
+.nab-header-secondary .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex}
+.nab-header-secondary .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
+.nab-header-secondary .nab-logos ul li{margin-right:20px;padding-right:20px;border-right:1px solid #ccc;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.nab-header-secondary .nab-logos ul li:last-child{border-right:0}
+.nab-header-secondary .nab-logos ul li a{display:-webkit-box;display:-ms-flexbox;display:flex}
+.nab-header-secondary .nab-logos img{max-width:120px;max-height:40px}
+.nab-header-secondary .nab-sec-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.nab-header-secondary .nab-header-cart{position:relative}
+.nab-header-secondary .nab-header-cart i{color:#fdd80f;font-size:22px;margin-right:10px;position:absolute;left:0;top:0}
+.nab-header-secondary .nab-header-cart a{color:#fff;padding-left:33px;position:relative}
+.nab-header-secondary .nab-cart-count{position:absolute;width:18px;height:18px;border-radius:50%;-webkit-border-radius:50%;top:-9px;left:13px;font-size:8px;color:#fff;text-align:center;line-height:18px;background-color:#ff008f}
+.nab-header-secondary .nab-avatar-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer}
+.nab-header-secondary .nab-avatar{width:40px;margin-right:10px}
+.nab-header-secondary .nab-avatar img{max-width:100%;border-radius:50%;display:block}
+.nab-header-secondary .nab-profile-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px}
+.nab-header-secondary .nab-profile-dropdown ul{display:block;background-color:#fff;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px}
+.nab-header-secondary .nab-profile-dropdown ul:before{content:'';width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:15px solid #fff;position:absolute;top:-15px;right:15%}
+.nab-header-secondary .nab-profile:hover > .nab-header-secondary .nab-profile-dropdown{display:block}
+.nab-header-secondary .nab-profile-dropdown li{width:100%}
+.nab-header-secondary .nab-profile-dropdown li a{color:#404040;padding:5px 10px;display:block;text-align:center}
+.nab-header-secondary .nab-profile-dropdown li a:hover{background-color:#eee}
+.nab-header-secondary .nab-profile-menu{position:relative;padding-left:15px;margin-left:15px;border-left:1px solid #ccc}
+.nab-header-secondary .nab-profile-name{color:#fff;line-height:1}
+.nab-header-secondary .site-branding{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1}
+.nab-header-secondary .nab-sec-navigation>.nab-profile-menu>.nab-profile>a{color:#fff}
+
+/* Secondary Header css */
+
+@media (max-width:1024px){
+	.nab-header-secondary .nab-profile:hover > .nab-profile-dropdown{display:none}
+}
+
+@media (max-width:767px){
+	.site-header .header-inner{padding:30px 0 10px 0}
+	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:30px}
+	.site-header .main-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
+}
+
+@media (max-width:567px){
+	.site-header .nab-logos ul li{padding-right:10px;margin-right:10px}
+}
