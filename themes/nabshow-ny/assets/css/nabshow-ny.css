@@ -198,7 +198,7 @@
 }
 
 /* tmp header cart */
-.page-template-temp .super-menu-main li.cart-item{display:inline-block!important;opacity:1;visibility:visible;}
+.page-template-temp .super-menu-main li.cart-item{display:inline-block!important;opacity:1!important;visibility:visible!important;}
 .page-template-temp .super-menu-main li.cart-item .nab-header-cart{position:relative;}
 .page-template-temp .super-menu-main li.cart-item .nab-header-cart a{padding-left:33px;position:relative;}
 .page-template-temp .super-menu-main li.cart-item .nab-header-cart i{font-size:20px !important;margin-right:10px;position:absolute;left:0;top:0;}
