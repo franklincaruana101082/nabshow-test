@@ -798,9 +798,9 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-view-table-wrp tr{border-bottom:1px solid #e0e0e0;}
 .attendee-view-table-wrp tr th{background:#666666;color:#fff;}
 .attendee-view-table-wrp tr th,
-.attendee-view-table-wrp tr td{padding:10px 5px;text-align:center;word-break:break-word;width:25%;}
+.attendee-view-table-wrp tr td{padding:10px 5px;text-align:center;word-break:break-word;width:20%;}
 .attendee-view-table-wrp tr th[data-title="Email"],
-.attendee-view-table-wrp tr td[data-title="Email"]{width:30%;}
+.attendee-view-table-wrp tr td[data-title="Email"]{width:40%;}
 .attendee-view-table-wrp tr th:last-child,
 .attendee-view-table-wrp tr td:last-child{width:20%;}
 .attendee-view-table-wrp tr td input{text-align:center;}
