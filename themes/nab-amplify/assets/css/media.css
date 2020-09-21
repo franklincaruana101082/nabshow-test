@@ -181,6 +181,12 @@
 	.attendee-bulk-upload-form-wrap .input-placeholder{width:100%;font-size:14px;}
 	.attendee-bulk-upload-form-wrap input{font-size:14px;}
 	.nab-bulk-quantity-wrapper .nab_bulk_select select{min-width:100px;}
+
+	/* Edit attendee */
+	.attendee-edit-wrap{max-width:500px;margin:0 auto 1.5em;}
+	.attendee-edit-wrap tr{display:block;margin-bottom:10px;}
+	.attendee-edit-wrap td{display:block;padding:0;}
+	.attendee-edit-wrap td:first-child{margin-bottom:3px;}
 }
 @media (max-width:480px) {
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}
