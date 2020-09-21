@@ -578,13 +578,22 @@
 
           for ( let a = 0; a < response.attendees.length; a ++ ) {
             let attendeeDataTr = document.createElement( 'tr' );
-            $.each( response.attendees[ a ], function( key, value ) {
+            // $.each( response.attendees[ a ], function( key, value ) {
+            //   let attendeeDataTd = document.createElement( 'td' );
+            //   let attendeeDataTdText = document.createTextNode( value );
+            //   attendeeDataTd.appendChild( attendeeDataTdText );
+            //   attendeeDataTd.setAttribute( 'data-title', dataTitles[ key ] );
+            //   attendeeDataTr.appendChild( attendeeDataTd );
+            // } );
+
+            $.each(dataTitles, function(key, value) {
               let attendeeDataTd = document.createElement( 'td' );
-              let attendeeDataTdText = document.createTextNode( value );
+              let attendeeDataTdText = document.createTextNode( response.attendees[a][key] );
               attendeeDataTd.appendChild( attendeeDataTdText );
-              attendeeDataTd.setAttribute( 'data-title', dataTitles[ key ] );
+              attendeeDataTd.setAttribute( 'data-title', value );
               attendeeDataTr.appendChild( attendeeDataTd );
-            } );
+            });
+
             attendeeTbody.appendChild( attendeeDataTr );
           }
           attendeeTable.appendChild( attendeeTbody );
