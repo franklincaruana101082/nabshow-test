@@ -85,4 +85,11 @@
 		currCart++;
 		$('.temp-cart-qty').text(currCart);
 	}
+
+	$(window).on('load', function() {
+		if( $('.nab-cart-count').length > 0 && $('.temp-cart-qty').length > 0 ) {
+			$('.nab-cart-count').text( $('.temp-cart-qty').text() );
+		}
+	});
+
 })( jQuery );

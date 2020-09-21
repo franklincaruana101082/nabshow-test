@@ -7,7 +7,7 @@ get_header();
 ?>
 
 <div class="nab-ny-temp-listings">
-	<div class="temp-cart">
+	<div class="temp-cart" style="display:none">
 		<h3>Cart - <span class="temp-cart-qty"><?php echo nab_ny_get_cart(); ?></span></h3>
 	</div>
 	<form method="post" action="">
