@@ -122,7 +122,8 @@
 	.attendee-view-table-wrp tr{display:block;padding:7px 0;}
 	.attendee-view-table-wrp tr:last-child{border-bottom:0;}
 	.attendee-view-table-wrp tr td{display:block;padding:5px 5px 5px 40%;position:relative;border:0;text-align:left;}
-	.attendee-view-table-wrp tr td:before{content:attr(data-title) ": ";position:absolute;left:0;top:50%;transform:translate(0,-50%);-webkit-transform:translate(0,-50%);-moz-transform:translate(0,-50%);-ms-transform:translate(0,-50%);color:#000;font-weight:bold;width:35%;}
+	.attendee-view-table-wrp tr td[data-title]:before{content:attr(data-title) ": ";position:absolute;left:0;top:50%;transform:translate(0,-50%);-webkit-transform:translate(0,-50%);-moz-transform:translate(0,-50%);-ms-transform:translate(0,-50%);color:#000;font-weight:bold;width:35%;}
+	.attendee-view-table-wrp tr td input{text-align:left;}
 	.nab-bulk-quantity-wrapper .nab_bulk_select select{min-width:150px;}
 }
 @media (max-width:600px){
