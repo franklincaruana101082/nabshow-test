@@ -640,6 +640,7 @@ function nab_title_order_received( $title, $id ) {
 
 	return $title;
 }
+
 /**
  * Change JWT Token expiry time
  *

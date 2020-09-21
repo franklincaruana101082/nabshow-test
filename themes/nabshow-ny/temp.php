@@ -6,10 +6,10 @@
 get_header();
 ?>
 
-<div class="temp-cart">
-	<h3>Cart - <span class="temp-cart-qty"><?php echo nab_ny_get_cart(); ?></span></h3>
-</div>
 <div class="nab-ny-temp-listings">
+	<div class="temp-cart">
+		<h3>Cart - <span class="temp-cart-qty"><?php echo nab_ny_get_cart(); ?></span></h3>
+	</div>
 	<form method="post" action="">
 		<div>
 			<img src="https://amplify.nabshow.com/wp-content/uploads/sites/12/2020/08/radio-1.png?resize=150,150">
