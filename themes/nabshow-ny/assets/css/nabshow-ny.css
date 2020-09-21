@@ -212,7 +212,7 @@
 
 /* Secondary Header css */
 .nab-header-secondary{position: absolute;left: 0;right: 0;top: 0;}
-.nab-header-secondary + .site-header{top:89px;}
+/*.nab-header-secondary + .site-header{top:89px;}*/
 
 /* common header */
 .nab-header-secondary{background:#404040;position:relative;z-index:1;display:none;}
