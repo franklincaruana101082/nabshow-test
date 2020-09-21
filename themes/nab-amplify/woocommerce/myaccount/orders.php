@@ -174,7 +174,34 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 			<div class="modal-content-wrap">
 				<div class="attendee-view-wrap">
 					<div class="attendee-view-table-wrp">
-					</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="nabeditAttendeeModal" class="nab-modal">
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
+			<div class="modal-content-wrap">
+				<div class="attendee-edit-wrap">
+					<h3>Edit Attendee Details</h3>
+					<table>
+						<tr>
+							<td>First Name</td>
+							<td><input type="text" value="Ruperta"></td>
+						</tr>
+						<tr>
+							<td>Last Name</td>
+							<td><input type="text" value="Horribine"></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><input type="text" value="rhorribine0@narod.ru"></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
