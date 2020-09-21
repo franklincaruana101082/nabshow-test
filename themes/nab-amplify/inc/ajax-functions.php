@@ -240,8 +240,8 @@ function insert_new_attendee_callback() {
 					update_user_meta( $new_user_id, 'billing_last_name', $user['first_name'] );
 
 					// update status to 1 in DB
-					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}nab_attendee SET `status` = 1, `modified`= '%s', `wp_user_id` = %d WHERE `id` = %d",
-						date( 'Y-m-d H:i:s' ), $new_user_id, $attendee['id'] ) );
+					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}nab_attendee SET `status` = 1, `modified`= '%s', `wp_user_id` = %d, `child_order_id` = %d WHERE `id` = %d",
+						date( 'Y-m-d H:i:s' ), $new_user_id, $new_order_id, $attendee['id'] ) );
 					$added_attendee ++;
 
 					if ( 1 === $new_user_created ) {
@@ -307,9 +307,11 @@ function get_order_attendees_callback() {
 		$res['attendees'] = [];
 		foreach ( $attendees as $attendee ) {
 			$attendee_user               = [];
+			$attendee_user['id']         = $attendee['id'];
 			$attendee_user['first_name'] = $attendee['first_name'];
 			$attendee_user['last_name']  = $attendee['last_name'];
 			$attendee_user['email']      = $attendee['email'];
+			$attendee_user['order_id']   = $attendee['child_order_id'];
 			array_push( $res['attendees'], $attendee_user );
 		}
 	}

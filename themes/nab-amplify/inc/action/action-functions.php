@@ -654,6 +654,7 @@ function nab_create_attendee_table() {
 			`last_name` varchar(255) NOT NULL,
 			`email` varchar(255) NOT NULL,
 			`wp_user_id` int(10) NOT NULL,
+			`child_order_id` int(10) NOT NULL,
 			`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id)
