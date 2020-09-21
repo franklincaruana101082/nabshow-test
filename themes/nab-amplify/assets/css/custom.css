@@ -799,8 +799,11 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-view-table-wrp tr th{background:#666666;color:#fff;}
 .attendee-view-table-wrp tr th,
 .attendee-view-table-wrp tr td{padding:10px 5px;text-align:center;word-break:break-word;}
+.attendee-view-table-wrp tr td input{text-align:center;}
 .attendee-view-table-wrp > span{display: inline-block;width:100%;margin:0 0 20px;}
 .attendee-view-table-wrp > span:last-child{margin:0 0 10px;}
+.attendee-view-table-wrp .att-actions a.fa{font-size:18px;margin:0 2px;color:#ff008f;}
+.attendee-view-table-wrp .att-save a.button{padding:7px 13px;border-radius:6px;text-transform:capitalize;}
 
 /* My purchases */
 .wp-info{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}

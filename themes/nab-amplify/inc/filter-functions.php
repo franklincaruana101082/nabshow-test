@@ -88,9 +88,13 @@ function nab_custom_billing_fields( $billing_fields ) {
 	$billing_fields['billing_phone']['required']   = false;
 	$billing_fields['billing_postcode']['label']   = 'Zip Code';
 	$billing_fields['billing_first_name']['label'] = 'First Name';
+    $billing_fields['billing_first_name']['class'][] = 'bill-mandatory';
+
 	$billing_fields['billing_last_name']['label']  = 'Last Name';
+    $billing_fields['billing_last_name']['class'][] = 'bill-mandatory';
+
 	$billing_fields['billing_email']['label']      = 'Email the confirmation:';
-	$billing_fields['billing_email']['class'][]    = 'text-transform-initial';
+    $billing_fields['billing_email']['class'][]    = 'text-transform-initial bill-mandatory';
 
 	unset( $billing_fields['billing_phone'] );
 
@@ -436,7 +440,14 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 function nab_amplify_woocommerce_checkout_fields( $fields ) {
 
 	if ( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
-		unset( $fields['billing'] );
+
+        $keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email' );
+
+        foreach ( $fields['billing'] as $key => $val ) {
+            if( ! in_array( $key, $keep_fields, true) ) {
+                unset( $fields['billing'][$key] );
+            }
+        }
 	}
 
 	return $fields;

@@ -110,9 +110,9 @@
                 if( $items_per_page < $content_total ) {
                     ?>
                     <div id="purchased-pagination">
-                        <i class="fa fa-arrow-left navigate-purchased prev-purchased"></i>
+                        <i class="navigate-purchased prev-purchased"></i>
                         <span id="current-page">1</span> of <span id="page-total"><?php echo esc_html( $total_pages ) ?></span>
-                        <i class="fa fa-arrow-right navigate-purchased next-purchased"></i>
+                        <i class="navigate-purchased next-purchased"></i>
                     </div>
                 <?php } ?>
 			</div>
