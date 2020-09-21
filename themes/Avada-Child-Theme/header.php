@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!DOCTYPE html>
 <html class="<?php avada_the_html_class(); ?>" <?php language_attributes(); ?>>
 <head>
+<script src="https://cdn.broadstreetads.com/init-2.min.js"></script>
+<script>broadstreet.watch({ networkId: 6638 })</script>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<!-- Google Tag Manager -->
