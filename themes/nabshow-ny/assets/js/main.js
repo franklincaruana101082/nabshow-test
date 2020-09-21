@@ -70,7 +70,7 @@ $(function() {
 
 		// show_sec_menu
 
-	if ($('.nab-header-secondary').length > 0 && $('body').hasClass('page-id-54715')) {
+	if ($('.nab-header-secondary').length > 0 && $('body').hasClass('show_sec_menu')) {
 		var headerSecondary = $('.nab-header-secondary');
 		var headerMain = $('.site-header');
 		if ($('.admin-bar') > 0) {

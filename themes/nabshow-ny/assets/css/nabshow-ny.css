@@ -197,8 +197,6 @@
 	.channel-archive-list a.read-more-link{font-size:18px;padding:10px 40px;}
 }
 
-#page{padding-top:141px!important;}
-
 /* tmp header cart */
 .page-template-temp .super-menu-main li.cart-item{display:inline-block!important;opacity:1!important;visibility:visible!important;}
 .page-template-temp .super-menu-main li.cart-item .nab-header-cart{position:relative;}
@@ -210,12 +208,17 @@
 	.page-template-temp .super-menu-main li.cart-item a{font-size:0;line-height:normal;}
 }
 
-/* Secondary Header css */
-.nab-header-secondary{position: absolute;left: 0;right: 0;top: 0;}
-/*.nab-header-secondary + .site-header{top:89px;}*/
+/* ny specific Secondary Header css */
+.show_sec_menu .nab-header-secondary{position: absolute;left: 0;right: 0;top: 0;}
+.show_sec_menu .nab-header-secondary + .site-header{top:89px;}
+.show_sec_menu .nab-header-secondary + .site-header.sticky{top:0;}
+.show_sec_menu .nab-header-secondary + .sticky .header-right.active form.search-form{top:50px;}
+.show_sec_menu .nab-header-secondary + header .header-right .search-form,
+.show_sec_menu .nab-header-secondary + header .header-right .header-get-updates{top:-100vh;}
+.show_sec_menu .nab-header-secondary + header .header-right.active .search-form{top:130px;}
 
-/* common header */
-.nab-header-secondary{background:#404040;position:relative;z-index:1;display:none;}
+/* Secondary Header css */
+.nab-header-secondary{background:#404040;z-index:1;display:none;}
 .nab-header-secondary .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .nab-header-secondary .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex}
 .nab-header-secondary .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
@@ -261,4 +264,5 @@
 
 @media (max-width:567px){
 	.nab-header-secondary .nab-logos ul li{padding-right:10px;margin-right:10px}
+	.nab-header-secondary .nab-logos img{max-width:100%;}
 }
