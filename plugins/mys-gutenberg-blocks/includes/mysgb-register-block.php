@@ -568,6 +568,10 @@ register_block_type( 'mys/speakers-list', array(
 			'type'    => 'string',
 			'default' => ''
 		),
+		'orderBy' => array(
+			'type'    => 'string',
+			'default' => 'name'
+		),
 		'blockTitle' => array(
 			'type'    => 'string',
 			'default' => 'Featured Speakers'
