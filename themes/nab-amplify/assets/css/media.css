@@ -130,7 +130,7 @@
 	.attendee-view-table-wrp tr th[data-title="Email"],
 	.attendee-view-table-wrp tr td[data-title="Email"]{width:100%;}
 	.attendee-view-table-wrp tr th:last-child,
-	.attendee-view-table-wrp tr td:last-child{min-width:auto;}
+	.attendee-view-table-wrp tr td:last-child{width:100%;}
 }
 @media (max-width:600px){
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}

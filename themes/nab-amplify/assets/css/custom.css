@@ -802,7 +802,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-view-table-wrp tr th[data-title="Email"],
 .attendee-view-table-wrp tr td[data-title="Email"]{width:30%;}
 .attendee-view-table-wrp tr th:last-child,
-.attendee-view-table-wrp tr td:last-child{min-width:100px;}
+.attendee-view-table-wrp tr td:last-child{width:20%;}
 .attendee-view-table-wrp tr td input{text-align:center;}
 .attendee-view-table-wrp > span{display: inline-block;width:100%;margin:0 0 20px;}
 .attendee-view-table-wrp > span:last-child{margin:0 0 10px;}
