@@ -348,6 +348,8 @@ function nab_custom_update_cart_cb() {
 			$values['nab_qty']  = $qty;
 			$values['nab_bulk_order'] = $is_bulk;
 			$temp[ $cart_item_key ] = $values;
+
+			// update cocart
 			nab_update_cocart_item( $cart_item_key, $qty );
 		}
 	
