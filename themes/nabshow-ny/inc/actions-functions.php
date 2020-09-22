@@ -518,3 +518,25 @@ function nabny_body_classes( $classes ) {
 
     return $classes;
 }
+
+function nabny_add_to_cart_btn( $atts ) {
+
+    // Return if no product id is passed
+    if( ! isset( $atts['product_id'] ) || empty( $atts['product_id'] ) ) {
+        return '';
+    }
+
+    $product_id = $atts['product_id'];
+
+    ob_start();
+    ?>
+    <div class="wp-block-buttons">
+        <div class="wp-block-button is-style-fill purple-plain">
+            <a class="wp-block-button__link has-background no-border-radius nabCustomAddCart" href="javascript:void(0)" style="background-color:#ab3e97" data-pid="<?php echo esc_attr( $product_id ); ?>">Get Pass</a>
+        </div>
+    </div>
+    <?php
+    $add_to_cart_btn = ob_get_clean();
+
+    return $add_to_cart_btn;
+}

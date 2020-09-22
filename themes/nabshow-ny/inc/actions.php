@@ -36,3 +36,6 @@ add_action( 'enqueue_block_editor_assets', 'nabny_add_block_editor_assets' );
 
 // Filter to add a custom class to body tag
 add_filter( 'body_class', 'nabny_body_classes' );
+
+// Shortcode for add to cart button
+add_shortcode( 'nab-add-to-cart', 'nabny_add_to_cart_btn' );

@@ -3,7 +3,9 @@
 
         var nabParentAPIUrl = ( undefined !== typeof mdObj.nabParentAPIUrl && '' !== mdObj.nabParentAPIUrl ) ? mdObj.nabParentAPIUrl : '';
         
-		$( document ).on( 'click', '.testCartSubmit', function() {
+		$( document ).on( 'click', '.nabCustomAddCart', function(e) {
+
+			e.preventDefault();
 
 			var pID = $( this ).data( 'pid' );
 
@@ -76,21 +78,14 @@
 	}
 
 	function updateCart() {
-		var currCart = $('.temp-cart-qty').text();
+		var currCart = $('.nab-cart-count').text();
 		if( currCart ) {
 			currCart = parseInt(currCart);
 		} else {
 			currCart = 0;
 		}
 		currCart++;
-		$('.temp-cart-qty').text(currCart);
 		$('.nab-cart-count ').text(currCart);
 	}
-
-	$(window).on('load', function() {
-		if( $('.nab-cart-count').length > 0 && $('.temp-cart-qty').length > 0 ) {
-			$('.nab-cart-count').text( $('.temp-cart-qty').text() );
-		}
-	});
 
 })( jQuery );
