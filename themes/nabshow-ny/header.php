@@ -81,21 +81,21 @@
                 <?php 
                 $parent_url = get_option( 'ep_parent_site_url' );
                 $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
+                $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
                 ?>
                 <nav class="nab-sec-navigation">
                     <div class="nab-header-cart">
                         <a href="<?php echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
-                        <span class="nab-cart-count ">0</span>
+                        <span class="nab-cart-count "><?php echo nab_ny_get_cart(); ?></span>
                     </div>
                     <div class="nab-profile-menu">
                     <?php
 						if ( is_user_logged_in() ) {
 							$current_user    = wp_get_current_user();
                             $user_thumb      = get_avatar_url( $current_user->ID );
-                            $edit_my_profile = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-my-profile/' : '#';
-                            $edit_account    = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-account/' : '#';
-                            $orders          = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/orders/' : '#';
-                            $my_account      = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
+                            $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                            $edit_account    = ( ! empty( $parent_url ) ) ? $my_account . 'edit-account/' : '#';
+                            $orders          = ( ! empty( $parent_url ) ) ? $my_account . 'orders/' : '#';
                             $logout          = ( ! empty( $parent_url ) ) ? wp_logout_url( $my_account ) : '#';
 							?>
                         <div class="nab-profile">

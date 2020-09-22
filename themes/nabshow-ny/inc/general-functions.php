@@ -236,7 +236,11 @@ function nab_curl_login_add_cart_callback() {
   wp_send_json( $res, 200 );
     
 }
-
+/**
+ * Returns the global header logos added in Amplify
+ *
+ * @return array|string
+ */
 function nabny_get_header_logos() {
 
   $api_base_url = get_option( 'ep_parent_site_url' );
@@ -268,9 +272,9 @@ function nabny_get_header_logos() {
     $sorted_logos = [];
     foreach( $logos as $key => $value ) {
         if( $site_url === trailingslashit( $value['url'] )  ) {
-          array_unshift($sorted_logos, $value);
+          array_unshift( $sorted_logos, $value );
         } else {
-          array_push($sorted_logos, $value);
+          array_push( $sorted_logos, $value );
         }
     } 
 
