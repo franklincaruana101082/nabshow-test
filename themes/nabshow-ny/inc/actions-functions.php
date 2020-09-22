@@ -519,6 +519,12 @@ function nabny_body_classes( $classes ) {
     return $classes;
 }
 
+/**
+ * Add to cart button shortcode
+ *
+ * @param array $atts
+ * @return string
+ */
 function nabny_add_to_cart_btn( $atts ) {
 
     // Return if no product id is passed

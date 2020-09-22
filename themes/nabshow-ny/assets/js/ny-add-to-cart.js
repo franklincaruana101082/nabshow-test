@@ -30,7 +30,6 @@
 					'action': 'nab_login_add_cart'
 				},
 				success: function( data ) {
-					console.log( data );
 					if( 0 === data.err ) {
 						updateCart();
 					} else if( 1 === data.err ) {
@@ -78,7 +77,7 @@
 	}
 
 	function updateCart() {
-		var currCart = $('.nab-cart-count').text();
+		var currCart = $('.nab-cart-count').first().text();
 		if( currCart ) {
 			currCart = parseInt(currCart);
 		} else {
