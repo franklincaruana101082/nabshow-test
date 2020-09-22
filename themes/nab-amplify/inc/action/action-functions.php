@@ -1139,26 +1139,40 @@ function nab_load_cart_action_cookie() {
  *
  * @param string $cart_item_key
  * @param int $quantity
- * @param int $old_quantity
  * @return void
  */
-function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
+function nab_update_cocart_item( $cart_item_key, $quantity ) {
 
 	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) && ! is_user_logged_in() ) {
 		$cart_key = $_COOKIE['nabCartKey'];
 
-		$args = array(
-			'headers' => array(
-				'Content-Type' => 'application/json; charset=utf-8',
-			),
-			'body'    => wp_json_encode( [
-				'cart_item_key' => $cart_item_key,
-				'quantity'      => $quantity,
-			] ),
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
+		
+		$headers = array(
+			'Accept: application/json',
+			'Content-Type: application/json',
 		);
 
-		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
-		$response = wp_remote_post( $api_url, $args );
+		$args = json_encode(array(
+			'cart_item_key' => $cart_item_key,
+			'quantity'      => $quantity,
+		));
+
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+
+		$curl = curl_init();
+		
+		curl_setopt_array( $curl, array(
+			CURLOPT_URL => $api_url,
+			CURLOPT_CUSTOMREQUEST => "POST",
+			CURLOPT_POSTFIELDS => $args,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTPHEADER => $headers
+		) );
+
+		$response = curl_exec( $curl );
+		wp_mail( 'hardikthakkar@mailinator.com', 'CART UPDATE', print_r( $response, true ) );
 	}
 }
 

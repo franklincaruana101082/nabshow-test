@@ -99,7 +99,7 @@ add_action( 'woocommerce_remove_cart_item', 'nab_remove_cocart_item', 10, 2 );
 
 add_action( 'woocommerce_load_cart_from_session', 'nab_load_cart_action_cookie', 10 );
 
-add_action( 'woocommerce_after_cart_item_quantity_update', 'nab_update_cocart_item', 10, 3);
+// add_action( 'woocommerce_after_cart_item_quantity_update', 'nab_update_cocart_item', 10, 3);
 
 add_action( 'wp_logout', 'nab_maybe_clear_cart_cookie' );
 /* Parent-Child add to cart actions end */
