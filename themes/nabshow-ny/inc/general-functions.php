@@ -266,7 +266,7 @@ function nabny_get_header_logos() {
     $site_url = home_url('/');
     
     $sorted_logos = [];
-    foreach( $response as $key => $value ) {
+    foreach( $logos as $key => $value ) {
         if( $site_url === trailingslashit( $value['url'] )  ) {
           array_unshift($sorted_logos, $value);
         } else {
