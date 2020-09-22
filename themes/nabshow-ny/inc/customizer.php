@@ -3,10 +3,9 @@ add_action( 'customize_register', 'nabny_customize_register' );
 
 function nabny_customize_register( $wp_customize ) {
    
-    $wp_customize->add_section( 'header_section', array(
-		'title'    => __( 'Header', 'nabshow-ny' ),
+    $wp_customize->add_section( 'global_header_settings', array(
+		'title'    => __( 'Global Header Settings', 'nabshow-ny' ),
 		'priority' => 20,
-		'panel'    => 'additional_settings'
 	) );
 
     $wp_customize->add_setting('nab_show_global_menu', array(
@@ -19,7 +18,7 @@ function nabny_customize_register( $wp_customize ) {
 			'nab_show_global_menu',
 			array(
 				'label'     => __('Show Global Menu', WONDERWALL_TEXTDOMAIN),
-				'section'   => 'header_section',
+				'section'   => 'global_header_settings',
 				'settings'  => 'nab_show_global_menu',
 				'type'      => 'checkbox',
 			)
