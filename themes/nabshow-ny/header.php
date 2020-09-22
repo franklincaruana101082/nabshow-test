@@ -68,18 +68,15 @@
         <div class="container">
             <div class="header-inner">
                 <div class="nab-logos">
-                    <ul>
-                        <li><a href="https://nabshow.com/ny2020/"><img src="https://amplify.nabshow.com/wp-content/uploads/sites/12/2020/09/nabshowny-white.png?w=300" alt="nab-logo"></a></li>
-                        <li><a href="https://www.radioshowweb.com/"><img src="https://amplify.nabshow.com/wp-content/uploads/sites/12/2020/09/RS20_STACKEDREVTAG-Only_Logo-small.png?w=300" alt="nab-logo"></a></li>
-                        <li><a href="https://nabsmte.com/"><img src="https://amplify.nabshow.com/wp-content/uploads/sites/12/2020/09/smte-white.png?w=300" alt="nab-logo"></a></li>
-                    </ul>
-                </div>
-                <div style="display:none">
-                <?php 
-                    echo '<pre>';
-                    print_r(nabny_get_header_logos());
-                    echo '</pre>';
-                ?>
+                    <?php 
+                    $header_logos = nabny_get_header_logos();
+                    if( ! empty( $header_logos ) ) { ?>
+                        <ul>
+                        <?php foreach( $header_logos as $logo ) { ?>
+                            <li><a href="<?php echo esc_url( $logo['url'] ); ?>"><img src="<?php echo esc_url( $logo['image'] ); ?>" alt="nab-logo"></a></li>
+                        <?php } ?>
+                        </ul>
+                    <?php } ?>
                 </div>
                 <nav class="nab-sec-navigation">
                     <div class="nab-header-cart">

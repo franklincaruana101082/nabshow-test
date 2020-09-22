@@ -259,8 +259,23 @@ function nabny_get_header_logos() {
 
   $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-  if( 200 === $httpcode ) {
-    return $response;
+  if( 200 === $httpcode && ! empty( $response ) ) {
+    $logos = json_decode( $response, true );
+    
+    // get current site url
+    $site_url = home_url('/');
+    
+    $sorted_logos = [];
+    foreach( $response as $key => $value ) {
+        if( $site_url === trailingslashit( $value['url'] )  ) {
+          array_unshift($sorted_logos, $value);
+        } else {
+          array_push($sorted_logos, $value);
+        }
+    } 
+
+    return $sorted_logos;
+
   } else {
     return '';
   }
