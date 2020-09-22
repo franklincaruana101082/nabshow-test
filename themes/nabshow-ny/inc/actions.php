@@ -39,3 +39,6 @@ add_filter( 'body_class', 'nabny_body_classes' );
 
 // Shortcode for add to cart button
 add_shortcode( 'nab-add-to-cart', 'nabny_add_to_cart_btn' );
+
+// Shortcode for global header
+add_shortcode( 'nab-global-header', 'nabny_global_header' );

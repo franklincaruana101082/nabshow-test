@@ -5,7 +5,7 @@ function nabny_customize_register( $wp_customize ) {
    
     $wp_customize->add_section( 'global_header_settings', array(
 		'title'    => __( 'Global Header Settings', 'nabshow-ny' ),
-		'priority' => 20,
+		'priority' => 999,
 	) );
 
     $wp_customize->add_setting('nab_show_global_menu', array(
