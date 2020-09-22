@@ -57,3 +57,8 @@ require_once get_stylesheet_directory() . '/inc/constants.php';
  * Includes constants file
  */
 require_once get_stylesheet_directory() . '/inc/general-functions.php';
+
+/**
+ * Includes customizer settings file
+ */
+require_once get_stylesheet_directory() . '/inc/customizer.php';
