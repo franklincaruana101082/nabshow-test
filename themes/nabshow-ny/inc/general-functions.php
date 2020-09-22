@@ -236,3 +236,33 @@ function nab_curl_login_add_cart_callback() {
   wp_send_json( $res, 200 );
     
 }
+
+function nabny_get_header_logos() {
+
+  $api_base_url = get_option( 'ep_parent_site_url' );
+
+  if( empty( $api_base_url ) ) {
+    return '';
+  }
+
+  $api_url = $api_base_url . 'wp-json/nab/request/get-header-logos';
+  $curl    = curl_init();
+
+  curl_setopt_array( $curl, array(
+    CURLOPT_URL => $api_url,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 30
+  ) );
+
+  $response = curl_exec($curl);
+
+  $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+  if( 200 === $httpcode ) {
+    return $response;
+  } else {
+    return '';
+  }
+
+}

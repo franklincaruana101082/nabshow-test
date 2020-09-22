@@ -743,6 +743,12 @@ function amplify_register_api_endpoints() {
 		),
 	) );
 
+	register_rest_route( 'nab', '/request/get-header-logos', array(
+		'methods'             => 'GET',
+		'callback'            => 'amplify_get_header_logos',
+		'permission_callback' => '__return_true',
+	) );
+
 }
 
 /**
@@ -1168,4 +1174,29 @@ function nab_maybe_clear_cart_cookie() {
 		setcookie( 'nabCartKey', '', time() - 3600, '/', NAB_AMPLIFY_COOKIE_BASE_DOMAIN );
 	}
 
+}
+
+/**
+ * Get All header logos
+ *
+ * @param WP_REST_Request $request
+ * @return array
+ */
+function amplify_get_header_logos( WP_REST_Request $request ) {
+
+	$response = [];
+
+	if ( have_rows( 'nab_logos', 'option' ) ): 
+		while ( have_rows( 'nab_logos', 'option' ) ): the_row();
+			$logos = [];
+			$nab_logo_id    = get_sub_field( 'logos' );
+			$nab_logo_img   = wp_get_attachment_image_src( $nab_logo_id, 'medium' );
+			$nab_logo_url   = get_sub_field( 'logo_url' );
+			$logos['url']   = ( isset( $nab_logo_url ) && ! empty( $nab_logo_url ) ) ? $nab_logo_url : '#';
+			$logos['image'] = ( isset( $nab_logo_img ) && ! empty( $nab_logo_img ) ) ? $nab_logo_img[0] : '';
+			array_push( $response, $logos );
+		endwhile;
+	endif; 
+
+	return new WP_REST_Response( $response, 200 );
 }

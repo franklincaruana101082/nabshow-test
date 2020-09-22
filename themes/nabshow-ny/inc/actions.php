@@ -34,4 +34,5 @@ add_action( 'init', 'nabny_register_dynamic_blocks' );
 // Action for add gutenberg custom block
 add_action( 'enqueue_block_editor_assets', 'nabny_add_block_editor_assets' );
 
+// Filter to add a custom class to body tag
 add_filter( 'body_class', 'nabny_body_classes' );

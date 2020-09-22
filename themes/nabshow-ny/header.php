@@ -74,12 +74,24 @@
                         <li><a href="https://nabsmte.com/"><img src="https://amplify.nabshow.com/wp-content/uploads/sites/12/2020/09/smte-white.png?w=300" alt="nab-logo"></a></li>
                     </ul>
                 </div>
+                <div style="display:none">
+                <?php 
+                    echo '<pre>';
+                    print_r(nabny_get_header_logos());
+                    echo '</pre>';
+                ?>
+                </div>
                 <nav class="nab-sec-navigation">
                     <div class="nab-header-cart">
                         <a href="https://amplify.nabshow.com/cart/"><i class="fa fa-shopping-cart"></i>Cart</a>
-                        <span class="nab-cart-count ">2</span>
+                        <span class="nab-cart-count ">0</span>
                     </div>
                     <div class="nab-profile-menu">
+                    <?php
+						if ( is_user_logged_in() ) {
+							$current_user = wp_get_current_user();
+							$user_thumb   = get_avatar_url( $current_user->ID );
+							?>
                         <div class="nab-profile">
                             <a href="https://amplify.nabshow.com/my-account/edit-my-profile/">
                                 <div class="nab-avatar-wrp">
@@ -101,6 +113,11 @@
                                 </ul>
                             </div>
                         </div>
+                        <?php } else { ?>
+							<div class="nab-profile">
+								<a href="#"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+							</div>
+						<?php } ?>
                     </div>
                 </nav><!-- #site-navigation -->
             </div>
