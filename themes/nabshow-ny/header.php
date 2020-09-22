@@ -78,41 +78,53 @@
                         </ul>
                     <?php } ?>
                 </div>
+                <?php 
+                $parent_url = get_option( 'ep_parent_site_url' );
+                $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
+                ?>
                 <nav class="nab-sec-navigation">
                     <div class="nab-header-cart">
-                        <a href="https://amplify.nabshow.com/cart/"><i class="fa fa-shopping-cart"></i>Cart</a>
+                        <a href="<?php echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
                         <span class="nab-cart-count ">0</span>
                     </div>
                     <div class="nab-profile-menu">
                     <?php
 						if ( is_user_logged_in() ) {
-							$current_user = wp_get_current_user();
-							$user_thumb   = get_avatar_url( $current_user->ID );
+							$current_user    = wp_get_current_user();
+                            $user_thumb      = get_avatar_url( $current_user->ID );
+                            $edit_my_profile = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-my-profile/' : '#';
+                            $edit_account    = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-account/' : '#';
+                            $orders          = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/orders/' : '#';
+                            $my_account      = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
+                            $logout          = ( ! empty( $parent_url ) ) ? wp_logout_url( $my_account ) : '#';
 							?>
                         <div class="nab-profile">
-                            <a href="https://amplify.nabshow.com/my-account/edit-my-profile/">
+                            <a href="<?php echo esc_url( $edit_my_profile ); ?>">
                                 <div class="nab-avatar-wrp">
-                                    <div class="nab-avatar"><img src="https://secure.gravatar.com/avatar/d92d01e7b2307d70016cb276d11c03f2?s=96&amp;d=mm&amp;r=g"></div>
-                                    <span class="nab-profile-name">sadik</span>
+                                    <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
+                                    <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
                                 </div>
                             </a>
                             <div class="nab-profile-dropdown">
                                 <ul>
                                     <li>
-                                        <a href="https://amplify.nabshow.com/my-account/edit-my-profile/">Edit My Profile</a>
+                                        <a href="<?php echo esc_url( $edit_my_profile ); ?>">Edit My Profile</a>
                                     </li>
                                     <li>
-                                        <a href="https://amplify.nabshow.com/my-account/edit-account/">Edit My Account</a>
+                                        <a href="<?php echo esc_url( $edit_account ); ?>">Edit My Account</a>
                                     </li>
-                                    <li><a href="https://amplify.nabshow.com/my-account/orders/">Order History</a>
+                                    <li>
+                                        <a href="<?php echo esc_url( $orders ); ?>">Order History</a>
                                     </li>
-                                    <li><a href="https://amplify.nabshow.com/my-account/customer-logout/?_wpnonce=e0c20e1d51">Logout</a></li>
+                                    <li>
+                                        <a href="<?php echo esc_url( $logout ); ?>">Logout</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <?php } else { ?>
 							<div class="nab-profile">
-								<a href="#"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+								<a href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
 							</div>
 						<?php } ?>
                     </div>
