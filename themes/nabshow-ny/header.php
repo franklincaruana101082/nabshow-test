@@ -96,7 +96,7 @@
                             $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
                             $edit_account    = ( ! empty( $parent_url ) ) ? $my_account . 'edit-account/' : '#';
                             $orders          = ( ! empty( $parent_url ) ) ? $my_account . 'orders/' : '#';
-                            $logout          = ( ! empty( $parent_url ) ) ? wp_logout_url( $my_account ) : '#';
+                            $logout          = ( ! empty( $parent_url ) ) ? wp_nonce_url( $my_account . 'customer-logout/', 'customer-logout' ) : '#';
 							?>
                         <div class="nab-profile">
                             <a href="<?php echo esc_url( $edit_my_profile ); ?>">
