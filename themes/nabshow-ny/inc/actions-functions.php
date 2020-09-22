@@ -500,3 +500,21 @@ function nabny_form_input_spam_check( $content ) {
 	return $isSpam;
 
 }
+
+/**
+ * Body Classes
+ *
+ * @param array $classes
+ * @return array
+ */
+function nabny_body_classes( $classes ) {
+
+    // check if show global menu option is selected
+    $amplify_global_menu = get_theme_mod( 'nab_show_global_menu' );
+
+    if( isset( $amplify_global_menu ) && true === $amplify_global_menu ) {
+        $classes[] = 'show_sec_menu';
+    }
+
+    return $classes;
+}
