@@ -64,7 +64,7 @@
 		?>
     </a>
 
-    <?php echo do_shortcode( ['nab-global-header'] ); ?>
+    <?php echo do_shortcode( '[nab-global-header]' ); ?>
 
     <header id="masthead" class="site-header dark-header">
         <div class="container">
