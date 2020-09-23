@@ -443,7 +443,9 @@ function nabny_add_block_editor_assets() {
 		get_stylesheet_directory_uri() . '/blocks/block.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
 		'1.0'
-	);
+    );
+    
+    wp_enqueue_style( 'nabny-block-style', get_stylesheet_directory_uri() . '/blocks/css/block.css' );
 }
 
 /**
