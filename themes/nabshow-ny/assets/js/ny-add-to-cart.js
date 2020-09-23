@@ -35,9 +35,10 @@
 						'action': 'nab_login_add_cart'
 					},
 					success: function( data ) {
+						let isAdded = 0;
 						if( 0 === data.err ) {
 							$('.nab-cart-message').text('Pass has been added to your cart.');
-							currentCartBtn.text('View Cart').addClass('nabAddedToCart');
+							isAdded = 1;
 							updateCart();
 						} else if( 1 === data.err ) {
 							$('.nab-cart-message').text(data.message);
@@ -47,6 +48,9 @@
 						$('.nab-cart-message-popup').addClass('nab-cart-message-popup-active');
 						setTimeout(function() {
 							$('.nab-cart-message-popup').removeClass('nab-cart-message-popup-active');
+							if( 1 === isAdded ) {
+								currentCartBtn.text('View Cart').addClass('nabAddedToCart');
+							}
 						}, 3000);
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
