@@ -478,7 +478,7 @@ function nab_attendee_field_process() {
  */
 function nab_save_event_fields( $order_id ) {
 
-	// Return if user is not logged in or is bulk purchase
+	// Return if user is not logged in
 	if ( ! is_user_logged_in() ) {
 		return;
 	}
@@ -522,6 +522,10 @@ function nab_save_event_fields( $order_id ) {
 			update_user_meta( $user_id, $key, $val );
 		}
 
+	}
+
+	if( isset( $_POST['nab_additional_email'] ) && ! empty( $_POST['nab_additional_email'] ) ) {
+		update_post_meta( $order_id, 'nab_additional_email', filter_input( INPUT_POST, 'nab_additional_email' ) );
 	}
 
 }

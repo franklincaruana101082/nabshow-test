@@ -662,3 +662,29 @@ function nab_title_order_received( $title, $id ) {
 function nab_token_expiry_time( $expire, $issuedAt ) {
 	return $issuedAt + (DAY_IN_SECONDS * 30);
 }
+
+/**
+ * Additional emails which will get invoice  
+ *
+ * @param string $recipients
+ * @param array $order
+ * 
+ * @return string
+ */
+function nab_add_addition_email_recepient( $recipients, $order ) {
+	
+	if( ! empty( $order ) ) {
+		$order_id          = $order->get_order_number();
+		$additional_emails = get_post_meta( $order_id, 'nab_additional_email', true );
+
+		if( isset( $additional_emails ) && ! empty( $additional_emails ) ) {
+			$additional_emails = array_map( 'trim', explode( ',', $additional_emails ) );
+			$existing_emails   = ( ! empty( $recipients ) ) ? array_map( 'trim', explode( ',', $recipients ) ) : [];
+			$recipients        = array_merge( $existing_emails, $additional_emails );
+			$recipients        = implode( ',', array_unique( $recipients ) );
+		}
+		
+	}
+
+	return $recipients;
+}
