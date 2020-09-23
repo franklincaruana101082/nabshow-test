@@ -631,3 +631,16 @@ function nabny_global_header() {
 
     return $global_header_html;
 }
+
+/**
+ * Popup for cart message
+ *
+ * @return string
+ */
+function nabny_cart_message_popup() {
+    ?>
+        <div class="nab-cart-message-popup" style="display: none;">
+            <div class="nab-cart-message"></div>
+        </div>
+    <?php
+}

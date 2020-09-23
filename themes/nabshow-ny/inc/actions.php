@@ -42,3 +42,6 @@ add_shortcode( 'nab-add-to-cart', 'nabny_add_to_cart_btn' );
 
 // Shortcode for global header
 add_shortcode( 'nab-global-header', 'nabny_global_header' );
+
+// Add to cart message popup
+add_action( 'wp_footer', 'nabny_cart_message_popup' );
