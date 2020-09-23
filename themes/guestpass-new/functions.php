@@ -1041,7 +1041,7 @@ function nab_guest_pass_generator() {
 		</form>
 	</div>
 	<?php if ($results) : ?>
-		<p>Click on a thumbnail below to download the custom ad to use on your website or social media to let people know that you will be participating in the Show.</p>
+		<p>Right or control click on a thumbnail below and "Save as..." to download the custom ad to use on your website or social media to let people know that you will be participating in the Show.</p>
 		<h3>Your Custom Web Ads</h3>
 		<?php foreach($ad_files as $ad) : ?>
 			<a href="<?php echo $ad; ?>"><img src="<?php echo $ad; ?>" class="customIMG"></a>&nbsp;
