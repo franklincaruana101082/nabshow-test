@@ -775,6 +775,10 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .nab-modal .modal-content-wrap{height:100%;overflow:auto;padding:20px;max-height:78vh;}
 .nab-modal .nab-modal-close{color:#fff;font-size:16px;border-radius:50%;position:absolute;right:-15px;top:-15px;background-color:#ff008f;width:30px;height:30px;line-height:27px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
 .nab-modal .modal-content-wrap h3{text-transform:uppercase;text-align:center;width:100%;text-align:center;color:#6363df;font-weight:700;}
+.attendee-view-wrap .attendee-title-wrapper .nab-view-add-attendee {position:absolute;top:21px;right:20px;}
+.attendee-view-wrap .attendee-details-message {text-align:center;padding-bottom:5px;}
+.attendee-view-wrap .attendee-details-message.success{color:#008000;}
+.attendee-view-wrap .attendee-details-message.failed{color:#ff0000;}
 
 /* attendee-bulk-upload popup */
 #nabAddAttendeeModal.nab-modal .modal-content{max-width:600px;}

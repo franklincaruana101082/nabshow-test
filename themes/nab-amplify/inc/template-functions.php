@@ -201,42 +201,64 @@ function nab_generate_jwt_token( $username, $password ) {
 }
 
 /**
- * Update cocart session cart if main cart is updated
+ * Get attendee details based on given id.
  *
- * @param string $cart_item_key
- * @param int $quantity
- * @return void
+ * @param  int $primary_id
+ * 
+ * @return array
  */
-function nab_update_cocart_item( $cart_item_key, $quantity ) {
+function nab_get_order_attendee_details( $primary_id ) {
+	
+	global $wpdb;
 
-	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) && ! is_user_logged_in() ) {
-		$cart_key = $_COOKIE['nabCartKey'];
+	$attendee_details = array();
 
-		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
-		
-		$headers = array(
-			'Accept: application/json',
-			'Content-Type: application/json',
-		);
-
-		$args = json_encode(array(
-			'cart_item_key' => $cart_item_key,
-			'quantity'      => $quantity,
-		));
-
-		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
-
-		$curl = curl_init();
-		
-		curl_setopt_array( $curl, array(
-			CURLOPT_URL => $api_url,
-			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => $args,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_TIMEOUT => 30,
-			CURLOPT_HTTPHEADER => $headers
-		) );
-
-		$response = curl_exec( $curl );
+	// Return blank array if primary id is empty
+	if ( empty( $primary_id ) ) {
+		return $attendee_details;
 	}
+
+	// Get attendee details from the custom DB table
+	$attendees_query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}nab_attendee WHERE `id` = %d LIMIT 1", $primary_id );
+	$attendees       = $wpdb->get_results( $attendees_query, ARRAY_A );
+
+	// Set attendee details array from the DB result if not empty array
+	if ( is_array( $attendees ) && count( $attendees ) > 0 ) {
+		
+		$attendee_details = $attendees[0];
+	}	
+	
+	return $attendee_details;
+}
+
+
+/**
+ * Get attendee table primary id according to give child order id.
+ *
+ * @param  mixed $child_order_id
+ * 
+ * @return int
+ */
+function nab_get_attendee_primary_id_by_order_id( $child_order_id ) {
+	
+	global $wpdb;
+
+	$attendeeId = 0;
+
+	// Return default id if child oreder id is empty
+	if ( empty( $child_order_id ) ) {
+		return $attendeeId;
+	}
+
+	// Get attendee primary id
+	$attendees_query = $wpdb->prepare( "SELECT `id` FROM {$wpdb->prefix}nab_attendee WHERE `child_order_id` = %d LIMIT 1", $child_order_id );
+	$attendees       = $wpdb->get_results( $attendees_query, ARRAY_A );
+
+	// Set attendee primary id from the DB result if not empty array
+	if ( is_array( $attendees ) && count( $attendees ) > 0 ) {
+		
+		$attendeeId = $attendees[0]['id'];
+	}
+	
+	return $attendeeId;
 }
