@@ -95,7 +95,7 @@ function nab_login_add_cart_callback() {
 
     if( empty( $cart_key ) ) {
       $res['err'] = 1;
-      $res['message'] = 'Cart key missing! Please try again.';
+      $res['message'] = 'Something went wrong! Please try again.';
   
       wp_send_json( $res, 200 );
     }

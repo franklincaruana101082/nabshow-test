@@ -41,9 +41,8 @@ function nab_confirm_password_matches_checkout( $errors, $username, $email ) {
  * @param $user
  */
 function nab_sync_login( $username, $user ) {
-	// $sites = get_sites(); // for all sites
 
-	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
+	$sites = [ 3, 4, 5, 13, 14 ]; // @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $user->ID ) && ! empty( $user->ID ) && false === is_user_member_of_blog( $user->ID, $site ) ) {
@@ -617,7 +616,7 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 		do_action( 'wp_login', $current_user->user_login, $current_user );
 	}
 
-	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
+	$sites = [ 3, 4, 5, 13, 14 ]; // @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $customer_id ) && ! empty( $customer_id ) && false === is_user_member_of_blog( $customer_id, $site ) ) {
