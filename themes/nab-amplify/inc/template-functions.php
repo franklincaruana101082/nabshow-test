@@ -199,3 +199,44 @@ function nab_generate_jwt_token( $username, $password ) {
 	}
 
 }
+
+/**
+ * Update cocart session cart if main cart is updated
+ *
+ * @param string $cart_item_key
+ * @param int $quantity
+ * @return void
+ */
+function nab_update_cocart_item( $cart_item_key, $quantity ) {
+
+	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) && ! is_user_logged_in() ) {
+		$cart_key = $_COOKIE['nabCartKey'];
+
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
+		
+		$headers = array(
+			'Accept: application/json',
+			'Content-Type: application/json',
+		);
+
+		$args = json_encode(array(
+			'cart_item_key' => $cart_item_key,
+			'quantity'      => $quantity,
+		));
+
+		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item' );
+
+		$curl = curl_init();
+		
+		curl_setopt_array( $curl, array(
+			CURLOPT_URL => $api_url,
+			CURLOPT_CUSTOMREQUEST => "POST",
+			CURLOPT_POSTFIELDS => $args,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTPHEADER => $headers
+		) );
+
+		$response = curl_exec( $curl );
+	}
+}

@@ -587,23 +587,8 @@ function nab_force_bulk_quanity( $cart_contents ) {
 					$values['nab_bulk_order'] = 'yes';
 					$values['nab_qty'] = $get_qty;
 
-					// update cocart 
-					if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
-						$cart_key = $_COOKIE['nabCartKey'];
-
-						$args = array(
-							'headers' => array(
-								'Content-Type' => 'application/json; charset=utf-8',
-							),
-							'body'    => wp_json_encode( [
-								'cart_item_key' => $key,
-								'quantity'      => $get_qty,
-							] ),
-						);
-
-						$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
-						$response = wp_remote_post( $api_url, $args );	
-					}
+					// update cocart
+					nab_update_cocart_item( $key, $get_qty );
 				}
 				$temp_cart[ $key ] = $values;
 			}
@@ -672,7 +657,7 @@ function nab_token_expiry_time( $expire, $issuedAt ) {
  * @return string
  */
 function nab_add_addition_email_recepient( $recipients, $order ) {
-	
+
 	if( ! empty( $order ) ) {
 		$order_id          = $order->get_order_number();
 		$additional_emails = get_post_meta( $order_id, 'nab_additional_email', true );
