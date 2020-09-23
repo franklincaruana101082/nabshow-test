@@ -856,7 +856,7 @@ function nab_guest_pass_generator() {
 			//'booth_x' => 470,
 			//'booth_y' => 150,
 			//'booth_size' => 95,
-			'code_x' => 920,
+			'code_x' => 658,
 			'code_y' => 260,
 			'code_size' => 24,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
