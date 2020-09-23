@@ -639,7 +639,7 @@ function nabny_global_header() {
  */
 function nabny_cart_message_popup() {
     ?>
-        <div class="nab-cart-message-popup" style="display: none;">
+        <div class="nab-cart-message-popup">
             <div class="nab-cart-message"></div>
         </div>
     <?php

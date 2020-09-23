@@ -44,7 +44,10 @@
 						} else {
 							$('.nab-cart-message').text('Something went wrong!');
 						}
-						$('.nab-cart-message-popup').addClass('nab-cart-message-popup-active').show();
+						$('.nab-cart-message-popup').addClass('nab-cart-message-popup-active');
+						setTimeout(function() {
+							$('.nab-cart-message-popup').removeClass('nab-cart-message-popup-active');
+						}, 3000);
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
 						console.log( thrownError );
