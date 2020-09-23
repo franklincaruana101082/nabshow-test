@@ -533,12 +533,13 @@ function nabny_add_to_cart_btn( $atts ) {
     }
 
     $product_id = $atts['product_id'];
+    $btn_text   = ( isset( $atts['label'] ) && ! empty( $atts['label'] ) ) ? $atts['label'] : 'Get Pass';
 
     ob_start();
     ?>
     <div class="wp-block-buttons">
         <div class="wp-block-button is-style-fill purple-plain">
-            <a class="wp-block-button__link has-background no-border-radius nabCustomAddCart" href="javascript:void(0)" style="background-color:#ab3e97" data-pid="<?php echo esc_attr( $product_id ); ?>">Get Pass</a>
+            <a class="wp-block-button__link has-background no-border-radius nabCustomAddCart" href="javascript:void(0)" style="background-color:#ab3e97" data-pid="<?php echo esc_attr( $product_id ); ?>"><?php echo esc_html( $btn_text ); ?></a>
         </div>
     </div>
     <?php
