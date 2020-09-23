@@ -36,23 +36,18 @@
 					},
 					success: function( data ) {
 						if( 0 === data.err ) {
-							if( data.body.items ) {
-								let addedItem = data.body.items[data.body.items.length - 1];
-								let productTitle = addedItem.product_title;
-								let cartMessage = productTitle ? productTitle + ' has been added to your cart.' : 'Pass has been added to your cart.';
-								$('.nab-cart-message').text(cartMessage);
-							} else {
-								let cartMessage = 'Pass has been added to your cart.';
-								$('.nab-cart-message').text(cartMessage);
-							}
-							
+							$('.nab-cart-message').text('Pass has been added to your cart.');
 							currentCartBtn.text('View Cart').addClass('nabAddedToCart');
 							updateCart();
 						} else if( 1 === data.err ) {
-							alert( data.message );
+							$('.nab-cart-message').text(data.message);
 						} else {
-							alert('Something went wrong!');
+							$('.nab-cart-message').text('Something went wrong!');
 						}
+						$('.nab-cart-message-popup').addClass('nab-cart-message-popup-active');
+						setTimeout(function() {
+							$('.nab-cart-message-popup').removeClass('nab-cart-message-popup-active');
+						}, 3000);
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
 						console.log( thrownError );
