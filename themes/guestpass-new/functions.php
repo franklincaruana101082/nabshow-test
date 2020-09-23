@@ -1028,10 +1028,10 @@ function nab_guest_pass_generator() {
 			<input type="hidden" name="action" value="makeImage">
 			<fieldset>
 
-				<label for="booth">Booth: </label>
+				<!--<label for="booth">Booth: </label>
 				<input id="booth" size="8" name="booth" class="required" value="<?php if (isset($_POST['booth'])) print $_POST['booth']; ?>" maxlength="7">
 
-				&nbsp;&nbsp;&nbsp;<label for="code">Code: </label>
+				&nbsp;&nbsp;&nbsp;--><label for="code">Code: </label>
 				<input id="code" size="8" name="code" class="required" value="<?php if (isset($_POST['code'])) print $_POST['code']; ?>" maxlength="7">
 
 
