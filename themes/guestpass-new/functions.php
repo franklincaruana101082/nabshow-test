@@ -792,10 +792,10 @@ function nab_guest_pass_generator() {
 			'booth_x' => 485,
 			'booth_y' => 128,
 			'booth_size' => 92,
-			'code_x' => 918,
+			'code_x' => 888,
 			'code_y' => 233,
 			'code_size' => 24,
-			'color' => array('red'=>0,'grn'=>121,'blu'=>149),
+			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 10,
 		),
 		array(
@@ -811,7 +811,7 @@ function nab_guest_pass_generator() {
 			'code_x' => 734,
 			'code_y' => 198,
 			'code_size' => 20,
-			'color' => array('red'=>0,'grn'=>121,'blu'=>149),
+			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 10,
 		),
 		array(
@@ -827,7 +827,7 @@ function nab_guest_pass_generator() {
 			'code_x' => 183,
 			'code_y' => 522,
 			'code_size' => 18,
-			'color' => array('red'=>0,'grn'=>121,'blu'=>149),
+			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
 		),
 		array(
@@ -843,7 +843,7 @@ function nab_guest_pass_generator() {
 			'code_x' => 200,
 			'code_y' => 545,
 			'code_size' => 18,
-			'color' => array('red'=>0,'grn'=>121,'blu'=>149),
+			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
 		),
 		array(
@@ -859,7 +859,7 @@ function nab_guest_pass_generator() {
 			'code_x' => 920,
 			'code_y' => 260,
 			'code_size' => 24,
-			'color' => array('red'=>0,'grn'=>121,'blu'=>149),
+			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
 		),
 		array(
@@ -875,7 +875,7 @@ function nab_guest_pass_generator() {
 			'code_x' => 846,
 			'code_y' => 840,
 			'code_size' => 33,
-			'color' => array('red'=>0,'grn'=>121,'blu'=>149),
+			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
 		),
 	);
