@@ -48,6 +48,13 @@ if ( $fields ) { ?>
 				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
 			}
 			?>
+
+			<p class="form-row form-row-wide nab-additional-email-field-wrap">
+				<label for="nab-additional-email-field" class=""><?php esc_html_e( "Additional Email Addresses ( comma separated )" ); ?></label>
+					<span class="woocommerce-input-wrapper">
+						<input type="text" class="input-text" name="nab_additional_email" id="nab-additional-email-field" placeholder="" value="">
+					</span>
+			</p>
 		</div>
 		<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
 	</div>
