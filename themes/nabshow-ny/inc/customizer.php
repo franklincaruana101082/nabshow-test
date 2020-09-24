@@ -17,7 +17,7 @@ function nabny_customize_register( $wp_customize ) {
 			$wp_customize,
 			'nab_show_global_menu',
 			array(
-				'label'     => __('Show Global Menu', WONDERWALL_TEXTDOMAIN),
+				'label'     => 'Show Global Menu',
 				'section'   => 'global_header_settings',
 				'settings'  => 'nab_show_global_menu',
 				'type'      => 'checkbox',
