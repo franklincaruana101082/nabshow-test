@@ -658,8 +658,6 @@ function wc_refund_payment( $order, $amount, $reason = '' ) {
 			throw new Exception( __( 'The payment gateway for this order does not support automatic refunds.', 'woocommerce' ) );
 		}
 
-		wp_mail('hardikthakkar@mailinator.com', 'Payflow', print_r( $gateway, true) );
-
 		$result = $gateway->process_refund( $order->get_id(), $amount, $reason );
 
 		if ( ! $result ) {
