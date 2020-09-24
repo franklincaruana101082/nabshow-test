@@ -41,9 +41,8 @@ function nab_confirm_password_matches_checkout( $errors, $username, $email ) {
  * @param $user
  */
 function nab_sync_login( $username, $user ) {
-	// $sites = get_sites(); // for all sites
-
-	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
+	
+	$sites = [ 3, 4, 5, 13, 14 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $user->ID ) && ! empty( $user->ID ) && false === is_user_member_of_blog( $user->ID, $site ) ) {
@@ -617,7 +616,7 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 		do_action( 'wp_login', $current_user->user_login, $current_user );
 	}
 
-	$sites = [ 5 ]; // for NY site @todo Make it dynamic later
+	$sites = [ 3, 4, 5, 13, 14 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $customer_id ) && ! empty( $customer_id ) && false === is_user_member_of_blog( $customer_id, $site ) ) {
@@ -631,6 +630,9 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 	} 
 }
 
+/**
+ * Includes bulk purchase template
+ */
 function nab_bulk_purchase_cart() {
 	require_once get_template_directory() . '/inc/nab-bulk-purchase.php';
 }
@@ -657,6 +659,7 @@ function nab_create_attendee_table() {
 			`child_order_id` int(10) NOT NULL,
 			`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`is_parent` int(10) NOT NULL,
 			PRIMARY KEY  (id)
 			) {$charset_collate};";
 
@@ -742,6 +745,12 @@ function amplify_register_api_endpoints() {
 				},
 			),
 		),
+	) );
+
+	register_rest_route( 'nab', '/request/get-header-logos', array(
+		'methods'             => 'GET',
+		'callback'            => 'amplify_get_header_logos',
+		'permission_callback' => '__return_true',
 	) );
 
 }
@@ -1130,34 +1139,6 @@ function nab_load_cart_action_cookie() {
 }
 
 /**
- * Update cocart session cart if main cart is updated
- *
- * @param string $cart_item_key
- * @param int $quantity
- * @param int $old_quantity
- * @return void
- */
-function nab_update_cocart_item( $cart_item_key, $quantity, $old_quantity ) {
-
-	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) && ! is_user_logged_in() ) {
-		$cart_key = $_COOKIE['nabCartKey'];
-
-		$args = array(
-			'headers' => array(
-				'Content-Type' => 'application/json; charset=utf-8',
-			),
-			'body'    => wp_json_encode( [
-				'cart_item_key' => $cart_item_key,
-				'quantity'      => $quantity,
-			] ),
-		);
-
-		$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
-		$response = wp_remote_post( $api_url, $args );
-	}
-}
-
-/**
  * NAB Remove custom cocart cookie
  *
  * @return void
@@ -1169,4 +1150,206 @@ function nab_maybe_clear_cart_cookie() {
 		setcookie( 'nabCartKey', '', time() - 3600, '/', NAB_AMPLIFY_COOKIE_BASE_DOMAIN );
 	}
 
+}
+
+/**
+ * Get All orders IDs for a given product ID.
+ *
+ * @param int $product_id 
+ * @param string $product_year
+ * 
+ * @return array
+ */
+function nab_get_orders_ids_by_product_id( $product_id, $product_year ){
+	
+	global $wpdb;
+
+    $results = $wpdb->get_col("
+        SELECT order_items.order_id
+        FROM {$wpdb->prefix}woocommerce_order_items as order_items
+        LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta ON order_items.order_item_id = order_item_meta.order_item_id
+        LEFT JOIN {$wpdb->posts} AS posts ON order_items.order_id = posts.ID
+        WHERE posts.post_type = 'shop_order'
+		AND posts.post_status = 'wc-completed'
+		AND DATE_FORMAT(posts.post_date_gmt, '%Y') = '$product_year'
+        AND order_items.order_item_type = 'line_item'
+        AND order_item_meta.meta_key = '_product_id'
+		AND order_item_meta.meta_value = '$product_id'
+		ORDER BY posts.post_date_gmt DESC
+    ");
+
+    return $results;
+}
+
+/**
+ * Add export custom list CSV metabox in the product post type.
+ */
+function nab_add_custom_metabox_in_product() {
+
+	add_meta_box(
+		'product_customer_export',
+		'Customer who bought this product',
+		'nab_product_customer_metabox_callback',
+		'product',
+		'side'		
+	);	
+
+}
+
+/**
+ * Display export current product custom metabox.
+ *
+ * @param  mixed $post
+ *  
+ */
+function nab_product_customer_metabox_callback( $post ) {
+	
+	$current_year	= date('Y');
+	$starting_year	= 2019;
+	
+	?>
+	<div class="export-list-wrapper">
+		<form method="POST" name="product_customer">
+			<div class="year-box">
+				<label for="product-year" style="padding-right: 10px;">Select Year</label>
+				<select id="product-year" name="product_year" class="product-year" style="padding-left: 16px;padding-right: 30px;">
+					<?php
+					for ( $i = $starting_year; $i <= $current_year; $i++ ) {
+						?>
+						<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $current_year, $i ); ?>><?php echo esc_html( $i ); ?></option>
+						<?php
+					}
+					?>
+				</select>
+			</div>
+			<input type="hidden" name="product_id" value="<?php echo esc_attr( $post->ID ); ?>" />
+			<div class="submit-btn" style="text-align: center;margin-top: 10px;width: 92%;">
+				<input type="submit" name="export_csv" value="Export CSV" class="button" />
+			</div>
+		</form>
+	</div>
+	<?php
+}
+
+/**
+ * Generate CSV file.
+ */
+add_action( 'admin_init', function(){
+	
+	$export_csv = filter_input( INPUT_POST, 'export_csv', FILTER_SANITIZE_STRING );
+	
+	// Checking user clicked on export csv button
+	if ( isset( $export_csv ) && ! empty( $export_csv ) ) {
+
+		$product_year 	= filter_input( INPUT_POST, 'product_year', FILTER_SANITIZE_STRING );
+		$product_id		= filter_input( INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( ! empty( $product_id ) ) {
+			
+			$product_year = empty( $product_year ) ? date( 'Y' ) : $product_year;
+			
+			// Get all order id for current product from the database
+			$all_order_ids = nab_get_orders_ids_by_product_id( $product_id, $product_year );
+			
+
+			if ( is_array( $all_order_ids ) && count( $all_order_ids ) > 0 ) {
+		
+				// Unique id array
+				$all_order_ids = array_unique( $all_order_ids );
+				
+				// CSV header row fields titles
+				$csv_fields		= array();
+				$csv_fields[] 	= 'Order ID';
+				$csv_fields[] 	= 'Date';
+				$csv_fields[] 	= 'Name';
+				$csv_fields[] 	= 'Email Address';
+				$csv_fields[] 	= 'Total';
+				$csv_fields[] 	= 'Quantity';
+				$csv_fields[] 	= 'Coupon';
+
+				// Generate csv file as a direct download
+				$output_filename 	= $product_year . '-customer-list-for-product-' . $product_id . '.csv';				
+				$output_handle 		= fopen('php://output', 'w');
+
+				header('Content-type: application/csv');
+				header('Content-Disposition: attachment; filename='.$output_filename);
+
+				// Insert header row
+				fputcsv( $output_handle, $csv_fields );
+
+				// Loop through all the order
+				foreach ( $all_order_ids as $order_id ) {
+					
+					$dynamic_fields 	= array();
+					
+					// Get WC order
+					$order 				= wc_get_order( $order_id );
+
+					// Get CSV fields from the order object
+					$order_user_details = $order->get_user();
+		
+					$customer_email = $order_user_details->data->user_email;
+					$customer_name	= $order_user_details->data->display_name;
+					
+					$order_date	= $order->get_date_created()->date( 'Y-m-d' );
+					$coupons	= $order->get_coupon_codes();
+					$total		= $order->get_total();
+					$qty		= 0;
+					
+					foreach( $order->get_items() as $item ) {
+		
+						if ( $item->get_product_id() === 29 ) {
+							$qty = $item->get_quantity();
+						}
+					}
+		
+					if ( is_array( $coupons ) && count( $coupons ) > 0 ) {
+						$coupons = implode( ',', $coupons );
+					} else {
+						$coupons = '-';
+					}
+
+					//Add csv fields row
+					$dynamic_fields[] = $order_id;
+					$dynamic_fields[] = $order_date;
+					$dynamic_fields[] = $customer_name;
+					$dynamic_fields[] = $customer_email;
+					$dynamic_fields[] = $total;
+					$dynamic_fields[] = $qty;
+					$dynamic_fields[] = $coupons;
+
+					fputcsv( $output_handle, $dynamic_fields );
+				}
+
+				exit;
+			}
+
+		}
+
+	}
+});
+
+/**
+ * Get All header logos
+ *
+ * @param WP_REST_Request $request
+ * @return array
+ */
+function amplify_get_header_logos( WP_REST_Request $request ) {
+
+	$response = [];
+
+	if ( have_rows( 'nab_logos', 'option' ) ): 
+		while ( have_rows( 'nab_logos', 'option' ) ): the_row();
+			$logos = [];
+			$nab_logo_id    = get_sub_field( 'logos' );
+			$nab_logo_img   = wp_get_attachment_image_src( $nab_logo_id, 'medium' );
+			$nab_logo_url   = get_sub_field( 'logo_url' );
+			$logos['url']   = ( isset( $nab_logo_url ) && ! empty( $nab_logo_url ) ) ? $nab_logo_url : '#';
+			$logos['image'] = ( isset( $nab_logo_img ) && ! empty( $nab_logo_img ) ) ? $nab_logo_img[0] : '';
+			array_push( $response, $logos );
+		endwhile;
+	endif; 
+
+	return new WP_REST_Response( $response, 200 );
 }
