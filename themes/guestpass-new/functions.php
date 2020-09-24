@@ -792,7 +792,7 @@ function nab_guest_pass_generator() {
 			//'booth_x' => 485,
 			//'booth_y' => 128,
 			//'booth_size' => 92,
-			'code_x' => 658,
+			'code_x' => 666,
 			'code_y' => 233,
 			'code_size' => 24,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
@@ -808,8 +808,8 @@ function nab_guest_pass_generator() {
 			//'booth_x' => 366,
 			//'booth_y' => 108,
 			//'booth_size' => 80,
-			'code_x' => 534,
-			'code_y' => 208,
+			'code_x' => 472,
+			'code_y' => 214,
 			'code_size' => 24,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 10,
@@ -824,7 +824,7 @@ function nab_guest_pass_generator() {
 			//'booth_x' => 100,
 			//'booth_y' => 423,
 			//'booth_size' => 60,
-			'code_x' => 183,
+			'code_x' => 203,
 			'code_y' => 522,
 			'code_size' => 18,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
@@ -841,7 +841,7 @@ function nab_guest_pass_generator() {
 			//'booth_y' => 443,
 			//'booth_size' => 62,
 			'code_x' => 200,
-			'code_y' => 545,
+			'code_y' => 546,
 			'code_size' => 18,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
@@ -856,8 +856,8 @@ function nab_guest_pass_generator() {
 			//'booth_x' => 470,
 			//'booth_y' => 150,
 			//'booth_size' => 95,
-			'code_x' => 662,
-			'code_y' => 265,
+			'code_x' => 672,
+			'code_y' => 263,
 			'code_size' => 24,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
@@ -872,9 +872,9 @@ function nab_guest_pass_generator() {
 			//'booth_x' => 200,
 			//'booth_y' => 683,
 			//'booth_size' => 132,
-			'code_x' => 846,
-			'code_y' => 840,
-			'code_size' => 33,
+			'code_x' => 876,
+			'code_y' => 821,
+			'code_size' => 31,
 			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
 			'padding' => 15,
 		),
@@ -1028,10 +1028,10 @@ function nab_guest_pass_generator() {
 			<input type="hidden" name="action" value="makeImage">
 			<fieldset>
 
-				<label for="booth">Booth: </label>
+				<!--<label for="booth">Booth: </label>
 				<input id="booth" size="8" name="booth" class="required" value="<?php if (isset($_POST['booth'])) print $_POST['booth']; ?>" maxlength="7">
 
-				&nbsp;&nbsp;&nbsp;<label for="code">Code: </label>
+				&nbsp;&nbsp;&nbsp;--><label for="code">Code: </label>
 				<input id="code" size="8" name="code" class="required" value="<?php if (isset($_POST['code'])) print $_POST['code']; ?>" maxlength="7">
 
 
