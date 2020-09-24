@@ -19,11 +19,6 @@
     $( document.body ).on( 'updated_checkout', function() {
       if ( 0 === $( 'ul.wc_payment_methods' ).length ) {
           $('.woocommerce-billing-fields__field-wrapper p:not(.bill-mandatory)').remove();
-
-          // Hide firstname and lastname if BOTH have values.
-          if( '' !== $('#billing_first_name').val() && '' !== $('#billing_last_name').val() ) {
-              $('#billing_first_name_field, #billing_last_name_field').hide();
-          }
       }
       /**
        * If bill is not 0.00 and the billing_country_field is missing,

@@ -441,7 +441,7 @@ function nab_amplify_woocommerce_checkout_fields( $fields ) {
 
 	if ( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
 
-        $keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email' );
+        $keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email', 'nab_additional_email' );
 
         foreach ( $fields['billing'] as $key => $val ) {
             if( ! in_array( $key, $keep_fields, true) ) {
