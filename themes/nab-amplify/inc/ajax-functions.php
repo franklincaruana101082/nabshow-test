@@ -117,7 +117,7 @@ function nab_db_add_attendee_callback() {
 				$response['total_records'] = $new_attendee_count;
 			} else {
 				$response['err']     = 1;
-				$response['message'] = 'There was an error while inserting book records!';
+				$response['message'] = 'There was an error while inserting records!';
 			}
 
 		} else {

@@ -237,6 +237,5 @@ function nab_update_cocart_item( $cart_item_key, $quantity ) {
 		) );
 
 		$response = curl_exec( $curl );
-		wp_mail( 'hardikthakkar@mailinator.com', 'CART UPDATE', print_r( $response, true ) );
 	}
 }

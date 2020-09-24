@@ -101,3 +101,5 @@ add_action( 'woocommerce_load_cart_from_session', 'nab_load_cart_action_cookie',
 
 add_action( 'wp_logout', 'nab_maybe_clear_cart_cookie' );
 /* Parent-Child add to cart actions end */
+
+add_action( 'add_meta_boxes', 'nab_add_custom_metabox_in_product' );
