@@ -56,13 +56,13 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
             </div>
             <div class="nabny-session-info-wrap">
                 <h4><?php echo esc_html( get_the_title( $page_id ) ); ?></h4>
+            </div>
+	    </div>
+        <div class="nabny-session-desc-wrapper">
                 <p><?php echo esc_html( $date_time ); ?></p>
                 <p><?php echo esc_html( $location ); ?></p>
                 <p><?php echo esc_html( $is_open_to ); ?></p>
                 <p><a href="<?php echo esc_url( $channel_link ); ?>"><?php echo esc_html( $channel_title ); ?></a></p>
-            </div>
-	    </div>
-        <div class="nabny-session-desc-wrapper">
             <p><?php echo esc_html( get_the_excerpt( $page_id ) ); ?></p>
         </div>
         <?php
