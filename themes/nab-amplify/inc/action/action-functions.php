@@ -1298,7 +1298,7 @@ add_action( 'admin_init', function(){
 					
 					foreach( $order->get_items() as $item ) {
 		
-						if ( $item->get_product_id() === 29 ) {
+						if ( $item->get_product_id() === $product_id ) {
 							$qty = $item->get_quantity();
 						}
 					}
