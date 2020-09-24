@@ -191,22 +191,22 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 					<table>
 						<tr>
 							<td>First Name:</td>
-							<td><input type="text" value="Ruperta"></td>
+							<td><input type="text" class="attendee_first_name"></td>
 						</tr>
 						<tr>
 							<td>Last Name:</td>
-							<td><input type="text" value="Horribine"></td>
+							<td><input type="text" class="attendee_last_name"></td>
 						</tr>
 						<tr>
 							<td>Email:</td>
-							<td><input type="text" value="rhorribine0@narod.ru"></td>
+							<td><input type="text" class="attendee_email"></td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>
 								<div class="edit-att-buttons">
-									<a href="javascript:void(0)" class="button">Save</a>
-									<a href="javascript:void(0)" class="button">Cancle</a>
+									<a href="javascript:void(0)" class="button btn-save">Save</a>
+									<a href="javascript:void(0)" class="button btn-cancle">Cancle</a>
 								</div>
 							</td>
 						</tr>

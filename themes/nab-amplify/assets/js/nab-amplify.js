@@ -19,11 +19,6 @@
     $( document.body ).on( 'updated_checkout', function() {
       if ( 0 === $( 'ul.wc_payment_methods' ).length ) {
           $('.woocommerce-billing-fields__field-wrapper p:not(.bill-mandatory)').remove();
-
-          // Hide firstname and lastname if BOTH have values.
-          if( '' !== $('#billing_first_name').val() && '' !== $('#billing_last_name').val() ) {
-              $('#billing_first_name_field, #billing_last_name_field').hide();
-          }
       }
       /**
        * If bill is not 0.00 and the billing_country_field is missing,
@@ -398,7 +393,7 @@
       } else {
         $( '#bulk_upload_file' ).val( '' );
         $( '.attendee-bulk-upload-form .input-placeholder' ).val( 'Upload File...' );
-        $( '#nabAddAttendeeModal, #nabViewAttendeeModal' ).hide();
+        $(this).parents( '.nab-modal' ).hide();
       }
 
     } );
@@ -551,13 +546,36 @@
           errMessageElem.innerHTML = 'No Attendees found.';
           attendeeTableWrap.appendChild( errMessageElem );
         } else {
+          
           let attendeeTable = document.createElement( 'table' );
+
+          let titleWrapper = document.createElement( 'div' );
+          titleWrapper.setAttribute( 'class', 'attendee-title-wrapper' );
+
           let attendeeTableTitle = document.createElement( 'h3' );
           attendeeTableTitle.innerText = 'Attendee Details';
+
+          titleWrapper.appendChild( attendeeTableTitle );
+
+          let addAttendeeLink = document.createElement( 'a' );
+          addAttendeeLink.setAttribute( 'href', 'javascript:void(0);' );
+          addAttendeeLink.setAttribute( 'class', 'nab-view-add-attendee woocommerce-button button' );
+          addAttendeeLink.setAttribute( 'data-orderid', orderId );
+          addAttendeeLink.innerText = 'Add Attendee';
+
+          if ( response.is_attendee ) {
+            addAttendeeLink.setAttribute( 'style', 'display: none;' );  
+          }
+
+          titleWrapper.appendChild( addAttendeeLink );
 
           let attendeeTableCopy = document.createElement( 'span' );
           attendeeTableCopy.className = 'nab-attendee-detail-copy';
           attendeeTableCopy.innerText = 'The following attendees have been registered and should have received an email with a temporary password. They can each use their personal log ins to access the Show(s).';
+
+          let attendeeActionMsg = document.createElement( 'div' );
+          attendeeActionMsg.setAttribute( 'class', 'attendee-details-message' );
+          attendeeActionMsg.setAttribute( 'style', 'display: none;' ); 
 
           let attendeeTableFooter = document.createElement( 'span' );
           attendeeTableFooter.className = 'nab-attendee-detail-footer';
@@ -565,6 +583,8 @@
 
           let attendeeThead = document.createElement( 'thead' );
           let attendeeTbody = document.createElement( 'tbody' );
+          attendeeTbody.setAttribute( 'id', 'attendee-list-table-body' );
+
           let attendeeTheadTr = document.createElement( 'tr' );
 
           let attendeeTheadFirstName = document.createElement( 'th' );
@@ -640,8 +660,9 @@
           }
           attendeeTable.appendChild( attendeeTbody );
 
-          attendeeTableWrap.appendChild( attendeeTableTitle );
+          attendeeTableWrap.appendChild( titleWrapper );
           attendeeTableWrap.appendChild( attendeeTableCopy );
+          attendeeTableWrap.appendChild( attendeeActionMsg );
           attendeeTableWrap.appendChild( attendeeTable );
           attendeeTableWrap.appendChild( attendeeTableFooter );
         }
@@ -658,8 +679,12 @@
 
   $(document).on('click', '.nab-remove-attendee', function(){
     let currentAttendee = $(this);
-    let primaryID = currentAttendee.parents('td').data('pid');
-    let orderID = currentAttendee.parents('td').data('oid');
+    let primaryID = currentAttendee.parents('td').attr('data-pid');
+    let orderID = currentAttendee.parents('td').attr('data-oid');
+    let parentOrderId = currentAttendee.parents('.attendee-view-wrap').find('.nab-view-add-attendee').attr('data-orderid');
+
+    $('.attendee-details-message').hide().text('').removeClass('success failed');
+
     if( primaryID && orderID ) {
 
       let removeConfirmation = confirm('Are you sure you want to remove this attendee?');
@@ -671,12 +696,25 @@
           data: {
             'pID': primaryID,
             'oID': orderID,
+            'parentOrderId': parentOrderId,
             'action': 'remove_attendee',
             'nabNonce': amplifyJS.nabNonce
           },
-          success: function( response ) {
-            console.log(response);
-            alert('removed');
+          success: function( response ) {            
+            
+            if ( 1 === response.err ) {
+              $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
+            } else {
+              
+              $('.attendee-details-message').text( response.message ).addClass( 'success' ).show();
+              currentAttendee.parents( 'tr' ).remove();
+              
+              if ( response.is_attendee ) {
+                $('.attendee-view-table-wrp .nab-view-add-attendee').hide();
+              } else {
+                $('.attendee-view-table-wrp .nab-view-add-attendee').show();
+              }
+            }
             hideLoader();
           },
           error: function( xhr, ajaxOptions, thrownError ) {
@@ -687,6 +725,284 @@
       }
     }
 
-  })
+  });
+
+  let attendeeFirstName = '';
+  let attendeeLastName = '';
+  let attendeeEmail = '';
+  
+  $(document).on('click', '.attendee-view-table-wrp .att-actions a.fa-edit', function(){
+    
+    let currentAttendee = $(this);
+    let primaryID = currentAttendee.parents('td').attr('data-pid');
+    let orderID = currentAttendee.parents('td').attr('data-oid');
+
+    $('.attendee-details-message').hide().text('').removeClass('success failed');
+
+    if ( primaryID && orderID ) {
+      
+      showLoader();
+      
+      $.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          'pID': primaryID,          
+          'action': 'get_edit_attendee',
+          'nabNonce': amplifyJS.nabNonce
+        },
+        success: function( response ) {
+
+          if ( 1 === response.err ) {
+            $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
+          } else {
+            attendeeFirstName = response.first_name;
+            attendeeLastName = response.last_name;
+            attendeeEmail = response.email;
+            $('#nabeditAttendeeModal .attendee_first_name').val( attendeeFirstName );
+            $('#nabeditAttendeeModal .attendee_last_name').val( attendeeLastName );
+            $('#nabeditAttendeeModal .attendee_email').val( attendeeEmail );            
+            $('#nabeditAttendeeModal .attendee-edit-wrap').attr({'data-oid' : orderID, 'data-pid': primaryID, 'data-uid': response.uid });
+            $('#nabeditAttendeeModal .attendee-edit-wrap h3').text('Edit Attendee Details');
+            $('#nabeditAttendeeModal').show();
+          }
+          hideLoader();
+        },
+        error: function( xhr, ajaxOptions, thrownError ) {
+          hideLoader();
+          console.log( thrownError );
+        }
+      });
+    }
+
+  });
+
+  $(document).on('click', '.attendee-view-table-wrp .nab-view-add-attendee', function(){
+    
+    $('#nabeditAttendeeModal .attendee-edit-wrap').attr({'data-orderid' : $(this).attr('data-orderid'), 'data-action': 'add' });
+    $('#nabeditAttendeeModal .attendee-edit-wrap h3').text('Add Attendee Details');
+    $('#nabeditAttendeeModal .attendee-edit-wrap .attendee_first_name').val('');
+    $('#nabeditAttendeeModal .attendee-edit-wrap .attendee_last_name').val('');
+    $('#nabeditAttendeeModal .attendee-edit-wrap .attendee_email').val('');
+    $('#nabeditAttendeeModal').show();
+
+  });
+
+  $(document).on('click', '#nabeditAttendeeModal .edit-att-buttons .btn-save', function() {
+    let currentElement = $(this);
+    let editFirstName = currentElement.parents('table').find('.attendee_first_name').val();
+    let editLastName = currentElement.parents('table').find('.attendee_last_name').val();
+    let editEmail = currentElement.parents('table').find('.attendee_email').val();    
+    let action = currentElement.parents('.attendee-edit-wrap').attr('data-action');
+
+    if ( ! editFirstName.match('[a-zA-Z0-9]') ) {
+      alert( "Enter a valid first name" );
+      return;
+    }
+    if ( ! editLastName.match('[a-zA-Z0-9]') ) {
+      alert( "Enter a valid last name" );
+      return;
+    }
+    
+    let emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if ( ! emailRegex.test(editEmail) ) {
+      alert( "Enter a valid email address" );
+      return;
+    }
+
+
+    if ( 'add' === action ) {
+      
+      let orderID = currentElement.parents('.attendee-edit-wrap').attr('data-orderid');
+
+      if ( orderID ) {
+        
+        showLoader();
+          
+        $.ajax({
+          url: amplifyJS.ajaxurl,
+          type: 'POST',
+          data: {            
+            'orderId' : orderID,
+            'fname' : editFirstName,
+            'lname' : editLastName,
+            'email' : editEmail,
+            'action': 'add_attendee_order_details',
+            'nabNonce': amplifyJS.nabNonce
+          },
+          success: function( response ) {
+
+            if ( 1 === response.err ) {
+              $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
+              currentElement.parents('#nabeditAttendeeModal').hide();
+            } else {
+              $('.attendee-details-message').text( response.message ).addClass( 'success' ).show();
+
+              let tableTr = document.createElement( 'tr' );
+
+              let firstNameTd = document.createElement( 'td' );
+              firstNameTd.setAttribute( 'data-title', 'First Name' );
+              firstNameTd.innerText = editFirstName;
+
+              let lastNameTd = document.createElement( 'td' );
+              lastNameTd.setAttribute( 'data-title', 'Last Name' );
+              lastNameTd.innerText = editLastName;
+
+              let emailTd = document.createElement( 'td' );
+              emailTd.setAttribute( 'data-title', 'Email' );
+              emailTd.innerText = editEmail;
+
+              let actionTd = document.createElement( 'td' );
+              actionTd.setAttribute( 'data-title', 'Actions' );
+              actionTd.setAttribute( 'data-oid', response.oid );
+              actionTd.setAttribute( 'data-pid', response.pid );
+
+              let actionDiv = document.createElement( 'div' );
+              actionDiv.setAttribute( 'class', 'att-actions' );
+
+              let editLink = document.createElement( 'a' );
+              editLink.setAttribute( 'class', 'fa fa-edit' );
+              editLink.setAttribute( 'href', 'javascript:void(0);' );
+
+              let removeLink = document.createElement( 'a' );
+              removeLink.setAttribute( 'class', 'fa fa-trash nab-remove-attendee' );
+              removeLink.setAttribute( 'href', 'javascript:void(0);' );
+
+              actionDiv.appendChild(editLink);
+              actionDiv.appendChild(removeLink);
+              actionTd.appendChild(actionDiv);
+              tableTr.appendChild(firstNameTd);
+              tableTr.appendChild(lastNameTd);
+              tableTr.appendChild(emailTd);              
+              tableTr.appendChild(actionTd);
+
+              let tableBody = document.getElementById( 'attendee-list-table-body' );
+
+              tableBody.appendChild(tableTr);
+              
+              if ( response.is_attendee ) {
+                $('.attendee-view-table-wrp .nab-view-add-attendee').hide();
+              }
+              currentElement.parents('#nabeditAttendeeModal').hide();
+            }
+            hideLoader();
+          },
+          error: function( xhr, ajaxOptions, thrownError ) {
+            hideLoader();
+            console.log( thrownError );
+          }
+        });
+      }
+
+    } else {
+      
+      let primaryID = currentElement.parents('.attendee-edit-wrap').attr('data-pid');
+      let orderID = currentElement.parents('.attendee-edit-wrap').attr('data-oid');
+
+      if ( attendeeEmail !== editEmail ) {
+
+        if ( primaryID && orderID ) {
+        
+          showLoader();
+          
+          $.ajax({
+            url: amplifyJS.ajaxurl,
+            type: 'POST',
+            data: {
+              'pID': primaryID,
+              'oID' : orderID,
+              'fname' : editFirstName,
+              'lname' : editLastName,
+              'email' : editEmail,
+              'action': 'change_attendee_order_details',
+              'nabNonce': amplifyJS.nabNonce
+            },
+            success: function( response ) {
+              console.log(response);
+              if ( 1 === response.err ) {
+                $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
+                currentElement.parents('#nabeditAttendeeModal').hide();
+              } else {
+                
+                $('.attendee-details-message').text( response.message ).addClass( 'success' ).show();
+                
+                $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(0)').text(editFirstName);
+                $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(1)').text(editLastName);
+                $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(2)').text(editEmail);
+                $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').attr({ 'data-oid' : response.oid, 'data-pid' : response.pid });
+                
+                if ( response.is_attendee ) {
+                  $('.attendee-view-table-wrp .nab-view-add-attendee').hide();
+                } else {
+                  $('.attendee-view-table-wrp .nab-view-add-attendee').show();
+                }
+
+                currentElement.parents('#nabeditAttendeeModal').hide();
+              }
+              hideLoader();
+            },
+            error: function( xhr, ajaxOptions, thrownError ) {
+              hideLoader();
+              console.log( thrownError );
+            }
+          });
+        }
+        
+      } else if ( attendeeFirstName !== editFirstName || attendeeLastName !== editLastName ) {
+        
+        let currentUserId = currentElement.parents('.attendee-edit-wrap').data('uid');
+  
+        if ( primaryID && currentUserId ) {
+        
+          showLoader();
+          
+          $.ajax({
+            url: amplifyJS.ajaxurl,
+            type: 'POST',
+            data: {
+              'pID': primaryID,
+              'uID' : currentUserId,
+              'fname' : editFirstName,
+              'lname' : editLastName,
+              'action': 'update_attendee_details',
+              'nabNonce': amplifyJS.nabNonce
+            },
+            success: function( response ) {
+              
+              if ( 1 === response.err ) {
+                $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
+                currentElement.parents('#nabeditAttendeeModal').hide();
+              } else {
+                $('.attendee-details-message').text( response.message ).addClass( 'success' ).show();
+                $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(0)').text(editFirstName);
+                $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(1)').text(editLastName);
+                currentElement.parents('#nabeditAttendeeModal').hide();
+              }
+              hideLoader();
+            },
+            error: function( xhr, ajaxOptions, thrownError ) {
+              hideLoader();
+              console.log( thrownError );
+            }
+          });
+        }
+  
+      } else {
+        currentElement.parents('#nabeditAttendeeModal').hide();
+      }
+
+    }
+
+    attendeeFirstName = '';
+    attendeeLastName = '';
+    attendeeEmail = '';
+    currentElement.parents('.attendee-edit-wrap').removeAttr('data-pid data-oid data-uid data-orderid data-action');    
+
+  });
+
+  $(document).on('click', '#nabeditAttendeeModal .edit-att-buttons .btn-cancle', function() {
+    $(this).parents('#nabeditAttendeeModal').hide();
+    $(this).parents('.attendee-edit-wrap').removeAttr('data-pid data-oid data-uid data-orderid data-action');    
+  });
 
 })( jQuery );

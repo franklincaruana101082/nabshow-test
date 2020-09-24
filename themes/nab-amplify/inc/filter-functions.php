@@ -441,7 +441,7 @@ function nab_amplify_woocommerce_checkout_fields( $fields ) {
 
 	if ( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
 
-        $keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email' );
+        $keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email', 'nab_additional_email' );
 
         foreach ( $fields['billing'] as $key => $val ) {
             if( ! in_array( $key, $keep_fields, true) ) {
@@ -587,8 +587,23 @@ function nab_force_bulk_quanity( $cart_contents ) {
 					$values['nab_bulk_order'] = 'yes';
 					$values['nab_qty'] = $get_qty;
 
-					// update cocart
-					nab_update_cocart_item( $key, $get_qty );
+					// update cocart 
+					if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
+						$cart_key = $_COOKIE['nabCartKey'];
+
+						$args = array(
+							'headers' => array(
+								'Content-Type' => 'application/json; charset=utf-8',
+							),
+							'body'    => wp_json_encode( [
+								'cart_item_key' => $key,
+								'quantity'      => $get_qty,
+							] ),
+						);
+
+						$api_url  = add_query_arg( 'cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/' );
+						$response = wp_remote_post( $api_url, $args );	
+					}
 				}
 				$temp_cart[ $key ] = $values;
 			}
@@ -646,30 +661,4 @@ function nab_title_order_received( $title, $id ) {
  */
 function nab_token_expiry_time( $expire, $issuedAt ) {
 	return $issuedAt + (DAY_IN_SECONDS * 30);
-}
-
-/**
- * Additional emails which will get invoice  
- *
- * @param string $recipients
- * @param array $order
- * 
- * @return string
- */
-function nab_add_addition_email_recepient( $recipients, $order ) {
-
-	if( ! empty( $order ) ) {
-		$order_id          = $order->get_order_number();
-		$additional_emails = get_post_meta( $order_id, 'nab_additional_email', true );
-
-		if( isset( $additional_emails ) && ! empty( $additional_emails ) ) {
-			$additional_emails = array_map( 'trim', explode( ',', $additional_emails ) );
-			$existing_emails   = ( ! empty( $recipients ) ) ? array_map( 'trim', explode( ',', $recipients ) ) : [];
-			$recipients        = array_merge( $existing_emails, $additional_emails );
-			$recipients        = implode( ',', array_unique( $recipients ) );
-		}
-		
-	}
-
-	return $recipients;
 }
