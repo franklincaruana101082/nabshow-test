@@ -235,7 +235,7 @@ final class WooCommerce {
 		$this->define( 'WC_DISCOUNT_ROUNDING_MODE', 2 );
 		$this->define( 'WC_TAX_ROUNDING_MODE', 'yes' === get_option( 'woocommerce_prices_include_tax', 'no' ) ? 2 : 1 );
 		$this->define( 'WC_DELIMITER', '|' );
-		$this->define( 'WC_LOG_DIR', wp_get_upload_dir()['basedir'] );
+		$this->define( 'WC_LOG_DIR', get_temp_dir() );
 		$this->define( 'WC_SESSION_CACHE_GROUP', 'wc_session_id' );
 		$this->define( 'WC_TEMPLATE_DEBUG_MODE', false );
 		$this->define( 'WC_NOTICE_MIN_PHP_VERSION', '7.2' );
