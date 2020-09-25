@@ -1547,14 +1547,14 @@ function nab_modify_user_search_query( $query ) {
 					$field = 'attendee_company';
 				}
 				
-				// let's search by users billing company
-				$query->query_from .= " JOIN {$wpdb->usermeta} umeta ON umeta.user_id = {$wpdb->users}.ID AND umeta.meta_key = '{$field}'";				
+				// let's search by users company
+				$query->query_from .= " AND wp_usermeta.meta_key = '{$field}'";			
 	
 				// what fields to include in the search
-				$search_by = array( 'umeta.meta_value' );
+				$search_by = array( 'wp_usermeta.meta_value' );
 	
 				// apply to the query
-				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both' );
+				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by );
 				
 			}
 		}
