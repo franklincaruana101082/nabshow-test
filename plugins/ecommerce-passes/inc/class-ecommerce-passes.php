@@ -18,7 +18,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             add_action( 'admin_menu', array( $this, 'ep_add_prodcut_setting_page' ) );
 
             //Filter to restrict the content
-            add_filter( 'the_content', array( $this, 'ep_restrict_post_content' ), 1 );
+            add_filter( 'the_content', array( $this, 'ep_restrict_post_content' ), 999 );
 
             //Action for add script and style
             add_action( 'admin_enqueue_scripts', array( $this, 'ep_enqueue_admin_script' ) );
@@ -197,6 +197,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             if ( ! $logged_in ) {
                 $restrict_content .= ' Please <a href="https://amplify.nabshow.com/my-account/">login</a> or <a href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
             }
+
             if ( is_user_logged_in() ) {
                 $logged_user    = wp_get_current_user();
                 
