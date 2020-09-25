@@ -658,8 +658,7 @@ function nab_create_attendee_table() {
 			`wp_user_id` int(10) NOT NULL,
 			`child_order_id` int(10) NOT NULL,
 			`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			`is_parent` int(10) NOT NULL,
+  			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,			
 			PRIMARY KEY  (id)
 			) {$charset_collate};";
 
@@ -1263,9 +1262,17 @@ add_action( 'admin_init', function(){
 				$csv_fields[] 	= 'Date';
 				$csv_fields[] 	= 'Name';
 				$csv_fields[] 	= 'Email Address';
+				$csv_fields[] 	= 'Company';
+				$csv_fields[] 	= 'Title';
 				$csv_fields[] 	= 'Total';
 				$csv_fields[] 	= 'Quantity';
 				$csv_fields[] 	= 'Coupon';
+				$csv_fields[] 	= 'Community';
+				$csv_fields[]	= 'Opt in for Partner';
+				$csv_fields[]	= 'Opt in for Exhibitor/Sponsor';
+				$csv_fields[]	= 'Networking';
+				$csv_fields[]	= 'Discover';
+				
 
 				// Generate csv file as a direct download
 				$output_filename 	= $product_year . '-customer-list-for-product-' . $product_id . '.csv';				
@@ -1283,14 +1290,37 @@ add_action( 'admin_init', function(){
 					$dynamic_fields 	= array();
 					
 					// Get WC order
-					$order 				= wc_get_order( $order_id );
+					$order				= wc_get_order( $order_id );
 
-					// Get CSV fields from the order object
+					// Customer info
 					$order_user_details = $order->get_user();
 		
-					$customer_email = $order_user_details->data->user_email;
-					$customer_name	= $order_user_details->data->display_name;
-					
+					$customer_id		= $order_user_details->data->ID;
+					$customer_email 	= $order_user_details->data->user_email;
+					$customer_name		= $order_user_details->data->display_name;
+					$customer_company	= get_user_meta( $customer_id, 'attendee_company', true );
+					$customer_title		= get_user_meta( $customer_id, 'attendee_title', true );
+					$customer_interest	= get_user_meta( $customer_id, 'attendee_interest', true );
+					$customer_interest1	= get_user_meta( $customer_id, 'attendee_other_interest', true );
+					$opt_partner		= get_user_meta( $customer_id, 'attendee_partner_opt_in', true );
+					$opt_exhibitor		= get_user_meta( $customer_id, 'attendee_exhibition_sponsors_opt_in', true );
+					$customer_meet		= get_user_meta( $customer_id, 'attendee_meet', true );
+					$customer_discover	= get_user_meta( $customer_id, 'attendee_discover', true );
+
+					$final_interest		= '';
+
+					if ( is_array( $customer_interest ) && count( $customer_interest ) > 0 ) {
+						$final_interest = implode( ', ', $customer_interest );
+					}
+
+					if ( ! empty( $customer_interest1 ) ) {
+						$final_interest .= $customer_interest1;
+					}
+
+					$customer_meet		= is_array( $customer_meet ) && count( $customer_meet ) > 0 ? implode( ', ', $customer_meet ) : '-';
+					$customer_discover	= is_array( $customer_discover ) && count( $customer_discover ) > 0 ? implode( ', ', $customer_discover ) : '-';
+
+					// Order info
 					$order_date	= $order->get_date_created()->date( 'Y-m-d' );
 					$coupons	= $order->get_coupon_codes();
 					$total		= $order->get_total();
@@ -1314,9 +1344,16 @@ add_action( 'admin_init', function(){
 					$dynamic_fields[] = $order_date;
 					$dynamic_fields[] = $customer_name;
 					$dynamic_fields[] = $customer_email;
+					$dynamic_fields[] = ! empty( $customer_company ) ? $customer_company : '-';
+					$dynamic_fields[] = ! empty( $customer_title ) ? $customer_title : '-';
 					$dynamic_fields[] = $total;
 					$dynamic_fields[] = $qty;
 					$dynamic_fields[] = $coupons;
+					$dynamic_fields[] = ! empty( $final_interest ) ? $final_interest : '-';
+					$dynamic_fields[] = ! empty( $opt_partner ) ? $opt_partner : '-';
+					$dynamic_fields[] = ! empty( $opt_exhibitor ) ? $opt_exhibitor : '-';
+					$dynamic_fields[] = $customer_meet;
+					$dynamic_fields[] = $customer_discover;
 
 					fputcsv( $output_handle, $dynamic_fields );
 				}
@@ -1352,4 +1389,165 @@ function amplify_get_header_logos( WP_REST_Request $request ) {
 	endif; 
 
 	return new WP_REST_Response( $response, 200 );
+}
+
+/**
+ * Show the customer display name in the customer column.
+ *
+ * @param $column
+ * @param $post_id 
+ */
+function nab_customer_column_data( $column, $post_id ) {
+
+	switch ( $column ) {
+		case 'customer':
+			
+			// Get WC order
+			$order = wc_get_order( $post_id );
+
+			if ( ! empty( $order ) ) {
+						
+				$order_user_details = $order->get_user();
+				
+				$customer_id	= $order_user_details->data->ID;
+				$customer_name	= $order_user_details->data->display_name;
+
+				$profile_url = get_edit_user_link( $customer_id );
+				?>
+				<a href="<?php echo esc_url( $profile_url ); ?>"><?php echo esc_html( $customer_name ); ?></a>
+				<?php				
+			} else {
+				?>
+				<span aria-hidden="true">—</span>
+				<?php
+			}			
+			break;
+	}
+}
+
+/**
+ * Add new column company in the user list table.
+ *
+ * @param $columns
+ *
+ * @return array
+ * 
+ */
+function nab_add_user_company_column( $columns ) {
+	
+	$manage_columns = array();
+
+    foreach( $columns as $key => $value ) {
+		
+		if ( 'email' === $key ) {
+			
+			$manage_columns[ $key ] 		= $value;
+			$manage_columns[ 'company' ] 	= 'Company';            
+		}
+		
+        $manage_columns[$key] = $value;
+    }
+
+    return $manage_columns;
+}
+
+/**
+ * Display user company name in the custom column.
+ *
+ * @param  string $value
+ * @param  string $column_name
+ * @param  int $user_id
+ * 
+ * @return string
+ */
+function nab_user_company_column_data( $value, $column_name, $user_id ) {
+		
+	
+	if ( 'company' === $column_name) {
+		
+		$company = get_user_meta( $user_id, 'attendee_company', true );		
+
+		if ( ! empty( $company ) ) {
+			return $company;
+		} else {
+			return '-';
+		}		
+	}
+
+    return $value;
+}
+
+function nab_add_additional_filter_for_user_list( $which ) {
+	
+	if ( 'top' === $which ) {
+		
+		$option_items = array(
+			'company' 	=> 'Company',
+			'name'		=> 'Name'
+		);
+		?>
+		<select name="user_filter">
+			<option value="">Additional Filter</option>
+			<?php
+			
+			$user_filter 	= filter_input( INPUT_GET, 'user_filter', FILTER_SANITIZE_STRING );
+			$current_v		= isset( $user_filter ) ? $user_filter : '';
+			
+			foreach ( $option_items as $key => $value ) {
+				?>
+				<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $current_v, $key ); ?>><?php echo esc_html( $value ); ?></option>
+				<?php
+			}
+			?>
+		</select>
+		<?php
+	}	
+}
+
+function nab_modify_user_search_query( $query ){
+	
+	global $pagenow;
+	 
+	if ( is_admin() && 'users.php' === $pagenow ) {
+		
+		$user_filter 	= filter_input( INPUT_GET, 'user_filter', FILTER_SANITIZE_STRING );
+		$search_item	= filter_input( INPUT_GET, 's', FILTER_SANITIZE_STRING );
+
+		if ( ( isset( $user_filter ) && ! empty( $user_filter ) ) && ( isset( $search_item ) && ! empty( $search_item ) ) ) {
+
+			global $wpdb;
+
+			if ( 'company' === $user_filter || 'name' === $user_filter ) {
+
+				$field = '';
+
+				if ( 'name' === $user_filter ) {
+					
+					$field 			= 'first_name';
+					$search_item 	= trim( $search_item, ' ' );
+
+					$search_item_array = explode( ' ', $search_item );
+
+					if ( is_array( $search_item_array ) && count( $search_item_array ) > 0 ) {
+						
+						$search_item = $search_item_array[0];
+					}
+
+				} else  {
+					
+					$field = 'attendee_company';
+				}
+				
+				// let's search by users billing company
+				$query->query_from .= " JOIN {$wpdb->usermeta} umeta ON umeta.user_id = {$wpdb->users}.ID AND umeta.meta_key = '{$field}'";				
+	
+				// what fields to include in the search
+				$search_by = array( 'umeta.meta_value' );
+	
+				// apply to the query
+				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both' );
+				
+			}
+		}
+	}		
 }

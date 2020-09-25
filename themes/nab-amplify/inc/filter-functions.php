@@ -673,3 +673,29 @@ function nab_add_addition_email_recepient( $recipients, $order ) {
 
 	return $recipients;
 }
+
+/**
+ * Add new column name in the order list.
+ *
+ * @param $columns
+ *
+ * @return array
+ * 
+ */
+function nab_add_customer_name_column( $columns ) {
+	
+	$manage_columns = array();
+
+    foreach( $columns as $key => $value ) {
+		
+		if ( 'order_number' === $key ) {
+			
+			$manage_columns[ $key ] 		= $value;
+			$manage_columns[ 'customer' ] 	= 'Customer';            
+		}
+		
+        $manage_columns[$key] = $value;
+    }
+
+    return $manage_columns;
+}
