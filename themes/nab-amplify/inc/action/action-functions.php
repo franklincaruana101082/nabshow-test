@@ -1554,7 +1554,7 @@ function nab_modify_user_search_query( $query ) {
 				$search_by = array( 'wp_usermeta.meta_value' );
 	
 				// apply to the query
-				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by );
+				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both' );
 				
 			}
 		}
