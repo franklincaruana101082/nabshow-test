@@ -365,7 +365,7 @@ function nabny_lead_gen_form_render_callback( $attributes ) {
                 
                 $message_body   = '<html><body>';
                 $message_body   = '<table border="1" cellpadding="10"><tr><th>Fields</th><th>Details</th></tr>';
-                $message_body   .= '<tr><td>Full Name</td><td>' . $full_name . '</td></tr>';
+                $message_body   .= '<tr><td>Name</td><td>' . $full_name . '</td></tr>';
                 //$message_body   .= '<tr><td>Title</td><td>' . $title . '</td></tr>';
                 //$message_body   .= '<tr><td>Company</td><td>' . $company . '</td></tr>';
                 $message_body   .= '<tr><td>Email</td><td>' . $email . '</td></tr>';
@@ -395,7 +395,7 @@ function nabny_lead_gen_form_render_callback( $attributes ) {
     <form class="nab-form lead-gen-form" method="post">
         <div class="form-items-wrapper">
             <div class="form-item">
-                <label class="control-label" for="lgf-full-name">Full Name <span class="form-required" title="This field is required.">*</span></label>
+                <label class="control-label" for="lgf-full-name">Name <span class="form-required" title="This field is required.">*</span></label>
                 <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-full-name" name="full_name" size="60" maxlength="128">
             </div>
            <!-- <div class="form-item">
