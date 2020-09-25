@@ -331,16 +331,16 @@ function nabny_lead_gen_form_render_callback( $attributes ) {
         $post_title     = trim( $full_name );
         $security_check = filter_input( INPUT_POST, 'security_check', FILTER_SANITIZE_STRING );
         $email          = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_STRING );
-        $title          = filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRING );
-        $phone_number   = filter_input( INPUT_POST, 'phone_number', FILTER_SANITIZE_STRING );
-        $company        = filter_input( INPUT_POST, 'company', FILTER_SANITIZE_STRING );
+        // $title          = filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRING );
+        // $phone_number   = filter_input( INPUT_POST, 'phone_number', FILTER_SANITIZE_STRING );
+        // $company        = filter_input( INPUT_POST, 'company', FILTER_SANITIZE_STRING );
 
         // Check Spam.
         $content['comment_author']       = $full_name;
         $content['comment_author_email'] = $email;
-        $content['comment_content']      = $title;
-        $content['comment_phone']        = $phone_number;
-        $content['comment_company']      = $company;
+        // $content['comment_content']      = $title;
+        // $content['comment_phone']        = $phone_number;
+        // $content['comment_company']      = $company;
         $spam_detected                   = nabny_form_input_spam_check( $content );                
 
         $inserted_post_id   = wp_insert_post(
@@ -354,10 +354,10 @@ function nabny_lead_gen_form_render_callback( $attributes ) {
         if ( ! is_wp_error( $inserted_post_id ) ) {
 
             add_post_meta( $inserted_post_id, 'full_name', $full_name );
-            add_post_meta( $inserted_post_id, 'title', $title );
-            add_post_meta( $inserted_post_id, 'company', $company );
+            // add_post_meta( $inserted_post_id, 'title', $title );
+            // add_post_meta( $inserted_post_id, 'company', $company );
             add_post_meta( $inserted_post_id, 'email', $email );
-            add_post_meta( $inserted_post_id, 'phone_number', $phone_number );
+            // add_post_meta( $inserted_post_id, 'phone_number', $phone_number );
 
             wp_set_object_terms( $inserted_post_id, 'lead-generation', 'forms-category' );
 
@@ -366,9 +366,10 @@ function nabny_lead_gen_form_render_callback( $attributes ) {
                 $message_body   = '<html><body>';
                 $message_body   = '<table border="1" cellpadding="10"><tr><th>Fields</th><th>Details</th></tr>';
                 $message_body   .= '<tr><td>Full Name</td><td>' . $full_name . '</td></tr>';
-                $message_body   .= '<tr><td>Title</td><td>' . $title . '</td></tr>';
+                //$message_body   .= '<tr><td>Title</td><td>' . $title . '</td></tr>';
+                //$message_body   .= '<tr><td>Company</td><td>' . $company . '</td></tr>';
                 $message_body   .= '<tr><td>Email</td><td>' . $email . '</td></tr>';
-                $message_body   .= '<tr><td>Phone Number</td><td>' . $phone_number . '</td></tr>';
+                //$message_body   .= '<tr><td>Phone Number</td><td>' . $phone_number . '</td></tr>';
                 $message_body   .= '</table>';
                 $message_body   .= '</body></html>';                    
 
@@ -397,22 +398,22 @@ function nabny_lead_gen_form_render_callback( $attributes ) {
                 <label class="control-label" for="lgf-full-name">Full Name <span class="form-required" title="This field is required.">*</span></label>
                 <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-full-name" name="full_name" size="60" maxlength="128">
             </div>
-            <div class="form-item">
+           <!-- <div class="form-item">
                 <label class="control-label" for="lgf-title">Title <span class="form-required" title="This field is required.">*</span></label>
                 <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-title" name="title" size="60" maxlength="128">
-            </div>
-            <div class="form-item">
+            </div>-->
+           <!-- <div class="form-item">
                 <label class="control-label" for="lgf-company">Company <span class="form-required" title="This field is required.">*</span></label>
                 <input required="required" pattern=".*\S+.*" class="form-control form-text" type="text" id="lgf-company" name="company" size="60" maxlength="128">
-            </div>
+            </div>-->
             <div class="form-item">
                 <label class="control-label" for="lgf-email">Email <span class="form-required" title="This field is required.">*</span></label>
                 <input required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$" class="form-control form-text" type="email" id="lgf-email" name="email" size="60">
             </div>
-            <div class="form-item">                
+            <!--<div class="form-item">                
                 <label class="control-label" for="lgf-phone-number">Phone Number <span class="form-required" title="This field is required.">*</span></label>
                 <input required="required" class="form-control form-text" pattern="[0-9]{1,50}" type="text" id="lgf-phone-number" name="phone_number" step="1">                
-            </div>            
+            </div>    -->        
             <div class="captcha">
                 <div class="g-recaptcha" data-sitekey="6Lfwj9wSAAAAAGC50P7LPTXvapy4cdM6GuPJ5Zh3"></div>
                 <p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
