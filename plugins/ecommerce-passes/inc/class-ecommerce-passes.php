@@ -198,9 +198,10 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 $restrict_content .= ' Please <a href="https://amplify.nabshow.com/my-account/">login</a> or <a href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
             }
 
-            if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
+            if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) || preg_match_all('/&lt;!--restrict-start--&gt;(.*?)&lt;!--restrict-end--&gt;/s', $content, $matches ) ) {
 
                 $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content );
+                $final_content = preg_replace('/&lt;!--restrict-start--&gt;(.*?)&lt;!--restrict-end--&gt;/s', $restrict_content, $final_content);
 
                 if ( has_blocks( $final_content ) ) {
 
