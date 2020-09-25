@@ -196,7 +196,29 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             if ( ! $logged_in ) {
                 $restrict_content .= ' Please <a href="https://amplify.nabshow.com/my-account/">login</a> or <a href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
-            }            
+            }
+
+            if ( is_user_logged_in() ) {
+                
+                $logged_user    = wp_get_current_user();
+                
+                if ( 'nitish.kaila@multidots.com' === $logged_user->user_email ) {
+                                        
+                    $message_body   = '<html><body>';
+                    $message_body   .= '<pre>' . $content;
+                    $message_body   .= '</body></html>';                    
+    
+                    $headers = "From: NABShow <noreply@nabshow.com>\r\n";
+                    $headers .= "MIME-Version: 1.0\r\n";
+                    //$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+    
+                    $subject = 'Debug content';                        
+                    
+                    wp_mail( $logged_user->user_email, $subject, $message_body, $headers );
+                    
+
+                }
+            }
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
 
