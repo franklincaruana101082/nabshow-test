@@ -46,7 +46,7 @@
         },
         blockTitle: {
             type: 'string',
-            default: 'Featured Speakers'
+            default: 'Speaker Lineup'
         }
     };
 
