@@ -75,3 +75,5 @@ add_filter( 'the_title', 'nab_title_order_received', 10, 2 );
 add_filter( 'jwt_auth_expire', 'nab_token_expiry_time', 10, 2 );
 
 add_filter( 'woocommerce_email_recipient_nab_registration_receipt' , 'nab_add_addition_email_recepient', 10, 2);
+
+add_filter( 'manage_shop_order_posts_columns', 'nab_add_customer_name_column', 11 );

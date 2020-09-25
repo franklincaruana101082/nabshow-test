@@ -103,3 +103,13 @@ add_action( 'wp_logout', 'nab_maybe_clear_cart_cookie' );
 /* Parent-Child add to cart actions end */
 
 add_action( 'add_meta_boxes', 'nab_add_custom_metabox_in_product' );
+
+add_action( 'manage_shop_order_posts_custom_column', 'nab_customer_column_data', 10, 2 );
+
+add_action( 'manage_users_columns', 'nab_add_user_company_column' );
+
+add_action( 'manage_users_custom_column', 'nab_user_company_column_data', 10, 3);
+
+add_action( 'restrict_manage_users', 'nab_add_additional_filter_for_user_list' );
+
+add_action( 'pre_user_query', 'nab_modify_user_search_query' );
