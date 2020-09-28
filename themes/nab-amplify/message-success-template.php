@@ -435,7 +435,7 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
                             $link_text      = $row[ 'event_link_text' ];
                             $display_event  = $row[ 'event_display' ];
 
-                            if ( $display_event ) {
+                            if ( $display_event && $event_logo ) {
                                 ?>
                                 <div class="future">
                                     <img src="<?php echo esc_url( $event_logo[ 'url' ] ); ?>" alt="event-logo">
