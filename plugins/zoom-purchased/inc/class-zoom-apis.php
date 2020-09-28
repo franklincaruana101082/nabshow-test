@@ -415,11 +415,12 @@ if ( ! class_exists('Zoom_APIs') ) {
                         foreach ( $ac as $current_post_id => $val ) {
                             $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
                             if( $zoom_id ) {
-                                $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
+                                $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = $zoom_id;
+
+                                echo 'testing-10';
+                                return;
                             }
 
-                            echo 'testing-09';
-                            return;
 				        }
 
 
