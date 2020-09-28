@@ -248,8 +248,9 @@
 .show_sec_menu .nab-header-secondary + header .header-right .header-get-updates{top:-100vh;}
 .show_sec_menu .nab-header-secondary + header .header-right.active .search-form{top:130px;}
 
-.show_sec_menu .nab-header-secondary{top:32px;}
-.show_sec_menu .nab-header-secondary + .site-header{top:121px;}
+/* space with admin bar */
+.admin-bar.show_sec_menu .nab-header-secondary{top:32px;}
+.admin-bar.show_sec_menu .nab-header-secondary + .site-header{top:121px;}
 
 @media (max-width:1024px){
 	.nab-header-secondary .nab-profile:hover > .nab-profile-dropdown{display:none}
