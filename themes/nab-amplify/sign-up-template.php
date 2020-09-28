@@ -96,7 +96,7 @@ $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 
 							<h4 class="text-transform-initial"><?php esc_html_e( 'Already have an account?' ); ?> <a
 										href="<?php echo esc_url( $my_account_url ); ?>"><?php esc_html_e( 'Sign In', 'woocommerce' ); ?></a></h4>
-										
+							<br /><br />			
 							<p class="small">By creating this account, you are agreeing to share the information provided with any NAB Amplify exhibitor/sponsor/partner whose content you engage with. You accept that this exhibitor/sponsor/partner may contact you about their products or services under legitimate interest. If you opt out of the communications at checkout, we will disable tools that allow engagement on your account. For more information about our Privacy Policy and GDPR please see the links below.</p>
 
 						</div>
