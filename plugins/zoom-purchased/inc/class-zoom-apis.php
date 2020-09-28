@@ -43,6 +43,27 @@ if ( ! class_exists('Zoom_APIs') ) {
 			    $this->zp_api_remove_registrant();
 		    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            wp_reset_query();
+            // Quit multisite connection
+            restore_current_blog();
+
 	    }
 
 	    private function zp_api_remove_registrant() {
@@ -97,8 +118,35 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 
 
-		    echo "-exitingNow";
-		    return;
+
+
+
+
+
+
+
+
+
+
+
+            wp_reset_query();
+            // Quit multisite connection
+            restore_current_blog();
+
+		    /*echo "-exitingNow";
+		    return;*/
+
+
+
+
+
+
+
+
+
+
+
+
 
             // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
@@ -407,15 +455,16 @@ if ( ! class_exists('Zoom_APIs') ) {
 				    $meeting_ids = array();
 				    foreach ( $associated_content as $blog_id => $ac ) {
 
-                        print_r($blog_id);
+
+
+				        /*print_r($blog_id);
                         echo 'testing-13';
-                        return;
+                        return;*/
 
 					    // Connect to new multisite
 					    switch_to_blog( $blog_id );
 
-
-                        $meeting_ids[$blog_id] = array();
+					    $meeting_ids[$blog_id] = array();
 
                         foreach ( $ac as $current_post_id => $val ) {
 
@@ -432,11 +481,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 			        }
                 }
 		    }
-
-            wp_reset_query();
-            // Quit multisite connection
-            restore_current_blog();
-
 
 		    return $meeting_ids;
 	    }
