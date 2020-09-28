@@ -18,7 +18,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             add_action( 'admin_menu', array( $this, 'ep_add_prodcut_setting_page' ) );
 
             //Filter to restrict the content
-            add_filter( 'the_content', array( $this, 'ep_restrict_post_content' ), 1 );
+            add_filter( 'the_content', array( $this, 'ep_restrict_post_content' ), 9999 );
 
             //Action for add script and style
             add_action( 'admin_enqueue_scripts', array( $this, 'ep_enqueue_admin_script' ) );
@@ -32,7 +32,15 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        //add_filter( 'wp_insert_post_data', array( $this, 'my_filter') );
             add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
 
-	}
+            // Add Class for Zoom.
+            $this->ep_add_zoom_class();
+
+	    }
+
+	    public function ep_add_zoom_class(){
+            require_once EP_PLUGIN_DIR . 'inc/class-zoom-integration.php';
+        }
+
 
         public function ep_add_prodcut_setting_page() {
 
@@ -98,24 +106,24 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                     if ( ! is_user_logged_in() ) {
 
                         $success = false;
-                        
+
                         $end_point_url  .= 'wp-json/nab/request/get-product-info';
 
                         $response       = wp_remote_post( $end_point_url, array(
-                            'method' => 'POST',                            
+                            'method' => 'POST',
                             'body'	=> array(
-                                'product_id' => $associate_products[0],                                
+                                'product_id' => $associate_products[0],
                             )
                         ) );
 
                         if ( ! is_wp_error( $response ) ) {
-                            
+
                             $final_response = json_decode( wp_remote_retrieve_body( $response ) );
-                            
+
                             if ( isset( $final_response->url ) && ! empty( $final_response->url ) ) {
 
                                 $success = true;
-                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );    
+                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );
                             }
                         }
 
@@ -125,24 +133,41 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                     } else {
 
-                        $logged_user    = wp_get_current_user();                        
+                        $logged_user    = wp_get_current_user();
 
-                        if ( ! empty( $end_point_url ) ) {                            
+                        if ( ! empty( $end_point_url ) ) {
 
                             $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
 
-                            $response       = wp_remote_post( $end_point_url, array(
-                                'method' => 'POST',                                
-                                'body'	=> array(
+                            $query_params   = array(
                                     'user_email' => $logged_user->user_email,
                                     'user_id'	=> $logged_user->ID,
                                     'product_ids' => $associate_products
-                                )
+                            );
+
+                            $final_params = http_build_query($query_params);
+
+                            $curl = curl_init();
+
+                            curl_setopt_array( $curl, array(
+                                CURLOPT_URL => $end_point_url,
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => "",
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => "POST",
+                                CURLOPT_POSTFIELDS => $final_params
                             ) );
 
-                            if ( ! is_wp_error( $response ) ) {
+                            $response = curl_exec( $curl );
 
-                                $final_response = json_decode( wp_remote_retrieve_body( $response ) );
+                            curl_close( $curl );
+
+                            $final_response = json_decode( $response );
+
+                            if ( is_object( $final_response ) ) {
 
                                 if ( ! $final_response->success ) {
 
@@ -174,7 +199,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          */
         public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
-            $prodcut_name       = ! empty( $link ) ? '<a href="' . $link . '">this program</a>' : 'this program';            
+            $prodcut_name       = ! empty( $link ) ? '<a href="' . $link . '">this program</a>' : 'this program';
             $restrict_content   = '<p class="restrict-msg">You must be registered for '. $prodcut_name . ' in order to view this content.';
 
             if ( ! $logged_in ) {
@@ -183,7 +208,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
 
-                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content );
+                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content);                
 
                 if ( has_blocks( $final_content ) ) {
 
@@ -306,6 +331,14 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             foreach ( $all_post_types as $screen ) {
 
+                // Meta box to add zoom id.
+                add_meta_box(
+                    'zp_zoom_meta_box',
+                    'Enter Zoom Detail',
+                    array( $this, 'zp_zoom_id_metabox_callback' ),
+                    $screen
+                );
+
                 add_meta_box(
                     'ep_product_meta_box',
                     'Associated Products',
@@ -313,6 +346,55 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                     $screen
                 );
             }
+        }
+
+        /**
+         * Display zoom metabox content.
+         *
+         * @param  mixed $post
+         *
+         * @since 1.0.0
+         */
+        public function zp_zoom_id_metabox_callback( $post ) {
+
+            $zoom_id = get_post_meta( $post->ID, 'zoom_id', true );
+            $zoom_type = get_post_meta( $post->ID, 'zoom_type', true );
+
+            ?>
+            <div class="zoom-parent-wrapper">
+                <?php
+
+                if ( empty( $zoom_type ) || empty( $zoom_id ) ) {
+
+                    ?>
+                    <div class="zoom-box">
+                        <p>
+                            <label><strong>Select Type:</strong></label>
+                        </p>
+                        <p>
+                            <input type="radio" name="zoom-type[]" id="zoom-meeting" class="zoom-meeting" value="Meeting" />
+                            <label for="zoom-meeting">Meeting</label>
+                            <input type="radio" name="zoom-type[]" id="zoom-webinar" class="zoom-webinar" value="Webinar" style="margin-left: 20px"/>
+                            <label for="zoom-webinar">Webinar</label>
+                        </p>
+
+                        <p>
+                            <label for="zoom-id">Enter Zoom ID:</label>
+                            <input type="text" id="zoom-id" name="zoom-id" class="zoom-id" />
+                        </p>
+                    </div>
+                    <?php
+
+                } else { ?>
+                    <div class="zoom-box">
+                        <p><label>Meeting Type: <strong><?php echo esc_html( $zoom_type[0] ); ?></strong></label></p>
+                        <p><label>Zoom ID: <strong><?php echo esc_html( $zoom_id ); ?></label></strong></p>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+            <?php
         }
 
         /**
@@ -325,7 +407,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_custom_metabox_callback( $post ) {
 
             $end_point_url      = get_option( 'ep_parent_site_url' );
-            $term_remote_url    = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-categories/' : '';
+            $term_remote_url    = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-categories' : '';
             $product_remote_url = ! empty( $end_point_url ) ? $end_point_url . 'wp-json/nab/request/get-product-list/' : '';
             ?>
             <div class="product-parent-wrapper">
@@ -333,11 +415,24 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                 if ( ! empty( $term_remote_url ) ) {
 
-                    $term_list = wp_remote_post( $term_remote_url );
+                    $curl = curl_init();
 
-                    if ( ! is_wp_error( $term_list ) ) {
+                    curl_setopt_array( $curl, array(
+                        CURLOPT_URL => $term_remote_url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => "",
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => "POST",
+                    ));
 
-                        $final_terms = json_decode( wp_remote_retrieve_body( $term_list ) );
+                    $response = curl_exec( $curl );
+
+                    curl_close( $curl );
+
+                    $final_terms = json_decode( $response );
 
                         if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
                             ?>
@@ -357,15 +452,27 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                             <?php
                         }
                     }
-                }
 
                 if ( ! empty( $product_remote_url ) ) {
 
-                    $all_products = wp_remote_post( $product_remote_url );
+                    $curl = curl_init();
 
-                    if ( ! is_wp_error( $all_products ) ) {
+                    curl_setopt_array( $curl, array(
+                        CURLOPT_URL => $product_remote_url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => "",
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => "POST",
+                    ));
 
-                        $final_products     = json_decode( wp_remote_retrieve_body( $all_products ) );
+                    $response = curl_exec( $curl );
+
+                    curl_close( $curl );
+
+                    $final_products = json_decode( $response );
 
                         if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
 
@@ -392,7 +499,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                             <?php
                         }
                     }
-                }
                 ?>
             </div>
             <?php
@@ -451,7 +557,8 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          * @since 1.0.0
          */
         public function ep_save_custom_metabox_fields( $post_id ) {
-	        $current_blog_id = get_current_blog_id();
+
+            $current_blog_id = get_current_blog_id();
             $current_post_id = $post_id;
 
 	        $shop_blog_id = $this->ep_get_shop_blog();
@@ -478,23 +585,28 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 delete_post_meta( $post_id, '_associate_product' );
             }
 
+            // Save zoom details.
+            if ( isset( $_POST[ 'zoom-type' ]) && ! empty( $_POST[ 'zoom-type' ] ) ) {
+                update_post_meta( $post_id, 'zoom_type', $_POST[ 'zoom-type' ] );
+                update_post_meta( $post_id, 'zoom_id', $_POST[ 'zoom-id' ] );
+            }
         }
 
-        public function ep_get_shop_blog() {
+        public static function ep_get_shop_blog() {
 
             $shop_blog_id = '';
 
 	        // Connect Shop Blog.
 	        $sites = get_sites();
-            foreach ($sites as $site) {
-                $sitepath = $site->path;
-                $sitepath = str_replace('/', '', $sitepath);
-                $sitedomain = $site->domain;
-                if( 'amplify' === $sitepath || false !== strpos( $sitedomain, 'amplify.' ) ) {
-                    $shop_blog_id = $site->blog_id;
-                    break;
-                }
-            }
+	        foreach ($sites as $site) {
+		        $sitepath = $site->path;
+		        $sitepath = str_replace('/', '', $sitepath);
+		        $sitedomain = $site->domain;
+		        if( 'amplify' === $sitepath || false !== strpos( $sitedomain, 'amplify.' ) ) {
+			        $shop_blog_id = $site->blog_id;
+			        break;
+		        }
+	        }
 
 	        // Throw error if shop blog not found.
 	        if( empty( $shop_blog_id ) ) {

@@ -15,6 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
+// Define constants.
+define( 'EP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'EP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
 require_once( plugin_dir_path( __FILE__ ) . 'inc/class-ecommerce-passes.php' );
 
 $ecommerce_passes = new Ecommerce_Passes();
