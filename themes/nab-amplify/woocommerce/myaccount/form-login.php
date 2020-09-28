@@ -100,6 +100,8 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		<div class="nab-signup-now">
 		<h4 class="text-transform-initial">Sign in to your NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 			<h4 class="text-transform-initial">Don't have an account? <a href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a> now.</h4>
+			
+			<p>By creating this account, you are agreeing to share the information provided with any NAB Amplify exhibitor/sponsor/partner whose content you engage with. You accept that this exhibitor/sponsor/partner may contact you about their products or services under legitimate interest. If you opt out of the communications at checkout, we will disable tools that allow engagement on your account. For more information about our Privacy Policy and GDPR please see the links below.</p>
 		</div>
 
 
