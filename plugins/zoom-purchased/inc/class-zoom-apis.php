@@ -348,6 +348,10 @@ if ( ! class_exists('Zoom_APIs') ) {
 						    $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
 					    }
 				    }
+
+                    wp_reset_query();
+                    // Quit multisite connection
+                    restore_current_blog();
 			    }
 		    }
 

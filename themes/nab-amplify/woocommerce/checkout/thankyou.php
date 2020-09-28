@@ -38,10 +38,6 @@ if( $_GET['test']) {
     if( empty( $blog_id ) ) {
         die('please pass blog_id paramter');
     }
-    $key = 'zoom_' . $blog_id;
-
-    // Get user meta for zoom.
-    $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
 
 
 
@@ -67,8 +63,8 @@ if( $_GET['test']) {
                 }
 
                 print_r('meeting_ids = blog=>prodct_post = zoom_id ');
-                print_r($meeting_ids);
             }
+            print_r($meeting_ids);
         }
 
         wp_reset_query();
@@ -77,6 +73,11 @@ if( $_GET['test']) {
 
     }
 
+
+    $key = 'zoom_' . $blog_id;
+
+    // Get user meta for zoom.
+    $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
 
     print_r("user data = ");
     print_r($user_data);

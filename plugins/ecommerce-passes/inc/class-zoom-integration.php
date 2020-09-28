@@ -44,6 +44,10 @@ if ( ! class_exists('Zoom_Integration') ) {
 
             $message = ob_get_clean();
 
+            wp_reset_query();
+            // Quit multisite connection
+            restore_current_blog();
+
             return $message;
         }
 
