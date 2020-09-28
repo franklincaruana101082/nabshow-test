@@ -391,6 +391,10 @@ if ( ! class_exists('Zoom_APIs') ) {
 	    private function zp_get_meeting_ids() {
 
 		    $items = $this->current_order->get_items();
+
+            echo 'testing-05';
+            return;
+
 		    foreach ( $items as $item ) {
 
 			    $product_id = $item->get_product_id();
@@ -417,8 +421,6 @@ if ( ! class_exists('Zoom_APIs') ) {
             // Quit multisite connection
             restore_current_blog();
 
-            echo 'testing-04';
-            return;
 
 		    return $meeting_ids;
 	    }
