@@ -795,6 +795,8 @@
     let editEmail = currentElement.parents('table').find('.attendee_email').val();    
     let action = currentElement.parents('.attendee-edit-wrap').attr('data-action');
 
+    $('.attendee-details-message').hide().text('').removeClass('success failed');
+
     if ( ! editFirstName.match('[a-zA-Z0-9]') ) {
       alert( "Enter a valid first name" );
       return;
