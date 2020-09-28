@@ -24,11 +24,13 @@ if ( ! class_exists('Zoom_APIs') ) {
             $this->token = $this->zp_api_get_zoom_token();
 
             // Add registrant on order completed.
-            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999, 5);
+            //add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999, 5);
+            //add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 10, 3);
+            add_action( 'woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom') );
 
         }
 
-        public function zp_woo_order_status_change_custom($order_id, $old_status, $new_status) {
+        public function zp_woo_order_status_change_custom( $order_id, $old_status, $new_status ) {
 
             $this->order_id = $order_id;
 
@@ -336,6 +338,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 	    private function zp_get_user_details() {
 
             $this->order = $order = new WC_Order($this->order_id);
+            //$order       = wc_get_order( $this->order_id );
 
             $user_id = $order->get_user_id();
             $user_data['id'] = $user_id;
