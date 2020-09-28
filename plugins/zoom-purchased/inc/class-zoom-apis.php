@@ -25,7 +25,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
             // Add registrant on order completed.
             //add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999, 5);
-            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999);
+            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 10, 3);
 
         }
 
@@ -87,6 +87,20 @@ if ( ! class_exists('Zoom_APIs') ) {
 
             // Get user details.
             $user_data = $this->zp_get_user_details();
+
+
+
+
+
+
+
+
+
+
+
+
+
+            return true;
 
 		    // Get meeting ids.
 		    $meeting_ids = $this->zp_get_meeting_ids();
@@ -338,6 +352,8 @@ if ( ! class_exists('Zoom_APIs') ) {
 
             $this->order = $order = new WC_Order($this->order_id);
             //$order       = wc_get_order( $this->order_id );
+
+            return true;
 
             $user_id = $order->get_user_id();
             $user_data['id'] = $user_id;
