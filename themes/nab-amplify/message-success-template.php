@@ -246,6 +246,7 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
             display: block;
             margin: 0 auto 30px auto;
             max-width: 250px;
+            max-height: 110px;
         }
 
         @-webkit-keyframes rotating /* Safari and Chrome */

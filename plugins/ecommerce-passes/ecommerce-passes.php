@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Ecommerce Passes
+ * Plugin Name: Amplify Ecommerce Integration
  * Plugin URI:  https://www.multidots.com/
  * Description: This plugins allow to get products from parent site.
  * Version:     1.0.0
