@@ -60,6 +60,12 @@ if ( ! class_exists('Zoom_Purchased') ) {
 
             if ( isset( $jwt_token_field ) && ! empty( $jwt_token_field ) ) {
                 update_option( 'zp_token_key', $jwt_token_field );
+
+                ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php _e( 'Saved!', 'zoom-purchased' ); ?></p>
+                </div>
+                <?php
             }
             ?>
             <div class="zp-product-settings">

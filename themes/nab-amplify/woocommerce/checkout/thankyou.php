@@ -16,6 +16,37 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+
+if( $_GET['test']) {
+
+    $user_id = $order->get_user_id();
+    $user_data['id'] = $user_id;
+
+    $user_info = get_userdata($user_id);
+    $user_data['email'] = $user_info->user_email;
+
+    $user_meta = get_user_meta($user_id);
+    $user_data['first_name'] = $user_meta['first_name'][0];
+    $user_data['last_name'] = $user_meta['last_name'][0];
+
+    $current_blog_id = get_current_blog_id();
+    $blog_id = $_GET['blog_id'];
+    if( empty( $blog_id ) ) {
+        die('please pass blog_id paramter');
+    }
+    $key = 'zoom_' . $blog_id;
+
+    // Get user meta for zoom.
+    $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
+
+    echo '<pre>';
+    print_r("user data = ");
+    print_r($user_data);
+    print_r("generated_zoom_urls = ");
+    print_r($generated_zoom_urls);
+    die('diednow');
+}
 ?>
 
 <div class="woocommerce-order">
