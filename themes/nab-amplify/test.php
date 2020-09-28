@@ -3,14 +3,14 @@
  * Template Name: Testing
  */
 
-get_header();
+ get_header();
 
-$order_id = 479;
+ global $wpdb;
 
-$meta = get_post_meta( $order_id );
+$t = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}cocart_carts", ARRAY_A );
 
-echo '<pre>';
-print_r( $meta );
-echo '</pre>';
+ echo '<pre>';
+ print_r( $t );
+ echo '</pre>';
 
-get_footer();
+ get_footer();

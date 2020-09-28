@@ -80,34 +80,49 @@ function nab_db_add_attendee_callback() {
 			$sheet_data    = $spreadsheet->getActiveSheet()->toArray();
 			$sheet_records = count( $sheet_data ) - 1;
 
-			if ( $sheet_records < $new_attendee_count ) {
+			/*if ( $sheet_records < $new_attendee_count ) {
 				$new_attendee_count = $sheet_records;
-			}
+			}*/
 
 			if ( ! empty( $sheet_data ) ) {
 
-				for ( $i = 1; $i <= $new_attendee_count; $i ++ ) {
+				$attendee_emails = nab_get_order_attendees_email_list( $order_id );				
+
+				for ( $i = 1; $i <= $sheet_records; $i ++ ) {
+					
 					$first_name = $sheet_data[ $i ][0];
 					$last_name  = $sheet_data[ $i ][1];
 					$email      = $sheet_data[ $i ][2];
+					
+					if ( ! in_array( $email, $attendee_emails, true) ) {
+						
+						$insert_attendee_query = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}nab_attendee
+									(`parent_user_id`, `order_id`, `status`, `first_name`, `last_name`, `email`)
+									VALUES
+									(%d, %d, 0, %s, %s, %s)",
+							$parent_user_id,
+							$order_id,
+							$first_name,
+							$last_name,
+							$email
+						);
 
-					$insert_attendee_query = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}nab_attendee
-								(`parent_user_id`, `order_id`, `status`, `first_name`, `last_name`, `email`)
-								VALUES
-								(%d, %d, 0, %s, %s, %s)",
-						$parent_user_id,
-						$order_id,
-						$first_name,
-						$last_name,
-						$email
-					);
+						$insert_attendee = $wpdb->query( $insert_attendee_query );
 
-					$insert_attendee = $wpdb->query( $insert_attendee_query );
+						if ( false !== $insert_attendee ) {
+							
+							$attendee_count++;
 
-					if ( false !== $insert_attendee ) {
-						$err = 0;
-					} else {
-						$err = 1;
+							$err 				= 0;
+							$attendee_emails[] 	= $email;
+
+						} else {
+							$err = 1;
+						}
+
+						if ( $attendee_count >= $order_qty ) {
+							break;
+						}
 					}
 				}
 			}
@@ -237,7 +252,7 @@ function insert_new_attendee_callback() {
 					$new_order->update_status( "completed" );
 
 					update_user_meta( $new_user_id, 'billing_first_name', $user['first_name'] );
-					update_user_meta( $new_user_id, 'billing_last_name', $user['first_name'] );
+					update_user_meta( $new_user_id, 'billing_last_name', $user['last_name'] );
 
 					// update status to 1 in DB
 					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}nab_attendee SET `status` = 1, `modified`= '%s', `wp_user_id` = %d, `child_order_id` = %d WHERE `id` = %d",
@@ -552,15 +567,26 @@ function nab_change_attendee_order_details_ajax_callback() {
 		$response[ 'message' ]	= 'Something went wrong! Please try again';
 
 		wp_send_json( $response, 200 );
-	}	
+	}
+
+	// Get attendee details
+	$attendee_details = nab_get_order_attendee_details( $primary_id );
+
+	// Check email already exist or not
+	if ( nab_is_order_attendee_exist( $email, $attendee_details[ 'order_id' ] ) ) {
+		
+		$response[ 'err' ]     = 1;
+		$response[ 'message' ] = 'Attendee not update. Email address already exist.';
+		
+		wp_send_json( $response, 200 );
+
+		wp_die();
+	}
 
 	// Delete this order
 	$remove_attendee = wp_delete_post( $order_id, true );
 
-	if ( ! empty( $remove_attendee ) ) {
-
-		// Get attendee details
-		$attendee_details = nab_get_order_attendee_details( $primary_id );
+	if ( ! empty( $remove_attendee ) ) {		
 		
 		// Remove from attendee table as well
 		$wpdb->delete( $wpdb->prefix . 'nab_attendee', array( 'id' => $primary_id ) );
@@ -757,6 +783,16 @@ function nab_add_attendee_order_details_ajax_callback() {
 		wp_die();
 	}
 
+	if ( nab_is_order_attendee_exist( $email, $order_id ) ) {
+		
+		$response[ 'err' ]     = 1;
+		$response[ 'message' ] = 'Attendee email address already exist.';
+		
+		wp_send_json( $response, 200 );
+
+		wp_die();
+	}
+
 	// Check if this order has attendees or not
 	$attendee_count = nab_get_attendee_count( $order_id );
 
@@ -773,9 +809,8 @@ function nab_add_attendee_order_details_ajax_callback() {
 		// Set attendee primary id from the DB result if not empty array
 		if ( is_array( $attendees ) && count( $attendees ) > 0 ) {
 			
-			$attendeeId = $attendees[0]['parent_user_id'];
+			$parent_user_id = $attendees[0]['parent_user_id'];
 		}
-
 		
 		$parent_order_id	= $order_id;
 		$user 				= array( 'user_email' => $email, 'first_name' => $first_name, 'last_name' => $last_name );
