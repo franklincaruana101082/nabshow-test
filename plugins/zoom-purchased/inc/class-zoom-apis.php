@@ -269,15 +269,22 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 	    private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url) {
 
-            $result = '';
             $user_id = $this->user_data['id'];
             $key = 'zoom_' . $blog_id;
 
             // Get user meta for zoom.
             $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
+            if( ! isset( $generated_zoom_urls ) || empty( $generated_zoom_urls ) ) {
+                $generated_zoom_urls = array();
+            }
 
             if( 'add' === $action ) {
 
+                if( ! isset( $generated_zoom_urls[$post_id] ) ) {
+                    $generated_zoom_urls[$post_id] = array();
+                }
+
+                $generated_zoom_urls[$post_id][$zoom_id] = array();
                 $generated_zoom_urls[$post_id][$zoom_id]['url'] = $meeting_url;
                 $generated_zoom_urls[$post_id][$zoom_id]['products'][] = $product_id;
 
