@@ -74,15 +74,9 @@ $(function() {
 		if ($(window).width() > 991) {
 			var headerSecondary = $('.nab-header-secondary');
 			var headerMain = $('.site-header');
-			if ($('.admin-bar') > 0) {
-				var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
-				$('#page').css('padding-top', totalHeight + 32);
-			} else {
-				var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
-				$('#page').css('padding-top', totalHeight);
-			}
+			var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
+			$('#page').css('padding-top', totalHeight);
 		}
-		
 	}
 
 });
