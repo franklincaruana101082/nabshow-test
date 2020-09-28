@@ -410,15 +410,18 @@ if ( ! class_exists('Zoom_APIs') ) {
 					    // Connect to new multisite
 					    switch_to_blog( $blog_id );
 
+                        $meeting_ids[$blog_id] = array();
+
                         foreach ( $ac as $current_post_id => $val ) {
                             $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
                             if( $zoom_id ) {
                                 $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
                             }
+
+                            echo 'testing-09';
+                            return;
 				        }
 
-                        echo 'testing-08';
-                        return;
 
 			        }
                 }
