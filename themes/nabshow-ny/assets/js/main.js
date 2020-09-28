@@ -67,18 +67,6 @@ $(function() {
 			//Set the offset
 			offset: '70%'
 	});
-
-		// show_sec_menu
-
-	if ($('.nab-header-secondary').length > 0 && $('body').hasClass('show_sec_menu')) {
-		if ($(window).width() > 991) {
-			var headerSecondary = $('.nab-header-secondary');
-			var headerMain = $('.site-header');
-			var totalHeight = headerSecondary.outerHeight() + headerMain.outerHeight();
-			$('#page').css('padding-top', totalHeight);
-		}
-	}
-
 });
 
 

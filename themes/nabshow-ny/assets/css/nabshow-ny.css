@@ -259,6 +259,9 @@
 @media (max-width:992px){
 	.show_sec_menu .nab-header-secondary{position:relative;}
 	.show_sec_menu .nab-header-secondary+.site-header{top:0;}
+	/* space with admin bar */
+	.admin-bar.show_sec_menu .nab-header-secondary{top:0;}
+	.admin-bar.show_sec_menu .nab-header-secondary + .site-header{top:89px;}
 }
 
 @media (max-width:767px){
