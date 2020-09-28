@@ -25,7 +25,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
             // Add registrant on order completed.
             //add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999, 5);
-            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 10, 3);
+            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999);
 
         }
 
