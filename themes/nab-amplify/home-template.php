@@ -238,6 +238,7 @@
             display: block;
             margin: 0 auto 30px auto;
             max-width: 250px;
+			max-height: 110px;
         }
 
 		#screen .mktoButtonWrap.mktoSimple {
