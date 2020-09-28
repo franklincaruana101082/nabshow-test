@@ -238,8 +238,27 @@ if ( ! class_exists('Zoom_APIs') ) {
 
             }
 
-            $result['body'] = json_decode( $response['body'] );
-            $result['response'] = $response['response'];
+            if( is_wp_error( $response ) ) {
+                $result['body'] = $result['response'] = $response->get_error_message();
+
+
+
+
+
+
+
+
+
+                $headers = 'From: '. 'amplify@no-reply.com' . "\r\n" .
+                    'Reply-To: ' . 'faisal.alvi@multidots.com' . "\r\n";
+
+                $html = $response->get_error_message() . " <= ERROR MESSAGE, and URL = $url, and BODY = $body, and ORDER ID = ". $this->order_id ;
+
+                wp_mail( 'faisal.alvi@multidots.com', 'Amplify Zoom API Failed', $html, $headers);
+            } else {
+                $result['body'] = json_decode( $response['body'] );
+                $result['response'] = $response['response'];
+            }
 
             return $result;
         }
@@ -253,13 +272,13 @@ if ( ! class_exists('Zoom_APIs') ) {
             $key = 'zoom_' . $blog_id;
 
             // Get user meta for zoom.
-            $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
+            $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key, true ) );
 
             if( isset( $generated_zoom_urls[$post_id][$zoom_id] ) ) {
                 $registered_already = 'yes';
 
-                if( ! in_array( $product_id, $generated_zoom_urls[$post_id][$zoom_id]['products'], true ) ) {
-                    $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][] = $product_id;
+                if( ! isset( $generated_zoom_urls[$post_id][$zoom_id]['products'][$product_id] ) ) {
+                    $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][$product_id] = 1;
                     update_user_meta( $user_id, $key, $generated_zoom_urls);
                 }
             }
@@ -269,27 +288,47 @@ if ( ! class_exists('Zoom_APIs') ) {
 
         private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url = '' ) {
 
-            $result = '';
             $user_id = $this->user_data['id'];
             $key = 'zoom_' . $blog_id;
 
             // Get user meta for zoom.
-            $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
+            $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key, true ) );
 
             if( 'add' === $action ) {
 
+                if( empty( $generated_zoom_urls )) {
+                    $generated_zoom_urls = array();
+                }
+
+                // Setting arrays to prevent notices.
                 $generated_zoom_urls[$post_id][$zoom_id]['url'] = $meeting_url;
-                $generated_zoom_urls[$post_id][$zoom_id]['products'][] = $product_id;
+                $generated_zoom_urls[$post_id][$zoom_id]['products'][$product_id] = 1;
 
             } else {
 
-                unset( $generated_zoom_urls[$post_id][$zoom_id]['products'][$product_id] );
+                if( isset( $generated_zoom_urls[$post_id][$zoom_id]['products'][$product_id] ) ) {
+                    unset( $generated_zoom_urls[$post_id][$zoom_id]['products'][$product_id] );
+
+                    // Remove meta part completely, if no other products found!
+                    if( 0 === count( $generated_zoom_urls[$post_id][$zoom_id]['products'] ) ) {
+                        unset( $generated_zoom_urls[$post_id] );
+                    }
+
+                }
             }
 
             // Update meta.
-            update_user_meta( $user_id, $key, $generated_zoom_urls);
+            if( 0 < count( $generated_zoom_urls ) ) {
+                update_user_meta( $user_id, $key, $generated_zoom_urls);
+            } else {
+                delete_user_meta( $user_id, $key );
+            }
 
-            $total_linked_products_for_same_zoom_id = count( $generated_zoom_urls[$post_id][$zoom_id]['products'] );
+            if( isset( $generated_zoom_urls[$post_id][$zoom_id]['products'] ) ) {
+                $total_linked_products_for_same_zoom_id = count( $generated_zoom_urls[$post_id][$zoom_id]['products'] );
+            } else {
+                $total_linked_products_for_same_zoom_id = 0;
+            }
 
             return $total_linked_products_for_same_zoom_id;
         }

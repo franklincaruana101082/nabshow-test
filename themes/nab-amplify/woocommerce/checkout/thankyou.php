@@ -18,8 +18,9 @@
 defined( 'ABSPATH' ) || exit;
 
 // testing
-/*$order->update_status( "on-hold" );
-$order->update_status( "completed" );*/
+//$order->update_status( "processing" );
+//$order->update_status( "on-hold" );
+//$order->update_status( "completed" );
 
 if( $_GET['test']) {
 
@@ -59,7 +60,9 @@ if( $_GET['test']) {
                 switch_to_blog( $blog_id );
 
                 foreach ( $ac as $current_post_id => $val ) {
+                    if( $zoom_id ) {
                     $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
+                }
                 }
 
                 print_r('meeting_ids = blog=>prodct_post = zoom_id ');
@@ -76,8 +79,11 @@ if( $_GET['test']) {
 
     $key = 'zoom_' . $blog_id;
 
+    delete_user_meta( $user_id, $key );
+
+
     // Get user meta for zoom.
-    $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
+    $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key, true ) );
 
     print_r("user data = ");
     print_r($user_data);
