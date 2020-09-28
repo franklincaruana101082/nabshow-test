@@ -18,6 +18,8 @@
     <link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.ico' ); ?>">
 	<meta name="google-site-verification" content="bxlFmG3yrAwWFAwi0WI6Bd_V5Ab78-ldZTGAGrgilTQ" />
+	<script src="https://cdn.broadstreetads.com/init-2.min.js"></script>
+<script>broadstreet.watch({ networkId: 6638 })</script>
 	<?php wp_head(); ?>
 
 	<!-- Dynamic Schema -->

@@ -530,7 +530,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
                                     			$term_tag_link = $site_url . '/explore/exhibits/browse-exhibitors/?exhibitor-key=' . $current_term->slug;
 			                                    ?>
 			                                    <li>
-				                                    <!--<a href="<?php echo esc_url( $term_tag_link ); ?>">--><?php echo esc_html( $current_term->name ); ?><!--</a>-->
+				                                    <a href="<?php echo esc_url( $term_tag_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a>
 			                                    </li>
 			                                    <?php
 		                                    }
