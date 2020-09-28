@@ -220,6 +220,26 @@
 			padding: 10px 30px;
 		}
 
+		#showcase {
+            display: flex;
+            margin: 0 auto;
+            max-width: 600px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        #showcase > * {
+            margin: 0 0 30px 0;
+            padding: 40px 20px;
+            width: 50%;
+        }
+
+        #showcase > * img {
+            display: block;
+            margin: 0 auto 30px auto;
+            max-width: 250px;
+			max-height: 110px;
+        }
 
 		#screen .mktoButtonWrap.mktoSimple {
 			margin-left: 0 !important;
@@ -271,6 +291,21 @@
 				font-size: 500%;
 			}
 
+		}
+
+		@media screen and (max-width: 700px) {
+
+			#showcase {
+				display: block;
+				margin: 0 auto;
+				max-width: 600px;
+				width: 100%;
+			}
+
+			#showcase > * {
+				margin: 0 auto 30px auto;
+				width: 100%;
+			}
 		}
 
 
@@ -347,25 +382,64 @@
 
 		<div class="wrap">
 			<div class="inner">
-				<div id="brand"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/nab-brand.png"></div>
-				<p>Immerse yourself in a brand new, amplified NAB experience like you’ve never seen.</p>
-				<h1>NAB Amplify<sup>TM</sup></h1>
-				<p><em>Beta begins this November.</em></p>
-				<p>Get on the list to be the first to know more.</p>
+				<?php
+				if ( have_posts() ) :
+					
+					while ( have_posts() ) :
+						
+						the_post();
+						
+						the_content();
+								
+					endwhile; // End of the loop.
+				endif;
+				
+				$page_id    = get_the_ID();
+                $rows       = get_field( 'event_details', $page_id );
+                
+                if ( $rows ) {
 
-				<div id="marketo-form" class="framing">
-					<script src="https://app-ab34.marketo.com/js/forms2/js/forms2.min.js"></script>
-					<form id="mktoForm_1113"></form>
-					<script>MktoForms2.loadForm( '//app-ab34.marketo.com', '927-ARO-980', 1113 );</script>
-				</div>
-				<div class="framing">
-					<p>To learn more about how <em>NAB Amplify<sup>TM</sup></em> can help technology solution providers, generate leads, elevate brands and drive business
-						opportunities to new levels, contact your account manager at <a href="mailto:exhibit@nab.org">exhibit@nab.org</a></p>
-				</div>
+                    ?>
+                    <div id="showcase">
+                        <?php
+                        foreach( $rows as $row ) {
+                            
+                            $event_logo     = $row[ 'event_logo' ];
+                            $event_date     = $row[ 'event_date' ];
+                            $event_link     = $row[ 'event_link' ];
+                            $link_text      = $row[ 'event_link_text' ];
+                            $display_event  = $row[ 'event_display' ];
+
+                            if ( $display_event ) {
+                                ?>
+                                <div class="future">
+                                    <img src="<?php echo esc_url( $event_logo[ 'url' ] ); ?>" alt="event-logo">
+                                    <p>
+									<?php
+									echo esc_html( $event_date );
+									
+									if ( ! empty( $event_link ) ) {
+										?>
+										<br><a href="<?php echo esc_url( $event_link ); ?>"><?php echo esc_html( $link_text ); ?></a>
+										<?php
+									}
+									?>										
+									</p>
+                                </div>
+                                <?php
+                            }                            
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+				?>
 			</div>
 		</div>
 
 	</div>
+	<script src="https://app-ab34.marketo.com/js/forms2/js/forms2.min.js"></script>
+	<script>MktoForms2.loadForm( '//app-ab34.marketo.com', '927-ARO-980', 1113 );</script>
 	<!-- content -->
 
 	<!-- transparency -->

@@ -246,6 +246,7 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
             display: block;
             margin: 0 auto 30px auto;
             max-width: 250px;
+            max-height: 110px;
         }
 
         @-webkit-keyframes rotating /* Safari and Chrome */
@@ -406,22 +407,58 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
 
         <div class="wrap">
             <div class="inner">
-                <div id="brand"><img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/nab-brand.png"></div>
-                <p><em>Looking for more digital experiences?</em><br>Register for these upcoming opportunities to stay connected, informed and inspired.</p>
+                <?php
+				if ( have_posts() ) :
+					
+					while ( have_posts() ) :
+						
+						the_post();
+						
+						the_content();
+								
+					endwhile; // End of the loop.
+				endif;
+                
+                $page_id    = get_the_ID();
+                $rows       = get_field( 'event_details', $page_id );
+                
+                if ( $rows ) {
 
-                <div id="showcase">
-					<?php if ( 'yes' === $collective_speaking_event ) { ?>
-                        <div class="future">
-                            <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/collectively-brand-white.png">
-                            <p>September 2, 2020<br><a href="https://connect.nabshow.com/">REGISTER</a></p>
-                        </div>
-					<?php } ?>
-                    <div class="future">
-                        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/nabi-brand-white.png">
-                        <p>October 19-29, 2020<br><a href="https://nabshow.com/ny2020/">REGISTER</a></p>
+                    ?>
+                    <div id="showcase">
+                        <?php
+                        foreach( $rows as $row ) {
+                            
+                            $event_logo     = $row[ 'event_logo' ];
+                            $event_date     = $row[ 'event_date' ];
+                            $event_link     = $row[ 'event_link' ];
+                            $link_text      = $row[ 'event_link_text' ];
+                            $display_event  = $row[ 'event_display' ];
+
+                            if ( $display_event ) {
+                                ?>
+                                <div class="future">
+                                    <img src="<?php echo esc_url( $event_logo[ 'url' ] ); ?>" alt="event-logo">
+                                    <p>
+									<?php
+									echo esc_html( $event_date );
+									
+									if ( ! empty( $event_link ) ) {
+										?>
+										<br><a href="<?php echo esc_url( $event_link ); ?>"><?php echo esc_html( $link_text ); ?></a>
+										<?php
+									}
+									?>										
+									</p>
+                                </div>
+                                <?php
+                            }                            
+                        }
+                        ?>                        
                     </div>
-                </div>
-
+                    <?php                    
+                }
+                ?>
             </div>
         </div>
     </div>
