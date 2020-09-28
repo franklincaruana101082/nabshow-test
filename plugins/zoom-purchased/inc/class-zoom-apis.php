@@ -106,13 +106,16 @@ if ( ! class_exists('Zoom_APIs') ) {
 
                     // Check if zoom link already generated for the given zoom id.
                     // If yes, then just add the given product id in user meta.
+
+
+                    return;
+
+
+
                     $registered_already = $this->zoom_check_registered_already( $zoom_id, $blog_id, $post_id, $product_id );
 
 
 
-
-
-                    return;
 
 
 
