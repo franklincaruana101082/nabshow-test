@@ -106,10 +106,13 @@ if ( ! class_exists('Zoom_APIs') ) {
                     // Check if zoom link already generated for the given zoom id.
                     // If yes, then just add the given product id in user meta.
                     $registered_already = $this->zoom_check_registered_already( $zoom_id, $blog_id, $post_id, $product_id );
+                    echo "001";
                     if ( 'yes' === $registered_already ) {
+                        echo "002-continued";
                         continue;
                     }
-
+                    echo "003";
+                    die();
 			        // Check if user just registered a seconds ago, i.e. check in the tracking array!
                     if( ! isset( $registered_meetings[ $zoom_id ] ) ) {
 
@@ -129,7 +132,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
                         // If meeting is NOT Registration enabled. Join URL will be received asap on registration.
                         if( isset( $registrant_body->join_url ) ) {
-die('worked01');
+
                             // Save meeting's unique URL in user meta.
                             $this->zp_update_usermeta_for_zoom($blog_id, $post_id, $zoom_id, 'add', $product_id, $registrant_body->join_url);
 
