@@ -90,11 +90,12 @@ if ( ! class_exists('Zoom_APIs') ) {
             // Get user details.
             $user_data = $this->zp_get_user_details();
 
-            echo 'testing-01';
-            return;
 
 		    // Get meeting ids.
 		    $meeting_ids = $this->zp_get_meeting_ids();
+
+            echo 'testing-03';
+            return;
 
 		    // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
