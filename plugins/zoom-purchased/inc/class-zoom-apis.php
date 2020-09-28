@@ -28,22 +28,22 @@ if ( ! class_exists('Zoom_APIs') ) {
 
         }
 
-        private function zp_woo_order_status_change_custom($order_id, $old_status, $new_status) {
+        public function zp_woo_order_status_change_custom($order_id, $old_status, $new_status) {
 
-        	$this->order_id = $order_id;
+            $this->order_id = $order_id;
 
-        	// Add registrant if order is completed.
-		    if( 'completed' === $new_status ) {
-			    $this->zp_api_add_registrant();
-		    }
+            // Add registrant if order is completed.
+            if( 'completed' === $new_status ) {
+                $this->zp_api_add_registrant();
+            }
 
-        	// Remove registrant if order is changed from completed to any other status.
-		    if( 'completed' === $old_status ) {
-			    $this->zp_api_remove_registrant();
-		    }
-	    }
+            // Remove registrant if order is changed from completed to any other status.
+            if( 'completed' === $old_status ) {
+                $this->zp_api_remove_registrant();
+            }
+        }
 
-	    private function zp_api_remove_registrant() {
+        private function zp_api_remove_registrant() {
 
             // Get user details.
             $user_data = $this->zp_get_user_details();
@@ -82,20 +82,20 @@ if ( ! class_exists('Zoom_APIs') ) {
             } // end foreach - meeting ids main array.
         }
 
-	    private function zp_api_add_registrant() {
+        private function zp_api_add_registrant() {
 
             // Get user details.
             $user_data = $this->zp_get_user_details();
 
-		    // Get meeting ids.
-		    $meeting_ids = $this->zp_get_meeting_ids();
+            // Get meeting ids.
+            $meeting_ids = $this->zp_get_meeting_ids();
 
-		    // Initialize log of zoom url creation, to avoid re-creation.
+            // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
 
-		    foreach ( $meeting_ids as $blog_id => $content_posts ) {
+            foreach ( $meeting_ids as $blog_id => $content_posts ) {
 
-			    foreach ( $content_posts as $product_and_post_id => $zoom_id ) {
+                foreach ( $content_posts as $product_and_post_id => $zoom_id ) {
 
                     $product_and_post_id    = explode('_', $product_and_post_id);
                     $product_id             = $product_and_post_id[0];
@@ -108,7 +108,7 @@ if ( ! class_exists('Zoom_APIs') ) {
                         continue;
                     }
 
-			        // Check if user just registered a seconds ago, i.e. check in the tracking array!
+                    // Check if user just registered a seconds ago, i.e. check in the tracking array!
                     if( ! isset( $registered_meetings[ $zoom_id ] ) ) {
 
                         $registrants_api_url = "https://api.zoom.us/v2/meetings/$zoom_id/registrants";
@@ -202,13 +202,13 @@ if ( ! class_exists('Zoom_APIs') ) {
                         // user already registered in earlier loop for the given zoom id.
                     }
 
-		    	} // end foreach - blog wise zoom ids.
+                } // end foreach - blog wise zoom ids.
 
-		    } // end foreach - meeting ids main array.
+            } // end foreach - meeting ids main array.
 
-	    }
+        }
 
-	    private function zp_api_call( $url, $method = 'POST', $body = '', $content_type = 'application/json; charset=utf-8' ) {
+        private function zp_api_call( $url, $method = 'POST', $body = '', $content_type = 'application/json; charset=utf-8' ) {
 
             $args = array(
                 'headers'     => array(
@@ -244,7 +244,7 @@ if ( ! class_exists('Zoom_APIs') ) {
             return $result;
         }
 
-	    private function zoom_check_registered_already( $zoom_id, $blog_id, $post_id, $product_id ) {
+        private function zoom_check_registered_already( $zoom_id, $blog_id, $post_id, $product_id ) {
 
             // Set default.
             $registered_already = 'no';
@@ -267,24 +267,17 @@ if ( ! class_exists('Zoom_APIs') ) {
             return $registered_already;
         }
 
-	    private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url) {
+        private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url) {
 
+            $result = '';
             $user_id = $this->user_data['id'];
             $key = 'zoom_' . $blog_id;
 
             // Get user meta for zoom.
             $generated_zoom_urls = maybe_unserialize( get_user_meta( $user_id, $key ) );
-            if( ! isset( $generated_zoom_urls ) || empty( $generated_zoom_urls ) ) {
-                $generated_zoom_urls = array();
-            }
 
             if( 'add' === $action ) {
 
-                if( ! isset( $generated_zoom_urls[$post_id] ) ) {
-                    $generated_zoom_urls[$post_id] = array();
-                }
-
-                $generated_zoom_urls[$post_id][$zoom_id] = array();
                 $generated_zoom_urls[$post_id][$zoom_id]['url'] = $meeting_url;
                 $generated_zoom_urls[$post_id][$zoom_id]['products'][] = $product_id;
 
@@ -301,7 +294,7 @@ if ( ! class_exists('Zoom_APIs') ) {
             return $total_linked_products_for_same_zoom_id;
         }
 
-	    private function zp_get_user_details() {
+        private function zp_get_user_details() {
 
             $this->order = $order = new WC_Order($this->order_id);
 
@@ -336,34 +329,37 @@ if ( ! class_exists('Zoom_APIs') ) {
             return $this->zp_api_call( $url, 'PUT', $body );
         }
 
-	    private function zp_get_meeting_ids() {
+        private function zp_get_meeting_ids() {
 
-		    $items = $this->order->get_items();
-		    foreach ( $items as $item ) {
+            $items = $this->order->get_items();
+            foreach ( $items as $item ) {
 
-			    $product_id = $item->get_product_id();
-			    $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
+                $product_id = $item->get_product_id();
+                $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
 
-			    if( $associated_content ) {
-				    $meeting_ids = array();
-				    foreach ( $associated_content as $blog_id => $ac ) {
+                if( $associated_content ) {
+                    $meeting_ids = array();
+                    foreach ( $associated_content as $blog_id => $ac ) {
 
-					    // Connect to new multisite
-					    switch_to_blog( $blog_id );
+                        // Connect to new multisite
+                        switch_to_blog( $blog_id );
 
-					    foreach ( $ac as $current_post_id => $val ) {
-						    $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
-					    }
-				    }
+                        foreach ( $ac as $current_post_id => $val ) {
+                            $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
+                            if( $zoom_id ) {
+                                $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
+                            }
+                        }
+                    }
 
                     wp_reset_query();
                     // Quit multisite connection
                     restore_current_blog();
-			    }
-		    }
+                }
+            }
 
-		    return $meeting_ids;
-	    }
+            return $meeting_ids;
+        }
 
         /**
          * Get zoom token.
