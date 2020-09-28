@@ -89,19 +89,6 @@ if ( ! class_exists('Zoom_APIs') ) {
             $user_data = $this->zp_get_user_details();
 
 
-
-
-
-
-
-
-
-
-
-
-
-            return true;
-
 		    // Get meeting ids.
 		    $meeting_ids = $this->zp_get_meeting_ids();
 
@@ -142,7 +129,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
                         // If meeting is NOT Registration enabled. Join URL will be received asap on registration.
                         if( isset( $registrant_body->join_url ) ) {
-
+die('worked01');
                             // Save meeting's unique URL in user meta.
                             $this->zp_update_usermeta_for_zoom($blog_id, $post_id, $zoom_id, 'add', $product_id, $registrant_body->join_url);
 
@@ -352,8 +339,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 
             $this->order = $order = new WC_Order($this->order_id);
             //$order       = wc_get_order( $this->order_id );
-
-            return true;
 
             $user_id = $order->get_user_id();
             $user_data['id'] = $user_id;
