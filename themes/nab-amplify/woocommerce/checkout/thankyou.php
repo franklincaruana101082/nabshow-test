@@ -79,7 +79,13 @@ if( $_GET['test']) {
 
     $key = 'zoom_' . $blog_id;
 
-    delete_user_meta( $user_id, $key );
+
+
+
+
+
+
+    //delete_user_meta( $user_id, $key );
 
 
     // Get user meta for zoom.
