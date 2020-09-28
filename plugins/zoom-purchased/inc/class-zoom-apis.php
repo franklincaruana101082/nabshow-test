@@ -109,6 +109,7 @@ if ( ! class_exists('Zoom_APIs') ) {
                     echo "001";
                     if ( 'yes' === $registered_already ) {
                         echo "002-continued";
+                        die();
                         continue;
                     }
                     echo "003";
@@ -210,6 +211,8 @@ if ( ! class_exists('Zoom_APIs') ) {
 		    	} // end foreach - blog wise zoom ids.
 
 		    } // end foreach - meeting ids main array.
+
+            return true;
 
 	    }
 
