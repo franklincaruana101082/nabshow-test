@@ -43,7 +43,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 			    $this->zp_api_remove_registrant();
 		    }
 
-		    return true;
 	    }
 
 	    private function zp_api_remove_registrant() {
@@ -87,21 +86,12 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 	    private function zp_api_add_registrant() {
 
-
-
-
-
-
-
-
-
-
             // Get user details.
-            //$user_data = $this->zp_get_user_details();
+            $user_data = $this->zp_get_user_details();
 
 
 		    // Get meeting ids.
-		    //$meeting_ids = $this->zp_get_meeting_ids();
+		    $meeting_ids = $this->zp_get_meeting_ids();
 
 		    // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
@@ -117,6 +107,16 @@ if ( ! class_exists('Zoom_APIs') ) {
                     // Check if zoom link already generated for the given zoom id.
                     // If yes, then just add the given product id in user meta.
                     $registered_already = $this->zoom_check_registered_already( $zoom_id, $blog_id, $post_id, $product_id );
+
+
+
+
+
+                    return;
+
+
+
+
                     echo "001";
                     if ( 'yes' === $registered_already ) {
                         echo "002-continued";
