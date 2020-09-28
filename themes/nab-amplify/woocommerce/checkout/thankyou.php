@@ -52,7 +52,7 @@ if( $_GET['test']) {
     foreach ( $items as $item ) {
         $product_ids[] = $item['product_id'];
         $associated_content = maybe_unserialize( get_post_meta( $item['product_id'], '_associated_content', true ) );
-        print_r($item['product_id']);
+        print_r($item['product_id'] . ' prodid => associated_content = ');
         print_r($associated_content);
 
         if( $associated_content ) {
@@ -66,6 +66,7 @@ if( $_GET['test']) {
                     $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
                 }
 
+                print_r('meeting_ids = blog=>prodct_post = zoom_id ');
                 print_r($meeting_ids);
             }
         }
@@ -79,7 +80,7 @@ if( $_GET['test']) {
 
     print_r("user data = ");
     print_r($user_data);
-    print_r("generated_zoom_urls = ");
+    print_r("generated_zoom_urls => zoom_blogid = zoom_id => ['urls'] = ");
     print_r($generated_zoom_urls);
     die('diednow');
 }
