@@ -60,9 +60,9 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 
 
-            wp_reset_query();
+            /*wp_reset_query();
             // Quit multisite connection
-            restore_current_blog();
+            restore_current_blog();*/
 
 	    }
 
@@ -129,9 +129,9 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 
 
-            wp_reset_query();
+            /*wp_reset_query();
             // Quit multisite connection
-            restore_current_blog();
+            restore_current_blog();*/
 
 		    /*echo "-exitingNow";
 		    return;*/
@@ -476,6 +476,10 @@ if ( ! class_exists('Zoom_APIs') ) {
                             }
 
 				        }
+
+                        wp_reset_query();
+                        // Quit multisite connection
+                        restore_current_blog();
 
 
 			        }
