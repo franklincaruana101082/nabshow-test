@@ -109,11 +109,10 @@ if ( ! class_exists('Zoom_APIs') ) {
                     echo "001";
                     if ( 'yes' === $registered_already ) {
                         echo "002-continued";
-                        die();
                         continue;
                     }
                     echo "003";
-                    die();
+                    //die();
 			        // Check if user just registered a seconds ago, i.e. check in the tracking array!
                     if( ! isset( $registered_meetings[ $zoom_id ] ) ) {
 
