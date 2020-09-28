@@ -49,7 +49,7 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
         if ( ! empty( $registration_url ) ) {
             ?>
             <div class="nabny-sidebar-block-link">
-                <a href="<?php echo esc_url( $registration_url ); ?>">Register Now</a>
+                <a href="<?php echo esc_url( $registration_url ); ?>">Get Pass</a>
             </div>
             <?php
         }
