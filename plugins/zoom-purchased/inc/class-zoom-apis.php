@@ -42,6 +42,8 @@ if ( ! class_exists('Zoom_APIs') ) {
 		    if( 'completed' === $old_status ) {
 			    $this->zp_api_remove_registrant();
 		    }
+
+		    die('okok01');
 	    }
 
 	    private function zp_api_remove_registrant() {
