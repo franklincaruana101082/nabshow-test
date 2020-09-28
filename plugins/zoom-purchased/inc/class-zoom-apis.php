@@ -43,7 +43,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 			    $this->zp_api_remove_registrant();
 		    }
 
-		    print_r( $order );
+		    print_r( $this->order );
 		    print_r( $order_id );
 		    die();
 	    }
