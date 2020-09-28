@@ -398,10 +398,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 		    $items = $this->current_order->get_items();
 
-            echo 'testing-05';
-            return;
-
-		    foreach ( $items as $item ) {
+            foreach ( $items as $item ) {
 
 			    $product_id = $item->get_product_id();
 			    $associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
@@ -412,6 +409,9 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 					    // Connect to new multisite
 					    switch_to_blog( $blog_id );
+
+                        echo 'testing-07';
+                        return;
 
 					    foreach ( $ac as $current_post_id => $val ) {
                             $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
