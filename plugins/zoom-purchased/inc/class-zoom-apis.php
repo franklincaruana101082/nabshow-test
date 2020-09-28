@@ -407,12 +407,13 @@ if ( ! class_exists('Zoom_APIs') ) {
 				    $meeting_ids = array();
 				    foreach ( $associated_content as $blog_id => $ac ) {
 
+                        print_r($blog_id);
+                        echo 'testing-13';
+                        return;
+
 					    // Connect to new multisite
 					    switch_to_blog( $blog_id );
 
-                        print_r($blog_id);
-                        echo 'testing-12';
-                        return;
 
                         $meeting_ids[$blog_id] = array();
 
