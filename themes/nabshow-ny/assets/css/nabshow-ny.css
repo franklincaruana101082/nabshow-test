@@ -261,7 +261,7 @@
 	.show_sec_menu .nab-header-secondary+.site-header{top:0;}
 	/* space with admin bar */
 	.admin-bar.show_sec_menu .nab-header-secondary{top:0;}
-	.admin-bar.show_sec_menu .nab-header-secondary + .site-header{top:89px;}
+	.admin-bar.show_sec_menu .nab-header-secondary + .site-header{top:0;}
 }
 
 @media (max-width:767px){
