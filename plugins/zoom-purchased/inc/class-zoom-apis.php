@@ -413,11 +413,13 @@ if ( ! class_exists('Zoom_APIs') ) {
                         $meeting_ids[$blog_id] = array();
 
                         foreach ( $ac as $current_post_id => $val ) {
-                            $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
-                            if( $zoom_id ) {
 
-                                echo 'testing-11';
-                                return;
+                            print_r($associated_content);
+                            echo 'testing-12';
+                            return;
+
+                            $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
+                            if( ! empty( $zoom_id ) ) {
 
                                 $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = $zoom_id;
 
