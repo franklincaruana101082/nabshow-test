@@ -101,7 +101,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 
 		    // Get meeting ids.
-		    $meeting_ids = $this->zp_get_meeting_ids();
+		    //$meeting_ids = $this->zp_get_meeting_ids();
 
 		    // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
