@@ -267,7 +267,7 @@ if ( ! class_exists('Zoom_APIs') ) {
             return $registered_already;
         }
 
-        private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url) {
+        private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url = '' ) {
 
             $result = '';
             $user_id = $this->user_data['id'];
