@@ -24,7 +24,6 @@ if ( ! class_exists('Zoom_APIs') ) {
             $this->token = $this->zp_api_get_zoom_token();
 
             // Add registrant on order completed.
-            //add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999, 5);
             add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 10, 3);
 
         }
@@ -42,28 +41,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 		    if( 'completed' === $old_status ) {
 			    $this->zp_api_remove_registrant();
 		    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*wp_reset_query();
-            // Quit multisite connection
-            restore_current_blog();*/
-
 	    }
 
 	    private function zp_api_remove_registrant() {
@@ -115,39 +92,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 		    // Get meeting ids.
 		    $meeting_ids = $this->zp_get_meeting_ids();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*wp_reset_query();
-            // Quit multisite connection
-            restore_current_blog();*/
-
-		    /*echo "-exitingNow";
-		    return;*/
-
-
-
-
-
-
-
-
-
-
-
-
-
             // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
 
@@ -161,25 +105,12 @@ if ( ! class_exists('Zoom_APIs') ) {
 
                     // Check if zoom link already generated for the given zoom id.
                     // If yes, then just add the given product id in user meta.
-
-
-
                     $registered_already = $this->zoom_check_registered_already( $zoom_id, $blog_id, $post_id, $product_id );
-
-
-
-
-
-
-
-                    echo "001";
                     if ( 'yes' === $registered_already ) {
-                        echo "002-continued";
                         continue;
                     }
-                    echo "003";
-                    //die();
-			        // Check if user just registered a seconds ago, i.e. check in the tracking array!
+
+                    // Check if user just registered a seconds ago, i.e. check in the tracking array!
                     if( ! isset( $registered_meetings[ $zoom_id ] ) ) {
 
                         $registrants_api_url = "https://api.zoom.us/v2/meetings/$zoom_id/registrants";
@@ -454,12 +385,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 			    if( $associated_content ) {
 				    $meeting_ids = array();
 				    foreach ( $associated_content as $blog_id => $ac ) {
-
-
-
-				        /*print_r($blog_id);
-                        echo 'testing-13';
-                        return;*/
 
 					    // Connect to new multisite
 					    switch_to_blog( $blog_id );
