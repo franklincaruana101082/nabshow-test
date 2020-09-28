@@ -17,6 +17,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+
+
+
 // testing
 //$order->update_status( "processing" );
 //$order->update_status( "on-hold" );
@@ -35,12 +38,10 @@ if( $_GET['test']) {
     $user_data['last_name'] = $user_meta['last_name'][0];
 
     $current_blog_id = get_current_blog_id();
-    $blog_id = $_GET['blog_id'];
+    $blog_id_from_url = $blog_id = $_GET['blog_id'];
     if( empty( $blog_id ) ) {
         die('please pass blog_id paramter');
     }
-
-
 
     echo '<pre>';
     $items = $order->get_items();
@@ -60,9 +61,10 @@ if( $_GET['test']) {
                 switch_to_blog( $blog_id );
 
                 foreach ( $ac as $current_post_id => $val ) {
+                    $zoom_id = get_post_meta( $current_post_id, 'zoom_id', true );
                     if( $zoom_id ) {
-                    $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = get_post_meta( $current_post_id, 'zoom_id', true );
-                }
+                        $meeting_ids[$blog_id][$product_id . '_' .$current_post_id ] = $zoom_id;
+                    }
                 }
 
                 print_r('meeting_ids = blog=>prodct_post = zoom_id ');
@@ -76,14 +78,7 @@ if( $_GET['test']) {
 
     }
 
-
-    $key = 'zoom_' . $blog_id;
-
-
-
-
-
-
+    $key = 'zoom_' . $blog_id_from_url;
 
     //delete_user_meta( $user_id, $key );
 
