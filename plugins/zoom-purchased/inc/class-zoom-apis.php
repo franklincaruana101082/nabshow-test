@@ -86,12 +86,12 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 	    private function zp_api_add_registrant() {
 
-            echo 'testing-01';
-            return;
 
             // Get user details.
             $user_data = $this->zp_get_user_details();
 
+            echo 'testing-01';
+            return;
 
 		    // Get meeting ids.
 		    $meeting_ids = $this->zp_get_meeting_ids();
