@@ -87,8 +87,17 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 	    private function zp_api_add_registrant() {
 
+
+
+
+
+
+
+
+
+
             // Get user details.
-            $user_data = $this->zp_get_user_details();
+            //$user_data = $this->zp_get_user_details();
 
 
 		    // Get meeting ids.
