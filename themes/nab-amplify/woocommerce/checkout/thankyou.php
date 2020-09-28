@@ -67,8 +67,8 @@ if( $_GET['test']) {
                     }
                 }
 
-                print_r('meeting_ids = blog=>prodct_post = zoom_id ');
             }
+            print_r('meeting_ids = blog=>prodct_post = zoom_id ');
             print_r($meeting_ids);
         }
 

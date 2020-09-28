@@ -24,7 +24,7 @@ if ( ! class_exists('Zoom_APIs') ) {
             $this->token = $this->zp_api_get_zoom_token();
 
             // Add registrant on order completed.
-            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 10, 3);
+            add_action('woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom'), 999, 5);
 
         }
 
