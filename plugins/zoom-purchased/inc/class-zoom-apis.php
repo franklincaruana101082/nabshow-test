@@ -14,7 +14,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
         private $current_order;
 
-        private $order_id;
+        private $current_order_id;
 
         private $user_data;
 
@@ -31,7 +31,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 
         public function zp_woo_order_status_change_custom( $order_id, $old_status, $new_status ) {
 
-            $this->order_id = $order_id;
+            $this->current_order_id = $order_id;
 
         	// Add registrant if order is completed.
 		    if( 'completed' === $new_status ) {
@@ -262,7 +262,7 @@ if ( ! class_exists('Zoom_APIs') ) {
                 $headers = 'From: '. 'amplify@no-reply.com' . "\r\n" .
                     'Reply-To: ' . 'faisal.alvi@multidots.com' . "\r\n";
 
-                $html = $response->get_error_message() . " <= ERROR MESSAGE, and URL = $url, and BODY = $body, and ORDER ID = ". $this->order_id ;
+                $html = $response->get_error_message() . " <= ERROR MESSAGE, and URL = $url, and BODY = $body, and ORDER ID = ". $this->current_order_id ;
 
                 wp_mail( 'faisal.alvi@multidots.com', 'Amplify Zoom API Failed', $html, $headers);
             } else {
@@ -345,8 +345,8 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 	    private function zp_get_user_details() {
 
-            $this->current_order = $order = new WC_Order($this->order_id);
-            //$order       = wc_get_order( $this->order_id );
+            $this->current_order = $order = new WC_Order($this->current_order_id);
+            //$order       = wc_get_order( $this->current_order_id );
 
             $user_id = $order->get_user_id();
             $user_data['id'] = $user_id;
