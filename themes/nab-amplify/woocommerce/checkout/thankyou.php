@@ -50,7 +50,7 @@ if( $_GET['test']) {
 
     $product_ids = array();
     foreach ( $items as $item ) {
-        $product_ids[] = $item['product_id'];
+        $product_id = $product_ids[] = $item['product_id'];
         $associated_content = maybe_unserialize( get_post_meta( $item['product_id'], '_associated_content', true ) );
         print_r($item['product_id'] . ' prodid => associated_content = ');
         print_r($associated_content);
