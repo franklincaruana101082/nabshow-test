@@ -94,10 +94,7 @@ if ( ! class_exists('Zoom_APIs') ) {
 		    // Get meeting ids.
 		    $meeting_ids = $this->zp_get_meeting_ids();
 
-            echo 'testing-03';
-            return;
-
-		    // Initialize log of zoom url creation, to avoid re-creation.
+            // Initialize log of zoom url creation, to avoid re-creation.
             $registered_meetings = array();
 
 		    foreach ( $meeting_ids as $blog_id => $content_posts ) {
@@ -413,12 +410,15 @@ if ( ! class_exists('Zoom_APIs') ) {
                             }
 				        }
 			        }
-
-                    wp_reset_query();
-                    // Quit multisite connection
-                    restore_current_blog();
                 }
 		    }
+
+            wp_reset_query();
+            // Quit multisite connection
+            restore_current_blog();
+
+            echo 'testing-04';
+            return;
 
 		    return $meeting_ids;
 	    }
