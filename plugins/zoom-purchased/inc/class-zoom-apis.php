@@ -86,6 +86,9 @@ if ( ! class_exists('Zoom_APIs') ) {
 
 	    private function zp_api_add_registrant() {
 
+            echo 'testing-01';
+            return;
+
             // Get user details.
             $user_data = $this->zp_get_user_details();
 
@@ -106,9 +109,6 @@ if ( ! class_exists('Zoom_APIs') ) {
 
                     // Check if zoom link already generated for the given zoom id.
                     // If yes, then just add the given product id in user meta.
-
-
-                    return;
 
 
 
