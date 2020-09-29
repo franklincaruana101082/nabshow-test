@@ -212,7 +212,8 @@ if ( $query->have_posts() || $listing_page ) {
                             <?php
                         }
                         ?>
-                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() . '?w=' . $img_width ); ?>" alt="exhibitor-logo">
+                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() . '?w=' . $img_width ); ?>" alt="exhibitor-logo"><br />
+                            <?php echo $title ?>
                         <?php
                         if ( $slider_active ) {
                             ?>
