@@ -90,7 +90,6 @@ function nab_bulk_order_quantity() {
 		if ( isset( $cart_val['nab_qty'] ) && ! empty( $cart_val['nab_qty'] ) ) {
 			return $cart_val['nab_qty'];
 		}
-		// return $cart_val['quantity'];
 	}
 
 	return false;
@@ -370,6 +369,5 @@ function nab_update_cocart_item( $cart_item_key, $quantity ) {
 		) );
 
 		$response = curl_exec( $curl );
-		wp_mail( 'hardikthakkar@mailinator.com', 'CART UPDATE', print_r( $response, true ) );
 	}
 }

@@ -523,6 +523,10 @@ function nab_save_event_fields( $order_id ) {
 
 	}
 
+	if( isset( $_POST['nab_additional_email'] ) && ! empty( $_POST['nab_additional_email'] ) ) {
+		update_post_meta( $order_id, 'nab_additional_email', filter_input( INPUT_POST, 'nab_additional_email' ) );
+	}
+
 }
 
 /**

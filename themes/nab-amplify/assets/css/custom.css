@@ -797,6 +797,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 /* attendee view popup */
 #nabViewAttendeeModal.nab-modal .modal-content{max-width:980px;}
 .attendee-view-wrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:120px;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.attendee-view-wrap h3{text-transform:uppercase;text-align:center;width:100%;text-align:center;color:#6363df;font-weight:700;}
 .attendee-view-table-wrp{width:100%}
 .attendee-view-table-wrp table{border-collapse:collapse;}
 .attendee-view-table-wrp tr{border-bottom:1px solid #e0e0e0;}
