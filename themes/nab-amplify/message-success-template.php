@@ -231,7 +231,7 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
         #showcase {
             display: flex;
             margin: 0 auto;
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
             justify-content: center;
         }
@@ -245,8 +245,8 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
         #showcase > * img {
             display: block;
             margin: 0 auto 30px auto;
-            max-width: 250px;
-            max-height: 110px;
+            max-width: 230px;
+            max-height: 90px;
         }
 
         @-webkit-keyframes rotating /* Safari and Chrome */
@@ -311,6 +311,12 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
                 margin: 0 auto 30px auto;
                 width: 100%;
             }
+
+            #showcase > * img {
+				max-width: 250px;
+				max-height: 110px;
+			}
+            
         }
 
 
