@@ -238,7 +238,7 @@
             display: block;
             margin: 0 auto 30px auto;
             max-width: 250px;
-			max-height: 110px;
+            max-height: 110px;
         }
 
 		#screen .mktoButtonWrap.mktoSimple {
@@ -394,9 +394,18 @@
 					endwhile; // End of the loop.
 				endif;
 				
-				$page_id    = get_the_ID();
-                $rows       = get_field( 'event_details', $page_id );
-                
+				$page_id    	= get_the_ID();
+                $rows       	= get_field( 'event_details', $page_id );
+				$bottom_info	= get_field( 'home_bottom_info', $page_id );
+				?>
+				<div id="marketo-form" class="framing">					
+					<form id="mktoForm_1113"></form>					
+				</div>
+				<?php
+				if ( ! empty( $bottom_info ) ) {
+					echo wp_kses_post( $bottom_info );
+				}
+
                 if ( $rows ) {
 
                     ?>
