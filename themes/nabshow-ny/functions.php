@@ -24,15 +24,8 @@ function ny_enqueue_styles() {
 
     wp_enqueue_script( 'scripts', get_stylesheet_directory_uri() . '/js/scripts.js', array(), '2.0.0', true );
 
-    wp_enqueue_script( 'ny-add-cart', get_stylesheet_directory_uri() . '/assets/js/ny-add-to-cart.js', array(), '2.0.0', true );
-
-    wp_localize_script( 'ny-add-cart', 'mdObj', array(
-      'isUserLoggedIn'      => is_user_logged_in(),
-      'mdLoggedUserId'      => get_current_user_id(),
-      'ajaxUrl'             => admin_url( 'admin-ajax.php' ),
-      'nabCartKey'          => uniqid(),
-      'nabParentAPIUrl'     => get_option( 'ep_parent_site_url', '' ),
-      'nabCookieBaseDomain' => NAB_COOKIE_BASE_DOMAIN
+    wp_localize_script( 'scripts', 'nabshowNy', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
     ) );
 
 }
@@ -40,14 +33,6 @@ function ny_enqueue_styles() {
 /**
  * Include files for theme customize hooks.
  */
-require_once get_stylesheet_directory() . '/inc/segment-ga-dev.php';
-
-/**
- * Includes constants file
- */
-require_once get_stylesheet_directory() . '/inc/constants.php';
-
-/**
- * Includes constants file
- */
-require_once get_stylesheet_directory() . '/inc/general-functions.php';
+require_once get_stylesheet_directory() . '/inc/actions.php';
+require_once get_stylesheet_directory() . '/inc/actions-functions.php';
+require_once get_stylesheet_directory() . '/inc/segment-ga-prod.php';

@@ -1,4 +1,4 @@
-/* !
+/*!
 Theme Name: NABShow NY
 Theme URI: https://www.multidots.com/
 Author: Multidots
@@ -9,20 +9,25 @@ License: GNU General Public License v2 or later
 License URI: LICENSE
 Text Domain: nabshow-ny
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
+
 NABShow NY is based on Underscores https://underscores.me/, (C) 2012-2017 Automattic, Inc.
 Underscores is distributed under the terms of the GNU GPL v2 or later.
+
 Normalizing styles have been helped along thanks to the fine work of
 Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
- */
+*/
 
  	// Variables
 
  	// Colors
  	$nab-green: #72bf44;
  	$nab-darkblue: #333367;
- 	$nab-purple: #AB3e97;
+ 	$nab-lightblue: #00b2ba;
+ 	$nab-purple: #ab3e97;
+ 	$nab-yellow: #fdbd3b;
 
 	
 	@import 'lib/helpers';
@@ -75,6 +80,8 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Roboto&display=swap');
 
+	html { margin-top: 0 !important; } // GDPR & HEADER BG HELPER
+
 	body {
 		// background-color: #777; 
 		-webkit-font-smoothing: antialiased;
@@ -97,8 +104,41 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	// function mobile_reg_button_ny_inclusion // located in actions-functions.php
+	#mobile_reg {
+		background-color: $nab-green;
+		bottom: 0;
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 1.4em;
+		padding: 20px 20px;
+		position: fixed;
+		text-align: center;
+		text-decoration: none;
+		width: 100%;
+		@include trans(all 0.3s ease-in-out);
+		@include range(xs) {
+			font-size: 2em;
+		}
+		@include range(md) {
+			display: none;
+		}
+	}
+
 	h1 {
 		font-family: 'Josefin Sans', sans-serif;
+		line-height: 100%;
+	}
+
+	hr {
+		height: 1px;
+	}
+
+	ol li, ul li {
+		font-size: 19px;
 	}
 
 	.custom-logo {
@@ -127,23 +167,25 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.hero-banner-inner .banner-item .title {
-		font-family: 'Josefin Sans', sans-serif !important;
+		font-family: 'Josefin Sans', sans-serif;
 		margin-top: -20px;
 		margin: 0;
 		text-transform: uppercase;
 		@extend .animated;
 		@extend .fadeIn;
 		@extend .delay-06s;
+		font-size: 30px;
+		word-spacing: 1px;
 		@include trans(all 0.3s ease-in-out);
 		@include range(md) {
-			font-size: 100px !important;
-			line-height: 100px !important;
+			font-size: 100px;
+			line-height: 100px;
 		}
 	}
 
 
 	.wp-block-nab-hero-banner.hero-banner {
-		margin-top: -191px !important;
+		margin-top: -191px;
 	}
 
 	.wp-block-nab-hero-banner.hero-banner .bx-controls.bx-has-pager {
@@ -151,14 +193,14 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.hero-banner-inner .banner-item ul.hero-buttons li .button {
-		background-color: $nab-green !important;
-		font-family: 'Josefin Sans', sans-serif !important;
-		padding: 12px 40px !important;
+		background-color: $nab-green;
+		font-family: 'Josefin Sans', sans-serif;
+		padding: 12px 40px;
 	}
 
 
 	.sticky .super-menu-main .super-menu-icons a, .sticky .super-menu-main .super-menu-icons li i.fa {
-		color: #ffffff !important;
+		color: #ffffff;
 	}
 
 	.hero-banner-inner .banner-item {
@@ -194,7 +236,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.site-content {
-		overflow: initial !important;
+		overflow: initial;
 	}
 
 	#primary-menu .menu-item a {
@@ -206,6 +248,13 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		margin-top: 0px !important;
 		@include range(md) {
 			margin-top: -16px !important;
+		}
+	}
+
+	.main-navigation {
+		width: 0;
+		@include range(md) {
+			width: 100%;		
 		}
 	}
 
@@ -241,19 +290,49 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	.dark-header.site-header #site-navigation ul.menu>li {
+		max-width: initial;
+		width: initial;
+	}
+
+	.dark-header.site-header #site-navigation ul.menu>li>a {
+		font-size: 14px !important;
+		@include range(lg) {
+			font-size: 18px !important;
+		}
+	}
+
+
 	.dark-header.site-header #site-navigation ul.menu>li:last-child {
-		transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
-		-webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
+		// transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
+		// -webkit-transform: translateY(-1000px); // REMOVE ONCE REGISTRATION IS OPEN
 	}
 
 	.dark-header.site-header #site-navigation ul.menu>li:last-child>a {
-		padding: 5px 20px !important;
+		padding: 10px 20px !important;
 		background-color: $nab-green !important;
-		font-size: 14px !important;
+		font-size: 20px;
 	}
 
 	.sticky.site-header.dark-header #site-navigation ul.menu>li>a {
 		color: #ffffff !important;
+	}
+
+	.sticky.site-header #site-navigation ul.menu>li:last-of-type {
+		padding-top: 0;
+	}
+
+	.site-header #site-navigation ul.menu {
+		justify-content: space-between;
+		flex-direction: column;
+		@include range(md) {
+			flex-direction: row;
+		}
+	}
+
+	.sticky.site-header #site-navigation ul {
+		// justify-content: flex-start !important;
+		padding-right: 80px;
 	}
 
 	.sticky .header-right.text-right.col-md-2 {
@@ -275,15 +354,26 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		position: absolute !important;
 	}
 
-	#breadcrumbs * {
-		color: black !important;
-		// font-family: "Roboto", sans-serif !important;
-		text-transform: uppercase !important;
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-weight: bold !important;
+	header .header-right .search-form, header .header-right .header-get-updates {
+		top: -500%;
+		right: 0px;
 	}
 
+	header .header-right.active .search-form {
+		top: 130px;
+		right: 0px;
+	}
 
+	#menuToggle input.menu-hamburger:checked~.main-navigation .header-right.active .search-form {
+		top: 50px;
+	}
+
+	#breadcrumbs * {
+		color: black;
+		text-transform: uppercase;
+		font-family: 'Josefin Sans', sans-serif;
+		font-weight: bold;
+	}
 
 	#custom_html-2 {
 		float: right; // Must clean this up. Utility nav.
@@ -293,21 +383,19 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		margin-right: 16px;
 	}
 
-	
-
 	#masthead .container {
-		max-width: 1440px !important;
+		max-width: 1440px;
 	}
 
 	#primary.container {
-		max-width: 1440px !important;
+		max-width: 1440px;
 	}
 
 	h2 {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 50px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 50px;
 		margin-bottom: 20px;
-		line-height: 100% !important;
+		line-height: 100%;
 	}
 
 	.site-header #site-navigation ul.menu > li.clicked:nth-child(1) > a, .site-header #site-navigation ul.menu > li.clicked:nth-child(1) > a p.menu-item-description {
@@ -332,15 +420,15 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 	.all-intro {
 		color: #000000;
-		font-family: "roboto", sans-serif !important;
-		font-size: 19px !important;
-		line-height: 32px !important;
+		font-family: "roboto", sans-serif;
+		font-size: 19px;
+		line-height: 32px;
 	}
 	
 	// HOME INTRO
 	.rb-intro {
 		h2 {
-			font-family: 'Josefin Sans', sans-serif !important;
+			font-family: 'Josefin Sans', sans-serif;
 		}
 		p {
 			font-family: "roboto", sans-serif;
@@ -350,41 +438,41 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.rb-intro-title {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 50px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 50px;
 		margin-bottom: 20px;
 		color: $nab-darkblue;
-		line-height: 100% !important;
+		line-height: 100%;
 	}
 
 	.rb-intro-subtitle {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 30px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 30px;
 		margin-bottom: 0px;
-		color: $nab-purple !important;
+		color: $nab-purple;
 	}
 
 	.nab-title {
-		font-family: 'Josefin Sans', sans-serif !important;
+		font-family: 'Josefin Sans', sans-serif;
 		// font-size: 85px !important;
 		@include range(md) {
-			font-size: 85px !important;
+			font-size: 70px;
 		}
 
 	}
 
 	.nab-subtitle {
-		font-family: 'Josefin Sans', sans-serif !important;
-		font-size: 30px !important;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 30px;
 		margin-bottom: 0px;
 	}
 
 	.editor-styles-wrapper>*, p {
-		padding: 10px 0;
-		font-size: 19px !important;
-		font-family: 'roboto', sans-serif !important;
-		line-height: 32px !important;
 		color: #363636;
+		font-family: 'roboto', sans-serif;
+		font-size: 19px;
+		line-height: 32px;
+		padding: 10px 0;
 	}
 
 	.news-block {
@@ -415,7 +503,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		.nab-banner-main {
 			// max-width: 300px;
 			.banner-text {
-				color: #ffffff !important;
+				color: #ffffff;
 			}
 		}
 	}
@@ -455,7 +543,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		.mktoButton {
 			background-color: $nab-green !important;
 			font-family: 'Josefin Sans', sans-serif !important;
-			padding: 10px 40px 30px !important;
+			padding: 20px 40px 30px !important;
 			margin-top: 10px;
 		}
 		
@@ -528,7 +616,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		background-image: url("images/footer-background.jpg") !important;
 		background-position: center center !important;
 		background-size: cover !important;
-		padding: 60px 0 60px !important;
+		padding: 40px 0 140px !important;
+		@include range(sm) {
+			padding: 60px 0 60px !important;
+		}
 		.container {
 			max-width: 1440px !important;
 			padding: 10px 40px;
@@ -588,9 +679,19 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	}
 
 	.copyright {
-		font-size: 11px !important;
+		font-size: 11px;
 	}
 
+	// News Releases Page
+	.news-release-head {
+		h2 {
+			a {
+				&:hover {
+					color: white;
+				}
+			}
+		}
+	}
 
 
 

@@ -67,8 +67,6 @@ $(function() {
 			//Set the offset
 			offset: '70%'
 	});
-
-
 });
 
 
