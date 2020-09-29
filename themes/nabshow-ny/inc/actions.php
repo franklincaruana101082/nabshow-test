@@ -34,14 +34,14 @@ add_action( 'init', 'nabny_register_dynamic_blocks' );
 // Action for add gutenberg custom block
 add_action( 'enqueue_block_editor_assets', 'nabny_add_block_editor_assets' );
 
-// Filter to add a custom class to body tag
-add_filter( 'body_class', 'nabny_body_classes' );
+// // Filter to add a custom class to body tag
+// add_filter( 'body_class', 'nabny_body_classes' );
 
-// Shortcode for add to cart button
-add_shortcode( 'nab-add-to-cart', 'nabny_add_to_cart_btn' );
+// // Shortcode for add to cart button
+// add_shortcode( 'nab-add-to-cart', 'nabny_add_to_cart_btn' );
 
-// Shortcode for global header
-add_shortcode( 'nab-global-header', 'nabny_global_header' );
+// // Shortcode for global header
+// add_shortcode( 'nab-global-header', 'nabny_global_header' );
 
-// Add to cart message popup
-add_action( 'wp_footer', 'nabny_cart_message_popup' );
+// // Add to cart message popup
+// add_action( 'wp_footer', 'nabny_cart_message_popup' );

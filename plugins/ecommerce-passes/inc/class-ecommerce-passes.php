@@ -32,7 +32,14 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        //add_filter( 'wp_insert_post_data', array( $this, 'my_filter') );
             add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
 
-	}
+            // Global Header Class
+            $this->ep_add_global_header_class();
+
+        }
+        
+        public function ep_add_global_header_class() {
+            require_once EP_PLUGIN_DIR . 'inc/class-glbal-header.php';
+        }
 
         public function ep_add_prodcut_setting_page() {
 
