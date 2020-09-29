@@ -213,7 +213,7 @@ if ( $query->have_posts() || $listing_page ) {
                         }
                         ?>
                             <img src="<?php echo esc_url( get_the_post_thumbnail_url() . '?w=' . $img_width ); ?>" alt="exhibitor-logo"><br />
-                            <?php echo $display_name ?>
+                            <?php echo get_the_title() ?>
                         <?php
                         if ( $slider_active ) {
                             ?>
@@ -224,7 +224,7 @@ if ( $query->have_posts() || $listing_page ) {
                     } elseif ( $slider_active && $display_name ) {
                         ?>
                         <!-- <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
-                            <h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo $display_name ?></a></h4>
+                            <h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo get_the_title() ?></a></h4>
                         <?php
                     }
 
@@ -234,7 +234,7 @@ if ( $query->have_posts() || $listing_page ) {
                         if ( $display_name ) {
                             ?>
                             <!--<h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
-                            <h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo $display_name ?></a></h4>
+                            <h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo get_the_title() ?></a></h4>
                             <?php
                         }
 
