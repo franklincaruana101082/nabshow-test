@@ -29,7 +29,7 @@
 /* Secondary Header css */
 .show_sec_menu .nab-header-secondary{position: absolute;left: 0;right: 0;top: 0;display:block;}
 .show_sec_menu .nab-header-secondary + .site-header{top:89px;}
-.show_sec_menu .nab-header-secondary + .site-header.sticky{top:0;}
+.show_sec_menu .nab-header-secondary + .site-header.sticky{top:0 !important;}
 .show_sec_menu .nab-header-secondary + .sticky .header-right.active form.search-form{top:50px;}
 .show_sec_menu .nab-header-secondary + header .header-right .search-form,
 .show_sec_menu .nab-header-secondary + header .header-right .header-get-updates{top:-100vh;}
