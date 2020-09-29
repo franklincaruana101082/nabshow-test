@@ -33,6 +33,9 @@ $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['
 $exhibitor_order   = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
+$exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
+$exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+
 $final_key         = '';
 $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
 $display_class     = '';
@@ -204,7 +207,8 @@ if ( $query->have_posts() || $listing_page ) {
 
                     	if ( $slider_active ) {
                             ?>
-                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">
+                            <!--<a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">-->
+                            <a href="<?php echo esc_url( $exh_url ); ?>">
                             <?php
                         }
                         ?>
@@ -218,18 +222,18 @@ if ( $query->have_posts() || $listing_page ) {
 
                     } elseif ( $slider_active && $display_name ) {
                         ?>
-                         <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
+                        <!-- <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
+                            <h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo $title ?></a></h4>
                         <?php
                     }
 
                     if ( ! $slider_active ) {
 
-                        $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
-                        $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
 
                         if ( $display_name ) {
                             ?>
-                            <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>
+                            <!--<h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
+                            <h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo $title ?></a></h4>
                             <?php
                         }
 
