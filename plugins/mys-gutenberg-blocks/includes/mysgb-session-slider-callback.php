@@ -511,7 +511,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                     }
                     ?>
 
-                    <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
+                    <!--<a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View Details</a>-->
                 <?php
                 }
                 ?>

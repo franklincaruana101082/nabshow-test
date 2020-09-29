@@ -247,7 +247,7 @@ if ( $query->have_posts() || $listing_page ) {
                         	<p>
 	                        <?php
 	                            echo esc_html( get_the_excerpt() );
-	                            $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
+	                            // $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
 	                        ?>
 	                        </p>
                         	<?php
@@ -257,7 +257,7 @@ if ( $query->have_posts() || $listing_page ) {
                         	?> <span class="crossreferences"><?php echo "Also Known As: $crossreferences"; ?></span> <?php
                         }
                         ?>
-                        <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
+                        <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View Details</a>
                     <?php
                     }
                     ?>
