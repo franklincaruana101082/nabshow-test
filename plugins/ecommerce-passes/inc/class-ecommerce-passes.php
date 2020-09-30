@@ -179,6 +179,13 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                 if ( ! $final_response->success ) {
 
                                     $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
+                                    
+                                } else {
+                                    
+                                    if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
+
+                                        $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
+                                    }
                                 }
 
                             } else {
