@@ -55,6 +55,7 @@ if ( $fields ) { ?>
 						<input type="text" class="input-text" name="nab_additional_email" id="nab-additional-email-field" placeholder="" value="">
 					</span>
 			</p>
+
 		</div>
 		<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
 	</div>

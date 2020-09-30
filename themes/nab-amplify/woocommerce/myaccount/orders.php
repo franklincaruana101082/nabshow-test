@@ -146,7 +146,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 				<div class="attendee-bulk-upload-form-wrap">
 					<div class="attendee-bulk-upload-form-cnt">
 						<div class="attendee-upload-message" style="display: none"></div>
-						<span class="file-title">Add Attendees</span>
+						<span class="file-title">File Upload</span>
 						<form class="attendee-bulk-upload-form">
 							<div class="nab-attendee-upload-wrp">
 								<span class="input-placeholder">Upload File...</span>
@@ -174,7 +174,43 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 			<div class="modal-content-wrap">
 				<div class="attendee-view-wrap">
 					<div class="attendee-view-table-wrp">
-					</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="nabeditAttendeeModal" class="nab-modal">
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
+			<div class="modal-content-wrap">
+				<div class="attendee-edit-wrap">
+					<h3>Edit Attendee Details</h3>
+					<table>
+						<tr>
+							<td>First Name:</td>
+							<td><input type="text" class="attendee_first_name"></td>
+						</tr>
+						<tr>
+							<td>Last Name:</td>
+							<td><input type="text" class="attendee_last_name"></td>
+						</tr>
+						<tr>
+							<td>Email:</td>
+							<td><input type="text" class="attendee_email"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<div class="edit-att-buttons">
+									<a href="javascript:void(0)" class="button btn-save">Save</a>
+									<a href="javascript:void(0)" class="button btn-cancle">Cancle</a>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
