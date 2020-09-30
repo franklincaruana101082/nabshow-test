@@ -517,7 +517,9 @@ function nabny_remove_content_for_non_logged_user( $content ) {
         
         if ( preg_match_all('/<!--loggedin-start-->(.*?)<!--loggedin-end-->/s', $content, $matches ) ) {
 
-            $content = preg_replace('/<!--loggedin-start-->(.*?)<!--loggedin-end-->/s', '', $content );
+            $msg = '<p class="has-medium-font-size">The Marketplace is open to registered users only. <a rel="noreferrer noopener" href="https://amplify.nabshow.com/my-account/orders/" target="_blank">Sign in</a> or <a rel="noreferrer noopener" href="https://amplify.nabshow.com/product-tag/2020-nab-show-new-york/" target="_blank">register now</a> for access.</p>';
+
+            $content = preg_replace('/<!--loggedin-start-->(.*?)<!--loggedin-end-->/s', $msg, $content );
         }
     }
 
