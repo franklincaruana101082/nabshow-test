@@ -35,10 +35,17 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             // Add Class for Zoom.
             $this->ep_add_zoom_class();
 
+            // Global Header Class
+            $this->ep_add_global_header_class();
+
 	    }
 
 	    public function ep_add_zoom_class(){
             require_once EP_PLUGIN_DIR . 'inc/class-zoom-integration.php';
+        }
+
+        public function ep_add_global_header_class() {
+            require_once EP_PLUGIN_DIR . 'inc/class-glbal-header.php';
         }
 
 
