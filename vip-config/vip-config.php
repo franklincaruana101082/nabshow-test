@@ -40,6 +40,14 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         'cineemerge.com',
         'www.cineemerge.com',
     ],
+    'radio.nabshow.com'   => [
+        'radioshowweb.com',
+        'www.radioshowweb.com',
+    ],
+    'smte.nabshow.com'   => [
+        'nabsmte.com',
+        'www.nabsmte.com',
+    ],
 ];
 
     // Safety checks for redirection:
