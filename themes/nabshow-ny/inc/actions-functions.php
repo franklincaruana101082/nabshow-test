@@ -503,3 +503,23 @@ function nabny_form_input_spam_check( $content ) {
 	return $isSpam;
 
 }
+
+/**
+ * Removed non logged in user content.
+ *
+ * @param  string $content
+ * 
+ * @return string
+ */
+function nabny_remove_content_for_non_logged_user( $content ) {
+
+    if ( ! is_user_logged_in() ) {        
+        
+        if ( preg_match_all('/<!--loggedin-start-->(.*?)<!--loggedin-end-->/s', $content, $matches ) ) {
+
+            $content = preg_replace('/<!--loggedin-start-->(.*?)<!--loggedin-end-->/s', '', $content );
+        }
+    }
+
+    return $content;
+}

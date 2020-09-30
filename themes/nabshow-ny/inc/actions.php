@@ -33,3 +33,6 @@ add_action( 'init', 'nabny_register_dynamic_blocks' );
 
 // Action for add gutenberg custom block
 add_action( 'enqueue_block_editor_assets', 'nabny_add_block_editor_assets' );
+
+// Action for restrict content for non logged in user
+add_filter( 'the_content', 'nabny_remove_content_for_non_logged_user', 999 );
