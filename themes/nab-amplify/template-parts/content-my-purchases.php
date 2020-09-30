@@ -137,7 +137,7 @@
 								<div class="wp-summary content_card">
 									<div class="item-inner">
 										<div class="thumbnail">											
-											<a href="<?php echo esc_url( $product_link ); ?>" target="_blank">
+											<a href="<?php echo esc_url( $product_link ); ?>">
 												<img src="<?php echo esc_url( $product_img ); ?>" class="purchased-img" alt="pass-logo" />
 											</a>											
 										</div>
