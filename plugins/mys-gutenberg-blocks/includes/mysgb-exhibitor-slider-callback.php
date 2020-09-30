@@ -33,13 +33,6 @@ $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['
 $exhibitor_order   = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
-$show_code = $this->mysgb_get_mys_show_code();
-$exhibitor_id   = get_the_ID();
-$crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
-
-$exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
-$exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
-
 $final_key         = '';
 $cache_key         = $this->mysgb_get_taxonomy_term_cache_key( $taxonomies, $terms );
 $display_class     = '';
@@ -171,6 +164,7 @@ if ( $query->have_posts() || $listing_page ) {
         include( plugin_dir_path( __FILE__ ) . 'filters/html-mysgb-exhibitor-filter.php' );
     }
 
+    $show_code = $this->mysgb_get_mys_show_code();
 ?>
     <div class="slider-arrow-main <?php echo esc_attr($arrow_icons); ?> <?php echo esc_attr( $class_name ); ?>">
 
@@ -188,6 +182,12 @@ if ( $query->have_posts() || $listing_page ) {
         while ( $query->have_posts() ) {
 
             $query->the_post();
+
+            $exhibitor_id   = get_the_ID();
+            $crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
+
+$exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
+$exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
 
 
             if ( $listing_page ) {
