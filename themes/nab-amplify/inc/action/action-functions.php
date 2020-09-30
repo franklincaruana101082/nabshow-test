@@ -523,6 +523,10 @@ function nab_save_event_fields( $order_id ) {
 
 	}
 
+	if( isset( $_POST['nab_additional_email'] ) && ! empty( $_POST['nab_additional_email'] ) ) {
+		update_post_meta( $order_id, 'nab_additional_email', filter_input( INPUT_POST, 'nab_additional_email' ) );
+	}
+
 }
 
 /**
@@ -1559,4 +1563,12 @@ function nab_modify_user_search_query( $query ) {
 			}
 		}
 	}		
+}
+
+/**
+ * Added inline style to fixed ACF media upload modal text overlapping issue.
+ */
+function nab_add_inline_style_for_acf_upload_popup() {
+    
+    wp_add_inline_style( 'acf-input', '.acf-media-modal .media-modal-content .media-frame .media-toolbar-secondary select.attachment-filters{margin-top:32px;}' );
 }

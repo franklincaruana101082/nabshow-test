@@ -223,7 +223,7 @@
 		#showcase {
             display: flex;
             margin: 0 auto;
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
             justify-content: center;
         }
@@ -237,8 +237,8 @@
         #showcase > * img {
             display: block;
             margin: 0 auto 30px auto;
-            max-width: 250px;
-            max-height: 110px;
+            max-width: 230px;
+            max-height: 90px;
         }
 
 		#screen .mktoButtonWrap.mktoSimple {
@@ -305,6 +305,11 @@
 			#showcase > * {
 				margin: 0 auto 30px auto;
 				width: 100%;
+			}
+
+			#showcase > * img {
+				max-width: 250px;
+				max-height: 110px;
 			}
 		}
 
@@ -394,9 +399,18 @@
 					endwhile; // End of the loop.
 				endif;
 				
-				$page_id    = get_the_ID();
-                $rows       = get_field( 'event_details', $page_id );
-                
+				$page_id    	= get_the_ID();
+                $rows       	= get_field( 'event_details', $page_id );
+				$bottom_info	= get_field( 'home_bottom_info', $page_id );
+				?>
+				<div id="marketo-form" class="framing">					
+					<form id="mktoForm_1113"></form>					
+				</div>
+				<?php
+				if ( ! empty( $bottom_info ) ) {
+					echo wp_kses_post( $bottom_info );
+				}
+
                 if ( $rows ) {
 
                     ?>
@@ -410,7 +424,7 @@
                             $link_text      = $row[ 'event_link_text' ];
                             $display_event  = $row[ 'event_display' ];
 
-                            if ( $display_event ) {
+                            if ( $display_event && $event_logo ) {
                                 ?>
                                 <div class="future">
                                     <img src="<?php echo esc_url( $event_logo[ 'url' ] ); ?>" alt="event-logo">

@@ -276,6 +276,8 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 
 	<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
 
+	<?php wp_nonce_field( 'woocommerce-process_checkout', '_wpnonce', false, true ); ?>
+
 </form>
 
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>
