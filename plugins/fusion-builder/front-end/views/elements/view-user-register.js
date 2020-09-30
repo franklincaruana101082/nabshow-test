@@ -22,7 +22,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				atts.loginShortCodeAttr     = this.buildLoginShortCodeAttr( atts.values );
 				atts.loginShortcodeFormAttr = this.buildLoginShortcodeFormAttr( atts.values );
 				atts.loginShortcodeButton   = this.buildLoginShortcodeButtonAttr( atts.values );
-				atts.loggedIn               = false;
+				atts.loggedIn               = true;
 				atts.styles                 = this.buildRegisterStyles( atts.values );
 
 				// Any extras that need passed on.
