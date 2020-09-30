@@ -34,6 +34,9 @@ $exhibitor_order   = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 
 $show_code = $this->mysgb_get_mys_show_code();
+$exhibitor_id   = get_the_ID();
+$crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
+
 $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
 $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
 
@@ -186,8 +189,6 @@ if ( $query->have_posts() || $listing_page ) {
 
             $query->the_post();
 
-            $exhibitor_id   = get_the_ID();
-            $crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
 
             if ( $listing_page ) {
 
