@@ -200,6 +200,138 @@ function nab_generate_jwt_token( $username, $password ) {
 }
 
 /**
+ * Get attendee details based on given id.
+ *
+ * @param  int $primary_id
+ * 
+ * @return array
+ */
+function nab_get_order_attendee_details( $primary_id ) {
+	
+	global $wpdb;
+
+	$attendee_details = array();
+
+	// Return blank array if primary id is empty
+	if ( empty( $primary_id ) ) {
+		return $attendee_details;
+	}
+
+	// Get attendee details from the custom DB table
+	$attendees_query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}nab_attendee WHERE `id` = %d LIMIT 1", $primary_id );
+	$attendees       = $wpdb->get_results( $attendees_query, ARRAY_A );
+
+	// Set attendee details array from the DB result if not empty array
+	if ( is_array( $attendees ) && count( $attendees ) > 0 ) {
+		
+		$attendee_details = $attendees[0];
+	}	
+	
+	return $attendee_details;
+}
+
+
+/**
+ * Get attendee table primary id according to give child order id.
+ *
+ * @param  mixed $child_order_id
+ * 
+ * @return int
+ */
+function nab_get_attendee_primary_id_by_order_id( $child_order_id ) {
+	
+	global $wpdb;
+
+	$attendeeId = 0;
+
+	// Return default id if child oreder id is empty
+	if ( empty( $child_order_id ) ) {
+		return $attendeeId;
+	}
+
+	// Get attendee primary id
+	$attendees_query = $wpdb->prepare( "SELECT `id` FROM {$wpdb->prefix}nab_attendee WHERE `child_order_id` = %d LIMIT 1", $child_order_id );
+	$attendees       = $wpdb->get_results( $attendees_query, ARRAY_A );
+
+	// Set attendee primary id from the DB result if not empty array
+	if ( is_array( $attendees ) && count( $attendees ) > 0 ) {
+		
+		$attendeeId = $attendees[0]['id'];
+	}
+	
+	return $attendeeId;
+}
+
+
+/**
+ * Get order attendees email list. 
+ *
+ * @param  int $order_id
+ * 
+ * @return array 
+ */
+function nab_get_order_attendees_email_list( $order_id ) {
+
+	global $wpdb;
+
+	$attendee_email = array();
+
+	// Return empty email array if order id empty
+	if ( empty( $order_id ) ) {
+		return $attendee_email;		
+	}
+
+	// Get attendees email throught the order id
+	$attendees_query 	= $wpdb->prepare( "SELECT `email` FROM {$wpdb->prefix}nab_attendee WHERE `order_id` = %d", $order_id );
+	$order_attendees	= $wpdb->get_results( $attendees_query, ARRAY_A );
+
+	// Get each attendee emails
+	if ( is_array( $order_attendees ) && count( $order_attendees ) > 0 ) {
+		
+		foreach( $order_attendees as $attendee ) {
+
+			$attendee_email[] = $attendee[ 'email' ];
+		}
+	}
+
+	return $attendee_email;
+
+}
+
+/**
+ * Get order attendees email list. 
+ *
+ * @param  string $email
+ * @param  int $order_id
+ * 
+ * @return boolean 
+ */
+function nab_is_order_attendee_exist( $email, $order_id ) {
+
+	global $wpdb;
+
+	$is_email_exist = false;
+
+	// Return false if order id or email empty
+	if ( empty( $order_id ) || empty( $email ) ) {
+		return $is_email_exist;		
+	}
+
+	// Get attendees email throught the order id
+	$attendees_query 	= $wpdb->prepare( "SELECT `email` FROM {$wpdb->prefix}nab_attendee WHERE `order_id` = %d AND `email` = %s", $order_id, $email );
+	$order_attendees	= $wpdb->get_results( $attendees_query, ARRAY_A );
+
+	// check attendee exist or not
+	if ( is_array( $order_attendees ) && count( $order_attendees ) > 0 ) {
+		
+		$is_email_exist = true;
+	}
+
+	return $is_email_exist;
+
+}
+
+/**
  * Update cocart session cart if main cart is updated
  *
  * @param string $cart_item_key

@@ -41,8 +41,8 @@ function nab_confirm_password_matches_checkout( $errors, $username, $email ) {
  * @param $user
  */
 function nab_sync_login( $username, $user ) {
-
-	$sites = [ 3, 4, 5, 13, 14 ]; // @todo Make it dynamic later
+	
+	$sites = [ 3, 4, 5, 13, 14 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $user->ID ) && ! empty( $user->ID ) && false === is_user_member_of_blog( $user->ID, $site ) ) {
@@ -620,7 +620,7 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 		do_action( 'wp_login', $current_user->user_login, $current_user );
 	}
 
-	$sites = [ 3, 4, 5, 13, 14 ]; // @todo Make it dynamic later
+	$sites = [ 3, 4, 5, 13, 14 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
 		if ( isset( $customer_id ) && ! empty( $customer_id ) && false === is_user_member_of_blog( $customer_id, $site ) ) {
@@ -634,6 +634,9 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 	} 
 }
 
+/**
+ * Includes bulk purchase template
+ */
 function nab_bulk_purchase_cart() {
 	require_once get_template_directory() . '/inc/nab-bulk-purchase.php';
 }
@@ -657,8 +660,9 @@ function nab_create_attendee_table() {
 			`last_name` varchar(255) NOT NULL,
 			`email` varchar(255) NOT NULL,
 			`wp_user_id` int(10) NOT NULL,
+			`child_order_id` int(10) NOT NULL,
 			`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			`modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,			
 			PRIMARY KEY  (id)
 			) {$charset_collate};";
 
@@ -1360,10 +1364,11 @@ add_action( 'admin_init', function(){
 
 				exit;
 			}
+
 		}
+
 	}
 });
-
 
 /**
  * Get All header logos
@@ -1548,14 +1553,13 @@ function nab_modify_user_search_query( $query ) {
 				}
 				
 				// let's search by users company
-				$query->query_from .= " AND wp_usermeta.meta_key = '{$field}'";			
+				$query->query_from .= " AND wp_usermeta.meta_key = '{$field}'";				
 	
 				// what fields to include in the search
 				$search_by = array( 'wp_usermeta.meta_value' );
 	
 				// apply to the query
-				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both' );
-				
+				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both');				
 			}
 		}
 	}		

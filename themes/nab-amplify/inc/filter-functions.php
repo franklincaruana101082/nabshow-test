@@ -94,7 +94,7 @@ function nab_custom_billing_fields( $billing_fields ) {
     $billing_fields['billing_last_name']['class'][] = 'bill-mandatory';
 
 	$billing_fields['billing_email']['label']      = 'Email the confirmation:';
-    $billing_fields['billing_email']['class'][] = 'text-transform-initial bill-mandatory';
+    $billing_fields['billing_email']['class'][]    = 'text-transform-initial bill-mandatory';
 
 	unset( $billing_fields['billing_phone'] );
 
