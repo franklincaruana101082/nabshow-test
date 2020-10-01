@@ -26,6 +26,26 @@ if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( '
 	$redirect_url = wp_get_referer();
 }
 
+if ( ! empty( $referer_url ) ) {
+	
+	$site_url = get_site_url();	
+	
+	if ( false === strpos( $referer_url , $site_url ) ) {
+
+		$url_parse 	= wp_parse_url( $referer_url );
+		$url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
+
+		if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
+			$redirect_url = $referer_url;
+		}
+	}
+}
+
+if ( empty( $redirect_url ) && isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
+	$redirect_url = $_POST[ 'redirect' ];
+}
+
+
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 <?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
@@ -91,7 +111,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 			$sign_up_page_url = get_permalink( $sign_up_page->ID );
 			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-				$sign_up_page_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), $sign_up_page_url );
+				$sign_up_page_url = add_query_arg( 'r', $redirect_url, $sign_up_page_url );
 			}
 		} else {
 			$sign_up_page_url = 'javascript:void(0)';

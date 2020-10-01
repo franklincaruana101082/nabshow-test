@@ -29,6 +29,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
             // Global header shortcode
             add_shortcode( 'nab-global-header', array( $this, 'ep_global_header' ) );
 
+            // Global header action
+            add_action( 'nab_global_header', array( $this, 'ep_nab_global_header' ) );
+
             // Enqueue Styles and Scritps
             add_action( 'wp_enqueue_scripts', array( $this, 'ep_enqueue_required_scripts' ) );
 
@@ -176,6 +179,14 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
             $global_header_html = ob_get_clean();
 
             return $global_header_html;
+        }
+
+        /**
+         * Add global header
+         */
+        public function ep_nab_global_header() {
+            
+            echo do_shortcode( '[nab-global-header]' );
         }
 
         /**

@@ -8,12 +8,14 @@
 function nab_registration_redirect() {
 
 	if ( isset( $_POST['checkout_redirect'] ) && ! empty( isset( $_POST['checkout_redirect'] ) ) ) {
-		$checkout_url = wc_get_page_permalink( 'checkout' );
+		
+		$checkout_url = $_POST[ 'checkout_redirect' ];
+		
 		$args         = array(
 			'nab_registration_complete' => 'true',
 			'r'                         => $checkout_url,
 		);
-		$redirect_url = wc_get_page_permalink( 'checkout' );
+		$redirect_url = $checkout_url;
 	} else {
 		$args         = array(
 			'nab_registration_complete' => 'true',

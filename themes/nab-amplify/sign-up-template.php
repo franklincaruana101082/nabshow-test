@@ -11,6 +11,31 @@ if ( is_user_logged_in() ) {
 get_header();
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
+
+if ( empty( $redirect_url ) ) {
+
+	if ( isset( $_POST[ 'checkout_redirect' ] ) && ! empty( $_POST[ 'checkout_redirect' ] ) ) {
+		$redirect_url = $_POST[ 'checkout_redirect' ];
+	} else {
+		
+		$referer_url  = wp_get_referer();
+
+		if ( ! empty( $referer_url ) ) {
+			
+			$site_url = get_site_url();	
+		
+			if ( false === strpos( $referer_url , $site_url ) ) {
+
+				$url_parse 	= wp_parse_url( $referer_url );
+				$url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
+
+				if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
+					$redirect_url = $referer_url;
+				}
+			}
+		}
+	}
+}
 ?>
 
 	<main id="primary" class="site-main">
@@ -89,7 +114,7 @@ $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 						<h4 class="text-transform-initial">Sign up for an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 
 							<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-								$my_account_url = add_query_arg( 'r', wc_get_page_permalink( 'checkout' ), wc_get_page_permalink( 'myaccount' ) );
+								$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
 							} else {
 								$my_account_url = wc_get_page_permalink( 'myaccount' );
 							} ?>
