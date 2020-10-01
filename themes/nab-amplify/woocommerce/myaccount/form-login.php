@@ -20,10 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
-$referer_url  = wp_get_referer();
+$referer_url  = $_SERVER['HTTP_REFERER'];
 
 if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( 'checkout' ) === $referer_url ) {
-	$redirect_url = wp_get_referer();
+	$redirect_url = $_SERVER['HTTP_REFERER'];
 }
 
 if ( ! empty( $referer_url ) ) {

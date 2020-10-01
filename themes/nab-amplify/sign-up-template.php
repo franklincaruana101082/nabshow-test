@@ -18,7 +18,7 @@ if ( empty( $redirect_url ) ) {
 		$redirect_url = $_POST[ 'checkout_redirect' ];
 	} else {
 		
-		$referer_url  = wp_get_referer();
+		$referer_url  = $_SERVER['HTTP_REFERER'];
 
 		if ( ! empty( $referer_url ) ) {
 			
