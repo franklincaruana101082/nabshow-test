@@ -121,6 +121,13 @@
 					<?php // woocommerce_breadcrumb(); ?>
 					<div id="profile-avtar">
 						<img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
+						<?php
+						if ( isset( $_COOKIE[ 'nab_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_login_redirect' ] ) ) {
+							?>
+							<a href="<?php echo esc_url( $_COOKIE[ 'nab_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">< Return to Content</a>
+							<?php
+						}
+						?>
 					</div>
 				</div>
 			</div>

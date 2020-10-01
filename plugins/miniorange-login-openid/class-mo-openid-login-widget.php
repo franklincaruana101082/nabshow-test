@@ -1196,7 +1196,7 @@ function mo_openid_get_redirect_url() {
                 $custom_url_redirect = $_POST[ 'checkout_redirect' ];
             } else {
                 
-                $referer_url  = $_SERVER['HTTP_REFERER'];;
+                $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
         
                 if ( ! empty( $referer_url ) ) {
                     
@@ -1208,7 +1208,10 @@ function mo_openid_get_redirect_url() {
                         $url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
         
                         if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
-                            $custom_url_redirect = $referer_url;
+                            
+                            $custom_url_redirect = wc_get_page_permalink( 'myaccount' );
+
+                            setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
                         }
                     }
                 }

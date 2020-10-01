@@ -20,10 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
-$referer_url  = $_SERVER['HTTP_REFERER'];
+$referer_url  = $_SERVER[ 'HTTP_REFERER' ];
 
 if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( 'checkout' ) === $referer_url ) {
-	$redirect_url = $_SERVER['HTTP_REFERER'];
+	$redirect_url = $_SERVER[ 'HTTP_REFERER' ];
 }
 
 if ( ! empty( $referer_url ) ) {
@@ -36,7 +36,10 @@ if ( ! empty( $referer_url ) ) {
 		$url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
 
 		if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
-			$redirect_url = $referer_url;
+			
+			$redirect_url = wc_get_page_permalink( 'myaccount' );
+
+			setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
 		}
 	}
 }
@@ -59,7 +62,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
 
 		<div class="nab-login-wrap">
-			<div class="nab-normal-login" data-wpref="<?php echo $referer_url; ?>" data-phpref="<?php echo $_SERVER['HTTP_REFERER']; ?>">
+			<div class="nab-normal-login">
 				<form class="woocommerce-form woocommerce-form-login login" method="post">
 
 					<?php do_action( 'woocommerce_login_form_start' ); ?>
