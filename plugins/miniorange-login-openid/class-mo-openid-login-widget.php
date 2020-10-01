@@ -1180,7 +1180,7 @@ function mo_openid_get_redirect_url() {
 
     if ( isset( $_COOKIE[ 'nab_social_redirect' ] ) && ! empty( $_COOKIE[ 'nab_social_redirect' ] ) ) {
 
-        $redirect_url = $_COOKIE[ 'nab_social_redirect' ];
+        $redirect_url = wc_get_page_permalink( 'myaccount' );
         unset( $_COOKIE[ 'nab_social_redirect' ] );
 	    setcookie( 'nab_social_redirect', null, -1, '/');
 
@@ -1196,9 +1196,8 @@ function mo_openid_get_redirect_url() {
                 $custom_url_redirect = $_POST[ 'checkout_redirect' ];
             } else {
                 
-                $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
-        
-                if ( ! empty( $referer_url ) ) {
+                if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
+                    $referer_url = $_COOKIE[ 'nab_amp_login_redirect' ];
                     
                     $site_url = get_site_url();	
                 
