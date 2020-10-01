@@ -121,16 +121,18 @@
 					<?php // woocommerce_breadcrumb(); ?>
 					<div id="profile-avtar">
 						<img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
-						<?php
-						if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
-							?>
-							<a href="<?php echo esc_url( $_COOKIE[ 'nab_amp_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Access Your Content</a>
-							<?php
-						}
-						?>
 					</div>
 				</div>
 			</div>
+			<?php
+				if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
+					?>
+					<div style="margin: 0 auto;text-align: center;">
+						<a href="<?php echo esc_url( $_COOKIE[ 'nab_amp_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Access Your Content</a>
+					</div>
+					<?php
+				}
+				?>
 		<?php } else { ?>
 			<div class="container">
 				<?php
