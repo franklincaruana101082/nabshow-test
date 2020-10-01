@@ -52,7 +52,7 @@ do_action( 'woocommerce_account_navigation' ); ?>
 
     <header class="entry-header account_custom_title">
 	<?php if( 'pagename' === $page_title  ) { ?>
-        <h1 class="entry-title">Welcome to NAB Amplify<sup>TM</sup></h1>
+        <h1 class="entry-title">Welcome to NAB Amplify<sup style="font-size: 50%;top: -1.2em;">TM</sup></h1>
 	<?php } else { ?>
 		<h1 class="entry-title"><?php esc_html_e( $page_title ); ?></h1>
 	<?php } ?>
