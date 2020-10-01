@@ -28,6 +28,10 @@
 	.single-product div.product .product-middle-section.with_long_desc .has-fixed #middle-right{width:100%;border:0;padding:30px 0 0 0}
 	.single-product div.product .summary .cart button{width:270px!important}
 	.nab-profile .flex-column{width:100%}
+
+	/* My purchases */
+	.my-purchased-content .title_content_card h4{width:100%;text-align:center;margin:0 0 8px;}
+	.my-purchased-content .title_content_card .event-date{width:100%;text-align:center;
 }
 @media (max-width:991px){
 	.site-header .nab-logos img{max-width:100%}
@@ -68,6 +72,9 @@
 	/* nab bulk purchase */
 	.nab-cart-col-right{width:100%;order:1;}
 	.nab-bulk-quantity-wrapper{width: 100%;}
+
+	/* My purchases */
+	.my-purchased-content .wp-summary{width:50%;}
 }
 
 @media (min-width:768px){
@@ -131,9 +138,6 @@
 	.attendee-view-table-wrp tr td[data-title="Email"]{width:100%;}
 	.attendee-view-table-wrp tr th:last-child,
 	.attendee-view-table-wrp tr td:last-child{width:100%;}
-
-	/* My purchases */
-	.my-purchased-content .wp-summary{width:50%;}
 }
 @media (max-width:600px){
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}

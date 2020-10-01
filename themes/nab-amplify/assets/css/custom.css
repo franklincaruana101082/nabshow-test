@@ -835,7 +835,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .my-purchased-content .header_content_card{min-height:230px;position:relative;}
 .my-purchased-content .category_content_card{position:absolute;bottom:15px;left:15px;padding:8px 10px;}
 .my-purchased-content .title_content_card{padding:20px 10px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.my-purchased-content .title_content_card h4{margin:0;}
+.my-purchased-content .title_content_card h4{margin:0;width:calc(100% - 110px);}
 .my-purchased-content .title_content_card a{color:#3e3e3e;}
 .my-purchased-content .title_content_card .event-date{color:#6f6f6f;}
 
