@@ -57,6 +57,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<?php do_action( 'avada_before_body_content' ); ?>
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'Avada' ); ?></a>
 
+	<?php echo do_shortcode( '[nab-global-header]' ); ?>
+
 	<div id="boxed-wrapper">
 		<div class="fusion-sides-frame"></div>
 		<div id="wrapper" class="<?php echo esc_attr( $wrapper_class ); ?>">
