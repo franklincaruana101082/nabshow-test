@@ -1,5 +1,5 @@
 /* Secondary Header css */
-.nab-header-secondary{background:#404040;z-index:9999;display:none;}
+.nab-header-secondary{background:#404040;z-index:9999;display:none;font-family:'Open Sans',Arial,sans-serif;}
 .nab-header-secondary .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .nab-header-secondary .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex}
 .nab-header-secondary .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
