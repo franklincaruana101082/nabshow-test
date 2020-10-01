@@ -33,7 +33,7 @@ class Request extends Hooks {
 
     public function login( $user_login, $user ) {
 
-        if( is_user_logged_in() && ! isset( $_GET['utoken'] ) ) return;
+        if( is_user_logged_in() ) return;
         if( cx_within_route() ) return;
         if( !cx_is_role_allowed( $user ) ) return;
 

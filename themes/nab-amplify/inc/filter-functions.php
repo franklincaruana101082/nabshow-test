@@ -702,21 +702,3 @@ function nab_add_customer_name_column( $columns ) {
 	return $manage_columns;
 	
 }
-
-add_filter( 'woocommerce_login_redirect', 'nab_login_to_all_site_before_redirect', 10, 2 );
-
-function nab_login_to_all_site_before_redirect( $redirect, $user ) {	
-	
-	$urls = cx_get_scheduled_urls();
-
-	foreach ( $urls as $url ) {
-		$u 	= urldecode( $url );
-		$p = wp_parse_url( $u );
-		$token 	= substr( $p['query'], strpos( $p['query'], 'token=') + 6 );
-		break;
-	}
-
-	$r = add_query_arg( 'utoken', $token,  $redirect);
-
-	return $r;
-}
