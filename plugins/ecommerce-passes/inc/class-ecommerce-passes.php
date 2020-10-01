@@ -208,7 +208,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             $restrict_content   = '<p class="restrict-msg">You must be registered for '. $prodcut_name . ' in order to view this content.';
 
             if ( ! $logged_in ) {
-                $restrict_content .= ' Please <a target="_blank" href="https://amplify.nabshow.com/my-account/">login</a> or <a target="_blank" href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
+                $restrict_content .= ' Please <a href="https://amplify.nabshow.com/my-account/">login</a> or <a target="_blank" href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
             }            
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
