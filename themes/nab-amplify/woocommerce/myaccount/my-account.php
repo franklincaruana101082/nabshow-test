@@ -51,7 +51,11 @@ do_action( 'woocommerce_account_navigation' ); ?>
 <div class="woocommerce-MyAccount-content">
 
     <header class="entry-header account_custom_title">
-        <h1 class="entry-title"><?php esc_html_e( $page_title ); ?></h1>
+	<?php if( 'pagename' === $page_title  ) { ?>
+        <h1 class="entry-title">Welcome to NAB Amplify<sup>TM</sup></h1>
+	<?php } else { ?>
+		<h1 class="entry-title"><?php esc_html_e( $page_title ); ?></h1>
+	<?php } ?>
     </header>
 
 	<?php
