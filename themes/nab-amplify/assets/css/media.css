@@ -131,6 +131,9 @@
 	.attendee-view-table-wrp tr td[data-title="Email"]{width:100%;}
 	.attendee-view-table-wrp tr th:last-child,
 	.attendee-view-table-wrp tr td:last-child{width:100%;}
+
+	/* My purchases */
+	.my-purchased-content .wp-summary{width:50%;}
 }
 @media (max-width:600px){
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}
@@ -187,6 +190,14 @@
 	.attendee-edit-wrap tr{display:block;margin-bottom:10px;}
 	.attendee-edit-wrap td{display:block;padding:0;}
 	.attendee-edit-wrap td:first-child{margin-bottom:3px;}
+
+	/* My purchases */
+	.my-purchased-content .wp-summary{width:100%;}
+
+	.my-purchased-content.shows-list .wp-summary{width:100%;}
+	.my-purchased-content.shows-list .wp-summary .item-inner{width:275px;}
+	.my-purchased-content.shows-list .wp-summary:nth-child(odd){padding-right:0;border-right:0;}
+	.my-purchased-content.shows-list .wp-summary:nth-child(even){padding-left:0;}
 }
 @media (max-width:480px) {
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}
