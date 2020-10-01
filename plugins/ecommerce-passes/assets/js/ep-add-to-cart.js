@@ -62,6 +62,20 @@
 
 		} );
 
+		$(document).on('click', '.amplifyGuestSignIn', function(e) {
+			e.preventDefault();
+			let redirectUrl = $(this).attr('href');
+			let value = window.location.href;
+
+			var date = new Date();
+			date.setTime( date.getTime() + ( 5 * 60 * 1000) );
+			let expires = '; expires=' + date.toUTCString();
+			
+			document.cookie = 'nab_login_redirect' + '=' + (value || '') + expires + ';path=/;domain=' + epObj.nabCookieBaseDomain + ';';
+
+			location.href = redirectUrl;
+		});
+
 	} );
 
 	function setCookie( name, value, days ) {

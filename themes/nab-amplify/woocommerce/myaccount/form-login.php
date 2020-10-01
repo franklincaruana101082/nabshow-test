@@ -39,7 +39,7 @@ if ( ! empty( $referer_url ) ) {
 			
 			$redirect_url = wc_get_page_permalink( 'myaccount' );
 
-			setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
+			// setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
 		}
 	}
 }

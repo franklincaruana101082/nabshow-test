@@ -166,7 +166,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 </div>
                                 <?php } else { ?>
                                     <div class="nab-profile">
-                                        <a href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+                                        <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
                                     </div>
                                 <?php } ?>
                             </div>
