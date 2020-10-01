@@ -701,3 +701,29 @@ function nab_add_customer_name_column( $columns ) {
 
     return $manage_columns;
 }
+
+add_filter( 'woocommerce_login_redirect', 'nab_login_to_all_site_before_redirect', 10, 2 );
+
+function nab_login_to_all_site_before_redirect( $redirect, $user ) {	
+
+	$site_url = get_site_url();	
+	
+	if ( false === strpos( $redirect , $site_url ) ) {
+
+		$url_parse 	= wp_parse_url( $redirect );
+		$url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
+
+		if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
+			
+			$_scheduled_urls = cx_get_scheduled_urls();
+	
+			foreach ( $_scheduled_urls as $url ) {
+				
+				$url = urldecode( $url );		
+				$success = wp_remote_get( $url );
+			}
+		}
+	}	
+	
+	return $redirect;
+}
