@@ -86,12 +86,12 @@
 											<a href="<?php echo esc_url( $event_url ); ?>" target="_blank">
 												<img src="<?php echo esc_url( $event_img ); ?>" class="purchased-img" alt="event-logo" />
 											</a>
-											<div class="title_content_card">
-												<h4>
-													<a href="<?php echo esc_url( $event_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a>
-												</h4>
-												<span class="event-date"><?php echo esc_html( $event_date ); ?></span>
-											</div>
+										</div>
+										<div class="title_content_card">
+											<h4>
+												<a href="<?php echo esc_url( $event_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a>
+											</h4>
+											<span class="event-date"><?php echo esc_html( $event_date ); ?></span>
 										</div>
 									</div>
 								</div>
