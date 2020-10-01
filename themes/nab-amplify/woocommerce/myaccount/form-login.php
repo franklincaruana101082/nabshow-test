@@ -61,7 +61,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
 
-		<div class="nab-login-wrap">
+		<div class="nab-login-wrap" data-refrl="<?php echo $_SERVER[ 'HTTP_REFERER' ]; ?>">
 			<div class="nab-normal-login">
 				<form class="woocommerce-form woocommerce-form-login login" method="post">
 
