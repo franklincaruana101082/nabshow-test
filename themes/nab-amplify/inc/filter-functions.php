@@ -699,5 +699,6 @@ function nab_add_customer_name_column( $columns ) {
         $manage_columns[$key] = $value;
     }
 
-    return $manage_columns;
+	return $manage_columns;
+	
 }
