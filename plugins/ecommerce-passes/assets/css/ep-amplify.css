@@ -40,7 +40,7 @@
 
 /* Header space for Avada theme */
 .fusion-body .nab-header-secondary + div header.fusion-header-wrapper{padding-top:80px;z-index:999;}
-.fusion-body .nab-header-secondary .container{overflow:visible;}
+.fusion-body .nab-header-secondary .container{overflow:visible;max-width:100%;}
 
 /* Cart message popup */
 .nab-cart-message-popup{
@@ -87,6 +87,9 @@
 	/* space with admin bar */
 	.admin-bar.show_sec_menu .nab-header-secondary{top:0;}
 	.admin-bar.show_sec_menu .nab-header-secondary + .site-header{top:0;}
+
+    /* Header space for Avada theme */
+    .fusion-body .nab-header-secondary + div header.fusion-header-wrapper{padding-top:0;}
 }
 @media (max-width:767px){
 	.nab-header-secondary .header-inner{padding:30px 0 10px 0}
