@@ -124,7 +124,7 @@
 						<?php
 						if ( isset( $_COOKIE[ 'nab_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_login_redirect' ] ) ) {
 							?>
-							<a href="<?php echo esc_url( $_COOKIE[ 'nab_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">< Return to Content</a>
+							<a href="<?php echo esc_url( $_COOKIE[ 'nab_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Access Your Content</a>
 							<?php
 						}
 						?>
