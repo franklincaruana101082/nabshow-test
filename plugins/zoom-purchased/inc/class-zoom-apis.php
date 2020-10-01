@@ -23,8 +23,44 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			// Get access token.
 			$this->token = $this->zp_api_get_zoom_token();
 
+			// Rest end points for zoom.
+			add_action( 'rest_api_init', array( $this, 'zp_register_api_endpoints' ) );
+
 			// Add registrant on order completed.
 			add_action( 'woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom' ), 10, 3 );
+		}
+
+		public function zp_register_api_endpoints() {
+
+			register_rest_route( 'zoom', '/add-registrant', array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'zp_rest_add_registrant' )
+			) );
+
+		}
+
+		/**
+		 *
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return bool Added or not.
+		 */
+		public function zp_rest_add_registrant( WP_REST_Request $request ) {
+
+			// Get user details.
+			$user_id = $request->get_param( 'user_id' );
+			$this->zp_get_user_details( $user_id );
+
+			$product_ids = $request->get_param( 'product_ids' );
+			$zoom_id     = $request->get_param( 'zoom_id' );
+			$zoom_type   = $request->get_param( 'zoom_type' );
+			$blog_id     = $request->get_param( 'blog_id' );
+			$post_id     = $request->get_param( 'post_id' );
+
+			$join_url = $this->zp_api_create_zoom_link( $zoom_id, $zoom_type, $blog_id, $post_id, $product_ids );
+
+			return $join_url;
 
 		}
 
@@ -56,7 +92,7 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 				foreach ( $content_posts as $product_and_post_id => $zoom_id_and_type ) {
 
 					$product_and_post_id = explode( '_', $product_and_post_id );
-					$product_id          = $product_and_post_id[0];
+					$product_id          = $product_and_post_id; // keeping it as array because its required ahead.
 					$post_id             = $product_and_post_id[1];
 
 					$zoom_id   = $zoom_id_and_type['id'];
@@ -106,8 +142,7 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 					$post_id             = $product_and_post_id[1];
 
 					$zoom_id   = $zoom_id_and_type['id'];
-					$zoom_type = strtolower( $zoom_id_and_type['type'] );
-					$zoom_type = $zoom_type . 's'; // making it plural for request url.
+					$zoom_type = $zoom_id_and_type['type'];
 
 					// Check if zoom link already generated for the given zoom id.
 					// If yes, then just add the given product id in user meta.
@@ -119,103 +154,8 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 					// Check if user just registered a seconds ago, i.e. check in the tracking array!
 					if ( ! isset( $registered_meetings[ $zoom_id ] ) ) {
 
-						$registrants_api_url = "https://api.zoom.us/v2/$zoom_type/$zoom_id/registrants";
-
-						$body = array(
-							"email"      => $user_data['email'],
-							"first_name" => $user_data['first_name'],
-							"last_name"  => $user_data['last_name']
-						);
-
-						// Adding registrant.
-						$registrant_added = $this->zp_api_call( $registrants_api_url, 'POST', $body );
-						//demo result: {"registrant_id":"IFvzWrN4QymRP5HElLt5Nw","id":93597490168,"topic":"NAB Test 002","start_time":"2020-09-30T15:30:00Z"}
-
-						$registrant_body = $registrant_added['body'];
-
-						// If meeting is NOT Registration enabled. Join URL will be received asap on registration.
-						if ( isset( $registrant_body->join_url ) ) {
-
-							$registered_meetings[ $zoom_id ] = $registrant_body->join_url;
-
-							// Save meeting's unique URL in user meta.
-							$this->zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, 'add', $product_id, $registrant_body->join_url );
-
-							// Approve manually even if join_url is returned.
-							// Because in webinar's case, we get join_url
-							// even if the manual_approve is ON.
-							$this->zp_api_update_registrant_status( $zoom_id, $zoom_type, $user_data['email'], 'approve' );
-
-						} else {
-
-							// Approve manually.
-							$this->zp_api_update_registrant_status( $zoom_id, $zoom_type, $user_data['email'], 'approve' );
-
-							// If approved successfully, get join_url by fetching all registrants.
-							// Please note, only approved registrants can be fetched.
-							if ( isset( $registrant_added['response']['code'] ) && 201 === $registrant_added['response']['code'] ) {
-
-								$body = array(
-									"page_size" => 300 // Maximum 300 allowed. This will fetch number of registrants.
-								);
-
-								// Get meeting's unique URL.
-								$list_registrants = $this->zp_api_call( $registrants_api_url, 'GET', $body, 'text/html' );
-
-								if ( 200 === $list_registrants['response']['code'] ) {
-
-
-									$find_registrants = $list_registrants['body']->registrants;
-
-									/**
-									 * If token is not empty, it means there
-									 * is a next page with list of rest registrants,
-									 * So fetch them and merge into existing.
-									 */
-									$next_page_token = $list_registrants['body']->next_page_token;
-									while ( ! empty( $next_page_token ) ) {
-										$body['next_page_token'] = $next_page_token;
-										$list_registrants        = $this->zp_api_call( $registrants_api_url, 'GET', $body, 'text/html' );
-
-										if ( 200 === $list_registrants['response']['code'] ) {
-
-											$next_page_token = $list_registrants['body']->next_page_token;
-
-											$find_registrants_next_page = $list_registrants['body']->registrants;
-											$find_registrants           = array_merge( $find_registrants, $find_registrants_next_page );
-										} else {
-											// failed api: list next page registrants.
-										}
-									}
-
-									// Reverse array to find email quickly, because the
-									// email is added at the end and response has ascending nature.
-									array_reverse( $find_registrants );
-
-									// Finally search for recent email address and get its unique jon url.
-									foreach ( $find_registrants as $registrant ) {
-
-										if ( $user_data['email'] === $registrant->email ) {
-
-											$registered_meetings[ $zoom_id ] = isset( $registrant->join_url ) ? $registrant->join_url : 'not-found-in-api-response';
-
-											// Save meeting's unique URL in user meta.
-											$this->zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, 'add', $product_id, $registrant->join_url );
-
-											break; // Stop if found.
-
-										}
-									} // end foreach - find registrant email.
-
-								} else {
-									// failed api: list registrants.
-								}
-
-							} else {
-								// failed api: add registrant.
-							}
-
-						} // end if condition - to Approve manually.
+						$product_id = array( $product_id ); // array type is required of parameter.
+						$this->zp_api_create_zoom_link( $zoom_id, $zoom_type, $blog_id, $post_id, $product_id );
 
 					} else {
 						// user already registered in earlier loop for the given zoom id.
@@ -226,6 +166,118 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			} // end foreach - meeting ids main array.
 
 			return true;
+		}
+
+		private function zp_api_create_zoom_link( $zoom_id, $zoom_type, $blog_id, $post_id, $product_ids ) {
+
+			$user_data           = $this->user_data;
+			$zoom_type           = strtolower( $zoom_type );
+			$zoom_type           = $zoom_type . 's'; // making it plural for request url.
+			$registrants_api_url = "https://api.zoom.us/v2/$zoom_type/$zoom_id/registrants";
+
+			$body = array(
+				"email"      => $user_data['email'],
+				"first_name" => $user_data['first_name'],
+				"last_name"  => $user_data['last_name']
+			);
+
+			// Adding registrant.
+			$registrant_added = $this->zp_api_call( $registrants_api_url, 'POST', $body );
+			//demo result: {"registrant_id":"IFvzWrN4QymRP5HElLt5Nw","id":93597490168,"topic":"NAB Test 002","start_time":"2020-09-30T15:30:00Z"}
+
+			$registrant_body = $registrant_added['body'];
+
+				if ( isset( $registrant_added['response']['code'] ) ) {
+					// Approve manually even if join_url is returned.
+					// Because in webinar's case, we get join_url
+					// even if the manual_approve is ON.
+					$this->zp_api_update_registrant_status( $zoom_id, $zoom_type, $user_data['email'], 'approve' );
+				} else {
+					// Error detected mail sent and error body returned.
+					return 'Error: ' . $registrant_body;
+				}
+
+				// If meeting is NOT Registration enabled. Join URL will be received asap on registration.
+				if ( isset( $registrant_body->join_url ) ) {
+
+					$registered_meetings[ $zoom_id ] = $registrant_body->join_url;
+
+					// Save meeting's unique URL in user meta.
+					$this->zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, 'add', $product_ids, $registrant_body->join_url );
+
+					return $registrant_body->join_url;
+
+				} else {
+
+					// Get join_url by fetching all registrants.
+					// Please note, only approved registrants can be fetched.
+
+					// Disabled this so that we can get join url of the
+					// approve registrant who was denied earlier!
+					// This will also not prevent code on false response.
+					//if ( isset( $registrant_added['response']['code'] ) && 201 === $registrant_added['response']['code'] ) {
+
+						$body = array(
+							"page_size" => 300 // Maximum 300 allowed. This will fetch number of registrants.
+						);
+
+						// Get meeting's unique URL.
+						$list_registrants = $this->zp_api_call( $registrants_api_url, 'GET', $body, 'text/html' );
+
+						if ( 200 === $list_registrants['response']['code'] ) {
+
+							$find_registrants = $list_registrants['body']->registrants;
+
+							/**
+							 * If token is not empty, it means there
+							 * is a next page with list of rest registrants,
+							 * So fetch them and merge into existing.
+							 */
+							$next_page_token = $list_registrants['body']->next_page_token;
+							while ( ! empty( $next_page_token ) ) {
+								$body['next_page_token'] = $next_page_token;
+								$list_registrants        = $this->zp_api_call( $registrants_api_url, 'GET', $body, 'text/html' );
+
+								if ( 200 === $list_registrants['response']['code'] ) {
+
+									$next_page_token = $list_registrants['body']->next_page_token;
+
+									$find_registrants_next_page = $list_registrants['body']->registrants;
+									$find_registrants           = array_merge( $find_registrants, $find_registrants_next_page );
+								} else {
+									// failed api: list next page registrants.
+								}
+							}
+
+							// Reverse array to find email quickly, because the
+							// email is added at the end and response has ascending nature.
+							$find_registrants = array_reverse( $find_registrants );
+
+							// Finally search for recent email address and get its unique jon url.
+							foreach ( $find_registrants as $registrant ) {
+
+								if ( $user_data['email'] === $registrant->email ) {
+
+									$registered_meetings[ $zoom_id ] = isset( $registrant->join_url ) ? $registrant->join_url : 'not-found-in-api-response';
+
+									// Save meeting's unique URL in user meta.
+									$this->zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, 'add', $product_ids, $registrant->join_url );
+
+									return $registrant->join_url;
+									//break; // Stop if found.
+
+								}
+							} // end foreach - find registrant email.
+
+						} else {
+							// failed api: list registrants.
+						}
+					/*} else {
+						// failed api: add registrant.
+					}*/
+
+				} // end if condition - to Approve manually.
+
 		}
 
 		private function zp_api_call( $url, $method = 'POST', $body = '', $content_type = 'application/json; charset=utf-8' ) {
@@ -258,7 +310,7 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 
 			}
 
-			if ( is_wp_error( $response ) ) {
+			if ( is_wp_error( $response ) || ! isset( $response['response']['code'] ) ) {
 				$result['body'] = $result['response'] = $response->get_error_message();
 
 
@@ -300,7 +352,7 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			return $registered_already;
 		}
 
-		private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_id, $meeting_url = '' ) {
+		private function zp_update_usermeta_for_zoom( $blog_id, $post_id, $zoom_id, $action = 'add', $product_ids, $meeting_url = '' ) {
 
 			$user_id = $this->user_data['id'];
 			$key     = 'zoom_' . $blog_id;
@@ -315,19 +367,23 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 				}
 
 				// Setting arrays to prevent notices.
-				$generated_zoom_urls[ $post_id ][ $zoom_id ]['url']                     = $meeting_url;
-				$generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][ $product_id ] = 1;
+				$generated_zoom_urls[ $post_id ][ $zoom_id ]['url'] = $meeting_url;
+				foreach ( $product_ids as $product_id ) {
+					$generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][ $product_id ] = 1;
+				}
 
 			} else {
 
-				if ( isset( $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][ $product_id ] ) ) {
-					unset( $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][ $product_id ] );
+				foreach ( $product_ids as $product_id ) {
+					if ( isset( $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][ $product_id ] ) ) {
+						unset( $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'][ $product_id ] );
 
-					// Remove meta part completely, if no other products found!
-					if ( 0 === count( $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'] ) ) {
-						unset( $generated_zoom_urls[ $post_id ] );
+						// Remove meta part completely, if no other products found!
+						if ( 0 === count( $generated_zoom_urls[ $post_id ][ $zoom_id ]['products'] ) ) {
+							unset( $generated_zoom_urls[ $post_id ] );
+						}
+
 					}
-
 				}
 			}
 
@@ -347,24 +403,26 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			return $total_linked_products_for_same_zoom_id;
 		}
 
-		private function zp_get_user_details() {
+		private function zp_get_user_details( $user_id = 0 ) {
 
-			$this->current_order = $order = new WC_Order( $this->current_order_id );
-			//$order       = wc_get_order( $this->current_order_id );
+			if ( 0 === $user_id ) {
+				$this->current_order = $order = new WC_Order( $this->current_order_id );
+				$user_id             = $order->get_user_id();
+			}
 
-			$user_id         = $order->get_user_id();
 			$user_data['id'] = $user_id;
 
 			$user_info          = get_userdata( $user_id );
 			$user_data['email'] = $user_info->user_email;
 
 			$user_meta               = get_user_meta( $user_id );
-			$user_data['first_name'] = $user_meta['first_name'][0];
-			$user_data['last_name']  = $user_meta['last_name'][0];
+			$user_data['first_name'] = isset( $user_meta['first_name'][0] ) && ! empty( $user_meta['first_name'][0] ) ? $user_meta['first_name'][0] : $user_info->display_name;
+			$user_data['first_name'] = ! empty( $user_data['first_name'] ) ? $user_data['first_name'] : '-';
+			$user_data['last_name']  = isset( $user_meta['last_name'][0] ) && ! empty( $user_meta['last_name'][0] ) ? $user_meta['last_name'][0] : '-';
 
 			$this->user_data = $user_data;
-
 			return $user_data;
+
 		}
 
 		private function zp_api_update_registrant_status( $zoom_id, $zoom_type, $email, $action = 'approve' ) {

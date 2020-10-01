@@ -2,7 +2,7 @@
     $( document ).ready( function() {
 
         var nabParentAPIUrl = ( undefined !== typeof epObj.nabParentAPIUrl && '' !== epObj.nabParentAPIUrl ) ? epObj.nabParentAPIUrl : '';
-        
+
 		$( document ).on( 'click', '.nabCustomAddCart', function(e) {
 
 			e.preventDefault();
@@ -25,7 +25,7 @@
 						setCookie( 'nabCartKey', cartKey, 1 );
 					}
 				}
-					
+
 				$.ajax( {
 					url: epObj.ajaxUrl,
 					type: 'POST',
@@ -63,6 +63,39 @@
 		} );
 
 	} );
+
+	$( window ).load( function() {
+		// Check purchases and create zoom link.
+		checkPurchasesAndCreatZoomLink();
+	});
+
+    function checkPurchasesAndCreatZoomLink() {
+
+    	if( 0 !== $('.check-in-deep').length ) {
+
+			$.ajax({
+				url : epObj.ajaxUrl,
+				type	: 'post',
+				data	: {
+					action : 'ep_zoom_link_creator',
+					postid : epObj.postid
+				},
+				beforeSend: function() {
+					$('body').addClass('loading-zoom-check');
+				},
+				success	: function(result){
+
+					result = JSON.parse( result );
+
+					if( '' !== result.message ) {
+						$('.check-in-deep').html(result.message);
+					}
+
+					$('body').removeClass('loading-zoom-check');
+				}
+			});
+		}
+	}
 
 	function setCookie( name, value, days ) {
 		var expires = '';

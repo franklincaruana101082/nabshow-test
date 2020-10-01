@@ -62,6 +62,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 'nabParentAPIUrl'     => get_option( 'ep_parent_site_url', '' ),
                 'nabCookieBaseDomain' => EP_COOKIE_BASE_DOMAIN,
                 'nabNonce'            => wp_create_nonce('nab-ajax-nonce'),
+                'postid'              => get_the_ID(),
             ) );
         }
 
@@ -75,11 +76,11 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 'title'    => __( 'Global Header Settings', 'nabshow-ny' ),
                 'priority' => 999,
             ) );
-        
+
             $wp_customize->add_setting('nab_show_global_menu', array(
                 'default'    => false
             ));
-        
+
             $wp_customize->add_control(
                 new WP_Customize_Control(
                     $wp_customize,
@@ -107,7 +108,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 <div class="container">
                     <div class="header-inner">
                         <div class="nab-logos">
-                            <?php 
+                            <?php
                             $header_logos = $this->ep_get_header_logos();
                             if( ! empty( $header_logos ) ) { ?>
                                 <ul>
@@ -117,7 +118,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 </ul>
                             <?php } ?>
                         </div>
-                        <?php 
+                        <?php
                         $parent_url = get_option( 'ep_parent_site_url' );
                         $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
                         $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
@@ -184,7 +185,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
          * @return array|string
          */
         public function ep_get_header_logos() {
-            
+
             $api_base_url = get_option( 'ep_parent_site_url' );
 
             if( empty( $api_base_url ) ) {
@@ -196,18 +197,18 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
             if( false === $logos || is_user_logged_in() ) {
                 $api_url = $api_base_url . 'wp-json/nab/request/get-header-logos';
                 $curl    = curl_init();
-              
+
                 curl_setopt_array( $curl, array(
                   CURLOPT_URL => $api_url,
                   CURLOPT_CUSTOMREQUEST => "GET",
                   CURLOPT_RETURNTRANSFER => true,
                   CURLOPT_TIMEOUT => 30
                 ) );
-              
+
                 $response = curl_exec($curl);
-              
+
                 $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-              
+
                 if( 200 === $httpcode && ! empty( $response ) ) {
                   $logos = json_decode( $response, true );
                   set_transient( 'amplify_header_logos', $logos, 15 * MINUTE_IN_SECONDS );
@@ -218,7 +219,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             // get current site url
             $site_url = home_url('/');
-                  
+
             $sorted_logos = [];
             foreach( $logos as $key => $value ) {
                 if( $site_url === trailingslashit( $value['url'] )  ) {
@@ -226,10 +227,10 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 } else {
                   array_push( $sorted_logos, $value );
                 }
-            } 
+            }
 
             return $sorted_logos;
-        
+
         }
 
         /**
@@ -239,9 +240,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
          */
         public function ep_get_cart() {
             $cart_qty = 0;
-    
+
             $nab_parent_site_api_url = get_option( 'ep_parent_site_url' );
-        
+
             if( ! empty( $nab_parent_site_api_url ) ) {
                 if ( is_user_logged_in() ) {
                     $user_id = get_current_user_id();
@@ -255,27 +256,27 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                             ),
                         );
                         $response = wp_remote_get( $api_url, $args );
-            
+
                         if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
                             $body     = json_decode( wp_remote_retrieve_body( $response ), true );
                             $cart_qty = $body['items_count'];
                         }
                     }
-            
+
                 } else {
                     if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
                         $cart_key = $_COOKIE['nabCartKey'];
-            
+
                         $api_url  = add_query_arg( 'cart_key', $cart_key, $nab_parent_site_api_url . 'wp-json/cocart/v1/count-items' );
                         $response = wp_remote_get( $api_url );
-            
+
                         if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
                             $cart_qty = wp_remote_retrieve_body( $response );
                         }
                     }
                 }
             }
-        
+
             return $cart_qty;
         }
 
@@ -283,7 +284,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
          * Body Classes
          *
          * @param array $classes
-         * 
+         *
          * @return array
          */
         public function ep_body_classes( $classes ) {
@@ -302,7 +303,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
          * Add to cart button shortcode
          *
          * @param array $atts
-         * 
+         *
          * @return string
          */
         public function ep_add_to_cart_btn( $atts ) {
@@ -356,7 +357,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             //verify nonce
             if ( ! isset( $nab_nonce ) || false === wp_verify_nonce( $nab_nonce, 'nab-ajax-nonce' ) ) {
-                
+
                 $res[ 'err' ]     	= 1;
                 $res[ 'message' ]	= 'Authentication failed. Please reload the page and try again.';
 
@@ -390,7 +391,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 if( empty( $user_token ) ) {
                     $res['err'] = 1;
                     $res['message'] = 'User token missing! Please sign out and sign in again.';
-                
+
                     wp_send_json( $res, 200 );
                 }
 
@@ -408,7 +409,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 if( empty( $cart_key ) ) {
                     $res['err'] = 1;
                     $res['message'] = 'Cart key missing! Please try again.';
-                
+
                     wp_send_json( $res, 200 );
                 }
 

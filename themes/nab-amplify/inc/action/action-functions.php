@@ -41,7 +41,7 @@ function nab_confirm_password_matches_checkout( $errors, $username, $email ) {
  * @param $user
  */
 function nab_sync_login( $username, $user ) {
-	
+
 	$sites = [ 3, 4, 5, 13, 14 ]; // for NY site @todo Make it dynamic later
 
 	foreach ( $sites as $site ) {
@@ -434,23 +434,23 @@ function nab_attendee_field_process() {
 		if ( ! isset( $_POST['attendee_first_name'] ) || empty( $_POST['attendee_first_name'] ) ) {
 			wc_add_notice( __( 'Please enter Attendee First Name.' ), 'error' );
 		}
-	
+
 		if ( ! isset( $_POST['attendee_last_name'] ) || empty( $_POST['attendee_last_name'] ) ) {
 			wc_add_notice( __( 'Please enter Attendee Last Name.' ), 'error' );
 		}
-	
+
 		if ( ! isset( $_POST['attendee_email'] ) || empty( $_POST['attendee_email'] ) ) {
 			wc_add_notice( __( 'Please enter Attendee Email.' ), 'error' );
 		}
-	
+
 		if ( ! isset( $_POST['attendee_company'] ) || empty( $_POST['attendee_company'] ) ) {
 			wc_add_notice( __( 'Please enter Attendee Company.' ), 'error' );
 		}
-	
+
 		if ( ! isset( $_POST['attendee_title'] ) || empty( $_POST['attendee_title'] ) ) {
 			wc_add_notice( __( 'Please enter Attendee Title.' ), 'error' );
 		}
-	
+
 		if ( ! isset( $_POST['attendee_country'] ) || empty( $_POST['attendee_country'] ) ) {
 			wc_add_notice( __( 'Please enter Attendee Country.' ), 'error' );
 		}
@@ -631,7 +631,7 @@ function nab_user_registration_sync( $customer_id, $new_customer_data, $password
 	// Generate JWT Token
 	if( isset( $new_customer_data['user_login'] ) && ! empty( $new_customer_data['user_login'] ) && isset( $new_customer_data['user_pass'] ) && ! empty( $new_customer_data['user_pass'] ) ) {
 		nab_generate_jwt_token( $new_customer_data['user_login'], $new_customer_data['user_pass'] );
-	} 
+	}
 }
 
 /**
@@ -730,6 +730,29 @@ function amplify_register_api_endpoints() {
 		),
 	) );
 
+	register_rest_route( 'nab', '/request/customer-get-bought-products', array(
+		'methods'             => 'POST',
+		'callback'            => 'amplify_get_user_bought_product',
+		'permission_callback' => '__return_true',
+		'args'                => array(
+			'user_email'  => array(
+				'validate_callback' => function ( $param ) {
+					return is_email( $param );
+				},
+			),
+			'user_id'     => array(
+				'validate_callback' => function ( $param ) {
+					return is_numeric( $param );
+				},
+			),
+			'product_ids' => array(
+				'validate_callback' => function ( $param ) {
+					return is_array( $param );
+				},
+			),
+		),
+	) );
+
 	register_rest_route(
 		'nab', '/unlink-products', array(
 			'methods'  => 'POST',
@@ -777,9 +800,9 @@ function nab_amplify_unlink_products( WP_REST_Request $request ) {
 	if ( empty( $current_post_id ) || empty( $unlinked_products ) || empty( $shop_blog_id ) || empty( $current_blog_id ) ) {
 		return "Please pass necessary paramters.";
 	}
-	
+
 	switch_to_blog($shop_blog_id);
-	
+
 	foreach( $unlinked_products as $product_id ) {
 		$associated_content = maybe_unserialize( get_post_meta( $product_id, '_associated_content', true ) );
 		if( isset( $associated_content[ $current_blog_id ][ $current_post_id ] ) ) {
@@ -909,11 +932,41 @@ function amplify_check_user_bought_product( WP_REST_Request $request ) {
 }
 
 /**
+ * Get IDs of bought products.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_get_user_bought_product( WP_REST_Request $request ) {
+
+	$user_email  = $request->get_param( 'user_email' );
+	$user_id     = $request->get_param( 'user_id' );
+	$product_ids = $request->get_param( 'product_ids' );
+
+	$actually_bought = array();
+
+	if ( is_array( $product_ids ) && ! empty( $user_email ) && ! empty( $user_id ) ) {
+
+		foreach ( $product_ids as $product_id ) {
+
+			if ( wc_customer_bought_product( $user_email, $user_id, $product_id ) ) {
+				$actually_bought[] = $product_id;
+			}
+		}
+	}
+
+	return new WP_REST_Response( $actually_bought, 200 );
+}
+
+/**
  * Creates JWT Token
  *
  * @param string $username
  * @param string $password
- * 
+ *
  * @return void
  */
 function nab_create_jwt_token( $username, $password ) {
@@ -937,7 +990,7 @@ function amplify_get_product_info( WP_REST_Request $request ) {
 	if ( ! empty( $product_id ) ) {
 		$return[ 'url' ]   = get_the_permalink( $product_id );
 		$return[ 'title' ] = get_the_title( $product_id );
-	}	
+	}
 
 	return new WP_REST_Response( $return, 200 );
 }
@@ -946,18 +999,18 @@ function amplify_get_product_info( WP_REST_Request $request ) {
  * Get coupon code form the url.
  */
 function amplify_apply_coupon_code_from_url() {
-	
+
 	if ( is_admin() ) {
 		return;
 	}
-	
+
 	$coupon_code = filter_input( INPUT_GET, 'promocode', FILTER_SANITIZE_STRING );
 
 	// Exit if no code in URL or if the coupon code is already set cart session
 	if ( empty( $coupon_code ) ) {
 		return;
 	}
-	
+
 	// Start WC session if not started
 	if ( isset( WC()->session ) && ! WC()->session->has_session() ) {
 		WC()->session->set_customer_session_cookie( true );
@@ -965,40 +1018,40 @@ function amplify_apply_coupon_code_from_url() {
 	} else {
 		amplify_add_coupon_product_to_cart( $coupon_code, false );
 	}
-    
+
 }
 
 /**
- * Add coupon products to the cart and apply coupon. If coupon product not exist then set a cookie for coupon. 
+ * Add coupon products to the cart and apply coupon. If coupon product not exist then set a cookie for coupon.
  *
  * @param  string  $coupon_code
- * @param  boolean $force_start 
+ * @param  boolean $force_start
  */
 function amplify_add_coupon_product_to_cart( $coupon_code, $force_start ) {
-		
-	if ( ! empty( $coupon_code ) ) {        
-		
+
+	if ( ! empty( $coupon_code ) ) {
+
 		// Sanitize coupon code
 		$format_coupon_code = wc_format_coupon_code( $coupon_code );
-		
+
 		// Get the coupon
-		$the_coupon = new WC_Coupon( $format_coupon_code );	
-		
+		$the_coupon = new WC_Coupon( $format_coupon_code );
+
 		// Get coupon products
-		$product_ids = $the_coupon->get_product_ids();		
+		$product_ids = $the_coupon->get_product_ids();
 
 		if ( ! empty( $product_ids ) ) {
-			
+
 			foreach ( $product_ids as $product_id ) {
-				
+
 				if ( ! amplify_is_product_in_cart( $product_id ) ) {
 					WC()->cart->add_to_cart( $product_id );
 				}
 			}
 		}
-		
+
 		if ( empty( $product_ids ) && WC()->cart->is_empty() ) {
-			setcookie( 'amp_wc_coupon', $coupon_code, ( time() + 1209600 ), '/' );	
+			setcookie( 'amp_wc_coupon', $coupon_code, ( time() + 1209600 ), '/' );
 		} else {
 			WC()->cart->add_discount( $coupon_code );
 		}
@@ -1009,7 +1062,7 @@ function amplify_add_coupon_product_to_cart( $coupon_code, $force_start ) {
  * Check product is already in the cart.
  *
  * @param  int $product_id
- * 
+ *
  * @return boolean
  */
 function amplify_is_product_in_cart( $product_id ) {
@@ -1032,14 +1085,14 @@ function amplify_is_product_in_cart( $product_id ) {
  * Apply coupon when add to cart if coupon cookie exist.
  */
 function amplify_add_coupon_code_to_cart() {
-	
-	$coupon_code		= isset( $_COOKIE[ 'amp_wc_coupon' ] ) && ! empty( $_COOKIE[ 'amp_wc_coupon' ] ) ? $_COOKIE[ 'amp_wc_coupon' ] : '';	
+
+	$coupon_code		= isset( $_COOKIE[ 'amp_wc_coupon' ] ) && ! empty( $_COOKIE[ 'amp_wc_coupon' ] ) ? $_COOKIE[ 'amp_wc_coupon' ] : '';
 
     if ( empty( $coupon_code ) ) {
 		return;
 	}
 
-	WC()->cart->add_discount( $coupon_code );	
+	WC()->cart->add_discount( $coupon_code );
 
 	unset( $_COOKIE[ 'amp_wc_coupon' ] );
 	setcookie( 'amp_wc_coupon', null, -1, '/');
@@ -1079,7 +1132,7 @@ function nab_remove_cocart_item( $cart_item_key, $instance ) {
  * @return void
  */
 function nab_load_cart_action_cookie() {
-	
+
 	// If cookie is not present then just return
 	if ( ! isset( $_COOKIE['nabCartKey'] ) || is_user_logged_in() ) {
 		return;
@@ -1149,7 +1202,7 @@ function nab_load_cart_action_cookie() {
 function nab_maybe_clear_cart_cookie() {
 
 	if ( isset( $_COOKIE['nabCartKey'] ) && ! empty( $_COOKIE['nabCartKey'] ) ) {
-		unset($_COOKIE['nabCartKey']); 
+		unset($_COOKIE['nabCartKey']);
 		setcookie( 'nabCartKey', '', time() - 3600, '/', NAB_AMPLIFY_COOKIE_BASE_DOMAIN );
 	}
 
@@ -1158,13 +1211,13 @@ function nab_maybe_clear_cart_cookie() {
 /**
  * Get All orders IDs for a given product ID.
  *
- * @param int $product_id 
+ * @param int $product_id
  * @param string $product_year
- * 
+ *
  * @return array
  */
 function nab_get_orders_ids_by_product_id( $product_id, $product_year ){
-	
+
 	global $wpdb;
 
     $results = $wpdb->get_col("
@@ -1194,8 +1247,8 @@ function nab_add_custom_metabox_in_product() {
 		'Customer who bought this product',
 		'nab_product_customer_metabox_callback',
 		'product',
-		'side'		
-	);	
+		'side'
+	);
 
 }
 
@@ -1203,13 +1256,13 @@ function nab_add_custom_metabox_in_product() {
  * Display export current product custom metabox.
  *
  * @param  mixed $post
- *  
+ *
  */
 function nab_product_customer_metabox_callback( $post ) {
-	
+
 	$current_year	= date('Y');
 	$starting_year	= 2019;
-	
+
 	?>
 	<div class="export-list-wrapper">
 		<form method="POST" name="product_customer">
@@ -1238,9 +1291,9 @@ function nab_product_customer_metabox_callback( $post ) {
  * Generate CSV file.
  */
 add_action( 'admin_init', function(){
-	
+
 	$export_csv = filter_input( INPUT_POST, 'export_csv', FILTER_SANITIZE_STRING );
-	
+
 	// Checking user clicked on export csv button
 	if ( isset( $export_csv ) && ! empty( $export_csv ) ) {
 
@@ -1248,18 +1301,18 @@ add_action( 'admin_init', function(){
 		$product_id		= filter_input( INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! empty( $product_id ) ) {
-			
+
 			$product_year = empty( $product_year ) ? date( 'Y' ) : $product_year;
-			
+
 			// Get all order id for current product from the database
 			$all_order_ids = nab_get_orders_ids_by_product_id( $product_id, $product_year );
-			
+
 
 			if ( is_array( $all_order_ids ) && count( $all_order_ids ) > 0 ) {
-		
+
 				// Unique id array
 				$all_order_ids = array_unique( $all_order_ids );
-				
+
 				// CSV header row fields titles
 				$csv_fields		= array();
 				$csv_fields[] 	= 'Order ID';
@@ -1276,10 +1329,10 @@ add_action( 'admin_init', function(){
 				$csv_fields[]	= 'Opt in for Exhibitor/Sponsor';
 				$csv_fields[]	= 'Networking';
 				$csv_fields[]	= 'Discover';
-				
+
 
 				// Generate csv file as a direct download
-				$output_filename 	= $product_year . '-customer-list-for-product-' . $product_id . '.csv';				
+				$output_filename 	= $product_year . '-customer-list-for-product-' . $product_id . '.csv';
 				$output_handle 		= fopen('php://output', 'w');
 
 				header('Content-type: application/csv');
@@ -1290,15 +1343,15 @@ add_action( 'admin_init', function(){
 
 				// Loop through all the order
 				foreach ( $all_order_ids as $order_id ) {
-					
+
 					$dynamic_fields 	= array();
-					
+
 					// Get WC order
 					$order				= wc_get_order( $order_id );
 
 					// Customer info
 					$order_user_details = $order->get_user();
-		
+
 					$customer_id		= $order_user_details->data->ID;
 					$customer_email 	= $order_user_details->data->user_email;
 					$customer_name		= $order_user_details->data->display_name;
@@ -1329,14 +1382,14 @@ add_action( 'admin_init', function(){
 					$coupons	= $order->get_coupon_codes();
 					$total		= $order->get_total();
 					$qty		= 0;
-					
+
 					foreach( $order->get_items() as $item ) {
-		
+
 						if ( $item->get_product_id() == $product_id ) {
 							$qty = $item->get_quantity();
 						}
 					}
-		
+
 					if ( is_array( $coupons ) && count( $coupons ) > 0 ) {
 						$coupons = implode( ',', $coupons );
 					} else {
@@ -1380,7 +1433,7 @@ function amplify_get_header_logos( WP_REST_Request $request ) {
 
 	$response = [];
 
-	if ( have_rows( 'nab_logos', 'option' ) ): 
+	if ( have_rows( 'nab_logos', 'option' ) ):
 		while ( have_rows( 'nab_logos', 'option' ) ): the_row();
 			$logos = [];
 			$nab_logo_id    = get_sub_field( 'logos' );
@@ -1390,7 +1443,7 @@ function amplify_get_header_logos( WP_REST_Request $request ) {
 			$logos['image'] = ( isset( $nab_logo_img ) && ! empty( $nab_logo_img ) ) ? $nab_logo_img[0] : '';
 			array_push( $response, $logos );
 		endwhile;
-	endif; 
+	endif;
 
 	return new WP_REST_Response( $response, 200 );
 }
@@ -1399,32 +1452,32 @@ function amplify_get_header_logos( WP_REST_Request $request ) {
  * Show the customer display name in the customer column.
  *
  * @param $column
- * @param $post_id 
+ * @param $post_id
  */
 function nab_customer_column_data( $column, $post_id ) {
 
 	switch ( $column ) {
 		case 'customer':
-			
+
 			// Get WC order
 			$order = wc_get_order( $post_id );
 
 			if ( ! empty( $order ) ) {
-						
+
 				$order_user_details = $order->get_user();
-				
+
 				$customer_id	= $order_user_details->data->ID;
 				$customer_name	= $order_user_details->data->display_name;
 
 				$profile_url = get_edit_user_link( $customer_id );
 				?>
 				<a href="<?php echo esc_url( $profile_url ); ?>"><?php echo esc_html( $customer_name ); ?></a>
-				<?php				
+				<?php
 			} else {
 				?>
 				<span aria-hidden="true">—</span>
 				<?php
-			}			
+			}
 			break;
 	}
 }
@@ -1435,20 +1488,20 @@ function nab_customer_column_data( $column, $post_id ) {
  * @param $columns
  *
  * @return array
- * 
+ *
  */
 function nab_add_user_company_column( $columns ) {
-	
+
 	$manage_columns = array();
 
     foreach( $columns as $key => $value ) {
-		
+
 		if ( 'email' === $key ) {
-			
+
 			$manage_columns[ $key ] 		= $value;
-			$manage_columns[ 'company' ] 	= 'Company';            
+			$manage_columns[ 'company' ] 	= 'Company';
 		}
-		
+
         $manage_columns[$key] = $value;
     }
 
@@ -1461,21 +1514,21 @@ function nab_add_user_company_column( $columns ) {
  * @param  string $value
  * @param  string $column_name
  * @param  int $user_id
- * 
+ *
  * @return string
  */
 function nab_user_company_column_data( $value, $column_name, $user_id ) {
-		
-	
+
+
 	if ( 'company' === $column_name) {
-		
-		$company = get_user_meta( $user_id, 'attendee_company', true );		
+
+		$company = get_user_meta( $user_id, 'attendee_company', true );
 
 		if ( ! empty( $company ) ) {
 			return $company;
 		} else {
 			return '-';
-		}		
+		}
 	}
 
     return $value;
@@ -1484,12 +1537,12 @@ function nab_user_company_column_data( $value, $column_name, $user_id ) {
 /**
  * Added addition user filter in the user table list.
  *
- * @param  string $which 
+ * @param  string $which
  */
 function nab_add_additional_filter_for_user_list( $which ) {
-	
+
 	if ( 'top' === $which ) {
-		
+
 		$option_items = array(
 			'company' 	=> 'Company',
 			'name'		=> 'Name'
@@ -1498,10 +1551,10 @@ function nab_add_additional_filter_for_user_list( $which ) {
 		<select name="user_filter">
 			<option value="">Additional Filter</option>
 			<?php
-			
+
 			$user_filter 	= filter_input( INPUT_GET, 'user_filter', FILTER_SANITIZE_STRING );
 			$current_v		= isset( $user_filter ) ? $user_filter : '';
-			
+
 			foreach ( $option_items as $key => $value ) {
 				?>
 				<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $current_v, $key ); ?>><?php echo esc_html( $value ); ?></option>
@@ -1510,20 +1563,20 @@ function nab_add_additional_filter_for_user_list( $which ) {
 			?>
 		</select>
 		<?php
-	}	
+	}
 }
 
 /**
  * Modify user search query based on user filter selected
  *
- * @param  mixed $query 
+ * @param  mixed $query
  */
 function nab_modify_user_search_query( $query ) {
-	
+
 	global $pagenow;
-	 
+
 	if ( is_admin() && 'users.php' === $pagenow ) {
-		
+
 		$user_filter 	= filter_input( INPUT_GET, 'user_filter', FILTER_SANITIZE_STRING );
 		$search_item	= filter_input( INPUT_GET, 's', FILTER_SANITIZE_STRING );
 
@@ -1536,40 +1589,40 @@ function nab_modify_user_search_query( $query ) {
 				$field = '';
 
 				if ( 'name' === $user_filter ) {
-					
+
 					$field 			= 'first_name';
 					$search_item 	= trim( $search_item, ' ' );
 
 					$search_item_array = explode( ' ', $search_item );
 
 					if ( is_array( $search_item_array ) && count( $search_item_array ) > 0 ) {
-						
+
 						$search_item = $search_item_array[0];
 					}
 
 				} else  {
-					
+
 					$field = 'attendee_company';
 				}
-				
+
 				// let's search by users company
-				$query->query_from .= " AND wp_usermeta.meta_key = '{$field}'";				
-	
+				$query->query_from .= " AND wp_usermeta.meta_key = '{$field}'";
+
 				// what fields to include in the search
 				$search_by = array( 'wp_usermeta.meta_value' );
-	
+
 				// apply to the query
-				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both');				
+				$query->query_where = 'WHERE 1=1' . $query->get_search_sql( $search_item, $search_by, 'both');
 			}
 		}
-	}		
+	}
 }
 
 /**
  * Added inline style to fixed ACF media upload modal text overlapping issue.
  */
 function nab_add_inline_style_for_acf_upload_popup() {
-    
+
     wp_add_inline_style( 'acf-input', '.acf-media-modal .media-modal-content .media-frame .media-toolbar-secondary select.attachment-filters{margin-top:32px;}' );
 }
 
@@ -1603,7 +1656,7 @@ function nab_register_event_shows_post_type() {
 		'capability_type'     => 'post',
 		'has_archive'         => false,
 		'hierarchical'        => false,
-		'menu_position'       => null,		
+		'menu_position'       => null,
 		'supports'            => array(
 			'title',
 			'author',
