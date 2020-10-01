@@ -39,8 +39,8 @@
 .admin-bar.show_sec_menu .nab-header-secondary + .site-header{top:121px;}
 
 /* Header space for Avada theme */
-.fusion-body .nab-header-secondary + div header.fusion-header-wrapper{padding-top:80px;}
-.fusion-body .nab-header-secondary .container{overflow:inherit;}
+.fusion-body .nab-header-secondary + div header.fusion-header-wrapper{padding-top:80px;z-index:999;}
+.fusion-body .nab-header-secondary .container{overflow:visible;}
 
 /* Cart message popup */
 .nab-cart-message-popup{
