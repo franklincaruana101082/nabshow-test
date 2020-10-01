@@ -71,7 +71,7 @@
 			date.setTime( date.getTime() + ( 5 * 60 * 1000) );
 			let expires = '; expires=' + date.toUTCString();
 			
-			document.cookie = 'nab_login_redirect' + '=' + (value || '') + expires + ';path=/;domain=' + epObj.nabCookieBaseDomain + ';';
+			document.cookie = 'nab_amp_login_redirect' + '=' + (value || '') + expires + ';path=/;domain=' + epObj.nabCookieBaseDomain + ';';
 
 			location.href = redirectUrl;
 		});

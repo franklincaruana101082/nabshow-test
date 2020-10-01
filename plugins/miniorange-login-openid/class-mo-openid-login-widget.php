@@ -1211,7 +1211,7 @@ function mo_openid_get_redirect_url() {
                             
                             $custom_url_redirect = wc_get_page_permalink( 'myaccount' );
 
-                            setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
+                            // setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
                         }
                     }
                 }
