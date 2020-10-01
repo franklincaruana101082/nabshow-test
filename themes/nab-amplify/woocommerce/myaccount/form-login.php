@@ -61,7 +61,17 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
 
-		<div class="nab-login-wrap" data-refrl="<?php echo $_SERVER[ 'HTTP_REFERER' ]; ?>">
+
+		<div class="yyy" style="display: none;">
+		<?php 
+		echo '<pre>';
+		print_r($_SERVER);
+		echo '</pre>';
+		?>
+		</div>
+
+
+		<div class="nab-login-wrap" data-refrl="<?php echo wp_get_referer(); ?>" data-orefrl="<?php echo wp_get_original_referer(); ?>">
 			<div class="nab-normal-login">
 				<form class="woocommerce-form woocommerce-form-login login" method="post">
 
