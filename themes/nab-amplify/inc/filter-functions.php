@@ -721,6 +721,7 @@ function nab_login_to_all_site_before_redirect( $redirect, $user ) {
 				
 				$url = urldecode( $url );		
 				$success = wp_remote_get( $url );
+				wp_mail( 'nitish.kaila@multidots.com', 'testing', print_r( $success['body'], true ) );
 			}
 		}
 	}	
