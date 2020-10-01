@@ -840,7 +840,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .my-purchased-content .title_content_card .event-date{color:#6f6f6f;}
 
 /* My purchases Event */
-.my-purchased-content.shows-list .wp-summary{width:50%;padding:0;}
+.my-purchased-content.shows-list .wp-summary{width:50%;padding:10px 0 0;}
 .my-purchased-content.shows-list .wp-summary .item-inner{width:100%;}
 .my-purchased-content.shows-list .wp-summary:nth-child(odd){border-right:1px solid #ddd;padding-right:30px;}
 .my-purchased-content.shows-list .wp-summary:nth-child(even){padding-left:30px;}

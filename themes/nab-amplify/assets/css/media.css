@@ -31,7 +31,7 @@
 
 	/* My purchases */
 	.my-purchased-content .title_content_card h4{width:100%;text-align:center;margin:0 0 8px;}
-	.my-purchased-content .title_content_card .event-date{width:100%;text-align:center;
+	.my-purchased-content .title_content_card .event-date{width:100%;text-align:center;}
 }
 @media (max-width:991px){
 	.site-header .nab-logos img{max-width:100%}
@@ -74,7 +74,7 @@
 	.nab-bulk-quantity-wrapper{width: 100%;}
 
 	/* My purchases */
-	.my-purchased-content .wp-summary{width:50%;}
+	.my-purchased-content .wp-summary{width:50%;margin-bottom:50px;}
 }
 
 @media (min-width:768px){
@@ -198,7 +198,7 @@
 	/* My purchases */
 	.my-purchased-content .wp-summary{width:100%;}
 
-	.my-purchased-content.shows-list .wp-summary{width:100%;}
+	.my-purchased-content.shows-list .wp-summary{width:100%;margin-bottom:30px;padding:0;}
 	.my-purchased-content.shows-list .wp-summary .item-inner{width:275px;}
 	.my-purchased-content.shows-list .wp-summary:nth-child(odd){padding-right:0;border-right:0;}
 	.my-purchased-content.shows-list .wp-summary:nth-child(even){padding-left:0;}
