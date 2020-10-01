@@ -702,7 +702,7 @@ function nab_add_customer_name_column( $columns ) {
     return $manage_columns;
 }
 
-add_filter( 'woocommerce_login_redirect', 'nab_login_to_all_site_before_redirect', 10, 2 );
+// add_filter( 'woocommerce_login_redirect', 'nab_login_to_all_site_before_redirect', 10, 2 );
 
 function nab_login_to_all_site_before_redirect( $redirect, $user ) {	
 
