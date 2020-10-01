@@ -826,14 +826,20 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .attendee-edit-wrap a.button{border-radius:6px;padding:8px 15px;margin-right:5px;}
 
 /* My purchases */
-.wp-info{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.wp-summary{width:33.33%;padding:0 5px;margin-bottom:68px;}
-.wp-summary .item-inner{width:275px;max-width:100%;margin:0 auto;} 
-.wp-summary .item-inner .thumbnail{-webkit-box-shadow:0px 0px 18px 0px rgba(0,0,0,0.3);box-shadow:0px 0px 18px 0px rgba(0,0,0,0.3);text-shadow:0px 0px 18px rgba(0,0,0,0.3);background:#404040;border-radius:10px;text-align:left;height:100%;}
-.header_content_card{min-height:230px;position:relative;}
-.category_content_card{position:absolute;bottom:15px;left:15px;padding:8px 10px;}
-.title_content_card{padding:20px 10px;}
-.title_content_card h4{margin-bottom:8px;}
+.my-purchased-content .wp-info{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.my-purchased-content .wp-summary{width:33.33%;padding:0 5px;margin-bottom:68px;}
+.my-purchased-content .wp-summary .item-inner{width:275px;max-width:100%;margin:0 auto;} 
+.my-purchased-content .wp-summary .item-inner .thumbnail{-webkit-box-shadow:0px 0px 18px 0px rgba(0,0,0,0.3);box-shadow:0px 0px 18px 0px rgba(0,0,0,0.3);text-shadow:0px 0px 18px rgba(0,0,0,0.3);background:#404040;border-radius:10px;text-align:left;height:100%;}
+.my-purchased-content .header_content_card{min-height:230px;position:relative;}
+.my-purchased-content .category_content_card{position:absolute;bottom:15px;left:15px;padding:8px 10px;}
+.my-purchased-content .title_content_card{padding:20px 10px;}
+.my-purchased-content .title_content_card h4{margin-bottom:8px;}
+
+/* My purchases Event */
+.my-purchased-content.shows-list .wp-summary{width:50%;padding:0;}
+.my-purchased-content.shows-list .wp-summary .item-inner{width:100%;}
+.my-purchased-content.shows-list .wp-summary:nth-child(odd){border-right:1px solid #ccc;padding-right:10px;}
+.my-purchased-content.shows-list .wp-summary:nth-child(even){padding-left:10px;}
 
 .nab-bulk-purchase-checkout-info {margin-bottom: 20px;}
 
