@@ -206,7 +206,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 							<td>
 								<div class="edit-att-buttons">
 									<a href="javascript:void(0)" class="button btn-save">Save</a>
-									<a href="javascript:void(0)" class="button btn-cancle">Cancle</a>
+									<a href="javascript:void(0)" class="button btn-cancle">Cancel</a>
 								</div>
 							</td>
 						</tr>
