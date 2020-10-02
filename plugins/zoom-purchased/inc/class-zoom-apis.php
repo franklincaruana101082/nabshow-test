@@ -63,9 +63,9 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			}
 
 			if( ! empty( $user_id ) ) {
-				$users = (object) array( 'ID' => $user_id );
+				$users = array( (object) array( 'ID' => $user_id ) );
 			} else {
-				$users = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
+				$users = get_users( array( 'fields' => array( 'ID', 'display_name', 'user_email' ) ) );
 				echo '<pre>';
 				print_r($users);
 				die('<br><---died here');
@@ -80,7 +80,8 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 				$customer_orders = get_posts(array(
 					'numberposts' => -1,
 					'meta_key' => '_customer_user',
-					'orderby' => 'date',
+					/*'orderby' => 'date',*/
+					'orderby' => 'modified',
 					'order' => 'DESC',
 					'meta_value' => $user_id,
 					'post_type' => wc_get_order_types(),
@@ -91,7 +92,7 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 				$all_metas = get_user_meta( $user_id );
 				foreach ( $all_metas as $key => $value ) {
 					if( strpos( $key, 'zoom') !== false ) {
-						$Order_Array[$user_id]['user_meta'][$key] = $value[0];
+						$Order_Array[$user_id]['user_meta'][$key] =  maybe_unserialize( $value[0] );
 					}
 				}
 
@@ -101,10 +102,12 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 						"ID" => $orderq->get_id(),
 						"Value" => $orderq->get_total(),
 						"Date" => $orderq->get_date_created()->date_i18n('Y-m-d'),
+						"Status" => $orderq->get_status(),
 					];
 
 					//$this->current_order = new WC_Order( $order_id );
 					$this->current_order = $orderq;
+					//$Order_Array[$user_id]['orders'][$orderq->get_id()]['details'] = $orderq;
 					$Order_Array[$user_id]['orders'][$orderq->get_id()]['meetings'] = $this->zp_get_meeting_ids();
 
 				}
