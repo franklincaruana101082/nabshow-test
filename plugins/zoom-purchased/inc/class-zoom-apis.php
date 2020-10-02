@@ -66,6 +66,9 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 				$users = (object) array( 'ID' => $user_id );
 			} else {
 				$users = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
+				echo '<pre>';
+				print_r($users);
+				die('<br><---died here');
 			}
 
 			$Order_Array = []; //
