@@ -101,7 +101,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 
 						$query_params = array(
 							'user_id'     => $logged_user->ID,
-							'product_ids' => $associate_products,
+							'product_ids' => $actually_bought,
 							'zoom_id'     => $zoom_id_from_content_meta,
 							'zoom_type'   => $zoom_type,
 							'blog_id'     => $current_blog_id,
