@@ -141,7 +141,7 @@ p{font-size:16px;color:#404040}
 /************* Default style variables *************/
 
 /* Header css */
-.site-header{background:#666666;position:relative;z-index:1}
+.site-header{background:#666666;position:relative;z-index:10}
 .site-header .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .site-header .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex}
 .site-header .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
@@ -850,3 +850,6 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 /* user switch to message */
 #user_switching_switch_on{position:fixed;bottom:5%;right:4%;margin:0;z-index:99;}
 #user_switching_switch_on a{background-color:#fff;padding:20px 20px;border-top:1px solid #ccc;box-shadow:0px 0px 10px 0px rgba(0,0,0,.3);display:inline-block;max-width:300px;}
+
+/* Access Your Content button */
+a.woocommerce-button.button.return-btn {text-transform:none;}
