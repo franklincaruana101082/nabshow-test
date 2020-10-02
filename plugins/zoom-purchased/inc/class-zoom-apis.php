@@ -30,21 +30,96 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			add_action( 'woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom' ), 10, 3 );
 		}
 
-		public function zp_register_api_endpoints() {
+	 	public function zp_register_api_endpoints() {
 
+			// Add registrations on load the content page.
 			register_rest_route( 'zoom', '/add-registrant', array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'zp_rest_add_registrant' )
 			) );
 
+			// Get all details and print, this is for debug and personal uses.
+			register_rest_route( 'zoom', '/get-details', array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'zp_rest_get_details' )
+			) );
+
 		}
 
 		/**
-		 *
+		 * Get all the details of the current user relate to zoom.
 		 *
 		 * @param WP_REST_Request $request
 		 *
-		 * @return bool Added or not.
+		 */
+		public function zp_rest_get_details( WP_REST_Request $request ) {
+
+			// Get user details.
+			$zoom_secret = $request->get_param( 'key' );
+			$user_id = $request->get_param( 'user_id' );
+
+			if( empty( $zoom_secret ) ) {
+				die('Please pass zoom_secret to continue.');
+			}
+
+			if( ! empty( $user_id ) ) {
+				$users = (object) array( 'ID' => $user_id );
+			} else {
+				$users = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
+			}
+
+			$Order_Array = []; //
+			foreach($users as $user){
+
+				$user_id = $user->ID;
+
+				// Get all customer orders
+				$customer_orders = get_posts(array(
+					'numberposts' => -1,
+					'meta_key' => '_customer_user',
+					'orderby' => 'date',
+					'order' => 'DESC',
+					'meta_value' => $user_id,
+					'post_type' => wc_get_order_types(),
+					'post_status' => array_keys(wc_get_order_statuses())
+				));
+
+
+				$all_metas = get_user_meta( $user_id );
+				foreach ( $all_metas as $key => $value ) {
+					if( strpos( $key, 'zoom') !== false ) {
+						$Order_Array[$user_id]['user_meta'][$key] = $value[0];
+					}
+				}
+
+				foreach ($customer_orders as $customer_order) {
+					$orderq = wc_get_order($customer_order);
+					$Order_Array[$user_id]['orders'][$orderq->get_id()] = [
+						"ID" => $orderq->get_id(),
+						"Value" => $orderq->get_total(),
+						"Date" => $orderq->get_date_created()->date_i18n('Y-m-d'),
+					];
+
+					//$this->current_order = new WC_Order( $order_id );
+					$this->current_order = $orderq;
+					$Order_Array[$user_id]['orders'][$orderq->get_id()]['meetings'] = $this->zp_get_meeting_ids();
+
+				}
+			}
+
+
+			// Get user meta for zoom.
+			echo '<pre>';
+			print_r($Order_Array);
+			die('<br><---died here');
+		}
+
+		/**
+		 * Add registrant and return the join link.
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return string join_url.
 		 */
 		public function zp_rest_add_registrant( WP_REST_Request $request ) {
 

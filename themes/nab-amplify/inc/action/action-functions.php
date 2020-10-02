@@ -798,7 +798,7 @@ function nab_amplify_unlink_products( WP_REST_Request $request ) {
 	$current_blog_id = isset( $parameters['current_blog_id'] ) ? (int) $parameters['current_blog_id'] : '';
 
 	if ( empty( $current_post_id ) || empty( $unlinked_products ) || empty( $shop_blog_id ) || empty( $current_blog_id ) ) {
-		return "Please pass necessary paramters.";
+		return "Please pass necessary parameters.";
 	}
 
 	switch_to_blog($shop_blog_id);
