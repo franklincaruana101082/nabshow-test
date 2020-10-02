@@ -72,7 +72,7 @@
     line-height: 26px;
     max-width: 90%;
 }
-
+.zoom_text { color: #fff; }
 @media (max-width:1024px){
 	.nab-header-secondary .nab-profile:hover > .nab-profile-dropdown{display:none}
 }
