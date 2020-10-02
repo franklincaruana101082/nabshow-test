@@ -222,7 +222,7 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 
 	$items =
 		array( 'edit-my-profile' => __( 'Edit My Profile', 'nab-amplify' ) )
-		// + array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
+		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
 		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
 		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) )
 		+ array( 'orders' => __( 'Order History', 'nab-amplify' ) )
