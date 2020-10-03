@@ -93,7 +93,7 @@ function nab_db_add_attendee_callback() {
 					
 					$first_name = trim( $sheet_data[ $i ][0] );
 					$last_name  = trim( $sheet_data[ $i ][1] );
-					$email      = trim( $sheet_data[ $i ][2] );
+					$email      = sanitize_email( $sheet_data[ $i ][2] );
 					
 					if ( ! empty( $email ) && ! in_array( $email, $attendee_emails, true) && is_email( $email ) ) {
 						
