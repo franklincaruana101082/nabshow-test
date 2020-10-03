@@ -19,4 +19,4 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
-add_filter( 'wpcom_vip_is_two_factor_forced', '__return_false' );
+add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
