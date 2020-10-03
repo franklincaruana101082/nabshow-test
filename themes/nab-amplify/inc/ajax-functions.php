@@ -79,6 +79,7 @@ function nab_db_add_attendee_callback() {
 
 			$sheet_data    = $spreadsheet->getActiveSheet()->toArray();
 			$sheet_records = count( $sheet_data ) - 1;
+			$inserted_records = 0;
 
 			/*if ( $sheet_records < $new_attendee_count ) {
 				$new_attendee_count = $sheet_records;
@@ -90,11 +91,11 @@ function nab_db_add_attendee_callback() {
 
 				for ( $i = 1; $i <= $sheet_records; $i ++ ) {
 					
-					$first_name = $sheet_data[ $i ][0];
-					$last_name  = $sheet_data[ $i ][1];
-					$email      = $sheet_data[ $i ][2];
+					$first_name = trim( $sheet_data[ $i ][0] );
+					$last_name  = trim( $sheet_data[ $i ][1] );
+					$email      = trim( $sheet_data[ $i ][2] );
 					
-					if ( ! in_array( $email, $attendee_emails, true) ) {
+					if ( ! empty( $email ) && ! in_array( $email, $attendee_emails, true) && is_email( $email ) ) {
 						
 						$insert_attendee_query = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}nab_attendee
 									(`parent_user_id`, `order_id`, `status`, `first_name`, `last_name`, `email`)
@@ -116,6 +117,8 @@ function nab_db_add_attendee_callback() {
 							$err 				= 0;
 							$attendee_emails[] 	= $email;
 
+							$inserted_records++;
+
 						} else {
 							$err = 1;
 						}
@@ -129,7 +132,7 @@ function nab_db_add_attendee_callback() {
 
 			if ( 0 === $err ) {
 				$response['err']           = 0;
-				$response['total_records'] = $new_attendee_count;
+				$response['total_records'] = $inserted_records;
 			} else {
 				$response['err']     = 1;
 				$response['message'] = 'There was an error while inserting records!';
