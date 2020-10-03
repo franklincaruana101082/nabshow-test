@@ -22,3 +22,15 @@ if (!current_user_can('administrator') && !is_admin()) {
   show_admin_bar(false);
 }
 }
+
+// Add class in the register now menu link button
+add_filter( 'nav_menu_link_attributes', 'add_menu_link_class', 1, 3 );
+
+function add_menu_link_class( $atts, $item, $args ) {
+
+  if ( 'custom' === $item->type && 'register-now' === $item->post_name ) {
+    $atts[ 'class' ] = $atts[ 'class' ] . ' amplifyGuestSignIn';    
+  }  
+  
+  return $atts;
+}
