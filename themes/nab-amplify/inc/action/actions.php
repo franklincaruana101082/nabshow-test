@@ -114,3 +114,5 @@ add_action( 'restrict_manage_users', 'nab_add_additional_filter_for_user_list' )
 add_action( 'pre_user_query', 'nab_modify_user_search_query' );
 
 add_action( 'admin_enqueue_scripts', 'nab_add_inline_style_for_acf_upload_popup', 999 );
+
+add_action( 'init', 'nab_register_event_shows_post_type' );

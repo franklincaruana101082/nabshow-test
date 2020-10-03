@@ -747,14 +747,14 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 										
 					$channel = get_field( 'session_channel',  $session_id );													
 				
-					$result_post[ $i ][ 'post_title' ]    	= get_the_title();
+					$result_post[ $i ][ 'post_title' ]    	= html_entity_decode( get_the_title() );
 					$result_post[ $i ][ 'post_link' ]    	= get_the_permalink();										
 					$result_post[ $i ][ 'time' ]     	  	= $start_time . ' - ' . $end_time . ' ET';
-					$result_post[ $i ][ 'post_content' ]  	= get_the_excerpt( $session_id );					
+					$result_post[ $i ][ 'post_content' ]  	= html_entity_decode( get_the_excerpt( $session_id ) );
 					$result_post[ $i ][ 'more_text' ]  		= $button_text;
-					$result_post[ $i ][ 'channel' ]  		= get_the_title( $channel );
+					$result_post[ $i ][ 'channel' ]  		= html_entity_decode( get_the_title( $channel ) );
 					$result_post[ $i ][ 'channel_link' ]  	= get_the_permalink( $channel );
-					$result_post[ $i ][ 'pass_name' ]  		= $is_open_to;
+					$result_post[ $i ][ 'pass_name' ]  		= html_entity_decode( $is_open_to );
 					$result_post[ $i ][ 'session_date' ]  	= $date;
 					$result_post[ $i ][ 'schedule_class' ]	= $schedule_class;
 					$result_post[ $i ][ 'thumbnail_url' ] 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );

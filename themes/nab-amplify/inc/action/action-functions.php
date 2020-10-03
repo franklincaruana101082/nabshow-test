@@ -1572,3 +1572,45 @@ function nab_add_inline_style_for_acf_upload_popup() {
     
     wp_add_inline_style( 'acf-input', '.acf-media-modal .media-modal-content .media-frame .media-toolbar-secondary select.attachment-filters{margin-top:32px;}' );
 }
+
+/**
+ * Register event shows post type
+ */
+function nab_register_event_shows_post_type() {
+
+	$labels = array(
+		'name'               => _x( 'Shows', 'post type general name', 'nab-amplify' ),
+		'singular_name'      => _x( 'Shows', 'post type singular name', 'nab-amplify' ),
+		'add_new_item'       => __( 'Add New', 'nab-amplify' ),
+		'edit_item'          => __( 'Edit', 'nab-amplify' ),
+		'new_item'           => __( 'New', 'nab-amplify' ),
+		'view_item'          => __( 'View', 'nab-amplify' ),
+		'search_items'       => __( 'Search', 'nab-amplify' ),
+		'not_found'          => __( 'No show found.', 'nab-amplify' ),
+		'not_found_in_trash' => __( 'No show found in Trash.', 'nab-amplify' )
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'public'              => true,
+		'publicly_queryable'  => false,
+		'exclude_from_search' => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_rest'        => false,
+		'query_var'           => true,
+		'rewrite'             => true,
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => null,
+		'supports'            => array(
+			'title',
+			'author',
+			'thumbnail',
+			'custom-fields'
+		),
+	);
+
+	register_post_type( 'event-shows', $args );
+}
