@@ -576,7 +576,7 @@ function nab_change_attendee_order_details_ajax_callback() {
 	if ( nab_is_order_attendee_exist( $email, $attendee_details[ 'order_id' ] ) ) {
 		
 		$response[ 'err' ]     = 1;
-		$response[ 'message' ] = 'Attendee not update. Email address already exist.';
+		$response[ 'message' ] = 'Attendee not updated. Email address already exist.';
 		
 		wp_send_json( $response, 200 );
 
