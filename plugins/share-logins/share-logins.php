@@ -153,7 +153,7 @@ class Plugin {
 		 * To apply a filter, use $admin->filter()
 		 */
 		$request = new Request( $this->plugin );
-		$request->action( 'wp_login', 'login', 9999 );
+		$request->action( 'wp_login', 'login', 2 );
 		$request->action( 'clear_auth_cookie', 'logout' );
 
 		/**

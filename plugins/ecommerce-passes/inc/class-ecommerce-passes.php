@@ -33,9 +33,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
 
             // Global Header Class
-            $this->ep_add_global_header_class();
-
-            add_filter( 'two_factor_user_api_login_enable', array( $this, 'ep_2fa_rest_api_enable' ), 10, 2 );
+            $this->ep_add_global_header_class();            
 
         }
         
@@ -558,24 +556,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        }
 
 	        return $shop_blog_id;
-        }
-        
-        /**
-         * enable two factor authentication for all user.
-         *
-         * @param  boolean $val
-         * @param  int $user_id
-         * @return boolean
-         */
-        public function ep_2fa_rest_api_enable( $val, $user_id ) {
-            
-            $user = get_user_by( 'ID' ,$user_id );
-
-            if ( ! empty( $user ) && ( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) || in_array( 'customer', $user->roles, true ) ) ) {
-                $val = true;
-            }
-
-            return $val;
-        }
+        }        
     }
 }
