@@ -28,9 +28,9 @@ add_filter( 'nav_menu_link_attributes', 'add_menu_link_class', 1, 3 );
 
 function add_menu_link_class( $atts, $item, $args ) {
 
-  if ( 'custom' === $item->type && 'register-now' === $item->post_name ) {
+  if ( 'custom' === $item->type && 'REGISTER NOW' === strtoupper( $item->title ) ) {
     $atts[ 'class' ] = $atts[ 'class' ] . ' amplifyGuestSignIn';    
-  }  
+  }
   
   return $atts;
 }
