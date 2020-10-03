@@ -318,7 +318,7 @@ function nab_is_order_attendee_exist( $email, $order_id ) {
 	}
 
 	// Get attendees email throught the order id
-	$attendees_query 	= $wpdb->prepare( "SELECT `email` FROM {$wpdb->prefix}nab_attendee WHERE `order_id` = %d AND `email` = %s", $order_id, $email );
+	$attendees_query 	= $wpdb->prepare( "SELECT `email` FROM {$wpdb->prefix}nab_attendee WHERE `order_id` = %d AND `email` = %s AND `status` = 1", $order_id, $email );
 	$order_attendees	= $wpdb->get_results( $attendees_query, ARRAY_A );
 
 	// check attendee exist or not
