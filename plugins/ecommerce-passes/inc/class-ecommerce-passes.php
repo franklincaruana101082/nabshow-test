@@ -33,7 +33,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
 
             // Global Header Class
-            $this->ep_add_global_header_class();
+            $this->ep_add_global_header_class();            
 
         }
         
@@ -556,6 +556,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        }
 
 	        return $shop_blog_id;
-        }
+        }        
     }
 }
