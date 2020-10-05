@@ -12,6 +12,14 @@ get_header();
 global $wp_query;
 $total_posts = $wp_query->found_posts;
 $total_paged = $wp_query->max_num_pages;
+$post_types_list	= array(
+	'all'           => 'All',
+	'page'          => 'Page',									
+	'sessions'      => 'Session',
+	'speakers'      => 'Speaker',
+	'channels'		=> 'Channel',	
+	'news-releases'	=> 'News Release'
+);
 ?>
 
 	<div id="internal-banner" class="wp-block-nab-multipurpose-gutenberg-block has-full is-block-center has-background-size has-background-opacity has-background-opacity-50" style="background-image:url(https://nabshow.com/ny2020/wp-content/uploads/sites/5/2020/05/homepage-hero.jpg);margin-top:-40px;margin-bottom:40px">
@@ -43,8 +51,7 @@ $total_paged = $wp_query->max_num_pages;
                             <!-- Tab links -->
                             <div class="searchtab col-lg-12">
 								<?php
-								$site_url           = get_site_url() . '/?s=' . get_search_query();
-								$post_types_list    = nabshow_lv_get_search_result_post_types();
+								$site_url           = get_site_url() . '/?s=' . get_search_query();								
 								$search_post_type   = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
 
 								foreach ( $post_types_list as $key => $current_type ) {
@@ -83,12 +90,69 @@ $total_paged = $wp_query->max_num_pages;
                                     while ( have_posts() ) :
                                         the_post();
 
-                                        /**
-                                         * Run the loop for the search to output the results.
-                                         * If you want to overload this in a child theme then include a file
-                                         * called content-search.php and that will be used instead.
-                                         */
-                                        get_template_part( 'template-parts/content', 'search' );
+                                        $current_post_id        = get_the_ID();
+										$current_post_type      = get_post_type( $current_post_id );
+										$search_post_type_list  = $post_types_list;
+										$content_type           = isset( $search_post_type_list[ $current_post_type ] ) ? $search_post_type_list[ $current_post_type ] : ucfirst( $current_post_type );
+
+										$search_view_count      = get_post_meta( $current_post_id, 'search_view_count', true );
+										$search_view_count      = empty( $search_view_count ) ? 1 : $search_view_count + 1;
+
+										update_post_meta( $current_post_id, 'search_view_count', $search_view_count );
+
+										?>
+										<!-- Tab content -->
+										<div class="tabcontent">
+											<div class="featuredImg">
+
+												<?php
+
+												$logo_url = '';
+
+												if ( has_post_thumbnail() ) {
+
+													$logo_url = get_the_post_thumbnail_url();
+
+												} else {
+
+													switch ( $current_post_type ) {
+
+														case 'page':
+															$logo_url = nabshow_lv_get_empty_thumbnail_url();
+															break;
+														case 'sessions':
+															$logo_url = nabshow_lv_get_session_thumbnail_url();
+															break;
+														case 'speakers':
+															$logo_url = nabshow_lv_get_speaker_thumbnail_url();
+															break;														
+														default:
+															$logo_url = nabshow_lv_get_empty_thumbnail_url();
+													}
+												}
+												?>
+
+												<img src="<?php echo esc_url( $logo_url ); ?>" alt="search-logo" />
+											</div>
+											<div class="tabInfo">
+												<h3>
+												<?php
+													if ( 'speakers' === $current_post_type ) {
+														?>
+														<a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $current_post_id ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+														<?php
+													} else {
+														?>
+														<a href="<?php echo esc_url( get_the_permalink( $current_post_id ) ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+														<?php
+													}
+												?>
+												</h3>
+												<h4><?php echo esc_html( $content_type ); ?></h4>
+												<p><?php echo esc_html( nabshow_lv_excerpt() ); ?></p>
+											</div>
+										</div>
+										<?php
 
                                     endwhile;
                                     ?>
