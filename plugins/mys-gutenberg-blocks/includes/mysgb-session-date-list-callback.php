@@ -45,14 +45,21 @@ $meta_query_args[ 'start_time_clause' ] = array (
 
 if ( $channel_selector && is_array( $channels ) && count( $channels ) > 0 ) {
     
-    $meta_query_args[] = array(
+    $channel_meta_arr = array( 'relation' => 'OR' );
+
+    foreach( $channels as $ch ) {
         
-        array(
+        $channel_meta_arr[] = array(
             'key'     => 'session_channel',
-            'value'   => $channels,
-            'compare' => 'IN'
-        )
-    );
+            'value'   => '"' . $ch . '"',
+            'compare' => 'LIKE'
+        );
+    }
+
+    if ( count( $channel_meta_arr ) > 1 ) {
+
+        $meta_query_args[] = $channel_meta_arr;
+    }
 }
 
 $query_args[ 'meta_query' ] = $meta_query_args;
@@ -329,10 +336,28 @@ if ( $query->have_posts() ) {
                                     
                                     $channel = get_field( 'session_channel',  $session_id );
                                 
-                                    if ( ! empty( $channel ) ) {
-                                        ?>
-                                        <a href="<?php echo esc_url( get_the_permalink( $channel ) ); ?>"><span class="channel-name"><?php echo esc_html( get_the_title( $channel ) ); ?></span></a>
-                                        <?php
+                                    if ( is_array( $channel ) && count( $channel ) > 0 ) {
+
+                                        $total_cnt  = count( $channel );
+                                        $cnt        = 1;
+
+                                        foreach( $channel as $ch ) {
+                                            
+                                            $channel_title  = get_the_title( $ch );
+                                            $channel_link   = get_the_permalink( $ch );
+                                                                                                    
+                                            if ( $cnt < $total_cnt ) {
+                                                ?>
+                                                <a href="<?php echo esc_url( $channel_link ); ?>"><span class="channel-name"><?php echo esc_html( $channel_title ); ?></span></a>, 
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <a href="<?php echo esc_url( $channel_link ); ?>"><span class="channel-name"><?php echo esc_html( $channel_title ); ?></span></a>
+                                                <?php
+                                            }
+            
+                                            $cnt++;
+                                        }                                            
                                     }
                                 }
 

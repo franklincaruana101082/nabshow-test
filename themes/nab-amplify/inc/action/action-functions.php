@@ -730,6 +730,29 @@ function amplify_register_api_endpoints() {
 		),
 	) );
 
+	register_rest_route( 'nab', '/request/customer-get-bought-products', array(
+		'methods'             => 'POST',
+		'callback'            => 'amplify_get_user_bought_product',
+		'permission_callback' => '__return_true',
+		'args'                => array(
+			'user_email'  => array(
+				'validate_callback' => function ( $param ) {
+					return is_email( $param );
+				},
+			),
+			'user_id'     => array(
+				'validate_callback' => function ( $param ) {
+					return is_numeric( $param );
+				},
+			),
+			'product_ids' => array(
+				'validate_callback' => function ( $param ) {
+					return is_array( $param );
+				},
+			),
+		),
+	) );
+
 	register_rest_route(
 		'nab', '/unlink-products', array(
 			'methods'  => 'POST',
@@ -775,7 +798,7 @@ function nab_amplify_unlink_products( WP_REST_Request $request ) {
 	$current_blog_id = isset( $parameters['current_blog_id'] ) ? (int) $parameters['current_blog_id'] : '';
 
 	if ( empty( $current_post_id ) || empty( $unlinked_products ) || empty( $shop_blog_id ) || empty( $current_blog_id ) ) {
-		return "Please pass necessary paramters.";
+		return "Please pass necessary parameters.";
 	}
 	
 	switch_to_blog($shop_blog_id);
@@ -906,6 +929,36 @@ function amplify_check_user_bought_product( WP_REST_Request $request ) {
 	}
 
 	return new WP_REST_Response( $return, 200 );
+}
+
+/**
+ * Get IDs of bought products.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function amplify_get_user_bought_product( WP_REST_Request $request ) {
+
+	$user_email  = $request->get_param( 'user_email' );
+	$user_id     = $request->get_param( 'user_id' );
+	$product_ids = $request->get_param( 'product_ids' );
+
+	$actually_bought = array();
+
+	if ( is_array( $product_ids ) && ! empty( $user_email ) && ! empty( $user_id ) ) {
+
+		foreach ( $product_ids as $product_id ) {
+
+			if ( wc_customer_bought_product( $user_email, $user_id, $product_id ) ) {
+				$actually_bought[] = $product_id;
+			}
+		}
+	}
+
+	return new WP_REST_Response( $actually_bought, 200 );
 }
 
 /**

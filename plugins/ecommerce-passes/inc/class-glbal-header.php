@@ -65,6 +65,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                 'nabParentAPIUrl'     => get_option( 'ep_parent_site_url', '' ),
                 'nabCookieBaseDomain' => EP_COOKIE_BASE_DOMAIN,
                 'nabNonce'            => wp_create_nonce('nab-ajax-nonce'),
+                'postid'              => get_the_ID(),
             ) );
         }
 

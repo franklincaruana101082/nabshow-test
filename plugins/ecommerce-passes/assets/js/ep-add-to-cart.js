@@ -2,7 +2,7 @@
     $( document ).ready( function() {
 
         var nabParentAPIUrl = ( undefined !== typeof epObj.nabParentAPIUrl && '' !== epObj.nabParentAPIUrl ) ? epObj.nabParentAPIUrl : '';
-        
+
 		$( document ).on( 'click', '.nabCustomAddCart', function(e) {
 
 			e.preventDefault();
@@ -25,7 +25,7 @@
 						setCookie( 'nabCartKey', cartKey, 1 );
 					}
 				}
-					
+
 				$.ajax( {
 					url: epObj.ajaxUrl,
 					type: 'POST',
@@ -62,21 +62,55 @@
 
 		} );
 
-		$(document).on('click', '.amplifyGuestSignIn', function(e) {
-			e.preventDefault();
-			let redirectUrl = $(this).attr('href');
-			let value = window.location.href;
+	$( window ).load( function() {
+		// Check purchases and create zoom link.
+		checkPurchasesAndCreatZoomLink();
+	});
 
-			var date = new Date();
-			date.setTime( date.getTime() + ( 5 * 60 * 1000) );
-			let expires = '; expires=' + date.toUTCString();
-			
-			document.cookie = 'nab_amp_login_redirect' + '=' + (value || '') + expires + ';path=/;domain=' + epObj.nabCookieBaseDomain + ';';
+    function checkPurchasesAndCreatZoomLink() {
 
-			location.href = redirectUrl;
-		});
+    	if( 0 !== $('.check-in-deep').length ) {
 
-	} );
+			$.ajax({
+				url : epObj.ajaxUrl,
+				type	: 'post',
+				data	: {
+					action : 'ep_zoom_link_creator',
+					postid : epObj.postid
+				},
+				beforeSend: function() {
+					$('body').addClass('loading-zoom-check');
+				},
+				success	: function(result){
+
+					result = JSON.parse( result );
+
+					if( '' !== result.message ) {
+						$('.check-in-deep').html(result.message);
+					}
+
+					$('body').removeClass('loading-zoom-check');
+				}
+			});
+		}
+	}
+
+
+	$(document).on('click', '.amplifyGuestSignIn', function(e) {
+		e.preventDefault();
+		let redirectUrl = $(this).attr('href');
+		let value = window.location.href;
+
+		var date = new Date();
+		date.setTime( date.getTime() + ( 5 * 60 * 1000) );
+		let expires = '; expires=' + date.toUTCString();
+
+		document.cookie = 'nab_amp_login_redirect' + '=' + (value || '') + expires + ';path=/;domain=' + epObj.nabCookieBaseDomain + ';';
+
+		location.href = redirectUrl;
+	});
+
+} );
 
 	function setCookie( name, value, days ) {
 		var expires = '';
