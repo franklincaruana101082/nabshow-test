@@ -662,7 +662,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				$meta_query_args[] = array(
 					array(
 						'key'     => 'session_channel',
-						'value'   => '"' . $ch . '"',
+						'value'   => '"' . $channel . '"',
 						'compare' => 'LIKE'
 					)
 				);
