@@ -62,8 +62,6 @@
 
 		} );
 
-	} );
-
 	$( window ).load( function() {
 		// Check purchases and create zoom link.
 		checkPurchasesAndCreatZoomLink();
