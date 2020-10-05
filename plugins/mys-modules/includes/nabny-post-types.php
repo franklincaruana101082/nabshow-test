@@ -345,7 +345,7 @@ function nab_mys_speakers_post_type() {
 		'labels'              => $labels,
 		'public'              => true,
 		'show_in_rest'        => true,
-		'publicly_queryable'  => true,
+		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'exclude_from_search' => false,
 		'show_in_menu'        => true,
