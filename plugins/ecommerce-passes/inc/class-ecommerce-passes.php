@@ -32,11 +32,18 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        //add_filter( 'wp_insert_post_data', array( $this, 'my_filter') );
             add_filter( 'wp_insert_post_data' , array( $this, 'ep_filter_post_data') , 99, 2 );
 
-            // Global Header Class
-            $this->ep_add_global_header_class();            
+            // Add Class for Zoom.
+            $this->ep_add_zoom_class();
 
+            // Global Header Class
+            $this->ep_add_global_header_class();
+
+	    }
+
+	    public function ep_add_zoom_class(){
+            require_once EP_PLUGIN_DIR . 'inc/class-zoom-integration.php';
         }
-        
+
         public function ep_add_global_header_class() {
             require_once EP_PLUGIN_DIR . 'inc/class-glbal-header.php';
         }
@@ -336,6 +343,14 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             foreach ( $all_post_types as $screen ) {
 
+                // Meta box to add zoom id.
+                add_meta_box(
+                    'zp_zoom_meta_box',
+                    'Enter Zoom Detail',
+                    array( $this, 'zp_zoom_id_metabox_callback' ),
+                    $screen
+                );
+
                 add_meta_box(
                     'ep_product_meta_box',
                     'Associated Products',
@@ -343,6 +358,55 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                     $screen
                 );
             }
+        }
+
+        /**
+         * Display zoom metabox content.
+         *
+         * @param  mixed $post
+         *
+         * @since 1.0.0
+         */
+        public function zp_zoom_id_metabox_callback( $post ) {
+
+            $zoom_id = get_post_meta( $post->ID, 'zoom_id', true );
+            $zoom_type = get_post_meta( $post->ID, 'zoom_type', true );
+
+            ?>
+            <div class="zoom-parent-wrapper">
+                <?php
+
+                if ( empty( $zoom_type ) || empty( $zoom_id ) ) {
+
+                    ?>
+                    <div class="zoom-box">
+                        <p>
+                            <label><strong>Select Type:</strong></label>
+                        </p>
+                        <p>
+                            <input type="radio" name="zoom-type[]" id="zoom-meeting" class="zoom-meeting" value="Meeting" />
+                            <label for="zoom-meeting">Meeting</label>
+                            <input type="radio" name="zoom-type[]" id="zoom-webinar" class="zoom-webinar" value="Webinar" style="margin-left: 20px"/>
+                            <label for="zoom-webinar">Webinar</label>
+                        </p>
+
+                        <p>
+                            <label for="zoom-id">Enter Zoom ID:</label>
+                            <input type="text" id="zoom-id" name="zoom-id" class="zoom-id" />
+                        </p>
+                    </div>
+                    <?php
+
+                } else { ?>
+                    <div class="zoom-box">
+                        <p><label>Meeting Type: <strong><?php echo esc_html( $zoom_type[0] ); ?></strong></label></p>
+                        <p><label>Zoom ID: <strong><?php echo esc_html( $zoom_id ); ?></label></strong></p>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+            <?php
         }
 
         /**
@@ -532,9 +596,14 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 delete_post_meta( $post_id, '_associate_product' );
             }
 
+            // Save zoom details.
+            if ( isset( $_POST[ 'zoom-type' ]) && ! empty( $_POST[ 'zoom-type' ] ) ) {
+                update_post_meta( $post_id, 'zoom_type', $_POST[ 'zoom-type' ] );
+                update_post_meta( $post_id, 'zoom_id', $_POST[ 'zoom-id' ] );
+            }
         }
 
-        public function ep_get_shop_blog() {
+        public static function ep_get_shop_blog() {
 
             $shop_blog_id = '';
 
