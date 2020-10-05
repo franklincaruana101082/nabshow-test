@@ -72,7 +72,7 @@ defined( 'ABSPATH' ) || exit;
 			Please check your spam filters to ensure these emails did not end up there, and if you do not receive one or both of these emails please contact <a
 				href="mailto:register@nab.org">register@nab.org</a>.<br /><br />
 				
-				<span style="font-size:20px;">How to Access Virtual Event Content</span><br />
+				<span style="font-size:20px;"><b>How to Access Virtual Event Content</b></span><br />
 				The account you created as a part of the registration process will be the same account that gives you access to the online content. To view which events you have access to and the passes you purchased please visit <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. To attend the digital event, simply visit the Show website (click on the logos in the header to browse to the site) and browse to the sessions you wish to attend. Beginning at the session start time, you will see a video or zoom link at the top of the page. For additional assistance regarding attending the events, please <a href="https://amplify.nabshow.com/faqs/">view the FAQs</a>.<br />
 				
 		</p>
