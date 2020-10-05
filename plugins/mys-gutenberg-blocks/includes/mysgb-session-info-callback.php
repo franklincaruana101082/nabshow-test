@@ -46,9 +46,7 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
         }
         
         $date_time      = date_format( date_create( $date ), 'l, F j, Y' ) . ' | ' . $start_time . ' - ' .$end_time . ' ET';
-        $channel        = get_field( 'session_channel',  $page_id );
-        $channel_title  = get_the_title( $channel );
-        $channel_link   = get_the_permalink( $channel );
+        $channel        = get_field( 'session_channel',  $page_id );        
         ?>
         <div class="nabny-session-info">
             <div class="nabny-session-image">                
@@ -63,7 +61,36 @@ $class_name = isset( $attributes['className'] ) && ! empty( $attributes['classNa
                 	<p><?php echo esc_html( $date_time ); ?></p>
                 	<!--<p><?php echo esc_html( $location ); ?></p>-->
                 	<p><?php echo esc_html( $is_open_to ); ?></p>
-                	<p><a href="<?php echo esc_url( $channel_link ); ?>"><?php echo esc_html( $channel_title ); ?></a></p>
+                	<?php
+                    if ( is_array( $channel ) && count( $channel ) > 0 ) {
+
+                        $total_cnt  = count( $channel );
+                        $cnt        = 1;
+                        ?>
+                        <p>
+                            <?php
+                            foreach( $channel as $ch ) {
+                                
+                                $channel_title  = get_the_title( $ch );
+                                $channel_link   = get_the_permalink( $ch );
+                                                                                        
+                                if ( $cnt < $total_cnt ) {
+                                   ?>
+                                   <a href="<?php echo esc_url( $channel_link ); ?>"><?php echo esc_html( $channel_title ); ?></a>, 
+                                   <?php
+                                } else {
+                                    ?>
+                                    <a href="<?php echo esc_url( $channel_link ); ?>"><?php echo esc_html( $channel_title ); ?></a>
+                                    <?php
+                                }
+
+                                $cnt++;
+                            }
+                            ?>
+                        </p>
+                        <?php
+                    }
+                    ?>
                 </div>
             <p><?php echo esc_html( get_the_excerpt( $page_id ) ); ?></p>
         </div>

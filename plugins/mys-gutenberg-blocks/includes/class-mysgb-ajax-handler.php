@@ -640,21 +640,30 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				} else if ( ! empty( $channel ) ) {
 					$all_channel = array('');
 				}
+				
+				$channel_meta_arr = array( 'relation' => 'OR' );
 
-				$meta_query_args[] = array(
-					array(
+				foreach( $all_channel as $ch ) {
+					
+					$channel_meta_arr[] = array(
 						'key'     => 'session_channel',
-						'value'   => $all_channel,
-						'compare' => 'IN'
-					)
-				);
+						'value'   => '"' . $ch . '"',
+						'compare' => 'LIKE'
+					);
+				}
+
+				if ( count( $channel_meta_arr ) > 1 ) {
+
+					$meta_query_args[] = $channel_meta_arr;
+				}				
 
 			} else if ( ! empty( $channel ) ) {
 				
 				$meta_query_args[] = array(
 					array(
 						'key'     => 'session_channel',
-						'value'   => $channel						
+						'value'   => '"' . $ch . '"',
+						'compare' => 'LIKE'
 					)
 				);
 			}			
@@ -743,21 +752,38 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 	
 					if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
 						$start_time = str_replace(' p.m.', '', $start_time );
-					}
-										
-					$channel = get_field( 'session_channel',  $session_id );													
+					}																	
 				
 					$result_post[ $i ][ 'post_title' ]    	= html_entity_decode( get_the_title() );
 					$result_post[ $i ][ 'post_link' ]    	= get_the_permalink();										
 					$result_post[ $i ][ 'time' ]     	  	= $start_time . ' - ' . $end_time . ' ET';
 					$result_post[ $i ][ 'post_content' ]  	= html_entity_decode( get_the_excerpt( $session_id ) );
-					$result_post[ $i ][ 'more_text' ]  		= $button_text;
-					$result_post[ $i ][ 'channel' ]  		= html_entity_decode( get_the_title( $channel ) );
-					$result_post[ $i ][ 'channel_link' ]  	= get_the_permalink( $channel );
+					$result_post[ $i ][ 'more_text' ]  		= $button_text;					
 					$result_post[ $i ][ 'pass_name' ]  		= html_entity_decode( $is_open_to );
 					$result_post[ $i ][ 'session_date' ]  	= $date;
 					$result_post[ $i ][ 'schedule_class' ]	= $schedule_class;
 					$result_post[ $i ][ 'thumbnail_url' ] 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );
+
+					$channel = get_field( 'session_channel',  $session_id );
+
+					if ( is_array( $channel ) && count( $channel ) > 0 ) {
+
+						$final_channels = array();
+						$cnt			= 0;
+
+						foreach( $channel as $ch ) {
+
+							$final_channels[ $cnt ][ 'title' ]	= html_entity_decode( get_the_title( $ch ) );
+							$final_channels[ $cnt ][ 'link' ]	= get_the_permalink( $ch );
+
+							$cnt++;
+						}
+
+						if ( count( $final_channels ) > 0 ) {
+							$result_post[ $i ][ 'channel' ]	= $final_channels;
+						}
+
+					}
 
 					$rows = get_field( 'speaker_list' );
 

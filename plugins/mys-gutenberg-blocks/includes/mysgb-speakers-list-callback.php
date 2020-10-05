@@ -54,13 +54,22 @@ if ( $featured_speaker ) {
 }
 
 if ( is_array( $channels ) && count( $channels ) > 0 ) {
-    $query_args[ 'meta_query' ] = array(
-        array(
+    
+    $channel_meta_arr = array( 'relation' => 'OR' );
+
+    foreach( $channels as $ch ) {
+        
+        $channel_meta_arr[] = array(
             'key'     => 'session_channel',
-            'value'   => $channels,
-            'compare' => 'IN'
-        )
-    );
+            'value'   => '"' . $ch . '"',
+            'compare' => 'LIKE'
+        );
+    }
+
+    if ( count( $channel_meta_arr ) > 1 ) {
+
+        $query_args[ 'meta_query' ] = $channel_meta_arr;
+    }        
 }
 
 $query = new WP_Query( $query_args );

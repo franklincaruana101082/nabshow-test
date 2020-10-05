@@ -338,15 +338,25 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           channelPassDiv.setAttribute('class', 'channel-pass');
   
           if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-channel') ) {
-            let channelLink = document.createElement('a');
-            channelLink.setAttribute('href', value.channel_link);
+            if ( value.channel && 0 < value.channel.length ) {
+              
+              for ( let c = 0; c < value.channel.length; c++ ) {
+                let channelLink = document.createElement('a');
+                channelLink.setAttribute('href', value.channel[c].link);
 
-            let channelSpan = document.createElement('span');
-            channelSpan.setAttribute('class', 'channel-name');
-            channelSpan.innerText = value.channel;
+                let channelSpan = document.createElement('span');
+                channelSpan.setAttribute('class', 'channel-name');
+                channelSpan.innerText = value.channel[c].title;
 
-            channelLink.appendChild(channelSpan);
-            channelPassDiv.appendChild(channelLink);
+                channelLink.appendChild(channelSpan);
+                channelPassDiv.appendChild(channelLink);
+
+                if ( c < (value.channel.length - 1 ) ) {
+                  let channelPassSep = document.createTextNode(', ');
+                  channelPassDiv.appendChild(channelPassSep);
+                }
+              }
+            }
           }
 
           if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') && '' !== value.pass_name ) {
