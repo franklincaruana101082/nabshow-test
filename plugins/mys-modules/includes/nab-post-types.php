@@ -319,12 +319,13 @@ function nab_mys_speakers_post_type() {
 		'public'              => true,
 		'show_in_rest'        => true,
 		'publicly_queryable'  => false,
+		/*'publicly_queryable'  => true,*/
 		'show_ui'             => true,
-		'exclude_from_search' => false,
-		'show_in_menu'        => true,
+		/*'exclude_from_search' => false,*/
 		'show_in_nav_menus'   => false,
-		'has_archive'         => true,
+		'show_in_menu'        => true,
 		'query_var'           => true,
+		'has_archive'         => true,
 		'capability_type'     => 'post',
 		'hierarchical'        => true,
 		'menu_icon'           => 'dashicons-megaphone',
@@ -345,7 +346,7 @@ function nab_mys_speakers_post_type() {
 
 }
 
-add_action( 'init', 'nab_mys_speakers_post_type', 9 );
+add_action( 'init', 'nab_mys_speakers_post_type' );
 
 /**
  * Register Taxonomies for Speakers.
