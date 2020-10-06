@@ -35,12 +35,12 @@ function add_menu_link_class( $atts, $item, $args ) {
   return $atts;
 }
 
-//clear logged in user cache
-add_action( 'init', 'nab_clear_cache_for_logged_in_users');
+// Clear cache
+add_action( 'init', 'nab_clear_cache_wp_cache');
 
-function nab_clear_cache_for_logged_in_users() {
+function nab_clear_cache_wp_cache() {
   
-  if ( ! is_admin() && is_user_logged_in() ) {    
+  if ( ! is_admin() ) {    
     wp_cache_flush();
   }
 }
