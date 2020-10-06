@@ -43,7 +43,7 @@ function nab_amplify_get_user_images() {
 		$user_image_id = get_user_meta( $user_id, $user_image, true );
 
 		$user_images[ $user_image ] = $user_image_id
-			? wp_get_attachment_image_src( $user_image_id )[0]
+			? wp_get_attachment_image_src( $user_image_id, 'full' )[0]
 			: get_template_directory_uri() . '/assets/images/avtar.jpg';
 	}
 
