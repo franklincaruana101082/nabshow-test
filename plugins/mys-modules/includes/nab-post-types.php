@@ -345,7 +345,7 @@ function nab_mys_speakers_post_type() {
 
 }
 
-add_action( 'init', 'nab_mys_speakers_post_type' );
+add_action( 'init', 'nab_mys_speakers_post_type', 9 );
 
 /**
  * Register Taxonomies for Speakers.
