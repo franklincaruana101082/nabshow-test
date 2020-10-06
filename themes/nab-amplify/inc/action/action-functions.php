@@ -1667,3 +1667,28 @@ function nab_register_event_shows_post_type() {
 
 	register_post_type( 'event-shows', $args );
 }
+
+function nab_set_user_login_cookie_for_other_site( $user_login, $user ) {
+    
+    $user_token = nab_encrypt_user_token( $user->ID );
+    
+    if ( ! empty( $user_token ) ) {
+        
+        setcookie( 'nab_share_login', $user_token, time() + 3600, '/', '.nabshow.com' );
+    }
+}
+
+function nab_encrypt_user_token( $user_id ) {
+    
+    $iv = substr( hash( 'sha256', 'nab309fr7uj34' ), 0, 16 );
+    
+    $k = hash( 'sha256', 'nabjd874hey64t' );
+    
+    return base64_encode( openssl_encrypt( $user_id, 'AES-256-CBC', $k, 0, $iv ) );
+}
+
+function nab_clear_share_login_cookie() {
+    
+    unset( $_COOKIE[ 'nab_share_login' ] );
+	setcookie( 'nab_share_login', null, -1, '/', '.nabshow.com' );
+}

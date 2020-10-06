@@ -14,6 +14,12 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
         public function ep_init_hook() {
 
+            //Action for share login
+            add_action( 'init', array( $this, 'ep_nab_share_login' ) );
+
+            //Action for clear share login cookie
+            add_action( 'wp_logout', array( $this, 'ep_nab_clear_share_login_cookie' ) );
+
             //Action for add setting page
             add_action( 'admin_menu', array( $this, 'ep_add_prodcut_setting_page' ) );
 
@@ -38,7 +44,41 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             // Global Header Class
             $this->ep_add_global_header_class();
 
-	    }
+        }
+        
+        public function ep_nab_share_login() {
+
+            if ( ! is_admin() && ! is_user_logged_in() ) {
+                
+                if ( isset( $_COOKIE[ 'nab_share_login' ] ) && ! empty( $_COOKIE[ 'nab_share_login' ] ) ) {
+                                        
+                    $user_token = $_COOKIE[ 'nab_share_login' ];
+                    $remember   = 1;
+                    
+                    $iv         = substr( hash( 'sha256', 'nab309fr7uj34' ), 0, 16 );
+                    $k          = hash( 'sha256', 'nabjd874hey64t' );
+                    $user_id    = openssl_decrypt( base64_decode( $user_token ), 'AES-256-CBC', $k, 0, $iv );
+                    
+                    $user       = get_user_by( 'ID', $user_id );
+
+                    if ( $user ) {
+                        
+                        $username = $user->user_login;
+
+                        wp_set_current_user( $user_id, $username );
+                        wp_set_auth_cookie( $user_id, ( $remember == 1 ) );
+                        do_action( 'wp_login', $username, $user );
+                    }
+                    
+                }
+            }
+        }
+
+        public function ep_nab_clear_share_login_cookie() {
+
+            unset( $_COOKIE[ 'nab_share_login' ] );
+	        setcookie( 'nab_share_login', null, -1, '/', '.nabshow.com' );
+        }
 
 	    public function ep_add_zoom_class(){
             require_once EP_PLUGIN_DIR . 'inc/class-zoom-integration.php';

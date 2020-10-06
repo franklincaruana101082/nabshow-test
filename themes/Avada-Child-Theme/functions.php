@@ -34,3 +34,13 @@ function add_menu_link_class( $atts, $item, $args ) {
   
   return $atts;
 }
+
+// Clear cache
+add_action( 'init', 'nab_clear_cache_wp_cache');
+
+function nab_clear_cache_wp_cache() {
+  
+  if ( ! is_admin() ) {    
+    wp_cache_flush();
+  }
+}
