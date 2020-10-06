@@ -318,10 +318,10 @@ function nab_mys_speakers_post_type() {
 		'labels'              => $labels,
 		'public'              => true,
 		'show_in_rest'        => true,
-		'publicly_queryable'  => false,
-		/*'publicly_queryable'  => true,*/
+		/*'publicly_queryable'  => false,*/
+		'publicly_queryable'  => true,
 		'show_ui'             => true,
-		/*'exclude_from_search' => false,*/
+		'exclude_from_search' => false,
 		'show_in_nav_menus'   => false,
 		'show_in_menu'        => true,
 		'query_var'           => true,
