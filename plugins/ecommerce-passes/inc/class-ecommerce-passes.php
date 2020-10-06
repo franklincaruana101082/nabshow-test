@@ -528,7 +528,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	     */
         public function ep_filter_post_data( $data , $postarr ) {
 
-	        $shop_blog_id = $this->ep_get_shop_blog();
+	        $shop_blog_id = self::ep_get_shop_blog();
 	        $current_post_id = $postarr['ID'];
 
             $current_blog_id = get_current_blog_id();
@@ -575,7 +575,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             $current_blog_id = get_current_blog_id();
             $current_post_id = $post_id;
 
-	        $shop_blog_id = $this->ep_get_shop_blog();
+	        $shop_blog_id = self::ep_get_shop_blog();
 
             // Link New Products.
             if ( isset( $_POST[ 'associate_products' ]) && ! empty( $_POST[ 'associate_products' ] ) ) {
