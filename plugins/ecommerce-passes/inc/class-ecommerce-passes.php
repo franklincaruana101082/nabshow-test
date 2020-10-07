@@ -318,10 +318,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 $restrict_content .= '';
             }      
             
-            else {
-           		 $restrict_content .= 'Please log in.';
-            }      
-
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
 
                 $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content );
