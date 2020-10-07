@@ -533,7 +533,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                         CURLOPT_URL => $term_remote_url,
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_MAXREDIRS => 100,
                         CURLOPT_TIMEOUT => 0,
                         CURLOPT_FOLLOWLOCATION => true,
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
