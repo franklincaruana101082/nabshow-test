@@ -224,6 +224,66 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                                         $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
                                     }
+
+                                    $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
+                                    
+                                    if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) ) {
+
+                                        $date       = get_post_meta( $post->ID, 'session_date', true );
+                                        $start_time = get_post_meta( $post->ID, 'start_time', true );
+                                        $start_time = date_format( date_create( $start_time ), 'g:i a' );                                       
+
+                                        if ( 'no' !== $delay_restrict && 'start_time' !== $delay_restrict ) {                                            
+                                            $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
+                                        }
+                                        
+
+                                        if ( ! empty( $date ) && ! empty( $start_time ) ) {
+
+                                            $current_date   = current_time('Ymd');
+                                            $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                            $date1          = new DateTime( $session_date );
+                                            $now            = new DateTime( $current_date );
+                                            $display_msg    = false;
+
+                                            if ( $date1 > $now ) {
+                                                $display_msg = true;
+                                            } else if ( $session_date === $current_date ) {
+
+                                                $current_time   = current_time('g:i a');
+                                                $time1          = DateTime::createFromFormat('H:i a', $current_time);
+                                                $time2          = DateTime::createFromFormat('H:i a', $start_time);                                                
+                                                                                 
+                                                if ( $time2 > $time1 ) {
+                                                    $display_msg = true;
+                                                }
+                                            }
+
+                                            if ( $display_msg ) {
+                                                
+                                                $date           = date_format( date_create( $date ), 'l, F j' );
+                                                $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
+
+                                                $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                                $session_start  = date_format( date_create( $start_time ), 'His' );
+                                                $session_end    = get_post_meta( $post->ID, 'end_time', true );
+                                                $session_end    = date_format( date_create( $session_end ), 'His' );
+                                                $final_time     = $session_date . 'T' . $session_start . '/' . $session_date . 'T' . $session_end;
+                                                $calendar_title = get_the_title( $post->ID );
+                                                $location       = get_post_meta( $post->ID, 'session_location', true );
+                                                $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $post->ID );
+                                                $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
+                                                $calendar_link  = '<a href="' . $calendar_link . '" target="_blank">calendar</a>';
+
+                                                $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+                                                $start_time     = str_replace( ':00', '', $start_time );
+
+                                                $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it your to ' . $calendar_link . ' and join us on ' . $date . '.</p>';
+                                                
+                                                $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
+                                            }
+                                        }
+                                    }
                                 }
 
                             } else {
