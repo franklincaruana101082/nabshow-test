@@ -534,8 +534,8 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             $current_blog_id = get_current_blog_id();
 
             $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true ) );
-            $new_linked = $postarr['associate_products'];
-            if( ! $new_linked ) {
+            $new_linked = isset( $postarr['associate_products'] ) ? $postarr['associate_products'] : '';
+            if( empty( $new_linked ) ) {
                 $unlinked_products = $previous_linked;
             } else {
                 if( is_array( $previous_linked )) {
