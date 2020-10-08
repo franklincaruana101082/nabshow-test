@@ -254,7 +254,6 @@ $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibi
                         	<p>
 	                        <?php
 	                            echo esc_html( get_the_excerpt() );
-	                            // $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
 	                        ?>
 	                        </p>
                         	<?php

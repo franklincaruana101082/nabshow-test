@@ -183,7 +183,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 	                            if ( ! empty( $speaker_id ) ) {
 	                                ?>
 		                            <div class="view-btn">
-			                            <a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank">View In Planner</a>
+			                            <a href="<?php echo esc_url( $speaker_planner_url ); ?>" target="_blank">View Details</a>
 		                            </div>
 		                            <?php
 	                            }
@@ -421,7 +421,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 							?>
                             <div class="popup-bottom">
                                 <div class="view-btn">
-                                    <a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View In Planner</a>
+                                    <a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View Details</a>
                                 </div>
                                 <div class="close-btn modal-footer" data-dismiss="modal">
                                     <a href="javascript:void(0);" class="btn btn-default">Close Window</a>
@@ -589,7 +589,7 @@ if ( ( isset( $current_type ) && ! empty( $current_type ) ) && ( isset( $current
 							?>
                             <div class="popup-bottom">
                                 <div class="view-btn">
-                                    <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View In Planner</a>
+                                    <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View Details</a>
                                 </div>
                                 <div class="close-btn">
                                     <a href="#" data-dismiss="modal">Close Window</a>
