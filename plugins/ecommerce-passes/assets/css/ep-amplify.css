@@ -47,7 +47,11 @@
 .nab-cart-message-popup.nab-cart-message-popup-active{top:20%;-webkit-transition:0.6s all ease-in-out;-o-transition:0.6s all ease-in-out;transition:0.6s all ease-in-out;visibility:visible;opacity:1;}
 .nab-cart-message-popup .nab-cart-message{display:inline-block;font-size:14px;padding:10px 15px;background-color:#ab3e97;color:#fff;border-radius:5px;box-shadow:0 0 12px 0px rgba(0,0,0,0.17);font-family:'Montserrat',Arial,Helvetica,sans-serif;line-height:26px;max-width:90%;}
 
+/* Zoom */
 .zoom_text { color: #fff; }
+.check-in-deep {position: relative;padding-left: 25px;}
+.check-in-deep:after {content: '\f110';font-family: FontAwesome;font-size: 20px;position: absolute;left: 0;-webkit-animation: fa-spin 2s infinite linear;animation: fa-spin 2s infinite linear;}
+/* End Zoom */
 
 @media (max-width:1024px){
 	.nab-header-secondary .nab-profile:hover > .nab-profile-dropdown{display:none}

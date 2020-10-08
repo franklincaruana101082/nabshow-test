@@ -873,8 +873,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							update_post_meta( $post_id, 'crossreferences', $crossreferences_string );
 						}
 						// Check if package not empty, if not, assign as Featured.
-						$package = $individual_item['package'];
-						if ( ! empty( $package ) ) {
+						$package = (int) $individual_item['package'];
+						if ( 0 !== $package && $package >= 5 && $package <= 11 ) {
 							$individual_item['package_featured'] = 1;
 						}
 

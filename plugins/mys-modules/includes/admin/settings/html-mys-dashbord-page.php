@@ -17,7 +17,7 @@ if ( isset( $setup_success ) && 'true' === $setup_success ) {
 	update_option( 'nab_mys_show_wizard', 0 );
 
 	//Setup WP CRONs.
-	//$this->nab_mys_wpcron_setup();
+	$this->nab_mys_wpcron_setup();
 }
 
 $this->glance_data = $this->nab_mys_db_history_object->nab_mys_dashboard_glance();

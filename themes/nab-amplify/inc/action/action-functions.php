@@ -858,7 +858,7 @@ function amplify_get_product_list( WP_REST_Request $request ) {
 	$return  = array();
 
 	$args = array(
-		'post_per_page' => - 1,
+		'posts_per_page' => - 1,
 		'post_type'     => 'product',
 		'orderby'       => 'title',
 		'fields'        => 'ids',

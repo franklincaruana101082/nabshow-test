@@ -179,7 +179,10 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 			$post_id = get_the_ID();
 			$zoom_id_from_content_meta = get_post_meta( $post_id, 'zoom_id', true );
 
-			if ( isset( $zoom_id_from_content_meta[0] ) && ! empty( $zoom_id_from_content_meta[0] ) ) {
+			if ( ! is_user_logged_in() ) {
+				echo "<p class='error zoom_text'>Please log in to see your purchased zoom link.</p>";
+
+			} else if ( isset( $zoom_id_from_content_meta[0] ) && ! empty( $zoom_id_from_content_meta[0] ) ) {
 				switch_to_blog($shop_blog_id);
 
 				$zoom_links = get_user_meta( $user_id, "zoom_$current_blog_id", true );
