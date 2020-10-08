@@ -72,7 +72,14 @@
     line-height: 26px;
     max-width: 90%;
 }
+
+/* Zoom */
 .zoom_text { color: #fff; }
+.check-in-deep {position: relative;padding-left: 25px;}
+.check-in-deep:after {content: '\f110';font-family: FontAwesome;font-size: 20px;position: absolute;left: 0;-webkit-animation: fa-spin 2s infinite linear;animation: fa-spin 2s infinite linear;}
+/* End Zoom */
+
+
 @media (max-width:1024px){
 	.nab-header-secondary .nab-profile:hover > .nab-profile-dropdown{display:none}
 }
