@@ -103,5 +103,3 @@ class AW_Admin_Coupons_List {
 	}
 
 }
-
-new AW_Admin_Coupons_List();

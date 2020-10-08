@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 ?>
 
-<div class="wrap automatewoo-page automatewoo-page--tools">
+<div class="wrap woocommerce automatewoo-page automatewoo-page--tools">
 
 	<?php Admin::get_view( 'tool-header', ['tool' => $tool, 'controller' => $controller ] ); ?>
 

@@ -130,10 +130,6 @@ $session_slider_attr = array(
 	'displaySpeaker' => array(
 		'type'    => 'boolean',
 		'default' => false
-	),
-	'displayPlannerLink' => array(
-		'type'    => 'boolean',
-		'default' => false
 	)
 
 );
@@ -194,10 +190,6 @@ $exhibitors_slider_attr = array(
 	'displaySummary' => array(
 		'type'    => 'boolean',
 		'default' => true
-	),
-	'displayPlannerLink' => array(
-		'type'    => 'boolean',
-		'default' => false
 	),
 	'imgWidth' => array(
 		'type'    => 'number',
@@ -302,11 +294,7 @@ $speakers_slider_attr = array(
 	'attachSession' => array(
 		'type'    => 'boolean',
 		'default' => false
-	),
-	'displayPlannerLink' => array(
-		'type'    => 'boolean',
-		'default' => false
-	),
+	)
 );
 
 register_block_type( 'mys/speaker-slider', array(
@@ -494,5 +482,189 @@ $product_slider_attr = array(
 register_block_type( 'mys/product-slider', array(
 		'attributes'      => array_merge( $product_slider_attr, $slider_attributes ),
 		'render_callback' => array( $this, 'mysgb_product_slider_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/session-date-list', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 10,
+		),		
+		'channels'  => array(
+			'type'    => 'array',
+			'default' => [],
+			'items'   => [
+				'type' => 'number'
+			]
+		),
+		'filterType'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'keywordFilter'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'channelFilter'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'dateFilter'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'isOpenTo'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionDetails'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionDate'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionTime'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionChannel'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'sessionButton'  => array(
+			'type'    => 'boolean',
+			'default' => true
+		),
+		'channelSelector'  => array(
+			'type'    => 'boolean',
+			'default' => false
+		),
+		'displayOrder'  => array(
+			'type'    => 'string',
+			'default' => 'ASC'
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_session_date_list_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/speakers-list', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 10,
+		),
+		'channels'  => array(
+			'type'    => 'array',
+			'default' => [],
+			'items'   => [
+				'type' => 'number'
+			]
+		),	
+		'includeSpeakers' => array(
+			'type'    => 'string',
+			'default' => ''
+		),
+		'orderBy' => array(
+			'type'    => 'string',
+			'default' => 'name'
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Featured Speakers'
+		),
+		'featuredSpeaker'  => array(
+			'type'    => 'boolean',
+			'default' => false
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_speakers_list_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/channel-info', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_channel_info_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/partners-sponsors-info', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 2,
+		),
+		'pageId' => array(
+			'type'    => 'number'			
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Partners and Sponsors'
+		),
+	),
+	'render_callback' => array( $this, 'mysgb_partners_sponsors_info_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/session-info', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_session_info_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/related-exhibitors', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 4,
+		),
+		'pageId' => array(
+			'type'    => 'number'
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Related Exhibitors'
+		),
+	),
+	'render_callback' => array( $this, 'mysgb_related_exhibitors_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/add-to-calendar', array(
+	'attributes'      => array(
+		'pageId' => array(
+			'type'    => 'number'			
+		)
+	),
+	'render_callback' => array( $this, 'mysgb_add_to_calendar_render_callback' ),
+	)
+);
+
+register_block_type( 'mys/session-speaker-info', array(
+	'attributes'      => array(
+		'itemToFetch' => array(
+			'type'    => 'number',
+			'default' => 10,
+		),
+		'pageId' => array(
+			'type'    => 'number'			
+		),
+		'blockTitle' => array(
+			'type'    => 'string',
+			'default' => 'Featured Speakers'
+		),
+	),
+	'render_callback' => array( $this, 'mysgb_session_speaker_info_render_callback' ),
 	)
 );

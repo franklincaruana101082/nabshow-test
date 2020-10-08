@@ -175,7 +175,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                 displayLocation,
                 displaySummary,
                 displaySpeaker,
-                displayPlannerLink,
                 displayVideo
             } = attributes;
 
@@ -438,11 +437,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                             checked={displayVideo}
                             onChange={() => { setAttributes({ displayVideo: ! displayVideo }); this.setState({ bxinit: true }); } }
                           />
-                          <ToggleControl
-                            label={__('Show View in Planner Buttons')}
-                            checked={displayPlannerLink}
-                            onChange={() => { setAttributes({ displayPlannerLink: ! displayPlannerLink }); this.setState({ bxinit: true }); } }
-                          />
                         </PanelBody>
                         { ! listingPage &&
                         <PanelBody title={__('Slider Settings ')} initialOpen={false} className="range-setting">
@@ -562,7 +556,7 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/sessions-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary, displayVideo: displayVideo, displaySpeaker: displaySpeaker, displayPlannerLink: displayPlannerLink}}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, layout: layout, sliderLayout: sliderLayout, arrowIcons: arrowIcons, metaDate: metaDate, sessionDate: sessionDate, taxonomyRelation: taxonomyRelation, listingPage: listingPage, listingType: listingType, withContent: withContent, upcomingSession: upcomingSession, displayName: displayName, displayDate: displayDate, displayTime: displayTime, displayLocation: displayLocation, displaySummary: displaySummary, displayVideo: displayVideo, displaySpeaker: displaySpeaker}}
                     />
                 </Fragment >
             );
@@ -689,10 +683,6 @@ import { sessionSliderOff1, sessionSliderOff2, sessionSliderOff3, sessionSliderO
           default: false
         },
         displaySpeaker: {
-          type: 'boolean',
-          default: false
-        },
-        displayPlannerLink: {
           type: 'boolean',
           default: false
         }

@@ -29,7 +29,6 @@ $display_logo      = isset( $attributes['displayLogo'] ) ? $attributes['displayL
 $display_name      = isset( $attributes['displayName'] ) ? $attributes['displayName'] : true;
 $display_booth     = isset( $attributes['displayBooth'] ) ? $attributes['displayBooth'] : true;
 $display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
-$display_plink     = true === $attributes['displayPlannerLink'] ? 'true' : 'false';
 $class_name        = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $exhibitor_order   = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons       = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
@@ -173,11 +172,10 @@ if ( $query->have_posts() || $listing_page ) {
     if ( $slider_active ) {
     ?>
         <div class="nab-dynamic-slider nab-box-slider exhibitors" data-minslides="<?php echo esc_attr($min_slides);?>" data-slidewidth="<?php echo esc_attr($slide_width);?>" data-auto="<?php echo esc_attr($autoplay);?>" data-infinite="<?php echo esc_attr($infinite_loop);?>" data-pager="<?php echo esc_attr($pager);?>" data-controls="<?php echo esc_attr($controls);?>" data-speed="<?php echo esc_attr($slider_speed);?>" data-slidemargin="<?php echo esc_attr($slider_margin);?>">
-        <input type="hidden" class="display_plink" value="<?php echo esc_attr( $display_plink ); ?>">
     <?php
     } else {
     ?>
-        <div class="nab-dynamic-list exhibitors" id="<?php echo $listing_page ? esc_attr('browse-exhibitor') : ''; ?>" data-plannerlink="<?php echo esc_attr( $display_plink ) ?>">
+        <div class="nab-dynamic-list exhibitors" id="<?php echo $listing_page ? esc_attr('browse-exhibitor') : ''; ?>">
     <?php
     }
 
@@ -187,6 +185,10 @@ if ( $query->have_posts() || $listing_page ) {
 
             $exhibitor_id   = get_the_ID();
             $crossreferences = get_post_meta( $exhibitor_id, 'crossreferences', true );
+
+$exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
+$exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+
 
             if ( $listing_page ) {
 
@@ -206,32 +208,35 @@ if ( $query->have_posts() || $listing_page ) {
 
                     	if ( $slider_active ) {
                             ?>
-                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>" data-plannerlink="<?php echo esc_attr($display_plink) ?>">
+                            <!--<a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">-->
+                           <!-- <a href="<?php echo esc_url( $exh_url ); ?>">-->
                             <?php
                         }
                         ?>
-                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() . '?w=' . $img_width ); ?>" alt="exhibitor-logo">
+                            <img src="<?php echo esc_url( get_the_post_thumbnail_url() . '?w=' . $img_width ); ?>" alt="exhibitor-logo" class="exhibitor-logo"><br />
                         <?php
                         if ( $slider_active ) {
                             ?>
-                            </a>
+                           <!-- </a>-->
                             <?php
                         }
 
                     } elseif ( $slider_active && $display_name ) {
                         ?>
-                         <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title(), '', $display_plink ); ?></h4>
+                        <!-- <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
+                            <!--<h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo get_the_title() ?></a></h4>-->
+                            <h4><?php echo get_the_title() ?></h4>
                         <?php
                     }
 
                     if ( ! $slider_active ) {
 
-                        $exh_id       = get_post_meta( $exhibitor_id, 'exhid', true );
-                        $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
 
                         if ( $display_name ) {
                             ?>
-                            <h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title(), '', $display_plink ); ?></h4>
+                            <!--<h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
+                            <!--<h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo get_the_title() ?></a></h4>-->
+                            <h4><?php echo get_the_title() ?></h4>
                             <?php
                         }
 
@@ -249,7 +254,7 @@ if ( $query->have_posts() || $listing_page ) {
                         	<p>
 	                        <?php
 	                            echo esc_html( get_the_excerpt() );
-	                            $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup', $display_plink);
+	                            // $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
 	                        ?>
 	                        </p>
                         	<?php
@@ -258,10 +263,9 @@ if ( $query->have_posts() || $listing_page ) {
                         if ( !empty( $crossreferences ) ) {
                         	?> <span class="crossreferences"><?php echo "Also Known As: $crossreferences"; ?></span> <?php
                         }
-
-                        if( 'true' === $display_plink ) { ?>
-                            <a href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View in Planner</a>
-                        <?php }
+                        ?>
+                        <a class="MYS-link" href="<?php echo esc_url( $exh_url ); ?>" target="_blank">View Details</a>
+                    <?php
                     }
                     ?>
                 </div>

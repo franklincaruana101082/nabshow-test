@@ -18,10 +18,29 @@ global $post;
 	</div>
 
 	<table class="automatewoo-table">
-		<tr class="automatewoo-table__row">
+		<tr id="automatewoo-workflow-type-field-row" class="automatewoo-table__row">
 			<td class="automatewoo-table__col">
 				<div class="automatewoo-input-group">
-					<label class="automatewoo-input-group__addon automatewoo-input-group__addon--pad-right automatewoo-label--weight-normal ">
+					<label class="automatewoo-input-group__addon automatewoo-input-group__addon--pad-right automatewoo-label--weight-normal">
+						<?php esc_html_e( 'Type:', 'automatewoo' ); ?>
+					</label>
+					<div class="automatewoo-input-group__input">
+						<?php
+						( new Fields\Select( false ) )
+							->add_classes( 'automatewoo-workflow-type-field' )
+							->set_name( 'type' )
+							->set_name_base( 'aw_workflow_data' )
+							->set_options( Workflows::get_types() )
+							->render( $workflow ? $workflow->get_type() : 'automatic' );
+						?>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr id="automatewoo-workflow-status-field-row" class="automatewoo-table__row">
+			<td class="automatewoo-table__col">
+				<div class="automatewoo-input-group">
+					<label class="automatewoo-input-group__addon automatewoo-input-group__addon--pad-right automatewoo-label--weight-normal">
 						<?php esc_html_e( 'Status:', 'automatewoo' ); ?>
 					</label>
 
@@ -90,6 +109,11 @@ global $post;
 				   class="button button-primary button-large"
 				   id="publish"
 				   value="<?php esc_attr_e( 'Save', 'automatewoo' ); ?>" />
+
+			<?php if ( $workflow ) : ?>
+				<a id="automatewoo-workflow-run-btn" class="button button-primary button-large"><?php esc_html_e( 'Run', 'automatewoo' ); ?></a>
+				<input name="automatewoo_redirect_to_runner" type="hidden" value="0">
+			<?php endif; ?>
 		</div>
 		<div class="clear"></div>
 	</div>

@@ -237,6 +237,32 @@ $(function() {
       $(this).parents('.modal').modal('hide');
     });
 
+    $('#bookmark-event').click(function (e) {
+      var bookmarkTitle = document.title;
+      var bookmarkUrl = window.location.href;
+  
+      if ( window.sidebar && window.sidebar.addPanel) {
+        // Firefox <=22
+        window.sidebar.addPanel(bookmarkTitle, bookmarkUrl, '');
+      } else if ((window.sidebar && /Firefox/i.test(navigator.userAgent) && !Object.fromEntries) || (window.opera && window.print)) {
+        // Firefox 23-62 and Opera <=14
+        $(this).attr({
+          href: bookmarkUrl,
+          title: bookmarkTitle,
+          rel: 'sidebar'
+        }).off(e);
+        return true;
+      } else if (window.external && ('AddFavorite' in window.external)) {
+        // IE Favorites
+        window.external.AddFavorite(bookmarkUrl, bookmarkTitle);
+      } else {
+        // Other browsers (Chrome, Safari, Firefox 63+, Opera 15+)
+        alert('Press ' + (/Mac/i.test(navigator.platform) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+      }
+  
+      return false;
+    });
+
   });
   /*  main - bracket - end */
 })(jQuery);
@@ -338,15 +364,25 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
           channelPassDiv.setAttribute('class', 'channel-pass');
   
           if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-channel') ) {
-            let channelLink = document.createElement('a');
-            channelLink.setAttribute('href', value.channel_link);
+            if ( value.channel && 0 < value.channel.length ) {
+              
+              for ( let c = 0; c < value.channel.length; c++ ) {
+                let channelLink = document.createElement('a');
+                channelLink.setAttribute('href', value.channel[c].link);
 
-            let channelSpan = document.createElement('span');
-            channelSpan.setAttribute('class', 'channel-name');
-            channelSpan.innerText = value.channel;
+                let channelSpan = document.createElement('span');
+                channelSpan.setAttribute('class', 'channel-name');
+                channelSpan.innerText = value.channel[c].title;
 
-            channelLink.appendChild(channelSpan);
-            channelPassDiv.appendChild(channelLink);
+                channelLink.appendChild(channelSpan);
+                channelPassDiv.appendChild(channelLink);
+
+                if ( c < (value.channel.length - 1 ) ) {
+                  let channelPassSep = document.createTextNode(', ');
+                  channelPassDiv.appendChild(channelPassSep);
+                }
+              }
+            }
           }
 
           if ( ! jQuery('.session-date-list .session-date-list-wrapper').hasClass('without-open-to') && '' !== value.pass_name ) {

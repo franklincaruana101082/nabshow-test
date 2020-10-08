@@ -2,6 +2,8 @@
 
 namespace AutomateWoo;
 
+use AutomateWoo\Triggers\ManualInterface;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -12,10 +14,12 @@ defined( 'ABSPATH' ) || exit;
 // Group triggers
 $trigger_list = [];
 foreach ( Triggers::get_all() as $trigger ) {
+	if ( $trigger instanceof ManualInterface ) {
+		continue;
+	}
 	$trigger_list[ $trigger->get_group() ][] = $trigger;
 }
 
-$trigger_list        = aw_array_move_to_end( $trigger_list, __( 'DEPRECATED', 'automatewoo' ) );
 $current_selected    = $current_trigger ? $current_trigger->get_name() : '';
 $current_description = $current_trigger && $current_trigger->get_description()
 	? $current_trigger->get_description_html()

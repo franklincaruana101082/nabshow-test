@@ -617,7 +617,6 @@ function aw_date_to_mysql_string( $date ) {
 	return false;
 }
 
-
 /**
  * Convert a date object to an instance of AutomateWoo\DateTime.
  *

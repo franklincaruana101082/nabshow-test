@@ -78,8 +78,6 @@ class Settings extends Base {
 
 			$settings_includes[] = $path . 'status.php';
 
-			require_once $path . 'abstract.php';
-
 			foreach ( $settings_includes as $settings_include ) {
 				if ( $class = require_once $settings_include ) {
 					$this->settings[$class->id] = $class;

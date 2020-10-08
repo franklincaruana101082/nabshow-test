@@ -101,9 +101,6 @@ class Dashboard extends Base {
 
 			$includes = apply_filters( 'automatewoo/dashboard/widgets', $includes );
 
-			require_once $path . 'abstract.php';
-			require_once $path . 'chart-abstract.php';
-
 			foreach ( $includes as $include ) {
 				/** @var Dashboard_Widget $class */
 				$class = require_once $include;
@@ -139,7 +136,7 @@ class Dashboard extends Base {
 	function maybe_set_date_cookie() {
 		if ( aw_request( 'date' ) ) {
 			$date = Clean::string( aw_request( 'date' ) );
-			if ( ! headers_sent() ) wc_setcookie( 'automatewoo_dashboard_date', $date, time() + MONTH_IN_SECONDS * 2 );
+			if ( ! headers_sent() ) wc_setcookie( 'automatewoo_dashboard_date', $date, time() + MONTH_IN_SECONDS * 2, is_ssl() );
 		}
 	}
 

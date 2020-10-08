@@ -3,6 +3,11 @@
 
 namespace AutomateWoo;
 
+use AutomateWoo\Admin\AssetData;
+use AutomateWoo\Admin\WCAdminConnectPages;
+use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
+use Automattic\WooCommerce\Blocks\Package as BlocksPackage;
+
 /**
  * @class Admin
  */
@@ -13,11 +18,15 @@ class Admin {
 
 		Admin_Ajax::init();
 		Admin_Notices::init();
+		( new WCAdminConnectPages )->init();
 
 		add_action( 'current_screen', [ $self, 'includes' ] );
 		add_action( 'admin_enqueue_scripts', [ $self, 'register_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $self, 'register_styles' ] );
 		add_action( 'admin_enqueue_scripts', [ $self, 'enqueue_scripts_and_styles' ], 20 );
+		if ( defined( 'WC_ADMIN_PLUGIN_FILE' ) ) {
+			add_action( 'admin_enqueue_scripts', [ $self, 'load_react_ui_scripts' ] );
+		}
 		add_action( 'admin_menu', [ $self, 'admin_menu' ] );
 		add_action( 'admin_footer', [ $self, 'replace_top_level_menu' ] );
 		add_action( 'admin_head', [ $self, 'menu_highlight' ] );
@@ -47,22 +56,24 @@ class Admin {
 		if ( aw_request( 'page' ) === 'automatewoo-preview' ) {
 			add_action( 'admin_notices', [ $self, 'remove_admin_notices' ], 0 );
 		}
-	}
 
+		$registry = BlocksPackage::container()->get( AssetDataRegistry::class );
+		( new AssetData( $registry ) )->add_data();
+	}
 
 	static function includes() {
 
 		switch ( self::get_screen_id() ) {
 			case 'aw_workflow' :
-				require_once 'workflow-edit.php';
+				new Admin_Workflow_Edit();
 				break;
 
 			case 'edit-aw_workflow' :
-				require_once 'workflow-list.php';
+				new Admin_Workflow_List();
 				break;
 
 			case 'edit-shop_coupon' :
-				require_once 'coupons-list.php';
+				new \AW_Admin_Coupons_List();
 				break;
 		}
 	}
@@ -204,6 +215,17 @@ class Admin {
 				do_action( 'automatewoo/admin/submenu_pages', 'automatewoo' );
 			}
 		}
+
+		if ( defined( 'WC_ADMIN_PLUGIN_FILE' ) ) {
+			wc_admin_register_page(
+				[
+					'id'     => 'automatewoo-manual-workflow-runner',
+					'title'  => __( 'Manual Workflow Runner', 'automatewoo' ),
+					'parent' => 'automatewoo',
+					'path'   => '/automatewoo/manual-workflow-runner',
+				]
+			);
+		}
 	}
 
 
@@ -234,7 +256,7 @@ class Admin {
 		$vendor_url = AW()->admin_assets_url( '/js/vendor' );
 
 		wp_register_script( 'automatewoo-clipboard', $vendor_url."/clipboard$suffix.js", [], AW()->version );
-		wp_register_script( 'jquery-cookie', WC()->plugin_url().'/assets/js/jquery-cookie/jquery.cookie.js', [ 'jquery' ], '1.4.1' );
+		wp_register_script( 'js-cookie', WC()->plugin_url()."/assets/js/js-cookie/js.cookie{$suffix}.js", [], '2.1.4', true );
 
 		wp_register_script( 'automatewoo', $url."/automatewoo$suffix.js", [ 'jquery', 'jquery-ui-datepicker', 'jquery-tiptip', 'backbone', 'underscore' ], AW()->version );
 		wp_register_script( 'automatewoo-validate', $url."/validate$suffix.js", [ 'automatewoo' ], AW()->version );
@@ -259,30 +281,32 @@ class Admin {
 			'invalidVariable' => __( "Variable '%s' is not a valid. Please only use variables listed in the the variables box.", 'automatewoo' )
 		] );
 
+		$settings = [
+			'url'           => [
+				'admin' => admin_url(),
+				'ajax'  => admin_url( 'admin-ajax.php' )
+			],
+			'locale'        => [
+				'month_abbrev'      => array_values( $wp_locale->month_abbrev ),
+				'currency_symbol'   => get_woocommerce_currency_symbol(),
+				'currency_position' => get_option( 'woocommerce_currency_pos' )
+			],
+			'nonces'        => [
+				'remove_notice' => wp_create_nonce( 'aw-remove-notice' ),
+			],
+		];
+
 		wp_localize_script(
 			'automatewoo',
 			'automatewooLocalizeScript',
-			[
-				'url'    => [
-					'admin' => admin_url(),
-					'ajax'  => admin_url( 'admin-ajax.php' )
-				],
-				'locale' => [
-					'month_abbrev'      => array_values( $wp_locale->month_abbrev ),
-					'currency_symbol'   => get_woocommerce_currency_symbol(),
-					'currency_position' => get_option( 'woocommerce_currency_pos' )
-				],
-				'nonces' => [
-					'remove_notice' => wp_create_nonce( 'aw-remove-notice' ),
-				]
-			]
+			apply_filters( 'automatewoo/admin/js_settings', $settings )
 		);
 	}
 
 
 	static function register_styles() {
-		 wp_register_style( 'automatewoo-main', AW()->admin_assets_url( '/css/aw-main.css' ), [], AW()->version );
-		 wp_register_style( 'automatewoo-preview', AW()->admin_assets_url( '/css/preview.css' ), [], AW()->version );
+		wp_register_style( 'automatewoo-main', AW()->admin_assets_url( '/css/aw-main.css' ), [], AW()->version );
+		wp_register_style( 'automatewoo-preview', AW()->admin_assets_url( '/css/preview.css' ), [], AW()->version );
 	 }
 
 
@@ -291,17 +315,23 @@ class Admin {
 	 */
 	static function enqueue_scripts_and_styles() {
 		$screen_id = self::get_current_screen_id();
+		$is_aw_screen = self::is_automatewoo_screen();
+
+		// Load WC Admin styles for AW pages before our own styles
+		if ( defined( 'WC_ADMIN_APP' ) && $is_aw_screen ) {
+			wp_enqueue_style( WC_ADMIN_APP );
+		}
 
 		wp_enqueue_script( 'automatewoo' );
 		wp_enqueue_style( 'automatewoo-main' );
 
-		if ( self::is_automatewoo_screen() ) {
+		if ( $is_aw_screen ) {
 			wp_enqueue_script( 'woocommerce_admin' );
 			wp_enqueue_script( 'wc-enhanced-select' );
 			wp_enqueue_script( 'jquery-tiptip' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
-			wp_enqueue_script( 'jquery-cookie' );
+			wp_enqueue_script( 'js-cookie' );
 
 			wp_enqueue_style( 'woocommerce_admin_styles' );
 			wp_enqueue_style( 'jquery-ui-style' );
@@ -312,6 +342,41 @@ class Admin {
 			wp_enqueue_style( 'automatewoo-preview' );
 		}
 
+	}
+
+	/**
+	 * Load react powered admin JS.
+	 *
+	 * @since 5.0.0
+	 */
+	public static function load_react_ui_scripts() {
+		// Load react JS for AW pages and WC Admin JS powered pages
+		if ( ! self::is_automatewoo_screen() && ! wc_admin_is_registered_page() ) {
+			return;
+		}
+
+		$asset_file_path = AW()->admin_path() . "/assets/build/index.asset.php";
+
+		if ( ! file_exists( $asset_file_path ) ) {
+			return;
+		}
+
+		$asset_file   = (array) include $asset_file_path;
+		$dependencies = isset( $asset_file['dependencies'] ) ? $asset_file['dependencies'] : [];
+		// Depend on main admin script for plugin settings
+		$dependencies[] = 'automatewoo';
+		$dependencies[] = 'wc-settings';
+		$version        = isset( $asset_file['version'] ) ? $asset_file['version'] : false;
+		$handle         = 'automatewoo-react-ui';
+
+		wp_enqueue_script(
+			$handle,
+			AW()->admin_assets_url() . "/build/index.js",
+			$dependencies,
+			$version,
+			true
+		);
+		wp_set_script_translations( $handle, 'automatewoo', AW()->path( '/languages' ) );
 	}
 
 	static function screen_ids() {
@@ -453,6 +518,13 @@ class Admin {
 
 			case 'status':
 				return admin_url( 'admin.php?page=automatewoo-settings&tab=status' );
+
+			case 'manual-workflow-runner':
+				$url = admin_url( 'admin.php?page=wc-admin&path=/automatewoo/manual-workflow-runner' );
+				if ( $id ) {
+					return add_query_arg( 'workflowId', $id, $url );
+				}
+				return $url;
 		}
 
 		return false;

@@ -43,7 +43,7 @@ $products = aw_get_reviewable_products( $products );
 
 							<?php echo \AW_Mailer_API::get_product_image( $product ) ?>
 							<h3><?php echo esc_html( $product->get_name() ); ?></h3>
-							<a href="<?php echo esc_url( $product->get_permalink() ); ?>#tab-reviews" class="automatewoo-button"><?php esc_html_e( 'Leave a review', 'automatewoo' ); ?></a>
+							<a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="automatewoo-button"><?php esc_html_e( 'Leave a review', 'automatewoo' ); ?></a>
 
 						</div>
 

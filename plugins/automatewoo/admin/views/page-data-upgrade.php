@@ -33,7 +33,7 @@ else {
 
 ?>
 
-<div id="automatewoo-upgrade-wrap" class="wrap automatewoo-page automatewoo-page--data-upgrade">
+<div id="automatewoo-upgrade-wrap" class="wrap woocommerce automatewoo-page automatewoo-page--data-upgrade">
 	
 	<h2><?php printf( __( "%s - Database Update" ,'automatewoo' ), $plugin_name ); ?></h2>
 	

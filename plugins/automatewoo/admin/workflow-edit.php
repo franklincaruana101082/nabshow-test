@@ -3,6 +3,8 @@
 
 namespace AutomateWoo;
 
+use AutomateWoo\Triggers\ManualInterface;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -26,6 +28,7 @@ class Admin_Workflow_Edit {
 		add_action( 'admin_head', [ $this, 'enqueue_scripts' ], 15 );
 		add_action( 'admin_footer', [ $this, 'workflow_js_templates' ], 15 );
 		add_action( 'save_post', [ $this, 'save' ] );
+		add_action( 'save_post', [ $this, 'maybe_redirect_to_manual_runner' ], 1000 );
 
 		add_filter( 'wp_insert_post_data', [ $this, 'insert_post_data' ] );
 	}
@@ -182,6 +185,7 @@ class Admin_Workflow_Edit {
 		$data['description'] = $trigger->get_description();
 		$data['supplied_data_items'] = array_values( $trigger->get_supplied_data_items() );
 		$data['allow_queueing'] = $trigger::SUPPORTS_QUEUING;
+		$data['is_manual'] = $trigger instanceof ManualInterface;
 
 		return $data;
 	}
@@ -222,6 +226,21 @@ class Admin_Workflow_Edit {
 		Admin::add_meta_box( 'trigger_box',
 			__( 'Trigger', 'automatewoo' ), [ $this, 'meta_box_triggers' ],
 			self::$screen, 'normal', 'high'
+		);
+
+		Admin::add_meta_box(
+			'manual_workflow_box',
+			__( 'Manual workflow options', 'automatewoo' ),
+			function () {
+				Admin::get_view( 'meta-box-manual-workflow', [
+					'workflow'        => $this->workflow,
+					'current_trigger' => $this->workflow
+						? $this->workflow->get_trigger() : false
+				] );
+			},
+			self::$screen,
+			'normal',
+			'high'
 		);
 
 		Admin::add_meta_box( 'rules_box',
@@ -342,7 +361,7 @@ class Admin_Workflow_Edit {
 	 * @param $post_id
 	 */
 	function save( $post_id ) {
-		$posted = aw_request( 'aw_workflow_data' );
+		$posted = aw_get_post_var( 'aw_workflow_data' );
 
 		if ( ! is_array( $posted ) ) {
 			return;
@@ -350,13 +369,25 @@ class Admin_Workflow_Edit {
 
 		$workflow = Workflow_Factory::get( $post_id );
 
+		$workflow->set_type( isset( $posted['type'] ) ? $posted['type'] : 'automatic' );
+
 		$raw_rule_options = isset( $posted['rule_options'] ) ? $posted['rule_options'] : [];
 		$workflow->set_rule_data( $raw_rule_options );
 
-		$workflow->set_trigger_data(
-				isset( $posted['trigger_name'] ) ? $posted['trigger_name'] : false,
-				isset( $posted['trigger_options'] ) ? $posted['trigger_options'] : []
-		);
+		switch ( $workflow->get_type() ) {
+			case 'automatic':
+				$workflow->set_trigger_data(
+					isset( $posted['trigger_name'] ) ? $posted['trigger_name'] : '',
+					isset( $posted['trigger_options'] ) ? $posted['trigger_options'] : []
+				);
+				break;
+			case 'manual':
+				$workflow->set_trigger_data(
+					isset( $posted['manual_trigger_name'] ) ? $posted['manual_trigger_name'] : '',
+					[]
+				);
+				break;
+		}
 
 		$trigger_name = $workflow->get_trigger_name();
 
@@ -410,6 +441,19 @@ class Admin_Workflow_Edit {
 		$workflow->update_meta( 'is_transactional', ! empty( $posted['is_transactional'] ) );
 	}
 
+	/**
+	 * Redirect to manual runner if relevant button was clicked.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param $post_id
+	 */
+	public function maybe_redirect_to_manual_runner( $post_id ) {
+		if ( aw_get_post_var( 'automatewoo_redirect_to_runner' ) ) {
+			wp_safe_redirect( Admin::page_url( 'manual-workflow-runner', $post_id ) );
+			exit;
+		}
+	}
 
 	/**
 	 * @param string $option
@@ -451,5 +495,3 @@ class Admin_Workflow_Edit {
 
 
 }
-
-new Admin_Workflow_Edit();

@@ -22,7 +22,6 @@ class Reports_Tab_Conversions_List extends \AW_Admin_Reports_Tab_Abstract {
 	 * @return object
 	 */
 	public function get_report_class() {
-		require_once AW()->admin_path( '/reports/conversions-list.php' );
 		return new Report_Conversions_List();
 	}
 

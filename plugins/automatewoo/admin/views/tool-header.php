@@ -1,5 +1,4 @@
 <?php
-// phpcs:ignoreFile
 
 namespace AutomateWoo;
 
@@ -8,17 +7,19 @@ namespace AutomateWoo;
  * @var Admin\Controllers\Tools_Controller $controller
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 ?>
-
-<h1><a href="<?php echo Admin::page_url('tools') ?>"><?php echo $controller->get_heading() ?></a> &gt; <?php echo $tool->title ?></h1>
+<?php if ( ! defined( 'WC_ADMIN_PLUGIN_FILE' ) ) : ?>
+	<h1><a href="<?php echo esc_url( Admin::page_url( 'tools' ) ); ?>"><?php echo esc_html( $controller->get_heading() ); ?></a> &gt; <?php echo esc_html( $tool->title ); ?></h1>
+<?php else : ?>
+	<h1><?php echo esc_html( $tool->title ); ?></h1>
+<?php endif; ?>
 
 <?php $controller->output_messages(); ?>
 
-<?php echo wpautop( $tool->description ) ?>
+<?php echo wp_kses_post( wpautop( $tool->description ) ); ?>
 
-<?php if ( $tool->additional_description ): ?>
-	<?php echo wpautop( $tool->additional_description ) ?>
-<?php endif ?>
-
+<?php if ( $tool->additional_description ) : ?>
+	<?php echo wp_kses_post( wpautop( $tool->additional_description ) ); ?>
+<?php endif; ?>

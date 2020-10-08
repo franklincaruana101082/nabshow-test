@@ -4,7 +4,9 @@
 namespace AutomateWoo;
 
 /**
- * @class Addon
+ * Addon class.
+ *
+ * This class must remain named as 'includes/abstracts/addon.php' because it's what AW add-ons expect.
  */
 abstract class Addon {
 

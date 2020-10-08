@@ -4,7 +4,7 @@
 namespace AutomateWoo;
 
 use AutomateWoo\Admin\JSON_Search;
-use AutomateWoo\Exceptions\Invalid_Preview_Data;
+use AutomateWoo\Exceptions\InvalidPreviewData;
 
 /**
  * @class Admin_Ajax
@@ -42,7 +42,7 @@ class Admin_Ajax {
 			'modal_queue_info',
 			'modal_variable_info',
 			'modal_cart_info',
-			'update_dynamic_action_select'
+			'update_dynamic_action_select',
 		];
 
 		foreach ( $ajax_events as $ajax_event ) {
@@ -286,7 +286,7 @@ class Admin_Ajax {
 			case 'workflow_action':
 				try {
 					$action = Preview_Data::generate_preview_action( $args['workflow_id'], $args['action_number'] );
-				} catch ( Invalid_Preview_Data $e ) {
+				} catch ( InvalidPreviewData $e ) {
 					return wp_die( $e->getMessage() );
 				}
 
@@ -332,7 +332,7 @@ class Admin_Ajax {
 			case 'workflow_action':
 				try {
 					$action = Preview_Data::generate_preview_action( $args['workflow_id'], $args['action_number'], 'test' );
-				} catch ( Invalid_Preview_Data $e ) {
+				} catch ( InvalidPreviewData $e ) {
 					return wp_die( $e->getMessage() );
 				}
 
@@ -624,8 +624,7 @@ class Admin_Ajax {
 
 		wp_send_json_success();
 	}
-
-
+	
 
 	static function update_dynamic_action_select() {
 

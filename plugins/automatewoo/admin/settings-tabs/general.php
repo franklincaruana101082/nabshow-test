@@ -167,7 +167,6 @@ class Settings_Tab_General extends Admin_Settings_Tab_Abstract {
 		$this->add_setting( 'communication_page_legal_text', [
 			'title' => __( 'Legal text', 'automatewoo' ),
 			'type' => 'textarea',
-			'desc' => version_compare( WC()->version, '3.4', '<' ) ? __( 'WooCommerce 3.4 is required for the shortcodes below to work.', 'automatewoo' ) : '',
 			'desc_tip' => sprintf(
 				__( 'This text is shown above the form submit button. Use the following shortcodes to add dynamic content: %s', 'automatewoo' ),
 				'[privacy_policy] [terms]'

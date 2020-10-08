@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<div class="wrap automatewoo-page automatewoo-page--<?php echo $page ?>">
+<div class="wrap woocommerce automatewoo-page automatewoo-page--<?php echo $page ?>">
 
 	<?php $controller->output_view( 'page-heading' ); ?>
 

@@ -1,0 +1,3 @@
+Bynder WordPress 5 plugin
+
+For more information please visit https://help.bynder.com/integrations/wordpress-5.htm

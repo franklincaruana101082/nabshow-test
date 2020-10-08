@@ -1,6 +1,6 @@
 .automatewoo-welcome-notice {
 	padding: 35px 259px 31px 36px !important;
-	border-left: 4px solid $color-brand-purple;
+	border-left-width: 1px;
 	position: relative;
 
 	@media ( max-width: 800px ) {
@@ -23,7 +23,7 @@
 	}
 
 	&__heading {
-		color: $color-brand-purple;
+		color: $color-g2-dark-grey;
 		font-size: 20px;
 		font-weight: 600;
 		margin: 0 0 0.75rem;

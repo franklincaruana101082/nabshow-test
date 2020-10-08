@@ -37,7 +37,6 @@ $display_time      = isset( $attributes['displayTime'] ) ? $attributes['displayT
 $display_location  = isset( $attributes['displayLocation'] ) ? $attributes['displayLocation'] : true;
 $display_summary   = isset( $attributes['displaySummary'] ) ? $attributes['displaySummary'] : true;
 $display_speaker   = isset( $attributes['displaySpeaker'] ) ? $attributes['displaySpeaker'] : false;
-$display_plink     = true === $attributes['displayPlannerLink'] ? 'true' : 'false';
 $query             = false;
 $listing_id        = '';
 $final_key         = '';
@@ -200,6 +199,7 @@ if ( false === $query || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
     }
 
 }
+
 if ( 'date-group' === $layout &&  ! $slider_active ) {
 
     if ( $query->have_posts() ) {
@@ -254,7 +254,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 <?php
                     $session_title = mb_strimwidth( get_the_title(), 0, 83, '...' );
                 ?>
-                    <strong><?php $this->mysgb_generate_popup_link( get_the_ID(), $block_post_type, $session_title, '', $display_plink ); ?> </strong>
+                    <strong><?php $this->mysgb_generate_popup_link( get_the_ID(), $block_post_type, $session_title ); ?> </strong>
                 </div>
                 <div class="details">
                 <?php
@@ -363,7 +363,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
             $listing_id = 'card_section';
         }
     ?>
-        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo esc_attr( $listing_id ); ?>" data-plannerlink="<?php echo esc_attr( $display_plink ) ?>">
+        <div class="nab-dynamic-list session row <?php echo ! empty( $layout ) ? esc_attr( $layout ) : esc_attr('');?>" id="<?php echo esc_attr( $listing_id ); ?>">
     <?php
     }
         $date_group = '';
@@ -443,7 +443,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 if ( $display_name ) {
                     $title_text =  mb_strimwidth( get_the_title(), 0, 83, '...' );
                     ?>
-                    <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text, '', $display_plink); ?></h4>
+                    <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text); ?></h4>
                     <?php
                 }
 
@@ -474,7 +474,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 }
 
                 if ( $slider_active && $display_speaker ) {
-                	$this->mysgb_get_session_speakers( $session_id, 'bullet', $display_plink );
+                	$this->mysgb_get_session_speakers( $session_id, 'bullet' );
                 }
 
                 if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
@@ -488,7 +488,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 	                    <?php
 
 	                        echo esc_html( get_the_excerpt() );
-	                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup', $display_plink );
+	                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup' );
 	                    ?>
 	                    </p>
 	                    <?php
@@ -509,10 +509,10 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                     	<div class="video-section"><?php echo $video; ?></div>
                     	<?php
                     }
+                    ?>
 
-                    if( 'true' === $display_plink ) { ?>
-                        <a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View in Planner</a>
-                    <?php }
+                    <!--<a class="session-planner-url" href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">View Details</a>-->
+                <?php
                 }
                 ?>
             </div>

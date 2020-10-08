@@ -12,7 +12,7 @@ namespace AutomateWoo;
 ?>
 
 
-<div class="wrap automatewoo-page automatewoo-page--guest-details">
+<div class="wrap woocommerce automatewoo-page automatewoo-page--guest-details">
 
 	<h1><?php echo $controller->get_heading() ?></h1>
 

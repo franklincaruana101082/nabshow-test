@@ -34,6 +34,13 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			// Filter for add custom post where
 			add_filter( 'posts_where', array( $this, 'mysgb_set_custom_posts_where' ), 10, 2 );
 
+			// Session Date list ajax filters.
+			add_action( 'wp_ajax_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
+			add_action( 'wp_ajax_nopriv_sessions_date_list_filter', array( $this, 'mysgb_sessions_date_list_filter_ajax_callback' ) );
+
+			// Speaker info details ajax.
+			add_action( 'wp_ajax_speaker_popup_details', array( $this, 'mysgb_speaker_popup_details_ajax_callback' ) );
+			add_action( 'wp_ajax_nopriv_speaker_popup_details', array( $this, 'mysgb_speaker_popup_details_ajax_callback' ) );
 		}
 
 		/**
@@ -571,6 +578,281 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			}
 
 			return $where;
+		}
+
+		/**
+		 * Return session according to filters
+		 *
+		 * @return json
+		 * @since 1.0.0
+		 */
+		public function mysgb_sessions_date_list_filter_ajax_callback() {
+			
+			$result_post    = array();
+			$final_result   = array();
+
+			$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+			$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );		
+			$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
+			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );		
+			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
+			$display_order      = filter_input( INPUT_GET, 'display_order', FILTER_SANITIZE_STRING );
+			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );			
+
+			$query_arg = array(
+				'post_type'      => 'sessions',
+				'posts_per_page' => $post_limit,
+				'paged'          => $page_number,				
+			);
+
+			$meta_query_args    = array( 'relation' => 'AND' );
+
+			$meta_query_args[ 'session_date_clause' ] = array (
+				'key'       => 'session_date',
+				'compare'   => 'EXISTS',
+			);
+
+			$meta_query_args[ 'start_time_clause' ] = array (
+				'key'       => 'start_time',
+				'compare'   => 'EXISTS',
+			);
+
+			if ( ! empty( $post_search ) ) {
+				$query_arg[ 's' ] = $post_search;
+			}			
+
+			if ( ! empty( $session_date ) ) {
+				
+				$meta_query_args[] = array (
+					
+					'key' 	=> 'session_date',
+					'value'	=> $session_date,
+					'type'  => 'DATE',
+				);				
+			}
+
+			if ( ! empty( $channel_list ) ) {
+				
+				$all_channel = explode( ',', $channel_list );
+				
+				if ( ! empty( $channel ) && in_array( $channel, $all_channel ) ) {
+					$all_channel = array( $channel );
+				} else if ( ! empty( $channel ) ) {
+					$all_channel = array('');
+				}
+				
+				$channel_meta_arr = array( 'relation' => 'OR' );
+
+				foreach( $all_channel as $ch ) {
+					
+					$channel_meta_arr[] = array(
+						'key'     => 'session_channel',
+						'value'   => '"' . $ch . '"',
+						'compare' => 'LIKE'
+					);
+				}
+
+				if ( count( $channel_meta_arr ) > 1 ) {
+
+					$meta_query_args[] = $channel_meta_arr;
+				}				
+
+			} else if ( ! empty( $channel ) ) {
+				
+				$meta_query_args[] = array(
+					array(
+						'key'     => 'session_channel',
+						'value'   => '"' . $channel . '"',
+						'compare' => 'LIKE'
+					)
+				);
+			}			
+				
+			$query_arg[ 'meta_query' ] = $meta_query_args;			
+
+			$query_arg[ 'orderby' ] = array(
+				'session_date_clause'   => $display_order,
+				'start_time_clause'     => 'ASC',
+			);
+			
+
+			$session_query = new WP_Query( $query_arg );
+
+			$total_pages = $session_query->max_num_pages;
+
+			if ( $session_query->have_posts() ) {
+
+				$i = 0;				
+
+				while ( $session_query->have_posts() ) {
+
+					$session_query->the_post();
+
+					$session_id     = get_the_ID();
+					$date           = get_field( 'session_date',  $session_id );
+					$start_time     = get_field( 'start_time',  $session_id );
+					$end_time       = get_field( 'end_time',  $session_id );
+					$is_open_to     = get_field( 'is_open_to',  $session_id );
+                	$is_open_to     = 'Select Open To' === $is_open_to ? '' : $is_open_to;
+					$schedule_class = 'white_bg';
+					$button_text    = 'Learn More';					
+
+					if ( ! empty( $date ) ) {
+						$current_date   = current_time('Ymd');
+						$session_date   = date_format( date_create( $date ), 'Ymd' );
+						$date1          = new DateTime( $session_date );
+						$now            = new DateTime( $current_date );
+
+						if ( $date1 < $now )  {
+							$schedule_class = 'gray_bg';
+							$button_text    = 'Watch On Demand';
+						} elseif ( $date1 > $now ) {
+							$schedule_class = 'white_bg';
+							$button_text    = 'Learn More';
+						} else if ( $session_date === $current_date ) {
+							
+							$current_time   = current_time('g:i a');                    
+							$time1          = DateTime::createFromFormat('H:i a', $current_time);
+							$time2          = DateTime::createFromFormat('H:i a', $start_time);
+							$time3          = DateTime::createFromFormat('H:i a', $end_time);
+															
+							if ( $time1 > $time2 && $time1 < $time3 ) {
+								$schedule_class = 'green_bg show_desc';
+								$button_text    = 'Tune in Now';
+							} elseif ( $time1 <= $time2) {
+								$schedule_class = 'white_bg';
+								$button_text    = 'Learn More';
+							} elseif ( $time1 >= $time3 ) {
+								$schedule_class = 'gray_bg';
+								$button_text    = 'Watch On Demand';
+							}
+						}
+					}
+
+					if ( ! empty( $date ) ) {
+						$date       = date_format( date_create( $date ), 'l, F j' );
+					}
+					
+					if ( ! empty( $start_time ) ) {
+
+						$start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+						$start_time = str_replace(':00', '', $start_time );
+	
+					}
+					if ( ! empty( $end_time ) ) {
+	
+						$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
+						$end_time   = str_replace(':00', '', $end_time );
+	
+					}
+					
+					if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+						$start_time = str_replace(' a.m.', '', $start_time );
+					}
+	
+					if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+						$start_time = str_replace(' p.m.', '', $start_time );
+					}																	
+				
+					$result_post[ $i ][ 'post_title' ]    	= html_entity_decode( get_the_title() );
+					$result_post[ $i ][ 'post_link' ]    	= get_the_permalink();										
+					$result_post[ $i ][ 'time' ]     	  	= $start_time . ' - ' . $end_time . ' ET';
+					$result_post[ $i ][ 'post_content' ]  	= html_entity_decode( get_the_excerpt( $session_id ) );
+					$result_post[ $i ][ 'more_text' ]  		= $button_text;					
+					$result_post[ $i ][ 'pass_name' ]  		= html_entity_decode( $is_open_to );
+					$result_post[ $i ][ 'session_date' ]  	= $date;
+					$result_post[ $i ][ 'schedule_class' ]	= $schedule_class;
+					$result_post[ $i ][ 'thumbnail_url' ] 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : plugins_url( 'assets/images/session-placeholder.png', dirname( __FILE__ ) );
+
+					$channel = get_field( 'session_channel',  $session_id );
+
+					if ( is_array( $channel ) && count( $channel ) > 0 ) {
+
+						$final_channels = array();
+						$cnt			= 0;
+
+						foreach( $channel as $ch ) {
+
+							$final_channels[ $cnt ][ 'title' ]	= html_entity_decode( get_the_title( $ch ) );
+							$final_channels[ $cnt ][ 'link' ]	= get_the_permalink( $ch );
+
+							$cnt++;
+						}
+
+						if ( count( $final_channels ) > 0 ) {
+							$result_post[ $i ][ 'channel' ]	= $final_channels;
+						}
+
+					}
+
+					$rows = get_field( 'speaker_list' );
+
+					if ( $rows ) {
+
+						$final_speakers = array();												
+						$cnt 			= 0;
+
+						foreach( $rows as $row ) {
+							
+							$speaker_id = $row['session_speaker'];
+							
+							if ( ! empty( $speaker_id ) ) {
+								
+								$speaker_name	= get_the_title( $speaker_id );
+								$speaker_name   = explode(',', $speaker_name, 2);
+								$speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
+								
+								$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+								$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
+
+								$cnt++;
+							}
+						}
+
+						if ( count( $final_speakers ) > 0 ) {
+
+							$result_post[ $i ][ 'speakers' ] = $final_speakers;
+						}
+					}
+					$i++;
+				}
+			}
+			wp_reset_postdata();
+
+			$final_result[ 'next_page_number' ] = $page_number + 1;
+			$final_result[ 'total_page' ]       = $total_pages;
+			$final_result[ 'result_post' ]      = $result_post;
+
+			echo wp_json_encode( $final_result );
+			wp_die();
+		}
+
+		/**
+		 * Return speaker details.
+		 *
+		 * @return json
+		 * @since 1.0.0
+		 */
+		public function mysgb_speaker_popup_details_ajax_callback() {
+			
+			$result_post 		= array();
+			$speaker_id			= filter_input( INPUT_GET, 'speaker_id', FILTER_SANITIZE_NUMBER_INT );
+			$thumbnail_url 		= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
+			$speaker_content	= get_the_content( '', false, $speaker_id );
+			$speaker_content	= apply_filters( 'the_content', $speaker_content );
+			$MYSGutenbergBlocks = new MYSGutenbergBlocks();
+			$speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
+			$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
+			
+			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
+			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
+			$result_post[ 'sub_title' ]		= get_field( 'title',  $speaker_id );
+			$result_post[ 'content' ] 		= $speaker_content;
+			$result_post[ 'company' ]		= $speaker_company;
+			
+			echo wp_json_encode( $result_post );
+			wp_die();
+
 		}
 
 	}

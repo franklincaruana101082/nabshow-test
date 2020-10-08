@@ -518,11 +518,13 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			$parameters = $request->get_params();
 
-			$force = isset( $parameters['force'] ) ? $parameters['force'] : '';
-			$limit = isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
+			$force             = isset( $parameters['force'] ) ? $parameters['force'] : '';
+			$limit             = isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
+			$unlinked_speakers = isset( $parameters['unlinked-speakers'] ) ? $parameters['unlinked-speakers'] : '';
 
-			if( isset( $parameters['delete'] ) ) {
-				delete_option('custom_cron_speakers');
+			if ( isset( $parameters['delete'] ) ) {
+				delete_option( 'custom_cron_speakers' );
+
 				return 'option deleted: custom_cron_speakers';
 			}
 
@@ -587,29 +589,31 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 				// Restore original Post Data
 				wp_reset_postdata();
 
-				// Delete speaker because there are no sessions attached.
+				// Delete speaker if there are no sessions attached.
 				if ( 0 === $speaker['schedules'] && ! empty( $post_id ) ) {
 					wp_trash_post( $post_id );
-					$result .= "|$post_id-trashed";
+					$result .= "|$post_id-trashed-$speakerid";
 					unset( $all_speakers[ $speakerid ] );
 					continue;
 				}
 
-				$firstname = $speaker['fname'];
-				$lastname  = $speaker['lname'];
+				if ( empty( $unlinked_speakers ) ) {
+					$firstname = $speaker['fname'];
+					$lastname  = $speaker['lname'];
 
-				$new_title = "$lastname, $firstname";
+					$new_title = "$lastname, $firstname";
 
-				$update_post = array(
-					'ID'         => $post_id,
-					'post_title' => $new_title,
-				);
+					$update_post = array(
+						'ID'         => $post_id,
+						'post_title' => $new_title,
+					);
 
-				// Title updated.
-				wp_update_post( $update_post );
-
-				$result .= "|$post_id-$new_title";
-
+					// Title updated.
+					wp_update_post( $update_post );
+					$result .= "|$post_id-$new_title";
+				} else {
+					$result .= "|$post_id-sessionLinked";
+				}
 				unset( $all_speakers[ $speakerid ] );
 			}
 

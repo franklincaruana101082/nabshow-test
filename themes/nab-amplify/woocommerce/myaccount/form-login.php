@@ -39,7 +39,7 @@ if ( ! empty( $referer_url ) ) {
 			
 			$redirect_url = wc_get_page_permalink( 'myaccount' );
 
-			setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
+			// setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
 		}
 	}
 }
@@ -61,7 +61,8 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
 
-		<div class="nab-login-wrap">
+
+		<div class="nab-login-wrap" >
 			<div class="nab-normal-login">
 				<form class="woocommerce-form woocommerce-form-login login" method="post">
 

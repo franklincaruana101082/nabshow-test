@@ -37,9 +37,6 @@ class Optins extends Base {
 
 
 	private function output_list_table() {
-
-		require_once AW()->admin_path( '/reports/opt-ins.php' );
-
 		$table = new Report_Optins();
 		$table->prepare_items();
 		$table->nonce_action = $this->get_nonce_action();

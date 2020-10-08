@@ -7,6 +7,7 @@ use AutomateWoo\Admin;
 use AutomateWoo\Clean;
 use AutomateWoo\Queue_Manager;
 use AutomateWoo\Report_Queue;
+use AutomateWoo\Jobs\DeleteFailedQueuedWorkflows;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -40,9 +41,6 @@ class Queue extends Base {
 
 
 	private function output_list_table() {
-
-		require_once AW()->admin_path( '/reports/queue.php' );
-
 		$table = new Report_Queue();
 		$table->prepare_items();
 		$table->nonce_action = $this->get_nonce_action();
@@ -53,6 +51,10 @@ class Queue extends Base {
 			'a href="' . Admin::get_docs_link('queue', 'queue-list' ) . '" target="_blank"',
 			'/a'
 		) . '</p>';
+
+		$deletion_job = new DeleteFailedQueuedWorkflows();
+
+		$sidebar_content .= '<p>' . sprintf( __( 'Failed queue items will be deleted after %d days', 'automatewoo' ), $deletion_job->get_deletion_period() ) . '</p>';
 
 		$this->output_view( 'page-table-with-sidebar', [
 			'table' => $table,

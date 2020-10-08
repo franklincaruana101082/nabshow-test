@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<div class="wrap automatewoo-page automatewoo-page--reports">
+<div class="wrap woocommerce automatewoo-page automatewoo-page--reports">
 
 	<h1><?php printf( __( '%s Report', 'automatewoo' ), $current_tab->name ) ?></h1>
 

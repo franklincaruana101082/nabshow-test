@@ -5,6 +5,7 @@ namespace AutomateWoo\Admin\Controllers;
 
 use AutomateWoo\Clean;
 use AutomateWoo\Log_Factory;
+use AutomateWoo\Report_Logs;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -39,10 +40,7 @@ class Logs extends Base {
 
 
 	private function output_list_table() {
-
-		require_once AW()->admin_path( '/reports/logs.php' );
-
-		$table = new \AutomateWoo\Report_Logs();
+		$table = new Report_Logs();
 		$table->prepare_items();
 		$table->nonce_action = $this->get_nonce_action();
 

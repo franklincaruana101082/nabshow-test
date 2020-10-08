@@ -36,3 +36,15 @@ function ny_enqueue_styles() {
 require_once get_stylesheet_directory() . '/inc/actions.php';
 require_once get_stylesheet_directory() . '/inc/actions-functions.php';
 require_once get_stylesheet_directory() . '/inc/segment-ga-prod.php';
+
+
+// Hide admin bar from non-admins
+
+
+add_action('after_setup_theme', 'remove_admin_bar');
+ 
+function remove_admin_bar() {
+if (!current_user_can('administrator') && !is_admin()) {
+  show_admin_bar(false);
+}
+}

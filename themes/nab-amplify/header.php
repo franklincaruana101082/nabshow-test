@@ -78,7 +78,7 @@
 										<li>
 											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
 										</li>
-										 <li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
 										</li>
 										<li>
 											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
@@ -121,16 +121,18 @@
 					<?php // woocommerce_breadcrumb(); ?>
 					<div id="profile-avtar">
 						<img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
-						<?php
-						if ( isset( $_COOKIE[ 'nab_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_login_redirect' ] ) ) {
-							?>
-							<a href="<?php echo esc_url( $_COOKIE[ 'nab_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Access Your Content</a>
-							<?php
-						}
-						?>
-					</div>					
+					</div>
 				</div>
 			</div>
+			<?php
+				if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
+					?>
+					<div style="margin: 0 auto;text-align: center;">
+						<a href="<?php echo esc_url( $_COOKIE[ 'nab_amp_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Click Here to Access Your Content</a>
+					</div>
+					<?php
+				}
+				?>
 		<?php } else { ?>
 			<div class="container">
 				<?php

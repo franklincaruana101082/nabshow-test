@@ -21,6 +21,7 @@ class Admin_Workflow_List {
 		add_filter( 'bulk_actions-edit-aw_workflow' , [ $this, 'bulk_actions' ], 10 , 2 );
 		add_filter( 'post_row_actions' , [ $this, 'row_actions' ], 10 , 2 );
 		add_filter( 'request', [ $this, 'filter_request_query_vars' ] );
+		add_filter( 'views_edit-aw_workflow', [ $this, 'filter_views' ] );
 
 		$this->statuses();
 	}
@@ -78,10 +79,22 @@ class Admin_Workflow_List {
 				break;
 
 			case 'aw_status_toggle':
-				echo '<button type="button" class="aw-switch js-toggle-workflow-status" '
-					. 'data-workflow-id="'. $workflow->get_id() .'" '
-					. 'data-aw-switch="'. ( $workflow->is_active() ? 'on' : 'off' ) . '">'
-					. __( 'Toggle Status', 'automatewoo' ) . '</button>';
+				if ( 'manual' === $workflow->get_type() ) {
+					$url = Admin::page_url( 'manual-workflow-runner', $workflow->get_id() );
+					printf(
+						'<a href="%s" class="button button-primary alignright">%s</a>',
+						esc_url( $url ),
+						esc_html__( 'Run', 'automatewoo' )
+					);
+				} else {
+					printf(
+						'<button type="button" class="%s" data-workflow-id="%s" data-aw-switch="%s">%s</button>',
+						'aw-switch js-toggle-workflow-status',
+						esc_attr( $workflow->get_id() ),
+						esc_attr( $workflow->is_active() ? 'on' : 'off' ),
+						esc_html__( 'Toggle Status', 'automatewoo' )
+					);
+				}
 				break;
 
 		}
@@ -252,6 +265,16 @@ class Admin_Workflow_List {
 		return sprintf( $unit_text, $number );
 	}
 
+	/**
+	 * Is manual view?
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return bool
+	 */
+	public function is_manual_view() {
+		return (bool) aw_get_url_var( 'filter_manual' );
+	}
 
 	/**
 	 * Filter workflow list main request query vars.
@@ -261,15 +284,51 @@ class Admin_Workflow_List {
 	 * @return array
 	 */
 	public function filter_request_query_vars( $query_vars ) {
+		$is_all_view = empty( $query_vars['post_status'] );
+
 		// Include disabled workflows in all view
-		if ( empty( $query_vars['post_status'] ) ) {
+		if ( $is_all_view ) {
 			$query_vars['post_status'] = [ 'publish', 'aw-disabled' ];
+		}
+
+		if ( $this->is_manual_view() ) {
+			$query_vars['meta_query'] = [
+				[
+					'key'   => 'type',
+					'value' => 'manual',
+				],
+			];
 		}
 
 		return $query_vars;
 	}
 
+	/**
+	 * Filter views on the workflow list table.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $views
+	 *
+	 * @return array
+	 */
+	public function filter_views( $views ) {
+		$url = remove_query_arg( 'post_status', add_query_arg( 'filter_manual', 1 ) );
+
+		$views['manual'] = sprintf(
+			'<a href="%s" class="%s">%s <span class="count">(%s)</a>',
+			esc_url( $url ),
+			$this->is_manual_view() ? esc_attr( 'current' ) : '',
+			esc_html__( 'Manual', 'automatewoo' ),
+			Workflows::get_manual_workflows_count()
+		);
+
+		$trash = aw_array_extract( $views, 'trash' );
+		if ( $trash ) {
+			$views['trash'] = $trash;
+		}
+
+		return $views;
+	}
 
 }
-
-new Admin_Workflow_List();

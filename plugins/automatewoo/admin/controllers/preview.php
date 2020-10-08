@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 use AutomateWoo\Admin;
 use AutomateWoo\Clean;
-use AutomateWoo\Exceptions\Invalid_Preview_Data;
+use AutomateWoo\Exceptions\InvalidPreviewData;
 use AutomateWoo\Preview_Data;
 
 /**
@@ -49,7 +49,7 @@ class Preview extends Base {
 			case 'workflow_action':
 				try {
 					$action = Preview_Data::generate_preview_action( $args['workflow_id'], $args['action_number'] );
-				} catch ( Invalid_Preview_Data $e ) {
+				} catch ( InvalidPreviewData $e ) {
 					return wp_die( $e->getMessage() );
 				}
 

@@ -1,5 +1,53 @@
 == AutomateWoo Changelog ==
 
+2020-09-07 - version 5.0.3
+* Fix - Issue where PHPMailer errors were not retrieved correctly
+* Fix - Remove deprecated usage of the "WC_Order_Item" class
+* Fix - Incorrect use of undefined WC_ADMIN_APP constant (from 5.0.2)
+
+2020-09-03 - version 5.0.2
+* Tweak - Removed usage of the deprecated "woocommerce_before_cart_item_quantity_zero" action
+* Fix - Manual workflows not working with variable timing
+* Fix - Numeric rules not matching decimal values
+
+2020-08-10 - version 5.0.1
+* New - Add support for WordPress 5.5 and WooCommerce 4.4
+
+2020-07-29 - version 5.0.0
+
+* Announcement - https://woocommerce.com/posts/automatewoo-5/
+
+* New Minimum Requirements - WordPress 5.2, WooCommerce 4.0 and PHP 7.0
+* Database Upgrade Required - Adds workflow type and updates existing workflows to ‘automatic’
+
+* New - Manual workflows. Manual workflows have no trigger and are instead manually started by a store manager. Existing workflows with triggers are now considered 'automatic' workflows in comparison.
+* New - "Order Note Added - Each Line Item" trigger
+* New - "Workflow – Run Count For Subscription" rule
+* New - Connect all AutomateWoo pages to WooCommerce Admin (adds the inbox/notification center etc).
+* Tweak - Replace jquery-cookie with js-cookie
+* Tweak - Set SameSite attribute for JS cookies
+* Tweak - Set Secure attribute on cookies when SSL is in use
+* Tweak - Removed "#tab-reviews" link anchor from review product templates based on customer feedback. Instead use the "url_append" field to set your own anchor.
+* Tweak - Removed the previously deprecated triggers:
+        * Order Includes Product From Category
+        * Order Includes Product From Tag
+        * Order Includes a Specific Product
+* Tweak - Removed deprecated legacy Campaign Monitor action
+* Tweak - Adjustments to opt-in tracking data for AutomateWoo sent to WooCommerce:
+        * Additional workflow type property sent for events
+        * Manual workflow runner workflow selected event added
+        * Manual workflow run button clicked event added
+        * Manual workflow find matching items cancel button clicked event added
+        * Manual workflow queue items cancel button clicked event added
+        * Manual workflow run completed event added
+    To disable this tracking, opt out of WooCommerce tracking, see https://woocommerce.com/usage-tracking/
+* Fix - Deprecated use of implode in PHP 7.4
+* Fix - Issue where dates in workflow variables were not localized
+* Fix - Make failed queued workflow deletion more scalable. Failed items are deleted at a much faster rate.
+* Dev - Removed unsubscribes table and related code used prior to version 3.6
+* Dev - Removed `data_items` column from queue table used prior to version 2.9.7
+* Dev - Removed some existing deprecated code and renamed some legacy classes. See the announcement post for full details.
+
 2020-07-15 - version 4.9.8
 * Fix - Issue where dates in workflow variables were not localized
 * Fix - Issue with data formats in YITH Wishlist versions 3.0+

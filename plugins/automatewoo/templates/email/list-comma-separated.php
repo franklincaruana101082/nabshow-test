@@ -16,4 +16,4 @@ foreach( $products as $product ) {
 	$links[] = '<a href="' . esc_url( $product->get_permalink() ) .'">' . esc_attr( $product->get_name() ) . '</a>';
 }
 
-echo implode( $links, ', ' );
+echo implode( ', ', $links );

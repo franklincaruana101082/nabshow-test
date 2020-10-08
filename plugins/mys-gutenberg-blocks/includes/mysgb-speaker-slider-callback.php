@@ -34,7 +34,6 @@ $speaker_order          = 'date' === $order_by ? 'DESC' : 'ASC';
 $arrow_icons            = isset( $attributes['arrowIcons'] ) ? $attributes['arrowIcons'] : 'slider-arrow-1';
 $class_name             = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $exclude_speaker        = isset( $attributes['excludeSpeaker'] ) && ! empty( $attributes['excludeSpeaker'] ) ? $attributes['excludeSpeaker'] : '';
-$display_plink          = true === $attributes['displayPlannerLink'] ? 'true' : 'false';
 $include_tracks         = isset( $attributes['includeTracks'] ) && ! empty( $attributes['includeTracks'] ) ? $attributes['includeTracks'] : array();
 $attach_session         = isset( $attributes['attachSession'] ) ? $attributes['attachSession'] : false;
 $track_speakers         = '';
@@ -282,7 +281,7 @@ if ( $query->have_posts() || $listing_page ) {
         <?php
         } else {
         ?>
-            <div class="nab-dynamic-list nab-box-slider speakers" id="<?php echo $listing_page ? esc_attr('browse-speaker') : ''; ?>" data-plannerlink="<?php echo esc_attr( $display_plink ) ?>">
+            <div class="nab-dynamic-list nab-box-slider speakers" id="<?php echo $listing_page ? esc_attr('browse-speaker') : ''; ?>">
         <?php
         }
 
@@ -316,7 +315,7 @@ if ( $query->have_posts() || $listing_page ) {
 
                         if ( 'rectangle' === $slider_shape || ( 'circle' === $slider_shape && ! $display_name ) || ( $slider_active && $slide_info_below && ! $slide_info_rollovers ) || ( ! $slider_active && ! $grid_info_rollovers ) ) {
                             ?>
-                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $speaker_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>" data-plannerlink="<?php echo esc_attr($display_plink) ?>">
+                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $speaker_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">
                         	    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
                         	</a>
 
@@ -334,7 +333,7 @@ if ( $query->have_posts() || $listing_page ) {
 								$speaker_name = explode(',', $speaker_name, 2);
                                 $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 	                            ?>
-	                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, $speaker_name, '', $display_plink ); ?></h6>
+	                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, $speaker_name ); ?></h6>
 	                            <?php
 	                        }
 							if ( ! $slider_active || $slide_info_below || $slide_info_rollovers ) {

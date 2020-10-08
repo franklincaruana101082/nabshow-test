@@ -19,7 +19,12 @@ $color-brand-purple: #7532e4;
 $color-brand-light-purple: #928bbc;
 $color-brand-paragraph-grey: #69686e;
 
+// todo replace with CSS variable in future
+$wp-theme-blue: #007cba;
+
 $color-dark-grey: #464646;
+$color-g2-dark-grey: #1e1e1e;
+
 
 
 $breakpoint-xlarge: 1450px;
@@ -42,6 +47,7 @@ $breakpoint-xlarge: 1450px;
 @import 'dashboard';
 @import 'licenses';
 @import 'welcome-notice';
+@import 'manual-workflow-runner';
 
 
 
@@ -129,12 +135,19 @@ body.post-type-aw_workflow #wpbody-content,
 		background-image: url('../img/header-badge.svg');
 		background-size: contain;
 		background-repeat: no-repeat;
+		// Modified again in the next rule.
 		margin-right: 9px;
 		position: relative;
 		top: 2px;
 	}
 }
 
+body.post-type-aw_workflow #wpbody-content h1:before {
+	margin-right: 4px;
+}
+#wpbody-content #wp__notice-list + .automatewoo-page:not(.woocommerce) {
+	padding-top: 96px;
+}
 
 .automatewoo-content {}
 
@@ -306,4 +319,19 @@ body.post-type-aw_workflow #wpbody-content,
 
 .aw-hidden {
 	display: none !important;
+}
+
+
+.automatewoo-button.components-button {
+	&.is-large {
+		height: 42px;
+		line-height: 40px;
+		padding-left: 26px;
+		padding-right: 26px;
+	}
+
+	&.is-secondary {
+		// Todo remove this once WC 4.3 is the min required version
+		color: $wp-theme-blue !important;
+	}
 }

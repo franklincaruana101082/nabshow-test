@@ -693,6 +693,26 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 		}
 	}
 
+	// Broadstreet Homepage Ads - id="81637"
+
+	broadstreet-zone-container {
+
+		margin: 40px auto !important;
+		max-width: 1400px;
+		width: 100%;
+
+		broadstreet-zone {
+			div {
+				span {
+					a {
+						max-width: 180px !important;
+						padding: 20px;
+					}
+				}
+			}
+		}
+	}
+
 
 
 

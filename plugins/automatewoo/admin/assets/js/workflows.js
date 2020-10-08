@@ -224,18 +224,13 @@
 })( jQuery, automatewooWorkflowLocalizeScript );
 
 
-
-
-// Remove sortable so it doesn't break wp-editors
-jQuery('.meta-box-sortables').removeClass('meta-box-sortables');
-
-
 jQuery(function($) {
 
 
 	AutomateWoo.Workflows = {
 
 		$triggers_box: $('#aw_trigger_box'),
+		$manual_workflow_box: $('#aw_manual_workflow_box'),
 
 		$actions_box: $('#aw_actions_box'),
 
@@ -244,6 +239,7 @@ jQuery(function($) {
 		$action_template: $('.aw-action-template'),
 
 		$trigger_select: $('.js-trigger-select').first(),
+		$manual_trigger_select: $('.js-manual-trigger-select').first(),
 
 
 		init: function() {
@@ -260,6 +256,10 @@ jQuery(function($) {
 		init_triggers_box: function() {
 			AutomateWoo.Workflows.$trigger_select.change(function(){
 				AutomateWoo.Workflows.fill_trigger_fields( $(this).val() );
+			});
+
+			AutomateWoo.Workflows.$manual_trigger_select.change(function(){
+				AutomateWoo.Workflows.fill_manual_workflow_trigger_fields( $(this).val() );
 			});
 		},
 
@@ -360,26 +360,14 @@ jQuery(function($) {
 		 * @param trigger_name
 		 */
 		fill_trigger_fields: function( trigger_name ) {
-
 			// Remove existing fields
 			AutomateWoo.Workflows.$triggers_box.find('tr.aw-trigger-option').remove();
 
 			if ( trigger_name ) {
-
 				AutomateWoo.Workflows.$triggers_box.addClass('aw-loading');
 
-				$.ajax({
-						method: 'GET',
-						url: ajaxurl,
-						data: {
-							action: 'aw_fill_trigger_fields',
-							trigger_name: trigger_name,
-							workflow_id: AW.workflow.get('id'),
-							is_new_workflow: AW.workflow.get('isNew')
-						}
-					})
+				this.fetch_trigger_data( trigger_name )
 					.done(function(response){
-
 						if ( ! response.success ) {
 							return;
 						}
@@ -388,8 +376,7 @@ jQuery(function($) {
 						AutomateWoo.Workflows.$triggers_box.removeClass('aw-loading');
 
 						AW.workflow.set( 'trigger', response.data.trigger );
-					})
-				;
+					});
 
 			}
 			else {
@@ -397,6 +384,48 @@ jQuery(function($) {
 			}
 		},
 
+
+		fetch_trigger_data: function( trigger_name ) {
+			return $.ajax({
+				method: 'GET',
+				url: ajaxurl,
+				data: {
+					action: 'aw_fill_trigger_fields',
+					trigger_name: trigger_name,
+					workflow_id: AW.workflow.get('id'),
+					is_new_workflow: AW.workflow.get('isNew')
+				}
+			});
+		},
+
+
+		/**
+		 * @param trigger_name
+		 */
+		fill_manual_workflow_trigger_fields: function( trigger_name ) {
+			var $metabox = AutomateWoo.Workflows.$manual_workflow_box;
+
+			// Remove existing fields
+			$metabox.find('tr.aw-trigger-option').remove();
+
+			if ( trigger_name ) {
+				$metabox.addClass('aw-loading');
+
+				this.fetch_trigger_data( trigger_name )
+					.done(function(response){
+						if ( ! response.success ) {
+							return;
+						}
+
+						$metabox.find('tbody').append( response.data.fields );
+						$metabox.removeClass('aw-loading');
+
+						AW.workflow.set( 'trigger', response.data.trigger );
+					});
+			} else {
+				AW.workflow.set( 'trigger', false );
+			}
+		},
 
 
 		add_new_action: function() {
@@ -417,10 +446,18 @@ jQuery(function($) {
 			AutomateWoo.Workflows.action_edit_open($new_action);
 		},
 
-
+		/**
+		 * Get the name for the cookie that stores if an action is being edited.
+		 *
+		 * @param {Number} action_number
+		 * @returns {string}
+		 */
+		get_editing_action_cookie_name: function( action_number ) {
+			const workflow_id = AW.workflow.get( 'id' );
+			return `aw_editing_action_${ workflow_id }_${ action_number }`;
+		},
 
 		action_edit_open: function( $action ) {
-
 			var action_number = $action.data('action-number');
 
 			$action.addClass('js-open');
@@ -429,7 +466,11 @@ jQuery(function($) {
 			AW.initTooltips();
 
 			// save open state
-			$.cookie( 'aw_editing_action_' + AW.workflow.get('id') + '_' + action_number , 1);
+			Cookies.set(
+				this.get_editing_action_cookie_name( action_number ),
+				1,
+				{ sameSite: 'strict' },
+			);
 		},
 
 		/**
@@ -462,7 +503,9 @@ jQuery(function($) {
 			$action.removeClass('js-open');
 			$action.find('.automatewoo-action__fields').slideUp(150);
 
-			$.removeCookie( 'aw_editing_action_' + AW.workflow.get('id') + '_' + action_number );
+			Cookies.remove(
+				this.get_editing_action_cookie_name( action_number ),
+			);
 		},
 
 
@@ -876,7 +919,42 @@ jQuery(function($) {
 		init_customer_win_back_trigger();
 	});
 
-	init_customer_win_back_trigger();
 
+	function init_workflow_type() {
+		var $typeSelectField = $('.automatewoo-workflow-type-field');
+
+		function updateType( type, doReset ) {
+			if ( type === 'manual' ) {
+				$('#aw_trigger_box, #automatewoo-workflow-status-field-row').hide();
+				$('#automatewoo-workflow-run-btn, #aw_manual_workflow_box').show();
+			} else {
+				$('#automatewoo-workflow-run-btn, #aw_manual_workflow_box').hide();
+				$('#aw_trigger_box, #automatewoo-workflow-status-field-row').show();
+			}
+
+			if ( doReset ) {
+				// Reset select box to first option on type change
+				AutomateWoo.Workflows.$manual_trigger_select[0].selectedIndex = 0;
+				AutomateWoo.Workflows.$trigger_select[0].selectedIndex = 0;
+				AW.workflow.set( 'trigger', false );
+			}
+		}
+
+		$typeSelectField.change( function() {
+			updateType( $typeSelectField.val(), true );
+		} );
+
+		updateType( $typeSelectField.val(), false )
+	}
+
+	$('#automatewoo-workflow-run-btn').click(function(){
+		$('input[name="automatewoo_redirect_to_runner"]').val(1);
+		$('#publish').click();
+		return false;
+	});
+
+
+	init_customer_win_back_trigger();
+	init_workflow_type();
 
 });

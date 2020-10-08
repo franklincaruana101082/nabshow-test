@@ -221,8 +221,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                 displayLogo,
                 displayName,
                 displayBooth,
-                displaySummary,
-                displayPlannerLink,
+                displaySummary
             } = attributes;
 
             var names = [
@@ -418,11 +417,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                             checked={displaySummary}
                             onChange={() => { setAttributes({ displaySummary: ! displaySummary }); this.setState({ bxinit: true }); } }
                           />
-                          <ToggleControl
-                            label={__('Show View in Planner Buttons')}
-                            checked={displayPlannerLink}
-                            onChange={() => { setAttributes({ displayPlannerLink: ! displayPlannerLink }); this.setState({ bxinit: true }); } }
-                          />
                         </PanelBody>
 
                         { ! listingPage &&
@@ -539,7 +533,7 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/exhibitors-slider"
-                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, displayPlannerLink: displayPlannerLink, imgWidth: imgWidth }}
+                        attributes={{ itemToFetch: itemToFetch, postType: postType, taxonomies: taxonomies, terms: terms, sliderActive: sliderActive, orderBy: orderBy, arrowIcons: arrowIcons, taxonomyRelation: taxonomyRelation, listingPage: listingPage, withThumbnail: withThumbnail, displayLogo: displayLogo, displayName: displayName, displayBooth: displayBooth, displaySummary: displaySummary, imgWidth: imgWidth }}
                     />
                 </Fragment >
             );
@@ -637,10 +631,6 @@ import { sliderArrow1, sliderArrow2, sliderArrow3, sliderArrow4, sliderArrow5, s
         displaySummary: {
           type: 'boolean',
           default: true
-        },
-        displayPlannerLink: {
-          type: 'boolean',
-          default: false
         }
 
     };

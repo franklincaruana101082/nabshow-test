@@ -3,6 +3,8 @@
 
 namespace AutomateWoo\Admin\Controllers;
 
+use AutomateWoo\Report_Events;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -20,10 +22,7 @@ class Events extends Base {
 
 
 	private function output_list_table() {
-
-		require_once AW()->admin_path( '/reports/events.php' );
-
-		$table = new \AutomateWoo\Report_Events();
+		$table = new Report_Events();
 		$table->prepare_items();
 		$table->nonce_action = $this->get_nonce_action();
 

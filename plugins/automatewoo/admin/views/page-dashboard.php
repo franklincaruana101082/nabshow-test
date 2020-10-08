@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<div class="wrap automatewoo-page automatewoo-page--dashboard">
+<div class="wrap woocommerce automatewoo-page automatewoo-page--dashboard">
 
 	<div class="automatewoo-dashboard-header">
 		<div class="automatewoo-dashboard-date-nav">
