@@ -227,13 +227,13 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                                     $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
                                     
-                                    if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) ) {
+                                    if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
 
                                         $date       = get_post_meta( $post->ID, 'session_date', true );
                                         $start_time = get_post_meta( $post->ID, 'start_time', true );
                                         $start_time = date_format( date_create( $start_time ), 'g:i a' );                                       
 
-                                        if ( 'no' !== $delay_restrict && 'start_time' !== $delay_restrict ) {                                            
+                                        if ( 'start_time' !== $delay_restrict ) {                                            
                                             $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
                                         }
                                         
