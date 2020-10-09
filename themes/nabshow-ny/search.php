@@ -17,9 +17,13 @@ $post_types_list	= array(
 	'page'          => 'Page',									
 	'sessions'      => 'Session',
 	'speakers'      => 'Speaker',
-	'channels'		=> 'Channel',	
+	'channels'		=> 'Channel',
+	'exhibitors'	=> 'Exhibitor',
 	'news-releases'	=> 'News Release'
 );
+
+$nab_mys_urls = get_option( 'nab_mys_urls' );
+$show_code    = isset( $nab_mys_urls[ 'show_code' ] ) ? $nab_mys_urls[ 'show_code' ] : 'NABNYDIG20';
 ?>
 
 	<div id="internal-banner" class="wp-block-nab-multipurpose-gutenberg-block has-full is-block-center has-background-size has-background-opacity has-background-opacity-50" style="background-image:url(https://nabshow.com/ny2020/wp-content/uploads/sites/5/2020/05/homepage-hero.jpg);margin-top:-40px;margin-bottom:40px">
@@ -141,6 +145,14 @@ $post_types_list	= array(
 														?>
 														<a href="#" class="speaker-detail-list-modal" data-postid="<?php echo esc_attr( $current_post_id ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 														<?php
+													} else if ( 'exhibitors' === $current_post_type ) {
+														
+														$exh_id		= get_post_meta( $current_post_id, 'exhid', true );
+														$exh_url	= 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibitor-details.cfm?exhid=' . $exh_id;
+														
+														?>
+														<a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a>
+														<?php													
 													} else {
 														?>
 														<a href="<?php echo esc_url( get_the_permalink( $current_post_id ) ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
