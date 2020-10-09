@@ -1316,8 +1316,9 @@ add_action( 'admin_init', function(){
 				// CSV header row fields titles
 				$csv_fields		= array();
 				$csv_fields[] 	= 'Order ID';
-				$csv_fields[] 	= 'Date';
-				$csv_fields[] 	= 'Name';
+				$csv_fields[] 	= 'Date';				
+				$csv_fields[] 	= 'First Name';
+				$csv_fields[] 	= 'Last Name';
 				$csv_fields[] 	= 'Email Address';
 				$csv_fields[] 	= 'Company';
 				$csv_fields[] 	= 'Title';
@@ -1353,8 +1354,7 @@ add_action( 'admin_init', function(){
 					$order_user_details = $order->get_user();
 		
 					$customer_id		= $order_user_details->data->ID;
-					$customer_email 	= $order_user_details->data->user_email;
-					$customer_name		= $order_user_details->data->display_name;
+					$customer_email 	= $order_user_details->data->user_email;					
 					$customer_company	= get_user_meta( $customer_id, 'attendee_company', true );
 					$customer_title		= get_user_meta( $customer_id, 'attendee_title', true );
 					$customer_interest	= get_user_meta( $customer_id, 'attendee_interest', true );
@@ -1363,6 +1363,12 @@ add_action( 'admin_init', function(){
 					$opt_exhibitor		= get_user_meta( $customer_id, 'attendee_exhibition_sponsors_opt_in', true );
 					$customer_meet		= get_user_meta( $customer_id, 'attendee_meet', true );
 					$customer_discover	= get_user_meta( $customer_id, 'attendee_discover', true );
+					$first_name			= get_user_meta( $customer_id, 'first_name', true );
+					$last_name			= get_user_meta( $customer_id, 'last_name', true );
+				
+					if ( empty( $first_name ) && empty( $last_name ) ) {
+						$first_name = $order_user_details->data->display_name;
+					}
 
 					$final_interest		= '';
 
@@ -1399,7 +1405,8 @@ add_action( 'admin_init', function(){
 					//Add csv fields row
 					$dynamic_fields[] = $order_id;
 					$dynamic_fields[] = $order_date;
-					$dynamic_fields[] = $customer_name;
+					$dynamic_fields[] = $first_name;
+					$dynamic_fields[] = ! empty( $last_name ) ? $last_name : '-';
 					$dynamic_fields[] = $customer_email;
 					$dynamic_fields[] = ! empty( $customer_company ) ? $customer_company : '-';
 					$dynamic_fields[] = ! empty( $customer_title ) ? $customer_title : '-';

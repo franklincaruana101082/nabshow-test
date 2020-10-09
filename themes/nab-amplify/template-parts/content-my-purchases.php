@@ -166,3 +166,38 @@
 </div>
 
 <?php
+$follower_ids = bp_follow_get_followers( array( 'user_id' => $current_user->ID ) );
+
+if ( is_array( $follower_ids ) && count( $follower_ids ) > 0 ) {
+	?>
+	<h3>Followers</h3>
+	<?php
+	foreach( $follower_ids as $fl_user_id ) {
+		
+		$first_name = get_user_meta( $fl_user_id, 'first_name', true );
+		$last_name 	= get_user_meta( $fl_user_id, 'last_name', true );
+
+		echo bp_core_fetch_avatar( array( 'item_id' => $fl_user_id ) );
+		?>
+			<p><?php echo esc_html( $first_name . ' ' . $last_name ); ?></p>
+		<?php
+	}
+}
+
+$following_ids = bp_follow_get_following( array( 'user_id' => $current_user->ID ) );
+
+if ( is_array( $following_ids ) && count( $following_ids ) > 0 ) {
+	?>
+	<h3>Followings</h3>
+	<?php
+	foreach( $following_ids as $fl_user_id ) {
+		
+		$first_name = get_user_meta( $fl_user_id, 'first_name', true );
+		$last_name 	= get_user_meta( $fl_user_id, 'last_name', true );
+
+		echo bp_core_fetch_avatar( array( 'item_id' => $fl_user_id ) );
+		?>
+			<p><?php echo esc_html( $first_name . ' ' . $last_name ); ?></p>
+		<?php
+	}
+}
