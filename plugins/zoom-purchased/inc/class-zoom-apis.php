@@ -28,6 +28,12 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 
 			// Add registrant on order completed.
 			add_action( 'woocommerce_order_status_changed', array( $this, 'zp_woo_order_status_change_custom' ), 10, 3 );
+
+			if ( $_GET['get-user-for-zoom'] ) {
+
+				$user_data = add_action( 'init', array( $this, 'zp_get_user_details' ) );
+
+			}
 		}
 
 	 	public function zp_register_api_endpoints() {
@@ -484,7 +490,12 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			return $total_linked_products_for_same_zoom_id;
 		}
 
-		private function zp_get_user_details( $user_id = 0 ) {
+		public function zp_get_user_details( $user_id = 0 ) {
+
+			if( $_GET['get-user-for-zoom'] ) {
+				$user_id = $_GET['get-user-for-zoom'];
+			}
+
 
 			if ( 0 === $user_id ) {
 				$this->current_order = $order = new WC_Order( $this->current_order_id );
@@ -502,6 +513,14 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			$user_data['last_name']  = isset( $user_meta['last_name'][0] ) && ! empty( $user_meta['last_name'][0] ) ? $user_meta['last_name'][0] : '-';
 
 			$this->user_data = $user_data;
+
+
+			if( $_GET['get-user-for-zoom'] ) {
+				echo '<pre>';
+				print_r($user_data);
+				die('<br><---died here');
+			}
+
 			return $user_data;
 
 		}
