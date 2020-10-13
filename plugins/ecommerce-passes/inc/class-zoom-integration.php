@@ -143,7 +143,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 					} else {
 
 						// Send email if $response has error and can not be decoded!
-						wp_mail( 'faisal.alvi@multidots.com', 'Zoom link generation failed.', $response . ' ||| ' . implode("===", get_defined_vars()) );
+						//wp_mail( 'faisal.alvi@multidots.com', 'Zoom link generation failed.', $response . ' ||| ' . implode("===", get_defined_vars()) );
 
 						// Wrap whole thing if user logged in to run ajax only when user is logged in.
 
