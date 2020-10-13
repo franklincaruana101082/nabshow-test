@@ -143,7 +143,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 					} else {
 
 						// Send email if $response has error and can not be decoded!
-						wp_mail( 'faisal.alvi@multidots.com', 'Zoom link generation failed.', $response . ' ||| ' . var_dump( get_defined_vars() ) );
+						wp_mail( 'faisal.alvi@multidots.com', 'Zoom link generation failed.', $response . ' ||| ' . implode("===", get_defined_vars()) );
 
 						// Wrap whole thing if user logged in to run ajax only when user is logged in.
 
@@ -160,7 +160,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 						// If yes, prepare array of purchased products, to assign it in user meta.
 
 
-						$message = "<p class='error zoom_text'>The meeting link is not available, please purchases the content or contact administrator.</p>";
+						$message = "<p class='error zoom_text'>The meeting link is not available, please purchase the content or contact administrator.</p>";
 					}
 				}
 
@@ -194,7 +194,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 				if ( ! empty( $zoom_unique_url ) ) {
 					echo "<a href='$zoom_unique_url' class='button btn-primary' id='join-zooom-button' target='_blank'>Join Meeting</a>";
 				} else {
-					echo "<p class='error check-in-deep zoom_text'>The meeting link is not available, please purchases the content or contact administrator.</p>";
+					echo "<p class='error check-in-deep zoom_text'>The meeting link is not available, please purchase the content or contact administrator.</p>";
 				}
 
 				wp_reset_query();
