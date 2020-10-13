@@ -98,7 +98,7 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
     <div class="select-items col-lg-12">
         <div class="row">
             <div class="category col-lg-3">
-                <label for="exhibitor-category">Exhibitor Category</label>
+                <label for="exhibitor-category">Sponsor Category</label>
                 <div class="browse-select">
                     <select id="exhibitor-category" class="select-opt">
                         <option>Select a Category</option>
