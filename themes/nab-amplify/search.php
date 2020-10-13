@@ -8,46 +8,6 @@
  */
 
 get_header();
-
-$site_list = get_sites( array( 'site__in' => array(3, 5, 12 ) ) );
-//echo '<pre>';
-//print_r($all_sites);
-//exit;
-//$site_list = [3, 5, 12];
-
-//global $wpdb;
-
-$base_prefix = $wpdb->get_blog_prefix(0);
-$base_prefix = str_replace( '1_', '’' , $base_prefix );
-
-$limit = absint(10);
-$query = '';
-
-// Merge the wp_posts results from all Multisite websites into a single result with MySQL "UNION"
-foreach ( $site_list as $site ) {
-	
-	$posts_table = $base_prefix . $site->blog_id . "_posts";	
-
-	$posts_table = esc_sql( $posts_table );
-	$blogs_table = esc_sql( $base_prefix . 'blogs' );
-
-	$query .= "(SELECT $posts_table.ID, $posts_table.post_title COLLATE utf8mb4_unicode_ci as post_title, $posts_table.post_date, $blogs_table.blog_id FROM $posts_table, $blogs_table";
-	$query .= " WHERE $posts_table.post_type = 'page'";
-	$query .= " AND $posts_table.post_status = 'publish'";
-	$query .= " AND $blogs_table.blog_id = {$site->blog_id})";
-
-	if ( $site !== end( $site_list ) ) {
-		$query .= " UNION ";
-	} else {
-		$query .= " ORDER BY post_date DESC LIMIT 0, $limit";
-	}
-	
-}
-
-$network_search_result = $wpdb->get_results( $query );
-echo '<pre>';
-print_r($network_search_result);
-exit;
 ?>
 
 	<main id="primary" class="site-main">
