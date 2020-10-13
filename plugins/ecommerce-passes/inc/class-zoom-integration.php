@@ -29,19 +29,19 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 			$zoom_type                 = get_post_meta( $post_id, 'zoom_type', true );
 			$zoom_type                 = ! empty( $zoom_type ) && isset( $zoom_type[0] ) ? $zoom_type[0] : '';
 			$associate_products        = get_post_meta( $post_id, '_associate_product', true );
-			$message = '';
-			$code = 401;
+			$message                   = '';
+			$code                      = 401;
 
 			if ( empty( $zoom_id_from_content_meta ) || empty( $zoom_id_from_content_meta[0] ) ) {
 				if ( current_user_can( 'administrator' ) ) {
 					$message = "<p class='error zoom_text'>Hi Admin, please add zoom id in the edit screen of this page.</p>";
-					$code = 402;
+					$code    = 402;
 				} // else keep the return blank.
 
 			} else if ( empty( $associate_products ) ) {
 				if ( current_user_can( 'administrator' ) ) {
 					$message = "<p class='error zoom_text'>Hi Admin, please assign associated products to the content.</p>";
-					$code = 402;
+					$code    = 402;
 				} // else keep the return blank.
 
 			} else {
@@ -49,7 +49,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 
 				if ( ! is_user_logged_in() ) {
 					$message = "<p class='error zoom_text'>Please log in to see your purchased zoom link.</p>";
-					$code = 403;
+					$code    = 403;
 				} else {
 					// User logged in.
 
@@ -96,7 +96,6 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 						// Parent Coding:
 						// Create zoom link by passing required parameters!
 
-
 						$end_point_url = $shop_blog_url . '/wp-json/zoom/add-registrant/';
 
 						$query_params = array(
@@ -140,8 +139,11 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 
 					if ( ! empty( $zoom_unique_url ) ) {
 						$message = "<a href='$zoom_unique_url' class='button btn-primary' id='join-zooom-button' target='_blank'>Join Meeting</a>";
-						$code = 200;
+						$code    = 200;
 					} else {
+
+						// Send email if $response has error and can not be decoded!
+						wp_mail( 'faisal.alvi@multidots.com', 'Zoom link generation failed.', $response . ' ||| ' . var_dump( get_defined_vars() ) );
 
 						// Wrap whole thing if user logged in to run ajax only when user is logged in.
 
@@ -173,24 +175,24 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 
 			ob_start();
 
-			$shop_blog_id = Ecommerce_Passes::ep_get_shop_blog();
-			$user_id = get_current_user_id();
-			$current_blog_id = get_current_blog_id();
-			$post_id = get_the_ID();
+			$shop_blog_id              = Ecommerce_Passes::ep_get_shop_blog();
+			$user_id                   = get_current_user_id();
+			$current_blog_id           = get_current_blog_id();
+			$post_id                   = get_the_ID();
 			$zoom_id_from_content_meta = get_post_meta( $post_id, 'zoom_id', true );
 
 			if ( ! is_user_logged_in() ) {
 				echo "<p class='error zoom_text'>Please log in to see your purchased zoom link.</p>";
 
 			} else if ( isset( $zoom_id_from_content_meta[0] ) && ! empty( $zoom_id_from_content_meta[0] ) ) {
-				switch_to_blog($shop_blog_id);
+				switch_to_blog( $shop_blog_id );
 
 				$zoom_links = get_user_meta( $user_id, "zoom_$current_blog_id", true );
 
-				$zoom_unique_url = isset( $zoom_links[$post_id][$zoom_id_from_content_meta]['url'] ) ? $zoom_links[$post_id][$zoom_id_from_content_meta]['url'] : '';
+				$zoom_unique_url = isset( $zoom_links[ $post_id ][ $zoom_id_from_content_meta ]['url'] ) ? $zoom_links[ $post_id ][ $zoom_id_from_content_meta ]['url'] : '';
 
-				if( ! empty( $zoom_unique_url ) ) {
-					echo  "<a href='$zoom_unique_url' class='button btn-primary' id='join-zooom-button' target='_blank'>Join Meeting</a>";
+				if ( ! empty( $zoom_unique_url ) ) {
+					echo "<a href='$zoom_unique_url' class='button btn-primary' id='join-zooom-button' target='_blank'>Join Meeting</a>";
 				} else {
 					echo "<p class='error check-in-deep zoom_text'>The meeting link is not available, please purchases the content or contact administrator.</p>";
 				}
