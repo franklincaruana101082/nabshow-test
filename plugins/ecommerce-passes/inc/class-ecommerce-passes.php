@@ -312,9 +312,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
             $prodcut_name       = ! empty( $link ) ? '<a class="amplifyGuestSignIn" target="_blank" href="' . $link . '">this program</a>' : 'this program';            
-            $restrict_content   = '<p class="restrict-msg">[3:59 PM] DuBreuil, Valerie
-    
-This content is open to registered users only. <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a> or <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">register now</a> for access.';
+            $restrict_content   = '<p class="restrict-msg">This content is open to registered users only. <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a> or <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">register now</a> for access.';
 
             if ( ! $logged_in ) {
                 $restrict_content .= '';
