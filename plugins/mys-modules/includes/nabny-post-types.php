@@ -46,6 +46,62 @@ function nab_mys_sessions_taxonomies() {
 
 	register_taxonomy( 'tracks', array( 'sessions' ), $tracks_args );
 
+	// Taxonomy - Session Format
+	$format_labels = array(
+		'name'              => __( 'Session Format', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Session Format', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Session Format', 'mys-modules' ),
+		'all_items'         => __( 'All Session Format', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Session Format', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Session Format:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Session Format', 'mys-modules' ),
+		'update_item'       => __( 'Update Format', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Format', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Session Format', 'mys-modules' ),
+		'menu_name'         => __( 'Session Format', 'mys-modules' ),
+	);
+
+	$format_args = array(
+		'public'            => false,
+		'hierarchical'      => true,
+		'labels'            => $format_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session-format' ),
+	);
+
+	register_taxonomy( 'session-format', array( 'sessions' ), $format_args );
+
+	// Taxonomy - Community
+	$community_labels = array(
+		'name'              => __( 'Community', 'taxonomy general name', 'mys-modules' ),
+		'singular_name'     => __( 'Community', 'taxonomy singular name', 'mys-modules' ),
+		'search_items'      => __( 'Search Community', 'mys-modules' ),
+		'all_items'         => __( 'All Community', 'mys-modules' ),
+		'parent_item'       => __( 'Parent Community', 'mys-modules' ),
+		'parent_item_colon' => __( 'Parent Community:', 'mys-modules' ),
+		'edit_item'         => __( 'Edit Community', 'mys-modules' ),
+		'update_item'       => __( 'Update Community', 'mys-modules' ),
+		'add_new_item'      => __( 'Add New Community', 'mys-modules' ),
+		'new_item_name'     => __( 'New Genre Community', 'mys-modules' ),
+		'menu_name'         => __( 'Community', 'mys-modules' ),
+	);
+
+	$community_args = array(
+		'public'            => false,
+		'hierarchical'      => true,
+		'labels'            => $community_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session-community' ),
+	);
+
+	register_taxonomy( 'session-community', array( 'sessions' ), $community_args );
+
 	// Taxonomy - session-categories
 	$category_labels = array(
 		'name'              => __( 'Categories', 'taxonomy general name', 'mys-modules' ),
