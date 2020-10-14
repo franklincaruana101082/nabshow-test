@@ -1,4 +1,4 @@
-.session-date-list .session-date-list-filter{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
+.session-date-list .session-date-list-filter{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:15px 15px 0;}
 .session-date-list .session-date-list-filter>div:not(:last-child){margin-right:60px;}
 .session-date-list .session-date-list-filter .search-box{width:370px;max-width:100%}
 .session-date-list .session-date-list-filter .channel-box,
@@ -160,6 +160,7 @@
 	.nabny-speaker-list .speaker-box-outer .speaker-box-inner img{height:130px;}
 }
 @media (max-width:1024px){
+	.session-date-list .session-date-list-filter{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.session-date-list .schedule-row .session-img,
 	.session-date-list .schedule-row .date{margin-right:30px;}
 	.session-date-list .schedule-row{padding:25px;}
@@ -176,7 +177,6 @@
 @media (max-width:991px){
 	.session-date-list .schedule-row{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;}
 	.session-date-list .schedule-row>div{width:100%;margin:0 0 10px 0!important;}
-	.session-date-list .session-date-list-filter{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.session-date-list .session-date-list-filter>div:not(:last-child){margin-right:40px;}
 	.session-date-list .schedule-row .more-details-link a{margin-left:0;margin-top:10px;}
 	.session-date-list .session-date-list-wrapper .schedule-data h2{padding-left:0;}
