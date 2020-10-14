@@ -45,31 +45,31 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             $this->ep_add_global_header_class();
 
         }
-        
+
         public function ep_nab_share_login() {
 
             if ( ! is_admin() && ! is_user_logged_in() ) {
-                
+
                 if ( isset( $_COOKIE[ 'nab_share_login' ] ) && ! empty( $_COOKIE[ 'nab_share_login' ] ) ) {
-                                        
+
                     $user_token = $_COOKIE[ 'nab_share_login' ];
                     $remember   = 1;
-                    
+
                     $iv         = substr( hash( 'sha256', 'nab309fr7uj34' ), 0, 16 );
                     $k          = hash( 'sha256', 'nabjd874hey64t' );
                     $user_id    = openssl_decrypt( base64_decode( $user_token ), 'AES-256-CBC', $k, 0, $iv );
-                    
+
                     $user       = get_user_by( 'ID', $user_id );
 
                     if ( $user ) {
-                        
+
                         $username = $user->user_login;
 
                         wp_set_current_user( $user_id, $username );
                         wp_set_auth_cookie( $user_id, ( $remember == 1 ) );
                         do_action( 'wp_login', $username, $user );
                     }
-                    
+
                 }
             }
         }
@@ -152,24 +152,24 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                     if ( ! is_user_logged_in() ) {
 
                         $success = false;
-                        
+
                         $end_point_url  .= 'wp-json/nab/request/get-product-info';
 
                         $response       = wp_remote_post( $end_point_url, array(
-                            'method' => 'POST',                            
+                            'method' => 'POST',
                             'body'	=> array(
-                                'product_id' => $associate_products[0],                                
+                                'product_id' => $associate_products[0],
                             )
                         ) );
 
                         if ( ! is_wp_error( $response ) ) {
-                            
+
                             $final_response = json_decode( wp_remote_retrieve_body( $response ) );
-                            
+
                             if ( isset( $final_response->url ) && ! empty( $final_response->url ) ) {
 
                                 $success = true;
-                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );    
+                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );
                             }
                         }
 
@@ -179,9 +179,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                     } else {
 
-                        $logged_user    = wp_get_current_user();                        
+                        $logged_user    = wp_get_current_user();
 
-                        if ( ! empty( $end_point_url ) ) {                            
+                        if ( ! empty( $end_point_url ) ) {
 
                             $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
 
@@ -206,37 +206,37 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                 CURLOPT_CUSTOMREQUEST => "POST",
                                 CURLOPT_POSTFIELDS => $final_params
                             ));
-                            
+
                             $response = curl_exec( $curl );
-                            
+
                             curl_close( $curl );
 
                             $final_response = json_decode( $response );
 
-                            if ( is_object( $final_response ) ) {                                
+                            if ( is_object( $final_response ) ) {
 
                                 if ( ! $final_response->success ) {
 
                                     $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
                                 } else {
-                                    
+
                                     if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
 
                                         $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
                                     }
 
                                     $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
-                                    
+
                                     if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
 
                                         $date       = get_post_meta( $post->ID, 'session_date', true );
                                         $start_time = get_post_meta( $post->ID, 'start_time', true );
-                                        $start_time = date_format( date_create( $start_time ), 'g:i a' );                                       
+                                        $start_time = date_format( date_create( $start_time ), 'g:i a' );
 
-                                        if ( 'start_time' !== $delay_restrict ) {                                            
+                                        if ( 'start_time' !== $delay_restrict ) {
                                             $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
                                         }
-                                        
+
 
                                         if ( ! empty( $date ) && ! empty( $start_time ) ) {
 
@@ -252,15 +252,15 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                                                 $current_time   = current_time('g:i a');
                                                 $time1          = DateTime::createFromFormat('H:i a', $current_time);
-                                                $time2          = DateTime::createFromFormat('H:i a', $start_time);                                                
-                                                                                 
+                                                $time2          = DateTime::createFromFormat('H:i a', $start_time);
+
                                                 if ( $time2 > $time1 ) {
                                                     $display_msg = true;
                                                 }
                                             }
 
                                             if ( $display_msg ) {
-                                                
+
                                                 $date           = date_format( date_create( $date ), 'l, F j' );
                                                 $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
 
@@ -279,7 +279,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                                 $start_time     = str_replace( ':00', '', $start_time );
 
                                                 $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it your to ' . $calendar_link . ' and join us on ' . $date . '.</p>';
-                                                
+
                                                 $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
                                             }
                                         }
@@ -311,13 +311,13 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          */
         public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
-            $prodcut_name       = ! empty( $link ) ? '<a class="amplifyGuestSignIn" target="_blank" href="' . $link . '">this program</a>' : 'this program';            
+            $prodcut_name       = ! empty( $link ) ? '<a class="amplifyGuestSignIn" target="_blank" href="' . $link . '">this program</a>' : 'this program';
             $restrict_content   = '<p class="restrict-msg">This content is open to registered users only. <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a> or <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">register now</a> for access.';
 
             if ( ! $logged_in ) {
                 $restrict_content .= '';
-            }      
-            
+            }
+
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
 
                 $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content );
@@ -528,7 +528,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 if ( ! empty( $term_remote_url ) ) {
 
                     $curl = curl_init();
-                    
+
                     curl_setopt_array( $curl, array(
                         CURLOPT_URL => $term_remote_url,
                         CURLOPT_RETURNTRANSFER => true,
@@ -539,9 +539,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                         CURLOPT_CUSTOMREQUEST => "POST",
                     ));
-                    
+
                     $response = curl_exec( $curl );
-                    
+
                     curl_close( $curl );
 
                     $final_terms = json_decode( $response );
@@ -568,7 +568,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 if ( ! empty( $product_remote_url ) ) {
 
                     $curl = curl_init();
-                    
+
                     curl_setopt_array( $curl, array(
                         CURLOPT_URL => $product_remote_url,
                         CURLOPT_RETURNTRANSFER => true,
@@ -579,11 +579,11 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                         CURLOPT_CUSTOMREQUEST => "POST",
                     ));
-                    
+
                     $response = curl_exec( $curl );
-                    
+
                     curl_close( $curl );
-                    
+
                     $final_products = json_decode( $response );
 
                     if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
@@ -626,14 +626,14 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	     */
         public function ep_filter_post_data( $data , $postarr ) {
 
-	        $shop_blog_id = $this->ep_get_shop_blog();
+	        $shop_blog_id = self::ep_get_shop_blog();
 	        $current_post_id = $postarr['ID'];
 
             $current_blog_id = get_current_blog_id();
 
             $previous_linked = maybe_unserialize( get_post_meta($current_post_id, '_associate_product', true ) );
-            $new_linked = $postarr['associate_products'];
-            if( ! $new_linked ) {
+            $new_linked = isset( $postarr['associate_products'] ) ? $postarr['associate_products'] : '';
+            if( empty( $new_linked ) ) {
                 $unlinked_products = $previous_linked;
             } else {
                 if( is_array( $previous_linked )) {
@@ -672,7 +672,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        $current_blog_id = get_current_blog_id();
             $current_post_id = $post_id;
 
-	        $shop_blog_id = $this->ep_get_shop_blog();
+	        $shop_blog_id = self::ep_get_shop_blog();
 
             // Link New Products.
             if ( isset( $_POST[ 'associate_products' ]) && ! empty( $_POST[ 'associate_products' ] ) ) {
@@ -725,6 +725,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 	        }
 
 	        return $shop_blog_id;
-        }        
+        }
     }
 }
