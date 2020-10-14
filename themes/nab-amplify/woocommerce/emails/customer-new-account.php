@@ -41,7 +41,7 @@ NAB Amplify<sup>TM</sup> is building a dynamic platform with YOU at the center o
 </p><p>
 This is also an experience shaped by the community; therefore, we are looking for beta testers to provide input in the early stages of development starting this November. Your feedback is valuable to this process and if you would like to participate, we would appreciate your time and insights.   
 </p><p>Sign up here to contribute as an NAB Amplify<sup>TM</sup> beta tester and we will be in touch soon with more details on how you can test new features. https://amplify.nabshow.com/  
-<p>We look forward to connecting with you virtually. If there is anything, we can help with in the meantime please let us know <a href="mailto:register@nab.org">register@nab.org</a>.
+<p>We look forward to connecting with you virtually. If there is anything, we can help with in the meantime please let us know <a href="mailto:support@nabamplify.zendesk.com">support@nabamplify.zendesk.com</a>.
 	</p>	
 	<p>To view and/or add items to your registration or make changes to your NAB Amplify<sup>TM</sup> account, simply <a
 			href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">Log In</a>.</p>

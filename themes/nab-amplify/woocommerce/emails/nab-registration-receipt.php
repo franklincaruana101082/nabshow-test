@@ -10,6 +10,9 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 	<p>To view and/or add items to your registration or make changes to your NAB Amplify<sup>TM</sup> account, simply <a
 			href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">Log In</a>.</p>
 
+	<p>Details on accessing your event(s) will hit your inbox shortly. In the meantime, you can view a record of the events, products and passes purchased under <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. Have questions in the meantime? Contact us at <a
+			href="mailto:support@nabamplify.zendesk.com">support@nabamplify.zendesk.com</a>.</p>
+
 <?php
 
 if( 'yes' !== $is_bulk_child ) {
@@ -36,8 +39,6 @@ if( 'yes' !== $is_bulk_child ) {
 }
 ?>
 
-	<p>Details on accessing your event(s) will hit your inbox shortly. In the meantime, you can view a record of the events, products and passes purchased under <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. Have questions in the meantime? Contact us at <a
-			href="mailto:register@nab.org">register@nab.org</a>.</p>
 	<p>Stay tuned,<br>
 		Team NAB</p>
 	<p>Radio Show<br>Available On-Demand Through December 2020<br><a href="https://www.radioshowweb.com/">radioshowweb.com</a></p>
