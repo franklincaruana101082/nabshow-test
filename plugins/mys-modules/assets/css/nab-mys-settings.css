@@ -95,7 +95,7 @@ span.details-row-inner{display:block;width:35px;height:35px;cursor:pointer;margi
 .mys-process-bar .process::before{content:"\f113";color:#fff;position:absolute;right:8px;font-family:dashicons;animation:rotation 2s infinite linear;top:4px}
 .mys-process-bar .process.remove-animation::before{animation:none}
 .clear-history-box{padding:30px 20px;margin-bottom:30px;background:#fff}
-.wp-core-ui .clear-history-box a,.wp-core-ui .button-primary{display:block;max-width:124px;text-align:center}
+.wp-core-ui .clear-history-box a,.wp-core-ui .button-primary{display:block;max-width:150px;text-align:center}
 .wp-core-ui .clear-history-box a.dry-speakers{margin:0 0 10px}
 .clear-history-box .danger-btn{background:#cb2431!important;text-align:center;padding:10px 30px;display:inline-block;line-height:20px;height:auto;width:auto;text-transform:uppercase;letter-spacing:1px;font-weight:600;color:#fff;text-shadow:initial;border:1px solid #ef4949!important}
 .clear-history-box .danger-btn:hover{background:#fff!important;color:#cb2431!important}
