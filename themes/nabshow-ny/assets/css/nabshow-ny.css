@@ -1,14 +1,20 @@
 .session-date-list .session-date-list-filter{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
-.session-date-list .session-date-list-filter>div:not(:last-child){margin-right:100px;}
-.session-date-list .session-date-list-filter .search-box{width:455px;max-width:100%}
+.session-date-list .session-date-list-filter>div:not(:last-child){margin-right:60px;}
+.session-date-list .session-date-list-filter .search-box{width:370px;max-width:100%}
 .session-date-list .session-date-list-filter .channel-box,
-.session-date-list .session-date-list-filter .date-box{width:295px;max-width:100%}
+.session-date-list .session-date-list-filter .date-box{width:240px;max-width:100%}
+.session-date-list .session-date-list-filter .session-format-box,
+.session-date-list .session-date-list-filter .session-community-box{width:200px;}
 .session-date-list .session-date-list-filter>div input,
-.session-date-list .session-date-list-filter>div select{-moz-appearance:none;appearance:none;-webkit-appearance:none;width:100%;line-height:1;height:44px;padding:5px 20px;border:0;background:#fff;display:block}
+.session-date-list .session-date-list-filter>div select{-moz-appearance:none;appearance:none;-webkit-appearance:none;width:100%;line-height:1;height:44px;padding:5px 40px 5px 20px;border:0;background:#fff;display:block}
 .session-date-list .session-date-list-filter .channel-box>div,
-.session-date-list .session-date-list-filter .date-box>div{position:relative;}
+.session-date-list .session-date-list-filter .date-box>div,
+.session-date-list .session-date-list-filter .session-format-box>div, 
+.session-date-list .session-date-list-filter .session-community-box>div{position:relative;}
 .session-date-list .session-date-list-filter .channel-box>div::after,
-.session-date-list .session-date-list-filter .date-box>div::after{content:"";width:0;height:0;border-style:solid;border-width:7px 7px 0 7px;border-color:#000000 transparent transparent transparent;position:absolute;right:20px;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);pointer-events:none;}
+.session-date-list .session-date-list-filter .date-box>div::after,
+.session-date-list .session-date-list-filter .session-format-box>div::after,
+.session-date-list .session-date-list-filter .session-community-box>div::after{content:"";width:0;height:0;border-style:solid;border-width:7px 7px 0 7px;border-color:#000000 transparent transparent transparent;position:absolute;right:20px;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);pointer-events:none;}
 .session-date-list .session-date-list-filter .search-box .search-item{position:relative;}
 .session-date-list .session-date-list-filter .search-box .search-item::after{content:"\f002";font:normal normal normal 14px/1 FontAwesome;font-size:18px;color:#000;position:absolute;right:20px;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);pointer-events:none;}
 .session-date-list .session-date-list-filter label{font-size:20px;color:#ffffff;font-weight:bold;line-height:2;font-family:"roboto",sans-serif;}
@@ -170,7 +176,8 @@
 @media (max-width:991px){
 	.session-date-list .schedule-row{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;}
 	.session-date-list .schedule-row>div{width:100%;margin:0 0 10px 0!important;}
-	.session-date-list .session-date-list-filter>div:not(:last-child){margin-right:50px;}
+	.session-date-list .session-date-list-filter{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.session-date-list .session-date-list-filter>div:not(:last-child){margin-right:40px;}
 	.session-date-list .schedule-row .more-details-link a{margin-left:0;margin-top:10px;}
 	.session-date-list .session-date-list-wrapper .schedule-data h2{padding-left:0;}
 	.session-date-list .schedule-row .info-more-details p,
@@ -187,7 +194,9 @@
 	.session-date-list .session-date-list-filter{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
 	.session-date-list .session-date-list-filter .channel-box,
 	.session-date-list .session-date-list-filter .date-box,
-	.session-date-list .session-date-list-filter .search-box{width:100%;}
+	.session-date-list .session-date-list-filter .search-box,
+	.session-date-list .session-date-list-filter .session-format-box,
+	.session-date-list .session-date-list-filter .session-community-box{width:100%;}
 	.nabny-speaker-list .speaker-box-outer{width:100%;}
 	.session-archive-list h2,
 	.channel-archive-list h2{font-size:40px;}
