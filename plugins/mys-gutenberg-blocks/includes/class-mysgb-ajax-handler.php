@@ -597,7 +597,9 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );		
 			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
 			$display_order      = filter_input( INPUT_GET, 'display_order', FILTER_SANITIZE_STRING );
-			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );			
+			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );
+			$session_format		= filter_input( INPUT_GET, 'format', FILTER_SANITIZE_STRING );
+			$session_community	= filter_input( INPUT_GET, 'community', FILTER_SANITIZE_STRING );
 
 			$query_arg = array(
 				'post_type'      => 'sessions',
@@ -629,6 +631,28 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					'value'	=> $session_date,
 					'type'  => 'DATE',
 				);				
+			}
+
+			$tax_query_args = array( 'relation' => 'AND' );
+
+			if ( ! empty( $session_format ) ) {
+				$tax_query_args[] =  array (
+					'taxonomy' => 'session-format',
+					'field'    => 'slug',
+					'terms'    => $session_format,
+				);
+			}
+
+			if ( ! empty( $session_community ) ) {
+				$tax_query_args[] = array (
+					'taxonomy' => 'session-community',
+					'field'    => 'slug',
+					'terms'    => $session_community,
+				);
+			}
+
+			if ( count( $tax_query_args ) > 1 ) {
+				$query_arg[ 'tax_query' ] = $tax_query_args;
 			}
 
 			if ( ! empty( $channel_list ) ) {
@@ -802,7 +826,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 								$speaker_name   = explode(',', $speaker_name, 2);
 								$speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 								
-								$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+								$final_speakers[ $cnt ][ 'speaker_name' ] 	= html_entity_decode( $speaker_name );
 								$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
 
 								$cnt++;

@@ -161,6 +161,52 @@ if ( $query->have_posts() ) {
                     </div>
                     <?php
                 }
+
+                $session_format = get_terms( array( 'taxonomy' => 'session-format', 'hide_empty' => true ) );
+
+                if ( is_array( $session_format ) && ! is_wp_error( $session_format ) && count( $session_format ) > 0 ) {
+                    ?>
+                    <div class="session-format-box">
+                        <label for="session-format">Session Format</label>
+                        <div>
+                            <select id="session-format" class="session-format">
+                                <option value="">Select a Format</option>
+                                <?php
+                                foreach ( $session_format as $format ) {
+                                    ?>
+                                    <option value="<?php echo esc_attr( $format->slug ); ?>"><?php echo esc_html( $format->name ); ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <?php
+                }
+
+                $session_community = get_terms( array( 'taxonomy' => 'session-community', 'hide_empty' => true ) );
+                
+
+                if ( is_array( $session_community ) && ! is_wp_error( $session_community ) && count( $session_community ) > 0 ) {
+                    ?>
+                    <div class="session-community-box">
+                        <label for="session-community">Community</label>
+                        <div>
+                            <select id="session-community" class="session-community">
+                                <option value="">Select a Community</option>
+                                <?php
+                                foreach ( $session_community as $community ) {
+                                    ?>
+                                    <option value="<?php echo esc_attr( $community->slug ); ?>"><?php echo esc_html( $community->name ); ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <?php
+                }
+                
                 if ( $date_filter ) {
                     ?>
                     <div class="date-box">

@@ -92,6 +92,16 @@ $(function() {
         nabAjaxForDateSession(false, pageNumber);
       });
 
+      $(document).on('change', '.session-date-list-filter #session-format', function () {
+        pageNumber = 1;
+        nabAjaxForDateSession(false, pageNumber);
+      });
+  
+      $(document).on('change', '.session-date-list-filter #session-community', function () {
+        pageNumber = 1;
+        nabAjaxForDateSession(false, pageNumber);
+      });
+
       $(document).on('change', '.session-date-list-filter #session-date', function () {
         pageNumber = 1;
         nabAjaxForDateSession(false, pageNumber);
@@ -271,6 +281,8 @@ $(function() {
 function nabAjaxForDateSession( loadMore, pageNumber ) {
   let channel = '';
   let sessionDate = '';
+  let sessionFormat = '';
+  let community = '';
   let postPerPage = jQuery('#load-more-date-sessions a').attr('data-post-limit') ? parseInt(jQuery('#load-more-date-sessions a').attr('data-post-limit')) : 10;
   let postSearch = 0 < jQuery('.session-date-list-filter .search-item .search').length ? jQuery('.session-date-list-filter .search-item .search').val() : '';  
   let displayOrder = 0 < jQuery('.session-date-list .order-type').length ? jQuery('.session-date-list .order-type').val() : 'ASC';
@@ -284,11 +296,19 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
     sessionDate =  0 === jQuery('.session-date-list-filter .date-box #session-date')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .date-box #session-date').val();
   }
 
+  if ( 0 < jQuery('.session-date-list-filter .session-format-box #session-format').length ) {
+    sessionFormat = 0 === jQuery('.session-date-list-filter .session-format-box #session-format')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .session-format-box #session-format').val();
+  }
+
+  if ( 0 < jQuery('.session-date-list-filter .session-community-box #session-community').length ) {
+    community = 0 === jQuery('.session-date-list-filter .session-community-box #session-community')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .session-community-box #session-community').val();
+  }
+
   jQuery('.session-date-list').addClass('popup-loader');   
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList,
+    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList + '&format=' + sessionFormat + '&community=' + community,
     url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 
