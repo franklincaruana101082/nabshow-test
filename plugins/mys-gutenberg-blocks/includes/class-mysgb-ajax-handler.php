@@ -826,7 +826,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 								$speaker_name   = explode(',', $speaker_name, 2);
 								$speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 								
-								$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+								$final_speakers[ $cnt ][ 'speaker_name' ] 	= html_entity_decode( $speaker_name );
 								$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
 
 								$cnt++;
