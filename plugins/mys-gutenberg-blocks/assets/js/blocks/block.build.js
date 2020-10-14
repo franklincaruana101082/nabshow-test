@@ -7237,7 +7237,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 100,
+                                    max: 200,
                                     onChange: function onChange(item) {
                                         return setAttributes({ itemToFetch: parseInt(item) });
                                     }
@@ -8156,7 +8156,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         blockTitle: {
             type: 'string',
-            default: 'Featured Speakers'
+            default: 'Speaker Lineup'
         }
     };
 
