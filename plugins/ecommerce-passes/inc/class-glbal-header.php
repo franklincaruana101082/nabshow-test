@@ -52,7 +52,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
         public function ep_enqueue_required_scripts() {
             wp_enqueue_style( 'ep-amplify-style', EP_PLUGIN_URL . 'assets/css/ep-amplify.css' );
 
-            wp_enqueue_script( 'ep-add-cart', EP_PLUGIN_URL . 'assets/js/ep-add-to-cart.js', array('jquery'), '1.0.0', true );
+            wp_enqueue_script( 'ep-add-cart', EP_PLUGIN_URL . 'assets/js/ep-add-to-cart.js', array('jquery'), '1.0.1', true );
 
             wp_localize_script( 'ep-add-cart', 'epObj', array(
                 'isUserLoggedIn'      => is_user_logged_in(),

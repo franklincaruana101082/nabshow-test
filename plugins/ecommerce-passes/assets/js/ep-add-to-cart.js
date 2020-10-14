@@ -89,6 +89,7 @@
 
 					if( '' !== result.message ) {
 						$('.check-in-deep').html(result.message);
+						$('.check-in-deep').removeClass('check-in-deep');
 					}
 
 					$('body').removeClass('loading-zoom-check');

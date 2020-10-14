@@ -34,13 +34,13 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 
 			if ( empty( $zoom_id_from_content_meta ) || empty( $zoom_id_from_content_meta[0] ) ) {
 				if ( current_user_can( 'administrator' ) ) {
-					$message = "<p class='error zoom_text'>Hi Admin, please add zoom id in the edit screen of this page.</p>";
+					$message = "Hi Admin, please add zoom id in the edit screen of this page.";
 					$code    = 402;
 				} // else keep the return blank.
 
 			} else if ( empty( $associate_products ) ) {
 				if ( current_user_can( 'administrator' ) ) {
-					$message = "<p class='error zoom_text'>Hi Admin, please assign associated products to the content.</p>";
+					$message = "Hi Admin, please assign associated products to the content.";
 					$code    = 402;
 				} // else keep the return blank.
 
@@ -48,7 +48,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 				// Zoom id and products are added in meta.
 
 				if ( ! is_user_logged_in() ) {
-					$message = "<p class='error zoom_text'>Please log in to see your purchased zoom link.</p>";
+					$message = "Please log in to see your purchased zoom link.";
 					$code    = 403;
 				} else {
 					// User logged in.
@@ -160,7 +160,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 						// If yes, prepare array of purchased products, to assign it in user meta.
 
 
-						$message = '<p class="error zoom_text">This meeting link is not available. Please be sure you\'ve purchased the correct pass to access this content. For additional assistance, click the "Help" button below.</p>';
+						$message = 'This meeting link is not available. Please be sure you\'ve purchased the correct pass to access this content. For additional assistance, click the "Help" button below.';
 					}
 				}
 
