@@ -7,10 +7,10 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 	<p><?php printf( esc_html__( 'Dear %1s %2s,', 'woocommerce' ), esc_html( $order->get_billing_first_name() ), esc_html( $order->get_billing_last_name() ) ); ?></p>
 <p>Thank you for registering!</p>
 	<p>We look forward to hosting you and other professionals from the media and entertainment industry this October.</p>
-	<p>To view and/or add items to your registration or make changes to your NAB Amplify<sup>TM</sup> account, simply <a
+	<p>To view and/or add items to your registration or make changes to your account, simply <a
 			href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">Log In</a>.</p>
 
-	<p>Details on accessing your event(s) will hit your inbox shortly. In the meantime, you can view a record of the events, products and passes purchased under <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. Have questions in the meantime? Contact us at <a
+	<p>Details on accessing your event(s) will hit your inbox at least a day prior to the event. (Please make sure to check your spam filters.) In the meantime, you can view a record of the events, products and passes purchased under <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. Have questions in the meantime? Contact us at <a
 			href="mailto:support@nabamplify.zendesk.com">support@nabamplify.zendesk.com</a>.</p>
 
 <?php
