@@ -38,7 +38,7 @@ $reset_pwd_link = add_query_arg( array( 'key' => $reset_key, 'id' => $user_id ),
 		<?php esc_html_e( 'Click here to reset your password', 'woocommerce' ); ?>
 	</a>
 </p>
-<p><strong><?php echo esc_html_e( 'Link not working?', 'woocommerce' ); ?></strong><?php esc_html_e( ' Copy and paste this link into your browser:', 'woocommerce' ); ?><p>
+<p><?php esc_html_e( 'or copy and paste this link into your browser:', 'woocommerce' ); ?><p>
 <p><?php echo esc_url( $reset_pwd_link ); ?></p>
 
 <?php
