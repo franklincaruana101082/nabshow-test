@@ -970,5 +970,18 @@ class Customer extends Abstract_Model_With_Meta_Table {
 		return current( wc_get_orders( $query_args ) );
 	}
 
+	/**
+	 * Returns order count but also checks if registered customer has placed orders as guest.
+	 *
+	 * @deprecated
+	 *
+	 * @since 3.7
+	 * @return int
+	 */
+	function get_order_count_broad() {
+		wc_deprecated_function( __METHOD__, '4.6', 'AutomateWoo\Customer::get_order_count()' );
+		return $this->get_order_count();
+	}
+
 }
 

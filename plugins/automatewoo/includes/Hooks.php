@@ -39,6 +39,11 @@ class Hooks {
 
 		// queue
 		add_action( 'automatewoo_five_minute_worker', [ 'AutomateWoo\Queue_Manager', 'check_for_queued_events' ] );
+		add_action( 'automatewoo_four_hourly_worker', [ 'AutomateWoo\Queue_Manager', 'check_for_failed_queued_events' ] );
+
+		// coupons
+		add_action( 'automatewoo_four_hourly_worker', [ 'AutomateWoo\Coupons', 'schedule_clean_expired' ] );
+		add_action( 'automatewoo/coupons/clean_expired', [ 'AutomateWoo\Coupons', 'clean_expired' ] );
 
 		add_action( 'get_header', [ 'AutomateWoo\Language', 'make_language_persistent' ] );
 

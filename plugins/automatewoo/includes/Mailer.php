@@ -419,7 +419,7 @@ class Mailer extends Mailer_Abstract {
 	 * @param string $html The HTML.
 	 * @param string $css  The CSS to be inlined.
 	 *
-	 * @return Emogrifier|false
+	 * @return \Emogrifier|\AW_Emogrifier|false|Emogrifier
 	 */
 	public function get_emogrifier( $html, $css ) {
 		if ( ! class_exists( 'DOMDocument' ) ) {
@@ -436,11 +436,29 @@ class Mailer extends Mailer_Abstract {
 		}
 
 		// WC added a namespace to Emogrifier in 3.6
-		if ( ! class_exists( Emogrifier::class ) ) {
+		if ( version_compare( WC()->version, '3.6', '>=' ) ) {
+			if ( ! class_exists( Emogrifier::class ) ) {
+				require_once WC()->plugin_path() . '/includes/libraries/class-emogrifier.php';
+			}
+
+			return new Emogrifier( $html, $css );
+		}
+
+		// Always include the emogrifier included in WC as other plugins might be looking for this
+		if ( ! class_exists( 'Emogrifier' ) ) {
 			require_once WC()->plugin_path() . '/includes/libraries/class-emogrifier.php';
 		}
 
-		return new Emogrifier( $html, $css );
+		// WC 3.5 updated Emogrifier to v2, which we need
+		if ( version_compare( WC()->version, '3.5', '>=' ) ) {
+			return new \Emogrifier( $html, $css );
+		}
+
+		if ( ! class_exists( 'AW_Emogrifier' ) ) {
+			require_once AW()->lib_path( '/emogrifier/emogrifier.php' );
+		}
+
+		return new \AW_Emogrifier( $html, $css );
 	}
 
 

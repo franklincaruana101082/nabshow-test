@@ -17,18 +17,28 @@ class Tools {
 	 * @return Tool_Abstract[]
 	 */
 	static function get_tools() {
+
 		if ( empty( self::$tools ) ) {
-			$tool_classes = [];
 
-			$tool_classes[] = Options::optin_enabled() ? Tool_Optin_Importer::class : Tool_Optout_Importer::class;
-			$tool_classes[] = Guest_Eraser::class;
-			$tool_classes[] = Tool_Reset_Workflow_Records::class;
+			$path = AW()->path( '/includes/tools/' );
 
-			$tool_classes = apply_filters( 'automatewoo/tools', $tool_classes );
+			$tool_includes = [];
 
-			foreach ( $tool_classes as $tool_class ) {
+			$tool_includes[] = Options::optin_enabled() ? $path . 'optin-importer.php' : $path . 'optout-importer.php';
+			$tool_includes[] = $path . 'manual-orders-trigger.php';
+
+			if ( Integrations::is_subscriptions_active() ) {
+				$tool_includes[] = $path . 'manual-subscriptions-trigger.php';
+			}
+
+			$tool_includes[] = $path . 'guest-eraser.php';
+			$tool_includes[] = $path . 'reset-workflow-records.php';
+
+			$tool_includes = apply_filters( 'automatewoo/tools', $tool_includes );
+
+			foreach ( $tool_includes as $tool_include ) {
 				/** @var Tool_Abstract $class */
-				$class = new $tool_class();
+				$class = require_once $tool_include;
 				self::$tools[$class->get_id()] = $class;
 			}
 		}

@@ -54,8 +54,11 @@ class Actions extends Registry {
 			$includes[ 'subscription_add_product' ] = 'AutomateWoo\Action_Subscription_Add_Product';
 			$includes[ 'subscription_remove_product' ] = 'AutomateWoo\Action_Subscription_Remove_Product';
 			$includes[ 'subscription_add_note' ] = 'AutomateWoo\Action_Subscription_Add_Note';
-			$includes[ 'subscription_add_coupon' ] = 'AutomateWoo\Action_Subscription_Add_Coupon';
-			$includes[ 'subscription_remove_coupon' ] = 'AutomateWoo\Action_Subscription_Remove_Coupon';
+
+			if ( version_compare( WC()->version, '3.2', '>=' ) ) {
+				$includes[ 'subscription_add_coupon' ] = 'AutomateWoo\Action_Subscription_Add_Coupon';
+				$includes[ 'subscription_remove_coupon' ] = 'AutomateWoo\Action_Subscription_Remove_Coupon';
+			}
 		}
 
 		if ( Integrations::is_memberships_enabled() ) {
@@ -64,11 +67,11 @@ class Actions extends Registry {
 		}
 
 		if ( Options::mailchimp_enabled() ) {
-			$includes[ 'mailchimp_subscribe' ] = 'AutomateWoo\Action_Mailchimp_Subscribe';
-			$includes[ 'mailchimp_unsubscribe' ] = 'AutomateWoo\Action_Mailchimp_Unsubscribe';
-			$includes[ 'mailchimp_update_contact_field' ] = 'AutomateWoo\Action_Mailchimp_Update_Contact_Field';
-			$includes[ 'mailchimp_add_to_group' ] = 'AutomateWoo\Action_Mailchimp_Add_To_Group';
-			$includes[ 'mailchimp_remove_from_group' ] = 'AutomateWoo\Action_Mailchimp_Remove_From_Group';
+			$includes[ 'mailchimp_subscribe' ] = 'AutomateWoo\Action_MailChimp_Subscribe';
+			$includes[ 'mailchimp_unsubscribe' ] = 'AutomateWoo\Action_MailChimp_Unsubscribe';
+			$includes[ 'mailchimp_update_contact_field' ] = 'AutomateWoo\Action_MailChimp_Update_Contact_Field';
+			$includes[ 'mailchimp_add_to_group' ] = 'AutomateWoo\Action_MailChimp_Add_To_Group';
+			$includes[ 'mailchimp_remove_from_group' ] = 'AutomateWoo\Action_MailChimp_Remove_From_Group';
 			$includes[ 'mailchimp_update_tags' ] = 'AutomateWoo\Actions\Mailchimp_Update_Tags';
 		}
 
@@ -92,6 +95,7 @@ class Actions extends Registry {
 		$includes[ 'change_post_status' ] = 'AutomateWoo\Action_Change_Post_Status';
 
 		$includes[ 'add_to_mad_mimi_list' ] = 'AutomateWoo\Action_Add_To_Mad_Mimi_List';
+		$includes[ 'add_to_campaign_monitor' ] = 'AutomateWoo\Action_Add_To_Campaign_Monitor';
 
 		return apply_filters( 'automatewoo/actions', $includes );
 	}

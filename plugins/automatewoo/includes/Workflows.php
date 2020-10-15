@@ -32,21 +32,6 @@ class Workflows {
 		add_action( 'automatewoo/gmt_offset_changed', [ $self, 'schedule_all_custom_time_of_day_events' ], 20 );
 	}
 
-	/**
-	 * Get workflow types.
-	 *
-	 * @since 5.0.0
-	 * @return array
-	 */
-	public static function get_types() {
-		return apply_filters(
-			'automatewoo/workflow/types',
-			[
-				'automatic' => __( 'Automatic', 'automatewoo' ),
-				'manual'    => __( 'Manual', 'automatewoo' ),
-			]
-		);
-	}
 
 	/**
 	 * @param int $post_id
@@ -177,26 +162,6 @@ class Workflows {
 		foreach( $workflows as $workflow ) {
 			self::schedule_custom_time_of_day_event( $workflow );
 		}
-	}
-
-	/**
-	 * Get number of manual workflows.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return int
-	 */
-	public static function get_manual_workflows_count() {
-		global $wpdb;
-
-		$sql = "SELECT COUNT(post.ID) FROM {$wpdb->posts} as post
-			LEFT JOIN {$wpdb->postmeta} AS meta ON post.ID = meta.post_id
-			WHERE post_type = 'aw_workflow'
-			AND post_status != 'trash'
-			AND meta.meta_key = 'type'
-			AND meta.meta_value = 'manual'";
-
-		return (int) $wpdb->get_var( $sql );
 	}
 
 

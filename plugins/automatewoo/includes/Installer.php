@@ -3,8 +3,6 @@
 
 namespace AutomateWoo;
 
-use AutomateWoo\DatabaseUpdates\AbstractDatabaseUpdate;
-
 /**
  * @class Installer
  */
@@ -20,7 +18,6 @@ class Installer {
 		'3.5.0',
 		'3.6.0',
 		'4.0.0',
-		'5.0.0',
 	];
 
 	/** @var int  */
@@ -185,10 +182,11 @@ class Installer {
 	 */
 	static function run_database_update( $version ) {
 
-		$update_file = AW()->path( "/includes/DatabaseUpdates/$version.php" );
+		$update_file = AW()->path( "/includes/updates/$version.php" );
 		$update = include $update_file; // recent updates will return a class
 
-		if ( $update instanceof AbstractDatabaseUpdate ) {
+		if ( is_a( $update, 'AutomateWoo\Database_Update' ) ) {
+			/** @var $update Database_Update */
 			$update->dispatch_process();
 			self::$db_update_items_processed += $update->get_items_processed_count();
 
@@ -221,8 +219,8 @@ class Installer {
 				continue; // old updates don't extend Database_Update class
 			}
 
-			$update_file = AW()->path( "/includes/DatabaseUpdates/$version.php" );
-			$update = include $update_file; /** @var $update AbstractDatabaseUpdate */
+			$update_file = AW()->path( "/includes/updates/$version.php" );
+			$update = include $update_file; /** @var $update Database_Update */
 			$count += $update->get_items_to_process_count();
 		}
 

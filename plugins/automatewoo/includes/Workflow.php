@@ -4,9 +4,6 @@
 namespace AutomateWoo;
 
 use AutomateWoo\Formatters\Formattable;
-use AutomateWoo\Triggers\ManualInterface;
-use InvalidArgumentException;
-use WC_Subscription;
 
 /**
  * @class Workflow
@@ -100,31 +97,6 @@ class Workflow {
 		return $this->post->post_date_gmt;
 	}
 
-	/**
-	 * Get the workflow type.
-	 *
-	 * @since 5.0.0
-	 * @return string A valid workflow type.
-	 */
-	public function get_type() {
-		$type = $this->get_meta( 'type' );
-		return array_key_exists( $type, Workflows::get_types() ) ? $type : 'automatic';
-	}
-
-	/**
-	 * Set the workflow type.
-	 *
-	 * @since 5.0.0
-	 * @param string $type
-	 * @throws InvalidArgumentException If $type param is invalid.
-	 */
-	public function set_type( $type ) {
-		if ( ! array_key_exists( $type, Workflows::get_types() ) ) {
-			throw new InvalidArgumentException( 'Invalid workflow type.' );
-		}
-
-		$this->update_meta( 'type', $type );
-	}
 
 	/**
 	 * @return Variables_Processor
@@ -168,7 +140,7 @@ class Workflow {
 
 
 	/**
-	 * @return Trigger|ManualInterface|false
+	 * @return Trigger|false
 	 */
 	function get_trigger() {
 		if ( ! isset( $this->trigger ) ) {
@@ -438,55 +410,51 @@ class Workflow {
 		$this->tax_location = null;
 	}
 
+
 	/**
-	 * Create queued event for the workflow.
-	 *
+	 * Create queued event from workflow
 	 * @return Queued_Event|false
 	 */
 	function queue() {
-		$date = $this->get_queue_date();
 
-		if ( ! $date ) {
-			return false;
-		}
-
+		$date = false;
 		$queue = new Queued_Event();
 		$queue->set_workflow_id( $this->get_id() );
-		$queue->set_date_due( $date );
-		$queue->store_data_layer( $this->data_layer() );
-		$queue->save();
-
-		return $queue;
-	}
-
-	/**
-	 * Get the date the workflow should be queued for.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return DateTime|bool
-	 */
-	public function get_queue_date() {
-		$date = false;
 
 		switch( $this->get_timing_type() ) {
+
 			case 'delayed':
 				$date = new DateTime();
 				$date->setTimestamp( time() + $this->get_timing_delay() );
 				break;
+
 			case 'scheduled':
 				$date = $this->calculate_scheduled_datetime();
 				break;
+
 			case 'fixed':
 				$date = $this->get_fixed_time();
 				break;
+
 			case 'datetime':
 				$date = $this->get_variable_time();
 				break;
 		}
 
-		return apply_filters( 'automatewoo/workflow/queue_date', $date, $this );
+		$date = apply_filters( 'automatewoo/workflow/queue_date', $date, $this );
+
+		if ( ! $date ) {
+			return false;
+		}
+
+		$queue->set_date_due( $date );
+		$queue->save();
+
+		$queue->store_data_layer( $this->data_layer() ); // add meta data after saved
+
+		return $queue;
 	}
+
 
 	/**
 	 * Setup the state of the workflow before it is validated or checked
@@ -1027,16 +995,6 @@ class Workflow {
 		return is_array( $data ) ? $data : [];
 	}
 
-	/**
-	 * Get the number of rule groups on the workflow.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return int
-	 */
-	public function get_rule_group_count() {
-		return count( $this->get_rule_data() );
-	}
 
 	/**
 	 * Sanitizes all rule groups for a workflow.
@@ -1224,22 +1182,6 @@ class Workflow {
 		return $query->get_count();
 	}
 
-	/**
-	 * Get times this workflow has run for a given subscription.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @param WC_Subscription $subscription
-	 *
-	 * @return int
-	 */
-	public function get_run_count_for_subscription( WC_Subscription $subscription ) {
-		return ( new Log_Query() )
-			->where_workflow( $this->get_id() )
-			->where_subscription( $subscription->get_id() )
-			->get_count();
-	}
-
 
 	/**
 	 * Counts items in log and in queue for this guest and workflow
@@ -1380,7 +1322,7 @@ class Workflow {
 	public function get_status() {
 		$status = $this->post->post_status;
 
-		if ( 'publish' === $status || 'manual' === $this->get_type() ) {
+		if ( $status === 'publish' ) {
 			$status = 'active';
 		}
 		elseif ( $status === 'aw-disabled' ) {
@@ -1518,7 +1460,7 @@ class Workflow {
 	 * @param $value
 	 * @return bool|int
 	 */
-	public function update_meta( $key, $value ) {
+	function update_meta( $key, $value ) {
 		return update_post_meta( $this->get_id(), $key, $value );
 	}
 
@@ -1652,6 +1594,8 @@ class Workflow {
 
 		return $this->get_tax_location()->get_location_array();
 	}
+
+
 
 
 	/**

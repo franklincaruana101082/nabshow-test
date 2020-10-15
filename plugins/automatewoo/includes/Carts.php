@@ -49,6 +49,7 @@ class Carts {
 		add_action( 'woocommerce_removed_coupon', [ $self, 'mark_as_changed' ] );
 		add_action( 'woocommerce_cart_item_removed', [ $self, 'mark_as_changed' ] );
 		add_action( 'woocommerce_cart_item_restored', [ $self, 'mark_as_changed' ] );
+		add_action( 'woocommerce_before_cart_item_quantity_zero', [ $self, 'mark_as_changed' ] );
 		add_action( 'woocommerce_after_cart_item_quantity_update', [ $self, 'mark_as_changed' ] );
 
 		add_action( 'woocommerce_after_calculate_totals', [ $self, 'trigger_update_on_cart_and_checkout_pages' ] );
