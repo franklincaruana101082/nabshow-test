@@ -278,7 +278,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                                 $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
                                                 $start_time     = str_replace( ':00', '', $start_time );
 
-                                                $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it your to ' . $calendar_link . ' and join us on ' . $date . '.</p>';
+                                                $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it to your ' . $calendar_link . ' and join us on ' . $date . '.</p>';
 
                                                 $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
                                             }
