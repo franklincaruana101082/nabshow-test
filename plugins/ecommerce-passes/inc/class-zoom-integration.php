@@ -195,7 +195,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 				if( ! empty( $zoom_unique_url ) ) {
 					echo  "<a href='$zoom_unique_url' class='button btn-primary' id='join-zooom-button' target='_blank'>Join Meeting</a>";
 				} else {
-					echo '<p class="error check-in-deep zoom_text">This meeting link is not available. Please be sure you\'ve purchased the correct pass to access this content. For additional assistance, click the "Help" button below.</p>';
+					echo '<p class="error check-in-deep zoom_text">Your personal meeting link is being generated. If you continue to see this message after a few minutes, click the "Help" button below for assistance.</p>';
 				}
 
 				wp_reset_query();
