@@ -333,19 +333,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 				$exhibitor_query2 = new WP_Query( $query_arg2 );
 
-				$meta_query = array( 'relation' => 'OR' );
-				$meta_query[] = array (
-					'key'     => 'crossreferences',
-					'value'   => '',
-					'compare' => 'NOT EXIST',
-				);
-				$meta_query[] = array (
-					'key'     => 'crossreferences',
-					'value'   => $post_search,
-					'compare' => 'NOT LIKE',
-				);
+				$exclude_post_ids = wp_list_pluck( $exhibitor_query2->posts, 'ID' );
 
-				$query_arg[ 'meta_query' ] = $meta_query;
+				$query_arg['post__not_in'] = $exclude_post_ids;
+
 			}
 
 			$exhibitor_query = new WP_Query( $query_arg );
@@ -587,22 +578,24 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 		 * @since 1.0.0
 		 */
 		public function mysgb_sessions_date_list_filter_ajax_callback() {
-			
+
 			$result_post    = array();
 			$final_result   = array();
 
 			$page_number        = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_NUMBER_INT );
-			$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );		
+			$post_limit         = filter_input( INPUT_GET, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
 			$post_search        = filter_input( INPUT_GET, 'post_search', FILTER_SANITIZE_STRING );
-			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );		
+			$channel      		= filter_input( INPUT_GET, 'channel', FILTER_SANITIZE_STRING );
 			$session_date       = filter_input( INPUT_GET, 'session_date', FILTER_SANITIZE_STRING );
 			$display_order      = filter_input( INPUT_GET, 'display_order', FILTER_SANITIZE_STRING );
-			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );			
+			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );
+			$session_format		= filter_input( INPUT_GET, 'format', FILTER_SANITIZE_STRING );
+			$session_community	= filter_input( INPUT_GET, 'community', FILTER_SANITIZE_STRING );
 
 			$query_arg = array(
 				'post_type'      => 'sessions',
 				'posts_per_page' => $post_limit,
-				'paged'          => $page_number,				
+				'paged'          => $page_number,
 			);
 
 			$meta_query_args    = array( 'relation' => 'AND' );
@@ -619,32 +612,54 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 			if ( ! empty( $post_search ) ) {
 				$query_arg[ 's' ] = $post_search;
-			}			
+			}
 
 			if ( ! empty( $session_date ) ) {
-				
+
 				$meta_query_args[] = array (
-					
+
 					'key' 	=> 'session_date',
 					'value'	=> $session_date,
 					'type'  => 'DATE',
-				);				
+				);
+			}
+
+			$tax_query_args = array( 'relation' => 'AND' );
+
+			if ( ! empty( $session_format ) ) {
+				$tax_query_args[] =  array (
+					'taxonomy' => 'session-format',
+					'field'    => 'slug',
+					'terms'    => $session_format,
+				);
+			}
+
+			if ( ! empty( $session_community ) ) {
+				$tax_query_args[] = array (
+					'taxonomy' => 'session-community',
+					'field'    => 'slug',
+					'terms'    => $session_community,
+				);
+			}
+
+			if ( count( $tax_query_args ) > 1 ) {
+				$query_arg[ 'tax_query' ] = $tax_query_args;
 			}
 
 			if ( ! empty( $channel_list ) ) {
-				
+
 				$all_channel = explode( ',', $channel_list );
-				
+
 				if ( ! empty( $channel ) && in_array( $channel, $all_channel ) ) {
 					$all_channel = array( $channel );
 				} else if ( ! empty( $channel ) ) {
 					$all_channel = array('');
 				}
-				
+
 				$channel_meta_arr = array( 'relation' => 'OR' );
 
 				foreach( $all_channel as $ch ) {
-					
+
 					$channel_meta_arr[] = array(
 						'key'     => 'session_channel',
 						'value'   => '"' . $ch . '"',
@@ -655,10 +670,10 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 				if ( count( $channel_meta_arr ) > 1 ) {
 
 					$meta_query_args[] = $channel_meta_arr;
-				}				
+				}
 
 			} else if ( ! empty( $channel ) ) {
-				
+
 				$meta_query_args[] = array(
 					array(
 						'key'     => 'session_channel',
@@ -666,15 +681,15 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 						'compare' => 'LIKE'
 					)
 				);
-			}			
-				
-			$query_arg[ 'meta_query' ] = $meta_query_args;			
+			}
+
+			$query_arg[ 'meta_query' ] = $meta_query_args;
 
 			$query_arg[ 'orderby' ] = array(
 				'session_date_clause'   => $display_order,
 				'start_time_clause'     => 'ASC',
 			);
-			
+
 
 			$session_query = new WP_Query( $query_arg );
 
@@ -682,7 +697,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 			if ( $session_query->have_posts() ) {
 
-				$i = 0;				
+				$i = 0;
 
 				while ( $session_query->have_posts() ) {
 
@@ -695,7 +710,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$is_open_to     = get_field( 'is_open_to',  $session_id );
                 	$is_open_to     = 'Select Open To' === $is_open_to ? '' : $is_open_to;
 					$schedule_class = 'white_bg';
-					$button_text    = 'Learn More';					
+					$button_text    = 'Learn More';
 
 					if ( ! empty( $date ) ) {
 						$current_date   = current_time('Ymd');
@@ -710,12 +725,12 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 							$schedule_class = 'white_bg';
 							$button_text    = 'Learn More';
 						} else if ( $session_date === $current_date ) {
-							
-							$current_time   = current_time('g:i a');                    
+
+							$current_time   = current_time('g:i a');
 							$time1          = DateTime::createFromFormat('H:i a', $current_time);
 							$time2          = DateTime::createFromFormat('H:i a', $start_time);
 							$time3          = DateTime::createFromFormat('H:i a', $end_time);
-															
+
 							if ( $time1 > $time2 && $time1 < $time3 ) {
 								$schedule_class = 'green_bg show_desc';
 								$button_text    = 'Tune in Now';
@@ -732,33 +747,33 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					if ( ! empty( $date ) ) {
 						$date       = date_format( date_create( $date ), 'l, F j' );
 					}
-					
+
 					if ( ! empty( $start_time ) ) {
 
 						$start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
 						$start_time = str_replace(':00', '', $start_time );
-	
+
 					}
 					if ( ! empty( $end_time ) ) {
-	
+
 						$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 						$end_time   = str_replace(':00', '', $end_time );
-	
+
 					}
-					
+
 					if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
 						$start_time = str_replace(' a.m.', '', $start_time );
 					}
-	
+
 					if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
 						$start_time = str_replace(' p.m.', '', $start_time );
-					}																	
-				
+					}
+
 					$result_post[ $i ][ 'post_title' ]    	= html_entity_decode( get_the_title() );
-					$result_post[ $i ][ 'post_link' ]    	= get_the_permalink();										
+					$result_post[ $i ][ 'post_link' ]    	= get_the_permalink();
 					$result_post[ $i ][ 'time' ]     	  	= $start_time . ' - ' . $end_time . ' ET';
 					$result_post[ $i ][ 'post_content' ]  	= html_entity_decode( get_the_excerpt( $session_id ) );
-					$result_post[ $i ][ 'more_text' ]  		= $button_text;					
+					$result_post[ $i ][ 'more_text' ]  		= $button_text;
 					$result_post[ $i ][ 'pass_name' ]  		= html_entity_decode( $is_open_to );
 					$result_post[ $i ][ 'session_date' ]  	= $date;
 					$result_post[ $i ][ 'schedule_class' ]	= $schedule_class;
@@ -789,20 +804,20 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 					if ( $rows ) {
 
-						$final_speakers = array();												
+						$final_speakers = array();
 						$cnt 			= 0;
 
 						foreach( $rows as $row ) {
-							
+
 							$speaker_id = $row['session_speaker'];
-							
+
 							if ( ! empty( $speaker_id ) ) {
-								
+
 								$speaker_name	= get_the_title( $speaker_id );
 								$speaker_name   = explode(',', $speaker_name, 2);
 								$speaker_name   = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
-								
-								$final_speakers[ $cnt ][ 'speaker_name' ] 	= $speaker_name;
+
+								$final_speakers[ $cnt ][ 'speaker_name' ] 	= html_entity_decode( $speaker_name );
 								$final_speakers[ $cnt ][ 'speaker_id' ] 	= $speaker_id;
 
 								$cnt++;
@@ -834,7 +849,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 		 * @since 1.0.0
 		 */
 		public function mysgb_speaker_popup_details_ajax_callback() {
-			
+
 			$result_post 		= array();
 			$speaker_id			= filter_input( INPUT_GET, 'speaker_id', FILTER_SANITIZE_NUMBER_INT );
 			$thumbnail_url 		= has_post_thumbnail( $speaker_id ) ? get_the_post_thumbnail_url( $speaker_id ) : plugins_url( 'assets/images/speaker-placeholder.png', dirname( __FILE__ ) );
@@ -843,13 +858,13 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$MYSGutenbergBlocks = new MYSGutenbergBlocks();
 			$speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
 			$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
-			
+
 			$result_post[ 'thumbnail_url' ] = $thumbnail_url;
 			$result_post[ 'title' ] 		= get_the_title( $speaker_id );
 			$result_post[ 'sub_title' ]		= get_field( 'title',  $speaker_id );
 			$result_post[ 'content' ] 		= $speaker_content;
 			$result_post[ 'company' ]		= $speaker_company;
-			
+
 			echo wp_json_encode( $result_post );
 			wp_die();
 
