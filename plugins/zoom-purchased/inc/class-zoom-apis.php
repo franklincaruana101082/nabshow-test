@@ -401,7 +401,7 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 				$body = implode( ' ,', $body );
 				$html = $response->get_error_message() . " <= ERROR MESSAGE, and URL = $url, and BODY = $body, and ORDER ID = " . $this->current_order_id;
 
-				wp_mail( 'faisal.alvi@multidots.com', 'Amplify Zoom API Failed', $html, $headers );
+				wp_mail( 'faisal.alvi@multidots.com', 'Amplify Zoom API Failed - Order ID: ' . $this->current_order_id, $html, $headers );
 			} else {
 				$result['body']     = json_decode( $response['body'] );
 				$result['response'] = $response['response'];
