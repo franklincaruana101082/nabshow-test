@@ -485,6 +485,7 @@ if ( $query->have_posts() ) {
             }
             ?>  
             <input type="hidden" class="order-type" name="order-type" value="<?php echo esc_attr( $display_order ); ?>" />
+            <input type="hidden" class="filter-post-limit" name="filter-post-limit" value="<?php echo esc_attr( $posts_per_page ); ?>" />
             <?php
             if ( $query->max_num_pages > 1 ) {                
                 $result_style = $query->have_posts() ? 'display: none;' : 'display: block;';
