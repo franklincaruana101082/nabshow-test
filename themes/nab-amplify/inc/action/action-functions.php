@@ -1719,3 +1719,18 @@ function nab_clear_share_login_cookie() {
     unset( $_COOKIE[ 'nab_share_login' ] );
 	setcookie( 'nab_share_login', null, -1, '/', '.nabshow.com' );
 }
+
+add_action( 'wp_footer', 'nab_hidden_user_meta_test_fun' );
+
+function nab_hidden_user_meta_test_fun() {
+
+	if ( is_user_logged_in() ) {
+		$user_id = get_current_user_id();
+		$purchased_product = get_user_meta( $user_id, 'nab_purchased_product_2020', true );
+		if ( ! empty( $purchased_product ) && is_array($purchased_product) ) {
+			?>
+			<p style="display:none" class="nab-debug"><?php echo implode(',', $purchased_product ); ?></p>
+			<?php
+		}
+	}
+}
