@@ -151,31 +151,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                     if ( ! is_user_logged_in() ) {
 
-                        $success = false;
-
-                        $end_point_url  .= 'wp-json/nab/request/get-product-info';
-
-                        $response       = wp_remote_post( $end_point_url, array(
-                            'method' => 'POST',
-                            'body'	=> array(
-                                'product_id' => $associate_products[0],
-                            )
-                        ) );
-
-                        if ( ! is_wp_error( $response ) ) {
-
-                            $final_response = json_decode( wp_remote_retrieve_body( $response ) );
-
-                            if ( isset( $final_response->url ) && ! empty( $final_response->url ) ) {
-
-                                $success = true;
-                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );
-                            }
-                        }
-
-                        if ( ! $success ) {
-                            $content = $this->ep_get_restrict_content( $content );
-                        }
+                        $content = $this->ep_get_restrict_content( $content );
 
                     } else {
 
@@ -183,112 +159,138 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                         if ( ! empty( $end_point_url ) ) {
 
-                            $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
+                            $call_api               = true;
+                            $user_bought_product    = false;
 
-                            $query_params   = array(
-                                'user_email' => $logged_user->user_email,
-                                'user_id'	=> $logged_user->ID,
-                                'product_ids' => $associate_products
-                            );
+                            $purchased_product	= get_user_meta( $logged_user->ID, 'nab_purchased_product_2020', true );
 
-                            $final_params = http_build_query($query_params);
+                            if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
+                                
+                                $match_product = array_intersect( $associate_products, $purchased_product );
 
-                            $curl = curl_init();
+                                if ( is_array( $match_product ) && count( $match_product ) > 0 ) {
 
-                            curl_setopt_array( $curl, array(
-                                CURLOPT_URL => $end_point_url,
-                                CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_ENCODING => "",
-                                CURLOPT_MAXREDIRS => 10,
-                                CURLOPT_TIMEOUT => 0,
-                                CURLOPT_FOLLOWLOCATION => true,
-                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                CURLOPT_CUSTOMREQUEST => "POST",
-                                CURLOPT_POSTFIELDS => $final_params
-                            ));
+                                    $call_api               = false;
+                                    $user_bought_product    = true;
+                                    
+                                }
+                            }
 
-                            $response = curl_exec( $curl );
+                            if ( $call_api ) {
 
-                            curl_close( $curl );
+                                $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
 
-                            $final_response = json_decode( $response );
+                                $query_params   = array(
+                                    'user_email' => $logged_user->user_email,
+                                    'user_id'	=> $logged_user->ID,
+                                    'product_ids' => $associate_products
+                                );
 
-                            if ( is_object( $final_response ) ) {
+                                $final_params = http_build_query($query_params);
 
-                                if ( ! $final_response->success ) {
+                                $curl = curl_init();
 
-                                    $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
-                                } else {
+                                curl_setopt_array( $curl, array(
+                                    CURLOPT_URL => $end_point_url,
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => "",
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => "POST",
+                                    CURLOPT_POSTFIELDS => $final_params
+                                ));
 
-                                    if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
+                                $response = curl_exec( $curl );
 
-                                        $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
+                                curl_close( $curl );
+
+                                $final_response = json_decode( $response );
+
+                                if ( is_object( $final_response ) ) {
+
+                                    if ( ! $final_response->success ) {
+
+                                        $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
+
+                                    } else {
+
+                                        $user_bought_product = true;                                        
                                     }
 
-                                    $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
+                                } else {
 
-                                    if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
+                                    $content = $this->ep_get_restrict_content( $content );
+                                }
+                            }
 
-                                        $date       = get_post_meta( $post->ID, 'session_date', true );
-                                        $start_time = get_post_meta( $post->ID, 'start_time', true );
-                                        $start_time = date_format( date_create( $start_time ), 'g:i a' );
+                            if ( $user_bought_product ) {
 
-                                        if ( 'start_time' !== $delay_restrict ) {
-                                            $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
+                                if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
+
+                                    $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
+                                }
+
+                                $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
+
+                                if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
+
+                                    $date       = get_post_meta( $post->ID, 'session_date', true );
+                                    $start_time = get_post_meta( $post->ID, 'start_time', true );
+                                    $start_time = date_format( date_create( $start_time ), 'g:i a' );
+
+                                    if ( 'start_time' !== $delay_restrict ) {
+                                        $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
+                                    }
+
+
+                                    if ( ! empty( $date ) && ! empty( $start_time ) ) {
+
+                                        $current_date   = current_time('Ymd');
+                                        $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                        $date1          = new DateTime( $session_date );
+                                        $now            = new DateTime( $current_date );
+                                        $display_msg    = false;
+
+                                        if ( $date1 > $now ) {
+                                            $display_msg = true;
+                                        } else if ( $session_date === $current_date ) {
+
+                                            $current_time   = current_time('g:i a');
+                                            $time1          = DateTime::createFromFormat('H:i a', $current_time);
+                                            $time2          = DateTime::createFromFormat('H:i a', $start_time);
+
+                                            if ( $time2 > $time1 ) {
+                                                $display_msg = true;
+                                            }
                                         }
 
+                                        if ( $display_msg ) {
 
-                                        if ( ! empty( $date ) && ! empty( $start_time ) ) {
+                                            $date           = date_format( date_create( $date ), 'l, F j' );
+                                            $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
 
-                                            $current_date   = current_time('Ymd');
                                             $session_date   = date_format( date_create( $date ), 'Ymd' );
-                                            $date1          = new DateTime( $session_date );
-                                            $now            = new DateTime( $current_date );
-                                            $display_msg    = false;
+                                            $session_start  = date_format( date_create( $start_time ), 'His' );
+                                            $session_end    = get_post_meta( $post->ID, 'end_time', true );
+                                            $session_end    = date_format( date_create( $session_end ), 'His' );
+                                            $final_time     = $session_date . 'T' . $session_start . '/' . $session_date . 'T' . $session_end;
+                                            $calendar_title = get_the_title( $post->ID );
+                                            $location       = get_post_meta( $post->ID, 'session_location', true );
+                                            $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $post->ID );
+                                            $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
+                                            $calendar_link  = '<a href="' . $calendar_link . '" target="_blank">calendar</a>';
 
-                                            if ( $date1 > $now ) {
-                                                $display_msg = true;
-                                            } else if ( $session_date === $current_date ) {
+                                            $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+                                            $start_time     = str_replace( ':00', '', $start_time );
 
-                                                $current_time   = current_time('g:i a');
-                                                $time1          = DateTime::createFromFormat('H:i a', $current_time);
-                                                $time2          = DateTime::createFromFormat('H:i a', $start_time);
+                                            $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it to your ' . $calendar_link . ' and join us on ' . $date . '.</p>';
 
-                                                if ( $time2 > $time1 ) {
-                                                    $display_msg = true;
-                                                }
-                                            }
-
-                                            if ( $display_msg ) {
-
-                                                $date           = date_format( date_create( $date ), 'l, F j' );
-                                                $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
-
-                                                $session_date   = date_format( date_create( $date ), 'Ymd' );
-                                                $session_start  = date_format( date_create( $start_time ), 'His' );
-                                                $session_end    = get_post_meta( $post->ID, 'end_time', true );
-                                                $session_end    = date_format( date_create( $session_end ), 'His' );
-                                                $final_time     = $session_date . 'T' . $session_start . '/' . $session_date . 'T' . $session_end;
-                                                $calendar_title = get_the_title( $post->ID );
-                                                $location       = get_post_meta( $post->ID, 'session_location', true );
-                                                $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $post->ID );
-                                                $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
-                                                $calendar_link  = '<a href="' . $calendar_link . '" target="_blank">calendar</a>';
-
-                                                $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
-                                                $start_time     = str_replace( ':00', '', $start_time );
-
-                                                $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it to your ' . $calendar_link . ' and join us on ' . $date . '.</p>';
-
-                                                $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
-                                            }
+                                            $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
                                         }
                                     }
                                 }
-
-                            } else {
-
-                                $content = $this->ep_get_restrict_content( $content );
                             }
                         }
                     }
