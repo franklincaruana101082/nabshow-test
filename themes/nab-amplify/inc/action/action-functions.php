@@ -1719,3 +1719,64 @@ function nab_clear_share_login_cookie() {
     unset( $_COOKIE[ 'nab_share_login' ] );
 	setcookie( 'nab_share_login', null, -1, '/', '.nabshow.com' );
 }
+
+/**
+ * Update purchased product in the user meta when order status change.
+ *
+ * @param  int $order_id
+ * @param  string $old_status
+ * @param  string $new_status 
+ */
+function nab_update_product_in_user_meta( $order_id, $old_status, $new_status ) {
+
+	$order 				= wc_get_order( $order_id );
+
+	$order_user_details = $order->get_user();
+	$customer_id		= $order_user_details->data->ID;
+
+	if ( ! empty ( $customer_id ) ) {
+		
+		$order_products 	= array();
+
+		$purchased_product	= get_user_meta( $customer_id, 'nab_purchased_product_2020', true );
+
+		// Get order products
+		foreach ( $order->get_items() as $item_id => $product_item ) {
+			
+			$order_products[] = $product_item->get_product_id();            
+		}
+		
+		// Add product id to user meta when order completed
+		if ( 'completed' === $new_status ) {
+			
+			// Add or merge user purchased product ids			
+			if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
+				
+				$purchased_product = array_unique( array_merge( $purchased_product, $order_products ) );
+
+			} else {
+
+				$purchased_product = $order_products;
+			}
+
+			update_user_meta( $customer_id, 'nab_purchased_product_2020', $purchased_product );
+		}
+
+		// Remove product id from user meta if order status changed from completed to any other status.
+		if ( 'completed' === $old_status ) {
+
+			if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
+				
+				foreach( $order_products as $product_id ) {
+
+					if ( ( $key = array_search( $product_id, $purchased_product ) ) !== false ) {
+						unset( $purchased_product[ $key ] );
+					}
+				}
+
+				update_user_meta( $customer_id, 'nab_purchased_product_2020', $purchased_product );
+			}
+		}
+	}
+
+}

@@ -413,6 +413,9 @@ function nab_remove_attendee() {
 		wp_send_json( $res, 200 );
 	}
 
+	//update purchased product user meta
+	nab_update_product_in_user_meta( $order_id, 'completed', 'draft' );
+
 	// Delete this order
 	$remove_attendee = wp_delete_post( $order_id, true );
 
@@ -585,6 +588,9 @@ function nab_change_attendee_order_details_ajax_callback() {
 
 		wp_die();
 	}
+
+	//update purchased product user meta
+	nab_update_product_in_user_meta( $order_id, 'completed', 'draft' );
 
 	// Delete this order
 	$remove_attendee = wp_delete_post( $order_id, true );

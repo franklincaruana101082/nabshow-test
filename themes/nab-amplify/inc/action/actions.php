@@ -120,3 +120,5 @@ add_action( 'init', 'nab_register_event_shows_post_type' );
 add_action( 'wp_login', 'nab_set_user_login_cookie_for_other_site', 10, 2);
 
 add_action( 'wp_logout', 'nab_clear_share_login_cookie' );
+
+add_action( 'woocommerce_order_status_changed', 'nab_update_product_in_user_meta', 10, 3 );
