@@ -287,6 +287,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
   let postSearch = 0 < jQuery('.session-date-list-filter .search-item .search').length ? jQuery('.session-date-list-filter .search-item .search').val() : '';  
   let displayOrder = 0 < jQuery('.session-date-list .order-type').length ? jQuery('.session-date-list .order-type').val() : 'ASC';
   let channelList = 0 < jQuery('.session-date-list .filter-channels').length ? jQuery('.session-date-list .filter-channels').val() : '';
+  let upcomingFirst = 0 < jQuery('#session-date-list-wrapper[data-upcoming]').length ? jQuery('#session-date-list-wrapper').attr('data-upcoming') : 'no';
 
   if ( 0 < jQuery('.session-date-list-filter .channel-box #session-channel').length ) {
     channel = 0 === jQuery('.session-date-list-filter .channel-box #session-channel')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .channel-box #session-channel').val();
@@ -308,7 +309,7 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList + '&format=' + sessionFormat + '&community=' + community,
+    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList + '&format=' + sessionFormat + '&community=' + community + '&upcoming=' + upcomingFirst,
     url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 

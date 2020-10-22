@@ -591,12 +591,24 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 			$channel_list      	= filter_input( INPUT_GET, 'channel_list', FILTER_SANITIZE_STRING );
 			$session_format		= filter_input( INPUT_GET, 'format', FILTER_SANITIZE_STRING );
 			$session_community	= filter_input( INPUT_GET, 'community', FILTER_SANITIZE_STRING );
+			$upcoming_first		= filter_input( INPUT_GET, 'upcoming', FILTER_SANITIZE_STRING );
 
-			$query_arg = array(
-				'post_type'      => 'sessions',
-				'posts_per_page' => $post_limit,
-				'paged'          => $page_number,
-			);
+			if ( 'yes' === strtolower( $upcoming_first ) ) {
+
+				$query_arg = array(
+					'post_type'      	=> 'sessions',
+					'posts_per_page' 	=> -1,
+					'fields'			=> 'ids',					
+				);
+
+			} else {
+
+				$query_arg = array(
+					'post_type'      => 'sessions',
+					'posts_per_page' => $post_limit,
+					'paged'          => $page_number,
+				);
+			}
 
 			$meta_query_args    = array( 'relation' => 'AND' );
 
@@ -692,6 +704,33 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 
 			$session_query = new WP_Query( $query_arg );
+
+			if ( 'yes' === strtolower( $upcoming_first ) && $session_query->have_posts() ) {
+    
+				$all_post_id        = $session_query->posts;    
+				$upcommit_post_id   = array();
+				$past_post_id       = array();
+				$current_date       = current_time('Ymd');
+				$current_date       = new DateTime( $current_date );
+			
+				foreach( $all_post_id as $current_post_id ) {
+					
+					$schedule_date  = get_field( 'session_date',  $current_post_id );
+					$schedule_date  = date_format( date_create( $schedule_date ), 'Ymd' );
+					$schedule_date  = new DateTime( $schedule_date );        
+			
+					if ( $schedule_date < $current_date )  {
+						$past_post_id[] = $current_post_id;
+					} else {
+						$upcommit_post_id[] = $current_post_id;
+					}
+				}
+			
+				$final_session_ids = array_merge( $upcommit_post_id, $past_post_id );
+				
+				$session_query = new WP_Query( array( 'post_type' => 'sessions', 'post__in' => $final_session_ids, 'posts_per_page' =>  $post_limit, 'paged' => $page_number, 'orderby' => 'post__in' ) );
+			
+			}
 
 			$total_pages = $session_query->max_num_pages;
 

@@ -22,6 +22,7 @@ $display_time       = isset( $attributes['sessionTime'] ) ? $attributes['session
 $display_channel    = isset( $attributes['sessionChannel'] ) ? $attributes['sessionChannel'] : true;
 $display_button     = isset( $attributes['sessionButton'] ) ? $attributes['sessionButton'] : true;
 $channel_selector   = isset( $attributes['channelSelector'] ) ? $attributes['channelSelector'] : false;
+$upcoming_first     = isset( $attributes['upcomingFirst'] ) ? $attributes['upcomingFirst'] : false;
 $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 $class_name         .= $filter_type ? ' with-filter' : ' without-filter';
 $session_class      = 'session-date-list-wrapper';
@@ -30,6 +31,11 @@ $query_args = array(
     'post_type'         => 'sessions',
     'posts_per_page'    => $posts_per_page,
 );
+
+if ( $upcoming_first ) {
+    $query_args[ 'fields' ]         = 'ids';
+    $query_args[ 'posts_per_page' ] = -1;
+}
 
 $meta_query_args    = array( 'relation' => 'AND' );
 
@@ -91,6 +97,33 @@ if ( $filter_type ) {
     if ( ! $display_button ) {
         $session_class .= ' without-button';
     }
+}
+
+if ( $upcoming_first && $query->have_posts() ) {
+    
+    $all_post_id        = $query->posts;    
+    $upcommit_post_id   = array();
+    $past_post_id       = array();
+    $current_date       = current_time('Ymd');
+    $current_date       = new DateTime( $current_date );
+
+    foreach( $all_post_id as $current_post_id ) {
+        
+        $schedule_date  = get_field( 'session_date',  $current_post_id );
+        $schedule_date  = date_format( date_create( $schedule_date ), 'Ymd' );
+        $schedule_date  = new DateTime( $schedule_date );        
+
+        if ( $schedule_date < $current_date )  {
+            $past_post_id[] = $current_post_id;
+        } else {
+            $upcommit_post_id[] = $current_post_id;
+        }
+    }
+
+    $final_session_ids = array_merge( $upcommit_post_id, $past_post_id );    
+    
+    $query = new WP_Query( array( 'post_type' => 'sessions', 'post__in' => $final_session_ids, 'posts_per_page' =>  $posts_per_page, 'orderby' => 'post__in' ) );    
+
 }
 
 if ( $query->have_posts() ) {
@@ -271,7 +304,7 @@ if ( $query->have_posts() ) {
             <?php
         }    
         ?>
-        <div class="<?php echo esc_attr( $session_class ); ?>" id="session-date-list-wrapper">
+        <div class="<?php echo esc_attr( $session_class ); ?>" id="session-date-list-wrapper" data-upcoming="<?php echo esc_attr( $upcoming_first ? 'yes' : 'no' ); ?>">
         <?php
 
             $date_group = '';

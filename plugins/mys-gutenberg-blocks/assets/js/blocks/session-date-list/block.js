@@ -62,7 +62,7 @@
         }
         render() {
             const { attributes, setAttributes } = this.props;
-            const { itemToFetch, filterType, channels, keywordFilter, channelFilter, dateFilter, isOpenTo, sessionDetails, sessionDate, channelSelector, displayOrder, sessionTime, sessionChannel, sessionButton } = attributes;
+            const { itemToFetch, filterType, channels, keywordFilter, channelFilter, dateFilter, isOpenTo, sessionDetails, sessionDate, channelSelector, displayOrder, sessionTime, sessionChannel, sessionButton, upcomingFirst } = attributes;
             return (
                 <Fragment>
                     <InspectorControls>
@@ -81,6 +81,11 @@
                                     onChange={(item) => setAttributes({ itemToFetch: parseInt(item) }) }
                                 />
                             </div>
+                            <ToggleControl
+                                label={__('Upcoming First')}
+                                checked={upcomingFirst}
+                                onChange={() => setAttributes({ upcomingFirst: ! upcomingFirst }) }
+                            />
                             <SelectControl
                                 label={__('Display Order')}
                                 value={displayOrder}
@@ -187,7 +192,7 @@
                     </InspectorControls>
                     <ServerSideRender
                         block="mys/session-date-list"
-                        attributes={{ itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder, sessionTime: sessionTime, sessionChannel: sessionChannel, sessionButton: sessionButton }}
+                        attributes={{ itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder, sessionTime: sessionTime, sessionChannel: sessionChannel, sessionButton: sessionButton, upcomingFirst: upcomingFirst }}
                     />
                 </Fragment >
             );
@@ -201,7 +206,11 @@
         channels: {
             type: 'array',
             default: []
-        },        
+        },
+        upcomingFirst: {
+            type: 'boolean',
+            default: false
+        },
         filterType: {
             type: 'boolean',
             default: true

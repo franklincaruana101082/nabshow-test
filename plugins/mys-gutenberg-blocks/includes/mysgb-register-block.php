@@ -498,6 +498,10 @@ register_block_type( 'mys/session-date-list', array(
 				'type' => 'number'
 			]
 		),
+		'upcomingFirst'  => array(
+			'type'    => 'boolean',
+			'default' => false
+		),
 		'filterType'  => array(
 			'type'    => 'boolean',
 			'default' => true
