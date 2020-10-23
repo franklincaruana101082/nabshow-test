@@ -1026,6 +1026,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						if ( ( ! is_array( $terms ) && ! empty( $terms ) ) || ( is_array( $terms ) && 0 !== count( $terms ) ) ) {
 							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $terms, $tax, $post_id );
+						} else {
+							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( '', $tax, $post_id );
 						}
 					}
 
