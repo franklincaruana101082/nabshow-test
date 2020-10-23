@@ -312,7 +312,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
             $prodcut_name       = ! empty( $link ) ? '<a class="amplifyGuestSignIn" target="_blank" href="' . $link . '">this program</a>' : 'this program';
-            $restrict_content   = '<p class="restrict-msg">Access to this program is pass-specific. <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">Add the pass to your registration</a> to gain access. Already registered? <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a>.<br /><span class="small">Technical difficulties? <em><a href="https://nabshow.com/ny2020/about/contact/technical-difficulties/">View the FAQs</a> for assistance.</span></em>';
+            $restrict_content   = '<p class="restrict-msg">Access to this program is pass-specific. <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">Add the pass to your registration</a> to gain access. Already registered? <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a>.<br /><span class="small"><em>Technical difficulties? <a href="https://nabshow.com/ny2020/about/contact/technical-difficulties/">View the FAQs</a> for assistance.</span></em>';
 
             if ( ! $logged_in ) {
                 $restrict_content .= '';
