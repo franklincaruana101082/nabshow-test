@@ -597,6 +597,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 				$query_arg = array(
 					'post_type'      	=> 'sessions',
+					'post_status'       => 'publish',
 					'posts_per_page' 	=> -1,
 					'fields'			=> 'ids',					
 				);
@@ -605,6 +606,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 				$query_arg = array(
 					'post_type'      => 'sessions',
+					'post_status'    => 'publish',
 					'posts_per_page' => $post_limit,
 					'paged'          => $page_number,
 				);

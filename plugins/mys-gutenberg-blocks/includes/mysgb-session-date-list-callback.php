@@ -29,6 +29,7 @@ $session_class      = 'session-date-list-wrapper';
 
 $query_args = array(
     'post_type'         => 'sessions',
+    'post_status'       => 'publish',
     'posts_per_page'    => $posts_per_page,
 );
 
