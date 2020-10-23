@@ -1385,24 +1385,6 @@ add_action( 'admin_init', function(){
 					$customer_discover	= get_user_meta( $customer_id, 'attendee_discover', true );
 					$first_name			= get_user_meta( $customer_id, 'first_name', true );
 					$last_name			= get_user_meta( $customer_id, 'last_name', true );
-
-					$purchased_product	= get_user_meta( $customer_id, 'nab_purchased_product_2020', true );
-
-					if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
-						
-						if ( ! in_array( $product_id, $purchased_product ) ) {
-							
-							$purchased_product[] = $product_id;
-
-							update_user_meta( $customer_id, 'nab_purchased_product_2020', $purchased_product );
-						}
-
-					} else {
-						
-						$purchased_product = array( $product_id );
-
-						update_user_meta( $customer_id, 'nab_purchased_product_2020', $purchased_product );
-					}
 				
 					if ( empty( $first_name ) && empty( $last_name ) ) {
 						$first_name = $order_user_details->data->display_name;
