@@ -180,6 +180,8 @@
 	.banner-header #profile-avtar .amp-member-level a{padding:8px 15px 7px;}
 	.amp-profile-main .amp-profile-info span{font-size:18px;}
 	.amp-profile-main .amp-profile-message a{min-width:150px;}
+	.amp-member-security{padding-left:10px;}
+	.amp-member-security .amp-security-row{width:100%;}
 
 	/* my account messages */
 	.buddypress-wrap #message-threads li{-ms-flex-wrap:wrap;flex-wrap:wrap;}
