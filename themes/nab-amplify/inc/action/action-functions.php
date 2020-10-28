@@ -1881,13 +1881,37 @@ function nab_edit_acount_additional_form_fields() {
         <div class="amp-member-security">
             <div class="amp-security-row security-column-first">
                 <h3>VISIBILITY PREFERENCES</h3>
-                <input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked( $member_visibility, 'yes' ); ?> /><label for="member_visible_anyone">Visible to anyone</label>
-                <input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked( $member_visibility, 'no' ); ?> /><label for="member_visible_friend">Visible to approved connections only</label>
+                <div class="amp-radio-container">
+                	<div class="amp-radio-wrp">
+                		<input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked( $member_visibility, 'yes' ); ?> />
+                		<span class="amp-radio"></span>
+                	</div>
+                	<label for="member_visible_anyone">Visible to anyone</label>
+                </div>
+                <div class="amp-radio-container">
+                	<div class="amp-radio-wrp">
+                		<input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked( $member_visibility, 'no' ); ?> />
+                		<span class="amp-radio"></span>
+                	</div>
+                	<label for="member_visible_friend">Visible to approved connections only</label>
+                </div>
             </div>
             <div class="amp-security-row security-column-last">
                 <h3>CONNECTION PREFERENCES</h3>
-                <input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> /><label for="member_anyone_request">Anyone can request to connect</label>
-                <input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked( $member_restriction, 'no' ); ?> /><label for="member_not_available">I am not available to connect with other users</label>
+                <div class="amp-radio-container">
+                	<div class="amp-radio-wrp">
+                		<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> />
+                		<span class="amp-radio"></span>
+                	</div>
+                	<label for="member_anyone_request">Anyone can request to connect</label>	
+                </div>
+                <div class="amp-radio-container">
+                	<div class="amp-radio-wrp">
+                		<input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked( $member_restriction, 'no' ); ?> />
+                		<span class="amp-radio"></span>
+                	</div>
+                	<label for="member_not_available">I am not available to connect with other users</label>
+                </div>
             </div>
         </div>
     </fieldset>
