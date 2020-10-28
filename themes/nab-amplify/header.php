@@ -65,6 +65,7 @@
 						if ( is_user_logged_in() ) {
 							$current_user = wp_get_current_user();
 							$user_thumb   = get_avatar_url( $current_user->ID );
+							$my_profile_link = bp_core_get_user_domain( $current_user->ID );
 							?>
 							<div class="nab-profile">
                                 <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">
@@ -75,17 +76,14 @@
                                 </a>
 								<div class="nab-profile-dropdown">
 									<ul>
-										<li>
-											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
-										</li>
+										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'My Profile', 'nab-amplify' ); ?></a>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
 										</li>
-										<li>
-											<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
 										</li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Orders', 'nab-amplify' ); ?></a>
 										</li>
-										<li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
+                                        <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
 									</ul>
 								</div>
 							</div>
@@ -111,27 +109,18 @@
 	</header><!-- #masthead -->
 	<div class="site-content">
 		<?php
-		// If NOT in My account dashboard pages
-		if ( is_account_page() && is_user_logged_in() ) {
+        // If NOT in My account dashboard pages
+		if ( ( is_account_page() && is_user_logged_in() ) || bp_current_component() ) {
 
-			$user_images = nab_amplify_get_user_images();
-			?>
-			<div class="banner-header" style="background-image: url('<?php echo esc_url( $user_images['banner_image'] ); ?>')">
-				<div class="container">
-					<?php // woocommerce_breadcrumb(); ?>
-					<div id="profile-avtar">
-						<img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
-					</div>
-				</div>
-			</div>
-			<?php
-				if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
-					?>
-					<div style="margin: 0 auto;text-align: center;">
-						<a href="<?php echo esc_url( $_COOKIE[ 'nab_amp_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Click Here to Access Your Content</a>
-					</div>
-					<?php
-				}
+			get_template_part( 'template-parts/content', 'header' );
+
+            if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
+                ?>
+                <div style="margin: 0 auto;text-align: center;">
+                    <a href="<?php echo esc_url( $_COOKIE[ 'nab_amp_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Click Here to Access Your Content</a>
+                </div>
+                <?php
+            }
 				?>
 		<?php } else { ?>
 			<div class="container">

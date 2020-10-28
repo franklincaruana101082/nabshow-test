@@ -53,7 +53,7 @@
       $('.content_card[data-item="'+ new_current_page +'"]').show();
     }
   });
-  
+
   // on load
   $( window ).load( function() {
 
@@ -320,7 +320,7 @@
 
     block( $('.woocommerce-cart-form') );
     block( $( 'div.cart_totals' ) );
-   
+
     let nabCartData = {
       'action' : 'nab_custom_update_cart',
       'qty' : $('#nab_bulk_quantity').val(),
@@ -546,7 +546,7 @@
           errMessageElem.innerHTML = 'No Attendees found.';
           attendeeTableWrap.appendChild( errMessageElem );
         } else {
-          
+
           let attendeeTable = document.createElement( 'table' );
 
           let titleWrapper = document.createElement( 'div' );
@@ -564,7 +564,7 @@
           addAttendeeLink.innerText = 'Add Attendee';
 
           if ( response.is_attendee ) {
-            addAttendeeLink.setAttribute( 'style', 'display: none;' );  
+            addAttendeeLink.setAttribute( 'style', 'display: none;' );
           }
 
           titleWrapper.appendChild( addAttendeeLink );
@@ -575,7 +575,7 @@
 
           let attendeeActionMsg = document.createElement( 'div' );
           attendeeActionMsg.setAttribute( 'class', 'attendee-details-message' );
-          attendeeActionMsg.setAttribute( 'style', 'display: none;' ); 
+          attendeeActionMsg.setAttribute( 'style', 'display: none;' );
 
           let attendeeTableFooter = document.createElement( 'span' );
           attendeeTableFooter.className = 'nab-attendee-detail-footer';
@@ -612,7 +612,7 @@
 
           for ( let a = 0; a < response.attendees.length; a ++ ) {
             let attendeeDataTr = document.createElement( 'tr' );
-            
+
             $.each(dataTitles, function(key, value) {
               let attendeeDataTd = document.createElement( 'td' );
               let attendeeDataTdText = document.createTextNode( response.attendees[a][key] );
@@ -700,15 +700,15 @@
             'action': 'remove_attendee',
             'nabNonce': amplifyJS.nabNonce
           },
-          success: function( response ) {            
-            
+          success: function( response ) {
+
             if ( 1 === response.err ) {
               $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
             } else {
-              
+
               $('.attendee-details-message').text( response.message ).addClass( 'success' ).show();
               currentAttendee.parents( 'tr' ).remove();
-              
+
               if ( response.is_attendee ) {
                 $('.attendee-view-table-wrp .nab-view-add-attendee').hide();
               } else {
@@ -730,9 +730,9 @@
   let attendeeFirstName = '';
   let attendeeLastName = '';
   let attendeeEmail = '';
-  
+
   $(document).on('click', '.attendee-view-table-wrp .att-actions a.fa-edit', function(){
-    
+
     let currentAttendee = $(this);
     let primaryID = currentAttendee.parents('td').attr('data-pid');
     let orderID = currentAttendee.parents('td').attr('data-oid');
@@ -740,14 +740,14 @@
     $('.attendee-details-message').hide().text('').removeClass('success failed');
 
     if ( primaryID && orderID ) {
-      
+
       showLoader();
-      
+
       $.ajax({
         url: amplifyJS.ajaxurl,
         type: 'POST',
         data: {
-          'pID': primaryID,          
+          'pID': primaryID,
           'action': 'get_edit_attendee',
           'nabNonce': amplifyJS.nabNonce
         },
@@ -761,7 +761,7 @@
             attendeeEmail = response.email;
             $('#nabeditAttendeeModal .attendee_first_name').val( attendeeFirstName );
             $('#nabeditAttendeeModal .attendee_last_name').val( attendeeLastName );
-            $('#nabeditAttendeeModal .attendee_email').val( attendeeEmail );            
+            $('#nabeditAttendeeModal .attendee_email').val( attendeeEmail );
             $('#nabeditAttendeeModal .attendee-edit-wrap').attr({'data-oid' : orderID, 'data-pid': primaryID, 'data-uid': response.uid });
             $('#nabeditAttendeeModal .attendee-edit-wrap h3').text('Edit Attendee Details');
             $('#nabeditAttendeeModal').show();
@@ -778,7 +778,7 @@
   });
 
   $(document).on('click', '.attendee-view-table-wrp .nab-view-add-attendee', function(){
-    
+
     $('#nabeditAttendeeModal .attendee-edit-wrap').attr({'data-orderid' : $(this).attr('data-orderid'), 'data-action': 'add' });
     $('#nabeditAttendeeModal .attendee-edit-wrap h3').text('Add Attendee Details');
     $('#nabeditAttendeeModal .attendee-edit-wrap .attendee_first_name').val('');
@@ -792,7 +792,7 @@
     let currentElement = $(this);
     let editFirstName = currentElement.parents('table').find('.attendee_first_name').val();
     let editLastName = currentElement.parents('table').find('.attendee_last_name').val();
-    let editEmail = currentElement.parents('table').find('.attendee_email').val();    
+    let editEmail = currentElement.parents('table').find('.attendee_email').val();
     let action = currentElement.parents('.attendee-edit-wrap').attr('data-action');
 
     $('.attendee-details-message').hide().text('').removeClass('success failed');
@@ -805,7 +805,7 @@
       alert( "Enter a valid last name" );
       return;
     }
-    
+
     let emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if ( ! emailRegex.test(editEmail) ) {
       alert( "Enter a valid email address" );
@@ -814,17 +814,17 @@
 
 
     if ( 'add' === action ) {
-      
+
       let orderID = currentElement.parents('.attendee-edit-wrap').attr('data-orderid');
 
       if ( orderID ) {
-        
+
         showLoader();
-          
+
         $.ajax({
           url: amplifyJS.ajaxurl,
           type: 'POST',
-          data: {            
+          data: {
             'orderId' : orderID,
             'fname' : editFirstName,
             'lname' : editLastName,
@@ -875,13 +875,13 @@
               actionTd.appendChild(actionDiv);
               tableTr.appendChild(firstNameTd);
               tableTr.appendChild(lastNameTd);
-              tableTr.appendChild(emailTd);              
+              tableTr.appendChild(emailTd);
               tableTr.appendChild(actionTd);
 
               let tableBody = document.getElementById( 'attendee-list-table-body' );
 
               tableBody.appendChild(tableTr);
-              
+
               if ( response.is_attendee ) {
                 $('.attendee-view-table-wrp .nab-view-add-attendee').hide();
               }
@@ -897,16 +897,16 @@
       }
 
     } else {
-      
+
       let primaryID = currentElement.parents('.attendee-edit-wrap').attr('data-pid');
       let orderID = currentElement.parents('.attendee-edit-wrap').attr('data-oid');
 
       if ( attendeeEmail !== editEmail ) {
 
         if ( primaryID && orderID ) {
-        
+
           showLoader();
-          
+
           $.ajax({
             url: amplifyJS.ajaxurl,
             type: 'POST',
@@ -925,14 +925,14 @@
                 $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
                 currentElement.parents('#nabeditAttendeeModal').hide();
               } else {
-                
+
                 $('.attendee-details-message').text( response.message ).addClass( 'success' ).show();
-                
+
                 $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(0)').text(editFirstName);
                 $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(1)').text(editLastName);
                 $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').parents('tr').find('td:eq(2)').text(editEmail);
                 $('#nabViewAttendeeModal table td[data-pid="' + primaryID + '"]').attr({ 'data-oid' : response.oid, 'data-pid' : response.pid });
-                
+
                 if ( response.is_attendee ) {
                   $('.attendee-view-table-wrp .nab-view-add-attendee').hide();
                 } else {
@@ -949,15 +949,15 @@
             }
           });
         }
-        
+
       } else if ( attendeeFirstName !== editFirstName || attendeeLastName !== editLastName ) {
-        
+
         let currentUserId = currentElement.parents('.attendee-edit-wrap').data('uid');
-  
+
         if ( primaryID && currentUserId ) {
-        
+
           showLoader();
-          
+
           $.ajax({
             url: amplifyJS.ajaxurl,
             type: 'POST',
@@ -970,7 +970,7 @@
               'nabNonce': amplifyJS.nabNonce
             },
             success: function( response ) {
-              
+
               if ( 1 === response.err ) {
                 $('.attendee-details-message').text( response.message ).addClass( 'failed' ).show();
                 currentElement.parents('#nabeditAttendeeModal').hide();
@@ -988,7 +988,7 @@
             }
           });
         }
-  
+
       } else {
         currentElement.parents('#nabeditAttendeeModal').hide();
       }
@@ -998,13 +998,715 @@
     attendeeFirstName = '';
     attendeeLastName = '';
     attendeeEmail = '';
-    currentElement.parents('.attendee-edit-wrap').removeAttr('data-pid data-oid data-uid data-orderid data-action');    
+    currentElement.parents('.attendee-edit-wrap').removeAttr('data-pid data-oid data-uid data-orderid data-action');
 
   });
 
   $(document).on('click', '#nabeditAttendeeModal .edit-att-buttons .btn-cancle', function() {
     $(this).parents('#nabeditAttendeeModal').hide();
-    $(this).parents('.attendee-edit-wrap').removeAttr('data-pid data-oid data-uid data-orderid data-action');    
+    $(this).parents('.attendee-edit-wrap').removeAttr('data-pid data-oid data-uid data-orderid data-action');
   });
 
+  $('.nab-custom-select select').chosen({width: "100%"});
+
+  /* User Search Filters*/
+  $(document).on('click', '#load-more-user a', function() {
+    let userPageNumber = parseInt($(this).attr('data-page-number'));
+    nabSearchUserAjax( true, userPageNumber );
+  });
+
+  $(document).on('change', '.other-search-filter #people-connect', function(){
+    nabSearchUserAjax( false, 1 );
+  });
+
+  $(document).on('keypress', '.other-search-filter .company-search .input-company', function (e) {
+    if (13 === e.which) {
+      nabSearchUserAjax(false, 1);
+    }
+  });
+  $(document).on('click', '.other-search-filter .sort-user a.sort-order', function() {
+    if ( ! $(this).hasClass('active') ) {
+      $(this).addClass('active').siblings().removeClass('active');
+      nabSearchUserAjax( false, 1 );
+    }
+
+  });
+
+  /* Product Search Filters*/
+  $(document).on('click', '#load-more-product a', function() {
+    let productPageNumber = parseInt($(this).attr('data-page-number'));
+    nabSearchProductAjax( true, productPageNumber );
+  });
+
+  $(document).on('change', '.other-search-filter #product-category', function(){
+    nabSearchProductAjax( false, 1 );
+  });
+
+  $(document).on('click', '.other-search-filter .sort-product a.sort-order', function() {
+    if ( ! $(this).hasClass('active') ) {
+      $(this).addClass('active').siblings().removeClass('active');
+      nabSearchProductAjax( false, 1 );
+    }
+
+  });
+
+  /* Content Search Filters*/
+  $(document).on('click', '#load-more-content a', function() {
+    let contentPageNumber = parseInt($(this).attr('data-page-number'));
+    nabSearchContentAjax( true, contentPageNumber );
+  });
+
+  $(document).on('click', '.other-search-filter .sort-content a.sort-order', function() {
+    if ( ! $(this).hasClass('active') ) {
+      $(this).addClass('active').siblings().removeClass('active');
+      nabSearchContentAjax( false, 1 );
+    }
+
+  });
+
+  $(document).on('click', '.search-actions a.not_friends, .search-actions a.pending_friend', function(e){
+    if ( $(this).attr('href').match(/_wpnonce=/) ) {
+      e.preventDefault();
+      let _this = $(this);
+      let wpnonce = _this.attr('href').split('_wpnonce=')[1];
+      let friendId = _this.attr('id').split('-')[1];
+      let ajaxAction = _this.hasClass('not_friends') ? 'friends_add_friend' : 'friends_withdraw_friendship';
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          'action': ajaxAction,
+          'nonce': BP_Nouveau.nonces.friends,
+          'item_id': friendId,
+          '_wpnonce': wpnonce
+        },
+        success: function( response ) {
+
+          if ( response.success ) {
+            _this.parent().replaceWith(response.data.contents);
+          }
+        }
+      });
+      return false;
+    }
+
+  });
+
+  // Product bookmark Ajax
+  $(document).on('click', 'span.user-bookmark-action', function(e){
+    let _this = $(this);
+    let bm_action = _this.hasClass('bookmark-fill') ? 'remove' : 'add';
+    let item_id = _this.attr('data-product');
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        'action': 'nab_update_member_bookmark',
+        'nabNonce': amplifyJS.nabNonce,
+        'item_id': item_id,
+        'bm_action': bm_action
+      },
+      success: function( response ) {
+
+        let final_res = jQuery.parseJSON( response );
+
+        if ( final_res.success ) {
+
+          if ( _this.hasClass('bookmark-fill') ) {
+
+            _this.removeClass('bookmark-fill').attr('data-bp-tooltip', final_res.tooltip );
+
+          } else {
+            _this.addClass('bookmark-fill').attr('data-bp-tooltip', final_res.tooltip );
+          }
+        }
+      }
+    });
+
+  });
+
+  // User bookmark list
+  $(document).on('click', '#load-more-bookmark a', function(e){
+
+    let postPerPage = $(this).attr('data-post-limit') ? parseInt( $(this).attr('data-post-limit') ) : 12;
+    let pageNumber = $(this).attr('data-page-number') ? parseInt( $(this).attr('data-page-number') ) : 12;
+    let item_id = $(this).attr('data-user') ? parseInt( $(this).attr('data-user') ) : 0;
+
+    $( 'body' ).addClass( 'is-loading' );
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        'action': 'nab_member_bookmark_list',
+        'nabNonce': amplifyJS.nabNonce,
+        'item_id': item_id,
+        'page_number': pageNumber,
+        'post_limit' : postPerPage
+      },
+      success: function( response ) {
+
+        let bookmarkObj = jQuery.parseJSON( response );
+
+        if ( bookmarkObj.result_post && 0 < bookmarkObj.result_post.length ) {
+
+          let bookmarkListDiv = document.getElementById('bookmark-list');
+
+          jQuery.each(bookmarkObj.result_post, function (key, value) {
+
+            let searchItemDiv = document.createElement('div');
+            searchItemDiv.setAttribute('class', 'amp-item-col');
+
+            let searchItemInner = document.createElement('div');
+            searchItemInner.setAttribute('class', 'amp-item-inner');
+
+            let searchItemCover = document.createElement('div');
+            searchItemCover.setAttribute('class', 'amp-item-cover');
+
+            let coverImg = document.createElement('img');
+            coverImg.setAttribute('src', value.thumbnail );
+            coverImg.setAttribute('alt', 'Bookmark Image');
+
+            searchItemCover.appendChild(coverImg);
+
+            let bookmarkSpan = document.createElement('span');
+            bookmarkSpan.setAttribute('class', 'fa fa-bookmark-o amp-bookmark bookmark-fill');
+
+            searchItemCover.appendChild(bookmarkSpan);
+            searchItemInner.appendChild(searchItemCover);
+
+            let searchItemInfo = document.createElement('div');
+            searchItemInfo.setAttribute('class', 'amp-item-info');
+
+            let searchContent = document.createElement('div');
+            searchContent.setAttribute('class', 'amp-item-content');
+
+            let bookmarkTitle = document.createElement('h4');
+
+            let bookmarkTitleLink = document.createElement('a');
+            bookmarkTitleLink.setAttribute('href', value.link );
+            bookmarkTitleLink.innerText = value.title;
+
+            bookmarkTitle.appendChild(bookmarkTitleLink);
+
+            searchContent.appendChild(bookmarkTitle);
+
+            let ampAction = document.createElement('div');
+            ampAction.setAttribute('class', 'amp-actions');
+
+            let searchAction = document.createElement('div');
+            searchAction.setAttribute('class', 'search-actions');
+
+            let viewBookmarkLink = document.createElement('a');
+            viewBookmarkLink.setAttribute('href', value.link );
+            viewBookmarkLink.setAttribute('class', 'button');
+            viewBookmarkLink.innerText = 'Read More';
+
+            searchAction.appendChild(viewBookmarkLink);
+            ampAction.appendChild(searchAction);
+            searchContent.appendChild(ampAction);
+
+
+            searchItemInfo.appendChild(searchContent);
+            searchItemInner.appendChild(searchItemInfo);
+            searchItemDiv.appendChild(searchItemInner);
+
+            bookmarkListDiv.appendChild(searchItemDiv);
+
+            if ( value.banner ) {
+              $('#bookmark-list').append( value.banner );
+            }
+
+          });
+        }
+        $('#load-more-bookmark a').attr('data-page-number', bookmarkObj.next_page_number);
+
+        if (bookmarkObj.next_page_number > bookmarkObj.total_page) {
+          $('#load-more-bookmark').hide();
+        } else {
+          $('#load-more-bookmark').show();
+        }
+
+        $( 'body' ).removeClass( 'is-loading' );
+      }
+    });
+  });
+
+  // User event list
+  $(document).on('click', '#load-more-events a', function(e){
+
+    let postPerPage = $(this).attr('data-post-limit') ? parseInt( $(this).attr('data-post-limit') ) : 12;
+    let pageNumber = $(this).attr('data-page-number') ? parseInt( $(this).attr('data-page-number') ) : 2;
+    let item_id = $(this).attr('data-user') ? parseInt( $(this).attr('data-user') ) : 0;
+
+    $( 'body' ).addClass( 'is-loading' );
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        'action': 'nab_member_event_list',
+        'nabNonce': amplifyJS.nabNonce,
+        'item_id': item_id,
+        'page_number': pageNumber,
+        'post_limit' : postPerPage
+      },
+      success: function( response ) {
+
+        let eventObj = jQuery.parseJSON( response );
+
+        if ( eventObj.result_post && 0 < eventObj.result_post.length ) {
+
+          let eventListDiv = document.getElementById('previous-event-list');
+
+          jQuery.each(eventObj.result_post, function (key, value) {
+
+            let searchItemDiv = document.createElement('div');
+            searchItemDiv.setAttribute('class', 'amp-item-col');
+
+            let searchItemInner = document.createElement('div');
+            searchItemInner.setAttribute('class', 'amp-item-inner');
+
+            let searchItemCover = document.createElement('div');
+            searchItemCover.setAttribute('class', 'amp-item-cover');
+
+            let coverImg = document.createElement('img');
+            coverImg.setAttribute('src', value.thumbnail );
+            coverImg.setAttribute('alt', 'Event Image');
+
+            searchItemCover.appendChild(coverImg);
+            searchItemInner.appendChild(searchItemCover);
+
+            let searchItemInfo = document.createElement('div');
+            searchItemInfo.setAttribute('class', 'amp-item-info');
+
+            let searchContent = document.createElement('div');
+            searchContent.setAttribute('class', 'amp-item-content');
+
+            let eventTitle = document.createElement('h4');
+            eventTitle.innerText = value.title;
+
+            searchContent.appendChild(eventTitle);
+
+            let eventDate = document.createElement('span');
+            eventDate.setAttribute('class', 'company-name');
+            eventDate.innerText = value.date;
+
+            searchContent.appendChild(eventDate);
+
+            let ampAction = document.createElement('div');
+            ampAction.setAttribute('class', 'amp-actions');
+
+            let searchAction = document.createElement('div');
+            searchAction.setAttribute('class', 'search-actions');
+
+            let viewEventLink = document.createElement('a');
+            viewEventLink.setAttribute('href', value.link );
+            viewEventLink.setAttribute('class', 'button');
+            viewEventLink.innerText = 'View Event';
+
+            searchAction.appendChild(viewEventLink);
+            ampAction.appendChild(searchAction);
+            searchContent.appendChild(ampAction);
+
+
+            searchItemInfo.appendChild(searchContent);
+            searchItemInner.appendChild(searchItemInfo);
+            searchItemDiv.appendChild(searchItemInner);
+
+            eventListDiv.appendChild(searchItemDiv);
+
+            if ( value.banner ) {
+              $('#previous-event-list').append( value.banner );
+            }
+
+          });
+        }
+        $('#load-more-events a').attr('data-page-number', eventObj.next_page_number);
+
+        if (eventObj.next_page_number > eventObj.total_page) {
+          $('#load-more-events').hide();
+        } else {
+          $('#load-more-events').show();
+        }
+
+        $( 'body' ).removeClass( 'is-loading' );
+      }
+    });
+  });
+
+
 })( jQuery );
+
+/** User Search Ajax */
+function nabSearchUserAjax( loadMore, pageNumber ) {
+  let connected = '';
+  let pageType = jQuery('#load-more-user a').attr('data-page-type');
+  let postPerPage = jQuery('#load-more-user a').attr('data-post-limit') ? parseInt(jQuery('#load-more-user a').attr('data-post-limit')) : 12;
+  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let company = 0 < jQuery('.other-search-filter .company-search .input-company').length ? jQuery('.other-search-filter .company-search .input-company').val() : '';
+  let orderBy = 0 < jQuery('.other-search-filter .sort-user a.active').length ? jQuery('.other-search-filter .sort-user a.active').attr('data-order') : 'newest';
+
+  if ( 0 < jQuery('.other-search-filter #people-connect').length ) {
+    connected = 0 === jQuery('.other-search-filter #people-connect')[0].selectedIndex ? '' : jQuery('.other-search-filter #people-connect').val();
+  }
+
+  jQuery( 'body' ).addClass( 'is-loading' );
+
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      'action': 'nab_member_search_filter',
+      'nabNonce': amplifyJS.nabNonce,
+      'page_number': pageNumber,
+      'post_limit': postPerPage,
+      'connected' : connected,
+      'search_term': searchTerm,
+      'company': company,
+      'orderby': orderBy,
+    },
+    success: function( response ) {
+
+      if ( ! loadMore ) {
+        jQuery('#search-user-list').empty();
+      }
+      let userObj = jQuery.parseJSON( response );
+
+      if ( '' !== userObj.result_user && 0 < userObj.result_user.length ) {
+
+        if( 'connections' === pageType ) {
+          var userListDiv = '#connections-user-list';
+          var userCardDiv = 'amp-item-col';
+          var userCardInnerDiv = 'amp-item-inner';
+          var userCardCoverDiv = 'amp-item-cover';
+          var userRemoveIconDiv = 'amp-action-remove';
+          var userCardInfoDiv = 'amp-item-info';
+          var userCardAvtarDiv = 'amp-item-avtar';
+          var userCardContentDiv = 'amp-item-content';
+        } else {
+          var userListDiv = '#search-user-list';
+          var userCardDiv = 'search-item';
+          var userCardInnerDiv = 'search-item-inner';
+          var userCardCoverDiv = 'search-item-cover';
+          var userRemoveIconDiv = '';
+          var userCardInfoDiv = 'search-item-info';
+          var userCardAvtarDiv = 'search-item-avtar';
+          var userCardContentDiv = 'search-item-content';
+        }
+
+        jQuery.each(userObj.result_user, function (key, value) {
+
+          let searchItemDiv = document.createElement('div');
+          searchItemDiv.setAttribute('class', userCardDiv);
+
+          let searchItemInner = document.createElement('div');
+          searchItemInner.setAttribute('class', userCardInnerDiv);
+
+          if ( undefined !== value.cancel_friendship_button && '' !== value.cancel_friendship_button ) {
+            let cancelFriendshipButton = document.createElement('div');
+            cancelFriendshipButton.setAttribute('class', userRemoveIconDiv);
+            cancelFriendshipButton.innerHTML = value.cancel_friendship_button;
+            searchItemInner.appendChild(cancelFriendshipButton);
+          }
+
+          let searchItemCover = document.createElement('div');
+          searchItemCover.setAttribute('class', userCardCoverDiv);
+
+          let coverImg = document.createElement('img');
+          coverImg.setAttribute('src', value.cover_img);
+          coverImg.setAttribute('alt', 'Cover Image');
+
+          searchItemCover.appendChild(coverImg);
+          searchItemInner.appendChild(searchItemCover);
+
+          let searchItemInfo = document.createElement('div');
+          searchItemInfo.setAttribute('class', userCardInfoDiv);
+
+          let avatarDiv = document.createElement('div');
+          avatarDiv.setAttribute('class', userCardAvtarDiv);
+          avatarDiv.innerHTML = value.avatar;
+
+          searchItemInfo.appendChild(avatarDiv);
+
+          let searchContent = document.createElement('div');
+          searchContent.setAttribute('class', userCardContentDiv);
+
+          let userName = document.createElement('h4');
+          userName.innerText = value.name;
+
+          searchContent.appendChild(userName);
+
+          let userCompany = document.createElement('span');
+          userCompany.setAttribute('class', 'company-name');
+          userCompany.innerText = value.company;
+
+          searchContent.appendChild(userCompany);
+
+          if ( undefined !== value.action_button && '' !== value.action_button ) {
+
+            let searchAction = document.createElement('div');
+            searchAction.setAttribute('class', 'search-actions');
+            searchAction.innerHTML = value.action_button;
+
+            searchContent.appendChild(searchAction);
+
+          }
+
+          searchItemInfo.appendChild(searchContent);
+          searchItemInner.appendChild(searchItemInfo);
+          searchItemDiv.appendChild(searchItemInner);
+
+          jQuery(userListDiv).append(searchItemDiv);
+
+          if ( value.banner ) {
+            jQuery(userListDiv).append( value.banner );
+          }
+
+        });
+      }
+      jQuery('#load-more-user a').attr('data-page-number', userObj.next_page_number);
+
+      if (userObj.next_page_number > userObj.total_page) {
+        jQuery('#load-more-user').hide();
+      } else {
+        jQuery('#load-more-user').show();
+      }
+
+      if (0 === userObj.total_page) {
+        jQuery(userListDiv).empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+      } else {
+        jQuery(userListDiv).parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+      }
+
+      if( 0 !== jQuery('.search-view-top-head .user-search-count').length ) {
+      jQuery('.search-view-top-head .user-search-count').text( userObj.total_user + ' Results for ')
+      }
+
+      jQuery( 'body' ).removeClass( 'is-loading' );
+    }
+  });
+}
+
+/** Product Search Ajax */
+function nabSearchProductAjax( loadMore, pageNumber ) {
+  let category = '';
+  let postPerPage = jQuery('#load-more-product a').attr('data-post-limit') ? parseInt(jQuery('#load-more-product a').attr('data-post-limit')) : 12;
+  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let orderBy = 0 < jQuery('.other-search-filter .sort-product a.active').length ? jQuery('.other-search-filter .sort-product a.active').attr('data-order') : 'popularity';
+  if ( 0 < jQuery('.other-search-filter #product-category').length ) {
+    category = 0 === jQuery('.other-search-filter #product-category')[0].selectedIndex ? '' : jQuery('.other-search-filter #product-category').val();
+  }
+
+  jQuery( 'body' ).addClass( 'is-loading' );
+
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      'action': 'nab_product_search_filter',
+      'nabNonce': amplifyJS.nabNonce,
+      'page_number': pageNumber,
+      'post_limit': postPerPage,
+      'search_term': searchTerm,
+      'category': category,
+      'orderby': orderBy,
+    },
+    success: function( response ) {
+
+      if ( ! loadMore ) {
+        jQuery('#search-product-list').empty();
+      }
+      let productObj = jQuery.parseJSON( response );
+
+      if ( '' !== productObj.result_post && 0 < productObj.result_post.length ) {
+
+        let productListDiv = document.getElementById('search-product-list');
+
+        jQuery.each(productObj.result_post, function (key, value) {
+
+          let searchItemDiv = document.createElement('div');
+          searchItemDiv.setAttribute('class', 'search-item');
+
+          let searchItemInner = document.createElement('div');
+          searchItemInner.setAttribute('class', 'search-item-inner');
+
+          let searchItemCover = document.createElement('div');
+          searchItemCover.setAttribute('class', 'search-item-cover');
+
+          let coverImg = document.createElement('img');
+          coverImg.setAttribute('src', value.thumbnail );
+          coverImg.setAttribute('alt', 'product thumbnail');
+
+          searchItemCover.appendChild(coverImg);
+          searchItemInner.appendChild(searchItemCover);
+
+          let searchItemInfo = document.createElement('div');
+          searchItemInfo.setAttribute('class', 'search-item-info');
+
+          let searchContent = document.createElement('div');
+          searchContent.setAttribute('class', 'search-item-content');
+
+          let porductTitle = document.createElement('h4');
+
+          let productTitleLink = document.createElement('a');
+          productTitleLink.setAttribute('href', value.link );
+          productTitleLink.innerText = value.title;
+
+          porductTitle.appendChild(productTitleLink);
+
+          searchContent.appendChild(porductTitle);
+
+          let searchAction = document.createElement('div');
+          searchAction.setAttribute('class', 'search-actions');
+
+          let viewProdutLink = document.createElement('a');
+          viewProdutLink.setAttribute('href', value.link );
+          viewProdutLink.setAttribute('class', 'button');
+          viewProdutLink.innerText = 'View Product';
+
+          searchAction.appendChild(viewProdutLink);
+          searchContent.appendChild(searchAction);
+
+
+          searchItemInfo.appendChild(searchContent);
+          searchItemInner.appendChild(searchItemInfo);
+          searchItemDiv.appendChild(searchItemInner);
+
+          productListDiv.appendChild(searchItemDiv);
+
+          if ( value.banner ) {
+            jQuery('#search-product-list').append( value.banner );
+          }
+
+        });
+      }
+      jQuery('#load-more-product a').attr('data-page-number', productObj.next_page_number);
+
+      if (productObj.next_page_number > productObj.total_page) {
+        jQuery('#load-more-product').hide();
+      } else {
+        jQuery('#load-more-product').show();
+      }
+
+      if (0 === productObj.total_page) {
+        jQuery('#search-product-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+      } else {
+        jQuery('#search-product-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+      }
+
+      jQuery('.search-view-top-head .product-search-count').text( productObj.total_product + ' Results for ')
+
+      jQuery( 'body' ).removeClass( 'is-loading' );
+    }
+  });
+}
+
+/** Content Search Ajax */
+function nabSearchContentAjax( loadMore, pageNumber ) {
+  let postPerPage = jQuery('#load-more-product a').attr('data-post-limit') ? parseInt(jQuery('#load-more-product a').attr('data-post-limit')) : 12;
+  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let orderBy = 0 < jQuery('.other-search-filter .sort-content a.active').length ? jQuery('.other-search-filter .sort-content a.active').attr('data-order') : 'date';
+
+  jQuery( 'body' ).addClass( 'is-loading' );
+
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      'action': 'nab_content_search_filter',
+      'nabNonce': amplifyJS.nabNonce,
+      'page_number': pageNumber,
+      'post_limit': postPerPage,
+      'search_term': searchTerm,
+      'orderby': orderBy,
+    },
+    success: function( response ) {
+
+      if ( ! loadMore ) {
+        jQuery('#search-content-list').empty();
+      }
+      let contentObj = jQuery.parseJSON( response );
+
+      if ( '' !== contentObj.result_post && 0 < contentObj.result_post.length ) {
+
+        let contentListDiv = document.getElementById('search-content-list');
+
+        jQuery.each(contentObj.result_post, function (key, value) {
+
+          let searchItemDiv = document.createElement('div');
+          searchItemDiv.setAttribute('class', 'search-item');
+
+          let searchItemInner = document.createElement('div');
+          searchItemInner.setAttribute('class', 'search-item-inner');
+
+          let searchItemCover = document.createElement('div');
+          searchItemCover.setAttribute('class', 'search-item-cover');
+
+          let coverImg = document.createElement('img');
+          coverImg.setAttribute('src', value.thumbnail );
+          coverImg.setAttribute('alt', 'content thumbnail');
+
+          searchItemCover.appendChild(coverImg);
+          searchItemInner.appendChild(searchItemCover);
+
+          let searchItemInfo = document.createElement('div');
+          searchItemInfo.setAttribute('class', 'search-item-info');
+
+          let searchContent = document.createElement('div');
+          searchContent.setAttribute('class', 'search-item-content');
+
+          let postTitle = document.createElement('h4');
+
+          let postTitleLink = document.createElement('a');
+          postTitleLink.setAttribute('href', value.link );
+          postTitleLink.innerText = value.title;
+
+          postTitle.appendChild(postTitleLink);
+
+          searchContent.appendChild(postTitle);
+
+          let searchAction = document.createElement('div');
+          searchAction.setAttribute('class', 'search-actions');
+
+          let viewPostLink = document.createElement('a');
+          viewPostLink.setAttribute('href', value.link );
+          viewPostLink.setAttribute('class', 'button');
+          viewPostLink.innerText = 'Read More';
+
+          searchAction.appendChild(viewPostLink);
+          searchContent.appendChild(searchAction);
+
+
+          searchItemInfo.appendChild(searchContent);
+          searchItemInner.appendChild(searchItemInfo);
+          searchItemDiv.appendChild(searchItemInner);
+
+          contentListDiv.appendChild(searchItemDiv);
+
+          if ( value.banner ) {
+            jQuery('#search-content-list').append( value.banner );
+          }
+
+        });
+      }
+      jQuery('#load-more-content a').attr('data-page-number', contentObj.next_page_number);
+
+      if (contentObj.next_page_number > contentObj.total_page) {
+        jQuery('#load-more-content').hide();
+      } else {
+        jQuery('#load-more-content').show();
+      }
+
+      if (0 === contentObj.total_page) {
+        jQuery('#search-content-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+      } else {
+        jQuery('#search-content-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+      }
+
+      jQuery('.search-view-top-head .content-search-count').text( contentObj.total_content + ' Results for ')
+
+      jQuery( 'body' ).removeClass( 'is-loading' );
+    }
+  });
+}

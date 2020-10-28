@@ -166,7 +166,7 @@
 </div>
 
 <?php
-$follower_ids = bp_follow_get_followers( array( 'user_id' => $current_user->ID ) );
+/*$follower_ids = bp_follow_get_followers( array( 'user_id' => $current_user->ID ) );
 
 if ( is_array( $follower_ids ) && count( $follower_ids ) > 0 ) {
 	?>
@@ -200,4 +200,4 @@ if ( is_array( $following_ids ) && count( $following_ids ) > 0 ) {
 			<p><?php echo esc_html( $first_name . ' ' . $last_name ); ?></p>
 		<?php
 	}
-}
+}*/

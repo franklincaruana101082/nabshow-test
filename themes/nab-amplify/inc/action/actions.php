@@ -39,6 +39,15 @@ add_action( 'woocommerce_account_edit-my-profile_endpoint', 'nab_amplify_edit_my
 // My Purchases content.
 add_action( 'woocommerce_account_my-purchases_endpoint', 'nab_amplify_my_purchases_content_callback' );
 
+// My Connections content.
+add_action( 'woocommerce_account_my-connections_endpoint', 'nab_amplify_my_connections_content_callback' );
+
+// My Events endpoint.
+add_action( 'woocommerce_account_my-events_endpoint', 'nab_amplify_my_events_content_callback' );
+
+// My Bookmarks endpoint.
+add_action( 'woocommerce_account_my-bookmarks_endpoint', 'nab_amplify_my_bookmarks_content_callback' );
+
 // Register edit my profile endpoint to use for My Account page.
 add_action( 'init', 'nab_amplify_add_custom_endpoints' );
 
@@ -120,3 +129,9 @@ add_action( 'init', 'nab_register_event_shows_post_type' );
 add_action( 'wp_login', 'nab_set_user_login_cookie_for_other_site', 10, 2);
 
 add_action( 'wp_logout', 'nab_clear_share_login_cookie' );
+
+add_action( 'woocommerce_order_status_changed', 'nab_update_product_in_user_meta', 10, 3 );
+
+add_action( 'woocommerce_edit_account_form', 'nab_edit_acount_additional_form_fields' );
+
+add_action( 'woocommerce_save_account_details', 'nab_save_edit_account_additional_form_fields' );

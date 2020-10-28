@@ -26,9 +26,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
 ?>
 
 <nav class="woocommerce-MyAccount-navigation">
-    <h3 id="greeting-profile-name">
-	    <?php echo esc_html( __( 'Hello', 'nab-amplify' ) . ', ' . $username ); ?>
-    </h3>
+    <!-- <h3 id="greeting-profile-name">
+	    <?php // echo esc_html( __( 'Hello', 'nab-amplify' ) . ', ' . $username ); ?>
+    </h3> -->
 	<ul>
 		<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
 			<li class="<?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">
