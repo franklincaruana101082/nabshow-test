@@ -357,7 +357,7 @@ $view_screen		= array( 'user', 'product', 'content' );
 				$members_filter = array(
 					'page' 		=> 1,
 					'per_page' 	=> 4,
-					'type'		=> 'active'
+					'type'		=> 'newest'
 				);
 
 				if ( bp_has_members( $members_filter ) ) {
