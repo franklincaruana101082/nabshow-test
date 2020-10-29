@@ -97,27 +97,27 @@ $user_images = nab_amplify_get_user_images( $member_id );
                             </div>
                             <div class="amp-profile-social">
                                 <ul>
-									<?php if ( $user_data['social_twitter'][0] ) { ?>
+									<?php if ( $user_data['social_twitter'] ) { ?>
                                         <li>
-                                            <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
+                                            <a href="<?php echo esc_attr( $user_data['social_twitter'] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
                                         </li>
 									<?php }
-									if ( $user_data['social_twitter'][0] ) { ?>
+									if ( $user_data['social_twitter'] ) { ?>
                                         <li>
                                             <a href="<?php echo esc_attr( $user_data['social_linkedin'][0] ); ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
                                         </li>
 									<?php }
-									if ( $user_data['social_twitter'][0] ) { ?>
+									if ( $user_data['social_twitter'] ) { ?>
                                         <li>
                                             <a href="<?php echo esc_attr( $user_data['social_facebook'][0] ); ?>" target="_blank"><i class="fa fa-facebook"></i></a>
                                         </li>
 									<?php }
-									if ( $user_data['social_twitter'][0] ) { ?>
+									if ( $user_data['social_twitter'] ) { ?>
                                         <li>
                                             <a href="<?php echo esc_attr( $user_data['social_instagram'][0] ); ?>" target="_blank"><i class="fa fa-instagram"></i></a>
                                         </li>
 									<?php }
-									if ( $user_data['social_twitter'][0] ) { ?>
+									if ( $user_data['social_twitter'] ) { ?>
                                         <li>
                                             <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
                                         </li>
