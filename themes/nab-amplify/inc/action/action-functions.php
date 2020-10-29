@@ -566,7 +566,8 @@ function nab_save_event_fields( $order_id ) {
 function nab_amplify_template_redirect() {
 
 	global $wp;
-	$current_user_id = get_current_user_id();
+	$current_user_id 	= get_current_user_id();
+	$user_logged_in		= is_user_logged_in();
 
 	// Get buddypress member ID.
 	$member_id = 0;
@@ -578,7 +579,7 @@ function nab_amplify_template_redirect() {
 		wp_redirect( home_url(), 301 );
 		exit;
 	}
-
+	
 	// Redirect Buddypress pages.
 	$request               = explode( '/', $wp->request );
 	$current_url           = home_url( $wp->request );
@@ -588,25 +589,41 @@ function nab_amplify_template_redirect() {
 	$my_profile_url        = bp_core_get_user_domain( get_current_user_id() );
 	$is_friend             = friends_check_friendship_status( $current_user_id, $member_id );
 
-	if ( ! is_user_logged_in() && $bp_current_component ) {
+	if ( ! $user_logged_in && $bp_current_component ) {
 		/* If user is NOT logged in and try to access Buddypress page. */
 		$redirect_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
 
-	} else if ( is_user_logged_in() && $bp_current_component && ! in_array( $bp_current_component, $allowed_bp_components, true ) ) {
+	} else if ( $user_logged_in && $bp_current_component && ! in_array( $bp_current_component, $allowed_bp_components, true ) ) {
 		/* If user is logged in and try to access Buddypress page but the component is NOT allowed. */
 		$redirect_url = $my_profile_url;
 
-	} else if ( is_user_logged_in() && is_account_page() && 'edit-my-profile' === end( $request ) ) {
+	} else if ( $user_logged_in && is_account_page() && 'edit-my-profile' === end( $request ) ) {
 		/* If user is logged in and try to access Woo Account page but the page is NOT allowed. */
 		//$redirect_url = $my_profile_url; // redirect disabled.
 
-	} else if ( is_user_logged_in() && $bp_current_component
+	} else if ( $user_logged_in && $bp_current_component
 	            && 0 !== $member_id
 	            && $current_user_id !== $member_id
 	            && ( ! nab_member_can_visible_to_anyone( $member_id ) && 'is_friend' !== $is_friend )
 	) {
 		/* If user is logged in and try to access another Buddypress Member's profile who has security enabled. */
 		$redirect_url = $my_profile_url;
+
+	} else if ( $user_logged_in && is_account_page() && in_array( end( $request ), array( 'my-connections', 'my-events', 'my-bookmarks' ) ) ) {
+		
+		$member_id	= filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( isset( $member_id ) && ! empty( $member_id ) ) {
+
+			$is_friend	= friends_check_friendship_status( $current_user_id, $member_id );
+			
+			if ( $current_user_id !== (int) $member_id && ( ! nab_member_can_visible_to_anyone( $member_id ) && 'is_friend' !== $is_friend ) ) {
+				
+				/* If user is logged in and try to access another Member's profile connections, events and bookmarks who has security enabled. */
+				$redirect_url = $my_profile_url;
+			}
+		}
+		
 	}
 
 	if ( ! empty( $redirect_url ) ) {

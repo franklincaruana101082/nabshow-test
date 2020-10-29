@@ -1440,7 +1440,7 @@ function nabSearchUserAjax( loadMore, pageNumber ) {
           let searchItemInner = document.createElement('div');
           searchItemInner.setAttribute('class', userCardInnerDiv);
 
-          if ( undefined !== value.cancel_friendship_button && '' !== value.cancel_friendship_button ) {
+          if ( 'connections' === pageType && undefined !== value.cancel_friendship_button && '' !== value.cancel_friendship_button ) {
             let cancelFriendshipButton = document.createElement('div');
             cancelFriendshipButton.setAttribute('class', userRemoveIconDiv);
             cancelFriendshipButton.innerHTML = value.cancel_friendship_button;

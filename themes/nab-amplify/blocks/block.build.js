@@ -72,7 +72,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__block_multipurpose_gutenberg_block_block__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block_feature_block__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block_feature_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__block_feature_block__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__block_image_block__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__block_image_block__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__block_image_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__block_image_block__);
 // import all blocks here
 
@@ -2200,15 +2200,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 })(wp.blocks, wp.blockEditor, wp.components);
 
 /***/ }),
-/* 4 */,
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 (function (wpBlocks, wpBlockEditor, wpComponents) {
     var registerBlockType = wpBlocks.registerBlockType;
     var RichText = wpBlockEditor.RichText,
         InspectorControls = wpBlockEditor.InspectorControls,
-        MediaUpload = wpBlockEditor.MediaUpload;
+        MediaUpload = wpBlockEditor.MediaUpload,
+        AlignmentToolbar = wpBlockEditor.AlignmentToolbar;
     var PanelBody = wpComponents.PanelBody,
         Button = wpComponents.Button,
         ToggleControl = wpComponents.ToggleControl,
@@ -2231,12 +2231,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 default: ''
             },
             ImageLink: {
-                type: 'string',
+                type: 'url',
                 default: ''
             },
             ImageLinkTarget: {
                 type: 'Boolean',
                 default: false
+            },
+            ImageAlign: {
+                type: 'string',
+                default: 'none'
             }
         },
         edit: function edit(_ref) {
@@ -2245,7 +2249,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
             var ImageUrl = attributes.ImageUrl,
                 ImageAlt = attributes.ImageAlt,
                 ImageLink = attributes.ImageLink,
-                ImageLinkTarget = attributes.ImageLinkTarget;
+                ImageLinkTarget = attributes.ImageLinkTarget,
+                ImageAlign = attributes.ImageAlign;
+
+
+            var linkTarget = ImageLinkTarget ? '_blank' : '_self';
 
             return [wp.element.createElement(
                 InspectorControls,
@@ -2312,7 +2320,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                             { className: 'inspector-field' },
                             wp.element.createElement(TextControl, {
                                 value: ImageLink,
-                                type: 'string',
+                                type: 'url',
                                 label: 'Image Link',
                                 placeholder: 'https://google.com/',
                                 onChange: function onChange(ImageLink) {
@@ -2330,14 +2338,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                                     setAttributes({ ImageLinkTarget: ImageLinkTarget });
                                 }
                             })
+                        ),
+                        wp.element.createElement(
+                            'div',
+                            { className: 'inspector-field' },
+                            wp.element.createElement(AlignmentToolbar, {
+                                value: ImageAlign,
+                                onChange: function onChange(ImageAlign) {
+                                    setAttributes({ ImageAlign: undefined === ImageAlign ? 'none' : ImageAlign });
+                                }
+                            })
                         )
                     )
                 )
             ), wp.element.createElement(
                 'div',
                 { className: 'amp-image-block', style: {
-                        padding: '10px',
-                        textAlign: 'center'
+                        textAlign: ImageAlign
                     } },
                 !ImageUrl ? wp.element.createElement(
                     'div',
@@ -2363,18 +2380,32 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                     })
                 ) : !ImageLink ? wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt }) : wp.element.createElement(
                     'a',
-                    { href: ImageLink, target: ImageLinkTarget },
+                    { href: ImageLink, target: linkTarget },
                     wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt })
                 )
             )];
         },
         save: function save(_ref4) {
             var attributes = _ref4.attributes;
+            var ImageUrl = attributes.ImageUrl,
+                ImageAlt = attributes.ImageAlt,
+                ImageLink = attributes.ImageLink,
+                ImageLinkTarget = attributes.ImageLinkTarget,
+                ImageAlign = attributes.ImageAlign;
+
+
+            var linkTarget = ImageLinkTarget ? '_blank' : '_self';
 
             return wp.element.createElement(
-                'h1',
-                null,
-                'static'
+                'div',
+                { className: 'amp-image-block', style: {
+                        textAlign: ImageAlign
+                    } },
+                !ImageLink ? wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt }) : wp.element.createElement(
+                    'a',
+                    { href: ImageLink, target: linkTarget },
+                    wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt })
+                )
             );
         }
     });

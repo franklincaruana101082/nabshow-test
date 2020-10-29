@@ -4,6 +4,7 @@ const {
     RichText,
     InspectorControls,
     MediaUpload,
+    AlignmentToolbar
 } = wpBlockEditor;
 const {
     PanelBody,
@@ -28,12 +29,16 @@ registerBlockType('amplify/image',{
             default: ''
         },
         ImageLink:  {
-            type: 'string',
+            type: 'url',
             default: ''
         },
         ImageLinkTarget: {
             type: 'Boolean',
             default: false
+        },
+        ImageAlign: {
+            type: 'string',
+            default: 'none'
         }
     },
     edit: ({attributes, setAttributes}) => {
@@ -41,8 +46,12 @@ registerBlockType('amplify/image',{
             ImageUrl,
             ImageAlt,
             ImageLink,
-            ImageLinkTarget
+            ImageLinkTarget,
+            ImageAlign
         } = attributes;
+
+        var linkTarget = ImageLinkTarget ? '_blank' : '_self';
+
         return ([
             <InspectorControls>
                 <div className="amp-controle-settings">
@@ -96,7 +105,7 @@ registerBlockType('amplify/image',{
                         <div className="inspector-field">
                             <TextControl
                                 value={ImageLink}
-                                type="string"
+                                type="url"
                                 label="Image Link"
                                 placeholder="https://google.com/"
                                 onChange={(ImageLink)=>{
@@ -113,12 +122,19 @@ registerBlockType('amplify/image',{
                                 }}
                             />
                         </div>
+                        <div className="inspector-field">
+                            <AlignmentToolbar
+                                value={ImageAlign}
+                                onChange={(ImageAlign)=>{
+                                    setAttributes({ImageAlign: undefined === ImageAlign ? 'none' : ImageAlign});
+                                }}
+                            />
+                        </div>
                     </PanelBody>
                 </div>
             </InspectorControls>,
             <div className="amp-image-block" style={{
-                padding:'10px',
-                textAlign:'center'
+                textAlign:ImageAlign
             }}>
                 {!ImageUrl ? (
                     <div className="amp-button-wrap">
@@ -143,7 +159,7 @@ registerBlockType('amplify/image',{
                     (!ImageLink ? (
                         <img src={ImageUrl} alt={ImageAlt} />
                     ) : (
-                        <a href={ImageLink} target={ImageLinkTarget}>
+                        <a href={ImageLink} target={linkTarget}>
                             <img src={ImageUrl} alt={ImageAlt} />
                         </a>
                     ))
@@ -152,8 +168,28 @@ registerBlockType('amplify/image',{
         ]);
     },
     save: ({attributes}) => {
+        const {
+            ImageUrl,
+            ImageAlt,
+            ImageLink,
+            ImageLinkTarget,
+            ImageAlign
+        } = attributes;
+
+        var linkTarget = ImageLinkTarget ? '_blank' : '_self';
+
         return(
-            <h1>static</h1>
+            <div className="amp-image-block" style={{
+                textAlign:ImageAlign
+            }}>
+            {!ImageLink ? (
+                <img src={ImageUrl} alt={ImageAlt} />
+            ) : (
+                <a href={ImageLink} target={linkTarget}>
+                    <img src={ImageUrl} alt={ImageAlt} />
+                </a>
+            )}
+            </div>
         )
     }
 });
