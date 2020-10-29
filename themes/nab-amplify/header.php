@@ -77,7 +77,7 @@
 								<div class="nab-profile-dropdown">
 									<ul>
 										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'My Profile', 'nab-amplify' ); ?></a>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-connections' ) ); ?>"><?php esc_html_e( 'My Connections', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'My Connections', 'nab-amplify' ); ?></a>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Orders', 'nab-amplify' ); ?></a>
 										</li>
