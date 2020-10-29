@@ -19,7 +19,7 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
 <div class="member-front-page">
     <div class="member-connections">
 
-		<?php if ( bp_has_members( 'user_id=' . $user_id ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=' . $user_id . '&per_page=4' ) ) : ?>
 
             <div id="members-list" class="member-item-list amp-item-main" role="main">
                 <div class="amp-item-heading">
