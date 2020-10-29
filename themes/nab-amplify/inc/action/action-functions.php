@@ -598,7 +598,7 @@ function nab_amplify_template_redirect() {
 
 	} else if ( is_user_logged_in() && is_account_page() && 'edit-my-profile' === end( $request ) ) {
 		/* If user is logged in and try to access Woo Account page but the page is NOT allowed. */
-		$redirect_url = $my_profile_url;
+		//$redirect_url = $my_profile_url; // redirect disabled.
 
 	} else if ( is_user_logged_in() && $bp_current_component
 	            && 0 !== $member_id
@@ -1903,7 +1903,7 @@ function nab_edit_acount_additional_form_fields() {
                 		<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> />
                 		<span class="amp-radio"></span>
                 	</div>
-                	<label for="member_anyone_request">Anyone can request to connect</label>	
+                	<label for="member_anyone_request">Anyone can request to connect</label>
                 </div>
                 <div class="amp-radio-container">
                 	<div class="amp-radio-wrp">

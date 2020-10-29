@@ -1064,26 +1064,39 @@
 
   });
 
-  $(document).on('click', '.search-actions a.not_friends, .search-actions a.pending_friend', function(e){
+  $(document).on('click', '.search-actions a.not_friends, .search-actions a.pending_friend, .friend-request-action a.accept, .friend-request-action a.reject', function(e){
     if ( $(this).attr('href').match(/_wpnonce=/) ) {
       e.preventDefault();
       let _this = $(this);
       let wpnonce = _this.attr('href').split('_wpnonce=')[1];
-      let friendId = _this.attr('id').split('-')[1];
-      let ajaxAction = _this.hasClass('not_friends') ? 'friends_add_friend' : 'friends_withdraw_friendship';
+      let itemId, ajaxAction;
+      
+      if (_this.parent().hasClass('friend-request-action')) {
+        let requestItem = _this.attr('href').split('/?_wpnonce')[0];
+        itemId = requestItem.substring(requestItem.lastIndexOf('/') + 1 );
+        ajaxAction = 'friends_' + _this.attr('data-bp-btn-action');
+      } else {
+        itemId = _this.attr('id').split('-')[1];
+        ajaxAction = _this.hasClass('not_friends') ? 'friends_add_friend' : 'friends_withdraw_friendship';
+      }
+      
       jQuery.ajax({
         url: amplifyJS.ajaxurl,
         type: 'POST',
         data: {
           'action': ajaxAction,
           'nonce': BP_Nouveau.nonces.friends,
-          'item_id': friendId,
+          'item_id': itemId,
           '_wpnonce': wpnonce
         },
         success: function( response ) {
 
           if ( response.success ) {
-            _this.parent().replaceWith(response.data.contents);
+            if ( _this.parent().hasClass('friend-request-action')) {
+              nab_get_friend_button(_this);
+            } else {
+              _this.parent().replaceWith(response.data.contents);
+            }
           }
         }
       });
@@ -1337,6 +1350,30 @@
 
 
 })( jQuery );
+
+// Get friend button
+function nab_get_friend_button(_this) {
+  
+  let itemId = _this.parent().attr('data-item');
+  
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      'action': 'nab_get_friend_button',
+      'nabNonce': amplifyJS.nabNonce,
+      'item_id': itemId,      
+    },
+    success: function( response ) {
+
+      let buttonObj = jQuery.parseJSON( response );
+      
+      if ( buttonObj.success ) {
+        _this.parents('.search-actions').replaceWith(buttonObj.content);
+      }
+    }
+  });
+}
 
 /** User Search Ajax */
 function nabSearchUserAjax( loadMore, pageNumber ) {

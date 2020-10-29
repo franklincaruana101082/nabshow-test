@@ -77,11 +77,14 @@
 								<div class="nab-profile-dropdown">
 									<ul>
 										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'My Profile', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-connections' ) ); ?>"><?php esc_html_e( 'My Connections', 'nab-amplify' ); ?></a>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
-										</li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
-										</li>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Orders', 'nab-amplify' ); ?></a>
+										</li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a>
+										</li>
 										</li>
                                         <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
 									</ul>

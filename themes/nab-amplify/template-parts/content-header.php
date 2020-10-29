@@ -5,10 +5,10 @@
 
 // GET Parameters
 $view    = filter_input( INPUT_GET, "view", FILTER_SANITIZE_STRING );
-$user_id = filter_input( INPUT_GET, "user_id", FILTER_SANITIZE_STRING );
+$user_id = filter_input( INPUT_GET, "user_id", FILTER_SANITIZE_NUMBER_INT );
 
 // Get member/user id.
-$member_id = $user_id ? $user_id : 0;
+$member_id = $user_id ? (int) $user_id : 0;
 if ( 0 === $member_id && bp_current_component() ) {
 	global $bp;
 	$member_id = isset( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
@@ -73,16 +73,16 @@ $user_images = nab_amplify_get_user_images( $member_id );
                             <div id="profile-avtar" class="amp-profile-image">
                                 <label for="profile_picture_file">
                                     <img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
-                                </label>
-								<?php if ( 2 === $edit_mode ) { ?>
+                                <?php if ( 2 === $edit_mode ) { ?>
                                     <span class="edit-profile-pic"><i class="fa fa-pencil"></i></span>
                                     <input id="profile_picture_file" type="file" name="profile_picture" style="display: none;"/>
 								<?php } else {
 									echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );
 								} ?>
-                                <div class="amp-member-level">
+                                </label>
+                                <!--<div class="amp-member-level">
                                     <a href="#" class="button">member level</a>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="amp-profile-info">
                                 <h2><?php echo esc_html( $member_name ); ?></h2>

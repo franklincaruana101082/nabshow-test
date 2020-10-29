@@ -23,6 +23,25 @@ do_action( 'woocommerce_before_account_navigation' );
 
 global $current_user;
 $username = $current_user->display_name ? $current_user->display_name : $current_user->user_login;
+
+global $wp;
+
+if ( ! empty( $wp->query_vars ) ) {
+	foreach ( $wp->query_vars as $page_title => $value ) {
+		// Ignore pagename param.
+		if ( 'pagename' === $page_title ) {
+			continue;
+		}
+	}
+}
+$page_title = str_replace( '-', ' ', $page_title );
+
+// Hide Menu.
+$hide_menu_for = array( 'my connections', 'my events', 'my bookmarks' );
+if ( in_array( $page_title, $hide_menu_for, true ) ) {
+	return;
+}
+
 ?>
 
 <nav class="woocommerce-MyAccount-navigation">

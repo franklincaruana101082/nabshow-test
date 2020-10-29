@@ -705,7 +705,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header .container{height: 200px;position:relative;}
 .banner-header #profile-avtar{display:inline-block;position:relative;margin-bottom:20px;}
 .banner-header #profile-avtar img{width:220px;height:220px;border-radius:50%;display:block;}
-.banner-header #profile-avtar label{display:inline-block;background:-webkit-gradient(linear,left bottom, left top,from(#e5018b),to(#6363df));background:-o-linear-gradient(bottom,#e5018b,#6363df);background:linear-gradient(to top,#e5018b,#6363df);border-radius:50%;line-height:1;padding:4px;position:relative;overflow:hidden;}
+.banner-header #profile-avtar label{display:inline-block;background:-webkit-gradient(linear,left bottom, left top,from(#e5018b),to(#6363df));background:-o-linear-gradient(bottom,#e5018b,#6363df);background:linear-gradient(to top,#e5018b,#6363df);border-radius:50%;line-height:1;padding:4px;position:relative;}
 .banner-header #profile-avtar label:before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;box-shadow:inset 0px 80px 80px 0px rgb(0 0 0 / 0.4);border-radius:50%;}
 .banner-header #profile-avtar .is_friend.generic-button, .banner-header #profile-avtar .edit-profile-pic{position:absolute;right:5px;top:10px;width: 42px;height: 42px;}
 .banner-header{margin-bottom:80px;background-size:cover;background-repeat:no-repeat;background-position:center bottom;}
@@ -864,7 +864,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .my-purchased-content .category_content_card{position:absolute;bottom:15px;left:15px;padding:8px 10px;}
 .my-purchased-content .title_content_card{padding:20px 10px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .my-purchased-content .title_content_card h4{margin:0;width:calc(100% - 120px);}
-.my-purchased-content .title_content_card a{color:#3e3e3e;}
+.my-purchased-content .title_content_card a{color:#fff;}
 .my-purchased-content .title_content_card .event-date{color:#6f6f6f;}
 
 /* My purchases Event */
@@ -1086,6 +1086,7 @@ body.buddypress .site-content{padding:0;}
 .bbp-user-page .entry-content{margin:0;}
 .bbp-user-page .item-body{margin:0;}
 .member-front-page h2{color:#fdd80f;margin:0 0 20px!important;}
+.member-front-page .member-connections p{color:#fff;}
 .member-info{background:#282828;position:relative;width:100vw;left:50%;right:50%;margin:0;margin-left:-50vw;margin-right:-50vw;max-width:initial;padding:50px 0 20px;}
 .member-bio-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -15px;}
 .member-bio-wrp .member-bio-col{width:33.333333333333336%;padding:0 15px;margin-bottom:30px;}

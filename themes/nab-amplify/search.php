@@ -401,20 +401,18 @@ $view_screen		= array( 'user', 'product', 'content' );
 									$user_full_name = bp_get_member_name();
 								}
 
-								$company = get_user_meta( $member_user_id, 'attendee_company', true );
-
-								$member_image_id 		= get_user_meta( $member_user_id, 'banner_image', true );
-								$member_cover_image_url = $member_image_id ? wp_get_attachment_image_src( $member_image_id, 'full' )[0] : $default_cover;
+								$company 		= get_user_meta( $member_user_id, 'attendee_company', true );
+								$user_images 	= nab_amplify_get_user_images( $member_user_id );
 
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
-											<img src="<?php echo esc_url( $member_cover_image_url ); ?>" alt="Cover Image">
+											<img src="<?php echo esc_url( $user_images[ 'banner_image' ] ); ?>" alt="Cover Image">
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-avtar">
-												<?php bp_member_avatar( array( 'width' => 96, 'height' => 96 ) ); ?>
+												<img src="<?php echo esc_url( $user_images[ 'profile_picture' ] ); ?>">
 											</div>
 											<div class="search-item-content">
 												<h4><?php echo esc_html( $user_full_name ); ?></h4>

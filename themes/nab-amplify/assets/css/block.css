@@ -235,3 +235,8 @@ div[data-type="md/blc"]{padding-top:5px;padding-bottom:5px}
 a{color:#e5018b;text-decoration:none}
 
 /************* theme variables *************/
+
+/* custom blocks styles */
+.amp-controle-settings .amp-image-button{height:auto;pointer-events:none;padding:0;margin-bottom:15px;}
+.amp-controle-settings .inspector-field{margin-bottom:20px;}
+.amp-button-wrap{min-height:150px;display:flex;justify-content:center;align-items:center;background-color:#f7f7f7;}

@@ -1480,3 +1480,29 @@ function nab_member_event_list_callback() {
 
 	wp_die();
 }
+
+add_action( 'wp_ajax_nab_get_friend_button', 'nab_get_friend_button_callback' );
+add_action( 'wp_ajax_nopriv_nab_get_friend_button', 'nab_get_friend_button_callback' );
+
+function nab_get_friend_button_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$final_result 	= array();
+	$member_id		= filter_input( INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( ! empty( $member_id ) ) {
+		
+		$final_result[ 'success' ] = true;
+		$final_result[ 'content' ] = nab_amplify_bp_get_friendship_button( $member_id, false );
+
+	} else {
+
+		$final_result[ 'success' ] = false;
+		$final_result[ 'content' ] = '';
+	}
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+}

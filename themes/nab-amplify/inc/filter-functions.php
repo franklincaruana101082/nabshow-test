@@ -225,10 +225,12 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 
 	$items =
 		array( 'messages' => __( 'Messages', 'nab-amplify' ) )
-		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
-		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) )
+		+ array( 'my-connections' => __( 'My Connections', 'nab-amplify' ) )
+		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
 		+ array( 'orders' => __( 'My Orders', 'nab-amplify' ) )
-		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) );
+		+ array( 'edit-my-profile' => __( 'Edit My Profile', 'nab-amplify' ) )
+		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
+		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );
 
 	return $items;
 }
@@ -826,4 +828,13 @@ function nab_modify_member_query( $sql, $query ) {
 	}
 
 	return $sql;
+}
+
+function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type ) {
+
+	if ( 'friendship_request' === $type && 2 === count( $buttons ) ) {
+		return false;
+	}
+
+	return $buttons;
 }

@@ -17,31 +17,6 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
 ?>
 
 <div class="member-front-page">
-    <div class="member-info">
-        <div class="container">
-            <h2>Lorem ipsum</h2>
-            <div class="member-bio-wrp">
-                <div class="member-bio-col">
-                    <div class="member-bio-data">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores autem aliquam placeat, minus, numquam voluptate cumque reprehenderit facere veniam a aut dolorum iste earum facilis error at magnam ad laudantium.</p>
-                        <span class="rem-char">Remaining Characters 321</span>
-                    </div>
-                </div>
-                <div class="member-bio-col">
-                    <div class="member-bio-data">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores autem aliquam placeat, minus, numquam voluptate cumque reprehenderit facere veniam a aut dolorum iste earum facilis error at magnam ad laudantium.</p>
-                        <span class="rem-char">Remaining Characters 132</span>
-                    </div>
-                </div>
-                <div class="member-bio-col">
-                    <div class="member-bio-data">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores autem aliquam placeat, minus, numquam voluptate cumque reprehenderit facere veniam a aut dolorum iste earum facilis error at magnam ad laudantium.</p>
-                        <span class="rem-char">Remaining Characters 42</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="member-connections">
 
 		<?php if ( bp_has_members( 'user_id=' . $user_id ) ) : ?>

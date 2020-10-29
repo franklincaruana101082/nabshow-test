@@ -18,7 +18,6 @@ $pending_friends_url = add_query_arg( 'connections', 'pending' );
 $members_filter = array();
 switch ( $connections ) {
 	case 'friends':
-		//$members_filter = 'user_id=' . $user_id;
 		$members_filter = array(
 			'user_id' 		=> $user_id
 		);
@@ -26,17 +25,15 @@ switch ( $connections ) {
 	case 'pending':
 		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id );
 		break;
-	default:
-	    // commented below line as its fine not to use it, default members will be sent.
-		//$members_filter = bp_ajax_querystring( 'members' );
-		break;
 }
 
+//page=1&include=1 // for pending
 $post_per_page = 12;
-$members_filter['page'] = 1;
-$members_filter['per_page'] = $post_per_page;
-$members_filter['type'] = 'newest';
-
+if( is_array( $members_filter )) {
+    $members_filter['page'] = 1;
+    $members_filter['per_page'] = $post_per_page;
+    $members_filter['type'] = 'newest';
+}
 
 $profile_url     = bp_core_get_user_domain( $user_id );
 $friend_count    = friends_get_friend_count_for_user( $user_id );
@@ -121,7 +118,7 @@ $current_user_id = get_current_user_id();
 				if ( $total_page > 1 ) :
 					?>
                     <div class="load-more" id="load-more-user">
-                        <a href="javascript:void(0);" class="btn-default" data-page-type="connections" data-page-number="<?php echo esc_attr( $post_per_page ) ?>" data-post-limit="2" data-total-page="<?php echo absint( $total_page ); ?>">Load More</a>
+                        <a href="javascript:void(0);" class="btn-default" data-page-type="connections" data-page-number="2" data-post-limit="<?php echo esc_attr( $post_per_page ) ?>" data-total-page="<?php echo absint( $total_page ); ?>">Load More</a>
                     </div>
 				<?php
 				endif;

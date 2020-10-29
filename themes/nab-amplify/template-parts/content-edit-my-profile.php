@@ -183,7 +183,7 @@ $user_images = nab_amplify_get_user_images();
                             </div>
                         </div>
                     </div>
-                    <div class="nab-section section-about-me">
+                    <div class="nab-section section-about-me" >
                         <h3>ABOUT ME</h3>
                         <div class="about-me-form">
                             <div class="nab-form-row">

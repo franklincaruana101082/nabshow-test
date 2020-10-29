@@ -254,23 +254,24 @@ function nab_amplify_bp_get_cancel_friendship_button( $member_id, $loop = true )
 		$is_friend       = friends_check_friendship_status( $current_user_id, $member_id );
 
 		if ( $is_friend && 'is_friend' === $is_friend ) {
-		    ob_start();
+			ob_start();
 
-		    if( $loop ) {
-                bp_nouveau_members_loop_buttons(
-                    array(
-                        'container'      => 'div',
-                        'button_element' => 'a'
+			if ( $loop ) {
+				bp_nouveau_members_loop_buttons(
+					array(
+						'container'      => 'div',
+						'button_element' => 'a'
 
-                    )
-                );
-            } else {
-			    bp_add_friend_button( $member_id );
-            }
+					)
+				);
+			} else {
+				bp_add_friend_button( $member_id );
+			}
 
 			$cancel_friendship_button = ob_get_clean();
 		}
 	}
+
 	return $cancel_friendship_button;
 }
 
@@ -281,6 +282,10 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 	if ( is_user_logged_in() ) {
 
 		$current_user_id = get_current_user_id();
+
+		if( $current_user_id === $member_id ) {
+		    return;
+        }
 
 		$is_friend = friends_check_friendship_status( $current_user_id, $member_id );
 
@@ -304,6 +309,40 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 				<?php
 				$user_button = ob_get_clean();
 			}
+		} else if ( $is_friend && 'awaiting_response' === $is_friend ) {
+			
+			add_filter( 'bp_nouveau_get_members_buttons', 'nab_change_friendship_request_button_in_loop', 10, 3 );
+			
+			ob_start();
+			?>
+            <div class="search-actions">
+				<?php
+
+				$buttons = bp_nouveau_get_members_buttons(
+					array(
+						'container'      => 'div',
+						'button_element' => 'a',
+						'type'           => 'friendship_request'
+					)
+				);
+				
+				if ( is_array( $buttons ) && count( $buttons ) > 0 ) {
+
+					foreach ( $buttons as $btn ) {												
+						?>
+						<div class="generic-button friend-request-action" data-item="<?php echo esc_attr( $member_id ); ?>">
+							<a href="<?php echo esc_url( $btn[ 'button_attr' ][ 'href' ] ); ?>"class="<?php echo esc_attr( $btn[ 'button_attr' ][ 'class' ] ); ?>" data-bp-btn-action="<?php echo esc_attr( $btn[ 'id' ] ); ?>"><?php echo esc_html( $btn[ 'link_text' ] ); ?></a>
+						</div>
+						<?php
+					}
+				}
+				?>
+            </div>
+            <?php
+			
+			$user_button = ob_get_clean();
+
+			remove_filter( 'bp_nouveau_get_members_buttons', 'nab_change_friendship_request_button_in_loop' );
 
 		} else {
 			ob_start();
@@ -312,20 +351,20 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 				<?php
 
 				if ( nab_member_can_connect_to_anyone( $member_id ) ) {
-                    if( $loop ) {
-                        bp_nouveau_members_loop_buttons(
-                            array(
-                                'container'      => 'div',
-                                'button_element' => 'a',
-                            )
-                        );
-                    } else {
-	                    bp_add_friend_button( $member_id );
+					if ( $loop ) {
+						bp_nouveau_members_loop_buttons(
+							array(
+								'container'      => 'div',
+								'button_element' => 'a',
+							)
+						);
+					} else {
+						bp_add_friend_button( $member_id );
 					}
 				}
 				?>
             </div>
-            <?php
+			<?php
 			$user_button = ob_get_clean();
 		}
 	}
@@ -769,3 +808,5 @@ function nab_member_can_visible_to_anyone( $member_id ) {
 
 	return true;
 }
+
+
