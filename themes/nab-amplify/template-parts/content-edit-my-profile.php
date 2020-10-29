@@ -87,40 +87,7 @@ $user_images = nab_amplify_get_user_images();
     <form class="woocommerce-EditProfileForm edit-my-profile" action="" enctype="multipart/form-data" method="post">
         <div class="nab-profile">
             <div class="nab-section section-nab-profile">
-                <div class="nab-profile-head">
-                    <h3>PROFILE PICTURES</h3>
-                </div>
                 <div class="nab-profile-body flex-row">
-                    <div class="flex-column">
-                        <div class="flex-box">
-                            <div class="nab-profile-image user-image-box">
-                                <label for="profile_picture_file"><img class="profile-images" src="<?php echo esc_url( $user_images['profile_picture'] ); ?>"/></label>
-                                <input id="profile_picture_file" type="file" name="profile_picture"/>
-                            </div>
-                            <div class="nab-profile-button">
-                                <label for="profile_picture_file"><span class="button" id="profile_picture_update">Change</span></label>
-                                <label for="profile_picture_remove">
-                                    <span class="button">Remove</span>
-                                </label>
-                                <input type="checkbox" name="profile_picture_remove" id="profile_picture_remove"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-column">
-                        <div class="flex-box">
-                            <div class="nab-avtar-image user-image-box">
-                                <label for="banner_image_file"><img class="profile-images" src="<?php echo esc_url( $user_images['banner_image'] ); ?>"/></label>
-                                <input id="banner_image_file" type="file" name="banner_image"/>
-                            </div>
-                            <div class="nab-profile-button">
-                                <label for="banner_image_file"><span class="button" id="banner-picture-update">Change</span></label>
-                                <label for="banner_image_remove">
-                                    <span class="button">Remove</span>
-                                </label>
-                                <input type="checkbox" name="banner_image_remove" id="banner_image_remove"/>
-                            </div>
-                        </div>
-                    </div>
                     <div class="nab-section section-professional-details">
                         <h3>PROFESSIONAL DETAILS</h3>
                         <div class="professional-details-form">
