@@ -478,12 +478,13 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 /* My Account */
 .woocommerce-edit-account .site-content .container{width:1180px;}
 .woocommerce-account:not(.nab-without-login-account) .entry-content > .woocommerce{margin-bottom:30px;}
-.woocommerce-MyAccount-navigation ul{list-style-type:none;margin:35px 0 30px;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.woocommerce-MyAccount-navigation ul{list-style-type:none;margin:35px 0 20px;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:flex-start;-ms-flex-pack:flex-start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .woocommerce-MyAccount-navigation ul li{margin:4px;}
 .woocommerce-MyAccount-navigation ul li a{background:#ff008f;color:#fff;display:inline-block;padding:15px 10px;min-width:180px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:16px;line-height:1;font-weight:700;border:1px solid #ff008f;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;}
 .woocommerce-MyAccount-navigation ul li a:hover,
 .woocommerce-MyAccount-navigation ul li a:focus{background:#6363df;border-color:#6363df;color:#fff;}
 .woocommerce-MyAccount-navigation ul li.is-active a{background:#6363df;border-color:#6363df;}
+.woocommerce-edit-account .woocommerce-MyAccount-navigation ul li a{min-width:150px;}
 .woocommerce-MyAccount-content h3{text-transform:uppercase;color:#fdd80f;font-weight:700;}
 .woocommerce-MyAccount-content p{color:#fff;font-weight:normal;margin:0 0 20px;}
 .woocommerce-MyAccount-content span{color:#fff;}
@@ -1258,14 +1259,15 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 /* messages tabs */
 .buddypress .buddypress-wrap .user-subnav,
 .buddypress .buddypress-wrap .woocommerce-MyAccount-navigation{-webkit-box-shadow:none!important;box-shadow:none!important;border:0!important;margin:40px 0 20px;}
-.buddypress .buddypress-wrap nav.user-subnav{margin-top:-20px;}
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul{width:100%;text-align:center;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul li{margin:5px;border-radius:0!important;float:none;background:none;}
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a{background-color:#ff008f;color:#fff;border-radius:6px;padding:10px 10px 11px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:20px;min-width:200px;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+.buddypress .buddypress-wrap .user-subnav{margin:20px 0 20px;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:flex-start;-ms-flex-pack:flex-start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li{margin:5px 7px 5px 0;border-radius:0!important;float:none;background:none;line-height:1;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li:not(:last-child){padding-right:7px;border-right:2px solid #fff;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a{color:#fff;background-color:transparent;padding:0;font-size:20px;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:hover,
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:focus{background:#6363df;border-color:#6363df;color:#fff;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:focus{color:#fff;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li.current a,
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul li.selected a{background:#6363df;border-color:#6363df;color:#fff;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li.selected a{color:#fdd80f;}
 
 /* Email Notifications and activities */
 .buddypress .item-body > p{color:#fff;}

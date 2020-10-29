@@ -42,7 +42,7 @@ $current_user_id = get_current_user_id();
 
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
         <div class="connections-tabs">
-            <span id="all-members-tab"><a href="<?php echo esc_attr( $all_members_url ); ?>">All Members</a></span>
+            <span id="all-members-tab"><a href="<?php echo esc_attr( $all_members_url ); ?>">All Connections</a></span>
             <span id="my-connections-tab"><a href="<?php echo esc_attr( $my_friends_url ); ?>">My Connections</a></span>
             <span id="pending-connections-tab"><a href="<?php echo esc_attr( $pending_friends_url ); ?>">Pending Requests</a></span>
         </div>

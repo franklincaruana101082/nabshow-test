@@ -123,6 +123,7 @@ registerBlockType('amplify/image',{
                             />
                         </div>
                         <div className="inspector-field">
+                            <label>Image Alignment</label>
                             <AlignmentToolbar
                                 value={ImageAlign}
                                 onChange={(ImageAlign)=>{
@@ -159,7 +160,7 @@ registerBlockType('amplify/image',{
                     (!ImageLink ? (
                         <img src={ImageUrl} alt={ImageAlt} />
                     ) : (
-                        <a href={ImageLink} target={linkTarget}>
+                        <a href={ImageLink} target={linkTarget} rel="noopener noreferrer">
                             <img src={ImageUrl} alt={ImageAlt} />
                         </a>
                     ))
@@ -185,7 +186,7 @@ registerBlockType('amplify/image',{
             {!ImageLink ? (
                 <img src={ImageUrl} alt={ImageAlt} />
             ) : (
-                <a href={ImageLink} target={linkTarget}>
+                <a href={ImageLink} target={linkTarget} rel="noopener noreferrer">
                     <img src={ImageUrl} alt={ImageAlt} />
                 </a>
             )}

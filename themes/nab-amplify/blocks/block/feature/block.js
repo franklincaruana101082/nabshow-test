@@ -22,16 +22,100 @@ registerBlockType('amplify/feature', {
     icon: 'editor-code',
     category: 'nab_amplify',
     attributes: {
-
+        featureStatusToggle: {
+            type: 'Boolean',
+            default: false
+        },
+        featureTitleToggle: {
+            type: 'Boolean',
+            default: false
+        },
+        featureAuthorToggle: {
+            type: 'Boolean',
+            default: false
+        },
+        featureDiscToggle: {
+            type: 'Boolean',
+            default: false
+        },
+        featureStatusTitle: {
+            type: 'string',
+            default: ''
+        },
+        featureTitle: {
+            type: 'string',
+            default: ''
+        },
+        featureAuthor: {
+            type: 'string',
+            default: ''
+        },
+        featureDisc: {
+            type: 'string',
+            default: ''
+        }
     },
     edit: ({attributes, setAttributes}) => {
+        const {
+            featureStatusToggle,
+            featureTitleToggle,
+            featureAuthorToggle,
+            featureDiscToggle,
+            featureStatusTitle,
+            featureTitle,
+            featureAuthor,
+            featureDisc
+        } = attributes;
         return ([
-            <h1>static</h1>
+            <InspectorControls>
+                <PanelBody title="Feature Content Settings">
+                    <div className="inspector-field">
+                        <ToggleControl
+                            label="Feature Status Title"
+                            checked={featureStatusToggle}
+                            onChange={(featureStatusToggle)=>{
+                                setAttributes({featureStatusToggle})
+                            }}
+                        />
+                    </div>
+                </PanelBody>
+            </InspectorControls>,
+            <div className="amp-feature-block">
+                <div className="amp-feature-block-inner">
+                    <div className="amp-feature-content">
+                        <RichText
+                            tagName="h4"
+                            placeholder="Live"
+                            value={featureStatusTitle}
+                            onChange={(featureStatusTitle)=>{
+                                setAttributes({featureStatusTitle});
+                            }}
+                        />
+                        <RichText
+                            tagName="h2"
+                            placeholder="Live"
+                            value={featureTitle}
+                            onChange={(featureTitle)=>{
+                                setAttributes({featureTitle});
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
         ]);
     },
     save: ({attributes}) => {
+        const {
+            featureStatusToggle,
+            featureTitleToggle,
+            featureAuthorToggle,
+            featureDiscToggle
+        } = attributes;
         return(
-            <h1>static</h1>
+            <RichText.Content
+                tagName="h2"
+                value={featureTitle}
+            />
         )
     }
 });

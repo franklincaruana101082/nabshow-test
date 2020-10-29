@@ -32,22 +32,31 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                     </div>
                 </div>
                 <div class="amp-item-wrap">
-					<?php while ( bp_members() ) : bp_the_member();
-						$member_id            = bp_get_member_user_id();
-						$member_name          = bp_core_get_username( $member_id );
-						$professional_company = get_user_meta( $member_id, 'attendee_company', true );
+                    <?php while ( bp_members() ) : bp_the_member();
+                    
+						$member_id              = bp_get_member_user_id();
+                        $professional_company   = get_user_meta( $member_id, 'attendee_company', true );
+                        $member_images          = nab_amplify_get_user_images( $member_id );
+                        
+                        $member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+
+                        if ( empty( trim( $member_full_name ) ) ) {
+
+                            $member_full_name = bp_get_member_name();
+                        }
+                        
 						?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/search-box-cover.png" alt="Nab Amplify Cover Image">
+                                    <img src="<?php echo esc_url( $member_images[ 'banner_image' ] ); ?>" alt="Cover Image">
                                 </div>
                                 <div class="amp-item-info">
                                     <div class="amp-item-avtar">
-                                        <a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar(); ?></a>
+                                        <a href="<?php bp_member_permalink(); ?>"><img src="<?php echo esc_url( $member_images[ 'profile_picture' ] ); ?>"></a>
                                     </div>
                                     <div class="amp-item-content">
-                                        <h4><?php echo esc_html( $member_name ); ?></h4>
+                                        <h4><?php echo esc_html( $member_full_name ); ?></h4>
                                         <span class="company-name"><?php echo esc_html( get_user_meta( $member_id, 'attendee_company', true ) ) ?></span>
                                         <div class="amp-actions popup-hidden">
 											<?php

@@ -2176,25 +2176,110 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
         description: 'Feature Block',
         icon: 'editor-code',
         category: 'nab_amplify',
-        attributes: {},
+        attributes: {
+            featureStatusToggle: {
+                type: 'Boolean',
+                default: false
+            },
+            featureTitleToggle: {
+                type: 'Boolean',
+                default: false
+            },
+            featureAuthorToggle: {
+                type: 'Boolean',
+                default: false
+            },
+            featureDiscToggle: {
+                type: 'Boolean',
+                default: false
+            },
+            featureStatusTitle: {
+                type: 'string',
+                default: ''
+            },
+            featureTitle: {
+                type: 'string',
+                default: ''
+            },
+            featureAuthor: {
+                type: 'string',
+                default: ''
+            },
+            featureDisc: {
+                type: 'string',
+                default: ''
+            }
+        },
         edit: function edit(_ref) {
             var attributes = _ref.attributes,
                 setAttributes = _ref.setAttributes;
+            var featureStatusToggle = attributes.featureStatusToggle,
+                featureTitleToggle = attributes.featureTitleToggle,
+                featureAuthorToggle = attributes.featureAuthorToggle,
+                featureDiscToggle = attributes.featureDiscToggle,
+                featureStatusTitle = attributes.featureStatusTitle,
+                featureTitle = attributes.featureTitle,
+                featureAuthor = attributes.featureAuthor,
+                featureDisc = attributes.featureDisc;
 
             return [wp.element.createElement(
-                'h1',
+                InspectorControls,
                 null,
-                'static'
+                wp.element.createElement(
+                    PanelBody,
+                    { title: 'Feature Content Settings' },
+                    wp.element.createElement(
+                        'div',
+                        { className: 'inspector-field' },
+                        wp.element.createElement(ToggleControl, {
+                            label: 'Feature Status Title',
+                            checked: featureStatusToggle,
+                            onChange: function onChange(featureStatusToggle) {
+                                setAttributes({ featureStatusToggle: featureStatusToggle });
+                            }
+                        })
+                    )
+                )
+            ), wp.element.createElement(
+                'div',
+                { className: 'amp-feature-block' },
+                wp.element.createElement(
+                    'div',
+                    { className: 'amp-feature-block-inner' },
+                    wp.element.createElement(
+                        'div',
+                        { className: 'amp-feature-content' },
+                        wp.element.createElement(RichText, {
+                            tagName: 'h4',
+                            placeholder: 'Live',
+                            value: featureStatusTitle,
+                            onChange: function onChange(featureStatusTitle) {
+                                setAttributes({ featureStatusTitle: featureStatusTitle });
+                            }
+                        }),
+                        wp.element.createElement(RichText, {
+                            tagName: 'h2',
+                            placeholder: 'Live',
+                            value: featureTitle,
+                            onChange: function onChange(featureTitle) {
+                                setAttributes({ featureTitle: featureTitle });
+                            }
+                        })
+                    )
+                )
             )];
         },
         save: function save(_ref2) {
             var attributes = _ref2.attributes;
+            var featureStatusToggle = attributes.featureStatusToggle,
+                featureTitleToggle = attributes.featureTitleToggle,
+                featureAuthorToggle = attributes.featureAuthorToggle,
+                featureDiscToggle = attributes.featureDiscToggle;
 
-            return wp.element.createElement(
-                'h1',
-                null,
-                'static'
-            );
+            return wp.element.createElement(RichText.Content, {
+                tagName: 'h2',
+                value: featureTitle
+            });
         }
     });
 })(wp.blocks, wp.blockEditor, wp.components);
@@ -2342,6 +2427,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                         wp.element.createElement(
                             'div',
                             { className: 'inspector-field' },
+                            wp.element.createElement(
+                                'label',
+                                null,
+                                'Image Alignment'
+                            ),
                             wp.element.createElement(AlignmentToolbar, {
                                 value: ImageAlign,
                                 onChange: function onChange(ImageAlign) {
@@ -2380,7 +2470,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                     })
                 ) : !ImageLink ? wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt }) : wp.element.createElement(
                     'a',
-                    { href: ImageLink, target: linkTarget },
+                    { href: ImageLink, target: linkTarget, rel: 'noopener noreferrer' },
                     wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt })
                 )
             )];
@@ -2403,7 +2493,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                     } },
                 !ImageLink ? wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt }) : wp.element.createElement(
                     'a',
-                    { href: ImageLink, target: linkTarget },
+                    { href: ImageLink, target: linkTarget, rel: 'noopener noreferrer' },
                     wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt })
                 )
             );
