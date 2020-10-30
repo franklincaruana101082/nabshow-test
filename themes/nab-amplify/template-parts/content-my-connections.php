@@ -32,7 +32,7 @@ $post_per_page = 12;
 if( is_array( $members_filter )) {
     $members_filter['page'] = 1;
     $members_filter['per_page'] = $post_per_page;
-    $members_filter['type'] = 'alphabetical';
+    $members_filter['type'] = 'newest';
 }
 
 $profile_url     = bp_core_get_user_domain( $user_id );
@@ -42,6 +42,7 @@ $current_user_id = get_current_user_id();
 
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
         <div class="connections-tabs">
+            <span id="all-members-tab"><a href="<?php echo esc_attr( $all_members_url ); ?>">All Connections</a></span>
             <span id="my-connections-tab"><a href="<?php echo esc_attr( $my_friends_url ); ?>">My Connections</a></span>
             <span id="pending-connections-tab"><a href="<?php echo esc_attr( $pending_friends_url ); ?>">Pending Requests</a></span>
         </div>
