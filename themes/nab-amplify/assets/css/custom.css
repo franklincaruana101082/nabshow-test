@@ -1004,7 +1004,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-view-top-head p{color:#fff;margin:0;}
 .search-view-top-head a{color:#fff;text-decoration:underline;}
 .load-more{text-align:center;margin:20px 0 30px}
-.load-more a{background-color:transparent;border-color:transparent;color:#666;text-decoration:underline;font-size:18px;}
+.load-more a{background-color:transparent;border-color:transparent;color:#666!important;text-decoration:underline;font-size:18px;}
 .load-more a:hover{background-color:transparent;border-color:transparent;color:#666;}
 .search-section{padding:30px 0 0;}
 .search-section .search-section-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative;}
@@ -1121,8 +1121,8 @@ body.buddypress .site-content{padding:0;}
 .amp-item-wrap .amp-item-col{width:25%;padding:0 4px;margin:0 0 30px;max-width:350px;}
 .amp-item-wrap .amp-item-inner{background-color:#303030;-webkit-transition:0.5s all ease-in-out;-o-transition:0.5s all ease-in-out;transition:0.5s all ease-in-out;height:100%;position:relative;}
 .amp-item-wrap .amp-item-inner:hover{-webkit-box-shadow:0px 0px 52px 0px rgba(64,67,71,0.5);box-shadow:0px 0px 52px 0px rgba(64,67,71,0.5);-webkit-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);}
-.amp-item-wrap .amp-item-inner .amp-action-remove{position:absolute;right:15px;top:15px;}
-body .is_friend .remove,.amp-item-wrap .amp-item-inner .amp-action-remove a{width: 40px;height:40px;background:#fdd80f;color:#000;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;min-width: auto;font-size:0;}
+.amp-item-wrap .amp-item-inner .amp-action-remove{position:absolute;right:15px;top:15px;text-decoration:none;	}
+body .is_friend .remove,.amp-item-wrap .amp-item-inner .amp-action-remove a{width: 40px;height:40px;background:#fdd80f;color:#000;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;min-width: auto;font-size:0;text-decoration:none;}
 body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove a:before{content:"\f068";font-size:22px;font-family:'FontAwesome';}
 .amp-item-wrap .amp-item-cover{width:100%;height:130px;}
 .amp-item-wrap .amp-item-cover img{-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%;height:100%;}
@@ -1190,12 +1190,14 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap #message-threads li{padding:8px 10px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background:#333;border:0;border-bottom:1px solid transparent;border-top:1px solid transparent;}
 .buddypress-wrap #message-threads li:hover{-webkit-box-shadow:inset -1px 0px 5px 1px #757575;box-shadow:inset -1px 0px 5px 1px #757575;}
 .buddypress-wrap #message-threads li a{color:#fff;text-decoration:none;}
+.buddypress-wrap #message-threads li a .avatar{width:100%;max-width:40px;}
 .buddypress-wrap #message-threads li .num-recipients{color:#ccc;}
 .buddypress-wrap #message-threads li.unread{font-weight:900;background-color:#444;color:#fff;border-top-color:#ccc;border-bottom-color:#ccc;}
-.buddypress-wrap #message-threads li.unread:hover{-webkit-box-shadow:none;box-shadow:none;}
+.buddypress-wrap #message-threads li.unread:hover,
+.buddypress-wrap #message-threads li.selected:hover{-webkit-box-shadow:none;box-shadow:none;}
 .buddypress-wrap #message-threads li.unread + li.unread{border-top-color:transparent;}
-.buddypress-wrap #message-threads li.selected{background:#333;}
-.buddypress-wrap #message-threads li.unread.selected{background-color:#444;}
+.buddypress-wrap #message-threads li.selected{background:#222;}
+.buddypress-wrap #message-threads li.unread.selected{background-color:#222;}
 .buddypress-wrap #message-threads .message-check{width:20px;height:20px;cursor:pointer;}
 .buddypress-wrap #message-threads li .thread-content .excerpt{color:#ccc;}
 .buddypress-wrap #message-threads li .subject,
@@ -1223,7 +1225,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .subnav-filters.bp-messages-filters ul{padding:0;margin:0;}
 .buddypress-wrap .subnav-filters.bp-messages-filters ul .user-messages-bulk-actions input[type="checkbox"]{width:20px;height:20px;margin-right:7px;cursor:pointer;}
 .buddypress-wrap .subnav-filters .user-messages-bulk-actions label{padding:0;color:#fff;}
-.buddypress-wrap .subnav-filters .user-messages-bulk-actions > div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;}
+.buddypress-wrap .subnav-filters .user-messages-bulk-actions > div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;min-height:38px;}
 .bp-messages-content #thread-preview{margin-top:40px;border:1px solid #888;}
 .bp-messages-content .message-title{line-height:normal;padding:10px!important;background-color:#fff!important;}
 .bp-messages-content #thread-preview .preview-content{margin:0;}
