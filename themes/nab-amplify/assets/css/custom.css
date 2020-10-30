@@ -151,7 +151,7 @@ p{font-size:16px;color:#404040}
 .site-header .nab-logos img{max-width:120px;max-height:40px}
 .site-header .main-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:70%;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;}
 .site-header .nab-header-search .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;margin-right:20px;}
-.site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;width:400px;max-width:100%;height:40px;border:1px solid #666;padding:0 50px 0 10px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
+.site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;width:400px;max-width:100%;height:40px;border:1px solid #666;padding:0 50px 0 20px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
 .site-header .nab-header-search .search-form .search-field::placeholder{color:#ccc;font-weight:600;}
 .site-header .nab-header-search .search-form .search-field::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
 .site-header .nab-header-search .search-form .search-submit{position:absolute;right:15px;top:0;bottom:0;border:0;padding:0;width:30px;height:40px;font-size:0;background:url(../images/header-search-icon.svg) no-repeat center;background-size:20px;cursor:pointer;}
@@ -1165,11 +1165,10 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress .buddypress-wrap input[type="submit"].button:hover,
 .buddypress .buddypress-wrap .generic-button .button:hover{background:#6363df;border-color:#6363df;color:#fff;}
 .buddypress .buddypress-wrap .bp-reset-button,
-.buddypress .buddypress-wrap input[type="button"].bp-reset-button{font-size:16px;text-decoration:underline;color:#666;text-decoration:none;}
+.buddypress .buddypress-wrap input[type="button"].bp-reset-button{font-size:16px;text-decoration:underline;color:#666;}
 .buddypress .buddypress-wrap .bp-reset-button:hover,
 .buddypress .buddypress-wrap input[type="button"].bp-reset-button:hover{text-decoration:underline;color:#666;}
 .buddypress .buddypress-wrap .subnav-filters:empty{display:none;}
-.buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
 .buddypress .buddypress-wrap input#send-to-input{width:100%;}
 .buddypress .buddypress-wrap input[type="text"],
 .buddypress .buddypress-wrap input[type="email"],
@@ -1186,9 +1185,18 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .bp-feedback.success .bp-icon,
 .buddypress-wrap .bp-feedback.updated .bp-icon{background-color:#ff008f;}
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df;}
-.buddypress-wrap #message-threads{margin-top:20px;max-height:300px;border:0;}
-.buddypress-wrap #message-threads li{padding:8px 10px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background:#333;border:0;border-bottom:1px solid transparent;border-top:1px solid transparent;}
+.buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
+.buddypress .buddypress-wrap .bp-messages-content>div{display:flex;justify-content:center;align-items:flex-start;}
+.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:40%!important;}
+.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:60%!important;}
+.buddypress-wrap #message-threads{margin-top:20px;max-height:400px;border:0;}
+.buddypress-wrap #message-threads li{padding:15px 10px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background:#333;border:0;border-bottom:1px solid transparent;border-top:1px solid transparent;flex-wrap:wrap;position:relative;}
 .buddypress-wrap #message-threads li:hover{-webkit-box-shadow:inset -1px 0px 5px 1px #757575;box-shadow:inset -1px 0px 5px 1px #757575;}
+.buddypress-wrap #message-threads li .thread-cb{width:40px;flex:inherit;}
+.buddypress-wrap #message-threads li .thread-from{width:calc(100% - 50px);flex:inherit;}
+.buddypress-wrap #message-threads li .thread-content{width:100%;padding:20px 0 0 40px;flex:inherit;}
+.buddypress-wrap #message-threads li .thread-date{width:auto;flex:inherit;position:absolute;right:10px;top:10px;}
+
 .buddypress-wrap #message-threads li a{color:#fff;text-decoration:none;}
 .buddypress-wrap #message-threads li a .avatar{width:100%;max-width:40px;}
 .buddypress-wrap #message-threads li .num-recipients{color:#ccc;}
@@ -1201,7 +1209,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap #message-threads .message-check{width:20px;height:20px;cursor:pointer;}
 .buddypress-wrap #message-threads li .thread-content .excerpt{color:#ccc;}
 .buddypress-wrap #message-threads li .subject,
-.buddypress-wrap #message-threads li.selected .subject{color:#fff;}
+.buddypress-wrap #message-threads li.selected .subject{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
 .buddypress-wrap #message-threads li .thread-count{color:#fff;}
 .buddypress-wrap #message-threads li time{color:#fff;}
 .buddypress-wrap #message-threads li .thread-from .user-name,
@@ -1226,8 +1234,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .subnav-filters.bp-messages-filters ul .user-messages-bulk-actions input[type="checkbox"]{width:20px;height:20px;margin-right:7px;cursor:pointer;}
 .buddypress-wrap .subnav-filters .user-messages-bulk-actions label{padding:0;color:#fff;}
 .buddypress-wrap .subnav-filters .user-messages-bulk-actions > div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;min-height:38px;}
-.bp-messages-content #thread-preview{margin-top:40px;border:1px solid #888;}
-.bp-messages-content .message-title{line-height:normal;padding:10px!important;background-color:#fff!important;}
+.bp-messages-content #thread-preview{margin-top:20px;border:1px solid #888;}
+.bp-messages-content .message-title{line-height:normal;padding:10px!important;background-color:#fff!important;/*color:#fff!important;*/}
 .bp-messages-content #thread-preview .preview-content{margin:0;}
 .bp-messages-content #thread-preview .preview-content .preview-pane-header,
 .bp-messages-content .message-thread-header .single-message-thread-header{padding:10px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
@@ -1264,7 +1272,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .bp-messages-content #bp-message-thread-list .message-content{width:100%;margin:0;padding:10px;}
 .bp-messages-content .send-reply .message-metadata{margin:0 0 20px;}
 .bp-messages-content .send-reply .message-metadata .avatar-box{display:flex;align-items:center;}
-.bp-messages-content .send-reply .message-metadata .avatar-box .avatar{width:150px;}
+.bp-messages-content .send-reply .message-metadata .avatar-box .avatar{max-width:150px;width:100%;}
 .bp-messages-content .send-reply .message-metadata .avatar-box strong{color:#fff;margin-left:10px;font-size:20px;}
 .bp-messages-content .preview-thread-title .messages-title,
 .bp-messages-content .single-thread-title .messages-title{padding-left:10px;}
