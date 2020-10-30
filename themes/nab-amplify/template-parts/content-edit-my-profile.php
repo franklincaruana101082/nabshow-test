@@ -150,54 +150,6 @@ $user_images = nab_amplify_get_user_images();
                             </div>
                         </div>
                     </div>
-                    <div class="nab-section section-about-me" >
-                        <h3>ABOUT ME</h3>
-                        <div class="about-me-form">
-                            <div class="nab-form-row">
-                                <div class="row-label">
-                                    <label>I’m interested in…</label>
-                                </div>
-                                <div class="row-input-wrp">
-                                    <div class="row-input">
-                                        <input type="text" class="input-text" name="about_me_interest_1" placeholder="Interest 1" value="<?php echo esc_attr( $user_data['about_me_interest_1'][0] ); ?>">
-                                    </div>
-                                    <div class="row-input">
-                                        <input type="text" class="input-text" name="about_me_interest_2" placeholder="Interest 2" value="<?php echo esc_attr( $user_data['about_me_interest_2'][0] ); ?>">
-                                    </div>
-                                    <div class="row-input">
-                                        <input type="text" class="input-text" name="about_me_interest_3" placeholder="Interest 3" value="<?php echo esc_attr( $user_data['about_me_interest_3'][0] ); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nab-form-row">
-                                <div class="row-label">
-                                    <label>I’m excited about…</label>
-                                </div>
-                                <div class="row-input-wrp">
-                                    <div class="row-input">
-                                        <input type="text" class="input-text" name="about_me_excited_1" placeholder="Interest 1" value="<?php echo esc_attr( $user_data['about_me_excited_1'][0] ); ?>">
-                                    </div>
-                                    <div class="row-input">
-                                        <input type="text" class="input-text" name="about_me_excited_2" placeholder="Interest 2" value="<?php echo esc_attr( $user_data['about_me_excited_2'][0] ); ?>">
-                                    </div>
-                                    <div class="row-input">
-                                        <input type="text" class="input-text" name="about_me_excited_3" placeholder="Interest 3" value="<?php echo esc_attr( $user_data['about_me_excited_3'][0] ); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nab-form-row">
-                                <div class="row-label">
-                                    <label>I’m knowledgeable about…</label>
-                                </div>
-                                <div class="row-input-wrp">
-                                    <textarea name="about_me_knowledge" placeholder="max 200 characters"><?php echo esc_html( $user_data['about_me_knowledge'][0] ); ?></textarea>
-                                </div>
-                            </div>
-                            <div class="nab-form-submit">
-                                <button type="submit" class="button" name="save_professional_details">update</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
