@@ -960,6 +960,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-section .search-section-heading h2{color:#fdd80f;font-size:36px;margin:0 10px 0 0;line-height:1;}
 .search-section .search-section-heading h2 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block;}
 .search-section .search-section-heading h2 span{color:#fff;font-size:24px;font-weight:300;line-height:1;vertical-align:middle;display:inline-block;}
+.search-section .search-section-heading .section-view-more{margin-top:5px;}
 
 /* common elements style */
 .woocommerce-account .woocommerce-info,
@@ -1012,8 +1013,9 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-section .search-section-details{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .search-section .search-section-details .nab-ad-wrap{padding:0;margin-bottom:30px;}
 .search-section .search-item{width:25%;padding:0 4px;margin:0 0 30px;max-width:350px;}
-.search-section .search-item-inner{background-color:#303030;-webkit-transition:0.5s all ease-in-out;-o-transition:0.5s all ease-in-out;transition:0.5s all ease-in-out;height:100%;}
+.search-section .search-item-inner{background-color:#303030;-webkit-transition:0.5s all ease-in-out;-o-transition:0.5s all ease-in-out;transition:0.5s all ease-in-out;height:100%;position:relative;}
 .search-section .search-item-inner:hover{-webkit-box-shadow:0px 0px 52px 0px rgba(64,67,71,0.5);box-shadow:0px 0px 52px 0px rgba(64,67,71,0.5);-webkit-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);}
+.search-section .search-item-inner span.amp-bookmark::after{right:0;}
 .search-section .search-item-cover{width:100%;height:130px;}
 .search-section .search-item-cover img{-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%;height:100%;}
 .search-section .search-item-info{text-align:center;padding:55px 15px 25px;position:relative;}
@@ -1118,6 +1120,7 @@ body.buddypress .site-content{padding:0;}
 .amp-item-main .amp-view-more a{color:#666;text-decoration:underline!important;display:inline-block;}
 .amp-item-main .amp-item-wrap .nab-ad-wrap{padding:0;margin-bottom:30px;}
 .amp-item-main .amp-item-wrap{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.member-front-page > div > .amp-item-main{padding:30px 0 0;}
 .amp-item-wrap .amp-item-col{width:25%;padding:0 4px;margin:0 0 30px;max-width:350px;}
 .amp-item-wrap .amp-item-inner{background-color:#303030;-webkit-transition:0.5s all ease-in-out;-o-transition:0.5s all ease-in-out;transition:0.5s all ease-in-out;height:100%;position:relative;}
 .amp-item-wrap .amp-item-inner:hover{-webkit-box-shadow:0px 0px 52px 0px rgba(64,67,71,0.5);box-shadow:0px 0px 52px 0px rgba(64,67,71,0.5);-webkit-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);}
@@ -1140,7 +1143,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .amp-item-wrap .amp-item-info .friendship-button a{font-size:16px;text-transform:capitalize;padding:8px 23px;border-radius:6px;background:#6363df;color:#fff;display:inline-block;text-align:center;line-height:1;font-weight:700;border:1px solid #6363df;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
 .amp-item-wrap .amp-item-info .friendship-button a:hover,
 .amp-item-wrap .amp-item-info .friendship-button a:focus{background:#666666;color:#fff;border-color:#666666;}
-.amp-item-wrap .amp-item-info .search-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.amp-item-wrap .amp-item-info .search-actions,
+.amp-item-wrap .amp-item-info .search-actions .action{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 .amp-item-wrap .amp-item-info .search-actions .generic-button{margin:5px;}
 .pag-count{color:#fff;text-align:right;}
 .back-to-profile a{color:#666!important;text-decoration:underline!important;display:inline-block;font-size:18px;}
