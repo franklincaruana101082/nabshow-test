@@ -1102,7 +1102,7 @@ body.buddypress .site-content{padding:0;}
 .amp-profile-main .amp-profile-message a{border-radius:7px;text-transform:capitalize;font-size:16px;background-color:#6363df;border-color:#6363df;padding:12px 20px 10px;min-width:170px;color:#fff;}
 .bbp-user-page .entry-content{margin:0;}
 .bbp-user-page .item-body{margin:0;}
-.member-front-page{padding:20px 0;}
+.member-front-page{padding:30px 0;}
 .member-front-page h2{color:#fdd80f;margin:0 0 20px!important;}
 .member-front-page .member-connections p{color:#fff;}
 .member-info{background:#282828;position:relative;width:100vw;left:50%;right:50%;margin:0;margin-left:-50vw;margin-right:-50vw;max-width:initial;padding:50px 0 20px;}
@@ -1163,7 +1163,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress .buddypress-wrap a.button,
 .buddypress .buddypress-wrap input[type="button"].button,
 .buddypress .buddypress-wrap input[type="submit"].button,
-.buddypress .buddypress-wrap .generic-button .button{background:#ff008f;color:#fff;display:inline-block;padding:8px 20px;border-radius:6px;text-align:center;text-transform:uppercase;font-size:14px;line-height:1;font-weight:700;border:1px solid #ff008f;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
+.buddypress .buddypress-wrap .generic-button .button{background:#ff008f;color:#fff;display:inline-block;padding:8px 20px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:14px;line-height:1;font-weight:700;border:1px solid #ff008f;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
 .buddypress .buddypress-wrap .button:hover,
 .buddypress .buddypress-wrap a.button:hover,
 .buddypress .buddypress-wrap input[type="button"].button:hover,
