@@ -32,7 +32,7 @@ $post_per_page = 12;
 if( is_array( $members_filter )) {
     $members_filter['page'] = 1;
     $members_filter['per_page'] = $post_per_page;
-    $members_filter['type'] = 'newest';
+    //$members_filter['type'] = 'newest';
 }
 
 $profile_url     = bp_core_get_user_domain( $user_id );
