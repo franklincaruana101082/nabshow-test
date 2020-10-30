@@ -582,8 +582,7 @@ function nab_get_product_bookmark_html( $product_id, $action_class = '' ) {
 	if ( is_user_logged_in() ) {
 
 		$current_user_id   = get_current_user_id();
-		$bookmark_products = get_user_meta( $current_user_id, 'nab_customer_product_bookmark', true );
-		$bookmark_class    = '';
+		$bookmark_products = get_user_meta( $current_user_id, 'nab_customer_product_bookmark', true );		
 		$bookmark_tooltip  = 'Add to Bookmark';
 
 		if ( ! empty( $bookmark_products ) && is_array( $bookmark_products ) && in_array( (string) $product_id, $bookmark_products, true ) ) {

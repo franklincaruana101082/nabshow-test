@@ -232,6 +232,7 @@ $view_screen		= array( 'user', 'product', 'content' );
 										<div class="search-item-inner">
 											<div class="search-item-cover">
 												<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="product thumbnail" />
+												<?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
 											</div>
 											<div class="search-item-info">
 												<div class="search-item-content">
@@ -477,6 +478,7 @@ $view_screen		= array( 'user', 'product', 'content' );
 									<div class="search-item-inner">
 										<div class="search-item-cover">
 											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="product thumbnail" />
+											<?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-content">

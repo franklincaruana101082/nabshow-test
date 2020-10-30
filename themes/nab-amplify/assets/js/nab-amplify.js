@@ -1576,6 +1576,18 @@ function nabSearchProductAjax( loadMore, pageNumber ) {
           coverImg.setAttribute('alt', 'product thumbnail');
 
           searchItemCover.appendChild(coverImg);
+
+          if ( value.bookmark_class ) {
+            
+            let bookmarkSpan = document.createElement('span');
+            
+            bookmarkSpan.setAttribute('class', value.bookmark_class);
+            bookmarkSpan.setAttribute('data-bp-tooltip', value.bookmark_tooltip);
+            bookmarkSpan.setAttribute('data-product', value.bookmark_id);
+            
+            searchItemCover.appendChild(bookmarkSpan);
+          }
+
           searchItemInner.appendChild(searchItemCover);
 
           let searchItemInfo = document.createElement('div');

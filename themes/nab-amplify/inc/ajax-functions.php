@@ -1146,17 +1146,37 @@ function nab_product_search_filter_callback() {
 
 	if ( $product_query->have_posts() ) {
 
-		$cnt = 0;
+		$cnt 				= 0;
+		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
+		$bookmark_products	= ! empty( $current_user_id ) ? get_user_meta( $current_user_id, 'nab_customer_product_bookmark', true ) : '';
 
 		while ( $product_query->have_posts() ) {
 
 			$product_query->the_post();
 
-			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();			
 
 			$result_post[ $cnt ][ 'thumbnail' ] = $thumbnail_url;
 			$result_post[ $cnt ][ 'link' ] 		= get_the_permalink();
 			$result_post[ $cnt ][ 'title' ] 	= html_entity_decode( get_the_title() );
+
+			// bookmark product
+			if ( ! empty( $current_user_id ) ) {
+
+				$product_id			= get_the_ID();
+				$bookmark_class    	= 'fa fa-bookmark-o amp-bookmark user-bookmark-action';
+				$bookmark_tooltip  	= 'Add to Bookmark';
+
+				if ( ! empty( $bookmark_products ) && is_array( $bookmark_products ) && in_array( (string) $product_id, $bookmark_products, true ) ) {
+
+					$bookmark_class     .= ' bookmark-fill';
+					$bookmark_tooltip	= 'Remove from Bookmark';
+				}
+				
+				$result_post[ $cnt ][ 'bookmark_class' ] 	= $bookmark_class;
+				$result_post[ $cnt ][ 'bookmark_tooltip' ] 	= $bookmark_tooltip;
+				$result_post[ $cnt ][ 'bookmark_id' ]		= $product_id;				
+			}
 
 			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
 
