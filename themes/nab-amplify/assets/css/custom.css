@@ -503,7 +503,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-orders-table th{padding:10px 10px;border-bottom:1px solid #e0e0e0;text-align:center!important;color:#fff;}
 .woocommerce-orders-table td a.button{padding:6px 10px;margin:5px 5px 5px 0;min-width:80px;border-radius:6px;text-decoration:none;}
 .woocommerce-orders-table td a.button:last-child{margin:5px 0 5px 0}
-.woocommerce-orders-table thead tr a{color:#fff;}
+.woocommerce-orders-table thead tr a{color:#fff;text-decoration:none!important;}
 .woocommerce-orders-table thead tr th.woocommerce-orders-table__header-order-date span,
 .woocommerce-orders-table thead tr th.woocommerce-orders-table__header-order-total span{padding-left: 35px;position: relative;}
 .woocommerce-orders-table th.woocommerce-orders-table__header-order-date span:after,
@@ -862,7 +862,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 /* My purchases */
 .my-purchased-content h3{font-weight:700;}
 .my-purchased-content .wp-info{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.my-purchased-content .wp-summary{width:25%;padding:0 10px;margin-bottom:68px;}
+.my-purchased-content .wp-summary{width:25%;padding:0 10px;margin-bottom:30px;}
 .my-purchased-content .wp-summary .item-inner{width:275px;max-width:100%;margin:0 auto;}
 .my-purchased-content .wp-summary .item-inner .thumbnail{-webkit-box-shadow:0px 0px 18px 0px rgba(0,0,0,0.3);box-shadow:0px 0px 18px 0px rgba(0,0,0,0.3);text-shadow:0px 0px 18px rgba(0,0,0,0.3);background:#404040;border-radius:10px;text-align:left;height:100%;overflow:hidden;}
 .my-purchased-content .wp-summary .item-inner .thumbnail img{display:block;}
@@ -870,7 +870,7 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 .my-purchased-content .category_content_card{position:absolute;bottom:15px;left:15px;padding:8px 10px;}
 .my-purchased-content .title_content_card{padding:20px 10px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .my-purchased-content .title_content_card h4{margin:0;width:calc(100% - 120px);}
-.my-purchased-content .title_content_card a{color:#fff;text-decoration:none;}
+.my-purchased-content .title_content_card a{color:#fff;text-decoration:none!important;}
 .my-purchased-content .title_content_card .event-date{color:#6f6f6f;}
 
 /* My purchases Event */

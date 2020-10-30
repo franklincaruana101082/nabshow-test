@@ -83,7 +83,7 @@
 	.nab-bulk-quantity-wrapper{width: 100%;}
 
 	/* My purchases */
-	.my-purchased-content .wp-summary{width:33.333333333333336%;margin-bottom:50px;}
+	.my-purchased-content .wp-summary{width:33.333333333333336%;}
 
 	/* New Amplify CSS */
 	/* My Account page */
@@ -247,10 +247,8 @@
 	/* My purchases */
 	.my-purchased-content .wp-summary{width:100%;}
 
-	.my-purchased-content.shows-list .wp-summary{width:100%;margin-bottom:30px;padding:0;}
+	.my-purchased-content.shows-list .wp-summary{width:100%;padding:0;}
 	.my-purchased-content.shows-list .wp-summary .item-inner{width:275px;}
-	.my-purchased-content.shows-list .wp-summary:nth-child(odd){padding-right:0;border-right:0;}
-	.my-purchased-content.shows-list .wp-summary:nth-child(even){padding-left:0;}
 }
 @media (max-width:480px) {
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}
