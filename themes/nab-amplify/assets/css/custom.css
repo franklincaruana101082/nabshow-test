@@ -1009,7 +1009,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .load-more a:hover{background-color:transparent;border-color:transparent;color:#666;}
 .search-section{padding:30px 0 0;}
 .search-section .search-section-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative;}
-.search-section .section-view-more a{color:#666;text-decoration:underline;display:inline-block;}
+.search-section .section-view-more a{color:#666;text-decoration:underline;display:inline-block;font-size:14px;}
 .search-section .search-section-details{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .search-section .search-section-details .nab-ad-wrap{padding:0;margin-bottom:30px;}
 .search-section .search-item{width:25%;padding:0 4px;margin:0 0 30px;max-width:350px;}
@@ -1118,7 +1118,8 @@ body.buddypress .site-content{padding:0;}
 .amp-item-main .amp-item-heading h3{color:#fdd80f;font-size:36px;margin:0 10px 0 0!important;line-height:1;}
 .amp-item-main .amp-item-heading h3 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block;}
 .amp-item-main .amp-item-heading h3 span{color:#fff;font-size:24px;font-weight:300;line-height:1;vertical-align:middle;display:inline-block;}
-.amp-item-main .amp-view-more a{color:#666;text-decoration:underline!important;display:inline-block;}
+.amp-item-main .amp-item-heading .amp-view-more{margin-top:5px;}
+.amp-item-main .amp-view-more a{color:#666;text-decoration:underline!important;display:inline-block;font-size:14px;}
 .amp-item-main .amp-item-wrap .nab-ad-wrap{padding:0;margin-bottom:30px;}
 .amp-item-main .amp-item-wrap{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .member-front-page > div > .amp-item-main{padding:30px 0 0;}
