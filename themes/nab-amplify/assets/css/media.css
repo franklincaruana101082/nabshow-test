@@ -4,6 +4,7 @@
 @media (max-width:1395px){
 }
 @media (max-width:1200px){
+	.site-header .nab-header-search .search-form .search-field{width:300px;}
 	.product-list .product-item{width:50%}
 	.product-list.layout-list .product-item .item-inner .details{-ms-flex-wrap:wrap;flex-wrap:wrap}
 	.product-list.layout-list .product-item .item-inner .details .top{width:100%;padding:0}
@@ -21,6 +22,7 @@
 	.amp-profile-main{margin-right:10%;max-width:670px;}
 }
 @media (max-width:1024px){
+	.site-header .nab-header-search .search-form .search-field{width:250px;}
 	.nab-profile:hover > .nab-profile-dropdown{display:none}
 	.single-product div.product .woocommerce-product-gallery{width:100%}
 	.single-product div.product .summary{width:100%;padding:40px 0 0 0}
@@ -47,6 +49,8 @@
 	.amp-profile-main .amp-profile-info span{font-size:20px;}
 }
 @media (max-width:991px){
+	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:20px;}
+	.site-header .main-navigation{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.site-header .nab-logos img{max-width:100%}
 	.site-footer:before{display:none}
 	.site-footer .footer-inner .col-1{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1;width:50%}
@@ -191,6 +195,11 @@
 	.buddypress-wrap #message-threads li .thread-from, .buddypress-wrap #message-threads li .thread-to{-moz-flex: 1 2 100%;-o-flex: 1 2 100%;-webkit-box-flex: 1;-ms-flex: 1 2 100%;flex: 1 2 100%;margin-bottom:10px;}
 }
 @media (max-width:600px){
+	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
+	.site-header .nab-header-search{width:100%;}
+	.site-header .nab-header-search .search-form{max-width:300px;margin:0 auto 20px;}
+	.site-header .nab-header-search .search-form .search-field{width:100%;}
+	.site-header .nab-header-search .search-form label{width:100%;}
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}
 	.site-footer .footer-inner .socials{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
 	.site-footer{padding-bottom:50px}
