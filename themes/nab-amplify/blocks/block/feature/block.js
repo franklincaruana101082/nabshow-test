@@ -1,5 +1,6 @@
-(function(wpBlocks, wpBlockEditor, wpComponents){ 
+(function(i18n, wpBlocks, wpBlockEditor, wpComponents){ 
 const { registerBlockType } = wpBlocks;
+const { __ } = wp.i18n;
 const { 
     RichText,
     InspectorControls,
@@ -7,36 +8,62 @@ const {
     MediaUpload,
     AlignmentToolbar
 } = wpBlockEditor;
+const { Fragment } = wp.element;
 const {
     PanelBody,
     PanelRow,
     Button,
     RangeControl,
-    ToggleControl
+    ToggleControl,
+    SelectControl
 } = wpComponents;
 
 registerBlockType('amplify/feature', {
     // built in attributes
-    title: 'Feature',
-    description: 'Feature Block',
+    title: __('Feature'),
+    description: __('Feature Block'),
     icon: 'editor-code',
     category: 'nab_amplify',
     attributes: {
+        backgroundColor: {
+            type: 'string',
+            default: ''
+        },
+        backgroundOverlay: {
+            type: 'string',
+            default: ''
+        },
+        backgroundImage: {
+            type: 'string',
+            default: ''
+        },
+        backgroundSize: {
+            type: "string",
+            default: "cover",
+        },
+        backgroundRepeat: {
+            type: "boolean",
+            default: false,
+        },
+        backgroundPosition: {
+            type: "string",
+            default: "",
+        },
         featureStatusToggle: {
             type: 'Boolean',
-            default: false
+            default: true
         },
         featureTitleToggle: {
             type: 'Boolean',
-            default: false
+            default: true
         },
         featureAuthorToggle: {
             type: 'Boolean',
-            default: false
+            default: true
         },
         featureDiscToggle: {
             type: 'Boolean',
-            default: false
+            default: true
         },
         featureStatusTitle: {
             type: 'string',
@@ -57,6 +84,12 @@ registerBlockType('amplify/feature', {
     },
     edit: ({attributes, setAttributes}) => {
         const {
+            backgroundColor,
+            backgroundOverlay,
+            backgroundImage,
+            backgroundSize,
+            backgroundRepeat,
+            backgroundPosition,
             featureStatusToggle,
             featureTitleToggle,
             featureAuthorToggle,
@@ -66,39 +99,198 @@ registerBlockType('amplify/feature', {
             featureAuthor,
             featureDisc
         } = attributes;
+
+        const backroundStyle = {};
+        backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
+        backgroundImage && (backroundStyle.backgroundImage = `url(${backgroundImage})`);
+        backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
+        backgroundRepeat && (backroundStyle.backgroundRepeat = "no-repeat");
+        backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
+
         return ([
             <InspectorControls>
-                <PanelBody title="Feature Content Settings">
-                    <div className="inspector-field">
-                        <ToggleControl
-                            label="Feature Status Title"
-                            checked={featureStatusToggle}
-                            onChange={(featureStatusToggle)=>{
-                                setAttributes({featureStatusToggle})
-                            }}
-                        />
-                    </div>
-                </PanelBody>
+                <div className="amp-controle-settings">
+                    <PanelBody title="Feature Block Image">
+                        <div className="inspector-field">
+                            <MediaUpload
+                                onSelect={backgroundImage => setAttributes({
+                                    backgroundImage: backgroundImage.sizes.full.url
+                                })}
+                                type="image"
+                                value={backgroundImage}
+                                render={({ open })=>(
+                                    <Button
+                                        onClick={ open }
+                                        className={backgroundImage ? "amp-image-button" : "button button-large"}
+                                        >
+                                        {!backgroundImage ? (
+                                            __("Select Image")
+                                        ) : (
+                                            <div
+                                            style={{
+                                                backgroundImage: `url(${backgroundImage})`,
+                                                backgroundSize: "cover",
+                                                backgroundPosition: "center",
+                                                height: "150px",
+                                                width: "225px",
+                                            }}
+                                            ></div>
+                                        )}
+                                    </Button>
+                                )}
+                            />
+                            {backgroundImage ? (
+                            <Fragment>
+                                <Button
+                                    className="button"
+                                    onClick={() => {
+                                        setAttributes({ backgroundImage: "" })
+                                    }}
+                                >
+                                    {__("Remove Image")}
+                                </Button>
+                                <div className="inspector-field-inner">
+                                    <ToggleControl
+                                        label={__("Background Repeat ")}
+                                        checked={backgroundRepeat}
+                                        onChange={(backgroundRepeat)=>{
+                                            setAttributes({backgroundRepeat})
+                                        }}
+                                    />
+                                    <SelectControl
+                                        label={__("background size")}
+                                        value={backgroundSize}
+                                        options={[
+                                            { label: __("auto"), value: "auto" },
+                                            { label: __("cover"), value: "cover" },
+                                            { label: __("contain"), value: "contain" },
+                                            { label: __("initial"), value: "initial" },
+                                            { label: __("inherit"), value: "inherit" },
+                                        ]}
+                                        onChange={(value) => {
+                                            setAttributes({
+                                            backgroundSize: value,
+                                            });
+                                        }}
+                                    />
+                                    <SelectControl
+                                        label={__("Select Position")}
+                                        value={backgroundPosition}
+                                        options={[
+                                            { label: __("inherit"), value: "inherit" },
+                                            { label: __("initial"), value: "initial" },
+                                            { label: __("bottom"), value: "bottom" },
+                                            { label: __("center"), value: "center" },
+                                            { label: __("left"), value: "left" },
+                                            { label: __("right"), value: "right" },
+                                            { label: __("top"), value: "top" },
+                                            { label: __("unset"), value: "unset" },
+                                            { label: __("center center"), value: "center center" },
+                                            { label: __("left top"), value: "left top" },
+                                            { label: __("left center"), value: "left center" },
+                                            { label: __("left bottom"), value: "left bottom" },
+                                            { label: __("right top"), value: "right top" },
+                                            { label: __("right center"), value: "right center" },
+                                            { label: __("right bottom"), value: "right bottom" },
+                                            { label: __("center top"), value: "center top" },
+                                            { label: __("center bottom"), value: "center bottom" },
+                                        ]}
+                                        onChange={(value) =>
+                                            setAttributes({ backgroundPosition: value })
+                                        }
+                                    />
+                                </div>
+                            </Fragment>
+                            ) : (
+                                <div className="inspector-field-inner">
+                                    <label>Background Color</label>
+                                    <ColorPalette
+                                        value={backgroundColor}
+                                        onChange={(backgroundColor) =>
+                                            setAttributes({backgroundColor})
+                                        }
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </PanelBody>
+                    <PanelBody title="Feature Content Settings">
+                        <div className="inspector-field">
+                            <ToggleControl
+                                label={__("Feature Status Title")}
+                                checked={featureStatusToggle}
+                                onChange={(featureStatusToggle)=>{
+                                    setAttributes({featureStatusToggle})
+                                }}
+                            />
+                            <ToggleControl
+                                label={__("Feature Title")}
+                                checked={featureTitleToggle}
+                                onChange={(featureTitleToggle)=>{
+                                    setAttributes({featureTitleToggle})
+                                }}
+                            />
+                            <ToggleControl
+                                label={__("Feature Author")}
+                                checked={featureAuthorToggle}
+                                onChange={(featureAuthorToggle)=>{
+                                    setAttributes({featureAuthorToggle})
+                                }}
+                            />
+                            <ToggleControl
+                                label={__("Feature Discription")}
+                                checked={featureDiscToggle}
+                                onChange={(featureDiscToggle)=>{
+                                    setAttributes({featureDiscToggle})
+                                }}
+                            />
+                        </div>
+                    </PanelBody>
+                </div>
             </InspectorControls>,
-            <div className="amp-feature-block">
+            <div className="amp-feature-block" style={backroundStyle}>
                 <div className="amp-feature-block-inner">
                     <div className="amp-feature-content">
-                        <RichText
-                            tagName="h4"
-                            placeholder="Live"
-                            value={featureStatusTitle}
-                            onChange={(featureStatusTitle)=>{
-                                setAttributes({featureStatusTitle});
-                            }}
-                        />
-                        <RichText
-                            tagName="h2"
-                            placeholder="Live"
-                            value={featureTitle}
-                            onChange={(featureTitle)=>{
-                                setAttributes({featureTitle});
-                            }}
-                        />
+                        {featureStatusToggle ?
+                            <RichText
+                                tagName="h3"
+                                placeholder="Live"
+                                value={featureStatusTitle}
+                                onChange={(featureStatusTitle)=>{
+                                    setAttributes({featureStatusTitle});
+                                }}
+                            /> : null
+                        }
+                        {featureTitleToggle ?
+                            <RichText
+                                tagName="h2"
+                                placeholder="Creating the World"
+                                value={featureTitle}
+                                onChange={(featureTitle)=>{
+                                    setAttributes({featureTitle});
+                                }}
+                        /> : null
+                        }
+                        {featureAuthorToggle ?
+                            <RichText
+                                tagName="h4"
+                                placeholder="Author"
+                                value={featureAuthor}
+                                onChange={(featureAuthor)=>{
+                                    setAttributes({featureAuthor});
+                                }}
+                            /> : null
+                        }
+                        {featureDiscToggle ?
+                            <RichText
+                                tagName="p"
+                                placeholder="Discription"
+                                value={featureDisc}
+                                onChange={(featureDisc)=>{
+                                    setAttributes({featureDisc});
+                                }}
+                            /> : null
+                        }
                     </div>
                 </div>
             </div>
@@ -106,18 +298,61 @@ registerBlockType('amplify/feature', {
     },
     save: ({attributes}) => {
         const {
+            backgroundColor,
+            backgroundImage,
+            backgroundSize,
+            backgroundRepeat,
+            backgroundPosition,
             featureStatusToggle,
             featureTitleToggle,
             featureAuthorToggle,
-            featureDiscToggle
+            featureDiscToggle,
+            featureStatusTitle,
+            featureTitle,
+            featureAuthor,
+            featureDisc
         } = attributes;
+
+        const backroundStyle = {};
+        backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
+        backgroundImage && (backroundStyle.backgroundImage = `url(${backgroundImage})`);
+        backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
+        backgroundRepeat && (backroundStyle.backgroundRepeat = "no-repeat");
+        backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
+
         return(
-            <RichText.Content
-                tagName="h2"
-                value={featureTitle}
-            />
+            <div className="amp-feature-block" style={backroundStyle}>
+                <div className="amp-feature-block-inner">
+                    <div className="amp-feature-content">
+                        {featureStatusToggle ?
+                            <RichText.Content
+                                tagName="h3"
+                                value={featureStatusTitle}
+                            /> : null
+                        }
+                        {featureTitleToggle ?
+                            <RichText.Content
+                                tagName="h2"
+                                value={featureTitle}
+                            /> : null
+                        }
+                        {featureAuthorToggle ?
+                            <RichText.Content
+                                tagName="h4"
+                                value={featureAuthor}
+                            /> : null
+                        }
+                        {featureDiscToggle ?
+                            <RichText.Content
+                                tagName="p"
+                                value={featureDisc}
+                            /> : null
+                        }
+                    </div>
+                </div>
+            </div>
         )
     }
 });
 
-})(wp.blocks, wp.blockEditor, wp.components);
+})(wp.i18n, wp.blocks, wp.blockEditor, wp.components);

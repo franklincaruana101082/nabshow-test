@@ -2156,42 +2156,69 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /* 3 */
 /***/ (function(module, exports) {
 
-(function (wpBlocks, wpBlockEditor, wpComponents) {
+(function (i18n, wpBlocks, wpBlockEditor, wpComponents) {
     var registerBlockType = wpBlocks.registerBlockType;
+    var __ = wp.i18n.__;
     var RichText = wpBlockEditor.RichText,
         InspectorControls = wpBlockEditor.InspectorControls,
         ColorPalette = wpBlockEditor.ColorPalette,
         MediaUpload = wpBlockEditor.MediaUpload,
         AlignmentToolbar = wpBlockEditor.AlignmentToolbar;
+    var Fragment = wp.element.Fragment;
     var PanelBody = wpComponents.PanelBody,
         PanelRow = wpComponents.PanelRow,
         Button = wpComponents.Button,
         RangeControl = wpComponents.RangeControl,
-        ToggleControl = wpComponents.ToggleControl;
+        ToggleControl = wpComponents.ToggleControl,
+        SelectControl = wpComponents.SelectControl;
 
 
     registerBlockType('amplify/feature', {
         // built in attributes
-        title: 'Feature',
-        description: 'Feature Block',
+        title: __('Feature'),
+        description: __('Feature Block'),
         icon: 'editor-code',
         category: 'nab_amplify',
         attributes: {
+            backgroundColor: {
+                type: 'string',
+                default: ''
+            },
+            backgroundOverlay: {
+                type: 'string',
+                default: ''
+            },
+            backgroundImage: {
+                type: 'string',
+                default: ''
+            },
+            backgroundSize: {
+                type: "string",
+                default: "cover"
+            },
+            backgroundRepeat: {
+                type: "boolean",
+                default: false
+            },
+            backgroundPosition: {
+                type: "string",
+                default: ""
+            },
             featureStatusToggle: {
                 type: 'Boolean',
-                default: false
+                default: true
             },
             featureTitleToggle: {
                 type: 'Boolean',
-                default: false
+                default: true
             },
             featureAuthorToggle: {
                 type: 'Boolean',
-                default: false
+                default: true
             },
             featureDiscToggle: {
                 type: 'Boolean',
-                default: false
+                default: true
             },
             featureStatusTitle: {
                 type: 'string',
@@ -2213,7 +2240,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
         edit: function edit(_ref) {
             var attributes = _ref.attributes,
                 setAttributes = _ref.setAttributes;
-            var featureStatusToggle = attributes.featureStatusToggle,
+            var backgroundColor = attributes.backgroundColor,
+                backgroundOverlay = attributes.backgroundOverlay,
+                backgroundImage = attributes.backgroundImage,
+                backgroundSize = attributes.backgroundSize,
+                backgroundRepeat = attributes.backgroundRepeat,
+                backgroundPosition = attributes.backgroundPosition,
+                featureStatusToggle = attributes.featureStatusToggle,
                 featureTitleToggle = attributes.featureTitleToggle,
                 featureAuthorToggle = attributes.featureAuthorToggle,
                 featureDiscToggle = attributes.featureDiscToggle,
@@ -2222,74 +2255,258 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 featureAuthor = attributes.featureAuthor,
                 featureDisc = attributes.featureDisc;
 
+
+            var backroundStyle = {};
+            backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
+            backgroundImage && (backroundStyle.backgroundImage = 'url(' + backgroundImage + ')');
+            backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
+            backgroundRepeat && (backroundStyle.backgroundRepeat = "no-repeat");
+            backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
+
             return [wp.element.createElement(
                 InspectorControls,
                 null,
                 wp.element.createElement(
-                    PanelBody,
-                    { title: 'Feature Content Settings' },
+                    'div',
+                    { className: 'amp-controle-settings' },
                     wp.element.createElement(
-                        'div',
-                        { className: 'inspector-field' },
-                        wp.element.createElement(ToggleControl, {
-                            label: 'Feature Status Title',
-                            checked: featureStatusToggle,
-                            onChange: function onChange(featureStatusToggle) {
-                                setAttributes({ featureStatusToggle: featureStatusToggle });
-                            }
-                        })
+                        PanelBody,
+                        { title: 'Feature Block Image' },
+                        wp.element.createElement(
+                            'div',
+                            { className: 'inspector-field' },
+                            wp.element.createElement(MediaUpload, {
+                                onSelect: function onSelect(backgroundImage) {
+                                    return setAttributes({
+                                        backgroundImage: backgroundImage.sizes.full.url
+                                    });
+                                },
+                                type: 'image',
+                                value: backgroundImage,
+                                render: function render(_ref2) {
+                                    var open = _ref2.open;
+                                    return wp.element.createElement(
+                                        Button,
+                                        {
+                                            onClick: open,
+                                            className: backgroundImage ? "amp-image-button" : "button button-large"
+                                        },
+                                        !backgroundImage ? __("Select Image") : wp.element.createElement('div', {
+                                            style: {
+                                                backgroundImage: 'url(' + backgroundImage + ')',
+                                                backgroundSize: "cover",
+                                                backgroundPosition: "center",
+                                                height: "150px",
+                                                width: "225px"
+                                            }
+                                        })
+                                    );
+                                }
+                            }),
+                            backgroundImage ? wp.element.createElement(
+                                Fragment,
+                                null,
+                                wp.element.createElement(
+                                    Button,
+                                    {
+                                        className: 'button',
+                                        onClick: function onClick() {
+                                            setAttributes({ backgroundImage: "" });
+                                        }
+                                    },
+                                    __("Remove Image")
+                                ),
+                                wp.element.createElement(
+                                    'div',
+                                    { className: 'inspector-field-inner' },
+                                    wp.element.createElement(ToggleControl, {
+                                        label: __("Background Repeat "),
+                                        checked: backgroundRepeat,
+                                        onChange: function onChange(backgroundRepeat) {
+                                            setAttributes({ backgroundRepeat: backgroundRepeat });
+                                        }
+                                    }),
+                                    wp.element.createElement(SelectControl, {
+                                        label: __("background size"),
+                                        value: backgroundSize,
+                                        options: [{ label: __("auto"), value: "auto" }, { label: __("cover"), value: "cover" }, { label: __("contain"), value: "contain" }, { label: __("initial"), value: "initial" }, { label: __("inherit"), value: "inherit" }],
+                                        onChange: function onChange(value) {
+                                            setAttributes({
+                                                backgroundSize: value
+                                            });
+                                        }
+                                    }),
+                                    wp.element.createElement(SelectControl, {
+                                        label: __("Select Position"),
+                                        value: backgroundPosition,
+                                        options: [{ label: __("inherit"), value: "inherit" }, { label: __("initial"), value: "initial" }, { label: __("bottom"), value: "bottom" }, { label: __("center"), value: "center" }, { label: __("left"), value: "left" }, { label: __("right"), value: "right" }, { label: __("top"), value: "top" }, { label: __("unset"), value: "unset" }, { label: __("center center"), value: "center center" }, { label: __("left top"), value: "left top" }, { label: __("left center"), value: "left center" }, { label: __("left bottom"), value: "left bottom" }, { label: __("right top"), value: "right top" }, { label: __("right center"), value: "right center" }, { label: __("right bottom"), value: "right bottom" }, { label: __("center top"), value: "center top" }, { label: __("center bottom"), value: "center bottom" }],
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ backgroundPosition: value });
+                                        }
+                                    })
+                                )
+                            ) : wp.element.createElement(
+                                'div',
+                                { className: 'inspector-field-inner' },
+                                wp.element.createElement(
+                                    'label',
+                                    null,
+                                    'Background Color'
+                                ),
+                                wp.element.createElement(ColorPalette, {
+                                    value: backgroundColor,
+                                    onChange: function onChange(backgroundColor) {
+                                        return setAttributes({ backgroundColor: backgroundColor });
+                                    }
+                                })
+                            )
+                        )
+                    ),
+                    wp.element.createElement(
+                        PanelBody,
+                        { title: 'Feature Content Settings' },
+                        wp.element.createElement(
+                            'div',
+                            { className: 'inspector-field' },
+                            wp.element.createElement(ToggleControl, {
+                                label: __("Feature Status Title"),
+                                checked: featureStatusToggle,
+                                onChange: function onChange(featureStatusToggle) {
+                                    setAttributes({ featureStatusToggle: featureStatusToggle });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __("Feature Title"),
+                                checked: featureTitleToggle,
+                                onChange: function onChange(featureTitleToggle) {
+                                    setAttributes({ featureTitleToggle: featureTitleToggle });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __("Feature Author"),
+                                checked: featureAuthorToggle,
+                                onChange: function onChange(featureAuthorToggle) {
+                                    setAttributes({ featureAuthorToggle: featureAuthorToggle });
+                                }
+                            }),
+                            wp.element.createElement(ToggleControl, {
+                                label: __("Feature Discription"),
+                                checked: featureDiscToggle,
+                                onChange: function onChange(featureDiscToggle) {
+                                    setAttributes({ featureDiscToggle: featureDiscToggle });
+                                }
+                            })
+                        )
                     )
                 )
             ), wp.element.createElement(
                 'div',
-                { className: 'amp-feature-block' },
+                { className: 'amp-feature-block', style: backroundStyle },
                 wp.element.createElement(
                     'div',
                     { className: 'amp-feature-block-inner' },
                     wp.element.createElement(
                         'div',
                         { className: 'amp-feature-content' },
-                        wp.element.createElement(RichText, {
-                            tagName: 'h4',
+                        featureStatusToggle ? wp.element.createElement(RichText, {
+                            tagName: 'h3',
                             placeholder: 'Live',
                             value: featureStatusTitle,
                             onChange: function onChange(featureStatusTitle) {
                                 setAttributes({ featureStatusTitle: featureStatusTitle });
                             }
-                        }),
-                        wp.element.createElement(RichText, {
+                        }) : null,
+                        featureTitleToggle ? wp.element.createElement(RichText, {
                             tagName: 'h2',
-                            placeholder: 'Live',
+                            placeholder: 'Creating the World',
                             value: featureTitle,
                             onChange: function onChange(featureTitle) {
                                 setAttributes({ featureTitle: featureTitle });
                             }
-                        })
+                        }) : null,
+                        featureAuthorToggle ? wp.element.createElement(RichText, {
+                            tagName: 'h4',
+                            placeholder: 'Author',
+                            value: featureAuthor,
+                            onChange: function onChange(featureAuthor) {
+                                setAttributes({ featureAuthor: featureAuthor });
+                            }
+                        }) : null,
+                        featureDiscToggle ? wp.element.createElement(RichText, {
+                            tagName: 'p',
+                            placeholder: 'Discription',
+                            value: featureDisc,
+                            onChange: function onChange(featureDisc) {
+                                setAttributes({ featureDisc: featureDisc });
+                            }
+                        }) : null
                     )
                 )
             )];
         },
-        save: function save(_ref2) {
-            var attributes = _ref2.attributes;
-            var featureStatusToggle = attributes.featureStatusToggle,
+        save: function save(_ref3) {
+            var attributes = _ref3.attributes;
+            var backgroundColor = attributes.backgroundColor,
+                backgroundImage = attributes.backgroundImage,
+                backgroundSize = attributes.backgroundSize,
+                backgroundRepeat = attributes.backgroundRepeat,
+                backgroundPosition = attributes.backgroundPosition,
+                featureStatusToggle = attributes.featureStatusToggle,
                 featureTitleToggle = attributes.featureTitleToggle,
                 featureAuthorToggle = attributes.featureAuthorToggle,
-                featureDiscToggle = attributes.featureDiscToggle;
+                featureDiscToggle = attributes.featureDiscToggle,
+                featureStatusTitle = attributes.featureStatusTitle,
+                featureTitle = attributes.featureTitle,
+                featureAuthor = attributes.featureAuthor,
+                featureDisc = attributes.featureDisc;
 
-            return wp.element.createElement(RichText.Content, {
-                tagName: 'h2',
-                value: featureTitle
-            });
+
+            var backroundStyle = {};
+            backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
+            backgroundImage && (backroundStyle.backgroundImage = 'url(' + backgroundImage + ')');
+            backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
+            backgroundRepeat && (backroundStyle.backgroundRepeat = "no-repeat");
+            backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
+
+            return wp.element.createElement(
+                'div',
+                { className: 'amp-feature-block', style: backroundStyle },
+                wp.element.createElement(
+                    'div',
+                    { className: 'amp-feature-block-inner' },
+                    wp.element.createElement(
+                        'div',
+                        { className: 'amp-feature-content' },
+                        featureStatusToggle ? wp.element.createElement(RichText.Content, {
+                            tagName: 'h3',
+                            value: featureStatusTitle
+                        }) : null,
+                        featureTitleToggle ? wp.element.createElement(RichText.Content, {
+                            tagName: 'h2',
+                            value: featureTitle
+                        }) : null,
+                        featureAuthorToggle ? wp.element.createElement(RichText.Content, {
+                            tagName: 'h4',
+                            value: featureAuthor
+                        }) : null,
+                        featureDiscToggle ? wp.element.createElement(RichText.Content, {
+                            tagName: 'p',
+                            value: featureDisc
+                        }) : null
+                    )
+                )
+            );
         }
     });
-})(wp.blocks, wp.blockEditor, wp.components);
+})(wp.i18n, wp.blocks, wp.blockEditor, wp.components);
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-(function (wpBlocks, wpBlockEditor, wpComponents) {
+(function (i18n, wpBlocks, wpBlockEditor, wpComponents) {
     var registerBlockType = wpBlocks.registerBlockType;
+    var __ = wp.i18n.__;
     var RichText = wpBlockEditor.RichText,
         InspectorControls = wpBlockEditor.InspectorControls,
         MediaUpload = wpBlockEditor.MediaUpload,
@@ -2302,8 +2519,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
     registerBlockType('amplify/image', {
         // built in attributes
-        title: 'Image',
-        description: 'Image Block',
+        title: __('Image'),
+        description: __('Image Block'),
         icon: 'editor-code',
         category: 'nab_amplify',
         attributes: {
@@ -2323,9 +2540,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 type: 'Boolean',
                 default: false
             },
-            ImageAlign: {
+            textAlign: {
                 type: 'string',
-                default: 'none'
+                default: ''
             }
         },
         edit: function edit(_ref) {
@@ -2335,10 +2552,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 ImageAlt = attributes.ImageAlt,
                 ImageLink = attributes.ImageLink,
                 ImageLinkTarget = attributes.ImageLinkTarget,
-                ImageAlign = attributes.ImageAlign;
+                textAlign = attributes.textAlign;
 
 
             var linkTarget = ImageLinkTarget ? '_blank' : '_self';
+
+            var divStyle = {};
+            divStyle && (divStyle.textAlign = textAlign);
 
             return [wp.element.createElement(
                 InspectorControls,
@@ -2348,7 +2568,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                     { className: 'amp-controle-settings' },
                     wp.element.createElement(
                         PanelBody,
-                        { title: "Image settings" },
+                        { title: __("Image settings") },
                         wp.element.createElement(
                             'div',
                             { className: 'inspector-field' },
@@ -2365,7 +2585,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                                         {
                                             onClick: open,
                                             className: ImageUrl ? "amp-image-button" : "button button-large" },
-                                        !ImageUrl ? "Select Image" : wp.element.createElement('div', {
+                                        !ImageUrl ? __("Select Image") : wp.element.createElement('div', {
                                             style: {
                                                 backgroundImage: 'url(' + ImageUrl + ')',
                                                 backgroundSize: "cover",
@@ -2385,7 +2605,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                                         setAttributes({ ImageUrl: "" });
                                     }
                                 },
-                                "Remove Image"
+                                __("Remove Image")
                             ) : null
                         ),
                         wp.element.createElement(
@@ -2433,9 +2653,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                                 'Image Alignment'
                             ),
                             wp.element.createElement(AlignmentToolbar, {
-                                value: ImageAlign,
-                                onChange: function onChange(ImageAlign) {
-                                    setAttributes({ ImageAlign: undefined === ImageAlign ? 'none' : ImageAlign });
+                                value: textAlign,
+                                onChange: function onChange(textAlign) {
+                                    setAttributes({ textAlign: textAlign });
                                 }
                             })
                         )
@@ -2443,9 +2663,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 )
             ), wp.element.createElement(
                 'div',
-                { className: 'amp-image-block', style: {
-                        textAlign: ImageAlign
-                    } },
+                { className: 'amp-image-block', style: divStyle },
                 !ImageUrl ? wp.element.createElement(
                     'div',
                     { className: 'amp-button-wrap' },
@@ -2464,7 +2682,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                                 {
                                     onClick: open,
                                     className: ImageUrl ? "amp-image-button" : "button button-large" },
-                                !ImageUrl ? "Select Image" : null
+                                !ImageUrl ? __("Select Image") : null
                             );
                         }
                     })
@@ -2481,16 +2699,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 ImageAlt = attributes.ImageAlt,
                 ImageLink = attributes.ImageLink,
                 ImageLinkTarget = attributes.ImageLinkTarget,
-                ImageAlign = attributes.ImageAlign;
+                textAlign = attributes.textAlign;
 
 
             var linkTarget = ImageLinkTarget ? '_blank' : '_self';
 
+            var divStyle = {};
+            textAlign && (divStyle.textAlign = textAlign);
+
             return wp.element.createElement(
                 'div',
-                { className: 'amp-image-block', style: {
-                        textAlign: ImageAlign
-                    } },
+                { className: 'amp-image-block', style: divStyle },
                 !ImageLink ? wp.element.createElement('img', { src: ImageUrl, alt: ImageAlt }) : wp.element.createElement(
                     'a',
                     { href: ImageLink, target: linkTarget, rel: 'noopener noreferrer' },
@@ -2499,7 +2718,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
             );
         }
     });
-})(wp.blocks, wp.blockEditor, wp.components);
+})(wp.i18n, wp.blocks, wp.blockEditor, wp.components);
 
 /***/ })
 /******/ ]);

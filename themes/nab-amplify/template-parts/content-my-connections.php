@@ -72,9 +72,15 @@ $current_user_id = get_current_user_id();
 						<?php
 						$cnt = 1;
 						while ( bp_members() ) : bp_the_member();
-							$member_id        = bp_get_member_user_id();
-							$attendee_company = get_user_meta( $member_id, 'attendee_company', true );
-							$user_images      = nab_amplify_get_user_images( $member_id );
+							$member_id          = bp_get_member_user_id();
+							$attendee_company   = get_user_meta( $member_id, 'attendee_company', true );
+                            $user_images        = nab_amplify_get_user_images( $member_id );
+                            $user_full_name     = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+
+                            if ( empty( trim( $user_full_name ) ) ) {
+
+                                $user_full_name = bp_get_member_name();
+                            }
 							?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
@@ -82,7 +88,7 @@ $current_user_id = get_current_user_id();
 										<?php echo nab_amplify_bp_get_cancel_friendship_button( $member_id ); ?>
                                     </div>
                                     <div class="amp-item-cover">
-                                        <img src="<?php echo esc_url( $user_images['banner_image'] ); ?>" alt="Nab Amplify Cover Image">
+                                        <img src="<?php echo esc_url( $user_images['banner_image'] ); ?>" alt="Cover Image">
                                     </div>
                                     <div class="amp-item-info">
                                         <div class="amp-item-avtar">
@@ -90,7 +96,7 @@ $current_user_id = get_current_user_id();
                                         </div>
                                         <div class="amp-item-content">
                                             <h4>
-                                                <a href="<?php bp_member_permalink(); ?>"><?php bp_member_name(); ?></a>
+                                                <a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
                                             </h4>
                                             <span class="company-name"><?php echo esc_html( $attendee_company ); ?></span>
                                             <div class="amp-actions">

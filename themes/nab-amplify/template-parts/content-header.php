@@ -41,7 +41,12 @@ $member_id = 0 === $member_id ? $current_user_id : $member_id;
 
 // Get user meta.
 $user_data   = get_user_meta( $member_id );
-$member_name = bp_core_get_username( $member_id );
+$member_name = $user_data[ 'first_name' ][0] . ' ' . $user_data[ 'last_name' ][0];
+
+if ( empty( trim( $member_name ) ) ) {
+
+    $member_name = bp_get_member_name();
+}
 
 // Get images.
 $user_images = nab_amplify_get_user_images( $member_id );

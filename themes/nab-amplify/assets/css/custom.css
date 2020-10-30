@@ -150,6 +150,10 @@ p{font-size:16px;color:#404040}
 .site-header .nab-logos ul li a{display:-webkit-box;display:-ms-flexbox;display:flex}
 .site-header .nab-logos img{max-width:120px;max-height:40px}
 .site-header .main-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.site-header .nab-header-search .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;}
+.site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;border-color:#666;width:400px;max-width:100%;height:40px;border:1px solid #d2d3d5;padding:0 10px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
+.site-header .nab-header-search .search-form .search-field::placeholder{color:#ccc;font-weight:600;}
+.site-header .nab-header-search .search-form .search-submit{position:absolute;right:0;top:0;bottom:0;background-color:transparent;border:0;padding:0;width:30px;height:40px;font-size:0;background-image:url(../images/header-search-icon.svg) no-repeat center;background-size:30px;}
 .nab-header-cart{position:relative}
 .nab-header-cart i{color:#fdd80f;font-size:22px;margin-right:10px;position:absolute;left:0;top:0}
 .nab-header-cart a{color:#fff;padding-left:33px;position:relative}
@@ -513,6 +517,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-orders-table th.woocommerce-orders-table__header-order-total span:before,
 .woocommerce-orders-table th.woocommerce-orders-table__header-order-date span:before{content:"\f0d7";left: 0;}
 .woocommerce-table--order-downloads tr td{color:#fff;}
+.woocommerce-Address a.edit{margin-bottom:10px;display:inline-block;}
 .amp-member-security{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;padding-left:20px;}
 .amp-member-security .amp-security-row{width:50%;margin-bottom:10px;}
 .amp-member-security h3{margin-bottom:20px;}

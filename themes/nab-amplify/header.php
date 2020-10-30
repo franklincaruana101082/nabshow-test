@@ -53,8 +53,20 @@
 
 				</div>
 
-				<nav id="site-navigation" class="main-navigation">
-					<?php $cart_page_url = wc_get_cart_url(); ?>
+				<nav id="site-navigation" class="main-navigation">					
+					<?php
+					
+					if ( ! is_search() ) {
+						?>
+						<div class="nab-header-search">
+							<?php get_search_form(); ?>
+						</div>
+						<?php
+					}
+
+					$cart_page_url = wc_get_cart_url();
+
+					?>
 					<div class="nab-header-cart">
 						<a href="<?php echo esc_url( $cart_page_url ); ?>"><i class="fa fa-shopping-cart"></i><?php esc_html_e( 'Cart', 'nab-amplify' ); ?></a>
 						<?php $header_cart_class = WC()->cart->get_cart_contents_count() > 0 ? '' : 'has-no-product'; ?>
@@ -63,15 +75,22 @@
 					<div class="nab-profile-menu">
 						<?php
 						if ( is_user_logged_in() ) {
-							$current_user = wp_get_current_user();
-							$user_thumb   = get_avatar_url( $current_user->ID );
-							$my_profile_link = bp_core_get_user_domain( $current_user->ID );
+							$current_user 		= wp_get_current_user();
+							$user_thumb   		= get_avatar_url( $current_user->ID );
+							$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
+							$user_full_name 	= get_the_author_meta( 'first_name', $current_user->ID ) . ' ' . get_the_author_meta( 'last_name', $current_user->ID );
+
+							if ( empty( trim( $user_full_name ) ) ) {
+
+								$user_full_name = $current_user->display_name;
+							}
+
 							?>
 							<div class="nab-profile">
                                 <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">
 								    <div class="nab-avatar-wrp">
                                         <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"/></div>
-                                        <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
+                                        <span class="nab-profile-name"><?php echo $user_full_name; ?></span>
 								    </div>
                                 </a>
 								<div class="nab-profile-dropdown">

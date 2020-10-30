@@ -241,6 +241,8 @@ a{color:#e5018b;text-decoration:none}
 /* Image block style */
 .amp-controle-settings .amp-image-button{height:auto;pointer-events:none;padding:0;margin-bottom:15px;}
 .amp-controle-settings .inspector-field:not(:last-child){margin-bottom:20px;}
+.amp-controle-settings .inspector-field .inspector-field-inner{margin-top:20px;}
+.amp-controle-settings .components-toggle-control .components-base-control__field{min-height:30px;}
 .amp-button-wrap{min-height:150px;display:flex;justify-content:center;align-items:center;background-color:#f7f7f7;}
 
 /* feature block styles */

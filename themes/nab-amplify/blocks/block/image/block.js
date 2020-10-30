@@ -1,5 +1,6 @@
-(function(wpBlocks, wpBlockEditor, wpComponents){
+(function(i18n, wpBlocks, wpBlockEditor, wpComponents){
 const { registerBlockType } = wpBlocks;
+const { __ } = wp.i18n;
 const { 
     RichText,
     InspectorControls,
@@ -15,8 +16,8 @@ const {
 
 registerBlockType('amplify/image',{
     // built in attributes
-    title: 'Image',
-    description: 'Image Block',
+    title: __('Image'),
+    description: __('Image Block'),
     icon: 'editor-code',
     category: 'nab_amplify',
     attributes: {
@@ -36,9 +37,9 @@ registerBlockType('amplify/image',{
             type: 'Boolean',
             default: false
         },
-        ImageAlign: {
+        textAlign: {
             type: 'string',
-            default: 'none'
+            default: ''
         }
     },
     edit: ({attributes, setAttributes}) => {
@@ -47,15 +48,18 @@ registerBlockType('amplify/image',{
             ImageAlt,
             ImageLink,
             ImageLinkTarget,
-            ImageAlign
+            textAlign
         } = attributes;
 
-        var linkTarget = ImageLinkTarget ? '_blank' : '_self';
+        const linkTarget = ImageLinkTarget ? '_blank' : '_self';
+
+        const divStyle = {};
+        divStyle && (divStyle.textAlign = textAlign);
 
         return ([
             <InspectorControls>
                 <div className="amp-controle-settings">
-                    <PanelBody title={"Image settings"}>
+                    <PanelBody title={__("Image settings")}>
                         <div className="inspector-field">
                             <MediaUpload
                                 onSelect={ImageUrl => setAttributes({ImageUrl: ImageUrl ? ImageUrl.sizes.full.url : ''})}
@@ -66,7 +70,7 @@ registerBlockType('amplify/image',{
                                         onClick={ open }
                                         className={ImageUrl ? "amp-image-button" : "button button-large"}>
                                         {!ImageUrl ? (
-                                            ("Select Image")
+                                            __("Select Image")
                                         ) : (
                                             <div
                                             style={{
@@ -88,7 +92,7 @@ registerBlockType('amplify/image',{
                                     setAttributes({ ImageUrl: "" })
                                 }}
                             >
-                                {("Remove Image")}
+                                {__("Remove Image")}
                             </Button>
                             ) : null}
                         </div>
@@ -125,18 +129,16 @@ registerBlockType('amplify/image',{
                         <div className="inspector-field">
                             <label>Image Alignment</label>
                             <AlignmentToolbar
-                                value={ImageAlign}
-                                onChange={(ImageAlign)=>{
-                                    setAttributes({ImageAlign: undefined === ImageAlign ? 'none' : ImageAlign});
+                                value={textAlign}
+                                onChange={(textAlign)=>{
+                                    setAttributes({textAlign});
                                 }}
                             />
                         </div>
                     </PanelBody>
                 </div>
             </InspectorControls>,
-            <div className="amp-image-block" style={{
-                textAlign:ImageAlign
-            }}>
+            <div className="amp-image-block" style={divStyle}>
                 {!ImageUrl ? (
                     <div className="amp-button-wrap">
                         <MediaUpload
@@ -150,7 +152,7 @@ registerBlockType('amplify/image',{
                                     onClick={ open }
                                     className={ImageUrl ? "amp-image-button" : "button button-large"}>
                                     {!ImageUrl ? (
-                                        ("Select Image")
+                                        __("Select Image")
                                     ) : null}
                                 </Button>
                             )}
@@ -174,15 +176,16 @@ registerBlockType('amplify/image',{
             ImageAlt,
             ImageLink,
             ImageLinkTarget,
-            ImageAlign
+            textAlign
         } = attributes;
 
-        var linkTarget = ImageLinkTarget ? '_blank' : '_self';
+        const linkTarget = ImageLinkTarget ? '_blank' : '_self';
+
+        const divStyle = {};
+        textAlign && (divStyle.textAlign = textAlign);
 
         return(
-            <div className="amp-image-block" style={{
-                textAlign:ImageAlign
-            }}>
+            <div className="amp-image-block" style={divStyle}>
             {!ImageLink ? (
                 <img src={ImageUrl} alt={ImageAlt} />
             ) : (
@@ -195,4 +198,4 @@ registerBlockType('amplify/image',{
     }
 });
 
-})(wp.blocks, wp.blockEditor, wp.components);
+})(wp.i18n, wp.blocks, wp.blockEditor, wp.components);
