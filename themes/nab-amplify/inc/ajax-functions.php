@@ -1026,10 +1026,8 @@ function nab_member_search_filter_callback() {
 
 		$total_users	= $members_template->total_member_count;
 		$total_pages	= ceil( $total_users / $post_limit );
-
-
 		$cnt 			= 0;
-		$default_cover	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
+		
 		$current_user_id = get_current_user_id();
 		while ( bp_members() ) {
 
@@ -1046,15 +1044,15 @@ function nab_member_search_filter_callback() {
 				$user_full_name = bp_get_member_name();
 			}
 
-			$company = get_user_meta( $member_user_id, 'attendee_company', true );
+			$company 		= get_user_meta( $member_user_id, 'attendee_company', true );
+			$user_images 	= nab_amplify_get_user_images( $member_user_id );
 
-			$member_image_id 		= get_user_meta( $member_user_id, 'banner_image', true );
-			$member_cover_image_url = $member_image_id ? wp_get_attachment_image_src( $member_image_id, 'full' )[0] : $default_cover;
+			$user_avatar = '<img src="' . $user_images[ 'profile_picture' ] . '" />';
 
-			$result_user[ $cnt ][ 'cover_img' ] = $member_cover_image_url;
+			$result_user[ $cnt ][ 'cover_img' ] = $user_images[ 'banner_image' ];
 			$result_user[ $cnt ][ 'name' ] 		= html_entity_decode( $user_full_name );
 			$result_user[ $cnt ][ 'company' ] 	= html_entity_decode( $company );
-			$result_user[ $cnt ][ 'avatar']		= bp_get_member_avatar( array( 'width' => 96, 'height' => 96 ) );
+			$result_user[ $cnt ][ 'avatar']		= $user_avatar;
 
 			$action_button = nab_amplify_bp_get_friendship_button( $member_user_id );
 			$result_user[ $cnt ][ 'action_button' ] = $action_button;

@@ -816,15 +816,51 @@ function nab_bp_change_add_friend_button_text( $button ) {
 function nab_modify_member_query( $sql, $query ) {
 
 
-	if ( isset( $query->query_vars['type'] ) && 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
+	if ( isset( $query->query_vars['type'] ) && in_array( strtolower( $query->query_vars['type'] ), array( 'alphabetical', 'newest', 'active' ), true ) ) {
 
 		global $wpdb;
 
 		$user_meta_cap = esc_sql( $wpdb->prefix . 'capabilities' );
 
-		$sql['select'] .= ' INNER JOIN wp_usermeta ON ( u.ID = wp_usermeta.user_id )';
+		if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
+			
+			$sql['select'] .= ' INNER JOIN wp_usermeta ON ( u.ID = wp_usermeta.user_id )';
+
+		} else {
+
+			$sql['select'] .= ' INNER JOIN wp_users ON u.user_id = wp_users.ID INNER JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id';
+		}
+		
 
 		$sql['where'][] = "wp_usermeta.meta_key = '" . $user_meta_cap . "'";
+
+		if ( isset( $query->query_vars[ 'search_terms' ] ) && ! empty( $query->query_vars[ 'search_terms' ] ) ) {
+
+			$search_term = '%' . $query->query_vars[ 'search_terms' ] . '%';
+
+			$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
+				"SELECT DISTINCT ID FROM {$wpdb->users} INNER JOIN {$wpdb->usermeta} ON {$wpdb->users}.ID = {$wpdb->usermeta}.user_id
+				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s )",
+				$user_meta_cap,
+				$search_term,
+				$search_term,
+				$search_term,
+				$search_term,
+				$search_term
+			) );
+
+			$match_in_clause = empty( $matched_user_ids) ? 'NULL' : implode( ',', $matched_user_ids );
+
+			if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
+
+				$sql['where']['search'] = " ( u.ID IN ({$match_in_clause}) )";
+				
+			} else {
+
+				$sql['where']['search'] = " ( u.user_id IN ({$match_in_clause}) )";
+			}
+		}
+
 	}
 
 	return $sql;
