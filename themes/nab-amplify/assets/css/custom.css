@@ -1005,7 +1005,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-view-top-head p{color:#fff;margin:0;}
 .search-view-top-head a{color:#fff;text-decoration:underline;}
 .load-more{text-align:center;margin:20px 0 30px}
-.load-more a{background-color:transparent;border-color:transparent;color:#999!important;text-decoration:underline;font-size:18px;overflow-anchore:none;}
+.load-more a{background-color:transparent;border-color:transparent;color:#999!important;text-decoration:underline;font-size:18px;overflow-anchor:none;}
 .load-more a:hover{background-color:transparent;border-color:transparent;color:#999;}
 .load-more a:focus,
 .load-more a:active{background-color:transparent;border-color:transparent;}
