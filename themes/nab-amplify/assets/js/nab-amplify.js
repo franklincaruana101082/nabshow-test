@@ -1070,7 +1070,7 @@
       let _this = $(this);
       let wpnonce = _this.attr('href').split('_wpnonce=')[1];
       let itemId, ajaxAction;
-      
+
       if (_this.parent().hasClass('friend-request-action')) {
         let requestItem = _this.attr('href').split('/?_wpnonce')[0];
         itemId = requestItem.substring(requestItem.lastIndexOf('/') + 1 );
@@ -1079,7 +1079,7 @@
         itemId = _this.attr('id').split('-')[1];
         ajaxAction = _this.hasClass('not_friends') ? 'friends_add_friend' : 'friends_withdraw_friendship';
       }
-      
+
       jQuery.ajax({
         url: amplifyJS.ajaxurl,
         type: 'POST',
@@ -1101,6 +1101,16 @@
         }
       });
       return false;
+    }
+
+  });
+
+  // Unfriend confirmation.
+  $(document).on('click', '.is_friend .remove', function(e){
+    e.preventDefault();
+
+    if (!confirm('Do you really want to remove connection?')) {
+      return;
     }
 
   });
@@ -1353,21 +1363,21 @@
 
 // Get friend button
 function nab_get_friend_button(_this) {
-  
+
   let itemId = _this.parent().attr('data-item');
-  
+
   jQuery.ajax({
     url: amplifyJS.ajaxurl,
     type: 'POST',
     data: {
       'action': 'nab_get_friend_button',
       'nabNonce': amplifyJS.nabNonce,
-      'item_id': itemId,      
+      'item_id': itemId,
     },
     success: function( response ) {
 
       let buttonObj = jQuery.parseJSON( response );
-      
+
       if ( buttonObj.success ) {
         _this.parents('.search-actions').replaceWith(buttonObj.content);
       }
@@ -1478,7 +1488,7 @@ function nabSearchUserAjax( loadMore, pageNumber ) {
           nameLink = document.createElement('a');
           nameLink.setAttribute('href', value.link);
           nameLink.innerText = value.name;
-          
+
           userName.appendChild(nameLink);
           searchContent.appendChild(userName);
 
@@ -1586,13 +1596,13 @@ function nabSearchProductAjax( loadMore, pageNumber ) {
           searchItemCover.appendChild(coverImg);
 
           if ( value.bookmark_class ) {
-            
+
             let bookmarkSpan = document.createElement('span');
-            
+
             bookmarkSpan.setAttribute('class', value.bookmark_class);
             bookmarkSpan.setAttribute('data-bp-tooltip', value.bookmark_tooltip);
             bookmarkSpan.setAttribute('data-product', value.bookmark_id);
-            
+
             searchItemCover.appendChild(bookmarkSpan);
           }
 
