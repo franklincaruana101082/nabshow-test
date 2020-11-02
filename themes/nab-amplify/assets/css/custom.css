@@ -134,6 +134,8 @@ p{font-size:16px;color:#404040}
 .dark-pink-button:hover{background:#fdd80f;color:#666666!important}
 .dark-pink-button:focus{background:#fff;color:#666666!important}
 
+.blue-color{color:#6363df!important}
+
 /* woocommerce default */
 .woocommerce-message,.woocommerce-info,.woocommerce-error,.woocommerce-noreviews,p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 25px}
 .woocommerce-error{background:none;color:red;margin:0 0 25px 0;}
@@ -1196,8 +1198,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df;}
 .buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
 .buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:40%!important;}
-.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:60%!important;}
+.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;}
+.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important;}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-thread-header{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div #bp-message-thread-list{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div .send-reply{width:100%;}
@@ -1213,7 +1215,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap #message-threads li .thread-date{width:auto;flex:inherit;position:absolute;right:10px;top:10px;}
 
 .buddypress-wrap #message-threads li a{color:#fff;text-decoration:none;}
-.buddypress-wrap #message-threads li a .avatar{width:100%;max-width:40px;}
+.buddypress-wrap #message-threads li a .avatar{width:100%;max-width:30px;border-radius:50%;}
 .buddypress-wrap #message-threads li .num-recipients{color:#ccc;}
 .buddypress-wrap #message-threads li.unread{font-weight:900;background-color:#444;color:#fff;border-top-color:#ccc;border-bottom-color:#ccc;}
 .buddypress-wrap #message-threads li.unread:hover,
@@ -1224,9 +1226,9 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap #message-threads .message-check{width:20px;height:20px;cursor:pointer;}
 .buddypress-wrap #message-threads li .thread-content .excerpt{color:#ccc;}
 .buddypress-wrap #message-threads li .subject,
-.buddypress-wrap #message-threads li.selected .subject{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;padding-left:30px;}
+.buddypress-wrap #message-threads li.selected .subject{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;padding-left:25px;font-size:14px;}
 .buddypress-wrap #message-threads li .thread-subject{position:relative;}
-.buddypress-wrap #message-threads li .thread-count{color:#fff;position:absolute;left:0;top:0;}
+.buddypress-wrap #message-threads li .thread-count{color:#fff;position:absolute;left:0;top:0;font-size:14px;}
 .buddypress-wrap #message-threads li time{color:#fff;}
 .buddypress-wrap #message-threads li .thread-from .user-name,
 .buddypress-wrap #message-threads li .thread-to .user-name{color:#fdd80f;}
@@ -1288,8 +1290,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .bp-messages-content #bp-message-thread-list .message-content{width:100%;margin:0;padding:10px;}
 .bp-messages-content .send-reply .message-metadata{margin:0 0 20px;}
 .bp-messages-content .send-reply .message-metadata .avatar-box{display:flex;align-items:center;}
-.bp-messages-content .send-reply .message-metadata .avatar-box .avatar{max-width:150px;width:100%;}
-.bp-messages-content .send-reply .message-metadata .avatar-box strong{color:#fff;margin-left:10px;font-size:20px;}
+.bp-messages-content .send-reply .message-metadata .avatar-box .avatar{max-width:30px;width:100%;border-radius:50%;}
+.bp-messages-content .send-reply .message-metadata .avatar-box strong{color:#fff;margin-left:10px;font-size:14px;}
 .bp-messages-content .preview-thread-title .messages-title,
 .bp-messages-content .single-thread-title .messages-title{padding-left:10px;}
 .buddypress-wrap .standard-form#send-reply textarea{width:100%;}
