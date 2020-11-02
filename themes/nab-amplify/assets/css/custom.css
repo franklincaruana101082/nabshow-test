@@ -1198,7 +1198,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df;}
 .buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
 .buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;padding-right:20px;}
+.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;padding-right:20px!important;}
 .buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important;}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-thread-header{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div #bp-message-thread-list{width:100%;}
@@ -1277,8 +1277,10 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap [data-bp-tooltip]:after{font-family:'Open Sans',Arial,sans-serif;}
 .buddypress-wrap .message-action-delete:before{color:#ccc;}
 .buddypress-wrap .message-action-delete:hover:before{color:red;}
-.buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply{padding:8px 10px;}
-.buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply span{color:#000;}
+.buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply{padding:8px 10px;background:#ff008f;color:#fff;}
+.buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply:hover,
+.buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply:active{background:#6363df;border-color:#6363df;color:#fff;}
+.buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply span{color:#fff;}
 .buddypress-wrap .bp-messages{margin:15px 0;}
 #message-threads li:not(.selected) .thread-from .num-recipients,
 .bp-messages-content #bp-message-thread-list .message-metadata time{color:#fff;}

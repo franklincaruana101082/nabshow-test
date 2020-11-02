@@ -214,7 +214,7 @@
 	.product-list.layout-list .product-item .item-inner .details .added_to_cart{text-align:left;padding:0 0 0 40px}
 
 	/* my account messages */
-	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;padding-right:0;}
+	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;padding-right:0!important;}
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important;}
 }
 @media (max-width:567px){
