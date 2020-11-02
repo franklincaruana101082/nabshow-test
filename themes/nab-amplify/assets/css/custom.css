@@ -1004,7 +1004,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-view-top-head h2 span{color:#fff;line-height:1;vertical-align:middle;}
 .search-view-top-head p{color:#fff;margin:0;}
 .search-view-top-head a{color:#fff;text-decoration:underline;}
-.load-more{text-align:center;margin:20px 0 30px}
+.load-more{text-align:center;margin:20px 0 30px;overflow-anchor:none;}
 .load-more a{background-color:transparent;border-color:transparent;color:#999!important;text-decoration:underline;font-size:18px;overflow-anchor:none;}
 .load-more a:hover{background-color:transparent;border-color:transparent;color:#999;}
 .load-more a:focus,
@@ -1026,6 +1026,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-section .search-item-info h4{font-size:20px;line-height:26px;color:#fff;margin:0 0 25px;}
 .search-section .search-item-info h4 a{color:#fff;}
 .search-section .search-item-info .company-name{display:block;margin:0 0 25px;color:#999999;min-height:22px;}
+.search-section .search-item-info .search-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .search-section .search-item-info .search-actions a{font-size:16px;text-transform:capitalize;padding:8px 23px;border-radius:6px;background:#ff008f;color:#fff;display:inline-block;text-align:center;line-height:1;font-weight:700;border:1px solid #ff008f;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;margin:5px;}
 .search-section .search-item-info .search-actions a:hover,
 .search-section .search-item-info .search-actions a:focus{background:#6363df;border-color:#6363df;color:#fff;}
