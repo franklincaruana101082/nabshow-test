@@ -33,21 +33,24 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                 </div>
                 <div class="amp-item-wrap">
                     <?php while ( bp_members() ) : bp_the_member();
-
+                    
 						$member_id              = bp_get_member_user_id();
                         $professional_company   = get_user_meta( $member_id, 'attendee_company', true );
                         $member_images          = nab_amplify_get_user_images( $member_id );
-
+                        
                         $member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
 
                         if ( empty( trim( $member_full_name ) ) ) {
 
                             $member_full_name = bp_get_member_name();
                         }
-
+                        
 						?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
+                                <div class="amp-action-remove">
+                                    <?php echo nab_amplify_bp_get_cancel_friendship_button( $member_id ); ?>
+                                </div>
                                 <div class="amp-item-cover">
                                     <img src="<?php echo esc_url( $member_images[ 'banner_image' ] ); ?>" alt="Cover Image">
                                 </div>
@@ -72,16 +75,8 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                 </div>
             </div>
 		<?php else: ?>
-            <div id="members-list" class="member-item-list amp-item-main" role="main">
-                <div class="amp-item-heading">
-                    <h3>
-                        <strong>Connections</strong>
-                        <span>0 RESULTS</span>
-                    </h3>
-                </div>
             <div id="message" class="info">
                 <p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
-                </div>
             </div>
 		<?php endif; ?>
     </div>

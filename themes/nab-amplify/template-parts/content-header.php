@@ -104,7 +104,7 @@ $user_images = nab_amplify_get_user_images( $member_id );
                                 <ul>
 									<?php if ( $user_data['social_twitter'] ) { ?>
                                         <li>
-                                            <a href="<?php echo esc_attr( $user_data['social_twitter'] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
+                                            <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
                                         </li>
 									<?php }
 									if ( $user_data['social_twitter'] ) { ?>

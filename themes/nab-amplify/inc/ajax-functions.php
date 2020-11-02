@@ -1027,16 +1027,15 @@ function nab_member_search_filter_callback() {
 		$total_users	= $members_template->total_member_count;
 		$total_pages	= ceil( $total_users / $post_limit );
 		$cnt 			= 0;
-		
+
 		$current_user_id = get_current_user_id();
+
 		while ( bp_members() ) {
 
 			bp_the_member();
 
-			$member_user_id = bp_get_member_user_id();
-
-			$is_friend       = friends_check_friendship_status( $current_user_id, $member_user_id );
-
+			$member_user_id	= bp_get_member_user_id();
+			$is_friend		= friends_check_friendship_status( $current_user_id, $member_user_id );
 			$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
 
 			if ( empty( trim( $user_full_name ) ) ) {
@@ -1053,6 +1052,7 @@ function nab_member_search_filter_callback() {
 			$result_user[ $cnt ][ 'name' ] 		= html_entity_decode( $user_full_name );
 			$result_user[ $cnt ][ 'company' ] 	= html_entity_decode( $company );
 			$result_user[ $cnt ][ 'avatar']		= $user_avatar;
+			$result_user[ $cnt ][ 'link']		= bp_get_member_permalink();
 
 			$action_button = nab_amplify_bp_get_friendship_button( $member_user_id );
 			$result_user[ $cnt ][ 'action_button' ] = $action_button;

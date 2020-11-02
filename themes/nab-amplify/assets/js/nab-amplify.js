@@ -1462,16 +1462,24 @@ function nabSearchUserAjax( loadMore, pageNumber ) {
 
           let avatarDiv = document.createElement('div');
           avatarDiv.setAttribute('class', userCardAvtarDiv);
-          avatarDiv.innerHTML = value.avatar;
 
+          avatarImgLink = document.createElement('a');
+          avatarImgLink.setAttribute('href', value.link);
+          avatarImgLink.innerHTML = value.avatar;
+
+          avatarDiv.appendChild(avatarImgLink);
           searchItemInfo.appendChild(avatarDiv);
 
           let searchContent = document.createElement('div');
           searchContent.setAttribute('class', userCardContentDiv);
 
           let userName = document.createElement('h4');
-          userName.innerText = value.name;
 
+          nameLink = document.createElement('a');
+          nameLink.setAttribute('href', value.link);
+          nameLink.innerText = value.name;
+          
+          userName.appendChild(nameLink);
           searchContent.appendChild(userName);
 
           let userCompany = document.createElement('span');

@@ -863,7 +863,7 @@ function nab_modify_member_query( $sql, $query ) {
 
 	}
 
-	return $sql;
+	return $sql;	
 }
 
 function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type ) {

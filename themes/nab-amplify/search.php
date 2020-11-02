@@ -156,10 +156,14 @@ $view_screen		= array( 'user', 'product', 'content' );
 											</div>
 											<div class="search-item-info">
 												<div class="search-item-avtar">
-                                                    <img src="<?php echo esc_url( $user_images['profile_picture'] ); ?>">
+													<a href="<?php bp_member_permalink(); ?>">
+                                                    	<img src="<?php echo esc_url( $user_images['profile_picture'] ); ?>">
+													</a>
 												</div>
 												<div class="search-item-content">
-													<h4><?php echo esc_html( $user_full_name ); ?></h4>
+													<h4>
+														<a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
+													</h4>
 													<span class="company-name"><?php echo esc_html( $company ); ?></span>
 													<?php
 													echo nab_amplify_bp_get_friendship_button( $member_user_id );
@@ -413,10 +417,14 @@ $view_screen		= array( 'user', 'product', 'content' );
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-avtar">
-												<img src="<?php echo esc_url( $user_images[ 'profile_picture' ] ); ?>">
+												<a href="<?php bp_member_permalink(); ?>">
+													<img src="<?php echo esc_url( $user_images[ 'profile_picture' ] ); ?>">
+												</a>
 											</div>
 											<div class="search-item-content">
-												<h4><?php echo esc_html( $user_full_name ); ?></h4>
+												<h4>
+													<a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
+												</h4>
 												<span class="company-name"><?php echo esc_html( $company ); ?></span>
 												<?php
 												echo nab_amplify_bp_get_friendship_button( $member_user_id );
