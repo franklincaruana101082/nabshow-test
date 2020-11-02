@@ -1198,8 +1198,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df;}
 .buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
 .buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;}
-.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important;}
+.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;padding-right:15px;}
+.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important;padding-left:15px;}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-thread-header{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div #bp-message-thread-list{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div .send-reply{width:100%;}
@@ -1256,7 +1256,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .bp-messages-content .message-title{line-height:normal;padding:10px!important;background-color:#fff!important;/*color:#fff!important;*/}
 .bp-messages-content #thread-preview .preview-content{margin:0;}
 .bp-messages-content #thread-preview .preview-content .preview-pane-header,
-.bp-messages-content .message-thread-header .single-message-thread-header{padding:10px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.bp-messages-content .message-thread-header .single-message-thread-header{padding:10px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.bp-messages-content #thread-preview .preview-content .preview-pane-header{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;}
 .bp-messages-content #thread-preview .preview-content .preview-pane-header:after,
 .bp-messages-content .message-thread-header .single-message-thread-header:after{display:none;}
 .bp-messages-content #thread-preview .preview-content .preview-pane-header{border-bottom:0;}
@@ -1267,6 +1268,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .bp-messages-content #thread-preview .preview-content .preview-message{margin:0;padding:10px;background-color:transparent;}
 .bp-messages-content #thread-preview .preview-content .preview-message *,
 .bp-messages-content #bp-message-thread-list .message-content *{color:#fff;}
+.bp-messages-content #bp-message-thread-list img.avatar{border-radius:50%;}
 .bp-messages-content p{margin:0 0 15px;}
 .bp-messages-content p:last-child{margin:0;}
 .bp-messages-content .thread-participants dt{margin:0 0 8px;color:#fff;}
@@ -1296,6 +1298,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .bp-messages-content .preview-thread-title .messages-title,
 .bp-messages-content .single-thread-title .messages-title{padding-left:10px;}
 .buddypress-wrap .standard-form#send-reply textarea{width:100%;}
+#user_switching_switch_to{display:none;}
 
 /* messages tabs */
 .buddypress .buddypress-wrap .user-subnav,
@@ -1304,7 +1307,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:flex-start;-ms-flex-pack:flex-start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li{margin:5px 7px 5px 0;border-radius:0!important;float:none;background:none;line-height:1;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li:not(:last-child){padding-right:7px;border-right:2px solid #fff;}
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a{color:#fff;background-color:transparent;padding:0;font-size:20px;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a{color:#fff;background-color:transparent;padding:0;font-size:16px;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:hover,
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:focus{color:#fff;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li.current a,
