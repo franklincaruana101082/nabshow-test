@@ -1196,8 +1196,8 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df;}
 .buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
 .buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:40%!important;}
-.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:60%!important;}
+.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;}
+.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important;}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-thread-header{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div #bp-message-thread-list{width:100%;}
 .buddypress .buddypress-wrap .bp-messages-content>div .send-reply{width:100%;}
@@ -1213,7 +1213,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap #message-threads li .thread-date{width:auto;flex:inherit;position:absolute;right:10px;top:10px;}
 
 .buddypress-wrap #message-threads li a{color:#fff;text-decoration:none;}
-.buddypress-wrap #message-threads li a .avatar{width:100%;max-width:40px;}
+.buddypress-wrap #message-threads li a .avatar{width:100%;max-width:30px;border-radius:50%;}
 .buddypress-wrap #message-threads li .num-recipients{color:#ccc;}
 .buddypress-wrap #message-threads li.unread{font-weight:900;background-color:#444;color:#fff;border-top-color:#ccc;border-bottom-color:#ccc;}
 .buddypress-wrap #message-threads li.unread:hover,
@@ -1224,7 +1224,7 @@ body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove
 .buddypress-wrap #message-threads .message-check{width:20px;height:20px;cursor:pointer;}
 .buddypress-wrap #message-threads li .thread-content .excerpt{color:#ccc;}
 .buddypress-wrap #message-threads li .subject,
-.buddypress-wrap #message-threads li.selected .subject{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;padding-left:30px;}
+.buddypress-wrap #message-threads li.selected .subject{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;padding-left:30px;font-size:14px;}
 .buddypress-wrap #message-threads li .thread-subject{position:relative;}
 .buddypress-wrap #message-threads li .thread-count{color:#fff;position:absolute;left:0;top:0;}
 .buddypress-wrap #message-threads li time{color:#fff;}
