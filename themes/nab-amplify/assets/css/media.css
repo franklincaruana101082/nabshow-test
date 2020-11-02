@@ -95,6 +95,8 @@
 	.banner-header .update-banner-image{position:static;}
 	.banner-header .bannner-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:20px 0;width:100%;}
 	.amp-profile-main{margin-right:0;}
+	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;}
+	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important;}
 }
 
 @media (min-width:768px){
@@ -192,7 +194,9 @@
 	/* my account messages */
 	.buddypress-wrap #message-threads li{-ms-flex-wrap:wrap;flex-wrap:wrap;}
 	.buddypress-wrap #message-threads li .thread-cb{margin-bottom:10px;}
-	.buddypress-wrap #message-threads li .thread-from, .buddypress-wrap #message-threads li .thread-to{-moz-flex: 1 2 100%;-o-flex: 1 2 100%;-webkit-box-flex: 1;-ms-flex: 1 2 100%;flex: 1 2 100%;margin-bottom:10px;}
+	.buddypress-wrap #message-threads li .thread-from,
+	.buddypress-wrap #message-threads li .thread-to{-moz-flex:1 2 20%;-o-flex:1 2 20%;flex:1 2 20%;margin-bottom:0;}
+	.buddypress-wrap #message-threads li .subject, .buddypress-wrap #message-threads li.selected .subject{padding-left:20px;}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
@@ -208,6 +212,10 @@
 	.product-list.layout-list .product-item .item-inner .details .buttom{width:100%;margin-bottom:10px}
 	.product-list.layout-list .product-item .item-inner{padding:30px 0}
 	.product-list.layout-list .product-item .item-inner .details .added_to_cart{text-align:left;padding:0 0 0 40px}
+
+	/* my account messages */
+	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;}
+	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important;}
 }
 @media (max-width:567px){
 	.site-header .nab-logos ul li{padding-right:10px;margin-right:10px}
