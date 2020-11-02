@@ -224,7 +224,7 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 	}
 
 	$items =
-		array( 'messages' => __( 'Messages', 'nab-amplify' ) )
+		array( 'messages' => __( 'My inbox', 'nab-amplify' ) )
 		+ array( 'my-connections' => __( 'My Connections', 'nab-amplify' ) )
 		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
 		+ array( 'orders' => __( 'My Orders', 'nab-amplify' ) )
@@ -823,14 +823,14 @@ function nab_modify_member_query( $sql, $query ) {
 		$user_meta_cap = esc_sql( $wpdb->prefix . 'capabilities' );
 
 		if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
-			
+
 			$sql['select'] .= ' INNER JOIN wp_usermeta ON ( u.ID = wp_usermeta.user_id )';
 
 		} else {
 
 			$sql['select'] .= ' INNER JOIN wp_users ON u.user_id = wp_users.ID INNER JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id';
 		}
-		
+
 
 		$sql['where'][] = "wp_usermeta.meta_key = '" . $user_meta_cap . "'";
 
@@ -854,7 +854,7 @@ function nab_modify_member_query( $sql, $query ) {
 			if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
 
 				$sql['where']['search'] = " ( u.ID IN ({$match_in_clause}) )";
-				
+
 			} else {
 
 				$sql['where']['search'] = " ( u.user_id IN ({$match_in_clause}) )";
@@ -863,7 +863,7 @@ function nab_modify_member_query( $sql, $query ) {
 
 	}
 
-	return $sql;	
+	return $sql;
 }
 
 function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type ) {

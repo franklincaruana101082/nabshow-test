@@ -16,18 +16,20 @@ $my_friends_url      = add_query_arg( array( 'connections' => 'friends' ) );
 $pending_friends_url = add_query_arg( 'connections', 'pending' );
 
 $members_filter = array();
+$active_page = '';
 switch ( $connections ) {
 	case 'friends':
 		$members_filter = array(
 			'user_id' 		=> $user_id
 		);
+		$active_page = 'friends';
 		break;
 	case 'pending':
 		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id );
+		$active_page = 'pending';
 		break;
 }
 
-//page=1&include=1 // for pending
 $post_per_page = 12;
 if( is_array( $members_filter )) {
     $members_filter['page'] = 1;
@@ -42,8 +44,8 @@ $current_user_id = get_current_user_id();
 
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
         <div class="connections-tabs">
-            <span id="my-connections-tab"><a href="<?php echo esc_attr( $my_friends_url ); ?>">My Connections</a></span>
-            <span id="pending-connections-tab"><a href="<?php echo esc_attr( $pending_friends_url ); ?>">Pending Requests</a></span>
+            <span id="my-connections-tab"><a href="<?php echo esc_attr( $my_friends_url ); ?>" class="<?php echo 'friends' === $active_page ? 'blue-color' : '' ?>">My Connections</a></span>
+            <span id="pending-connections-tab"><a href="<?php echo esc_attr( $pending_friends_url ); ?>" <?php echo 'pending' === $active_page ? 'blue-color' : '' ?>>Pending Requests</a></span>
         </div>
 
         <div class="all-members" data-id="all-members-tab">
@@ -129,7 +131,12 @@ $current_user_id = get_current_user_id();
 				endif;
 
 			else: ?>
-
+                <div class="amp-item-heading">
+                    <h3>
+                        <strong>Connections</strong>
+                        <span>(0 RESULTS)</span>
+                    </h3>
+                </div>
                 <div id="message" class="info">
                     <p><?php _e( "Sorry, no members were found.", 'buddypress' ); ?></p>
                 </div>
