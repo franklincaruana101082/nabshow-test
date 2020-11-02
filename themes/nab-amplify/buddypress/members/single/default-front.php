@@ -7,19 +7,29 @@
  */
 
 global $bp;
-$user_id            = $bp->displayed_user->id;
-$current_user_id    = get_current_user_id();
-$all_members_url    = esc_url( wc_get_account_endpoint_url( 'my-connections' ) );
-$my_friends_url     = add_query_arg( array( 'connections' => 'friends', 'user_id' => $user_id ), $all_members_url );
-$friend_count       = friends_get_friend_count_for_user( $user_id );
-$all_events_url     = add_query_arg( array( 'user_id' => $user_id ), wc_get_account_endpoint_url( 'my-events' ) );
-$all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_account_endpoint_url( 'my-bookmarks' ) );
+$user_id           = $bp->displayed_user->id;
+$current_user_id   = get_current_user_id();
+$all_members_url   = esc_url( wc_get_account_endpoint_url( 'my-connections' ) );
+$my_friends_url    = add_query_arg( array( 'connections' => 'friends', 'user_id' => $user_id ), $all_members_url );
+$friend_count      = friends_get_friend_count_for_user( $user_id );
+$all_events_url    = add_query_arg( array( 'user_id' => $user_id ), wc_get_account_endpoint_url( 'my-events' ) );
+$all_bookmarks_url = add_query_arg( array( 'user_id' => $user_id ), wc_get_account_endpoint_url( 'my-bookmarks' ) );
+
+if ( 0 === $friend_count ) {
+	$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id );
+} else {
+	$members_filter = array(
+		'user_id'  => $user_id,
+		'per_page' => 4
+	);
+}
+
 ?>
 
 <div class="member-front-page">
     <div class="member-connections">
 
-		<?php if ( bp_has_members( 'user_id=' . $user_id . '&per_page=4' ) ) : ?>
+		<?php if ( bp_has_members( $members_filter ) ) : ?>
 
             <div id="members-list" class="member-item-list amp-item-main" role="main">
                 <div class="amp-item-heading">
@@ -27,36 +37,44 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                         <strong>Connections</strong>
                         <span>(<?php echo esc_html( $friend_count ); ?> RESULTS)</span>
                     </h3>
-                    <div class="amp-view-more">
-                        <a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
-                    </div>
+					<?php if ( $friend_count > 4 ) { ?>
+                        <div class="amp-view-more">
+                            <a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
+                        </div>
+					<?php } ?>
                 </div>
+				<?php
+				global $members_template;
+				$total_users = $members_template->total_member_count;
+				if ( 0 === $friend_count && 0 < $total_users ) { ?>
+                    <h4>Pending Requests:</h4>
+				<?php } ?>
                 <div class="amp-item-wrap">
-                    <?php while ( bp_members() ) : bp_the_member();
-                    
-						$member_id              = bp_get_member_user_id();
-                        $professional_company   = get_user_meta( $member_id, 'attendee_company', true );
-                        $member_images          = nab_amplify_get_user_images( $member_id );
-                        
-                        $member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+					<?php while ( bp_members() ) : bp_the_member();
 
-                        if ( empty( trim( $member_full_name ) ) ) {
+						$member_id            = bp_get_member_user_id();
+						$professional_company = get_user_meta( $member_id, 'attendee_company', true );
+						$member_images        = nab_amplify_get_user_images( $member_id );
 
-                            $member_full_name = bp_get_member_name();
-                        }
-                        
+						$member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+
+						if ( empty( trim( $member_full_name ) ) ) {
+
+							$member_full_name = bp_get_member_name();
+						}
+
 						?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-action-remove">
-                                    <?php echo nab_amplify_bp_get_cancel_friendship_button( $member_id ); ?>
+									<?php echo nab_amplify_bp_get_cancel_friendship_button( $member_id ); ?>
                                 </div>
                                 <div class="amp-item-cover">
-                                    <img src="<?php echo esc_url( $member_images[ 'banner_image' ] ); ?>" alt="Cover Image">
+                                    <img src="<?php echo esc_url( $member_images['banner_image'] ); ?>" alt="Cover Image">
                                 </div>
                                 <div class="amp-item-info">
                                     <div class="amp-item-avtar">
-                                        <a href="<?php bp_member_permalink(); ?>"><img src="<?php echo esc_url( $member_images[ 'profile_picture' ] ); ?>"></a>
+                                        <a href="<?php bp_member_permalink(); ?>"><img src="<?php echo esc_url( $member_images['profile_picture'] ); ?>"></a>
                                     </div>
                                     <div class="amp-item-content">
                                         <h4><?php echo esc_html( $member_full_name ); ?></h4>
@@ -75,64 +93,72 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                 </div>
             </div>
 		<?php else: ?>
-            <div id="message" class="info">
-                <p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
+            <div id="members-list" class="member-item-list amp-item-main" role="main">
+                <div class="amp-item-heading">
+                    <h3>
+                        <strong>Connections</strong>
+                        <span>0 RESULTS</span>
+                    </h3>
+                </div>
+                <div id="message" class="info">
+                    <p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
+                </div>
             </div>
 		<?php endif; ?>
     </div>
-    <?php
-    if ( ! empty( $user_id ) && 0 !== $user_id ) {
+	<?php
+	if ( ! empty( $user_id ) && 0 !== $user_id ) {
 
-        $customer_products = nab_get_customer_purchased_product( $user_id );
+		$customer_products = nab_get_customer_purchased_product( $user_id );
 
-        if ( is_array( $customer_products ) && count( $customer_products ) > 0 ) {
+		if ( is_array( $customer_products ) && count( $customer_products ) > 0 ) {
 
-            $product_ids_regex  = '"' . implode('"|"', $customer_products ) . '"';
+			$product_ids_regex = '"' . implode( '"|"', $customer_products ) . '"';
 
-            $query_args = array(
-                'post_type'         => 'event-shows',
-                'posts_per_page'    => 4,
-                'post_status'       => 'publish',
-                'meta_key'          => 'wc_pay_per_post_product_ids',
-                'meta_value'        => $product_ids_regex,
-                'meta_compare'      => 'REGEXP',
-            );
+			$query_args = array(
+				'post_type'      => 'event-shows',
+				'posts_per_page' => 4,
+				'post_status'    => 'publish',
+				'meta_key'       => 'wc_pay_per_post_product_ids',
+				'meta_value'     => $product_ids_regex,
+				'meta_compare'   => 'REGEXP',
+			);
 
-            $purchased_events = new WP_Query( $query_args );
+			$purchased_events = new WP_Query( $query_args );
 
-            if ( $purchased_events->have_posts() ) {
+			if ( $purchased_events->have_posts() ) {
 
-                $total_events	= $purchased_events->found_posts;
-                ?>
+				$total_events = $purchased_events->found_posts;
+				?>
                 <div class="member-events">
                     <div class="amp-item-main">
                         <div class="amp-item-heading">
                             <h3>Events <span>(<?php echo esc_html( $total_events ); ?> RESULTS)</span></h3>
-                            <?php
-                            if ( $total_events > 4 ) {
-                                ?>
+							<?php
+							if ( $total_events > 4 ) {
+								?>
                                 <div class="amp-view-more">
                                     <a href="<?php echo esc_url( $all_events_url ); ?>" class="view-more-arrow">View All</a>
                                 </div>
-                                <?php
-                            }
-                            ?>
+								<?php
+							}
+							?>
                         </div>
                         <div class="amp-item-wrap" id="event-list">
 
-                            <?php
-                            $event_default_img  = nab_placeholder_img();
+							<?php
+							$event_default_img = nab_placeholder_img();
 
-                            while ( $purchased_events->have_posts() ) {
+							while ( $purchased_events->have_posts() ) {
 
-                                $purchased_events->the_post();
+								$purchased_events->the_post();
 
-                                $event_id	= get_the_ID();
-								$event_img	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $event_default_img;
-								$event_date	= get_field( 'show_date', $event_id );
-								$event_url	= get_field( 'show_url', $event_id );
+								$event_id   = get_the_ID();
+								$event_img  = has_post_thumbnail() ? get_the_post_thumbnail_url() : $event_default_img;
+								$event_date = get_field( 'show_date', $event_id );
+								$event_url  = get_field( 'show_url', $event_id );
 
-                                ?>
+								?>
                                 <div class="amp-item-col">
                                     <div class="amp-item-inner">
                                         <div class="amp-item-cover">
@@ -151,61 +177,61 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                                         </div>
                                     </div>
                                 </div>
-                                <?php
-                            }
-                            ?>
+								<?php
+							}
+							?>
                         </div>
                     </div>
                 </div>
-                <?php
-            }
-            wp_reset_postdata();
-        }
+				<?php
+			}
+			wp_reset_postdata();
+		}
 
-        $member_bookmarks = get_user_meta( $user_id, 'nab_customer_product_bookmark', true );
+		$member_bookmarks = get_user_meta( $user_id, 'nab_customer_product_bookmark', true );
 
-        if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
+		if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
-            $bookmark_query_args = array(
-                'post_type'         => 'product',
-                'posts_per_page'    => 4,
-                'post_status'       => 'publish',
-                'post__in'          => $member_bookmarks
-            );
+			$bookmark_query_args = array(
+				'post_type'      => 'product',
+				'posts_per_page' => 4,
+				'post_status'    => 'publish',
+				'post__in'       => $member_bookmarks
+			);
 
-            $bookmark_query = new WP_Query( $bookmark_query_args );
+			$bookmark_query = new WP_Query( $bookmark_query_args );
 
-            if ( $bookmark_query->have_posts() ) {
+			if ( $bookmark_query->have_posts() ) {
 
-                $total_bookmarks = $bookmark_query->found_posts;
-                ?>
+				$total_bookmarks = $bookmark_query->found_posts;
+				?>
                 <div class="member-bookmark">
                     <div class="amp-item-main">
                         <div class="amp-item-heading">
                             <h3>BOOKMARKS <span>(<?php echo esc_html( $total_bookmarks ); ?> RESULTS)</span></h3>
-                            <?php
-                            if ( $total_bookmarks > 4 ) {
-                                ?>
+							<?php
+							if ( $total_bookmarks > 4 ) {
+								?>
                                 <div class="amp-view-more">
                                     <a href="<?php echo esc_url( $all_bookmarks_url ); ?>" class="view-more-arrow">View All</a>
                                 </div>
-                                <?php
-                            }
-                            ?>
+								<?php
+							}
+							?>
                         </div>
                         <div class="amp-item-wrap" id="bookmark-list">
-                            <?php
-                            $bookmark_img       = nab_placeholder_img();
+							<?php
+							$bookmark_img = nab_placeholder_img();
 
-                            while ( $bookmark_query->have_posts() ) {
+							while ( $bookmark_query->have_posts() ) {
 
-                                $bookmark_query->the_post();
+								$bookmark_query->the_post();
 
-                                $bookmark_id        = get_the_ID();
-                                $bookmark_thumbnail = has_post_thumbnail() ? get_the_post_thumbnail_url() : $bookmark_img;
-                                $bookmark_link      = get_the_permalink();
+								$bookmark_id        = get_the_ID();
+								$bookmark_thumbnail = has_post_thumbnail() ? get_the_post_thumbnail_url() : $bookmark_img;
+								$bookmark_link      = get_the_permalink();
 
-                                ?>
+								?>
                                 <div class="amp-item-col">
                                     <div class="amp-item-inner">
                                         <div class="amp-item-cover">
@@ -226,16 +252,16 @@ $all_bookmarks_url  = add_query_arg( array( 'user_id' => $user_id ), wc_get_acco
                                         </div>
                                     </div>
                                 </div>
-                                <?php
-                            }
-                            ?>
+								<?php
+							}
+							?>
                         </div>
                     </div>
                 </div>
-                <?php
-            }
-            wp_reset_postdata();
-        }
-    }
-    ?>
+				<?php
+			}
+			wp_reset_postdata();
+		}
+	}
+	?>
 </div>
