@@ -113,7 +113,7 @@ p{font-size:16px;color:#404040}
 /* background color */
 .yellow-bg{background-color:#fdd80f;color:#404040}
 .pink-bg{background-color:#e5018b;color:#fff}
-.blue-bg{background-color:#6363df;color:#fff}
+.blue-bg {background-color: #6363df !important;color: #fff !important;border-color: #6363df !important;}
 .grey-bg{background-color:#666666;color:#fff}
 .black-bg{background-color:#404040;color:#fff}
 .orange-bg{background-color:#F89337;color:#fff}
