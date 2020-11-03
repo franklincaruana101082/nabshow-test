@@ -235,7 +235,7 @@ if ( 0 === $friend_count ) {
                                 <div class="amp-item-col">
                                     <div class="amp-item-inner">
                                         <div class="amp-item-cover">
-                                            <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">
+                                            <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">                                            
                                             <span class="fa fa-bookmark-o amp-bookmark bookmark-fill"></span>
                                         </div>
                                         <div class="amp-item-info">

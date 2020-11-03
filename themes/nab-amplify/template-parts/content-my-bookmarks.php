@@ -6,12 +6,13 @@
  * @package Amplify
  */
 
-$user_id        = filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT );
-$profile_url    = bp_core_get_user_domain( $user_id );
+$user_id            = filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT );
+$profile_url        = bp_core_get_user_domain( $user_id );
+$current_user_id    = get_current_user_id();
 
 if ( empty( $user_id ) || 0 === $user_id ) {
     
-    $user_id = get_current_user_id();
+    $user_id = $current_user_id;
 }
 ?>
 <div class="back-to-profile">
@@ -59,7 +60,7 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
-                                    <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">
+                                    <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">                                    
                                     <span class="fa fa-bookmark-o amp-bookmark bookmark-fill"></span>
                                 </div>
                                 <div class="amp-item-info">                                            

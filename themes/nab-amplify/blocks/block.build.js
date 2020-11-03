@@ -74,7 +74,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block_feature_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__block_feature_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__block_image_block__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__block_image_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__block_image_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__block_upcoming_events_calendar_block__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__block_upcoming_events_calendar_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__block_upcoming_events_calendar_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__block_related_content_block__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__block_related_content_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__block_related_content_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__block_related_content_2_block__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__block_related_content_2_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__block_related_content_2_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__block_community_curator_block__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__block_community_curator_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__block_community_curator_block__);
 // import all blocks here
+
+
+
+
 
 
 
@@ -2411,6 +2423,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                         featureStatusToggle ? wp.element.createElement(RichText, {
                             tagName: 'h3',
                             placeholder: 'Live',
+                            className: 'feature-status',
                             value: featureStatusTitle,
                             onChange: function onChange(featureStatusTitle) {
                                 setAttributes({ featureStatusTitle: featureStatusTitle });
@@ -2419,6 +2432,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                         featureTitleToggle ? wp.element.createElement(RichText, {
                             tagName: 'h2',
                             placeholder: 'Creating the World',
+                            className: 'feature-title',
                             value: featureTitle,
                             onChange: function onChange(featureTitle) {
                                 setAttributes({ featureTitle: featureTitle });
@@ -2427,6 +2441,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                         featureAuthorToggle ? wp.element.createElement(RichText, {
                             tagName: 'h4',
                             placeholder: 'Author',
+                            className: 'feature-author',
                             value: featureAuthor,
                             onChange: function onChange(featureAuthor) {
                                 setAttributes({ featureAuthor: featureAuthor });
@@ -2435,6 +2450,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                         featureDiscToggle ? wp.element.createElement(RichText, {
                             tagName: 'p',
                             placeholder: 'Discription',
+                            className: 'feature-disc',
                             value: featureDisc,
                             onChange: function onChange(featureDisc) {
                                 setAttributes({ featureDisc: featureDisc });
@@ -2479,19 +2495,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                         { className: 'amp-feature-content' },
                         featureStatusToggle ? wp.element.createElement(RichText.Content, {
                             tagName: 'h3',
-                            value: featureStatusTitle
+                            value: featureStatusTitle,
+                            className: 'feature-status'
                         }) : null,
                         featureTitleToggle ? wp.element.createElement(RichText.Content, {
                             tagName: 'h2',
-                            value: featureTitle
+                            value: featureTitle,
+                            className: 'feature-title'
                         }) : null,
                         featureAuthorToggle ? wp.element.createElement(RichText.Content, {
                             tagName: 'h4',
-                            value: featureAuthor
+                            value: featureAuthor,
+                            className: 'feature-author'
                         }) : null,
                         featureDiscToggle ? wp.element.createElement(RichText.Content, {
                             tagName: 'p',
-                            value: featureDisc
+                            value: featureDisc,
+                            className: 'feature-disc'
                         }) : null
                     )
                 )
@@ -2719,6 +2739,1635 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
         }
     });
 })(wp.i18n, wp.blocks, wp.blockEditor, wp.components);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment,
+      Component = wpElement.Component;
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText,
+      MediaUpload = wpEditor.MediaUpload;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      ToggleControl = wpComponents.ToggleControl,
+      TextControl = wpComponents.TextControl,
+      Tooltip = wpComponents.Tooltip,
+      Button = wpComponents.Button;
+
+  var ItemComponent = function (_Component) {
+    _inherits(ItemComponent, _Component);
+
+    function ItemComponent() {
+      _classCallCheck(this, ItemComponent);
+
+      return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
+    }
+
+    _createClass(ItemComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var dataArray = this.props.attributes.dataArray;
+
+        if (0 === dataArray.length) {
+          this.initList();
+        }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var dataArray = this.props.attributes.dataArray;
+        var setAttributes = this.props.setAttributes;
+
+        setAttributes({
+          dataArray: [].concat(_toConsumableArray(dataArray), [{
+            index: dataArray.length,
+            title: '',
+            subTitle: '',
+            description: '',
+            media: '',
+            bgMedia: ''
+          }])
+        });
+      }
+    }, {
+      key: 'moveItem',
+      value: function moveItem(oldIndex, newIndex) {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var copyData = [].concat(_toConsumableArray(dataArray));
+
+        copyData[oldIndex] = dataArray[newIndex];
+        copyData[newIndex] = dataArray[oldIndex];
+
+        setAttributes({
+          dataArray: copyData
+        });
+
+        this.forceUpdate();
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var _props2 = this.props,
+            attributes = _props2.attributes,
+            setAttributes = _props2.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var getImageButton = function getImageButton(openEvent, index) {
+          if (dataArray[index].media) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              wp.element.createElement('span', {
+                onClick: openEvent,
+                className: 'dashicons dashicons-edit'
+              }),
+              wp.element.createElement('img', {
+                src: dataArray[index].media,
+                alt: dataArray[index].title,
+                className: 'img'
+              })
+            );
+          } else {
+            return wp.element.createElement(
+              Button,
+              { onClick: openEvent, className: 'button button-large' },
+              wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+              ' Upload Image'
+            );
+          }
+        };
+
+        var itemList = dataArray.map(function (data, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'item' },
+            wp.element.createElement(
+              'div',
+              { className: 'settings' },
+              0 < index && wp.element.createElement(
+                Tooltip,
+                { text: 'Move Left' },
+                wp.element.createElement('span', {
+                  className: 'dashicons dashicons-arrow-left-alt2',
+                  onClick: function onClick() {
+                    return _this2.moveItem(index, index - 1);
+                  }
+                })
+              ),
+              index + 1 < dataArray.length && wp.element.createElement(
+                Tooltip,
+                { text: 'Move Right' },
+                wp.element.createElement('span', {
+                  className: 'dashicons dashicons-arrow-right-alt2',
+                  onClick: function onClick() {
+                    return _this2.moveItem(index, index + 1);
+                  }
+                })
+              ),
+              wp.element.createElement('span', {
+                className: 'dashicons dashicons-no-alt remove',
+                onClick: function onClick() {
+                  var qewQusote = dataArray.filter(function (item) {
+                    return item.index != data.index;
+                  }).map(function (t) {
+                    if (t.index > data.index) {
+                      t.index -= 1;
+                    }
+
+                    return t;
+                  });
+
+                  setAttributes({
+                    dataArray: qewQusote
+                  });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inner' },
+              wp.element.createElement(
+                'div',
+                { className: 'main-image' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].bgMedia = media.url;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref) {
+                    var open = _ref.open;
+
+                    if (dataArray[index].bgMedia) {
+                      return wp.element.createElement(
+                        Fragment,
+                        null,
+                        wp.element.createElement('span', {
+                          onClick: open,
+                          className: 'dashicons dashicons-edit'
+                        }),
+                        wp.element.createElement('img', { src: dataArray[index].bgMedia, className: 'img' })
+                      );
+                    } else {
+                      return wp.element.createElement(
+                        Button,
+                        { onClick: open, className: 'button button-large' },
+                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                        ' ',
+                        'Upload Main Image'
+                      );
+                    }
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'left' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].media = media.url;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref2) {
+                    var open = _ref2.open;
+                    return getImageButton(open, index);
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'right' },
+                wp.element.createElement(RichText, {
+                  tagName: 'h3',
+                  placeholder: __('Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.title,
+                  className: 'title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].title = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'strong',
+                  placeholder: __('Sub Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.subTitle,
+                  className: 'sub-title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].subTitle = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  placeholder: __('Description'),
+                  value: data.description,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'description',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].description = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                })
+              )
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          Fragment,
+          null,
+          wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: 'General Settings' },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                'Test'
+              )
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'community-curator' },
+            itemList,
+            wp.element.createElement(
+              'div',
+              { className: 'item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick() {
+                    _this2.initList();
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return ItemComponent;
+  }(Component);
+
+  registerBlockType('rg/community-curator', {
+    title: __('Community Curator'),
+    description: __('community-curator'),
+    icon: 'heart',
+    category: 'common',
+    keywords: [__('Community Curator'), __('Gutenberg')],
+    attributes: {
+      dataArray: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: ItemComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes;
+      var dataArray = attributes.dataArray;
+
+
+      return wp.element.createElement(
+        'div',
+        { className: 'community-curator' },
+        wp.element.createElement(
+          'div',
+          {
+            className: 'big-section',
+            style: {
+              backgroundImage: 'url(' + dataArray[0].bgMedia + ')'
+            }
+          },
+          wp.element.createElement(
+            'div',
+            { className: 'contents' },
+            dataArray[0].title && wp.element.createElement(RichText.Content, {
+              tagName: 'h3',
+              value: dataArray[0].title,
+              className: 'title'
+            }),
+            dataArray[0].subTitle && wp.element.createElement(RichText.Content, {
+              tagName: 'strong',
+              value: dataArray[0].subTitle,
+              className: 'sub-title'
+            }),
+            dataArray[0].description && wp.element.createElement(RichText.Content, {
+              tagName: 'p',
+              value: dataArray[0].description,
+              className: 'description'
+            })
+          )
+        ),
+        wp.element.createElement(
+          'div',
+          { className: 'grid-list' },
+          dataArray.map(function (data, index) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              data.title && wp.element.createElement(
+                'div',
+                { className: 'item ' + (index == 0 ? 'active' : '') },
+                wp.element.createElement(
+                  'div',
+                  { className: 'inner' },
+                  data.bgMedia ? wp.element.createElement('img', { className: 'main-image', src: data.bgMedia, alt: data.title, style: {
+                      display: 'none'
+                    } }) : null,
+                  wp.element.createElement(
+                    'div',
+                    { className: 'left' },
+                    data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                      'div',
+                      { className: 'no-image' },
+                      'No Image'
+                    )
+                  ),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'right' },
+                    data.title && wp.element.createElement(RichText.Content, {
+                      tagName: 'h3',
+                      value: data.title,
+                      className: 'title'
+                    }),
+                    data.subTitle && wp.element.createElement(RichText.Content, {
+                      tagName: 'strong',
+                      value: data.subTitle,
+                      className: 'sub-title'
+                    }),
+                    data.description && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      value: data.description,
+                      className: 'description'
+                    })
+                  )
+                )
+              )
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment,
+      Component = wpElement.Component;
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText,
+      MediaUpload = wpEditor.MediaUpload;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      ToggleControl = wpComponents.ToggleControl,
+      TextControl = wpComponents.TextControl,
+      Tooltip = wpComponents.Tooltip,
+      Button = wpComponents.Button;
+
+  var ItemComponent = function (_Component) {
+    _inherits(ItemComponent, _Component);
+
+    function ItemComponent() {
+      _classCallCheck(this, ItemComponent);
+
+      return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
+    }
+
+    _createClass(ItemComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var dataArray = this.props.attributes.dataArray;
+
+        if (0 === dataArray.length) {
+          this.initList();
+        }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var dataArray = this.props.attributes.dataArray;
+        var setAttributes = this.props.setAttributes;
+
+        setAttributes({
+          dataArray: [].concat(_toConsumableArray(dataArray), [{
+            index: dataArray.length,
+            title: '',
+            subTitle: '',
+            description: '',
+            media: '',
+            mediaAlt: ''
+          }])
+        });
+      }
+    }, {
+      key: 'moveItem',
+      value: function moveItem(oldIndex, newIndex) {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var copyData = [].concat(_toConsumableArray(dataArray));
+
+        copyData[oldIndex] = dataArray[newIndex];
+        copyData[newIndex] = dataArray[oldIndex];
+
+        setAttributes({
+          dataArray: copyData
+        });
+
+        this.forceUpdate();
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var _props2 = this.props,
+            attributes = _props2.attributes,
+            setAttributes = _props2.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var getImageButton = function getImageButton(openEvent, index) {
+          if (dataArray[index].media) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              wp.element.createElement('span', {
+                onClick: openEvent,
+                className: 'dashicons dashicons-edit edit-image'
+              }),
+              wp.element.createElement('img', {
+                src: dataArray[index].media,
+                alt: dataArray[index].title,
+                className: 'img'
+              })
+            );
+          } else {
+            return wp.element.createElement(
+              Button,
+              { onClick: openEvent, className: 'button button-large' },
+              wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+              ' Upload Image'
+            );
+          }
+        };
+
+        var itemList = dataArray.map(function (data, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'item' },
+            wp.element.createElement(
+              'div',
+              { className: 'settings' },
+              wp.element.createElement(
+                'div',
+                { className: 'move-item-controls' },
+                0 < index && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Left' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-left-alt2 item-move-left',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index - 1);
+                    }
+                  })
+                ),
+                index + 1 < dataArray.length && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Right' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-right-alt2 item-move-right',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index + 1);
+                    }
+                  })
+                )
+              ),
+              wp.element.createElement('span', {
+                className: 'dashicons dashicons-no-alt remove',
+                onClick: function onClick() {
+                  var qewQusote = dataArray.filter(function (item) {
+                    return item.index != data.index;
+                  }).map(function (t) {
+                    if (t.index > data.index) {
+                      t.index -= 1;
+                    }
+
+                    return t;
+                  });
+
+                  setAttributes({
+                    dataArray: qewQusote
+                  });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inner' },
+              wp.element.createElement(
+                'div',
+                { className: 'left' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].media = media.url;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  value: attributes.imageID,
+                  render: function render(_ref) {
+                    var open = _ref.open;
+                    return getImageButton(open, index);
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'right' },
+                wp.element.createElement(RichText, {
+                  tagName: 'h3',
+                  placeholder: __('Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.title,
+                  className: 'title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].title = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'strong',
+                  placeholder: __('Sub Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.subTitle,
+                  className: 'sub-title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].subTitle = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'p',
+                  placeholder: __('Description'),
+                  value: data.description,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'description',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].description = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                })
+              )
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          Fragment,
+          null,
+          wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: 'General Settings' },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                'Test'
+              )
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'upcoming-events-calendar' },
+            itemList,
+            wp.element.createElement(
+              'div',
+              { className: 'item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick(content) {
+                    setAttributes({
+                      dataArray: [].concat(_toConsumableArray(dataArray), [{
+                        index: dataArray.length,
+                        title: '',
+                        subTitle: '',
+                        description: '',
+                        media: ''
+                      }])
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return ItemComponent;
+  }(Component);
+
+  registerBlockType('rg/upcoming-events-calendar', {
+    title: __('Upcoming Events Calendar'),
+    description: __('upcoming-events-calendar'),
+    icon: 'heart',
+    category: 'common',
+    keywords: [__('Upcoming Events Calendar'), __('Gutenberg')],
+    attributes: {
+      dataArray: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: ItemComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes;
+      var dataArray = attributes.dataArray;
+
+
+      return wp.element.createElement(
+        Fragment,
+        null,
+        wp.element.createElement(
+          'div',
+          { className: 'upcoming-events-calendar' },
+          dataArray.map(function (data, index) {
+            return wp.element.createElement(
+              Fragment,
+              null,
+              data.title && wp.element.createElement(
+                'div',
+                { className: 'item' },
+                wp.element.createElement(
+                  'div',
+                  { className: 'inner' },
+                  wp.element.createElement(
+                    'div',
+                    { className: 'left' },
+                    data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                      'div',
+                      { className: 'no-image' },
+                      'No Image'
+                    )
+                  ),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'right' },
+                    data.title && wp.element.createElement(RichText.Content, {
+                      tagName: 'h3',
+                      value: data.title,
+                      className: 'title'
+                    }),
+                    data.subTitle && wp.element.createElement(RichText.Content, {
+                      tagName: 'strong',
+                      value: data.subTitle,
+                      className: 'sub-title'
+                    }),
+                    data.description && wp.element.createElement(RichText.Content, {
+                      tagName: 'p',
+                      value: data.description,
+                      className: 'description'
+                    })
+                  )
+                )
+              )
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment,
+      Component = wpElement.Component;
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText,
+      MediaUpload = wpEditor.MediaUpload;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      ToggleControl = wpComponents.ToggleControl,
+      TextControl = wpComponents.TextControl,
+      Tooltip = wpComponents.Tooltip,
+      Button = wpComponents.Button;
+
+  var ItemComponent = function (_Component) {
+    _inherits(ItemComponent, _Component);
+
+    function ItemComponent(props) {
+      _classCallCheck(this, ItemComponent);
+
+      var _this = _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).call(this, props));
+
+      _this.state = { popup: false };
+      _this.addNewItem = _this.addNewItem.bind(_this);
+      return _this;
+    }
+
+    _createClass(ItemComponent, [{
+      key: 'addNewItem',
+      value: function addNewItem(name) {
+        var dataArray = this.props.attributes.dataArray;
+        var setAttributes = this.props.setAttributes;
+
+        var attr = void 0;
+        if (name == 'option-1') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            advertising: 'Advertising',
+            media: '',
+            mediaAlt: '',
+            title: '',
+            subTitle: '',
+            buttonText: '<a href="#">Learn More</a>'
+          };
+        }
+        if (name == 'option-2') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            bgMedia: '',
+            media: '',
+            mediaAlt: '',
+            title: '',
+            subTitle: '',
+            date: '',
+            buttonText: '<a href="#">Watch</a>'
+          };
+        }
+
+        if (name == 'option-3') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            advertising: 'Advertising',
+            media: '',
+            mediaAlt: '',
+            buttonText: '<a href="#">Learn More</a>'
+          };
+        }
+
+        if (name == 'option-4') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            bgMedia: '',
+            media: '',
+            mediaAlt: '',
+            title: '',
+            subTitle: '',
+            buttonText: '<a href="#">Message</a>'
+          };
+        }
+
+        setAttributes({
+          dataArray: [].concat(_toConsumableArray(dataArray), [attr])
+        });
+        this.setState({
+          popup: false
+        });
+      }
+    }, {
+      key: 'moveItem',
+      value: function moveItem(oldIndex, newIndex) {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var copyData = [].concat(_toConsumableArray(dataArray));
+
+        copyData[oldIndex] = dataArray[newIndex];
+        copyData[newIndex] = dataArray[oldIndex];
+
+        setAttributes({
+          dataArray: copyData
+        });
+
+        this.forceUpdate();
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var _props2 = this.props,
+            attributes = _props2.attributes,
+            setAttributes = _props2.setAttributes;
+        var popup = this.state.popup;
+        var dataArray = attributes.dataArray;
+
+
+        var itemList = dataArray.map(function (data, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'item ' + data.option },
+            wp.element.createElement(
+              'div',
+              { className: 'settings' },
+              wp.element.createElement(
+                'div',
+                { className: 'move-item-controls' },
+                0 < index && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Left' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-left-alt2 move-left',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index - 1);
+                    }
+                  })
+                ),
+                index + 1 < dataArray.length && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Right' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-right-alt2 move-right',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index + 1);
+                    }
+                  })
+                )
+              ),
+              wp.element.createElement('span', {
+                className: 'dashicons dashicons-no-alt remove',
+                onClick: function onClick() {
+                  var qewQusote = dataArray.filter(function (item) {
+                    return item.index != data.index;
+                  }).map(function (t) {
+                    if (t.index > data.index) {
+                      t.index -= 1;
+                    }
+
+                    return t;
+                  });
+
+                  setAttributes({
+                    dataArray: qewQusote
+                  });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inner' },
+              data.option == 'option-1' || data.option == 'option-4' ? wp.element.createElement(
+                'div',
+                { className: 'background-image' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].bgMedia = media.url;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  render: function render(_ref) {
+                    var open = _ref.open;
+
+                    if (data.bgMedia) {
+                      return wp.element.createElement(
+                        Fragment,
+                        null,
+                        wp.element.createElement('span', {
+                          onClick: open,
+                          className: 'dashicons dashicons-edit edit-image'
+                        }),
+                        wp.element.createElement('img', { src: data.bgMedia })
+                      );
+                    } else {
+                      return wp.element.createElement(
+                        Button,
+                        {
+                          onClick: open,
+                          className: 'button button-large'
+                        },
+                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                        'Upload BG Image'
+                      );
+                    }
+                  }
+                })
+              ) : null,
+              data.option == 'option-1' || data.option == 'option-3' ? wp.element.createElement(
+                'div',
+                { className: 'advertising' },
+                wp.element.createElement(RichText, {
+                  tagName: 'span',
+                  placeholder: __('Advertising'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.advertising,
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].advertising = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                })
+              ) : null,
+              wp.element.createElement(
+                'div',
+                { className: 'image' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].media = media.url;
+                    arrayCopy[index].mediaAlt = media.alt;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  render: function render(_ref2) {
+                    var open = _ref2.open;
+
+                    if (data.media) {
+                      return wp.element.createElement(
+                        Fragment,
+                        null,
+                        wp.element.createElement('span', {
+                          onClick: open,
+                          className: 'dashicons dashicons-edit'
+                        }),
+                        wp.element.createElement('img', { src: data.media, alt: data.alt })
+                      );
+                    } else {
+                      return wp.element.createElement(
+                        Button,
+                        { onClick: open, className: 'button button-large' },
+                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                        ' ',
+                        'Upload Image'
+                      );
+                    }
+                  }
+                })
+              ),
+              data.option !== 'option-3' && wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(RichText, {
+                  tagName: 'h2',
+                  placeholder: __('Title'),
+                  value: data.title,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].title = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'strong',
+                  placeholder: __('Sub Title'),
+                  value: data.subTitle,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'sub-title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].subTitle = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                })
+              ),
+              data.option == 'option-2' && wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(RichText, {
+                  tagName: 'span',
+                  placeholder: __('date'),
+                  value: data.date,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'date',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].date = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                })
+              ),
+              wp.element.createElement(RichText, {
+                tagName: 'div',
+                placeholder: __('Learn More'),
+                value: data.buttonText,
+                keepPlaceholderOnFocus: 'true',
+                className: 'btn',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].buttonText = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              })
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          Fragment,
+          null,
+          wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: 'General Settings' },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                'Test'
+              )
+            )
+          ),
+          popup && wp.element.createElement(
+            'div',
+            { className: 'internal-popup' },
+            wp.element.createElement(
+              'div',
+              { className: 'popup-inner' },
+              wp.element.createElement('span', {
+                onClick: function onClick() {
+                  _this2.setState({
+                    popup: false
+                  });
+                },
+                className: 'dashicons dashicons-no-alt remove'
+              }),
+              wp.element.createElement(
+                'ul',
+                null,
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-1',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-1');
+                    }
+                  },
+                  'Option 1'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-2',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-2');
+                    }
+                  },
+                  'Option 2'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-3',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-3');
+                    }
+                  },
+                  'Option 3'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-4',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-4');
+                    }
+                  },
+                  'Option 4'
+                )
+              )
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'related-content' },
+            itemList,
+            wp.element.createElement(
+              'div',
+              { className: 'item addNewitem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick() {
+                    _this2.setState({
+                      popup: true
+                    });
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return ItemComponent;
+  }(Component);
+
+  registerBlockType('rg/related-content', {
+    title: __('Related Content'),
+    description: __('Related Content'),
+    icon: 'heart',
+    category: 'common',
+    keywords: [__('Related Content'), __('gutenberg')],
+    attributes: {
+      dataArray: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: ItemComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes;
+      var dataArray = attributes.dataArray;
+
+
+      return wp.element.createElement(
+        Fragment,
+        null,
+        wp.element.createElement(
+          'div',
+          { className: 'related-content' },
+          dataArray.map(function (data, index) {
+            return wp.element.createElement(
+              'div',
+              { className: 'item ' + data.option },
+              data.option == 'option-1' || data.option == 'option-4' ? wp.element.createElement(
+                'div',
+                { className: 'background-image' },
+                wp.element.createElement('img', { src: data.bgMedia })
+              ) : null,
+              data.option == 'option-1' || data.option == 'option-3' ? wp.element.createElement(
+                'div',
+                { className: 'advertising' },
+                wp.element.createElement(RichText.Content, { tagName: 'span', value: data.advertising })
+              ) : null,
+              data.media && wp.element.createElement(
+                'div',
+                { className: 'image' },
+                wp.element.createElement('img', { src: data.media, alt: data.mediaAlt })
+              ),
+              data.option !== 'option-3' && wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(RichText.Content, {
+                  tagName: 'h2',
+                  value: data.title,
+                  className: 'title'
+                }),
+                wp.element.createElement(RichText.Content, {
+                  tagName: 'strong',
+                  value: data.subTitle,
+                  className: 'sub-title'
+                })
+              ),
+              data.option == 'option-2' && wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(RichText.Content, {
+                  tagName: 'span',
+                  value: data.date,
+                  className: 'date'
+                })
+              ),
+              wp.element.createElement(RichText.Content, {
+                tagName: 'div',
+                value: data.buttonText,
+                className: 'btn'
+              })
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment,
+      Component = wpElement.Component;
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText,
+      MediaUpload = wpEditor.MediaUpload;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      ToggleControl = wpComponents.ToggleControl,
+      TextControl = wpComponents.TextControl,
+      Tooltip = wpComponents.Tooltip,
+      Button = wpComponents.Button;
+
+  var ItemComponent = function (_Component) {
+    _inherits(ItemComponent, _Component);
+
+    function ItemComponent() {
+      _classCallCheck(this, ItemComponent);
+
+      return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
+    }
+
+    _createClass(ItemComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var dataArray = this.props.attributes.dataArray;
+
+        if (0 === dataArray.length) {
+          this.initList();
+        }
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        var dataArray = this.props.attributes.dataArray;
+        var setAttributes = this.props.setAttributes;
+
+        setAttributes({
+          dataArray: [].concat(_toConsumableArray(dataArray), [{
+            index: dataArray.length,
+            title: '',
+            subTitle: '',
+            description: '',
+            select: false,
+            buttonText: '<a href="#">Read More</a>'
+          }])
+        });
+      }
+    }, {
+      key: 'moveItem',
+      value: function moveItem(oldIndex, newIndex) {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var copyData = [].concat(_toConsumableArray(dataArray));
+
+        copyData[oldIndex] = dataArray[newIndex];
+        copyData[newIndex] = dataArray[oldIndex];
+
+        setAttributes({
+          dataArray: copyData
+        });
+
+        this.forceUpdate();
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var _props2 = this.props,
+            attributes = _props2.attributes,
+            setAttributes = _props2.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var itemList = dataArray.map(function (data, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'item ' + (data.select ? 'select' : '') },
+            wp.element.createElement(
+              'div',
+              { className: 'inner' },
+              wp.element.createElement(
+                'div',
+                { className: 'settings' },
+                0 < index && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Left' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-left-alt2',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index - 1);
+                    }
+                  })
+                ),
+                index + 1 < dataArray.length && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Right' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-right-alt2',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index + 1);
+                    }
+                  })
+                ),
+                wp.element.createElement('span', {
+                  className: 'dashicons dashicons-no-alt remove',
+                  onClick: function onClick() {
+                    var qewQusote = dataArray.filter(function (item) {
+                      return item.index != data.index;
+                    }).map(function (t) {
+                      if (t.index > data.index) {
+                        t.index -= 1;
+                      }
+
+                      return t;
+                    });
+
+                    setAttributes({
+                      dataArray: qewQusote
+                    });
+                  }
+                })
+              ),
+              wp.element.createElement('span', {
+                className: 'dashicons dashicons-tag',
+                onClick: function onClick() {
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].select = data.select ? false : true;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'h3',
+                placeholder: __('Title'),
+                keepPlaceholderOnFocus: 'true',
+                value: data.title,
+                className: 'title',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].title = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'strong',
+                placeholder: __('Sub Title'),
+                keepPlaceholderOnFocus: 'true',
+                value: data.subTitle,
+                className: 'sub-title',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].subTitle = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'div',
+                placeholder: __('Learn More'),
+                value: data.buttonText,
+                keepPlaceholderOnFocus: 'true',
+                className: 'btn',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].buttonText = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              })
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          Fragment,
+          null,
+          wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: 'General Settings' },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                'Test'
+              )
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'related-content-2' },
+            itemList,
+            wp.element.createElement(
+              'div',
+              { className: 'item additem' },
+              wp.element.createElement(
+                'button',
+                {
+                  className: 'components-button add',
+                  onClick: function onClick() {
+                    _this2.initList();
+                  }
+                },
+                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                ' Add New Item'
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return ItemComponent;
+  }(Component);
+
+  registerBlockType('rg/related-content-2', {
+    title: __('Related Content 2'),
+    description: __('Related Content 2'),
+    icon: 'heart',
+    category: 'common',
+    keywords: [__('Related Content 2'), __('Gutenberg')],
+    attributes: {
+      dataArray: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: ItemComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes;
+      var dataArray = attributes.dataArray;
+
+
+      return wp.element.createElement(
+        Fragment,
+        null,
+        wp.element.createElement(
+          'div',
+          { className: 'related-content-2' },
+          dataArray.map(function (data, index) {
+            return wp.element.createElement(
+              'div',
+              { className: 'item ' + (data.select ? 'select' : '') },
+              wp.element.createElement(
+                'div',
+                { className: 'inner' },
+                wp.element.createElement('span', { className: 'dashicons dashicons-tag' }),
+                data.title && wp.element.createElement(RichText.Content, {
+                  tagName: 'h3',
+                  value: data.title,
+                  className: 'title'
+                }),
+                data.subTitle && wp.element.createElement(RichText.Content, {
+                  tagName: 'strong',
+                  value: data.subTitle,
+                  className: 'sub-title'
+                }),
+                wp.element.createElement(RichText.Content, {
+                  tagName: 'div',
+                  value: data.buttonText,
+                  className: 'btn'
+                })
+              )
+            );
+          })
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
 
 /***/ })
 /******/ ]);

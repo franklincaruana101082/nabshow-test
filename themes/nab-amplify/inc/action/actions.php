@@ -13,6 +13,9 @@ add_action( 'wp_enqueue_scripts', 'amplify_front_scripts' );
 /*Action for enqueue scripts for backend side.*/
 add_action( 'enqueue_block_editor_assets', 'amplify_block_editor_assets' );
 
+/*Action for enqueue scripts for backend side.*/
+add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
+
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
@@ -32,9 +35,6 @@ add_action( "wp_ajax_nopriv_nab_amplify_upload_images", "nab_amplify_upload_imag
 // Ajax to remove user images.
 add_action( "wp_ajax_nab_amplify_remove_images", "nab_amplify_remove_images" );
 add_action( "wp_ajax_nopriv_nab_amplify_remove_images", "nab_amplify_remove_images" );
-
-// Edit My Profile content.
-add_action( 'woocommerce_account_edit-my-profile_endpoint', 'nab_amplify_edit_my_profile_content_callback' );
 
 // My Purchases content.
 add_action( 'woocommerce_account_my-purchases_endpoint', 'nab_amplify_my_purchases_content_callback' );
@@ -135,3 +135,10 @@ add_action( 'woocommerce_order_status_changed', 'nab_update_product_in_user_meta
 add_action( 'woocommerce_edit_account_form', 'nab_edit_acount_additional_form_fields' );
 
 add_action( 'woocommerce_save_account_details', 'nab_save_edit_account_additional_form_fields' );
+
+// add woocommerce edit account details in the edit my account.
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_edit_address' );
+
+add_action( 'woocommerce_customer_save_address', 'nab_woocommerce_customer_save_changes_redirect', 99 );
+
+add_action( 'woocommerce_save_account_details', 'nab_woocommerce_customer_save_changes_redirect', 999 );

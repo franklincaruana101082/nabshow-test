@@ -246,3 +246,32 @@ a{color:#e5018b;text-decoration:none}
 .amp-button-wrap{min-height:150px;display:flex;justify-content:center;align-items:center;background-color:#f7f7f7;}
 
 /* feature block styles */
+.amp-feature-block{min-height:80vh;}
+.amp-feature-block{}
+
+/* default blocks items */
+.additem,
+.addNewitem{text-align:center;width:100%!important;}
+.additem button.add,
+.addNewitem button.add{padding:10px;background:#ff008f;color:#fff;border-radius:3px;}
+.remove{width:30px;height:30px;background-color:red;color:#fff;line-height:30px;border-radius:50%;cursor:pointer;}
+.move-item-controls span{width:30px;height:30px;background-color:#6363df;color:#fff;line-height:30px;border-radius:50%;margin:0 10px;cursor:pointer;}
+.edit-image{position:absolute;right:0;top:0;width:30px;height:30px;line-height:30px;background-color:#6363df;color:#fff;opacity:0;cursor:pointer;}
+.item .settings{display:flex;justify-content:space-between;margin-bottom:5px;}
+.item .left:hover .edit-image{opacity:1;}
+
+/* upcoming events */
+.upcoming-events-calendar{display:flex;justify-content:space-between;flex-wrap:wrap;margin:0 -10px;padding:10px 0;}
+.upcoming-events-calendar .item{padding:0 10px;width:50%;margin:0 0 20px;}
+.upcoming-events-calendar .item:last-child{margin:0;}
+.upcoming-events-calendar .inner{display:flex;justify-content:space-between;border:1px solid #ccc;padding:20px;}
+.upcoming-events-calendar .inner .left{width:180px;display:flex;justify-content:center;align-items:center;position:relative;}
+.upcoming-events-calendar .inner .right{width:calc(100% - 180px);padding-left:20px;}
+.upcoming-events-calendar .title{margin:0 0 15px;font-size:30px;line-height:normal;}
+.upcoming-events-calendar .sub-title{margin:0 0 15px;display:block;font-size:22px;line-height:normal;}
+.upcoming-events-calendar .description{margin:0 0 15px;font-size:20px;line-height:normal;}
+.upcoming-events-calendar .description:last-child{margin:0;}
+
+.related-content{display:flex;justify-content:space-between;flex-wrap:wrap;margin:0 -10px;padding:10px 0;}
+.related-content .item{padding:0 10px;width:50%;margin:0 0 20px;}
+.related-content .item:last-child{margin:0;}

@@ -38,3 +38,14 @@ function amplify_block_editor_assets()
     ));
 }
 
+/**
+ * enqueue Block Front Files
+ */
+function amplify_block_front_assets()
+{
+    // Front css
+    wp_enqueue_style('amplify-block-front-style', get_template_directory_uri() . '/assets/css/block-front.css');
+
+    wp_enqueue_script( 'amplify-block-front-js', get_template_directory_uri() . '/blocks/js/custom.js', array( 'jquery' ), null, true );
+}
+

@@ -255,6 +255,7 @@ registerBlockType('amplify/feature', {
                             <RichText
                                 tagName="h3"
                                 placeholder="Live"
+                                className="feature-status"
                                 value={featureStatusTitle}
                                 onChange={(featureStatusTitle)=>{
                                     setAttributes({featureStatusTitle});
@@ -265,6 +266,7 @@ registerBlockType('amplify/feature', {
                             <RichText
                                 tagName="h2"
                                 placeholder="Creating the World"
+                                className="feature-title"
                                 value={featureTitle}
                                 onChange={(featureTitle)=>{
                                     setAttributes({featureTitle});
@@ -275,6 +277,7 @@ registerBlockType('amplify/feature', {
                             <RichText
                                 tagName="h4"
                                 placeholder="Author"
+                                className="feature-author"
                                 value={featureAuthor}
                                 onChange={(featureAuthor)=>{
                                     setAttributes({featureAuthor});
@@ -285,6 +288,7 @@ registerBlockType('amplify/feature', {
                             <RichText
                                 tagName="p"
                                 placeholder="Discription"
+                                className="feature-disc"
                                 value={featureDisc}
                                 onChange={(featureDisc)=>{
                                     setAttributes({featureDisc});
@@ -328,24 +332,28 @@ registerBlockType('amplify/feature', {
                             <RichText.Content
                                 tagName="h3"
                                 value={featureStatusTitle}
+                                className="feature-status"
                             /> : null
                         }
                         {featureTitleToggle ?
                             <RichText.Content
                                 tagName="h2"
                                 value={featureTitle}
+                                className="feature-title"
                             /> : null
                         }
                         {featureAuthorToggle ?
                             <RichText.Content
                                 tagName="h4"
                                 value={featureAuthor}
+                                className="feature-author"
                             /> : null
                         }
                         {featureDiscToggle ?
                             <RichText.Content
                                 tagName="p"
                                 value={featureDisc}
+                                className="feature-disc"
                             /> : null
                         }
                     </div>

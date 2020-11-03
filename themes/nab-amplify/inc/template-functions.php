@@ -808,4 +808,51 @@ function nab_member_can_visible_to_anyone( $member_id ) {
 	return true;
 }
 
+/**
+ * BP top notificaton menu.
+ */
 
+function nab_get_bp_notification_menu() {
+
+	if ( is_user_logged_in() ) {
+
+		?>
+		<div class="nab-header-notification">
+			<?php
+			$notifications	= bp_notifications_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
+			$count			= ! empty( $notifications ) ? count( $notifications ) : 0;
+			$alert_class	= (int) $count > 0 ? 'nab-pending-notifications pending-count alert' : 'nab-pending-notifications count no-alert';			
+			$menu_link		= trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
+			?>
+			<div class="notification-wrapper">
+				<div class="notification-icons-wrap">
+					<i class="fa fa-bell" aria-hidden="true"></i>				
+					<span id="nab-pending-notifications" class="<?php echo esc_attr( $alert_class ); ?>"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>				
+				</div>
+				<div class="notification-sub-wrapper">
+					<ul class="notification-submenu">
+						<?php
+						if ( ! empty( $notifications ) ) {
+							
+							foreach ( (array) $notifications as $notification ) {
+								?>
+								<li class="<?php echo esc_attr( 'notification-' . $notification->id ); ?>">
+									<a href="<?php echo esc_url( $notification->href ); ?>" class="ntf-item"><?php echo esc_html( $notification->content ); ?></a>
+								</li>
+								<?php								
+							}
+						} else {
+							?>
+							<li class="nab-no-notification">
+								<a href="<?php echo esc_url( $menu_link ); ?>" class="ntf-item">No new notifications</a>
+							</li>
+							<?php
+						}
+						?>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+}

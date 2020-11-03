@@ -129,7 +129,7 @@ $user_images = nab_amplify_get_user_images( $member_id );
 									<?php } ?>
 									<?php if ( 2 === $edit_mode ) { ?>
                                         <li>
-                                            <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>"><i class="fa fa-pencil"></i></a>
+                                            <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><i class="fa fa-pencil"></i></a>
                                         </li>
 									<?php } ?>
                                 </ul>

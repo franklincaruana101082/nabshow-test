@@ -8,7 +8,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 	<p>You’re registered!</p>
 	<p>We look forward to hosting you and other professionals from the media and entertainment industry this October.</p>
 	<p>To view and/or add items to your registration or make changes to your NAB Amplify account, simply <a
-			href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">Log In</a>.</p>
+			href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">Log In</a>.</p>
 
 <?php
 

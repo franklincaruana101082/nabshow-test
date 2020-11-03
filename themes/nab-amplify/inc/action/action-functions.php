@@ -290,13 +290,6 @@ function nab_reset_password_validation( $errors, $user ) {
 }
 
 /**
- * Edit My Profile content.
- */
-function nab_amplify_edit_my_profile_content_callback() {
-	get_template_part( 'template-parts/content', 'edit-my-profile' );
-}
-
-/**
  * Register endpoints to use for My Account page.
  */
 function nab_amplify_add_custom_endpoints() {
@@ -595,11 +588,7 @@ function nab_amplify_template_redirect() {
 
 	} else if ( $user_logged_in && $bp_current_component && ! in_array( $bp_current_component, $allowed_bp_components, true ) ) {
 		/* If user is logged in and try to access Buddypress page but the component is NOT allowed. */
-		$redirect_url = $my_profile_url;
-
-	} else if ( $user_logged_in && is_account_page() && 'edit-my-profile' === end( $request ) ) {
-		/* If user is logged in and try to access Woo Account page but the page is NOT allowed. */
-		//$redirect_url = $my_profile_url; // redirect disabled.
+		$redirect_url = $my_profile_url;	
 
 	} else if ( $user_logged_in && $bp_current_component
 	            && 0 !== $member_id
@@ -624,8 +613,11 @@ function nab_amplify_template_redirect() {
 			}
 		}
 		
+	} else if ( ( is_account_page() && 'edit-address' === end( $request ) ) || ( is_account_page() && 'edit-my-profile' === end( $request ) ) ) {
+		
+		$redirect_url = wc_get_account_endpoint_url( 'edit-account' );
 	}
-
+	
 	if ( ! empty( $redirect_url ) ) {
 		wp_redirect( $redirect_url );
 		exit;
@@ -1888,6 +1880,13 @@ function nab_edit_acount_additional_form_fields() {
 	$current_user_id    = get_current_user_id();
 	$member_visibility  = get_user_meta( $current_user_id, 'nab_member_visibility', true );
 	$member_restriction = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
+	$attendee_title		= get_user_meta( $current_user_id, 'attendee_title', true );
+	$attendee_company	= get_user_meta( $current_user_id, 'attendee_company', true );
+	$social_twitter		= get_user_meta( $current_user_id, 'social_twitter', true );
+	$social_linkedin	= get_user_meta( $current_user_id, 'social_linkedin', true );
+	$social_facebook	= get_user_meta( $current_user_id, 'social_facebook', true );
+	$social_instagram	= get_user_meta( $current_user_id, 'social_instagram', true );
+	$social_website		= get_user_meta( $current_user_id, 'social_website', true );
 
 	$member_visibility  = ! empty( $member_visibility ) ? $member_visibility : 'yes';
 	$member_restriction = ! empty( $member_restriction ) ? $member_restriction : 'yes';
@@ -1932,6 +1931,68 @@ function nab_edit_acount_additional_form_fields() {
             </div>
         </div>
     </fieldset>
+	<div class="nab-profile">
+		<div class="nab-section section-nab-profile">
+			<div class="nab-profile-body flex-row">
+				<div class="nab-section section-professional-details">
+					<h3>PROFESSIONAL DETAILS</h3>
+					<div class="professional-details-form">
+						<div class="nab-form-row">
+							<input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr( $attendee_title ); ?>"/>
+						</div>
+						<div class="nab-form-row">
+							<input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $attendee_company ); ?>"/>
+						</div>						
+					</div>
+				</div>
+				<div class="nab-section section-social-links">
+					<h3>SOCIAL LINKS</h3>
+					<div class="social-links-form">
+						<div class="nab-form-row">
+							<div class="social-icon">
+								<i class="fa fa-twitter"></i>
+							</div>
+							<div class="social-input">
+								<input type="text" class="input-text" name="social_twitter" placeholder="Twitter" value="<?php echo esc_attr( $social_twitter ); ?>">
+							</div>
+						</div>
+						<div class="nab-form-row">
+							<div class="social-icon">
+								<i class="fa fa-linkedin"></i>
+							</div>
+							<div class="social-input">
+								<input type="text" class="input-text" name="social_linkedin" placeholder="LinkedIn" value="<?php echo esc_attr( $social_linkedin ); ?>">
+							</div>
+						</div>
+						<div class="nab-form-row">
+							<div class="social-icon">
+								<i class="fa fa-facebook-square"></i>
+							</div>
+							<div class="social-input">
+								<input type="text" class="input-text" name="social_facebook" placeholder="Facebook" value="<?php echo esc_attr( $social_facebook ); ?>">
+							</div>
+						</div>
+						<div class="nab-form-row">
+							<div class="social-icon">
+								<i class="fa fa-instagram"></i>
+							</div>
+							<div class="social-input">
+								<input type="text" class="input-text" name="social_instagram" placeholder="Instagram" value="<?php echo esc_attr( $social_instagram ); ?>">
+							</div>
+						</div>
+						<div class="nab-form-row">
+							<div class="social-icon">
+								<i class="fa fa-link"></i>
+							</div>
+							<div class="social-input">
+								<input type="text" class="input-text" name="social_website" placeholder="Website" value="<?php echo esc_attr( $social_website ); ?>">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<?php
 }
 
@@ -1941,6 +2002,7 @@ function nab_edit_acount_additional_form_fields() {
  * @param int $user_id
  */
 function nab_save_edit_account_additional_form_fields( $user_id ) {
+
 
 	$member_visibility  = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
 	$member_restriction = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
@@ -1952,4 +2014,34 @@ function nab_save_edit_account_additional_form_fields( $user_id ) {
 	if ( isset( $member_restriction ) && ! empty( $member_restriction ) ) {
 		update_user_meta( $user_id, 'nab_member_restrict_connection', $member_restriction );
 	}
+
+	$user_fields = array(		
+		'attendee_title',
+		'attendee_company',
+		'social_twitter',
+		'social_linkedin',
+		'social_facebook',
+		'social_instagram',
+		'social_website',		
+	);
+
+	foreach( $user_fields as $field ) {
+
+		$field_val = filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING );
+
+		if ( isset( $field_val ) ) {
+			
+			update_user_meta( $user_id, $field, $field_val );
+		}
+	}
+}
+
+/**
+ * Redirect user to edit account page after save the address or account.
+ */
+function nab_woocommerce_customer_save_changes_redirect() {
+	
+	wp_safe_redirect( wc_get_account_endpoint_url( 'edit-account' ) ); 
+	
+	exit;
 }

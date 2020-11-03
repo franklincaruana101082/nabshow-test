@@ -198,8 +198,7 @@ function filter_nab_amplify_get_avatar_url( $url, $id_or_email, $args ) {
  * @return mixed Updated List of vars.
  */
 function nab_amplify_custom_menu_query_vars( $vars ) {
-
-	$vars[] = 'edit-my-profile';
+		
 	$vars[] = 'my-purchases';
 	$vars[] = 'my-connections';
 	$vars[] = 'my-events';
@@ -227,8 +226,7 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 		array( 'messages' => __( 'My inbox', 'nab-amplify' ) )
 		+ array( 'my-connections' => __( 'My Connections', 'nab-amplify' ) )
 		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
-		+ array( 'orders' => __( 'My Orders', 'nab-amplify' ) )
-		+ array( 'edit-my-profile' => __( 'Edit My Profile', 'nab-amplify' ) )
+		+ array( 'orders' => __( 'My Orders', 'nab-amplify' ) )	
 		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
 		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );
 
@@ -866,6 +864,15 @@ function nab_modify_member_query( $sql, $query ) {
 	return $sql;
 }
 
+/**
+ * Change friendship button in the member loop.
+ *
+ * @param  array $buttons
+ * @param  int $user_id
+ * @param  string $type
+ * 
+ * @return array
+ */
 function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type ) {
 
 	if ( 'friendship_request' === $type && 2 === count( $buttons ) ) {
@@ -873,4 +880,108 @@ function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type
 	}
 
 	return $buttons;
+}
+
+/**
+ * Change friend request notification link.
+ *
+ * @param  mixed $link
+ * 
+ * @return mixed
+ */
+function nab_change_bp_friend_request_notification_link( $link ) {
+	
+	$pending_request_url = add_query_arg( array( 'connections' => 'pending' ), wc_get_account_endpoint_url( 'my-connections' ) );
+
+	if ( is_array( $link ) ) {
+		
+		$link[ 'link' ] = $pending_request_url;
+
+	} else {
+
+		if ( preg_match('~>\K[^<>]*(?=<)~', $link, $match ) ) {
+			
+			$link = '<a href="' . $pending_request_url . '">' . $match[0] .'</a>';
+		}
+	}
+
+	return $link;
+}
+
+
+/**
+ * Change accepted friend request link in the notification.
+ *
+ * @param  mixed $link
+ * @return mixed
+ */
+function nab_change_bp_accepted_friend_request_notification_link( $link ) {
+	
+	$my_connection_url = add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) );
+
+	if ( is_array( $link ) ) {
+		
+		$link[ 'link' ] = $my_connection_url;
+
+	} else {
+
+		if ( preg_match('~>\K[^<>]*(?=<)~', $link, $match ) ) {
+			
+			$link = '<a href="' . $my_connection_url . '">' . $match[0] .'</a>';
+		}
+	}
+
+	return $link;
+}
+  
+/**
+ * Remove edit-address menu from my account.
+ *
+ * @param  array $items
+ * 
+ * @return array
+ */
+function nab_remove_edit_address_from_my_account( $items ) {
+	
+	unset( $items[ 'edit-address' ] );
+
+	return $items;
+}
+
+/**
+ * Remove shipping address
+ *
+ * @param  array $adresses
+ * 
+ * @return array
+ */
+function nab_remove_shipping_address( $adresses ) { 
+	
+	if ( isset( $adresses[ 'shipping' ] ) ) {
+		
+		unset( $adresses[ 'shipping' ] );
+	}
+	
+    return $adresses; 
+}
+
+/**
+ * Added bookmark icon in the product detail page.
+ *
+ * @param  string $html
+ * @param  int $post_thumbnail_id
+ * 
+ * @return string
+ */
+function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
+
+    global $product;
+    
+    ob_start();
+    
+    nab_get_product_bookmark_html( $product->get_id(), 'user-bookmark-action' );
+    
+    $html .= ob_get_clean();
+
+    return $html;
 }

@@ -17,7 +17,7 @@ if ( $user ) {
 	<p><?php printf( esc_html__( 'Dear %s,', 'woocommerce' ), esc_html( $full_name ) ); ?></p>
 	<?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
 	<p><?php esc_html_e( 'We are so excited to have you join us!', 'nab-amplify' ); ?></p>
-	<p>Below are the credentials to access your account at <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">NAB Amplify</a> :
+	<p>Below are the credentials to access your account at <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">NAB Amplify</a> :
 	<br><strong>Email : </strong><?php echo esc_html( $email ); ?><br>
 	<strong>Password : </strong><?php echo $user_pass; ?></p>
 	<p>We look forward to connecting with you virtually. If there is anything, we can help with in the meantime please let us know <a href="mailto:register@nab.org">register@nab.org</a>.

@@ -87,3 +87,15 @@ add_filter( 'posts_orderby', 'nab_change_query_order_by', 10, 2 );
 add_filter( 'bp_get_add_friend_button', 'nab_bp_change_add_friend_button_text' );
 
 add_filter( 'bp_user_query_uid_clauses', 'nab_modify_member_query', 10, 2 );
+
+add_filter( 'bp_friends_single_friendship_request_notification', 'nab_change_bp_friend_request_notification_link' );
+add_filter( 'bp_friends_multiple_friendship_request_notification', 'nab_change_bp_friend_request_notification_link' );
+
+add_filter( 'bp_friends_single_friendship_accepted_notification', 'nab_change_bp_accepted_friend_request_notification_link' );
+add_filter( 'bp_friends_multiple_friendship_accepted_notification', 'nab_change_bp_accepted_friend_request_notification_link' );
+
+add_filter( 'woocommerce_account_menu_items', 'nab_remove_edit_address_from_my_account', 999 );
+
+add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address', 10, 1 );
+
+add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );

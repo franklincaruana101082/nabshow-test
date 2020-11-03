@@ -66,6 +66,7 @@
 
 					$cart_page_url = wc_get_cart_url();
 
+					nab_get_bp_notification_menu();
 					?>
 					<div class="nab-header-cart">
 						<a href="<?php echo esc_url( $cart_page_url ); ?>"><i class="fa fa-shopping-cart"></i><?php esc_html_e( 'Cart', 'nab-amplify' ); ?></a>
@@ -87,7 +88,7 @@
 
 							?>
 							<div class="nab-profile">
-                                <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>">
+                                <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
 								    <div class="nab-avatar-wrp">
                                         <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"/></div>
                                         <span class="nab-profile-name"><?php echo $user_full_name; ?></span>
@@ -99,10 +100,9 @@
 										<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'My Connections', 'nab-amplify' ); ?></a>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Orders', 'nab-amplify' ); ?></a>
-										</li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-my-profile' ) ); ?>"><?php esc_html_e( 'Edit My Profile', 'nab-amplify' ); ?></a>
+										</li>										
 										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) . 'billing/' ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a>
 										</li>
 										</li>
                                         <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>

@@ -1,0 +1,38 @@
+/* start Front css */
+.community-curator{display:flex;}
+.community-curator .big-section{width:70%;display:flex;align-items:flex-end;padding:20px 50px;}
+.community-curator .big-section *{color:#fff}
+.community-curator .grid-list{width:30%;}
+.community-curator .grid-list .item.active{background-color:aquamarine;}
+.community-curator .grid-list .item .inner{display:flex;}
+.community-curator .grid-list .item .inner .left{width:30%;}
+.community-curator .grid-list .item .inner .right{width:70%;}
+.community-curator .big-section .contents{}
+.community-curator h3{margin:0;font-size:20px;}
+
+
+ /* feature block styles */
+.amp-feature-block{}
+.amp-feature-block-inner{display:flex;justify-content:flex-start;align-items:flex-end;padding:50px;height:100%;width:100%;min-height:80vh;padding:3vw;}
+.amp-feature-block .feature-status{color:#e5018b;font-size:40px;margin:0 0 20px;line-height:1;}
+.amp-feature-block .feature-status:before{content:'';display:inline-block;vertical-align:middle;width:0;height:0;border-radius:50%;border:10px solid;box-shadow:0px 0px 18px 0px #e5018b;margin-right:5px;}
+.amp-feature-block .feature-title{color:#fff;font-size:40px;margin:0 0 20px;line-height:1;}
+.amp-feature-block .feature-author{color:#fdd80f;font-size:26px;margin:0 0 20px;line-height:1;}
+.amp-feature-block .feature-disc{color:#fff;font-size:20px;margin:0 0 20px;line-height:1;}
+
+/* upcoming events */
+.no-image{color:#fff;}
+.upcoming-events-calendar{display:flex;justify-content:space-between;flex-wrap:wrap;margin:0 -10px;}
+.upcoming-events-calendar .item{padding:0 10px;width:50%;margin:0 0 20px;}
+.upcoming-events-calendar .inner{display:flex;justify-content:space-between;background-color:#333;padding:20px;height:100%;}
+.upcoming-events-calendar .left{width:180px;display:flex;justify-content:center;align-items:center;}
+.upcoming-events-calendar .right{width:calc(100% - 180px);padding-left:20px;}
+.upcoming-events-calendar .title{color:#fff;margin:0 0 15px;font-size:30px;line-height:normal;}
+.upcoming-events-calendar .sub-title{color:#565656;margin:0 0 15px;display:block;font-size:22px;line-height:normal;}
+.upcoming-events-calendar .description{color: #fff;margin:0 0 15px;font-size:20px;line-height:normal;font-family:'OpenSans-Light',Arial,sans-serif;}
+.upcoming-events-calendar .description:last-child{margin:0;}
+
+/* related content */
+.related-content{display:flex;justify-content:space-between;flex-wrap:wrap;margin:0 -10px;padding:10px 0;}
+.related-content .item{padding:0 10px;width:50%;margin:0 0 20px;}
+.related-content .item:last-child{margin:0;}
