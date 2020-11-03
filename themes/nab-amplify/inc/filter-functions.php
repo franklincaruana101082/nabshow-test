@@ -917,7 +917,7 @@ function nab_change_bp_friend_request_notification_link( $link ) {
  */
 function nab_change_bp_accepted_friend_request_notification_link( $link ) {
 	
-	$my_connection_url = add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) );
+	$my_connection_url = add_query_arg( array( 'connections' => 'friends', 'new' => 1 ), wc_get_account_endpoint_url( 'my-connections' ) );
 
 	if ( is_array( $link ) ) {
 		
