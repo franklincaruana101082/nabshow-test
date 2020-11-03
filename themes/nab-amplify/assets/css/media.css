@@ -108,6 +108,8 @@
 	.site-header .header-inner{padding:30px 0 10px 0}
 	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:30px}
 	.site-header .main-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
+	.notification-sub-wrapper{right:auto;left:0;}
+	.notification-sub-wrapper ul:before{right:auto;left:0;}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:100%}
 	.nab-without-login-account .woocommerce .nab-login-wrap{-ms-flex-wrap:wrap;flex-wrap:wrap}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:100%;margin-bottom:20px;text-align:center}
