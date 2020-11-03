@@ -19,9 +19,10 @@ defined( 'ABSPATH' ) || exit;
 
 // Note: `wc_get_gallery_image_html` was added in WC 3.3.2 and did not exist prior. This check protects against theme overrides being used on older versions of WC.
 if ( ! function_exists( 'wc_get_gallery_image_html' ) ) {
+	echo 'function not exist'; exit;
 	return;
 }
-
+echo 'After function not exist'; exit;
 global $product;
 
 $columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
@@ -37,7 +38,7 @@ $wrapper_classes   = apply_filters(
 );
 ?>
 <div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">	
-    <figure class="woocommerce-product-gallery__wrapper custom_class">
+    <figure class="woocommerce-product-gallery__wrapper">
 		<?php
         // bookmark product
         nab_get_product_bookmark_html( $product->get_id(), 'user-bookmark-action' );
