@@ -1055,7 +1055,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-section .search-item-info .search-actions a.friendship-button{background:#6363df;border-color:#6363df;}
 .search-section .search-item-info .search-actions a.friendship-button:hover,
 .search-section .search-item-info .search-actions a.friendship-button:focus{background:#666666;color:#fff;border-color:#666666;}
-.search-section.search-product-section .search-item-cover{height:175px;}
+.search-section.search-product-section .search-item-cover{height:330px;}
 .search-section.search-product-section .search-item-info{padding:25px 15px 25px;text-align:left;}
 .search-section.search-content-section .search-item-cover{height:175px;}
 .search-section.search-content-section .search-item-info{padding:25px 15px 25px;}
@@ -1154,9 +1154,11 @@ body.buddypress .site-content{padding:0;}
 .amp-item-wrap .amp-item-inner .amp-action-remove{position:absolute;right:15px;top:15px;text-decoration:none;	}
 body .is_friend .remove,.amp-item-wrap .amp-item-inner .amp-action-remove a{width: 26px;height:26px;line-height:26px;background:#fdd80f;color:#000;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;min-width: auto;font-size:0;text-decoration:none;}
 body .is_friend .remove:before,.amp-item-wrap .amp-item-inner .amp-action-remove a:before{content:"\f068";font-size:18px;font-family:'FontAwesome';}
+body .is_friend .remove{width:40px;height:40px;}
+body .is_friend .remove:before{font-size:22px;}
 .amp-item-wrap .amp-item-cover{width:100%;height:130px;}
 .amp-item-wrap .amp-item-cover img{-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%;height:100%;}
-#bookmark-list.amp-item-wrap .amp-item-cover{height:175px;}
+#bookmark-list.amp-item-wrap .amp-item-cover{height:330px;}
 .amp-item-wrap .amp-item-info{text-align:center;padding:55px 15px 25px;position:relative;}
 .amp-item-wrap .amp-item-avtar{position:absolute;top:0;left:0;right:0;-webkit-transform:translateY(-68%);-ms-transform:translateY(-68%);transform:translateY(-68%);}
 .amp-item-wrap .amp-item-avtar img{border-radius:50%;width:95px;}
