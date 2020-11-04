@@ -779,6 +779,12 @@ function amplify_register_api_endpoints() {
 		'permission_callback' => '__return_true',
 	) );
 
+	register_rest_route( 'nab', '/request/nab-get-product-categories', array(
+		'methods'             => 'GET',
+		'callback'            => 'amplify_get_product_categories',
+		'permission_callback' => '__return_true',
+	) );
+
 	register_rest_route( 'nab', '/request/get-product-list', array(
 		'methods'             => 'POST',
 		'callback'            => 'amplify_get_product_list',
