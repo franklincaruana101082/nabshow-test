@@ -11,7 +11,7 @@
 
 include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php';
 ?>
-
+<h1 class="entry-title">Messages</h1>
 <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Messages menu', 'buddypress' ); ?>">
     <ul class="subnav">
 
