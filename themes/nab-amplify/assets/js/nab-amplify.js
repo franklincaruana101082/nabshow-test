@@ -46,7 +46,8 @@
             nabModalInner.appendChild(nabModalContent);
 
             let nabModalClose = document.createElement('span');
-            nabModalClose.setAttribute('class', 'nab-modal-close fa fa-times');
+            nabModalClose.setAttribute('class', 'nab-modal-close fa fa-times confirmed-answer');
+            nabModalClose.setAttribute('id', 'confirmed-no');
             nabModalContent.appendChild(nabModalClose);
 
             let nabModalContentWrap = document.createElement('div');
@@ -1154,7 +1155,7 @@
             window.location.href = $('.popup-shown').attr('href');
         } else {
             $('.popup-shown').removeClass('popup-shown');
-            $('#unfriend-confirmation').hide();
+            $('#unfriend-confirmation').hide().removeClass('nab-modal-active');
         }
     });
 
@@ -1162,7 +1163,7 @@
     $(document).on('click', '.is_friend .remove', function (e) {
         e.preventDefault();
         $(this).addClass('popup-shown');
-        $('#unfriend-confirmation').show();
+        $('#unfriend-confirmation').show().addClass('nab-modal-active');
     });
 
     // Product bookmark Ajax
