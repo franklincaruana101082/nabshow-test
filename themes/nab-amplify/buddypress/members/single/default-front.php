@@ -29,15 +29,20 @@ if ( 0 === $friend_count ) {
 <div class="member-front-page">
     <div class="member-connections">
 
-		<?php if ( bp_has_members( $members_filter ) ) : ?>
+		<?php if ( bp_has_members( $members_filter ) ) :
+
+			global $members_template;
+
+			$total_users = $members_template->total_member_count;
+            ?>
 
             <div id="members-list" class="member-item-list amp-item-main" role="main">
                 <div class="amp-item-heading">
                     <h3>
                         <strong>Connections</strong>
-                        <span>(<?php echo esc_html( $friend_count ); ?> RESULTS)</span>
+                        <span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
                     </h3>
-					<?php if ( $friend_count > 4 ) { ?>
+					<?php if ( $total_users > 4 ) { ?>
                         <div class="amp-view-more">
                             <a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
                         </div>
@@ -46,7 +51,7 @@ if ( 0 === $friend_count ) {
 				<?php
 				global $members_template;
 				$total_users = $members_template->total_member_count;
-				if ( 0 === $friend_count && 0 < $total_users ) { ?>
+				if ( 0 === $total_users && 0 < $total_users ) { ?>
                     <h4>Pending Requests:</h4>
 				<?php } ?>
                 <div class="amp-item-wrap">
@@ -235,7 +240,7 @@ if ( 0 === $friend_count ) {
                                 <div class="amp-item-col">
                                     <div class="amp-item-inner">
                                         <div class="amp-item-cover">
-                                            <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">                                            
+                                            <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">
                                             <span class="fa fa-bookmark-o amp-bookmark bookmark-fill"></span>
                                         </div>
                                         <div class="amp-item-info">
