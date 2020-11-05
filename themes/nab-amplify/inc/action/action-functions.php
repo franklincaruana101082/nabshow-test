@@ -799,7 +799,7 @@ function amplify_register_api_endpoints() {
 	) );
 
 	register_rest_route( 'nab', '/request/customer-bought-product', array(
-		'methods'             => 'POST',
+		'methods'             => 'GET',
 		'callback'            => 'amplify_check_user_bought_product',
 		'permission_callback' => '__return_true',
 		'args'                => array(

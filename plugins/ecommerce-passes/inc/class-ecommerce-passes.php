@@ -14,6 +14,12 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
         public function ep_init_hook() {
 
+            //Action for share login
+            add_action( 'init', array( $this, 'ep_nab_share_login' ) );
+
+            //Action for clear share login cookie
+            add_action( 'wp_logout', array( $this, 'ep_nab_clear_share_login_cookie' ) );
+
             //Action for add setting page
             add_action( 'admin_menu', array( $this, 'ep_add_prodcut_setting_page' ) );
 
@@ -38,7 +44,41 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             // Global Header Class
             $this->ep_add_global_header_class();
 
-	    }
+        }
+
+        public function ep_nab_share_login() {
+
+            if ( ! is_admin() && ! is_user_logged_in() ) {
+
+                if ( isset( $_COOKIE[ 'nab_share_login' ] ) && ! empty( $_COOKIE[ 'nab_share_login' ] ) ) {
+
+                    $user_token = $_COOKIE[ 'nab_share_login' ];
+                    $remember   = 1;
+
+                    $iv         = substr( hash( 'sha256', 'nab309fr7uj34' ), 0, 16 );
+                    $k          = hash( 'sha256', 'nabjd874hey64t' );
+                    $user_id    = openssl_decrypt( base64_decode( $user_token ), 'AES-256-CBC', $k, 0, $iv );
+
+                    $user       = get_user_by( 'ID', $user_id );
+
+                    if ( $user ) {
+
+                        $username = $user->user_login;
+
+                        wp_set_current_user( $user_id, $username );
+                        wp_set_auth_cookie( $user_id, ( $remember == 1 ) );
+                        do_action( 'wp_login', $username, $user );
+                    }
+
+                }
+            }
+        }
+
+        public function ep_nab_clear_share_login_cookie() {
+
+            unset( $_COOKIE[ 'nab_share_login' ] );
+	        setcookie( 'nab_share_login', null, -1, '/', '.nabshow.com' );
+        }
 
 	    public function ep_add_zoom_class(){
             require_once EP_PLUGIN_DIR . 'inc/class-zoom-integration.php';
@@ -47,7 +87,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_add_global_header_class() {
             require_once EP_PLUGIN_DIR . 'inc/class-glbal-header.php';
         }
-
 
         public function ep_add_prodcut_setting_page() {
 
@@ -105,6 +144,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             if ( isset( $post->ID ) ) {
 
                 $associate_products = get_post_meta( $post->ID, '_associate_product', true );
+                $np_products        = [];
 
                 if ( ! empty( $associate_products ) && is_array( $associate_products ) ) {
 
@@ -112,86 +152,159 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                     if ( ! is_user_logged_in() ) {
 
-                        $success = false;
-
-                        $end_point_url  .= 'wp-json/nab/request/get-product-info';
-
-                        $response       = wp_remote_post( $end_point_url, array(
-                            'method' => 'POST',
-                            'body'	=> array(
-                                'product_id' => $associate_products[0],
-                            )
-                        ) );
-
-                        if ( ! is_wp_error( $response ) ) {
-
-                            $final_response = json_decode( wp_remote_retrieve_body( $response ) );
-
-                            if ( isset( $final_response->url ) && ! empty( $final_response->url ) ) {
-
-                                $success = true;
-                                $content = $this->ep_get_restrict_content( $content, $final_response->url, false );
-                            }
-                        }
-
-                        if ( ! $success ) {
-                            $content = $this->ep_get_restrict_content( $content );
-                        }
+                        $content = $this->ep_get_restrict_content( $content );
 
                     } else {
-
                         $logged_user    = wp_get_current_user();
 
                         if ( ! empty( $end_point_url ) ) {
 
-                            $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
+                            $call_api               = true;
+                            $user_bought_product    = false;
 
-                            $query_params   = array(
+                            $purchased_product	= get_user_meta( $logged_user->ID, 'nab_purchased_product_2020', true );
+
+                            if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
+                                
+                                $match_product = array_intersect( $associate_products, $purchased_product );
+
+                                if ( is_array( $match_product ) && count( $match_product ) > 0 ) {
+
+                                    $call_api               = false;
+                                    $user_bought_product    = true;
+                                    
+                                }
+                            }
+
+                            if ( false === $user_bought_product && isset( $_COOKIE['amp_np_proudcts'] ) && ! empty( $_COOKIE['amp_np_proudcts'] ) ) {
+                                $amp_np_products      = filter_input( INPUT_COOKIE, 'amp_np_proudcts' );
+                                $np_products          = ( ! empty( $amp_np_products ) ) ? explode( ',', $amp_np_products ) : [];
+                                $contains_all_product = ! array_diff( $associate_products, $np_products );
+
+                                if( true === $contains_all_product ) {
+                                    $call_api = false;
+                                    $content  = $this->ep_get_restrict_content( $content );
+                                }
+                            
+                            }
+
+                            if ( $call_api ) {
+
+                                $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
+
+                                $query_params   = array(
                                     'user_email' => $logged_user->user_email,
                                     'user_id'	=> $logged_user->ID,
                                     'product_ids' => $associate_products
-                            );
+                                );
 
-                            $final_params = http_build_query($query_params);
+                                $customer_bought_request = wp_remote_get( $end_point_url, array( 'body' => $query_params ) );
+                                $response = wp_remote_retrieve_body( $customer_bought_request );
 
-                            $curl = curl_init();
+                                if ( isset( $response ) && ! empty( $response ) ) {
 
-                            curl_setopt_array( $curl, array(
-                                CURLOPT_URL => $end_point_url,
-                                CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_ENCODING => "",
-                                CURLOPT_MAXREDIRS => 10,
-                                CURLOPT_TIMEOUT => 0,
-                                CURLOPT_FOLLOWLOCATION => true,
-                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                CURLOPT_CUSTOMREQUEST => "POST",
-                                CURLOPT_POSTFIELDS => $final_params
-                            ) );
+                                    $final_response = json_decode( $response );
 
-                            $response = curl_exec( $curl );
+                                    if ( is_object( $final_response ) ) {
 
-                            curl_close( $curl );
+                                        if ( ! $final_response->success ) {
 
-                            $final_response = json_decode( $response );
+                                            $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
 
-                            if ( is_object( $final_response ) ) {
+                                        } else {
 
-                                if ( ! $final_response->success ) {
+                                            $user_bought_product = true;                                        
+                                        }
 
-                                    $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
+                                    } else {
 
-                                } else {
-
-                                    if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
-
-                                        $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
+                                        $content = $this->ep_get_restrict_content( $content );
                                     }
+                                } else {
+                                    $content = $this->ep_get_restrict_content( $content );
                                 }
 
-                            } else {
+                                //
+                                $not_purchased_products = array_unique( array_merge( $np_products, $associate_products ) );
+                                $not_purchased_products = implode( ',', $not_purchased_products );
+                                $amp_script = "
+                                    let value = '" . $not_purchased_products ."';
+                                    let date = new Date();
+                                    date.setTime( date.getTime() + ( 60 * 60 * 1000) );
+                                    let expires = '; expires=' + date.toUTCString();
+                                    document.cookie = 'amp_np_proudcts' + '=' + (value || '') + expires + ';path=/;domain=".EP_COOKIE_BASE_DOMAIN."';
+                                ";
 
-                                $content = $this->ep_get_restrict_content( $content );
+                                wp_add_inline_script( 'jquery', $amp_script );
                             }
+
+                            if ( $user_bought_product ) {
+
+                                if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
+
+                                    $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
+                                }
+
+                                $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
+
+                                if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
+
+                                    $date       = get_post_meta( $post->ID, 'session_date', true );
+                                    $start_time = get_post_meta( $post->ID, 'start_time', true );
+                                    $start_time = date_format( date_create( $start_time ), 'g:i a' );
+
+                                    if ( 'start_time' !== $delay_restrict ) {
+                                        $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
+                                    }
+
+
+                                    if ( ! empty( $date ) && ! empty( $start_time ) ) {
+
+                                        $current_date   = current_time('Ymd');
+                                        $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                        $date1          = new DateTime( $session_date );
+                                        $now            = new DateTime( $current_date );
+                                        $display_msg    = false;
+
+                                        if ( $date1 > $now ) {
+                                            $display_msg = true;
+                                        } else if ( $session_date === $current_date ) {
+
+                                            $current_time   = current_time('g:i a');
+                                            $time1          = DateTime::createFromFormat('H:i a', $current_time);
+                                            $time2          = DateTime::createFromFormat('H:i a', $start_time);
+
+                                            if ( $time2 > $time1 ) {
+                                                $display_msg = true;
+                                            }
+                                        }
+
+                                        if ( $display_msg ) {
+
+                                            $date           = date_format( date_create( $date ), 'l, F j' );
+                                            $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
+
+                                            $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                            $session_start  = date_format( date_create( $start_time ), 'His' );
+                                            $session_end    = get_post_meta( $post->ID, 'end_time', true );
+                                            $session_end    = date_format( date_create( $session_end ), 'His' );
+                                            $final_time     = $session_date . 'T' . $session_start . '/' . $session_date . 'T' . $session_end;
+                                            $calendar_title = get_the_title( $post->ID );
+                                            $location       = get_post_meta( $post->ID, 'session_location', true );
+                                            $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $post->ID );
+                                            $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
+                                            $calendar_link  = '<a href="' . $calendar_link . '" target="_blank">calendar</a>';
+
+                                            $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+                                            $start_time     = str_replace( ':00', '', $start_time );
+
+                                            $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it to your ' . $calendar_link . ' and join us on ' . $date . '.</p>';
+
+                                            $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
+                                        }
+                                    }
+                                }
+                            } 
                         }
                     }
                 }
@@ -213,16 +326,16 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          */
         public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
-            $prodcut_name       = ! empty( $link ) ? '<a href="' . $link . '">this program</a>' : 'this program';
-            $restrict_content   = '<p class="restrict-msg">You must be registered for '. $prodcut_name . ' in order to view this content.';
+            $prodcut_name       = ! empty( $link ) ? '<a class="amplifyGuestSignIn" target="_blank" href="' . $link . '">this program</a>' : 'this program';
+            $restrict_content   = '<p class="restrict-msg">This content is open to registered users only. <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a> or <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">register now</a> for access.';
 
             if ( ! $logged_in ) {
-                $restrict_content .= ' Please <a href="https://amplify.nabshow.com/my-account/">login</a> or <a href="https://amplify.nabshow.com/sign-up/">register</a> for this pass now!';
+                $restrict_content .= '';
             }
 
             if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) ) {
 
-                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content);
+                $final_content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $restrict_content, $content );
 
                 if ( has_blocks( $final_content ) ) {
 
@@ -330,6 +443,19 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             wp_localize_script( 'ep-custom-admin-script', 'ePassesObj', array(
                 'product_url'       => $end_point_url
             ) );
+
+            $inline_style = '#select2-all-product-list-results{display:none;} .product-parent-wrapper label{display:inline-block;min-width:110px;}
+            .product-parent-wrapper select{width:350px;padding:3px 24px 3px 8px;}
+            .product-parent-wrapper #product-selection + span.select2-container{margin:0!important;height:36px;}
+            .product-parent-wrapper .product-name-box span.select2-container{width:350px!important;margin:0!important}
+            .product-parent-wrapper .select2-container .select2-selection--single{height:36px;}
+            .product-parent-wrapper .select2-container--default .select2-selection--single .select2-selection__rendered{line-height:36px;}
+            .product-parent-wrapper .select2-container--default .select2-selection--single .select2-selection__arrow{height:36px;}
+            .product-parent-wrapper .add-to-product{margin:10px 0 0 115px;display:block;}
+            .product-parent-wrapper .select2-container .select2-selection--multiple{min-height:36px;padding-bottom:0;}
+            .product-parent-wrapper #select2-all-product-list-container + .select2-search{display:none;}';
+
+            wp_add_inline_style( 'ep-select2-style', $inline_style );
         }
 
         /**
@@ -435,7 +561,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                         CURLOPT_URL => $term_remote_url,
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_MAXREDIRS => 100,
                         CURLOPT_TIMEOUT => 0,
                         CURLOPT_FOLLOWLOCATION => true,
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -448,9 +574,10 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                     $final_terms = json_decode( $response );
 
-                        if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
-                            ?>
-                            <div class="category-box">
+                    if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
+                        ?>
+                        <div class="category-box">
+                            <p>
                                 <label for="product-category">Select Category</label>
                                 <select id="product-category" class="product-category">
                                     <option value="all">All</option>
@@ -462,10 +589,11 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     }
                                     ?>
                                 </select>
-                            </div>
-                            <?php
-                        }
+                            </p>
+                        </div>
+                        <?php
                     }
+                }
 
                 if ( ! empty( $product_remote_url ) ) {
 
@@ -488,13 +616,28 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                     $final_products = json_decode( $response );
 
-                        if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
+                    if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
 
-                            $associate_products = get_post_meta( $post->ID, '_associate_product', true );
+                        $associate_products = get_post_meta( $post->ID, '_associate_product', true );
 
-                            ?>
-                            <div class="product-name-box">
-                                <label for="all-product-list">Select Products</label>
+                        ?>
+                        <div class="product-name-box">                            
+                            <p>
+                                <label for="product-selection">Product Selection</label>
+                                <select id='product-selection' class="product-selection" name="product_selection">
+                                    <option value="">Select a Product</option>
+                                    <?php
+                                    foreach( $final_products as $product ) {
+                                        ?>                                    
+                                        <option value="<?php echo esc_attr( $product->product_id ); ?>"><?php echo esc_html( $product->product_name ); ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                                <button class="add-to-product components-button is-primary">Add to Associate Product</button>                                
+                            </p>
+                            <p>
+                                <label for="all-product-list">Associate Products</label>
                                 <select id='all-product-list' class="all-product-list" name="associate_products[]" multiple="multiple">
                                     <?php
                                     foreach( $final_products as $product ) {
@@ -509,10 +652,11 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     }
                                     ?>
                                 </select>
-                            </div>
-                            <?php
-                        }
+                            </p>
+                        </div>
+                        <?php
                     }
+                }
                 ?>
             </div>
             <?php
@@ -571,8 +715,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          * @since 1.0.0
          */
         public function ep_save_custom_metabox_fields( $post_id ) {
-
-            $current_blog_id = get_current_blog_id();
+	        $current_blog_id = get_current_blog_id();
             $current_post_id = $post_id;
 
 	        $shop_blog_id = self::ep_get_shop_blog();
@@ -612,15 +755,15 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
 	        // Connect Shop Blog.
 	        $sites = get_sites();
-	        foreach ($sites as $site) {
-		        $sitepath = $site->path;
-		        $sitepath = str_replace('/', '', $sitepath);
-		        $sitedomain = $site->domain;
-		        if( 'amplify' === $sitepath || false !== strpos( $sitedomain, 'amplify.' ) ) {
-			        $shop_blog_id = $site->blog_id;
-			        break;
-		        }
-	        }
+            foreach ($sites as $site) {
+                $sitepath = $site->path;
+                $sitepath = str_replace('/', '', $sitepath);
+                $sitedomain = $site->domain;
+                if( 'amplify' === $sitepath || false !== strpos( $sitedomain, 'amplify.' ) ) {
+                    $shop_blog_id = $site->blog_id;
+                    break;
+                }
+            }
 
 	        // Throw error if shop blog not found.
 	        if( empty( $shop_blog_id ) ) {
