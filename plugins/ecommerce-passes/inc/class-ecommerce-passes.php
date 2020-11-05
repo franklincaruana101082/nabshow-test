@@ -246,7 +246,6 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                 ";
 
                                 $m['not_purchased_products'] = $not_purchased_products;
-
                                 $m['amp_script'] = $amp_script;
 
                                 wp_add_inline_script( 'ep-add-cart', $amp_script );
