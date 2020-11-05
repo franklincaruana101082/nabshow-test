@@ -234,7 +234,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     $content = $this->ep_get_restrict_content( $content );
                                 }
 
-                                //
+                                
                                 $not_purchased_products = array_unique( array_merge( $np_products, $associate_products ) );
                                 $not_purchased_products = implode( ',', $not_purchased_products );
                                 $amp_script = "
@@ -244,6 +244,10 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     let expires = '; expires=' + date.toUTCString();
                                     document.cookie = 'amp_np_proudcts' + '=' + (value || '') + expires + ';path=/;domain=".EP_COOKIE_BASE_DOMAIN."';
                                 ";
+
+                                $m['not_purchased_products'] = $not_purchased_products;
+
+                                $m['amp_script'] = $amp_script;
 
                                 wp_add_inline_script( 'jquery', $amp_script );
                             }
