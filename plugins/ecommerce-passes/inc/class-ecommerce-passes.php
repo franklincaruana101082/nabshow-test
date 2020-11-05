@@ -249,7 +249,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                                 $m['amp_script'] = $amp_script;
 
-                                wp_add_inline_script( 'jquery', $amp_script );
+                                wp_add_inline_script( 'ep-add-cart', $amp_script );
                             }
 
                             if ( $user_bought_product ) {
