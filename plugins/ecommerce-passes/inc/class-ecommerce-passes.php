@@ -145,6 +145,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                 $associate_products = get_post_meta( $post->ID, '_associate_product', true );
                 $np_products        = [];
+                $m = [];
+
+                $m['associate_products'] = $associate_products;
 
                 if ( ! empty( $associate_products ) && is_array( $associate_products ) ) {
 
@@ -164,6 +167,8 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                             $purchased_product	= get_user_meta( $logged_user->ID, 'nab_purchased_product_2020', true );
 
+                            $m['purchased_product'] = $purchased_product;
+
                             if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
                                 
                                 $match_product = array_intersect( $associate_products, $purchased_product );
@@ -175,6 +180,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     
                                 }
                             }
+
+                            $m['call_api'] = $call_api;
+                            $m['user_bought_product'] = $user_bought_product;
 
                             if ( false === $user_bought_product && isset( $_COOKIE['amp_np_proudcts'] ) && ! empty( $_COOKIE['amp_np_proudcts'] ) ) {
                                 $amp_np_products      = filter_input( INPUT_COOKIE, 'amp_np_proudcts' );
@@ -200,6 +208,8 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                                 $customer_bought_request = wp_remote_get( $end_point_url, array( 'body' => $query_params ) );
                                 $response = wp_remote_retrieve_body( $customer_bought_request );
+
+                                $m['response'] = $response;
 
                                 if ( isset( $response ) && ! empty( $response ) ) {
 
@@ -308,6 +318,8 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                         }
                     }
                 }
+
+                wp_mail( 'hardikthakkar@mailinator.com', 'NAB API CALL', print_r( $m, true ) );
             }
 
             return $content;
