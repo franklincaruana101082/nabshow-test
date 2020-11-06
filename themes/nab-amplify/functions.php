@@ -238,7 +238,9 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 
 /* Load Gutenberg in custom post types */
-wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'discovery_content' ] ] );
+if ( function_exists( 'wpcom_vip_load_gutenberg' ) ) {
+    wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'discovery_content' ] ] );
+}
 
 /**
  * WooCommerce - Change Hooks Priority
