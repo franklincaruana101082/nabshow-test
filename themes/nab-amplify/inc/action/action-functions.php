@@ -346,6 +346,46 @@ function nab_amplify_my_connections_endpoint() {
 function nab_amplify_register_post_types() {
 
 	$labels = array(
+		'name'               => _x( 'Products-Content', 'Post Type General Name', 'nab-amplify' ),
+		'singular_name'      => _x( 'Product Content', 'Post Type Singular Name', 'nab-amplify' ),
+		'menu_name'          => __( 'Products Content', 'nab-amplify' ),
+		'parent_item_colon'  => __( 'Parent Product', 'nab-amplify' ),
+		'all_items'          => __( 'All Products Content', 'nab-amplify' ),
+		'view_item'          => __( 'View Product Content', 'nab-amplify' ),
+		'add_new_item'       => __( 'Add New Product Content', 'nab-amplify' ),
+		'add_new'            => __( 'Add New', 'nab-amplify' ),
+		'edit_item'          => __( 'Edit Product Content', 'nab-amplify' ),
+		'update_item'        => __( 'Update Product Content', 'nab-amplify' ),
+		'search_items'       => __( 'Search Product Content', 'nab-amplify' ),
+		'not_found'          => __( 'Not Found', 'nab-amplify' ),
+		'not_found_in_trash' => __( 'Not found in Trash', 'nab-amplify' ),
+	);
+
+	$args = array(
+		'label'               => __( 'nab-products', 'nab-amplify' ),
+		'description'         => __( 'Product posts', 'nab-amplify' ),
+		'labels'              => $labels,
+		'taxonomies'          => array( 'nab_products_categories' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'post',
+		'show_in_rest'        => true,
+		'supports'            => array( 'title', 'editor', 'thumbnail' ),
+
+	);
+
+	// Registering your Custom Post Type
+	register_post_type( 'nab-products', $args );
+
+	$labels = array(
 		'name'               => _x( 'Sessions', 'Post Type General Name', 'nab-amplify' ),
 		'singular_name'      => _x( 'Session', 'Post Type Singular Name', 'nab-amplify' ),
 		'menu_name'          => __( 'Sessions', 'nab-amplify' ),
@@ -572,7 +612,7 @@ function nab_amplify_template_redirect() {
 		wp_redirect( home_url(), 301 );
 		exit;
 	}
-	
+
 	// Redirect Buddypress pages.
 	$request               = explode( '/', $wp->request );
 	$current_url           = home_url( $wp->request );
@@ -588,7 +628,7 @@ function nab_amplify_template_redirect() {
 
 	} else if ( $user_logged_in && $bp_current_component && ! in_array( $bp_current_component, $allowed_bp_components, true ) ) {
 		/* If user is logged in and try to access Buddypress page but the component is NOT allowed. */
-		$redirect_url = $my_profile_url;	
+		$redirect_url = $my_profile_url;
 
 	} else if ( $user_logged_in && $bp_current_component
 	            && 0 !== $member_id
@@ -599,25 +639,25 @@ function nab_amplify_template_redirect() {
 		$redirect_url = $my_profile_url;
 
 	} else if ( $user_logged_in && is_account_page() && in_array( end( $request ), array( 'my-connections', 'my-events', 'my-bookmarks' ) ) ) {
-		
+
 		$member_id	= filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( isset( $member_id ) && ! empty( $member_id ) ) {
 
 			$is_friend	= friends_check_friendship_status( $current_user_id, $member_id );
-			
+
 			if ( $current_user_id !== (int) $member_id && ( ! nab_member_can_visible_to_anyone( $member_id ) && 'is_friend' !== $is_friend ) ) {
-				
+
 				/* If user is logged in and try to access another Member's profile connections, events and bookmarks who has security enabled. */
 				$redirect_url = $my_profile_url;
 			}
 		}
-		
+
 	} else if ( ( is_account_page() && 'edit-address' === end( $request ) ) || ( is_account_page() && 'edit-my-profile' === end( $request ) ) ) {
-		
+
 		$redirect_url = wc_get_account_endpoint_url( 'edit-account' );
 	}
-	
+
 	if ( ! empty( $redirect_url ) ) {
 		wp_redirect( $redirect_url );
 		exit;
@@ -779,12 +819,6 @@ function amplify_register_api_endpoints() {
 		'permission_callback' => '__return_true',
 	) );
 
-	register_rest_route( 'nab', '/request/nab-get-product-categories', array(
-		'methods'             => 'GET',
-		'callback'            => 'amplify_get_product_categories',
-		'permission_callback' => '__return_true',
-	) );
-
 	register_rest_route( 'nab', '/request/get-product-list', array(
 		'methods'             => 'POST',
 		'callback'            => 'amplify_get_product_list',
@@ -799,7 +833,7 @@ function amplify_register_api_endpoints() {
 	) );
 
 	register_rest_route( 'nab', '/request/customer-bought-product', array(
-		'methods'             => 'GET',
+		'methods'             => 'POST',
 		'callback'            => 'amplify_check_user_bought_product',
 		'permission_callback' => '__return_true',
 		'args'                => array(
@@ -976,7 +1010,7 @@ function amplify_get_product_list( WP_REST_Request $request ) {
 			$query->the_post();
 
 			$product_id   = get_the_ID();
-			$product_name = get_the_title();
+			$product_name = html_entity_decode( get_the_title() );
 
 			$return[] = array( 'product_id' => $product_id, 'product_name' => $product_name );
 		}
@@ -1948,7 +1982,7 @@ function nab_edit_acount_additional_form_fields() {
 						</div>
 						<div class="nab-form-row">
 							<input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $attendee_company ); ?>"/>
-						</div>						
+						</div>
 					</div>
 				</div>
 				<div class="nab-section section-social-links">
@@ -2021,14 +2055,14 @@ function nab_save_edit_account_additional_form_fields( $user_id ) {
 		update_user_meta( $user_id, 'nab_member_restrict_connection', $member_restriction );
 	}
 
-	$user_fields = array(		
+	$user_fields = array(
 		'attendee_title',
 		'attendee_company',
 		'social_twitter',
 		'social_linkedin',
 		'social_facebook',
 		'social_instagram',
-		'social_website',		
+		'social_website',
 	);
 
 	foreach( $user_fields as $field ) {
@@ -2036,7 +2070,7 @@ function nab_save_edit_account_additional_form_fields( $user_id ) {
 		$field_val = filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING );
 
 		if ( isset( $field_val ) ) {
-			
+
 			update_user_meta( $user_id, $field, $field_val );
 		}
 	}
@@ -2046,8 +2080,290 @@ function nab_save_edit_account_additional_form_fields( $user_id ) {
  * Redirect user to edit account page after save the address or account.
  */
 function nab_woocommerce_customer_save_changes_redirect() {
-	
-	wp_safe_redirect( wc_get_account_endpoint_url( 'edit-account' ) ); 
-	
+
+	wp_safe_redirect( wc_get_account_endpoint_url( 'edit-account' ) );
+
 	exit;
+}
+
+/**
+ * Added search settings submenu page.
+ */
+function nab_amplify_search_settings() {
+
+	add_submenu_page(
+		'options-general.php',
+		__('Search Settings', 'nab-amplify'),
+		__('Search Settings', 'nab-amplify'),
+		'manage_options',
+		'amplify_search_settings',
+		'nab_search_settings_callback'
+	);
+
+}
+
+/**
+ * Search setting page fields.
+ */
+function nab_search_settings_callback() {
+
+
+	$display_horizontal_banner  = filter_input( INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING );
+	$display_vertical_banner	= filter_input( INPUT_POST, 'display_vertical_banner', FILTER_SANITIZE_STRING );
+
+	if ( isset( $display_horizontal_banner ) && ! empty( $display_horizontal_banner ) ) {
+
+		update_option( 'search_display_horizontal_banner', $display_horizontal_banner );
+
+	} else {
+
+		$display_horizontal_banner = get_option( 'search_display_horizontal_banner', 'no' );
+	}
+
+	if ( isset( $display_vertical_banner ) && ! empty( $display_vertical_banner ) ) {
+
+		update_option( 'search_display_vertical_banner', $display_vertical_banner );
+
+	} else {
+
+		$display_vertical_banner = get_option( 'search_display_vertical_banner', 'no' );
+	}
+
+	if ( isset( $_POST[ 'search_horizontal_banner'] ) ) {
+
+		$search_horizontal_banner	= wp_kses_post( $_POST[ 'search_horizontal_banner'] );
+		$search_vertical_banner		= wp_kses_post( $_POST[ 'search_vertical_banner'] );
+
+		update_option( 'search_horizontal_banner', $search_horizontal_banner );
+		update_option( 'search_vertical_banner', $search_vertical_banner );
+	}
+	?>
+	<div class="search-settings">
+		<h2>Search Settings</h2>
+		<form class="search-settings-form" method="post">
+			<table class="form-table" role="presentation">
+				<tr>
+					<th>Display Horizontal Ad:</th>
+					<td>
+						<input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'yes' ); ?> />
+						<label for="display_horizontal_banner_yes">Yes</label>
+						<input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'no' ); ?> />
+						<label for="display_horizontal_banner_no">No</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label>Horizontal Ad:</label>
+					</th>
+					<td>
+						<?php
+						$search_horizontal_banner = get_option( 'search_horizontal_banner' );
+						wp_editor( $search_horizontal_banner, 'search_horizontal_banner', array('tinymce' => false));
+						?>
+					</td>
+				</tr>
+				<tr>
+					<th>Display vertical Ad:</th>
+					<td>
+						<input id="display_vertical_banner_yes" type="radio" value="yes" name="display_vertical_banner" <?php checked( $display_vertical_banner, 'yes' ); ?> />
+						<label for="display_vertical_banner_yes">Yes</label>
+						<input id="display_vertical_banner_no" type="radio" value="no" name="display_vertical_banner" <?php checked( $display_vertical_banner, 'no' ); ?> />
+						<label for="display_vertical_banner_no">No</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label>Vertical Ad:</label>
+					</th>
+					<td>
+						<?php
+						$search_vertical_banner = get_option( 'search_vertical_banner' );
+						wp_editor( $search_vertical_banner, 'search_vertical_banner', array('tinymce' => false));
+						?>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button("Save Changes"); ?>
+		</form>
+	</div>
+	<?php
+}
+
+function nab_register_company_post_type() {
+
+	$labels = array(
+		'name'               => _x( 'Companies', 'post type general name', 'nab-amplify' ),
+		'singular_name'      => _x( 'Companies', 'post type singular name', 'nab-amplify' ),
+		'add_new_item'       => __( 'Add New', 'nab-amplify' ),
+		'edit_item'          => __( 'Edit', 'nab-amplify' ),
+		'new_item'           => __( 'New', 'nab-amplify' ),
+		'view_item'          => __( 'View', 'nab-amplify' ),
+		'search_items'       => __( 'Search', 'nab-amplify' ),
+		'not_found'          => __( 'No company found.', 'nab-amplify' ),
+		'not_found_in_trash' => __( 'No company found in Trash.', 'nab-amplify' )
+	);
+
+	$args = array(
+		'labels'              => $labels,
+		'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'show_in_rest'       => true,
+        'query_var'          => true,
+        'rewrite'            => true,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+		'supports'            => array(
+			'title',
+			'editor',
+			'author',
+			'thumbnail',
+			'excerpt',
+			'custom-fields'
+		),
+	);
+
+	register_post_type( 'company', $args );
+}
+
+/**
+ * Create Compnay user base on Compnay post.
+ *
+ * @param  int $post_id
+ */
+function nab_create_compnay_user( $post_id ) {
+
+    $current_post   = get_post( $post_id );
+
+    if ( 'publish' === $current_post->post_status && 'company' === $current_post->post_type ) {
+
+        $company_email = get_field( 'company_email', $post_id );
+
+        if ( ! empty( $company_email ) && is_email( $company_email ) ) {
+
+            $user_id = email_exists( $company_email );
+
+            if ( ! $user_id ) {
+
+                // Create new company user
+                $user_details       = array( 'user_email' => $company_email );
+
+				$user_details[ 'user_pass' ]    = wp_generate_password();
+				$user_details[ 'user_login' ]   = wc_create_new_customer_username( $user_details[ 'user_email' ], array( 'first_name' => $current_post->post_title ) );
+                $user_details[ 'role' ]         = 'customer';
+
+				$new_user = wp_insert_user( $user_details );
+
+                if ( ! is_wp_error( $new_user ) ) {
+
+                    $user_id = $new_user;
+
+                    update_post_meta( $post_id, 'company_user_id', $user_id );
+                    update_user_meta( $user_id, 'comapny_post_id', $post_id );
+
+                    do_action( 'nab_sent_user_registration_email', $user_id, $user_details[ 'user_pass' ], $user_details[ 'user_email' ] );
+                }
+
+            } else {
+
+                update_user_meta( $user_id, 'first_name', $current_post->post_title );
+            }
+        }
+    }
+}
+
+// Register Discovery content Post Type
+function nab_register_discovery_content_post_type() {
+
+	$labels = array(
+		'name'                  => _x( 'Discovery Content', 'Post Type General Name', 'text_domain' ),
+		'singular_name'         => _x( 'Discovery Content', 'Post Type Singular Name', 'text_domain' ),
+		'menu_name'             => __( 'Discovery Content', 'text_domain' ),
+		'name_admin_bar'        => __( 'Discovery Content', 'text_domain' ),
+		'archives'              => __( 'Discovery Content Archives', 'text_domain' ),
+		'attributes'            => __( 'Discovery Content Attributes', 'text_domain' ),
+		'parent_item_colon'     => __( 'Parent Discovery Content:', 'text_domain' ),
+		'all_items'             => __( 'All Items', 'text_domain' ),
+		'add_new_item'          => __( 'Add New Discovery Content', 'text_domain' ),
+		'add_new'               => __( 'Add New', 'text_domain' ),
+		'new_item'              => __( 'New Discovery Content', 'text_domain' ),
+		'edit_item'             => __( 'Edit Discovery Content', 'text_domain' ),
+		'update_item'           => __( 'Update Discovery Content', 'text_domain' ),
+		'view_item'             => __( 'View Discovery Content', 'text_domain' ),
+		'view_items'            => __( 'ViewDiscovery Content', 'text_domain' ),
+		'search_items'          => __( 'Search Discovery Content', 'text_domain' ),
+		'not_found'             => __( 'Not found', 'text_domain' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+		'featured_image'        => __( 'Featured Image', 'text_domain' ),
+		'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
+		'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
+		'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
+		'insert_into_item'      => __( 'Insert into Discovery Content', 'text_domain' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'text_domain' ),
+		'items_list'            => __( 'Items list', 'text_domain' ),
+		'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+		'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+	);
+	$args = array(
+		'label'                 => __( 'Discovery Content', 'text_domain' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
+		'taxonomies'            => array( 'category', 'post_tag' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 5,
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+		'show_in_rest'          => true,
+	);
+	register_post_type( 'discover_content', $args );
+
+}
+// Register discover content Taxonomy
+function nab_register_discovery_content_taxonomy() {
+
+	$labels = array(
+		'name'                       => _x( 'Categories', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Category', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Category', 'text_domain' ),
+		'all_items'                  => __( 'All Items', 'text_domain' ),
+		'parent_item'                => __( 'Parent Item', 'text_domain' ),
+		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
+		'new_item_name'              => __( 'New Item Name', 'text_domain' ),
+		'add_new_item'               => __( 'Add New Item', 'text_domain' ),
+		'edit_item'                  => __( 'Edit Item', 'text_domain' ),
+		'update_item'                => __( 'Update Item', 'text_domain' ),
+		'view_item'                  => __( 'View Item', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Add or remove items', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
+		'popular_items'              => __( 'Popular Items', 'text_domain' ),
+		'search_items'               => __( 'Search Items', 'text_domain' ),
+		'not_found'                  => __( 'Not Found', 'text_domain' ),
+		'no_terms'                   => __( 'No items', 'text_domain' ),
+		'items_list'                 => __( 'Items list', 'text_domain' ),
+		'items_list_navigation'      => __( 'Items list navigation', 'text_domain' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => false,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+		'show_in_rest'               => true,
+	);
+	register_taxonomy( 'discovery-content-tax', array( 'discover_content' ), $args );
+
 }

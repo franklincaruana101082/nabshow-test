@@ -227,8 +227,8 @@
   registerBlockType('rg/upcoming-events-calendar', {
     title: __('Upcoming Events Calendar'),
     description: __('upcoming-events-calendar'),
-    icon: 'heart',
-    category: 'common',
+    icon: 'editor-code',
+    category: 'nab_amplify',
     keywords: [__('Upcoming Events Calendar'), __('Gutenberg')],
     attributes: {
       dataArray: {

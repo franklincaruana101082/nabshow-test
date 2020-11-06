@@ -32,7 +32,7 @@
           mediaAlt: '',
           title: '',
           subTitle: '',
-          buttonText: '<a href="#">Learn More</a>'
+          buttonText: '<a href="#" class="btn">Learn More</a>'
         }
       }
       if (name == 'option-2') {
@@ -42,10 +42,11 @@
           bgMedia: '',
           media: '',
           mediaAlt: '',
+          videoIcon: '',
           title: '',
           subTitle: '',
           date: '',
-          buttonText: '<a href="#">Watch</a>'
+          buttonText: '<a href="#" class="btn">Watch</a>'
         }
       }
 
@@ -56,7 +57,7 @@
           advertising: 'Advertising',
           media: '',
           mediaAlt: '',
-          buttonText: '<a href="#">Learn More</a>'
+          buttonText: '<a href="#" class="btn">Learn More</a>'
         }
       }
 
@@ -69,7 +70,7 @@
           mediaAlt: '',
           title: '',
           subTitle: '',
-          buttonText: '<a href="#">Message</a>'
+          buttonText: '<a href="#" class="btn">Message</a>'
         }
       }
 
@@ -171,7 +172,7 @@
                             className='button button-large'
                           >
                             <span className='dashicons dashicons-upload'></span>
-                            Upload BG Image
+                            Upload Cover Image
                           </Button>
                         )
                       }
@@ -179,7 +180,6 @@
                   />
                 </div>
               ) : null}
-
               {data.option == 'option-1' || data.option == 'option-3' ? (
                 <div className='advertising'>
                   <RichText
@@ -213,7 +213,7 @@
                         <Fragment>
                           <span
                             onClick={open}
-                            className='dashicons dashicons-edit'
+                            className='dashicons dashicons-edit edit-image'
                           ></span>
                           <img src={data.media} alt={data.alt} />
                         </Fragment>
@@ -229,75 +229,112 @@
                   }}
                 />
               </div>
-              {data.option !== 'option-3' && (
-                <Fragment>
-                  <RichText
-                    tagName='h2'
-                    placeholder={__('Title')}
-                    value={data.title}
-                    keepPlaceholderOnFocus='true'
-                    className='title'
-                    onChange={value => {
-                      value = value.replace(/&lt;!--td.*}--><br>/, '')
-                      value = value.replace(/<br>.*}<br>/, '')
-                      value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+              {data.option == 'option-2' ? (
+                <div className='video-icon'>
+                <MediaUpload
+                    onSelect={media => {
                       let arrayCopy = [...dataArray]
-                      arrayCopy[index].title = value
+                      arrayCopy[index].videoIcon = media.url
                       setAttributes({ dataArray: arrayCopy })
                     }}
-                  />
-                  <RichText
-                    tagName='strong'
-                    placeholder={__('Sub Title')}
-                    value={data.subTitle}
-                    keepPlaceholderOnFocus='true'
-                    className='sub-title'
-                    onChange={value => {
-                      value = value.replace(/&lt;!--td.*}--><br>/, '')
-                      value = value.replace(/<br>.*}<br>/, '')
-                      value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                      let arrayCopy = [...dataArray]
-                      arrayCopy[index].subTitle = value
-                      setAttributes({ dataArray: arrayCopy })
+                    type='image'
+                    render={({ open }) => {
+                      if (data.videoIcon) {
+                        return (
+                          <Fragment>
+                            <span
+                              onClick={open}
+                              className='dashicons dashicons-edit edit-image'
+                            ></span>
+                            <img src={data.videoIcon} />
+                          </Fragment>
+                        )
+                      } else {
+                        return (
+                          <Button
+                            onClick={open}
+                            className='button button-large'
+                          >
+                            <span className='dashicons dashicons-upload'></span>
+                            Upload Icon
+                          </Button>
+                        )
+                      }
                     }}
                   />
-                </Fragment>
-              )}
+                </div>
+              ) : null}
+              <div className="related-content-wrap">
+                {data.option !== 'option-3' && (
+                  <Fragment>
+                    <RichText
+                      tagName='h2'
+                      placeholder={__('Title')}
+                      value={data.title}
+                      keepPlaceholderOnFocus='true'
+                      className='title'
+                      onChange={value => {
+                        value = value.replace(/&lt;!--td.*}--><br>/, '')
+                        value = value.replace(/<br>.*}<br>/, '')
+                        value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                        let arrayCopy = [...dataArray]
+                        arrayCopy[index].title = value
+                        setAttributes({ dataArray: arrayCopy })
+                      }}
+                    />
+                    <RichText
+                      tagName='strong'
+                      placeholder={__('Sub Title')}
+                      value={data.subTitle}
+                      keepPlaceholderOnFocus='true'
+                      className='sub-title'
+                      onChange={value => {
+                        value = value.replace(/&lt;!--td.*}--><br>/, '')
+                        value = value.replace(/<br>.*}<br>/, '')
+                        value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                        let arrayCopy = [...dataArray]
+                        arrayCopy[index].subTitle = value
+                        setAttributes({ dataArray: arrayCopy })
+                      }}
+                    />
+                  </Fragment>
+                )}
 
-              {data.option == 'option-2' && (
-                <Fragment>
-                  <RichText
-                    tagName='span'
-                    placeholder={__('date')}
-                    value={data.date}
-                    keepPlaceholderOnFocus='true'
-                    className='date'
-                    onChange={value => {
-                      value = value.replace(/&lt;!--td.*}--><br>/, '')
-                      value = value.replace(/<br>.*}<br>/, '')
-                      value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                      let arrayCopy = [...dataArray]
-                      arrayCopy[index].date = value
-                      setAttributes({ dataArray: arrayCopy })
-                    }}
-                  />
-                </Fragment>
-              )}
-              <RichText
-                tagName='div'
-                placeholder={__('Learn More')}
-                value={data.buttonText}
-                keepPlaceholderOnFocus='true'
-                className='btn'
-                onChange={value => {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '')
-                  value = value.replace(/<br>.*}<br>/, '')
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                  let arrayCopy = [...dataArray]
-                  arrayCopy[index].buttonText = value
-                  setAttributes({ dataArray: arrayCopy })
-                }}
-              />
+                {data.option == 'option-2' && (
+                  <Fragment>
+                    <RichText
+                      tagName='span'
+                      placeholder={__('date')}
+                      value={data.date}
+                      keepPlaceholderOnFocus='true'
+                      className='date'
+                      onChange={value => {
+                        value = value.replace(/&lt;!--td.*}--><br>/, '')
+                        value = value.replace(/<br>.*}<br>/, '')
+                        value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                        let arrayCopy = [...dataArray]
+                        arrayCopy[index].date = value
+                        setAttributes({ dataArray: arrayCopy })
+                      }}
+                    />
+                  </Fragment>
+                )}
+                <RichText
+                  tagName='div'
+                  placeholder={__('Learn More')}
+                  value={data.buttonText}
+                  keepPlaceholderOnFocus='true'
+                  className='button-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].buttonText = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              </div>
             </div>
           </div>
         )
@@ -305,11 +342,11 @@
 
       return (
         <Fragment>
-          <InspectorControls>
+          {/* <InspectorControls>
             <PanelBody title='General Settings'>
               <PanelRow>Test</PanelRow>
             </PanelBody>
-          </InspectorControls>
+          </InspectorControls> */}
           {popup && (
             <div className='internal-popup'>
               <div className='popup-inner'>
@@ -321,6 +358,7 @@
                   }}
                   className='dashicons dashicons-no-alt remove'
                 ></span>
+                <h3>Select Item Layout:</h3>
                 <ul>
                   <li
                     className='option-1'
@@ -371,10 +409,10 @@
   }
 
   registerBlockType('rg/related-content', {
-    title: __('Related Content'),
-    description: __('Related Content'),
-    icon: 'heart',
-    category: 'common',
+    title: __('Related Content multi layout'),
+    description: __('Related Content multi layout'),
+    icon: 'editor-code',
+    category: 'nab_amplify',
     keywords: [__('Related Content'), __('gutenberg')],
     attributes: {
       dataArray: {
@@ -393,49 +431,58 @@
           <div className='related-content'>
             {dataArray.map((data, index) => (
               <div className={`item ${data.option}`}>
-                {data.option == 'option-1' || data.option == 'option-4' ? (
-                  <div className='background-image'>
-                    <img src={data.bgMedia} />
-                  </div>
-                ) : null}
-                {data.option == 'option-1' || data.option == 'option-3' ? (
-                  <div className='advertising'>
-                    <RichText.Content tagName='span' value={data.advertising} />
-                  </div>
-                ) : null}
-                {data.media && (
-                  <div className='image'>
-                    <img src={data.media} alt={data.mediaAlt} />
-                  </div>
-                )}
-                {data.option !== 'option-3' && (
-                  <Fragment>
+                <div className="inner">
+                  {data.option == 'option-1' || data.option == 'option-4' ? (
+                    <div className='background-image'>
+                      <img src={data.bgMedia} />
+                    </div>
+                  ) : null}
+                  {data.option == 'option-1' || data.option == 'option-3' ? (
+                      <div className='advertising'>
+                        <RichText.Content tagName='span' value={data.advertising} />
+                      </div>
+                    ) : null}
+                  {data.media && (
+                    <div className='image'>
+                      <img src={data.media} alt={data.mediaAlt} />
+                    </div>
+                  )}
+                  {data.videoIcon && (
+                    <div className='video-icon'>
+                      <img src={data.videoIcon} alt={data.videoIcon} />
+                    </div>
+                  )}
+                  <div className="related-content-wrap">
+                    {data.option !== 'option-3' && (
+                      <Fragment>
+                        <RichText.Content
+                          tagName='h2'
+                          value={data.title}
+                          className='title'
+                        />
+                        <RichText.Content
+                          tagName='strong'
+                          value={data.subTitle}
+                          className='sub-title'
+                        />
+                      </Fragment>
+                    )}
+                    {data.option == 'option-2' && (
+                      <Fragment>
+                        <RichText.Content
+                          tagName='span'
+                          value={data.date}
+                          className='date'
+                        />
+                      </Fragment>
+                    )}
                     <RichText.Content
-                      tagName='h2'
-                      value={data.title}
-                      className='title'
+                      tagName='div'
+                      value={data.buttonText}
+                      className='button-wrap'
                     />
-                    <RichText.Content
-                      tagName='strong'
-                      value={data.subTitle}
-                      className='sub-title'
-                    />
-                  </Fragment>
-                )}
-                {data.option == 'option-2' && (
-                  <Fragment>
-                    <RichText.Content
-                      tagName='span'
-                      value={data.date}
-                      className='date'
-                    />
-                  </Fragment>
-                )}
-                <RichText.Content
-                  tagName='div'
-                  value={data.buttonText}
-                  className='btn'
-                />
+                  </div>
+                </div>
               </div>
             ))}
           </div>

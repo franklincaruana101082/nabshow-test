@@ -276,8 +276,9 @@ p{font-size:16px;color:#404040}
 .product-list .product-item .item-inner .thumbnail img{border-radius:10px 10px 0 0;width:100%;min-height:230px;-o-object-fit:cover;object-fit:cover}
 .product-list .product-item .item-inner .thumbnail .category{background:#e4018a;color:#fff;position:absolute;bottom:15px;left:15px;padding:7px 15px;border-radius:10px;font-weight:300;font-size:11px;text-transform:uppercase}
 .product-list .product-item .item-inner span.onsale{position:absolute;left:10px;top:10px}
-span.amp-bookmark{position:absolute;right:10px;top:10px;z-index:2;color:#e5018b !important;font-size:23px;cursor:pointer;}
+span.amp-bookmark{position:absolute;right:10px;top:10px;z-index:2;color:#e5018b !important;font-size:23px;}
 span.amp-bookmark.bookmark-fill:before{content:"\f02e";}
+span.user-bookmark-action{cursor:pointer;}
 .product-head{display:-webkit-box;display:-ms-flexbox;display:flex;margin:20px 0 45px 0}
 .product-head .product-layout{display:-webkit-box;display:-ms-flexbox;display:flex;width:95px;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 .product-head .product-layout span{width:30px;height:30px;background-image:url('../images/sprite-images.png');background-repeat:no-repeat;background-position:-12px -113px;cursor:pointer;background-size:780px}

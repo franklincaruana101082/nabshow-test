@@ -1,25 +1,26 @@
-(function(i18n, wpBlocks, wpBlockEditor, wpComponents){
-const { registerBlockType } = wpBlocks;
-const { __ } = wp.i18n;
+;(function(wpi18n, wpBlocks, wpBlockEditor, wpComponents){
+const { registerBlockType } = wpBlocks
+const { __ } = wpi18n
 const { 
     RichText,
     InspectorControls,
     MediaUpload,
     AlignmentToolbar
-} = wpBlockEditor;
+} = wpBlockEditor
 const {
     PanelBody,
     Button,
     ToggleControl,
     TextControl
-} = wpComponents;
+} = wpComponents
 
-registerBlockType('amplify/image',{
+registerBlockType('rg/image',{
     // built in attributes
     title: __('Image'),
     description: __('Image Block'),
     icon: 'editor-code',
     category: 'nab_amplify',
+    keywords: [__('Image'), __('gutenberg')],
     attributes: {
         ImageUrl: {
             type: 'string',
@@ -151,6 +152,7 @@ registerBlockType('amplify/image',{
                                 <Button
                                     onClick={ open }
                                     className={ImageUrl ? "amp-image-button" : "button button-large"}>
+                                    <span class="dashicons dashicons-upload"></span>
                                     {!ImageUrl ? (
                                         __("Select Image")
                                     ) : null}
@@ -198,4 +200,4 @@ registerBlockType('amplify/image',{
     }
 });
 
-})(wp.i18n, wp.blocks, wp.blockEditor, wp.components);
+})(wp.i18n, wp.blocks, wp.blockEditor, wp.components)

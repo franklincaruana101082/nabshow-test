@@ -9,6 +9,7 @@
 global $bp;
 $user_id           = $bp->displayed_user->id;
 $current_user_id   = get_current_user_id();
+$current_site_url  = get_site_url();
 $all_members_url   = esc_url( wc_get_account_endpoint_url( 'my-connections' ) );
 $my_friends_url    = add_query_arg( array( 'connections' => 'friends', 'user_id' => $user_id ), $all_members_url );
 $friend_count      = friends_get_friend_count_for_user( $user_id );
@@ -111,7 +112,71 @@ if ( 0 === $friend_count ) {
             </div>
 		<?php endif; ?>
     </div>
-	<?php
+    <?php
+    $product_args = array(
+	    'post_type' 		=> 'nab-products',
+	    'post_status'		=> 'publish',
+	    'posts_per_page' 	=> 4,
+	    'order' 			=> 'DESC'
+    );
+
+    $product_query = new WP_Query( $product_args );
+
+    if ( $product_query->have_posts() ) {
+
+	    $search_found	= true;
+	    $total_products = $product_query->found_posts;
+	    ?>
+        <div class="search-section search-product-section">
+            <div class="search-section-heading">
+                <h2><strong>PRODUCTS</strong> <span>(<?php echo esc_html( $total_products . ' RESULTS' ); ?>)</span></h2>
+			    <?php
+			    if ( $total_products > 4 ) {
+
+				    $poroduct_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'product' ), $current_site_url );
+
+				    ?>
+                    <div class="section-view-more">
+                        <a href="<?php echo esc_html( $poroduct_view_more_link ); ?>" class="view-more-link">View All</a>
+                    </div>
+				    <?php
+			    }
+			    ?>
+            </div>
+            <div class="search-section-details" id="search-product-list">
+			    <?php
+			    while ( $product_query->have_posts() ) {
+
+				    $product_query->the_post();
+
+				    $thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+				    $product_link	= get_the_permalink();
+				    ?>
+                    <div class="search-item">
+                        <div class="search-item-inner">
+                            <div class="search-item-cover">
+                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="product thumbnail" />
+							    <?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
+                            </div>
+                            <div class="search-item-info">
+                                <div class="search-item-content">
+                                    <h4><a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
+                                    <div class="search-actions">
+                                        <a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				    <?php
+			    }
+			    ?>
+            </div>
+        </div>
+	    <?php
+    }
+    wp_reset_postdata();
+
 	if ( ! empty( $user_id ) && 0 !== $user_id ) {
 
 		$customer_products = nab_get_customer_purchased_product( $user_id );

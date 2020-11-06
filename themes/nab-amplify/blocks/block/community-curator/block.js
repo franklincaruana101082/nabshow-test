@@ -64,7 +64,7 @@
             <Fragment>
               <span
                 onClick={openEvent}
-                className='dashicons dashicons-edit'
+                className='dashicons dashicons-edit edit-image'
               ></span>
               <img
                 src={dataArray[index].media}
@@ -86,22 +86,24 @@
         return (
           <div className='item'>
             <div className='settings'>
-              {0 < index && (
-                <Tooltip text='Move Left'>
-                  <span
-                    className='dashicons dashicons-arrow-left-alt2'
-                    onClick={() => this.moveItem(index, index - 1)}
-                  ></span>
-                </Tooltip>
-              )}
-              {index + 1 < dataArray.length && (
-                <Tooltip text='Move Right'>
-                  <span
-                    className='dashicons dashicons-arrow-right-alt2'
-                    onClick={() => this.moveItem(index, index + 1)}
-                  ></span>
-                </Tooltip>
-              )}
+              <div className="move-item-controls">
+                {0 < index && (
+                  <Tooltip text='Move Left'>
+                    <span
+                      className='dashicons dashicons-arrow-up-alt2'
+                      onClick={() => this.moveItem(index, index - 1)}
+                    ></span>
+                  </Tooltip>
+                )}
+                {index + 1 < dataArray.length && (
+                  <Tooltip text='Move Right'>
+                    <span
+                      className='dashicons-arrow-down-alt2'
+                      onClick={() => this.moveItem(index, index + 1)}
+                    ></span>
+                  </Tooltip>
+                )}
+              </div>
               <span
                 className='dashicons dashicons-no-alt remove'
                 onClick={() => {
@@ -123,94 +125,102 @@
             </div>
             <div className='inner'>
               <div className='main-image'>
-                <MediaUpload
-                  onSelect={media => {
-                    let arrayCopy = [...dataArray]
-                    arrayCopy[index].bgMedia = media.url
-                    setAttributes({ dataArray: arrayCopy })
-                  }}
-                  type='image'
-                  value={attributes.imageID}
-                  render={({ open }) => {
-                    if (dataArray[index].bgMedia) {
-                      return (
-                        <Fragment>
-                          <span
-                            onClick={open}
-                            className='dashicons dashicons-edit'
-                          ></span>
-                          <img src={dataArray[index].bgMedia} className='img' />
-                        </Fragment>
-                      )
-                    } else {
-                      return (
-                        <Button onClick={open} className='button button-large'>
-                          <span className='dashicons dashicons-upload'></span>{' '}
-                          Upload Main Image
-                        </Button>
-                      )
-                    }
-                  }}
-                />
+                <div className="main-image-wrap">
+                  <MediaUpload
+                    onSelect={media => {
+                      let arrayCopy = [...dataArray]
+                      arrayCopy[index].bgMedia = media.url
+                      setAttributes({ dataArray: arrayCopy })
+                    }}
+                    type='image'
+                    value={attributes.imageID}
+                    render={({ open }) => {
+                      if (dataArray[index].bgMedia) {
+                        return (
+                          <Fragment>
+                            <span
+                              onClick={open}
+                              className='dashicons dashicons-edit edit-image'
+                            ></span>
+                            <img src={dataArray[index].bgMedia} className='img' />
+                          </Fragment>
+                        )
+                      } else {
+                        return (
+                          <Button onClick={open} className='button button-large'>
+                            <span className='dashicons dashicons-upload'></span>{' '}
+                            Upload Main Image
+                          </Button>
+                        )
+                      }
+                    }}
+                  />
+                </div>
               </div>
-              <div className='left'>
-                <MediaUpload
-                  onSelect={media => {
-                    let arrayCopy = [...dataArray]
-                    arrayCopy[index].media = media.url
-                    setAttributes({ dataArray: arrayCopy })
-                  }}
-                  type='image'
-                  value={attributes.imageID}
-                  render={({ open }) => getImageButton(open, index)}
-                />
-              </div>
-              <div className='right'>
-                <RichText
-                  tagName='h3'
-                  placeholder={__('Title')}
-                  keepPlaceholderOnFocus='true'
-                  value={data.title}
-                  className='title'
-                  onChange={value => {
-                    value = value.replace(/&lt;!--td.*}--><br>/, '')
-                    value = value.replace(/<br>.*}<br>/, '')
-                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                    let arrayCopy = [...dataArray]
-                    arrayCopy[index].title = value
-                    setAttributes({ dataArray: arrayCopy })
-                  }}
-                />
-                <RichText
-                  tagName='strong'
-                  placeholder={__('Sub Title')}
-                  keepPlaceholderOnFocus='true'
-                  value={data.subTitle}
-                  className='sub-title'
-                  onChange={value => {
-                    value = value.replace(/&lt;!--td.*}--><br>/, '')
-                    value = value.replace(/<br>.*}<br>/, '')
-                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                    let arrayCopy = [...dataArray]
-                    arrayCopy[index].subTitle = value
-                    setAttributes({ dataArray: arrayCopy })
-                  }}
-                />
-                <RichText
-                  tagName='p'
-                  placeholder={__('Description')}
-                  value={data.description}
-                  keepPlaceholderOnFocus='true'
-                  className='description'
-                  onChange={value => {
-                    value = value.replace(/&lt;!--td.*}--><br>/, '')
-                    value = value.replace(/<br>.*}<br>/, '')
-                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                    let arrayCopy = [...dataArray]
-                    arrayCopy[index].description = value
-                    setAttributes({ dataArray: arrayCopy })
-                  }}
-                />
+              <div className="item-list-right">
+                <div className="item-list-main">
+                  <div className="item-list-wrap">
+                    <div className='left'>
+                      <MediaUpload
+                        onSelect={media => {
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].media = media.url
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
+                        type='image'
+                        value={attributes.imageID}
+                        render={({ open }) => getImageButton(open, index)}
+                      />
+                    </div>
+                    <div className='right'>
+                      <RichText
+                        tagName='h3'
+                        placeholder={__('Title')}
+                        keepPlaceholderOnFocus='true'
+                        value={data.title}
+                        className='title'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].title = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
+                      />
+                      <RichText
+                        tagName='strong'
+                        placeholder={__('Sub Title')}
+                        keepPlaceholderOnFocus='true'
+                        value={data.subTitle}
+                        className='sub-title'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].subTitle = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
+                      />
+                      <RichText
+                        tagName='p'
+                        placeholder={__('Description')}
+                        value={data.description}
+                        keepPlaceholderOnFocus='true'
+                        className='description'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].description = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -219,11 +229,11 @@
 
       return (
         <Fragment>
-          <InspectorControls>
+          {/* <InspectorControls>
             <PanelBody title='General Settings'>
               <PanelRow>Test</PanelRow>
             </PanelBody>
-          </InspectorControls>
+          </InspectorControls> */}
           <div className='community-curator'>
             {itemList}
             <div className='item additem'>
@@ -245,8 +255,8 @@
   registerBlockType('rg/community-curator', {
     title: __('Community Curator'),
     description: __('community-curator'),
-    icon: 'heart',
-    category: 'common',
+    icon: 'editor-code',
+    category: 'nab_amplify',
     keywords: [__('Community Curator'), __('Gutenberg')],
     attributes: {
       dataArray: {
@@ -299,39 +309,47 @@
                   <div className={`item ${index == 0 ? 'active' : ''}`}>
                     <div className='inner'>
                       {data.bgMedia ? (
-                          <img className='main-image' src={data.bgMedia} alt={data.title} style={{
-                            display: 'none'
-                          }} />
+                          <div className="main-image-wrap">
+                            <img className='main-image' src={data.bgMedia} alt={data.title} style={{
+                              display: 'none'
+                            }} />
+                          </div>
                         ) : null }
-                      <div className='left'>
-                        {data.media ? (
-                          <img src={data.media} alt={data.title} />
-                        ) : (
-                          <div className='no-image'>No Image</div>
-                        )}
-                      </div>
-                      <div className='right'>
-                        {data.title && (
-                          <RichText.Content
-                            tagName='h3'
-                            value={data.title}
-                            className='title'
-                          />
-                        )}
-                        {data.subTitle && (
-                          <RichText.Content
-                            tagName='strong'
-                            value={data.subTitle}
-                            className='sub-title'
-                          />
-                        )}
-                        {data.description && (
-                          <RichText.Content
-                            tagName='p'
-                            value={data.description}
-                            className='description'
-                          />
-                        )}
+                      <div className="item-list-right">
+                        <div className="item-list-main">
+                          <div className="item-list-wrap">
+                            <div className='left'>
+                              {data.media ? (
+                                <img src={data.media} alt={data.title} />
+                              ) : (
+                                <div className='no-image'>No Image</div>
+                              )}
+                            </div>
+                            <div className='right'>
+                              {data.title && (
+                                <RichText.Content
+                                  tagName='h3'
+                                  value={data.title}
+                                  className='title'
+                                />
+                              )}
+                              {data.subTitle && (
+                                <RichText.Content
+                                  tagName='strong'
+                                  value={data.subTitle}
+                                  className='sub-title'
+                                />
+                              )}
+                              {data.description && (
+                                <RichText.Content
+                                  tagName='p'
+                                  value={data.description}
+                                  className='description'
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

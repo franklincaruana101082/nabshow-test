@@ -11,6 +11,7 @@ $new_notification = filter_input( INPUT_GET, "new", FILTER_SANITIZE_STRING );
 if ( isset( $new_notification ) && ! empty( $new_notification ) ) {
     bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), 'friends', 'friendship_accepted' );
 }
+ 
 
 $current_user = wp_get_current_user();
 $user_id      = filter_input( INPUT_GET, "user_id", FILTER_SANITIZE_STRING );

@@ -142,3 +142,14 @@ add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_ed
 add_action( 'woocommerce_customer_save_address', 'nab_woocommerce_customer_save_changes_redirect', 99 );
 
 add_action( 'woocommerce_save_account_details', 'nab_woocommerce_customer_save_changes_redirect', 999 );
+
+add_action( 'admin_menu', 'nab_amplify_search_settings' );
+
+add_action( 'init', 'nab_register_company_post_type' );
+
+add_action( 'acf/save_post', 'nab_create_compnay_user', 20, 1 );
+
+add_action( 'init', 'nab_register_discovery_content_post_type' );
+
+add_action( 'init', 'nab_register_discovery_content_taxonomy' );
+

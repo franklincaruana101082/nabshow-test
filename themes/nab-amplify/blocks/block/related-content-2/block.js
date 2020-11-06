@@ -32,7 +32,7 @@
             subTitle: '',
             description: '',
             select: false,
-            buttonText: '<a href="#">Read More</a>'
+            buttonText: '<a href="#" class="btn">Read More</a>'
           }
         ]
       })
@@ -60,13 +60,13 @@
 
       const itemList = dataArray.map((data, index) => {
         return (
-          <div className={`item ${data.select ? 'select' : ''}`}>
-            <div className='inner'>
-              <div className='settings'>
+          <div className={`item`}>
+            <div className='settings'>
+              <div className="move-item-controls">
                 {0 < index && (
                   <Tooltip text='Move Left'>
                     <span
-                      className='dashicons dashicons-arrow-left-alt2'
+                      className='dashicons dashicons-arrow-left-alt2 move-left'
                       onClick={() => this.moveItem(index, index - 1)}
                     ></span>
                   </Tooltip>
@@ -74,32 +74,34 @@
                 {index + 1 < dataArray.length && (
                   <Tooltip text='Move Right'>
                     <span
-                      className='dashicons dashicons-arrow-right-alt2'
+                      className='dashicons dashicons-arrow-right-alt2 move-right'
                       onClick={() => this.moveItem(index, index + 1)}
                     ></span>
                   </Tooltip>
                 )}
-                <span
-                  className='dashicons dashicons-no-alt remove'
-                  onClick={() => {
-                    const qewQusote = dataArray
-                      .filter(item => item.index != data.index)
-                      .map(t => {
-                        if (t.index > data.index) {
-                          t.index -= 1
-                        }
-
-                        return t
-                      })
-
-                    setAttributes({
-                      dataArray: qewQusote
-                    })
-                  }}
-                ></span>
               </div>
               <span
-                className='dashicons dashicons-tag'
+                className='dashicons dashicons-no-alt remove'
+                onClick={() => {
+                  const qewQusote = dataArray
+                    .filter(item => item.index != data.index)
+                    .map(t => {
+                      if (t.index > data.index) {
+                        t.index -= 1
+                      }
+
+                      return t
+                    })
+
+                  setAttributes({
+                    dataArray: qewQusote
+                  })
+                }}
+              ></span>
+            </div>
+            <div className='inner'>
+              <span
+                className={`fa fa-bookmark-o amp-bookmark ${data.select ? 'bookmark-fill' : ''}`}
                 onClick={() => {
                   let arrayCopy = [...dataArray]
                   arrayCopy[index].select = data.select ? false : true
@@ -141,7 +143,7 @@
                 placeholder={__('Learn More')}
                 value={data.buttonText}
                 keepPlaceholderOnFocus='true'
-                className='btn'
+                className='button-wrap'
                 onChange={value => {
                   value = value.replace(/&lt;!--td.*}--><br>/, '')
                   value = value.replace(/<br>.*}<br>/, '')
@@ -158,11 +160,11 @@
 
       return (
         <Fragment>
-          <InspectorControls>
+          {/* <InspectorControls>
             <PanelBody title='General Settings'>
               <PanelRow>Test</PanelRow>
             </PanelBody>
-          </InspectorControls>
+          </InspectorControls> */}
           <div className='related-content-2'>
             {itemList}
             <div className='item additem'>
@@ -182,10 +184,10 @@
   }
 
   registerBlockType('rg/related-content-2', {
-    title: __('Related Content 2'),
-    description: __('Related Content 2'),
-    icon: 'heart',
-    category: 'common',
+    title: __('Related Content'),
+    description: __('Related Content'),
+    icon: 'editor-code',
+    category: 'nab_amplify',
     keywords: [__('Related Content 2'), __('Gutenberg')],
     attributes: {
       dataArray: {
@@ -203,9 +205,9 @@
         <Fragment>
           <div className='related-content-2'>
             {dataArray.map((data, index) => (
-              <div className={`item ${data.select ? 'select' : ''}`}>
+              <div className={`item`}>
                 <div className='inner'>
-                  <span className='dashicons dashicons-tag'></span>
+                  <span className={`fa fa-bookmark-o amp-bookmark ${data.select ? 'bookmark-fill' : ''}`}></span>
                   {data.title && (
                     <RichText.Content
                       tagName='h3'
@@ -223,7 +225,7 @@
                   <RichText.Content
                     tagName='div'
                     value={data.buttonText}
-                    className='btn'
+                    className='button-wrap'
                   />
                 </div>
               </div>
