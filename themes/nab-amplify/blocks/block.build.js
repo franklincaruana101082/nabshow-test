@@ -3384,6 +3384,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           };
         }
 
+        if (name == 'option-5') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            bgMedia: '',
+            title: '',
+            subTitle: '',
+            buttonText: '<a href="#" class="btn">View Product</a>'
+          };
+        }
+
         setAttributes({
           dataArray: [].concat(_toConsumableArray(dataArray), [attr])
         });
@@ -3744,6 +3755,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }
                   },
                   'Option 4'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-5',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-5');
+                    }
+                  },
+                  'Option 5'
                 )
               )
             )

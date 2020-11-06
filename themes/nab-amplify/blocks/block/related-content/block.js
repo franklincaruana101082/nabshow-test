@@ -74,6 +74,17 @@
         }
       }
 
+      if (name == 'option-5') {
+        attr = {
+          index: dataArray.length,
+          option: name,
+          bgMedia: '',
+          title: '',
+          subTitle: '',
+          buttonText: '<a href="#" class="btn">View Product</a>'
+        }
+      }
+
       setAttributes({
         dataArray: [...dataArray, attr]
       })
@@ -346,7 +357,7 @@
             <PanelBody title='General Settings'>
               <PanelRow>Test</PanelRow>
             </PanelBody>
-          </InspectorControls> */}
+          </InspectorControls>  */}
           {popup && (
             <div className='internal-popup'>
               <div className='popup-inner'>
@@ -383,6 +394,12 @@
                     onClick={() => this.addNewItem('option-4')}
                   >
                     Option 4
+                  </li>
+                  <li
+                    className='option-5'
+                    onClick={() => this.addNewItem('option-5')}
+                  >
+                    Option 5
                   </li>
                 </ul>
               </div>
