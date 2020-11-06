@@ -11,6 +11,7 @@
 .amp-feature-block .feature-title{color:#fff;font-size:40px;margin:0 0 20px;line-height:normal;}
 .amp-feature-block .feature-author{color:#fdd80f;font-size:26px;margin:0 0 20px;line-height:normal;}
 .amp-feature-block .feature-disc{color:#fff;font-size:20px;margin:0 0 20px;line-height:normal;}
+.amp-feature-block .feature-icon{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);z-index:2;}
 .amp-feature-block .button-wrap a{border-radius:8px;}
 .amp-feature-block .btn-link .btn{background:#6363df;border-color:#6363df;color:#fff;}
 .amp-feature-block .btn-react a{min-width:100px;padding:8px 10px;}
