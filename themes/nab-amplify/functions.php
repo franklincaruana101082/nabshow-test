@@ -237,6 +237,9 @@ remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 3
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 
+/* Load Gutenberg in custom post types */
+wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'discovery_content' ] ] );
+
 /**
  * WooCommerce - Change Hooks Priority
  */
