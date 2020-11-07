@@ -199,6 +199,14 @@
 	.buddypress-wrap #message-threads li .thread-from,
 	.buddypress-wrap #message-threads li .thread-to{-moz-flex:1 2 20%;-o-flex:1 2 20%;flex:1 2 20%;margin-bottom:0;}
 	.buddypress-wrap #message-threads li .subject, .buddypress-wrap #message-threads li.selected .subject{padding-left:20px;}
+
+	/* comments */
+	.comments-area .comment-list,
+	.comments-area .comment-list .children{margin-left:0;}
+	.comments-area .comment-body .comment-meta .comment-author b,
+	.comments-area .comment-body .comment-meta .comment-author span{font-size:26px;line-height:20px;}
+	.comments-area .comment-body .comment-meta .comment-metadata{font-size:17px;line-height:24px;}
+	.single-discover_content .entry-header h1{font-size:30px;}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
