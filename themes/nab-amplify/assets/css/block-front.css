@@ -134,19 +134,23 @@ a.ui-button:active,
 .ui-button:active, 
 .ui-button.ui-state-active:hover{}
 
-/* temp reactions */
-.amp-feature-block .btn-react:after,
-.related-content .option-2 .related-content-wrap .button-wrap:before,
-.related-content-2 .button-wrap:before,
-.community-curator .big-section .contents .description:after,
-.related-content .option-5 .inner .related-content-wrap .button-wrap:before{content:'';display:inline-block;background:url(../images/reactions.png) no-repeat left center;width:120px;height:30px;margin:10px 10px 10px 20px;vertical-align:middle;}
-.related-content .option-2 .related-content-wrap .button-wrap:before,
-.related-content .option-2 .related-content-wrap .button-wrap:before,
-.related-content-2 .button-wrap:before,
-.community-curator .big-section .contents .description:after,
-.related-content .option-5 .inner .related-content-wrap .button-wrap:before{margin:10px 10px 10px 0;}
-.community-curator .big-section .contents .description:after{display:block;}
-.related-content .option-5 .inner .related-content-wrap .button-wrap .btn{float:right;margin:10px 0;}
+@media (min-width:1250px) {
+	/* temp reactions */
+	.amp-feature-block .btn-react:after,
+	.related-content .option-2 .related-content-wrap .button-wrap:before,
+	.related-content-2 .button-wrap:before,
+	.community-curator .big-section .contents .description:after,
+	.related-content .option-5 .inner .related-content-wrap .button-wrap:before,
+	#tab .amp-feature-block .feature-disc:after{content:'';display:inline-block;background:url(../images/reactions.png) no-repeat left center;width:120px;height:30px;margin:10px 10px 10px 20px;vertical-align:middle;}
+	.related-content .option-2 .related-content-wrap .button-wrap:before,
+	.related-content .option-2 .related-content-wrap .button-wrap:before,
+	.related-content-2 .button-wrap:before,
+	.community-curator .big-section .contents .description:after,
+	.related-content .option-5 .inner .related-content-wrap .button-wrap:before,
+	#tab .amp-feature-block .feature-disc:after{margin:10px 10px 10px 0;}
+	.community-curator .big-section .contents .description:after{display:block;}
+	.related-content .option-5 .inner .related-content-wrap .button-wrap .btn{float:right;margin:10px 0;}
+}
 
 /* media css */
 
