@@ -240,7 +240,6 @@ a{color:#e5018b;text-decoration:none}
 
 /* Common styles */
 .wp-block-md-multipurpose-gutenberg-block h2{margin:0 0 30px;}
-.wp-block-md-multipurpose-gutenberg-block > h2:first-child{padding-top:30px;}
 
 /* Image block style */
 .amp-controle-settings .amp-image-button{height:auto;pointer-events:none;padding:0;margin-bottom:15px;}
@@ -325,7 +324,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .item{padding:0 10px;width:25%;margin:0 0 30px;position:relative;}
 .related-content .inner{position:relative;background-color:#303030;height:100%;max-height:calc(100% - 40px);}
 .related-content .option-5 .inner{background-color:#404040;}
-.related-content .option-5 .inner .related-content-wrap:first-child{height:100%;}
+.related-content .option-5 .inner .related-content-wrap:first-child{max-height:100%;}
 .related-content .video-icon{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding:0 20px;max-width:110px;margin:0;position:absolute;left:0;right:0;margin:0 auto;text-align:center;z-index:2;}
 .related-content .video-icon .edit-image{position:absolute;right:0;top:-20px;}
 .related-content .video-icon button{width:80px;height:80px;border-radius:50%;font-size:12px;padding:0 5px!important;}
@@ -366,9 +365,10 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .option-4 .background-image .edit-image{top:0;}
 .related-content .advertising{background-color:rgb(99 99 223 / 0.5);color:#fff;padding:11px 10px;position:absolute;top:0;left:0;right:0;font-size:16px;}
 .related-content .related-content-wrap{z-index:1;position:relative;padding:25px 20px 60px 20px;height:100%;max-height:calc(100% - 130px);}
+.related-content .option-5 .related-content-wrap{padding:40px 30px 60px 30px;}
 .related-content .option-1 .related-content-wrap,
-.related-content .option-4 .related-content-wrap{padding:55px 20px 60px 20px;}
-.related-content .option-2 .related-content-wrap{padding:45px 20px 60px 20px;}
+.related-content .option-4 .related-content-wrap{padding:55px 30px 60px 30px;}
+.related-content .option-2 .related-content-wrap{padding:45px 30px 60px 30px;}
 .related-content .option-2 .related-content-wrap,
 .related-content .option-4 .related-content-wrap{text-align:center;}
 .related-content .option-3 .related-content-wrap{height:auto;padding:20px;position:absolute;left:0;right:0;bottom:0;}
