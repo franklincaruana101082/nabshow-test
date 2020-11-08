@@ -114,7 +114,7 @@
 #tabs li.ui-tabs-active{border-top-left-radius:10px;border-top-right-radius:10px;}
 #tabs li.ui-tabs-active:first-child{border-top-left-radius:0;}
 #tabs li.ui-tabs-active:last-child{border-top-right-radius:0;}
-#tabs li a{width:100%;padding:10px;display:block;font-weight:600;opacity:0.3;text-align:center;}
+#tabs li a{width:100%;padding:20px 10px;display:block;font-weight:600;opacity:0.3;text-align:center;line-height:normal;}
 #tabs li.ui-tabs-active a{opacity:1;}
 
 
@@ -125,6 +125,7 @@
 .community-cornor > div > h2{margin:0 0 10px;}
 .single-discover_content .related-content-2 .inner{background-color:#303030;}
 .product-section .related-content .option-5 .inner{background-color:#404040;}
+.trending-activity .related-content .option-5 .inner{background-color:#303030;}
 
 /* media css */
 
