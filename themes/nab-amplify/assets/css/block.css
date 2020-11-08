@@ -388,8 +388,8 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content-2 .inner{background-color:#404040;padding:50px 30px 30px;position:relative;height:calc(100% - 35px);}
 .related-content-2 .title{color:#fff;font-size:24px;margin:0 0 80px;line-height:normal;}
 .related-content-2 .sub-title{color:#999999;font-size:19px;margin:0 0 40px;display:block;line-height:normal;}
-.related-content-2 .button-wrap{text-align:right;}
-.related-content-2 .button-wrap .btn{margin:0;}
+.related-content-2 .button-wrap{position:absolute;left:0;right:0;bottom:0;padding:10px 20px 20px;display:flex;justify-content:space-between;align-content:center;}
+.related-content-2 .button-wrap .btn{margin:0;float:right;}
 
 /* community curator */
 .community-curator{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
