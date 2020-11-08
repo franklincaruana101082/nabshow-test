@@ -21,8 +21,11 @@
 	/* my account */
 	.amp-profile-main{margin-right:10%;max-width:670px;}
 }
+@media (max-width:1080px){
+	.site-header .nab-header-search .search-form .search-field{width:260px;}
+}
 @media (max-width:1024px){
-	.site-header .nab-header-search .search-form .search-field{width:250px;}
+	.site-header .nab-header-search .search-form .search-field{width:220px;}
 	.nab-profile:hover > .nab-profile-dropdown{display:none}
 	.single-product div.product .woocommerce-product-gallery{width:100%}
 	.single-product div.product .summary{width:100%;padding:40px 0 0 0}
