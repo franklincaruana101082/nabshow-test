@@ -85,7 +85,7 @@
 .related-content-2 .button-wrap .btn{margin:0;}
 
 /* community curator */
-.community-curator{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.community-curator{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-bottom:30px;}
 .community-curator .big-section{width:70%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;padding:3vw;min-height:60vh;position:relative;background-size:cover;background-position:center;}
 .community-curator .big-section:before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:url(../images/community-curator-shadow.png) left bottom no-repeat;width:50%;height:100%;background-size:cover;}
 .community-curator .big-section .contents{position:relative;width:320px;max-width:700px;}
