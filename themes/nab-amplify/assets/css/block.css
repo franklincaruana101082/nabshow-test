@@ -298,7 +298,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .upcoming-events-calendar .left img{max-height:100%;}
 .upcoming-events-calendar .edit-image{position:absolute;right:0;top:0;}
 .upcoming-events-calendar .right{width:calc(100% - 180px);padding-left:20px;}
-.upcoming-events-calendar .title{color:#fff;margin:0 0 15px;font-size:30px;line-height:normal;}
+.upcoming-events-calendar .title{color:#fff;margin:0 0 10px;font-size:30px;line-height:normal;}
 .upcoming-events-calendar .sub-title{color:#565656;margin:0 0 15px;display:block;font-size:22px;line-height:normal;}
 .upcoming-events-calendar .description{color: #fff;margin:0 0 15px;font-size:20px;line-height:normal;}
 .upcoming-events-calendar .description:last-child{margin:0;}

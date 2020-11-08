@@ -29,7 +29,7 @@
 .upcoming-events-calendar .inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;background-color:#333;padding:20px;height:100%;}
 .upcoming-events-calendar .left{width:180px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 .upcoming-events-calendar .right{width:calc(100% - 180px);padding-left:20px;}
-.upcoming-events-calendar .title{color:#fff;margin:0 0 15px;font-size:30px;line-height:normal;}
+.upcoming-events-calendar .title{color:#fff;margin:0 0 10px;font-size:30px;line-height:normal;}
 .upcoming-events-calendar .sub-title{color:#565656;margin:0 0 15px;display:block;font-size:22px;line-height:normal;}
 .upcoming-events-calendar .description{color: #fff;margin:0 0 15px;font-size:20px;line-height:normal;font-family:'OpenSans-Light',Arial,sans-serif;}
 .upcoming-events-calendar .description:last-child{margin:0;}
@@ -123,8 +123,10 @@
 .related-content + .amp-image-block,
 .wp-block-amplify-tabs + .amp-image-block{padding:0 0 30px;}
 .community-cornor > div > h2{margin:0 0 10px;}
+.community-cornor > div > p{margin:0 0 20px;}
 .single-discover_content .related-content-2 .inner{background-color:#303030;}
 .product-section .related-content .option-5 .inner{background-color:#404040;}
+.product-section .amp-image-block{padding:0 0 30px;}
 .trending-activity .related-content .option-5 .inner{background-color:#303030;}
 
 /* media css */
@@ -133,15 +135,17 @@
 	/* community curator */
 	.community-curator .big-section{width:60%;}
 	.community-curator .grid-list{width:40%;}
-}
 
-@media (max-width:1200px) {
 	/* upcoming events */
 	.upcoming-events-calendar .left{width:150px;}
 	.upcoming-events-calendar .right{width:calc(100% - 150px);}
 
 	/* related content */
 	.related-content .item{width:33.333333333333336%;}
+}
+@media (max-width:1024px) {
+	/* community curator */
+	.community-curator .big-section:before{width:70%;}
 }
 @media (max-width:991px) {
 	/* feature block */
@@ -163,7 +167,11 @@
 	.community-curator .title{font-size:22px;}
 	.community-curator .sub-title{font-size:18px;}
 	.community-curator .grid-list .item .inner .left{padding:10px;}
+	.community-curator .big-section{width:100%;}
+	.community-curator .grid-list{width:100%;}
+	.community-curator .big-section:before{width:70%;}
 	.community-curator .big-section .contents{width:100%;}
+	.community-curator .big-section .contents{max-width:90%;}
 
 	/* related content */
 	.related-content-2 .item{width:50%;}
@@ -186,13 +194,9 @@
 	.upcoming-events-calendar .description{font-size:16px;}
 
 	/* community curator */
-	.community-curator .big-section{width:100%;}
-	.community-curator .grid-list{width:100%;}
-	.community-curator .big-section:before{width:70%;}
 	.community-curator .grid-list .item .inner .right{padding:10px;width:calc(100% - 120px)}
 	.community-curator .grid-list .item .inner .left{width:120px;}
 	.community-curator .grid-list .title{font-size:20px;}
-	.community-curator .big-section .contents{max-width:90%;}
 
 	/* related content multi layout */
 	.related-content .option-5 .title{margin:0 0 20px;}
