@@ -325,6 +325,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .item{padding:0 10px;width:25%;margin:0 0 30px;position:relative;}
 .related-content .inner{position:relative;background-color:#303030;height:100%;max-height:calc(100% - 40px);}
 .related-content .option-5 .inner{background-color:#404040;}
+.related-content .option-5 .inner .related-content-wrap:first-child{height:100%;}
 .related-content .video-icon{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding:0 20px;max-width:110px;margin:0;position:absolute;left:0;right:0;margin:0 auto;text-align:center;z-index:2;}
 .related-content .video-icon .edit-image{position:absolute;right:0;top:-20px;}
 .related-content .video-icon button{width:80px;height:80px;border-radius:50%;font-size:12px;padding:0 5px!important;}
@@ -401,7 +402,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .community-curator .main-image{width:70%;}
 .community-curator .item-list-right{width:30%;}
 .community-curator .item-list-wrap{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
-.community-curator .item-list-wrap .left{width:150px;background-color:#666666;padding:15px;position:relative;}
+.community-curator .item-list-wrap .left{width:150px;background-color:#666666;padding:20px;position:relative;}
 .community-curator .item-list-wrap .left button{font-size:12px;padding:0 10px;width:100%;height:100px;}
 .community-curator .item-list-wrap .left button span{display:block;margin:0 auto;}
 .community-curator .item-list-wrap .left .edit-image{position:absolute;right:15px;top:15px;}
@@ -428,3 +429,5 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 #tabs .ui-tabs-nav .additem{text-align:left;}
 #tabs .additem .add{border-color:transparent;cursor:pointer;}
 #tabs a.btn{color:#fff;}
+
+#tabs .related-content .option-5 .inner{background-color:#303030;}
