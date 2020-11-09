@@ -40,6 +40,7 @@
 .related-content .inner{position:relative;background-color:#303030;height:100%;}
 .related-content .option-5 .inner{background-color:#404040;}
 .related-content .option-5 .inner .related-content-wrap:first-child{max-height:100%;}
+.related-content .option-5 .inner .related-content-wrap:first-child .title{margin:0 0 100px;}
 .related-content .video-icon{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding:0 20px;max-width:110px;margin:0;position:absolute;left:0;right:0;margin:0 auto;text-align:center;z-index:2;}
 .related-content .background-image,
 .related-content .image{height:130px;}
@@ -86,7 +87,7 @@
 
 /* community curator */
 .community-curator{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.community-curator .big-section{width:70%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;padding:3vw;min-height:60vh;position:relative;background-size:cover;background-position:center;}
+.community-curator .big-section{width:70%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;padding:50px;min-height:580px;position:relative;background-size:cover;background-position:center;}
 .community-curator .big-section:before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:url(../images/community-curator-shadow.png) left bottom no-repeat;width:50%;height:100%;background-size:cover;}
 .community-curator .big-section .contents{position:relative;width:320px;max-width:700px;}
 .community-curator .grid-list{width:30%;background-color:#303030;}
@@ -126,13 +127,7 @@
 .product-section .related-content .option-5 .inner{background-color:#404040;}
 .product-section .amp-image-block{padding:0 0 30px;}
 .trending-activity .related-content .option-5 .inner{background-color:#303030;}
-
-#tabs .ui-state-active, 
-#tabs.ui-widget-content .ui-state-active, 
-.ui-widget-header .ui-state-active, 
-a.ui-button:active, 
-.ui-button:active, 
-.ui-button.ui-state-active:hover{}
+.ui-widget{font-family:'Open Sans',Arial,sans-serif;}
 
 @media (min-width:1250px) {
 	/* temp reactions */

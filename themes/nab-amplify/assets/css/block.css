@@ -325,6 +325,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .inner{position:relative;background-color:#303030;height:100%;max-height:calc(100% - 40px);}
 .related-content .option-5 .inner{background-color:#404040;}
 .related-content .option-5 .inner .related-content-wrap:first-child{max-height:100%;}
+.related-content .option-5 .inner .related-content-wrap:first-child .title{margin:0 0 100px;}
 .related-content .video-icon{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding:0 20px;max-width:110px;margin:0;position:absolute;left:0;right:0;margin:0 auto;text-align:center;z-index:2;}
 .related-content .video-icon .edit-image{position:absolute;right:0;top:-20px;}
 .related-content .video-icon button{width:80px;height:80px;border-radius:50%;font-size:12px;padding:0 5px!important;}
