@@ -239,7 +239,7 @@ a{color:#e5018b;text-decoration:none}
 /* custom blocks styles */
 
 /* Common styles */
-.wp-block-md-multipurpose-gutenberg-block h2{margin:0 0 30px;}
+.wp-block-md-multipurpose-gutenberg-block > h2{margin:0 0 30px;}
 
 /* Image block style */
 .amp-controle-settings .amp-image-button{height:auto;pointer-events:none;padding:0;margin-bottom:15px;}
@@ -254,7 +254,7 @@ a{color:#e5018b;text-decoration:none}
 .amp-image-block button span{display:block;margin:0 auto;}
 
 /* feature block styles */
-.amp-feature-block-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;height:620px;width:100%;padding:50px;position:relative;margin-bottom:30px;}
+.amp-feature-block-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;min-height:620px;width:100%;padding:50px;position:relative;margin-bottom:30px;}
 .amp-feature-block-inner:before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:url(../images/community-curator-shadow.png) left bottom no-repeat;width:50%;height:100%;background-size:cover;}
 .amp-feature-content{position:relative;width:390px;max-width:70%;}
 .amp-feature-block .feature-status{color:#e5018b;font-size:40px;margin:0 0 20px;line-height:normal;}
