@@ -415,7 +415,6 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .front_end_tabs{display:none!important;}
 #tabs.backend_tab{background-color:#404040;border-color:transparent;}
 #tabs .amplify-tabs{background-color:#303030;}
-#tabs .ui-tabs-panel{padding:0;}
 #tabs ul{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-item-align:start;align-self:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;background-color:#404040;}
 #tabs li{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;width:auto!important;border-color:transparent;margin:0 5px 0 0;}
 #tabs li:last-child{margin-right:0;}
