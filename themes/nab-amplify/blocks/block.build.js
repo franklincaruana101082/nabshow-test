@@ -4754,6 +4754,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         insertBlock(newBlock, parseInt(block.innerBlocks.length), clientId);
       }
     }, {
+      key: 'addSelectedTab',
+      value: function addSelectedTab(index) {
+        console.log(index);
+        this.props.setAttributes({ selectedTab: index });
+        console.log(this.props.attributes.selectedTab);
+      }
+    }, {
       key: 'render',
       value: function render() {
         var _this2 = this;
@@ -4789,6 +4796,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           _this2.reInitTabs();
         };
 
+        var UpdateSelectedTabColor = function UpdateSelectedTabColor(colorVal, tabIndex) {
+          var tabs = _this2.props.attributes.tabs;
+
+          var tempTabs = [].concat(_toConsumableArray(tabs));
+
+          tempTabs[tabIndex].bgcolor = colorVal;
+          _this2.props.setAttributes({ tabs: tempTabs });
+          _this2.reInitTabs();
+        };
+
+        var SelectedTabColor = function SelectedTabColor(tabIndex) {
+          var tabs = _this2.props.attributes.tabs;
+
+          var tempTabs = [].concat(_toConsumableArray(tabs));
+
+          return tempTabs[tabIndex].bgcolor;
+        };
+
         var addTab = function addTab() {
           var _props$attributes = _this2.props.attributes,
               tabs = _props$attributes.tabs,
@@ -4800,7 +4825,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           _this2.props.setAttributes({ tabs: tempTabs });
           _this2.setState({ tabs: tempTabs });
           var newBlock = createBlock('amplify/amplifyinnerblock', {
-            id: tabsCount + 1
+            id: tabsCount + 1,
+            tabattr: true
           });
           _this2.props.setAttributes({ tabsCount: tabsCount + 1 });
           _this2.insertTab(newBlock);
@@ -4826,7 +4852,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var renderCSS = wp.element.createElement(
           'style',
           null,
-          '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {\n    border: 1px solid #003eff;\n    background:' + attributes.tabActiveBg + ' !important;\n    font-weight: normal;\n    color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {\n  color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {\n  border: 1px solid #c5c5c5;\n  background:' + attributes.tabInActiveBg + ';\n}\n.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {\n  color: ' + attributes.tabInActiveTitleColor + '\n}\n.ui-tabs-nav{\n  background: none;\n    border: none;\n    border-bottom: 1px solid ' + attributes.panelBorderColor + ' !important;\n    padding: 0 !important;\n}\n.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {\n  border-bottom-left-radius: 0px !important;\n}\n.amplify-tabs{\n  border:' + (attributes.panelBorderSize ? attributes.panelBorderSize : '4') + 'px solid ' + attributes.panelBorderColor + '\n}\n.ui-tabs .ui-tabs-nav .ui-tabs-anchor {\n  font-size: ' + (attributes.tabFontSize ? attributes.tabFontSize : '14') + 'px;\n}\n'
+          '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {\n    border: 1px solid #003eff;\n    background:' + attributes.tabActiveBg + ';\n    font-weight: normal;\n    color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {\n  color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {\n  border: 1px solid #c5c5c5;\n  background:' + attributes.tabInActiveBg + ';\n}\n.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {\n  color: ' + attributes.tabInActiveTitleColor + '\n}\n.ui-tabs-nav{\n  background: none;\n    border: none;\n    border-bottom: 1px solid ' + attributes.tabs[attributes.selectedTab].bgcolor + ' !important;\n    padding: 0 !important;\n}\n.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {\n  border-bottom-left-radius: 0px !important;\n}\n.amplify-tabs{\n  border:' + (attributes.panelBorderSize ? attributes.panelBorderSize : '4') + 'px solid ' + attributes.tabs[attributes.selectedTab].bgcolor + '\n}\n.ui-tabs .ui-tabs-nav .ui-tabs-anchor {\n  font-size: ' + (attributes.tabFontSize ? attributes.tabFontSize : '14') + 'px;\n}\n.ui-tabs-active{\n  background:' + attributes.tabs[attributes.selectedTab].bgcolor + ' !important\n}\n'
         );
 
         return wp.element.createElement(
@@ -4849,21 +4875,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 wp.element.createElement(
                   PanelRow,
                   null,
-                  wp.element.createElement(
-                    BaseControl,
-                    {
-                      id: 'active-tab-background',
-                      label: 'Active Tab Background',
-                      help: 'Set Active tab background color'
-                    },
-                    wp.element.createElement(ColorPalette, {
-                      colors: colors,
-                      value: attributes.tabActiveBg,
-                      onChange: function onChange(newval) {
-                        return setAttributes({ tabActiveBg: newval });
-                      }
-                    })
-                  )
+                  attributes.tabs.map(function (tab, index) {
+                    return attributes.selectedTab === index && wp.element.createElement(
+                      BaseControl,
+                      {
+                        id: 'active-tab-background',
+                        label: 'Selected Tab Background',
+                        help: 'Set Selected tab background color'
+                      },
+                      wp.element.createElement(ColorPalette, {
+                        colors: colors,
+                        value: SelectedTabColor(index),
+                        onChange: function onChange(newval) {
+                          return UpdateSelectedTabColor(newval, index);
+                        }
+                      })
+                    );
+                  })
                 ),
                 wp.element.createElement(
                   PanelRow,
@@ -5005,7 +5033,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               attributes.tabs.map(function (tab, index) {
                 return wp.element.createElement(
                   'li',
-                  null,
+                  { onClick: function onClick(e) {
+                      return _this2.addSelectedTab(index);
+                    } },
                   wp.element.createElement('span', {
                     onClick: function onClick(e) {
                       return _this2.removeTab(e, index);
@@ -5066,7 +5096,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       },
       tabs: {
         type: 'array',
-        default: [{ tabId: 'sdsd65asda', tabTitle: 'Tab 1', tabContent: '' }]
+        default: [{ tabId: 'sdsd65asda', tabTitle: 'Tab 1', tabContent: '', bgcolor: '#0ca5ea' }]
       },
       tabTitle: {
         type: 'string',
@@ -5082,7 +5112,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       },
       tabActiveTitleColor: {
         type: 'string',
-        default: '#404040'
+        default: '#ada9a9'
       },
       tabsCount: {
         type: 'number',
@@ -5111,18 +5141,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       amplifyTabBlockid: {
         type: 'string',
         default: ''
+      },
+      selectedTab: {
+        type: 'number',
+        default: 0
       }
     },
     edit: amplifyTabs,
     save: function save(props) {
+      var _this3 = this;
+
       var attributes = props.attributes,
           setAttributes = props.setAttributes,
           clientId = props.clientId;
 
+      var addSelectedTab = function addSelectedTab(index) {
+
+        _this3.props.setAttributes({ selectedTab: index });
+      };
       var renderCSS = wp.element.createElement(
         'style',
         null,
-        '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {\n    border: 1px solid #003eff;\n    background:' + attributes.tabActiveBg + ' !important;\n    font-weight: normal;\n    color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {\n  color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {\n  border: 1px solid #c5c5c5;\n  background:' + attributes.tabInActiveBg + ';\n}\n.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {\n  color: ' + attributes.tabInActiveTitleColor + '\n}\n.ui-tabs-nav{\n  background: none;\n    border: none;\n    border-bottom: 1px solid ' + attributes.panelBorderColor + ' !important;\n    padding: 0 !important;\n}\n.ui-widget.ui-widget-content {\n  border: none;\n}\n.amplify-tabs{\n  border:' + (attributes.panelBorderSize ? attributes.panelBorderSize : '4') + 'px solid ' + attributes.panelBorderColor + '\n}\n.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {\n  border-bottom-left-radius: 0px !important;\n}\n.ui-tabs .ui-tabs-nav .ui-tabs-anchor {\n  font-size: ' + (attributes.tabFontSize ? attributes.tabFontSize : '15') + 'px;\n}\n'
+        '.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {\n    border: 1px solid #003eff;\n    background:' + attributes.tabActiveBg + ';\n    font-weight: normal;\n    color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {\n  color: ' + attributes.tabActiveTitleColor + ' !important;\n}\n.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {\n  border: 1px solid #c5c5c5;\n  background:' + attributes.tabInActiveBg + ';\n}\n.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {\n  color: ' + attributes.tabInActiveTitleColor + '\n}\n.ui-tabs-nav{\n  background: none;\n    border: none;\n    border-bottom: 1px solid ' + attributes.tabs[attributes.selectedTab].bgcolor + ' !important;\n    padding: 0 !important;\n}\n.ui-widget.ui-widget-content {\n  border: none;\n}\n\n.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {\n  border-bottom-left-radius: 0px !important;\n}\n.amplify-tabs{\n  border:' + (attributes.panelBorderSize ? attributes.panelBorderSize : '4') + 'px solid ' + attributes.tabs[attributes.selectedTab].bgcolor + '\n}\n.ui-tabs .ui-tabs-nav .ui-tabs-anchor {\n  font-size: ' + (attributes.tabFontSize ? attributes.tabFontSize : '14') + 'px;\n}\n.ui-tabs-active{\n  background:' + attributes.tabs[attributes.selectedTab].bgcolor + ' !important\n}\n'
       );
 
       return wp.element.createElement(
@@ -5138,7 +5178,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             attributes.tabs.map(function (tab, index) {
               return wp.element.createElement(
                 'li',
-                null,
+                { 'data-color': tab.bgcolor, 'data-border': attributes.panelBorderSize },
                 wp.element.createElement(
                   'a',
                   { href: '#tab_' + ('' + (index + 1)) },
@@ -5171,6 +5211,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       text: {
         type: 'number',
         default: 0
+      },
+      tabattr: {
+        type: 'boolean',
+        default: false
       }
     },
 

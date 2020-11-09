@@ -33,6 +33,10 @@
 .upcoming-events-calendar .sub-title{color:#565656;margin:0 0 15px;display:block;font-size:22px;line-height:normal;}
 .upcoming-events-calendar .description{color: #fff;margin:0 0 15px;font-size:20px;line-height:normal;font-family:'OpenSans-Light',Arial,sans-serif;}
 .upcoming-events-calendar .description:last-child{margin:0;}
+.title-with-button{margin-bottom:30px;}
+.title-with-button h2{margin:0;display:inline-block;vertical-align:middle;margin-right:20px;}
+.title-with-button .wp-block-button{margin:0;margin:0;display:inline-block;vertical-align:middle;}
+.title-with-button .wp-block-button a{background-color:transparent;border:0;padding:0;text-decoration:underline;color:#999;}
 
 /* related content multi layout */
 .related-content{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px;}

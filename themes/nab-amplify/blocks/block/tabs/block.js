@@ -88,6 +88,12 @@ import memoize from 'memize'
       insertBlock(newBlock, parseInt(block.innerBlocks.length), clientId)
     }
 
+    addSelectedTab(index){
+      console.log( index)
+      this.props.setAttributes({ selectedTab: index })
+      console.log( this.props.attributes.selectedTab)
+    }
+
     render () {
       const { attributes, setAttributes, clientId } = this.props
       const fontSizes = [
@@ -124,6 +130,23 @@ import memoize from 'memize'
         this.reInitTabs()
       }
 
+      const UpdateSelectedTabColor = (colorVal,tabIndex) => {
+        const { tabs } = this.props.attributes
+        let tempTabs = [...tabs]
+        
+        tempTabs[tabIndex].bgcolor = colorVal
+        this.props.setAttributes({ tabs: tempTabs })
+        this.reInitTabs()
+      }
+
+      const SelectedTabColor = (tabIndex) => {
+        const { tabs } = this.props.attributes
+        let tempTabs = [...tabs]
+        
+        return tempTabs[tabIndex].bgcolor
+        
+      }
+
       const addTab = () => {
         const { tabs, tabsCount } = this.props.attributes
         let tempTabs = [...tabs]
@@ -132,7 +155,8 @@ import memoize from 'memize'
         this.props.setAttributes({ tabs: tempTabs })
         this.setState({ tabs: tempTabs })
         const newBlock = createBlock('amplify/amplifyinnerblock', {
-          id: tabsCount + 1
+          id: tabsCount + 1,
+          tabattr:true
         })
         this.props.setAttributes({ tabsCount: tabsCount + 1 })
         this.insertTab(newBlock)
@@ -157,7 +181,7 @@ import memoize from 'memize'
         <style>
           {`.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     border: 1px solid #003eff;
-    background:${attributes.tabActiveBg} !important;
+    background:${attributes.tabActiveBg};
     font-weight: normal;
     color: ${attributes.tabActiveTitleColor} !important;
 }
@@ -174,7 +198,7 @@ import memoize from 'memize'
 .ui-tabs-nav{
   background: none;
     border: none;
-    border-bottom: 1px solid ${attributes.panelBorderColor} !important;
+    border-bottom: 1px solid ${attributes.tabs[attributes.selectedTab].bgcolor} !important;
     padding: 0 !important;
 }
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
@@ -183,10 +207,13 @@ import memoize from 'memize'
 .amplify-tabs{
   border:${
     attributes.panelBorderSize ? attributes.panelBorderSize : '4'
-  }px solid ${attributes.panelBorderColor}
+  }px solid ${attributes.tabs[attributes.selectedTab].bgcolor}
 }
 .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
   font-size: ${attributes.tabFontSize ? attributes.tabFontSize : '14'}px;
+}
+.ui-tabs-active{
+  background:${attributes.tabs[attributes.selectedTab].bgcolor} !important
 }
 `}
         </style>
@@ -202,21 +229,25 @@ import memoize from 'memize'
                 initialOpen={true}
                 className='range-setting'
               >
-                <PanelRow>
+                 <PanelRow>
+                 {attributes.tabs.map((tab, index) => (  
+                   attributes.selectedTab === index &&
                   <BaseControl
                     id='active-tab-background'
-                    label='Active Tab Background'
-                    help='Set Active tab background color'
+                    label='Selected Tab Background'
+                    help='Set Selected tab background color'
                   >
                     <ColorPalette
                       colors={colors}
-                      value={attributes.tabActiveBg}
+                      value={SelectedTabColor(index)}
                       onChange={newval =>
-                        setAttributes({ tabActiveBg: newval })
+                        UpdateSelectedTabColor(newval,index)
                       }
                     />
                   </BaseControl>
+                 ))}
                 </PanelRow>
+                
                 <PanelRow>
                   <BaseControl
                     id='active-tab-title-color'
@@ -325,12 +356,12 @@ import memoize from 'memize'
           <div id='tabs' className='backend_tab'>
             <ul>
               {attributes.tabs.map((tab, index) => (
-                <li>
+                <li onClick={e => this.addSelectedTab(index)} >
                   <span
                     onClick={e => this.removeTab(e, index)}
                     className='dashicons dashicons-no-alt remove'
                   ></span>
-                  <a href={'#tab_' + `${index + 1}`}>
+                  <a href={'#tab_' + `${index + 1}`}  >
                     <RichText
                       tagName='h4' // The tag here is the element output and editable in the admin
                       value={tab.tabTitle} // Any existing content, either from the database or an attribute default
@@ -374,7 +405,7 @@ import memoize from 'memize'
       },
       tabs: {
         type: 'array',
-        default: [{ tabId: 'sdsd65asda', tabTitle: 'Tab 1', tabContent: '' }]
+        default: [{ tabId: 'sdsd65asda', tabTitle: 'Tab 1', tabContent: '',bgcolor:'#0ca5ea' }]
       },
       tabTitle: {
         type: 'string',
@@ -390,7 +421,7 @@ import memoize from 'memize'
       },
       tabActiveTitleColor: {
         type: 'string',
-        default: '#404040'
+        default: '#ada9a9'
       },
       tabsCount: {
         type: 'number',
@@ -419,16 +450,25 @@ import memoize from 'memize'
       amplifyTabBlockid: {
         type: 'string',
         default: ''
+      },
+      selectedTab:{
+        type:'number',
+        default:0
       }
     },
     edit: amplifyTabs,
     save (props) {
-      const { attributes, setAttributes, clientId } = props
+      const { attributes, setAttributes, clientId } = props;
+     const addSelectedTab = (index) =>{
+       
+        this.props.setAttributes({ selectedTab: index })
+        
+      }
       const renderCSS = (
         <style>
           {`.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     border: 1px solid #003eff;
-    background:${attributes.tabActiveBg} !important;
+    background:${attributes.tabActiveBg};
     font-weight: normal;
     color: ${attributes.tabActiveTitleColor} !important;
 }
@@ -445,22 +485,26 @@ import memoize from 'memize'
 .ui-tabs-nav{
   background: none;
     border: none;
-    border-bottom: 1px solid ${attributes.panelBorderColor} !important;
+    border-bottom: 1px solid ${attributes.tabs[attributes.selectedTab].bgcolor} !important;
     padding: 0 !important;
 }
 .ui-widget.ui-widget-content {
   border: none;
 }
-.amplify-tabs{
-  border:${
-    attributes.panelBorderSize ? attributes.panelBorderSize : '4'
-  }px solid ${attributes.panelBorderColor}
-}
+
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
   border-bottom-left-radius: 0px !important;
 }
+.amplify-tabs{
+  border:${
+    attributes.panelBorderSize ? attributes.panelBorderSize : '4'
+  }px solid ${attributes.tabs[attributes.selectedTab].bgcolor}
+}
 .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
-  font-size: ${attributes.tabFontSize ? attributes.tabFontSize : '15'}px;
+  font-size: ${attributes.tabFontSize ? attributes.tabFontSize : '14'}px;
+}
+.ui-tabs-active{
+  background:${attributes.tabs[attributes.selectedTab].bgcolor} !important
 }
 `}
         </style>
@@ -472,7 +516,7 @@ import memoize from 'memize'
           <div id='tabs' className='backend_tab'>
             <ul>
               {attributes.tabs.map((tab, index) => (
-                <li>
+                <li data-color={tab.bgcolor} data-border={attributes.panelBorderSize}>
                   <a href={'#tab_' + `${index + 1}`}>{tab.tabTitle}</a>
                 </li>
               ))}
@@ -501,6 +545,10 @@ import memoize from 'memize'
       text: {
         type: 'number',
         default: 0
+      },
+      tabattr:{
+        type:'boolean',
+        default:false
       }
     },
 
