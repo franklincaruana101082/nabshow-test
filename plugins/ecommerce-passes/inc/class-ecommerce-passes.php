@@ -527,88 +527,66 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                 if ( ! empty( $term_remote_url ) ) {
 
-                    $curl = curl_init();
+                    $get_remote_terms = wp_remote_get( $term_remote_url );
+                    $response         = wp_remote_retrieve_body( $get_remote_terms );
 
-                    curl_setopt_array( $curl, array(
-                        CURLOPT_URL => $term_remote_url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 100,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => "POST",
-                    ));
+                    if ( isset( $response ) && ! empty( $response ) ) {
 
-                    $response = curl_exec( $curl );
+                        $final_terms = json_decode( $response );
 
-                    curl_close( $curl );
-
-                    $final_terms = json_decode( $response );
-
-                    if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
-                        ?>
-                        <div class="category-box">
-                            <label for="product-category">Select Category</label>
-                            <select id="product-category" class="product-category">
-                                <option value="all">All</option>
-                                <?php
-                                foreach( $final_terms as $product_term ) {
-                                    ?>
-                                    <option value="<?php echo esc_attr( $product_term->term_id ); ?>"><?php echo esc_html( $product_term->name ); ?></option>
+                        if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
+                            ?>
+                            <div class="category-box">
+                                <label for="product-category">Select Category</label>
+                                <select id="product-category" class="product-category">
+                                    <option value="all">All</option>
                                     <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <?php
+                                    foreach( $final_terms as $product_term ) {
+                                        ?>
+                                        <option value="<?php echo esc_attr( $product_term->term_id ); ?>"><?php echo esc_html( $product_term->name ); ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <?php
+                        }
                     }
                 }
 
                 if ( ! empty( $product_remote_url ) ) {
 
-                    $curl = curl_init();
+                    $get_remote_products = wp_remote_get( $product_remote_url );
+                    $response            = wp_remote_retrieve_body( $get_remote_products );
 
-                    curl_setopt_array( $curl, array(
-                        CURLOPT_URL => $product_remote_url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => "POST",
-                    ));
+                    if ( isset( $response ) && ! empty( $response ) ) {
 
-                    $response = curl_exec( $curl );
+                        $final_products = json_decode( $response );
 
-                    curl_close( $curl );
+                        if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
 
-                    $final_products = json_decode( $response );
+                            $associate_products = get_post_meta( $post->ID, '_associate_product', true );
 
-                    if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
+                            ?>
+                            <div class="product-name-box">
+                                <label for="all-product-list">Select Products</label>
+                                <select id='all-product-list' class="all-product-list" name="associate_products[]" multiple="multiple">
+                                    <?php
+                                    foreach( $final_products as $product ) {
 
-                        $associate_products = get_post_meta( $post->ID, '_associate_product', true );
-
-                        ?>
-                        <div class="product-name-box">
-                            <label for="all-product-list">Select Products</label>
-                            <select id='all-product-list' class="all-product-list" name="associate_products[]" multiple="multiple">
-                                <?php
-                                foreach( $final_products as $product ) {
-
-                                    $current_item = '';
-                                    if ( ! empty( $associate_products ) && is_array( $associate_products ) && in_array( $product->product_id, $associate_products ) ) {
-                                        $current_item = $product->product_id;
+                                        $current_item = '';
+                                        if ( ! empty( $associate_products ) && is_array( $associate_products ) && in_array( $product->product_id, $associate_products ) ) {
+                                            $current_item = $product->product_id;
+                                        }
+                                        ?>
+                                        <option value="<?php echo esc_attr( $product->product_id ); ?>" <?php selected( $current_item, $product->product_id ); ?>><?php echo esc_html( $product->product_name ); ?></option>
+                                        <?php
                                     }
                                     ?>
-                                    <option value="<?php echo esc_attr( $product->product_id ); ?>" <?php selected( $current_item, $product->product_id ); ?>><?php echo esc_html( $product->product_name ); ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <?php
+                                </select>
+                            </div>
+                            <?php
+                        }
                     }
                 }
                 ?>
