@@ -233,8 +233,8 @@ a.ui-button:active,
 	.related-content .option-5 .sub-title{margin:0 0 20px;}
 
 	/* tabs */
-	#tabs li.ui-tabs-active:first-child{border-top-left-radius:10px;}
-	#tabs li.ui-tabs-active:last-child{border-top-right-radius:10px;}
+	#tabs li.ui-tabs-active:first-child{border-top-left-radius:20px;}
+	#tabs li.ui-tabs-active:last-child{border-top-right-radius:20px;}
 	#tabs li{width:50%;margin:0px;-webkit-box-flex:inherit;-ms-flex-positive:inherit;flex-grow:inherit;}
 	#tabs li a{font-size:24px!important;}
 }
