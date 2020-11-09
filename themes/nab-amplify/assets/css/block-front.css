@@ -71,7 +71,7 @@
 .related-content .option-5 .sub-title{margin:0 0 40px;}
 .related-content .date{color:#999999;font-size:16px;display:block;margin:0 0 20px;}
 .related-content .item:not(.option-3) .button-wrap{position:absolute;left:0;right:0;bottom:0;padding:10px 20px 20px;}
-.related-content .btn{border-radius:8px;margin:0;min-width:auto;padding:7px 28px 8px;}
+.related-content .btn{border-radius:8px;margin:0;min-width:auto;padding:7px 26px 8px;}
 .related-content .option-1 .btn,
 .related-content .option-3 .btn{background-color:#404040;border-color:#404040;}
 
@@ -92,7 +92,8 @@
 .community-curator .big-section .contents{position:relative;width:320px;max-width:700px;}
 .community-curator .grid-list{width:30%;background-color:#303030;}
 .community-curator .grid-list .item .inner .left{width:140px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
-.community-curator .grid-list .item .inner .right{width:calc(100% - 140px);padding:10px 10px 10px 20px;}
+.community-curator .grid-list .item .inner .left img{object-fit:cover;object-position:center;}
+.community-curator .grid-list .item .inner .right{width:calc(100% - 140px);padding:15px 10px 15px 20px;}
 .community-curator .item{width:100%;}
 .community-curator .inner{background-color:#303030;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .community-curator .item-list-right{width:100%;}
