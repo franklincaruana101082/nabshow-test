@@ -366,7 +366,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             wp_enqueue_style( 'ep-select2-style', plugins_url( 'assets/css/select2.min.css', dirname( __FILE__ ) ) );
             wp_enqueue_script( 'ep-select2-script', plugins_url( 'assets/js/select2.min.js', dirname( __FILE__ ) ));
-            wp_enqueue_script( 'ep-custom-admin-script', plugins_url( 'assets/js/ecommerce-passes-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.0' );
+            wp_enqueue_script( 'ep-custom-admin-script', plugins_url( 'assets/js/ecommerce-passes-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.1' );
 
             wp_localize_script( 'ep-custom-admin-script', 'ePassesObj', array(
                 'product_url'       => $end_point_url
