@@ -1359,7 +1359,7 @@ body .is_friend .remove:before{font-size:22px;}
 .single-discover_content .container{width:1200px;}
 
 /* single post commnents */
-.comments-area{padding:30px 0;}
+.comments-area{padding:30px;}
 .comments-area .comment-section-title h2{color:#fdd80f;padding-bottom:20px;border-bottom:2px solid #fff;margin-bottom:50px;font-size:36px;}
 .comments-area textarea{background-color:#666;border-color:#666;color:#fff;padding:10px;outline:0;}
 .comments-area h3{color:#fdd80f;}
@@ -1432,17 +1432,18 @@ body .is_friend .remove:before{font-size:22px;}
 .tribe-events-page-template .tribe-events .tribe-events-c-search__input-control--keyword-focus .tribe-events-c-search__input, 
 .tribe-events-page-template .tribe-events .tribe-events-c-search__input-control--keyword .tribe-events-c-search__input:focus{background:url(../images/header-search-icon.svg) no-repeat 15px center;background-size:15px;}
 .tribe-events-page-template .tribe-events .tribe-events-c-view-selector__list-item-text{color:#fff;}
-.tribe-events-page-template .tribe-common a, 
-.tribe-events-page-template .tribe-common a:active, 
-.tribe-events-page-template .tribe-common a:focus, 
-.tribe-events-page-template .tribe-common a:hover, 
-.tribe-events-page-template .tribe-common a:visited{color:#ccc;}
+.tribe-events-page-template .tribe-common a,
+.tribe-events-page-template .tribe-common a:active,
+.tribe-events-page-template .tribe-common a:focus,
+.tribe-events-page-template .tribe-common a:hover,
+.tribe-events-page-template .tribe-common a:visited{color:#fff;}
 .tribe-events-page-template .tribe-events .tribe-events-c-view-selector__list-item-link:focus .tribe-events-c-view-selector__list-item-text,
 .tribe-events-page-template .tribe-events .tribe-events-c-view-selector__list-item-link:hover .tribe-events-c-view-selector__list-item-text{color:#fff;}
 .tribe-events-page-template .tribe-common .tribe-common-h5,
 .tribe-events-page-template .tribe-common .tribe-common-h6,
 .tribe-events-page-template .tribe-common .tribe-common-h7, 
 .tribe-events-page-template .tribe-common .tribe-common-h8{color:#fff;}
+.tribe-events-page-template .tribe-common .tribe-common-h8{color:#fdd80f;}
 .tribe-events-page-template .tribe-events .tribe-events-calendar-list__event-date-tag-weekday{color:#fff;}
 .tribe-events-page-template .tribe-common--breakpoint-medium.tribe-events .tribe-events-c-nav__next,
 .tribe-events-page-template .tribe-common--breakpoint-medium.tribe-events .tribe-events-c-nav__prev{color:#fff;}
@@ -1454,3 +1455,4 @@ body .is_friend .remove:before{font-size:22px;}
 .tribe-events-page-template .tribe-events .tribe-events-c-nav__next[disabled] span,
 .tribe-events-page-template .tribe-events .tribe-events-c-nav__prev[disabled]:before,
 .tribe-events-page-template .tribe-events .tribe-events-c-nav__next[disabled]:after{color:#ccc;}
+.tribe-events-page-template .tooltipster-base *{color:#000;}

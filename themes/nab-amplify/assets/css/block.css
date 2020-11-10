@@ -424,7 +424,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 #tabs li.ui-tabs-active:first-child{border-top-left-radius:0;}
 #tabs li.ui-tabs-active:last-child{border-top-right-radius:0;}
 #tabs li h4{margin:0;}
-#tabs li a{width:100%;padding:20px 20px 20px 10px;display:block;font-weight:600;opacity:0.3;text-align:center;line-height:normal;}
+#tabs li a{width:100%;padding:20px 20px 20px 10px;display:block;font-weight:600;opacity:0.3;text-align:center;line-height:normal;font-size:20px!important;}
 #tabs li.ui-tabs-active a{opacity:1;}
 #tabs li .remove{width:25px;height:25px;line-height:25px;font-size:16px;position:absolute;top:50%;right:5px;margin-top:-13px;z-index:2;}
 #tabs .ui-tabs-nav .additem{text-align:left;}
@@ -432,3 +432,12 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 #tabs a.btn{color:#fff;}
 
 #tabs .related-content .option-5 .inner{background-color:#303030;}
+
+.community-panel-yellow .community-curator .sub-title{color:#fdd80f;}
+.community-panel-yellow .community-curator .active .item-list-wrap .left{background-color:#fdd80f;}
+.community-panel-orange .community-curator .sub-title{color:#f89337;}
+.community-panel-orange .community-curator .active .item-list-wrap .left{background-color:#f89337;}
+.community-panel-blue .community-curator .sub-title{color:#0ca5ea;}
+.community-panel-blue .community-curator .active .item-list-wrap .left{background-color:#0ca5ea;}
+.community-panel-purple .community-curator .sub-title{color:#6363df;}
+.community-panel-purple .community-curator .active .item-list-wrap .left{background-color:#6363df;}

@@ -134,6 +134,14 @@
 .product-section .amp-image-block{padding:0 0 30px;}
 .trending-activity .related-content .option-5 .inner{background-color:#303030;}
 .ui-widget{font-family:'Open Sans',Arial,sans-serif;}
+.community-panel-yellow .community-curator .sub-title{color:#fdd80f;}
+.community-panel-yellow .community-curator .active .item-list-wrap .left{background-color:#fdd80f;}
+.community-panel-orange .community-curator .sub-title{color:#f89337;}
+.community-panel-orange .community-curator .active .item-list-wrap .left{background-color:#f89337;}
+.community-panel-blue .community-curator .sub-title{color:#0ca5ea;}
+.community-panel-blue .community-curator .active .item-list-wrap .left{background-color:#0ca5ea;}
+.community-panel-purple .community-curator .sub-title{color:#6363df;}
+.community-panel-purple .community-curator .active .item-list-wrap .left{background-color:#6363df;}
 
 @media (min-width:1250px) {
 	/* temp reactions */
