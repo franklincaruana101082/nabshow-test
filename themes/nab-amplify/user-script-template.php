@@ -9,6 +9,22 @@ get_header();
 
 // $all_users 	= $user_query->get_results();
 
+$customer_id = 1696;
+
+$customer_orders = get_posts( array(
+    'numberposts' => -1,
+    'meta_key'    => '_customer_user',
+    'meta_value'  => $customer_id,
+    'post_type'   => wc_get_order_types(),
+    'post_status' => array( 'wc-completed' ),
+    'fields'      => 'ids'
+) );
+
+echo '<pre>';
+print_r( $customer_orders  );
+echo '</pre>';
+
+die();
 
 global $wpdb;
 
