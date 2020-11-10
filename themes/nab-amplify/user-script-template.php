@@ -17,6 +17,12 @@ $customer_ids = $wpdb->get_col("SELECT DISTINCT meta_value  FROM $wpdb->postmeta
 
 $op = [];
 
+$offset = ( isset( $_GET['off'] ) && ! empty( $_GET['off'] ) ) ? $_GET['off'] : 0;
+
+$max = 500;
+
+$customer_ids = array_slice( $customer_ids, $offset, $max );
+
 foreach( $customer_ids as $customer_id ) {
 
     // Get orders of this customer
@@ -44,15 +50,12 @@ foreach( $customer_ids as $customer_id ) {
 
     $customer_meta_products = ( get_user_meta( $customer_id, 'nab_purchased_product_2020', true ) ) ? get_user_meta( $customer_id, 'nab_purchased_product_2020', true ) : [];
 
-    // Get user data by user id
-    $user = get_userdata( $customer_id );
-
     echo '<pre>';
     print_r( 'User:' );
     echo '</pre>';
 
     echo '<pre>';
-    print_r( $customer_id . ' - ' . ( $user->display_name ? $user->display_name : $user->user_login ) );
+    print_r( $customer_id  );
     echo '</pre>';
 
     echo '<pre>';
