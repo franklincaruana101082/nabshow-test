@@ -206,23 +206,13 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
             $logos = get_transient( 'amplify_header_logos' );
 
             if( false === $logos || is_user_logged_in() ) {
-                $api_url = $api_base_url . 'wp-json/nab/request/get-header-logos';
-                $curl    = curl_init();
+                $api_url          = $api_base_url . 'wp-json/nab/request/get-header-logos';
+                $get_header_logos = wp_remote_get( $api_url );
+                $response         = wp_remote_retrieve_body( $get_header_logos );
 
-                curl_setopt_array( $curl, array(
-                  CURLOPT_URL => $api_url,
-                  CURLOPT_CUSTOMREQUEST => "GET",
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_TIMEOUT => 30
-                ) );
-
-                $response = curl_exec($curl);
-
-                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-                if( 200 === $httpcode && ! empty( $response ) ) {
+                if( isset( $response ) && ! empty( $response ) ) {
                   $logos = json_decode( $response, true );
-                  set_transient( 'amplify_header_logos', $logos, 15 * MINUTE_IN_SECONDS );
+                  set_transient( 'amplify_header_logos', $logos, 1 * DAY_IN_SECONDS );
                 } else {
                   return '';
                 }

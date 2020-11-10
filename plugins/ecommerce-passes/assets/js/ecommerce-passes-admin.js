@@ -10,7 +10,7 @@
             let _this = $(this);
 
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 data: 0 === $(this)[0].selectedIndex ? '' : 'term_id=' + _this.val(),
                 url: ePassesObj.product_url,
                 success: function ( newsData ) {

@@ -67,25 +67,9 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 						'product_ids' => $associate_products
 					);
 
-					$final_params = http_build_query( $query_params );
+					$customer_get_bought_products = wp_remote_get( $end_point_url, array( 'body' => $query_params ) );
 
-					$curl = curl_init();
-
-					curl_setopt_array( $curl, array(
-						CURLOPT_URL            => $end_point_url,
-						CURLOPT_RETURNTRANSFER => true,
-						CURLOPT_ENCODING       => "",
-						CURLOPT_MAXREDIRS      => 10,
-						CURLOPT_TIMEOUT        => 0,
-						CURLOPT_FOLLOWLOCATION => true,
-						CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-						CURLOPT_CUSTOMREQUEST  => "POST",
-						CURLOPT_POSTFIELDS     => $final_params
-					) );
-
-					$response = curl_exec( $curl );
-
-					curl_close( $curl );
+					$response = wp_remote_retrieve_body( $customer_get_bought_products );
 
 					$actually_bought = json_decode( $response );
 
