@@ -1361,7 +1361,7 @@ body .is_friend .remove:before{font-size:22px;}
 .single-discover_content .related-content-2{padding:0 50px;}
 
 /* single post commnents */
-.comments-area{padding:30px;}
+.comments-area{padding:30px 50px;}
 .comments-area .comment-section-title h2{color:#fdd80f;padding-bottom:20px;border-bottom:2px solid #fff;margin-bottom:50px;font-size:36px;}
 .comments-area textarea{background-color:#666;border-color:#666;color:#fff;padding:10px;outline:0;}
 .comments-area h3{color:#fdd80f;}
