@@ -1352,12 +1352,13 @@ body .is_friend .remove:before{font-size:22px;}
 
 /* single discovry page */
 .single-discover_content{background-color:#404040;}
-.single-discover_content .entry-header h1{color:#fdd80f;font-size:36px;}
-.single-discover_content .entry-content p{color:#fff;padding:0 30px;}
+.single-discover_content .entry-header h1{color:#fdd80f;font-size:36px;padding:0 50px;}
+.single-discover_content .entry-content p{color:#fff;}
+.single-discover_content .entry-content > p{padding:0 50px;}
 .single-discover_content .entry-content p{font-family:'OpenSans-Regular',Arial,sans-serif;text-indent:70px;text-align:justify;}
 .single-discover_content .entry-content p:first-of-type{text-indent:0;}
 .single-discover_content .container{width:1200px;}
-.single-discover_content .related-content-2{padding:0 30px;}
+.single-discover_content .related-content-2{padding:0 50px;}
 
 /* single post commnents */
 .comments-area{padding:30px;}
