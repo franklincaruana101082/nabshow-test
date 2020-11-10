@@ -24,8 +24,8 @@
 
 /* upcoming events */
 .no-image{color:#fff;}
-.upcoming-events-calendar{}
-.upcoming-events-calendar .upcoming-events-body{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px;}
+.upcoming-events-calendar{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px;}
+.upcoming-events-calendar .upcoming-events-body{}
 .upcoming-events-calendar .item{padding:0 10px;width:50%;margin:0 0 30px;}
 .upcoming-events-calendar .inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;background-color:#333;padding:20px;height:100%;}
 .upcoming-events-calendar .left{width:180px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
