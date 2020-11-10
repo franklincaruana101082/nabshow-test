@@ -1353,10 +1353,11 @@ body .is_friend .remove:before{font-size:22px;}
 /* single discovry page */
 .single-discover_content{background-color:#404040;}
 .single-discover_content .entry-header h1{color:#fdd80f;font-size:36px;}
-.single-discover_content .entry-content p{color:#fff;}
+.single-discover_content .entry-content p{color:#fff;padding:0 30px;}
 .single-discover_content .entry-content p{font-family:'OpenSans-Regular',Arial,sans-serif;text-indent:70px;text-align:justify;}
 .single-discover_content .entry-content p:first-of-type{text-indent:0;}
 .single-discover_content .container{width:1200px;}
+.single-discover_content .related-content-2{padding:0 30px;}
 
 /* single post commnents */
 .comments-area{padding:30px;}
@@ -1407,6 +1408,7 @@ body .is_friend .remove:before{font-size:22px;}
 /* Events Page design */
 .tribe-events-page-template{background-color: #404040;}
 .tribe-events-page-template *{color:#fff;}
+.tribe-events-page-template .tribe-events .tribe-events-header{background-color:#666;}
 .tribe-events-page-template .tribe-events .tribe-events-c-events-bar{background-color:#fff;}
 .tribe-events-page-template .tribe-events .tribe-events-c-ical__link{background:#ff008f;color:#fff;display:inline-block;padding:8px 20px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:14px;line-height:1;font-weight:700;border:1px solid #ff008f;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
 .tribe-events-page-template .tribe-events .tribe-events-c-ical__link:before{vertical-align:middle;background:none;content:"\f067";font-family:fontawesome;font-size:12px;}
