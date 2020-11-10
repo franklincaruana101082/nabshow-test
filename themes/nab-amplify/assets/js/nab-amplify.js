@@ -75,7 +75,64 @@
             $('body').append(nabModal);
         }
 
+        jQuery('.comments-order').on('change', function () {
+            var url  = window.location.href;  
+            var orderby = jQuery( this ).val();
+            var currentUrl = jQuery( this ).attr('data-url');
+            window.location.href = currentUrl+'/?orderby='+orderby
+        })
+
     });
+
+    $(document).on('click', '.edit-mode', function () {
+        const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : '';
+        const _this = $(this);
+        _this.addClass('loading');
+        jQuery.ajax({
+            type: 'POST',
+            url: amplifyJS.ajaxurl,
+            data: {
+                action: 'nab_amplify_edit_product',
+                prod_id: prod_id
+            },
+            success: function (data) {
+                _this.removeClass('loading');
+                alert(data);
+            }
+        });
+    });
+
+    // Add smooth scrolling to all links
+  jQuery(".navigate-reply").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "" && typeof(jQuery(this.hash).offset()) =='object') {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      jQuery('html, body').animate({
+        scrollTop: jQuery(hash).offset().top
+      }, 1200, function(){
+
+      });
+
+    } // End if
+  });
+  
+  if(window.location.hash){
+      jQuery('html, body').animate({
+        scrollTop: jQuery(window.location.hash).offset().top
+      }, 1200, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = window.location.hash;
+      });
+  }
 
     // My Purchase Content Pagination
     $(document).on('click', '.navigate-purchased', function () {
@@ -1827,4 +1884,6 @@ function nabSearchContentAjax(loadMore, pageNumber) {
             jQuery('body').removeClass('is-loading');
         }
     });
+
+    
 }
