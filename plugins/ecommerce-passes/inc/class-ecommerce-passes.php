@@ -592,7 +592,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_save_custom_metabox_fields( $post_id ) {
 
             // Return if autosave
-            if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
+            if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
                 return;
             }
 
