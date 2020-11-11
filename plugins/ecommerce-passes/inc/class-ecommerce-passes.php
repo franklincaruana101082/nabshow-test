@@ -590,6 +590,17 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          * @since 1.0.0
          */
         public function ep_save_custom_metabox_fields( $post_id ) {
+
+            // Return if autosave
+            if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
+                return;
+            }
+
+            // Return if edited by Quick Edit
+            if ( isset( $_POST['_inline_edit'] ) && wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) {
+                return;
+            }
+
 	        $current_blog_id = get_current_blog_id();
             $current_post_id = $post_id;
 
