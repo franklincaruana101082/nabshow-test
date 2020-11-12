@@ -4,6 +4,10 @@ module.exports = {
         path: __dirname,
         filename: 'block.build.js',
     },
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+      },
     module: {
         loaders: [
             {

@@ -138,6 +138,15 @@
 	.attendee-view-table-wrp tr td[data-title="Email"]{width:100%;}
 	.attendee-view-table-wrp tr th:last-child,
 	.attendee-view-table-wrp tr td:last-child{width:100%;}
+
+	/* comments */
+	.comments-area .comment-list,
+	.comments-area .comment-list .children{margin-left:0;}
+	.comments-area .comment-body .comment-meta .comment-author b,
+	.comments-area .comment-body .comment-meta .comment-author span{font-size:26px;line-height:20px;}
+	.comments-area .comment-body .comment-meta .comment-metadata{font-size:17px;line-height:24px;}
+	.comments-area .comment-filter .navigate-reply{padding:12px 10px;font-size:18px;}
+	.single-articles .entry-header h1{font-size:30px;}
 }
 @media (max-width:600px){
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}

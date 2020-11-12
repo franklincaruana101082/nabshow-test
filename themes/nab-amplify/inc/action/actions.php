@@ -13,6 +13,9 @@ add_action( 'wp_enqueue_scripts', 'amplify_front_scripts' );
 /*Action for enqueue scripts for backend side.*/
 add_action( 'enqueue_block_editor_assets', 'amplify_block_editor_assets' );
 
+/*Action for enqueue scripts for front side.*/
+add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
+
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
