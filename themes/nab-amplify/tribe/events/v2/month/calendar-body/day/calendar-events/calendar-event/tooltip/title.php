@@ -1,9 +1,9 @@
 <?php
 /**
- * View: Month View - Calendar Event Title
+ * View: Month View - Single Event Tooltip Title
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/month/calendar-body/day/calendar-events/calendar-event/title.php
+ * [your-theme]/tribe/events/v2/month/calendar-body/day/calendar-events/calendar-event/tooltip/title.php
  *
  * See more documentation about our views templating system.
  *
@@ -18,16 +18,13 @@
 
 $event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
 ?>
-<h3 class="tribe-events-calendar-month__calendar-event-title tribe-common-h8 tribe-common-h--alt">
+<h3 class="tribe-events-calendar-month__calendar-event-tooltip-title tribe-common-h7">
 	<a
-        href="<?php echo esc_url( $event_url ); ?>"
+		href="<?php echo esc_url( $event_url ) ?>"
         target="_blank"
 		title="<?php echo esc_attr( $event->title ); ?>"
 		rel="bookmark"
-		class="tribe-events-calendar-month__calendar-event-title-link tribe-common-anchor-thin"
-		data-js="tribe-events-tooltip"
-		data-tooltip-content="#tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
-		aria-describedby="tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
+		class="tribe-events-calendar-month__calendar-event-tooltip-title-link tribe-common-anchor-thin"
 	>
 		<?php
 		// phpcs:ignore
