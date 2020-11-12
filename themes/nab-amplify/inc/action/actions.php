@@ -129,3 +129,6 @@ add_action( 'woocommerce_order_status_changed', 'nab_update_product_in_user_meta
 add_action( 'init', 'nab_register_article_post_type' );
 
 add_action( 'init', 'nab_register_article_content_taxonomy' );
+
+// Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
+add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 );
