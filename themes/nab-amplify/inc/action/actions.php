@@ -149,7 +149,6 @@ add_action( 'init', 'nab_register_company_post_type' );
 
 add_action( 'acf/save_post', 'nab_create_compnay_user', 20, 1 );
 
-add_action( 'init', 'nab_register_discovery_content_post_type' );
 add_action( 'init', 'nab_register_article_post_type' );
 
 add_action( 'init', 'nab_register_discovery_content_taxonomy' );
