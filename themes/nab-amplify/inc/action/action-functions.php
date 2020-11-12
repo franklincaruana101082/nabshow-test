@@ -1800,3 +1800,99 @@ function nab_update_product_in_user_meta( $order_id, $old_status, $new_status ) 
 	}
 
 }
+
+/**
+ * Register Articles post type
+ */
+function nab_register_article_post_type() {
+
+	$labels = array(
+		'name'                  => _x( 'Articles', 'Post Type General Name', 'nab-amplify' ),
+		'singular_name'         => _x( 'Articles', 'Post Type Singular Name', 'nab-amplify' ),
+		'menu_name'             => __( 'Articles', 'nab-amplify' ),
+		'name_admin_bar'        => __( 'Articles', 'nab-amplify' ),
+		'archives'              => __( 'Articles Archives', 'nab-amplify' ),
+		'attributes'            => __( 'Articles Attributes', 'nab-amplify' ),
+		'parent_item_colon'     => __( 'Parent Article:', 'nab-amplify' ),
+		'all_items'             => __( 'All Articles', 'nab-amplify' ),
+		'add_new_item'          => __( 'Add New Article', 'nab-amplify' ),
+		'add_new'               => __( 'Add New', 'nab-amplify' ),
+		'new_item'              => __( 'New Article', 'nab-amplify' ),
+		'edit_item'             => __( 'Edit Article', 'nab-amplify' ),
+		'update_item'           => __( 'Update Article', 'nab-amplify' ),
+		'view_item'             => __( 'View Article', 'nab-amplify' ),
+		'view_items'            => __( 'View Articles', 'nab-amplify' ),
+		'search_items'          => __( 'Search Articles', 'nab-amplify' ),
+		'not_found'             => __( 'Not found', 'nab-amplify' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'nab-amplify' ),
+		'featured_image'        => __( 'Featured Image', 'nab-amplify' ),
+		'set_featured_image'    => __( 'Set featured image', 'nab-amplify' ),
+		'remove_featured_image' => __( 'Remove featured image', 'nab-amplify' ),
+		'use_featured_image'    => __( 'Use as featured image', 'nab-amplify' ),
+		'insert_into_item'      => __( 'Insert into Article', 'nab-amplify' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'nab-amplify' ),
+		'items_list'            => __( 'Items list', 'nab-amplify' ),
+		'items_list_navigation' => __( 'Items list navigation', 'nab-amplify' ),
+		'filter_items_list'     => __( 'Filter items list', 'nab-amplify' ),
+	);
+	$args = array(
+		'label'                 => __( 'Articles', 'nab-amplify' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 5,
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+		'show_in_rest'          => true,
+	);
+	register_post_type( 'articles', $args );
+}
+
+/**
+ * Register article taxonomy
+ */
+function nab_register_article_content_taxonomy() {
+
+	$labels = array(
+		'name'                       => _x( 'Categories', 'Taxonomy General Name', 'nab-amplify' ),
+		'singular_name'              => _x( 'Category', 'Taxonomy Singular Name', 'nab-amplify' ),
+		'menu_name'                  => __( 'Category', 'nab-amplify' ),
+		'all_items'                  => __( 'All Items', 'nab-amplify' ),
+		'parent_item'                => __( 'Parent Item', 'nab-amplify' ),
+		'parent_item_colon'          => __( 'Parent Item:', 'nab-amplify' ),
+		'new_item_name'              => __( 'New Item Name', 'nab-amplify' ),
+		'add_new_item'               => __( 'Add New Item', 'nab-amplify' ),
+		'edit_item'                  => __( 'Edit Item', 'nab-amplify' ),
+		'update_item'                => __( 'Update Item', 'nab-amplify' ),
+		'view_item'                  => __( 'View Item', 'nab-amplify' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'nab-amplify' ),
+		'add_or_remove_items'        => __( 'Add or remove items', 'nab-amplify' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'nab-amplify' ),
+		'popular_items'              => __( 'Popular Items', 'nab-amplify' ),
+		'search_items'               => __( 'Search Items', 'nab-amplify' ),
+		'not_found'                  => __( 'Not Found', 'nab-amplify' ),
+		'no_terms'                   => __( 'No items', 'nab-amplify' ),
+		'items_list'                 => __( 'Items list', 'nab-amplify' ),
+		'items_list_navigation'      => __( 'Items list navigation', 'nab-amplify' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => false,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+		'show_in_rest'               => true,
+	);
+	register_taxonomy( 'content-category', array( 'nab-products', 'articles' ), $args );
+
+}
