@@ -1896,3 +1896,23 @@ function nab_register_article_content_taxonomy() {
 	register_taxonomy( 'content-category', array( 'nab-products', 'articles' ), $args );
 
 }
+
+/**
+ * Allowed Administrator, editor, author and contributor user to enter unfiltered html.
+ *
+ * @param $caps
+ * @param $cap
+ * @param $user_id
+ *
+ * @return array
+ *
+ * @since 1.0.0
+ */
+function nab_add_unfiltered_html_capability_to_users( $caps, $cap, $user_id ) {
+
+	if ( 'unfiltered_html' === $cap && ( user_can( $user_id, 'administrator' ) || user_can( $user_id, 'editor' ) || user_can( $user_id, 'author' ) || user_can( $user_id, 'contributor' ) ) ) {
+		$caps = array( 'unfiltered_html' );
+	}
+
+	return $caps;
+}
