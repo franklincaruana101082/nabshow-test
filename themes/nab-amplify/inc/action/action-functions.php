@@ -1766,11 +1766,31 @@ function nab_update_product_in_user_meta( $order_id, $old_status, $new_status ) 
 		if ( 'completed' === $old_status ) {
 
 			if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
+
+				$customer_orders = wc_get_orders( array(
+					'customer_id' => $customer_id,
+					'status'      => 'completed',
+					'limit'       => -1,
+				) );
+			
+				$customer_products = [];
+				if( ! empty( $customer_orders ) ) {
+					foreach( $customer_orders as $customer_order ) {
+						foreach ( $customer_order->get_items() as  $product_item ) {
+							$customer_products[] = $product_item->get_product_id();
+						}
+					}
+				}
 				
 				foreach( $order_products as $product_id ) {
 
 					if ( ( $key = array_search( $product_id, $purchased_product ) ) !== false ) {
-						unset( $purchased_product[ $key ] );
+						
+						// Before removing check if user has purchased this product in any other order
+						if( ! in_array( $product_id, $customer_products ) ) {
+							unset( $purchased_product[ $key ] );
+						}
+
 					}
 				}
 
