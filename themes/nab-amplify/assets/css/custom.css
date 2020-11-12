@@ -978,3 +978,7 @@ a.woocommerce-button.button.return-btn {text-transform:none;}
 .reaction-wrapper ul li{line-height:normal;}
 .reaction-wrapper ul li a{display:inline-block;line-height:normal;}
 .reaction-wrapper ul li img{display:block;}
+
+/* bookmark */
+span.amp-bookmark{position:absolute;right:10px;top:10px;z-index:2;color:#e5018b !important;font-size:23px;}
+span.amp-bookmark.bookmark-fill:before{content:"\f02e";}
