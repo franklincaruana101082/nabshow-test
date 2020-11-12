@@ -464,7 +464,9 @@ form.checkout.woocommerce-checkout .woocommerce-NoticeGroup ul{display:inline-bl
 .woocommerce-order .order_details li:first-child{border-left:0}
 section.woocommerce-order-details table{border-right:1px solid #e0e0e0;border-top:1px solid #e0e0e0;border-spacing:0}
 section.woocommerce-order-details table td,
-section.woocommerce-order-details table th{border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:10px 10px;text-align:left;text-transform:capitalize;color:#fff;}
+section.woocommerce-order-details table th{border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:10px 10px;text-align:left;text-transform:capitalize;}
+.woocommerce-account section.woocommerce-order-details table td,
+.woocommerce-account section.woocommerce-order-details table th{color:#fff;}
 section.woocommerce-order-details table .product-name{width:70%;}
 section.woocommerce-order-details table .product-total{width:30%;}
 section.woocommerce-order-details table thead th{background:#666666;color:#fff;}
