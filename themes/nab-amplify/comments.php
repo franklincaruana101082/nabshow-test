@@ -26,35 +26,53 @@ if ( post_password_required() ) {
 	// You can start editing here -- including this comment!
 	if ( have_comments() ) :
 		?>
-		<h2 class="comments-title">
-			<?php
-			$nab_amplify_comment_count = get_comments_number();
-			if ( '1' === $nab_amplify_comment_count ) {
-				printf(
-					/* translators: 1: title. */
-					esc_html__( 'One thought on &ldquo;%1$s&rdquo;', 'nab-amplify' ),
-					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
-				);
-			} else {
-				printf( 
-					/* translators: 1: comment count number, 2: title. */
-					esc_html( _nx( '%1$s thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', $nab_amplify_comment_count, 'comments title', 'nab-amplify' ) ),
-					number_format_i18n( $nab_amplify_comment_count ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
-				);
-			}
-			?>
-		</h2><!-- .comments-title -->
+		<div class="comment-section-title">
+			<h2>Discussion</h2>
+		</div>
+		<div class="comment-header">
+			<h3 class="comments-title">
+				<?php
+				$nab_amplify_comment_count = get_comments_number();
+				if ( '1' === $nab_amplify_comment_count ) {
+					printf(
+						/* translators: 1: title. */
+						esc_html__( 'Responses (%1$s)', 'nab-amplify' ),
+						'<span>' . wp_kses_post( get_the_title() ) . '</span>'
+					);
+				} else {
+					printf('Responses <span class="comment-count">('._nx( '%1$s', $nab_amplify_comment_count, 'comments title', 'nab-amplify' ).')</span>',
+						number_format_i18n( $nab_amplify_comment_count ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						'<span>' . wp_kses_post( get_the_title() ) . '</span>'
+					);
+				}
+				?>
+			</h2><!-- .comments-title -->
+			<div class="comment-filter">
+				<?php
+				global $wp;
+				?>
+				<div class="nab-custom-select">
+					<select class="comments-order" data-url="<?php echo home_url( $wp->request ); ?>">
+						<option value="">Sort By</option>
+						<option value="DESC" <?php if($_GET['orderby'] === 'DESC'){ echo "Selected"; }?>>Latest</option>
+						<option value="ASC" <?php if($_GET['orderby'] === 'ASC'){ echo "Selected"; }?>>Oldest</option>
+					</select>
+				</div>
+				<a href="#respond" class="navigate-reply btn">Reply</a>
+			</div>
+		</div>
 
 		<?php the_comments_navigation(); ?>
 
 		<ol class="comment-list">
 			<?php
+			$order_by = isset($_GET['orderby']) ? $_GET['orderby'] : 'DESC';
+			$comments = get_comments( array( 'order' => $order_by ) );
 			wp_list_comments(
 				array(
 					'style'      => 'ol',
 					'short_ping' => true,
-				)
+				),$comments
 			);
 			?>
 		</ol><!-- .comment-list -->
