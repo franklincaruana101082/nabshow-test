@@ -1,5 +1,17 @@
 @media (max-width: 1900px) {
-	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-size:61%;background-position:bottom center;background-repeat:no-repeat;}
+	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-position:center right;background-repeat:no-repeat;width:18%;}
+}
+@media (max-width: 1700px) {
+	.site-footer:before{width:16%;}
+}
+@media (max-width: 1600px) {
+	.site-footer:before{width:14%;}
+}
+@media (max-width: 1550px) {
+	.site-footer:before{width:13%;}
+}
+@media (max-width: 1450px) {
+	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-size:61%;background-position:bottom center;background-repeat:no-repeat;width:390px;}
 }
 @media (max-width:1395px){
 }
