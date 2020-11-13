@@ -1116,7 +1116,7 @@ body.buddypress .site-content{padding:0;}
 .banner-header #profile-avtar .amp-member-level{transform:translateY(-50%);}
 .banner-header .banner-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .amp-profile-main{width:100%;max-width:700px;}
-.amp-profile-main .amp-profile-inner{background:rgb(0 0 0 / 0.7);padding:30px;text-align:center;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:580px;}
+.amp-profile-main .amp-profile-inner{background:rgb(0 0 0 / 0.5);padding:30px;text-align:center;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:580px;}
 .amp-profile-main .amp-profile-content{width:100%;}
 .amp-profile-main .amp-profile-info h2{color:#fff;margin:0 0 20px;}
 .amp-profile-main .amp-profile-info span{color:#999;font-size:22px;}
@@ -1224,7 +1224,7 @@ body .is_friend .remove:before{font-size:22px;}
 .buddypress-wrap .bp-feedback.updated .bp-icon{background-color:#ff008f;}
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df;}
 .buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px;}
-.buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;padding-right:20px!important;}
 .buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important;}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-thread-header{width:100%;}
@@ -1314,6 +1314,7 @@ body .is_friend .remove:before{font-size:22px;}
 .bp-messages div .bp-icon{line-height:1;padding:0.5em;}
 .bp-messages div p{line-height:1;padding:0.5em;color:#444;}
 .bp-messages-content .actions{width:auto;max-width:100%;margin:5px 0;}
+.bp-messages-content .actions .bp-tooltip:last-child:after{transform:translate(-94%,0);}
 .bp-messages-content #bp-message-thread-list{margin:20px 0;border:0;}
 .bp-messages-content #bp-message-thread-list>li{padding:0;margin:0 0 20px;border:1px solid #888;}
 .bp-messages-content #bp-message-thread-list>li:last-child{margin:0;}
