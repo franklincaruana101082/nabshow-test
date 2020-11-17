@@ -13,14 +13,14 @@ add_action( 'wp_enqueue_scripts', 'amplify_front_scripts' );
 /*Action for enqueue scripts for backend side.*/
 add_action( 'enqueue_block_editor_assets', 'amplify_block_editor_assets' );
 
-/*Action for enqueue scripts for front side.*/
+/*Action for enqueue scripts for backend side.*/
 add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
 
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
 /*Redirecting templates.*/
-add_action( 'template_redirect', 'nab_amplify_template_redirect' );
+//add_action( 'template_redirect', 'nab_amplify_template_redirect' );
 
 /*Action for add new block categorie.*/
 add_filter( 'block_categories', 'nab_amplify_plugin_block_categories', 10, 2 );
@@ -41,6 +41,15 @@ add_action( 'woocommerce_account_edit-my-profile_endpoint', 'nab_amplify_edit_my
 
 // My Purchases content.
 add_action( 'woocommerce_account_my-purchases_endpoint', 'nab_amplify_my_purchases_content_callback' );
+
+// My Connections content.
+add_action( 'woocommerce_account_my-connections_endpoint', 'nab_amplify_my_connections_content_callback' );
+
+// My Events endpoint.
+add_action( 'woocommerce_account_my-events_endpoint', 'nab_amplify_my_events_content_callback' );
+
+// My Bookmarks endpoint.
+add_action( 'woocommerce_account_my-bookmarks_endpoint', 'nab_amplify_my_bookmarks_content_callback' );
 
 // Register edit my profile endpoint to use for My Account page.
 add_action( 'init', 'nab_amplify_add_custom_endpoints' );
@@ -126,9 +135,24 @@ add_action( 'wp_logout', 'nab_clear_share_login_cookie' );
 
 add_action( 'woocommerce_order_status_changed', 'nab_update_product_in_user_meta', 10, 3 );
 
+add_action( 'woocommerce_edit_account_form', 'nab_edit_acount_additional_form_fields' );
+
+add_action( 'woocommerce_save_account_details', 'nab_save_edit_account_additional_form_fields' );
+
+// add woocommerce edit account details in the edit my account.
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_edit_address' );
+
+add_action( 'woocommerce_customer_save_address', 'nab_woocommerce_customer_save_changes_redirect', 99 );
+
+add_action( 'woocommerce_save_account_details', 'nab_woocommerce_customer_save_changes_redirect', 999 );
+
 add_action( 'init', 'nab_register_article_post_type' );
 
 add_action( 'init', 'nab_register_article_content_taxonomy' );
+
+add_action( 'bp_pre_user_query_construct', 'nab_include_role_specific_member' );
+
+add_action( 'init', 'nab_add_custom_user_role' );
 
 // Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
 add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 );

@@ -8,9 +8,9 @@
 function nab_registration_redirect() {
 
 	if ( isset( $_POST['checkout_redirect'] ) && ! empty( isset( $_POST['checkout_redirect'] ) ) ) {
-		
-		$checkout_url = $_POST[ 'checkout_redirect' ];
-		
+
+		$checkout_url = $_POST['checkout_redirect'];
+
 		$args         = array(
 			'nab_registration_complete' => 'true',
 			'r'                         => $checkout_url,
@@ -87,16 +87,16 @@ function nab_custom_billing_fields( $billing_fields ) {
 		return $billing_fields;
 	}
 
-	$billing_fields['billing_phone']['required']   = false;
-	$billing_fields['billing_postcode']['label']   = 'Zip Code';
-	$billing_fields['billing_first_name']['label'] = 'First Name';
-    $billing_fields['billing_first_name']['class'][] = 'bill-mandatory';
+	$billing_fields['billing_phone']['required']     = false;
+	$billing_fields['billing_postcode']['label']     = 'Zip Code';
+	$billing_fields['billing_first_name']['label']   = 'First Name';
+	$billing_fields['billing_first_name']['class'][] = 'bill-mandatory';
 
-	$billing_fields['billing_last_name']['label']  = 'Last Name';
-    $billing_fields['billing_last_name']['class'][] = 'bill-mandatory';
+	$billing_fields['billing_last_name']['label']   = 'Last Name';
+	$billing_fields['billing_last_name']['class'][] = 'bill-mandatory';
 
-	$billing_fields['billing_email']['label']      = 'Email the confirmation:';
-    $billing_fields['billing_email']['class'][]    = 'text-transform-initial bill-mandatory';
+	$billing_fields['billing_email']['label']   = 'Email the confirmation:';
+	$billing_fields['billing_email']['class'][] = 'text-transform-initial bill-mandatory';
 
 	unset( $billing_fields['billing_phone'] );
 
@@ -155,15 +155,16 @@ function nab_my_orders_columns( $columns ) {
  * @return string Filtered Avatar HTML.
  */
 function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $default, $alt ) {
-	$user_id = get_current_user_id();
 
-	if ( $id_or_email === $user_id ) {
-		$user_image_id = get_user_meta( $user_id, 'profile_picture', true );
+	if ( ! is_int( $id_or_email ) ) {
+		$user        = get_user_by( 'email', $id_or_email );
+		$id_or_email = $user->ID;
+	}
 
-		if ( $user_image_id ) {
-			$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
-			$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
-		}
+	$user_image_id = get_user_meta( $id_or_email, 'profile_picture', true );
+	if ( $user_image_id ) {
+		$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
+		$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 	}
 
 	return $avatar_html;
@@ -199,8 +200,10 @@ function filter_nab_amplify_get_avatar_url( $url, $id_or_email, $args ) {
  */
 function nab_amplify_custom_menu_query_vars( $vars ) {
 
-	$vars[] = 'edit-my-profile';
 	$vars[] = 'my-purchases';
+	$vars[] = 'my-connections';
+	$vars[] = 'my-events';
+	$vars[] = 'my-bookmarks';
 
 	return $vars;
 }
@@ -221,14 +224,43 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 	}
 
 	$items =
-		array( 'edit-my-profile' => __( 'Edit My Profile', 'nab-amplify' ) )
-		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
-		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
-		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) )
+		array( 'messages' => __( 'Inbox', 'nab-amplify' ) )
+		+ array( 'my-connections' => __( 'Connections', 'nab-amplify' ) )
+		+ array( 'my-purchases' => __( 'Access My Content', 'nab-amplify' ) )
 		+ array( 'orders' => __( 'Order History', 'nab-amplify' ) )
-		+ array( 'customer-logout' => __( 'Logout', 'nab-amplify' ) );
+		+ array( 'my-bookmarks' => __( 'Bookmarks', 'nab-amplify' ) )
+		+ array( 'edit-account' => __( 'Edit Account', 'nab-amplify' ) )
+		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );
+	
+	$current_user	= wp_get_current_user();
+	$is_member		= in_array( 'nab_member', (array) $current_user->roles );
+	
+	if ( ! $is_member ) {
+
+		unset( $items[ 'messages' ] );
+		unset( $items[ 'my-connections' ] );		
+	}
 
 	return $items;
+}
+
+/**
+ * Used to set custom link in WooCommerce's My Account Menu's Item.
+ *
+ * @param $url
+ * @param $endpoint
+ * @param $value
+ * @param $permalink
+ *
+ * @return string
+ */
+function nab_amplify_woocommerce_get_endpoint_url( $url, $endpoint, $value, $permalink ) {
+	// Add Custom URL.
+	if ( $endpoint === 'messages' ) {
+		$url = bp_loggedin_user_domain() . bp_get_messages_slug();
+	}
+
+	return $url;
 }
 
 /**
@@ -246,11 +278,11 @@ function nab_add_login_link_on_checkout_page() {
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-		<p>You’ll need to have an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</p>
-		<div class="nab_checkout_links">
-			<p>Don't have an account? <strong><a class="checkout-signup-link" href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a></strong></p>
-			<p>Already have an account? <strong><a class="checkout-signin-link" href="<?php echo esc_url( $sign_in_url ); ?>">Sign In</a></strong></p>
-		</div>
+        <p>You’ll need to have an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</p>
+        <div class="nab_checkout_links">
+            <p>Don't have an account? <strong><a class="checkout-signup-link" href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a></strong></p>
+            <p>Already have an account? <strong><a class="checkout-signin-link" href="<?php echo esc_url( $sign_in_url ); ?>">Sign In</a></strong></p>
+        </div>
 	<?php }
 }
 
@@ -443,13 +475,13 @@ function nab_amplify_woocommerce_checkout_fields( $fields ) {
 
 	if ( '0.00' === WC()->cart->total || '0' === WC()->cart->total ) {
 
-        $keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email', 'nab_additional_email' );
+		$keep_fields = array( 'billing_first_name', 'billing_last_name', 'billing_email', 'nab_additional_email' );
 
-        foreach ( $fields['billing'] as $key => $val ) {
-            if( ! in_array( $key, $keep_fields, true) ) {
-                unset( $fields['billing'][$key] );
-            }
-        }
+		foreach ( $fields['billing'] as $key => $val ) {
+			if ( ! in_array( $key, $keep_fields, true ) ) {
+				unset( $fields['billing'][ $key ] );
+			}
+		}
 	}
 
 	return $fields;
@@ -533,13 +565,13 @@ function nab_stop_bulk_order_email( $enable, $order ) {
  *
  * @param bool $val
  * @param object $user_id
- * 
+ *
  * @return bool
  */
 function nab_2fa_rest_api_enable( $val, $user_id ) {
-	$user = get_user_by( 'ID' ,$user_id );
+	$user = get_user_by( 'ID', $user_id );
 
-	if( ! empty( $user ) && ( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) ) ) {
+	if ( ! empty( $user ) && ( is_super_admin( $user_id ) || in_array( 'administrator', $user->roles, true ) ) ) {
 		$val = true;
 	}
 
@@ -551,16 +583,16 @@ function nab_2fa_rest_api_enable( $val, $user_id ) {
  *
  * @param array $data
  * @param object $user
- * 
+ *
  * @return array
  */
 function nab_jwt_response( $data, $user ) {
 
-	if( ! empty( $data ) && ! empty( $user ) ) {
+	if ( ! empty( $data ) && ! empty( $user ) ) {
 		$token = $data['token'];
 		$data  = array(
 			'token'   => $token,
-            'user_id' => $user->data->ID,
+			'user_id' => $user->data->ID,
 		);
 	}
 
@@ -571,7 +603,7 @@ function nab_jwt_response( $data, $user ) {
  * Force bulk quantities to single products if bulk quantity option is selected
  *
  * @param array $cart_contents
- * 
+ *
  * @return array
  */
 function nab_force_bulk_quanity( $cart_contents ) {
@@ -585,9 +617,9 @@ function nab_force_bulk_quanity( $cart_contents ) {
 			$temp_cart = [];
 			foreach ( $cart_contents as $key => $values ) {
 				if ( $get_qty !== $values['quantity'] ) {
-					$values['quantity'] = $get_qty;
+					$values['quantity']       = $get_qty;
 					$values['nab_bulk_order'] = 'yes';
-					$values['nab_qty'] = $get_qty;
+					$values['nab_qty']        = $get_qty;
 
 					// update cocart
 					nab_update_cocart_item( $key, $get_qty );
@@ -606,20 +638,21 @@ function nab_force_bulk_quanity( $cart_contents ) {
  *
  * @param $passed
  * @param $product_id
+ *
  * @return bool
  */
 function nab_amplify_woocommerce_add_to_cart_validation( $passed, $product_id ) {
 
-    foreach ( WC()->cart->get_cart() as $cart_item ) {
-        $cart_product_id = $cart_item['product_id'];
-        if($cart_product_id === $product_id) {
-            wc_add_notice( __( 'Maximum 1 quantity can be added in the cart.', 'woocommerce' ), 'error' );
-            $passed = false;
-            break;
-        }
-    }
+	foreach ( WC()->cart->get_cart() as $cart_item ) {
+		$cart_product_id = $cart_item['product_id'];
+		if ( $cart_product_id === $product_id ) {
+			wc_add_notice( __( 'Maximum 1 quantity can be added in the cart.', 'woocommerce' ), 'error' );
+			$passed = false;
+			break;
+		}
+	}
 
-    return $passed;
+	return $passed;
 }
 
 /**
@@ -631,7 +664,7 @@ function nab_amplify_woocommerce_add_to_cart_validation( $passed, $product_id ) 
  * @return string
  */
 function nab_title_order_received( $title, $id ) {
-	
+
 	if ( is_order_received_page() && get_the_ID() === $id ) {
 		$title = "Registration Confirmation";
 	}
@@ -644,36 +677,52 @@ function nab_title_order_received( $title, $id ) {
  *
  * @param int $expire
  * @param int $issuedAt
+ *
  * @return int
  */
 function nab_token_expiry_time( $expire, $issuedAt ) {
-	return $issuedAt + (DAY_IN_SECONDS * 30);
+	return $issuedAt + ( DAY_IN_SECONDS * 30 );
 }
 
 /**
- * Additional emails which will get invoice  
+ * Additional emails which will get invoice
  *
  * @param string $recipients
  * @param array $order
- * 
+ *
  * @return string
  */
 function nab_add_addition_email_recepient( $recipients, $order ) {
 
-	if( ! empty( $order ) ) {
+	if ( ! empty( $order ) ) {
 		$order_id          = $order->get_order_number();
 		$additional_emails = get_post_meta( $order_id, 'nab_additional_email', true );
 
-		if( isset( $additional_emails ) && ! empty( $additional_emails ) ) {
+		if ( isset( $additional_emails ) && ! empty( $additional_emails ) ) {
 			$additional_emails = array_map( 'trim', explode( ',', $additional_emails ) );
 			$existing_emails   = ( ! empty( $recipients ) ) ? array_map( 'trim', explode( ',', $recipients ) ) : [];
 			$recipients        = array_merge( $existing_emails, $additional_emails );
 			$recipients        = implode( ',', array_unique( $recipients ) );
 		}
-		
+
 	}
 
 	return $recipients;
+}
+
+/**
+ * Setting Default Template for Buddypress pages.
+ *
+ * @param string $template Template path.
+ *
+ * @return string
+ */
+function nab_amplify_filter_bp_template_include( $template ) {
+	if ( function_exists( 'bp_current_component' ) && bp_current_component() ) {
+		$template = get_theme_file_path( '/template-buddypress.php' );
+	}
+
+	return $template;
 }
 
 /**
@@ -682,23 +731,270 @@ function nab_add_addition_email_recepient( $recipients, $order ) {
  * @param $columns
  *
  * @return array
- * 
+ *
  */
 function nab_add_customer_name_column( $columns ) {
-	
+
 	$manage_columns = array();
 
-    foreach( $columns as $key => $value ) {
-		
+	foreach ( $columns as $key => $value ) {
+
 		if ( 'order_number' === $key ) {
-			
-			$manage_columns[ $key ] 		= $value;
-			$manage_columns[ 'customer' ] 	= 'Customer';            
+
+			$manage_columns[ $key ]     = $value;
+			$manage_columns['customer'] = 'Customer';
 		}
-		
-        $manage_columns[$key] = $value;
-    }
+
+		$manage_columns[ $key ] = $value;
+	}
 
 	return $manage_columns;
-	
+
+}
+
+//Phase 4 search
+/**
+ * Custom order by relevance order
+ *
+ * @param mixed $orderby
+ * @param mixed $query
+ *
+ * @return string
+ */
+function nab_change_query_order_by( $orderby, $query ) {
+
+	if ( ! is_admin() && ! $query->is_main_query() ) {
+
+		if ( isset( $query->query['custom_order'] ) && 'relevance' === $query->query['custom_order'] ) {
+
+			if ( isset( $query->query['s'] ) && ! empty( $query->query['s'] ) ) {
+
+				global $wpdb;
+
+				$search_terms = explode( ' ', $query->query['s'] );
+
+				if ( count( $search_terms ) > 1 ) {
+
+					$orderby = str_replace( ', ' . $wpdb->prefix . 'posts.post_date DESC', ' ASC', $orderby );
+
+
+				} else {
+
+					$orderby = str_replace( ', ' . $wpdb->prefix . 'posts.post_date DESC', '', $orderby );
+
+				}
+
+			}
+
+		}
+
+	}
+
+	return $orderby;
+}
+
+
+/**
+ * Change buddypress default add friend and cancle friend request button text.
+ *
+ * @param array $button
+ *
+ * @return array
+ */
+function nab_bp_change_add_friend_button_text( $button ) {
+
+	if ( 'not_friends' === $button['id'] ) {
+		$button['link_text'] = 'Connect';
+	}
+
+	if ( 'pending' === $button['id'] ) {
+
+		$button['link_text'] = 'Cancel Request';
+	}
+
+	return $button;
+}
+
+/**
+ * Modify buddypress member query for search result filter.
+ *
+ * @param array $sql
+ * @param BP_User_Query $query
+ *
+ * @return array
+ */
+function nab_modify_member_query( $sql, $query ) {
+
+
+	if ( isset( $query->query_vars['type'] ) && in_array( strtolower( $query->query_vars['type'] ), array( 'alphabetical', 'newest', 'active' ), true ) ) {
+
+		global $wpdb;
+
+		$user_meta_cap = esc_sql( $wpdb->prefix . 'capabilities' );
+
+		if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
+
+			$sql['select'] .= ' INNER JOIN wp_usermeta ON ( u.ID = wp_usermeta.user_id )';
+
+		} else {
+
+			$sql['select'] .= ' INNER JOIN wp_users ON u.user_id = wp_users.ID INNER JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id';
+		}
+
+
+		$sql['where'][] = "wp_usermeta.meta_key = '" . $user_meta_cap . "'";
+
+		if ( isset( $query->query_vars['search_terms'] ) && ! empty( $query->query_vars['search_terms'] ) ) {
+
+			$search_term = '%' . $query->query_vars['search_terms'] . '%';
+
+			$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
+				"SELECT DISTINCT ID FROM {$wpdb->users} INNER JOIN {$wpdb->usermeta} ON {$wpdb->users}.ID = {$wpdb->usermeta}.user_id
+				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s )",
+				$user_meta_cap,
+				$search_term,
+				$search_term,
+				$search_term,
+				$search_term,
+				$search_term
+			) );
+
+			$match_in_clause = empty( $matched_user_ids ) ? 'NULL' : implode( ',', $matched_user_ids );
+
+			if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
+
+				$sql['where']['search'] = " ( u.ID IN ({$match_in_clause}) )";
+
+			} else {
+
+				$sql['where']['search'] = " ( u.user_id IN ({$match_in_clause}) )";
+			}
+		}
+
+	}
+
+	return $sql;
+}
+
+/**
+ * Change friendship button in the member loop.
+ *
+ * @param array $buttons
+ * @param int $user_id
+ * @param string $type
+ *
+ * @return array
+ */
+function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type ) {
+
+	if ( 'friendship_request' === $type && 2 === count( $buttons ) ) {
+		return false;
+	}
+
+	return $buttons;
+}
+
+/**
+ * Change friend request notification link.
+ *
+ * @param mixed $link
+ *
+ * @return mixed
+ */
+function nab_change_bp_friend_request_notification_link( $link ) {
+
+	$pending_request_url = add_query_arg( array( 'connections' => 'pending' ), wc_get_account_endpoint_url( 'my-connections' ) );
+
+	if ( is_array( $link ) ) {
+
+		$link['link'] = $pending_request_url;
+
+	} else {
+
+		if ( preg_match( '~>\K[^<>]*(?=<)~', $link, $match ) ) {
+
+			$link = '<a href="' . $pending_request_url . '">' . $match[0] . '</a>';
+		}
+	}
+
+	return $link;
+}
+
+
+/**
+ * Change accepted friend request link in the notification.
+ *
+ * @param mixed $link
+ *
+ * @return mixed
+ */
+function nab_change_bp_accepted_friend_request_notification_link( $link ) {
+
+	$my_connection_url = add_query_arg( array( 'connections' => 'friends', 'new' => 1 ), wc_get_account_endpoint_url( 'my-connections' ) );
+
+	if ( is_array( $link ) ) {
+
+		$link['link'] = $my_connection_url;
+
+	} else {
+
+		if ( preg_match( '~>\K[^<>]*(?=<)~', $link, $match ) ) {
+
+			$link = '<a href="' . $my_connection_url . '">' . $match[0] . '</a>';
+		}
+	}
+
+	return $link;
+}
+
+/**
+ * Remove edit-address menu from my account.
+ *
+ * @param array $items
+ *
+ * @return array
+ */
+function nab_remove_edit_address_from_my_account( $items ) {
+
+	unset( $items['edit-address'] );
+
+	return $items;
+}
+
+/**
+ * Remove shipping address
+ *
+ * @param array $adresses
+ *
+ * @return array
+ */
+function nab_remove_shipping_address( $adresses ) {
+
+	if ( isset( $adresses['shipping'] ) ) {
+
+		unset( $adresses['shipping'] );
+	}
+
+	return $adresses;
+}
+
+/**
+ * Added bookmark icon in the product detail page.
+ *
+ * @param string $html
+ * @param int $post_thumbnail_id
+ *
+ * @return string
+ */
+function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
+
+	global $product;
+
+	ob_start();
+
+	nab_get_product_bookmark_html( $product->get_id(), 'user-bookmark-action' );
+
+	$html .= ob_get_clean();
+
+	return $html;
 }

@@ -26,6 +26,7 @@ $event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
 <div class="tribe-events-calendar-month__calendar-event-featured-image-wrapper">
 	<a
     	href="<?php echo esc_url( $event_url ); ?>"
+        target="_blank"
 		title="<?php echo esc_attr( $event->title ); ?>"
 		rel="bookmark"
 		class="tribe-events-calendar-month__calendar-event-featured-image-link"
