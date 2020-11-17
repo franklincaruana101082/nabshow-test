@@ -1260,7 +1260,7 @@ body .is_friend .remove:before{font-size:22px;}
 .bp-messages-content #thread-preview .preview-content .preview-message *,
 .bp-messages-content #bp-message-thread-list .message-content *{color:#fff;}
 .bp-messages-content #thread-preview .preview-content .preview-message blockquote,
-.bp-messages-content #bp-message-thread-list .message-content blockquote{padding:15px;margin:0 0 0 auto!important;border:1px solid #333;background-color:#333;max-width:96%;}
+.bp-messages-content #bp-message-thread-list .message-content blockquote{padding:15px;margin:0 0 15px auto!important;border:1px solid #333;background-color:#333;max-width:96%;}
 .bp-messages-content #thread-preview .preview-content .preview-message a,
 .bp-messages-content #bp-message-thread-list .message-content a{text-decoration:underline;}
 .bp-messages-content #bp-message-thread-list img.avatar{border-radius:50%;}
