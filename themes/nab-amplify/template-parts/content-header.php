@@ -101,27 +101,27 @@ if ( $user_logged_in ) {
 									} ?>
                                 </label>
                             </div>
-                            <div class="amp-profile-info">
-                                <h2><?php echo esc_html( $member_name ); ?></h2>
-								<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) ) { ?>
-                                    <div class="amp-profile-disc">
-										<?php if ( ! empty( $user_data['attendee_title'][0] ) ) { ?>
-                                            <span><?php echo esc_html( $user_data['attendee_title'][0] ); ?></span>
-										<?php } ?>
-                                        <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
-                                    </div>
-								<?php } ?>
-
-								<?php if ( ! empty( $user_data['attendee_location'][0] ) ) { ?>
-                                    <div class="amp-profile-location">
-                                        <span><?php echo esc_html( $user_data['attendee_location'][0] ); ?></span>
-                                    </div>
-								<?php } ?>
-                            </div>
 							<?php if ( $accepting_connections ) { ?>
+                                <div class="amp-profile-info">
+                                    <h2><?php echo esc_html( $member_name ); ?></h2>
+									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) ) { ?>
+                                        <div class="amp-profile-disc">
+											<?php if ( ! empty( $user_data['attendee_title'][0] ) ) { ?>
+                                                <span><?php echo esc_html( $user_data['attendee_title'][0] ); ?></span>
+											<?php } ?>
+                                            <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
+                                        </div>
+									<?php } ?>
+
+									<?php if ( ! empty( $user_data['attendee_location'][0] ) ) { ?>
+                                        <div class="amp-profile-location">
+                                            <span><?php echo esc_html( $user_data['attendee_location'][0] ); ?></span>
+                                        </div>
+									<?php } ?>
+                                </div>
                                 <div class="amp-profile-social">
                                     <ul>
-	                                    <?php if ( isset( $user_data['social_twitter'][0] ) && ! empty( $user_data['social_twitter'][0] ) ) { ?>
+										<?php if ( isset( $user_data['social_twitter'][0] ) && ! empty( $user_data['social_twitter'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
                                             </li>
@@ -131,17 +131,17 @@ if ( $user_logged_in ) {
                                                 <a href="<?php echo esc_attr( $user_data['social_linkedin'][0] ); ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
                                             </li>
 										<?php }
-	                                    if ( isset( $user_data['social_facebook'][0] ) && ! empty( $user_data['social_facebook'][0] ) ) { ?>
+										if ( isset( $user_data['social_facebook'][0] ) && ! empty( $user_data['social_facebook'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_facebook'][0] ); ?>" target="_blank"><i class="fa fa-facebook"></i></a>
                                             </li>
 										<?php }
-	                                    if ( isset( $user_data['social_instagram'][0] ) && ! empty( $user_data['social_instagram'][0] ) ) { ?>
+										if ( isset( $user_data['social_instagram'][0] ) && ! empty( $user_data['social_instagram'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_instagram'][0] ); ?>" target="_blank"><i class="fa fa-instagram"></i></a>
                                             </li>
 										<?php }
-	                                    if ( isset( $user_data['social_website'][0] ) && ! empty( $user_data['social_website'][0] ) ) { ?>
+										if ( isset( $user_data['social_website'][0] ) && ! empty( $user_data['social_website'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
                                             </li>
