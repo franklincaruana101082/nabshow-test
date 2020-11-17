@@ -147,10 +147,10 @@ p{font-size:16px;color:#404040}
 .site-header .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .site-header .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex;width:30%;}
 .site-header .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
-.site-header .nab-logos ul li{margin-right:20px;padding-right:20px;border-right:1px solid #ccc;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
-.site-header .nab-logos ul li:last-child{border-right:0}
+.site-header .nab-logos ul li{margin-right:15px;padding-right:15px;border-right:1px solid #ccc;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.site-header .nab-logos ul li:last-child{border-right:0;margin-right:0;padding-right:0;}
 .site-header .nab-logos ul li a{display:-webkit-box;display:-ms-flexbox;display:flex}
-.site-header .nab-logos img{max-width:120px;max-height:40px}
+.site-header .nab-logos img{max-width:150px;max-height:50px;width:100%}
 .site-header .main-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:70%;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;}
 .site-header .nab-header-search .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;margin-right:20px;}
 .site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;width:400px;max-width:100%;height:40px;border:1px solid #666;padding:0 50px 0 20px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
@@ -234,7 +234,7 @@ p{font-size:16px;color:#404040}
 .site-footer .nab-amplify-copyright p{font-size:14px}
 .site-footer .footer-inner .nab-logos ul{margin:0;padding:0;list-style:none;}
 .site-footer .footer-inner .nab-logos ul li{margin-bottom:15px;}
-.site-footer .footer-inner .nab-logos img{max-width:150px;max-height:70px;width:100%;}
+.site-footer .footer-inner .nab-logos img{max-width:190px;max-height:70px;width:100%;}
 
 /* footer css */
 
@@ -747,7 +747,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header{margin-bottom:80px;background-size:cover;background-repeat:no-repeat;background-position:center top;}
 .banner-header .woocommerce-breadcrumb a,
 .banner-header .woocommerce-breadcrumb{color:#404040!important}
-
+#amp-profile-restrict-message p {font-size: 24px;color: #ccc;font-style: italic}
 .checkbox-custom{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom: 25px;}
 .checkbox-custom input{margin-right:15px}
 .checkbox-custom input:last-child{margin-right:0}
@@ -1282,7 +1282,7 @@ body .is_friend .remove:before{font-size:22px;}
 .bp-messages div .bp-icon{line-height:1;padding:0.5em;}
 .bp-messages div p{line-height:1;padding:0.5em;color:#444;}
 .bp-messages-content .actions{width:auto;max-width:100%;margin:5px 0;}
-.bp-messages-content .actions .bp-tooltip:last-child:after{transform:translate(-94%,0);}
+.bp-messages-content .actions .bp-tooltip.message-action-view:last-child:after{transform:translate(-94%,0);}
 .bp-messages-content #bp-message-thread-list{margin:20px 0;border:0;}
 .bp-messages-content #bp-message-thread-list>li{padding:0;margin:0 0 20px;border:1px solid #888;}
 .bp-messages-content #bp-message-thread-list>li:last-child{margin:0;}
