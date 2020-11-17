@@ -25,7 +25,8 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 }
 
 // Get product categories.
-$product_cats = wp_get_post_terms( $product->get_id(), 'product_cat' );
+$current_product_id = $product->get_id();
+$product_cats 		= wp_get_post_terms( $current_product_id, 'product_cat' );
 $product_cats_names = array();
 foreach( $product_cats as $pc) {
 	$product_cats_names[] = $pc->name;
@@ -35,6 +36,10 @@ $categories = implode( ', ', $product_cats_names);
 <div <?php wc_product_class( 'product-item', $product ); ?>>
 	<div class="item-inner">
 		<?php
+
+		// bookmark product
+		nab_get_product_bookmark_html( $current_product_id, 'user-bookmark-action' );
+
 		$link = apply_filters( 'woocommerce_loop_product_link', get_the_permalink(), $product );
 
 		echo '<a href="' . esc_url( $link ) . '" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">';

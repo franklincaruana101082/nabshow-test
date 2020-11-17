@@ -64,11 +64,15 @@ add_filter( 'woocommerce_email_enabled_new_order', 'nab_stop_bulk_order_email', 
 
 add_filter( 'woocommerce_add_to_cart_validation', 'nab_amplify_woocommerce_add_to_cart_validation', 10, 3);
 
+add_filter( 'bp_template_include', 'nab_amplify_filter_bp_template_include', 10, 3 );
+
 add_filter( 'two_factor_user_api_login_enable', 'nab_2fa_rest_api_enable', 10, 2 );
 
 add_filter( 'jwt_auth_token_before_dispatch', 'nab_jwt_response', 10, 2 );
 
 add_filter( 'woocommerce_cart_contents_changed', 'nab_force_bulk_quanity' );
+
+add_filter( 'woocommerce_get_endpoint_url', 'nab_amplify_woocommerce_get_endpoint_url', 10, 4 );
 
 add_filter( 'the_title', 'nab_title_order_received', 10, 2 );
 
@@ -77,3 +81,21 @@ add_filter( 'jwt_auth_expire', 'nab_token_expiry_time', 10, 2 );
 add_filter( 'woocommerce_email_recipient_nab_registration_receipt' , 'nab_add_addition_email_recepient', 10, 2);
 
 add_filter( 'manage_shop_order_posts_columns', 'nab_add_customer_name_column', 11 );
+
+add_filter( 'posts_orderby', 'nab_change_query_order_by', 10, 2 );
+
+add_filter( 'bp_get_add_friend_button', 'nab_bp_change_add_friend_button_text' );
+
+add_filter( 'bp_user_query_uid_clauses', 'nab_modify_member_query', 10, 2 );
+
+add_filter( 'bp_friends_single_friendship_request_notification', 'nab_change_bp_friend_request_notification_link' );
+add_filter( 'bp_friends_multiple_friendship_request_notification', 'nab_change_bp_friend_request_notification_link' );
+
+add_filter( 'bp_friends_single_friendship_accepted_notification', 'nab_change_bp_accepted_friend_request_notification_link' );
+add_filter( 'bp_friends_multiple_friendship_accepted_notification', 'nab_change_bp_accepted_friend_request_notification_link' );
+
+add_filter( 'woocommerce_account_menu_items', 'nab_remove_edit_address_from_my_account', 999 );
+
+add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address', 10, 1 );
+
+add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
