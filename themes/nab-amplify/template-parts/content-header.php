@@ -121,27 +121,27 @@ if ( $user_logged_in ) {
 							<?php if ( $accepting_connections ) { ?>
                                 <div class="amp-profile-social">
                                     <ul>
-										<?php if ( $user_data['social_twitter'] ) { ?>
+										<?php if ( isset( $user_data['social_twitter'] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_twitter'] ) { ?>
+										if ( isset( $user_data['social_linkedin'] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_linkedin'][0] ); ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_twitter'] ) { ?>
+										if ( $user_data['social_facebook'] ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_facebook'][0] ); ?>" target="_blank"><i class="fa fa-facebook"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_twitter'] ) { ?>
+										if ( $user_data['social_instagram'] ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_instagram'][0] ); ?>" target="_blank"><i class="fa fa-instagram"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_twitter'] ) { ?>
+										if ( $user_data['social_website'] ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
                                             </li>
