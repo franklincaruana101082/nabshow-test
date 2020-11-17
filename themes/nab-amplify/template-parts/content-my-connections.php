@@ -15,7 +15,7 @@ if ( isset( $new_notification ) && ! empty( $new_notification ) ) {
 
 $current_user = wp_get_current_user();
 $user_id      = filter_input( INPUT_GET, "user_id", FILTER_SANITIZE_STRING );
-$user_id      = $user_id ? $user_id : $current_user->ID;
+$user_id      = $user_id ? (int) $user_id : $current_user->ID;
 $connections  = filter_input( INPUT_GET, "connections", FILTER_SANITIZE_STRING );
 
 $all_members_url     = add_query_arg( 'connections', 'all' );
@@ -26,12 +26,12 @@ $members_filter = array();
 $active_page    = '';
 switch ( $connections ) {
 	case 'pending':
-		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id );
+		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id ) . '&exclude=' . bp_get_friend_ids( $user_id );
 		$active_page    = 'pending';
 		break;
 
 	case 'all':
-		$members_filter = bp_ajax_querystring( 'members' );
+		$members_filter = bp_ajax_querystring( 'members' ) . '&exclude=' . bp_get_friend_ids( $user_id );
 		$active_page    = 'all';
 		break;
 
