@@ -281,11 +281,13 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 
 	if ( is_user_logged_in() ) {
 
-		$current_user_id = get_current_user_id();
+		$current_user 		= wp_get_current_user();
+		$current_user_id	= $current_user->ID;
+		$is_member			= in_array( 'nab_member', (array) $current_user->roles );
 
-		if( $current_user_id === $member_id ) {
-		    return;
-        }
+		if ( ! $is_member ) {
+			return;
+		}
 
 		$is_friend = friends_check_friendship_status( $current_user_id, $member_id );
 
