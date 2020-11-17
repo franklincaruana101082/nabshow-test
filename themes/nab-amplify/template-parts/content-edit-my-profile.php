@@ -87,16 +87,47 @@ $user_images = nab_amplify_get_user_images();
     <form class="woocommerce-EditProfileForm edit-my-profile" action="" enctype="multipart/form-data" method="post">
         <div class="nab-profile">
             <div class="nab-section section-nab-profile">
+                <div class="nab-profile-head">
+                    <h3>PROFILE PICTURES</h3>
+                </div>
                 <div class="nab-profile-body flex-row">
+                    <div class="flex-column">
+                        <div class="flex-box">
+                            <div class="nab-profile-image user-image-box">
+                                <label for="profile_picture_file"><img class="profile-images" src="<?php echo esc_url( $user_images['profile_picture'] ); ?>"/></label>
+                                <input id="profile_picture_file" type="file" name="profile_picture"/>
+                            </div>
+                            <div class="nab-profile-button">
+                                <label for="profile_picture_file"><span class="button" id="profile_picture_update">Change</span></label>
+                                <label for="profile_picture_remove">
+                                    <span class="button">Remove</span>
+                                </label>
+                                <input type="checkbox" name="profile_picture_remove" id="profile_picture_remove"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-column">
+                        <div class="flex-box">
+                            <div class="nab-avtar-image user-image-box">
+                                <label for="banner_image_file"><img class="profile-images" src="<?php echo esc_url( $user_images['banner_image'] ); ?>"/></label>
+                                <input id="banner_image_file" type="file" name="banner_image"/>
+                            </div>
+                            <div class="nab-profile-button">
+                                <label for="banner_image_file"><span class="button" id="banner-picture-update">Change</span></label>
+                                <label for="banner_image_remove">
+                                    <span class="button">Remove</span>
+                                </label>
+                                <input type="checkbox" name="banner_image_remove" id="banner_image_remove"/>
+                            </div>
+                        </div>
+                    </div>
                     <div class="nab-section section-professional-details">
                         <h3>PROFESSIONAL DETAILS</h3>
                         <div class="professional-details-form">
                             <div class="nab-form-row">
-                                <label for="attendee_title">Title</label>
                                 <input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr( $user_data['attendee_title'][0] ); ?>"/>
                             </div>
                             <div class="nab-form-row">
-                                <label for="attendee_company">Company</label>
                                 <input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $user_data['attendee_company'][0] ); ?>"/>
                             </div>
                             <div class="nab-form-submit">
@@ -145,6 +176,54 @@ $user_images = nab_amplify_get_user_images();
                                 </div>
                                 <div class="social-input">
                                     <input type="text" class="input-text" name="social_website" placeholder="Website" value="<?php echo esc_attr( $user_data['social_website'][0] ); ?>">
+                                </div>
+                            </div>
+                            <div class="nab-form-submit">
+                                <button type="submit" class="button" name="save_professional_details">update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nab-section section-about-me">
+                        <h3>ABOUT ME</h3>
+                        <div class="about-me-form">
+                            <div class="nab-form-row">
+                                <div class="row-label">
+                                    <label>I’m interested in…</label>
+                                </div>
+                                <div class="row-input-wrp">
+                                    <div class="row-input">
+                                        <input type="text" class="input-text" name="about_me_interest_1" placeholder="Interest 1" value="<?php echo esc_attr( $user_data['about_me_interest_1'][0] ); ?>">
+                                    </div>
+                                    <div class="row-input">
+                                        <input type="text" class="input-text" name="about_me_interest_2" placeholder="Interest 2" value="<?php echo esc_attr( $user_data['about_me_interest_2'][0] ); ?>">
+                                    </div>
+                                    <div class="row-input">
+                                        <input type="text" class="input-text" name="about_me_interest_3" placeholder="Interest 3" value="<?php echo esc_attr( $user_data['about_me_interest_3'][0] ); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nab-form-row">
+                                <div class="row-label">
+                                    <label>I’m excited about…</label>
+                                </div>
+                                <div class="row-input-wrp">
+                                    <div class="row-input">
+                                        <input type="text" class="input-text" name="about_me_excited_1" placeholder="Interest 1" value="<?php echo esc_attr( $user_data['about_me_excited_1'][0] ); ?>">
+                                    </div>
+                                    <div class="row-input">
+                                        <input type="text" class="input-text" name="about_me_excited_2" placeholder="Interest 2" value="<?php echo esc_attr( $user_data['about_me_excited_2'][0] ); ?>">
+                                    </div>
+                                    <div class="row-input">
+                                        <input type="text" class="input-text" name="about_me_excited_3" placeholder="Interest 3" value="<?php echo esc_attr( $user_data['about_me_excited_3'][0] ); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nab-form-row">
+                                <div class="row-label">
+                                    <label>I’m knowledgeable about…</label>
+                                </div>
+                                <div class="row-input-wrp">
+                                    <textarea name="about_me_knowledge" placeholder="max 200 characters"><?php echo esc_html( $user_data['about_me_knowledge'][0] ); ?></textarea>
                                 </div>
                             </div>
                             <div class="nab-form-submit">

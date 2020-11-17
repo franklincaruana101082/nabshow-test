@@ -8,12 +8,12 @@
 ?>
 <div class="purchased-content-wrapper">
 	<?php
-
-	$current_user = wp_get_current_user();
+	
+	$current_user = wp_get_current_user();	
 	$product_ids  = array();
-
-	if ( 0 !== $current_user->ID ) {
-
+	
+	if ( 0 !== $current_user->ID ) {		
+		
 		$customer_order_ids = get_posts(array(
 			'numberposts' => -1,
 			'fields'      => 'ids',
@@ -22,18 +22,18 @@
 			'post_type'   => wc_get_order_types(),
 			'post_status' => 'wc-completed',
 		));
-
+		
 		if ( is_array( $customer_order_ids ) && count( $customer_order_ids ) > 0) {
-
+			
 			foreach ( $customer_order_ids as $customer_order_id ) {
-
+				
 				$order = wc_get_order( $customer_order_id );
 				$items = $order->get_items();
-
+				
 				foreach ( $items as $item ) {
 
 					$product_id = $item->get_product_id();
-
+					
 					if ( $product_id && ! in_array( $product_id, $product_ids ) ) {
 						$product_ids[] = $product_id;
 					}
@@ -43,7 +43,7 @@
 	}
 
 	if ( is_array( $product_ids ) && count( $product_ids ) > 0 ) {
-
+		
 		$default_image = get_template_directory_uri() . '/assets/images/avtar.jpg';
 
 		$product_ids_regex  = '"' . implode('"|"', $product_ids ) . '"';
@@ -66,14 +66,14 @@
 			?>
 			<section class="wp-listing-block wp-listing-search my-purchased-content shows-list">
 				<div class="all-sessions">
-					<h3>EVENTS</h3>
+					<h3>MY EVENTS</h3>                
 					<div class="session-product-list">
 						<div class="wp-info">
 							<?php
 							while ( $purchased_events->have_posts() ) {
-
+							
 								$purchased_events->the_post();
-
+								
 								$event_id	= get_the_ID();
 								$event_img	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $default_image;
 								$event_date	= get_field( 'show_date', $event_id );
@@ -82,7 +82,7 @@
 								?>
 								<div class="wp-summary content_card">
 									<div class="item-inner">
-										<div class="thumbnail">
+										<div class="thumbnail">											
 											<a href="<?php echo esc_url( $event_url ); ?>" target="_blank">
 												<img src="<?php echo esc_url( $event_img ); ?>" class="purchased-img" alt="event-logo" />
 											</a>
@@ -102,7 +102,7 @@
 					</div>
 				</div>
 			</section>
-			<?php
+			<?php			
 		}
 		wp_reset_postdata();
 
@@ -122,24 +122,24 @@
 			?>
 			<section class="wp-listing-block wp-listing-search my-purchased-content pass-list">
 				<div class="all-sessions">
-					<h3>Passes</h3>
+					<h3>My Passes</h3>                
 					<div class="session-product-list">
 						<div class="wp-info">
 							<?php
 							while ( $purchased_passes->have_posts() ) {
-
+							
 								$purchased_passes->the_post();
-
+																
 								$product_img 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $default_image;
 								$product_link	= get_the_permalink();
 
 								?>
 								<div class="wp-summary content_card">
 									<div class="item-inner">
-										<div class="thumbnail">
+										<div class="thumbnail">											
 											<a href="<?php echo esc_url( $product_link ); ?>">
 												<img src="<?php echo esc_url( $product_img ); ?>" class="purchased-img" alt="pass-logo" />
-											</a>
+											</a>											
 										</div>
 									</div>
 								</div>
@@ -150,10 +150,10 @@
 					</div>
 				</div>
 			</section>
-			<?php
+			<?php			
 		}
 		wp_reset_postdata();
-
+		
 	} else {
 	?>
 		<div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
