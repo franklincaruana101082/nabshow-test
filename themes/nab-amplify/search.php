@@ -12,7 +12,7 @@ get_header();
 $search_term 		= get_search_query();
 $current_site_url	= get_site_url();
 $view_type			= filter_input( INPUT_GET, 'v', FILTER_SANITIZE_STRING );
-$view_screen		= array( 'user', 'shop', 'content' );
+$view_screen		= array( 'user', 'shop' );
 ?>
 	<main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
@@ -79,14 +79,6 @@ $view_screen		= array( 'user', 'shop', 'content' );
 									<?php
 								}
 								?>
-							</div>
-							<?php
-						} else if ( 'content' === $view_type ) {
-							?>
-							<div class="sort-content sort-order-btn">
-								<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>
-								<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
-								<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							</div>
 							<?php
 						}
@@ -280,82 +272,6 @@ $view_screen		= array( 'user', 'shop', 'content' );
 
 					wp_reset_postdata();
 
-				} else if ( 'content' === $view_type ) {
-
-					$all_post_types = nab_get_search_post_types();
-
-					$content_args = array(
-						'post_type' 		=> $all_post_types,
-						'posts_per_page' 	=> 12,
-						's'					=> $search_term
-					);
-
-					$content_query = new WP_Query( $content_args );
-
-					if ( $content_query->have_posts() ) {
-
-						$total_content	= $content_query->found_posts;
-
-						?>
-						<div class="search-view-top-head">
-							<h2><span class="content-search-count"><?php echo esc_html( $total_content ); ?> Results for </span><strong>CONTENT</strong></h2>
-							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="#">Click Here</a></p>
-						</div>
-						<div class="search-section search-content-section">
-							<div class="search-section-details" id="search-content-list">
-								<?php
-
-								$cnt = 1;
-
-								while ( $content_query->have_posts() ) {
-
-									$content_query->the_post();
-
-									$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-									$post_link		= get_the_permalink();
-									?>
-									<div class="search-item">
-										<div class="search-item-inner">
-											<div class="search-item-cover">
-												<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="content thumbnail" />
-											</div>
-											<div class="search-item-info">
-												<div class="search-item-content">
-													<h4><a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
-													<div class="search-actions">
-														<a href="<?php echo esc_url( $post_link ); ?>" class="button">Read More</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<?php
-
-									if ( 8 === $cnt ) {
-										echo wp_kses_post( nab_get_search_result_ad() );
-									}
-									$cnt++;
-								}
-								if ( $cnt < 8 ) {
-									echo wp_kses_post( nab_get_search_result_ad() );
-								}
-								?>
-							</div>
-						</div>
-						<?php
-					}
-					?>
-					<p class="no-search-data" style="display: none;">Result not found.</p>
-					<?php
-					if ( $content_query->max_num_pages > 1 ) {
-						?>
-						<div class="load-more text-center"  id="load-more-content">
-							<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $content_query->max_num_pages ); ?>">Load More</a>
-						</div>
-						<?php
-					}
-
-					wp_reset_postdata();
 				}
 
 			} else {
@@ -511,70 +427,6 @@ $view_screen		= array( 'user', 'shop', 'content' );
 					</div>
 					<?php
 				}
-				wp_reset_postdata();
-
-				$all_post_types = nab_get_search_post_types();
-
-				$content_args = array(
-					'post_type' 		=> $all_post_types,
-					'posts_per_page' 	=> 4,
-					's'					=> $search_term
-				);
-
-				$content_query = new WP_Query( $content_args );
-
-				if ( $content_query->have_posts() ) {
-
-					$search_found	= true;
-					$total_content	= $content_query->found_posts;
-					?>
-					<div class="search-section search-content-section">
-						<div class="search-section-heading">
-							<h2><strong>CONTENT</strong> <span>(<?php echo esc_html( $total_content . ' RESULTS' ); ?>)</span></h2>
-							<?php
-							if ( $total_content > 4 ) {
-
-								$content_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'content' ), $current_site_url );
-								?>
-								<div class="section-view-more">
-									<a href="<?php echo esc_html( $content_view_more_link ); ?>" class="view-more-link">View All</a>
-								</div>
-								<?php
-							}
-							?>
-						</div>
-						<div class="search-section-details" id="search-content-list">
-							<?php
-							while ( $content_query->have_posts() ) {
-
-								$content_query->the_post();
-
-								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-								$post_link		= get_the_permalink();
-								?>
-								<div class="search-item">
-									<div class="search-item-inner">
-										<div class="search-item-cover">
-											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="content thumbnail" />
-										</div>
-										<div class="search-item-info">
-											<div class="search-item-content">
-												<h4><a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
-												<div class="search-actions">
-													<a href="<?php echo esc_url( $post_link ); ?>" class="button">Read More</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<?php
-							}
-							?>
-						</div>
-					</div>
-					<?php
-				}
-
 				wp_reset_postdata();
 
 				if ( ! $search_found ) {

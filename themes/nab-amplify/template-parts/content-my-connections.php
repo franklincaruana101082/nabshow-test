@@ -15,7 +15,7 @@ if ( isset( $new_notification ) && ! empty( $new_notification ) ) {
 
 $current_user = wp_get_current_user();
 $user_id      = filter_input( INPUT_GET, "user_id", FILTER_SANITIZE_STRING );
-$user_id      = $user_id ? $user_id : $current_user->ID;
+$user_id      = $user_id ? (int) $user_id : $current_user->ID;
 $connections  = filter_input( INPUT_GET, "connections", FILTER_SANITIZE_STRING );
 
 $all_members_url     = add_query_arg( 'connections', 'all' );
@@ -24,14 +24,17 @@ $pending_friends_url = add_query_arg( 'connections', 'pending' );
 
 $members_filter = array();
 $active_page    = '';
+$friendship_requests = bp_get_friendship_requests( $user_id );
 switch ( $connections ) {
 	case 'pending':
-		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id );
+		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id ) . '&exclude=' . bp_get_friend_ids( $user_id );
+		$members_filter = 'include=' . bp_get_friendship_requests( $user_id );
+		$members_filter = 0 === $friendship_requests ? 0 : 'include=' . bp_get_friendship_requests( $user_id );
 		$active_page    = 'pending';
 		break;
 
 	case 'all':
-		$members_filter = bp_ajax_querystring( 'members' );
+		$members_filter = bp_ajax_querystring( 'members' ) . '&exclude=' . bp_get_friend_ids( $user_id ) . ',' . $user_id;
 		$active_page    = 'all';
 		break;
 
@@ -53,7 +56,7 @@ $profile_url     = bp_core_get_user_domain( $user_id );
 $current_user_id = get_current_user_id();
 
 $total_users = 0;
-if ( bp_has_members( $members_filter ) ) {
+if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
 	global $members_template;
 	$total_users = $members_template->total_member_count;
 	$total_page  = ceil( $total_users / $post_per_page );
@@ -86,7 +89,7 @@ if ( bp_has_members( $members_filter ) ) {
                     </nav>
                 </div>
             </div>
-			<?php if ( bp_has_members( $members_filter ) ) : ?>
+			<?php if ( 0 !== $members_filter && bp_has_members( $members_filter ) ) : ?>
                 <div id="members-list" class="member-item-list amp-item-main" role="main">
                     <div class="amp-item-wrap" id="connections-user-list">
 						<?php

@@ -184,6 +184,10 @@ if ( $user_logged_in ) {
 									}
 									?>
                                 </div>
+							<?php } else { ?>
+                                <div id="amp-profile-restrict-message">
+                                    <p>User Not Accepting Connections</p>
+                                </div>
 							<?php } ?>
                         </div>
                     </div>
