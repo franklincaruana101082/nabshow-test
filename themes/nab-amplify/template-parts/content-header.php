@@ -121,27 +121,27 @@ if ( $user_logged_in ) {
 							<?php if ( $accepting_connections ) { ?>
                                 <div class="amp-profile-social">
                                     <ul>
-										<?php if ( isset( $user_data['social_twitter'] ) ) { ?>
+	                                    <?php if ( isset( $user_data['social_twitter'][0] ) && ! empty( $user_data['social_twitter'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
                                             </li>
 										<?php }
-										if ( isset( $user_data['social_linkedin'] ) ) { ?>
+										if ( isset( $user_data['social_linkedin'][0] ) && ! empty( $user_data['social_linkedin'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_linkedin'][0] ); ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_facebook'] ) { ?>
+	                                    if ( isset( $user_data['social_facebook'][0] ) && ! empty( $user_data['social_facebook'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_facebook'][0] ); ?>" target="_blank"><i class="fa fa-facebook"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_instagram'] ) { ?>
+	                                    if ( isset( $user_data['social_instagram'][0] ) && ! empty( $user_data['social_instagram'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_instagram'][0] ); ?>" target="_blank"><i class="fa fa-instagram"></i></a>
                                             </li>
 										<?php }
-										if ( $user_data['social_website'] ) { ?>
+	                                    if ( isset( $user_data['social_website'][0] ) && ! empty( $user_data['social_website'][0] ) ) { ?>
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
                                             </li>
