@@ -1934,7 +1934,8 @@ function nab_update_product_in_user_meta( $order_id, $old_status, $new_status ) 
  */
 function nab_edit_acount_additional_form_fields() {
 
-	$current_user_id    = get_current_user_id();
+	$current_user 		= wp_get_current_user();
+	$current_user_id	= $current_user->ID;
 	$member_visibility  = get_user_meta( $current_user_id, 'nab_member_visibility', true );
 	$member_restriction = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
 	$attendee_title		= get_user_meta( $current_user_id, 'attendee_title', true );
@@ -1945,6 +1946,7 @@ function nab_edit_acount_additional_form_fields() {
 	$social_facebook	= get_user_meta( $current_user_id, 'social_facebook', true );
 	$social_instagram	= get_user_meta( $current_user_id, 'social_instagram', true );
 	$social_website		= get_user_meta( $current_user_id, 'social_website', true );
+	$is_member			= in_array( 'nab_member', (array) $current_user->roles );
 
 	$member_visibility  = ! empty( $member_visibility ) ? $member_visibility : 'yes';
 	$member_restriction = ! empty( $member_restriction ) ? $member_restriction : 'yes';
@@ -2018,46 +2020,50 @@ function nab_edit_acount_additional_form_fields() {
 			</div>
 		</div>
 	</div>
-	<fieldset>
-        <legend>Security Settings</legend>
-        <div class="amp-member-security">
-            <div class="amp-security-row security-column-first">
-                <h3>Profile Visibility Preferences</h3>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked( $member_visibility, 'yes' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_visible_anyone">Visible to anyone</label>
-                </div>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked( $member_visibility, 'no' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_visible_friend">Visible to approved connections only</label>
-                </div>
-            </div>
-            <div class="amp-security-row security-column-last">
-                <h3>Connection Preferences</h3>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_anyone_request">Anyone can request to connect</label>
-                </div>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked( $member_restriction, 'no' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_not_available">I am not available to connect with other users</label>
-                </div>
-            </div>
-        </div>
-    </fieldset>
 	<?php
+	if ( $is_member ) {
+		?>
+		<fieldset>
+			<legend>Security Settings</legend>
+			<div class="amp-member-security">
+				<div class="amp-security-row security-column-first">
+					<h3>Profile Visibility Preferences</h3>
+					<div class="amp-radio-container">
+						<div class="amp-radio-wrp">
+							<input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked( $member_visibility, 'yes' ); ?> />
+							<span class="amp-radio"></span>
+						</div>
+						<label for="member_visible_anyone">Visible to anyone</label>
+					</div>
+					<div class="amp-radio-container">
+						<div class="amp-radio-wrp">
+							<input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked( $member_visibility, 'no' ); ?> />
+							<span class="amp-radio"></span>
+						</div>
+						<label for="member_visible_friend">Visible to approved connections only</label>
+					</div>
+				</div>
+				<div class="amp-security-row security-column-last">
+					<h3>Connection Preferences</h3>
+					<div class="amp-radio-container">
+						<div class="amp-radio-wrp">
+							<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> />
+							<span class="amp-radio"></span>
+						</div>
+						<label for="member_anyone_request">Anyone can request to connect</label>
+					</div>
+					<div class="amp-radio-container">
+						<div class="amp-radio-wrp">
+							<input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked( $member_restriction, 'no' ); ?> />
+							<span class="amp-radio"></span>
+						</div>
+						<label for="member_not_available">I am not available to connect with other users</label>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<?php
+	}
 }
 
 /**
