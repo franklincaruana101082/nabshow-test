@@ -747,7 +747,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header{margin-bottom:80px;background-size:cover;background-repeat:no-repeat;background-position:center top;}
 .banner-header .woocommerce-breadcrumb a,
 .banner-header .woocommerce-breadcrumb{color:#404040!important}
-
+#amp-profile-restrict-message p {font-size: 24px;color: #ccc;font-style: italic}
 .checkbox-custom{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom: 25px;}
 .checkbox-custom input{margin-right:15px}
 .checkbox-custom input:last-child{margin-right:0}
