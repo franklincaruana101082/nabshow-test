@@ -20,7 +20,7 @@ add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
 /*Redirecting templates.*/
-add_action( 'template_redirect', 'nab_amplify_template_redirect' );
+//add_action( 'template_redirect', 'nab_amplify_template_redirect' );
 
 /*Action for add new block categorie.*/
 add_filter( 'block_categories', 'nab_amplify_plugin_block_categories', 10, 2 );
