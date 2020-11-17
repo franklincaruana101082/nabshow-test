@@ -34,7 +34,7 @@ switch ( $connections ) {
 		break;
 
 	case 'all':
-		$members_filter = bp_ajax_querystring( 'members' ) . '&exclude=' . bp_get_friend_ids( $user_id );
+		$members_filter = bp_ajax_querystring( 'members' ) . '&exclude=' . bp_get_friend_ids( $user_id ) . ',' . $user_id;
 		$active_page    = 'all';
 		break;
 
