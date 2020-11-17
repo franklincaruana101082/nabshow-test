@@ -92,9 +92,11 @@ $user_images = nab_amplify_get_user_images();
                         <h3>PROFESSIONAL DETAILS</h3>
                         <div class="professional-details-form">
                             <div class="nab-form-row">
+                                <label for="attendee_title">Title</label>
                                 <input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr( $user_data['attendee_title'][0] ); ?>"/>
                             </div>
                             <div class="nab-form-row">
+                                <label for="attendee_company">Company</label>
                                 <input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $user_data['attendee_company'][0] ); ?>"/>
                             </div>
                             <div class="nab-form-submit">

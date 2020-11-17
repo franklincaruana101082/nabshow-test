@@ -586,7 +586,8 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-account .form-row .select2-container .select2-selection--single{height:40px;}
 .woocommerce-account .form-row .select2-container--default .select2-selection--single .select2-selection__rendered{line-height:40px;}
 .woocommerce-account .form-row .select2-container--default .select2-selection--single .select2-selection__arrow{height:40px;}
-.woocommerce-account .form-row label{margin-bottom: 5px;display:block;font-size: 14px;}
+.woocommerce-account .form-row label,
+.woocommerce-account .nab-form-row label{margin-bottom: 5px;display:block;font-size: 14px;width:100%;}
 .woocommerce-account:not(.nab-without-login-account) .form-row .password-input{display:block;width:100%;max-width:100%;}
 .woocommerce-MyAccount-content p em{font-size:12px}
 .woocommerce button{outline:none}
@@ -605,7 +606,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .nab-profile .flex-box{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 .nab-profile .nab-profile-image{width:60%;text-align: center;}
 .nab-profile .nab-profile-button{width:40%;padding-left:20px;}
-.nab-profile .nab-form-row{display:-webkit-box;display:-ms-flexbox;display:flex;margin-bottom:20px;}
+.nab-profile .nab-form-row{display:-webkit-box;display:-ms-flexbox;display:flex;margin-bottom:20px;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .nab-profile .social-icon{width:50px;text-align:center;}
 .nab-profile .social-icon i{font-size:30px;color:#fff;}
 .nab-profile .social-input{width:calc(100% - 50px);padding-left:30px;}
@@ -742,6 +743,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header #profile-avtar label{display:inline-block;background:-webkit-gradient(linear,left bottom, left top,from(#e5018b),to(#6363df));background:-o-linear-gradient(bottom,#e5018b,#6363df);background:linear-gradient(to top,#e5018b,#6363df);border-radius:50%;line-height:1;padding:4px;position:relative;}
 .banner-header #profile-avtar label:before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;box-shadow:inset 0px 80px 80px 0px rgb(0 0 0 / 0.4);border-radius:50%;}
 .banner-header #profile-avtar .is_friend.generic-button, .banner-header #profile-avtar .edit-profile-pic{position:absolute;right:5px;top:10px;width: 42px;height: 42px;}
+.banner-header #profile-avtar .edit-profile-pic:after{top:-30px;}
 .banner-header{margin-bottom:80px;background-size:cover;background-repeat:no-repeat;background-position:center top;}
 .banner-header .woocommerce-breadcrumb a,
 .banner-header .woocommerce-breadcrumb{color:#404040!important}
@@ -833,10 +835,11 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 /* popup design */
 .nab-modal{display:none;}
 .nab-modal.nab-modal-active{display:block;}
-.nab-modal .nab-modal-inner{position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.4);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.nab-modal .nab-modal-inner{position:fixed;z-index:99;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.4);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 .nab-modal .modal-content{background-color:#fefefe;border:1px solid #888;width:90%;max-width:800px;position:relative;max-height:80vh;padding:0;}
 .nab-modal .modal-content-wrap{height:100%;overflow:auto;padding:20px;max-height:78vh;}
-.nab-modal .nab-modal-close{color:#fff;font-size:16px;border-radius:50%;position:absolute;right:-15px;top:-15px;background-color:#ff008f;width:30px;height:30px;line-height:27px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
+.nab-modal .nab-modal-close.fa{color:#fff;font-size:16px;border-radius:50%;position:absolute;right:-15px;top:-15px;background-color:#ff008f;width:30px;height:30px;line-height:27px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
+.nab-modal .nab-modal-close:not(.fa){color:#999!important;text-decoration:underline;cursor:pointer;font-size:22px;display:block;text-align:right;max-width:max-content;margin-left:auto;}
 .nab-modal .modal-content-wrap h3{text-transform:uppercase;text-align:center;width:100%;text-align:center;color:#6363df;font-weight:700;}
 .nab-modal .modal-content-wrap a,
 .nab-modal .modal-content-wrap span{color:#000!important;}
@@ -916,53 +919,6 @@ section.woocommerce-customer-details a.button:active{color:#fff;}
 
 /* Access Your Content button */
 a.woocommerce-button.button.return-btn{text-transform:none;}
-
-/* OLD search page */
-.page-template-templete-search-php .site-content > .container{width:100%;max-width:100%;}
-.nab-search-page{background-color:#404040;}
-.nab-search-page *{color:#fff;}
-.nab-search-page .nab-search-inner .nab-filter-top,
-.nab-search-page .nab-search-inner .nab-filter-bottom,
-.nab-search-page .nab-search-inner .nab-search-header,
-.nab-search-page .nab-search-inner .nab-result-body{background-color:#666;}
-.nab-search-page .nab-search-result .nab-result-header{background-color:#404040;}
-.nab-search-page{padding-top:100px;}
-.nab-search-page .nab-search-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
-.nab-search-page .nab-search-wrp .nab-search-filter{width:400px;}
-.nab-search-page .nab-search-wrp .nab-search-result{width:calc(100% - 400px);-webkit-box-shadow:0px 6px 14px 0px rgba(0,0,0,0.35);box-shadow:0px 6px 14px 0px rgba(0,0,0,0.35);}
-
-/* search sidebar */
-.nab-search-page .nab-search-result .nab-result-header{padding:30px;}
-.nab-search-page .nab-search-filter .nab-search-controle{padding:30px;}
-.nab-search-page .nab-search-filter .nab-filter-top{padding:30px 0 20px 20px;margin-bottom:10px;}
-.nab-search-page .nab-search-filter .nab-filter-top .nab-filter-toggle strong{text-transform:uppercase;font-size:24px;}
-.nab-search-page .nab-search-filter .nab-filter-top .nab-filter-checkbox strong{font-size:18px;}
-.nab-search-page .nab-search-filter .nab-search-header input{width:100%;border-radius:30px;padding:10px;height:60px;}
-.nab-search-page .nab-search-filter .nab-controles-wrp:not(:last-child){margin-bottom:20px;}
-.nab-controles-wrp > strong{padding:0 15px;margin-bottom:10px;display:block;}
-.nab-filter-toggle .nab-filter-row{padding:10px 30px 10px 15px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;border-bottom:1px solid #fff;}
-.nab-filter-toggle .nab-filter-row strong{margin-right:10px;}
-
-/* custom toogle and checkboxes */
-.nab-toggle-btn{position:relative;display:inline-block;width:53px;height:29px;}
-.nab-toggle-btn input[type="checkbox"]{opacity:0;width:100%;height:100%;position:absolute;z-index:1;cursor:pointer;}
-.nab-toggle-btn .toggle-switch{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#404040;-webkit-transition:.4s;-o-transition:.4s;transition:.4s;border-radius:34px;}
-.nab-toggle-btn .toggle-switch:before{position:absolute;content:"";height:18px;width:18px;left:4px;top:50%;background-color:#e5018b;-webkit-transition:.4s;-o-transition:.4s;transition:.4s;border-radius:50%;transform:translate(0,-50%);-webkit-transform:translate(0,-50%);-ms-transform:translate(0,-50%);margin-top:1px;}
-.nab-toggle-btn input:checked + .toggle-switch{background-color:#999;}
-.nab-toggle-btn input:checked + .toggle-switch:before{-webkit-transform:translate(26px,-50%);-ms-transform:translate(26px,-50%);transform:translate(26px,-50%);}
-.nab-check-btn{display:block;position:relative;cursor:pointer;font-size:22px;width:25px;height:25px;}
-.nab-check-btn input[type="checkbox"]{opacity:0;width:100%;height:100%;position:absolute;z-index:1;cursor:pointer;}
-.nab-check-btn .checkmark-switch{position:absolute;top:0;left:0;height:100%;width:100%;background-color:transparent;border:2px solid #fff;border-radius:5px;}
-.nab-check-btn .checkmark-switch:after{content:"";position:absolute;display:none;left:9px;top:-6px;width:13px;height:24px;border:solid #e5018b;border-width:0 7px 7px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg);border-radius:1px 2px 2px 1px;}
-.nab-check-btn input:checked ~ .checkmark-switch:after{display:inline-block;}
-.nab-filter-checkbox .nab-filter-row{padding:7px 30px 7px 15px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.nab-filter-checkbox .nab-check-btn{margin-right:15px;}
-.nab-filter-checkbox .nab-controles-main:not(:last-child){margin-bottom:20px;}
-.nab-clear-filter{text-align:right;margin-bottom:20px;padding:5px 30px;}
-.nab-clear-filter a{color:#fff;text-decoration:underline;font-size:18px;}
-
-/* bottom search */
-.nab-search-page .nab-search-filter .nab-filter-bottom{padding:20px 0 20px 30px;}
 
 /* New Amplify CSS */
 .my-account h1,
@@ -1110,6 +1066,7 @@ body.buddypress .site-content{padding:0;}
 .banner-header .update-banner-image{position:absolute;top:70px;left:0;}
 .banner-header .edit-bg-pic,
 .banner-header .edit-profile-pic{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;}
+.banner-header .edit-bg-pic:after{top:-30px;}
 .banner-header #edit-mode-buttons{position:absolute;top:70px;right:0;}
 .banner-header #edit-mode-buttons a,
 .banner-header #profile-avtar .amp-member-level a{border-radius:7px;text-transform:capitalize;font-size:16px;background-color:#6363df;border-color:#6363df;padding:10px 20px 9px;}
@@ -1179,7 +1136,13 @@ body .is_friend .remove:before{font-size:22px;}
 .amp-item-wrap .amp-item-info .friendship-button a:focus{background:#666666;color:#fff;border-color:#666666;}
 .amp-item-wrap .amp-item-info .search-actions,
 .amp-item-wrap .amp-item-info .search-actions .action{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.amp-item-wrap .amp-item-info .search-actions a.button,
+.amp-item-wrap .amp-item-info .search-actions .action a.button{text-transform:capitalize;}
 .amp-item-wrap .amp-item-info .search-actions .generic-button{margin:5px;}
+.amp-item-wrap .add-new-item .amp-item-inner{display:flex;justify-content:center;align-items:center;}
+.amp-item-wrap .add-new-item .add-item-wrap{padding:30px 0;}
+.amp-item-wrap .add-new-item .add-item-icon{width:80px;height:80px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:36px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;margin:0 auto 20px;}
+.amp-item-wrap .add-new-item .add-item-label{color:#999;font-size:16px;}
 .pag-count{color:#fff;text-align:right;}
 .back-to-profile a{color:#999!important;text-decoration:underline!important;display:inline-block;font-size:18px;}
 .my-connections-content .connections-tabs{margin:0 0 30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
@@ -1188,6 +1151,7 @@ body .is_friend .remove:before{font-size:22px;}
 .my-connections-content .connections-tabs span a:hover,
 .my-connections-content .connections-tabs span a:focus{background:#6363df;border-color:#6363df;color:#fff;}
 .my-connections-content .pagination{margin-bottom:30px;}
+.my-connections-content .back-to-profile + .amp-item-heading h3{margin:25px 0;}
 
 /* My account messages */
 
@@ -1295,6 +1259,10 @@ body .is_friend .remove:before{font-size:22px;}
 .bp-messages-content #thread-preview .preview-content .preview-message{margin:0;padding:10px;background-color:transparent;}
 .bp-messages-content #thread-preview .preview-content .preview-message *,
 .bp-messages-content #bp-message-thread-list .message-content *{color:#fff;}
+.bp-messages-content #thread-preview .preview-content .preview-message blockquote,
+.bp-messages-content #bp-message-thread-list .message-content blockquote{padding:15px;margin:0 0 0 auto!important;border:1px solid #333;background-color:#333;max-width:96%;}
+.bp-messages-content #thread-preview .preview-content .preview-message a,
+.bp-messages-content #bp-message-thread-list .message-content a{text-decoration:underline;}
 .bp-messages-content #bp-message-thread-list img.avatar{border-radius:50%;}
 .bp-messages-content p{margin:0 0 15px;}
 .bp-messages-content p:last-child{margin:0;}
@@ -1338,7 +1306,7 @@ body .is_friend .remove:before{font-size:22px;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:flex-start;-ms-flex-pack:flex-start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li{margin:5px 7px 5px 0;border-radius:0!important;float:none;background:none;line-height:1;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li:not(:last-child){padding-right:7px;border-right:2px solid #fff;}
-.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a{color:#fff;background-color:transparent;padding:0;font-size:16px;}
+.buddypress .buddypress-wrap .bp-navs.user-subnav ul li a{color:#fff;background-color:transparent;padding:0;font-size:16px;text-decoration:none;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:hover,
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li a:focus{color:#fff;}
 .buddypress .buddypress-wrap .bp-navs.user-subnav ul li.current a,

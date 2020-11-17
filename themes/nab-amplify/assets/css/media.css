@@ -137,6 +137,7 @@
 	.banner-header #edit-mode-buttons,
 	.banner-header .update-banner-image{position:static;}
 	.banner-header .bannner-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:20px 0;width:100%;}
+	.banner-header .edit-bg-pic:after{left:0;}
 	.amp-profile-main{margin-right:0;}
 	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;}
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important;}

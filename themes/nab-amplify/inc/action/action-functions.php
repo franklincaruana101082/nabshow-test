@@ -1978,9 +1978,11 @@ function nab_edit_acount_additional_form_fields() {
 					<h3>PROFESSIONAL DETAILS</h3>
 					<div class="professional-details-form">
 						<div class="nab-form-row">
+							<label for="attendee_title">Title</label>
 							<input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr( $attendee_title ); ?>"/>
 						</div>
 						<div class="nab-form-row">
+							<label for="attendee_company">Company</label>
 							<input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $attendee_company ); ?>"/>
 						</div>
 					</div>

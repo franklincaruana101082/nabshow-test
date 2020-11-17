@@ -59,7 +59,7 @@ $user_images = nab_amplify_get_user_images( $member_id );
 					<?php if ( 2 === $edit_mode ) { ?>
                         <div class="update-banner-image">
                             <label for="banner_image_file">
-                                <span class="edit-bg-pic" id="profile_picture_update"><i class="fa fa-pencil"></i></span>
+                                <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image"><i class="fa fa-pencil"></i></span>
                             </label>
                             <input id="banner_image_file" type="file" name="banner_image" style="display: none;"/>
                         </div>
@@ -79,7 +79,7 @@ $user_images = nab_amplify_get_user_images( $member_id );
                                 <label for="profile_picture_file">
                                     <img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
                                 <?php if ( 2 === $edit_mode ) { ?>
-                                    <span class="edit-profile-pic"><i class="fa fa-pencil"></i></span>
+                                    <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image"><i class="fa fa-pencil"></i></span>
                                     <input id="profile_picture_file" type="file" name="profile_picture" style="display: none;"/>
 								<?php } else {
 									echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );
