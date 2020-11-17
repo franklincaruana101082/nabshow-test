@@ -656,6 +656,19 @@ function nab_amplify_template_redirect() {
 	} else if ( ( is_account_page() && 'edit-address' === end( $request ) ) || ( is_account_page() && 'edit-my-profile' === end( $request ) ) ) {
 
 		$redirect_url = wc_get_account_endpoint_url( 'edit-account' );
+	} else if ( $user_logged_in ) {
+		
+		$current_user 	= wp_get_current_user();
+		$is_member		= in_array( 'nab_member', (array) $current_user->roles );
+
+		if ( ! $is_member && 0 !== $member_id && $bp_current_component && $current_user_id !== $member_id ) {
+			
+			$redirect_url = $my_profile_url;
+
+		} else if ( ! $is_member && 'messages' === $bp_current_component ) {
+			
+			$redirect_url = $my_profile_url;
+		}
 	}
 
 	if ( ! empty( $redirect_url ) ) {

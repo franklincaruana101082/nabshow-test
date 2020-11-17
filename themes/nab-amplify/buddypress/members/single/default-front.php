@@ -25,96 +25,106 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 	);
 }
 
+$current_user	= wp_get_current_user();
+$is_member		= in_array( 'nab_member', (array) $current_user->roles );
+
 ?>
 
 <div class="member-front-page">
-    <div class="member-connections">
+	<?php
+	if ( $is_member ) {
+		?>
+		<div class="member-connections">
 
-		<?php if ( bp_has_members( $members_filter ) ) :
+			<?php if ( bp_has_members( $members_filter ) ) :
 
-			global $members_template;
-
-			$total_users = $members_template->total_member_count;
-			?>
-
-            <div id="members-list" class="member-item-list amp-item-main" role="main">
-                <div class="amp-item-heading">
-                    <h3>
-                        <strong>Connections</strong>
-                        <span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
-                    </h3>
-					<?php if ( $total_users > 4 ) { ?>
-                        <div class="amp-view-more">
-                            <a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
-                        </div>
-					<?php } ?>
-                </div>
-				<?php
 				global $members_template;
+
 				$total_users = $members_template->total_member_count;
-				if ( 0 === $total_users && 0 < $total_users ) { ?>
-                    <h4>Pending Requests:</h4>
-				<?php } ?>
-                <div class="amp-item-wrap">
-                	<?php while ( bp_members() ) : bp_the_member();
+				?>
 
-						$member_id            = bp_get_member_user_id();
-						$attendee_company = get_user_meta( $member_id, 'attendee_company', true );
-						$attendee_title = get_user_meta( $member_id, 'attendee_title', true );
-						$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
+				<div id="members-list" class="member-item-list amp-item-main" role="main">
+					<div class="amp-item-heading">
+						<h3>
+							<strong>Connections</strong>
+							<span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
+						</h3>
+						<?php if ( $total_users > 4 ) { ?>
+							<div class="amp-view-more">
+								<a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
+							</div>
+						<?php } ?>
+					</div>
+					<?php
+					global $members_template;
+					$total_users = $members_template->total_member_count;
+					if ( 0 === $total_users && 0 < $total_users ) { ?>
+						<h4>Pending Requests:</h4>
+					<?php } ?>
+					<div class="amp-item-wrap">
+						<?php while ( bp_members() ) : bp_the_member();
 
-						$member_images        = nab_amplify_get_user_images( $member_id );
+							$member_id            = bp_get_member_user_id();
+							$attendee_company = get_user_meta( $member_id, 'attendee_company', true );
+							$attendee_title = get_user_meta( $member_id, 'attendee_title', true );
+							$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
 
-						$member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+							$member_images        = nab_amplify_get_user_images( $member_id );
 
-						if ( empty( trim( $member_full_name ) ) ) {
+							$member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
 
-							$member_full_name = bp_get_member_name();
-						}
+							if ( empty( trim( $member_full_name ) ) ) {
 
-						?>
-                        <div class="amp-item-col">
-                            <div class="amp-item-inner">
-                                <div class="amp-action-remove">
-									<?php echo nab_amplify_bp_get_cancel_friendship_button( $member_id ); ?>
-                                </div>
-                                <div class="amp-item-cover">
-                                    <img src="<?php echo esc_url( $member_images['banner_image'] ); ?>" alt="Cover Image">
-                                </div>
-                                <div class="amp-item-info">
-                                    <div class="amp-item-avtar">
-                                        <a href="<?php bp_member_permalink(); ?>"><img src="<?php echo esc_url( $member_images['profile_picture'] ); ?>"></a>
-                                    </div>
-                                    <div class="amp-item-content">
-                                        <h4><?php echo esc_html( $member_full_name ); ?></h4>
-                                        <span class="company-name"><?php echo esc_html( $attendee_title_company ); ?></span>
-                                        <div class="amp-actions popup-hidden">
-											<?php
-											echo nab_amplify_bp_get_friendship_button( $member_id );
-											?>
-											<?php do_action( 'bp_directory_members_item' ); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-					<?php endwhile; ?>
-                </div>
-            </div>
-		<?php else: ?>
-            <div id="members-list" class="member-item-list amp-item-main" role="main">
-                <div class="amp-item-heading">
-                    <h3>
-                        <strong>Connections</strong>
-                        <span>0 RESULTS</span>
-                    </h3>
-                </div>
-                <div id="message" class="info">
-                    <p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
-                </div>
-            </div>
-		<?php endif; ?>
-    </div>
+								$member_full_name = bp_get_member_name();
+							}
+
+							?>
+							<div class="amp-item-col">
+								<div class="amp-item-inner">
+									<div class="amp-action-remove">
+										<?php echo nab_amplify_bp_get_cancel_friendship_button( $member_id ); ?>
+									</div>
+									<div class="amp-item-cover">
+										<img src="<?php echo esc_url( $member_images['banner_image'] ); ?>" alt="Cover Image">
+									</div>
+									<div class="amp-item-info">
+										<div class="amp-item-avtar">
+											<a href="<?php bp_member_permalink(); ?>"><img src="<?php echo esc_url( $member_images['profile_picture'] ); ?>"></a>
+										</div>
+										<div class="amp-item-content">
+											<h4><?php echo esc_html( $member_full_name ); ?></h4>
+											<span class="company-name"><?php echo esc_html( $attendee_title_company ); ?></span>
+											<div class="amp-actions popup-hidden">
+												<?php
+												echo nab_amplify_bp_get_friendship_button( $member_id );
+												?>
+												<?php do_action( 'bp_directory_members_item' ); ?>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<?php endwhile; ?>
+					</div>
+				</div>
+			<?php else: ?>
+				<div id="members-list" class="member-item-list amp-item-main" role="main">
+					<div class="amp-item-heading">
+						<h3>
+							<strong>Connections</strong>
+							<span>0 RESULTS</span>
+						</h3>
+					</div>
+					<div id="message" class="info">
+						<p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+	?>
+    
 	<?php
 	if ( ! empty( $user_id ) && 0 !== $user_id ) {
 
