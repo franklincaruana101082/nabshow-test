@@ -98,7 +98,7 @@
 }
 @media (max-width:991px){
 	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:20px;}
-	.site-header .nab-logos img{max-height:auto;}
+	.site-header .nab-logos img{max-height:inherit;}
 	.site-header .main-navigation{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.site-footer:before{display:none}
 	.site-footer .footer-inner .col-1{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1;width:50%}
