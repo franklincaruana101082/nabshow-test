@@ -2314,7 +2314,7 @@ function nab_register_article_post_type() {
 	$args = array(
 		'label'                 => __( 'Articles', 'nab-amplify' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
