@@ -10,6 +10,15 @@
 
     // Ready.
     $(document).ready(function () {
+
+        $(document).on('click', '.amp-item-col *', function() {
+            $('body').addC
+            if( ! clicked && 0 === $(this).closest('a').length ) {
+                clicked = true;
+                window.location.href = $(this).parents('.amp-item-col').find('.amp-item-avtar a').attr('href');
+            }
+        });
+
         HeaderResponsive();
 
         $(window).on('resize', function () {
