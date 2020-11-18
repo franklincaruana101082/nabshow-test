@@ -11,11 +11,11 @@
     // Ready.
     $(document).ready(function () {
 
-        $(document).on('click', '.amp-item-col *', function() {
+        /*$(document).on('click', '.amp-item-col *', function() {
             if( 0 === $(this).closest('a').length ) {
                 window.location.href = $(this).parents('.amp-item-col').find('.amp-item-avtar a').attr('href');
             }
-        });
+        });*/
 
         HeaderResponsive();
 
