@@ -32,7 +32,7 @@
             subTitle: '',
             description: '',
             select: false,
-            buttonText: '<a href="#" class="btn">Read More</a>'
+            buttonText: '<a href="#">Read More</a>'
           }
         ]
       })
@@ -140,7 +140,7 @@
               />
               <RichText
                 tagName='div'
-                placeholder={__('Learn More')}
+                placeholder={__('Read More')}
                 value={data.buttonText}
                 keepPlaceholderOnFocus='true'
                 className='button-wrap'
