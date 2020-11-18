@@ -11,11 +11,20 @@
     // Ready.
     $(document).ready(function () {
 
-        /*$(document).on('click', '.amp-item-col *', function() {
-            if( 0 === $(this).closest('a').length ) {
-                window.location.href = $(this).parents('.amp-item-col').find('.amp-item-avtar a').attr('href');
+        $(document).on('click', '.amp-item-col *, .search-item *', function() {
+            const _card = $(this).parents('.amp-item-col').length ? $(this).parents('.amp-item-col') : $(this).parents('.search-item');
+            if( 0 === $(this).closest('a').length && 0 === $(this).closest('.fa').length ) {
+                var profileURL = '';
+                if( _card.find('h4 a').length ) {
+                    profileURL = _card.find('h4 a').attr('href');
+                } else {
+                    profileURL = _card.find('.amp-item-avtar a').attr('href');
+                }
+                if( undefined !== profileURL && -1 < profileURL.indexOf('members') && -1 === profileURL.indexOf('wpnonce') ) {
+                    window.location.href = profileURL;
+                }
             }
-        });*/
+        });
 
         HeaderResponsive();
 
