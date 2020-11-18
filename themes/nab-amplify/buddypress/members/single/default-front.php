@@ -124,7 +124,7 @@ $is_member		= in_array( 'nab_member', (array) $current_user->roles );
 		<?php
 	}
 	?>
-    
+
 	<?php
 	if ( ! empty( $user_id ) && 0 !== $user_id ) {
 
@@ -164,14 +164,6 @@ $is_member		= in_array( 'nab_member', (array) $current_user->roles );
 							?>
                         </div>
                         <div class="amp-item-wrap" id="event-list">
-                        	<div class="amp-item-col add-new-item">
-		                		<div class="amp-item-inner">
-		                			<div class="add-item-wrap">
-		                				<i class="add-item-icon fa fa-pencil"></i>
-		                				<span class="add-item-label">Add Events</span>
-		                			</div>
-		                		</div>
-		                	</div>
 							<?php
 							$event_default_img = nab_placeholder_img();
 
