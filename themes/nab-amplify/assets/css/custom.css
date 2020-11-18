@@ -1022,7 +1022,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-not-found{text-align:center;padding:20px 0;max-width:95%;margin:0 auto;}
 .search-not-found p{display:inline-block;padding:15px;color:#fff;font-size:18px;border:1px solid #fff;margin:0;}
 .no-search-data{text-align:center;padding:5vw 0;font-size:22px;color:#fff;}
-.search-item,.amp-item-col {cursor: pointer}
+#search-user-list .search-item,#members-list .amp-item-col {cursor: pointer}
 
 /* search */
 
@@ -1325,13 +1325,14 @@ body .is_friend .remove:before{font-size:22px;}
 
 /* single discovry page */
 .single-articles{background-color:#404040;}
+.single-articles *{color:#fff;}
 .single-articles .entry-header h1{color:#fdd80f;font-size:36px;padding:0 50px;}
 .single-articles .entry-content p{color:#fff;}
 .single-articles .entry-content > p{padding:0 50px;}
 .single-articles .entry-content p{font-family:'OpenSans-Regular',Arial,sans-serif;text-indent:70px;text-align:justify;}
 .single-articles .entry-content p:first-of-type{text-indent:0;}
 .single-articles .container{width:1200px;}
-.single-articles .related-content-2{padding:0 50px;}
+
 
 /* single post commnents */
 .comments-area{padding:30px 50px;}
