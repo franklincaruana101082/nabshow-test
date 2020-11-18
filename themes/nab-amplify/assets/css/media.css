@@ -357,6 +357,7 @@
 }
 @media (max-width:400px) {
 	.nab-profile-menu{padding-left:0;margin-left:0;border-left:0;width:100%;margin-top:10px;}
+	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 }
 @media (max-width:350px) {
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px;}
