@@ -179,13 +179,13 @@ p{font-size:16px;color:#404040}
 .header-bottom ul li a{color:#fff}
 .site-header .site-branding{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1}
 .site-header .main-navigation>.nab-profile-menu>.nab-profile>a{color:#fff}
-.nab-header-notification{margin-right:15px;border-right:1px solid #ccc;}
+.nab-header-notification{margin-right:15px;border-right:1px solid #ccc;cursor:pointer}
 .nab-header-notification .notification-wrapper{padding:10px 25px 8px 10px;position:relative;}
 .notification-wrapper .notification-icons-wrap{position:relative;}
 .notification-wrapper .nab-pending-notifications{position:absolute;width:18px;height:18px;border-radius:50%;-webkit-border-radius:50%;top:-12px;left:8px;font-size:8px;color:#fff;text-align:center;line-height:18px;background-color:#ff008f;}
 .notification-wrapper i{color:#fdd80f;font-size:18px;}
 .notification-sub-wrapper{display:none;position:absolute;right:0;top:100%;padding-top:20px;}
-.notification-wrapper:hover > .notification-sub-wrapper{display:block;}
+.notification-wrapper.hover > .notification-sub-wrapper{display:block;}
 .notification-sub-wrapper ul{display:block;background-color:#fff;list-style-type:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
 .notification-sub-wrapper ul:before{content:'';width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;border-bottom:15px solid #fff;position:absolute;top:-15px;right:6%;}
 .notification-sub-wrapper ul li{position:relative;}
@@ -1146,6 +1146,7 @@ body .is_friend .remove:before{font-size:22px;}
 .amp-item-wrap .add-new-item .add-item-label{color:#999;font-size:16px;}
 .pag-count{color:#fff;text-align:right;}
 .back-to-profile a{color:#999!important;text-decoration:underline!important;display:inline-block;font-size:18px;}
+.back-to-profile + .info{margin-top:25px;}
 .my-connections-content .connections-tabs{margin:0 0 30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .my-connections-content .connections-tabs span{margin:5px;}
 .my-connections-content .connections-tabs span a{background:#ff008f;color:#fff;display:inline-block;padding:15px 10px;min-width:225px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:14px;line-height:1;font-weight:700;border:1px solid #ff008f;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
@@ -1444,10 +1445,20 @@ body .is_friend .remove:before{font-size:22px;}
 .tribe-events-page-template .tribe-events .tribe-events-c-top-bar__datepicker-button:after{content:"\f107";font-family:fontawesome;background:no-repeat;color:#fff;display:inline-block;vertical-align:middle;height:auto!important;}
 
 /* Reactions */
+.reaction-wrapper{margin:10px 0;}
 .reaction-wrapper ul{list-style:none;display:flex;justify-content:center;align-items:center;margin:0;padding:0;}
-.reaction-wrapper ul li{line-height:normal;}
+.reaction-wrapper ul li{line-height:1;margin:2px;}
 .reaction-wrapper ul li a{display:inline-block;line-height:normal;}
-.reaction-wrapper ul li img{display:block;}
+.reaction-wrapper ul li img{display:block;box-shadow: 0 0 4px 0px rgb(0 0 0 / 0.5);border-radius: 50%;;}
+.reaction-wrapper .reacted-list{margin-right:15px;}
+.reaction-wrapper .reaction-inner{display:flex;justify-content:flex-start;align-items:center;}
+.reaction-wrapper .reaction-list-type{position:relative;margin-right:15px;}
+.reaction-wrapper .reaction-main-like{min-width:100px;margin:0;border-radius:6px;font-size:17px;}
+.reaction-wrapper .reaction-main-like.reacted{background: #6363df;border-color: #6363df;color: #fff;}
+.reaction-wrapper .reaction-main-like i{margin-right:5px;}
+.reaction-wrapper .user-reacted-item{display:flex;justify-content:flex-start;align-items:center;}
+.reaction-wrapper .reaction-icon-modal{position:absolute;left:0;top:-5px;right:0;z-index:99;width:160px;visibility:hidden;opacity:0;transform:translateY(-90%);transition:.3s all ease-in-out;}
+.reaction-wrapper .reaction-icon-modal.show-icon-modal{visibility:visible;opacity:1;transform:translateY(-100%);}
 
 /* single company */
 .single-company{background-color:#404040;}
