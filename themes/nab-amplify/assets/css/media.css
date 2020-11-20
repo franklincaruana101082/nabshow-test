@@ -29,6 +29,7 @@
 	.woocommerce-MyAccount-content mark{color:#000;}
 	.woocommerce-MyAccount-content address{color:#333;border:0;outline:1px solid #000;font-size:15px;}
 	.woocommerce-MyAccount-content address .woocommerce-customer-details--email{font-size:18px;color:#000;}
+	.amp-profile-main .amp-profile-social ul li a{border-color:#000;color:#000;}
 }
 
 @media (max-width: 1900px) {
