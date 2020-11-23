@@ -53,9 +53,9 @@
 
 				</div>
 
-				<nav id="site-navigation" class="main-navigation">					
+				<nav id="site-navigation" class="main-navigation">
 					<?php
-					
+
 					if ( ! is_search() ) {
 						?>
 						<div class="nab-header-search">
@@ -79,11 +79,10 @@
 							$current_user 		= wp_get_current_user();
 							$user_thumb   		= get_avatar_url( $current_user->ID );
 							$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
-							$user_full_name 	= get_the_author_meta( 'first_name', $current_user->ID ) . ' ' . get_the_author_meta( 'last_name', $current_user->ID );
+							$user_full_name = $current_user->display_name;							
 
 							if ( empty( trim( $user_full_name ) ) ) {
-
-								$user_full_name = $current_user->display_name;
+								$user_full_name = get_the_author_meta( 'first_name', $current_user->ID ) . ' ' . get_the_author_meta( 'last_name', $current_user->ID );
 							}
 
 							?>
@@ -96,15 +95,13 @@
                                 </a>
 								<div class="nab-profile-dropdown">
 									<ul>
-										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'My Profile', 'nab-amplify' ); ?></a>
-										<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'My Connections', 'nab-amplify' ); ?></a>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'My Purchases', 'nab-amplify' ); ?></a>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'My Orders', 'nab-amplify' ); ?></a>
-										</li>										
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit My Account', 'nab-amplify' ); ?></a>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) . 'billing/' ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a>
-										</li>
-										</li>
+										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'Profile', 'nab-amplify' ); ?></a></li>										
+										<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'Connections', 'nab-amplify' ); ?></a></li>											
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'Access My Content', 'nab-amplify' ); ?></a></li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a></li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-bookmarks' ) ); ?>"><?php esc_html_e( 'Bookmarks', 'nab-amplify' ); ?></a></li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit Account', 'nab-amplify' ); ?></a></li>
+										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) . 'billing/' ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a></li>
                                         <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
 									</ul>
 								</div>
@@ -142,9 +139,14 @@
                     <a href="<?php echo esc_url( $_COOKIE[ 'nab_amp_login_redirect' ] ); ?>" class="woocommerce-button button return-btn">Click Here to Access Your Content</a>
                 </div>
                 <?php
-            }
-				?>
-		<?php } else { ?>
+			}
+
+		} else if ( is_singular( 'company' ) ) {
+
+			get_template_part( 'template-parts/content', 'company-header' );
+
+		} else {
+			?>
 			<div class="container">
 				<?php
 				if ( ! is_account_page() && ! is_page( NAB_SIGNUP_PAGE ) ) {
@@ -152,6 +154,7 @@
 				}
 				?>
 			</div>
-		<?php } ?>
-
+			<?php
+		}
+		?>
 		<div class="container">

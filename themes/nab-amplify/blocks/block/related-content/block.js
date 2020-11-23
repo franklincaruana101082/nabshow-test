@@ -28,7 +28,7 @@
         attr = {
           index: dataArray.length,
           option: name,
-          advertising: 'Advertising',
+          advertising: 'Sponsored',
           media: '',
           mediaAlt: '',
           title: '',
@@ -55,7 +55,7 @@
         attr = {
           index: dataArray.length,
           option: name,
-          advertising: 'Advertising',
+          advertising: 'Sponsored',
           media: '',
           mediaAlt: '',
           buttonText: '<a href="#" class="btn">Learn More</a>'
@@ -90,7 +90,7 @@
         attr = {
           index: dataArray.length,
           option: name,
-          advertising: 'Advertising',
+          advertising: 'Sponsored',
           media: '',
           mediaAlt: '',
           shortcode: ''
@@ -207,7 +207,7 @@
                 <div className='advertising'>
                   <RichText
                     tagName='span'
-                    placeholder={__('Advertising')}
+                    placeholder={__('Sponsored')}
                     keepPlaceholderOnFocus='true'
                     value={data.advertising}
                     onChange={value => {
@@ -552,7 +552,7 @@
                         <img src={data.bgMedia} />
                       </div>
                     ) : null}
-                    {data.option == 'option-1' || data.option == 'option-3' || data.option == 'option-6' ? (
+                    {data.option == 'option-1' || data.option == 'option-3' ? (
                         <div className='advertising'>
                           <RichText.Content tagName='span' value={data.advertising} />
                         </div>

@@ -12,7 +12,7 @@ get_header();
 $search_term 		= get_search_query();
 $current_site_url	= get_site_url();
 $view_type			= filter_input( INPUT_GET, 'v', FILTER_SANITIZE_STRING );
-$view_screen		= array( 'user', 'product', 'content' );
+$view_screen		= array( 'user', 'shop', 'content' );
 ?>
 	<main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
@@ -25,7 +25,7 @@ $view_screen		= array( 'user', 'product', 'content' );
 					?>
 					<div class="other-search-filter">
 						<?php
-						if ( 'product' === $view_type ) {
+						if ( 'shop' === $view_type ) {
 							?>
 							<div class="sort-product sort-order-btn">
 								<a href="javascript:void(0);" class="sort-order button active" data-order='popularity'>Popularity</a>
@@ -71,9 +71,9 @@ $view_screen		= array( 'user', 'product', 'content' );
 									?>
 									<div class="nab-custom-select">
 										<select id="people-connect" class="people-connect">
-											<option value="">Connected</option>
-											<option value="yes">Yes</option>
-											<option value="no">No</option>
+											<option value="">All People</option>
+											<option value="yes">Connections</option>
+											<option value="no">Available to Connect</option>
 										</select>
 									</div>
 									<?php
@@ -138,15 +138,15 @@ $view_screen		= array( 'user', 'product', 'content' );
 									bp_the_member();
 
 									$member_user_id = bp_get_member_user_id();
-
-									$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
-
+									$user_full_name = bp_get_member_name();
 									if ( empty( trim( $user_full_name ) ) ) {
-
-										$user_full_name = bp_get_member_name();
+										$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
 									}
 
 									$company = get_user_meta( $member_user_id, 'attendee_company', true );
+									$ctitle = get_user_meta( $member_user_id, 'attendee_title', true );
+									$company = $ctitle ? $ctitle . ' | ' . $company : $company;
+
 									$user_images = nab_amplify_get_user_images( $member_user_id );
 									?>
 									<div class="search-item">
@@ -196,7 +196,7 @@ $view_screen		= array( 'user', 'product', 'content' );
 						}
 					}
 
-				} else if ( 'product' === $view_type ) {
+				} else if ( 'shop' === $view_type ) {
 
 					$product_args = array(
 						'post_type' 		=> 'product',
@@ -216,7 +216,7 @@ $view_screen		= array( 'user', 'product', 'content' );
 
 						?>
 						<div class="search-view-top-head">
-							<h2><span class="product-search-count"><?php echo esc_html( $total_products ); ?> Results for </span><strong>PRODUCTS</strong></h2>
+							<h2><span class="product-search-count"><?php echo esc_html( $total_products ); ?> Results for </span><strong>SHOP</strong></h2>
 							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="#">Click Here</a></p>
 						</div>
 						<div class="search-section search-product-section">
@@ -399,14 +399,16 @@ $view_screen		= array( 'user', 'product', 'content' );
 
 								$member_user_id = bp_get_member_user_id();
 
-								$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
+								$user_full_name = bp_get_member_name();
 
 								if ( empty( trim( $user_full_name ) ) ) {
-
-									$user_full_name = bp_get_member_name();
+									$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
 								}
 
-								$company 		= get_user_meta( $member_user_id, 'attendee_company', true );
+								$company = get_user_meta( $member_user_id, 'attendee_company', true );
+								$ctitle = get_user_meta( $member_user_id, 'attendee_title', true );
+								$company = $ctitle ? $ctitle . ' | ' . $company : $company;
+
 								$user_images 	= nab_amplify_get_user_images( $member_user_id );
 
 								?>
@@ -459,11 +461,11 @@ $view_screen		= array( 'user', 'product', 'content' );
 					?>
 					<div class="search-section search-product-section">
 						<div class="search-section-heading">
-							<h2><strong>PRODUCTS</strong> <span>(<?php echo esc_html( $total_products . ' RESULTS' ); ?>)</span></h2>
+							<h2><strong>SHOP</strong> <span>(<?php echo esc_html( $total_products . ' RESULTS' ); ?>)</span></h2>
 							<?php
 							if ( $total_products > 4 ) {
 
-								$poroduct_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'product' ), $current_site_url );
+								$poroduct_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'shop' ), $current_site_url );
 
 								?>
 								<div class="section-view-more">

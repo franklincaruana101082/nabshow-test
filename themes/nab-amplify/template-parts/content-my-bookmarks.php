@@ -110,4 +110,11 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
     }
 
     wp_reset_postdata();
+    
+} else {
+    ?>
+    <div id="message" class="info">
+        <p>Sorry, no bookmarks were found.</p>
+    </div>
+    <?php
 }

@@ -1,6 +1,47 @@
 <?php
 require get_stylesheet_directory() . '/vendor/autoload.php';
 
+// Ajax to show connection request popup.
+add_action( "wp_ajax_nab_bp_connecton_request_popup", "nab_bp_connecton_request_popup" );
+add_action( "wp_ajax_nopriv_nab_bp_connecton_request_popup", "nab_bp_connecton_request_popup" );
+
+/**
+ * Ajax to show connection request popup.
+ */
+function nab_bp_connecton_request_popup() {
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-connection-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json( $popup_html, 200 );
+
+	wp_die();
+}
+
+// Ajax to show connection request popup.
+add_action( "wp_ajax_nab_bp_send_connection_message", "nab_bp_send_connection_message" );
+add_action( "wp_ajax_nopriv_nab_bp_send_connection_message", "nab_bp_send_connection_message" );
+
+/**
+ * Ajax to send connection request message.
+ */
+function nab_bp_send_connection_message() {
+
+	$message = filter_input( INPUT_POST, 'message', FILTER_SANITIZE_STRING );
+	$member_id = filter_input( INPUT_POST, 'memberID', FILTER_SANITIZE_NUMBER_INT );
+
+	$current_user_id = get_current_user_id();
+
+	$connection_messages = get_user_meta( $current_user_id, 'connection_messages', true );
+	$connection_messages = $connection_messages ? $connection_messages : array();
+	$connection_messages[$member_id] = $message;
+
+	update_user_meta( $current_user_id, 'connection_messages', $connection_messages );
+	wp_die();
+}
 
 add_action( 'wp_ajax_nab_db_add_attendee', 'nab_db_add_attendee_callback' );
 add_action( 'wp_ajax_nopriv_nab_db_add_attendee', 'nab_db_add_attendee_callback' );
@@ -1036,14 +1077,13 @@ function nab_member_search_filter_callback() {
 
 			$member_user_id	= bp_get_member_user_id();
 			$is_friend		= friends_check_friendship_status( $current_user_id, $member_user_id );
-			$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
-
+			$user_full_name = bp_get_member_name();
 			if ( empty( trim( $user_full_name ) ) ) {
-
-				$user_full_name = bp_get_member_name();
+				$user_full_name = get_the_author_meta( 'first_name', $member_user_id ) . ' ' . get_the_author_meta( 'last_name', $member_user_id );
 			}
 
 			$company 		= get_user_meta( $member_user_id, 'attendee_company', true );
+			$title 		= get_user_meta( $member_user_id, 'attendee_title', true );
 			$user_images 	= nab_amplify_get_user_images( $member_user_id );
 
 			$user_avatar = '<img src="' . $user_images[ 'profile_picture' ] . '" />';
@@ -1051,6 +1091,7 @@ function nab_member_search_filter_callback() {
 			$result_user[ $cnt ][ 'cover_img' ] = $user_images[ 'banner_image' ];
 			$result_user[ $cnt ][ 'name' ] 		= html_entity_decode( $user_full_name );
 			$result_user[ $cnt ][ 'company' ] 	= html_entity_decode( $company );
+			$result_user[ $cnt ][ 'title' ] 	= html_entity_decode( $title );
 			$result_user[ $cnt ][ 'avatar']		= $user_avatar;
 			$result_user[ $cnt ][ 'link']		= bp_get_member_permalink();
 
@@ -1152,7 +1193,7 @@ function nab_product_search_filter_callback() {
 
 			$product_query->the_post();
 
-			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();			
+			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 
 			$result_post[ $cnt ][ 'thumbnail' ] = $thumbnail_url;
 			$result_post[ $cnt ][ 'link' ] 		= get_the_permalink();
@@ -1163,17 +1204,17 @@ function nab_product_search_filter_callback() {
 
 				$product_id			= get_the_ID();
 				$bookmark_class    	= 'fa fa-bookmark-o amp-bookmark user-bookmark-action';
-				$bookmark_tooltip  	= 'Add to Bookmark';
+				$bookmark_tooltip  	= 'Add to Bookmarks';
 
 				if ( ! empty( $bookmark_products ) && is_array( $bookmark_products ) && in_array( (string) $product_id, $bookmark_products, true ) ) {
 
 					$bookmark_class     .= ' bookmark-fill';
-					$bookmark_tooltip	= 'Remove from Bookmark';
+					$bookmark_tooltip	= 'Remove from Bookmarks';
 				}
-				
+
 				$result_post[ $cnt ][ 'bookmark_class' ] 	= $bookmark_class;
 				$result_post[ $cnt ][ 'bookmark_tooltip' ] 	= $bookmark_tooltip;
-				$result_post[ $cnt ][ 'bookmark_id' ]		= $product_id;				
+				$result_post[ $cnt ][ 'bookmark_id' ]		= $product_id;
 			}
 
 			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
@@ -1315,7 +1356,7 @@ function nab_update_member_bookmark_callback() {
 
 				update_user_meta( $current_user_id, 'nab_customer_product_bookmark', $bookmark_products );
 
-				$final_result[ 'tooltip' ] = 'Remove from Bookmark';
+				$final_result[ 'tooltip' ] = 'Remove from Bookmarks';
 			}
 
 		} else if ( 'remove' === strtolower( $bm_action ) ) {
@@ -1329,7 +1370,7 @@ function nab_update_member_bookmark_callback() {
 					update_user_meta( $current_user_id, 'nab_customer_product_bookmark', $bookmark_products );
 
 					$final_result[ 'success' ]	= true;
-					$final_result[ 'tooltip' ] 	= 'Add to Bookmark';
+					$final_result[ 'tooltip' ] 	= 'Add to Bookmarks';
 				}
 			}
 		}
@@ -1510,7 +1551,7 @@ function nab_get_friend_button_callback() {
 	$member_id		= filter_input( INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT );
 
 	if ( ! empty( $member_id ) ) {
-		
+
 		$final_result[ 'success' ] = true;
 		$final_result[ 'content' ] = nab_amplify_bp_get_friendship_button( $member_id, false );
 
@@ -1518,6 +1559,70 @@ function nab_get_friend_button_callback() {
 
 		$final_result[ 'success' ] = false;
 		$final_result[ 'content' ] = '';
+	}
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+}
+
+add_action( 'wp_ajax_nab_user_claim_company', 'nab_user_claim_company_callback' );
+add_action( 'wp_ajax_nopriv_nab_user_claim_company', 'nab_user_claim_company_callback' );
+
+function nab_user_claim_company_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$final_result	= array();
+	$company_id		= filter_input( INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT );
+	$company_post	= get_post( $company_id );
+
+	if ( is_user_logged_in() && ! empty( $company_post ) && 'publish' === $company_post->post_status && 'company' === $company_post->post_type ) {		
+		
+		$final_result[ 'success' ] 	= true;
+		$admin_email				= get_option( 'admin_email' );
+		$current_user				= wp_get_current_user();
+
+		$user_full_name	= $current_user->user_firstname . ' ' .$current_user->user_lastname;
+
+		if ( empty( trim( $user_full_name ) ) ) {
+			
+			$user_full_name = $current_user->display_name;
+		}
+
+		$headers = "From: NAB Amplify <noreply@nabshow.com>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+		$subject = 'User Claim ' . $company_post->post_title . ' Page';
+
+		ob_start();
+		?>
+		<html>
+			<body>
+				<p>Hello Admin,</p>
+				<p>The following user has claimed the <a href="<?php echo esc_url( get_the_permalink( $company_post->ID ) ); ?>"><?php echo esc_html( $company_post->post_title ); ?></a> Page.</p>
+				<table>
+					<tr>
+						<th>User Name:</th>
+						<td><?php echo esc_html( $user_full_name ); ?></td>
+					</tr>
+					<tr>
+						<th>User Email:</th>
+						<td><?php echo esc_html( $current_user->user_email ); ?></td>
+					</tr>
+				</table>
+			</body>
+		</html>
+		<?php
+		
+		$message = ob_get_clean();
+
+		wp_mail( $admin_email, $subject, $message, $headers );
+
+	} else {
+
+		$final_result[ 'success' ] = false;
 	}
 
 	echo wp_json_encode( $final_result );

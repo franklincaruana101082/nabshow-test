@@ -11,7 +11,7 @@
 
 include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php';
 ?>
-<h1 class="entry-title">Messages</h1>
+<h1 class="entry-title">Inbox</h1>
 <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Messages menu', 'buddypress' ); ?>">
     <ul class="subnav">
 
@@ -44,7 +44,7 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
 <script type="text/html" id="tmpl-bp-messages-form">
 	<?php bp_nouveau_messages_hook( 'before', 'compose_content' ); ?>
 
-    <label for="send-to-input"><?php esc_html_e( 'Send @Username', 'buddypress' ); ?></label>
+    <label for="send-to-input"><?php esc_html_e( 'Send To', 'buddypress' ); ?></label>
     <input type="text" name="send_to" class="send-to-input" id="send-to-input"/>
 
     <label for="subject"><?php _e( 'Subject', 'buddypress' ); ?></label>
@@ -177,25 +177,13 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
 <script type="text/html" id="tmpl-bp-messages-preview">
     <# if ( undefined !== data.content ) { #>
 
-    <h2 class="message-title preview-thread-title"><?php esc_html_e( 'Active conversation:', 'buddypress' ); ?><span class="messages-title">{{{data.subject}}}</span></h2>
-    <div class="preview-content">
-        <header class="preview-pane-header">
-
-            <# if ( undefined !== data.recipients ) { #>
-            <dl class="thread-participants">
-                <dt><?php esc_html_e( 'Participants:', 'buddypress' ); ?></dt>
-                <dd>
-                    <ul class="participants-list">
-                        <# for ( i in data.recipients ) { #>
-                        <li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="{{data.recipients[i].user_name}}"/></a></li>
-                        <# } #>
-                    </ul>
-                </dd>
-            </dl>
-            <# } #>
-
+    <h2 class="message-title preview-thread-title">
+        <div id="subject-preview">
+            <?php esc_html_e( 'Preview of:', 'buddypress' ); ?>
+            <span class="messages-title">{{{data.subject}}}</span>
+        </div>
+        <div id="actions-container">
             <div class="actions">
-
                 <button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' ); ?>">
                     <span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' ); ?></span>
                 </button>
@@ -224,6 +212,23 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
 						</span>
                 <# } #>
             </div>
+        </div>
+    </h2>
+    <div class="preview-content">
+        <header class="preview-pane-header">
+
+            <# if ( undefined !== data.recipients ) { #>
+            <dl class="thread-participants">
+                <dt><?php esc_html_e( 'Participants:', 'buddypress' ); ?></dt>
+                <dd>
+                    <ul class="participants-list">
+                        <# for ( i in data.recipients ) { #>
+                        <li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="{{data.recipients[i].user_name}}"/></a></li>
+                        <# } #>
+                    </ul>
+                </dd>
+            </dl>
+            <# } #>
         </header>
 
         <div class='preview-message'>

@@ -34,15 +34,15 @@ if ( ! empty( $wp->query_vars ) ) {
 	}
 }
 $page_title = str_replace( '-', ' ', $page_title );
-switch ( $page_title ) {
-	case 'edit account':
-		$page_title = 'edit my account';
-		break;
+switch ( $page_title ) {	
 	case 'edit address':
 		$page_title = 'edit address';
 		break;
 	case 'orders':
 		$page_title = 'order history';
+		break;
+	case 'my purchases':
+		$page_title = 'Access My Content';
 		break;
 }
 

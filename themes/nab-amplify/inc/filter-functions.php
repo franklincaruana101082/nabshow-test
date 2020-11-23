@@ -162,10 +162,10 @@ function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $defa
 	}
 
 	$user_image_id = get_user_meta( $id_or_email, 'profile_picture', true );
-		if ( $user_image_id ) {
-			$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
-			$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
-		}
+	if ( $user_image_id ) {
+		$avatar      = wp_get_attachment_image_src( $user_image_id )[0];
+		$avatar_html = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+	}
 
 	return $avatar_html;
 }
@@ -224,12 +224,13 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 	}
 
 	$items =
-		array( 'messages' => __( 'My inbox', 'nab-amplify' ) )
-		+ array( 'my-connections' => __( 'My Connections', 'nab-amplify' ) )
-		+ array( 'my-purchases' => __( 'My Purchases', 'nab-amplify' ) )
-		+ array( 'orders' => __( 'My Orders', 'nab-amplify' ) )
-		+ array( 'edit-account' => __( 'Edit My Account', 'nab-amplify' ) )
-		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );
+		array( 'messages' => __( 'Inbox', 'nab-amplify' ) )
+		+ array( 'my-connections' => __( 'Connections', 'nab-amplify' ) )
+		+ array( 'my-purchases' => __( 'Access My Content', 'nab-amplify' ) )
+		+ array( 'orders' => __( 'Order History', 'nab-amplify' ) )
+		+ array( 'my-bookmarks' => __( 'Bookmarks', 'nab-amplify' ) )
+		+ array( 'edit-account' => __( 'Edit Account', 'nab-amplify' ) )
+		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );	
 
 	return $items;
 }
@@ -245,10 +246,11 @@ function nab_amplify_update_my_account_menu_items( $items ) {
  * @return string
  */
 function nab_amplify_woocommerce_get_endpoint_url( $url, $endpoint, $value, $permalink ) {
-    // Add Custom URL.
+	// Add Custom URL.
 	if ( $endpoint === 'messages' ) {
 		$url = bp_loggedin_user_domain() . bp_get_messages_slug();
 	}
+
 	return $url;
 }
 
@@ -833,9 +835,9 @@ function nab_modify_member_query( $sql, $query ) {
 
 		$sql['where'][] = "wp_usermeta.meta_key = '" . $user_meta_cap . "'";
 
-		if ( isset( $query->query_vars[ 'search_terms' ] ) && ! empty( $query->query_vars[ 'search_terms' ] ) ) {
+		if ( isset( $query->query_vars['search_terms'] ) && ! empty( $query->query_vars['search_terms'] ) ) {
 
-			$search_term = '%' . $query->query_vars[ 'search_terms' ] . '%';
+			$search_term = '%' . $query->query_vars['search_terms'] . '%';
 
 			$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
 				"SELECT DISTINCT ID FROM {$wpdb->users} INNER JOIN {$wpdb->usermeta} ON {$wpdb->users}.ID = {$wpdb->usermeta}.user_id
@@ -848,7 +850,7 @@ function nab_modify_member_query( $sql, $query ) {
 				$search_term
 			) );
 
-			$match_in_clause = empty( $matched_user_ids) ? 'NULL' : implode( ',', $matched_user_ids );
+			$match_in_clause = empty( $matched_user_ids ) ? 'NULL' : implode( ',', $matched_user_ids );
 
 			if ( 'alphabetical' === strtolower( $query->query_vars['type'] ) ) {
 
@@ -868,9 +870,9 @@ function nab_modify_member_query( $sql, $query ) {
 /**
  * Change friendship button in the member loop.
  *
- * @param  array $buttons
- * @param  int $user_id
- * @param  string $type
+ * @param array $buttons
+ * @param int $user_id
+ * @param string $type
  *
  * @return array
  */
@@ -886,7 +888,7 @@ function nab_change_friendship_request_button_in_loop( $buttons, $user_id, $type
 /**
  * Change friend request notification link.
  *
- * @param  mixed $link
+ * @param mixed $link
  *
  * @return mixed
  */
@@ -896,13 +898,13 @@ function nab_change_bp_friend_request_notification_link( $link ) {
 
 	if ( is_array( $link ) ) {
 
-		$link[ 'link' ] = $pending_request_url;
+		$link['link'] = $pending_request_url;
 
 	} else {
 
-		if ( preg_match('~>\K[^<>]*(?=<)~', $link, $match ) ) {
+		if ( preg_match( '~>\K[^<>]*(?=<)~', $link, $match ) ) {
 
-			$link = '<a href="' . $pending_request_url . '">' . $match[0] .'</a>';
+			$link = '<a href="' . $pending_request_url . '">' . $match[0] . '</a>';
 		}
 	}
 
@@ -913,7 +915,8 @@ function nab_change_bp_friend_request_notification_link( $link ) {
 /**
  * Change accepted friend request link in the notification.
  *
- * @param  mixed $link
+ * @param mixed $link
+ *
  * @return mixed
  */
 function nab_change_bp_accepted_friend_request_notification_link( $link ) {
@@ -922,13 +925,13 @@ function nab_change_bp_accepted_friend_request_notification_link( $link ) {
 
 	if ( is_array( $link ) ) {
 
-		$link[ 'link' ] = $my_connection_url;
+		$link['link'] = $my_connection_url;
 
 	} else {
 
-		if ( preg_match('~>\K[^<>]*(?=<)~', $link, $match ) ) {
+		if ( preg_match( '~>\K[^<>]*(?=<)~', $link, $match ) ) {
 
-			$link = '<a href="' . $my_connection_url . '">' . $match[0] .'</a>';
+			$link = '<a href="' . $my_connection_url . '">' . $match[0] . '</a>';
 		}
 	}
 
@@ -938,13 +941,13 @@ function nab_change_bp_accepted_friend_request_notification_link( $link ) {
 /**
  * Remove edit-address menu from my account.
  *
- * @param  array $items
+ * @param array $items
  *
  * @return array
  */
 function nab_remove_edit_address_from_my_account( $items ) {
 
-	unset( $items[ 'edit-address' ] );
+	unset( $items['edit-address'] );
 
 	return $items;
 }
@@ -952,37 +955,37 @@ function nab_remove_edit_address_from_my_account( $items ) {
 /**
  * Remove shipping address
  *
- * @param  array $adresses
+ * @param array $adresses
  *
  * @return array
  */
 function nab_remove_shipping_address( $adresses ) {
 
-	if ( isset( $adresses[ 'shipping' ] ) ) {
+	if ( isset( $adresses['shipping'] ) ) {
 
-		unset( $adresses[ 'shipping' ] );
+		unset( $adresses['shipping'] );
 	}
 
-    return $adresses;
+	return $adresses;
 }
 
 /**
  * Added bookmark icon in the product detail page.
  *
- * @param  string $html
- * @param  int $post_thumbnail_id
+ * @param string $html
+ * @param int $post_thumbnail_id
  *
  * @return string
  */
 function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
 
-    global $product;
+	global $product;
 
-    ob_start();
+	ob_start();
 
-    nab_get_product_bookmark_html( $product->get_id(), 'user-bookmark-action' );
+	nab_get_product_bookmark_html( $product->get_id(), 'user-bookmark-action' );
 
-    $html .= ob_get_clean();
+	$html .= ob_get_clean();
 
-    return $html;
+	return $html;
 }

@@ -320,3 +320,13 @@ require get_template_directory() . '/inc/filter-functions.php';
  * Ajax Functions
  */
 require_once get_template_directory() . '/inc/ajax-functions.php';
+
+/**
+ * All the user reaction related functions.
+ */
+require_once get_template_directory() . '/inc/user-reaction.php';
+
+/**
+ * All the company follower related functions.
+ */
+require_once get_template_directory() . '/inc/company-follow.php';

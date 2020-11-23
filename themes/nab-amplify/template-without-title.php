@@ -16,7 +16,7 @@ get_header();
                     <?php
                     the_content();
                     ?>
-                </div><!-- .entry-content -->               
+                </div><!-- .entry-content -->
             </article>
             <?php
 		endwhile; // End of the loop.

@@ -37,7 +37,7 @@ if ( ! empty( $wp->query_vars ) ) {
 $page_title = str_replace( '-', ' ', $page_title );
 
 // Hide Menu.
-$hide_menu_for = array( 'my connections', 'my events', 'my bookmarks' );
+$hide_menu_for = array( 'connections', 'events', 'bookmarks' );
 if ( in_array( $page_title, $hide_menu_for, true ) ) {
 	return;
 }

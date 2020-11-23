@@ -9,86 +9,105 @@
 $new_notification = filter_input( INPUT_GET, "new", FILTER_SANITIZE_STRING );
 
 if ( isset( $new_notification ) && ! empty( $new_notification ) ) {
-    bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), 'friends', 'friendship_accepted' );
+	bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), 'friends', 'friendship_accepted' );
 }
- 
+
 
 $current_user = wp_get_current_user();
 $user_id      = filter_input( INPUT_GET, "user_id", FILTER_SANITIZE_STRING );
-$user_id      = $user_id ? $user_id : $current_user->ID;
+$user_id      = $user_id ? (int) $user_id : $current_user->ID;
 $connections  = filter_input( INPUT_GET, "connections", FILTER_SANITIZE_STRING );
 
-$all_members_url     = add_query_arg( array( 'user_id' => $user_id ), esc_url( wc_get_account_endpoint_url( 'my-connections' ) ) );
-$my_friends_url      = add_query_arg( array( 'connections' => 'friends' ) );
+$all_members_url     = add_query_arg( 'connections', 'all' );
+$my_friends_url      = add_query_arg( array( 'user_id' => $user_id ), esc_url( wc_get_account_endpoint_url( 'my-connections' ) ) );
 $pending_friends_url = add_query_arg( 'connections', 'pending' );
 
 $members_filter = array();
-$active_page = '';
+$active_page    = '';
+$friendship_requests = bp_get_friendship_requests( $user_id );
 switch ( $connections ) {
-	case 'friends':
-		$members_filter = array(
-			'user_id' 		=> $user_id
-		);
-		$active_page = 'friends';
-		break;
 	case 'pending':
-		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id );
-		$active_page = 'pending';
+		$members_filter = bp_ajax_querystring( 'friendship_requests' ) . '&include=' . bp_get_friendship_requests( $user_id ) . '&exclude=' . bp_get_friend_ids( $user_id );
+		$members_filter = 'include=' . bp_get_friendship_requests( $user_id );
+		$members_filter = 0 === $friendship_requests ? 0 : 'include=' . bp_get_friendship_requests( $user_id );
+		$active_page    = 'pending';
 		break;
+
+	case 'all':
+		$members_filter = bp_ajax_querystring( 'members' ) . '&exclude=' . bp_get_friend_ids( $user_id ) . ',' . $user_id;
+		$active_page    = 'all';
+		break;
+
+	default:
+		$members_filter = array(
+			'user_id' => $user_id
+		);
+		$active_page    = 'friends';
 }
 
 $post_per_page = 12;
-if( is_array( $members_filter )) {
-    $members_filter['page'] = 1;
-    $members_filter['per_page'] = $post_per_page;
-    $members_filter['type'] = 'newest';
+if ( is_array( $members_filter ) ) {
+	$members_filter['page']     = 1;
+	$members_filter['per_page'] = $post_per_page;
+	$members_filter['type']     = 'newest';
 }
 
 $profile_url     = bp_core_get_user_domain( $user_id );
-$friend_count    = friends_get_friend_count_for_user( $user_id );
 $current_user_id = get_current_user_id();
+
+$total_users = 0;
+if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
+	global $members_template;
+	$total_users = $members_template->total_member_count;
+	$total_page  = ceil( $total_users / $post_per_page );
+}
 ?>
-
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
-        <div class="connections-tabs">
-            <span id="my-connections-tab"><a href="<?php echo esc_attr( $my_friends_url ); ?>" class="<?php echo 'friends' === $active_page ? 'blue-bg' : '' ?>">My Connections</a></span>
-            <span id="pending-connections-tab"><a href="<?php echo esc_attr( $pending_friends_url ); ?>" class="<?php echo 'pending' === $active_page ? 'blue-bg' : '' ?>">Pending Requests</a></span>
-        </div>
-
         <div class="all-members" data-id="all-members-tab">
-
-			<?php if ( bp_has_members( $members_filter ) ) :
-
-				global $members_template;
-
-				$total_users = $members_template->total_member_count;
-				$total_page  = ceil( $total_users / $post_per_page );
-				?>
-
-                <div class="back-to-profile">
-                    <a href="<?php echo esc_url( $profile_url ) ?>" class="get-back-arrow">Back to Profile</a>
+            <div class="back-to-profile">
+                <a href="<?php echo esc_url( $profile_url ) ?>" class="get-back-arrow">Back to Profile</a>
+            </div>
+            <div class="amp-item-heading">
+                <h3>
+                    <strong>Connections</strong>
+                    <span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
+                </h3>
+            </div>
+            <div class="buddypress">
+                <div class="buddypress-wrap">
+                    <nav class="connections-tabs bp-navs bp-subnavs no-ajax user-subnav" id="subnav" role="navigation" aria-label="Connections Menu">
+                        <ul class="subnav">
+                            <li class="bp-personal-sub-tab <?php echo 'friends' === $active_page ? 'current selected' : '' ?>">
+                                <a href="<?php echo esc_attr( $my_friends_url ); ?>" class="">Connections</a>
+                            </li>
+                            <li class="bp-personal-sub-tab <?php echo 'pending' === $active_page ? 'current selected' : '' ?>">
+                                <a href="<?php echo esc_attr( $pending_friends_url ); ?>">Connection Requests</a>
+                            </li>
+                            <li class="bp-personal-sub-tab <?php echo 'all' === $active_page ? 'current selected' : '' ?>">
+                                <a href="<?php echo esc_attr( $all_members_url ); ?>">Find New Connections</a>
+                            </li>
+                    </nav>
                 </div>
-
+            </div>
+			<?php if ( 0 !== $members_filter && bp_has_members( $members_filter ) ) : ?>
                 <div id="members-list" class="member-item-list amp-item-main" role="main">
-                    <div class="amp-item-heading">
-                        <h3>
-                            <strong>Connections</strong>
-                            <span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
-                        </h3>
-                    </div>
                     <div class="amp-item-wrap" id="connections-user-list">
 						<?php
 						$cnt = 1;
 						while ( bp_members() ) : bp_the_member();
-							$member_id          = bp_get_member_user_id();
-							$attendee_company   = get_user_meta( $member_id, 'attendee_company', true );
-                            $user_images        = nab_amplify_get_user_images( $member_id );
-                            $user_full_name     = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+							$member_id              = bp_get_member_user_id();
+							$attendee_company       = get_user_meta( $member_id, 'attendee_company', true );
+							$attendee_title         = get_user_meta( $member_id, 'attendee_title', true );
+							$connection_messages    = get_user_meta( $member_id, 'connection_messages', true );
+							$connection_messages    = $connection_messages[ $current_user_id ];
+							$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
+							$user_images            = nab_amplify_get_user_images( $member_id );
+							$user_full_name = bp_get_member_name();
+							$friendship_status = friends_check_friendship_status($current_user_id, $member_id);
 
-                            if ( empty( trim( $user_full_name ) ) ) {
-
-                                $user_full_name = bp_get_member_name();
-                            }
+							if ( empty( trim( $user_full_name ) ) ) {
+								$user_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+							}
 							?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
@@ -106,7 +125,11 @@ $current_user_id = get_current_user_id();
                                             <h4>
                                                 <a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
                                             </h4>
-                                            <span class="company-name"><?php echo esc_html( $attendee_company ); ?></span>
+                                            <?php if( ! empty($attendee_title_company) ) { ?>
+                                                <p class="company-name"><?php echo esc_html( $attendee_title_company ); ?></p>
+                                            <?php } if( 'awaiting_response' === $friendship_status ) { ?>
+                                                <p class="request-message">Message: <?php echo esc_html( $connection_messages ); ?></p>
+                                            <?php } ?>
                                             <div class="amp-actions">
 												<?php
 												echo nab_amplify_bp_get_friendship_button( $member_id ); ?>
@@ -137,20 +160,13 @@ $current_user_id = get_current_user_id();
 				<?php
 				endif;
 
-			else: ?>
-                <div class="amp-item-heading">
-                    <h3>
-                        <strong>Connections</strong>
-                        <span>(0 RESULTS)</span>
-                    </h3>
-                </div>
+			else:
+				$message = 'pending' === $connections ? 'No Pending Requests.' : 'Sorry, no members were found.'; ?>
                 <div id="message" class="info">
-                    <p><?php _e( "Sorry, no members were found.", 'buddypress' ); ?></p>
+                    <p><?php _e( $message, 'buddypress' ); ?></p>
                 </div>
 
 			<?php endif; ?>
         </div>
-
     </section>
-    </div>
 <?php

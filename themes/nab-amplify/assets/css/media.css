@@ -4,21 +4,25 @@
 	.banner-header:before,
 	.banner-header #profile-avtar label:before{display:none;}
 	.banner-header #edit-mode-buttons{display:none;}
+	.banner-header #profile-avtar{display:none;}
+	.amp-profile-social{display:none;}
+	.amp-profile-message{display:none;}
 	.woocommerce-account .woocommerce a{color:#0000ee;}
 	.banner-header .banner-container{max-width:100%;}
-	.amp-profile-main{outline:1px solid #000;max-width:100%;margin:30px 0;}
-	.amp-profile-main .amp-profile-inner{min-height:inherit!important;}
+	.amp-profile-main{max-width:100%;margin:30px 0;}
+	.amp-profile-main .amp-profile-inner{min-height:inherit!important;padding:0;}
+	.woocommerce-MyAccount-navigation ul{margin-top:0;}
 	.woocommerce-MyAccount-navigation ul li:not(.woocommerce-MyAccount-navigation-link--orders){display:none;}
 	.woocommerce-MyAccount-navigation ul li{margin:0;}
 	.woocommerce-MyAccount-navigation ul li a{padding:0;border:0;font-size:24px;color:#000!important;text-align:left;}
-	section.woocommerce-order-details{margin:30px 0 30px;}
+	section.woocommerce-order-details{margin:0 0 30px;}
 	section.woocommerce-customer-details{margin:30px 0 30px;}
 	section.woocommerce-order-downloads{margin:30px 0 30px;}
 	section.woocommerce-order-downloads .button{color:#000;border-color:#000;font-size:14px;padding:5px 10px;font-weight:300;border-radius:6px;}
 	section.woocommerce-order-downloads tr td{color:#000;font-size:14px;border-bottom:1px solid #fff;}
 	section.woocommerce-order-downloads tr td:last-child{border-bottom:10px solid #fff;}
 	section.woocommerce-order-details h2, section.woocommerce-customer-details h2{color:#000;}
-	.amp-profile-main .amp-profile-info h2{color:#000;}
+	.amp-profile-main .amp-profile-info h2{color:#000;position:relative;}
 	section.woocommerce-order-details table{border-collapse: collapse;}
 	section.woocommerce-order-details table td, section.woocommerce-order-details table th{border:1px solid #000;font-size:16px;}
 	section.woocommerce-order-details table thead th{font-size:18px;}
@@ -40,6 +44,10 @@
 }
 @media (max-width: 1600px) {
 	.site-footer:before{width:14%;}
+
+	/* add product */
+	#addProductModal.nab-modal .modal-content-wrap{padding:50px;}
+	#addProductModal.nab-modal .nab-modal-close:not(.fa){right:30px;top:30px;}
 }
 @media (max-width: 1550px) {
 	.site-footer:before{width:13%;}
@@ -66,6 +74,10 @@
 	/* New Amplify CSS */
 	/* my account */
 	.amp-profile-main{margin-right:10%;max-width:670px;}
+}
+@media only screen and (max-width:1178px){
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action,
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.right-action{margin-top:49.5px;}
 }
 @media (max-width:1080px){
 	.site-header .nab-header-search .search-form .search-field{width:260px;}
@@ -148,9 +160,13 @@
 	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;}
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important;}
 
-	/* Dark theme popup form design */
-	.nab-modal.theme-dark .form-col-6:nth-child(odd){padding-right:0;}
-	.nab-modal.theme-dark .form-col-6:nth-child(even){padding-left:0;}
+	/* add product */
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{width:100%;}
+	#addProductModal.nab-modal.theme-dark .form-col-6:nth-child(odd){padding-right:0;margin-bottom:35px;}
+	#addProductModal.nab-modal.theme-dark .form-col-6:nth-child(even){padding-left:0;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:first-child{margin-bottom:35px;}
+	#addProductModal.nab-modal .modal-content-wrap{padding:20px;}
+	#addProductModal.nab-modal .nab-modal-close:not(.fa){right:15px;top:15px;width:auto;}
 }
 
 @media (min-width:768px){
@@ -237,6 +253,7 @@
 	.banner-header #profile-avtar img{width:120px;height:120px;}
 	.banner-header #profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px;}
 	.banner-header #profile-avtar label:before{box-shadow:inset 0px 60px 60px 0px rgb(0 0 0 / 0.4);}
+	.banner-header .amp-member-level span{min-width:95px;padding:6px 15px 5px;font-size:14px;}
 	.banner-header #edit-mode-buttons a,
 	.banner-header #profile-avtar .amp-member-level a{font-size:14px;}
 	.banner-header #profile-avtar .amp-member-level a{padding:8px 15px 7px;}
@@ -267,6 +284,16 @@
 	.nab-custom-select .chosen-single, 
 	.nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{padding:8px 15px;}
 	.nab-custom-select .chosen-container-single .chosen-single div{right:15px;}
+
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:20px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row label{margin-left:0;}
+	.add-product{padding-right:10px!important;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{margin-right:0!important;position:static;transform:none;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:11px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper label{font-size:18px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper label span{margin-left: 5px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{position:absolute;transform:translateY(-50%);margin-top:30px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.right-action{margin-top:10px;}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}

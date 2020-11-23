@@ -36,6 +36,10 @@ add_action( "wp_ajax_nopriv_nab_amplify_upload_images", "nab_amplify_upload_imag
 add_action( "wp_ajax_nab_amplify_remove_images", "nab_amplify_remove_images" );
 add_action( "wp_ajax_nopriv_nab_amplify_remove_images", "nab_amplify_remove_images" );
 
+// Ajax to show product edit popup.
+add_action( "wp_ajax_nab_amplify_edit_product", "nab_amplify_edit_product" );
+add_action( "wp_ajax_nopriv_nab_amplify_edit_product", "nab_amplify_edit_product" );
+
 // My Purchases content.
 add_action( 'woocommerce_account_my-purchases_endpoint', 'nab_amplify_my_purchases_content_callback' );
 
@@ -147,9 +151,24 @@ add_action( 'admin_menu', 'nab_amplify_search_settings' );
 
 add_action( 'init', 'nab_register_company_post_type' );
 
-add_action( 'acf/save_post', 'nab_create_compnay_user', 20, 1 );
+add_action( 'acf/save_post', 'nab_remove_company_user_meta', 5);
+add_action( 'acf/save_post', 'nab_update_compnay_user', 20, 1 );
 
 add_action( 'init', 'nab_register_article_post_type' );
 
-add_action( 'init', 'nab_register_discovery_content_taxonomy' );
+add_action( 'init', 'nab_register_article_content_taxonomy' );
 
+//add_action( 'bp_pre_user_query_construct', 'nab_include_role_specific_member' );
+
+add_action( 'init', 'nab_add_custom_user_role' );
+
+// Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
+add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 );
+
+/* Add products into nab-product content type
+ */
+
+add_action( 'wp_ajax_nab_add_product', 'nab_add_product' );
+add_action( 'wp_ajax_nopriv_nab_add_product', 'nab_add_product' ); 
+add_action( 'init', 'nab_register_amplify_dynamic_blocks' );
+add_action( 'init', 'nab_register_company_category_taxonomy' );

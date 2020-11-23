@@ -194,6 +194,34 @@ function nab_amplify_upload_images() {
 }
 
 /**
+ * Ajax to show edit product.
+ */
+function nab_amplify_edit_product() {
+	$final_result = array();
+	$post_id		= filter_input( INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT );
+	$post_data = get_post($post_id);
+
+	$taxonomies = get_object_taxonomies('nab-product');
+    $taxonomy_data = wp_get_object_terms($post_id,'content-category',array('fields'=>'slugs'));
+
+	$post_data->product_copy = get_field('product_copy',$post_id);
+	$post_data->product_specs = get_field('product_specs',$post_id);
+	$post_data->product_point_of_contact = get_field('product_point_of_contact',$post_id);
+	$post_data->product_external_link_text = get_field('product_external_link_text',$post_id);
+	$post_data->categories = $taxonomy_data;
+
+	$terms = get_terms( 'content-category', array(
+		'hide_empty' => false,
+	) );
+	require_once(get_template_directory() . '/inc/nab-edit-product.php');
+
+	$final_result[ 'success' ] = true;
+	$final_result[ 'content' ] = '';
+	echo wp_json_encode( $final_result );
+	wp_die();
+}
+
+/**
  * Ajax to remove user images.
  */
 function nab_amplify_remove_images() {
@@ -346,26 +374,24 @@ function nab_amplify_my_connections_endpoint() {
 function nab_amplify_register_post_types() {
 
 	$labels = array(
-		'name'               => _x( 'Products-Content', 'Post Type General Name', 'nab-amplify' ),
-		'singular_name'      => _x( 'Product Content', 'Post Type Singular Name', 'nab-amplify' ),
-		'menu_name'          => __( 'Products Content', 'nab-amplify' ),
-		'parent_item_colon'  => __( 'Parent Product', 'nab-amplify' ),
-		'all_items'          => __( 'All Products Content', 'nab-amplify' ),
-		'view_item'          => __( 'View Product Content', 'nab-amplify' ),
-		'add_new_item'       => __( 'Add New Product Content', 'nab-amplify' ),
+		'name'               => _x( 'Company Products', 'Post Type General Name', 'nab-amplify' ),
+		'singular_name'      => _x( 'Company Product', 'Post Type Singular Name', 'nab-amplify' ),
+		'menu_name'          => __( 'Company Products', 'nab-amplify' ),
+		'parent_item_colon'  => __( 'Parent Company Products', 'nab-amplify' ),
+		'all_items'          => __( 'All Company Products', 'nab-amplify' ),
+		'view_item'          => __( 'View Company Product', 'nab-amplify' ),
+		'add_new_item'       => __( 'Add New Company Product', 'nab-amplify' ),
 		'add_new'            => __( 'Add New', 'nab-amplify' ),
-		'edit_item'          => __( 'Edit Product Content', 'nab-amplify' ),
-		'update_item'        => __( 'Update Product Content', 'nab-amplify' ),
-		'search_items'       => __( 'Search Product Content', 'nab-amplify' ),
+		'edit_item'          => __( 'Edit Company Products', 'nab-amplify' ),
+		'update_item'        => __( 'Update Company Products', 'nab-amplify' ),
+		'search_items'       => __( 'Search Company Products', 'nab-amplify' ),
 		'not_found'          => __( 'Not Found', 'nab-amplify' ),
 		'not_found_in_trash' => __( 'Not found in Trash', 'nab-amplify' ),
 	);
 
 	$args = array(
-		'label'               => __( 'nab-products', 'nab-amplify' ),
-		'description'         => __( 'Product posts', 'nab-amplify' ),
+		'label'               => __( 'Company Products', 'nab-amplify' ),
 		'labels'              => $labels,
-		'taxonomies'          => array( 'nab_products_categories' ),
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -378,12 +404,12 @@ function nab_amplify_register_post_types() {
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
 		'show_in_rest'        => true,
-		'supports'            => array( 'title', 'editor', 'thumbnail' ),
+		'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields' ),
 
 	);
 
 	// Registering your Custom Post Type
-	register_post_type( 'nab-products', $args );
+	register_post_type( 'company-products', $args );
 
 	$labels = array(
 		'name'               => _x( 'Sessions', 'Post Type General Name', 'nab-amplify' ),
@@ -614,13 +640,14 @@ function nab_amplify_template_redirect() {
 	}
 
 	// Redirect Buddypress pages.
-	$request               = explode( '/', $wp->request );
-	$current_url           = home_url( $wp->request );
-	$redirect_url          = '';
-	$bp_current_component  = bp_current_component();
-	$allowed_bp_components = array( 'front', 'messages' );
-	$my_profile_url        = bp_core_get_user_domain( get_current_user_id() );
-	$is_friend             = friends_check_friendship_status( $current_user_id, $member_id );
+	$request               	= explode( '/', $wp->request );
+	$current_url           	= home_url( $wp->request );
+	$redirect_url          	= '';
+	$bp_current_component  	= bp_current_component();
+	$allowed_bp_components 	= array( 'front', 'messages' );
+	$my_profile_url        	= bp_core_get_user_domain( $current_user_id );
+	$is_friend             	= friends_check_friendship_status( $current_user_id, $member_id );
+
 
 	if ( ! $user_logged_in && $bp_current_component ) {
 		/* If user is NOT logged in and try to access Buddypress page. */
@@ -636,7 +663,7 @@ function nab_amplify_template_redirect() {
 	            && ( ! nab_member_can_visible_to_anyone( $member_id ) && 'is_friend' !== $is_friend )
 	) {
 		/* If user is logged in and try to access another Buddypress Member's profile who has security enabled. */
-		$redirect_url = $my_profile_url;
+		//$redirect_url = $my_profile_url;
 
 	} else if ( $user_logged_in && is_account_page() && in_array( end( $request ), array( 'my-connections', 'my-events', 'my-bookmarks' ) ) ) {
 
@@ -656,6 +683,7 @@ function nab_amplify_template_redirect() {
 	} else if ( ( is_account_page() && 'edit-address' === end( $request ) ) || ( is_account_page() && 'edit-my-profile' === end( $request ) ) ) {
 
 		$redirect_url = wc_get_account_endpoint_url( 'edit-account' );
+
 	}
 
 	if ( ! empty( $redirect_url ) ) {
@@ -814,13 +842,13 @@ function nab_create_attendee_table() {
 function amplify_register_api_endpoints() {
 
 	register_rest_route( 'nab', '/request/get-product-categories', array(
-		'methods'             => 'POST',
+		'methods'             => 'GET',
 		'callback'            => 'amplify_get_product_categories',
 		'permission_callback' => '__return_true',
 	) );
 
 	register_rest_route( 'nab', '/request/get-product-list', array(
-		'methods'             => 'POST',
+		'methods'             => 'GET',
 		'callback'            => 'amplify_get_product_list',
 		'permission_callback' => '__return_true',
 		'args'                => array(
@@ -856,7 +884,7 @@ function amplify_register_api_endpoints() {
 	) );
 
 	register_rest_route( 'nab', '/request/customer-get-bought-products', array(
-		'methods'             => 'POST',
+		'methods'             => 'GET',
 		'callback'            => 'amplify_get_user_bought_product',
 		'permission_callback' => '__return_true',
 		'args'                => array(
@@ -904,6 +932,34 @@ function amplify_register_api_endpoints() {
 		'permission_callback' => '__return_true',
 	) );
 
+	register_rest_route( 'nab', '/request/get-company-category', array(
+		'methods'             => 'GET',
+		'callback'            => 'nab_amplify_get_company_category',
+		'permission_callback' => '__return_true',
+	) );
+
+}
+
+/**
+ * Get all company category
+ *
+ * @return WP_REST_Response
+ */
+function nab_amplify_get_company_category() {
+
+	$return = array();
+
+	$terms = get_terms( array(
+		'taxonomy'   => 'company-category',
+		'hide_empty' => true,
+	) );
+
+	foreach ( $terms as $term ) {
+
+		$return[] = array( 'slug' => $term->slug, 'name' => $term->name );
+	}
+
+	return new WP_REST_Response( $return, 200 );
 }
 
 /**
@@ -1897,10 +1953,29 @@ function nab_update_product_in_user_meta( $order_id, $old_status, $new_status ) 
 
 			if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
 
+				$customer_orders = wc_get_orders( array(
+					'customer_id' => $customer_id,
+					'status'      => 'completed',
+					'limit'       => -1,
+				) );
+
+				$customer_products = [];
+				if( ! empty( $customer_orders ) ) {
+					foreach( $customer_orders as $customer_order ) {
+						foreach ( $customer_order->get_items() as  $product_item ) {
+							$customer_products[] = $product_item->get_product_id();
+						}
+					}
+				}
+
 				foreach ( $order_products as $product_id ) {
 
 					if ( ( $key = array_search( $product_id, $purchased_product ) ) !== false ) {
-						unset( $purchased_product[ $key ] );
+
+						// Before removing check if user has purchased this product in any other order
+						if( ! in_array( $product_id, $customer_products ) ) {
+							unset( $purchased_product[ $key ] );
+						}
 					}
 				}
 
@@ -1917,60 +1992,23 @@ function nab_update_product_in_user_meta( $order_id, $old_status, $new_status ) 
  */
 function nab_edit_acount_additional_form_fields() {
 
-	$current_user_id    = get_current_user_id();
+	$current_user 		= wp_get_current_user();
+	$current_user_id	= $current_user->ID;
 	$member_visibility  = get_user_meta( $current_user_id, 'nab_member_visibility', true );
 	$member_restriction = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
 	$attendee_title		= get_user_meta( $current_user_id, 'attendee_title', true );
 	$attendee_company	= get_user_meta( $current_user_id, 'attendee_company', true );
+	$attendee_location	= get_user_meta( $current_user_id, 'attendee_location', true );
 	$social_twitter		= get_user_meta( $current_user_id, 'social_twitter', true );
 	$social_linkedin	= get_user_meta( $current_user_id, 'social_linkedin', true );
 	$social_facebook	= get_user_meta( $current_user_id, 'social_facebook', true );
 	$social_instagram	= get_user_meta( $current_user_id, 'social_instagram', true );
-	$social_website		= get_user_meta( $current_user_id, 'social_website', true );
+	$social_website		= get_user_meta( $current_user_id, 'social_website', true );	
 
 	$member_visibility  = ! empty( $member_visibility ) ? $member_visibility : 'yes';
 	$member_restriction = ! empty( $member_restriction ) ? $member_restriction : 'yes';
 
 	?>
-    <fieldset>
-        <legend>Security Settings</legend>
-        <div class="amp-member-security">
-            <div class="amp-security-row security-column-first">
-                <h3>VISIBILITY PREFERENCES</h3>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked( $member_visibility, 'yes' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_visible_anyone">Visible to anyone</label>
-                </div>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked( $member_visibility, 'no' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_visible_friend">Visible to approved connections only</label>
-                </div>
-            </div>
-            <div class="amp-security-row security-column-last">
-                <h3>CONNECTION PREFERENCES</h3>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_anyone_request">Anyone can request to connect</label>
-                </div>
-                <div class="amp-radio-container">
-                	<div class="amp-radio-wrp">
-                		<input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked( $member_restriction, 'no' ); ?> />
-                		<span class="amp-radio"></span>
-                	</div>
-                	<label for="member_not_available">I am not available to connect with other users</label>
-                </div>
-            </div>
-        </div>
-    </fieldset>
 	<div class="nab-profile">
 		<div class="nab-section section-nab-profile">
 			<div class="nab-profile-body flex-row">
@@ -1984,6 +2022,10 @@ function nab_edit_acount_additional_form_fields() {
 						<div class="nab-form-row">
 							<label for="attendee_company">Company</label>
 							<input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr( $attendee_company ); ?>"/>
+						</div>
+						<div class="nab-form-row">
+							<label for="attendee_location">Location</label>
+							<input type="text" name="attendee_location" class="input-text" placeholder="Location" value="<?php echo esc_attr( $attendee_location ); ?>"/>
 						</div>
 					</div>
 				</div>
@@ -2034,7 +2076,46 @@ function nab_edit_acount_additional_form_fields() {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>	
+	<fieldset>
+		<legend>Security Settings</legend>
+		<div class="amp-member-security">
+			<div class="amp-security-row security-column-first">
+				<h3>Profile Visibility Preferences</h3>
+				<div class="amp-radio-container">
+					<div class="amp-radio-wrp">
+						<input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked( $member_visibility, 'yes' ); ?> />
+						<span class="amp-radio"></span>
+					</div>
+					<label for="member_visible_anyone">Visible to anyone</label>
+				</div>
+				<div class="amp-radio-container">
+					<div class="amp-radio-wrp">
+						<input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked( $member_visibility, 'no' ); ?> />
+						<span class="amp-radio"></span>
+					</div>
+					<label for="member_visible_friend">Visible to approved connections only</label>
+				</div>
+			</div>
+			<div class="amp-security-row security-column-last">
+				<h3>Connection Preferences</h3>
+				<div class="amp-radio-container">
+					<div class="amp-radio-wrp">
+						<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked( $member_restriction, 'yes' ); ?> />
+						<span class="amp-radio"></span>
+					</div>
+					<label for="member_anyone_request">Anyone can request to connect</label>
+				</div>
+				<div class="amp-radio-container">
+					<div class="amp-radio-wrp">
+						<input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked( $member_restriction, 'no' ); ?> />
+						<span class="amp-radio"></span>
+					</div>
+					<label for="member_not_available">I am not available to connect with other users</label>
+				</div>
+			</div>
+		</div>
+	</fieldset>
 	<?php
 }
 
@@ -2060,6 +2141,7 @@ function nab_save_edit_account_additional_form_fields( $user_id ) {
 	$user_fields = array(
 		'attendee_title',
 		'attendee_company',
+		'attendee_location',
 		'social_twitter',
 		'social_linkedin',
 		'social_facebook',
@@ -2232,49 +2314,39 @@ function nab_register_company_post_type() {
 }
 
 /**
- * Create Compnay user base on Compnay post.
+ * Remove user meta on save the company post type.
  *
  * @param  int $post_id
  */
-function nab_create_compnay_user( $post_id ) {
+function nab_remove_company_user_meta( $post_id ) {
 
-    $current_post   = get_post( $post_id );
+	$company_user_id = get_field( 'company_user_id', $post_id );
 
-    if ( 'publish' === $current_post->post_status && 'company' === $current_post->post_type ) {
+	delete_user_meta( $company_user_id, 'company_post_id' );
+	delete_user_meta( $company_user_id, 'admin_can_add_product' );
+}
 
-        $company_email = get_field( 'company_email', $post_id );
+/**
+ * Update user meta for comapny profile.
+ *
+ * @param  int $post_id
+ */
+function nab_update_compnay_user( $post_id ) {
 
-        if ( ! empty( $company_email ) && is_email( $company_email ) ) {
+	$company_user_id = get_field( 'company_user_id', $post_id );
 
-            $user_id = email_exists( $company_email );
+	if ( ! empty( $company_user_id ) ) {
 
-            if ( ! $user_id ) {
+		$current_post = get_post( $post_id );
 
-                // Create new company user
-                $user_details       = array( 'user_email' => $company_email );
+    	if ( 'publish' === $current_post->post_status && 'company' === $current_post->post_type ) {
 
-				$user_details[ 'user_pass' ]    = wp_generate_password();
-				$user_details[ 'user_login' ]   = wc_create_new_customer_username( $user_details[ 'user_email' ], array( 'first_name' => $current_post->post_title ) );
-                $user_details[ 'role' ]         = 'customer';
+			$admin_can_add = get_field( 'admin_can_add_product', $post_id );
 
-				$new_user = wp_insert_user( $user_details );
-
-                if ( ! is_wp_error( $new_user ) ) {
-
-                    $user_id = $new_user;
-
-                    update_post_meta( $post_id, 'company_user_id', $user_id );
-                    update_user_meta( $user_id, 'comapny_post_id', $post_id );
-
-                    do_action( 'nab_sent_user_registration_email', $user_id, $user_details[ 'user_pass' ], $user_details[ 'user_email' ] );
-                }
-
-            } else {
-
-                update_user_meta( $user_id, 'first_name', $current_post->post_title );
-            }
-        }
-    }
+			update_user_meta( $company_user_id, 'company_post_id', $post_id );
+			update_user_meta( $company_user_id, 'admin_can_add_product', $admin_can_add );
+		}
+	}
 }
 
 /**
@@ -2314,7 +2386,7 @@ function nab_register_article_post_type() {
 	$args = array(
 		'label'                 => __( 'Articles', 'nab-amplify' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats', 'excerpt' ),
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
@@ -2332,30 +2404,32 @@ function nab_register_article_post_type() {
 	register_post_type( 'articles', $args );
 }
 
-// Register discover content Taxonomy
-function nab_register_discovery_content_taxonomy() {
+/**
+ * Register article taxonomy
+ */
+function nab_register_article_content_taxonomy() {
 
 	$labels = array(
-		'name'                       => _x( 'Categories', 'Taxonomy General Name', 'text_domain' ),
-		'singular_name'              => _x( 'Category', 'Taxonomy Singular Name', 'text_domain' ),
-		'menu_name'                  => __( 'Category', 'text_domain' ),
-		'all_items'                  => __( 'All Items', 'text_domain' ),
-		'parent_item'                => __( 'Parent Item', 'text_domain' ),
-		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
-		'new_item_name'              => __( 'New Item Name', 'text_domain' ),
-		'add_new_item'               => __( 'Add New Item', 'text_domain' ),
-		'edit_item'                  => __( 'Edit Item', 'text_domain' ),
-		'update_item'                => __( 'Update Item', 'text_domain' ),
-		'view_item'                  => __( 'View Item', 'text_domain' ),
-		'separate_items_with_commas' => __( 'Separate items with commas', 'text_domain' ),
-		'add_or_remove_items'        => __( 'Add or remove items', 'text_domain' ),
-		'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
-		'popular_items'              => __( 'Popular Items', 'text_domain' ),
-		'search_items'               => __( 'Search Items', 'text_domain' ),
-		'not_found'                  => __( 'Not Found', 'text_domain' ),
-		'no_terms'                   => __( 'No items', 'text_domain' ),
-		'items_list'                 => __( 'Items list', 'text_domain' ),
-		'items_list_navigation'      => __( 'Items list navigation', 'text_domain' ),
+		'name'                       => _x( 'Categories', 'Taxonomy General Name', 'nab-amplify' ),
+		'singular_name'              => _x( 'Category', 'Taxonomy Singular Name', 'nab-amplify' ),
+		'menu_name'                  => __( 'Category', 'nab-amplify' ),
+		'all_items'                  => __( 'All Items', 'nab-amplify' ),
+		'parent_item'                => __( 'Parent Item', 'nab-amplify' ),
+		'parent_item_colon'          => __( 'Parent Item:', 'nab-amplify' ),
+		'new_item_name'              => __( 'New Item Name', 'nab-amplify' ),
+		'add_new_item'               => __( 'Add New Item', 'nab-amplify' ),
+		'edit_item'                  => __( 'Edit Item', 'nab-amplify' ),
+		'update_item'                => __( 'Update Item', 'nab-amplify' ),
+		'view_item'                  => __( 'View Item', 'nab-amplify' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'nab-amplify' ),
+		'add_or_remove_items'        => __( 'Add or remove items', 'nab-amplify' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'nab-amplify' ),
+		'popular_items'              => __( 'Popular Items', 'nab-amplify' ),
+		'search_items'               => __( 'Search Items', 'nab-amplify' ),
+		'not_found'                  => __( 'Not Found', 'nab-amplify' ),
+		'no_terms'                   => __( 'No items', 'nab-amplify' ),
+		'items_list'                 => __( 'Items list', 'nab-amplify' ),
+		'items_list_navigation'      => __( 'Items list navigation', 'nab-amplify' ),
 	);
 	$args = array(
 		'labels'                     => $labels,
@@ -2367,6 +2441,169 @@ function nab_register_discovery_content_taxonomy() {
 		'show_tagcloud'              => true,
 		'show_in_rest'               => true,
 	);
-	register_taxonomy( 'discovery-content-tax', array( 'articles' ), $args );
+	register_taxonomy( 'content-category', array( 'company-products', 'articles' ), $args );
+
+}
+
+
+/**
+ * Include only nab_mermber role user in the buddypress mermber list.
+ *
+ * @param  mixed $bp_user_query
+ */
+/*function nab_include_role_specific_member( $bp_user_query ) {
+
+    if ( empty( $bp_user_query->query_vars[ 'include' ] ) ) {
+
+		$user_query		= new WP_User_Query( array( 'role' => 'nab_member', 'fields' => 'ID' ) );
+		$include_users 	= $user_query->get_results();
+
+		$bp_user_query->query_vars[ 'include' ] = is_array( $include_users ) && count( $include_users ) > 0 ? $include_users : array(0);
+	}
+}*/
+
+/**
+ * Added custom user role for buddypress member
+ */
+function nab_add_custom_user_role() {
+
+	if ( get_option( 'nab_custom_role_version' ) < 1 ) {
+
+		add_role( 'nab_member', 'NAB Member', array( 'read' => true ) );
+
+		update_option( 'nab_custom_role_version', 1 );
+    }
+}
+
+/**
+ * Allowed Administrator, editor, author and contributor user to enter unfiltered html.
+ *
+ * @param $caps
+ * @param $cap
+ * @param $user_id
+ *
+ * @return array
+ *
+ * @since 1.0.0
+ */
+function nab_add_unfiltered_html_capability_to_users( $caps, $cap, $user_id ) {
+
+	if ( 'unfiltered_html' === $cap && ( user_can( $user_id, 'administrator' ) || user_can( $user_id, 'editor' ) || user_can( $user_id, 'author' ) || user_can( $user_id, 'contributor' ) ) ) {
+		$caps = array( 'unfiltered_html' );
+	}
+
+	return $caps;
+}
+
+/**
+ * Add products into nab-product content type
+ */
+
+function nab_add_product() {
+    check_ajax_referer('nab-ajax-nonce', 'nabNonce');
+    $final_result 	= array();
+    $post_title		= filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
+    $post_categories	= $_POST['product_categories'];
+    $product_copy = $_POST['nab_product_copy'];
+    $product_specs = $_POST['nab_product_specs'];
+    $product_contact = $_POST['nab_product_contact'];
+    $product_external_text = $_POST['nab_product_external_text'];
+    // Create post object
+    $product_post = array(
+    'post_title'    => wp_strip_all_tags($post_title),
+    'post_content'  => '',
+    'post_status'   => 'publish',
+    'post_type' => 'nab-products',
+    //'post_category' => $post_categories
+  );
+
+    // Insert the post into the database
+    $new_post =  wp_insert_post($product_post);
+    // assign categories to newly added post
+    wp_set_post_terms($new_post, $post_categories, 'content-category', true);
+
+    $dependencies_loaded = 0;
+
+    $uploaded_attachments = array();
+
+    foreach ($_FILES as $file_key => $file_details) {
+        if (0 === $dependencies_loaded) {
+            // These files need to be included as dependencies when on the front end.
+            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            require_once(ABSPATH . 'wp-admin/includes/media.php');
+            $dependencies_loaded = 1;
+        }
+
+        // Let WordPress handle the upload.
+        $attachment_id = media_handle_upload($file_key, 0);
+
+
+        if (! is_wp_error($attachment_id)) {
+            // update in meta
+            $uploaded_attachments[] = $attachment_id;
+        }
+    }
+    // Add product media
+    $value = array();
+    foreach ($uploaded_attachments as $item) {
+        $field_key = "field_5fb687d9c964e";
+        $value[]=array(
+      "product_media_file" => $item,
+    );
+    }
+    update_field($field_key, $value, $new_post);
+
+    // Add product copy
+    update_field('field_5fb73eedf021b', $product_copy, $new_post);
+
+    // Add product specs
+    update_field('field_5fb73efcf021c', $product_specs, $new_post);
+
+    // Add product contact
+    update_field('field_5fb73f16f021d', $product_contact, $new_post);
+
+    // Add product external text
+    update_field('field_5fb73f30f021e', $product_external_text, $new_post);
+
+
+    if (is_wp_error($new_post)) {
+        $final_result[ 'success' ] = false;
+        $final_result[ 'content' ] = '';
+    } else {
+        $final_result[ 'success' ] = true;
+        $final_result[ 'content' ] = '';
+    }
+
+    echo wp_json_encode($final_result);
+    wp_die();
+}
+/**
+ */
+function nab_register_company_category_taxonomy() {
+
+	$labels = array(
+		'name'                      => _x( 'Company Category', 'Taxonomy General Name', 'nab-amplify' ),
+		'singular_name'             => _x( 'Company Category', 'Taxonomy Singular Name', 'nab-amplify' ),
+		'menu_name'                 => __( 'Company Category', 'nab-amplify' ),
+		'all_items'                 => __( 'All Items', 'nab-amplify' ),
+		'parent_item'               => __( 'Parent Item', 'nab-amplify' ),
+		'parent_item_colon'         => __( 'Parent Item:', 'nab-amplify' ),
+		'new_item_name'             => __( 'New Item Name', 'nab-amplify' ),
+		'add_new_item'              => __( 'Add New Item', 'nab-amplify' ),
+		'edit_item'                 => __( 'Edit Item', 'nab-amplify' ),
+		'update_item'               => __( 'Update Item', 'nab-amplify' ),
+	);
+	$args = array(
+		'labels'                    => $labels,
+		'hierarchical'              => false,
+		'public'                    => true,
+		'show_ui'                   => true,
+		'show_admin_column'         => true,
+		'query_var'					=> true,
+		'show_in_rest'              => true,
+		'rewrite'           		=> array( 'slug' => 'company-category' ),
+	);
+	register_taxonomy( 'company-category', array( 'company-products', 'company', 'tribe_events', 'articles' ), $args );
 
 }

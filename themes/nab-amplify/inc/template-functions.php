@@ -281,7 +281,10 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 
 	if ( is_user_logged_in() ) {
 
-		$current_user_id = get_current_user_id();
+		$current_user    = wp_get_current_user();
+		$current_user_id = $current_user->ID;		
+		$member_profile  = bbp_get_user_profile_url( $member_id );
+
 
 		if( $current_user_id === $member_id ) {
 		    return;
@@ -310,9 +313,9 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 				$user_button = ob_get_clean();
 			}
 		} else if ( $is_friend && 'awaiting_response' === $is_friend ) {
-			
+
 			add_filter( 'bp_nouveau_get_members_buttons', 'nab_change_friendship_request_button_in_loop', 10, 3 );
-			
+
 			ob_start();
 			?>
             <div class="search-actions">
@@ -325,23 +328,26 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 						'type'           => 'friendship_request'
 					)
 				);
-				
+
 				if ( is_array( $buttons ) && count( $buttons ) > 0 ) {
 
-					foreach ( $buttons as $btn ) {												
+					foreach ( $buttons as $btn ) {
+
+						$link_text = 'reject' === strtolower( $btn[ 'link_text' ] ) ? 'Ignore' : $btn[ 'link_text' ];
 						?>
 						<div class="generic-button friend-request-action" data-item="<?php echo esc_attr( $member_id ); ?>">
-							<a href="<?php echo esc_url( $btn[ 'button_attr' ][ 'href' ] ); ?>"class="<?php echo esc_attr( $btn[ 'button_attr' ][ 'class' ] ); ?>" data-bp-btn-action="<?php echo esc_attr( $btn[ 'id' ] ); ?>"><?php echo esc_html( $btn[ 'link_text' ] ); ?></a>
+							<a href="<?php echo esc_url( $btn[ 'button_attr' ][ 'href' ] ); ?>" class="<?php echo esc_attr( $btn[ 'button_attr' ][ 'class' ] ); ?>" data-bp-btn-action="<?php echo esc_attr( $btn[ 'id' ] ); ?>"><?php echo esc_html( $link_text ); ?></a>
 						</div>
 						<?php
 					}
 				}
 				?>
             </div>
+            <div class="generic-button friend-view-profile">
+                <a class="button" href="<?php echo esc_url( $member_profile ); ?>">View Profile</a>
+            </div>
             <?php
-			
 			$user_button = ob_get_clean();
-
 			remove_filter( 'bp_nouveau_get_members_buttons', 'nab_change_friendship_request_button_in_loop' );
 
 		} else {
@@ -582,13 +588,13 @@ function nab_get_product_bookmark_html( $product_id, $action_class = '' ) {
 	if ( is_user_logged_in() ) {
 
 		$current_user_id   = get_current_user_id();
-		$bookmark_products = get_user_meta( $current_user_id, 'nab_customer_product_bookmark', true );		
-		$bookmark_tooltip  = 'Add to Bookmark';
+		$bookmark_products = get_user_meta( $current_user_id, 'nab_customer_product_bookmark', true );
+		$bookmark_tooltip  = 'Add to Bookmarks';
 
 		if ( ! empty( $bookmark_products ) && is_array( $bookmark_products ) && in_array( (string) $product_id, $bookmark_products, true ) ) {
 
 			$action_class     .= ' bookmark-fill';
-			$bookmark_tooltip = 'Remove from Bookmark';
+			$bookmark_tooltip = 'Remove from Bookmarks';
 		}
 
 		?>
@@ -814,32 +820,31 @@ function nab_member_can_visible_to_anyone( $member_id ) {
 
 function nab_get_bp_notification_menu() {
 
-	if ( is_user_logged_in() ) {
-
+	if ( is_user_logged_in() ) {		
 		?>
 		<div class="nab-header-notification">
 			<?php
 			$notifications	= bp_notifications_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
 			$count			= ! empty( $notifications ) ? count( $notifications ) : 0;
-			$alert_class	= (int) $count > 0 ? 'nab-pending-notifications pending-count alert' : 'nab-pending-notifications count no-alert';			
+			$alert_class	= (int) $count > 0 ? 'nab-pending-notifications pending-count alert' : 'nab-pending-notifications count no-alert';
 			$menu_link		= trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
 			?>
 			<div class="notification-wrapper">
 				<div class="notification-icons-wrap">
-					<i class="fa fa-bell" aria-hidden="true"></i>				
-					<span id="nab-pending-notifications" class="<?php echo esc_attr( $alert_class ); ?>"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>				
+					<i class="fa fa-bell" aria-hidden="true"></i>
+					<span id="nab-pending-notifications" class="<?php echo esc_attr( $alert_class ); ?>"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>
 				</div>
 				<div class="notification-sub-wrapper">
 					<ul class="notification-submenu">
 						<?php
 						if ( ! empty( $notifications ) ) {
-							
+
 							foreach ( (array) $notifications as $notification ) {
 								?>
 								<li class="<?php echo esc_attr( 'notification-' . $notification->id ); ?>">
 									<a href="<?php echo esc_url( $notification->href ); ?>" class="ntf-item"><?php echo esc_html( $notification->content ); ?></a>
 								</li>
-								<?php								
+								<?php
 							}
 						} else {
 							?>
@@ -853,6 +858,6 @@ function nab_get_bp_notification_menu() {
 				</div>
 			</div>
 		</div>
-		<?php
+		<?php		
 	}
 }
