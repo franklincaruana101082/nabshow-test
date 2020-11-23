@@ -1,0 +1,5 @@
+
+data_sync:
+  domain_map:
+    nabshow-com.go-vip.net: nabshow-beta.go-vip.net
+    nabshow-com.go-vip.net/amplify: nabshow-beta.go-vip.net/amplify
