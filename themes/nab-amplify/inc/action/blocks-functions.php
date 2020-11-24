@@ -353,7 +353,22 @@ function nab_company_produts_render_callback( $attributes ) {
     $posts_per_page     = isset( $attributes[ 'itemToFetch' ] ) && $attributes[ 'itemToFetch' ] > 0 ? $attributes[ 'itemToFetch' ] : 4;
     $company_category   = isset( $attributes[ 'companyCategory' ] ) && ! empty( $attributes[ 'companyCategory' ] ) ? $attributes[ 'companyCategory' ] : array();
     $display_order      = isset( $attributes[ 'displayOrder' ] ) && ! empty( $attributes[ 'displayOrder' ] ) ? $attributes[ 'displayOrder' ] : 'DESC';
-    $class_name         = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';
+    $class_name         = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';    
+    $is_company_admin   = false;
+
+    if ( is_user_logged_in() ) {
+        
+        $company_id         = get_the_ID();
+        $user_id            = get_current_user_id();
+        $admin_id           = get_field( 'company_user_id', $company_id );
+        $can_add_product    = get_field( 'admin_can_add_product', $company_id );
+
+        if ( $user_id === $admin_id && $can_add_product ) {
+            
+            $is_company_admin   = true;
+            $posts_per_page     = $posts_per_page - 1;
+        }
+    }
 
     $query_args = array (
         'post_type'         => 'company-products',
@@ -378,9 +393,9 @@ function nab_company_produts_render_callback( $attributes ) {
     $product_query = new WP_Query( $query_args );    
 
     $html       = '';
-    $total_post = $product_query->found_posts;
+    $total_post = $product_query->found_posts;    
     
-    if ( $product_query->have_posts() ) {
+    if ( $product_query->have_posts() || $is_company_admin ) {
 
         ob_start();
         ?>
@@ -400,6 +415,19 @@ function nab_company_produts_render_callback( $attributes ) {
                 </div>
                 <div class="amp-item-wrap" id="company-products-list">
                     <?php
+                    if ( $is_company_admin ) {
+                        ?>
+                        <div class="amp-item-col add-new-item">
+                            <div class="amp-item-inner">
+                                <div class="add-item-wrap">
+                                    <i class="add-item-icon fa fa-pencil"></i>
+                                    <span class="add-item-label">Add Product</span>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+
                     while( $product_query->have_posts() ) {
                         
                         $product_query->the_post();

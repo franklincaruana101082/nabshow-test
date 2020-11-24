@@ -158,10 +158,6 @@ add_action( 'init', 'nab_register_article_post_type' );
 
 add_action( 'init', 'nab_register_article_content_taxonomy' );
 
-//add_action( 'bp_pre_user_query_construct', 'nab_include_role_specific_member' );
-
-add_action( 'init', 'nab_add_custom_user_role' );
-
 // Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
 add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 );
 

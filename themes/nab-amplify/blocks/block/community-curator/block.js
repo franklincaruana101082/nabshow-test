@@ -35,6 +35,7 @@
             description: '',
             media: '',
             bgMedia: '',
+            buttonText: '<a href="#" class="btn">Read More</a>'
           }
         ]
       })
@@ -233,6 +234,21 @@
                           color:attributes.DescriptionColor
                       }}
                       />
+                      <RichText
+                        tagName='div'
+                        placeholder={__('Read More')}
+                        value={data.buttonText}
+                        keepPlaceholderOnFocus='true'
+                        className='button-wrap'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].buttonText = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -295,7 +311,7 @@
             </PanelBody>
           </InspectorControls>
           <div className='community-curator'>
-            <div className='community-curator-body'>
+            <div className='community-curator-header'>
               <RichText
                   tagName='h2'
                   placeholder={__('Title')}
@@ -393,6 +409,9 @@
                     tagName='h3'
                     value={dataArray[0].title}
                     className='title'
+                    style={{
+                      color:attributes.TitleColor
+                    }}
                   />
                 )}
                 {dataArray[0].subTitle && (
@@ -400,6 +419,9 @@
                     tagName='strong'
                     value={dataArray[0].subTitle}
                     className='sub-title'
+                    style={{
+                      color:attributes.SubTitleColor
+                    }}
                   />
                 )}
                 {dataArray[0].description && (
@@ -407,6 +429,16 @@
                     tagName='p'
                     value={dataArray[0].description}
                     className='description'
+                    style={{
+                      color:attributes.DescriptionColor
+                    }}
+                  />
+                )}
+                {dataArray[0].buttonText && (
+                  <RichText.Content
+                    tagName='div'
+                    value={dataArray[0].buttonText}
+                    className='button-wrap'
                   />
                 )}
               </div>
@@ -443,6 +475,9 @@
                                   tagName='h3'
                                   value={data.title}
                                   className='title'
+                                  style={{
+                                    color:attributes.TitleColor
+                                  }}
                                 />
                               )}
                               {data.subTitle && (
@@ -450,6 +485,9 @@
                                   tagName='strong'
                                   value={data.subTitle}
                                   className='sub-title'
+                                  style={{
+                                    color:attributes.SubTitleColor
+                                  }}
                                 />
                               )}
                               {data.description && (
@@ -457,6 +495,16 @@
                                   tagName='p'
                                   value={data.description}
                                   className='description'
+                                  style={{
+                                    color:attributes.DescriptionColor
+                                  }}
+                                />
+                              )}
+                              {data.buttonText && (
+                                <RichText.Content
+                                  tagName='div'
+                                  value={data.buttonText}
+                                  className='button-wrap'
                                 />
                               )}
                             </div>

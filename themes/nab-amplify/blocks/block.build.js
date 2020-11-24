@@ -4527,7 +4527,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             subTitle: '',
             description: '',
             media: '',
-            bgMedia: ''
+            bgMedia: '',
+            buttonText: '<a href="#" class="btn">Read More</a>'
           }])
         });
       }
@@ -4767,6 +4768,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         style: {
                           color: attributes.DescriptionColor
                         }
+                      }),
+                      wp.element.createElement(RichText, {
+                        tagName: 'div',
+                        placeholder: __('Read More'),
+                        value: data.buttonText,
+                        keepPlaceholderOnFocus: 'true',
+                        className: 'button-wrap',
+                        onChange: function onChange(value) {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '');
+                          value = value.replace(/<br>.*}<br>/, '');
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].buttonText = value;
+                          setAttributes({ dataArray: arrayCopy });
+                        }
                       })
                     )
                   )
@@ -4867,7 +4883,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             { className: 'community-curator' },
             wp.element.createElement(
               'div',
-              { className: 'community-curator-body' },
+              { className: 'community-curator-header' },
               wp.element.createElement(RichText, {
                 tagName: 'h2',
                 placeholder: __('Title'),
@@ -4982,17 +4998,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               dataArray[0].title && wp.element.createElement(RichText.Content, {
                 tagName: 'h3',
                 value: dataArray[0].title,
-                className: 'title'
+                className: 'title',
+                style: {
+                  color: attributes.TitleColor
+                }
               }),
               dataArray[0].subTitle && wp.element.createElement(RichText.Content, {
                 tagName: 'strong',
                 value: dataArray[0].subTitle,
-                className: 'sub-title'
+                className: 'sub-title',
+                style: {
+                  color: attributes.SubTitleColor
+                }
               }),
               dataArray[0].description && wp.element.createElement(RichText.Content, {
                 tagName: 'p',
                 value: dataArray[0].description,
-                className: 'description'
+                className: 'description',
+                style: {
+                  color: attributes.DescriptionColor
+                }
+              }),
+              dataArray[0].buttonText && wp.element.createElement(RichText.Content, {
+                tagName: 'div',
+                value: dataArray[0].buttonText,
+                className: 'button-wrap'
               })
             )
           ),
@@ -5045,17 +5075,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             data.title && wp.element.createElement(RichText.Content, {
                               tagName: 'h3',
                               value: data.title,
-                              className: 'title'
+                              className: 'title',
+                              style: {
+                                color: attributes.TitleColor
+                              }
                             }),
                             data.subTitle && wp.element.createElement(RichText.Content, {
                               tagName: 'strong',
                               value: data.subTitle,
-                              className: 'sub-title'
+                              className: 'sub-title',
+                              style: {
+                                color: attributes.SubTitleColor
+                              }
                             }),
                             data.description && wp.element.createElement(RichText.Content, {
                               tagName: 'p',
                               value: data.description,
-                              className: 'description'
+                              className: 'description',
+                              style: {
+                                color: attributes.DescriptionColor
+                              }
+                            }),
+                            data.buttonText && wp.element.createElement(RichText.Content, {
+                              tagName: 'div',
+                              value: data.buttonText,
+                              className: 'button-wrap'
                             })
                           )
                         )

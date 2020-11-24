@@ -165,12 +165,13 @@ p{font-size:16px;color:#404040}
 .site-header .nab-avatar{width:40px;margin-right:10px}
 .site-header .nab-avatar img{max-width:100%;border-radius:50%;display:block}
 .nab-profile-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px}
-.nab-profile-dropdown ul{display:block;background-color:#fff;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px}
-.nab-profile-dropdown ul:before{content:'';width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:15px solid #fff;position:absolute;top:-15px;right:15%}
+.nab-profile-dropdown ul{display:block;background-color:#666;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px}
+.nab-profile-dropdown ul:before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:15%}
 .nab-profile:hover > .nab-profile-dropdown{display:block}
-.nab-profile-dropdown li{width:100%}
-.nab-profile-dropdown li a{color:#404040;padding:5px 10px;display:block;text-align:center;}
-.nab-profile-dropdown li a:hover{background-color:#eee}
+.nab-profile-dropdown li{width:100%;border-bottom:1px solid #999;}
+.nab-profile-dropdown li:last-child{border-bottom:0;}
+.nab-profile-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:'OpenSans-Regular',Arial,sans-serif;}
+.nab-profile-dropdown li a:hover{background-color:#404040}
 .nab-profile-menu{position:relative;padding-left:15px;margin-left:15px;border-left:1px solid #ccc}
 .nab-profile-name{color:#fff;line-height:1}
 .header-bottom{background:#404040;padding:15px 0;display:none}
@@ -186,11 +187,12 @@ p{font-size:16px;color:#404040}
 .notification-wrapper i{color:#fdd80f;font-size:18px;}
 .notification-sub-wrapper{display:none;position:absolute;right:0;top:100%;padding-top:20px;}
 .notification-wrapper.hover > .notification-sub-wrapper{display:block;}
-.notification-sub-wrapper ul{display:block;background-color:#fff;list-style-type:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
-.notification-sub-wrapper ul:before{content:'';width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;border-bottom:15px solid #fff;position:absolute;top:-15px;right:6%;}
-.notification-sub-wrapper ul li{position:relative;}
-.notification-sub-wrapper ul li a{font-size:14px;color:#404040;padding:5px;text-align:center;display:block;}
-.notification-sub-wrapper ul li a:hover{background-color:#eee;}
+.notification-sub-wrapper ul{display:block;background-color:#666;list-style-type:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
+.notification-sub-wrapper ul:before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:6%;}
+.notification-sub-wrapper ul li{position:relative;border-bottom:1px solid #999;}
+.notification-sub-wrapper ul li:last-child{border-bottom:0;}
+.notification-sub-wrapper ul li a{font-size:13px;color:#fff;padding:5px 10px;display:block;font-family:'OpenSans-Regular',Arial,sans-serif;}
+.notification-sub-wrapper ul li a:hover{background-color:#404040;}
 .notification-sub-wrapper ul li::marker{color:#404040;}
 
 /* Header css */
@@ -1324,6 +1326,14 @@ body .is_friend .remove:before{font-size:22px;}
 #unfriend-confirmation .modal-content a{border-radius:4px;color:#fff!important;margin-right:10px;}
 #unfriend-confirmation .modal-content .modal-content-wrap{text-align:center;}
 #unfriend-confirmation .modal-content{max-width:600px;}
+
+/* connection popup */
+#connection-message-popup p{margin:0 0 20px;}
+#connection-message-popup textarea{resize:vertical;width:100%!important}
+#connection-message-popup textarea.error{border-color:red;}
+#connection-message-popup .error{color:red;}
+#connection-message-popup.nab-modal .modal-content-wrap a.btn{margin:10px 0;color:#fff!important;}
+#connection-message-popup #connection-message-form{text-align:center;}
 
 /* single articles page */
 .single-articles{background-color:#404040;}

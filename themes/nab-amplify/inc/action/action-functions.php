@@ -2445,36 +2445,6 @@ function nab_register_article_content_taxonomy() {
 
 }
 
-
-/**
- * Include only nab_mermber role user in the buddypress mermber list.
- *
- * @param  mixed $bp_user_query
- */
-/*function nab_include_role_specific_member( $bp_user_query ) {
-
-    if ( empty( $bp_user_query->query_vars[ 'include' ] ) ) {
-
-		$user_query		= new WP_User_Query( array( 'role' => 'nab_member', 'fields' => 'ID' ) );
-		$include_users 	= $user_query->get_results();
-
-		$bp_user_query->query_vars[ 'include' ] = is_array( $include_users ) && count( $include_users ) > 0 ? $include_users : array(0);
-	}
-}*/
-
-/**
- * Added custom user role for buddypress member
- */
-function nab_add_custom_user_role() {
-
-	if ( get_option( 'nab_custom_role_version' ) < 1 ) {
-
-		add_role( 'nab_member', 'NAB Member', array( 'read' => true ) );
-
-		update_option( 'nab_custom_role_version', 1 );
-    }
-}
-
 /**
  * Allowed Administrator, editor, author and contributor user to enter unfiltered html.
  *
@@ -2595,14 +2565,14 @@ function nab_register_company_category_taxonomy() {
 		'update_item'               => __( 'Update Item', 'nab-amplify' ),
 	);
 	$args = array(
-		'labels'                    => $labels,
-		'hierarchical'              => false,
-		'public'                    => true,
-		'show_ui'                   => true,
-		'show_admin_column'         => true,
-		'query_var'					=> true,
-		'show_in_rest'              => true,
-		'rewrite'           		=> array( 'slug' => 'company-category' ),
+		'public'            => false,
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column'	=> true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'company-category' )
 	);
 	register_taxonomy( 'company-category', array( 'company-products', 'company', 'tribe_events', 'articles' ), $args );
 
