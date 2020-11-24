@@ -125,6 +125,21 @@
           }
       });
 
+      /* Reaction Hide/Show */
+      $(document).on('click', '.reaction-list-type .reaction-main-like', function(){
+          $(this).next('.reaction-icon-modal').toggleClass('show-icon-modal');
+      });
+
+      $('.reaction-list-type').mouseenter(function(){
+          $(this).find('.reaction-icon-modal').toggleClass('show-icon-modal');
+      }).mouseleave(function(){
+          $(this).find('.reaction-icon-modal').removeClass('show-icon-modal');
+      });
+
+      $(document).on('click', '.reaction-list-type .nab-reaction-type', function(){
+         $(this).parents('.reaction-icon-modal').removeClass('show-icon-modal'); 
+      });
+
   });
 
   $(document).on('click', '.edit-mode', function () {

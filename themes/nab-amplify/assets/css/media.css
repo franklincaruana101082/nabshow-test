@@ -303,7 +303,7 @@
 	.site-header .nab-header-search .search-form label{width:100%;}
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}
 	.site-footer .footer-inner .socials{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
-	.site-footer{padding-bottom:50px}
+	.site-footer{padding:50px 0;}
 	.nab-without-login-account .woocommerce{padding:50px 30px}
 	.product-list .product-item{width:100%}
 	.product-list.layout-list .product-item .item-inner .details .buttom{width:100%;margin-bottom:10px}
