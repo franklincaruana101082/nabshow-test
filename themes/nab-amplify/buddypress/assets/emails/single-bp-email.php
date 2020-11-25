@@ -171,7 +171,7 @@ $settings = bp_email_get_appearance_settings();
 			*[class="center"] {text-align:center !important; width:100% !important; height:auto !important;}
 		}
 		/* BUTTON */
-		.welcome{font-family:'Open Sans',sans-serif;}
+		.welcome{font-family:'Open Sans',sans-serif;color:#404040;}
 		.button-container{text-align:center;display:inline-block;width:100%;margin: 30px 0 0;}
 		.button{padding:10px 30px;background-color:#e5018b;font-family:'Open Sans',sans-serif;color:white!important;font-size:15px;line-height:1;font-weight:bold;text-transform:uppercase;letter-spacing:2px;text-align:center;border-radius:10px;text-decoration:none;}
 		.footer_text{margin-bottom:15px;display:block;font-family:'Open Sans',sans-serif;}
@@ -236,7 +236,7 @@ $settings = bp_email_get_appearance_settings();
 								<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
 									<tr>
 										<td style="padding: 20px; font-family: sans-serif; mso-height-rule: exactly; line-height: <?php echo esc_attr( floor( $settings['body_text_size'] * 1.618 ) . 'px' ); ?>; color: <?php echo esc_attr( $settings['body_text_color'] ); ?>; font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>" class="body_text_color body_text_size">
-											<span style="font-weight: bold; font-size: <?php echo esc_attr( floor( $settings['body_text_size'] * 1.35 ) . 'px' ); ?>" class="welcome"><?php bp_email_the_salutation( $settings ); ?></span>
+											<span style="font-size:16px;" class="welcome"><?php bp_email_the_salutation( $settings ); ?></span>
 											<hr color="<?php echo esc_attr( $settings['email_bg'] ); ?>">
 											{{{content}}}
 										</td>
