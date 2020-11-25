@@ -141,11 +141,11 @@ $settings = bp_email_get_appearance_settings();
         }
         /* EMAIL STYLES RESET */
 		#outlook a{padding:0;}
-		body{margin:0; padding:0; width:100% !important;background-color:#ffffff;}
+		body{margin:0; padding:0; width:100% !important;background-color:#ffffff;font-family:'Open Sans',sans-serif;}
 		.ReadMsgBody{width:100%;} .ExternalClass{width:100%;}                
 		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
 		body, table, td, a{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;}
-        a{color: #e5018b; font-weight: normal;}
+        a{color: #e5018b; font-weight: normal;font-family: 'Open Sans', sans-serif;}
 		table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;}
 		img{-ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
 		table{border-collapse:collapse !important;}
@@ -171,54 +171,15 @@ $settings = bp_email_get_appearance_settings();
 			*[class="center"] {text-align:center !important; width:100% !important; height:auto !important;}
 		}
 		/* BUTTON */
-
-		.button-container {
-			margin: auto;
-		}
-
-		.button {
-			padding: 10px 30px;
-			background-color: #e5018b;
-			font-family: 'Open Sans', sans-serif;
-			color: white;
-			font-size: 15px;
-			line-height: 1;
-			font-weight: bold;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-			text-align: center;
-			border-radius: 10px;
-		}
-
-		.button a,
-		.button-link {
-			text-decoration: none;
-			color: white;
-			font-weight: bold;
-			font-family: 'Open Sans', sans-serif;
-		}
-		.footer_text{
-			margin-bottom:15px;
-			display:block;
-			font-family: 'Open Sans', sans-serif;
-		}
-		.footer_text a{
-			color:#fdd80f !important;
-			font-family: 'Open Sans', sans-serif;
-		}
-		.header-logo{
-			width:250px;
-			max-width:90%;
-		}
-		.header_bg{
-			background-color:#404040;
-		}
-		.footer_bg{
-			background-color:#404040;
-		}
-		.body_bg{
-			background-color:#f1f1f1;
-		}
+		.welcome{font-family:'Open Sans',sans-serif;}
+		.button-container{margin:auto;}
+		.button{padding:10px 30px;background-color:#e5018b;font-family:'Open Sans',sans-serif;color:white;font-size:15px;line-height:1;font-weight:bold;text-transform:uppercase;letter-spacing:2px;text-align:center;border-radius:10px;text-decoration:none;}
+		.footer_text{margin-bottom:15px;display:block;font-family:'Open Sans',sans-serif;}
+		.footer_text a{color:#fdd80f!important;font-family:'Open Sans',sans-serif;}
+		.header-logo{width:250px;max-width:90%;}
+		.header_bg{background-color:#404040;}
+		.footer_bg{background-color:#404040;}
+		.body_bg{background-color:#f1f1f1;}
 	</style>
 
 </head>
@@ -243,7 +204,7 @@ $settings = bp_email_get_appearance_settings();
 					<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; border-top: 7px solid <?php echo esc_attr( $settings['highlight_color'] ); ?>" bgcolor="<?php echo esc_attr( $settings['header_bg'] ); ?>" class="header_bg">
 						<tr>
 							<td style="text-align: center; padding: 15px 0; font-family: sans-serif; mso-height-rule: exactly; font-weight: bold; color: <?php echo esc_attr( $settings['header_text_color'] ); ?>; font-size: <?php echo esc_attr( $settings['header_text_size'] . 'px' ); ?>" class="header_text_color header_text_size">
-								<img class="header-logo" src="<?php echo get_template_directory_uri(); ?>/email-amp-logo.png" alt="Amplify">
+								<img class="header-logo" src="https://nabshow-com-develop.go-vip.net/amplify/wp-content/uploads/sites/9/2020/11/email-amp-logo.png" alt="Amplify">
 								<?php
 								/**
 								 * Fires before the display of the email template header.
