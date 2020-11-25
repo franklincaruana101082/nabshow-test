@@ -142,23 +142,94 @@
 
   });
 
-  $(document).on('click', '.edit-mode', function () {
-      const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : '';
-      const _this = $(this);
-      _this.addClass('loading');
-      jQuery.ajax({
-          type: 'POST',
-          url: amplifyJS.ajaxurl,
-          data: {
-              action: 'nab_amplify_edit_product',
-              prod_id: prod_id
-          },
-          success: function (data) {
-              _this.removeClass('loading');
-              alert(data);
+  $(document).on('click', '.action-edit ', function () {
+    const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const _this = $(this)
+    _this.addClass('loading')
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_edit_product',
+        product_id: prod_id
+      },
+      success: function (data) {
+         
+        _this.removeClass('loading')
+        if (jQuery('#addProductModal').length === 0) {
+            
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+        } else {
+            jQuery('#addProductModal').remove();
+            jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+        }
+      }
+    })
+  })
+
+
+  /* Add nab product ajax call */
+  $(document).on('click', '#nab-edit-product-submit', function () {
+   
+    var product_title = jQuery("#nab-edit-product-form #product_title").val();
+    var product_categories = jQuery("#nab-edit-product-form #product_categories").val();
+    var nab_product_copy = jQuery("#nab-edit-product-form #nab_product_copy").val();
+    var nab_product_specs = jQuery("#nab-edit-product-form #nab_product_specs").val();
+    var nab_product_contact = jQuery("#nab-edit-product-form #nab_product_contact").val();
+    var nab_product_external_text = jQuery("#nab-edit-product-form #nab_product_external_text").val();
+    var nab_product_external_link = jQuery("#nab-edit-product-form #nab_product_external_link").val();
+    var nab_feature_product = jQuery("#nab-edit-product-form #nab_feature_product").prop("checked") ? 1 : 0;
+    var nab_product_b_stock = jQuery("#nab-edit-product-form #nab_product_b_stock").prop("checked") ? 1 : 0;
+    var nab_product_sales_item = jQuery("#nab-edit-product-form #nab_product_sales_item").prop("checked") ? 1 : 0;
+    var nab_product_tags = jQuery("#nab-edit-product-form #nab_product_tags").val();
+    var nab_product_discussion = jQuery("#nab-edit-product-form #nab_product_discussion").prop("checked") ? 1 : 0;
+    var nab_product_id = jQuery("#nab-edit-product-form #nab_product_id").val();
+
+    var form_data = new FormData();
+   
+    $.each($("#product_medias")[0].files, function (key, file){
+      form_data.append(key, file);
+    }); 
+       
+        form_data.append("action",'nab_add_product');
+        form_data.append("product_title",product_title);
+        form_data.append("product_categories",product_categories);
+        form_data.append("nabNonce",amplifyJS.nabNonce);
+        form_data.append("nab_product_copy",nab_product_copy);
+        form_data.append("nab_product_specs",nab_product_specs);
+        form_data.append("nab_product_contact",nab_product_contact);
+        form_data.append("nab_product_external_text",nab_product_external_text);
+        form_data.append("nab_product_external_link",nab_product_external_link);
+        form_data.append("nab_feature_product",nab_feature_product);
+        form_data.append("nab_product_b_stock",nab_product_b_stock);
+        form_data.append("nab_product_sales_item",nab_product_sales_item);
+        form_data.append("nab_product_tags",nab_product_tags);
+        form_data.append("nab_product_discussion",nab_product_discussion);
+        form_data.append("nab_product_id",nab_product_id);
+    
+        jQuery.ajax({           
+        url : amplifyJS.ajaxurl,
+        processData: false,
+        contentType: false,
+        type : 'POST',
+        data : form_data,
+        success : function( response ) {
+            var json = $.parseJSON(response); 
+               
+          if(json.success === true){
+            alert('Product Added Successfully!');  
+            location.reload(true);
           }
-      });
-  });
+
+        }
+    }); 
+});
 
   // Add smooth scrolling to all links
 jQuery(".navigate-reply").on('click', function(event) {

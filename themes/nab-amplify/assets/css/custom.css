@@ -145,14 +145,14 @@ p{font-size:16px;color:#404040}
 /* Header css */
 .site-header{background:#404040;position:relative;z-index:10}
 .site-header .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
-.site-header .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex;width:30%;}
+.site-header .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex;}
 .site-header .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
 .site-header .nab-logos ul li{margin-right:15px;padding-right:15px;border-right:1px solid #ccc;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 .site-header .nab-logos ul li:last-child{border-right:0;margin-right:0;padding-right:0;}
 .site-header .nab-logos ul li a{display:-webkit-box;display:-ms-flexbox;display:flex}
 .site-header .nab-logos img{max-width:100%;max-height:50px;width:150px}
 .site-header .main-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:70%;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;}
-.site-header .nab-header-search .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;margin-right:20px;}
+.site-header .nab-header-search .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;margin:0 20px;}
 .site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;width:400px;max-width:100%;height:40px;border:1px solid #666;padding:0 50px 0 20px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
 .site-header .nab-header-search .search-form .search-field::placeholder{color:#ccc;font-weight:600;}
 .site-header .nab-header-search .search-form .search-field::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
@@ -172,19 +172,21 @@ p{font-size:16px;color:#404040}
 .nab-profile-dropdown li:last-child{border-bottom:0;}
 .nab-profile-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:'OpenSans-Regular',Arial,sans-serif;}
 .nab-profile-dropdown li a:hover{background-color:#404040}
-.nab-profile-menu{position:relative;padding-left:15px;margin-left:15px;border-left:1px solid #ccc}
+.nab-profile-menu{position:relative;padding-right:15px;margin-right:15px;border-right:1px solid #ccc}
+.nab-profile-menu .nab-sign-in{padding:9px 0;}
 .nab-profile-name{color:#fff;line-height:1}
-.header-bottom{background:#404040;padding:15px 0;display:none}
+.header-bottom{background:#999999;padding:15px 0;}
 .header-bottom ul{display:inline-block;margin:0;padding:0;list-style:none}
 .header-bottom ul li{display:inline-block;margin-right:50px;color:#fff;line-height:1;font-weight:bold}
 .header-bottom ul li a{color:#fff}
+.header-bottom .header-bottom-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .site-header .site-branding{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1}
 .site-header .main-navigation>.nab-profile-menu>.nab-profile>a{color:#fff}
-.nab-header-notification{margin-right:15px;border-right:1px solid #ccc;cursor:pointer}
-.nab-header-notification .notification-wrapper{padding:10px 25px 8px 10px;position:relative;}
+.nab-header-notification{cursor:pointer}
+.nab-header-notification .notification-wrapper{padding:10px 10px 8px 10px;position:relative;}
 .notification-wrapper .notification-icons-wrap{position:relative;}
 .notification-wrapper .nab-pending-notifications{position:absolute;width:18px;height:18px;border-radius:50%;-webkit-border-radius:50%;top:-12px;left:8px;font-size:8px;color:#fff;text-align:center;line-height:18px;background-color:#e5018b;}
-.notification-wrapper i{color:#fdd80f;font-size:18px;}
+.notification-wrapper i{color:#fdd80f;font-size:20px;}
 .notification-sub-wrapper{display:none;position:absolute;right:0;top:100%;padding-top:20px;}
 .notification-wrapper.hover > .notification-sub-wrapper{display:block;}
 .notification-sub-wrapper ul{display:block;background-color:#666;list-style-type:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
@@ -194,12 +196,23 @@ p{font-size:16px;color:#404040}
 .notification-sub-wrapper ul li a{font-size:13px;color:#fff;padding:5px 10px;display:block;font-family:'OpenSans-Regular',Arial,sans-serif;}
 .notification-sub-wrapper ul li a:hover{background-color:#404040;}
 .notification-sub-wrapper ul li::marker{color:#404040;}
+.notification-sub-wrapper ul{display:block;background-color:#666;list-style-type:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
+.notification-sub-wrapper ul:before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:6%;}
+.nab-logo-right-inner{padding:9px 10px 9px 15px;margin-left: 15px;border-left: 1px solid #ccc;position:relative;}
+.nab-logo-right-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px;}
+.nab-logo-right-dropdown ul{display:block;background-color:#666;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
+.nab-logo-right-dropdown ul:before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:15%;}
+.nab-logo-right-dropdown li{width:100%;border-bottom:1px solid #999;}
+.nab-logo-right-dropdown ul li:last-child{border-bottom:0;}
+.nab-logo-right-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:'OpenSans-Regular',Arial,sans-serif;}
+.nab-logo-right-dropdown ul li a:hover{background-color:#404040;}
+.nab-logo-right-inner:hover > .nab-logo-right-dropdown{display:block;}
 
 /* Header css */
 
 /* footer css */
 .site-footer{background-color:#404040;padding: 70px 0 70px 0;text-align:left;position:relative;overflow:hidden;clear:both;}
-.site-footer:before{content:"";background-image:url('../images/bg-graphic.png');width:390px;position:absolute;height:140%;left:-140px;top:-20%;bottom:0;background-size:cover;background-position:right center}
+.site-footer:before{content:"";background-image:url('../images/bg-graphic.png');width:350px;position:absolute;height:140%;left:-140px;top:-20%;bottom:0;background-size:cover;background-position:right center}
 .site-footer *{color:#fff}
 .site-footer .footer-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;position:relative;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 .site-footer .footer-inner .col-1{width: 20.75%;}

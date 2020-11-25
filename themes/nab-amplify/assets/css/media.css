@@ -40,20 +40,20 @@
 	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-position:center right;background-repeat:no-repeat;width:18%;}
 }
 @media (max-width: 1700px) {
-	.site-footer:before{width:16%;}
+	.site-footer:before{width:20%;}
 }
 @media (max-width: 1600px) {
-	.site-footer:before{width:14%;}
+	.site-footer:before{width:18%;}
 
 	/* add product */
 	#addProductModal.nab-modal .modal-content-wrap{padding:50px;}
 	#addProductModal.nab-modal .nab-modal-close:not(.fa){right:30px;top:30px;}
 }
 @media (max-width: 1550px) {
-	.site-footer:before{width:13%;}
+	.site-footer:before{width:17%;}
 }
 @media (max-width: 1450px) {
-	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-size:61%;background-position:bottom center;background-repeat:no-repeat;width:390px;}
+	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-size:70%;background-position:bottom center;background-repeat:no-repeat;width:390px;}
 }
 @media (max-width:1395px){
 }
@@ -80,10 +80,9 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.right-action{margin-top:49.5px;}
 }
 @media (max-width:1080px){
-	.site-header .nab-header-search .search-form .search-field{width:260px;}
+	
 }
 @media (max-width:1024px){
-	.site-header .nab-header-search .search-form .search-field{width:220px;}
 	.nab-profile:hover > .nab-profile-dropdown{display:none}
 	.single-product div.product .woocommerce-product-gallery{width:100%}
 	.single-product div.product .summary{width:100%;padding:40px 0 0 0}
@@ -110,9 +109,6 @@
 	.amp-profile-main .amp-profile-info span{font-size:20px;}
 }
 @media (max-width:991px){
-	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:20px;}
-	.site-header .nab-logos img{max-height:inherit;}
-	.site-header .main-navigation{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.site-footer:before{display:none}
 	.site-footer .footer-inner .col-1{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1;width:50%}
 	.site-footer .footer-inner .col-5{-webkit-box-ordinal-group:3;-ms-flex-order:2;order:2;width:50%}
@@ -175,11 +171,10 @@
 }
 
 @media (max-width:767px){
-	.site-header .header-inner{padding:30px 0 10px 0}
-	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:30px}
+	.site-header .header-inner{padding:30px 0 30px 0}
+	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:20px}
 	.site-header .main-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
-	.notification-sub-wrapper{right:auto;left:0;}
-	.notification-sub-wrapper ul:before{right:auto;left:0;}
+	.header-bottom .header-bottom-inner{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:100%}
 	.nab-without-login-account .woocommerce .nab-login-wrap{-ms-flex-wrap:wrap;flex-wrap:wrap}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:100%;margin-bottom:20px;text-align:center}
@@ -297,8 +292,7 @@
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
-	.site-header .nab-header-search{width:100%;}
-	.site-header .nab-header-search .search-form{max-width:300px;margin:0 auto 20px;}
+	.site-header .nab-header-search .search-form{max-width:300px;}
 	.site-header .nab-header-search .search-form .search-field{width:100%;}
 	.site-header .nab-header-search .search-form label{width:100%;}
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}
@@ -386,8 +380,9 @@
 	.nab-ad-wrap .nab-ad-inner{max-width:350px;padding:0 4px;}
 }
 @media (max-width:400px) {
-	.nab-profile-menu{padding-left:0;margin-left:0;border-left:0;width:100%;margin-top:10px;}
 	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.nab-profile-menu{padding-right:0;margin-right:0;margin-bottom:20px;width:100%;border-right:0;text-align:center;}
+	.site-header .nab-header-search .search-form{max-width:200px;margin:0 10px;}
 }
 @media (max-width:350px) {
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px;}

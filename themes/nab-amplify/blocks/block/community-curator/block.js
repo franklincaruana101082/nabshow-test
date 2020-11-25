@@ -58,8 +58,9 @@
     }
 
     render () {
-      const { attributes, setAttributes } = this.props
+      const { attributes, setAttributes, clientId } = this.props
       const { dataArray } = attributes
+      setAttributes({ blockClientId: clientId })
 
       const getImageButton = (openEvent, index) => {
         if (dataArray[index].media) {
@@ -165,7 +166,7 @@
                 <div className="item-list-main">
                   <div className="item-list-wrap">
                     <style>
-                      {`.grid-list .item.active .left{background:${attributes.ThumbBgColor}}`}
+                      {`#block-${clientId} .grid-list .item.active .left{background:${attributes.ThumbBgColor}}`}
                     </style>
                     <div className='left'>
                       <MediaUpload
@@ -379,6 +380,10 @@
       HeaderTitleColor:{
         type:'string',
         default:'#fdd80f'
+      },
+      blockClientId:{
+        type:'string',
+        default:''
       }
     },
     edit: ItemComponent,
@@ -388,7 +393,7 @@
       const { dataArray } = attributes
 
       return (
-        <div className='community-curator'>
+        <div className='community-curator' id={'block-'+attributes.blockClientId}>
           <div className="community-curator-header">
             <RichText.Content
                 tagName='h2'
@@ -460,7 +465,7 @@
                         <div className="item-list-main">
                           <div className="item-list-wrap">
                             <style>
-                            {`.grid-list .item.active .left{background:${attributes.ThumbBgColor}}`}
+                            {`#block-${attributes.blockClientId} .grid-list .item.active .left{background:${attributes.ThumbBgColor}}`}
                             </style>
                             <div className='left'>
                               {data.media ? (

@@ -47,6 +47,7 @@
           title: '',
           subTitle: '',
           date: '',
+          shortcode: '',
           buttonText: '<a href="#" class="btn">Watch</a>'
         }
       }
@@ -344,7 +345,41 @@
                     />
                   </Fragment>
                 )}
-                {data.option !== 'option-6' && (
+                {data.option == 'option-2' && (
+                  <div className="bottom-container">
+                    <RichText
+                      tagName='div'
+                      placeholder={__('Add Shortcode')}
+                      value={data.shortcode}
+                      keepPlaceholderOnFocus='true'
+                      className='shortcode-wrap'
+                      onChange={value => {
+                        value = value.replace(/&lt;!--td.*}--><br>/, '')
+                        value = value.replace(/<br>.*}<br>/, '')
+                        value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                        let arrayCopy = [...dataArray]
+                        arrayCopy[index].shortcode = value
+                        setAttributes({ dataArray: arrayCopy })
+                      }}
+                    />
+                    <RichText
+                      tagName='div'
+                      placeholder={__('Learn More')}
+                      value={data.buttonText}
+                      keepPlaceholderOnFocus='true'
+                      className='button-wrap'
+                      onChange={value => {
+                        value = value.replace(/&lt;!--td.*}--><br>/, '')
+                        value = value.replace(/<br>.*}<br>/, '')
+                        value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                        let arrayCopy = [...dataArray]
+                        arrayCopy[index].buttonText = value
+                        setAttributes({ dataArray: arrayCopy })
+                      }}
+                    />
+                  </div>
+                )}
+                {( data.option !== 'option-6' && 'option-2' !== data.option ) && (
                   <RichText
                     tagName='div'
                     placeholder={__('Learn More')}
@@ -595,7 +630,23 @@
                           />
                         </Fragment>
                       )}
-                      {data.option !== 'option-6' && (
+                      {data.option == 'option-2' && (
+                        <div className="bottom-container">
+                          {data.shortcode &&
+                            <RichText.Content
+                              tagName='div'
+                              value={data.shortcode}
+                              className='shortcode-wrap'
+                            />
+                          }
+                          <RichText.Content
+                            tagName='div'
+                            value={data.buttonText}
+                            className='button-wrap'
+                          />
+                        </div>
+                      )}
+                      {(data.option !== 'option-6' && data.option !== 'option-2') && (
                         <RichText.Content
                           tagName='div'
                           value={data.buttonText}
