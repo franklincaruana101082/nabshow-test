@@ -172,8 +172,8 @@ $settings = bp_email_get_appearance_settings();
 		}
 		/* BUTTON */
 		.welcome{font-family:'Open Sans',sans-serif;}
-		.button-container{margin:auto;}
-		.button{padding:10px 30px;background-color:#e5018b;font-family:'Open Sans',sans-serif;color:white;font-size:15px;line-height:1;font-weight:bold;text-transform:uppercase;letter-spacing:2px;text-align:center;border-radius:10px;text-decoration:none;}
+		.button-container{text-align:center;display:inline-block;width:100%;margin: 30px 0 0;}
+		.button{padding:10px 30px;background-color:#e5018b;font-family:'Open Sans',sans-serif;color:white!important;font-size:15px;line-height:1;font-weight:bold;text-transform:uppercase;letter-spacing:2px;text-align:center;border-radius:10px;text-decoration:none;}
 		.footer_text{margin-bottom:15px;display:block;font-family:'Open Sans',sans-serif;}
 		.footer_text a{color:#fdd80f!important;font-family:'Open Sans',sans-serif;}
 		.header-logo{width:250px;max-width:90%;}
