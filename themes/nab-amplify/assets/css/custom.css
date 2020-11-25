@@ -1486,7 +1486,8 @@ body .is_friend .remove:before{font-size:22px;}
 .reaction-wrapper ul li a,
 .user-reacted-item ul li a{display:inline-block;line-height:normal;}
 .reaction-wrapper ul li img,
-.user-reacted-item ul li img{display:block;box-shadow: 0 0 4px 0px rgb(0 0 0 / 0.5);border-radius: 50%;;}
+.user-reacted-item ul li img{display:block;box-shadow: 0 0 4px 0px rgb(0 0 0 / 0.5);border-radius: 50%;}
+.user-reacted-item ul li img{width:26px;}
 .user-reacted-item{display:flex;justify-content:flex-start;align-items:center;}
 .user-reacted-item .reacted-list{margin-right:15px;}
 .user-reacted-item .reacted-list li{margin:0 -2px;}
