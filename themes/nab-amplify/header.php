@@ -34,95 +34,100 @@
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'nab-amplify' ); ?></a>
 
 	<header id="masthead" class="site-header">
-		<div class="container">
-			<div class="header-inner">
-				<div class="nab-logos">
-					<?php if ( have_rows( 'nab_logos', 'option' ) ): ?>
-						<ul>
-							<?php while ( have_rows( 'nab_logos', 'option' ) ): the_row();
-								$nab_logo_id   = get_sub_field( 'logos' );
-								$nab_logo_img  = wp_get_attachment_image_src( $nab_logo_id, 'medium' );
-								$nab_logo_url  = get_sub_field( 'logo_url' );
-								$nab_logo_link = ( isset( $nab_logo_url ) && ! empty( $nab_logo_url ) ) ? $nab_logo_url : '#';
-								if ( isset( $nab_logo_img ) && ! empty( $nab_logo_img ) ) { ?>
-									<li><a href="<?php echo esc_url( $nab_logo_link ); ?>"><img src="<?php echo esc_url( $nab_logo_img[0] ); ?>" alt="nab-logo"></a></li>
-								<?php }
-							endwhile; ?>
-						</ul>
-					<?php endif; ?>
-
-				</div>
-
-				<nav id="site-navigation" class="main-navigation">
-					<?php
-
-					if ( ! is_search() ) {
-						?>
-						<div class="nab-header-search">
-							<?php get_search_form(); ?>
-						</div>
-						<?php
-					}
-
-					$cart_page_url = wc_get_cart_url();
-
-					nab_get_bp_notification_menu();
-					?>
-					<div class="nab-header-cart">
-						<a href="<?php echo esc_url( $cart_page_url ); ?>"><i class="fa fa-shopping-cart"></i><?php esc_html_e( 'Cart', 'nab-amplify' ); ?></a>
-						<?php $header_cart_class = WC()->cart->get_cart_contents_count() > 0 ? '' : 'has-no-product'; ?>
-						<span class="nab-cart-count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+		<div class="header-top">
+			<div class="container">
+				<div class="header-inner">
+					<div class="nab-logos">
+						<a href="<?php echo get_site_url(); ?>">
+							<img src="<?php echo get_template_directory_uri(); ?>/assets/images/amp-logo.png" />
+						</a>
 					</div>
-					<div class="nab-profile-menu">
-						<?php
-						if ( is_user_logged_in() ) {
-							$current_user 		= wp_get_current_user();
-							$user_thumb   		= get_avatar_url( $current_user->ID );
-							$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
-							$user_full_name = $current_user->display_name;							
 
-							if ( empty( trim( $user_full_name ) ) ) {
-								$user_full_name = get_the_author_meta( 'first_name', $current_user->ID ) . ' ' . get_the_author_meta( 'last_name', $current_user->ID );
-							}
+					<nav id="site-navigation" class="main-navigation">
+						<div class="nab-profile-menu">
+							<?php
+							if ( is_user_logged_in() ) {
+								$current_user 		= wp_get_current_user();
+								$user_thumb   		= get_avatar_url( $current_user->ID );
+								$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
+								$user_full_name = $current_user->display_name;							
 
-							?>
-							<div class="nab-profile">
-                                <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
-								    <div class="nab-avatar-wrp">
-                                        <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"/></div>
-                                        <span class="nab-profile-name"><?php echo $user_full_name; ?></span>
-								    </div>
-                                </a>
-								<div class="nab-profile-dropdown">
+								if ( empty( trim( $user_full_name ) ) ) {
+									$user_full_name = get_the_author_meta( 'first_name', $current_user->ID ) . ' ' . get_the_author_meta( 'last_name', $current_user->ID );
+								}
+
+								?>
+								<div class="nab-profile">
+	                                <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
+									    <div class="nab-avatar-wrp">
+	                                        <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"/></div>
+	                                        <span class="nab-profile-name"><?php echo $user_full_name; ?></span>
+									    </div>
+	                                </a>
+									<div class="nab-profile-dropdown">
+										<ul>
+											<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'Profile', 'nab-amplify' ); ?></a></li>										
+											<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'Connections', 'nab-amplify' ); ?></a></li>											
+											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'Access My Content', 'nab-amplify' ); ?></a></li>
+											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a></li>
+											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-bookmarks' ) ); ?>"><?php esc_html_e( 'Bookmarks', 'nab-amplify' ); ?></a></li>
+											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit Account', 'nab-amplify' ); ?></a></li>
+											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) . 'billing/' ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a></li>
+	                                        <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
+										</ul>
+									</div>
+								</div>
+							<?php } else { ?>
+								<div class="nab-profile nab-sign-in">
+									<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+								</div>
+							<?php } ?>
+						</div>
+						<div class="nab-header-cart">
+							<a href="<?php echo esc_url( $cart_page_url ); ?>"><i class="fa fa-shopping-cart"></i></a>
+							<?php $header_cart_class = WC()->cart->get_cart_contents_count() > 0 ? '' : 'has-no-product'; ?>
+							<span class="nab-cart-count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+						</div>
+						<div class="nab-logo-right">
+							<div class="nab-logo-right-inner">
+								<a href="javascript:void(0)"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/nabshows-logo-updated.png" /></a>
+								<div class="nab-logo-right-dropdown">
 									<ul>
-										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'Profile', 'nab-amplify' ); ?></a></li>										
-										<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'Connections', 'nab-amplify' ); ?></a></li>											
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'Access My Content', 'nab-amplify' ); ?></a></li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a></li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-bookmarks' ) ); ?>"><?php esc_html_e( 'Bookmarks', 'nab-amplify' ); ?></a></li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit Account', 'nab-amplify' ); ?></a></li>
-										<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) . 'billing/' ); ?>"><?php esc_html_e( 'Edit Address', 'nab-amplify' ); ?></a></li>
-                                        <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Logout', 'nab-amplify' ); ?></a></li>
+										<li><a href="http://amplify.nabshow.com">NAB Amplify</a></li>
+										<li><a href="https://nabshow.com/2020/">NAB Show</a></li>
+										<li><a href="https://nabshow.com/ny2020">NAB Show New York</a></li>
 									</ul>
 								</div>
 							</div>
-						<?php } else { ?>
-							<div class="nab-profile">
-								<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
-							</div>
-						<?php } ?>
-					</div>
-				</nav><!-- #site-navigation -->
+						</div>
+					</nav><!-- #site-navigation -->
 
+				</div>
 			</div>
 		</div>
 
 		<div class="header-bottom">
 			<div class="container">
-				<ul>
-					<!--                    <li><a href="#">Learn</a></li>-->
-					<!--                    <li><a href="#">Exhibit/Sponsor</a></li>-->
-				</ul>
+				<div class="header-bottom-inner">
+					<div class="nab-logos">
+						<a href="javascript:void(0)">
+							<img src="<?php echo get_template_directory_uri(); ?>/assets/images/serendipity-logo.png" />
+						</a>
+					</div>
+					<?php
+						if ( ! is_search() ) {
+							?>
+							<div class="nab-header-search">
+								<?php get_search_form(); ?>
+							</div>
+							<?php
+						}
+
+						$cart_page_url = wc_get_cart_url();
+
+						nab_get_bp_notification_menu();
+					?>
+				</div>
 			</div>
 		</div>
 	</header><!-- #masthead -->
