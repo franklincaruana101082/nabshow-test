@@ -266,7 +266,9 @@ get_header();
 						$form_page_url = get_the_permalink();
 						?>
                         <div class="form-confirmation">
-                            <p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>
+                            <!--<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>-->
+                            <h2>Download Now</h2>
+                            <div data-bynder-widget="media-item" data-media-id="0324E68A-D2E0-4BA0-82F49FC44CE3DAB9" data-title="false" data-lightbox="true" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
 							<p>Thank you for your interest. We'll connect with you soon.</p>
                             <p><a href="<?php echo esc_url( $form_page_url ); ?>">Return to the Form</a></p>
                         </div>
