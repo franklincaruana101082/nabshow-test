@@ -145,15 +145,15 @@ p{font-size:16px;color:#404040}
 /* Header css */
 .site-header{background:#404040;position:relative;z-index:10}
 .site-header .header-inner{padding:20px 0 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
-.site-header .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex;width:30%;}
+.site-header .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex;width:40%;}
 .site-header .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
 .site-header .nab-logos ul li{margin-right:15px;padding-right:15px;border-right:1px solid #ccc;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 .site-header .nab-logos ul li:last-child{border-right:0;margin-right:0;padding-right:0;}
 .site-header .nab-logos ul li a{display:-webkit-box;display:-ms-flexbox;display:flex}
 .site-header .nab-logos img{max-width:100%;max-height:50px;width:150px}
-.site-header .main-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:70%;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;}
+.site-header .main-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:60%;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;}
 .site-header .nab-header-search .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;margin-right:20px;}
-.site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;width:400px;max-width:100%;height:40px;border:1px solid #666;padding:0 50px 0 20px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
+.site-header .nab-header-search .search-form .search-field{background:#666;color:#fff;width:300px;max-width:100%;height:40px;border:1px solid #666;padding:0 50px 0 20px;font-size:16px;line-height:1;border-radius:0;outline:none;border-radius:20px;}
 .site-header .nab-header-search .search-form .search-field::placeholder{color:#ccc;font-weight:600;}
 .site-header .nab-header-search .search-form .search-field::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
 .site-header .nab-header-search .search-form .search-submit{position:absolute;right:15px;top:0;bottom:0;border:0;padding:0;width:30px;height:40px;font-size:0;background:url(../images/header-search-icon.svg) no-repeat center;background-size:20px;cursor:pointer;}
