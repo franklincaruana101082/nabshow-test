@@ -334,6 +334,7 @@
 	.my-purchased-content.shows-list .wp-summary .item-inner{width:275px;}
 }
 @media (max-width:480px) {
+	.site-header .nab-logos{margin-bottom:20px;}
 	.site-header .nab-logos ul{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.site-header .nab-logos ul li{margin-left:10px;margin-bottom:15px;border-right:0;padding-right:0;}
 
