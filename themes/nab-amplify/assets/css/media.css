@@ -68,9 +68,9 @@
 }
 @media (max-width:1080px){
 	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:30px}
-	.site-header .nab-logos img{max-height:inherit;}
+	.site-header .nab-logos img{max-height:inherit;width:120px;}
 	.site-header .main-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
-	.site-header .header-inner{padding:30px 0 10px 0}
+	.site-header .header-inner{padding:30px 0;}
 }
 @media (max-width:1024px){
 	.site-header .nab-header-search .search-form .search-field{width:220px;}
@@ -158,6 +158,11 @@
 }
 
 @media (max-width:767px){
+	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
+	.site-header .nab-header-search{width:100%;}
+	.site-header .nab-header-search .search-form{max-width:300px;margin:0 auto 20px;}
+	.site-header .nab-header-search .search-form .search-field{width:100%;}
+	.site-header .nab-header-search .search-form label{width:100%;}
 	.notification-sub-wrapper{right:auto;left:0;}
 	.notification-sub-wrapper ul:before{right:auto;left:0;}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:100%}
@@ -265,11 +270,6 @@
 	.nab-custom-select .chosen-container-single .chosen-single div{right:15px;}
 }
 @media (max-width:600px){
-	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
-	.site-header .nab-header-search{width:100%;}
-	.site-header .nab-header-search .search-form{max-width:300px;margin:0 auto 20px;}
-	.site-header .nab-header-search .search-form .search-field{width:100%;}
-	.site-header .nab-header-search .search-form label{width:100%;}
 	.site-footer .footer-inner>div{width:100%!important;margin:0 0 30px 0!important;-webkit-box-ordinal-group:initial!important;-ms-flex-order:initial!important;order:initial!important;text-align:center!important;padding:0!important}
 	.site-footer .footer-inner .socials{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
 	.site-footer{padding-bottom:50px}
@@ -334,6 +334,10 @@
 	.my-purchased-content.shows-list .wp-summary .item-inner{width:275px;}
 }
 @media (max-width:480px) {
+	.site-header .nab-logos ul{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.site-header .nab-logos ul li{margin-left:10px;margin-bottom:10px;}
+	.site-header .nab-logos ul li:nth-child(even){border-right:0;}
+
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}
 
 	/* attendee view popup */
