@@ -335,8 +335,7 @@
 }
 @media (max-width:480px) {
 	.site-header .nab-logos ul{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
-	.site-header .nab-logos ul li{margin-left:10px;margin-bottom:10px;}
-	.site-header .nab-logos ul li:nth-child(even){border-right:0;}
+	.site-header .nab-logos ul li{margin-left:10px;margin-bottom:15px;border-right:0;padding-right:0;}
 
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}
 
