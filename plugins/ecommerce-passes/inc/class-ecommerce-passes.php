@@ -23,6 +23,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             //Action for add setting page
             add_action( 'admin_menu', array( $this, 'ep_add_prodcut_setting_page' ) );
 
+            //Add segment code
+            add_action( 'wp_head', array( $this, 'ep_add_segment_code_in_header' ) );
+
             //Filter to restrict the content
             add_filter( 'the_content', array( $this, 'ep_restrict_post_content' ), 9999 );
 
@@ -108,6 +111,10 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 $parent_site_url = rtrim( $parent_site_url, '/') . '/';
                 update_option( 'ep_parent_site_url', $parent_site_url );
             }
+            if ( isset( $_POST[ 'ep_segment_code' ] ) ) {
+
+                update_option( 'ep_segment_code', $_POST[ 'ep_segment_code' ] );                
+            }
             ?>
             <div class="ep-product-settings">
                 <h2>Ecommerce Passes Settings</h2>
@@ -121,11 +128,37 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                 <input type="text" name="parent_site_url" id="parent-site-url" value="<?php echo esc_attr( get_option( 'ep_parent_site_url' ) ); ?>" class="regular-text" required/>
                             </td>
                         </tr>
+                        <tr>
+                            <th>
+                                <label for="ep_segment_code">Segment Code:</label>                                
+                            </th>
+                            <td>
+                                <?php
+                                $segment_code = str_replace( '\"', '"', get_option( 'ep_segment_code' ) );
+
+                                wp_editor( $segment_code, 'ep_segment_code', array( 'tinymce' => false ) );
+                                ?>                                
+                            </td>
+                        </tr>
                     </table>
                     <?php submit_button("Save Changes"); ?>
                 </form>
             </div>
             <?php
+        }
+
+        /**
+         * Add segment code in the header.
+         */
+        public function ep_add_segment_code_in_header() {
+
+            $segment_code = get_option( 'ep_segment_code' );
+            
+            if ( ! empty( $segment_code ) ) {
+
+                echo str_replace( '\"', '"', get_option( 'ep_segment_code' ) );
+            }
+            
         }
 
         /**
