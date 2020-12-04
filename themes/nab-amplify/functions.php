@@ -241,7 +241,7 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 )
 
 /* Load Gutenberg in custom post types */
 if ( function_exists( 'wpcom_vip_load_gutenberg' ) ) {
-    wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'articles', 'wp_block' ] ] );
+    wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'articles', 'wp_block', 'company', 'company-products' ] ] );
 }
 
 /**
