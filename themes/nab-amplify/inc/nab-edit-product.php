@@ -77,7 +77,7 @@ print_r($post);
 							
 							</div>
 							<div class="form-row">
-								<label for=""><span>Acceptable File Types: .pdf. .doc, .docx. .ppt, .pptx. .xls, .xlsx, .mp3, .mp4, .mov, .jpg, .png, .jpg</span></label>
+								<label for=""><span>Media : Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
 									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
