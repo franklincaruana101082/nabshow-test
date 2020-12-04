@@ -69,11 +69,15 @@
     .nab-header-secondary .header-inner{padding:30px 0 10px 0}
 	.nab-header-secondary .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:30px}
 	.nab-header-secondary .nab-sec-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
+	.site-header .nab-logos img{max-height:inherit;width:120px;}
 }
 @media (max-width:767px){
 	.nab-header-secondary .nab-logos ul li{padding-right:10px;margin-right:10px}
-	
 }
 @media (max-width:567px){
 	.nab-header-secondary .nab-logos img{max-width:100%;}
+}
+@media (max-width:480px){
+	.nab-header-secondary .nab-logos ul{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.nab-header-secondary .nab-logos ul li{margin-left:10px;margin-bottom:15px;border-right:0;padding-right:0;}
 }
