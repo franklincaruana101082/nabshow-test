@@ -90,7 +90,7 @@ while (have_posts()):
 											<ul>
 												<?php foreach ($product_specs as $spec) {
                                                         ?>
-											<li><?php echo $spec; ?></li>
+											<li><?php echo strip_tags($spec); ?></li>
 											<?php
                                                     } ?>
 											</ul>
