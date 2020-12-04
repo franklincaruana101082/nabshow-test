@@ -75,9 +75,9 @@
 	.nab-header-secondary .nab-logos ul li{padding-right:10px;margin-right:10px}
 }
 @media (max-width:567px){
-	
+	.nab-header-secondary .nab-logos ul{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.nab-header-secondary .nab-logos ul li{margin-left:10px;margin-bottom:15px;border-right:0;padding-right:0;}	
 }
 @media (max-width:480px){
-	.nab-header-secondary .nab-logos ul{-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
-	.nab-header-secondary .nab-logos ul li{margin-left:10px;margin-bottom:15px;border-right:0;padding-right:0;}
+	
 }
