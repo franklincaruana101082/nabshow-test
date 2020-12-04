@@ -77,8 +77,8 @@ while (have_posts()):
 			                                    <p><?php echo get_the_author_meta('description', get_the_author_ID()); ?></p>
 			                                    <div class="action-wrap">
 			                                        <div><a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>" class="btn-link">View author profile</a></div>
-			                                        <div><a href="<?php echo get_the_permalink(get_field('product_company')); ?>" class="btn-link">View company profile</a></div>
-			                                        <div><?php echo nab_get_company_message_button(get_field('product_company'), 'Message Point of Contact'); ?></div>
+			                                        <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="btn-link">View company profile</a></div>
+			                                        <div><?php echo nab_get_company_message_button(get_field('nab_selected_company_id'), 'Message Point of Contact'); ?></div>
 			                                    </div>
 			                                </div>
 			                            </div>
