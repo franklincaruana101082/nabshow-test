@@ -114,7 +114,7 @@ if ( empty( $redirect_url ) ) {
 							</div>
 						</div>
 						<div class="nab-signup-now">
-						<h4 class="text-transform-initial">We’re launching a brand new, amplified NAB experience where events will take place and other content will be hosted. Event registration will take place through this new platform and your NAB Amplify account will allow you to access NAB Show New York, Radio Show and SMTE.</h4>
+						<h4 class="text-transform-initial">Sign up for an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 
 							<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 								$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
@@ -122,7 +122,6 @@ if ( empty( $redirect_url ) ) {
 								$my_account_url = wc_get_page_permalink( 'myaccount' );
 							} ?>
 
-<br />
 							<h4 class="text-transform-initial"><?php esc_html_e( 'Already have an account?' ); ?> <a
 										href="<?php echo esc_url( $my_account_url ); ?>"><?php esc_html_e( 'Sign In', 'woocommerce' ); ?></a></h4>
 							<br /><br />

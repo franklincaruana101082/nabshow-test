@@ -98,13 +98,15 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
 							$member_id              = bp_get_member_user_id();
 							$attendee_company       = get_user_meta( $member_id, 'attendee_company', true );
 							$attendee_title         = get_user_meta( $member_id, 'attendee_title', true );
+							$connection_messages    = get_user_meta( $member_id, 'connection_messages', true );
+							$connection_messages    = $connection_messages[ $current_user_id ];
 							$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
 							$user_images            = nab_amplify_get_user_images( $member_id );
-							$user_full_name         = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+							$user_full_name = bp_get_member_name();
+							$friendship_status = friends_check_friendship_status($current_user_id, $member_id);
 
 							if ( empty( trim( $user_full_name ) ) ) {
-
-								$user_full_name = bp_get_member_name();
+								$user_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
 							}
 							?>
                             <div class="amp-item-col">
@@ -123,7 +125,11 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
                                             <h4>
                                                 <a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
                                             </h4>
-                                            <span class="company-name"><?php echo esc_html( $attendee_title_company ); ?></span>
+                                            <?php if( ! empty($attendee_title_company) ) { ?>
+                                                <p class="company-name"><?php echo esc_html( $attendee_title_company ); ?></p>
+                                            <?php } if( 'awaiting_response' === $friendship_status ) { ?>
+                                                <p class="request-message">Message: <?php echo esc_html( $connection_messages ); ?></p>
+                                            <?php } ?>
                                             <div class="amp-actions">
 												<?php
 												echo nab_amplify_bp_get_friendship_button( $member_id ); ?>

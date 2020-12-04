@@ -76,7 +76,7 @@ function nab_customising_checkout_fields( $address_fields ) {
 /**
  * Remove mandatory fields validation
  *
- * @param $billing_fields
+ * @param array $billing_fields Billing fields.
  *
  * @return mixed
  */
@@ -106,7 +106,7 @@ function nab_custom_billing_fields( $billing_fields ) {
 /**
  * Orders page sorting
  *
- * @param $args
+ * @param array $args Orders query arguments.
  *
  * @return array
  */
@@ -146,8 +146,8 @@ function nab_my_orders_columns( $columns ) {
 /**
  * Filter for Avatar HTML.
  *
- * @param $avatar_html
- * @param $id_or_email
+ * @param string $avatar_html Avatar HTML.
+ * @param mixed $id_or_email ID or email address.
  * @param $size
  * @param $default
  * @param $alt
@@ -157,8 +157,14 @@ function nab_my_orders_columns( $columns ) {
 function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $default, $alt ) {
 
 	if ( ! is_int( $id_or_email ) ) {
+
+		if ( is_object( $id_or_email ) && isset( $id_or_email->comment_author_email ) ) {
+			$id_or_email = $id_or_email->comment_author_email;
+		}
+
 		$user        = get_user_by( 'email', $id_or_email );
 		$id_or_email = $user->ID;
+
 	}
 
 	$user_image_id = get_user_meta( $id_or_email, 'profile_picture', true );
@@ -173,8 +179,8 @@ function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $defa
 /**
  * Filter for Avatar URL.
  *
- * @param $url
- * @param $id_or_email
+ * @param string $url Avatar URL.
+ * @param mixed $id_or_email ID or email address.
  * @param $args
  *
  * @return mixed Filtered Avatar URL.
@@ -194,6 +200,8 @@ function filter_nab_amplify_get_avatar_url( $url, $id_or_email, $args ) {
 }
 
 /**
+ * Customize Menu Query variables.
+ *
  * @param array $vars List of vars.
  *
  * @return mixed Updated List of vars.
@@ -209,6 +217,8 @@ function nab_amplify_custom_menu_query_vars( $vars ) {
 }
 
 /**
+ * Update My Account Menu items.
+ *
  * @param array $items My Account Menu items.
  *
  * @return array|string[] Updated My Account Menu items.
@@ -231,15 +241,6 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 		+ array( 'my-bookmarks' => __( 'Bookmarks', 'nab-amplify' ) )
 		+ array( 'edit-account' => __( 'Edit Account', 'nab-amplify' ) )
 		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );
-	
-	$current_user	= wp_get_current_user();
-	$is_member		= in_array( 'nab_member', (array) $current_user->roles );
-	
-	if ( ! $is_member ) {
-
-		unset( $items[ 'messages' ] );
-		unset( $items[ 'my-connections' ] );		
-	}
 
 	return $items;
 }
@@ -247,12 +248,12 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 /**
  * Used to set custom link in WooCommerce's My Account Menu's Item.
  *
- * @param $url
- * @param $endpoint
- * @param $value
- * @param $permalink
+ * @param string $url URL.
+ * @param string $endpoint Endpoint.
+ * @param string $value Value.
+ * @param string $permalink Permalink.
  *
- * @return string
+ * @return string Updated Endpoint URL.
  */
 function nab_amplify_woocommerce_get_endpoint_url( $url, $endpoint, $value, $permalink ) {
 	// Add Custom URL.
@@ -287,6 +288,8 @@ function nab_add_login_link_on_checkout_page() {
 }
 
 /**
+ * Replace "coupon" with "promo".
+ *
  * @param string $err message.
  *
  * @return string|string[] updated message.
@@ -298,17 +301,34 @@ function filter_nab_amplify_woocommerce_coupon_to_promo( $err ) {
 	return $err;
 }
 
+/**
+ * Replace "coupon" with "promo".
+ *
+ * @param string $coupon_html Coupon HTML.
+ *
+ * @return string|string[] Updated Coupon HTML.
+ */
 function filter_nab_amplify_woocommerce_cart_totals_coupon_html( $coupon_html ) {
 	$coupon_html = str_replace( 'Coupon', 'Promo', $coupon_html );
 
 	return $coupon_html;
 }
 
+/**
+ * Replace "coupon" with "promo".
+ *
+ * @param string $sprintf
+ * @param string $coupon
+ *
+ * @return string|string[]
+ */
 function nab_amplify_woocommerce_cart_totals_coupon_label( $sprintf, $coupon ) {
 	return str_replace( 'Coupon', 'Promo', $sprintf );
 }
 
 /**
+ * Hide Products on shop page having specific categories.
+ *
  * @param array $shop_query Products query array.
  *
  * @return array update query array.
@@ -329,6 +349,8 @@ function filter_nab_amplify_hide_shop_categories( $shop_query ) {
 }
 
 /**
+ * Update HTML of NAB Amplify Password Form.
+ *
  * @param string $output HTML of the password form.
  *
  * @return string updated HTML of the password form.
@@ -347,6 +369,8 @@ function nab_apmlify_the_password_form( $output ) {
 }
 
 /**
+ * Get the availability of the product and replace the text.
+ *
  * @param array $availability the availability of the product.
  *
  * @return string[] mixed Returns the availability of the product.
@@ -358,6 +382,8 @@ function nab_amplify_woocommerce_get_availability( $availability ) {
 }
 
 /**
+ * Change the availability status of the product.
+ *
  * @return array Array of stock label options.
  */
 function nab_amplify_woocommerce_product_stock_status_options() {
@@ -368,6 +394,8 @@ function nab_amplify_woocommerce_product_stock_status_options() {
 }
 
 /**
+ * Change the availability status of the product.
+ *
  * @param array $settings Settings array.
  *
  * @return mixed returns modified settings array.
@@ -383,6 +411,8 @@ function nab_amplify_woocommerce_inventory_settings( $settings ) {
 }
 
 /**
+ * Change the availability status of the product.
+ *
  * @param array $reports Reports array.
  *
  * @return mixed returns modified reports array.
@@ -394,6 +424,8 @@ function nab_amplify_woocommerce_admin_reports( $reports ) {
 }
 
 /**
+ * Change the availability status of the product.
+ *
  * @param string $stock_html HTML of product availability label.
  *
  * @return string|string[] returns updated HTML of product availability label.
@@ -470,6 +502,10 @@ function nab_pppf_comment2_parameter( $customer_note, $order ) {
 
 /**
  * Update the checkout page form fields.
+ *
+ * @param array $fields Checkout page fields.
+ *
+ * @return mixed Updated fields.
  */
 function nab_amplify_woocommerce_checkout_fields( $fields ) {
 
@@ -979,6 +1015,17 @@ function nab_remove_shipping_address( $adresses ) {
 }
 
 /**
+ * Change the size of product image.
+ *
+ * @param string $size
+ *
+ * @return string
+ */
+function nab_single_product_archive_thumbnail_size( $size ) {
+	return 'full';
+}
+
+/**
  * Added bookmark icon in the product detail page.
  *
  * @param string $html
@@ -997,4 +1044,18 @@ function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
 	$html .= ob_get_clean();
 
 	return $html;
+}
+
+/**
+ * Remove comment form fields.
+ *
+ * @param  array $fields
+ */
+function nab_remove_comment_form_field( $fields ) {
+
+	unset( $fields[ 'author' ] );
+    unset( $fields[ 'email' ] );
+	unset( $fields[ 'url' ] );
+
+    return $fields;
 }

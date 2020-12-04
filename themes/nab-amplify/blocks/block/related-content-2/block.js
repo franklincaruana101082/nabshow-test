@@ -1,4 +1,4 @@
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   const { __ } = wpI18n
   const { registerBlockType } = wpBlocks
   const { Fragment, Component } = wpElement
@@ -10,7 +10,7 @@
     TextControl,
     Tooltip,
     Button
-  } = wpComponents
+  } = wpComponents;
 
   class ItemComponent extends Component {
     componentDidMount () {
@@ -30,9 +30,9 @@
             index: dataArray.length,
             title: '',
             subTitle: '',
-            description: '',
-            select: false,
-            buttonText: '<a href="#" class="btn">Read More</a>'
+            description: '',            
+            buttonText: '<a href="#">Read More</a>',
+            shortcode: ''
           }
         ]
       })
@@ -99,15 +99,7 @@
                 }}
               ></span>
             </div>
-            <div className='inner'>
-              <span
-                className={`fa fa-bookmark-o amp-bookmark ${data.select ? 'bookmark-fill' : ''}`}
-                onClick={() => {
-                  let arrayCopy = [...dataArray]
-                  arrayCopy[index].select = data.select ? false : true
-                  setAttributes({ dataArray: arrayCopy })
-                }}
-              ></span>
+            <div className='inner'>              
               <RichText
                 tagName='h3'
                 placeholder={__('Title')}
@@ -138,21 +130,38 @@
                   setAttributes({ dataArray: arrayCopy })
                 }}
               />
-              <RichText
-                tagName='div'
-                placeholder={__('Learn More')}
-                value={data.buttonText}
-                keepPlaceholderOnFocus='true'
-                className='button-wrap'
-                onChange={value => {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '')
-                  value = value.replace(/<br>.*}<br>/, '')
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                  let arrayCopy = [...dataArray]
-                  arrayCopy[index].buttonText = value
-                  setAttributes({ dataArray: arrayCopy })
-                }}
-              />
+              <div className="bottom-container">
+                <RichText
+                  tagName='div'
+                  placeholder={__('Add Reactions')}
+                  value={data.shortcode}
+                  keepPlaceholderOnFocus='true'
+                  className='shortcode-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].shortcode = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+                <RichText
+                  tagName='div'
+                  placeholder={__('Read More')}
+                  value={data.buttonText}
+                  keepPlaceholderOnFocus='true'
+                  className='button-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].buttonText = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              </div>
             </div>
           </div>
         )
@@ -200,14 +209,13 @@
     save: props => {
       const { attributes } = props
       const { dataArray } = attributes
-
+      
       return (
         <Fragment>
           <div className='related-content-2'>
             {dataArray.map((data, index) => (
               <div className={`item`}>
-                <div className='inner'>
-                  <span className={`fa fa-bookmark-o amp-bookmark ${data.select ? 'bookmark-fill' : ''}`}></span>
+                <div className='inner'>                  
                   {data.title && (
                     <RichText.Content
                       tagName='h3'
@@ -222,11 +230,20 @@
                       className='sub-title'
                     />
                   )}
-                  <RichText.Content
-                    tagName='div'
-                    value={data.buttonText}
-                    className='button-wrap'
-                  />
+                  <div className="bottom-container">
+                    {data.shortcode &&
+                      <RichText.Content
+                        tagName='div'
+                        value={data.shortcode}
+                        className='shortcode-wrap'
+                      />
+                    }                  
+                    <RichText.Content
+                      tagName='div'
+                      value={data.buttonText}
+                      className='button-wrap'
+                    />
+                  </div>
                 </div>
               </div>
             ))}

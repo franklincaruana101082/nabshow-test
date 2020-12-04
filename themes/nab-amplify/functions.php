@@ -239,7 +239,7 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 )
 
 /* Load Gutenberg in custom post types */
 if ( function_exists( 'wpcom_vip_load_gutenberg' ) ) {
-    wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'articles' ] ] );
+    wpcom_vip_load_gutenberg( [ 'post_types' => [ 'page', 'articles', 'wp_block' ] ] );
 }
 
 /**
@@ -320,3 +320,18 @@ require get_template_directory() . '/inc/filter-functions.php';
  * Ajax Functions
  */
 require_once get_template_directory() . '/inc/ajax-functions.php';
+
+/**
+ * All the user reaction related functions.
+ */
+require_once get_template_directory() . '/inc/user-reaction.php';
+
+/**
+ * All the company follower related functions.
+ */
+require_once get_template_directory() . '/inc/company-follow.php';
+
+/**
+ * Extend wordpress default walker comment class.
+ */
+require_once get_template_directory() . '/classes/class-custom-walker-comment.php';

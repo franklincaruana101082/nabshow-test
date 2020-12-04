@@ -27,16 +27,16 @@ if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( '
 }
 
 if ( ! empty( $referer_url ) ) {
-	
-	$site_url = get_site_url();	
-	
+
+	$site_url = get_site_url();
+
 	if ( false === strpos( $referer_url , $site_url ) ) {
 
 		$url_parse 	= wp_parse_url( $referer_url );
 		$url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
 
 		if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
-			
+
 			$redirect_url = wc_get_page_permalink( 'myaccount' );
 
 			// setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
@@ -92,7 +92,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 							<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect_url ); ?>">
 						<?php } else { ?>
-							<input type="hidden" name="redirect" value="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
+							<input type="hidden" name="redirect" value="<?php echo esc_url( home_url() ); ?>">
 						<?php } ?>
 						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 						<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login"
@@ -122,8 +122,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		}
 		?>
 		<div class="nab-signup-now">
-		<h4 class="text-transform-initial">We’re launching a brand new, amplified NAB experience where events will take place and other content will be hosted. Event registration will take place through this new platform and your NAB Amplify account will allow you to access NAB Show New York, Radio Show and SMTE.</h4>
-		<br />
+		<h4 class="text-transform-initial">Sign in to your NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 			<h4 class="text-transform-initial">Don't have an account? <a href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign up</a> now.</h4>
 		</div>
 
