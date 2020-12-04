@@ -47,7 +47,7 @@ while (have_posts()):
             if (!empty($product_media['product_media_file'])) {
                 ?>
 			                            <div class="nab-preview-item">
-			                                <img src="<?php echo $product_media['product_media_file']['sizes']['nab-company-product-thumb']; ?>" alt="">
+			                                <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
 			                            </div>
 			                            <?php
     }
