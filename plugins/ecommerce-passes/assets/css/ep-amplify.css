@@ -4,7 +4,7 @@
 .nab-header-secondary .nab-logos{display:-webkit-box;display:-ms-flexbox;display:flex}
 .nab-header-secondary .nab-logos ul{list-style:none;margin:0;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex}
 .nab-header-secondary .nab-logos ul li{margin-right:20px;padding-right:20px;border-right:1px solid #ccc;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
-.nab-header-secondary .nab-logos ul li:last-child{border-right:0}
+.nab-header-secondary .nab-logos ul li:last-child{border-right:0;margin-right:0;padding-right:0;}
 .nab-header-secondary .nab-logos ul li a{display:-webkit-box;display:-ms-flexbox;display:flex}
 .nab-header-secondary .nab-logos img{max-width:120px;max-height:40px}
 .nab-header-secondary .nab-sec-navigation{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
@@ -72,8 +72,8 @@
 }
 @media (max-width:767px){
 	.nab-header-secondary .nab-logos ul li{padding-right:10px;margin-right:10px}
-	.nab-header-secondary .nab-logos img{max-width:100%;}
+	
 }
 @media (max-width:567px){
-	
+	.nab-header-secondary .nab-logos img{max-width:100%;}
 }
