@@ -282,7 +282,7 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 	if ( is_user_logged_in() ) {
 
 		$current_user    = wp_get_current_user();
-		$current_user_id = $current_user->ID;		
+		$current_user_id = $current_user->ID;
 		$member_profile  = bbp_get_user_profile_url( $member_id );
 
 
@@ -561,14 +561,16 @@ function nab_get_search_result_ad() {
 	?>
     <div class="nab-ad-wrap">
         <div class="nab-ad-inner">
-            <a href="#">
-                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/nab-search-banner.png' ); ?>" alt="banner"/>
-            </a>
+            <div class="nab-ad-block body_ad">
+                <broadstreet-zone zone-id="82836"></broadstreet-zone>
+            </div>
         </div>
     </div>
 	<?php
 
-	return ob_get_clean();
+	$html = ob_get_clean();
+
+	return $html;
 }
 
 
@@ -820,7 +822,7 @@ function nab_member_can_visible_to_anyone( $member_id ) {
 
 function nab_get_bp_notification_menu() {
 
-	if ( is_user_logged_in() ) {		
+	if ( is_user_logged_in() ) {
 		?>
 		<div class="nab-header-notification">
 			<?php
@@ -858,6 +860,6 @@ function nab_get_bp_notification_menu() {
 				</div>
 			</div>
 		</div>
-		<?php		
+		<?php
 	}
 }

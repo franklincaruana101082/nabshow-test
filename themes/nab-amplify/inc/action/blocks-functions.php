@@ -79,126 +79,121 @@ register_block_type(
  *
  * @since 1.0.0
  */
-function trendingactivity_render($attributes)
-{
+function trendingactivity_render( $attributes ) {
 
- global $wpdb;
- $post_type_count = count($attributes['checkedItems']);
- $html            = '';
+    global $wpdb;
+    $post_type_count    = count( $attributes['checkedItems'] );
+    $html               = '';
 
- if (!empty($attributes['checkedItems'])) {
-  $post_arr = [];
-  foreach ($attributes['checkedItems'] as $key => $post_type) {
-   $table_name      = $wpdb->prefix . 'nab_user_reations';
-   $prepare_sql     = $wpdb->prepare("SELECT COUNT(*) as total_reaction,post_id,post_type FROM `$table_name` WHERE post_type= '$post_type' group by post_id ORDER BY COUNT(*) DESC ");
-   $total_reactions = $wpdb->get_results($prepare_sql);
+    if ( ! empty( $attributes['checkedItems'] ) ) {
+        
+        $post_arr = [];
+        
+        foreach ( $attributes['checkedItems'] as $key => $post_type) {
+            
+            $table_name         = $wpdb->prefix . 'nab_user_reations';
+            $prepare_sql        = $wpdb->prepare("SELECT COUNT(*) as total_reaction,post_id,post_type FROM `$table_name` WHERE post_type= '$post_type' group by post_id ORDER BY COUNT(*) DESC ");
+            $total_reactions    = $wpdb->get_results($prepare_sql);
 
-   $post_count = return_post_count($post_type_count);
-   $post_arr[] = array_slice($total_reactions, 0, $post_count[$key]);
-  }
-  if (!empty($post_arr)) {
-   ob_start();?>
+            $post_count = return_post_count( $post_type_count );
+            $post_arr[] = array_slice( $total_reactions, 0, $post_count[$key] );
+        }
+        
+        if ( is_array( $post_arr ) && count( $post_arr ) > 0 ) {
+            
+            ob_start();
+            ?>
+            <div class="trending_activity_wrapper">
+                <?php
+                foreach ( $post_arr as $key => $post_ids ) {
+                    
+                    $content_class = 'company-products' ===  $post_ids[$key]->post_type ? 'related-content' : 'related-content-2';
+                    
+                    foreach ( $post_ids as $post ) {
+                        
+                        $post_data          = get_post( $post->post_id );
+                        $author_id          = $post_data->post_author;
+                        $total_reactions    = $post->total_reaction;
+                        $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url( $post_data->ID ) : nab_placeholder_img();
+                        
+                        if ($post->post_type === 'company-products') {
 
-<div id="trending_activity_wrapper">
-
-        <?php
-foreach ($post_arr as $key => $post_ids) {
-    if ($post_ids[$key]->post_type === 'nab-products') {
-     ?>
-
-     <div class="related-content">
-         <?php
-} else if ($post_ids[$key]->post_type === 'discover_content') {
-     ?>
-    <div class="related-content-2">
-    <?php
-}
-    foreach ($post_ids as $post) {
-     $post_data       = get_post($post->post_id);
-     $author_id       = $post_data->post_author;
-     $total_reactions = $post->total_reaction;
-     if ($post->post_type === 'nab-products') {
-
-      ?>
-    <div class="item option-5">
-            <div class="inner">
-                <div class="image">
-                    <?php
-if (has_post_thumbnail($post_data->ID)) {
-       ?>
-                    <img src="<?php echo get_the_post_thumbnail_url($post_data->ID, 'full'); ?>" alt="">
-                <?php } else {?>
-                    <img src="<?php echo get_the_post_thumbnail_url($post_data->ID, 'full'); ?>" alt="">
-                    <?php
-}?>
-                </div>
-                    <div class="related-content-wrap">
-                    <h2 class="title"><?php echo $post_data->post_title; ?></h2><strong class="sub-title"></strong>
-                    <div class="button-wrap">
-                    <div class="user-reacted-item">
-                <ul class="reacted-list">
-                    <?php nab_get_reacted_item_list($post_data->ID);?>
-                </ul>
-                <span class="react-count"><?php echo esc_html(0 < (int) $total_reactions ? $total_reactions : ''); ?></span>
+                            ?>
+                            <div class="<?php echo esc_attr( $content_class ); ?>">
+                                <div class="item option-5">
+                                    <div class="inner">
+                                        <div class="image">
+                                            <span class="fa fa-bookmark-o amp-bookmark "></span>
+                                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Item Thumbnail" />                                            
+                                        </div>
+                                        <div class="related-content-wrap">
+                                            <h2 class="title"><?php echo $post_data->post_title; ?></h2>
+                                            <strong class="sub-title"></strong>
+                                            <div class="button-wrap">
+                                                <div class="user-reacted-item">
+                                                    <ul class="reacted-list">
+                                                        <?php nab_get_reacted_item_list( $post_data->ID );?>
+                                                    </ul>
+                                                    <span class="react-count"><?php echo esc_html(0 < (int) $total_reactions ? $total_reactions : ''); ?></span>
+                                                </div>
+                                                <a href="<?php echo esc_url( get_post_permalink( $post->post_id ) ); ?>" class="btn">View Product</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="<?php echo esc_attr( $content_class ); ?>">
+                                <div class="item">
+                                    <div class="inner">
+                                        <h3 class="title"><?php echo $post_data->post_title; ?></h3>
+                                        <strong class="sub-title"><?php the_author_meta( 'user_nicename', $author_id );?> </strong>
+                                        <div class="button-wrap">
+                                            <div class="user-reacted-item">
+                                                <ul class="reacted-list">
+                                                    <?php nab_get_reacted_item_list( $post_data->ID );?>
+                                                </ul>
+                                                <span class="react-count"><?php echo esc_html(0 < (int) $total_reactions ? $total_reactions : ''); ?></span>
+                                            </div>
+                                            <a href="<?php echo esc_url( get_post_permalink( $post->post_id ) ); ?>" class="btn">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                }
+                ?>
             </div>
-                        <a href="<?php echo get_post_permalink($post->post_id); ?>" class="btn" data-feathr-click-track="true">View Product</a>
-                    </div>
-                </div>
-            </div>
-                    </div>
-    <?php
-} else {
-      ?>
-<div class="item">
-    <div class="inner">
-        <span class="fa fa-bookmark-o amp-bookmark ">
-
-        </span><h3 class="title"><?php echo $post_data->post_title; ?></h3>
-        <strong class="sub-title"><?php the_author_meta('user_nicename', $author_id);?> </strong>
-        <div class="button-wrap">
-        <div class="user-reacted-item">
-                <ul class="reacted-list">
-                    <?php nab_get_reacted_item_list($post_data->ID);?>
-                </ul>
-                <span class="react-count"><?php echo esc_html(0 < (int) $total_reactions ? $total_reactions : ''); ?></span>
-            </div>
-        <a href="<?php echo get_post_permalink($post->post_id); ?>" class="btn" data-feathr-click-track="true">Read More</a>
-    </div>
-</div>
-</div>
-<?php
-}
+            <?php
+            
+            $html = ob_get_contents();
+            ob_end_clean();
+        }
+    } else {
+        $html = 'Please select content type!';
     }
-    ?>
-</div>
-        <?php
-}?>
-</div>
-        <?php
-$html = ob_get_contents();
-   ob_end_clean();
-  }
- } else {
-  $html = 'Please select content type!';
- }
-
- return $html;
+    return $html;
 }
 
-function return_post_count($count)
-{
- $arr = array();
- if ($count === 1) {
-  $arr = array("0" => 4, "1" => 0, "2" => 0, "3" => 0);
- } else if ($count === 2) {
-  $arr = array("0" => 2, "1" => 2, "2" => 0, "3" => 0);
- } else if ($count === 3) {
-  $arr = array("0" => 2, "1" => 1, "2" => 1, "3" => 0);
- } else if ($count === 4) {
-  $arr = array("0" => 1, "1" => 1, "2" => 1, "3" => 1);
- }
+function return_post_count( $count ) {
+    
+    $arr = array();
+    
+    if ( $count === 1 ) {
+        $arr = array("0" => 4, "1" => 0, "2" => 0, "3" => 0);
+    } else if ( $count === 2 ) {
+        $arr = array("0" => 2, "1" => 2, "2" => 0, "3" => 0);
+    } else if ( $count === 3 ) {
+        $arr = array("0" => 2, "1" => 1, "2" => 1, "3" => 0);
+    } else if ( $count === 4 ) {
+        $arr = array("0" => 1, "1" => 1, "2" => 1, "3" => 1);
+    }
 
- return $arr;
+    return $arr;
 }
 
 function nab_register_amplify_dynamic_blocks() {
@@ -350,11 +345,13 @@ function nab_company_details_render_callback( $attributes ) {
 
 function nab_company_produts_render_callback( $attributes ) {
     
+    global $post;
+    
     $posts_per_page     = isset( $attributes[ 'itemToFetch' ] ) && $attributes[ 'itemToFetch' ] > 0 ? $attributes[ 'itemToFetch' ] : 4;
-    $company_category   = isset( $attributes[ 'companyCategory' ] ) && ! empty( $attributes[ 'companyCategory' ] ) ? $attributes[ 'companyCategory' ] : array();
     $display_order      = isset( $attributes[ 'displayOrder' ] ) && ! empty( $attributes[ 'displayOrder' ] ) ? $attributes[ 'displayOrder' ] : 'DESC';
     $class_name         = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';    
     $is_company_admin   = false;
+    $company_id         = $post->ID;
 
     if ( is_user_logged_in() ) {
         
@@ -375,20 +372,10 @@ function nab_company_produts_render_callback( $attributes ) {
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
         'orderby'           => 'date',
-        'order'             => $display_order
+        'order'             => $display_order,
+        'meta_key'		=> 'nab_selected_company_id',
+	    'meta_value'	=> $company_id
     );
-
-    if ( is_array( $company_category ) && count( $company_category ) > 0 ) {
-    
-        
-        $query_args[ 'tax_query' ] = array(
-            array(
-                'taxonomy' => 'company-category',
-                'field'    => 'slug',
-                'terms'    => $company_category,
-            )
-        );        
-    }
 
     $product_query = new WP_Query( $query_args );    
 
@@ -420,7 +407,7 @@ function nab_company_produts_render_callback( $attributes ) {
                         <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
                                 <div class="add-item-wrap">
-                                    <i class="add-item-icon fa fa-pencil"></i>
+                                    <i class="action-edit add-item-icon fa fa-pencil"></i>
                                     <span class="add-item-label">Add Product</span>
                                 </div>
                             </div>
@@ -434,7 +421,8 @@ function nab_company_produts_render_callback( $attributes ) {
 
                         $thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
                         $product_link	    = get_the_permalink();
-                        $product_category   = get_the_terms( get_the_ID(), 'company-category' );
+                        $product_category   = get_the_terms( get_the_ID(), 'company-product-category' );
+                 
                         ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
@@ -455,8 +443,15 @@ function nab_company_produts_render_callback( $attributes ) {
                                         }
                                         ?>
                                         <div class="amp-actions">
-                                            <div class="search-actions">
+                                            <div class="search-actions nab-action">
                                                 <a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+                                                <?php
+                    if ( $is_company_admin ) {
+                        ?>
+                                                <div class="nab-action-row">
+										<i class="action-edit fa fa-pencil" data-id="<?php echo get_the_ID();?>"></i>
+                                    </div>
+                    <?php } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -479,31 +474,23 @@ function nab_company_produts_render_callback( $attributes ) {
 }
 
 function nab_company_events_render_callback( $attributes ) {
-
+    global $post;
+    
     $posts_per_page     = isset( $attributes[ 'itemToFetch' ] ) && $attributes[ 'itemToFetch' ] > 0 ? $attributes[ 'itemToFetch' ] : 4;
-    $company_category   = isset( $attributes[ 'companyCategory' ] ) && ! empty( $attributes[ 'companyCategory' ] ) ? $attributes[ 'companyCategory' ] : array();
     $display_order      = isset( $attributes[ 'displayOrder' ] ) && ! empty( $attributes[ 'displayOrder' ] ) ? $attributes[ 'displayOrder' ] : 'DESC';
     $class_name         = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';
+    $company_id         = $post->ID;
 
     $query_args = array (
         'post_type'         => 'tribe_events',
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
         'orderby'           => 'date',
-        'order'             => $display_order
+        'order'             => $display_order,
+        'meta_key'		=> 'nab_selected_company_id',
+	    'meta_value'	=> $company_id
     );
 
-    if ( is_array( $company_category ) && count( $company_category ) > 0 ) {
-    
-        
-        $query_args[ 'tax_query' ] = array(
-            array(
-                'taxonomy' => 'company-category',
-                'field'    => 'slug',
-                'terms'    => $company_category,
-            )
-        );        
-    }
 
     $event_query = new WP_Query( $query_args );    
 
@@ -583,30 +570,24 @@ function nab_company_events_render_callback( $attributes ) {
 
 function nab_company_content_render_callback( $attributes ) {
 
+    global $post;
+
     $posts_per_page     = isset( $attributes[ 'itemToFetch' ] ) && $attributes[ 'itemToFetch' ] > 0 ? $attributes[ 'itemToFetch' ] : 4;
-    $company_category   = isset( $attributes[ 'companyCategory' ] ) && ! empty( $attributes[ 'companyCategory' ] ) ? $attributes[ 'companyCategory' ] : array();
     $display_order      = isset( $attributes[ 'displayOrder' ] ) && ! empty( $attributes[ 'displayOrder' ] ) ? $attributes[ 'displayOrder' ] : 'DESC';
     $class_name         = isset( $attributes[ 'className' ] ) && ! empty( $attributes[ 'className' ] ) ? $attributes[ 'className' ] : '';
+    $company_id         = $post->ID;
 
     $query_args = array (
         'post_type'         => 'articles',
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
         'orderby'           => 'date',
-        'order'             => $display_order
+        'order'             => $display_order,
+        'meta_key'		=> 'nab_selected_company_id',
+	    'meta_value'	=> $company_id
+
     );
 
-    if ( is_array( $company_category ) && count( $company_category ) > 0 ) {
-    
-        
-        $query_args[ 'tax_query' ] = array(
-            array(
-                'taxonomy' => 'company-category',
-                'field'    => 'slug',
-                'terms'    => $company_category,
-            )
-        );        
-    }
 
     $content_query = new WP_Query( $query_args );    
 

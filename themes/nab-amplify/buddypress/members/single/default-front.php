@@ -113,7 +113,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 	</div>
 	<?php		
 	$product_args = array(
-		'post_type'      => 'nab-products',
+		'post_type'      => 'company-products',
 		'post_status'    => 'publish',
 		'posts_per_page' => 4,
 		'order'          => 'DESC'
@@ -273,7 +273,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 		if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
 			$bookmark_query_args = array(
-				'post_type'      => 'product',
+				'post_type'      => array( 'product', 'company-products' ),
 				'posts_per_page' => 4,
 				'post_status'    => 'publish',
 				'post__in'       => $member_bookmarks

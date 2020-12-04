@@ -13,7 +13,8 @@
         PanelBody,
         Button,
         ToggleControl,
-        SelectControl
+        SelectControl,
+        TextControl
     } = wpComponents
 
     registerBlockType('rg/feature', {
@@ -48,6 +49,14 @@
                 type: "string",
                 default: "",
             },
+            featureIconLink: {
+                type: 'url',
+                default: ''
+            },
+            featureIconLinkTarget: {
+                type: 'Boolean',
+                default: false
+            },
             featureStatusTitle: {
                 type: 'string',
                 default: ''
@@ -80,9 +89,9 @@
                 type: 'string',
                 default: '#fff'
             },
-            featureLike: {
+            shortcode: {
                 type: 'string',
-                default: '<a href="#" class="btn">Like</a>'
+                default: ''
             },
             featureLikeToggle: {
                 type: 'Boolean',
@@ -105,6 +114,8 @@
                 backgroundRepeat,
                 backgroundPosition,
                 featureIcon,
+                featureIconLink,
+                featureIconLinkTarget,
                 featureStatusTitle,
                 featureStatusColor,
                 featureTitle,
@@ -113,13 +124,14 @@
                 featureAuthorColor,
                 featureDisc,
                 featureDiscColor,
-                featureLike,
+                shortcode,
                 featureLikeToggle,
                 featureJoinBtn,
                 featureJoinToggle
             } = attributes;
 
             const backroundStyle = {};
+            const linkTarget = featureIconLinkTarget ? '_blank' : '_self';
             backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
             backgroundImage && (backroundStyle.backgroundImage = `url(${backgroundImage})`);
             backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
@@ -286,6 +298,22 @@
                                     setAttributes({featureJoinToggle});
                                 }}
                             />
+                            <TextControl
+                                value={featureIconLink}
+                                type="url"
+                                label="Play Button Link"
+                                placeholder="https://google.com/"
+                                onChange={(featureIconLink)=>{
+                                    setAttributes({featureIconLink});
+                                }}
+                            />
+                            <ToggleControl
+                                label="Open in new Tab"
+                                checked={featureIconLinkTarget}
+                                onChange={(featureIconLinkTarget)=>{
+                                    setAttributes({featureIconLinkTarget});
+                                }}
+                            />
                         </PanelBody>
                     </div>
                 </InspectorControls>,
@@ -305,7 +333,13 @@
                                                 onClick={open}
                                                 className='dashicons dashicons-edit edit-image'
                                             ></span>
-                                            <img src={featureIcon} alt="icon" />
+                                            {featureIconLink ? (
+                                                <a href={featureIconLink} target={linkTarget} rel="noopener noreferrer">
+                                                    <img src={featureIcon} alt="icon" />
+                                                </a>    
+                                            ):(
+                                                <img src={featureIcon} alt="icon" />
+                                            )}
                                             </Fragment>
                                         )
                                     } else {
@@ -371,10 +405,14 @@
                             {!featureLikeToggle && (
                                 <RichText
                                     tagName="div"
-                                    className="button-wrap btn-react"
-                                    value={featureLike}
-                                    onChange={(featureLike)=>{
-                                        setAttributes({featureLike});
+                                    placeholder={__('Add Reactions')}
+                                    className="shortcode-wrap"
+                                    value={shortcode}
+                                    onChange={(value)=>{
+                                        value = value.replace(/&lt;!--td.*}--><br>/, '')
+                                        value = value.replace(/<br>.*}<br>/, '')
+                                        value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                                        setAttributes({shortcode: value});
                                     }}
                                 />
                             )}
@@ -401,6 +439,8 @@
                 backgroundRepeat,
                 backgroundPosition,
                 featureIcon,
+                featureIconLink,
+                featureIconLinkTarget,
                 featureStatusTitle,
                 featureStatusColor,
                 featureTitle,
@@ -409,13 +449,14 @@
                 featureAuthorColor,
                 featureDisc,
                 featureDiscColor,
-                featureLike,
+                shortcode,
                 featureLikeToggle,
                 featureJoinBtn,
                 featureJoinToggle
             } = attributes;
 
             const backroundStyle = {};
+            const linkTarget = featureIconLinkTarget ? '_blank' : '_self';
             backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
             backgroundImage && (backroundStyle.backgroundImage = `url(${backgroundImage})`);
             backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
@@ -427,7 +468,11 @@
                     <div className="amp-feature-block-inner">
                         {featureIcon && (
                             <div className="feature-icon">
-                                <img src={featureIcon} alt="icon" />
+                                {featureIconLink ? (
+                                    <a href={featureIconLink} target={linkTarget} rel="noopener noreferrer"><img src={featureIcon} alt="icon" /></a>
+                                ):(
+                                    <img src={featureIcon} alt="icon" />
+                                )}
                             </div>
                         )}
                         <div className="amp-feature-content">
@@ -471,14 +516,11 @@
                                     className="feature-disc"
                                 />
                             )}
-                            {!featureLikeToggle && (
+                            {(!featureLikeToggle && shortcode) && (
                                 <RichText.Content
                                     tagName="div"
-                                    className="button-wrap btn-react"
-                                    value={featureLike}
-                                    onChange={(featureLike)=>{
-                                        setAttributes({featureLike});
-                                    }}
+                                    className="shortcode-wrap"
+                                    value={shortcode}
                                 />
                             )}
                             {!featureJoinToggle && (

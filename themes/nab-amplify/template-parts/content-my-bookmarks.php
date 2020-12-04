@@ -25,7 +25,7 @@ $member_bookmarks = get_user_meta( $user_id, 'nab_customer_product_bookmark', tr
 if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
     $bookmark_query_args = array(
-        'post_type'         => 'product',
+        'post_type'         => array( 'product', 'company-products' ),
         'posts_per_page'    => 12,
         'post_status'       => 'publish',
         'post__in'          => $member_bookmarks

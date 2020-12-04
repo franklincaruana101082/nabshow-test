@@ -157,8 +157,14 @@ function nab_my_orders_columns( $columns ) {
 function filter_nab_amplify_user_avtar( $avatar_html, $id_or_email, $size, $default, $alt ) {
 
 	if ( ! is_int( $id_or_email ) ) {
+
+		if ( is_object( $id_or_email ) && isset( $id_or_email->comment_author_email ) ) {
+			$id_or_email = $id_or_email->comment_author_email;
+		}
+
 		$user        = get_user_by( 'email', $id_or_email );
 		$id_or_email = $user->ID;
+
 	}
 
 	$user_image_id = get_user_meta( $id_or_email, 'profile_picture', true );
@@ -230,7 +236,7 @@ function nab_amplify_update_my_account_menu_items( $items ) {
 		+ array( 'orders' => __( 'Order History', 'nab-amplify' ) )
 		+ array( 'my-bookmarks' => __( 'Bookmarks', 'nab-amplify' ) )
 		+ array( 'edit-account' => __( 'Edit Account', 'nab-amplify' ) )
-		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );	
+		+ array( 'edit-address' => __( 'Edit Address', 'nab-amplify' ) );
 
 	return $items;
 }
@@ -970,6 +976,17 @@ function nab_remove_shipping_address( $adresses ) {
 }
 
 /**
+ * Change the size of product image.
+ *
+ * @param string $size
+ *
+ * @return string
+ */
+function nab_single_product_archive_thumbnail_size( $size ) {
+	return 'full';
+}
+
+/**
  * Added bookmark icon in the product detail page.
  *
  * @param string $html
@@ -988,4 +1005,18 @@ function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
 	$html .= ob_get_clean();
 
 	return $html;
+}
+
+/**
+ * Remove comment form fields.
+ *
+ * @param  array $fields 
+ */
+function nab_remove_comment_form_field( $fields ) {
+	
+	unset( $fields[ 'author' ] );
+    unset( $fields[ 'email' ] );
+	unset( $fields[ 'url' ] );
+	
+    return $fields;
 }

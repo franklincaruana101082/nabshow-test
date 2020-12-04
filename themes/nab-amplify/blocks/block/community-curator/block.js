@@ -35,6 +35,7 @@
             description: '',
             media: '',
             bgMedia: '',
+            shortcode: '',
             buttonText: '<a href="#" class="btn">Read More</a>'
           }
         ]
@@ -234,6 +235,21 @@
                         style={{
                           color:attributes.DescriptionColor
                       }}
+                      />
+                      <RichText
+                        tagName='div'
+                        placeholder={__('Add Reactions')}
+                        value={data.shortcode}
+                        keepPlaceholderOnFocus='true'
+                        className='shortcode-wrap'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].shortcode = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
                       />
                       <RichText
                         tagName='div'
@@ -439,6 +455,13 @@
                     }}
                   />
                 )}
+                {dataArray[0].shortcode &&
+                  <RichText.Content
+                    tagName='div'
+                    value={dataArray[0].shortcode}
+                    className='shortcode-wrap'
+                  />
+                }
                 {dataArray[0].buttonText && (
                   <RichText.Content
                     tagName='div'
@@ -505,6 +528,13 @@
                                   }}
                                 />
                               )}
+                              {data.shortcode &&
+                                <RichText.Content
+                                  tagName='div'
+                                  value={data.shortcode}
+                                  className='shortcode-wrap'
+                                />
+                              }
                               {data.buttonText && (
                                 <RichText.Content
                                   tagName='div'

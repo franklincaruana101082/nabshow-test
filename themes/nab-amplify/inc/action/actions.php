@@ -13,8 +13,13 @@ add_action( 'wp_enqueue_scripts', 'amplify_front_scripts' );
 /*Action for enqueue scripts for backend side.*/
 add_action( 'enqueue_block_editor_assets', 'amplify_block_editor_assets' );
 
+// Customizer settings
+add_action( 'customize_register', 'nab_customize_register' );
+
 /*Action for enqueue scripts for backend side.*/
 add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
+
+add_shortcode( 'nab_display_author', 'nab_amplify_display_author' );
 
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
@@ -165,6 +170,11 @@ add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 
  */
 
 add_action( 'wp_ajax_nab_add_product', 'nab_add_product' );
-add_action( 'wp_ajax_nopriv_nab_add_product', 'nab_add_product' ); 
+add_action( 'wp_ajax_nopriv_nab_add_product', 'nab_add_product' );
 add_action( 'init', 'nab_register_amplify_dynamic_blocks' );
 add_action( 'init', 'nab_register_company_category_taxonomy' );
+add_action( 'init', 'nab_register_company_tags_taxonomy' );
+// Action to add default blocks on new article
+add_action( 'admin_init', 'nab_set_default_block_in_new_article' );
+add_action( 'init', 'nab_register_company_product_taxonomy' );
+

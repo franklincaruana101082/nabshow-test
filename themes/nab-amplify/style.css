@@ -586,6 +586,7 @@ input[type="reset"]:focus,
 input[type="submit"]:active,
 input[type="submit"]:focus {
 	border-color: #aaa #bbb #bbb;
+	outline: none;
 }
 
 input[type="text"],
@@ -966,10 +967,4 @@ textarea {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 1.5em;
-}
-
-#nab-edit-product-form div {
-	float: left;
-    width: 100%;
-    margin-top: 10px
 }

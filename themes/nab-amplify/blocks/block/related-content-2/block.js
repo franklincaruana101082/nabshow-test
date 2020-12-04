@@ -133,7 +133,7 @@
               <div className="bottom-container">
                 <RichText
                   tagName='div'
-                  placeholder={__('Add Shortcode')}
+                  placeholder={__('Add Reactions')}
                   value={data.shortcode}
                   keepPlaceholderOnFocus='true'
                   className='shortcode-wrap'

@@ -1126,6 +1126,212 @@ function nab_member_search_filter_callback() {
 	wp_die();
 }
 
+//Ajax for company search.
+add_action( 'wp_ajax_nab_company_search_filter', 'nab_company_search_filter_callback' );
+add_action( 'wp_ajax_nopriv_nab_company_search_filter', 'nab_company_search_filter_callback' );
+
+/**
+ * Company search result filter ajax.
+ */
+function nab_company_search_filter_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$final_result 	= array();
+	$result_post	= array();
+
+	$page_number	= filter_input( INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit		= filter_input( INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
+	$search_term	= filter_input( INPUT_POST, 'search_term', FILTER_SANITIZE_STRING );	
+	$orderby		= filter_input( INPUT_POST, 'orderby', FILTER_SANITIZE_STRING );
+	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
+
+	$company_args = array(
+		'post_type' 		=> 'company',
+		'paged'				=> $page_number,
+		'post_status'		=> 'publish',
+		'posts_per_page' 	=> $post_limit,
+		's'					=> $search_term,
+	);
+
+	if ( 'date' !== $orderby ) {
+
+		$company_args[ 'orderby' ] 	= $orderby;
+		$company_args[ 'order' ]	= $order;
+
+	}	
+
+	$company_query = new WP_Query( $company_args );
+
+	$total_pages 	= $company_query->max_num_pages;
+	$total_company = $company_query->found_posts;
+
+	if ( $company_query->have_posts() ) {
+
+		$cnt 					= 0;		
+		$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
+		$user_logged_in			= is_user_logged_in();
+		$current_user_id		= $user_logged_in ? get_current_user_id() : '';
+		$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+
+		while ( $company_query->have_posts() ) {
+
+			$company_query->the_post();
+
+			$cover_image        = get_field( 'cover_image' );
+			$profile_picture    = get_field( 'profile_picture' );
+			$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
+			$profile_picture    = ! empty( $profile_picture ) ? $profile_picture[ 'url' ] : $default_company_pic;		
+			$company_url		= get_the_permalink();	
+
+			$result_post[ $cnt ][ 'cover_img' ] = $cover_image;
+			$result_post[ $cnt ][ 'link' ] 		= $company_url;
+			$result_post[ $cnt ][ 'title' ] 	= html_entity_decode( get_the_title() );
+			$result_post[ $cnt ][ 'profile' ] 	= $profile_picture;
+
+			ob_start();
+
+			if ( $user_logged_in ) {
+				nab_get_follow_button( get_the_ID(), $current_user_id, true );
+			} else {
+				?>
+				<div class="search-actions">
+					<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+				</div>
+				<?php
+			}
+
+			$button = ob_get_clean();
+
+			$result_post[ $cnt ][ 'button' ] = $button;
+
+			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
+
+				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
+
+			} else if ( 8 === $cnt + 1 ) {
+
+				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
+			}
+
+			$cnt++;
+		}
+
+	}
+	wp_reset_postdata();
+
+	$final_result[ 'next_page_number' ] = $page_number + 1;
+	$final_result[ 'total_page' ]       = $total_pages;
+	$final_result[ 'total_company' ]	= $total_company;
+	$final_result[ 'result_post' ]      = $result_post;
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+}
+
+//Ajax for company product search.
+add_action( 'wp_ajax_nab_company_product_search_filter', 'nab_company_product_search_filter_callback' );
+add_action( 'wp_ajax_nopriv_nab_company_product_search_filter', 'nab_company_product_search_filter_callback' );
+
+/**
+ * Company product search result filter ajax.
+ */
+function nab_company_product_search_filter_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$final_result 	= array();
+	$result_post	= array();
+
+	$page_number	= filter_input( INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit		= filter_input( INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
+	$search_term	= filter_input( INPUT_POST, 'search_term', FILTER_SANITIZE_STRING );	
+	$orderby		= filter_input( INPUT_POST, 'orderby', FILTER_SANITIZE_STRING );
+	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
+
+	$company_prod_args = array(
+		'post_type' 		=> 'company-products',
+		'paged'				=> $page_number,
+		'post_status'		=> 'publish',
+		'posts_per_page' 	=> $post_limit,
+		's'					=> $search_term,
+	);
+
+	if ( 'date' !== $orderby ) {
+
+		$company_prod_args[ 'orderby' ] = $orderby;
+		$company_prod_args[ 'order' ]	= $order;
+
+	}	
+
+	$company_prod_query = new WP_Query( $company_prod_args );
+
+	$total_pages 	= $company_prod_query->max_num_pages;
+	$total_products = $company_prod_query->found_posts;
+
+	if ( $company_prod_query->have_posts() ) {
+
+		$cnt 				= 0;
+		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
+		$bookmark_products	= ! empty( $current_user_id ) ? get_user_meta( $current_user_id, 'nab_customer_product_bookmark', true ) : '';
+
+		while ( $company_prod_query->have_posts() ) {
+
+			$company_prod_query->the_post();
+
+			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$product_category	= get_the_terms( get_the_ID(), 'company-category' );
+			$product_company	= ! empty( $product_category ) && ! is_wp_error( $product_category ) ? $product_category[0]->name : '';
+
+			$result_post[ $cnt ][ 'thumbnail' ] = $thumbnail_url;
+			$result_post[ $cnt ][ 'link' ] 		= get_the_permalink();
+			$result_post[ $cnt ][ 'title' ] 	= html_entity_decode( get_the_title() );
+			$result_post[ $cnt ][ 'company' ] 	= $product_company;
+
+			// bookmark product
+			if ( ! empty( $current_user_id ) ) {
+
+				$product_id			= get_the_ID();
+				$bookmark_class    	= 'fa fa-bookmark-o amp-bookmark user-bookmark-action';
+				$bookmark_tooltip  	= 'Add to Bookmarks';
+
+				if ( ! empty( $bookmark_products ) && is_array( $bookmark_products ) && in_array( (string) $product_id, $bookmark_products, true ) ) {
+
+					$bookmark_class     .= ' bookmark-fill';
+					$bookmark_tooltip	= 'Remove from Bookmarks';
+				}
+
+				$result_post[ $cnt ][ 'bookmark_class' ] 	= $bookmark_class;
+				$result_post[ $cnt ][ 'bookmark_tooltip' ] 	= $bookmark_tooltip;
+				$result_post[ $cnt ][ 'bookmark_id' ]		= $product_id;
+			}
+
+			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
+
+				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
+
+			} else if ( 8 === $cnt + 1 ) {
+
+				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
+			}
+
+			$cnt++;
+		}
+
+	}
+	wp_reset_postdata();
+
+	$final_result[ 'next_page_number' ] = $page_number + 1;
+	$final_result[ 'total_page' ]       = $total_pages;
+	$final_result[ 'total_product' ]	= $total_products;
+	$final_result[ 'result_post' ]      = $result_post;
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+}
+
 add_action( 'wp_ajax_nab_product_search_filter', 'nab_product_search_filter_callback' );
 add_action( 'wp_ajax_nopriv_nab_product_search_filter', 'nab_product_search_filter_callback' );
 
@@ -1401,8 +1607,8 @@ function nab_member_bookmark_list_callback() {
 	if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
 		$bookmark_query_args = array(
-			'post_type'         => 'product',
-			'posts_per_page'    => 12,
+			'post_type'         => array( 'product', 'company-products' ),
+			'posts_per_page'    => $post_limit,
 			'post_status'       => 'publish',
 			'paged'				=> $page_number,
 			'post__in'          => $member_bookmarks

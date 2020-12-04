@@ -39,8 +39,9 @@ function nab_create_company_followers_table() {
  *
  * @param  int $company_id
  * @param  int $user_id 
+ * @param  boolean $search_page
  */
-function nab_get_follow_button( $company_id, $user_id ) {
+function nab_get_follow_button( $company_id, $user_id, $search_page = false ) {
 
     if ( empty( $company_id ) || empty( $user_id ) ) {
 
@@ -58,7 +59,12 @@ function nab_get_follow_button( $company_id, $user_id ) {
             </div>
         </div>
         <?php
-
+    } else if ( is_search() || $search_page ) {
+        ?>
+        <div class="search-actions">
+            <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="button">View</a>
+        </div>
+        <?php
     } else {
 
         nab_get_company_message_button( $company_id );
@@ -95,7 +101,7 @@ function nab_get_unfollow_button( $company_id, $user_id ) {
  *
  * @param  int $company_id 
  */
-function nab_get_company_message_button( $company_id ) {
+function nab_get_company_message_button( $company_id, $text = 'Message' ) {
 
     if ( empty( $company_id ) ) {
 
@@ -113,7 +119,7 @@ function nab_get_company_message_button( $company_id ) {
             bp_send_message_button( array(
                     'id'         => 'private_message_' . $company_admin_id,
                     'link_class' => 'button',
-                    'link_text'  => 'Message',
+                    'link_text'  => $text,
                     'link_href'  => $private_massage_link
                 )
             );
@@ -244,9 +250,10 @@ function nab_company_follow_action_callback() {
 
     check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
-    $company_id = filter_input( INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT );    
-    $action     = filter_input( INPUT_POST, 'item_action', FILTER_SANITIZE_STRING );    
-    $result     = array( 'success' => false );
+    $company_id     = filter_input( INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT );    
+    $action         = filter_input( INPUT_POST, 'item_action', FILTER_SANITIZE_STRING ); 
+    $search_page    = filter_input( INPUT_POST, 'search_page', FILTER_SANITIZE_STRING ); 
+    $result         = array( 'success' => false );
 
     if ( empty( $company_id ) || ! in_array( $action, array( 'follow', 'unfollow', true ) ) ) {
 
@@ -264,10 +271,19 @@ function nab_company_follow_action_callback() {
             $following = nab_add_new_company_follower( $company_id, $user_id );
             
             if ( $following ) {
-
+                
                 ob_start();
                 
-                nab_get_company_message_button( $company_id );
+                if ( 'yes' === strtolower( $search_page ) ) {
+                    ?>
+                    <div class="search-actions">
+                        <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="button">View</a>
+                    </div>
+                    <?php
+                } else {
+
+                    nab_get_company_message_button( $company_id );
+                }
                 
                 $button = ob_get_clean();
 
