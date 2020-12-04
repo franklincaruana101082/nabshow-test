@@ -16,7 +16,7 @@ $facebook_url       = get_field( 'facebook_url' );
 $twitter_url        = get_field( 'twitter_url' );
 $member_level       = get_field( 'member_level' );
 $cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
-$profile_picture    = ! empty( $profile_picture ) ? $profile_picture[ 'url' ] : '';
+$profile_picture    = ! empty( $profile_picture ) ? $profile_picture[ 'url' ] : get_template_directory_uri() . '/assets/images/default-company.png';;
 $user_logged_in     = is_user_logged_in();
 $company_id         = get_the_ID();
 ?>

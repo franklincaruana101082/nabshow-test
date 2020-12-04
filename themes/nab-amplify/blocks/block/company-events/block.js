@@ -61,54 +61,11 @@
                                 ]}
                                 onChange={(value) => { setAttributes({displayOrder: value}); }}
                             />                            
-                            { 0 < this.state.termsObj.length &&
-
-                                <Fragment>
-                                    { 
-                                    <div>
-                                        <label>{__(`Select Company`)}</label>
-
-                                        {7 < this.state.termsObj.length &&
-                                        <TextControl
-                                            type="string"
-                                            name='term-filter-input'
-                                            placeHolder="Search Category"
-                                            onChange={ value => this.filterTerms(value)}
-                                        />
-                                        }
-
-                                        <div className="fix-height-select">
-
-                                            {this.state.filterTermsObj.map((ch, index) => (
-
-                                                <Fragment key={index}>
-                                                    <CheckboxControl checked={-1 < companyCategory.indexOf(ch.slug)} label={ch.name} name="terms[]" value={ch.slug} onChange={(isChecked) => {                                                
-                                                            let i,
-                                                            tempTerms = [...companyCategory];                                                    
-
-                                                            if ( isChecked ) {
-                                                                tempTerms.push(ch.slug);
-                                                            } else {
-                                                                i = tempTerms.indexOf(ch.slug);
-                                                                tempTerms.splice(i, 1);                                                    
-                                                            }
-                                                            this.props.setAttributes({ companyCategory: tempTerms });                                                    
-                                                        }
-                                                    }
-                                                    />
-                                                </Fragment>
-                                            ))
-                                            }
-                                        </div>
-                                    </div>                                    
-                                    }
-                                </Fragment>
-                            }
                         </PanelBody>
                     </InspectorControls>
                     <ServerSideRender
                         block="nab/company-events"
-                        attributes={{ itemToFetch: itemToFetch, companyCategory: companyCategory, displayOrder: displayOrder }}
+                        attributes={{ itemToFetch: itemToFetch, displayOrder: displayOrder }}
                     />
                 </Fragment>
             );
@@ -119,11 +76,7 @@
             type: 'number',
             default: 4
         },    
-        companyCategory: {
-            type: 'array',
-            default: []
-        },        
-        displayOrder: {
+                displayOrder: {
             type: 'string',
             default: 'DESC'
         }

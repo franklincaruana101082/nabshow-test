@@ -349,7 +349,7 @@
                   <div className="bottom-container">
                     <RichText
                       tagName='div'
-                      placeholder={__('Add Shortcode')}
+                      placeholder={__('Add Reactions')}
                       value={data.shortcode}
                       keepPlaceholderOnFocus='true'
                       className='shortcode-wrap'
@@ -587,7 +587,7 @@
                         <img src={data.bgMedia} />
                       </div>
                     ) : null}
-                    {data.option == 'option-1' || data.option == 'option-3' ? (
+                    {data.option == 'option-1' || data.option == 'option-3' || data.option == 'option-6' ? (
                         <div className='advertising'>
                           <RichText.Content tagName='span' value={data.advertising} />
                         </div>

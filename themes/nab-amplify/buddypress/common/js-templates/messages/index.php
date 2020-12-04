@@ -184,8 +184,8 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
         </div>
         <div id="actions-container">
             <div class="actions">
-                <button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' ); ?>">
-                    <span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' ); ?></span>
+                <button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Remove conversation.', 'buddypress' ); ?>">
+                    <span class="bp-screen-reader-text"><?php esc_html_e( 'Remove conversation.', 'buddypress' ); ?></span>
                 </button>
 
                 <# if ( undefined !== data.star_link ) { #>
@@ -263,8 +263,8 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
         <# } #>
 
         <div class="actions">
-            <button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' ); ?>">
-                <span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' ); ?></span>
+            <button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Remove conversation.', 'buddypress' ); ?>">
+                <span class="bp-screen-reader-text"><?php esc_html_e( 'Remove conversation.', 'buddypress' ); ?></span>
             </button>
         </div>
     </header>

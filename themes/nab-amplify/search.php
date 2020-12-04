@@ -12,7 +12,7 @@ get_header();
 $search_term 		= get_search_query();
 $current_site_url	= get_site_url();
 $view_type			= filter_input( INPUT_GET, 'v', FILTER_SANITIZE_STRING );
-$view_screen		= array( 'user', 'shop', 'content' );
+$view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 ?>
 	<main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
@@ -56,6 +56,20 @@ $view_screen		= array( 'user', 'shop', 'content' );
 								?>
 							</div>
 							<?php
+						} else if ( 'company' === $view_type ) {
+							?>
+							<div class="sort-company sort-order-btn">
+								<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+								<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+							</div>
+							<?php
+						} else if ( 'product' === $view_type ) {
+							?>
+							<div class="sort-company-product sort-order-btn">
+								<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+								<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+							</div>
+							<?php
 						} else if ( 'user' === $view_type ) {
 							?>
 							<div class="sort-user sort-order-btn">
@@ -72,7 +86,7 @@ $view_screen		= array( 'user', 'shop', 'content' );
 									<div class="nab-custom-select">
 										<select id="people-connect" class="people-connect">
 											<option value="">All People</option>
-											<option value="yes">Connections</option>
+											<option value="yes">My Connections</option>
 											<option value="no">Available to Connect</option>
 										</select>
 									</div>
@@ -126,7 +140,7 @@ $view_screen		= array( 'user', 'shop', 'content' );
 						?>
 						<div class="search-view-top-head">
 							<h2><span class="user-search-count"><?php echo esc_html( $total_users ); ?> Results for </span><strong>PEOPLE</strong></h2>
-							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="#">Click Here</a></p>
+							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 						</div>
 
 						<div class="search-section search-user-section">
@@ -196,6 +210,189 @@ $view_screen		= array( 'user', 'shop', 'content' );
 						}
 					}
 
+				} else if ( 'product' === $view_type ) {
+
+					$company_prod_args = array(
+						'post_type'			=> 'company-products',
+						'post_status'		=> 'publish',
+						'posts_per_page'	=> 12,
+						's'					=> $search_term
+					);
+
+					$company_prod_query = new WP_Query( $company_prod_args );
+
+					if ( $company_prod_query->have_posts() ) {
+
+						$total_products = $company_prod_query->found_posts;
+
+						?>
+						<div class="search-view-top-head">
+							<h2><span class="company-product-search-count"><?php echo esc_html( $total_products ); ?> Results for </span><strong>PRODUCTS</strong></h2>
+							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						</div>
+						<div class="search-section amp-item-main company-products">
+							<div class="amp-item-wrap" id="company-products-list">
+								<?php
+
+								$cnt = 1;
+
+								while ( $company_prod_query->have_posts() ) {
+
+									$company_prod_query->the_post();
+
+									$thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+									$product_link	    = get_the_permalink();
+									$product_category	= get_the_terms( get_the_ID(), 'company-category' );
+									$product_company	= ! empty( $product_category ) && ! is_wp_error( $product_category ) ? $product_category[0]->name : '';
+									?>
+									<div class="amp-item-col">
+										<div class="amp-item-inner">
+											<div class="amp-item-cover">
+												<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Product Image">
+												<?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
+											</div>
+											<div class="amp-item-info">
+												<div class="amp-item-content">
+													<h4>
+														<a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+													</h4>
+													<span class="product-company"><?php echo esc_html( $product_company ); ?></span>
+													<div class="amp-actions nab-action">
+														<div class="search-actions">
+															<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<?php
+
+									if ( 8 === $cnt ) {
+										echo wp_kses_post( nab_get_search_result_ad() );
+									}
+
+									$cnt++;
+								}
+								if ( $cnt < 8 ) {
+									echo wp_kses_post( nab_get_search_result_ad() );
+								}
+								?>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+					<p class="no-search-data" style="display: none;">Result not found.</p>
+					<?php
+					if ( $company_prod_query->max_num_pages > 1 ) {
+						?>
+						<div class="load-more text-center"  id="load-more-company-product">
+							<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $company_prod_query->max_num_pages ); ?>">Load More</a>
+						</div>
+						<?php
+					}
+
+					wp_reset_postdata();
+
+				} else if ( 'company' === $view_type ) {
+
+					$company_args = array(
+						'post_type'			=> 'company',
+						'post_status'		=> 'publish',
+						'posts_per_page'	=> 12,
+						's'					=> $search_term
+					);
+
+					$company_query = new WP_Query( $company_args );
+
+					if ( $company_query->have_posts() ) {
+
+						$total_company	= $company_query->found_posts;
+						?>
+						<div class="search-view-top-head">
+							<h2><span class="company-search-count"><?php echo esc_html( $total_company ); ?> Results for </span><strong>COMPANIES</strong></h2>
+							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						</div>
+						<div class="search-section search-company-section">
+							<div class="search-section-details" id="search-company-list">
+								<?php
+
+								$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
+								$user_logged_in			= is_user_logged_in();
+								$current_user_id		= $user_logged_in ? get_current_user_id() : '';
+								$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+								$cnt					= 1;
+
+								while ( $company_query->have_posts() ) {
+
+									$company_query->the_post();
+
+									$cover_image        = get_field( 'cover_image' );
+									$profile_picture    = get_field( 'profile_picture' );
+									$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
+									$profile_picture    = ! empty( $profile_picture ) ? $profile_picture[ 'url' ] : $default_company_pic;
+									$company_url		= get_the_permalink();
+									?>
+									<div class="search-item">
+										<div class="search-item-inner">
+											<div class="search-item-cover">
+												<img src="<?php echo esc_url( $cover_image ); ?>" alt="Cover Image">
+											</div>
+											<div class="search-item-info">
+												<div class="search-item-avtar">
+													<a href="<?php echo esc_url( $company_url ); ?>">
+														<img src="<?php echo esc_url( $profile_picture ); ?>">
+													</a>
+												</div>
+												<div class="search-item-content">
+													<h4>
+														<a href="<?php echo esc_url( $company_url ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+													</h4>
+													<div class="amp-actions">
+														<?php
+														if ( $user_logged_in ) {
+															nab_get_follow_button( get_the_ID(), $current_user_id );
+														} else {
+															?>
+															<div class="search-actions">
+																<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+															</div>
+															<?php
+														}
+														?>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<?php
+									if ( 8 === $cnt ) {
+										echo wp_kses_post( nab_get_search_result_ad() );
+									}
+
+									$cnt++;
+								}
+								if ( $cnt < 8 ) {
+									echo wp_kses_post( nab_get_search_result_ad() );
+								}
+								?>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+					<p class="no-search-data" style="display: none;">Result not found.</p>
+					<?php
+					if ( $company_query->max_num_pages > 1 ) {
+						?>
+						<div class="load-more text-center"  id="load-more-company">
+							<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $company_query->max_num_pages ); ?>">Load More</a>
+						</div>
+						<?php
+					}
+					wp_reset_postdata();
+
 				} else if ( 'shop' === $view_type ) {
 
 					$product_args = array(
@@ -217,7 +414,7 @@ $view_screen		= array( 'user', 'shop', 'content' );
 						?>
 						<div class="search-view-top-head">
 							<h2><span class="product-search-count"><?php echo esc_html( $total_products ); ?> Results for </span><strong>SHOP</strong></h2>
-							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="#">Click Here</a></p>
+							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 						</div>
 						<div class="search-section search-product-section">
 							<div class="search-section-details" id="search-product-list">
@@ -250,8 +447,11 @@ $view_screen		= array( 'user', 'shop', 'content' );
 									</div>
 									<?php
 
+									$allowed_tags = wp_kses_allowed_html( 'post' );
+									$allowed_tags['broadstreet-zone'] = array( 'zone-id' => 1 );
+
 									if ( 8 === $cnt ) {
-										echo wp_kses_post( nab_get_search_result_ad() );
+										echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 									}
 
 									$cnt++;
@@ -296,7 +496,7 @@ $view_screen		= array( 'user', 'shop', 'content' );
 						?>
 						<div class="search-view-top-head">
 							<h2><span class="content-search-count"><?php echo esc_html( $total_content ); ?> Results for </span><strong>CONTENT</strong></h2>
-							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="#">Click Here</a></p>
+							<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 						</div>
 						<div class="search-section search-content-section">
 							<div class="search-section-details" id="search-content-list">
@@ -443,8 +643,168 @@ $view_screen		= array( 'user', 'shop', 'content' );
 					<?php
 				}
 
+				$company_prod_args = array(
+					'post_type'			=> 'company-products',
+					'post_status'		=> 'publish',
+					'posts_per_page'	=> 4,
+					's'					=> $search_term
+				);
+
+				$company_prod_query = new WP_Query( $company_prod_args );
+
+				if ( $company_prod_query->have_posts() ) {
+
+					$search_found		= true;
+					$total_company_prod = $company_prod_query->found_posts;
+					?>
+					<div class="search-section amp-item-main company-products">
+						<div class="search-section-heading">
+							<h2><strong>PRODUCTS</strong> <span>(<?php echo esc_html( $total_company_prod . ' RESULTS' ); ?>)</span></h2>
+							<?php
+							if ( $total_company_prod > 4 ) {
+
+								$view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'product' ), $current_site_url );
+
+								?>
+								<div class="section-view-more">
+									<a href="<?php echo esc_html( $view_more_link ); ?>" class="view-more-link">View All</a>
+								</div>
+								<?php
+							}
+							?>
+						</div>
+						<div class="amp-item-wrap" id="company-products-list">
+							<?php
+							while ( $company_prod_query->have_posts() ) {
+
+								$company_prod_query->the_post();
+
+								$thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        		$product_link	    = get_the_permalink();
+								$product_category	= get_the_terms( get_the_ID(), 'company-category' );
+								$product_copany		= ! empty( $product_category ) && ! is_wp_error( $product_category ) ? $product_category[0]->name : '';
+								?>
+								<div class="amp-item-col">
+									<div class="amp-item-inner">
+										<div class="amp-item-cover">
+											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Product Image">
+											<?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
+										</div>
+										<div class="amp-item-info">
+											<div class="amp-item-content">
+												<h4>
+													<a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+												</h4>
+												<span class="product-company"><?php echo esc_html( $product_copany ); ?></span>
+												<div class="amp-actions nab-action">
+													<div class="search-actions">
+														<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+					<?php
+				}
+				wp_reset_postdata();
+
+				$company_args = array(
+					'post_type'			=> 'company',
+					'post_status'		=> 'publish',
+					'posts_per_page'	=> 4,
+					's'					=> $search_term
+				);
+
+				$company_query = new WP_Query( $company_args );
+
+				if ( $company_query->have_posts() ) {
+
+					$search_found	= true;
+					$total_company	= $company_query->found_posts;
+					?>
+					<div class="search-section search-company-section">
+						<div class="search-section-heading">
+							<h2><strong>COMPANIES</strong> <span>(<?php echo esc_html( $total_company . ' RESULTS' ); ?>)</span></h2>
+							<?php
+							if ( $total_company > 4 ) {
+
+								$company_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'company' ), $current_site_url );
+
+								?>
+								<div class="section-view-more">
+									<a href="<?php echo esc_html( $company_view_more_link ); ?>" class="view-more-link">View All</a>
+								</div>
+								<?php
+							}
+							?>
+						</div>
+						<div class="search-section-details" id="search-company-list">
+							<?php
+
+							$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
+							$user_logged_in			= is_user_logged_in();
+							$current_user_id		= $user_logged_in ? get_current_user_id() : '';
+							$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+							while ( $company_query->have_posts() ) {
+
+								$company_query->the_post();
+
+								$cover_image        = get_field( 'cover_image' );
+								$profile_picture    = get_field( 'profile_picture' );
+								$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
+								$profile_picture    = ! empty( $profile_picture ) ? $profile_picture[ 'url' ] : $default_company_pic;
+								$company_url		= get_the_permalink();
+								?>
+								<div class="search-item">
+									<div class="search-item-inner">
+										<div class="search-item-cover">
+											<img src="<?php echo esc_url( $cover_image ); ?>" alt="Cover Image">
+										</div>
+										<div class="search-item-info">
+											<div class="search-item-avtar">
+												<a href="<?php echo esc_url( $company_url ); ?>">
+													<img src="<?php echo esc_url( $profile_picture ); ?>">
+												</a>
+											</div>
+											<div class="search-item-content">
+												<h4>
+													<a href="<?php echo esc_url( $company_url ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+												</h4>
+												<div class="amp-actions">
+													<?php
+													if ( $user_logged_in ) {
+														nab_get_follow_button( get_the_ID(), $current_user_id );
+													} else {
+														?>
+														<div class="search-actions">
+															<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+														</div>
+														<?php
+													}
+													?>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+					<?php
+				}
+				wp_reset_postdata();
+
 				$product_args = array(
 					'post_type' 		=> 'product',
+					'post_status'		=> 'publish',
 					'posts_per_page' 	=> 4,
 					's'					=> $search_term,
 					'meta_key'  		=> 'total_sales',
