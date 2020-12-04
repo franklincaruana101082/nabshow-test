@@ -1767,3 +1767,7 @@ body .is_friend .remove:before{font-size:22px;}
 .black-bg-box .btn-link{font-size:20px;color:#808080;text-decoration:underline;text-transform:uppercase;font-weight:700;}
 .action-wrap div:not(:last-child){margin-bottom:15px;}
 .action-wrap div .btn{margin:0;font-family:'OpenSans-Regular', Arial, sans-serif;font-size:17px;font-weight:500;}
+
+.nab-company-claim-popup p{
+color:#000;
+}

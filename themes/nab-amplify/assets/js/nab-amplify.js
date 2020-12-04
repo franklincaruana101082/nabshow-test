@@ -2184,7 +2184,9 @@
           .parents('.company-message-inner')
           .attr('data-item')
       },
-      success: function (response) {}
+      success: function (response) {
+        jQuery('body').append('<div id="connection-message-popup" class="nab-modal" style="display: block;"><div class="nab-modal-inner"><div class="modal-content"><span class="nab-modal-close fa fa-times"></span><div class="modal-content-wrap nab-company-claim-popup"><p>Request sent successfully!</p></div></div></div></div>')
+      }
     })
   })
 

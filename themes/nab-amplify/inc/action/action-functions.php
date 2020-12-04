@@ -209,7 +209,7 @@ function nab_amplify_edit_product()
     $final_result = array();
     $post_id      = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT);
     $post_data    = get_post($post_id);
-    
+
 
     $taxonomies    = get_object_taxonomies('nab-product');
     $taxonomy_data = wp_get_object_terms($post_id, 'company-product-category', array('fields' => 'slugs'));
@@ -229,7 +229,7 @@ function nab_amplify_edit_product()
     $post_data->tags                       = $tag_data;
 	$post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id,'full');
-    
+
 
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
@@ -403,7 +403,9 @@ function nab_amplify_my_connections_endpoint()
     add_rewrite_endpoint('my-connections', EP_ROOT | EP_PAGES);
 }
 
-// Our custom post type function
+/**
+ * Register Custom Post Type.
+ */
 function nab_amplify_register_post_types()
 {
 
@@ -1950,6 +1952,12 @@ function nab_register_event_shows_post_type()
     register_post_type('event-shows', $args);
 }
 
+/**
+ * Setting User Login cookie for other sites.
+ *
+ * @param $user_login
+ * @param object $user User data.
+ */
 function nab_set_user_login_cookie_for_other_site($user_login, $user)
 {
 
@@ -1961,6 +1969,13 @@ function nab_set_user_login_cookie_for_other_site($user_login, $user)
     }
 }
 
+/**
+ * Encrypt user token.
+ *
+ * @param int $user_id User ID.
+ *
+ * @return string
+ */
 function nab_encrypt_user_token($user_id)
 {
 
@@ -1971,6 +1986,9 @@ function nab_encrypt_user_token($user_id)
     return base64_encode(openssl_encrypt($user_id, 'AES-256-CBC', $k, 0, $iv));
 }
 
+/**
+ * Clear User Login cookie.
+ */
 function nab_clear_share_login_cookie()
 {
 
@@ -2347,6 +2365,9 @@ $search_vertical_banner = get_option('search_vertical_banner');
 	<?php
 }
 
+/**
+ * Register Company Custom Post Type.
+ */
 function nab_register_company_post_type()
 {
 
@@ -2544,6 +2565,11 @@ function nab_add_unfiltered_html_capability_to_users($caps, $cap, $user_id)
     return $caps;
 }
 
+/**
+ * Display Author HTML on content page.
+ *
+ * @return string HTML for author section.
+ */
 function nab_amplify_display_author() {
 
 	ob_start();
@@ -2556,7 +2582,6 @@ function nab_amplify_display_author() {
 /**
  * Add products into nab-product content type
  */
-
 function nab_add_product()
 {
 
@@ -2564,10 +2589,10 @@ function nab_add_product()
 	$uploaded_attachments = array();
     $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
     $post_categories       = explode(',',filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING);
-    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING);
-    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING);
-    $product_external_text = filter_input(INPUT_POST, 'nab_product_external_text', FILTER_SANITIZE_STRING);
+    $product_copy          = strip_tags(filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING));
+    $product_specs         = strip_tags(filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING));
+    $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));
+    $product_external_text = strip_tags(filter_input(INPUT_POST, 'nab_product_external_text', FILTER_SANITIZE_STRING));
     $product_external_link = filter_input(INPUT_POST, 'nab_product_external_link', FILTER_SANITIZE_STRING);
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
@@ -2576,7 +2601,7 @@ function nab_add_product()
     $product_tags          = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
     $product_id            = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
     $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
-    $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT); 
+    $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
 
 
     // Create post object
@@ -2597,7 +2622,7 @@ function nab_add_product()
     if ($product_id !== '0') {
 // Update the post into the database
         $product_post_data['ID'] = $product_id;
-         
+
         $post_id                 = wp_update_post($product_post_data);
         if (!empty($remove_attachments)) {
             foreach ($remove_attachments as $remove_attach) {
@@ -2621,10 +2646,10 @@ function nab_add_product()
 	wp_set_object_terms($post_id, $post_categories, 'company-product-category', true );
     wp_set_post_terms($post_id, $product_tags, 'company-product-tag', true);
 
-   
-    
+
+
     apply_filters( 'comments_open', $product_discussion, $post_id );
-   
+
 
     $dependencies_loaded = 0;
 
@@ -2704,7 +2729,9 @@ function nab_add_product()
     echo wp_json_encode($final_result);
     wp_die();
 }
+
 /**
+ * Register Company Category Taxonomy.
  */
 function nab_register_company_category_taxonomy()
 {
@@ -2736,6 +2763,7 @@ function nab_register_company_category_taxonomy()
 }
 
 /**
+ * Register Company Tags Taxonomy.
  */
 function nab_register_company_tags_taxonomy()
 {

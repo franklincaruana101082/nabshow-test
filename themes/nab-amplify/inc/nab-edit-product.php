@@ -77,7 +77,7 @@ print_r($post);
 							
 							</div>
 							<div class="form-row">
-								<label for=""><span>Media : Acceptable File Types: .jpeg. .jpg, .png.</span></label>
+								<label for="">Media <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
 									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
@@ -141,7 +141,7 @@ print_r($post);
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
-									<label for="">Product Specs</label>
+									<label for="">Product Specs <span>Enter specs seperated by ','</span></label>
 									<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
 									<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
 								</div>

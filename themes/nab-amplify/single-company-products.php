@@ -40,13 +40,14 @@ while (have_posts()):
 			                            <img src="<?php echo $preview_main_src[0]; ?>" alt="">
 			                        </div>
 			                        <div class="nab-preview-items-main">
-			                            <?php $product_medias = get_field('product_media');
+										<?php $product_medias = get_field('product_media');
+										
     if (!empty($product_medias)) {
         foreach ($product_medias as $product_media) {
             if (!empty($product_media['product_media_file'])) {
                 ?>
 			                            <div class="nab-preview-item">
-			                                <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
+			                                <img src="<?php echo $product_media['product_media_file']['sizes']['nab-company-product-thumb']; ?>" alt="">
 			                            </div>
 			                            <?php
     }
