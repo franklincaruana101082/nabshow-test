@@ -66,7 +66,7 @@
     /* Header space for Avada theme */
     .fusion-body .nab-header-secondary + div header.fusion-header-wrapper{padding-top:0;}
 
-    .nab-header-secondary .header-inner{padding:30px 0 10px 0}
+    .nab-header-secondary .header-inner{padding:30px 0}
 	.nab-header-secondary .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:30px}
 	.nab-header-secondary .nab-sec-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
 	.site-header .nab-logos img{max-height:inherit;width:120px;}
