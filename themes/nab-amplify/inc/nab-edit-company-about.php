@@ -18,8 +18,17 @@
 								<input type="text" class="input-text add-product" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
 							</div>
 							<div class="form-row">
-								<label for="">Location</label>
-								<textarea  class="input-text add-product" name="company_location"  id="company_location"><?php echo isset($company_data['company_location']) ? $company_data['company_location'] : ''; ?></textarea>
+								<div class="location-field-wrap">
+									<label for="">Location</label>
+									<!-- <textarea  class="input-text add-product" name="company_location"  id="company_location"><?php echo isset($company_data['company_location']) ? $company_data['company_location'] : ''; ?></textarea> -->
+									<input type="text" placeholder="Street Line 1">
+									<input type="text" placeholder="Street Line 2">
+									<input type="text" placeholder="Street Line 3">
+									<input type="text" placeholder="City">
+									<input type="text" placeholder="State">
+									<input type="text" placeholder="Zip/Postal Code">
+									<input type="text" placeholder="Country">
+								</div>
                             </div>
                             <div class="form-row">
 								<label for="">Website</label>

@@ -1109,7 +1109,7 @@ body.buddypress .site-content{padding:0;}
 .nab-profile .input-text::placeholder,
 .nab-profile textarea::placeholder{color:#ccc;}
 .banner-header{height:auto;margin-bottom:0;position:relative;}
-.banner-header:before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;background:url(../images/banner-header-shadow.png);}
+.banner-header:before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;background:url(../images/banner-header-shadow.png);background-size:cover;}
 .banner-header .banner-container{max-width:90%;margin:0 auto;position:relative;}
 .banner-header .update-banner-image{position:absolute;top:70px;left:0;}
 .banner-header .edit-bg-pic,
@@ -1629,6 +1629,7 @@ body .is_friend .remove:before{font-size:22px;}
 .nab-modal.theme-dark .form-col-6:nth-child(odd){padding-right:10px;}
 .nab-modal.theme-dark .form-col-6:nth-child(even){padding-left:10px;}
 .nab-modal.theme-dark .form-row > label{margin-bottom:5px;font-size:18px;width:100%;}
+.nab-modal.theme-dark .form-row .location-field-wrap input{margin-bottom:30px;}
 .nab-modal.theme-dark input[type="text"],
 .nab-modal.theme-dark input[type="email"],
 .nab-modal.theme-dark input[type="password"],

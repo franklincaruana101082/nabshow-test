@@ -341,6 +341,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .internal-popup ul li:nth-child(4){background:url(../images/related-content-option-4.png) center no-repeat;}
 .internal-popup ul li:nth-child(5){background:url(../images/related-content-option-5.png) center no-repeat;}
 .internal-popup ul li:nth-child(6){background:url(../images/related-content-option-6.png) center no-repeat;}
+.internal-popup ul li:nth-child(7){background:url(../images/related-content-option-7.png) center no-repeat;}
 
 .related-content{font-family:'Open Sans',Arial,sans-serif;}
 .related-content .related-content-body{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px;padding:10px 0;}
@@ -405,18 +406,22 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .option-2 .related-content-wrap,
 .related-content .option-4 .related-content-wrap{text-align:center;}
 .related-content .option-3 .related-content-wrap{height:auto;padding:20px;position:absolute;left:0;right:0;bottom:0;}
+.related-content .option-7 .related-content-wrap{min-height:230px;max-height:initial;}
 .related-content .title{color:#fff;font-size:20px;margin:0 0 20px;line-height:normal;}
 .related-content .title a{color:#fff;}
 .related-content .title a:hover{text-decoration:underline;}
 .related-content .option-5 .title{margin:0 0 40px;}
+.related-content .option-7 .title{margin:0 0 60px;}
 .related-content .sub-title{color:#999999;font-size:16px;margin:0 0 30px;display:block;line-height:normal;}
 .related-content .sub-title a{color:#999999;}
 .related-content .sub-title a:hover{text-decoration:underline;}
 .related-content .option-5 .sub-title{margin:0 0 40px;}
+.related-content .option-7 .sub-title{margin:0 0 30px;}
 .related-content .date{color:#999999;font-size:16px;display:block;margin:0 0 20px;}
 .related-content .date a{color:#999999;}
 .related-content .date a:hover{text-decoration:underline;}
 .related-content .item:not(.option-3) .button-wrap{position:absolute;left:0;right:0;bottom:0;padding:10px 20px 20px;}
+.related-content .option-7 .bookmark-wrap{margin:0 0 40px;}
 .related-content .btn{margin:0;color:#fff;min-width:auto;padding:7px 28px 8px;border-radius:8px;}
 .related-content .option-1 .btn,
 .related-content .option-3 .btn{background-color:#404040;border-color:#404040;}

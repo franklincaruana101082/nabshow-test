@@ -99,6 +99,17 @@
         }
       }
 
+      if (name == 'option-7') {
+        attr = {
+          index: dataArray.length,
+          option: name,
+          title: '',
+          subTitle: '',
+          bookmark: '',
+          buttonText: '<a href="#" class="btn">Read More</a>'
+        }
+      }
+
       setAttributes({
         dataArray: [...dataArray, attr]
       })
@@ -240,7 +251,7 @@
                   }}
                 />
               )}
-              {data.option !== 'option-6' ? (
+              {data.option !== 'option-6' && data.option !== 'option-7' ? (
                 <div className='image'>
                   <MediaUpload
                     onSelect={media => {
@@ -329,6 +340,23 @@
                 </div>
               ) : null}
               <div className="related-content-wrap">
+              {'option-7' === data.option && (
+                <RichText
+                  tagName='div'
+                  placeholder={__('Bookmark')}
+                  value={data.bookmark}
+                  keepPlaceholderOnFocus='true'
+                  className='bookmark-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].bookmark = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              )}
                 {data.option !== 'option-3' && data.option !== 'option-6' && (
                   <Fragment>
                     <RichText
@@ -383,7 +411,7 @@
                     />
                   </Fragment>
                 )}
-                {data.option == 'option-2' && (
+                {data.option == 'option-2' || data.option == 'option-7' && (
                   <div className="bottom-container">
                     <RichText
                       tagName='div'
@@ -531,6 +559,12 @@
                   >
                     Option 6
                   </li>
+                  <li
+                    className='option-7'
+                    onClick={() => this.addNewItem('option-7')}
+                  >
+                    Option 7
+                  </li>
                 </ul>
               </div>
             </div>
@@ -635,7 +669,7 @@
                         <img src={data.media} alt={data.mediaAlt} />
                       </div>
                     )}
-                    {('option-2' === data.option && data.bookmark) && (
+                    {('option-2' === data.option || 'option-7' == data.option && data.bookmark) && (
                       <RichText.Content
                         tagName='div'
                         value={data.bookmark}
@@ -698,7 +732,7 @@
                           className='button-wrap'
                         />
                       )}
-                      {data.option == 'option-6' && (
+                      {data.option == 'option-6' || data.option == 'option-7' && (
                         <RichText.Content
                           tagName='div'
                           value={data.shortcode}
