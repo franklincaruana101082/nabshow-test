@@ -23,13 +23,13 @@
 								<div class="location-field-wrap">
 									<label for="">Location</label>
 									<!-- <textarea  class="input-text add-product" name="company_location"  id="company_location"><?php echo isset($company_data['company_location']) ? $company_data['company_location'] : ''; ?></textarea> -->
-									<input name="company_location_street_one" id="company_location_street_one" type="text" placeholder="Street Line 1" value="<?php echo isset($company_data['company_location']['company_location_street_one']) ? $company_data['company_location']['company_location_street_one'] : ''; ?>">
-									<input name="company_location_street_two" id="company_location_street_two" type="text" placeholder="Street Line 2" value="<?php echo isset($company_data['company_location']['company_location_street_two']) ? $company_data['company_location']['company_location_street_two'] : ''; ?>">
-									<input name="company_location_street_three" id="company_location_street_three" type="text" placeholder="Street Line 3" value="<?php echo isset($company_data['company_location']['company_location_street_three']) ? $company_data['company_location']['company_location_street_three'] : ''; ?>">
-									<input name="company_location_city" id="company_location_city" type="text" placeholder="City" value="<?php echo isset($company_data['company_location']['company_location_city']) ? $company_data['company_location']['company_location_city'] : ''; ?>">
-									<input name="company_location_state" id="company_location_state" type="text" placeholder="State" value="<?php echo isset($company_data['company_location']['company_location_state']) ? $company_data['company_location']['company_location_state'] : ''; ?>">
-									<input name="company_location_zip" id="company_location_zip" type="text" placeholder="Zip/Postal Code" value="<?php echo isset($company_data['company_location']['company_location_zipcode']) ? $company_data['company_location']['company_location_zipcode'] : ''; ?>">
-									<input name="company_location_country" id="company_location_country" type="text" placeholder="Country" value="<?php echo isset($company_data['company_location']['company_location_country']) ? $company_data['company_location']['company_location_country'] : ''; ?>">
+									<input name="company_location_street_one" id="company_location_street_one" type="text" placeholder="Street Line 1" value="<?php echo isset($company_data['company_location']['_street_line_1']) ? $company_data['company_location']['_street_line_1'] : ''; ?>">
+									<input name="company_location_street_two" id="company_location_street_two" type="text" placeholder="Street Line 2" value="<?php echo isset($company_data['company_location']['street_line_2']) ? $company_data['company_location']['street_line_2'] : ''; ?>">
+									<input name="company_location_street_three" id="company_location_street_three" type="text" placeholder="Street Line 3" value="<?php echo isset($company_data['company_location']['street_line_3']) ? $company_data['company_location']['street_line_3'] : ''; ?>">
+									<input name="company_location_city" id="company_location_city" type="text" placeholder="City" value="<?php echo isset($company_data['company_location']['city']) ? $company_data['company_location']['city'] : ''; ?>">
+									<input name="company_location_state" id="company_location_state" type="text" placeholder="State" value="<?php echo isset($company_data['company_location']['state']) ? $company_data['company_location']['state'] : ''; ?>">
+									<input name="company_location_zip" id="company_location_zip" type="text" placeholder="Zip/Postal Code" value="<?php echo isset($company_data['company_location']['zipcode']) ? $company_data['company_location']['zipcode'] : ''; ?>">
+									<input name="company_location_country" id="company_location_country" type="text" placeholder="Country" value="<?php echo isset($company_data['company_location']['country']) ? $company_data['company_location']['country'] : ''; ?>">
 								</div>
                             </div>
                             <div class="form-row">
