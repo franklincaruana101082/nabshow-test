@@ -51,10 +51,10 @@
           '.woocommerce-billing-fields__field-wrapper p:not(.bill-mandatory)'
         ).remove()
       } else if (0 === $('#billing_country_field').length) {
-      /**
-       * If bill is not 0.00 and the billing_country_field is missing,
-       * reload the page to get all other fields.
-       */
+        /**
+         * If bill is not 0.00 and the billing_country_field is missing,
+         * reload the page to get all other fields.
+         */
         $('#place_order').attr('disabled')
         location.reload()
       }
@@ -190,29 +190,31 @@
     })
     jQuery('#product_categories').select2()
 
-    
-
     jQuery(document).on('keyup', '#nab_product_specs', function (e) {
-        var len = jQuery(this).val().length
-        var cval = jQuery(this).val()
-  
-        if (len >= 250) {
-          cval = jQuery(this).text().substring(0, 250)
-  
-          jQuery('.character-count-specs').text(0)
-        } else {
-          jQuery(this).text(250 - len)
-          jQuery('.character-count-specs').text(250 - len)
-        }
-        jQuery(this).val(cval)
-      })
+      var len = jQuery(this).val().length
+      var cval = jQuery(this).val()
+
+      if (len >= 250) {
+        cval = jQuery(this)
+          .text()
+          .substring(0, 250)
+
+        jQuery('.character-count-specs').text(0)
+      } else {
+        jQuery(this).text(250 - len)
+        jQuery('.character-count-specs').text(250 - len)
+      }
+      jQuery(this).val(cval)
+    })
 
     jQuery(document).on('keyup', '#nab_product_copy', function (e) {
       var len = jQuery(this).val().length
       var cval = jQuery(this).val()
 
       if (len >= 250) {
-        cval = jQuery(this).text().substring(0, 250)
+        cval = jQuery(this)
+          .text()
+          .substring(0, 250)
 
         jQuery('.character-count-copy').text(0)
       } else {
@@ -409,6 +411,157 @@
     })
   })
 
+  // Upload user images using ajax.
+  $('#edit-social-profiles').on('click', function (e) {
+    e.preventDefault()
+    $(this)
+      .parent()
+      .addClass('loading')
+
+    var fd = new FormData()
+    var company_id = amplifyJS.postID
+    fd.append('action', 'nab_edit_company_social_profiles')
+    fd.append('company_id', amplifyJS.postID)
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (jQuery('#addProductModal').length === 0) {
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        } else {
+          jQuery('#addProductModal').remove()
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '#nab-edit-company-profile-submit', function () {
+    var fd = new FormData()
+    fd.append('action', 'nab_update_company_profile')
+    fd.append('company_id', amplifyJS.postID)
+    if (jQuery('#instagram_profile').length) {
+      fd.append('instagram_profile', jQuery('#instagram_profile').val())
+    }
+    if (jQuery('#linkedin_profile').length) {
+      fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
+    }
+    if (jQuery('#facebook_profile').length) {
+      fd.append('facebook_profile', jQuery('#facebook_profile').val())
+    }
+    if (jQuery('#twitter_profile').length) {
+      fd.append('twitter_profile', jQuery('#twitter_profile').val())
+    }
+    if (jQuery('#company_about').length) {
+      fd.append('company_about', jQuery('#company_about').val())
+    }
+    if (jQuery('#company_industry').length) {
+      fd.append('company_industry', jQuery('#company_industry').val())
+    }
+    if (jQuery('#company_location').length) {
+      fd.append('company_location', jQuery('#company_location').val())
+    }
+    if (jQuery('#company_website').length) {
+      fd.append('company_website', jQuery('#company_website').val())
+    }
+    if (jQuery('#company_point_of_contact').length) {
+      fd.append(
+        'company_point_of_contact',
+        jQuery('#company_point_of_contact').val()
+      )
+    }
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        alert('Profile Updated Successfully!')
+        location.reload(true)
+      }
+    })
+  })
+
+  $('#edit-company-about').on('click', function (e) {
+    e.preventDefault()
+    $(this)
+      .parent()
+      .addClass('loading')
+
+    var fd = new FormData()
+    var company_id = amplifyJS.postID
+    fd.append('action', 'nab_edit_company_about')
+    fd.append('company_id', amplifyJS.postID)
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (jQuery('#addProductModal').length === 0) {
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        } else {
+          jQuery('#addProductModal').remove()
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        }
+      }
+    })
+  })
+  $(document).on('click', '.edit-company-mode', function () {
+  
+    jQuery('.edit-profile-pic').show()
+    jQuery(this).addClass('cancel-edit-company-mode')
+    jQuery(this).removeClass('edit-company-mode')
+    jQuery(this).text('Cancel Edit');
+    jQuery('.banner-header').addClass('edit_mode_on');
+    jQuery('.edit-bg-pic').show()
+  })
+  $(document).on('click', '.cancel-edit-company-mode', function () {
+  
+    jQuery('.edit-profile-pic').hide()
+    jQuery('.edit-bg-pic').hide()
+    
+    jQuery(this).removeClass('cancel-edit-company-mode')
+    jQuery(this).addClass('edit-company-mode ')
+    jQuery('.banner-header').removeClass('edit_mode_on');
+    jQuery(this).text('Edit Profile');
+  })
   // Add smooth scrolling to all links
   jQuery('.navigate-reply').on('click', function (event) {
     // Make sure this.hash has a value before overriding default behavior
@@ -500,9 +653,8 @@
   // Upload user images using ajax.
   $('#profile_picture_file, #banner_image_file').on('change', function (e) {
     e.preventDefault()
-    $(this)
-      .parent()
-      .addClass('loading')
+
+    $('body').addClass('is-loading')
 
     var fd = new FormData()
     var file = $(this)
@@ -510,6 +662,7 @@
     var individual_file = file[0].files[0]
     fd.append(file_name, individual_file)
     fd.append('action', 'nab_amplify_upload_images')
+    fd.append('company_id', amplifyJS.postID)
 
     jQuery.ajax({
       type: 'POST',
@@ -524,12 +677,10 @@
   })
 
   // Remove user images using ajax.
-  $('#profile_picture_remove, #banner_image_remove').on('change', function (e) {
+  $('#profile_picture_remove, #banner_image_remove').on('click', function (e) {
     e.preventDefault()
-    $(this)
-      .parents('.flex-box')
-      .find('.user-image-box')
-      .addClass('loading')
+
+    $('body').addClass('is-loading')
 
     jQuery.ajax({
       type: 'POST',
@@ -2164,8 +2315,8 @@
           } else if ('unfollow' === _this.attr('data-action')) {
             _this
               .parents('.amp-profile-content')
-              .find('.amp-actions .search-actions')
-              .replaceWith(followObj.follow_btn)
+              .find('.amp-actions')
+              .prepend(followObj.follow_btn)
             _this.parents('.unfollow-btn').remove()
           }
         }
@@ -2185,7 +2336,9 @@
           .attr('data-item')
       },
       success: function (response) {
-        jQuery('body').append('<div id="connection-message-popup" class="nab-modal" style="display: block;"><div class="nab-modal-inner"><div class="modal-content"><span class="nab-modal-close fa fa-times"></span><div class="modal-content-wrap nab-company-claim-popup"><p>Request sent successfully!</p></div></div></div></div>')
+        jQuery('body').append(
+          '<div id="connection-message-popup" class="nab-modal" style="display: block;"><div class="nab-modal-inner"><div class="modal-content"><span class="nab-modal-close fa fa-times"></span><div class="modal-content-wrap nab-company-claim-popup"><p>Request sent successfully!</p></div></div></div></div>'
+        )
       }
     })
   })
@@ -2197,12 +2350,7 @@
       0 <
         _this.parents('.reaction-item-list').find('.nab-reaction-type.reacted')
           .length &&
-      !_this.parents('.reaction-item-list').attr('data-log') &&
-      'comment' ===
-        _this
-          .parents('.reaction-item-list')
-          .attr('data-item-type')
-          .toLowerCase()
+      !_this.parents('.reaction-item-list').attr('data-log')
     ) {
       return false
     }

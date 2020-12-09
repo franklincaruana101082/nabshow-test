@@ -2923,7 +2923,7 @@ function nab_update_company_profile_callback(){
     $company_location_street_three             = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
     $company_location_city             = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
     $company_location_state             = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
-    $company_location_zip             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
+    $company_location_zipcode             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
     $company_location_country             = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
     
     // Update instagram profile

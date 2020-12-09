@@ -47,12 +47,15 @@ while (have_posts()):
             if (!empty($product_media['product_media_file'])) {
                 ?>
 			                            <div class="nab-preview-item">
-			                                <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
+			                                <img src="<?php echo $product_media['product_media_file']['sizes']['nab-company-product-thumb']; ?>" alt="">
 			                            </div>
 			                            <?php
     }
         }
-    }?>
+	}
+	$tags = get_the_terms(get_the_ID(), 'company-product-tag');
+	
+	?>
 
 			                        </div>
 			                    </div>
@@ -61,7 +64,18 @@ while (have_posts()):
 			                <div class="single-product-content">
 			                    <div class="single-product-main">
 			                        <div class="single-product-col left-col">
-			                           <?php the_content();?>
+									   <?php the_content();
+									 if(!empty($tags)){  
+									   ?>
+									   <div class="amp-tag-main">
+		                           		<ul class="amp-tag-list">
+											   <?php foreach($tags as $tag){ ?>
+											   <li><a href="<?php echo get_term_link($tag->term_id);?>" class="btn"><?php echo $tag->name; ?></a></li>
+											   <?php } ?>
+		                           			
+		                           		</ul>
+								   </div>
+											   <?php } ?>
 			                        </div>
 			                        <div class="single-product-col right-col">
 			                            <div class="black-bg-box author-details-box">
@@ -107,7 +121,7 @@ while (have_posts()):
 			                <div class="company-products related-content">
 
 			                <?php
-    $tags = get_the_terms(get_the_ID(), 'company-product-tag');
+   
 
     if ($tags) {
         ?>

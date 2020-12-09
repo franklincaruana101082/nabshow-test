@@ -178,3 +178,11 @@ add_action( 'init', 'nab_register_company_tags_taxonomy' );
 add_action( 'admin_init', 'nab_set_default_block_in_new_article' );
 add_action( 'init', 'nab_register_company_product_taxonomy' );
 
+add_action( 'wp_ajax_nab_edit_company_social_profiles', 'nab_edit_company_social_profiles_callback' );
+add_action( 'wp_ajax_nopriv_nab_edit_company_social_profiles', 'nab_edit_company_social_profiles_callback' );
+
+add_action( 'wp_ajax_nab_update_company_profile', 'nab_update_company_profile_callback' );
+add_action( 'wp_ajax_nopriv_nab_update_company_profile', 'nab_update_company_profile_callback' );
+
+add_action( 'wp_ajax_nab_edit_company_about', 'nab_edit_company_about_callback' );
+add_action( 'wp_ajax_nopriv_nab_edit_company_about', 'nab_edit_company_about_callback' );

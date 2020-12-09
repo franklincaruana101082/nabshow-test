@@ -3087,7 +3087,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               }),
               wp.element.createElement('img', {
                 src: dataArray[index].media,
-                alt: dataArray[index].title,
+                alt: dataArray[index].mediaAlt,
                 className: 'img'
               })
             );
@@ -3161,6 +3161,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onSelect: function onSelect(media) {
                     var arrayCopy = [].concat(_toConsumableArray(dataArray));
                     arrayCopy[index].media = media.url;
+                    arrayCopy[index].mediaAlt = media.alt;
                     setAttributes({ dataArray: arrayCopy });
                   },
                   type: 'image',
@@ -3433,7 +3434,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(
                       'div',
                       { className: 'left' },
-                      data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                      data.media ? wp.element.createElement('img', { src: data.media, alt: data.mediaAlt }) : wp.element.createElement(
                         'div',
                         { className: 'no-image' },
                         'No Image'
@@ -3589,7 +3590,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             advertising: 'Sponsored',
             media: '',
             mediaAlt: '',
-            shortcode: ''
+            shortcode: '',
+            bookmark: ''
+          };
+        }
+
+        if (name == 'option-7') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            title: '',
+            subTitle: '',
+            bookmark: '',
+            buttonText: '<a href="#" class="btn">Read More</a>'
           };
         }
 
@@ -3743,7 +3756,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   }
                 })
               ) : null,
-              data.option !== 'option-6' ? wp.element.createElement(
+              'option-2' === data.option && wp.element.createElement(RichText, {
+                tagName: 'div',
+                placeholder: __('Bookmark'),
+                value: data.bookmark,
+                keepPlaceholderOnFocus: 'true',
+                className: 'bookmark-wrap',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].bookmark = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              data.option !== 'option-6' && data.option !== 'option-7' ? wp.element.createElement(
                 'div',
                 { className: 'image' },
                 wp.element.createElement(MediaUpload, {
@@ -3764,6 +3792,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement('span', {
                           onClick: open,
                           className: 'dashicons dashicons-edit edit-image'
+                        }),
+                        'option-2' === data.option && wp.element.createElement('span', {
+                          className: 'dashicons dashicons-no-alt remove',
+                          onClick: function onClick() {
+                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                            arrayCopy[index].media = '';
+                            arrayCopy[index].mediaAlt = '';
+                            setAttributes({ dataArray: arrayCopy });
+                          }
                         }),
                         wp.element.createElement('img', { src: data.media, alt: data.alt })
                       );
@@ -3800,6 +3837,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           onClick: open,
                           className: 'dashicons dashicons-edit edit-image'
                         }),
+                        wp.element.createElement('span', {
+                          className: 'dashicons dashicons-no-alt remove',
+                          onClick: function onClick() {
+                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                            arrayCopy[index].videoIcon = '';
+                            setAttributes({ dataArray: arrayCopy });
+                          }
+                        }),
                         wp.element.createElement('img', { src: data.videoIcon })
                       );
                     } else {
@@ -3819,6 +3864,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               wp.element.createElement(
                 'div',
                 { className: 'related-content-wrap' },
+                'option-7' === data.option && wp.element.createElement(RichText, {
+                  tagName: 'div',
+                  placeholder: __('Bookmark'),
+                  value: data.bookmark,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'bookmark-wrap',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].bookmark = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
                 data.option !== 'option-3' && data.option !== 'option-6' && wp.element.createElement(
                   Fragment,
                   null,
@@ -3872,7 +3932,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }
                   })
                 ),
-                data.option == 'option-2' && wp.element.createElement(
+                data.option == 'option-2' || data.option == 'option-7' && wp.element.createElement(
                   'div',
                   { className: 'bottom-container' },
                   wp.element.createElement(RichText, {
@@ -4067,6 +4127,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }
                   },
                   'Option 6'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-7',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-7');
+                    }
+                  },
+                  'Option 7'
                 )
               )
             )
@@ -4197,6 +4267,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     { className: 'image' },
                     wp.element.createElement('img', { src: data.media, alt: data.mediaAlt })
                   ),
+                  ('option-2' === data.option || 'option-7' == data.option && data.bookmark) && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.bookmark,
+                    className: 'bookmark-wrap'
+                  }),
                   data.videoIcon && wp.element.createElement(
                     'div',
                     { className: 'video-icon' },
@@ -4247,7 +4322,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                       value: data.buttonText,
                       className: 'button-wrap'
                     }),
-                    data.option == 'option-6' && wp.element.createElement(RichText.Content, {
+                    data.option == 'option-6' || data.option == 'option-7' && wp.element.createElement(RichText.Content, {
                       tagName: 'div',
                       value: data.shortcode,
                       className: 'shortcode-wrap'
@@ -4323,7 +4398,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             subTitle: '',
             description: '',
             buttonText: '<a href="#">Read More</a>',
-            shortcode: ''
+            shortcode: '',
+            bookmark: ''
           }])
         });
       }
@@ -4411,6 +4487,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             wp.element.createElement(
               'div',
               { className: 'inner' },
+              wp.element.createElement(RichText, {
+                tagName: 'div',
+                placeholder: __('Bookmark'),
+                value: data.bookmark,
+                keepPlaceholderOnFocus: 'true',
+                className: 'bookmark-wrap',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].bookmark = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
               wp.element.createElement(RichText, {
                 tagName: 'h3',
                 placeholder: __('Title'),
@@ -4541,6 +4632,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               wp.element.createElement(
                 'div',
                 { className: 'inner' },
+                data.bookmark && wp.element.createElement(RichText.Content, {
+                  tagName: 'div',
+                  value: data.bookmark,
+                  className: 'bookmark-wrap'
+                }),
                 data.title && wp.element.createElement(RichText.Content, {
                   tagName: 'h3',
                   value: data.title,

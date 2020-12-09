@@ -1,6 +1,5 @@
 <?php
 global $post;
-print_r($post);
 ?>
 <div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">

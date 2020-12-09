@@ -94,7 +94,19 @@
           advertising: 'Sponsored',
           media: '',
           mediaAlt: '',
-          shortcode: ''
+          shortcode: '',
+          bookmark: ''
+        }
+      }
+
+      if (name == 'option-7') {
+        attr = {
+          index: dataArray.length,
+          option: name,
+          title: '',
+          subTitle: '',
+          bookmark: '',
+          buttonText: '<a href="#" class="btn">Read More</a>'
         }
       }
 
@@ -222,7 +234,24 @@
                   />
                 </div>
               ) : null}
-              {data.option !== 'option-6' ? (
+              {'option-2' === data.option && (
+                <RichText
+                  tagName='div'
+                  placeholder={__('Bookmark')}
+                  value={data.bookmark}
+                  keepPlaceholderOnFocus='true'
+                  className='bookmark-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].bookmark = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              )}
+              {data.option !== 'option-6' && data.option !== 'option-7' ? (
                 <div className='image'>
                   <MediaUpload
                     onSelect={media => {
@@ -240,6 +269,18 @@
                               onClick={open}
                               className='dashicons dashicons-edit edit-image'
                             ></span>
+                            {'option-2' === data.option && (
+                              <span
+                                className='dashicons dashicons-no-alt remove'
+                                onClick={() => {
+                                  let arrayCopy = [...dataArray]
+                                  arrayCopy[index].media = ''
+                                  arrayCopy[index].mediaAlt = ''
+                                  setAttributes({ dataArray: arrayCopy })
+                                }}
+                              ></span>
+                            )}
+                            
                             <img src={data.media} alt={data.alt} />
                           </Fragment>
                         )
@@ -272,6 +313,14 @@
                               onClick={open}
                               className='dashicons dashicons-edit edit-image'
                             ></span>
+                            <span
+                                className='dashicons dashicons-no-alt remove'
+                                onClick={() => {
+                                  let arrayCopy = [...dataArray]
+                                  arrayCopy[index].videoIcon = '';
+                                  setAttributes({ dataArray: arrayCopy })
+                                }}
+                              ></span>
                             <img src={data.videoIcon} />
                           </Fragment>
                         )
@@ -291,6 +340,23 @@
                 </div>
               ) : null}
               <div className="related-content-wrap">
+              {'option-7' === data.option && (
+                <RichText
+                  tagName='div'
+                  placeholder={__('Bookmark')}
+                  value={data.bookmark}
+                  keepPlaceholderOnFocus='true'
+                  className='bookmark-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].bookmark = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              )}
                 {data.option !== 'option-3' && data.option !== 'option-6' && (
                   <Fragment>
                     <RichText
@@ -345,7 +411,7 @@
                     />
                   </Fragment>
                 )}
-                {data.option == 'option-2' && (
+                {data.option == 'option-2' || data.option == 'option-7' && (
                   <div className="bottom-container">
                     <RichText
                       tagName='div'
@@ -493,6 +559,12 @@
                   >
                     Option 6
                   </li>
+                  <li
+                    className='option-7'
+                    onClick={() => this.addNewItem('option-7')}
+                  >
+                    Option 7
+                  </li>
                 </ul>
               </div>
             </div>
@@ -597,6 +669,13 @@
                         <img src={data.media} alt={data.mediaAlt} />
                       </div>
                     )}
+                    {('option-2' === data.option || 'option-7' == data.option && data.bookmark) && (
+                      <RichText.Content
+                        tagName='div'
+                        value={data.bookmark}
+                        className='bookmark-wrap'
+                      />
+                    )}
                     {data.videoIcon && (
                       <div className='video-icon'>
                         <img src={data.videoIcon} alt={data.videoIcon} />
@@ -653,7 +732,7 @@
                           className='button-wrap'
                         />
                       )}
-                      {data.option == 'option-6' && (
+                      {data.option == 'option-6' || data.option == 'option-7' && (
                         <RichText.Content
                           tagName='div'
                           value={data.shortcode}
