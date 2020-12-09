@@ -69,40 +69,43 @@ class API extends Hooks {
         $user_pass = str_replace( '-', '=', $this->ncrypt->decrypt( $parameters['user_pass'] ) );
         $user_id = wp_create_user( $user_login, $user_pass, $parameters['user_email'] );
 
-        $data = array(
-            'ID'            => $user_id,
-            'user_url'      => $parameters['user_url'],
-            'first_name'    => $parameters['first_name'],
-            'last_name'     => $parameters['last_name'],
-            'display_name'  => $parameters['display_name'],
-        );
-        wp_update_user( $data );
-
-        $user = new \WP_User( $user_id );
-
-        /**
-         * Assign user roles accordingly
-         */
-        $roles = cx_get_option( 'share-logins_basics', 'decide_roles', 'existing' );
-        if( 'override' == $roles ) {
-            $user->remove_role( get_option( 'default_role' ) );
-            foreach( $parameters['roles'] as $role ) $user->add_role( $role );
-
-        }
-        elseif( 'both' == $roles ) {
-            foreach( $parameters['roles'] as $role ) $user->add_role( $role );
-        }
-
-        /**
-         * Update user meta data
-         */
-        if( isset( $parameters['meta'] ) && is_array( $parameters['meta'] ) && count( $parameters['meta'] ) > 0 ) :
-        foreach ( $parameters['meta'] as $key => $value ) {
-            update_user_meta( $user_id, $key, $value );
-        }
-        endif;
-
-        cx_add_log( 'create', 'incoming', $user_login, $parameters['site_url'] );
+        if ( $user_id && ! is_wp_error( $user_id ) ) {
+            
+            $data = array(
+                'ID'            => $user_id,
+                'user_url'      => $parameters['user_url'],
+                'first_name'    => $parameters['first_name'],
+                'last_name'     => $parameters['last_name'],
+                'display_name'  => $parameters['display_name'],
+            );
+            wp_update_user( $data );
+    
+            $user = new \WP_User( $user_id );
+    
+            /**
+             * Assign user roles accordingly
+             */
+            $roles = cx_get_option( 'share-logins_basics', 'decide_roles', 'existing' );
+            if( 'override' == $roles ) {
+                $user->remove_role( get_option( 'default_role' ) );
+                foreach( $parameters['roles'] as $role ) $user->add_role( $role );
+    
+            }
+            elseif( 'both' == $roles ) {
+                foreach( $parameters['roles'] as $role ) $user->add_role( $role );
+            }
+    
+            /**
+             * Update user meta data
+             */
+            if( isset( $parameters['meta'] ) && is_array( $parameters['meta'] ) && count( $parameters['meta'] ) > 0 ) :
+            foreach ( $parameters['meta'] as $key => $value ) {
+                update_user_meta( $user_id, $key, $value );
+            }
+            endif;
+    
+            cx_add_log( 'create', 'incoming', $user_login, $parameters['site_url'] );
+        }        
 
         return $parameters;
     }
