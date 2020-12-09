@@ -411,7 +411,7 @@
                     />
                   </Fragment>
                 )}
-                {data.option == 'option-2' || data.option == 'option-7' && (
+                {(data.option == 'option-2' || data.option == 'option-7') && (
                   <div className="bottom-container">
                     <RichText
                       tagName='div'
@@ -732,7 +732,7 @@
                           className='button-wrap'
                         />
                       )}
-                      {data.option == 'option-6' || data.option == 'option-7' && (
+                      {(data.option == 'option-6' || data.option == 'option-7') && (
                         <RichText.Content
                           tagName='div'
                           value={data.shortcode}
