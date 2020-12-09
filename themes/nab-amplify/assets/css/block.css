@@ -296,6 +296,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .button-wrap a:focus,
 .button-wrap a:hover{background-color:#e5018b;}
 .shortcode-wrap{color:#000;padding:5px 10px;background-color:#fff;width:100%;margin:0 0 20px;overflow:auto;white-space:nowrap;}
+.bookmark-wrap{color:#000;padding:5px 10px;background-color:#fff;width:100%;margin:0;overflow:auto;white-space:nowrap;}
 
 /* upcoming events */
 .no-image{color:#fff;}
@@ -345,11 +346,13 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .related-content-body{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px;padding:10px 0;}
 .related-content .item{padding:0 10px;width:25%;margin:0 0 30px;position:relative;}
 .related-content .inner{position:relative;background-color:#303030;height:100%;max-height:calc(100% - 40px);}
+.related-content .inner span.amp-bookmark::after{right:0;}
 .related-content .option-5 .inner{background-color:#404040;}
 .related-content .option-5 .inner .related-content-wrap:first-child{max-height:100%;}
 .related-content .option-5 .inner .related-content-wrap:first-child .title{margin:0 0 100px;}
 .related-content .video-icon{-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);padding:0 20px;max-width:110px;position:absolute;left:50%;text-align:center;z-index:2;}
-.related-content .video-icon .edit-image{position:absolute;right:0;top:-20px;}
+.related-content .video-icon .edit-image{position:absolute;left:5px;top:-15px;width: 25px;height: 25px;line-height: 25px;font-size: 16px;}
+.related-content .video-icon .remove{top:-15px;right:5px;margin:0;position:absolute;font-size: 16px;width: 25px;height: 25px;line-height: 25px;}
 .related-content .video-icon button{width:80px;height:80px;border-radius:50%;font-size:12px;padding:0 5px!important;}
 .related-content .video-icon button span{display:block;margin:0 auto;}
 .related-content .background-image,
@@ -378,7 +381,10 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .option-4 .image{-webkit-transform:translateY(-70%);-ms-transform:translateY(-70%);transform:translateY(-70%);max-width:160px;margin:0;position:absolute;left:0;right:0;z-index:2;}
 .related-content .option-4 .image{text-align:center;margin:0 auto;}
 .related-content .image .edit-image{position:absolute;right:0;top:50px;}
-.related-content .option-2 .image .edit-image,
+.related-content .image .remove{position:absolute;right:0;top:50px;border-radius:0;margin:0;}
+.related-content .option-2 .image .edit-image{top:40px;right:35px;}
+.related-content .option-2 .image .remove{top:40px;}
+.related-content .option-2 .bookmark-wrap{border:3px solid #282828;}
 .related-content .option-5 .image .edit-image{top:0;}
 .related-content .option-1 .image .edit-image,
 .related-content .option-4 .image .edit-image{right:10px;top:10px;}
@@ -390,6 +396,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content .advertising{background-color:rgb(99 99 223 / 0.5);color:#fff;padding:11px 10px;position:absolute;top:0;left:0;right:0;font-size:16px;}
 .related-content .related-content-wrap{z-index:1;position:relative;padding:25px 20px 60px 20px;height:100%;max-height:calc(100% - 130px);}
 .related-content .related-content-wrap > .button-wrap{position:absolute;left:0;right:0;bottom:0;padding:10px 20px 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.related-content .option-2 .related-content-wrap{height:calc(100% - 175px);}
 .related-content .option-4 .related-content-wrap > .button-wrap{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 .related-content .option-5 .related-content-wrap{padding:40px 30px 60px 30px;}
 .related-content .option-1 .related-content-wrap,
@@ -418,6 +425,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .related-content-2{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -10px;padding:10px 0;font-family:'Open Sans',Arial,sans-serif;}
 .related-content-2 .item{padding:0 10px;width:33.333333333333336%;margin-bottom:30px;}
 .related-content-2 .inner{background-color:#404040;padding:50px 30px 30px;position:relative;height:calc(100% - 35px);}
+.related-content-2 .inner .bookmark-wrap{margin:0 0 20px;}
 .related-content-2 .title{color:#fff;font-size:24px;margin:0 0 80px;line-height:normal;}
 .related-content-2 .title a{color:#fff;}
 .related-content-2 .title a:hover{text-decoration:underline;}

@@ -94,7 +94,8 @@
           advertising: 'Sponsored',
           media: '',
           mediaAlt: '',
-          shortcode: ''
+          shortcode: '',
+          bookmark: ''
         }
       }
 
@@ -222,6 +223,23 @@
                   />
                 </div>
               ) : null}
+              {'option-2' === data.option && (
+                <RichText
+                  tagName='div'
+                  placeholder={__('Bookmark')}
+                  value={data.bookmark}
+                  keepPlaceholderOnFocus='true'
+                  className='bookmark-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].bookmark = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              )}
               {data.option !== 'option-6' ? (
                 <div className='image'>
                   <MediaUpload
@@ -240,6 +258,18 @@
                               onClick={open}
                               className='dashicons dashicons-edit edit-image'
                             ></span>
+                            {'option-2' === data.option && (
+                              <span
+                                className='dashicons dashicons-no-alt remove'
+                                onClick={() => {
+                                  let arrayCopy = [...dataArray]
+                                  arrayCopy[index].media = ''
+                                  arrayCopy[index].mediaAlt = ''
+                                  setAttributes({ dataArray: arrayCopy })
+                                }}
+                              ></span>
+                            )}
+                            
                             <img src={data.media} alt={data.alt} />
                           </Fragment>
                         )
@@ -272,6 +302,14 @@
                               onClick={open}
                               className='dashicons dashicons-edit edit-image'
                             ></span>
+                            <span
+                                className='dashicons dashicons-no-alt remove'
+                                onClick={() => {
+                                  let arrayCopy = [...dataArray]
+                                  arrayCopy[index].videoIcon = '';
+                                  setAttributes({ dataArray: arrayCopy })
+                                }}
+                              ></span>
                             <img src={data.videoIcon} />
                           </Fragment>
                         )
@@ -596,6 +634,13 @@
                       <div className='image'>
                         <img src={data.media} alt={data.mediaAlt} />
                       </div>
+                    )}
+                    {('option-2' === data.option && data.bookmark) && (
+                      <RichText.Content
+                        tagName='div'
+                        value={data.bookmark}
+                        className='bookmark-wrap'
+                      />
                     )}
                     {data.videoIcon && (
                       <div className='video-icon'>

@@ -44,7 +44,7 @@
 			padding: 50px;
 			position: relative;
 			width: 100%;
-			z-index: 100;
+			z-index: 9;
 		}
 
 		#content > * {
@@ -74,7 +74,7 @@
 			font-size: 600%;
 			line-height: 1;
 			margin: 20px 0 20px 0;
-			z-index: 100;
+			z-index: 9;
 		}
 
 		#content p {
@@ -128,7 +128,7 @@
 
 		#transparency {
 			background: rgba(0, 0, 0, 0.5);
-			z-index: 50;
+			z-index: 8;
 		}
 
 

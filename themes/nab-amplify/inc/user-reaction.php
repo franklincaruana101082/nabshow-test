@@ -52,49 +52,45 @@ function nab_get_reaction_buttons( $post_id, $item_type = 'post_type' ) {
             <?php
             
             $user_logged_in = is_user_logged_in();
+            $reaction = '';
 
-            if ( $user_logged_in || 'comment' === $item_type ) {
-
-                $reaction = '';
-
-                if ( $user_logged_in ) {
-                    
-                    $current_user_id    = get_current_user_id();
-                    $reaction           = nab_get_user_reaction( $current_user_id, $post_id );
-                }
+            if ( $user_logged_in ) {
                 
-                $like_button_class  = ! empty( $reaction ) && isset( $reaction_types[ $reaction ] ) ? 'btn reaction-main-like reacted' : 'btn reaction-main-like';
-                ?>
-                <div class="reaction-list-type">
-                    <a href="javascript:void(0);" class="<?php echo esc_attr( $like_button_class ); ?>"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Like</a>
-                    <div class="reaction-icon-modal">
-                        <ul class="reaction-item-list" data-item="<?php echo esc_attr( $post_id ); ?>" data-item-type="<?php echo esc_attr( $item_type ); ?>" data-log="<?php echo esc_attr( $user_logged_in ); ?>">
-                            <?php
-                            foreach( $reaction_types as $key => $type ) {
-        
-                                $action         = 'add';
-                                $reaction_class = 'nab-reaction-type';
-                                $reaction_img   = $base_path . $type . '.svg';
+                $current_user_id    = get_current_user_id();
+                $reaction           = nab_get_user_reaction( $current_user_id, $post_id );
+            }
+            
+            $like_button_class  = ! empty( $reaction ) && isset( $reaction_types[ $reaction ] ) ? 'btn reaction-main-like reacted' : 'btn reaction-main-like';
+            ?>
+            <div class="reaction-list-type">
+                <a href="javascript:void(0);" class="<?php echo esc_attr( $like_button_class ); ?>"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Like</a>
+                <div class="reaction-icon-modal">
+                    <ul class="reaction-item-list" data-item="<?php echo esc_attr( $post_id ); ?>" data-item-type="<?php echo esc_attr( $item_type ); ?>" data-log="<?php echo esc_attr( $user_logged_in ); ?>">
+                        <?php
+                        foreach( $reaction_types as $key => $type ) {
+    
+                            $action         = 'add';
+                            $reaction_class = 'nab-reaction-type';
+                            $reaction_img   = $base_path . $type . '.svg';
 
-                                if ( (int) $reaction === $key ) {
-                                    
-                                    $action         = 'remove';
-                                    $reaction_class .= ' reacted';
-                                }
-                                ?>
-                                <li>
-                                    <a href="javascript:void(0);" class="<?php echo esc_attr( $reaction_class ); ?>" data-action="<?php echo esc_attr( $action ); ?>" data-reaction="<?php echo esc_attr( $key ); ?>">
-                                        <img width="30" src="<?php echo esc_url( $reaction_img ); ?>" alt="<?php echo esc_attr( $type ); ?>" />
-                                    </a>
-                                </li>
-                                <?php
+                            if ( (int) $reaction === $key ) {
+                                
+                                $action         = 'remove';
+                                $reaction_class .= ' reacted';
                             }
                             ?>
-                        </ul>
-                    </div>
+                            <li>
+                                <a href="javascript:void(0);" class="<?php echo esc_attr( $reaction_class ); ?>" data-action="<?php echo esc_attr( $action ); ?>" data-reaction="<?php echo esc_attr( $key ); ?>">
+                                    <img width="30" src="<?php echo esc_url( $reaction_img ); ?>" alt="<?php echo esc_attr( $type ); ?>" />
+                                </a>
+                            </li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
                 </div>
-                <?php
-            }
+            </div>
+            <?php
 
             nab_get_reacted_html( $post_id );
             ?>
@@ -230,10 +226,10 @@ function nab_add_new_reaction( $user_id, $post_id, $reaction_id, $item_type = 'p
 
     global $wpdb;
     
-    if ( ( empty( $user_id ) && 'comment' !== $item_type ) || empty( $post_id ) || empty( $reaction_id ) ) {        
+    if ( empty( $post_id ) || empty( $reaction_id ) ) {        
         
         return false;
-    }    
+    }
 
     if ( empty( $item_type ) || 'post_type' === $item_type ) {
         
@@ -361,15 +357,14 @@ function nab_update_post_reaction_callback() {
     $reaction_id    = filter_input( INPUT_POST, 'rid', FILTER_SANITIZE_NUMBER_INT );
     $action         = filter_input( INPUT_POST, 'item_action', FILTER_SANITIZE_STRING );
     $item_type      = filter_input( INPUT_POST, 'item_type', FILTER_SANITIZE_STRING );
-    $result         = array( 'success' => false );
-    $user_logged_in = is_user_logged_in();
+    $result         = array( 'success' => false );    
 
-    if ( ( $user_logged_in || 'comment' === $item_type ) && ( isset( $post_id ) && ! empty( $post_id ) ) && ( isset( $reaction_id ) && ! empty( $reaction_id ) ) && ( isset( $action )  && ! empty( $action ) ) ) {
+    if ( ( isset( $post_id ) && ! empty( $post_id ) ) && ( isset( $reaction_id ) && ! empty( $reaction_id ) ) && ( isset( $action )  && ! empty( $action ) ) ) {
 
         $current_user_id    = 0;
         $reaction           = '';
         
-        if ( $user_logged_in ) {
+        if ( is_user_logged_in() ) {
             
             $current_user_id    = get_current_user_id();
             $reaction           = nab_get_user_reaction( $current_user_id, $post_id );

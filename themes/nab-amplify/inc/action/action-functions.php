@@ -173,9 +173,10 @@ function nab_amplify_upload_images()
 {
 
     $user_id = get_current_user_id();
+    $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 
     // Upload images.
-    $images_names        = array('profile_picture', 'banner_image');
+    $images_names         = array('profile_picture', 'banner_image','company_profile_picture', 'company_banner_image');
     $dependencies_loaded = 0;
     foreach ($_FILES as $file_key => $file_details) {
 
@@ -194,7 +195,14 @@ function nab_amplify_upload_images()
 
             if (!is_wp_error($attachment_id)) {
                 // update in meta
-                update_user_meta($user_id, $file_key, $attachment_id);
+                if( $file_key === 'company_profile_picture' ){
+                    update_field('field_5fb60cb5ce130', $attachment_id, $company_id);
+                }else if( $file_key === 'company_banner_image' ){
+                    update_field('field_5fb60d61ce131', $attachment_id, $company_id);
+                }else{
+                    update_user_meta($user_id, $file_key, $attachment_id);
+                }
+                
             }
         }
     }
@@ -253,7 +261,7 @@ function nab_amplify_remove_images()
     $user_id = get_current_user_id();
 
     // update in meta
-    update_user_meta($user_id, $name, '');
+    update_user_meta($user_id, $name, 'removed');
 
     wp_die();
 }
@@ -2281,37 +2289,27 @@ function nab_amplify_search_settings()
 /**
  * Search setting page fields.
  */
-function nab_search_settings_callback()
-{
+function nab_search_settings_callback() {
 
-    $display_horizontal_banner = filter_input(INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING);
-    $display_vertical_banner   = filter_input(INPUT_POST, 'display_vertical_banner', FILTER_SANITIZE_STRING);
+    $display_horizontal_banner = filter_input( INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING );
 
-    if (isset($display_horizontal_banner) && !empty($display_horizontal_banner)) {
+    if ( isset( $display_horizontal_banner ) && ! empty( $display_horizontal_banner ) ) {
 
         update_option('search_display_horizontal_banner', $display_horizontal_banner);
 
     } else {
 
-        $display_horizontal_banner = get_option('search_display_horizontal_banner', 'no');
+        $display_horizontal_banner = get_option( 'search_display_horizontal_banner', 'yes' );
     }
 
-    if (isset($display_vertical_banner) && !empty($display_vertical_banner)) {
 
-        update_option('search_display_vertical_banner', $display_vertical_banner);
 
-    } else {
+    if ( isset( $_POST[ 'search_horizontal_banner' ] ) ) {
 
-        $display_vertical_banner = get_option('search_display_vertical_banner', 'no');
-    }
+        $search_horizontal_banner = wp_kses_post( $_POST[ 'search_horizontal_banner' ] );
 
-    if (isset($_POST['search_horizontal_banner'])) {
+        update_option( 'search_horizontal_banner', $search_horizontal_banner );
 
-        $search_horizontal_banner = wp_kses_post($_POST['search_horizontal_banner']);
-        $search_vertical_banner   = wp_kses_post($_POST['search_vertical_banner']);
-
-        update_option('search_horizontal_banner', $search_horizontal_banner);
-        update_option('search_vertical_banner', $search_vertical_banner);
     }
     ?>
 	<div class="search-settings">
@@ -2319,47 +2317,27 @@ function nab_search_settings_callback()
 		<form class="search-settings-form" method="post">
 			<table class="form-table" role="presentation">
 				<tr>
-					<th>Display Horizontal Ad:</th>
+					<th>Display Ad:</th>
 					<td>
-						<input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked($display_horizontal_banner, 'yes');?> />
+						<input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'yes' );?> />
 						<label for="display_horizontal_banner_yes">Yes</label>
-						<input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked($display_horizontal_banner, 'no');?> />
+						<input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'no' );?> />
 						<label for="display_horizontal_banner_no">No</label>
 					</td>
 				</tr>
 				<tr>
 					<th>
-						<label>Horizontal Ad:</label>
+						<label>Ad html:</label>
 					</th>
 					<td>
 						<?php
-$search_horizontal_banner = get_option('search_horizontal_banner');
-    wp_editor($search_horizontal_banner, 'search_horizontal_banner', array('tinymce' => false));
-    ?>
-					</td>
-				</tr>
-				<tr>
-					<th>Display vertical Ad:</th>
-					<td>
-						<input id="display_vertical_banner_yes" type="radio" value="yes" name="display_vertical_banner" <?php checked($display_vertical_banner, 'yes');?> />
-						<label for="display_vertical_banner_yes">Yes</label>
-						<input id="display_vertical_banner_no" type="radio" value="no" name="display_vertical_banner" <?php checked($display_vertical_banner, 'no');?> />
-						<label for="display_vertical_banner_no">No</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						<label>Vertical Ad:</label>
-					</th>
-					<td>
-						<?php
-$search_vertical_banner = get_option('search_vertical_banner');
-    wp_editor($search_vertical_banner, 'search_vertical_banner', array('tinymce' => false));
-    ?>
+                        $search_horizontal_banner = get_option( 'search_horizontal_banner' );
+                        wp_editor( $search_horizontal_banner, 'search_horizontal_banner', array( 'tinymce' => false ) );
+                        ?>
 					</td>
 				</tr>
 			</table>
-			<?php submit_button("Save Changes");?>
+			<?php submit_button( "Save Changes" );?>
 		</form>
 	</div>
 	<?php
@@ -2393,7 +2371,7 @@ function nab_register_company_post_type()
         'query_var'          => true,
         'rewrite'            => true,
         'capability_type'    => 'post',
-        'has_archive'        => false,
+        'has_archive'        => true,
         'hierarchical'       => false,
         'menu_position'      => null,
         'supports'           => array(
@@ -2909,3 +2887,105 @@ function nab_register_company_product_taxonomy()
 
 }
 
+function nab_edit_company_social_profiles_callback(){
+    $final_result = array();
+    $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_data    = array();
+    $company_data['ID'] = $company_id;
+    $company_data['instagram_profile'] = get_field('instagram_url',$company_id);
+    $company_data['linkedin_profile'] = get_field('linkedin_url',$company_id);
+    $company_data['facebook_profile'] = get_field('facebook_url',$company_id);
+    $company_data['twitter_profile'] = get_field('twitter_url',$company_id);
+    
+    require_once get_template_directory() . '/inc/nab-edit-company-social-profiles.php';
+
+    $final_result['success'] = true;
+    $final_result['content'] = '';
+	echo wp_json_encode($final_result);
+	wp_die();
+}
+
+function nab_update_company_profile_callback(){
+
+    $final_result = array();
+
+    $instagram_profile       = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
+    $linkedin_profile            = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
+    $facebook_profile            = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
+    $twitter_profile             = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
+    $company_about             = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $company_industry             = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
+    $company_location             = filter_input(INPUT_POST, 'company_location', FILTER_SANITIZE_STRING);
+    $company_website             = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
+    $company_point_of_contact             = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
+    $company_id              = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    
+    // Update instagram profile
+    if ($instagram_profile) {
+        update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
+    }
+
+    // Update linkedin profile
+    if ($linkedin_profile) {
+        update_field('field_5fb60e12ce134', $linkedin_profile, $company_id);
+    }
+    // Update linkedin profile
+    if ($facebook_profile) {
+        update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
+    }
+
+    // Update linkedin 
+    if ($twitter_profile) {
+        update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
+    }
+
+    // Update Company 
+    if ($company_about) {
+        update_field('field_5fb63813b099e', $company_about, $company_id);
+    }
+
+    // Update linkedin profile
+    if ($company_industry) {
+        update_field('field_5fa3e81e3fa45', $company_industry, $company_id);
+    }
+
+    // Update linkedin 
+    if ($company_location) {
+        update_field('field_5fa3e84f3fa46', $company_location, $company_id);
+    }
+
+    // Update linkedin profile
+    if ($company_website) {
+        update_field('field_5fa3e87a3fa47', $company_website, $company_id);
+    }
+
+    // Update linkedin profile
+    if ($company_point_of_contact) {
+        update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+    }
+
+    $final_result['success'] = false;
+    $final_result['content'] = '';
+    
+    echo wp_json_encode($final_result);
+    wp_die();
+}
+
+function nab_edit_company_about_callback(){
+    $final_result = array();
+    $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_data    = array();
+    $company_data['ID'] = $company_id;
+    $company_data['company_about'] = get_field('about_company',$company_id);
+    $company_data['company_industry'] = get_field('company_industary',$company_id);
+    $company_data['company_location'] = get_field('company_location',$company_id);
+    $company_data['company_website'] = get_field('company_website',$company_id);
+    $company_data['company_point_of_contact'] = get_field('point_of_contact',$company_id);
+    
+    require_once get_template_directory() . '/inc/nab-edit-company-about.php';
+
+    $final_result['success'] = true;
+    $final_result['content'] = '';
+	echo wp_json_encode($final_result);
+	wp_die();
+}

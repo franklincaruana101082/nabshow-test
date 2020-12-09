@@ -65,9 +65,6 @@ function nab_get_follow_button( $company_id, $user_id, $search_page = false ) {
             <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="button">View</a>
         </div>
         <?php
-    } else {
-
-        nab_get_company_message_button( $company_id );
     }
 }
 
@@ -272,20 +269,19 @@ function nab_company_follow_action_callback() {
             
             if ( $following ) {
                 
-                ob_start();
+                $button = '';                
                 
                 if ( 'yes' === strtolower( $search_page ) ) {
+                    
+                    ob_start();
+                    
                     ?>
                     <div class="search-actions">
                         <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="button">View</a>
                     </div>
                     <?php
-                } else {
-
-                    nab_get_company_message_button( $company_id );
+                    $button = ob_get_clean();
                 }
-                
-                $button = ob_get_clean();
 
                 ob_start();
 

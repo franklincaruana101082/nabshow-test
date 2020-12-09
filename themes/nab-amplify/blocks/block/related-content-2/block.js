@@ -32,7 +32,8 @@
             subTitle: '',
             description: '',            
             buttonText: '<a href="#">Read More</a>',
-            shortcode: ''
+            shortcode: '',
+            bookmark: ''
           }
         ]
       })
@@ -99,7 +100,22 @@
                 }}
               ></span>
             </div>
-            <div className='inner'>              
+            <div className='inner'>
+              <RichText
+                tagName='div'
+                placeholder={__('Bookmark')}
+                value={data.bookmark}
+                keepPlaceholderOnFocus='true'
+                className='bookmark-wrap'
+                onChange={value => {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '')
+                  value = value.replace(/<br>.*}<br>/, '')
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                  let arrayCopy = [...dataArray]
+                  arrayCopy[index].bookmark = value
+                  setAttributes({ dataArray: arrayCopy })
+                }}
+              />
               <RichText
                 tagName='h3'
                 placeholder={__('Title')}
@@ -215,7 +231,14 @@
           <div className='related-content-2'>
             {dataArray.map((data, index) => (
               <div className={`item`}>
-                <div className='inner'>                  
+                <div className='inner'>
+                  {data.bookmark &&
+                    <RichText.Content
+                      tagName='div'
+                      value={data.bookmark}
+                      className='bookmark-wrap'
+                    />
+                  } 
                   {data.title && (
                     <RichText.Content
                       tagName='h3'

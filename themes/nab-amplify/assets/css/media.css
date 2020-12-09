@@ -2,9 +2,9 @@
 	*{box-sizing:border-box!important;}
 	.woocommerce-account h2{color:#000;font-size:24px;}
 	.banner-header:before,
-	.banner-header #profile-avtar label:before{display:none;}
+	.banner-header .profile-avtar label:before{display:none;}
 	.banner-header #edit-mode-buttons{display:none;}
-	.banner-header #profile-avtar{display:none;}
+	.banner-header .profile-avtar{display:none;}
 	.amp-profile-social{display:none;}
 	.amp-profile-message{display:none;}
 	.woocommerce-account .woocommerce a{color:#0000ee;}
@@ -68,6 +68,7 @@
 	.site-footer:before{bottom:-140px;left:-140px;top:-20%;background-size:70%;background-position:bottom center;background-repeat:no-repeat;width:390px;}
 }
 @media (max-width:1395px){
+	.site-header .nab-header-search .search-form .search-field{width:400px;}
 }
 @media (max-width:1200px){
 	.site-header .nab-header-search .search-form .search-field{width:300px;}
@@ -113,10 +114,12 @@
 
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%;}
-	.amp-profile-main .amp-profile-social ul li a{width:55px;height:55px;}
-	.amp-profile-main .amp-profile-social ul li a i{font-size:26px;}
+	.amp-profile-main .amp-profile-social ul li a,
+	.banner-header .edit-profile-pic{width:55px;height:55px;}
+	.amp-profile-main .amp-profile-social ul li a i,
+	.banner-header .edit-profile-pic i{font-size:26px;}
 	.amp-profile-main .amp-profile-inner{min-height:500px;}
-	.banner-header #profile-avtar img{width:180px;height:180px;}
+	.banner-header .profile-avtar img{width:180px;height:180px;}
 	.amp-profile-main .amp-profile-info span{font-size:20px;}
 
 	/* single company product */
@@ -250,7 +253,8 @@
 
 	/* New Amplify CSS */
 	/* search page */
-	.search-result-filter .search-form input[type="search"]{padding:8px 20px;}
+	.search-result-filter .search-form{max-width:100%;}
+	.search-result-filter .search-form input[type="search"]{padding:10px 70px 10px 20px;}
 	.search-section .search-item{width:50%;}
 	.search-section .search-section-heading{-ms-flex-wrap:wrap;flex-wrap:wrap;}
 	.search-section .search-section-heading .section-view-more{width:100%;text-align:right;}
@@ -267,16 +271,19 @@
 	.amp-item-main .amp-item-heading .amp-view-more{width:100%;text-align:right;}
 	.amp-item-wrap .amp-item-col{width:50%;}
 	.amp-item-wrap .add-new-item .add-item-icon{width:60px;height:60px;font-size:32px;}
-	.amp-profile-main .amp-profile-social ul li a{width:45px;height:45px;}
-	.amp-profile-main .amp-profile-social ul li a i{font-size:20px;}
+	.amp-profile-main .amp-profile-social ul li a,
+	.banner-header .edit-profile-pic{width:45px;height:45px;}
+	.amp-profile-main .amp-profile-social ul li a i,
+	.banner-header .edit-profile-pic i{font-size:20px;}
 	.amp-profile-main .amp-profile-inner{min-height:400px;}
-	.banner-header #profile-avtar img{width:120px;height:120px;}
-	.banner-header #profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px;}
-	.banner-header #profile-avtar label:before{box-shadow:inset 0px 60px 60px 0px rgb(0 0 0 / 0.4);}
+	.banner-header .profile-avtar img{width:120px;height:120px;}
+	.banner-header .profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px;}
+	.banner-header .profile-avtar .remove-profile-pic{width:35px;height:35px;font-size:20px;}
+	.banner-header .profile-avtar label:before{box-shadow:inset 0px 60px 60px 0px rgb(0 0 0 / 0.4);}
 	.banner-header .amp-member-level span{min-width:95px;padding:6px 15px 5px;font-size:14px;}
 	.banner-header #edit-mode-buttons a,
-	.banner-header #profile-avtar .amp-member-level a{font-size:14px;}
-	.banner-header #profile-avtar .amp-member-level a{padding:8px 15px 7px;}
+	.banner-header .profile-avtar .amp-member-level a{font-size:14px;}
+	.banner-header .profile-avtar .amp-member-level a{padding:8px 15px 7px;}
 	.amp-profile-main .amp-profile-info span{font-size:18px;}
 	.amp-profile-main .amp-profile-message a{min-width:150px;}
 	.amp-member-security{padding-left:10px;}
@@ -299,6 +306,7 @@
 	.comments-area .comment-body .comment-meta .comment-author span{font-size:26px;line-height:20px;}
 	.comments-area .comment-body .comment-meta .comment-metadata{font-size:17px;line-height:24px;}
 	.comments-area .comment-filter .navigate-reply{padding:12px 10px;font-size:18px;}
+	.single-articles .entry-header{padding:0 50px 0 30px;}
 	.single-articles .entry-header h1{font-size:30px;}
 	.nab-custom-select .chosen-single, 
 	.nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{font-size:18px;}
@@ -441,6 +449,8 @@
 	.single-product-main{padding:0 15px;}
 	.single-company-products .entry-header{padding:0 15px;}
 	.single-company-products .related-content{padding:0 15px 0;}
+
+	.single-articles .entry-header{padding:0 50px 0 15px;}
 }
 @media (max-width:480px) {
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}

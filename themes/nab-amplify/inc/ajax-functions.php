@@ -1192,7 +1192,11 @@ function nab_company_search_filter_callback() {
 			ob_start();
 
 			if ( $user_logged_in ) {
-				nab_get_follow_button( get_the_ID(), $current_user_id, true );
+				
+				$company_id = get_the_ID();
+															
+				nab_get_follow_button( $company_id, $current_user_id, true );
+				nab_get_company_message_button( $company_id, 'Message Company Representative' );
 			} else {
 				?>
 				<div class="search-actions">
@@ -1209,7 +1213,7 @@ function nab_company_search_filter_callback() {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 
-			} else if ( 8 === $cnt + 1 ) {
+			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 			}
@@ -1281,8 +1285,8 @@ function nab_company_product_search_filter_callback() {
 			$company_prod_query->the_post();
 
 			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-			$product_category	= get_the_terms( get_the_ID(), 'company-category' );
-			$product_company	= ! empty( $product_category ) && ! is_wp_error( $product_category ) ? $product_category[0]->name : '';
+			$company_id			= get_field( 'nab_selected_company_id', get_the_ID() );
+			$product_company	= ! empty( $company_id ) ? get_the_title( $company_id ) : '';
 
 			$result_post[ $cnt ][ 'thumbnail' ] = $thumbnail_url;
 			$result_post[ $cnt ][ 'link' ] 		= get_the_permalink();
@@ -1311,7 +1315,7 @@ function nab_company_product_search_filter_callback() {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 
-			} else if ( 8 === $cnt + 1 ) {
+			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 			}
@@ -1427,7 +1431,7 @@ function nab_product_search_filter_callback() {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 
-			} else if ( 8 === $cnt + 1 ) {
+			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 			}
@@ -1507,7 +1511,7 @@ function nab_content_search_filter_callback() {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 
-			} else if ( 8 === $cnt + 1 ) {
+			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
 
 				$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 			}
@@ -1607,7 +1611,7 @@ function nab_member_bookmark_list_callback() {
 	if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
 		$bookmark_query_args = array(
-			'post_type'         => array( 'product', 'company-products' ),
+			'post_type'         => array( 'product', 'company-products', 'articles' ),
 			'posts_per_page'    => $post_limit,
 			'post_status'       => 'publish',
 			'paged'				=> $page_number,
@@ -1639,7 +1643,7 @@ function nab_member_bookmark_list_callback() {
 
 					$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 
-				} else if ( 8 === $cnt + 1 ) {
+				} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
 
 					$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 				}
@@ -1726,7 +1730,7 @@ function nab_member_event_list_callback() {
 
 					$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 
-				} else if ( 8 === $cnt + 1 ) {
+				} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
 
 					$result_post[ $cnt ][ 'banner' ] = nab_get_search_result_ad();
 				}
@@ -1835,3 +1839,6 @@ function nab_user_claim_company_callback() {
 
 	wp_die();
 }
+
+
+

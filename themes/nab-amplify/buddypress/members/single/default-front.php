@@ -111,82 +111,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 			</div>
 		<?php endif; ?>
 	</div>
-	<?php		
-	$product_args = array(
-		'post_type'      => 'company-products',
-		'post_status'    => 'publish',
-		'posts_per_page' => 4,
-		'order'          => 'DESC'
-	);
-
-	$product_query = new WP_Query( $product_args );
-
-	if ( $product_query->have_posts() ) {
-
-		$search_found   = true;
-		$total_products = $product_query->found_posts;
-		?>
-		<div class="search-section search-product-section">
-			<div class="search-section-heading">
-				<h2><strong>PRODUCTS</strong> <span>(<?php echo esc_html( $total_products . ' RESULTS' ); ?>)</span></h2>
-				<?php
-				if ( $total_products > 4 ) {
-
-					$poroduct_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'product' ), $current_site_url );
-
-					?>
-					<div class="section-view-more">
-						<a href="<?php echo esc_html( $poroduct_view_more_link ); ?>" class="view-more-link">View All</a>
-					</div>
-					<?php
-				}
-				?>
-			</div>
-			<div class="search-section-details" id="search-product-list">
-				<div class="search-item edit-mode">
-					<div class="search-item-inner">
-						<i class="fa fa-edit"></i>
-						<div class="search-item-add-text">Add Products</div>
-					</div>
-				</div>
-				<?php
-				while ( $product_query->have_posts() ) {
-
-					$product_query->the_post();
-
-					$thumbnail_url = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-					$product_link  = get_the_permalink();
-					?>
-					<div class="search-item">
-						<div class="search-item-inner">
-							<div class="search-item-cover">
-								<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="product thumbnail"/>
-								<?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
-							</div>
-							<div class="search-item-info">
-								<div class="search-item-content">
-									<h4><a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
-									<div class="search-actions">
-										<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
-									</div>
-									<div class="search-item edit-mode" data-id="<?php echo  get_the_ID();  ?>">
-					<div class="search-item-inner">
-						<i class="fa fa-edit"></i>
-						<div class="search-item-add-text">Edit</div>
-					</div>
-				</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php
-				}
-				?>
-			</div>
-		</div>
-		<?php
-	}
-	wp_reset_postdata();
+	<?php
 
 	if ( ! empty( $user_id ) && 0 !== $user_id ) {
 
@@ -273,7 +198,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 		if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
 			$bookmark_query_args = array(
-				'post_type'      => array( 'product', 'company-products' ),
+				'post_type'      => array( 'product', 'company-products', 'articles' ),
 				'posts_per_page' => 4,
 				'post_status'    => 'publish',
 				'post__in'       => $member_bookmarks

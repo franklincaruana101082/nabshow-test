@@ -52,13 +52,20 @@ function nab_amplify_get_user_images( $user_id = 0 ) {
 
 		$user_image_id = get_user_meta( $user_id, $user_image['name'], true );
 
-		if ( 'profile_picture' === $user_image['name'] && ! $user_image_id ) {
-			$user_images['profile_picture'] = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false ) );
-		} else {
-			$user_images[ $user_image['name'] ] = $user_image_id
+		if( 'removed' === $user_image_id ) {
+		    // Show default avatar if deleted from edit profile section.
+			$user_images[ $user_image['name'] ] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+
+		} else if ( 'profile_picture' === $user_image['name'] && empty( $user_image_id ) ) {
+		    // Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
+			$user_images[ $user_image['name'] ] = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false ) );
+
+        } else {
+		    // Show uploaded images or the default ones.
+			$user_images[ $user_image['name'] ] = ! empty( $user_image_id )
 				? wp_get_attachment_image_src( $user_image_id, 'full' )[0]
 				: get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-		}
+        }
 	}
 
 	return $user_images;
@@ -287,8 +294,8 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 
 
 		if( $current_user_id === $member_id ) {
-		    return;
-        }
+			return;
+		}
 
 		$is_friend = friends_check_friendship_status( $current_user_id, $member_id );
 
@@ -335,9 +342,9 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 
 						$link_text = 'reject' === strtolower( $btn[ 'link_text' ] ) ? 'Ignore' : $btn[ 'link_text' ];
 						?>
-						<div class="generic-button friend-request-action" data-item="<?php echo esc_attr( $member_id ); ?>">
-							<a href="<?php echo esc_url( $btn[ 'button_attr' ][ 'href' ] ); ?>" class="<?php echo esc_attr( $btn[ 'button_attr' ][ 'class' ] ); ?>" data-bp-btn-action="<?php echo esc_attr( $btn[ 'id' ] ); ?>"><?php echo esc_html( $link_text ); ?></a>
-						</div>
+                        <div class="generic-button friend-request-action" data-item="<?php echo esc_attr( $member_id ); ?>">
+                            <a href="<?php echo esc_url( $btn[ 'button_attr' ][ 'href' ] ); ?>" class="<?php echo esc_attr( $btn[ 'button_attr' ][ 'class' ] ); ?>" data-bp-btn-action="<?php echo esc_attr( $btn[ 'id' ] ); ?>"><?php echo esc_html( $link_text ); ?></a>
+                        </div>
 						<?php
 					}
 				}
@@ -346,7 +353,7 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
             <div class="generic-button friend-view-profile">
                 <a class="button" href="<?php echo esc_url( $member_profile ); ?>">View Profile</a>
             </div>
-            <?php
+			<?php
 			$user_button = ob_get_clean();
 			remove_filter( 'bp_nouveau_get_members_buttons', 'nab_change_friendship_request_button_in_loop' );
 
@@ -541,8 +548,11 @@ function nab_get_search_post_types() {
 
 	$all_post_types = get_post_types( array( 'exclude_from_search' => false ) );
 
-	unset( $all_post_types['attachment'] );
-	unset( $all_post_types['product'] );
+	unset( $all_post_types[ 'attachment' ] );
+	unset( $all_post_types[ 'product' ] );
+	unset( $all_post_types[ 'company' ] );
+	unset( $all_post_types[ 'company-products' ] );
+	unset( $all_post_types[ 'tribe_events' ] );
 
 	$all_post_types = array_keys( $all_post_types );
 
@@ -573,6 +583,28 @@ function nab_get_search_result_ad() {
 	return $html;
 }
 
+// Bookmark shortcode
+add_shortcode( 'bookmark', 'nab_get_bookmark_item_callback' );
+
+/**
+ * Display Bookmark icon.
+ *
+ * @param  array $atts
+ *
+ * @return string
+ */
+function nab_get_bookmark_item_callback( $atts ) {
+
+	$atts = shortcode_atts( array(
+		'item_id'   => get_the_ID(),
+	), $atts );
+
+	ob_start();
+
+	nab_get_product_bookmark_html( $atts[ 'item_id' ], 'user-bookmark-action' );
+
+	return ob_get_clean();
+}
 
 /**
  * Display product bookmark.
@@ -824,42 +856,42 @@ function nab_get_bp_notification_menu() {
 
 	if ( is_user_logged_in() ) {
 		?>
-		<div class="nab-header-notification">
+        <div class="nab-header-notification">
 			<?php
 			$notifications	= bp_notifications_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
 			$count			= ! empty( $notifications ) ? count( $notifications ) : 0;
 			$alert_class	= (int) $count > 0 ? 'nab-pending-notifications pending-count alert' : 'nab-pending-notifications count no-alert';
 			$menu_link		= trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
 			?>
-			<div class="notification-wrapper">
-				<div class="notification-icons-wrap">
-					<i class="fa fa-bell" aria-hidden="true"></i>
-					<span id="nab-pending-notifications" class="<?php echo esc_attr( $alert_class ); ?>"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>
-				</div>
-				<div class="notification-sub-wrapper">
-					<ul class="notification-submenu">
+            <div class="notification-wrapper">
+                <div class="notification-icons-wrap">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                    <span id="nab-pending-notifications" class="<?php echo esc_attr( $alert_class ); ?>"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>
+                </div>
+                <div class="notification-sub-wrapper">
+                    <ul class="notification-submenu">
 						<?php
 						if ( ! empty( $notifications ) ) {
 
 							foreach ( (array) $notifications as $notification ) {
 								?>
-								<li class="<?php echo esc_attr( 'notification-' . $notification->id ); ?>">
-									<a href="<?php echo esc_url( $notification->href ); ?>" class="ntf-item"><?php echo esc_html( $notification->content ); ?></a>
-								</li>
+                                <li class="<?php echo esc_attr( 'notification-' . $notification->id ); ?>">
+                                    <a href="<?php echo esc_url( $notification->href ); ?>" class="ntf-item"><?php echo esc_html( $notification->content ); ?></a>
+                                </li>
 								<?php
 							}
 						} else {
 							?>
-							<li class="nab-no-notification">
-								<a href="<?php echo esc_url( $menu_link ); ?>" class="ntf-item">No new notifications</a>
-							</li>
+                            <li class="nab-no-notification">
+                                <a href="<?php echo esc_url( $menu_link ); ?>" class="ntf-item">No new notifications</a>
+                            </li>
 							<?php
 						}
 						?>
-					</ul>
-				</div>
-			</div>
-		</div>
+                    </ul>
+                </div>
+            </div>
+        </div>
 		<?php
 	}
 }

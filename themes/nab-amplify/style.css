@@ -968,3 +968,12 @@ textarea {
 	margin-right: auto;
 	margin-bottom: 1.5em;
 }
+
+/* home-serendipity css*/
+.serendipity-banner-header{background-position:center;padding-top:350px;padding-bottom:85px;}
+.serendipity-banner-header::before{background-image:none!important;}
+.serendipity-banner-header .container{height:auto;}
+.serendipity-banner-content-wrapper .serendipity-banner-title{font-size:60px;color:#fdd80f;margin:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1;font-weight:bold;cursor:pointer;}
+.serendipity-banner-content-wrapper .serendipity-banner-title .add-icon{width:59px;height:59px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;border:2px solid #fdd80f;color:#fdd80f;margin-left:10px;max-width:100%;}
+.serendipity-banner-content-wrapper .serendipity-banner-title .add-icon i{font-size:30px;}
+.serendipity-banner-content-wrapper  .serendipity-banner-sub-title{font-size:60px;margin:0;color:#fff;width:780px;line-height:1;font-weight:bold;}

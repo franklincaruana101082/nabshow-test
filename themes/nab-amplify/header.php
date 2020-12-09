@@ -56,10 +56,11 @@
 						<div class="nab-profile-menu">
 							<?php
 							if ( is_user_logged_in() ) {
-								$current_user 		= wp_get_current_user();
-								$user_thumb   		= get_avatar_url( $current_user->ID );
-								$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
-								$user_full_name = $current_user->display_name;
+								$current_user    = wp_get_current_user();
+								$user_images     = nab_amplify_get_user_images( $current_user->ID );
+								$user_thumb      = $user_images['profile_picture'];
+								$my_profile_link = bp_core_get_user_domain( $current_user->ID );
+								$user_full_name  = $current_user->display_name;
 
 								if ( empty( trim( $user_full_name ) ) ) {
 									$user_full_name = get_the_author_meta( 'first_name', $current_user->ID ) . ' ' . get_the_author_meta( 'last_name', $current_user->ID );

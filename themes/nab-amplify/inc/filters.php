@@ -101,6 +101,3 @@ add_filter( 'single_product_archive_thumbnail_size', 'nab_single_product_archive
 add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address', 10, 1 );
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
-
-//Remove comment form fields
-add_filter( 'comment_form_default_fields', 'nab_remove_comment_form_field' );
