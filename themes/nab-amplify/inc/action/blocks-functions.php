@@ -290,6 +290,8 @@ function nab_company_details_render_callback( $attributes ) {
     $company_location   = get_field( 'company_location', $company_id );
     $company_website    = get_field( 'company_website', $company_id );
     $point_of_contact   = get_field( 'point_of_contact', $company_id );
+    $user_id            = get_current_user_id();
+    $admin_id           = get_field( 'company_user_id', $company_id );
 
     ob_start();
     ?>
@@ -300,11 +302,17 @@ function nab_company_details_render_callback( $attributes ) {
                     <h2>About</h2>
                     <div class="company-about-inner">
                         <p><?php echo esc_html( $about_company ); ?></p>
+                        <?php if(in_array($user_id,$admin_id)){?>
+                        <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span><span class="edit-label">Remaining Characters 221</span></div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="company-contact-outer">
                     <h2>Contact Info</h2>
                     <div class="company-contact-inner">
+                        <?php if(!empty($admin_id) && in_array($user_id,$admin_id)){?>
+                        <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span></div>
+                        <?php } ?>
                         <h3><?php echo esc_html( $contact_title ); ?></h3>
                         <div class="company-contact-inner-box">
                             <ul>
@@ -316,7 +324,7 @@ function nab_company_details_render_callback( $attributes ) {
                                 }
                                 if ( ! empty( $company_location ) ) {
                                     ?>
-                                    <li><span>Location:</span> <?php echo esc_html( $company_location ); ?></li>
+                                    <li><span>Location:</span> <?php echo $company_location['_street_line_1'].'<br>'.$company_location['street_line_2'].'<br>'.$company_location['street_line_3'].'<br>'.$company_location['city'].'<br>'.$company_location['state'].'<br>'.$company_location['zipcode'].'<br>'.$company_location['country']; ?></li>
                                     <?php
                                 }
                                 if ( ! empty( $company_website ) ) {
@@ -360,7 +368,7 @@ function nab_company_produts_render_callback( $attributes ) {
         $admin_id           = get_field( 'company_user_id', $company_id );
         $can_add_product    = get_field( 'admin_can_add_product', $company_id );
 
-        if ( $user_id === $admin_id && $can_add_product ) {
+        if ( !empty($admin_id) && in_array($user_id,$admin_id) && $can_add_product ) {
             
             $is_company_admin   = true;
             $posts_per_page     = $posts_per_page - 1;
