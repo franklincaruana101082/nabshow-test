@@ -488,6 +488,48 @@
         jQuery('#company_point_of_contact').val()
       )
     }
+    if (jQuery('#company_location_street_one').length) {
+      fd.append(
+        'company_location_street_one',
+        jQuery('#company_location_street_one').val()
+      )
+    }
+    if (jQuery('#company_location_street_two').length) {
+      fd.append(
+        'company_location_street_two',
+        jQuery('#company_location_street_two').val()
+      )
+    }
+    if (jQuery('#company_location_street_three').length) {
+      fd.append(
+        'company_location_street_three',
+        jQuery('#company_location_street_three').val()
+      )
+    }
+    if (jQuery('#company_location_city').length) {
+      fd.append(
+        'company_location_city',
+        jQuery('#company_location_city').val()
+      )
+    }
+    if (jQuery('#company_location_state').length) {
+      fd.append(
+        'company_location_state',
+        jQuery('#company_location_state').val()
+      )
+    }
+    if (jQuery('#company_location_zip').length) {
+      fd.append(
+        'company_location_zip',
+        jQuery('#company_location_zip').val()
+      )
+    }
+    if (jQuery('#company_location_country').length) {
+      fd.append(
+        'company_point_of_contacompany_location_countryct',
+        jQuery('#company_location_country').val()
+      )
+    }
 
     jQuery.ajax({
       type: 'POST',
@@ -502,7 +544,7 @@
     })
   })
 
-  $('#edit-company-about').on('click', function (e) {
+  $('.edit-company-about').on('click', function (e) {
     e.preventDefault()
     $(this)
       .parent()
@@ -529,6 +571,9 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+         
+         
+          
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -539,28 +584,40 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          
         }
+
+        setTimeout(() => {
+          if (jQuery(this).data('action') == 'company-about') {
+            jQuery('.company-about-row').css('display','block')
+            jQuery('.company-info-row').css('display','none')
+          } 
+          if(jQuery(this).data('action') == 'company-info'){
+            
+            jQuery('.company-about-row').css('display','none')
+            jQuery('.company-info-row').css('display','block')
+            
+          }
+         }, 1000);
       }
     })
   })
   $(document).on('click', '.edit-company-mode', function () {
-  
     jQuery('.edit-profile-pic').show()
     jQuery(this).addClass('cancel-edit-company-mode')
     jQuery(this).removeClass('edit-company-mode')
-    jQuery(this).text('Cancel Edit');
-    jQuery('.banner-header').addClass('edit_mode_on');
+    jQuery(this).text('Cancel Edit')
+    jQuery('.banner-header').addClass('edit_mode_on')
     jQuery('.edit-bg-pic').show()
   })
   $(document).on('click', '.cancel-edit-company-mode', function () {
-  
     jQuery('.edit-profile-pic').hide()
     jQuery('.edit-bg-pic').hide()
-    
+
     jQuery(this).removeClass('cancel-edit-company-mode')
     jQuery(this).addClass('edit-company-mode ')
-    jQuery('.banner-header').removeClass('edit_mode_on');
-    jQuery(this).text('Edit Profile');
+    jQuery('.banner-header').removeClass('edit_mode_on')
+    jQuery(this).text('Edit Profile')
   })
   // Add smooth scrolling to all links
   jQuery('.navigate-reply').on('click', function (event) {
