@@ -9,10 +9,12 @@
 					<p>Update your company details here.</p>
 					<div class="form-wrapper">
 						<form method="post" id="nab-edit-company-profile-form" enctype="multipart/form-data">
-							<div class="form-row">
+						<div class="company-about-row" >	
+						<div class="form-row">
 								<label for="">About</label>
 								<textarea  class="input-text add-product" name="company_about"  id="company_about"><?php echo isset($company_data['company_about']) ? $company_data['company_about'] : ''; ?></textarea>
-							</div>
+							</div></div>
+							<div class="company-info-row" >
 							<div class="form-row">
 								<label for="">Industry</label>
 								<input type="text" class="input-text add-product" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
@@ -21,13 +23,13 @@
 								<div class="location-field-wrap">
 									<label for="">Location</label>
 									<!-- <textarea  class="input-text add-product" name="company_location"  id="company_location"><?php echo isset($company_data['company_location']) ? $company_data['company_location'] : ''; ?></textarea> -->
-									<input type="text" placeholder="Street Line 1">
-									<input type="text" placeholder="Street Line 2">
-									<input type="text" placeholder="Street Line 3">
-									<input type="text" placeholder="City">
-									<input type="text" placeholder="State">
-									<input type="text" placeholder="Zip/Postal Code">
-									<input type="text" placeholder="Country">
+									<input name="company_location_street_one" id="company_location_street_one" type="text" placeholder="Street Line 1">
+									<input name="company_location_street_two" id="company_location_street_two" type="text" placeholder="Street Line 2">
+									<input name="company_location_street_three" id="company_location_street_three" type="text" placeholder="Street Line 3">
+									<input name="company_location_city" id="company_location_city" type="text" placeholder="City">
+									<input name="company_location_state" id="company_location_state" type="text" placeholder="State">
+									<input name="company_location_zip" id="company_location_zip" type="text" placeholder="Zip/Postal Code">
+									<input name="company_location_country" id="company_location_country" type="text" placeholder="Country">
 								</div>
                             </div>
                             <div class="form-row">
@@ -38,6 +40,7 @@
 								<label for="">Point Of Contact</label>
 								<input type="text" class="input-text add-product" name="company_point_of_contact" value="<?php echo isset($company_data['company_point_of_contact']) ? $company_data['company_point_of_contact'] : ''; ?>" id="company_point_of_contact">
 							</div>
+</div>
 							
 							<div class="form-row">
 								<input type="button" id="nab-edit-company-profile-submit" data-id="<?php echo isset($company_data['ID']) ? $company_data['ID'] : 0 ?>" class="btn btn-submit" value="<?php echo isset($company_data['ID']) ? "Update" : "Add"; ?>">
