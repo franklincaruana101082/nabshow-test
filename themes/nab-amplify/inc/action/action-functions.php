@@ -232,7 +232,6 @@ function nab_amplify_edit_product()
     $post_data->is_feature_product         = get_field('is_feature_product', $post_id);
     $post_data->is_product_b_stock         = get_field('is_product_b-stock', $post_id);
     $post_data->is_product_sales_item      = get_field('is_product_sales_item', $post_id);
-    $post_data->product_discussion         = get_field('product_discussion', $post_id);
     $post_data->categories                 = $taxonomy_data;
     $post_data->tags                       = $tag_data;
 	$post_data->product_media              = $product_media;
@@ -2689,9 +2688,6 @@ function nab_add_product()
 
     // Add product sales item
     update_field('field_5fbbdbb2392d0', $is_product_sales_item, $post_id);
-
-    // Add product Discussion
-    update_field('field_5fbbdbd3392d1', $product_discussion, $post_id);
 
     // Add product company
     update_field('field_5fc881bd20fa0', $nab_company_id, $post_id);
