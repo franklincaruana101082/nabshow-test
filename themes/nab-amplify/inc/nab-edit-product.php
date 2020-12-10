@@ -187,7 +187,7 @@ global $post;
 								</div>
 								<div class="form-col-6 ">
 									<div class="form-row mb0">
-										<label for="">Add External Link Text</label>
+										<label for="">Add External Text</label>
 										<input type="text" name="nab_product_external_text" id="nab_product_external_text" class="input-text external-link" value="<?php echo isset($post_data->product_external_link_text) ? $post_data->product_external_link_text : ''; ?>">
 										<div class="nab-action">
 											<div class="nab-action-row">
