@@ -45,7 +45,7 @@ global $post;
 							</div>
 							<div class="form-row">
 								<label for="">Add Featured Image</label>
-								<div class="file-input"><input type="file" id="product_featured_image" class="button" name="product_featured_image" >
+								<div class="file-input"><input type="file" id="product_featured_image" class="button" name="product_featured_image">
 
 								</div>
 								<div class="nab-action left-action">
@@ -54,26 +54,29 @@ global $post;
 									</div>
 								</div>
 								<div class="nab-action right-action">
-									
+
 									<div class="nab-action-row">
 										<i class="action-edit fa fa-pencil"></i>
 									</div>
 								</div>
 
 							</div>
-							<div class="form-row preview_product_featured_image" style="<?php if($post_data->product_thumbnail == ''){
-                                echo 'display:none';
-                            }?>">
+							<div class="form-row preview_product_featured_image" id="product_featured_image_wrapper" style="<?php if ($post_data->product_thumbnail == '') {
+																							echo 'display:none';
+																						} ?>">
+
 								
-										<div class="nab-product-media-item" >
-										<?php if($post_data->product_thumbnail!==''){
-										?>
-										<img id="product_featured_preview" src="<?php echo $post_data->product_thumbnail; ?>"/>
-										<?php	
-										} ?>
+									<?php if ($post_data->product_thumbnail_id !== '0') {
+									?>
+									<div class="nab-product-media-item">
+									<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $post_data->product_thumbnail_id;?>"><i class="fa fa-times" aria-hidden="true"></i></button>
+										<img id="product_featured_preview" src="<?php echo $post_data->product_thumbnail; ?>" />
 										</div>
+									<?php
+									} ?>
 								
-							
+
+
 							</div>
 							<div class="form-row">
 								<label for="">Media <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
@@ -114,22 +117,22 @@ global $post;
 							</div>
 							<div class="form-row" id="product_media_wrapper">
 								<?php if (isset($post_data->product_media)) {
-                                    foreach ($post_data->product_media as $media) {
-                                        if (!empty($media['product_media_file'])) {
-                                         ?>
-										<div class="nab-product-media-item" >
-											<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $media['product_media_file']['ID']; ?>"><i class="fa fa-times" aria-hidden="true"></i></button>
-											<?php if ($media['product_media_file']['type'] === 'image') { ?>
-												<img src="<?php echo $media['product_media_file']['url']; ?>" />
-											<?php }
-                                        if ($media['product_media_file']['type'] !== 'image') {
-                                            ?>
-												<span><?php echo $media['product_media_file']['title']; ?></span>
-											<?php
-                                        } ?>
-										</div>
+									foreach ($post_data->product_media as $media) {
+										if (!empty($media['product_media_file'])) {
+								?>
+											<div class="nab-product-media-item">
+												<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $media['product_media_file']['ID']; ?>"><i class="fa fa-times" aria-hidden="true"></i></button>
+												<?php if ($media['product_media_file']['type'] === 'image') { ?>
+													<img src="<?php echo $media['product_media_file']['url']; ?>" />
+												<?php }
+												if ($media['product_media_file']['type'] !== 'image') {
+												?>
+													<span><?php echo $media['product_media_file']['title']; ?></span>
+												<?php
+												} ?>
+											</div>
 								<?php
-                                    }
+										}
 									}
 								} ?>
 							</div>
