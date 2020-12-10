@@ -167,18 +167,6 @@
 #tabs ul.ui-tabs-nav li a{width:100%;padding:20px 10px;display:block;font-weight:600;opacity:0.3;text-align:center;line-height:normal;}
 #tabs ul.ui-tabs-nav li.ui-tabs-active a{opacity:1;}
 
-
-/* fixes for page design */
-.feature-section .amp-feature-block-inner{margin-bottom:0;}
-.community-cornor > div > h2{margin:0 0 10px;}
-.community-cornor > div > p{margin:0 0 40px;font-family:'OpenSans-Light', sans-serif;}
-.single-articles .related-content-2 .inner{background-color:#303030;}
-.product-section .related-content .option-5 .inner{background-color:#404040;}
-.product-section .amp-image-block{padding:0 0 30px;}
-.trending-activity .related-content .option-5 .inner{background-color:#303030;}
-.ui-widget{font-family:'Open Sans',Arial,sans-serif;}
-#tabs .community-curator-header{padding:0 30px;}
-
 /* company products */
 .company-products .amp-item-main{padding:30px 0 0;}
 .company-products .amp-item-wrap .amp-item-info{text-align:left;padding:25px 15px 25px;}
@@ -237,6 +225,20 @@
 .amp-item-wrap .amp-item-info .friendship-button a{font-size:16px;text-transform:capitalize;padding:8px 23px;border-radius:6px;background:#6363df;color:#fff;display:inline-block;text-align:center;line-height:1;font-weight:700;border:1px solid #6363df;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
 .amp-item-wrap .amp-item-info .friendship-button a:hover,
 .amp-item-wrap .amp-item-info .friendship-button a:focus{background:#666;color:#fff;border-color:#666;}
+
+
+/* fixes for page design */
+.feature-section .amp-feature-block-inner{margin-bottom:0;}
+.community-cornor > div > h2{margin:0 0 10px;}
+.community-cornor > div > p{margin:0 0 40px;font-family:'OpenSans-Light', sans-serif;}
+.single-articles .related-content-2 .inner{background-color:#303030;}
+.product-section .related-content .option-5 .inner{background-color:#404040;}
+.product-section .amp-image-block{padding:0 0 30px;}
+.trending-activity .related-content .option-5 .inner{background-color:#303030;}
+.ui-widget{font-family:'Open Sans',Arial,sans-serif;}
+#tabs .community-curator-header{padding:0 30px;}
+.banner-header + .container .amp-feature-block:first-child{margin-top:60px;}
+
 
 /* media css */
 

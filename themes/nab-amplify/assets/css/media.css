@@ -340,6 +340,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
 	.nab-product-media-item{width:100px;height:100px;}
+	.select-dark-simple.select-multiple:after{font-size:22px;}
 
 	/* single company product */
 	.black-bg-box{padding:30px;}
