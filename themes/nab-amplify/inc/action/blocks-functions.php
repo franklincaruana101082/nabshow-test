@@ -325,13 +325,13 @@ function nab_company_details_render_callback( $attributes ) {
                                 if ( ! empty( $company_location ) ) {
                                     ?>
                                     <li><span>Location:</span> 
-                                    <?php echo isset($company_location['_street_line_1']) ? $company_location['_street_line_1'].'<br>':''; ?>
-                                    <?php echo isset($company_location['street_line_2']) ? $company_location['street_line_2'].'<br>':''; ?>
-                                    <?php echo isset($company_location['street_line_3']) ? $company_location['street_line_3'].'<br>':''; ?>
-                                    <?php echo isset($company_location['city']) ? $company_location['city'].'<br>':''; ?>
-                                    <?php echo isset($company_location['state']) ? $company_location['state'].'<br>':''; ?>
-                                    <?php echo isset($company_location['zipcode']) ? $company_location['zipcode'].'<br>':''; ?>
-                                    <?php echo isset($company_location['country']) ? $company_location['country'] :''; ?>
+                                    <?php echo isset($company_location['_street_line_1']) && $company_location['_street_line_1'] !='' ? $company_location['_street_line_1'].'<br>':''; ?>
+                                    <?php echo isset($company_location['street_line_2']) && $company_location['street_line_2'] !='' ? $company_location['street_line_2'].'<br>':''; ?>
+                                    <?php echo isset($company_location['street_line_3']) && $company_location['street_line_3'] !='' ? $company_location['street_line_3'].'<br>':''; ?>
+                                    <?php echo isset($company_location['city']) && $company_location['city'] !='' ? $company_location['city'].'<br>':''; ?>
+                                    <?php echo isset($company_location['state']) && $company_location['state'] !='' ? $company_location['state'].'<br>':''; ?>
+                                    <?php echo isset($company_location['zipcode']) && $company_location['zipcode'] !='' ? $company_location['zipcode'].'<br>':''; ?>
+                                    <?php echo isset($company_location['country']) && $company_location['country'] !='' ? $company_location['country'] :''; ?>
                                     </li>
                                     <?php
                                 }
