@@ -2743,9 +2743,9 @@ function nab_register_company_tags_taxonomy()
 {
 
     $labels = array(
-        'name'              => _x('Company Tags', 'Taxonomy General Name', 'nab-amplify'),
-        'singular_name'     => _x('Company Tag', 'Taxonomy Singular Name', 'nab-amplify'),
-        'menu_name'         => __('Company Tag', 'nab-amplify'),
+        'name'              => _x('Product Tags', 'Taxonomy General Name', 'nab-amplify'),
+        'singular_name'     => _x('Product Tag', 'Taxonomy Singular Name', 'nab-amplify'),
+        'menu_name'         => __('Product Tag', 'nab-amplify'),
         'all_items'         => __('All Items', 'nab-amplify'),
         'parent_item'       => __('Parent Item', 'nab-amplify'),
         'parent_item_colon' => __('Parent Item:', 'nab-amplify'),
