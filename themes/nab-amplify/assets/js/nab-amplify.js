@@ -403,10 +403,14 @@
       contentType: false,
       type: 'POST',
       data: form_data,
+      beforeSend: function() {
+        $('body').addClass('is-loading')
+    },
       success: function (response) {
         var json = $.parseJSON(response)
 
         if (json.success === true) {
+          $('body').removeClass('is-loading')
           if (nab_product_id !== '0') {
             alert('Product Updated Successfully!')
           } else {
