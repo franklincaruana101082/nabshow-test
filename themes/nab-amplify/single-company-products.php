@@ -9,6 +9,8 @@
  */
 
 get_header();
+
+
 ?>
 
 <main id="primary" class="site-main single_php">
@@ -76,13 +78,19 @@ get_header();
 
 								</ul>
 							</div>
-						<?php } ?>
+						<?php }
+
+						$current_user_id = get_the_author_meta('ID');
+
+						// Get images.
+						$user_images = nab_amplify_get_user_images($current_user_id);
+						?>
 					</div>
 					<div class="single-product-col right-col">
 						<div class="black-bg-box author-details-box">
 							<div class="author-info">
 								<div class="author-image">
-									<a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo bp_core_fetch_avatar(array('item_id' => get_the_author_ID(), 'type' => 'full')); ?></a>
+									<a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
 								</div>
 								<div class="author-details">
 									<h3 class="author-title"><a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo get_the_author_meta('user_nicename', get_the_author_ID()); ?></a></h3>
