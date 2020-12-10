@@ -109,12 +109,12 @@ function nab_get_company_message_button( $company_id, $text = 'Message' ) {
         
     if ( ! empty( $company_admin_id ) ) {
 
-        $private_massage_link = wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_core_get_username( $company_admin_id ) );
+        $private_massage_link = wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_core_get_username( $company_admin_id[0] ) );
         ?>
         <div class="search-actions">
             <?php                
             bp_send_message_button( array(
-                    'id'         => 'private_message_' . $company_admin_id,
+                    'id'         => 'private_message_' . $company_admin_id[0],
                     'link_class' => 'button',
                     'link_text'  => $text,
                     'link_href'  => $private_massage_link

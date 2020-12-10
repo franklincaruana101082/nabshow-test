@@ -29,7 +29,7 @@ $company_admin_id = get_field('company_user_id', $company_id);
 
                 <?php if ($user_logged_in) {
                     $user_id = get_current_user_id();
-                    if (in_array($user_id, $company_admin_id)) {
+                    if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                 ?>
 
                         <div class="update-banner-image">
@@ -47,7 +47,7 @@ $company_admin_id = get_field('company_user_id', $company_id);
             </div>
             <?php if ($user_logged_in) {
                 $user_id = get_current_user_id();
-                if (in_array($user_id, $company_admin_id)) { ?>
+                if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) { ?>
                     <div id="edit-mode-buttons">
                         <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
                     </div>
@@ -63,7 +63,7 @@ $company_admin_id = get_field('company_user_id', $company_id);
                                 <?php
                                 if ($user_logged_in) {
                                     $user_id = get_current_user_id();
-                                    if (in_array($user_id, $company_admin_id)) {
+                                    if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                                 ?>
                                         <div class="profile-actions">
                                             <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>

@@ -13,7 +13,7 @@ global $post;
 						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
 							<div class="form-row">
 								<label for=""><?php echo isset($post_data->ID) ? "Update" : "Add"; ?> Product</label>
-								<input type="text" class="input-text add-product" name="nab_product_title" value="<?php echo isset($post_data->post_title) ? $post_data->post_title : ''; ?>" id="product_title">
+								<input type="text" required="true" class="input-text add-product" name="nab_product_title" value="<?php echo isset($post_data->post_title) ? $post_data->post_title : ''; ?>" id="product_title">
 								<div class="nab-action">
 									<div class="nab-action-row">
 										<span class="check-label">Featured Product:</span>

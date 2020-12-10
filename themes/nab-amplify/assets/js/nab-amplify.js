@@ -366,7 +366,10 @@
     $.each($('#product_medias')[0].files, function (key, file) {
       form_data.append(key, file)
     })
-
+    if(product_title == ''){
+      alert('Product title can not be empty!');
+      return false
+    }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
     form_data.append('product_categories', product_categories)

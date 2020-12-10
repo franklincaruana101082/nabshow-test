@@ -303,7 +303,7 @@ function nab_company_details_render_callback( $attributes ) {
                     <div class="company-about-inner">
                         <p><?php echo esc_html( $about_company ); ?></p>
                         <?php if(in_array($user_id,$admin_id)){?>
-                        <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span><span class="edit-label">Remaining Characters 221</span></div>
+                        <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span></div>
                         <?php } ?>
                     </div>
                 </div>
@@ -324,7 +324,15 @@ function nab_company_details_render_callback( $attributes ) {
                                 }
                                 if ( ! empty( $company_location ) ) {
                                     ?>
-                                    <li><span>Location:</span> <?php echo $company_location['_street_line_1'].'<br>'.$company_location['street_line_2'].'<br>'.$company_location['street_line_3'].'<br>'.$company_location['city'].'<br>'.$company_location['state'].'<br>'.$company_location['zipcode'].'<br>'.$company_location['country']; ?></li>
+                                    <li><span>Location:</span> 
+                                    <?php echo isset($company_location['_street_line_1']) ? $company_location['_street_line_1'].'<br>':''; ?>
+                                    <?php echo isset($company_location['street_line_2']) ? $company_location['street_line_2'].'<br>':''; ?>
+                                    <?php echo isset($company_location['street_line_3']) ? $company_location['street_line_3'].'<br>':''; ?>
+                                    <?php echo isset($company_location['city']) ? $company_location['city'].'<br>':''; ?>
+                                    <?php echo isset($company_location['state']) ? $company_location['state'].'<br>':''; ?>
+                                    <?php echo isset($company_location['zipcode']) ? $company_location['zipcode'].'<br>':''; ?>
+                                    <?php echo isset($company_location['country']) ? $company_location['country'] :''; ?>
+                                    </li>
                                     <?php
                                 }
                                 if ( ! empty( $company_website ) ) {

@@ -82,10 +82,10 @@ get_header();
 						<div class="black-bg-box author-details-box">
 							<div class="author-info">
 								<div class="author-image">
-									<?php echo bp_core_fetch_avatar(array('item_id' => get_the_author_ID(), 'type' => 'full')); ?>
+									<a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo bp_core_fetch_avatar(array('item_id' => get_the_author_ID(), 'type' => 'full')); ?></a>
 								</div>
 								<div class="author-details">
-									<h3 class="author-title"><?php echo get_the_author_meta('user_nicename', get_the_author_ID()); ?></h3>
+									<h3 class="author-title"><a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo get_the_author_meta('user_nicename', get_the_author_ID()); ?></a></h3>
 									<span class="author-subtitle">Posting Company</span>
 								</div>
 							</div>
