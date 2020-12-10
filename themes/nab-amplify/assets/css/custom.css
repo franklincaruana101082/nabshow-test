@@ -1237,6 +1237,8 @@ body .is_friend .remove:before{font-size:22px;}
 .buddypress .buddypress-wrap textarea{-webkit-box-shadow:none;box-shadow:none;}
 .buddypress-wrap .standard-form label,
 .buddypress-wrap .standard-form span.label{color:#fff;}
+.buddypress-wrap .standard-form label i.info-tooltip{margin-left:5px;font-size:16px;}
+.buddypress-wrap .standard-form label i.info-tooltip:after{top:-30px;left:-30px;}
 
 /* message threads */
 .buddypress .mce-window .mce-container .mce-container-body .mce-container.mce-first .mce-container-body label{font-size:0;}
