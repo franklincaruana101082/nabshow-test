@@ -35,7 +35,7 @@ get_header();
 			$preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
 
 			?>
-			<h4 class="article-byline">Posted by <?php echo esc_html($author_full_name); ?></h4>
+			<h4 class="article-byline">Posted by 	<a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
 
 			<div class="nab-preview-slider-main">
 				<div class="nab-preview-slider-inner">
