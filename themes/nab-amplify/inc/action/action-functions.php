@@ -236,6 +236,7 @@ function nab_amplify_edit_product()
     $post_data->tags                       = $tag_data;
 	$post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id,'full');
+    $post_data->product_thumbnail_id       = get_post_thumbnail_id( $post_id );
 
 
     $terms = get_terms('company-product-category', array(
