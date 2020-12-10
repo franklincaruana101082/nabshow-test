@@ -974,6 +974,26 @@ textarea {
 .serendipity-banner-header::before{background-image:none!important;}
 .serendipity-banner-header .container{height:auto;}
 .serendipity-banner-content-wrapper .serendipity-banner-title{font-size:60px;color:#fdd80f;margin:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1;font-weight:bold;cursor:pointer;}
-.serendipity-banner-content-wrapper .serendipity-banner-title .add-icon{width:59px;height:59px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;border:2px solid #fdd80f;color:#fdd80f;margin-left:10px;max-width:100%;}
-.serendipity-banner-content-wrapper .serendipity-banner-title .add-icon i{font-size:30px;}
+.add-icon.add-icon{width:59px;height:59px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;border:2px solid #fdd80f;color:#fdd80f;margin-left:10px;max-width:100%;cursor:pointer}
+.add-icon.add-icon i{font-size:30px;}
 .serendipity-banner-content-wrapper  .serendipity-banner-sub-title{font-size:60px;margin:0;color:#fff;width:780px;line-height:1;font-weight:bold;}
+.serendipity-about-you-section{background-color:#282828;padding:55px 0;}
+.serendipity-about-you-section h2{color:#fdd80f;margin-bottom:15px;}
+.serendipity-about-you-section h2+p{color:#fff;font-size:24px;font-family:'OpenSans-Regular',sans-serif;margin-bottom:40px;margin-top:0;line-height:1.2;}
+.serendipity-three-col{display:flex;align-items:center;justify-content:space-between;}
+.serendipity-three-col .serendipity-col{height:400px;align-items:center;display:flex;background:#333333;width:100%;justify-content:center;}
+.serendipity-three-col .serendipity-col:not(:last-child){margin-right:35px;}
+.serendipity-filter-section{background:#404040;padding:40px 0;}
+.serendipity-filter-section .filter{list-style:none;display:flex;align-items:center;justify-content:center;margin:0 0 40px 0;padding:0;}
+.serendipity-filter-section .filter li:first-child{color:#fff;font-size:24px;font-family:'OpenSans-Regular',sans-serif;margin-right:40px;line-height:1;}
+.serendipity-filter-section .filter li .btn{margin:0;min-width:230px;height:68px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#6363df;border:1px solid #6363df;}
+.serendipity-filter-section .filter li:not(:last-child) .btn{margin-right:25px;}
+.serendipity-filter-data{column-count:3;column-gap:35px;}
+.serendipity-filter-data .serendipity-filter-data-col{background-color:#333333;padding:40px;-webkit-column-break-inside:avoid;page-break-inside:avoid;break-inside:avoid;margin-bottom:45px;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content p{color:#fff;font-size:28px;font-family:'OpenSans-Regular',sans-serif;margin-top: 0;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content strong{font-family:'Open Sans',Arial,sans-serif;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .yellow-color-text{color:#fdd80f;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul{margin:0;padding:0;list-style:none;display:flex;align-items:center;justify-content:space-between;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon{width:49px;height:49px;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon i{font-size:24px;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon:hover:before{content:attr(data-tooltip);position:absolute;left:-113px;top:-52px;width:225px;color:#fff;text-align:center;line-height:42px;font-size:20px;font-family:'OpenSans-Regular',sans-serif;background-color:#252525;box-shadow:0px 3px 8px 0px rgba(71,71,71,0.22);border:2px solid #404040;}

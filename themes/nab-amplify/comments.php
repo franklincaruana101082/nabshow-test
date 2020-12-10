@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The template for displaying comments
  *
@@ -16,7 +15,7 @@
  * the visitor has not yet entered the password we will
  * return early without loading the comments.
  */
-if (post_password_required()) {
+if ( post_password_required() ) {
 	return;
 }
 ?>
@@ -25,8 +24,8 @@ if (post_password_required()) {
 
 	<?php
 	// You can start editing here -- including this comment!
-	if (have_comments()) :
-	?>
+	if ( have_comments() ) :
+		?>
 		<div class="comment-section-title">
 			<h2>Discussion</h2>
 			<a href="#respond" class="navigate-reply btn">Add Comment</a>
@@ -36,7 +35,7 @@ if (post_password_required()) {
 				<?php
 				printf(
 					/* translators: 1: title. */
-					esc_html__('Responses (' . get_comments_number(get_the_ID()) . ')', 'nab-amplify')
+					esc_html__( 'Responses ('.get_comments_number( get_the_ID() ).')', 'nab-amplify' )
 				);
 				?>
 			</h3><!-- .comments-title -->
@@ -45,14 +44,10 @@ if (post_password_required()) {
 				global $wp;
 				?>
 				<div class="nab-custom-select">
-					<select class="comments-order" data-url="<?php echo home_url($wp->request); ?>">
+					<select class="comments-order" data-url="<?php echo home_url( $wp->request ); ?>">
 						<option value="">Sort By</option>
-						<option value="DESC" <?php if ($_GET['orderby'] === 'DESC') {
-													echo "Selected";
-												} ?>>Latest</option>
-						<option value="ASC" <?php if ($_GET['orderby'] === 'ASC') {
-												echo "Selected";
-											} ?>>Oldest</option>
+						<option value="DESC" <?php if($_GET['orderby'] === 'DESC'){ echo "Selected"; }?>>Latest</option>
+						<option value="ASC" <?php if($_GET['orderby'] === 'ASC'){ echo "Selected"; }?>>Oldest</option>
 					</select>
 				</div>
 			</div>
@@ -63,14 +58,13 @@ if (post_password_required()) {
 		<ol class="comment-list">
 			<?php
 			$order_by = isset($_GET['orderby']) ? $_GET['orderby'] : 'DESC';
-			$comments = get_comments(array('order' => $order_by, 'post_id' => get_the_ID()));
+			$comments = get_comments( array( 'order' => $order_by, 'post_id' => get_the_ID() ) );
 			wp_list_comments(
 				array(
-					'walker'     => new Custom_Walker_Comment(),
+					'walker'	 => new Custom_Walker_Comment(),
 					'style'      => 'ol',
 					'short_ping' => true,
-				),
-				$comments
+				),$comments
 			);
 			?>
 		</ol><!-- .comment-list -->
@@ -79,10 +73,10 @@ if (post_password_required()) {
 		the_comments_navigation();
 
 		// If comments are closed and there are comments, let's leave a little note, shall we?
-		if (!comments_open()) :
-		?>
-			<p class="no-comments"><?php esc_html_e('Comments are closed.', 'nab-amplify'); ?></p>
-	<?php
+		if ( ! comments_open() ) :
+			?>
+			<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'nab-amplify' ); ?></p>
+			<?php
 		endif;
 
 	endif; // Check for have_comments().
