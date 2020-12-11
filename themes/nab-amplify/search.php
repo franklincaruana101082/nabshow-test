@@ -164,7 +164,8 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 									$ctitle = get_user_meta( $member_user_id, 'attendee_title', true );
 									$company = $ctitle ? $ctitle . ' | ' . $company : $company;
 
-									$user_images = nab_amplify_get_user_images( $member_user_id );
+									$user_images		= nab_amplify_get_user_images( $member_user_id );
+									$member_profile_url	= bp_get_member_permalink();
 									?>
 									<div class="search-item">
 										<div class="search-item-inner">
@@ -173,15 +174,18 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 											</div>
 											<div class="search-item-info">
 												<div class="search-item-avtar">
-													<a href="<?php bp_member_permalink(); ?>">
+													<a href="<?php echo esc_url( $member_profile_url ); ?>">
                                                     	<img src="<?php echo esc_url( $user_images['profile_picture'] ); ?>">
 													</a>
 												</div>
 												<div class="search-item-content">
 													<h4>
-														<a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
+														<a href="<?php echo esc_url( $member_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a>
 													</h4>
 													<span class="company-name"><?php echo esc_html( $company ); ?></span>
+													<div class="search-actions">
+														<a href="<?php echo esc_url( $member_profile_url ); ?>" class="button">View</a>
+													</div>
 													<?php
 													echo nab_amplify_bp_get_friendship_button( $member_user_id );
 													?>
@@ -262,7 +266,7 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 													<span class="product-company"><?php echo esc_html( $product_company ); ?></span>
 													<div class="amp-actions nab-action">
 														<div class="search-actions">
-															<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+															<a href="<?php echo esc_url( $product_link ); ?>" class="button">View</a>
 														</div>
 													</div>
 												</div>
@@ -353,19 +357,13 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 														<a href="<?php echo esc_url( $company_url ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 													</h4>
 													<div class="amp-actions">
+														<div class="search-actions">
+															<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+														</div>
 														<?php
 														if ( $user_logged_in ) {
 
-															$company_id = get_the_ID();
-															
-															nab_get_follow_button( $company_id, $current_user_id );
-															nab_get_company_message_button( $company_id, 'Message Company Representative' );
-														} else {
-															?>
-															<div class="search-actions">
-																<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
-															</div>
-															<?php
+															nab_get_company_message_button( get_the_ID(), 'Message Rep' );
 														}
 														?>
 													</div>
@@ -524,7 +522,7 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 												<div class="search-item-content">
 													<h4><a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $post_link ); ?>" class="button">Read More</a>
+														<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
 													</div>
 												</div>
 											</div>
@@ -613,8 +611,8 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 								$ctitle = get_user_meta( $member_user_id, 'attendee_title', true );
 								$company = $ctitle ? $ctitle . ' | ' . $company : $company;
 
-								$user_images 	= nab_amplify_get_user_images( $member_user_id );
-
+								$user_images 		= nab_amplify_get_user_images( $member_user_id );
+								$member_profile_url = bp_get_member_permalink();
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -623,15 +621,18 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-avtar">
-												<a href="<?php bp_member_permalink(); ?>">
+												<a href="<?php echo esc_url( $member_profile_url ); ?>">
 													<img src="<?php echo esc_url( $user_images[ 'profile_picture' ] ); ?>">
 												</a>
 											</div>
 											<div class="search-item-content">
 												<h4>
-													<a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
+													<a href="<?php echo esc_url( $member_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a>
 												</h4>
 												<span class="company-name"><?php echo esc_html( $company ); ?></span>
+												<div class="search-actions">
+													<a href="<?php echo esc_url( $member_profile_url ); ?>" class="button">View</a>
+												</div>
 												<?php
 												echo nab_amplify_bp_get_friendship_button( $member_user_id );
 												?>
@@ -702,7 +703,7 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 												<span class="product-company"><?php echo esc_html( $product_company ); ?></span>
 												<div class="amp-actions nab-action">
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+														<a href="<?php echo esc_url( $product_link ); ?>" class="button">View</a>
 													</div>
 												</div>
 											</div>
@@ -781,19 +782,14 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 													<a href="<?php echo esc_url( $company_url ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 												</h4>
 												<div class="amp-actions">
+													<div class="search-actions">
+														<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+													</div>
 													<?php
+													
 													if ( $user_logged_in ) {
 
-														$company_id = get_the_ID();
-
-														nab_get_follow_button( $company_id, $current_user_id );
-														nab_get_company_message_button( $company_id, 'Message Company Representative' );
-													} else {
-														?>
-														<div class="search-actions">
-															<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
-														</div>
-														<?php
+														nab_get_company_message_button( get_the_ID(), 'Message Rep' );
 													}
 													?>
 												</div>
@@ -925,7 +921,7 @@ $allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 											<div class="search-item-content">
 												<h4><a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 												<div class="search-actions">
-													<a href="<?php echo esc_url( $post_link ); ?>" class="button">Read More</a>
+													<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
 												</div>
 											</div>
 										</div>

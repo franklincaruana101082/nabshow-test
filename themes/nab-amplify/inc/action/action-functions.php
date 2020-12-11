@@ -448,7 +448,7 @@ function nab_amplify_register_post_types()
         'publicly_queryable'  => true,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
+        'supports'            => array('title', 'editor', 'thumbnail', 'author', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
 
     );
 
@@ -2441,6 +2441,48 @@ function nab_register_landing_page_post_type() {
 }
 
 /**
+ * Set preloaded resusable block in the landing page when create new page from the backend.
+ */
+function nab_set_preloaded_block_in_new_landing_page() {
+
+    global $pagenow;
+
+	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'post-new.php' === $pagenow && 'landing-page' === $current_post_type ) {
+
+		$block_ids = array( 17727 );
+
+		$query_args = array(
+			'post_type' => 'wp_block',
+			'fields'    => 'ids',
+			'post__in'  => $block_ids,
+			'orderby'   => 'post__in'
+		);
+
+		$block_query = new WP_Query( $query_args );
+
+		if ( $block_query->have_posts() ) {
+
+			$block_ids = $block_query->posts;
+
+			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+
+				$block_template = array();
+
+				foreach ( $block_ids as $block_id ) {
+					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
+				}
+
+				$article_object				= get_post_type_object( 'landing-page' );
+				$article_object->template	= $block_template;
+			}
+
+		}
+	}
+}
+
+/**
  * Remove user meta on save the company post type.
  *
  * @param  int $post_id
@@ -3064,7 +3106,7 @@ function nab_edit_company_about_callback(){
 
 	if ( 'post-new.php' === $pagenow && 'company' === $current_post_type ) {
 
-		$block_ids = array( 1415 );
+		$block_ids = array( 1305 );
 
 		$query_args = array(
 			'post_type' => 'wp_block',

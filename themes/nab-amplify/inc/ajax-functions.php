@@ -1191,18 +1191,15 @@ function nab_company_search_filter_callback() {
 
 			ob_start();
 
+			?>
+			<div class="search-actions">
+				<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+			</div>
+			<?php
+
 			if ( $user_logged_in ) {
-				
-				$company_id = get_the_ID();
-															
-				nab_get_follow_button( $company_id, $current_user_id, true );
-				nab_get_company_message_button( $company_id, 'Message Company Representative' );
-			} else {
-				?>
-				<div class="search-actions">
-					<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
-				</div>
-				<?php
+								
+				nab_get_company_message_button( get_the_ID(), 'Message Company Representative' );
 			}
 
 			$button = ob_get_clean();

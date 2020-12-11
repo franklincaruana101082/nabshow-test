@@ -121,8 +121,8 @@ p{font-size:16px;color:#404040}
 .light-grey-bg{background-color:#999999;color:#fff}
 
 /* button */
-.btn{display:inline-block;background:#e5018b;color:#fff!important;padding:10px 20px;margin-bottom:10px;min-width:200px;text-align:center;max-width:100%;font-weight:bold;text-transform:uppercase;border-radius:10px;text-decoration:none!important;}
-.button{background:#e5018b;color:#fff;display:inline-block;padding:10px 20px;border-radius:10px;text-align:center;text-transform:uppercase;font-size:14px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important;}
+.btn{display:inline-block;background:#e5018b;color:#fff!important;padding:10px 20px;margin-bottom:10px;min-width:200px;text-align:center;max-width:100%;font-weight:bold;text-transform:uppercase;border-radius:6px;text-decoration:none!important;}
+.button{background:#e5018b;color:#fff;display:inline-block;padding:10px 20px;border-radius:6px;text-align:center;text-transform:uppercase;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important;}
 .button:hover{background:#6363df;border-color:#6363df;color:#fff;}
 .button:visited{color:#fff;}
 .button:focus,
@@ -786,6 +786,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header .woocommerce-breadcrumb a,
 .banner-header .woocommerce-breadcrumb{color:#404040!important}
 #amp-profile-restrict-message p {font-size: 24px;color: #ccc;font-style: italic}
+[data-bp-tooltip]:after{max-width: none;}
 .checkbox-custom{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom: 25px;}
 .checkbox-custom input{margin-right:15px}
 .checkbox-custom input:last-child{margin-right:0}
@@ -1131,6 +1132,7 @@ body.buddypress .site-content{padding:0;}
 .amp-profile-main .amp-profile-info span{color:#999;font-size:22px;}
 .amp-profile-main .amp-profile-disc{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 0 20px;}
 .amp-profile-main .amp-profile-disc span:not(:first-child):before{content:'|';display:inline-block;color:#999;margin:0 5px;font-size:22px;line-height:1;}
+.amp-profile-main .amp-profile-location{margin-bottom:20px;}
 .amp-profile-main .amp-profile-social ul{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0;padding:0;list-style:none;}
 .amp-profile-main .amp-profile-social ul li{margin:10px;}
 .amp-profile-main .amp-profile-social ul li a{width:70px;height:70px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;border:2px solid #fdd80f;color:#fdd80f;}
@@ -1612,8 +1614,9 @@ body .is_friend .remove:before{font-size:22px;}
 .single-company h5,
 .single-company h6{color:#fdd80f;}
 .single-company p{color:#fff;}
-.single-company .amp-profile-main .amp-profile-inner .search-actions{margin:30px 0 0;}
-.single-company .amp-profile-main .amp-profile-inner .search-actions a{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;}
+.single-company .amp-profile-main .amp-profile-inner .amp-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-top:20px;}
+.single-company .amp-profile-main .amp-profile-inner .search-actions{margin:5px;}
+.single-company .amp-profile-main .amp-profile-inner .search-actions a{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;margin:0;padding:10px 15px;}
 
 /* Dark theme popup design */
 .nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar {

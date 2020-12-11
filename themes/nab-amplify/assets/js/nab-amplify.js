@@ -403,10 +403,14 @@
       contentType: false,
       type: 'POST',
       data: form_data,
+      beforeSend: function() {
+        $('body').addClass('is-loading')
+    },
       success: function (response) {
         var json = $.parseJSON(response)
 
         if (json.success === true) {
+          $('body').removeClass('is-loading')
           if (nab_product_id !== '0') {
             alert('Product Updated Successfully!')
           } else {
@@ -2623,6 +2627,19 @@ function nabSearchUserAjax(loadMore, pageNumber) {
 
           searchContent.appendChild(userCompany)
 
+          if ( 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ) {
+            let viewSearchAction = document.createElement('div')
+            viewSearchAction.setAttribute('class', 'search-actions')
+            
+            let viewButton = document.createElement('a');
+            viewButton.setAttribute('href', value.link);
+            viewButton.setAttribute('class', 'button');
+            viewButton.innerText = 'View';
+
+            viewSearchAction.appendChild(viewButton);
+            searchContent.appendChild(viewSearchAction);
+          }
+
           if (undefined !== value.action_button && '' !== value.action_button) {
             let searchAction = document.createElement('div')
             searchAction.setAttribute('class', 'search-actions')
@@ -2907,7 +2924,7 @@ function nabSearchCompanyProductAjax(loadMore, pageNumber) {
           let viewProdutLink = document.createElement('a')
           viewProdutLink.setAttribute('href', value.link)
           viewProdutLink.setAttribute('class', 'button')
-          viewProdutLink.innerText = 'View Product'
+          viewProdutLink.innerText = 'View'
 
           searchAction.appendChild(viewProdutLink)
           searchActionWrap.appendChild(searchAction)
@@ -3175,7 +3192,7 @@ function nabSearchContentAjax(loadMore, pageNumber) {
           let viewPostLink = document.createElement('a')
           viewPostLink.setAttribute('href', value.link)
           viewPostLink.setAttribute('class', 'button')
-          viewPostLink.innerText = 'Read More'
+          viewPostLink.innerText = 'View'
 
           searchAction.appendChild(viewPostLink)
           searchContent.appendChild(searchAction)
