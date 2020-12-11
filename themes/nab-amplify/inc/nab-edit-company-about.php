@@ -47,7 +47,7 @@
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $company_data['ID']; ?>" />
 							</div>
 						</form>
-						<p>NAB reserves the right to remove any content that they deem inappropriate.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>

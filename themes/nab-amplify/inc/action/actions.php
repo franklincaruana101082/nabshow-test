@@ -155,6 +155,7 @@ add_action( 'woocommerce_save_account_details', 'nab_woocommerce_customer_save_c
 add_action( 'admin_menu', 'nab_amplify_search_settings' );
 
 add_action( 'init', 'nab_register_company_post_type' );
+add_action( 'init', 'nab_register_landing_page_post_type' );
 
 add_action( 'acf/save_post', 'nab_remove_company_user_meta', 5);
 add_action( 'acf/save_post', 'nab_update_compnay_user', 20, 1 );
@@ -186,3 +187,6 @@ add_action( 'wp_ajax_nopriv_nab_update_company_profile', 'nab_update_company_pro
 
 add_action( 'wp_ajax_nab_edit_company_about', 'nab_edit_company_about_callback' );
 add_action( 'wp_ajax_nopriv_nab_edit_company_about', 'nab_edit_company_about_callback' );
+
+// Action to add default blocks on new company
+add_action( 'admin_init', 'nab_set_default_block_in_new_company' );

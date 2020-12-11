@@ -302,7 +302,7 @@ function nab_company_details_render_callback( $attributes ) {
                     <h2>About</h2>
                     <div class="company-about-inner">
                         <p><?php echo esc_html( $about_company ); ?></p>
-                        <?php if(in_array($user_id,$admin_id)){?>
+                        <?php if(!empty($admin_id) && in_array($user_id,$admin_id)){?>
                         <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span></div>
                         <?php } ?>
                     </div>

@@ -126,7 +126,7 @@ $company_admin_id = get_field('company_user_id', $company_id);
                                     </li>
                                 <?php
                                 }
-                                if (in_array($user_id, $company_admin_id)) {
+                                if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                                 ?>
                                     <li><span class="edit-profile-pic" style="display:none" id="edit-social-profiles" data-bp-tooltip="Edit Social Profiles"><i class="fa fa-pencil"></i></span></li>
                                 <?php
@@ -136,11 +136,11 @@ $company_admin_id = get_field('company_user_id', $company_id);
                         <?php
                         if ($user_logged_in) {
                             $user_id = get_current_user_id(); ?>
-                            <div class="amp-actions">
+                            <div class="amp-actions">                                
                                 <?php
                                 nab_get_follow_button($company_id, $user_id);
-                                nab_get_company_message_button($company_id, 'Message Company Representative');
-                                ?>
+                                nab_get_company_message_button($company_id, 'Message Company Rep');
+                                ?>                                
                             </div>
                         <?php
                         }

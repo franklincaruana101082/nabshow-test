@@ -2388,6 +2388,59 @@ function nab_register_company_post_type()
 }
 
 /**
+ * Register landing page post type.
+ */
+function nab_register_landing_page_post_type() {
+
+    $labels = array(
+		'name'                  => _x( 'Landing Pages', 'Post Type General Name', 'nab-amplify' ),
+		'singular_name'         => _x( 'Landing page', 'Post Type Singular Name', 'nab-amplify' ),
+		'menu_name'             => __( 'Landing Pages', 'nab-amplify' ),
+		'name_admin_bar'        => __( 'Landing Pages', 'nab-amplify' ),		
+		'parent_item_colon'     => __( 'Parent Landing Page:', 'nab-amplify' ),
+		'all_items'             => __( 'All Landing Pages', 'nab-amplify' ),
+		'add_new_item'          => __( 'Add New Landing Page', 'nab-amplify' ),
+		'add_new'               => __( 'Add New', 'nab-amplify' ),
+		'new_item'              => __( 'New Landing Page', 'nab-amplify' ),
+		'edit_item'             => __( 'Edit Landing Page', 'nab-amplify' ),
+		'update_item'           => __( 'Update Landing Page', 'nab-amplify' ),
+		'view_item'             => __( 'View Landing Page', 'nab-amplify' ),
+		'view_items'            => __( 'View Landing Pages', 'nab-amplify' ),
+		'search_items'          => __( 'Search Landing Pages', 'nab-amplify' ),
+		'not_found'             => __( 'Not found', 'nab-amplify' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'nab-amplify' ),
+		'featured_image'        => __( 'Featured Image', 'nab-amplify' ),
+		'set_featured_image'    => __( 'Set featured image', 'nab-amplify' ),
+		'remove_featured_image' => __( 'Remove featured image', 'nab-amplify' ),
+		'use_featured_image'    => __( 'Use as featured image', 'nab-amplify' ),
+		'insert_into_item'      => __( 'Insert into Landing Page', 'nab-amplify' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'nab-amplify' ),
+		'items_list'            => __( 'Items list', 'nab-amplify' ),
+		'items_list_navigation' => __( 'Items list navigation', 'nab-amplify' ),
+		'filter_items_list'     => __( 'Filter items list', 'nab-amplify' ),
+	);
+	$args = array(
+		'label'                 => __( 'Landing Pages', 'nab-amplify' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'post-formats', 'excerpt' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,		
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'menu_icon'             => 'dashicons-text-page',
+		'show_in_rest'          => true,
+	);
+	register_post_type( 'landing-page', $args );
+}
+
+/**
  * Remove user meta on save the company post type.
  *
  * @param  int $post_id
@@ -2998,4 +3051,46 @@ function nab_edit_company_about_callback(){
     $final_result['content'] = '';
 	echo wp_json_encode($final_result);
 	wp_die();
+}
+
+/**
+ * Set default blocks in the new article create.
+ */
+ function nab_set_default_block_in_new_company() {
+
+	global $pagenow;
+
+	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'post-new.php' === $pagenow && 'company' === $current_post_type ) {
+
+		$block_ids = array( 1415 );
+
+		$query_args = array(
+			'post_type' => 'wp_block',
+			'fields'    => 'ids',
+			'post__in'  => $block_ids,
+			'orderby'   => 'post__in'
+		);
+
+		$block_query = new WP_Query( $query_args );
+
+		if ( $block_query->have_posts() ) {
+
+			$block_ids = $block_query->posts;
+
+			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+
+				$block_template = array();
+
+				foreach ( $block_ids as $block_id ) {
+					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
+				}
+
+				$article_object				= get_post_type_object( 'company' );
+				$article_object->template	= $block_template;
+			}
+
+		}
+	}
 }
