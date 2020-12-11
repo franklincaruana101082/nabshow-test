@@ -2585,7 +2585,6 @@ function nab_add_product()
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
-        'post_content' => '',
         'post_status'  => 'publish',
         'post_type'    => 'company-products',
     );
