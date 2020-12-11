@@ -38,7 +38,7 @@
 
 @media (min-width:1250px){
 	.search-result-filter .search-form.long-placeholder{width:940px;}
-	.site-header .nab-header-search .search-form.long-placeholder .search-field{width:485px;}
+	.site-header .nab-header-search .search-form.long-placeholder .search-field{width:500px;}
 }
 
 @media (min-width:991px){
@@ -74,7 +74,6 @@
 }
 @media (max-width:1395px){
 	.site-header .nab-header-search .search-form .search-field{width:400px;}
-	.site-header .nab-header-search .search-form.long-placeholder .search-field{width:485px;}
 }
 @media (max-width:1200px){
 	.site-header .nab-header-search .search-form .search-field{width:300px;}
