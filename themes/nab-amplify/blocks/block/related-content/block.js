@@ -13,6 +13,14 @@
   } = wpComponents
   const { ColorPalette } = wpBlockEditor
 
+  jQuery(document).on('click', '.video-icon img', function(){
+    jQuery(this).parents('.video-icon').toggleClass('showVideoLinkPopup');
+  });
+
+  jQuery(document).on('click', '.video-icon .play_link_popup .remove', function(){
+    jQuery(this).parents('.video-icon').removeClass('showVideoLinkPopup');
+  });
+
   class ItemComponent extends Component {
     constructor (props) {
       super(props)
@@ -44,6 +52,9 @@
           media: '',
           mediaAlt: '',
           videoIcon: '',
+          videoIconLink: '',
+          videoIconLinkTarget: '',
+          videoLinkPopup: false,
           title: '',
           subTitle: '',
           date: '',
@@ -96,17 +107,6 @@
           mediaAlt: '',
           shortcode: '',
           bookmark: ''
-        }
-      }
-
-      if (name == 'option-7') {
-        attr = {
-          index: dataArray.length,
-          option: name,
-          title: '',
-          subTitle: '',
-          bookmark: '',
-          buttonText: '<a href="#" class="btn">Read More</a>'
         }
       }
 
@@ -251,7 +251,7 @@
                   }}
                 />
               )}
-              {data.option !== 'option-6' && data.option !== 'option-7' ? (
+              {data.option !== 'option-6' ? (
                 <div className='image'>
                   <MediaUpload
                     onSelect={media => {
@@ -321,7 +321,29 @@
                                   setAttributes({ dataArray: arrayCopy })
                                 }}
                               ></span>
-                            <img src={data.videoIcon} />
+                            <div className='play_link_popup'>
+                              <span className="dashicons dashicons-no-alt remove"></span>
+                              <TextControl
+                                value={data.videoIconLink}
+                                type="url"
+                                placeholder="https://google.com/"
+                                onChange={value=>{
+                                    let arrayCopy = [...dataArray]
+                                    arrayCopy[index].videoIconLink = value
+                                    setAttributes({dataArray: arrayCopy});
+                                }}
+                              />
+                              <ToggleControl
+                                  label="Open in new Tab"
+                                  checked={data.videoIconLinkTarget}
+                                  onChange={(value)=>{
+                                    let arrayCopy = [...dataArray]
+                                    arrayCopy[index].videoIconLinkTarget = value
+                                    setAttributes({dataArray: arrayCopy});
+                                  }}
+                              />
+                            </div>
+                            <img src={data.videoIcon} alt="Play Icon" />
                           </Fragment>
                         )
                       } else {
@@ -340,23 +362,6 @@
                 </div>
               ) : null}
               <div className="related-content-wrap">
-              {'option-7' === data.option && (
-                <RichText
-                  tagName='div'
-                  placeholder={__('Bookmark')}
-                  value={data.bookmark}
-                  keepPlaceholderOnFocus='true'
-                  className='bookmark-wrap'
-                  onChange={value => {
-                    value = value.replace(/&lt;!--td.*}--><br>/, '')
-                    value = value.replace(/<br>.*}<br>/, '')
-                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
-                    let arrayCopy = [...dataArray]
-                    arrayCopy[index].bookmark = value
-                    setAttributes({ dataArray: arrayCopy })
-                  }}
-                />
-              )}
                 {data.option !== 'option-3' && data.option !== 'option-6' && (
                   <Fragment>
                     <RichText
@@ -411,7 +416,7 @@
                     />
                   </Fragment>
                 )}
-                {(data.option == 'option-2' || data.option == 'option-7') && (
+                {data.option == 'option-2' && (
                   <div className="bottom-container">
                     <RichText
                       tagName='div'
@@ -559,12 +564,6 @@
                   >
                     Option 6
                   </li>
-                  <li
-                    className='option-7'
-                    onClick={() => this.addNewItem('option-7')}
-                  >
-                    Option 7
-                  </li>
                 </ul>
               </div>
             </div>
@@ -669,7 +668,7 @@
                         <img src={data.media} alt={data.mediaAlt} />
                       </div>
                     )}
-                    {('option-2' === data.option || 'option-7' == data.option && data.bookmark) && (
+                    {('option-2' === data.option && data.bookmark) && (
                       <RichText.Content
                         tagName='div'
                         value={data.bookmark}
@@ -678,7 +677,13 @@
                     )}
                     {data.videoIcon && (
                       <div className='video-icon'>
-                        <img src={data.videoIcon} alt={data.videoIcon} />
+                        {data.videoIconLink ? (
+                          <a href={data.videoIconLink} target={data.videoIconLinkTarget ? '_blank' : '_self'} rel="noopener noreferrer">
+                            <img src={data.videoIcon} />
+                          </a>
+                        ) : (
+                          <img src={data.videoIcon} alt="Play Icon" />
+                        )}
                       </div>
                     )}
                     <div className="related-content-wrap">
@@ -732,7 +737,7 @@
                           className='button-wrap'
                         />
                       )}
-                      {(data.option == 'option-6' || data.option == 'option-7') && (
+                      {data.option == 'option-6' && (
                         <RichText.Content
                           tagName='div'
                           value={data.shortcode}

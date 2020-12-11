@@ -1403,6 +1403,7 @@ body .is_friend .remove:before{font-size:22px;}
 .single-articles .entry-content p{color:#fff;}
 .single-articles .entry-content p{font-family:'OpenSans-Regular',Arial,sans-serif;text-indent:70px;text-align:justify;}
 .single-articles .entry-content p:first-of-type{text-indent:0;}
+.single-articles .entry-content .wp-block-separator{margin:1.5em 0;}
 .single-articles .container{width:1200px;}
 .single-articles .article-byline{color:#999;}
 .single-articles .article-byline a{color:#999;}

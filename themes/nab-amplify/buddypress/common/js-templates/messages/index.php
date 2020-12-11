@@ -47,7 +47,7 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
     <label for="send-to-input"><?php esc_html_e( 'Send To', 'buddypress' ); ?></label>
     <input type="text" name="send_to" class="send-to-input" id="send-to-input"/>
 
-    <label for="subject"><?php _e( 'Subject', 'buddypress' ); ?></label>
+    <label for="subject"><?php _e( 'Subject', 'buddypress' ); ?><i class="fa fa-info-circle info-tooltip" data-bp-tooltip="Type @username" aria-hidden="true"></i></label>
     <input type="text" name="subject" id="subject"/>
 
     <div id="bp-message-content"></div>
