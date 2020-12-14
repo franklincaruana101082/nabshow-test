@@ -1795,6 +1795,7 @@ body .is_friend .remove:before{font-size:22px;}
 .nab-preview-slider-main{margin-bottom:40px;}
 .nab-preview-slider-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;}
 .nab-preview-slider-inner .nab-preview-main{width:100%;margin-bottom:10px;min-height:630px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.nab-preview-slider-inner .nab-preview-main img{max-height:630px;}
 .nab-preview-items-main{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -5px;}
 .nab-preview-items-main .nab-preview-item{width:25%;padding:0 5px;}
 .nab-preview-items-main .nab-preview-item img{width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;cursor:pointer;}

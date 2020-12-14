@@ -96,6 +96,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:500px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:500px;}
 }
 
 @media (max-width:1024px){
@@ -134,6 +135,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:400px;}
+	.nab-preview-slider-inner .nab-preview-main{max-height:400px;}
 }
 @media (max-width:991px){
 	.site-footer:before{display:none}
@@ -361,6 +363,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:300px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:300px;}
 
 	/*events page*/
 	.tribe-events-page-template .nab-ad-block{margin:25px 0;}
@@ -454,6 +457,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:200px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:200px;}
 
 	/* single company product */
 	.single-product-main{padding:0 15px;}
@@ -493,9 +497,6 @@
 	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.nab-profile-menu{padding-right:0;margin-right:0;margin-bottom:20px;width:100%;border-right:0;text-align:center;}
 	.site-header .nab-header-search .search-form{max-width:200px;margin:0 10px;}
-
-	/* preview slider */
-	.nab-preview-slider-inner .nab-preview-main{min-height:100px;}
 }
 @media (max-width:350px) {
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px;}
