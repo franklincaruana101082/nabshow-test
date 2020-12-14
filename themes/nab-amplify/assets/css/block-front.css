@@ -194,13 +194,15 @@
 .company-details-wrapper .company-about-inner{padding-bottom:80px;}
 .company-details-wrapper .company-about-inner .edit-company-about-control{right:30px;bottom:20px;}
 .company-details-wrapper .company-about-outer{width:65%;padding-right:10px;}
-.company-details-wrapper .company-about-outer p{font-family:'OpenSans-Regular',Arial,sans-serif;font-size:28px;margin:0 0 20px;}
+.company-details-wrapper .company-about-outer p{font-family:'OpenSans-Regular',Arial,sans-serif;font-size:20px;margin:0 0 20px;}
+.company-details-wrapper .company-about-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-outer{width:35%;padding-left:10px;}
+.company-details-wrapper .company-contact-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-inner{padding:40px 30px;}
 .company-details-wrapper .company-contact-outer .edit-company-about-control{right:15px;}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px;}
 .company-details-wrapper ul{margin:0;padding:0;list-style-type:none;}
-.company-details-wrapper ul li{font-size:20px;color:#fff;font-family:'OpenSans-Regular',Arial,sans-serif;margin-bottom:10px;}
+.company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular',Arial,sans-serif;margin-bottom:10px;}
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans',Arial,sans-serif;font-weight:700;}
 .company-details-wrapper ul li:last-child span{display:block;}
 .company-details-wrapper .edit-company-about-control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:absolute;-ms-flex-wrap:wrap;flex-wrap:wrap;}
@@ -262,8 +264,6 @@
 	/* company detail */
 	.company-details-wrapper .company-about-inner{padding:30px 40px 80px 40px;}
 	.company-details-wrapper .company-contact-inner{padding:30px;}
-	.company-details-wrapper .company-about-outer p{font-size:24px;}
-	.company-details-wrapper ul li{font-size:18px;}
 
 	/* company message box */
 	.company-message-box .company-message-title{font-size:24px;}
@@ -313,7 +313,6 @@
 	/* company detail */
 	.company-details-wrapper .company-about-outer{width:60%;}
 	.company-details-wrapper .company-contact-outer{width:40%;}
-	.company-details-wrapper .company-about-outer p{font-size:20px;}
 	.company-details-wrapper ul li{font-size:16px;}
 }
 @media (max-width:767px) {

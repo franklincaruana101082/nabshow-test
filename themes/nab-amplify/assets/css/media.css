@@ -93,6 +93,10 @@
 	/* New Amplify CSS */
 	/* my account */
 	.amp-profile-main{margin-right:10%;max-width:670px;}
+
+	/* preview slider */
+	.nab-preview-slider-inner .nab-preview-main{min-height:500px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:500px;}
 }
 
 @media (max-width:1024px){
@@ -116,9 +120,11 @@
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%;}
 	.amp-profile-main .amp-profile-social ul li a,
-	.banner-header .edit-profile-pic{width:55px;height:55px;}
+	.banner-header .edit-profile-pic,
+	.amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px;}
 	.amp-profile-main .amp-profile-social ul li a i,
-	.banner-header .edit-profile-pic i{font-size:26px;}
+	.banner-header .edit-profile-pic i,
+	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px;}
 	.amp-profile-main .amp-profile-inner{min-height:500px;}
 	.banner-header .profile-avtar img{width:180px;height:180px;}
 	.amp-profile-main .amp-profile-info span{font-size:20px;}
@@ -129,6 +135,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:400px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:400px;}
 }
 @media (max-width:991px){
 	.site-footer:before{display:none}
@@ -273,9 +280,11 @@
 	.amp-item-wrap .amp-item-col{width:50%;}
 	.amp-item-wrap .add-new-item .add-item-icon{width:60px;height:60px;font-size:32px;}
 	.amp-profile-main .amp-profile-social ul li a,
-	.banner-header .edit-profile-pic{width:45px;height:45px;}
+	.banner-header .edit-profile-pic,
+	.amp-profile-main .amp-profile-social .edit-profile-pic{width:45px;height:45px;}
 	.amp-profile-main .amp-profile-social ul li a i,
-	.banner-header .edit-profile-pic i{font-size:20px;}
+	.banner-header .edit-profile-pic i,
+	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:20px;}
 	.amp-profile-main .amp-profile-inner{min-height:400px;}
 	.banner-header .profile-avtar img{width:120px;height:120px;}
 	.banner-header .profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px;}
@@ -354,6 +363,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:300px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:300px;}
 
 	/*events page*/
 	.tribe-events-page-template .nab-ad-block{margin:25px 0;}
@@ -447,6 +457,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:200px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:200px;}
 
 	/* single company product */
 	.single-product-main{padding:0 15px;}
@@ -486,9 +497,6 @@
 	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.nab-profile-menu{padding-right:0;margin-right:0;margin-bottom:20px;width:100%;border-right:0;text-align:center;}
 	.site-header .nab-header-search .search-form{max-width:200px;margin:0 10px;}
-
-	/* preview slider */
-	.nab-preview-slider-inner .nab-preview-main{min-height:100px;}
 }
 @media (max-width:350px) {
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px;}
