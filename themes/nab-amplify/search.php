@@ -13,6 +13,9 @@ $search_term 		= get_search_query();
 $current_site_url	= get_site_url();
 $view_type			= filter_input( INPUT_GET, 'v', FILTER_SANITIZE_STRING );
 $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
+$allowed_tags 		= wp_kses_allowed_html( 'post' );
+
+$allowed_tags[ 'broadstreet-zone' ] = array( 'zone-id' => 1 );
 ?>
 	<main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
@@ -114,7 +117,7 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 					</div>
 					<?php
 				} else {
-					echo wp_kses_post( nab_get_search_result_ad() );
+					echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 				}
 				?>
 			</div>
@@ -161,7 +164,8 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 									$ctitle = get_user_meta( $member_user_id, 'attendee_title', true );
 									$company = $ctitle ? $ctitle . ' | ' . $company : $company;
 
-									$user_images = nab_amplify_get_user_images( $member_user_id );
+									$user_images		= nab_amplify_get_user_images( $member_user_id );
+									$member_profile_url	= bp_get_member_permalink();
 									?>
 									<div class="search-item">
 										<div class="search-item-inner">
@@ -170,15 +174,18 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 											</div>
 											<div class="search-item-info">
 												<div class="search-item-avtar">
-													<a href="<?php bp_member_permalink(); ?>">
+													<a href="<?php echo esc_url( $member_profile_url ); ?>">
                                                     	<img src="<?php echo esc_url( $user_images['profile_picture'] ); ?>">
 													</a>
 												</div>
 												<div class="search-item-content">
 													<h4>
-														<a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
+														<a href="<?php echo esc_url( $member_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a>
 													</h4>
 													<span class="company-name"><?php echo esc_html( $company ); ?></span>
+													<div class="search-actions">
+														<a href="<?php echo esc_url( $member_profile_url ); ?>" class="button">View</a>
+													</div>
 													<?php
 													echo nab_amplify_bp_get_friendship_button( $member_user_id );
 													?>
@@ -188,13 +195,13 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 									</div>
 									<?php
 									if ( 8 === $cnt ) {
-										echo wp_kses_post( nab_get_search_result_ad() );
+										echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 									}
 
 									$cnt++;
 								}
 								if ( $cnt < 8 ) {
-									echo wp_kses_post( nab_get_search_result_ad() );
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								?>
 							</div>
@@ -242,8 +249,8 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 
 									$thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 									$product_link	    = get_the_permalink();
-									$product_category	= get_the_terms( get_the_ID(), 'company-category' );
-									$product_company	= ! empty( $product_category ) && ! is_wp_error( $product_category ) ? $product_category[0]->name : '';
+									$company_id			= get_field( 'nab_selected_company_id', get_the_ID() );
+									$product_company	= ! empty( $company_id ) ? get_the_title( $company_id ) : '';
 									?>
 									<div class="amp-item-col">
 										<div class="amp-item-inner">
@@ -259,7 +266,7 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 													<span class="product-company"><?php echo esc_html( $product_company ); ?></span>
 													<div class="amp-actions nab-action">
 														<div class="search-actions">
-															<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+															<a href="<?php echo esc_url( $product_link ); ?>" class="button">View</a>
 														</div>
 													</div>
 												</div>
@@ -269,13 +276,13 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 									<?php
 
 									if ( 8 === $cnt ) {
-										echo wp_kses_post( nab_get_search_result_ad() );
+										echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 									}
 
 									$cnt++;
 								}
 								if ( $cnt < 8 ) {
-									echo wp_kses_post( nab_get_search_result_ad() );
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								?>
 							</div>
@@ -350,15 +357,13 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 														<a href="<?php echo esc_url( $company_url ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 													</h4>
 													<div class="amp-actions">
+														<div class="search-actions">
+															<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+														</div>
 														<?php
 														if ( $user_logged_in ) {
-															nab_get_follow_button( get_the_ID(), $current_user_id );
-														} else {
-															?>
-															<div class="search-actions">
-																<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
-															</div>
-															<?php
+
+															nab_get_company_message_button( get_the_ID(), 'Message Rep' );
 														}
 														?>
 													</div>
@@ -368,13 +373,13 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 									</div>
 									<?php
 									if ( 8 === $cnt ) {
-										echo wp_kses_post( nab_get_search_result_ad() );
+										echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 									}
 
 									$cnt++;
 								}
 								if ( $cnt < 8 ) {
-									echo wp_kses_post( nab_get_search_result_ad() );
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								?>
 							</div>
@@ -445,10 +450,7 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 											</div>
 										</div>
 									</div>
-									<?php
-
-									$allowed_tags = wp_kses_allowed_html( 'post' );
-									$allowed_tags['broadstreet-zone'] = array( 'zone-id' => 1 );
+									<?php									
 
 									if ( 8 === $cnt ) {
 										echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
@@ -457,7 +459,7 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 									$cnt++;
 								}
 								if ( $cnt < 8 ) {
-									echo wp_kses_post( nab_get_search_result_ad() );
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								?>
 							</div>
@@ -520,7 +522,7 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 												<div class="search-item-content">
 													<h4><a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $post_link ); ?>" class="button">Read More</a>
+														<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
 													</div>
 												</div>
 											</div>
@@ -529,12 +531,12 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 									<?php
 
 									if ( 8 === $cnt ) {
-										echo wp_kses_post( nab_get_search_result_ad() );
+										echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 									}
 									$cnt++;
 								}
 								if ( $cnt < 8 ) {
-									echo wp_kses_post( nab_get_search_result_ad() );
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								?>
 							</div>
@@ -609,8 +611,8 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 								$ctitle = get_user_meta( $member_user_id, 'attendee_title', true );
 								$company = $ctitle ? $ctitle . ' | ' . $company : $company;
 
-								$user_images 	= nab_amplify_get_user_images( $member_user_id );
-
+								$user_images 		= nab_amplify_get_user_images( $member_user_id );
+								$member_profile_url = bp_get_member_permalink();
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -619,15 +621,18 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-avtar">
-												<a href="<?php bp_member_permalink(); ?>">
+												<a href="<?php echo esc_url( $member_profile_url ); ?>">
 													<img src="<?php echo esc_url( $user_images[ 'profile_picture' ] ); ?>">
 												</a>
 											</div>
 											<div class="search-item-content">
 												<h4>
-													<a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
+													<a href="<?php echo esc_url( $member_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a>
 												</h4>
 												<span class="company-name"><?php echo esc_html( $company ); ?></span>
+												<div class="search-actions">
+													<a href="<?php echo esc_url( $member_profile_url ); ?>" class="button">View</a>
+												</div>
 												<?php
 												echo nab_amplify_bp_get_friendship_button( $member_user_id );
 												?>
@@ -681,8 +686,8 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 
 								$thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
                         		$product_link	    = get_the_permalink();
-								$product_category	= get_the_terms( get_the_ID(), 'company-category' );
-								$product_copany		= ! empty( $product_category ) && ! is_wp_error( $product_category ) ? $product_category[0]->name : '';
+								$company_id			= get_field( 'nab_selected_company_id', get_the_ID() );								
+								$product_company	= ! empty( $company_id ) ? get_the_title( $company_id ) : '';
 								?>
 								<div class="amp-item-col">
 									<div class="amp-item-inner">
@@ -695,10 +700,10 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 												<h4>
 													<a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 												</h4>
-												<span class="product-company"><?php echo esc_html( $product_copany ); ?></span>
+												<span class="product-company"><?php echo esc_html( $product_company ); ?></span>
 												<div class="amp-actions nab-action">
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+														<a href="<?php echo esc_url( $product_link ); ?>" class="button">View</a>
 													</div>
 												</div>
 											</div>
@@ -777,15 +782,14 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 													<a href="<?php echo esc_url( $company_url ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
 												</h4>
 												<div class="amp-actions">
+													<div class="search-actions">
+														<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+													</div>
 													<?php
+													
 													if ( $user_logged_in ) {
-														nab_get_follow_button( get_the_ID(), $current_user_id );
-													} else {
-														?>
-														<div class="search-actions">
-															<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
-														</div>
-														<?php
+
+														nab_get_company_message_button( get_the_ID(), 'Message Rep' );
 													}
 													?>
 												</div>
@@ -917,7 +921,7 @@ $view_screen		= array( 'user', 'shop', 'content', 'product', 'company' );
 											<div class="search-item-content">
 												<h4><a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 												<div class="search-actions">
-													<a href="<?php echo esc_url( $post_link ); ?>" class="button">Read More</a>
+													<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
 												</div>
 											</div>
 										</div>

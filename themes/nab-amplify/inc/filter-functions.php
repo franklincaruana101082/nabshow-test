@@ -1044,18 +1044,5 @@ function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
 	$html .= ob_get_clean();
 
 	return $html;
-}
 
-/**
- * Remove comment form fields.
- *
- * @param  array $fields
- */
-function nab_remove_comment_form_field( $fields ) {
-
-	unset( $fields[ 'author' ] );
-    unset( $fields[ 'email' ] );
-	unset( $fields[ 'url' ] );
-
-    return $fields;
 }

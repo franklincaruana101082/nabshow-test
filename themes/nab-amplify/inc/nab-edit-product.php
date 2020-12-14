@@ -1,6 +1,5 @@
 <?php
 global $post;
-print_r($post);
 ?>
 <div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
@@ -14,7 +13,7 @@ print_r($post);
 						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
 							<div class="form-row">
 								<label for=""><?php echo isset($post_data->ID) ? "Update" : "Add"; ?> Product</label>
-								<input type="text" class="input-text add-product" name="nab_product_title" value="<?php echo isset($post_data->post_title) ? $post_data->post_title : ''; ?>" id="product_title">
+								<input type="text" required="true" class="input-text add-product" name="nab_product_title" value="<?php echo isset($post_data->post_title) ? $post_data->post_title : ''; ?>" id="product_title">
 								<div class="nab-action">
 									<div class="nab-action-row">
 										<span class="check-label">Featured Product:</span>
@@ -46,7 +45,7 @@ print_r($post);
 							</div>
 							<div class="form-row">
 								<label for="">Add Featured Image</label>
-								<div class="file-input"><input type="file" id="product_featured_image" class="button" name="product_featured_image" >
+								<div class="file-input"><input type="file" id="product_featured_image" class="button" name="product_featured_image">
 
 								</div>
 								<div class="nab-action left-action">
@@ -55,29 +54,32 @@ print_r($post);
 									</div>
 								</div>
 								<div class="nab-action right-action">
-									
+
 									<div class="nab-action-row">
 										<i class="action-edit fa fa-pencil"></i>
 									</div>
 								</div>
 
 							</div>
-							<div class="form-row preview_product_featured_image" style="<?php if($post_data->product_thumbnail == ''){
-                                echo 'display:none';
-                            }?>">
+							<div class="form-row preview_product_featured_image" id="product_featured_image_wrapper" style="<?php if ($post_data->product_thumbnail == '') {
+																							echo 'display:none';
+																						} ?>">
+
 								
-										<div class="nab-product-media-item" >
-										<?php if($post_data->product_thumbnail!==''){
-										?>
-										<img id="product_featured_preview" src="<?php echo $post_data->product_thumbnail; ?>"/>
-										<?php	
-										} ?>
+									<?php if ($post_data->product_thumbnail_id !== '0') {
+									?>
+									<div class="nab-product-media-item">
+									<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $post_data->product_thumbnail_id;?>"><i class="fa fa-times" aria-hidden="true"></i></button>
+										<img id="product_featured_preview" src="<?php echo $post_data->product_thumbnail; ?>" />
 										</div>
+									<?php
+									} ?>
 								
-							
+
+
 							</div>
 							<div class="form-row">
-								<label for=""><span>Acceptable File Types: .pdf. .doc, .docx. .ppt, .pptx. .xls, .xlsx, .mp3, .mp4, .mov, .jpg, .png, .jpg</span></label>
+								<label for="">Media <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
 									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
@@ -115,22 +117,22 @@ print_r($post);
 							</div>
 							<div class="form-row" id="product_media_wrapper">
 								<?php if (isset($post_data->product_media)) {
-                                    foreach ($post_data->product_media as $media) {
-                                        if (!empty($media['product_media_file'])) {
-                                         ?>
-										<div class="nab-product-media-item" >
-											<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $media['product_media_file']['ID']; ?>"><i class="fa fa-times" aria-hidden="true"></i></button>
-											<?php if ($media['product_media_file']['type'] === 'image') { ?>
-												<img src="<?php echo $media['product_media_file']['url']; ?>" />
-											<?php }
-                                        if ($media['product_media_file']['type'] !== 'image') {
-                                            ?>
-												<span><?php echo $media['product_media_file']['title']; ?></span>
-											<?php
-                                        } ?>
-										</div>
+									foreach ($post_data->product_media as $media) {
+										if (!empty($media['product_media_file'])) {
+								?>
+											<div class="nab-product-media-item">
+												<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $media['product_media_file']['ID']; ?>"><i class="fa fa-times" aria-hidden="true"></i></button>
+												<?php if ($media['product_media_file']['type'] === 'image') { ?>
+													<img src="<?php echo $media['product_media_file']['url']; ?>" />
+												<?php }
+												if ($media['product_media_file']['type'] !== 'image') {
+												?>
+													<span><?php echo $media['product_media_file']['title']; ?></span>
+												<?php
+												} ?>
+											</div>
 								<?php
-                                    }
+										}
 									}
 								} ?>
 							</div>
@@ -141,7 +143,7 @@ print_r($post);
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
-									<label for="">Product Specs</label>
+									<label for="">Product Specs <span>Enter specs seperated by ','</span></label>
 									<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
 									<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
 								</div>
@@ -177,7 +179,7 @@ print_r($post);
 							<div class="form-row">
 								<div class="form-col-6">
 									<div class="form-row mb0">
-										<label for="">Add External Link / Text</label>
+										<label for="">Add External Link</label>
 										<input type="text" class="input-text external-link" name="nab_product_external_link" id="nab_product_external_link" class="input-text external-link" value="<?php echo isset($post_data->product_external_link) ? $post_data->product_external_link : ''; ?>">
 										<div class="nab-action">
 											<div class="nab-action-row">
@@ -188,7 +190,7 @@ print_r($post);
 								</div>
 								<div class="form-col-6 ">
 									<div class="form-row mb0">
-										<label for="">Add External Link / Text</label>
+										<label for="">Add External Text</label>
 										<input type="text" name="nab_product_external_text" id="nab_product_external_text" class="input-text external-link" value="<?php echo isset($post_data->product_external_link_text) ? $post_data->product_external_link_text : ''; ?>">
 										<div class="nab-action">
 											<div class="nab-action-row">
@@ -221,7 +223,7 @@ print_r($post);
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $post_data->company_id; ?>" />
 							</div>
 						</form>
-						<p>NAB reserves the right to remove any content that they deem inappropriate.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="nab-code-of-conduct" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>

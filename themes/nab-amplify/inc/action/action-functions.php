@@ -173,9 +173,10 @@ function nab_amplify_upload_images()
 {
 
     $user_id = get_current_user_id();
+    $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 
     // Upload images.
-    $images_names        = array('profile_picture', 'banner_image');
+    $images_names         = array('profile_picture', 'banner_image','company_profile_picture', 'company_banner_image');
     $dependencies_loaded = 0;
     foreach ($_FILES as $file_key => $file_details) {
 
@@ -194,7 +195,14 @@ function nab_amplify_upload_images()
 
             if (!is_wp_error($attachment_id)) {
                 // update in meta
-                update_user_meta($user_id, $file_key, $attachment_id);
+                if( $file_key === 'company_profile_picture' ){
+                    update_field('field_5fb60cb5ce130', $attachment_id, $company_id);
+                }else if( $file_key === 'company_banner_image' ){
+                    update_field('field_5fb60d61ce131', $attachment_id, $company_id);
+                }else{
+                    update_user_meta($user_id, $file_key, $attachment_id);
+                }
+                
             }
         }
     }
@@ -224,11 +232,11 @@ function nab_amplify_edit_product()
     $post_data->is_feature_product         = get_field('is_feature_product', $post_id);
     $post_data->is_product_b_stock         = get_field('is_product_b-stock', $post_id);
     $post_data->is_product_sales_item      = get_field('is_product_sales_item', $post_id);
-    $post_data->product_discussion         = get_field('product_discussion', $post_id);
     $post_data->categories                 = $taxonomy_data;
     $post_data->tags                       = $tag_data;
 	$post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id,'full');
+    $post_data->product_thumbnail_id       = get_post_thumbnail_id( $post_id );
 
 
     $terms = get_terms('company-product-category', array(
@@ -253,7 +261,7 @@ function nab_amplify_remove_images()
     $user_id = get_current_user_id();
 
     // update in meta
-    update_user_meta($user_id, $name, '');
+    update_user_meta($user_id, $name, 'removed');
 
     wp_die();
 }
@@ -440,7 +448,7 @@ function nab_amplify_register_post_types()
         'publicly_queryable'  => true,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
+        'supports'            => array('title', 'editor', 'thumbnail', 'author', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
 
     );
 
@@ -2281,37 +2289,27 @@ function nab_amplify_search_settings()
 /**
  * Search setting page fields.
  */
-function nab_search_settings_callback()
-{
+function nab_search_settings_callback() {
 
-    $display_horizontal_banner = filter_input(INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING);
-    $display_vertical_banner   = filter_input(INPUT_POST, 'display_vertical_banner', FILTER_SANITIZE_STRING);
+    $display_horizontal_banner = filter_input( INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING );
 
-    if (isset($display_horizontal_banner) && !empty($display_horizontal_banner)) {
+    if ( isset( $display_horizontal_banner ) && ! empty( $display_horizontal_banner ) ) {
 
         update_option('search_display_horizontal_banner', $display_horizontal_banner);
 
     } else {
 
-        $display_horizontal_banner = get_option('search_display_horizontal_banner', 'no');
+        $display_horizontal_banner = get_option( 'search_display_horizontal_banner', 'yes' );
     }
 
-    if (isset($display_vertical_banner) && !empty($display_vertical_banner)) {
 
-        update_option('search_display_vertical_banner', $display_vertical_banner);
 
-    } else {
+    if ( isset( $_POST[ 'search_horizontal_banner' ] ) ) {
 
-        $display_vertical_banner = get_option('search_display_vertical_banner', 'no');
-    }
+        $search_horizontal_banner = wp_kses_post( $_POST[ 'search_horizontal_banner' ] );
 
-    if (isset($_POST['search_horizontal_banner'])) {
+        update_option( 'search_horizontal_banner', $search_horizontal_banner );
 
-        $search_horizontal_banner = wp_kses_post($_POST['search_horizontal_banner']);
-        $search_vertical_banner   = wp_kses_post($_POST['search_vertical_banner']);
-
-        update_option('search_horizontal_banner', $search_horizontal_banner);
-        update_option('search_vertical_banner', $search_vertical_banner);
     }
     ?>
 	<div class="search-settings">
@@ -2319,47 +2317,27 @@ function nab_search_settings_callback()
 		<form class="search-settings-form" method="post">
 			<table class="form-table" role="presentation">
 				<tr>
-					<th>Display Horizontal Ad:</th>
+					<th>Display Ad:</th>
 					<td>
-						<input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked($display_horizontal_banner, 'yes');?> />
+						<input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'yes' );?> />
 						<label for="display_horizontal_banner_yes">Yes</label>
-						<input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked($display_horizontal_banner, 'no');?> />
+						<input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'no' );?> />
 						<label for="display_horizontal_banner_no">No</label>
 					</td>
 				</tr>
 				<tr>
 					<th>
-						<label>Horizontal Ad:</label>
+						<label>Ad html:</label>
 					</th>
 					<td>
 						<?php
-$search_horizontal_banner = get_option('search_horizontal_banner');
-    wp_editor($search_horizontal_banner, 'search_horizontal_banner', array('tinymce' => false));
-    ?>
-					</td>
-				</tr>
-				<tr>
-					<th>Display vertical Ad:</th>
-					<td>
-						<input id="display_vertical_banner_yes" type="radio" value="yes" name="display_vertical_banner" <?php checked($display_vertical_banner, 'yes');?> />
-						<label for="display_vertical_banner_yes">Yes</label>
-						<input id="display_vertical_banner_no" type="radio" value="no" name="display_vertical_banner" <?php checked($display_vertical_banner, 'no');?> />
-						<label for="display_vertical_banner_no">No</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						<label>Vertical Ad:</label>
-					</th>
-					<td>
-						<?php
-$search_vertical_banner = get_option('search_vertical_banner');
-    wp_editor($search_vertical_banner, 'search_vertical_banner', array('tinymce' => false));
-    ?>
+                        $search_horizontal_banner = get_option( 'search_horizontal_banner' );
+                        wp_editor( $search_horizontal_banner, 'search_horizontal_banner', array( 'tinymce' => false ) );
+                        ?>
 					</td>
 				</tr>
 			</table>
-			<?php submit_button("Save Changes");?>
+			<?php submit_button( "Save Changes" );?>
 		</form>
 	</div>
 	<?php
@@ -2393,7 +2371,7 @@ function nab_register_company_post_type()
         'query_var'          => true,
         'rewrite'            => true,
         'capability_type'    => 'post',
-        'has_archive'        => false,
+        'has_archive'        => true,
         'hierarchical'       => false,
         'menu_position'      => null,
         'supports'           => array(
@@ -2407,6 +2385,101 @@ function nab_register_company_post_type()
     );
 
     register_post_type('company', $args);
+}
+
+/**
+ * Register landing page post type.
+ */
+function nab_register_landing_page_post_type() {
+
+    $labels = array(
+		'name'                  => _x( 'Landing Pages', 'Post Type General Name', 'nab-amplify' ),
+		'singular_name'         => _x( 'Landing page', 'Post Type Singular Name', 'nab-amplify' ),
+		'menu_name'             => __( 'Landing Pages', 'nab-amplify' ),
+		'name_admin_bar'        => __( 'Landing Pages', 'nab-amplify' ),		
+		'parent_item_colon'     => __( 'Parent Landing Page:', 'nab-amplify' ),
+		'all_items'             => __( 'All Landing Pages', 'nab-amplify' ),
+		'add_new_item'          => __( 'Add New Landing Page', 'nab-amplify' ),
+		'add_new'               => __( 'Add New', 'nab-amplify' ),
+		'new_item'              => __( 'New Landing Page', 'nab-amplify' ),
+		'edit_item'             => __( 'Edit Landing Page', 'nab-amplify' ),
+		'update_item'           => __( 'Update Landing Page', 'nab-amplify' ),
+		'view_item'             => __( 'View Landing Page', 'nab-amplify' ),
+		'view_items'            => __( 'View Landing Pages', 'nab-amplify' ),
+		'search_items'          => __( 'Search Landing Pages', 'nab-amplify' ),
+		'not_found'             => __( 'Not found', 'nab-amplify' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'nab-amplify' ),
+		'featured_image'        => __( 'Featured Image', 'nab-amplify' ),
+		'set_featured_image'    => __( 'Set featured image', 'nab-amplify' ),
+		'remove_featured_image' => __( 'Remove featured image', 'nab-amplify' ),
+		'use_featured_image'    => __( 'Use as featured image', 'nab-amplify' ),
+		'insert_into_item'      => __( 'Insert into Landing Page', 'nab-amplify' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'nab-amplify' ),
+		'items_list'            => __( 'Items list', 'nab-amplify' ),
+		'items_list_navigation' => __( 'Items list navigation', 'nab-amplify' ),
+		'filter_items_list'     => __( 'Filter items list', 'nab-amplify' ),
+	);
+	$args = array(
+		'label'                 => __( 'Landing Pages', 'nab-amplify' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'post-formats', 'excerpt' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,		
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'menu_icon'             => 'dashicons-text-page',
+		'show_in_rest'          => true,
+	);
+	register_post_type( 'landing-page', $args );
+}
+
+/**
+ * Set preloaded resusable block in the landing page when create new page from the backend.
+ */
+function nab_set_preloaded_block_in_new_landing_page() {
+
+    global $pagenow;
+
+	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'post-new.php' === $pagenow && 'landing-page' === $current_post_type ) {
+
+		$block_ids = array( 17727 );
+
+		$query_args = array(
+			'post_type' => 'wp_block',
+			'fields'    => 'ids',
+			'post__in'  => $block_ids,
+			'orderby'   => 'post__in'
+		);
+
+		$block_query = new WP_Query( $query_args );
+
+		if ( $block_query->have_posts() ) {
+
+			$block_ids = $block_query->posts;
+
+			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+
+				$block_template = array();
+
+				foreach ( $block_ids as $block_id ) {
+					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
+				}
+
+				$article_object				= get_post_type_object( 'landing-page' );
+				$article_object->template	= $block_template;
+			}
+
+		}
+	}
 }
 
 /**
@@ -2589,10 +2662,10 @@ function nab_add_product()
 	$uploaded_attachments = array();
     $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
     $post_categories       = explode(',',filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING);
-    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING);
-    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING);
-    $product_external_text = filter_input(INPUT_POST, 'nab_product_external_text', FILTER_SANITIZE_STRING);
+    $product_copy          = strip_tags(filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING));
+    $product_specs         = strip_tags(filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING));
+    $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));
+    $product_external_text = strip_tags(filter_input(INPUT_POST, 'nab_product_external_text', FILTER_SANITIZE_STRING));
     $product_external_link = filter_input(INPUT_POST, 'nab_product_external_link', FILTER_SANITIZE_STRING);
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
@@ -2607,7 +2680,6 @@ function nab_add_product()
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
-        'post_content' => '',
         'post_status'  => 'publish',
         'post_type'    => 'company-products',
     );
@@ -2712,9 +2784,6 @@ function nab_add_product()
     // Add product sales item
     update_field('field_5fbbdbb2392d0', $is_product_sales_item, $post_id);
 
-    // Add product Discussion
-    update_field('field_5fbbdbd3392d1', $product_discussion, $post_id);
-
     // Add product company
     update_field('field_5fc881bd20fa0', $nab_company_id, $post_id);
 
@@ -2769,9 +2838,9 @@ function nab_register_company_tags_taxonomy()
 {
 
     $labels = array(
-        'name'              => _x('Company Tags', 'Taxonomy General Name', 'nab-amplify'),
-        'singular_name'     => _x('Company Tag', 'Taxonomy Singular Name', 'nab-amplify'),
-        'menu_name'         => __('Company Tag', 'nab-amplify'),
+        'name'              => _x('Product Tags', 'Taxonomy General Name', 'nab-amplify'),
+        'singular_name'     => _x('Product Tag', 'Taxonomy Singular Name', 'nab-amplify'),
+        'menu_name'         => __('Product Tag', 'nab-amplify'),
         'all_items'         => __('All Items', 'nab-amplify'),
         'parent_item'       => __('Parent Item', 'nab-amplify'),
         'parent_item_colon' => __('Parent Item:', 'nab-amplify'),
@@ -2909,3 +2978,161 @@ function nab_register_company_product_taxonomy()
 
 }
 
+function nab_edit_company_social_profiles_callback(){
+    $final_result = array();
+    $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_data    = array();
+    $company_data['ID'] = $company_id;
+    $company_data['instagram_profile'] = get_field('instagram_url',$company_id);
+    $company_data['linkedin_profile'] = get_field('linkedin_url',$company_id);
+    $company_data['facebook_profile'] = get_field('facebook_url',$company_id);
+    $company_data['twitter_profile'] = get_field('twitter_url',$company_id);
+    
+    require_once get_template_directory() . '/inc/nab-edit-company-social-profiles.php';
+
+    $final_result['success'] = true;
+    $final_result['content'] = '';
+	echo wp_json_encode($final_result);
+	wp_die();
+}
+
+function nab_update_company_profile_callback(){
+
+    $final_result = array();
+
+    $instagram_profile       = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
+    $linkedin_profile            = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
+    $facebook_profile            = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
+    $twitter_profile             = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
+    $company_about             = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $company_industry             = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
+    $company_website             = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
+    $company_point_of_contact             = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
+    $company_id              = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_location_street_one             = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
+    $company_location_street_two             = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
+    $company_location_street_three             = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
+    $company_location_city             = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
+    $company_location_state             = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
+    $company_location_zipcode             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
+    $company_location_country             = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
+    
+    // Update instagram profile
+    if ($instagram_profile) {
+        update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
+    }
+
+    // Update linkedin profile
+    if ($linkedin_profile) {
+        update_field('field_5fb60e12ce134', $linkedin_profile, $company_id);
+    }
+    // Update linkedin profile
+    if ($facebook_profile) {
+        update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
+    }
+
+    // Update linkedin 
+    if ($twitter_profile) {
+        update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
+    }
+
+    // Update Company 
+    if ($company_about) {
+        update_field('field_5fb63813b099e', $company_about, $company_id);
+    }
+
+    // Update linkedin profile
+    if ($company_industry) {
+        update_field('field_5fa3e81e3fa45', $company_industry, $company_id);
+    }
+
+    // Update location 
+    $field_key = 'field_5fa3e84f3fa46';
+    $values = array(
+        '_street_line_1'    =>   $company_location_street_one,//THE 1st PART MATCHES YOUR FIELD NAMES, THE 2nd IS THE VALUE YOU WANT
+        'street_line_2' =>   $company_location_street_two,
+        'street_line_3' =>   $company_location_street_three,
+        'city' =>   $company_location_city,
+        'state' =>   $company_location_state,
+        'zipcode' =>   $company_location_zipcode,
+        'country' =>   $company_location_country,
+    );
+    update_field( $field_key, $values, $company_id );
+
+    // Update website
+    if ($company_website) {
+        update_field('field_5fa3e87a3fa47', $company_website, $company_id);
+    }
+
+    // Update point of contact
+    if ($company_point_of_contact) {
+        update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+    }
+
+    $final_result['success'] = false;
+    $final_result['content'] = '';
+    
+    echo wp_json_encode($final_result);
+    wp_die();
+}
+
+function nab_edit_company_about_callback(){
+    $final_result = array();
+    $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_data    = array();
+    $company_data['ID'] = $company_id;
+    $company_data['company_about'] = get_field('about_company',$company_id);
+    $company_data['company_industry'] = get_field('company_industary',$company_id);
+    $company_data['company_location'] = get_field('company_location',$company_id);
+    $company_data['company_website'] = get_field('company_website',$company_id);
+    $company_data['company_point_of_contact'] = get_field('point_of_contact',$company_id);
+    
+    require_once get_template_directory() . '/inc/nab-edit-company-about.php';
+
+    $final_result['success'] = true;
+    $final_result['content'] = '';
+	echo wp_json_encode($final_result);
+	wp_die();
+}
+
+/**
+ * Set default blocks in the new article create.
+ */
+ function nab_set_default_block_in_new_company() {
+
+	global $pagenow;
+
+	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
+	if ( 'post-new.php' === $pagenow && 'company' === $current_post_type ) {
+
+		$block_ids = array( 1305 );
+
+		$query_args = array(
+			'post_type' => 'wp_block',
+			'fields'    => 'ids',
+			'post__in'  => $block_ids,
+			'orderby'   => 'post__in'
+		);
+
+		$block_query = new WP_Query( $query_args );
+
+		if ( $block_query->have_posts() ) {
+
+			$block_ids = $block_query->posts;
+
+			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+
+				$block_template = array();
+
+				foreach ( $block_ids as $block_id ) {
+					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
+				}
+
+				$article_object				= get_post_type_object( 'company' );
+				$article_object->template	= $block_template;
+			}
+
+		}
+	}
+}

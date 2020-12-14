@@ -78,6 +78,7 @@
 								$event_img	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $default_image;
 								$event_date	= get_field( 'show_date', $event_id );
 								$event_url	= get_field( 'show_url', $event_id );
+								$body_copy	= get_field( 'body_copy', $event_id );
 
 								?>
 								<div class="wp-summary content_card">
@@ -93,6 +94,11 @@
 											</h4>
 											<span class="event-date"><?php echo esc_html( $event_date ); ?></span>
 										</div>
+										<?php if ( ! empty( $body_copy ) ) { ?>
+                                            <div class="events_body_copy">
+                                                <p><?php echo esc_html( $body_copy ); ?></p>
+                                            </div>
+										<?php } ?>
 									</div>
 								</div>
 								<?php

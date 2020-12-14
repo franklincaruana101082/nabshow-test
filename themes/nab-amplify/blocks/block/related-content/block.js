@@ -13,6 +13,14 @@
   } = wpComponents
   const { ColorPalette } = wpBlockEditor
 
+  jQuery(document).on('click', '.video-icon img', function(){
+    jQuery(this).parents('.video-icon').toggleClass('showVideoLinkPopup');
+  });
+
+  jQuery(document).on('click', '.video-icon .play_link_popup .remove', function(){
+    jQuery(this).parents('.video-icon').removeClass('showVideoLinkPopup');
+  });
+
   class ItemComponent extends Component {
     constructor (props) {
       super(props)
@@ -44,6 +52,9 @@
           media: '',
           mediaAlt: '',
           videoIcon: '',
+          videoIconLink: '',
+          videoIconLinkTarget: '',
+          videoLinkPopup: false,
           title: '',
           subTitle: '',
           date: '',
@@ -94,7 +105,8 @@
           advertising: 'Sponsored',
           media: '',
           mediaAlt: '',
-          shortcode: ''
+          shortcode: '',
+          bookmark: ''
         }
       }
 
@@ -222,6 +234,23 @@
                   />
                 </div>
               ) : null}
+              {'option-2' === data.option && (
+                <RichText
+                  tagName='div'
+                  placeholder={__('Bookmark')}
+                  value={data.bookmark}
+                  keepPlaceholderOnFocus='true'
+                  className='bookmark-wrap'
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    let arrayCopy = [...dataArray]
+                    arrayCopy[index].bookmark = value
+                    setAttributes({ dataArray: arrayCopy })
+                  }}
+                />
+              )}
               {data.option !== 'option-6' ? (
                 <div className='image'>
                   <MediaUpload
@@ -240,6 +269,18 @@
                               onClick={open}
                               className='dashicons dashicons-edit edit-image'
                             ></span>
+                            {'option-2' === data.option && (
+                              <span
+                                className='dashicons dashicons-no-alt remove'
+                                onClick={() => {
+                                  let arrayCopy = [...dataArray]
+                                  arrayCopy[index].media = ''
+                                  arrayCopy[index].mediaAlt = ''
+                                  setAttributes({ dataArray: arrayCopy })
+                                }}
+                              ></span>
+                            )}
+                            
                             <img src={data.media} alt={data.alt} />
                           </Fragment>
                         )
@@ -272,7 +313,37 @@
                               onClick={open}
                               className='dashicons dashicons-edit edit-image'
                             ></span>
-                            <img src={data.videoIcon} />
+                            <span
+                                className='dashicons dashicons-no-alt remove'
+                                onClick={() => {
+                                  let arrayCopy = [...dataArray]
+                                  arrayCopy[index].videoIcon = '';
+                                  setAttributes({ dataArray: arrayCopy })
+                                }}
+                              ></span>
+                            <div className='play_link_popup'>
+                              <span className="dashicons dashicons-no-alt remove"></span>
+                              <TextControl
+                                value={data.videoIconLink}
+                                type="url"
+                                placeholder="https://google.com/"
+                                onChange={value=>{
+                                    let arrayCopy = [...dataArray]
+                                    arrayCopy[index].videoIconLink = value
+                                    setAttributes({dataArray: arrayCopy});
+                                }}
+                              />
+                              <ToggleControl
+                                  label="Open in new Tab"
+                                  checked={data.videoIconLinkTarget}
+                                  onChange={(value)=>{
+                                    let arrayCopy = [...dataArray]
+                                    arrayCopy[index].videoIconLinkTarget = value
+                                    setAttributes({dataArray: arrayCopy});
+                                  }}
+                              />
+                            </div>
+                            <img src={data.videoIcon} alt="Play Icon" />
                           </Fragment>
                         )
                       } else {
@@ -597,9 +668,22 @@
                         <img src={data.media} alt={data.mediaAlt} />
                       </div>
                     )}
+                    {('option-2' === data.option && data.bookmark) && (
+                      <RichText.Content
+                        tagName='div'
+                        value={data.bookmark}
+                        className='bookmark-wrap'
+                      />
+                    )}
                     {data.videoIcon && (
                       <div className='video-icon'>
-                        <img src={data.videoIcon} alt={data.videoIcon} />
+                        {data.videoIconLink ? (
+                          <a href={data.videoIconLink} target={data.videoIconLinkTarget ? '_blank' : '_self'} rel="noopener noreferrer">
+                            <img src={data.videoIcon} />
+                          </a>
+                        ) : (
+                          <img src={data.videoIcon} alt="Play Icon" />
+                        )}
                       </div>
                     )}
                     <div className="related-content-wrap">

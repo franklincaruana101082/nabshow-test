@@ -3087,7 +3087,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               }),
               wp.element.createElement('img', {
                 src: dataArray[index].media,
-                alt: dataArray[index].title,
+                alt: dataArray[index].mediaAlt,
                 className: 'img'
               })
             );
@@ -3161,6 +3161,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onSelect: function onSelect(media) {
                     var arrayCopy = [].concat(_toConsumableArray(dataArray));
                     arrayCopy[index].media = media.url;
+                    arrayCopy[index].mediaAlt = media.alt;
                     setAttributes({ dataArray: arrayCopy });
                   },
                   type: 'image',
@@ -3433,7 +3434,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(
                       'div',
                       { className: 'left' },
-                      data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                      data.media ? wp.element.createElement('img', { src: data.media, alt: data.mediaAlt }) : wp.element.createElement(
                         'div',
                         { className: 'no-image' },
                         'No Image'
@@ -3499,6 +3500,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       Button = wpComponents.Button;
   var ColorPalette = wpBlockEditor.ColorPalette;
 
+
+  jQuery(document).on('click', '.video-icon img', function () {
+    jQuery(this).parents('.video-icon').toggleClass('showVideoLinkPopup');
+  });
+
+  jQuery(document).on('click', '.video-icon .play_link_popup .remove', function () {
+    jQuery(this).parents('.video-icon').removeClass('showVideoLinkPopup');
+  });
+
   var ItemComponent = function (_Component) {
     _inherits(ItemComponent, _Component);
 
@@ -3539,6 +3549,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             media: '',
             mediaAlt: '',
             videoIcon: '',
+            videoIconLink: '',
+            videoIconLinkTarget: '',
+            videoLinkPopup: false,
             title: '',
             subTitle: '',
             date: '',
@@ -3589,7 +3602,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             advertising: 'Sponsored',
             media: '',
             mediaAlt: '',
-            shortcode: ''
+            shortcode: '',
+            bookmark: ''
           };
         }
 
@@ -3743,6 +3757,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   }
                 })
               ) : null,
+              'option-2' === data.option && wp.element.createElement(RichText, {
+                tagName: 'div',
+                placeholder: __('Bookmark'),
+                value: data.bookmark,
+                keepPlaceholderOnFocus: 'true',
+                className: 'bookmark-wrap',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].bookmark = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
               data.option !== 'option-6' ? wp.element.createElement(
                 'div',
                 { className: 'image' },
@@ -3764,6 +3793,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         wp.element.createElement('span', {
                           onClick: open,
                           className: 'dashicons dashicons-edit edit-image'
+                        }),
+                        'option-2' === data.option && wp.element.createElement('span', {
+                          className: 'dashicons dashicons-no-alt remove',
+                          onClick: function onClick() {
+                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                            arrayCopy[index].media = '';
+                            arrayCopy[index].mediaAlt = '';
+                            setAttributes({ dataArray: arrayCopy });
+                          }
                         }),
                         wp.element.createElement('img', { src: data.media, alt: data.alt })
                       );
@@ -3800,7 +3838,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           onClick: open,
                           className: 'dashicons dashicons-edit edit-image'
                         }),
-                        wp.element.createElement('img', { src: data.videoIcon })
+                        wp.element.createElement('span', {
+                          className: 'dashicons dashicons-no-alt remove',
+                          onClick: function onClick() {
+                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                            arrayCopy[index].videoIcon = '';
+                            setAttributes({ dataArray: arrayCopy });
+                          }
+                        }),
+                        wp.element.createElement(
+                          'div',
+                          { className: 'play_link_popup' },
+                          wp.element.createElement('span', { className: 'dashicons dashicons-no-alt remove' }),
+                          wp.element.createElement(TextControl, {
+                            value: data.videoIconLink,
+                            type: 'url',
+                            placeholder: 'https://google.com/',
+                            onChange: function onChange(value) {
+                              var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                              arrayCopy[index].videoIconLink = value;
+                              setAttributes({ dataArray: arrayCopy });
+                            }
+                          }),
+                          wp.element.createElement(ToggleControl, {
+                            label: 'Open in new Tab',
+                            checked: data.videoIconLinkTarget,
+                            onChange: function onChange(value) {
+                              var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                              arrayCopy[index].videoIconLinkTarget = value;
+                              setAttributes({ dataArray: arrayCopy });
+                            }
+                          })
+                        ),
+                        wp.element.createElement('img', { src: data.videoIcon, alt: 'Play Icon' })
                       );
                     } else {
                       return wp.element.createElement(
@@ -4197,10 +4267,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     { className: 'image' },
                     wp.element.createElement('img', { src: data.media, alt: data.mediaAlt })
                   ),
+                  'option-2' === data.option && data.bookmark && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.bookmark,
+                    className: 'bookmark-wrap'
+                  }),
                   data.videoIcon && wp.element.createElement(
                     'div',
                     { className: 'video-icon' },
-                    wp.element.createElement('img', { src: data.videoIcon, alt: data.videoIcon })
+                    data.videoIconLink ? wp.element.createElement(
+                      'a',
+                      { href: data.videoIconLink, target: data.videoIconLinkTarget ? '_blank' : '_self', rel: 'noopener noreferrer' },
+                      wp.element.createElement('img', { src: data.videoIcon })
+                    ) : wp.element.createElement('img', { src: data.videoIcon, alt: 'Play Icon' })
                   ),
                   wp.element.createElement(
                     'div',
@@ -4295,37 +4374,78 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   var ItemComponent = function (_Component) {
     _inherits(ItemComponent, _Component);
 
-    function ItemComponent() {
+    function ItemComponent(props) {
       _classCallCheck(this, ItemComponent);
 
-      return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
+      var _this = _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).call(this, props));
+
+      _this.state = { popup: false };
+      _this.addNewItem = _this.addNewItem.bind(_this);
+      return _this;
     }
 
     _createClass(ItemComponent, [{
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var dataArray = this.props.attributes.dataArray;
-
-        if (0 === dataArray.length) {
-          this.initList();
-        }
-      }
-    }, {
-      key: 'initList',
-      value: function initList() {
+      key: 'addNewItem',
+      value: function addNewItem(name) {
         var dataArray = this.props.attributes.dataArray;
         var setAttributes = this.props.setAttributes;
 
-        setAttributes({
-          dataArray: [].concat(_toConsumableArray(dataArray), [{
+        var attr = void 0;
+        if (name == 'option-1') {
+          attr = {
             index: dataArray.length,
+            option: name,
             title: '',
             subTitle: '',
             description: '',
             buttonText: '<a href="#">Read More</a>',
+            shortcode: '',
+            bookmark: ''
+          };
+        }
+        if (name == 'option-2') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            advertising: 'Sponsored',
             shortcode: ''
-          }])
+          };
+        }
+
+        setAttributes({
+          dataArray: [].concat(_toConsumableArray(dataArray), [attr])
         });
+        this.setState({
+          popup: false
+        });
+      }
+    }, {
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        //const { dataArray } = this.props.attributes
+        //if (0 === dataArray.length) {
+        //this.initList()
+        //}
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        // const { dataArray } = this.props.attributes
+        // const { setAttributes } = this.props
+        // setAttributes({
+        //   dataArray: [
+        //     ...dataArray,
+        //     {
+        //       index: dataArray.length,
+        //       title: '',
+        //       subTitle: '',
+        //       description: '',            
+        //       buttonText: '<a href="#">Read More</a>',
+        //       shortcode: '',
+        //       bookmark: ''
+        //     }
+        //   ]
+        // })
       }
     }, {
       key: 'moveItem',
@@ -4355,13 +4475,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var _props2 = this.props,
             attributes = _props2.attributes,
             setAttributes = _props2.setAttributes;
+        var popup = this.state.popup;
         var dataArray = attributes.dataArray;
 
 
         var itemList = dataArray.map(function (data, index) {
           return wp.element.createElement(
             'div',
-            { className: 'item' },
+            { className: 'item ' + data.option },
             wp.element.createElement(
               'div',
               { className: 'settings' },
@@ -4411,42 +4532,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             wp.element.createElement(
               'div',
               { className: 'inner' },
-              wp.element.createElement(RichText, {
-                tagName: 'h3',
-                placeholder: __('Title'),
-                keepPlaceholderOnFocus: 'true',
-                value: data.title,
-                className: 'title',
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                  arrayCopy[index].title = value;
-                  setAttributes({ dataArray: arrayCopy });
-                }
-              }),
-              wp.element.createElement(RichText, {
-                tagName: 'strong',
-                placeholder: __('Sub Title'),
-                keepPlaceholderOnFocus: 'true',
-                value: data.subTitle,
-                className: 'sub-title',
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                  arrayCopy[index].subTitle = value;
-                  setAttributes({ dataArray: arrayCopy });
-                }
-              }),
-              wp.element.createElement(
-                'div',
-                { className: 'bottom-container' },
+              'option-2' === data.option ? wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(
+                  'div',
+                  { className: 'advertising' },
+                  wp.element.createElement(RichText, {
+                    tagName: 'span',
+                    placeholder: __('Sponsored'),
+                    keepPlaceholderOnFocus: 'true',
+                    value: data.advertising,
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].advertising = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  })
+                ),
                 wp.element.createElement(RichText, {
                   tagName: 'div',
-                  placeholder: __('Add Reactions'),
+                  placeholder: __('Add Shortcode'),
                   value: data.shortcode,
                   keepPlaceholderOnFocus: 'true',
                   className: 'shortcode-wrap',
@@ -4458,22 +4567,89 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     arrayCopy[index].shortcode = value;
                     setAttributes({ dataArray: arrayCopy });
                   }
-                }),
+                })
+              ) : wp.element.createElement(
+                Fragment,
+                null,
                 wp.element.createElement(RichText, {
                   tagName: 'div',
-                  placeholder: __('Read More'),
-                  value: data.buttonText,
+                  placeholder: __('Bookmark'),
+                  value: data.bookmark,
                   keepPlaceholderOnFocus: 'true',
-                  className: 'button-wrap',
+                  className: 'bookmark-wrap',
                   onChange: function onChange(value) {
                     value = value.replace(/&lt;!--td.*}--><br>/, '');
                     value = value.replace(/<br>.*}<br>/, '');
                     value = value.replace(/<br><br><br>&lt.*--><br>/, '');
                     var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].buttonText = value;
+                    arrayCopy[index].bookmark = value;
                     setAttributes({ dataArray: arrayCopy });
                   }
-                })
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'h3',
+                  placeholder: __('Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.title,
+                  className: 'title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].title = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'strong',
+                  placeholder: __('Sub Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.subTitle,
+                  className: 'sub-title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].subTitle = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(
+                  'div',
+                  { className: 'bottom-container' },
+                  wp.element.createElement(RichText, {
+                    tagName: 'div',
+                    placeholder: __('Add Reactions'),
+                    value: data.shortcode,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'shortcode-wrap',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].shortcode = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  }),
+                  wp.element.createElement(RichText, {
+                    tagName: 'div',
+                    placeholder: __('Read More'),
+                    value: data.buttonText,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'button-wrap',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].buttonText = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  })
+                )
               )
             )
           );
@@ -4482,6 +4658,51 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         return wp.element.createElement(
           Fragment,
           null,
+          popup && wp.element.createElement(
+            'div',
+            { className: 'internal-popup' },
+            wp.element.createElement(
+              'div',
+              { className: 'popup-inner related-content-popup' },
+              wp.element.createElement('span', {
+                onClick: function onClick() {
+                  _this2.setState({
+                    popup: false
+                  });
+                },
+                className: 'dashicons dashicons-no-alt remove'
+              }),
+              wp.element.createElement(
+                'h3',
+                null,
+                'Select Item Layout:'
+              ),
+              wp.element.createElement(
+                'ul',
+                null,
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-1',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-1');
+                    }
+                  },
+                  'Option 1'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-2',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-2');
+                    }
+                  },
+                  'Option 2'
+                )
+              )
+            )
+          ),
           wp.element.createElement(
             'div',
             { className: 'related-content-2' },
@@ -4494,7 +4715,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 {
                   className: 'components-button add',
                   onClick: function onClick() {
-                    _this2.initList();
+                    _this2.setState({
+                      popup: true
+                    });
                   }
                 },
                 wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
@@ -4537,33 +4760,55 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           dataArray.map(function (data, index) {
             return wp.element.createElement(
               'div',
-              { className: 'item' },
+              { className: 'item ' + data.option },
               wp.element.createElement(
                 'div',
                 { className: 'inner' },
-                data.title && wp.element.createElement(RichText.Content, {
-                  tagName: 'h3',
-                  value: data.title,
-                  className: 'title'
-                }),
-                data.subTitle && wp.element.createElement(RichText.Content, {
-                  tagName: 'strong',
-                  value: data.subTitle,
-                  className: 'sub-title'
-                }),
-                wp.element.createElement(
-                  'div',
-                  { className: 'bottom-container' },
+                'option-2' === data.option ? wp.element.createElement(
+                  Fragment,
+                  null,
+                  wp.element.createElement(
+                    'div',
+                    { className: 'advertising' },
+                    wp.element.createElement(RichText.Content, { tagName: 'span', value: data.advertising })
+                  ),
                   data.shortcode && wp.element.createElement(RichText.Content, {
                     tagName: 'div',
                     value: data.shortcode,
                     className: 'shortcode-wrap'
-                  }),
-                  wp.element.createElement(RichText.Content, {
-                    tagName: 'div',
-                    value: data.buttonText,
-                    className: 'button-wrap'
                   })
+                ) : wp.element.createElement(
+                  Fragment,
+                  null,
+                  data.bookmark && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.bookmark,
+                    className: 'bookmark-wrap'
+                  }),
+                  data.title && wp.element.createElement(RichText.Content, {
+                    tagName: 'h3',
+                    value: data.title,
+                    className: 'title'
+                  }),
+                  data.subTitle && wp.element.createElement(RichText.Content, {
+                    tagName: 'strong',
+                    value: data.subTitle,
+                    className: 'sub-title'
+                  }),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'bottom-container' },
+                    data.shortcode && wp.element.createElement(RichText.Content, {
+                      tagName: 'div',
+                      value: data.shortcode,
+                      className: 'shortcode-wrap'
+                    }),
+                    wp.element.createElement(RichText.Content, {
+                      tagName: 'div',
+                      value: data.buttonText,
+                      className: 'button-wrap'
+                    })
+                  )
                 )
               )
             );

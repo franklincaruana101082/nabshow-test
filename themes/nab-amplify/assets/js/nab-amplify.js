@@ -3,7 +3,7 @@
  *
  *  @package Nab
  */
-;(function ($) {
+; (function ($) {
   var importErrs = []
   var skippedErrs = []
   var addedAttendee = 0
@@ -51,10 +51,10 @@
           '.woocommerce-billing-fields__field-wrapper p:not(.bill-mandatory)'
         ).remove()
       } else if (0 === $('#billing_country_field').length) {
-      /**
-       * If bill is not 0.00 and the billing_country_field is missing,
-       * reload the page to get all other fields.
-       */
+        /**
+         * If bill is not 0.00 and the billing_country_field is missing,
+         * reload the page to get all other fields.
+         */
         $('#place_order').attr('disabled')
         location.reload()
       }
@@ -190,29 +190,31 @@
     })
     jQuery('#product_categories').select2()
 
-    
-
     jQuery(document).on('keyup', '#nab_product_specs', function (e) {
-        var len = jQuery(this).val().length
-        var cval = jQuery(this).val()
-  
-        if (len >= 250) {
-          cval = jQuery(this).text().substring(0, 250)
-  
-          jQuery('.character-count-specs').text(0)
-        } else {
-          jQuery(this).text(250 - len)
-          jQuery('.character-count-specs').text(250 - len)
-        }
-        jQuery(this).val(cval)
-      })
+      var len = jQuery(this).val().length
+      var cval = jQuery(this).val()
+
+      if (len >= 250) {
+        cval = jQuery(this)
+          .text()
+          .substring(0, 250)
+
+        jQuery('.character-count-specs').text(0)
+      } else {
+        jQuery(this).text(250 - len)
+        jQuery('.character-count-specs').text(250 - len)
+      }
+      jQuery(this).val(cval)
+    })
 
     jQuery(document).on('keyup', '#nab_product_copy', function (e) {
       var len = jQuery(this).val().length
       var cval = jQuery(this).val()
 
       if (len >= 250) {
-        cval = jQuery(this).text().substring(0, 250)
+        cval = jQuery(this)
+          .text()
+          .substring(0, 250)
 
         jQuery('.character-count-copy').text(0)
       } else {
@@ -268,14 +270,19 @@
       remove_attachment_arr.push($(this).data('attach-id'))
       $(this)
         .parent()
-        .hide()
+        .remove()
     }
   })
 
   $(document).on('change', '#product_featured_image', function () {
-    if ($('#product_featured_preview').lenght <= 0) {
-      $('.nab-product-media-item').append(
-        '<img id="product_featured_preview" src="#" alt="your image" style="display:none;"/>'
+    if ($('#product_featured_image_wrapper .nab-product-media-item').length >= 1) {
+      $('#product_featured_image_wrapper .nab-product-media-item').remove();
+      $('#product_featured_image_wrapper').append(
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
+      )
+    }else{
+      $('#product_featured_image_wrapper').append(
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
       )
     }
     if ($(this)[0].files && $(this)[0].files[0]) {
@@ -296,8 +303,8 @@
         var unique_key = file.lastModified + '_' + timestamp
         $('#product_media_wrapper').append(
           '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
-            unique_key +
-            '" src="#" alt="your image" style="display:none;"/></div>'
+          unique_key +
+          '" src="#" alt="your image" style="display:none;"/></div>'
         )
         var reader = new FileReader()
         reader.onload = function (e) {
@@ -364,7 +371,10 @@
     $.each($('#product_medias')[0].files, function (key, file) {
       form_data.append(key, file)
     })
-
+    if (product_title == '') {
+      alert('Product title can not be empty!')
+      return false
+    }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
     form_data.append('product_categories', product_categories)
@@ -393,10 +403,14 @@
       contentType: false,
       type: 'POST',
       data: form_data,
+      beforeSend: function() {
+        $('body').addClass('is-loading')
+    },
       success: function (response) {
         var json = $.parseJSON(response)
 
         if (json.success === true) {
+          $('body').removeClass('is-loading')
           if (nab_product_id !== '0') {
             alert('Product Updated Successfully!')
           } else {
@@ -409,6 +423,202 @@
     })
   })
 
+  // Upload user images using ajax.
+  $('#edit-social-profiles').on('click', function (e) {
+    e.preventDefault()
+    $(this)
+      .parent()
+      .addClass('loading')
+
+    var fd = new FormData()
+    var company_id = amplifyJS.postID
+    fd.append('action', 'nab_edit_company_social_profiles')
+    fd.append('company_id', amplifyJS.postID)
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (jQuery('#addProductModal').length === 0) {
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        } else {
+          jQuery('#addProductModal').remove()
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '#nab-edit-company-profile-submit', function () {
+    var fd = new FormData()
+    fd.append('action', 'nab_update_company_profile')
+    fd.append('company_id', amplifyJS.postID)
+    if (jQuery('#instagram_profile').length) {
+      fd.append('instagram_profile', jQuery('#instagram_profile').val())
+    }
+    if (jQuery('#linkedin_profile').length) {
+      fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
+    }
+    if (jQuery('#facebook_profile').length) {
+      fd.append('facebook_profile', jQuery('#facebook_profile').val())
+    }
+    if (jQuery('#twitter_profile').length) {
+      fd.append('twitter_profile', jQuery('#twitter_profile').val())
+    }
+    if (jQuery('#company_about').length) {
+      fd.append('company_about', jQuery('#company_about').val())
+    }
+    if (jQuery('#company_industry').length) {
+      fd.append('company_industry', jQuery('#company_industry').val())
+    }
+    if (jQuery('#company_location').length) {
+      fd.append('company_location', jQuery('#company_location').val())
+    }
+    if (jQuery('#company_website').length) {
+      fd.append('company_website', jQuery('#company_website').val())
+    }
+    if (jQuery('#company_point_of_contact').length) {
+      fd.append(
+        'company_point_of_contact',
+        jQuery('#company_point_of_contact').val()
+      )
+    }
+    if (jQuery('#company_location_street_one').length) {
+      fd.append(
+        'company_location_street_one',
+        jQuery('#company_location_street_one').val()
+      )
+    }
+    if (jQuery('#company_location_street_two').length) {
+      fd.append(
+        'company_location_street_two',
+        jQuery('#company_location_street_two').val()
+      )
+    }
+    if (jQuery('#company_location_street_three').length) {
+      fd.append(
+        'company_location_street_three',
+        jQuery('#company_location_street_three').val()
+      )
+    }
+    if (jQuery('#company_location_city').length) {
+      fd.append('company_location_city', jQuery('#company_location_city').val())
+    }
+    if (jQuery('#company_location_state').length) {
+      fd.append(
+        'company_location_state',
+        jQuery('#company_location_state').val()
+      )
+    }
+    if (jQuery('#company_location_zip').length) {
+      fd.append('company_location_zip', jQuery('#company_location_zip').val())
+    }
+    if (jQuery('#company_location_country').length) {
+      fd.append(
+        'company_point_of_contacompany_location_countryct',
+        jQuery('#company_location_country').val()
+      )
+    }
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        alert('Profile Updated Successfully!')
+        location.reload(true)
+      }
+    })
+  })
+
+  $('.edit-company-about').on('click', function (e) {
+    e.preventDefault()
+    $(this)
+      .parent()
+      .addClass('loading')
+
+    var fd = new FormData()
+    var company_id = amplifyJS.postID
+    fd.append('action', 'nab_edit_company_about')
+    fd.append('company_id', amplifyJS.postID)
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (jQuery('#addProductModal').length === 0) {
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        } else {
+          jQuery('#addProductModal').remove()
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#product_categories').select2()
+        }
+
+        setTimeout(() => {
+          if (jQuery(this).data('action') == 'company-about') {
+            jQuery('.company-about-row').css('display', 'block')
+            jQuery('.company-info-row').css('display', 'none')
+          }
+          if (jQuery(this).data('action') == 'company-info') {
+            jQuery('.company-about-row').css('display', 'none')
+            jQuery('.company-info-row').css('display', 'block')
+          }
+        }, 1000)
+      }
+    })
+  })
+  $(document).on('click', '.edit-company-mode', function () {
+    jQuery('.edit-profile-pic').show()
+    jQuery(this).addClass('cancel-edit-company-mode')
+    jQuery(this).removeClass('edit-company-mode')
+    jQuery(this).text('Cancel Edit')
+    jQuery('.banner-header').addClass('edit_mode_on')
+    jQuery('.edit-bg-pic').show()
+  })
+  $(document).on('click', '.cancel-edit-company-mode', function () {
+    jQuery('.edit-profile-pic').hide()
+    jQuery('.edit-bg-pic').hide()
+
+    jQuery(this).removeClass('cancel-edit-company-mode')
+    jQuery(this).addClass('edit-company-mode ')
+    jQuery('.banner-header').removeClass('edit_mode_on')
+    jQuery(this).text('Edit Profile')
+  })
   // Add smooth scrolling to all links
   jQuery('.navigate-reply').on('click', function (event) {
     // Make sure this.hash has a value before overriding default behavior
@@ -426,7 +636,7 @@
           scrollTop: jQuery(hash).offset().top
         },
         1200,
-        function () {}
+        function () { }
       )
     } // End if
   })
@@ -500,9 +710,8 @@
   // Upload user images using ajax.
   $('#profile_picture_file, #banner_image_file').on('change', function (e) {
     e.preventDefault()
-    $(this)
-      .parent()
-      .addClass('loading')
+
+    $('body').addClass('is-loading')
 
     var fd = new FormData()
     var file = $(this)
@@ -510,6 +719,7 @@
     var individual_file = file[0].files[0]
     fd.append(file_name, individual_file)
     fd.append('action', 'nab_amplify_upload_images')
+    fd.append('company_id', amplifyJS.postID)
 
     jQuery.ajax({
       type: 'POST',
@@ -524,12 +734,10 @@
   })
 
   // Remove user images using ajax.
-  $('#profile_picture_remove, #banner_image_remove').on('change', function (e) {
+  $('#profile_picture_remove, #banner_image_remove').on('click', function (e) {
     e.preventDefault()
-    $(this)
-      .parents('.flex-box')
-      .find('.user-image-box')
-      .addClass('loading')
+
+    $('body').addClass('is-loading')
 
     jQuery.ajax({
       type: 'POST',
@@ -544,7 +752,7 @@
     })
   })
 
-  $(window).on('resize', function () {})
+  $(window).on('resize', function () { })
 
   // Related products
   if (4 < $('.related.products .product-list .product-item').length) {
@@ -555,7 +763,7 @@
     })
   }
 
-  function buildSliderConfiguration () {
+  function buildSliderConfiguration() {
     $('.related.products .product-list').each(function () {
       var windowWidth = $(window).width()
       var numberOfVisibleSlides
@@ -586,7 +794,7 @@
     })
   }
 
-  function HeaderResponsive () {
+  function HeaderResponsive() {
     if (1024 >= $(window).width()) {
       $(document).on('click', '.nab-avatar-wrp', function () {
         $(this)
@@ -598,9 +806,9 @@
 
   if ($('#attendee_country').length > 0) {
     var states_json = wc_country_select_params.countries.replace(
-        /&quot;/g,
-        '"'
-      ),
+      /&quot;/g,
+      '"'
+    ),
       states = $.parseJSON(states_json),
       wrapper_selectors = '.nab-event-reg-wrap'
 
@@ -759,7 +967,7 @@
     })
   }
 
-  function nabRefreshCart () {
+  function nabRefreshCart() {
     block($('.woocommerce-cart-form'))
     block($('div.cart_totals'))
 
@@ -908,7 +1116,7 @@
       }
     })
 
-    async function processAttendeeData (attendeeData) {
+    async function processAttendeeData(attendeeData) {
       for (i = 0; i < attendeeData.loopCount; i++) {
         attendeeData.currentIndex = i
         if (attendeeData.loopCount === attendeeData.currentIndex + 1) {
@@ -918,7 +1126,7 @@
       }
     }
 
-    function uploadedAttendee (attendeeData) {
+    function uploadedAttendee(attendeeData) {
       return new Promise(function (resolve, reject) {
         $.ajax({
           url: amplifyJS.ajaxurl,
@@ -975,8 +1183,8 @@
                     .addClass('success')
                     .text(
                       'Attendee import process is completed. ' +
-                        addedAttendee +
-                        ' Attendees imported successfully.'
+                      addedAttendee +
+                      ' Attendees imported successfully.'
                     )
                     .show()
                 }
@@ -987,8 +1195,8 @@
               ) {
                 $(
                   '.nab-add-attendee[data-orderid=' +
-                    attendeeData.attendeeOrderID +
-                    ']'
+                  attendeeData.attendeeOrderID +
+                  ']'
                 ).hide()
               }
               addedAttendee = 0
@@ -1492,32 +1700,32 @@
 
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                      primaryID +
-                      '"]'
+                    primaryID +
+                    '"]'
                   )
                     .parents('tr')
                     .find('td:eq(0)')
                     .text(editFirstName)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                      primaryID +
-                      '"]'
+                    primaryID +
+                    '"]'
                   )
                     .parents('tr')
                     .find('td:eq(1)')
                     .text(editLastName)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                      primaryID +
-                      '"]'
+                    primaryID +
+                    '"]'
                   )
                     .parents('tr')
                     .find('td:eq(2)')
                     .text(editEmail)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                      primaryID +
-                      '"]'
+                    primaryID +
+                    '"]'
                   ).attr({ 'data-oid': response.oid, 'data-pid': response.pid })
 
                   if (response.is_attendee) {
@@ -1572,16 +1780,16 @@
                     .show()
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                      primaryID +
-                      '"]'
+                    primaryID +
+                    '"]'
                   )
                     .parents('tr')
                     .find('td:eq(0)')
                     .text(editFirstName)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                      primaryID +
-                      '"]'
+                    primaryID +
+                    '"]'
                   )
                     .parents('tr')
                     .find('td:eq(1)')
@@ -2164,8 +2372,8 @@
           } else if ('unfollow' === _this.attr('data-action')) {
             _this
               .parents('.amp-profile-content')
-              .find('.amp-actions .search-actions')
-              .replaceWith(followObj.follow_btn)
+              .find('.amp-actions')
+              .prepend(followObj.follow_btn)
             _this.parents('.unfollow-btn').remove()
           }
         }
@@ -2184,7 +2392,11 @@
           .parents('.company-message-inner')
           .attr('data-item')
       },
-      success: function (response) {}
+      success: function (response) {
+        jQuery('body').append(
+          '<div id="connection-message-popup" class="nab-modal" style="display: block;"><div class="nab-modal-inner"><div class="modal-content"><span class="nab-modal-close fa fa-times"></span><div class="modal-content-wrap nab-company-claim-popup"><p>Request sent successfully!</p></div></div></div></div>'
+        )
+      }
     })
   })
 
@@ -2193,14 +2405,9 @@
 
     if (
       0 <
-        _this.parents('.reaction-item-list').find('.nab-reaction-type.reacted')
-          .length &&
-      !_this.parents('.reaction-item-list').attr('data-log') &&
-      'comment' ===
-        _this
-          .parents('.reaction-item-list')
-          .attr('data-item-type')
-          .toLowerCase()
+      _this.parents('.reaction-item-list').find('.nab-reaction-type.reacted')
+        .length &&
+      !_this.parents('.reaction-item-list').attr('data-log')
     ) {
       return false
     }
@@ -2268,7 +2475,7 @@
 })(jQuery)
 
 // Get friend button
-function nab_get_friend_button (_this) {
+function nab_get_friend_button(_this) {
   let itemId = _this.parent().attr('data-item')
 
   jQuery.ajax({
@@ -2290,7 +2497,7 @@ function nab_get_friend_button (_this) {
 }
 
 /** User Search Ajax */
-function nabSearchUserAjax (loadMore, pageNumber) {
+function nabSearchUserAjax(loadMore, pageNumber) {
   let connected = ''
   let pageType = jQuery('#load-more-user a').attr('data-page-type')
   let postPerPage = jQuery('#load-more-user a').attr('data-post-limit')
@@ -2420,6 +2627,19 @@ function nabSearchUserAjax (loadMore, pageNumber) {
 
           searchContent.appendChild(userCompany)
 
+          if ( 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ) {
+            let viewSearchAction = document.createElement('div')
+            viewSearchAction.setAttribute('class', 'search-actions')
+            
+            let viewButton = document.createElement('a');
+            viewButton.setAttribute('href', value.link);
+            viewButton.setAttribute('class', 'button');
+            viewButton.innerText = 'View';
+
+            viewSearchAction.appendChild(viewButton);
+            searchContent.appendChild(viewSearchAction);
+          }
+
           if (undefined !== value.action_button && '' !== value.action_button) {
             let searchAction = document.createElement('div')
             searchAction.setAttribute('class', 'search-actions')
@@ -2475,7 +2695,7 @@ function nabSearchUserAjax (loadMore, pageNumber) {
 }
 
 /** company search ajax */
-function nabSearchCompanyAjax (loadMore, pageNumber) {
+function nabSearchCompanyAjax(loadMore, pageNumber) {
   let postPerPage = jQuery('#load-more-company a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-company a').attr('data-post-limit'))
     : 12
@@ -2607,7 +2827,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
 }
 
 /** company product search ajax */
-function nabSearchCompanyProductAjax (loadMore, pageNumber) {
+function nabSearchCompanyProductAjax(loadMore, pageNumber) {
   let postPerPage = jQuery('#load-more-company-product a').attr(
     'data-post-limit'
   )
@@ -2620,8 +2840,8 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-company-product a.active').length
       ? jQuery('.other-search-filter .sort-company-product a.active').attr(
-          'data-order'
-        )
+        'data-order'
+      )
       : 'date'
 
   jQuery('body').addClass('is-loading')
@@ -2704,7 +2924,7 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
           let viewProdutLink = document.createElement('a')
           viewProdutLink.setAttribute('href', value.link)
           viewProdutLink.setAttribute('class', 'button')
-          viewProdutLink.innerText = 'View Product'
+          viewProdutLink.innerText = 'View'
 
           searchAction.appendChild(viewProdutLink)
           searchActionWrap.appendChild(searchAction)
@@ -2755,7 +2975,7 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
 }
 
 /** Product Search Ajax */
-function nabSearchProductAjax (loadMore, pageNumber) {
+function nabSearchProductAjax(loadMore, pageNumber) {
   let category = ''
   let postPerPage = jQuery('#load-more-product a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-product a').attr('data-post-limit'))
@@ -2898,7 +3118,7 @@ function nabSearchProductAjax (loadMore, pageNumber) {
 }
 
 /** Content Search Ajax */
-function nabSearchContentAjax (loadMore, pageNumber) {
+function nabSearchContentAjax(loadMore, pageNumber) {
   let postPerPage = jQuery('#load-more-product a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-product a').attr('data-post-limit'))
     : 12
@@ -2972,7 +3192,7 @@ function nabSearchContentAjax (loadMore, pageNumber) {
           let viewPostLink = document.createElement('a')
           viewPostLink.setAttribute('href', value.link)
           viewPostLink.setAttribute('class', 'button')
-          viewPostLink.innerText = 'Read More'
+          viewPostLink.innerText = 'View'
 
           searchAction.appendChild(viewPostLink)
           searchContent.appendChild(searchAction)

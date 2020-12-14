@@ -35,7 +35,7 @@ if ( post_password_required() ) {
 				<?php
 				printf(
 					/* translators: 1: title. */
-					esc_html__( 'Responses', 'nab-amplify' )
+					esc_html__( 'Responses ('.get_comments_number( get_the_ID() ).')', 'nab-amplify' )
 				);
 				?>
 			</h3><!-- .comments-title -->
