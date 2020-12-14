@@ -116,9 +116,11 @@
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%;}
 	.amp-profile-main .amp-profile-social ul li a,
-	.banner-header .edit-profile-pic{width:55px;height:55px;}
+	.banner-header .edit-profile-pic,
+	.amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px;}
 	.amp-profile-main .amp-profile-social ul li a i,
-	.banner-header .edit-profile-pic i{font-size:26px;}
+	.banner-header .edit-profile-pic i,
+	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px;}
 	.amp-profile-main .amp-profile-inner{min-height:500px;}
 	.banner-header .profile-avtar img{width:180px;height:180px;}
 	.amp-profile-main .amp-profile-info span{font-size:20px;}
@@ -273,9 +275,11 @@
 	.amp-item-wrap .amp-item-col{width:50%;}
 	.amp-item-wrap .add-new-item .add-item-icon{width:60px;height:60px;font-size:32px;}
 	.amp-profile-main .amp-profile-social ul li a,
-	.banner-header .edit-profile-pic{width:45px;height:45px;}
+	.banner-header .edit-profile-pic,
+	.amp-profile-main .amp-profile-social .edit-profile-pic{width:45px;height:45px;}
 	.amp-profile-main .amp-profile-social ul li a i,
-	.banner-header .edit-profile-pic i{font-size:20px;}
+	.banner-header .edit-profile-pic i,
+	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:20px;}
 	.amp-profile-main .amp-profile-inner{min-height:400px;}
 	.banner-header .profile-avtar img{width:120px;height:120px;}
 	.banner-header .profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px;}
