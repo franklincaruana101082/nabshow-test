@@ -135,7 +135,7 @@
 
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:400px;}
-	.nab-preview-slider-inner .nab-preview-main{max-height:400px;}
+	.nab-preview-slider-inner .nab-preview-main img{max-height:400px;}
 }
 @media (max-width:991px){
 	.site-footer:before{display:none}
