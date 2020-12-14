@@ -93,6 +93,9 @@
 	/* New Amplify CSS */
 	/* my account */
 	.amp-profile-main{margin-right:10%;max-width:670px;}
+
+	/* preview slider */
+	.nab-preview-slider-inner .nab-preview-main{min-height:500px;}
 }
 
 @media (max-width:1024px){

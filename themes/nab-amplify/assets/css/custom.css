@@ -1773,6 +1773,9 @@ body .is_friend .remove:before{font-size:22px;}
 .single-company-products h5,
 .single-company-products h6{color:#fdd80f;}
 .single-company-products p{color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif;}
+.single-company-products .article-byline{color:#999;}
+.single-company-products .article-byline a{color:#999;}
+.single-company-products .article-byline a:hover{text-decoration:underline;}
 .single-company-products .amp-profile-main .amp-profile-inner{background-color:transparent;}
 .single-company-products .amp-profile-main .amp-profile-inner .search-actions{margin:30px 0 0;}
 .single-company-products .amp-profile-main .amp-profile-inner .search-actions a{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;}
@@ -1791,7 +1794,7 @@ body .is_friend .remove:before{font-size:22px;}
 /* preview slider */
 .nab-preview-slider-main{margin-bottom:40px;}
 .nab-preview-slider-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;}
-.nab-preview-slider-inner .nab-preview-main{width:100%;margin-bottom:10px;min-height:500px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
+.nab-preview-slider-inner .nab-preview-main{width:100%;margin-bottom:10px;min-height:630px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 .nab-preview-items-main{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -5px;}
 .nab-preview-items-main .nab-preview-item{width:25%;padding:0 5px;}
 .nab-preview-items-main .nab-preview-item img{width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;cursor:pointer;}
