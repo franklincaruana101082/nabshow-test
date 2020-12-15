@@ -10,7 +10,6 @@
 
 get_header();
 
-
 ?>
 
 <main id="primary" class="site-main single_php">
@@ -36,32 +35,42 @@ get_header();
 			$preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
 
 			?>
-			<h4 class="article-byline">Posted by 	<a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
+			<h4 class="article-byline">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
 
 			<div class="nab-preview-slider-main">
 				<div class="nab-preview-slider-inner">
-					<div class="nab-preview-main">
-						<img src="<?php echo $preview_main_src[0]; ?>" alt="">
-					</div>
-					<div class="nab-preview-items-main">
-						<?php $product_medias = get_field('product_media');
+					<?php $product_medias = get_field('product_media');
 
-						if (!empty($product_medias)) {
-							foreach ($product_medias as $product_media) {
+					if (!empty($product_medias)) { ?>
+
+						<div class="nab-preview-items-main">
+							<?php
+							foreach ($product_medias as $key => $product_media) {
 								if (!empty($product_media['product_media_file'])) {
-						?>
+									if ($key == 0) {
+							?>
+										<div class="nab-preview-main">
+											<img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
+										</div>
+									<?php
+									}  ?>
+
 									<div class="nab-preview-item">
 										<img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
 									</div>
+
 						<?php
+
 								}
 							}
-						}
+						} ?>
+						</div>
+						<?php
 						$tags = get_the_terms(get_the_ID(), 'company-product-tag');
 
 						?>
 
-					</div>
+
 				</div>
 			</div>
 
@@ -101,7 +110,12 @@ get_header();
 								<div class="action-wrap">
 									<div><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>" class="btn-link">View author profile</a></div>
 									<div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="btn-link">View company profile</a></div>
-									<div><?php echo nab_get_company_message_button(get_field('nab_selected_company_id'), 'Message Point of Contact'); ?></div>
+									<?php if ($user_logged_in) { ?>
+										<div>
+											<div id="send-private-message" class="generic-button">
+												<a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
+										</div>
+									<?php } ?>
 								</div>
 							</div>
 						</div>
@@ -124,12 +138,14 @@ get_header();
 
 						</div>
 					</div>
+
+
 				</div>
+			</div>
 			</div>
 			<div class="company-products related-content">
 
 				<?php
-
 
 				if ($tags) {
 				?>

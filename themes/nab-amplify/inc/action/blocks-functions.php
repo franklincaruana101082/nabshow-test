@@ -341,7 +341,7 @@ function nab_company_details_render_callback( $attributes ) {
                                 }
                                 if ( ! empty( $point_of_contact ) ) {
                                     ?>
-                                    <li><span>Point of contact:</span> <?php echo esc_html( $point_of_contact ); ?></li>
+                                    <li id="send-private-message"><span>Point of contact:</span> <a class="btn-link" href="" data-comp-id="<?php echo $company_id; ?>"><?php echo esc_html( $point_of_contact ); ?></a></li>
                                     <?php
                                 }
                                 ?>
@@ -434,15 +434,22 @@ function nab_company_produts_render_callback( $attributes ) {
                         
                         $product_query->the_post();
 
-                        $thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        
                         $product_link	    = get_the_permalink();
                         $product_category   = get_the_terms( get_the_ID(), 'company-product-category' );
+                        $product_medias = get_field('product_media');
                  
                         ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
+                                <?php if (!empty($product_medias)) { 
+                                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
+                                }
+                                    $thumbnail_url =  $thumbnail_url ?  $thumbnail_url : nab_placeholder_img();
+                                    ?>
                                     <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Product Image">
+                               
                                 </div>
                                 <div class="amp-item-info">
                                     <div class="amp-item-content">

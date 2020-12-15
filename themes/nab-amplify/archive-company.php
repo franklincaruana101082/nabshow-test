@@ -47,7 +47,8 @@ if ( $company_query->have_posts() ) {
 				$cover_image        = get_field( 'cover_image' );
 				$profile_picture    = get_field( 'profile_picture' );
 				$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
-				$profile_picture    = ! empty( $profile_picture ) ? $profile_picture[ 'url' ] : $default_company_pic;
+				$featured_image   	= get_the_post_thumbnail_url();  
+				$profile_picture  	= !empty($featured_image) ? $featured_image : $default_company_pic;
 				$company_url		= get_the_permalink();
 				?>
 				<div class="search-item">

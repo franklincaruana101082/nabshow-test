@@ -9,7 +9,7 @@
  */
 
 $cover_image      = get_field('cover_image');
-$profile_picture  = get_field('profile_picture');
+//$profile_picture  = get_field('profile_picture');
 $technology       = get_field('technology');
 $instagram_url    = get_field('instagram_url');
 $linkedin_url     = get_field('linkedin_url');
@@ -17,10 +17,12 @@ $facebook_url     = get_field('facebook_url');
 $twitter_url      = get_field('twitter_url');
 $member_level     = get_field('member_level');
 $cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
-$profile_picture  = !empty($profile_picture) ? $profile_picture['url'] : get_template_directory_uri() . '/assets/images/default-company.png';
+$featured_image   = get_the_post_thumbnail_url();  
+$profile_picture  = !empty($featured_image) ? $featured_image : get_template_directory_uri() . '/assets/images/default-company.png';
 $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
+
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
     <div class="banner-container">
@@ -38,6 +40,9 @@ $company_admin_id = get_field('company_user_id', $company_id);
                             </label>
                             <input id="banner_image_file" type="file" name="company_banner_image" style="display: none;" />
                         </div>
+                        <div id="edit-mode-buttons">
+                        <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
+                    </div>
                 <?php
                     }
                 } ?>
@@ -45,14 +50,7 @@ $company_admin_id = get_field('company_user_id', $company_id);
 
 
             </div>
-            <?php if ($user_logged_in) {
-                $user_id = get_current_user_id();
-                if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) { ?>
-                    <div id="edit-mode-buttons">
-                        <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
-                    </div>
-            <?php }
-            } ?>
+           
             <div class="amp-profile-main">
                 <div class="amp-profile-inner">
                     <div class="amp-profile-content">
@@ -138,9 +136,12 @@ $company_admin_id = get_field('company_user_id', $company_id);
                             $user_id = get_current_user_id(); ?>
                             <div class="amp-actions">                                
                                 <?php
-                                nab_get_follow_button($company_id, $user_id);
-                                nab_get_company_message_button($company_id, 'Message Company Rep');
-                                ?>                                
+                                nab_get_follow_button($company_id, $user_id);?>
+                                <div class="search-actions">
+                                    <div id="send-private-message" class="generic-button">
+                                        <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
+                                    </div>
+                                </div>
                             </div>
                         <?php
                         }
