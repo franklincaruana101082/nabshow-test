@@ -2904,7 +2904,7 @@ function nab_set_default_block_in_new_article() {
 
 	if ( 'post-new.php' === $pagenow && 'articles' === $current_post_type ) {
 
-		$block_ids = array( 15781 );
+		$block_ids = array( 18031 );
 
 		$query_args = array(
 			'post_type' => 'wp_block',

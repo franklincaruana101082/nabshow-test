@@ -177,7 +177,7 @@
 .company-products .amp-item-wrap .amp-item-info .search-actions .action{-webkit-box-pack: start;-ms-flex-pack: start;justify-content: flex-start;}
 .company-products .amp-item-wrap .amp-item-info .search-actions a.button, 
 .company-products .amp-item-wrap .amp-item-info .search-actions .action a.button{border-radius:6px;padding:8px 20px;}
-.company-products .amp-item-wrap .amp-item-info .nab-action{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+.company-products .amp-item-wrap .amp-item-info .nab-action{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
 
 /* company events */
 .company-events .amp-item-main{padding:30px 0 0;}

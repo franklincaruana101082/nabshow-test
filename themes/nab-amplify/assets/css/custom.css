@@ -121,8 +121,8 @@ p{font-size:16px;color:#404040}
 .light-grey-bg{background-color:#999999;color:#fff}
 
 /* button */
-.btn{display:inline-block;background:#e5018b;color:#fff!important;padding:10px 20px;margin-bottom:10px;min-width:200px;text-align:center;max-width:100%;font-weight:bold;text-transform:uppercase;border-radius:6px;text-decoration:none!important;}
-.button{background:#e5018b;color:#fff;display:inline-block;padding:10px 20px;border-radius:6px;text-align:center;text-transform:uppercase;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important;}
+.btn{display:inline-block;background:#e5018b;color:#fff!important;padding:10px 20px;margin-bottom:10px;min-width:200px;text-align:center;max-width:100%;font-weight:bold;text-transform:capitalize;border-radius:6px;text-decoration:none!important;}
+.button{background:#e5018b;color:#fff;display:inline-block;padding:10px 20px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important;}
 .button:hover{background:#6363df;border-color:#6363df;color:#fff;}
 .button:visited{color:#fff;}
 .button:focus,
@@ -135,6 +135,9 @@ p{font-size:16px;color:#404040}
 .dark-pink-button:focus{background:#fff;color:#666666!important}
 
 .blue-color{color:#6363df!important}
+
+.btn-link{color:#fff!important;}
+.btn-link:hover{text-decoration:underline;}
 
 /* woocommerce default */
 .woocommerce-message,.woocommerce-info,.woocommerce-error,.woocommerce-noreviews,p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 25px}
@@ -769,7 +772,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header,
 .banner-header .container{height: 200px;position:relative;}
 .banner-header .profile-avtar{display:inline-block;position:relative;margin-bottom:20px;}
-.banner-header .profile-avtar img{width:220px;height:220px;border-radius:50%;display:block;}
+.banner-header .profile-avtar img{width:220px;height:220px;border-radius:50%;display:block;background-color:#fff;}
 .banner-header .profile-avtar .profile-avtar-inner{display:inline-block;background:-o-linear-gradient(bottom,#e5018b,#6363df);background:-webkit-gradient(linear,left bottom, left top,from(#e5018b),to(#6363df));background:linear-gradient(to top,#e5018b,#6363df);border-radius:50%;line-height:1;padding:4px;position:relative;}
 .banner-header .profile-avtar .profile-avtar-inner:before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;-webkit-box-shadow:inset 0px 80px 80px 0px rgb(0 0 0 / 0.4);box-shadow:inset 0px 80px 80px 0px rgb(0 0 0 / 0.4);border-radius:50%;}
 .banner-header .profile-avtar .is_friend.generic-button{position:absolute;right:5px;top:10px;width: 42px;height: 42px;}
@@ -1062,6 +1065,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .search-section.search-content-section .search-item-info{padding:25px 15px 25px;}
 .search-section.search-company-section .search-item-info h4{margin:0 0 80px;}
 .search-section.search-company-section .search-item-avtar img{background-color:#fff;}
+.search-section.company-products .amp-item-wrap .amp-item-info .nab-action{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 .search-not-found{text-align:center;padding:20px 0;max-width:95%;margin:0 auto;}
 .search-not-found p{display:inline-block;padding:15px;color:#fff;font-size:18px;border:1px solid #fff;margin:0;}
 .no-search-data{text-align:center;padding:5vw 0;font-size:22px;color:#fff;}
@@ -1388,12 +1392,13 @@ body .is_friend .remove:before{font-size:22px;}
 #unfriend-confirmation .modal-content{max-width:600px;}
 
 /* connection popup */
-#connection-message-popup p{margin:0 0 20px;}
+#connection-message-popup p{margin:0 0 20px;color:#000;}
 #connection-message-popup textarea{resize:vertical;width:100%!important}
 #connection-message-popup textarea.error{border-color:red;}
 #connection-message-popup .error{color:red;}
 #connection-message-popup.nab-modal .modal-content-wrap a.btn{margin:10px 0;color:#fff!important;}
 #connection-message-popup #connection-message-form{text-align:center;}
+.nab-modal .author-info{max-width:max-content;margin:0 auto;}
 
 /* single articles page */
 .single-articles{background-color:#404040;}
@@ -1435,7 +1440,7 @@ body .is_friend .remove:before{font-size:22px;}
 .comments-area .comment-edit-link{color:#e5018b;}
 .comments-area .comment-section-title{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap;padding-bottom:15px;border-bottom:2px solid #fff;margin-bottom:40px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 .comments-area .comment-section-title h2{color:#fdd80f;font-size:32px;margin:0 20px 0 0;}
-.comments-area textarea{background-color:#666;border-color:#666;color:#fff;padding:10px;outline:0;}
+.comments-area textarea{background-color:#666;border-color:#666;color:#fff;padding:10px;outline:0;resize:vertical;}
 .comments-area h3{color:#fdd80f;}
 .comments-area .nab-custom-select{width:270px;}
 .comments-area .nab-custom-select .chosen-container-single .chosen-single div{right:10px;}
@@ -1790,15 +1795,17 @@ body .is_friend .remove:before{font-size:22px;}
 .amp-tag-main .amp-tag-list{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;list-style:none;padding:0;margin:0 0 20px;}
 .amp-tag-main .amp-tag-list li{margin:5px;}
 .amp-tag-main .amp-tag-list li .btn{margin:0;min-width:100px;background-color:#666;border-color:#666;padding:8px 20px;}
+.amp-tag-main .amp-tag-list li span.btn{cursor:default;}
+.amp-tag-main .amp-tag-list li span.btn:active{box-shadow:none;}
 
 /* preview slider */
 .nab-preview-slider-main{margin-bottom:40px;}
 .nab-preview-slider-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;}
-.nab-preview-slider-inner .nab-preview-main{width:100%;margin-bottom:10px;min-height:630px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
-.nab-preview-slider-inner .nab-preview-main img{max-height:630px;}
+.nab-preview-slider-inner .nab-preview-main{width:100%;margin-bottom:10px;min-height:630px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background-color:#fff;padding:10px;}
+.nab-preview-slider-inner .nab-preview-main img{max-height:630px;background-color:#fff;width:100%;height:100%;object-fit:contain;object-position:center;}
 .nab-preview-items-main{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -5px;}
 .nab-preview-items-main .nab-preview-item{width:25%;padding:0 5px;}
-.nab-preview-items-main .nab-preview-item img{width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;cursor:pointer;}
+.nab-preview-items-main .nab-preview-item img{width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;cursor:pointer;background-color:#fff;max-height:200px;}
 
 /* black box */
 .black-bg-box{background-color:#333;padding:40px;margin-bottom:20px;}
@@ -1811,6 +1818,7 @@ body .is_friend .remove:before{font-size:22px;}
 .black-bg-box .author-info .author-details{width:calc(100% - 80px);}
 .black-bg-box .author-info .author-title{font-size:24px;}
 .black-bg-box .author-info .author-subtitle{font-size:16px;line-height:1;}
+.black-bg-box.author-details-box .action-wrap a.button{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;margin:0;padding:10px 15px;}
 .black-bg-box .btn-link{font-size:20px;color:#808080;text-decoration:underline;text-transform:uppercase;font-weight:700;}
 .product-specs-box h2{font-size:24px;}
 .action-wrap div:not(:last-child){margin-bottom:15px;}
