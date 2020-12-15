@@ -313,8 +313,7 @@ function nab_company_details_render_callback( $attributes ) {
                         <?php if(!empty($admin_id) && in_array($user_id,$admin_id)){?>
                         <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span></div>
                         <?php } ?>
-                        <h3><?php echo esc_html( $contact_title ); ?></h3>
-                        <div class="company-contact-inner-box">
+                       <div class="company-contact-inner-box">
                             <ul>
                                 <?php
                                 if ( ! empty( $company_industary ) ) {
