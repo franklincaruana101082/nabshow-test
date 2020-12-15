@@ -17,7 +17,8 @@ get_header();
 	<?php
 	while (have_posts()) :
 		the_post();
-
+		$current_user_id = get_field('company_user_id', get_field('nab_selected_company_id'));
+		$user_logged_in			= is_user_logged_in();
 	?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<header class="entry-header">
@@ -26,7 +27,7 @@ get_header();
 				?>
 			</header><!-- .entry-header -->
 			<?php
-			$author_full_name = get_the_author_meta('first_name') . ' ' . get_the_author_meta('last_name');
+			$author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
 
 			if (empty(trim($author_full_name))) {
 
@@ -80,27 +81,25 @@ get_header();
 							</div>
 						<?php }
 
-						$current_user_id = get_the_author_meta('ID');
-
 						// Get images.
-						$user_images = nab_amplify_get_user_images($current_user_id);
+						$user_images = nab_amplify_get_user_images($current_user_id[0]);
 						?>
 					</div>
 					<div class="single-product-col right-col">
 						<div class="black-bg-box author-details-box">
 							<div class="author-info">
 								<div class="author-image">
-									<a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
+									<a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
 								</div>
 								<div class="author-details">
-									<h3 class="author-title"><a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>"><?php echo get_the_author_meta('user_nicename', get_the_author_ID()); ?></a></h3>
+									<h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo get_the_author_meta('user_nicename', $current_user_id[0]); ?></a></h3>
 									<span class="author-subtitle">Posting Company</span>
 								</div>
 							</div>
 							<div class="author-info-content">
-								<p><?php echo get_the_author_meta('description', get_the_author_ID()); ?></p>
+								<p><?php echo get_the_author_meta('description', $current_user_id[0]); ?></p>
 								<div class="action-wrap">
-									<div><a href="<?php echo bp_core_get_user_domain(get_the_author_meta('ID')); ?>" class="btn-link">View author profile</a></div>
+									<div><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>" class="btn-link">View author profile</a></div>
 									<div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="btn-link">View company profile</a></div>
 									<div><?php echo nab_get_company_message_button(get_field('nab_selected_company_id'), 'Message Point of Contact'); ?></div>
 								</div>
