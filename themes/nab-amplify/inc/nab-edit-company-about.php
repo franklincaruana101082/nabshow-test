@@ -20,19 +20,6 @@
 									<input type="text" class="input-text add-product" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
 								</div>
 								<div class="form-row">
-									<div class="location-field-wrap">
-										<label for="">Location</label>
-										<!-- <textarea  class="input-text add-product" name="company_location"  id="company_location"><?php echo isset($company_data['company_location']) ? $company_data['company_location'] : ''; ?></textarea> -->
-										<input name="company_location_street_one" id="company_location_street_one" type="text" placeholder="Street Line 1" value="<?php echo isset($company_data['company_location']['_street_line_1']) ? $company_data['company_location']['_street_line_1'] : ''; ?>">
-										<input name="company_location_street_two" id="company_location_street_two" type="text" placeholder="Street Line 2" value="<?php echo isset($company_data['company_location']['street_line_2']) ? $company_data['company_location']['street_line_2'] : ''; ?>">
-										<input name="company_location_street_three" id="company_location_street_three" type="text" placeholder="Street Line 3" value="<?php echo isset($company_data['company_location']['street_line_3']) ? $company_data['company_location']['street_line_3'] : ''; ?>">
-										<input name="company_location_city" id="company_location_city" type="text" placeholder="City" value="<?php echo isset($company_data['company_location']['city']) ? $company_data['company_location']['city'] : ''; ?>">
-										<input name="company_location_state" id="company_location_state" type="text" placeholder="State" value="<?php echo isset($company_data['company_location']['state']) ? $company_data['company_location']['state'] : ''; ?>">
-										<input name="company_location_zip" id="company_location_zip" type="text" placeholder="Zip/Postal Code" value="<?php echo isset($company_data['company_location']['zipcode']) ? $company_data['company_location']['zipcode'] : ''; ?>">
-										<input name="company_location_country" id="company_location_country" type="text" placeholder="Country" value="<?php echo isset($company_data['company_location']['country']) ? $company_data['company_location']['country'] : ''; ?>">
-									</div>
-								</div>
-								<div class="form-row">
 									<label for="">Website</label>
 									<input type="text" class="input-text add-product" name="company_website" value="<?php echo isset($company_data['company_website']) ? $company_data['company_website'] : ''; ?>" id="company_website">
 								</div>

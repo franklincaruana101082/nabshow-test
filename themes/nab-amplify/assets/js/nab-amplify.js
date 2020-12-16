@@ -557,8 +557,12 @@
       data: fd,
       contentType: false,
       processData: false,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
       success: function (data) {
         alert('Profile Updated Successfully!')
+        $('body').removeClass('is-loading')
         location.reload(true)
       }
     })
