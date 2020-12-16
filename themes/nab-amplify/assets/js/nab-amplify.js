@@ -3,7 +3,7 @@
  *
  *  @package Nab
  */
-; (function ($) {
+;(function ($) {
   var importErrs = []
   var skippedErrs = []
   var addedAttendee = 0
@@ -275,12 +275,14 @@
   })
 
   $(document).on('change', '#product_featured_image', function () {
-    if ($('#product_featured_image_wrapper .nab-product-media-item').length >= 1) {
-      $('#product_featured_image_wrapper .nab-product-media-item').remove();
+    if (
+      $('#product_featured_image_wrapper .nab-product-media-item').length >= 1
+    ) {
+      $('#product_featured_image_wrapper .nab-product-media-item').remove()
       $('#product_featured_image_wrapper').append(
         '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
       )
-    }else{
+    } else {
       $('#product_featured_image_wrapper').append(
         '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
       )
@@ -303,8 +305,8 @@
         var unique_key = file.lastModified + '_' + timestamp
         $('#product_media_wrapper').append(
           '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
-          unique_key +
-          '" src="#" alt="your image" style="display:none;"/></div>'
+            unique_key +
+            '" src="#" alt="your image" style="display:none;"/></div>'
         )
         var reader = new FileReader()
         reader.onload = function (e) {
@@ -333,13 +335,7 @@
     ).val()
     var nab_product_contact = jQuery(
       '#nab-edit-product-form #nab_product_contact'
-    ).val()
-    var nab_product_external_text = jQuery(
-      '#nab-edit-product-form #nab_product_external_text'
-    ).val()
-    var nab_product_external_link = jQuery(
-      '#nab-edit-product-form #nab_product_external_link'
-    ).val()
+    ).val()    
     var nab_feature_product = jQuery(
       '#nab-edit-product-form #nab_feature_product'
     ).prop('checked')
@@ -377,23 +373,23 @@
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
-    form_data.append('product_categories', product_categories)
+    if( product_categories == null){
+      form_data.append('product_categories', [])
+    }else{
+      form_data.append('product_categories', product_categories)
+    }
+    
     form_data.append('nabNonce', amplifyJS.nabNonce)
     form_data.append('nab_product_copy', nab_product_copy)
     form_data.append('nab_product_specs', nab_product_specs)
-    form_data.append('nab_product_contact', nab_product_contact)
-    form_data.append('nab_product_external_text', nab_product_external_text)
-    form_data.append('nab_product_external_link', nab_product_external_link)
+    form_data.append('nab_product_contact', nab_product_contact)      
     form_data.append('nab_feature_product', nab_feature_product)
     form_data.append('nab_product_b_stock', nab_product_b_stock)
     form_data.append('nab_product_sales_item', nab_product_sales_item)
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append(
-      'product_featured_image',
-      $('#product_featured_image')[0].files[0]
-    )
+
     form_data.append('remove_attachments', remove_attachment_arr)
     form_data.append('nab_company_id', nab_company_id)
 
@@ -403,9 +399,9 @@
       contentType: false,
       type: 'POST',
       data: form_data,
-      beforeSend: function() {
+      beforeSend: function () {
         $('body').addClass('is-loading')
-    },
+      },
       success: function (response) {
         var json = $.parseJSON(response)
 
@@ -532,8 +528,15 @@
     }
     if (jQuery('#company_location_country').length) {
       fd.append(
-        'company_point_of_contacompany_location_countryct',
+        'company_location_country',
         jQuery('#company_location_country').val()
+      )
+    }
+
+    if (jQuery('#product_categories').length) {
+      fd.append(
+        'company_product_categories',
+        jQuery('#product_categories').val()
       )
     }
 
@@ -543,8 +546,12 @@
       data: fd,
       contentType: false,
       processData: false,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
       success: function (data) {
         alert('Profile Updated Successfully!')
+        $('body').removeClass('is-loading')
         location.reload(true)
       }
     })
@@ -609,11 +616,13 @@
     jQuery(this).text('Cancel Edit')
     jQuery('.banner-header').addClass('edit_mode_on')
     jQuery('.edit-bg-pic').show()
+    jQuery('.edit-company-industry').show()
+    
   })
   $(document).on('click', '.cancel-edit-company-mode', function () {
     jQuery('.edit-profile-pic').hide()
     jQuery('.edit-bg-pic').hide()
-
+    jQuery('.edit-company-industry').hide()
     jQuery(this).removeClass('cancel-edit-company-mode')
     jQuery(this).addClass('edit-company-mode ')
     jQuery('.banner-header').removeClass('edit_mode_on')
@@ -636,7 +645,7 @@
           scrollTop: jQuery(hash).offset().top
         },
         1200,
-        function () { }
+        function () {}
       )
     } // End if
   })
@@ -752,7 +761,7 @@
     })
   })
 
-  $(window).on('resize', function () { })
+  $(window).on('resize', function () {})
 
   // Related products
   if (4 < $('.related.products .product-list .product-item').length) {
@@ -763,7 +772,7 @@
     })
   }
 
-  function buildSliderConfiguration() {
+  function buildSliderConfiguration () {
     $('.related.products .product-list').each(function () {
       var windowWidth = $(window).width()
       var numberOfVisibleSlides
@@ -794,7 +803,7 @@
     })
   }
 
-  function HeaderResponsive() {
+  function HeaderResponsive () {
     if (1024 >= $(window).width()) {
       $(document).on('click', '.nab-avatar-wrp', function () {
         $(this)
@@ -806,9 +815,9 @@
 
   if ($('#attendee_country').length > 0) {
     var states_json = wc_country_select_params.countries.replace(
-      /&quot;/g,
-      '"'
-    ),
+        /&quot;/g,
+        '"'
+      ),
       states = $.parseJSON(states_json),
       wrapper_selectors = '.nab-event-reg-wrap'
 
@@ -967,7 +976,7 @@
     })
   }
 
-  function nabRefreshCart() {
+  function nabRefreshCart () {
     block($('.woocommerce-cart-form'))
     block($('div.cart_totals'))
 
@@ -1116,7 +1125,7 @@
       }
     })
 
-    async function processAttendeeData(attendeeData) {
+    async function processAttendeeData (attendeeData) {
       for (i = 0; i < attendeeData.loopCount; i++) {
         attendeeData.currentIndex = i
         if (attendeeData.loopCount === attendeeData.currentIndex + 1) {
@@ -1126,7 +1135,7 @@
       }
     }
 
-    function uploadedAttendee(attendeeData) {
+    function uploadedAttendee (attendeeData) {
       return new Promise(function (resolve, reject) {
         $.ajax({
           url: amplifyJS.ajaxurl,
@@ -1183,8 +1192,8 @@
                     .addClass('success')
                     .text(
                       'Attendee import process is completed. ' +
-                      addedAttendee +
-                      ' Attendees imported successfully.'
+                        addedAttendee +
+                        ' Attendees imported successfully.'
                     )
                     .show()
                 }
@@ -1195,8 +1204,8 @@
               ) {
                 $(
                   '.nab-add-attendee[data-orderid=' +
-                  attendeeData.attendeeOrderID +
-                  ']'
+                    attendeeData.attendeeOrderID +
+                    ']'
                 ).hide()
               }
               addedAttendee = 0
@@ -1700,32 +1709,32 @@
 
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                    primaryID +
-                    '"]'
+                      primaryID +
+                      '"]'
                   )
                     .parents('tr')
                     .find('td:eq(0)')
                     .text(editFirstName)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                    primaryID +
-                    '"]'
+                      primaryID +
+                      '"]'
                   )
                     .parents('tr')
                     .find('td:eq(1)')
                     .text(editLastName)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                    primaryID +
-                    '"]'
+                      primaryID +
+                      '"]'
                   )
                     .parents('tr')
                     .find('td:eq(2)')
                     .text(editEmail)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                    primaryID +
-                    '"]'
+                      primaryID +
+                      '"]'
                   ).attr({ 'data-oid': response.oid, 'data-pid': response.pid })
 
                   if (response.is_attendee) {
@@ -1780,16 +1789,16 @@
                     .show()
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                    primaryID +
-                    '"]'
+                      primaryID +
+                      '"]'
                   )
                     .parents('tr')
                     .find('td:eq(0)')
                     .text(editFirstName)
                   $(
                     '#nabViewAttendeeModal table td[data-pid="' +
-                    primaryID +
-                    '"]'
+                      primaryID +
+                      '"]'
                   )
                     .parents('tr')
                     .find('td:eq(1)')
@@ -2005,23 +2014,25 @@
               $('.popup-opened').removeClass('popup-opened')
               $(this).addClass('popup-opened')
 
-              if (0 === $('#connection-message-popup').length) {
-                jQuery.ajax({
-                  url: amplifyJS.ajaxurl,
-                  type: 'POST',
-                  data: {
-                    action: 'nab_bp_connecton_request_popup'
-                  },
-                  success: function (data) {
+              jQuery.ajax({
+                url: amplifyJS.ajaxurl,
+                type: 'POST',
+                data: {
+                  action: 'nab_bp_connecton_request_popup'
+                },
+                success: function (data) {
+                  if (0 === $('#connection-message-popup').length) {
                     $('body').append(data)
                     $('#connection-message-popup').show()
                     $('body').addClass('connection-popup-added')
+                  } else {
+                    $('body').addClass('connection-popup-added')
+                    $('#connection-message-popup').remove()
+                    $('body').append(data)
+                    $('#connection-message-popup').show()
                   }
-                })
-              } else {
-                $('body').addClass('connection-popup-added')
-                $('#connection-message-popup').show()
-              }
+                }
+              })
             }
             // Prevent request unless the message is sent.
             return false
@@ -2405,8 +2416,8 @@
 
     if (
       0 <
-      _this.parents('.reaction-item-list').find('.nab-reaction-type.reacted')
-        .length &&
+        _this.parents('.reaction-item-list').find('.nab-reaction-type.reacted')
+          .length &&
       !_this.parents('.reaction-item-list').attr('data-log')
     ) {
       return false
@@ -2472,10 +2483,75 @@
       .next('.reaction-icon-modal')
       .toggleClass('show-icon-modal')
   })
+
+  $(document).on('click', '#send-private-message a', function (e) {
+    e.preventDefault()
+    var company_id = $(this).data('comp-id')
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'nab_bp_message_request_popup',
+        company_id: company_id
+      },
+      success: function (data) {
+        if ($('#connection-message-popup').length > 0) {
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('message-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+        } else {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('message-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '#submit-message-request', function (e) {
+    const connectionMsg = $('#connection-message').val()
+    if ('' === connectionMsg) {
+      $('#connection-message').addClass('error')
+      $('#connection-message-form .error').show()
+    } else {
+      $('#connection-message').removeClass('error')
+      $('#connection-message-form .error').hide()
+
+      // Get member ID from card
+      var memberID = $('#connection-message-popup').data('comp-admin-id')
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          action: 'nab_bp_send_message',
+          nabNonce: amplifyJS.nabNonce,
+          message: connectionMsg,
+          send_to: memberID
+        },
+        beforeSend: function () {
+          $('body').addClass('is-loading')
+        },
+        success: function (data) {
+          $('body').removeClass('is-loading')
+
+          $('#connection-message-popup').hide()
+
+          $('#connection-message-popup').remove()
+          alert(data.data.feedback)
+        }
+      })
+    }
+  })
 })(jQuery)
 
 // Get friend button
-function nab_get_friend_button(_this) {
+function nab_get_friend_button (_this) {
   let itemId = _this.parent().attr('data-item')
 
   jQuery.ajax({
@@ -2497,7 +2573,7 @@ function nab_get_friend_button(_this) {
 }
 
 /** User Search Ajax */
-function nabSearchUserAjax(loadMore, pageNumber) {
+function nabSearchUserAjax (loadMore, pageNumber) {
   let connected = ''
   let pageType = jQuery('#load-more-user a').attr('data-page-type')
   let postPerPage = jQuery('#load-more-user a').attr('data-post-limit')
@@ -2627,17 +2703,20 @@ function nabSearchUserAjax(loadMore, pageNumber) {
 
           searchContent.appendChild(userCompany)
 
-          if ( 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ) {
+          if (
+            0 <
+            jQuery('.search-result-filter .search-form input[name="s"]').length
+          ) {
             let viewSearchAction = document.createElement('div')
             viewSearchAction.setAttribute('class', 'search-actions')
-            
-            let viewButton = document.createElement('a');
-            viewButton.setAttribute('href', value.link);
-            viewButton.setAttribute('class', 'button');
-            viewButton.innerText = 'View';
 
-            viewSearchAction.appendChild(viewButton);
-            searchContent.appendChild(viewSearchAction);
+            let viewButton = document.createElement('a')
+            viewButton.setAttribute('href', value.link)
+            viewButton.setAttribute('class', 'button')
+            viewButton.innerText = 'View'
+
+            viewSearchAction.appendChild(viewButton)
+            searchContent.appendChild(viewSearchAction)
           }
 
           if (undefined !== value.action_button && '' !== value.action_button) {
@@ -2695,7 +2774,7 @@ function nabSearchUserAjax(loadMore, pageNumber) {
 }
 
 /** company search ajax */
-function nabSearchCompanyAjax(loadMore, pageNumber) {
+function nabSearchCompanyAjax (loadMore, pageNumber) {
   let postPerPage = jQuery('#load-more-company a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-company a').attr('data-post-limit'))
     : 12
@@ -2827,7 +2906,7 @@ function nabSearchCompanyAjax(loadMore, pageNumber) {
 }
 
 /** company product search ajax */
-function nabSearchCompanyProductAjax(loadMore, pageNumber) {
+function nabSearchCompanyProductAjax (loadMore, pageNumber) {
   let postPerPage = jQuery('#load-more-company-product a').attr(
     'data-post-limit'
   )
@@ -2840,8 +2919,8 @@ function nabSearchCompanyProductAjax(loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-company-product a.active').length
       ? jQuery('.other-search-filter .sort-company-product a.active').attr(
-        'data-order'
-      )
+          'data-order'
+        )
       : 'date'
 
   jQuery('body').addClass('is-loading')
@@ -2975,7 +3054,7 @@ function nabSearchCompanyProductAjax(loadMore, pageNumber) {
 }
 
 /** Product Search Ajax */
-function nabSearchProductAjax(loadMore, pageNumber) {
+function nabSearchProductAjax (loadMore, pageNumber) {
   let category = ''
   let postPerPage = jQuery('#load-more-product a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-product a').attr('data-post-limit'))
@@ -3118,7 +3197,7 @@ function nabSearchProductAjax(loadMore, pageNumber) {
 }
 
 /** Content Search Ajax */
-function nabSearchContentAjax(loadMore, pageNumber) {
+function nabSearchContentAjax (loadMore, pageNumber) {
   let postPerPage = jQuery('#load-more-product a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-product a').attr('data-post-limit'))
     : 12

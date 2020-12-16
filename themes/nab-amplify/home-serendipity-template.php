@@ -73,7 +73,7 @@ get_header();
 			<div class="serendipity-filter-data-col">
 				<div class="serendipity-filter-data-col-content">
 					<p class="heading">My Top 5</p>
-					<p class="sub0heading">Moments in My Career</p>
+					<p class="sub-heading">Moments in My Career</p>
 					<hr />
 					<ul class="rounded-number-list">
 						<li>When I went to my office and found a cupcake waiting for me on my desk</li>
@@ -115,7 +115,7 @@ get_header();
 			<div class="serendipity-filter-data-col">
 				<div class="serendipity-filter-data-col-content">
 					<p class="heading">My Top 5</p>
-					<p class="sub0heading">Moments in My Career</p>
+					<p class="sub-heading">Moments in My Career</p>
 					<hr />
 					<ul class="rounded-number-list">
 						<li>Winning an oscar</li>

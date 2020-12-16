@@ -358,6 +358,8 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
 	.nab-product-media-item{width:100px;height:100px;}
 	.select-dark-simple.select-multiple:after{font-size:22px;}
+	.nab-modal .fa-info-circle{vertical-align:middle;}
+	.nab-modal .fa-info-circle[data-bp-tooltip]:after{transform:translateX(-30%);}
 
 	/* single company product */
 	.black-bg-box{padding:30px;}
@@ -502,6 +504,7 @@
 
 	/* add/update product */
 	.nab-product-media-item{width:70px;height:70px;}
+	.nab-modal .fa-info-circle[data-bp-tooltip]:after{transform:translateX(-40%);width:200px;}
 
 	/* connection popup */
 	.nab-modal .author-info .author-details{width:100%;padding-left:0;margin-top:20px;}
