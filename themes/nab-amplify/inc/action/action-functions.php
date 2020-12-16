@@ -214,7 +214,7 @@ function nab_amplify_upload_images()
  */
 function nab_amplify_edit_product()
 {
-    $final_result = array();
+   
     $post_id      = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT);
     $post_data    = get_post($post_id);
 
@@ -244,9 +244,6 @@ function nab_amplify_edit_product()
     ));
     require_once get_template_directory() . '/inc/nab-edit-product.php';
 
-    $final_result['success'] = true;
-    $final_result['content'] = '';
-    echo wp_json_encode($final_result);
     wp_die();
 }
 
@@ -2715,7 +2712,12 @@ function nab_add_product()
     }
 
     // assign categories and tags to post
-	wp_set_object_terms($post_id, $post_categories, 'company-product-category', true );
+    if(empty($post_categories)){
+        wp_set_object_terms($post_id, NULL, 'company-product-category', false );
+    }else{
+        wp_set_object_terms($post_id, $post_categories, 'company-product-category', false );
+    }
+	
     wp_set_post_terms($post_id, $product_tags, 'company-product-tag', true);
 
 
@@ -2864,6 +2866,67 @@ function nab_register_company_tags_taxonomy()
 }
 
 /**
+ * Display article tags.
+ *
+ * @param  array $atts
+ * 
+ * @return string
+ */
+function nab_article_tags_shortcode_callback( $atts ) {
+
+    $atts = shortcode_atts( array(
+		'item_id'   => get_the_ID(),		
+    ), $atts );
+
+    $article_id = $atts[ 'item_id' ];
+    $tags_html  = '';
+
+    if ( ! empty( $article_id ) ) {
+
+        $community_tags         = get_field( 'community', $article_id );
+        $personas_tags          = get_field( 'personas', $article_id );
+        $content_format_tags    = get_field( 'content_format', $article_id );
+        $final_tags             = array();
+
+        if ( ! empty( $community_tags ) ) {
+
+            $final_tags = array_merge( $final_tags, $community_tags );
+        }
+
+        if ( ! empty( $personas_tags ) ) {
+
+            $final_tags = array_merge( $final_tags, $personas_tags );
+        }
+
+        if ( ! empty( $content_format_tags ) ) {
+
+            $final_tags = array_merge( $final_tags, $content_format_tags );
+        }
+
+        if ( is_array( $final_tags ) && count( $final_tags ) > 0 ) {
+
+            ob_start();
+            ?>
+            <div class="amp-tag-main">
+                <ul class="amp-tag-list">
+                    <?php
+                    foreach ( $final_tags as $current_tag ) {
+                        ?>
+                        <li><span class="btn"><?php echo esc_html( $current_tag ); ?></span></li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+            <?php
+            $tags_html = ob_get_clean();
+        }        
+    }
+
+    return $tags_html;
+}
+
+/**
  * Custom Customizer options.
  *
  * @param object $wp_customize
@@ -3000,22 +3063,23 @@ function nab_update_company_profile_callback(){
 
     $final_result = array();
 
-    $instagram_profile       = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
-    $linkedin_profile            = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
-    $facebook_profile            = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
-    $twitter_profile             = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
-    $company_about             = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $instagram_profile            = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
+    $linkedin_profile             = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
+    $facebook_profile             = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
+    $twitter_profile              = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
+    $company_about                = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
     $company_industry             = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
-    $company_website             = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
-    $company_point_of_contact             = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
-    $company_id              = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-    $company_location_street_one             = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
-    $company_location_street_two             = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
+    $company_website              = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
+    $company_point_of_contact     = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
+    $company_id                   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_location_street_one  = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
+    $company_location_street_two  = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
     $company_location_street_three             = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
     $company_location_city             = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
     $company_location_state             = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
     $company_location_zipcode             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
     $company_location_country             = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
+    $company_product_categories       = explode(',',filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING));     
     
     // Update instagram profile
     if ($instagram_profile) {
@@ -3069,6 +3133,12 @@ function nab_update_company_profile_callback(){
         update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
     }
 
+
+    // Update product categories
+    if(!empty($company_product_categories)) {
+        update_field('product_categories', $company_product_categories, $company_id);
+    }
+
     $final_result['success'] = false;
     $final_result['content'] = '';
     
@@ -3086,6 +3156,10 @@ function nab_edit_company_about_callback(){
     $company_data['company_location'] = get_field('company_location',$company_id);
     $company_data['company_website'] = get_field('company_website',$company_id);
     $company_data['company_point_of_contact'] = get_field('point_of_contact',$company_id);
+    $company_data['product_categories'] = get_field('product_categories',$company_id);
+    $terms = get_terms('company-product-category', array(
+        'hide_empty' => false,
+    ));
     
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 

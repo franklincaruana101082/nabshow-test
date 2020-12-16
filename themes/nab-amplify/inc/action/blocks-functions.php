@@ -292,6 +292,7 @@ function nab_company_details_render_callback( $attributes ) {
     $point_of_contact   = get_field( 'point_of_contact', $company_id );
     $user_id            = get_current_user_id();
     $admin_id           = get_field( 'company_user_id', $company_id );
+    $company_product_categories = get_field('product_categories', $company_id);
 
     ob_start();
     ?>
@@ -316,11 +317,6 @@ function nab_company_details_render_callback( $attributes ) {
                        <div class="company-contact-inner-box">
                             <ul>
                                 <?php
-                                if ( ! empty( $company_industary ) ) {
-                                    ?>
-                                    <li><span>Industry:</span> <?php echo esc_html( $company_industary ); ?></li>
-                                    <?php
-                                }
                                 if ( ! empty( $company_location ) ) {
                                     ?>
                                     <li><span>Location:</span> 
@@ -344,7 +340,21 @@ function nab_company_details_render_callback( $attributes ) {
                                     <li id="send-private-message"><span>Point of contact:</span> <a class="btn-link" href="" data-comp-id="<?php echo $company_id; ?>"><?php echo esc_html( $point_of_contact ); ?></a></li>
                                     <?php
                                 }
+                                if( ! empty( $company_product_categories ) && $company_product_categories[0] !== 0){
+                                    ?>
+                                    <li><span>Product Categories:</span> 
+                                    <?php
+                                    $i = 1;
+                                    $count_product_categories = count($company_product_categories);
+                                   foreach($company_product_categories as $comp_prod_cat){
+                                       $terms = get_term_by( 'id', $comp_prod_cat, 'company-product-category');
+                                       echo $terms->name;
+                                       echo $count_product_categories != $i ? ' , ' : '';
+                                       $i++;
+                                   } 
+                                }
                                 ?>
+                                </li>
                             </ul>
                         </div>
                     </div>

@@ -10,7 +10,7 @@
 
 $cover_image      = get_field('cover_image');
 //$profile_picture  = get_field('profile_picture');
-$technology       = get_field('technology');
+$industry       = get_field('company_industary');
 $instagram_url    = get_field('instagram_url');
 $linkedin_url     = get_field('linkedin_url');
 $facebook_url     = get_field('facebook_url');
@@ -84,14 +84,17 @@ $company_admin_id = get_field('company_user_id', $company_id);
                         <div class="amp-profile-info">
                             <h2><?php echo esc_html(get_the_title()); ?></h2>
                             <?php
-                            if (!empty($technology)) {
+                            if (!empty($industry)) {
                             ?>
                                 <div class="amp-profile-disc">
-                                    <span><?php echo esc_html($technology); ?></span>
+                                    <span><?php echo esc_html($industry); ?></span>
                                 </div>
                             <?php
                             }
                             ?>
+                           <?php  if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) { ?>
+                       <span style="display:none" class="edit-company-about edit-company-industry edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span>
+                        <?php } ?>
                         </div>
                         <div class="amp-profile-social">
                             <ul>

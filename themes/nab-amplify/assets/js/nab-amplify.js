@@ -379,7 +379,12 @@
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
-    form_data.append('product_categories', product_categories)
+    if( product_categories == null){
+      form_data.append('product_categories', [])
+    }else{
+      form_data.append('product_categories', product_categories)
+    }
+    
     form_data.append('nabNonce', amplifyJS.nabNonce)
     form_data.append('nab_product_copy', nab_product_copy)
     form_data.append('nab_product_specs', nab_product_specs)
@@ -534,8 +539,15 @@
     }
     if (jQuery('#company_location_country').length) {
       fd.append(
-        'company_point_of_contacompany_location_countryct',
+        'company_location_country',
         jQuery('#company_location_country').val()
+      )
+    }
+
+    if (jQuery('#product_categories').length) {
+      fd.append(
+        'company_product_categories',
+        jQuery('#product_categories').val()
       )
     }
 
@@ -611,11 +623,13 @@
     jQuery(this).text('Cancel Edit')
     jQuery('.banner-header').addClass('edit_mode_on')
     jQuery('.edit-bg-pic').show()
+    jQuery('.edit-company-industry').show()
+    
   })
   $(document).on('click', '.cancel-edit-company-mode', function () {
     jQuery('.edit-profile-pic').hide()
     jQuery('.edit-bg-pic').hide()
-
+    jQuery('.edit-company-industry').hide()
     jQuery(this).removeClass('cancel-edit-company-mode')
     jQuery(this).addClass('edit-company-mode ')
     jQuery('.banner-header').removeClass('edit_mode_on')
