@@ -335,13 +335,7 @@
     ).val()
     var nab_product_contact = jQuery(
       '#nab-edit-product-form #nab_product_contact'
-    ).val()
-    var nab_product_external_text = jQuery(
-      '#nab-edit-product-form #nab_product_external_text'
-    ).val()
-    var nab_product_external_link = jQuery(
-      '#nab-edit-product-form #nab_product_external_link'
-    ).val()
+    ).val()    
     var nab_feature_product = jQuery(
       '#nab-edit-product-form #nab_feature_product'
     ).prop('checked')
@@ -388,19 +382,14 @@
     form_data.append('nabNonce', amplifyJS.nabNonce)
     form_data.append('nab_product_copy', nab_product_copy)
     form_data.append('nab_product_specs', nab_product_specs)
-    form_data.append('nab_product_contact', nab_product_contact)
-    form_data.append('nab_product_external_text', nab_product_external_text)
-    form_data.append('nab_product_external_link', nab_product_external_link)
+    form_data.append('nab_product_contact', nab_product_contact)      
     form_data.append('nab_feature_product', nab_feature_product)
     form_data.append('nab_product_b_stock', nab_product_b_stock)
     form_data.append('nab_product_sales_item', nab_product_sales_item)
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append(
-      'product_featured_image',
-      $('#product_featured_image')[0].files[0]
-    )
+
     form_data.append('remove_attachments', remove_attachment_arr)
     form_data.append('nab_company_id', nab_company_id)
 
