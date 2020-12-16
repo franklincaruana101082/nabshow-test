@@ -115,9 +115,9 @@ function nab_get_company_message_button( $company_id, $text = 'Message' ) {
             <?php                
             bp_send_message_button( array(
                     'id'         => 'private_message_' . $company_admin_id[0],
-                    'link_class' => 'button',
+                    'link_class' => 'button add',
                     'link_text'  => $text,
-                    'link_href'  => $private_massage_link
+                    'link_href'  => $private_massage_link,
                 )
             );
             ?>

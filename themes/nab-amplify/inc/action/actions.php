@@ -177,6 +177,10 @@ add_action( 'wp_ajax_nopriv_nab_add_product', 'nab_add_product' );
 add_action( 'init', 'nab_register_amplify_dynamic_blocks' );
 add_action( 'init', 'nab_register_company_category_taxonomy' );
 add_action( 'init', 'nab_register_company_tags_taxonomy' );
+
+// Shortcode for display article tags base on custom article fields
+add_shortcode( 'article_tags', 'nab_article_tags_shortcode_callback' );
+
 // Action to add default blocks on new article
 add_action( 'admin_init', 'nab_set_default_block_in_new_article' );
 add_action( 'init', 'nab_register_company_product_taxonomy' );

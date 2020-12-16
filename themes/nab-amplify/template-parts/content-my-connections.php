@@ -31,6 +31,7 @@ switch ( $connections ) {
 		$members_filter = 'include=' . bp_get_friendship_requests( $user_id );
 		$members_filter = 0 === $friendship_requests ? 0 : 'include=' . bp_get_friendship_requests( $user_id );
 		$active_page    = 'pending';
+		$post_per_page  = 99; // setting it to 99 to avoid ajax load more issue (the issue is we are getting all members, not only the pending ones).
 		break;
 
 	case 'all':
@@ -45,7 +46,7 @@ switch ( $connections ) {
 		$active_page    = 'friends';
 }
 
-$post_per_page = 12;
+$post_per_page = isset( $post_per_page ) ? $post_per_page :  12;
 if ( is_array( $members_filter ) ) {
 	$members_filter['page']     = 1;
 	$members_filter['per_page'] = $post_per_page;
@@ -125,11 +126,11 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
                                             <h4>
                                                 <a href="<?php bp_member_permalink(); ?>"><?php echo esc_html( $user_full_name ); ?></a>
                                             </h4>
-                                            <?php if( ! empty($attendee_title_company) ) { ?>
+											<?php if( ! empty($attendee_title_company) ) { ?>
                                                 <p class="company-name"><?php echo esc_html( $attendee_title_company ); ?></p>
-                                            <?php } if( 'awaiting_response' === $friendship_status ) { ?>
+											<?php } if( 'awaiting_response' === $friendship_status ) { ?>
                                                 <p class="request-message">Message: <?php echo esc_html( $connection_messages ); ?></p>
-                                            <?php } ?>
+											<?php } ?>
                                             <div class="amp-actions">
 												<?php
 												echo nab_amplify_bp_get_friendship_button( $member_id ); ?>

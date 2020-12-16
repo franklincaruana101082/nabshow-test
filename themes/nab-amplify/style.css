@@ -990,10 +990,15 @@ textarea {
 .serendipity-filter-section .filter li:not(:last-child) .btn{margin-right:25px;}
 .serendipity-filter-data{column-count:3;column-gap:35px;}
 .serendipity-filter-data .serendipity-filter-data-col{background-color:#333333;padding:40px;-webkit-column-break-inside:avoid;page-break-inside:avoid;break-inside:avoid;margin-bottom:45px;}
-.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content p{color:#fff;font-size:28px;font-family:'OpenSans-Regular',sans-serif;margin-top: 0;}
-.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content strong{font-family:'Open Sans',Arial,sans-serif;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content p{color:#fff;font-size:28px;font-family:'OpenSans-Regular',sans-serif;margin-top: 0;margin-bottom: 30px;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content strong{font-family:'Open Sans',Arial,sans-serif;font-style: 32px;}
 .serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .yellow-color-text{color:#fdd80f;}
 .serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul{margin:0;padding:0;list-style:none;display:flex;align-items:center;justify-content:space-between;}
-.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon{width:49px;height:49px;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon{width:49px;height:49px;position: relative;}
 .serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon i{font-size:24px;}
 .serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .col-footer ul .add-icon:hover:before{content:attr(data-tooltip);position:absolute;left:-113px;top:-52px;width:225px;color:#fff;text-align:center;line-height:42px;font-size:20px;font-family:'OpenSans-Regular',sans-serif;background-color:#252525;box-shadow:0px 3px 8px 0px rgba(71,71,71,0.22);border:2px solid #404040;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .heading{font-size:32px;font-weight:bold;font-family:'Open Sans',Arial,sans-serif;color:#fdd80f;margin-bottom:10px;line-height:1;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content .sub-heading{font-size:24px;font-weight:bold;font-family:'Open Sans',Arial,sans-serif;padding-bottom:10px;margin-bottom:0;line-height:1;}
+.serendipity-filter-data .serendipity-filter-data-col .serendipity-filter-data-col-content hr{height:2px;}
+.rounded-number-list{margin:0;padding:0;list-style:none;color:#fff;}
+.rounded-number-list li{margin-bottom:20px;}

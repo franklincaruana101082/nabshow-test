@@ -226,9 +226,7 @@ function nab_amplify_edit_product()
 
     $post_data->product_copy               = get_field('product_copy', $post_id);
     $post_data->product_specs              = get_field('product_specs', $post_id);
-    $post_data->product_point_of_contact   = get_field('product_point_of_contact', $post_id);
-    $post_data->product_external_link_text = get_field('product_external_link_text', $post_id);
-    $post_data->product_external_link_link = get_field('product_external_link', $post_id);
+    $post_data->product_point_of_contact   = get_field('product_point_of_contact', $post_id);    
     $post_data->is_feature_product         = get_field('is_feature_product', $post_id);
     $post_data->is_product_b_stock         = get_field('is_product_b-stock', $post_id);
     $post_data->is_product_sales_item      = get_field('is_product_sales_item', $post_id);
@@ -2661,9 +2659,7 @@ function nab_add_product()
     $post_categories       = explode(',',filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
     $product_copy          = strip_tags(filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING));
     $product_specs         = strip_tags(filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING));
-    $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));
-    $product_external_text = strip_tags(filter_input(INPUT_POST, 'nab_product_external_text', FILTER_SANITIZE_STRING));
-    $product_external_link = filter_input(INPUT_POST, 'nab_product_external_link', FILTER_SANITIZE_STRING);
+    $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));        
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
     $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
@@ -2770,12 +2766,6 @@ function nab_add_product()
 
     // Add product contact
     update_field('field_5fb73f16f021d', $product_contact, $post_id);
-
-    // Add product external text
-    update_field('field_5fb73f30f021e', $product_external_text, $post_id);
-
-    // Add product external link
-    update_field('field_5fbbdc02392d2', $product_external_link, $post_id);
 
     // Add product featured
     update_field('field_5fbbdb62392cd', $is_feature_product, $post_id);

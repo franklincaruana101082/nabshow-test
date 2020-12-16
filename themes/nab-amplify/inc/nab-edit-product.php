@@ -8,7 +8,6 @@ global $post;
 				<span class="nab-modal-close">Close</span>
 				<div class="add-product-content-popup">
 					<h2><?php echo isset($post_data->ID) ? "Update" : "Add"; ?> Product</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
 					<div class="form-wrapper">
 						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
 							<div class="form-row">
@@ -103,7 +102,7 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
-									<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true"><span>Enter product information separated by commas. Items will display to users as a bulleted list.</span></i></label>
+									<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter product information separated by commas. Items will display to users as a bulleted list."></i></label>
 									<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
 									<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
 								</div>
@@ -111,22 +110,12 @@ global $post;
 									<div class="form-row">
 										<label for="">Add Point of Contact</label>
 										<input type="text" class="input-text point-of-contact" name="nab_product_contact" id="nab_product_contact" value="<?php echo isset($post_data->product_point_of_contact) ? $post_data->product_point_of_contact : ''; ?>">
-										<div class="nab-action">
-											<div class="nab-action-row">
-												<i class="action-add fa fa-plus"></i>
-											</div>											
-										</div>
 									</div>
 									<div class="form-row mb0">
-										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true"><span>Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs.</span></i></label>
+										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
 										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
 																																				echo implode(',', $post_data->tags);
 																																			} ?>">
-										<div class="nab-action">
-											<div class="nab-action-row">
-												<i class="action-add fa fa-plus"></i>
-											</div>											
-										</div>
 									</div>
 								</div>
 							</div>							
