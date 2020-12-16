@@ -126,9 +126,11 @@ get_header();
 							?>
 								<ul>
 									<?php foreach ($product_specs as $spec) {
-									?>
+                                        if (!empty($spec)) {
+                                            ?>
 										<li><?php echo strip_tags($spec); ?></li>
 									<?php
+                                        }
 									} ?>
 								</ul>
 							<?php
@@ -141,7 +143,6 @@ get_header();
 
 
 				</div>
-			</div>
 			</div>
 			<div class="company-products related-content">
 
