@@ -256,11 +256,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								<div class="amp-item-col">
 									<div class="amp-item-inner">
 										<div class="amp-item-cover">
-										<?php if (!empty($product_medias)) { 
-                                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
-                                }
-                                    $thumbnail_url =  $thumbnail_url ?  $thumbnail_url : nab_placeholder_img();
-                                    ?>
+											<?php $thumbnail_url = '';
+
+											if (!empty($product_medias[0]['product_media_file'])) {
+												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+											} else {
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+											} ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										</div>
@@ -446,11 +448,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
-										<?php if (!empty($product_medias)) { 
-									$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-									} 
-                                    $thumbnail_url =  $thumbnail_url ?  $thumbnail_url : nab_placeholder_img();
-                                    ?>
+											<?php $thumbnail_url = '';
+
+											if (!empty($product_medias[0]['product_media_file'])) {
+												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+											} else {
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+											} ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										</div>
@@ -705,11 +709,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<div class="amp-item-col">
 								<div class="amp-item-inner">
 									<div class="amp-item-cover">
-									<?php if (!empty($product_medias)) { 
-                                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
-                                }
-                                    $thumbnail_url =  $thumbnail_url ?  $thumbnail_url : nab_placeholder_img();
-                                    ?>
+										<?php $thumbnail_url = '';
+
+										if (!empty($product_medias[0]['product_media_file'])) {
+											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+										} else {
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									</div>
@@ -781,7 +787,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$cover_image        = get_field('cover_image');
 							$profile_picture    = get_field('profile_picture');
 							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-							$featured_image   	= get_the_post_thumbnail_url();  
+							$featured_image   	= get_the_post_thumbnail_url();
 							$profile_picture  	= !empty($featured_image) ? $featured_image : $default_company_pic;
 							$company_url		= get_the_permalink();
 						?>
@@ -871,13 +877,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
-									<?php if (!empty($product_medias)) { 
-									$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-									} 
-                                    $thumbnail_url =  $thumbnail_url ?  $thumbnail_url : nab_placeholder_img();
-                                    ?>
+										<?php $thumbnail_url = '';
+
+										if (!empty($product_medias[0]['product_media_file'])) {
+											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+										} else {
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
-									
+
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									</div>
 									<div class="search-item-info">

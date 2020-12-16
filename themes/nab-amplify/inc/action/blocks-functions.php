@@ -447,19 +447,24 @@ function nab_company_produts_render_callback( $attributes ) {
                         
                         $product_link	    = get_the_permalink();
                         $product_category   = get_the_terms( get_the_ID(), 'company-product-category' );
-                        $product_medias = get_field('product_media');
+                        $product_medias = get_field('product_media',get_the_ID());
                  
                         ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
-                                <?php if (!empty($product_medias)) { 
-                                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
-                                }
-                                    $thumbnail_url =  $thumbnail_url ?  $thumbnail_url : nab_placeholder_img();
+                                    <?php
+                                    
+                                    $thumbnail_url = '';
+
+                                    if ( ! empty( $product_medias[0]['product_media_file'] ) ) { 
+                                        $thumbnail_url = $product_medias[0]['product_media_file']['url'];
+                                    } else {
+                                        $thumbnail_url =  ! empty( $thumbnail_url ) ?  $thumbnail_url : nab_placeholder_img();
+                                    }
+                                        
                                     ?>
-                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Product Image">
-                               
+                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Product Image">                               
                                 </div>
                                 <div class="amp-item-info">
                                     <div class="amp-item-content">
