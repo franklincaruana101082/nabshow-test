@@ -40,34 +40,7 @@ global $post;
 									</select>
 								</div>
 							</div>
-							<div class="form-row" style="display:none">
-								<label for="">Add Featured Image</label>
-								<div class="file-input"><input type="file" id="product_featured_image" class="button" name="product_featured_image">
-
-								</div>
-								<div class="nab-action left-action">
-									<div class="nab-action-row">
-										<i class="action-add fa fa-plus"></i>
-									</div>
-								</div>								
-							</div>
-							<div class="form-row preview_product_featured_image" id="product_featured_image_wrapper" style="<?php if ($post_data->product_thumbnail == '') {
-																							echo 'display:none';
-																						} ?>">
-
-								
-									<?php if ($post_data->product_thumbnail_id !== '0') {
-									?>
-									<div class="nab-product-media-item">
-									<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $post_data->product_thumbnail_id;?>"><i class="fa fa-times" aria-hidden="true"></i></button>
-										<img id="product_featured_preview" src="<?php echo $post_data->product_thumbnail; ?>" />
-										</div>
-									<?php
-									} ?>
-								
-
-
-							</div>
+							
 							<div class="form-row">
 								<label for="">Media <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
