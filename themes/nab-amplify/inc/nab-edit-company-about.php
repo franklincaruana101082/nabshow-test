@@ -16,7 +16,7 @@
 							</div>
 							<div class="company-info-row">
 								<div class="form-row">
-									<label for="">Industry</label>
+									<label for="">Company Tagline</label>
 									<input type="text" class="input-text add-product" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
 								</div>
 								<div class="form-row">
