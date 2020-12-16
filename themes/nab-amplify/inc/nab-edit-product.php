@@ -23,10 +23,7 @@ global $post;
 																														} ?>>
 											<span class="checkmark-switch"></span>
 										</label>
-									</div>
-									<div class="nab-action-row">
-										<i class="action-edit fa fa-pencil"></i>
-									</div>
+									</div>									
 								</div>
 							</div>
 							<div class="form-row">
@@ -43,7 +40,7 @@ global $post;
 									</select>
 								</div>
 							</div>
-							<div class="form-row">
+							<div class="form-row" style="display:none">
 								<label for="">Add Featured Image</label>
 								<div class="file-input"><input type="file" id="product_featured_image" class="button" name="product_featured_image">
 
@@ -52,14 +49,7 @@ global $post;
 									<div class="nab-action-row">
 										<i class="action-add fa fa-plus"></i>
 									</div>
-								</div>
-								<div class="nab-action right-action">
-
-									<div class="nab-action-row">
-										<i class="action-edit fa fa-pencil"></i>
-									</div>
-								</div>
-
+								</div>								
 							</div>
 							<div class="form-row preview_product_featured_image" id="product_featured_image_wrapper" style="<?php if ($post_data->product_thumbnail == '') {
 																							echo 'display:none';
@@ -107,10 +97,7 @@ global $post;
 																																	} ?>>
 												<span class="checkmark-switch"></span>
 											</label>
-										</div>
-										<div class="nab-action-row">
-											<i class="action-edit fa fa-pencil"></i>
-										</div>
+										</div>										
 									</div>
 								</div>
 
@@ -143,7 +130,7 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
-									<label for="">Product Specs <span>Enter specs seperated by ','</span></label>
+									<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true"><span>Enter product information separated by commas. Items will display to users as a bulleted list.</span></i></label>
 									<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
 									<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
 								</div>
@@ -154,53 +141,22 @@ global $post;
 										<div class="nab-action">
 											<div class="nab-action-row">
 												<i class="action-add fa fa-plus"></i>
-											</div>
-											<div class="nab-action-row">
-												<i class="action-edit fa fa-pencil"></i>
-											</div>
+											</div>											
 										</div>
 									</div>
 									<div class="form-row mb0">
-										<label for="">Add Tag(s)</label>
+										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true"><span>Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs.</span></i></label>
 										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
 																																				echo implode(',', $post_data->tags);
 																																			} ?>">
 										<div class="nab-action">
 											<div class="nab-action-row">
 												<i class="action-add fa fa-plus"></i>
-											</div>
-											<div class="nab-action-row">
-												<i class="action-edit fa fa-pencil"></i>
-											</div>
+											</div>											
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-col-6">
-									<div class="form-row mb0">
-										<label for="">Add External Link</label>
-										<input type="text" class="input-text external-link" name="nab_product_external_link" id="nab_product_external_link" class="input-text external-link" value="<?php echo isset($post_data->product_external_link) ? $post_data->product_external_link : ''; ?>">
-										<div class="nab-action">
-											<div class="nab-action-row">
-												<i class="action-edit fa fa-pencil"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="form-col-6 ">
-									<div class="form-row mb0">
-										<label for="">Add External Text</label>
-										<input type="text" name="nab_product_external_text" id="nab_product_external_text" class="input-text external-link" value="<?php echo isset($post_data->product_external_link_text) ? $post_data->product_external_link_text : ''; ?>">
-										<div class="nab-action">
-											<div class="nab-action-row">
-												<i class="action-edit fa fa-pencil"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
+							</div>							
 							<div class="form-row toggle-button">
 								<div class="nab-action">
 									<div class="nab-action-row">
@@ -223,7 +179,7 @@ global $post;
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $post_data->company_id; ?>" />
 							</div>
 						</form>
-						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="nab-code-of-conduct" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>
