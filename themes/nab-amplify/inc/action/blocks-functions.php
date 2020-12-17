@@ -337,7 +337,7 @@ function nab_company_details_render_callback( $attributes ) {
                                 }
                                 if ( ! empty( $point_of_contact ) ) {
                                     ?>
-                                    <li id="send-private-message"><span>Point of contact:</span> <a class="btn-link" href="" data-comp-id="<?php echo $company_id; ?>"><?php echo esc_html( $point_of_contact ); ?></a></li>
+                                    <li><span>Point of contact:</span> <a class="btn-link" href="<?php echo bp_core_get_user_domain($admin_id[0]); ?>" data-comp-id="<?php echo $company_id; ?>"><?php echo esc_html( $point_of_contact ); ?></a></li>
                                     <?php
                                 }
                                 if( ! empty( $company_product_categories ) && $company_product_categories[0] !== 0){
