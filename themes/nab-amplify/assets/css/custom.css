@@ -1429,7 +1429,7 @@ body .is_friend .remove:before{font-size:22px;}
 .author-info .author-title{margin:0 0 5px;font-size:24px;line-height:normal;color:#fff;font-weight:700;}
 .author-info .author-title a{color:#fff;}
 .author-info .author-title a:hover{text-decoration:underline;}
-.author-info .author-subtitle{font-size:16px;color:#999;font-weight:700;}
+.author-info .author-subtitle{font-size:20px;color:#999;font-weight:700;}
 .author-info .author-label{color:#999;font-family:'Open Sans',Arial,sans-serif;font-size:16px;margin-bottom:5px;display:block;}
 .author-info .author-label a{color:#999;}
 .author-info .author-label a:hover{text-decoration:underline;}
