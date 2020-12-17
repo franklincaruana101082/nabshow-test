@@ -44,7 +44,7 @@
 
 	if ( is_array( $product_ids ) && count( $product_ids ) > 0 ) {
 
-		$default_image = get_template_directory_uri() . '/assets/images/avtar.jpg';
+		$default_image = get_template_directory_uri() . '/assets/images/amplify-featured.png';
 
 		$product_ids_regex  = '"' . implode('"|"', $product_ids ) . '"';
 

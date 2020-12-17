@@ -536,7 +536,7 @@ function nab_update_cocart_item( $cart_item_key, $quantity ) {
  */
 function nab_placeholder_img() {
 
-	return get_template_directory_uri() . '/assets/images/avtar.jpg';
+	return get_template_directory_uri() . '/assets/images/amplify-featured.png';
 }
 
 /**

@@ -1174,7 +1174,7 @@ function nab_company_search_filter_callback()
 		$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
 		$user_logged_in			= is_user_logged_in();
 		$current_user_id		= $user_logged_in ? get_current_user_id() : '';
-		$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+		$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 
 		while ($company_query->have_posts()) {
 
