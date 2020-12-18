@@ -99,10 +99,6 @@
 	/* New Amplify CSS */
 	/* my account */
 	.amp-profile-main{margin-right:10%;max-width:670px;}
-
-	/* preview slider */
-	.nab-preview-slider-inner .nab-preview-main{min-height:500px;}
-	.nab-preview-slider-inner .nab-preview-main img{max-height:500px;}
 }
 
 @media (max-width:1024px){
@@ -132,17 +128,10 @@
 	.banner-header .edit-profile-pic i,
 	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px;}
 	.amp-profile-main .amp-profile-inner{min-height:500px;}
-	.banner-header .profile-avtar img{width:180px;height:180px;}
-	.amp-profile-main .amp-profile-info span{font-size:20px;}
+	.banner-header .profile-avtar img{width:160px;height:160px;}
 
 	/* single company product */
 	.black-bg-box .btn-link{font-size:18px;}
-	.black-bg-box ul li{font-size:18px;}
-
-	/* preview slider */
-	.nab-preview-slider-inner .nab-preview-main{min-height:400px;}
-	.nab-preview-slider-inner .nab-preview-main img{max-height:400px;}
-	.nab-preview-items-main .nab-preview-item img{max-height:150px;}
 }
 @media (max-width:991px){
 	.site-footer:before{display:none}
@@ -200,7 +189,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.right-action{margin-top:10px;margin-right:0;}
 	#addProductModal.nab-modal.theme-dark .form-col-6:nth-child(odd){padding-right:0;margin-bottom:35px;}
 	#addProductModal.nab-modal.theme-dark .form-col-6:nth-child(even){padding-left:0;}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:first-child{margin-bottom:35px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:35px;}
 	#addProductModal.nab-modal .modal-content-wrap{padding:20px;}
 	#addProductModal.nab-modal .nab-modal-close:not(.fa){position:static;transform:translateX(0);width:auto;height:auto;margin-bottom:10px;}
 
@@ -222,6 +211,7 @@
 	.site-header .nab-logos{width:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-bottom:20px}
 	.site-header .main-navigation{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:100%}
 	.header-bottom .header-bottom-inner{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.nab-without-login-account .woocommerce h2{font-size:28px;}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:100%}
 	.nab-without-login-account .woocommerce .nab-login-wrap{-ms-flex-wrap:wrap;flex-wrap:wrap}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:100%;margin-bottom:20px;text-align:center}
@@ -249,9 +239,13 @@
 	.single-product div.product .product-middle-section.with_long_desc #prod-publisher,
 	.single-product div.product .product-middle-section.with_long_desc h4{font-size:20px}
 	.single-product div.product .summary .cart button{width:130px!important;height:49px!important;margin-right:7px!important;font-size:12px!important}
-	h2{font-size:28px}
-	h3{font-size:21px}
-	h4{font-size:17px}
+	h1{font-size:30px}
+	h2,
+	.related-title{font-size:26px}
+	h3{font-size:22px}
+	h4{font-size:18px}
+	h5,
+	.article-byline{font-size:16px}
 	.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li{width:60px!important}
 	.nab-profile .flex-column{width:50%}
 
@@ -287,6 +281,7 @@
 	/* my account */
 	.member-bio-wrp .member-bio-col{width:50%;}
 	.member-bio-wrp .member-bio-data p{font-size:18px;}
+	.amp-profile-main .amp-profile-info h2{font-size:28px;}
 	.amp-item-main .amp-item-heading{-ms-flex-wrap:wrap;flex-wrap:wrap;}
 	.amp-item-main .amp-item-heading .amp-view-more{width:100%;text-align:right;}
 	.amp-item-wrap .amp-item-col{width:50%;}
@@ -306,7 +301,6 @@
 	.banner-header #edit-mode-buttons a,
 	.banner-header .profile-avtar .amp-member-level a{font-size:14px;}
 	.banner-header .profile-avtar .amp-member-level a{padding:8px 15px 7px;}
-	.amp-profile-main .amp-profile-info span{font-size:18px;}
 	.amp-profile-main .amp-profile-message a{min-width:150px;}
 	.amp-member-security{padding-left:10px;}
 	.amp-member-security .amp-security-row{width:100%;}
@@ -344,8 +338,8 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child,
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{margin-top:22px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:16px;}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper label{font-size:18px;}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper label span{margin-left:5px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row > label{font-size:18px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row > label span{margin-left:5px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:18px;width:150px;height:50px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
@@ -353,6 +347,7 @@
 	.select-dark-simple.select-multiple:after{font-size:22px;}
 	.nab-modal .fa-info-circle{vertical-align:middle;}
 	.nab-modal .fa-info-circle[data-bp-tooltip]:after{transform:translateX(-30%);}
+	.nab-modal.theme-dark .toggle-wrap .toggle-label{font-size:18px;}
 
 	/* single company product */
 	.black-bg-box{padding:30px;}
@@ -366,7 +361,6 @@
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:300px;}
 	.nab-preview-slider-inner .nab-preview-main img{max-height:300px;}
-	.nab-preview-items-main .nab-preview-item img{max-height:100px;}
 
 	/*events page*/
 	.tribe-events-page-template .nab-ad-block{margin:25px 0;}
@@ -460,7 +454,6 @@
 	/* preview slider */
 	.nab-preview-slider-inner .nab-preview-main{min-height:200px;}
 	.nab-preview-slider-inner .nab-preview-main img{max-height:200px;}
-	.nab-preview-items-main .nab-preview-item img{max-height:70px;}
 
 	/* single company product */
 	.single-product-main{padding:0 15px;}
