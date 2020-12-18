@@ -41,7 +41,7 @@ global $post;
 							</div>
 							
 							<div class="form-row">
-								<label for="">Media <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
+								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Product Image (1200x630)"></i> <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
 									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
@@ -102,16 +102,18 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
-									<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter product information separated by commas. Items will display to users as a bulleted list."></i></label>
-									<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
-									<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
+									<div class="form-row">
+										<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter product information separated by commas. Items will display to users as a bulleted list."></i></label>
+										<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
+										<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
+									</div>
 								</div>
 								<div class="form-col-6">
 									<div class="form-row">
 										<label for="">Add Point of Contact</label>
 										<input type="text" class="input-text point-of-contact" name="nab_product_contact" id="nab_product_contact" value="<?php echo isset($post_data->product_point_of_contact) ? $post_data->product_point_of_contact : ''; ?>">
 									</div>
-									<div class="form-row mb0">
+									<div class="form-row">
 										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
 										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
 																																				echo implode(',', $post_data->tags);
@@ -119,20 +121,18 @@ global $post;
 									</div>
 								</div>
 							</div>							
-							<div class="form-row toggle-button">
-								<div class="nab-action">
-									<div class="nab-action-row">
-										<div class="toggle-wrap">
-											<span class="toggle-label">Discussion</span>
-											<label class="nab-toggle-btn">
-												<input type="checkbox" <?php if ($post_data->comment_status === 'open') {
-																			echo 'checked="checked"';
-																		} ?> name="nab_product_discussion" id="nab_product_discussion">
-												<div class="toggle-switch"></div>
-											</label>
-											<span class="toggle-status">On</span>
-										</div>
-									</div>
+							<div class="form-row">
+								<div class="toggle-wrap">
+									<span class="toggle-label">Discussion <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="https://nabshow-beta.go-vip.net/amplify/terms-of-use/">terms of use</a> and <a href="https://nabshow-qa.go-vip.net/amplify/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
+									</i></span>
+									<label class="nab-toggle-btn">
+										<input type="checkbox" <?php if ($post_data->comment_status === 'open') {
+																	echo 'checked="checked"';
+																} ?> name="nab_product_discussion" id="nab_product_discussion">
+										<div class="toggle-switch"></div>
+									</label>
+									<span class="toggle-status">On</span>
 								</div>
 							</div>
 							<div class="form-row">

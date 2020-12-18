@@ -345,7 +345,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$cover_image        = get_field('cover_image');
 								$profile_picture    = get_field('profile_picture');
 								$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-								$profile_picture    = !empty($profile_picture) ? $profile_picture['url'] : $default_company_pic;
+								$featured_image  	= get_the_post_thumbnail_url();
+								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
 							?>
 								<div class="search-item">
@@ -356,7 +357,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="search-item-info">
 											<div class="search-item-avtar">
 												<a href="<?php echo esc_url($company_url); ?>">
-													<img src="<?php echo esc_url($profile_picture); ?>">
+													<?php if ($profile_picture) { ?>
+					                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+					                                <?php } else { ?>
+					                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
+					                                <?php } ?>
 												</a>
 											</div>
 											<div class="search-item-content">
@@ -788,7 +793,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$profile_picture    = get_field('profile_picture');
 							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
 							$featured_image   	= get_the_post_thumbnail_url();
-							$profile_picture  	= !empty($featured_image) ? $featured_image : $default_company_pic;
+							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
 						?>
 							<div class="search-item">
@@ -799,7 +804,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<div class="search-item-info">
 										<div class="search-item-avtar">
 											<a href="<?php echo esc_url($company_url); ?>">
-												<img src="<?php echo esc_url($profile_picture); ?>">
+												<?php if ($profile_picture) { ?>
+				                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+				                                <?php } else { ?>
+				                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
+				                                <?php } ?>
 											</a>
 										</div>
 										<div class="search-item-content">
@@ -912,11 +921,26 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			$content_args = array(
 				'post_type' 		=> $all_post_types,
 				'posts_per_page' 	=> 4,
-				's'					=> $search_term
+				'post_status'		=> 'publish',
+				's'					=> $search_term,
+				'_meta_search'		=> true,
+				'meta_query'		=> array(					
+					'relation'	=> 'OR',
+					array(
+						'key' 		=> 'article_type',
+						'value'		=> $search_term,
+						'compare'	=> 'LIKE'
+					),
+					array(
+						'key' 		=> 'community',
+						'value'		=> '"' . $search_term . '"',
+						'compare'	=> 'LIKE'
+					)
+				)
 			);
 
-			$content_query = new WP_Query($content_args);
-
+			$content_query = new WP_Query($content_args);			
+			
 			if ($content_query->have_posts()) {
 
 				$search_found	= true;
