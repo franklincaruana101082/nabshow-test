@@ -346,7 +346,7 @@ function nab_company_details_render_callback($attributes)
                                                 foreach ($company_product_categories as $comp_prod_cat) {
                                                     $terms = get_term_by('id', $comp_prod_cat, 'company-product-category');
                                                 ?>
-                                                    <li><a href="<?php echo get_search_link() . '/?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a></li>
+                                                    <li><a href="<?php echo get_search_link() . '?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a></li>
                                             <?php
 
                                                 }
