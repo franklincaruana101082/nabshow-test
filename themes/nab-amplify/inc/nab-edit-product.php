@@ -41,7 +41,7 @@ global $post;
 							</div>
 							
 							<div class="form-row">
-								<label for="">Media <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
+								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Product Image (1200x630)"></i> <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
 									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
@@ -123,7 +123,9 @@ global $post;
 							</div>							
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Discussion <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our terms of use (https://nabshow-beta.go-vip.net/amplify/terms-of-use/) and code of conduct (https://nabshow-qa.go-vip.net/amplify/nab-virtual-events-code-of-conduct/) for additional information regarding content on this site."></i></span>
+									<span class="toggle-label">Discussion <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="https://nabshow-beta.go-vip.net/amplify/terms-of-use/">terms of use</a> and <a href="https://nabshow-qa.go-vip.net/amplify/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
+									</i></span>
 									<label class="nab-toggle-btn">
 										<input type="checkbox" <?php if ($post_data->comment_status === 'open') {
 																	echo 'checked="checked"';
