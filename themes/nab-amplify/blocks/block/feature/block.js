@@ -99,11 +99,15 @@
             },
             featureJoinBtn: {
                 type: 'string',
-                default: '<a href="#" class="btn">Join Discussion</a>'
+                default: 'Button'
             },
             featureJoinToggle: {
                 type: 'Boolean',
                 default: false
+            },
+            featureJoinBtnLink: {
+                type: 'string',
+                default: '#'
             }
         },
         edit: ({attributes, setAttributes}) => {
@@ -127,7 +131,8 @@
                 shortcode,
                 featureLikeToggle,
                 featureJoinBtn,
-                featureJoinToggle
+                featureJoinToggle,
+                featureJoinBtnLink
             } = attributes;
 
             const backroundStyle = {};
@@ -299,6 +304,24 @@
                                 }}
                             />
                             <TextControl
+                                value={featureJoinBtn}
+                                type="text"
+                                label="Button Label"
+                                placeholder=""
+                                onChange={(featureJoinBtn)=>{
+                                    setAttributes({featureJoinBtn});
+                                }}
+                            />
+                            <TextControl
+                                value={featureJoinBtnLink}
+                                type="url"
+                                label="Button Link"
+                                placeholder="https://google.com/"
+                                onChange={(featureJoinBtnLink)=>{
+                                    setAttributes({featureJoinBtnLink});
+                                }}
+                            />
+                            <TextControl
                                 value={featureIconLink}
                                 type="url"
                                 label="Play Button Link"
@@ -417,15 +440,9 @@
                                 />
                             )}
                             {!featureJoinToggle && (
-                                <RichText
-                                    tagName="div"
-                                    className="button-wrap btn-link"
-                                    value={featureJoinBtn}
-                                    onChange={(featureJoinBtn)=>{
-                                        setAttributes({featureJoinBtn});
-                                    }}
-                                />
+                            <a href={featureJoinBtnLink} className="btn btn-link">{featureJoinBtn}</a>
                             )}
+                            <span className="edit-feature-block"><i className="fa fa-pencil"></i>Edit</span>
                         </div>
                     </div>
                 </div>
@@ -452,7 +469,8 @@
                 shortcode,
                 featureLikeToggle,
                 featureJoinBtn,
-                featureJoinToggle
+                featureJoinToggle,
+                featureJoinBtnLink,
             } = attributes;
 
             const backroundStyle = {};
@@ -524,12 +542,9 @@
                                 />
                             )}
                             {!featureJoinToggle && (
-                                <RichText.Content
-                                    tagName="div"
-                                    className="button-wrap btn-link"
-                                    value={featureJoinBtn}
-                                />
+                                <a href={featureJoinBtnLink} className="btn btn-link">{featureJoinBtn}</a>
                             )}
+                            <span className="edit-feature-block"><i className="fa fa-pencil edit-feature-block"></i>Edit</span>
                         </div>
                     </div>
                 </div>

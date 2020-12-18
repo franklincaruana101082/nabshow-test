@@ -189,6 +189,7 @@
         .fadeIn(200)
     })
     jQuery('#product_categories').select2()
+    jQuery('#company_point_of_contact').select2()
 
     jQuery(document).on('keyup', '#nab_product_specs', function (e) {
       var len = jQuery(this).val().length
@@ -248,6 +249,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -258,6 +260,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         }
       }
     })
@@ -447,6 +450,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -457,6 +461,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         }
       }
     })
@@ -584,6 +589,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -594,6 +600,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         }
 
         setTimeout(() => {
@@ -2548,6 +2555,79 @@
       })
     }
   })
+
+  $(document).on('click', '.edit-feature-block', function (e) {
+    e.preventDefault()
+    
+    var company_id = amplifyJS.postID
+    
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'nab_edit_feature_block_popup',
+        company_id: company_id
+      },
+      success: function (data) {
+        if ($('#addProductModal').length > 0) {
+          $('#addProductModal').remove()
+          $('body').append(data)
+          $('#addProductModal').show()
+          $('body').addClass('feature-block-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+        } else {
+          $('body').append(data)
+          $('#addProductModal').show()
+          $('body').addClass('feature-block-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '#nab-edit-featured-block-submit', function (e) {
+    e.preventDefault()
+    
+    var form_data = new FormData()
+    var nab_featured_block_headline = $('#nab_featured_block_headline').val()
+    var nab_featured_block_posted_by = $('#nab_featured_block_posted_by').val()
+    var nab_featured_block_description = $('#nab_featured_block_description').val()
+    var nab_featured_block_button_label = $('#nab_featured_block_button_label').val()
+    var nab_featured_block_button_link = $('#nab_featured_block_button_link').val()
+    
+    form_data.append('action', 'nab_edit_feature_block')
+    form_data.append('company_id', amplifyJS.postID)
+    form_data.append('nab_featured_block_headline', nab_featured_block_headline)
+    form_data.append('nab_featured_block_posted_by', nab_featured_block_posted_by)
+    form_data.append('nab_featured_block_description', nab_featured_block_description)
+    form_data.append('nab_featured_block_button_label', nab_featured_block_button_label)
+    form_data.append('nab_featured_block_button_link', nab_featured_block_button_link)
+
+    if(jQuery('#product_featured_image')[0].files.length > 0){
+    $.each($('#product_featured_image')[0].files, function (key, file) {
+      form_data.append(key, file)
+    })
+  }
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      data:form_data,
+      beforeSend:function(){
+        $('body').addClass('is-loading');
+      },
+      success: function (data) {
+if(data.data.type == 'success'){
+  location.reload()
+}
+      }
+    })
+  })
+
 })(jQuery)
 
 // Get friend button

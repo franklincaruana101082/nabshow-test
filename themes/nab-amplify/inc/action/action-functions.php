@@ -196,7 +196,7 @@ function nab_amplify_upload_images()
             if (!is_wp_error($attachment_id)) {
                 // update in meta
                 if( $file_key === 'company_profile_picture' ){
-                    update_field('field_5fb60cb5ce130', $attachment_id, $company_id);
+                    set_post_thumbnail( $company_id, $attachment_id );
                 }else if( $file_key === 'company_banner_image' ){
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
                 }else{
@@ -2873,24 +2873,71 @@ function nab_article_tags_shortcode_callback( $atts ) {
 
     if ( ! empty( $article_id ) ) {
 
+        $article_type_tag       = get_field( 'article_type', $article_id );
         $community_tags         = get_field( 'community', $article_id );
         $personas_tags          = get_field( 'personas', $article_id );
         $content_format_tags    = get_field( 'content_format', $article_id );
+        $content_scope_tag      = get_field( 'content_scope', $article_id );
+        $content_subject_tags   = get_field( 'content_subject', $article_id );
+        $acquisition_sub_tags   = get_field( 'acquisition_sub', $article_id );
+        $distribution_sub_tags  = get_field( 'distribution_sub', $article_id );
+        $management_sub_tags    = get_field( 'management_sub', $article_id );
+        $radio_sub_tags         = get_field( 'radio_sub', $article_id );
+        $display_sub_tags       = get_field( 'display_sub', $article_id );
+        $industry_sub_tags      = get_field( 'industry_sub', $article_id );
+        $content_sub_tags       = get_field( 'content_sub', $article_id );
         $final_tags             = array();
 
-        if ( ! empty( $community_tags ) ) {
+        if ( ! empty( $article_type_tag ) ) {
+            $final_tags[] = $article_type_tag;
+        }
 
+        if ( ! empty( $community_tags ) ) {
             $final_tags = array_merge( $final_tags, $community_tags );
         }
 
         if ( ! empty( $personas_tags ) ) {
-
             $final_tags = array_merge( $final_tags, $personas_tags );
         }
 
-        if ( ! empty( $content_format_tags ) ) {
+        if ( ! empty( $content_scope_tag ) ) {
+            $final_tags[] = $content_scope_tag;
+        }
 
+        if ( ! empty( $content_format_tags ) ) {
             $final_tags = array_merge( $final_tags, $content_format_tags );
+        }
+
+        if ( ! empty( $content_subject_tags ) ) {
+            $final_tags = array_merge( $final_tags, $content_subject_tags );
+        }
+
+        if ( ! empty( $acquisition_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $acquisition_sub_tags );
+        }
+
+        if ( ! empty( $distribution_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $distribution_sub_tags );
+        }
+
+        if ( ! empty( $management_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $management_sub_tags );
+        }
+
+        if ( ! empty( $radio_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $radio_sub_tags );
+        }
+
+        if ( ! empty( $display_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $display_sub_tags );
+        }
+
+        if ( ! empty( $industry_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $industry_sub_tags );
+        }
+
+        if ( ! empty( $content_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $content_sub_tags );
         }
 
         if ( is_array( $final_tags ) && count( $final_tags ) > 0 ) {
@@ -2900,9 +2947,14 @@ function nab_article_tags_shortcode_callback( $atts ) {
             <div class="amp-tag-main">
                 <ul class="amp-tag-list">
                     <?php
+                    
+                    $home_url = trim( get_site_url(), '/' ) . '/';
+
                     foreach ( $final_tags as $current_tag ) {
+                        
+                        $tag_search_url = add_query_arg( array( 's' => $current_tag ), $home_url );
                         ?>
-                        <li><span class="btn"><?php echo esc_html( $current_tag ); ?></span></li>
+                        <li><a href="<?php echo esc_url( $tag_search_url ); ?>" class="btn"><?php echo esc_html( $current_tag ); ?></a></li>
                         <?php
                     }
                     ?>
@@ -3150,7 +3202,8 @@ function nab_edit_company_about_callback(){
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
-    
+    $users = get_users( );
+
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
     $final_result['success'] = true;

@@ -1471,19 +1471,23 @@ function nab_content_search_filter_callback()
 		's'					=> $search_term,
 	);
 
+	if ( ! empty( $search_term ) ) {				
+		$content_args[ '_meta_search' ] = true;
+	}
+
 	if ('relevance' === $orderby) {
 
-		$content_args['custom_order'] = 'relevance';
+		$content_args[ 'custom_order' ] = 'relevance';
 	} else {
 
-		$content_args['orderby'] 	= $orderby;
-		$content_args['order']	= $order;
+		$content_args[ 'orderby' ] 	= $orderby;
+		$content_args[ 'order' ]		= $order;
 	}
 
 	$content_query = new WP_Query($content_args);
 
 	$total_pages 	= $content_query->max_num_pages;
-	$total_content = $content_query->found_posts;
+	$total_content	= $content_query->found_posts;
 
 	if ($content_query->have_posts()) {
 
@@ -1845,11 +1849,11 @@ function nab_bp_message_request_popup()
 
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 
-	$company_admin_id = get_field('company_user_id', $company_id);
+	$point_of_contact   = get_field( 'point_of_contact', $company_id );
 
-	$user_images = nab_amplify_get_user_images($company_admin_id[0]);
+	$user_images = nab_amplify_get_user_images($point_of_contact);
 
-	if (!empty($company_admin_id)) {
+	if (!empty($point_of_contact)) {
 
 		require_once get_template_directory() . '/inc/nab-message-popup.php';
 	}
@@ -1924,3 +1928,160 @@ function nab_bp_send_message()
 		wp_send_json_error($response);
 	}
 }
+
+// Ajax to show connection request popup.
+add_action("wp_ajax_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
+add_action("wp_ajax_nopriv_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
+
+function nab_edit_feature_block_popup()
+{
+	$final_result = array();
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$content_post = get_post($company_id);
+	$content = $content_post->post_content;
+	$block_data = array();
+	$block_data['company_id'] = $company_id;
+	$blocks = parse_blocks($content);
+    foreach ($blocks as $block) {
+		
+        if ('rg/feature' === $block['blockName']) {
+			
+			$block_data['bg_image'] = $block['attrs']['backgroundImage'];
+			$block_data['headline'] = $block['attrs']['featureStatusTitle'] ? $block['attrs']['featureStatusTitle'] : 'Title' ;
+			$block_data['author'] = $block['attrs']['featureAuthor'] ? $block['attrs']['featureAuthor'] : 'Posted by author';
+			$block_data['description'] = $block['attrs']['featureDisc'] ? $block['attrs']['featureDisc'] : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt';
+			$block_data['button_label'] = $block['attrs']['featureJoinBtn'] ?  $block['attrs']['featureJoinBtn'] : 'Button' ;
+			$block_data['button_link'] = $block['attrs']['featureJoinBtnLink'] ? $block['attrs']['featureJoinBtnLink'] : '#';
+         }
+    }
+
+	require_once get_template_directory() . '/inc/nab-edit-feature-block.php';
+
+
+	wp_die();
+}
+
+
+add_action("wp_ajax_nab_edit_feature_block", "nab_edit_feature_block");
+add_action("wp_ajax_nopriv_nab_edit_feature_block", "nab_edit_feature_block");
+
+function nab_edit_feature_block()
+{
+	$final_result = array();
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$nab_featured_block_headline       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_headline', FILTER_SANITIZE_STRING));
+	$nab_featured_block_posted_by       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
+	$nab_featured_block_description       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
+	$nab_featured_block_button_label       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_label', FILTER_SANITIZE_STRING));
+	$nab_featured_block_button_link      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_link', FILTER_SANITIZE_STRING));
+
+	$content_post = get_post($company_id);
+	$content = $content_post->post_content;
+	$blocks = parse_blocks($content);
+
+	foreach ($blocks as $block) {
+		if ('rg/feature' === $block['blockName']) {
+
+			
+			$block['attrs']['featureStatusTitle'] = $block['attrs']['featureStatusTitle'] ? $block['attrs']['featureStatusTitle'] : 'Title' ;
+			$block['attrs']['featureAuthor'] = $block['attrs']['featureAuthor'] ? $block['attrs']['featureAuthor'] : 'Posted by author';
+			$block['attrs']['featureDisc'] = $block['attrs']['featureDisc'] ? $block['attrs']['featureDisc'] : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt';
+			$block['attrs']['featureJoinBtn'] = $block['attrs']['featureJoinBtn'] ?  $block['attrs']['featureJoinBtn'] : 'Button' ;
+			$block['attrs']['featureJoinBtnLink'] = $block['attrs']['featureJoinBtnLink'] ? $block['attrs']['featureJoinBtnLink'] : '#';
+			
+			$dependencies_loaded = 0;
+			foreach ($_FILES as $file_key => $file_details) {
+
+				if (0 === $dependencies_loaded) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = 1;
+				}
+		
+				// Let WordPress handle the upload.
+				 $attachment_id = media_handle_upload($file_key, 0);
+		
+				if (!is_wp_error($attachment_id)) {
+					// update in meta
+					
+					 $bg_image_url = wp_get_attachment_url( $attachment_id );
+					 $block['innerContent'][0] = str_replace($block['attrs']['backgroundImage'],$bg_image_url, $block['innerContent'][0]);
+					$block['innerHTML'] = str_replace($block['attrs']['backgroundImage'],$bg_image_url, $block['innerHTML']);
+					$block['attrs']['backgroundImage'] = $bg_image_url;
+					
+		
+				}
+			}
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureStatusTitle'], $nab_featured_block_headline, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureStatusTitle'], $nab_featured_block_headline, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureAuthor'], $nab_featured_block_posted_by, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureAuthor'], $nab_featured_block_posted_by, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureDisc'], $nab_featured_block_description, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureDisc'], $nab_featured_block_description, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureJoinBtn'], $nab_featured_block_button_label, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureJoinBtn'], $nab_featured_block_button_label, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureJoinBtnLink'], $nab_featured_block_button_link, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureJoinBtnLink'], $nab_featured_block_button_link, $block['innerHTML']);
+
+			$block['attrs']['featureAuthor'] = 	$nab_featured_block_posted_by;
+
+			$block['attrs']['featureDisc'] = $nab_featured_block_description;
+
+			$block['attrs']['featureStatusTitle'] = $nab_featured_block_headline;
+
+			$block['attrs']['featureJoinBtn'] = $nab_featured_block_button_label;
+			$block['attrs']['featureJoinBtnLink'] = $nab_featured_block_button_link;
+
+			$rebuild_block = str_replace('<!-- wp:rg/feature ','',serialize_block($block));
+			$rebuild_block = str_replace('<!-- /wp:rg/feature -->','',$rebuild_block);
+			
+			
+
+			
+
+			$new_content = replace_between($content, '<!-- wp:rg/feature ', '<!-- /wp:rg/feature -->', $rebuild_block);
+
+			$company_post_data = array(
+				'ID'           => $company_id,
+				'post_content' => $new_content,
+			);
+
+			$company_post = wp_update_post($company_post_data, true);
+			if (is_wp_error($company_post)) {
+				$errors = $company_post->get_error_messages();
+				foreach ($errors as $error) {
+					$response['feedback'] = $error;
+					wp_send_json_error($response);
+				}
+			} else {
+				wp_send_json_success(array(
+					'feedback' => __('Featured Block Updated!', 'buddypress'),
+					'type'     => 'success',
+				));
+			}
+		}
+	}
+
+
+
+
+	wp_die();
+}
+
+function replace_between($str, $needle_start, $needle_end, $replacement) {
+    $pos = strpos($str, $needle_start);
+    $start = $pos === false ? 0 : $pos + strlen($needle_start);
+
+    $pos = strpos($str, $needle_end, $start);
+    $end = $start === false ? strlen($str) : $pos;
+ 
+    return substr_replace($str,$replacement,  $start, $end - $start);
+}
+
