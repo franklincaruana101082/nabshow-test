@@ -128,7 +128,8 @@
 	.banner-header .edit-profile-pic i,
 	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px;}
 	.amp-profile-main .amp-profile-inner{min-height:500px;}
-	.banner-header .profile-avtar img{width:160px;height:160px;}
+	.banner-header .profile-avtar img,
+	.banner-header .profile-avtar .no-image-avtar{width:160px;height:160px;}
 
 	/* single company product */
 	.black-bg-box .btn-link{font-size:18px;}
@@ -293,7 +294,8 @@
 	.banner-header .edit-profile-pic i,
 	.amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:20px;}
 	.amp-profile-main .amp-profile-inner{min-height:400px;}
-	.banner-header .profile-avtar img{width:120px;height:120px;}
+	.banner-header .profile-avtar img,
+	.banner-header .profile-avtar .no-image-avtar{width:120px;height:120px;}
 	.banner-header .profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px;}
 	.banner-header .profile-avtar .remove-profile-pic{width:35px;height:35px;font-size:20px;}
 	.banner-header .profile-avtar label:before{box-shadow:inset 0px 60px 60px 0px rgb(0 0 0 / 0.4);}

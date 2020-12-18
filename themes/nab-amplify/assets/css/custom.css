@@ -218,7 +218,7 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .notification-sub-wrapper ul:before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:6%;}
 .nab-logo-right-inner{padding:9px 10px 9px 15px;margin-left: 15px;border-left: 1px solid #ccc;position:relative;}
 .nab-logo-right-dropdown{display:none;position:absolute;right:0;top:100%;padding-top:20px;}
-.nab-logo-right-dropdown ul{display:block;background-color:#666;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:99;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
+.nab-logo-right-dropdown ul{display:block;background-color:#666;list-style:none;margin:0;padding:5px 0 10px;width:100%;min-width:200px;z-index:100;position:relative;-webkit-box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);box-shadow:0px 0px 13px 0px rgba(0,0,0,0.12);border-radius:3px;}
 .nab-logo-right-dropdown ul:before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:15%;}
 .nab-logo-right-dropdown li{width:100%;border-bottom:1px solid #999;}
 .nab-logo-right-dropdown ul li:last-child{border-bottom:0;}
@@ -777,7 +777,9 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .banner-header,
 .banner-header .container{height: 200px;position:relative;}
 .banner-header .profile-avtar{display:inline-block;position:relative;margin-bottom:20px;}
-.banner-header .profile-avtar img{width:200px;height:200px;border-radius:50%;display:block;background-color:#fff;}
+.banner-header .profile-avtar img,
+.banner-header .profile-avtar .no-image-avtar{width:200px;height:200px;border-radius:50%;display:block;background-color:#fff;}
+.banner-header .profile-avtar .no-image-avtar{color:#000;display:-webkit-box;display:-ms-flexbox;display:flex;font-size:18px;line-height:normal;padding:5px 10px;}
 .banner-header .profile-avtar .profile-avtar-inner{display:inline-block;background:-o-linear-gradient(bottom,#e5018b,#6363df);background:-webkit-gradient(linear,left bottom, left top,from(#e5018b),to(#6363df));background:linear-gradient(to top,#e5018b,#6363df);border-radius:50%;line-height:1;padding:4px;position:relative;}
 .banner-header .profile-avtar .profile-avtar-inner:before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;-webkit-box-shadow:inset 0px 80px 80px 0px rgb(0 0 0 / 0.4);box-shadow:inset 0px 80px 80px 0px rgb(0 0 0 / 0.4);border-radius:50%;}
 .banner-header .profile-avtar .is_friend.generic-button{position:absolute;right:5px;top:10px;width: 42px;height: 42px;}
@@ -1039,6 +1041,7 @@ a.woocommerce-button.button.return-btn{text-transform:none;}
 .load-more a:hover{background-color:transparent;border-color:transparent;color:#999;}
 .load-more a:focus,
 .load-more a:active{background-color:transparent;border-color:transparent;}
+.no-image-avtar{border-radius:50%;width:95px;height:95px;background-color:#fff;color:#000;margin:0 auto;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:12px;padding:5px;}
 .search-section{padding:30px 0 0;}
 .search-section .search-section-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative;}
 .search-section .section-view-more a{color:#666;text-decoration:underline;display:inline-block;font-size:14px;}

@@ -18,7 +18,7 @@ $twitter_url      = get_field('twitter_url');
 $member_level     = get_field('member_level');
 $cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
 $featured_image   = get_the_post_thumbnail_url();
-$profile_picture  = !empty($featured_image) ? $featured_image : get_template_directory_uri() . '/assets/images/amplify-featured.png';
+$profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
@@ -56,8 +56,11 @@ $company_admin_id = get_field('company_user_id', $company_id);
                     <div class="amp-profile-content">
                         <div id="profile-avtar" class="amp-profile-image profile-avtar">
                             <label class="profile-avtar-inner" for="profile_picture_file">
-                                <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
-
+                                <?php if ($profile_picture) { ?>
+                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+                                <?php } else { ?>
+                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 30, '...'); ?></div>
+                                <?php } ?>
                                 <?php
                                 if ($user_logged_in) {
                                     $user_id = get_current_user_id();
