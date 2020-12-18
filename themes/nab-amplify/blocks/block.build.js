@@ -2298,11 +2298,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
             },
             featureJoinBtn: {
                 type: 'string',
-                default: '<a href="#" class="btn">Join Discussion</a>'
+                default: 'Button'
             },
             featureJoinToggle: {
                 type: 'Boolean',
                 default: false
+            },
+            featureJoinBtnLink: {
+                type: 'string',
+                default: '#'
             }
         },
         edit: function edit(_ref) {
@@ -2327,7 +2331,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 shortcode = attributes.shortcode,
                 featureLikeToggle = attributes.featureLikeToggle,
                 featureJoinBtn = attributes.featureJoinBtn,
-                featureJoinToggle = attributes.featureJoinToggle;
+                featureJoinToggle = attributes.featureJoinToggle,
+                featureJoinBtnLink = attributes.featureJoinBtnLink;
 
 
             var backroundStyle = {};
@@ -2519,6 +2524,24 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                             }
                         }),
                         wp.element.createElement(TextControl, {
+                            value: featureJoinBtn,
+                            type: 'text',
+                            label: 'Button Label',
+                            placeholder: '',
+                            onChange: function onChange(featureJoinBtn) {
+                                setAttributes({ featureJoinBtn: featureJoinBtn });
+                            }
+                        }),
+                        wp.element.createElement(TextControl, {
+                            value: featureJoinBtnLink,
+                            type: 'url',
+                            label: 'Button Link',
+                            placeholder: 'https://google.com/',
+                            onChange: function onChange(featureJoinBtnLink) {
+                                setAttributes({ featureJoinBtnLink: featureJoinBtnLink });
+                            }
+                        }),
+                        wp.element.createElement(TextControl, {
                             value: featureIconLink,
                             type: 'url',
                             label: 'Play Button Link',
@@ -2642,14 +2665,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                                 setAttributes({ shortcode: value });
                             }
                         }),
-                        !featureJoinToggle && wp.element.createElement(RichText, {
-                            tagName: 'div',
-                            className: 'button-wrap btn-link',
-                            value: featureJoinBtn,
-                            onChange: function onChange(featureJoinBtn) {
-                                setAttributes({ featureJoinBtn: featureJoinBtn });
-                            }
-                        })
+                        !featureJoinToggle && wp.element.createElement(
+                            'a',
+                            { href: featureJoinBtnLink, className: 'btn btn-link' },
+                            featureJoinBtn
+                        ),
+                        wp.element.createElement(
+                            'span',
+                            { className: 'edit-feature-block' },
+                            wp.element.createElement('i', { className: 'fa fa-pencil' }),
+                            'Edit'
+                        )
                     )
                 )
             )];
@@ -2675,7 +2701,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 shortcode = attributes.shortcode,
                 featureLikeToggle = attributes.featureLikeToggle,
                 featureJoinBtn = attributes.featureJoinBtn,
-                featureJoinToggle = attributes.featureJoinToggle;
+                featureJoinToggle = attributes.featureJoinToggle,
+                featureJoinBtnLink = attributes.featureJoinBtnLink;
 
 
             var backroundStyle = {};
@@ -2741,11 +2768,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                             className: 'shortcode-wrap',
                             value: shortcode
                         }),
-                        !featureJoinToggle && wp.element.createElement(RichText.Content, {
-                            tagName: 'div',
-                            className: 'button-wrap btn-link',
-                            value: featureJoinBtn
-                        })
+                        !featureJoinToggle && wp.element.createElement(
+                            'a',
+                            { href: featureJoinBtnLink, className: 'btn btn-link' },
+                            featureJoinBtn
+                        ),
+                        wp.element.createElement(
+                            'span',
+                            { className: 'edit-feature-block' },
+                            wp.element.createElement('i', { className: 'fa fa-pencil edit-feature-block' }),
+                            'Edit'
+                        )
                     )
                 )
             );
