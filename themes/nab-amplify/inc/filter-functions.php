@@ -1046,3 +1046,67 @@ function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
 	return $html;
 
 }
+
+/**
+ * Modified search query to include meta search if _meta_search in the query object
+ *
+ * @param  string $search
+ * @param  mixed $wp_query
+ * 
+ * @return string
+ */
+function nab_modified_search_query_to_include_meta_search( $search, $wp_query ) {
+
+	$meta_search = $wp_query->get( '_meta_search' );
+
+	if ( $meta_search && ! empty( $wp_query->query_vars[ 'search_terms' ] ) ) {
+		
+		global $wpdb;
+
+		$q = $wp_query->query_vars;
+		$n = ! empty( $q[ 'exact' ] ) ? '' : '%';
+
+		$search = array();
+
+		foreach ( ( array ) $q[ 'search_terms' ] as $term ) {
+
+			$like		= $n . $wpdb->esc_like( $term ) . $n;			
+			$search[]	= $wpdb->prepare( "(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->postmeta}.meta_key IN ('article_type','community','personas','content_scope','content_format','content_subject','acquisition_sub','distribution_sub','management_sub','radio_sub','display_sub','industry_sub','content_sub') AND {$wpdb->postmeta}.meta_value LIKE %s))", $like, $like, $like, $like );
+		}
+
+		if ( ! empty( $search ) ) {
+
+			$search = ' AND (' . implode( ' AND ', $search ) . ')';
+
+			if ( ! is_user_logged_in() ) {
+
+				$search .= " AND ({$wpdb->posts}.post_password = '') ";
+			}
+		}		
+	}
+	
+	return $search;
+}
+
+/**
+ * Added meta table in the join and groupby by post id for meta search.
+ *
+ * @param  array $clauses
+ * @param  mixed $query_object
+ * 
+ * @return array
+ */
+function nab_moified_join_groupby_for_meta_search( $clauses, $query_object ){
+  
+	$meta_search = $query_object->get( '_meta_search' );
+
+	if ( $meta_search && ! empty( $query_object->query_vars[ 'search_terms' ] ) ) {
+		
+		global $wpdb;
+
+		$clauses[ 'join' ] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
+		$clauses[ 'groupby' ]	= " {$wpdb->posts}.ID";
+	}
+
+	return $clauses;
+}

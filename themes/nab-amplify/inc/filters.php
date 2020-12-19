@@ -101,3 +101,7 @@ add_filter( 'single_product_archive_thumbnail_size', 'nab_single_product_archive
 add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address', 10, 1 );
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
+
+// Mofified search query to search in the meta
+add_filter( 'posts_search', 'nab_modified_search_query_to_include_meta_search', 10, 2 );
+add_filter( 'posts_clauses', 'nab_moified_join_groupby_for_meta_search', 10, 2 );

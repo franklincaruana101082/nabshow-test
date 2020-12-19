@@ -507,13 +507,18 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$content_args = array(
 					'post_type' 		=> $all_post_types,
+					'post_status'		=> 'publish',
 					'posts_per_page' 	=> 12,
 					's'					=> $search_term
 				);
 
-				$content_query = new WP_Query($content_args);
+				if ( ! empty( $search_term ) ) {				
+					$content_args[ '_meta_search' ] = true;
+				}
 
-				if ($content_query->have_posts()) {
+				$content_query = new WP_Query( $content_args );
+
+				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
 
@@ -922,26 +927,16 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_type' 		=> $all_post_types,
 				'posts_per_page' 	=> 4,
 				'post_status'		=> 'publish',
-				's'					=> $search_term,
-				'_meta_search'		=> true,
-				'meta_query'		=> array(					
-					'relation'	=> 'OR',
-					array(
-						'key' 		=> 'article_type',
-						'value'		=> $search_term,
-						'compare'	=> 'LIKE'
-					),
-					array(
-						'key' 		=> 'community',
-						'value'		=> '"' . $search_term . '"',
-						'compare'	=> 'LIKE'
-					)
-				)
+				's'					=> $search_term						
 			);
 
-			$content_query = new WP_Query($content_args);			
+			if ( ! empty( $search_term ) ) {
+				$content_args[ '_meta_search' ] = true;
+			}
+
+			$content_query = new WP_Query( $content_args );			
 			
-			if ($content_query->have_posts()) {
+			if ( $content_query->have_posts() ) {
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
