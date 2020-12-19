@@ -545,6 +545,13 @@
       )
     }
 
+    if (jQuery('#company_youtube').length) {
+      fd.append(
+        'company_youtube',
+        jQuery('#company_youtube').val()
+      )
+    }
+
     jQuery.ajax({
       type: 'POST',
       url: amplifyJS.ajaxurl,
