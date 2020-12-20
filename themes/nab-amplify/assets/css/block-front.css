@@ -10,6 +10,8 @@
 .bottom-container .react-count,
 .button-wrap .react-count{color:#fff;}
 .bottom-container .button-wrap:first-child{width:100%;text-align:right;}
+.edit-block-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;}
+.edit-block-icon i{color:#000;}
 
 /* image block */
 .amp-image-block{padding:30px 0;line-height:1;}
@@ -17,6 +19,7 @@
  /* feature block styles */
 .amp-feature-block-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;min-height:540px;width:100%;padding:50px;position:relative;margin-bottom:30px;}
 .amp-feature-block-inner:before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:url(../images/community-curator-shadow-dark.png) center no-repeat;width:60%;height:100%;background-size:cover;opacity:0.8;}
+.amp-feature-block-inner .edit-block-icon{position:absolute;right:40px;top:30px;}
 .amp-feature-content{position:relative;width:390px;max-width:70%;}
 .amp-feature-block .feature-status{color:#e5018b;font-size:40px;margin:0 0 20px;line-height:normal;}
 .amp-feature-block .feature-status:before{content:'';display:inline-block;vertical-align:middle;width:0;height:0;border-radius:50%;border:10px solid;-webkit-box-shadow:0px 0px 18px 0px;box-shadow:0px 0px 18px 0px;margin-right:10px;-webkit-transform:translateY(-3px);-ms-transform:translateY(-3px);transform:translateY(-3px);}
@@ -320,6 +323,7 @@
 	.amp-feature-content{max-width:90%;}
 	.amp-feature-block-inner{padding:15px;min-height:420px;padding:30px;}
 	.amp-feature-block-inner:before{width:70%;}
+	.amp-feature-block-inner .edit-block-icon{position:absolute;right:20px;top:20px;}
 	.amp-feature-block .feature-status{font-size:30px;margin:0 0 10px;}
 	.amp-feature-block .feature-title{font-size:30px;}
 	.amp-feature-block .feature-author{font-size:18px;}
