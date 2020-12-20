@@ -1969,11 +1969,19 @@ function nab_edit_feature_block()
 {
 	$final_result = array();
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_admins = get_field('company_user_id',$company_id);
+	$current_logged_user = get_current_user_id();
 	$nab_featured_block_headline       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_headline', FILTER_SANITIZE_STRING));
 	$nab_featured_block_posted_by       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
 	$nab_featured_block_description       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
 	$nab_featured_block_button_label       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_label', FILTER_SANITIZE_STRING));
 	$nab_featured_block_button_link      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_link', FILTER_SANITIZE_STRING));
+
+	/*Check if current user is company admin */
+	if(get_post_type($company_id) == 'company' && !in_array($current_logged_user,$company_admins)){
+		$response['feedback'] = 'Sorry! You dont have permission!';
+		wp_send_json_error($response);
+	}
 
 	$content_post = get_post($company_id);
 	$content = $content_post->post_content;

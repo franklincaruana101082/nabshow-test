@@ -1047,6 +1047,7 @@ function nab_add_bookmark_icon_in_product( $html, $post_thumbnail_id ) {
 
 }
 
+
 /**
  * Modified search query to include meta search if _meta_search in the query object
  *
@@ -1109,4 +1110,48 @@ function nab_moified_join_groupby_for_meta_search( $clauses, $query_object ){
 	}
 
 	return $clauses;
+}
+
+// Add custom styles to TinyMCE editor
+if ( ! function_exists('tdav_css') ) {
+    function tdav_css($wp) {
+        $wp .= ',' . get_template_directory_uri() . '/assets/css/custom.css';
+        return $wp;
+    }
+}
+
+
+function wpse24113_tiny_mce_before_init( $initArray ) {
+
+    $initArray['setup'] = <<<JS
+[function( ed ) {
+
+	var count = 0;
+	ed.on( 'keyup', function(e,evt) {
+		if ( tinyMCE.activeEditor.id == 'nab_product_copy' || tinyMCE.activeEditor.id == 'nab_product_specs' ) {
+    var content = ed.getContent().replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/ig,'');
+    var max = 2000;
+    var len = content.length;
+	var diff = max - len;  
+	 count++;     
+
+    if (diff < 1) {
+		document.getElementById("character-count-copy").innerHTML =  "Maximum Characters Limit exeeds!";
+		document.getElementById("character-count-specs").innerHTML =  "Maximum Characters Limit exeeds!";   
+		return false
+		
+    }else{
+		document.getElementById("character-count-copy").innerHTML = diff+ " Characters Remaining";
+		document.getElementById("character-count-specs").innerHTML = diff+ " Characters Remaining";
+	}
+
+	
+	}
+} );
+
+
+}][0]
+JS;
+
+    return $initArray;
 }

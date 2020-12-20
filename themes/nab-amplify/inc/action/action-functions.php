@@ -234,6 +234,8 @@ function nab_amplify_edit_product()
     $post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
+    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false));
+    $post_data->product_specs_html          = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false));
 
 
     $terms = get_terms('company-product-category', array(
@@ -2641,8 +2643,8 @@ function nab_add_product()
     $uploaded_attachments = array();
     $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
     $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = strip_tags(filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING));
-    $product_specs         = strip_tags(filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING));
+    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
+    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
     $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
@@ -2653,12 +2655,23 @@ function nab_add_product()
     $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
     $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
 
+    //set product excerpt trim to first 200 characters
+    $product_excerpt = wp_trim_words($product_copy, 200, '...');
+    $updated_desc = update_post_meta($product_id, '_yoast_wpseo_metadesc', $product_excerpt);
+    if (is_wp_error($updated_desc)) {
+        $errors = $company_post->get_error_messages();
+        foreach ($errors as $error) {
+            $response['content'] = $error;
+            wp_send_json_error($response);
+        }
+    } 
 
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
         'post_status'  => 'publish',
         'post_type'    => 'company-products',
+        'post_excerpt' => $product_excerpt
     );
 
     // set comment status
@@ -3107,6 +3120,24 @@ function nab_update_company_profile_callback()
     $company_product_categories       = explode(',', filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING));
     $company_youtube       = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
 
+    //set company excerpt trim to first 200 characters
+    $company_excerpt = wp_trim_words($company_about, 200, '...');
+    $company_post_array     = array(
+
+        'ID'            => $company_id,
+        'post_excerpt'  => $company_excerpt
+
+    );
+    $company_post = wp_update_post($company_post_array);
+    $updated_desc = update_post_meta($company_id, '_yoast_wpseo_metadesc', $company_excerpt);
+    if (is_wp_error($company_post) || is_wp_error($updated_desc)) {
+        $errors = $company_post->get_error_messages();
+        foreach ($errors as $error) {
+            $response['content'] = $error;
+            wp_send_json_error($response);
+        }
+    }
+
     // Update instagram profile
     if ($instagram_profile) {
         update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
@@ -3170,7 +3201,7 @@ function nab_update_company_profile_callback()
         update_field('company_youtube', $company_youtube, $company_id);
     }
 
-    $final_result['success'] = false;
+    $final_result['success'] = true;
     $final_result['content'] = '';
 
     echo wp_json_encode($final_result);
@@ -3243,4 +3274,20 @@ function nab_set_default_block_in_new_company()
             }
         }
     }
+}
+function nab_get_wp_editor($content = '', $editor_id, $options)
+{
+    ob_start();
+
+    wp_editor($content, $editor_id, $options);
+
+    $temp = ob_get_clean();
+
+
+    $temp .= \_WP_Editors::enqueue_scripts();
+    $temp .= wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
+    $temp .= print_footer_scripts();
+    $temp .= \_WP_Editors::editor_js();
+    $temp = str_replace('Array', '', $temp);
+    return $temp;
 }

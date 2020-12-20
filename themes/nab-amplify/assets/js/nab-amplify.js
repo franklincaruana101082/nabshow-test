@@ -38,6 +38,16 @@
       }
     })
 
+    if (
+      typeof amplifyJS !== 'undefined' &&
+      amplifyJS.postType === 'company' &&
+      jQuery.inArray( parseInt(amplifyJS.CurrentLoggedUser), amplifyJS.CompanyAdminId ) !== -1
+    ) {
+      jQuery('.edit-feature-block').show()
+    } else {
+      jQuery('.edit-feature-block').hide()
+    }
+
     HeaderResponsive()
 
     $(window).on('resize', function () {
@@ -191,38 +201,22 @@
     jQuery('#product_categories').select2()
     jQuery('#company_point_of_contact').select2()
 
-    jQuery(document).on('keyup', '#nab_product_specs', function (e) {
+    jQuery(document).on('keyup', '#company_about', function (e) {
       var len = jQuery(this).val().length
       var cval = jQuery(this).val()
-
-      if (len >= 250) {
+      var diff = 2000 - len
+      if (len >= 2000) {
         cval = jQuery(this)
           .text()
           .substring(0, 250)
-
-        jQuery('.character-count-specs').text(0)
+        jQuery('#character-count-comp-about').html(
+          'Maximum Characters Limit exeeds!'
+        )
       } else {
-        jQuery(this).text(250 - len)
-        jQuery('.character-count-specs').text(250 - len)
+        jQuery('#character-count-comp-about').html(
+          '' + diff + ' characters remianing'
+        )
       }
-      jQuery(this).val(cval)
-    })
-
-    jQuery(document).on('keyup', '#nab_product_copy', function (e) {
-      var len = jQuery(this).val().length
-      var cval = jQuery(this).val()
-
-      if (len >= 250) {
-        cval = jQuery(this)
-          .text()
-          .substring(0, 250)
-
-        jQuery('.character-count-copy').text(0)
-      } else {
-        jQuery(this).text(250 - len)
-        jQuery('.character-count-copy').text(250 - len)
-      }
-      jQuery(this).val(cval)
     })
   })
 
@@ -250,6 +244,40 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          setTimeout(function () {
+            if (jQuery('#nab_product_copy').length > 0) {
+              var prod_copy_content_length = tinyMCE
+                .get('nab_product_copy')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_copy_content_length
+              if (diff < 0) {
+                jQuery('#character-count-copy').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-copy').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+            if (jQuery('#nab_product_specs').length > 0) {
+              var prod_specs_content_length = tinyMCE
+                .get('nab_product_specs')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_specs_content_length
+              if (diff < 0) {
+                jQuery('#character-count-specs').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-specs').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+          }, 1000)
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -261,6 +289,40 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          setTimeout(function () {
+            if (jQuery('#nab_product_copy').length > 0) {
+              var prod_copy_content_length = tinyMCE
+                .get('nab_product_copy')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_copy_content_length
+              if (diff < 0) {
+                jQuery('#character-count-copy').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-copy').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+            if (jQuery('#nab_product_specs').length > 0) {
+              var prod_specs_content_length = tinyMCE
+                .get('nab_product_specs')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_specs_content_length
+              if (diff < 0) {
+                jQuery('#character-count-specs').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-specs').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+          }, 1000)
         }
       }
     })
@@ -326,6 +388,8 @@
   })
 
   $(document).on('click', '#nab-edit-product-submit', function () {
+    tinyMCE.triggerSave()
+
     var product_title = jQuery('#nab-edit-product-form #product_title').val()
     var product_categories = jQuery(
       '#nab-edit-product-form #product_categories'
@@ -338,7 +402,7 @@
     ).val()
     var nab_product_contact = jQuery(
       '#nab-edit-product-form #nab_product_contact'
-    ).val()    
+    ).val()
     var nab_feature_product = jQuery(
       '#nab-edit-product-form #nab_feature_product'
     ).prop('checked')
@@ -364,6 +428,31 @@
       : 0
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
+    var nab_product_copyLength = tinyMCE
+      .get('nab_product_copy')
+      .getContent()
+      .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+    if (nab_product_copyLength > 2000) {
+      alert(
+        'The length of product copy content is ' +
+          nab_product_copy.length +
+          ' the max num of characters allowed for this content is 2000'
+      )
+      return false
+    }
+
+    var nab_product_specsLength = tinyMCE
+      .get('nab_product_specs')
+      .getContent()
+      .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+    if (nab_product_specsLength > 2000) {
+      alert(
+        'The length of product specs content is ' +
+          nab_product_specsLength +
+          ' the max num of characters allowed for this content is 2000'
+      )
+      return false
+    }
 
     var form_data = new FormData()
 
@@ -376,16 +465,16 @@
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
-    if( product_categories == null){
+    if (product_categories == null) {
       form_data.append('product_categories', [])
-    }else{
+    } else {
       form_data.append('product_categories', product_categories)
     }
-    
+
     form_data.append('nabNonce', amplifyJS.nabNonce)
     form_data.append('nab_product_copy', nab_product_copy)
     form_data.append('nab_product_specs', nab_product_specs)
-    form_data.append('nab_product_contact', nab_product_contact)      
+    form_data.append('nab_product_contact', nab_product_contact)
     form_data.append('nab_feature_product', nab_feature_product)
     form_data.append('nab_product_b_stock', nab_product_b_stock)
     form_data.append('nab_product_sales_item', nab_product_sales_item)
@@ -484,6 +573,14 @@
       fd.append('twitter_profile', jQuery('#twitter_profile').val())
     }
     if (jQuery('#company_about').length) {
+      if (jQuery('#company_about').val().length > 2000) {
+        alert(
+          'The length of Company about content is ' +
+            jQuery('#company_about').val().length +
+            ' the max num of characters allowed for this content is 2000'
+        )
+        return false
+      }
       fd.append('company_about', jQuery('#company_about').val())
     }
     if (jQuery('#company_industry').length) {
@@ -546,10 +643,7 @@
     }
 
     if (jQuery('#company_youtube').length) {
-      fd.append(
-        'company_youtube',
-        jQuery('#company_youtube').val()
-      )
+      fd.append('company_youtube', jQuery('#company_youtube').val())
     }
 
     jQuery.ajax({
@@ -619,7 +713,20 @@
             jQuery('.company-about-row').css('display', 'none')
             jQuery('.company-info-row').css('display', 'block')
           }
-        }, 1000)
+          if (jQuery('#company_about').length) {
+            var len = jQuery('#company_about').val().length
+            var diff = 2000 - len
+            if (len > 2000) {
+              jQuery('#character-count-comp-about').html(
+                'Maximum Characters limit exceeds'
+              )
+            } else {
+              jQuery('#character-count-comp-about').html(
+                diff + ' characters remaining'
+              )
+            }
+          }
+        }, 500)
       }
     })
   })
@@ -631,7 +738,6 @@
     jQuery('.banner-header').addClass('edit_mode_on')
     jQuery('.edit-bg-pic').show()
     jQuery('.edit-company-industry').show()
-    
   })
   $(document).on('click', '.cancel-edit-company-mode', function () {
     jQuery('.edit-profile-pic').hide()
@@ -2565,9 +2671,8 @@
 
   $(document).on('click', '.edit-feature-block', function (e) {
     e.preventDefault()
-    
+
     var company_id = amplifyJS.postID
-    
 
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
@@ -2597,44 +2702,64 @@
 
   $(document).on('click', '#nab-edit-featured-block-submit', function (e) {
     e.preventDefault()
-    
+
     var form_data = new FormData()
     var nab_featured_block_headline = $('#nab_featured_block_headline').val()
     var nab_featured_block_posted_by = $('#nab_featured_block_posted_by').val()
-    var nab_featured_block_description = $('#nab_featured_block_description').val()
-    var nab_featured_block_button_label = $('#nab_featured_block_button_label').val()
-    var nab_featured_block_button_link = $('#nab_featured_block_button_link').val()
-    
+    var nab_featured_block_description = $(
+      '#nab_featured_block_description'
+    ).val()
+    var nab_featured_block_button_label = $(
+      '#nab_featured_block_button_label'
+    ).val()
+    var nab_featured_block_button_link = $(
+      '#nab_featured_block_button_link'
+    ).val()
+
     form_data.append('action', 'nab_edit_feature_block')
     form_data.append('company_id', amplifyJS.postID)
     form_data.append('nab_featured_block_headline', nab_featured_block_headline)
-    form_data.append('nab_featured_block_posted_by', nab_featured_block_posted_by)
-    form_data.append('nab_featured_block_description', nab_featured_block_description)
-    form_data.append('nab_featured_block_button_label', nab_featured_block_button_label)
-    form_data.append('nab_featured_block_button_link', nab_featured_block_button_link)
+    form_data.append(
+      'nab_featured_block_posted_by',
+      nab_featured_block_posted_by
+    )
+    form_data.append(
+      'nab_featured_block_description',
+      nab_featured_block_description
+    )
+    form_data.append(
+      'nab_featured_block_button_label',
+      nab_featured_block_button_label
+    )
+    form_data.append(
+      'nab_featured_block_button_link',
+      nab_featured_block_button_link
+    )
 
-    if(jQuery('#product_featured_image')[0].files.length > 0){
-    $.each($('#product_featured_image')[0].files, function (key, file) {
-      form_data.append(key, file)
-    })
-  }
+    if (jQuery('#product_featured_image')[0].files.length > 0) {
+      $.each($('#product_featured_image')[0].files, function (key, file) {
+        form_data.append(key, file)
+      })
+    }
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       processData: false,
       contentType: false,
       type: 'POST',
-      data:form_data,
-      beforeSend:function(){
-        $('body').addClass('is-loading');
+      data: form_data,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
       },
       success: function (data) {
-if(data.data.type == 'success'){
-  location.reload()
-}
+        if (data.data.type == 'success') {
+          location.reload()
+        } else {
+          $('body').removeClass('is-loading')
+          alert(data.data.feedback)
+        }
       }
     })
   })
-
 })(jQuery)
 
 // Get friend button

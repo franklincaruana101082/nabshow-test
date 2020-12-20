@@ -97,15 +97,24 @@ global $post;
 							</div>
 							<div class="form-row">
 								<label for="">Product Copy</label>
-								<textarea placeholder="Type Here..." name="nab_product_copy" id="nab_product_copy"><?php echo isset($post_data->product_copy) ? $post_data->product_copy : ''; ?></textarea>
-								<span class="info-msg"><span class="character-count-copy">250</span> Characters Remaining</span>
+								
+								
+							<?php
+							
+							echo $post_data->product_copy_html;
+							?>
+							<span class="info-msg"><span id="character-count-copy">2000 Characters Remaining</span></span>
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
 									<div class="form-row">
 										<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter product information separated by commas. Items will display to users as a bulleted list."></i></label>
-										<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs) ? $post_data->product_specs : ''; ?></textarea>
-										<span class="info-msg"><span class="character-count-specs">250</span> Characters Remaining</span>
+										
+										<?php
+							
+							echo $post_data->product_specs_html;
+							?>
+							<span class="info-msg"><span id="character-count-specs">2000 Characters Remaining</span></span>
 									</div>
 								</div>
 								<div class="form-col-6">
