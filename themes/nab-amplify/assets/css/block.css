@@ -242,7 +242,8 @@ a{color:#e5018b;text-decoration:none}
 /* Common styles */
 .wp-block-md-multipurpose-gutenberg-block > h2{margin:0 0 30px;}
 .edit-block-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;}
-.edit-block-icon i{color:#000;}
+.edit-block-icon i{color:#000;line-height:1;}
+.edit-block-icon i:before{content:"\f464";font-family:'dashicons';font-size:20px;}
 
 /* Image block style */
 .amp-controle-settings .amp-image-button{height:auto;pointer-events:none;padding:0;margin-bottom:15px;}
@@ -526,6 +527,14 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .amp-item-wrap .amp-item-info .amp-actions .button{background:#e5018b;color:#fff;display:inline-block;padding:8px 20px;border-radius:6px;text-align:center;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important;}
 .amp-item-wrap .amp-item-info .amp-actions .button:hover{background:#6363df;border-color:#6363df;color:#fff;}
 
+/* compnay-employees-list */
+#compnay-employees-list.amp-item-wrap .amp-item-info{padding:55px 15px 25px;}
+#compnay-employees-list.amp-item-wrap .amp-item-info .company-name{display:block;margin:0 0 30px;color:#999999;min-height:23px;}
+#compnay-employees-list.amp-item-wrap .amp-item-info .generic-button{margin:5px;}
+#compnay-employees-list.amp-item-wrap .amp-item-info .friendship-button a{font-size:16px;text-transform:capitalize;padding:8px 23px;border-radius:6px;background:#6363df;color:#fff;display:inline-block;text-align:center;line-height:1;font-weight:700;border:1px solid #6363df;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none;}
+#compnay-employees-list.amp-item-wrap .amp-item-info .friendship-button a:hover,
+#compnay-employees-list.amp-item-wrap .amp-item-info .friendship-button a:focus{background:#666;color:#fff;border-color:#666;}
+
 /* company product block */
 .company-products .amp-item-wrap .amp-item-info{text-align:left;}
 .company-products .amp-item-wrap .amp-item-info .product-company{display:block;margin:0 0 30px;color:#999999;min-height:23px;}
@@ -539,7 +548,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 /* company detail */
 .company-details-wrapper{padding:50px;background:#282828;}
 .company-details-wrapper h2{color:#fdd80f!important;margin:0 0 30px!important;}
-.company-details-wrapper h3{color:#fff!important;font-size:20px;margin:0 0 30px!important;}
+.company-details-wrapper h3{color:#fff!important;font-size:20px;margin:0 0 30px;}
 .company-details-wrapper .company-details-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .company-details-wrapper .company-about-inner,
 .company-details-wrapper .company-contact-inner{background-color:#333;padding:40px 50px;height:calc(100% - 70px);max-height:100%;}
@@ -550,11 +559,27 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .company-details-wrapper .company-contact-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-inner{padding:40px 30px;}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px;}
-.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;margin:0;text-transform:capitalize;font-family:'Open Sans',Arial,sans-serif;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;text-transform:capitalize;font-weight:100px;font-size:15px;font-family:'Open Sans',Arial,sans-serif;}
+.company-details-wrapper .company-contact-inner-box ul li a{color:#fff;}
+.company-details-wrapper .company-contact-inner-box ul li a:hover{text-decoration:underline;}
 .company-details-wrapper ul{margin:0!important;padding:0!important;list-style-type:none!important;}
 .company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular',Arial,sans-serif;margin-bottom:10px!important;}
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans',Arial,sans-serif;font-weight:700;}
 .company-details-wrapper ul li:last-child span{display:block;}
+
+/* author info */
+.author-info{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:10px 0;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+.author-info .author-image{width:100px;height:100px;margin:10px 0;}
+.author-info .author-image img{border-radius: 50%;height:100%;width:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;}
+.author-info .author-details{padding-left:20px;}
+.author-info .author-title{margin:0 0 5px;font-size:24px;line-height:normal;color:#fff;font-weight:100;}
+.author-info .author-title a{color:#fff;}
+.author-info .author-title a:hover{text-decoration:underline;}
+.author-info .author-subtitle{font-size:18px;color:#999;font-weight:700;}
+.author-info .author-label{color:#999;font-family:'Open Sans',Arial,sans-serif;font-size:16px;margin-bottom:5px;display:block;}
+.author-info .author-label a{color:#999;}
+.author-info .author-label a:hover{text-decoration:underline;}
 
 /* small author info design */
 .author-details-box .author-info{padding:0;}
