@@ -204,7 +204,10 @@
 .company-details-wrapper .company-contact-inner{padding:40px 30px;}
 .company-details-wrapper .company-contact-outer .edit-company-about-control{right:15px;}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px;}
-.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;text-transform:capitalize;font-weight:600px;font-size:15px;}
+.company-details-wrapper .company-contact-inner-box ul li a{color:#fff;}
+.company-details-wrapper .company-contact-inner-box ul li a:hover{text-decoration:underline;}
 .company-details-wrapper ul{margin:0;padding:0;list-style-type:none;}
 .company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular',Arial,sans-serif;margin-bottom:10px;}
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans',Arial,sans-serif;font-weight:700;}
