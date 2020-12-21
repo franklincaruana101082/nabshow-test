@@ -134,7 +134,7 @@ get_header();
                         $product_read_more_url = get_field('product_learn_more_url');
             if(!empty($product_read_more_url)){
             ?>
-            <a class="btn" href="<?php echo $product_read_more_url;?>">Learn more URL</a>
+            <a class="btn blue-bg" href="<?php echo $product_read_more_url;?>">Learn more URL</a>
             <?php    
             } ?>
                         </div>

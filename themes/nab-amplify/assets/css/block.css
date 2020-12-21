@@ -550,10 +550,18 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .company-details-wrapper .company-contact-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-inner{padding:40px 30px;}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;}
 .company-details-wrapper ul{margin:0!important;padding:0!important;list-style-type:none!important;}
 .company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular',Arial,sans-serif;margin-bottom:10px!important;}
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans',Arial,sans-serif;font-weight:700;}
 .company-details-wrapper ul li:last-child span{display:block;}
+
+/* small author info design */
+.author-details-box .author-info{padding:0;}
+.author-details-box .author-info .author-image{width:80px;height:80px;}
+.author-details-box .author-info .author-details{width:calc(100% - 80px);}
+.author-details-box .author-info .author-title{font-size:24px;}
+.author-details-box .author-info .author-subtitle{font-size:16px;line-height:1;}
 
 /* company message box */
 .company-message-box{background-color:#e5018b;padding:20px 0;}
@@ -592,6 +600,13 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .trending_activity_wrapper .related-content-2 .inner .user-reacted-item{margin-bottom:10px;}
 .trending_activity_wrapper .related-content-2 .button-wrap{position:absolute;left:0;right:0;bottom:0;padding:10px 20px 20px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .trending_activity_wrapper .related-content-2 .button-wrap a{min-width:auto;}
+
+/* tag list design */
+.amp-tag-main .amp-tag-list{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;list-style:none;padding:0;margin:0 0 20px;}
+.amp-tag-main .amp-tag-list li{margin:5px;}
+.amp-tag-main .amp-tag-list li .btn{margin:0;min-width:100px;background-color:#666;border-color:#666;padding:8px 20px;}
+.amp-tag-main .amp-tag-list li span.btn{cursor:default;}
+.amp-tag-main .amp-tag-list li span.btn:active{box-shadow:none;}
 
 
 @media (max-width:1400px) {

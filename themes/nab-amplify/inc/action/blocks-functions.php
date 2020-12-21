@@ -291,6 +291,9 @@ function nab_company_details_render_callback($attributes)
     $admin_id           = get_field('company_user_id', $company_id);
     $company_product_categories = get_field('product_categories', $company_id);
 
+    // Get images.
+    $user_images = nab_amplify_get_user_images($point_of_contact);
+
     ob_start();
     ?>
     <div class="company-details-wrapper <?php echo esc_attr($class_name); ?>">
@@ -347,7 +350,17 @@ function nab_company_details_render_callback($attributes)
                                 ?>
                                     <li>
                                         <span>Point of contact:</span>
-                                        <a class="btn-link" href="<?php echo bp_core_get_user_domain($point_of_contact); ?>" data-comp-id="<?php echo $company_id; ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a>
+                                        <div class="author-details-box">
+                                            <div class="author-info">
+                                                <div class="author-image">
+                                                    <a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
+                                                </div>
+                                                <div class="author-details">
+                                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a></h3>
+                                                    <span class="author-subtitle"><?php echo get_user_meta($point_of_contact, 'attendee_title', true); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </li>
                                 <?php
                                 }
@@ -357,14 +370,14 @@ function nab_company_details_render_callback($attributes)
                                         <span>Product Categories:</span>
                                         <div class="amp-tag-main">
                                             <ul class="amp-tag-list">
-                                            <?php
+                                                <?php
                                                 foreach ($company_product_categories as $comp_prod_cat) {
                                                     $terms = get_term_by('id', $comp_prod_cat, 'company-product-category');
                                                 ?>
                                                     <li>
                                                         <a href="<?php echo get_search_link() . '?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a>
                                                     </li>
-                                            <?php } ?>
+                                                <?php } ?>
                                             </ul>
                                         </div>
                                     </li>
@@ -571,13 +584,17 @@ function nab_company_events_render_callback($attributes)
                 </div>
                 <div class="amp-item-wrap" id="company-events-list">
                     <?php
+                    $current_site_url = get_site_url();
+
                     while ($event_query->have_posts()) {
 
                         $event_query->the_post();
 
-                        $thumbnail_url     = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-                        $event_link     = get_the_permalink();
+                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
                         $event_date     = get_post_meta(get_the_ID(), '_EventStartDate', true);
+                        $event_link     = get_post_meta(get_the_ID(), '_EventURL', true);
+                        $event_link     = !empty($event_link) ? trim($event_link) : '#';
+                        $target            = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
                     ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
@@ -587,7 +604,7 @@ function nab_company_events_render_callback($attributes)
                                 <div class="amp-item-info">
                                     <div class="amp-item-content">
                                         <h4>
-                                            <a href="<?php echo esc_url($event_link); ?>"><?php echo esc_html(get_the_title()); ?></a>
+                                            <a href="<?php echo esc_url($event_link); ?>" target="<?php echo esc_attr($target); ?>"><?php echo esc_html(get_the_title()); ?></a>
                                         </h4>
                                         <?php
                                         if (!empty($event_date)) {
@@ -599,7 +616,7 @@ function nab_company_events_render_callback($attributes)
                                         ?>
                                         <div class="amp-actions">
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url($event_link); ?>" class="button">View Event</a>
+                                                <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
                                             </div>
                                         </div>
                                     </div>
