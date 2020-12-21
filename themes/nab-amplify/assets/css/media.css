@@ -351,6 +351,7 @@
 	.nab-modal .fa-info-circle[data-bp-tooltip]:after,
 	.nab-modal .tooltip{transform:translateX(-30%);}
 	.nab-modal.theme-dark .toggle-wrap .toggle-label{font-size:18px;}
+	.select-dark-simple .select2-container--default .select2-selection--single .select2-selection__rendered{height:70px;line-height:50px;font-size:18px;}
 
 	/* single company product */
 	.black-bg-box{padding:30px;}
