@@ -243,7 +243,7 @@ a{color:#e5018b;text-decoration:none}
 .wp-block-md-multipurpose-gutenberg-block > h2{margin:0 0 30px;}
 .edit-block-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;}
 .edit-block-icon i{color:#000;line-height:1;}
-.edit-block-icon i:before{content:"\f464";font-family:'dashicons';font-size:20px;margin-left:-3px;}
+.edit-block-icon i:before{content:"\f464";font-family:'dashicons';font-size:20px;}
 
 /* Image block style */
 .amp-controle-settings .amp-image-button{height:auto;pointer-events:none;padding:0;margin-bottom:15px;}
@@ -548,7 +548,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 /* company detail */
 .company-details-wrapper{padding:50px;background:#282828;}
 .company-details-wrapper h2{color:#fdd80f!important;margin:0 0 30px!important;}
-.company-details-wrapper h3{color:#fff!important;font-size:20px;margin:0 0 30px!important;}
+.company-details-wrapper h3{color:#fff!important;font-size:20px;margin:0 0 30px;}
 .company-details-wrapper .company-details-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .company-details-wrapper .company-about-inner,
 .company-details-wrapper .company-contact-inner{background-color:#333;padding:40px 50px;height:calc(100% - 70px);max-height:100%;}
@@ -559,8 +559,8 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 .company-details-wrapper .company-contact-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-inner{padding:40px 30px;}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px;}
-.company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;}
-.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;text-transform:capitalize;font-weight:600px;font-size:15px;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;margin:0;text-transform:capitalize;font-family:'Open Sans',Arial,sans-serif;}
+.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;text-transform:capitalize;font-weight:100px;font-size:15px;font-family:'Open Sans',Arial,sans-serif;}
 .company-details-wrapper .company-contact-inner-box ul li a{color:#fff;}
 .company-details-wrapper .company-contact-inner-box ul li a:hover{text-decoration:underline;}
 .company-details-wrapper ul{margin:0!important;padding:0!important;list-style-type:none!important;}
