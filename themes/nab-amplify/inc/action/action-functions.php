@@ -234,9 +234,9 @@ function nab_amplify_edit_product()
     $post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
-    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false));
-    $post_data->product_specs_html          = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false));
-    $post_data->nab_product_learn_more_url      = get_field('product_learn_more_url', $post_id);
+    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1'=>'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink','toolbar2'=>'')));
+    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink','toolbar2'=>'')));
+    $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
@@ -2645,7 +2645,7 @@ function nab_add_product()
     $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
     $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
     $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
-    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT );
+    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
     $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
@@ -2665,7 +2665,7 @@ function nab_add_product()
             $response['content'] = $error;
             wp_send_json_error($response);
         }
-    } 
+    }
 
     // Create post object
     $product_post_data = array(
@@ -2777,7 +2777,7 @@ function nab_add_product()
 
     //add product read more URL
     update_field('product_learn_more_url', $nab_product_learn_more_url, $post_id);
-    
+
 
     if (is_wp_error($post_id)) {
         $final_result['success'] = false;

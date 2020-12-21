@@ -48,13 +48,14 @@ global $post;
 
 							<div class="form-row">
 								<label for="">Headline</label>
+								<span class="info-msg"><span id="character-count-featured-headline">200 Characters Remaining</span></span>
 								<textarea placeholder="Type Here..." name="nab_featured_block_headline" id="nab_featured_block_headline"><?php echo isset($block_data['headline']) ? $block_data['headline'] : ''; ?></textarea>
-								<span class="info-msg"><span class="character-count-copy">200</span> Characters Remaining</span>
 							</div>
 							<div class="form-row">
 
 								<div class="form-row">
 									<label for="">Posted By</label>
+									<span class="info-msg"><span id="character-count-featured-posyby">60 Characters Remaining</span></span>
 									<input type="text" class="input-text nab-featured-block-posted-by" name="nab_featured_block_posted_by" id="nab_featured_block_posted_by" value="<?php echo isset($block_data['author']) ? $block_data['author'] : ''; ?>">
 								</div>
 
@@ -62,13 +63,14 @@ global $post;
 							</div>
 							<div class="form-row">
 								<label for="">Description</label>
+								<span class="info-msg"><span id="character-count-featured-desc">200 Characters Remaining</span></span>
 								<textarea placeholder="Type Here..." name="nab_featured_block_description" id="nab_featured_block_description"><?php echo isset($block_data['description']) ? $block_data['description'] : ''; ?></textarea>
-								<span class="info-msg"><span class="character-count-copy">200</span> Characters Remaining</span>
 							</div>
 							<div class="form-row">
 
 								<div class="form-row">
 									<label for="">Button Label </label>
+									<span class="info-msg"><span id="character-count-featured-btnlabel">60 Characters Remaining</span></span>
 									<input type="text" class="input-text nab-featured-block-button-label" name="nab_featured_block_button_label" id="nab_featured_block_button_label" value="<?php echo isset($block_data['button_label']) ? $block_data['button_label'] : ''; ?>">
 								</div>
 

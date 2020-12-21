@@ -91,6 +91,8 @@ get_header();
                             </div>
             <?php }
 
+           
+
             // Get images.
             $user_images = nab_amplify_get_user_images($current_user_id[0]);
             ?>
@@ -125,6 +127,15 @@ get_header();
           <?php $product_specs = get_field('product_specs');
             if (!empty($product_specs)) {
                 echo $product_specs;
+            } ?>
+                        </div>
+                        <div class="black-bg-box product-specs-box">
+                     <?php       
+                        $product_read_more_url = get_field('product_learn_more_url');
+            if(!empty($product_read_more_url)){
+            ?>
+            <a class="btn" href="<?php echo $product_read_more_url;?>">Learn more URL</a>
+            <?php    
             } ?>
                         </div>
                         <div class="ad-wrapper">
