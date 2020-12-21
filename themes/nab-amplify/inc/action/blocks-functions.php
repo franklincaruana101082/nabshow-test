@@ -590,11 +590,11 @@ function nab_company_events_render_callback($attributes)
 
                         $event_query->the_post();
 
-                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();                        
                         $event_date     = get_post_meta(get_the_ID(), '_EventStartDate', true);
-                        $event_link     = get_post_meta(get_the_ID(), '_EventURL', true);
-                        $event_link     = !empty($event_link) ? trim($event_link) : '#';
-                        $target            = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
+                        $event_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+                        $event_link     = ! empty( $event_link ) ? trim( $event_link ) : '#';
+                        $target			= 0 === strpos( $event_link, $current_site_url ) ? '_self' : '_blank';
                     ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
@@ -604,7 +604,7 @@ function nab_company_events_render_callback($attributes)
                                 <div class="amp-item-info">
                                     <div class="amp-item-content">
                                         <h4>
-                                            <a href="<?php echo esc_url($event_link); ?>" target="<?php echo esc_attr($target); ?>"><?php echo esc_html(get_the_title()); ?></a>
+                                            <a href="<?php echo esc_url($event_link); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a>
                                         </h4>
                                         <?php
                                         if (!empty($event_date)) {
@@ -616,7 +616,7 @@ function nab_company_events_render_callback($attributes)
                                         ?>
                                         <div class="amp-actions">
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                                <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View Event</a>
                                             </div>
                                         </div>
                                     </div>

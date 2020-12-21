@@ -105,5 +105,4 @@ add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark
 // Mofified search query to search in the meta
 add_filter( 'posts_search', 'nab_modified_search_query_to_include_meta_search', 10, 2 );
 add_filter( 'posts_clauses', 'nab_moified_join_groupby_for_meta_search', 10, 2 );
-add_filter( 'mce_css', 'tdav_css' );
-add_filter( 'tiny_mce_before_init', 'wpse24113_tiny_mce_before_init' );
+add_filter( 'tiny_mce_before_init', 'nabamplify_tiny_mce_before_init' );
