@@ -301,7 +301,11 @@ function nab_company_details_render_callback($attributes)
                     <div class="company-about-inner">
                         <p><?php echo esc_html($about_company); ?></p>
                         <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                            <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span></div>
+                            <div class="edit-company-about-control">
+                                <span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                            </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -309,7 +313,11 @@ function nab_company_details_render_callback($attributes)
                     <h2>Contact Info</h2>
                     <div class="company-contact-inner">
                         <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                            <div class="edit-company-about-control"><span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details"><i class="fa fa-pencil"></i></span></div>
+                            <div class="edit-company-about-control">
+                                <span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                            </div>
                         <?php } ?>
                         <div class="company-contact-inner-box">
                             <ul>
@@ -329,34 +337,38 @@ function nab_company_details_render_callback($attributes)
                                 }
                                 if (!empty($company_website)) {
                                 ?>
-                                    <li><span>Website:</span> <a href="<?php echo esc_html($company_website); ?>" target="_blank"><?php echo esc_html($company_website); ?></a></li>
+                                    <li>
+                                        <span>Website:</span>
+                                        <a href="<?php echo esc_html($company_website); ?>" target="_blank"><?php echo esc_html($company_website); ?></a>
+                                    </li>
                                 <?php
                                 }
                                 if (!empty($point_of_contact)) {
                                 ?>
-                                    <li><span>Point of contact:</span> <a class="btn-link" href="<?php echo bp_core_get_user_domain($point_of_contact); ?>" data-comp-id="<?php echo $company_id; ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a></li>
+                                    <li>
+                                        <span>Point of contact:</span>
+                                        <a class="btn-link" href="<?php echo bp_core_get_user_domain($point_of_contact); ?>" data-comp-id="<?php echo $company_id; ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a>
+                                    </li>
                                 <?php
                                 }
                                 if (!empty($company_product_categories) && $company_product_categories[0] !== 0) {
                                 ?>
-                                    <li><span>Product Categories:</span>
+                                    <li>
+                                        <span>Product Categories:</span>
                                         <div class="amp-tag-main">
                                             <ul class="amp-tag-list">
-                                                <?php
+                                            <?php
                                                 foreach ($company_product_categories as $comp_prod_cat) {
                                                     $terms = get_term_by('id', $comp_prod_cat, 'company-product-category');
                                                 ?>
-                                                    <li><a href="<?php echo get_search_link() . '?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a></li>
-                                            <?php
-
-                                                }
-                                            }
-                                            ?>
-
-
+                                                    <li>
+                                                        <a href="<?php echo get_search_link() . '?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a>
+                                                    </li>
+                                            <?php } ?>
+                                            </ul>
                                         </div>
-                            </ul>
-                            </li>
+                                    </li>
+                                <?php } ?>
                             </ul>
                         </div>
                     </div>

@@ -1853,6 +1853,8 @@ function nab_bp_message_request_popup()
 
 	$user_images = nab_amplify_get_user_images($point_of_contact);
 
+	$user_job_title = get_user_meta($point_of_contact, 'attendee_title', true);
+
 	if (!empty($point_of_contact)) {
 
 		require_once get_template_directory() . '/inc/nab-message-popup.php';
@@ -2093,3 +2095,37 @@ function replace_between($str, $needle_start, $needle_end, $replacement) {
     return substr_replace($str,$replacement,  $start, $end - $start);
 }
 
+// Ajax for get user for product point of contact
+add_action( 'wp_ajax_nab_product_point_of_contact', 'nab_product_point_of_contact_callback' );
+add_action( 'wp_ajax_nopriv_nab_product_point_of_contact', 'nab_product_point_of_contact_callback' );
+
+function nab_product_point_of_contact_callback() {
+
+	$search_key 	= filter_input( INPUT_GET, 'q', FILTER_SANITIZE_STRING );
+	$final_result	= [];
+
+	if ( isset( $search_key ) && ! empty( $search_key ) ) {
+
+		$search_key		= '*' . $search_key . '*';
+		$user_query		= new WP_User_Query( array( 'search' => $search_key ) );
+		$found_users	= $user_query->get_results();
+		
+		if ( ! empty( $found_users ) ) {
+
+			foreach( $found_users as $current_user ) {
+
+				$user_name		= $current_user->user_login;
+				$user_full_name	= get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );
+
+				if ( ! empty( trim( $user_full_name ) ) ) {
+					$user_name .= ' (' . $user_full_name . ')';					
+				}
+
+				$final_result[] = array( $current_user->ID, $user_name );
+			}
+		}
+	}
+	
+	echo wp_json_encode( $final_result );
+	wp_die();
+}

@@ -236,7 +236,7 @@ function nab_amplify_edit_product()
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
     $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false));
     $post_data->product_specs_html          = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false));
-
+    $post_data->nab_product_learn_more_url      = get_field('product_learn_more_url', $post_id);
 
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
@@ -2645,7 +2645,7 @@ function nab_add_product()
     $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
     $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
     $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
-    $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));
+    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT );
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
     $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
@@ -2654,6 +2654,7 @@ function nab_add_product()
     $product_id            = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
     $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
     $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
+    $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -2773,6 +2774,10 @@ function nab_add_product()
 
     // Add product company
     update_field('field_5fc881bd20fa0', $nab_company_id, $post_id);
+
+    //add product read more URL
+    update_field('product_learn_more_url', $nab_product_learn_more_url, $post_id);
+    
 
     if (is_wp_error($post_id)) {
         $final_result['success'] = false;
