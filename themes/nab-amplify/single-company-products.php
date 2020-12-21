@@ -135,7 +135,7 @@ get_header();
             if(!empty($product_read_more_url)){
             ?>
              <div class="black-bg-box product-specs-box">
-            <a class="btn blue-bg" href="<?php echo $product_read_more_url;?>">Learn more URL</a>
+            <a class="btn blue-bg" href="<?php echo $product_read_more_url;?>">Learn more</a>
             </div>
             <?php    
             } ?>
