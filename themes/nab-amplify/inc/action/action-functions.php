@@ -195,11 +195,11 @@ function nab_amplify_upload_images()
 
             if (!is_wp_error($attachment_id)) {
                 // update in meta
-                if( $file_key === 'company_profile_picture' ){
-                    update_field('field_5fb60cb5ce130', $attachment_id, $company_id);
-                }else if( $file_key === 'company_banner_image' ){
+                if ($file_key === 'company_profile_picture') {
+                    set_post_thumbnail($company_id, $attachment_id);
+                } else if ($file_key === 'company_banner_image') {
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
-                }else{
+                } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
                 }
                 
