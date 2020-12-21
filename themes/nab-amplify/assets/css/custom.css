@@ -1789,6 +1789,30 @@ body .is_friend .remove:before{font-size:22px;}
 .nab-modal .fa-info-circle{font-size:22px;}
 .nab-modal .modal-content-wrap .tooltip{color:#333!important;}
 
+/* classic editor style in add product popup */
+/*.nab-modal .mce-container-body *{color:#ffffff!important;background:#333!important;}*/
+/*.nab-modal #mceu_10,
+.nab-modal #mceu_11,
+.nab-modal #mceu_12{display:none;}*/
+#wp-nab_product_copy-wrap,
+#wp-nab_product_specs-wrap{width:100%;}
+#wp-nab_product_copy-wrap iframe,
+#wp-nab_product_specs-wrap iframe{height:255px!important;}
+.nab-modal div.mce-statusbar{display:none;}
+/*#mceu_0-open .mce-text{color:#ffffff!important;}
+.nab-modal .mceContentBody{background-color:#333333!important;color:#999999!important;}
+.mceContentBody.wp-editor{background-color:#333333!important;color:#999999!important;}
+.mceContentBody.wp-editor *{color:#999999!important;}
+.mce-menubtn.mce-fixed-width span{overflow-x:hidden;text-overflow:ellipsis;width:82px;color:#ffffff!important;}
+.nab-modal div.mce-toolbar-grp{border:1px solid #333;outline:none;border-bottom:1px solid #666;}
+.nab-modal .wp-editor-container{border:1px solid #333;}
+.nab-modal .mce-toolbar .mce-btn-group .mce-btn.mce-active,
+.nab-modal .mce-toolbar .mce-btn-group .mce-btn:active,
+.nab-modal .qt-dfw.active{border-color:#ccc;}
+.nab-modal .mce-panel .mce-btn i.mce-caret{border-top-color:#fff;}
+.nab-modal .mce-panel .mce-btn:focus i.mce-caret, 
+.nab-modal .mce-panel .mce-btn:hover i.mce-caret{border-top-color:#fff;}*/
+
 
 /* single company products */
 .single-company-products{background-color:#404040;}
@@ -1856,36 +1880,3 @@ body .is_friend .remove:before{font-size:22px;}
 .tooltip-wrap:hover .tooltip,
 .tooltip-wrap:focus .tooltip{visibility:visible;opacity:1;display:block;overflow:visible;}
 .tooltip-wrap .tooltip a{text-decoration:underline;}
-
-.nab-modal .mce-container-body * {
-    color: #ffffff !important;
-    background: #262626 !important;
-}
-.nab-modal #mceu_10{
-display:none;
-}
-#wp-nab_product_copy-wrap, #wp-nab_product_specs-wrap{
-    width:100%;
-}
-#mceu_0-open .mce-text {
-    color: #ffffff !important;
-}
-.nab-modal .mceContentBody{
-    background-color: #333333 !important;
-    color: #999999 !important;
-}
-
-.mceContentBody.wp-editor {
-    background-color: #333333 !important;
-    color: #999999 !important;
-}
-.mceContentBody.wp-editor * {
-    
-    color: #999999 !important;
-}
-.mce-menubtn.mce-fixed-width span {
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    width: 82px;
-    color: #ffffff !important;
-}

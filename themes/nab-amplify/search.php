@@ -539,6 +539,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 								$post_link		= get_the_permalink();
+								$website_link	= '';
+								$target			= '';
+
+								if ( 'tribe_events' === get_post_type() ) {													
+														
+									$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+									$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
+									$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';								
+								}
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -547,9 +556,29 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-content">
-												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<?php
+												if ( ! empty( $website_link ) ) {
+													?>
+													<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+													<?php
+												} else {
+													?>
+													<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+													<?php
+												}
+												?>												
 												<div class="search-actions">
-													<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+													<?php
+													if ( ! empty( $website_link ) ) {
+														?>
+														<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
+														<?php
+													} else {
+														?>
+														<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+														<?php	
+													}
+													?>													
 												</div>
 											</div>
 										</div>
@@ -964,6 +993,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 							$post_link		= get_the_permalink();
+							$website_link	= '';
+							$target			= '';
+
+							if ( 'tribe_events' === get_post_type() ) {													
+													
+								$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+								$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
+								$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';								
+							}
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
@@ -972,9 +1010,32 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									</div>
 									<div class="search-item-info">
 										<div class="search-item-content">
-											<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+											<?php
+											if ( ! empty( $website_link ) ) {
+												?>
+												<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<?php
+											} else {
+												?>
+												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<?php
+											}
+											?>
+											
 											<div class="search-actions">
-												<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+												<?php
+												
+												if ( ! empty( $website_link ) ) {
+													?>
+													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
+													<?php
+												} else {
+													?>
+													<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
+													<?php
+												}
+												?>
+												
 											</div>
 										</div>
 									</div>

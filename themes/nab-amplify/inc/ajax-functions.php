@@ -1486,8 +1486,9 @@ function nab_content_search_filter_callback()
 
 	$content_query = new WP_Query($content_args);
 
-	$total_pages 	= $content_query->max_num_pages;
-	$total_content	= $content_query->found_posts;
+	$total_pages 		= $content_query->max_num_pages;
+	$total_content		= $content_query->found_posts;
+	$current_site_url	= get_site_url();
 
 	if ($content_query->have_posts()) {
 
@@ -1499,9 +1500,21 @@ function nab_content_search_filter_callback()
 
 			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 
-			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
-			$result_post[$cnt]['link'] 		= get_the_permalink();
+			$result_post[$cnt]['thumbnail'] = $thumbnail_url;			
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
+
+			if ( 'tribe_events' === get_post_type() ) {													
+													
+				$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+				$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
+				$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+
+				$result_post[$cnt]['link']		= $website_link;
+				$result_post[$cnt]['target']	= $target;
+			} else {
+
+				$result_post[$cnt]['link']	= get_the_permalink();
+			}
 
 			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
 

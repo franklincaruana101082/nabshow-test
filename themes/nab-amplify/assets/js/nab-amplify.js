@@ -41,7 +41,10 @@
     if (
       typeof amplifyJS !== 'undefined' &&
       amplifyJS.postType === 'company' &&
-      jQuery.inArray( parseInt(amplifyJS.CurrentLoggedUser), amplifyJS.CompanyAdminId ) !== -1
+      jQuery.inArray(
+        parseInt(amplifyJS.CurrentLoggedUser),
+        amplifyJS.CompanyAdminId
+      ) !== -1
     ) {
       jQuery('.edit-feature-block').show()
     } else {
@@ -200,25 +203,78 @@
     })
     jQuery('#product_categories').select2()
     jQuery('#company_point_of_contact').select2()
+  })
+  charcount('keyup', '#company_about', '#character-count-comp-about', 2000)
+  charcount(
+    'keyup',
+    '#nab_featured_block_headline',
+    '#character-count-featured-headline',
+    200
+  )
+  charcount(
+    'keyup',
+    '#nab_featured_block_posted_by',
+    '#character-count-featured-posyby',
+    60
+  )
+  charcount(
+    'keyup',
+    '#nab_featured_block_description',
+    '#character-count-featured-desc',
+    200
+  )
+  charcount(
+    'keyup',
+    '#nab_featured_block_button_label',
+    '#character-count-featured-btnlabel',
+    60
+  )
 
-    jQuery(document).on('keyup', '#company_about', function (e) {
+  function charcount (event, tag, counttag, limit) {
+    jQuery(document).on(event, tag, function (e) {
       var len = jQuery(this).val().length
       var cval = jQuery(this).val()
-      var diff = 2000 - len
-      if (len >= 2000) {
+      var diff = limit - len
+      if (len >= limit) {
         cval = jQuery(this)
           .text()
           .substring(0, 250)
-        jQuery('#character-count-comp-about').html(
-          'Maximum Characters Limit exeeds!'
-        )
+        jQuery(counttag).html('Maximum Characters Limit exeeds!')
       } else {
-        jQuery('#character-count-comp-about').html(
-          '' + diff + ' characters remianing'
-        )
+        jQuery(counttag).html('' + diff + ' characters remianing')
       }
     })
-  })
+  }
+
+  function defaultCharCount (tag, charTag, limit) {
+    if (jQuery(tag).length > 0) {
+      var prod_copy_content_length = jQuery(tag)
+        .val()
+        .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+      var diff = limit - prod_copy_content_length
+      if (diff < 0) {
+        jQuery(charTag).html('Maximum Characters Limit exeeds!')
+      } else {
+        jQuery(charTag).html('' + diff + ' characters remianing')
+      }
+    }
+  }
+
+  function checkContentlength(tag,tagLabel,limit){
+    
+      var tag_length = jQuery(tag).val().replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+      
+      if (tag_length > limit) {
+        alert(
+          'The length of '+tagLabel+' is ' +
+          tag_length +
+            ' the max num of characters allowed for this content is '+limit+''
+        )
+        $('body').removeClass('is-loading')
+        return false
+      } 
+    
+  }
 
   $(document).on('click', '.action-edit ', function () {
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
@@ -324,6 +380,36 @@
             }
           }, 1000)
         }
+        $('.poduct-point-of-contact').select2();
+        $('.poduct-point-of-contact').select2({
+          ajax: {
+            url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+            dataType: 'json',
+            delay: 250, // delay in ms while typing when to perform a AJAX search
+            data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                };
+            },
+            processResults: function( data ) {
+              var options = [];
+              if ( data ) {
+
+                // data is the array of arrays, and each of them contains ID and the Label of the option
+                $.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
+                  options.push( { id: text[0], text: text[1]  } );
+                });
+
+              }
+              return {
+                results: options
+              };
+            },
+            cache: true
+          },
+          minimumInputLength: 3
+        });
       }
     })
   })
@@ -426,6 +512,9 @@
     ).prop('checked')
       ? 1
       : 0
+    var nab_product_learn_more_url = jQuery(
+      '#nab-edit-product-form #nab_product_learn_more_url'
+    ).val()
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
     var nab_product_copyLength = tinyMCE
@@ -481,6 +570,7 @@
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
+    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
 
     form_data.append('remove_attachments', remove_attachment_arr)
     form_data.append('nab_company_id', nab_company_id)
@@ -2689,12 +2779,52 @@
           $('body').addClass('feature-block-popup-added')
           $('.popup-opened').removeClass('popup-opened')
           $(this).addClass('popup-opened')
+          defaultCharCount(
+            '#nab_featured_block_headline',
+            '#character-count-featured-headline',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_posted_by',
+            '#character-count-featured-posyby',
+            60
+          )
+          defaultCharCount(
+            '#nab_featured_block_description',
+            '#character-count-featured-desc',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_button_label',
+            '#character-count-featured-btnlabel',
+            60
+          )
         } else {
           $('body').append(data)
           $('#addProductModal').show()
           $('body').addClass('feature-block-popup-added')
           $('.popup-opened').removeClass('popup-opened')
           $(this).addClass('popup-opened')
+          defaultCharCount(
+            '#nab_featured_block_headline',
+            '#character-count-featured-headline',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_posted_by',
+            '#character-count-featured-posyby',
+            60
+          )
+          defaultCharCount(
+            '#nab_featured_block_description',
+            '#character-count-featured-desc',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_button_label',
+            '#character-count-featured-btnlabel',
+            60
+          )
         }
       }
     })
@@ -2715,6 +2845,20 @@
     var nab_featured_block_button_link = $(
       '#nab_featured_block_button_link'
     ).val()
+
+    if(!checkContentlength('#nab_featured_block_headline','Headline',200)){
+      return false
+    }
+    if(!checkContentlength('#nab_featured_block_posted_by','Posted By',60)){
+      return false
+    }
+    if(!checkContentlength('#nab_featured_block_description','Description',200)){
+      return false
+    }
+    if(!checkContentlength('#nab_featured_block_button_label','Button label',60)){
+      return false
+    }
+    
 
     form_data.append('action', 'nab_edit_feature_block')
     form_data.append('company_id', amplifyJS.postID)
@@ -2760,6 +2904,7 @@
       }
     })
   })
+  
 })(jQuery)
 
 // Get friend button
@@ -3473,6 +3618,10 @@ function nabSearchContentAjax (loadMore, pageNumber) {
           postTitleLink.setAttribute('href', value.link)
           postTitleLink.innerText = value.title
 
+          if ( value.target ) {
+            postTitleLink.setAttribute('target', value.target);
+          }
+
           postTitle.appendChild(postTitleLink)
 
           searchContent.appendChild(postTitle)
@@ -3484,6 +3633,10 @@ function nabSearchContentAjax (loadMore, pageNumber) {
           viewPostLink.setAttribute('href', value.link)
           viewPostLink.setAttribute('class', 'button')
           viewPostLink.innerText = 'View'
+
+          if ( value.target ) {
+            viewPostLink.setAttribute('target', value.target);
+          }
 
           searchAction.appendChild(viewPostLink)
           searchContent.appendChild(searchAction)
