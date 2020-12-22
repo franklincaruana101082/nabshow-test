@@ -8,7 +8,6 @@
  * @package Amplify
  */
 
-
 get_header();
 
 $search_term 		= get_search_query();
