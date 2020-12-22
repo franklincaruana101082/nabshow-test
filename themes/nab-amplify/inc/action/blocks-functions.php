@@ -289,7 +289,7 @@ function nab_company_details_render_callback( $attributes ) {
     $company_industary  = get_field( 'company_industary', $company_id );
     $company_location   = get_field( 'company_location', $company_id );
     $company_website    = get_field( 'company_website', $company_id );
-    $point_of_contact   = get_field( 'point_of_contact', $company_id );
+    echo $point_of_contact   = get_field( 'point_of_contact', $company_id );
     $user_id            = get_current_user_id();
     $admin_id           = get_field( 'company_user_id', $company_id );
     $company_product_categories = get_field('product_categories', $company_id);
