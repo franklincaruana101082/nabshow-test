@@ -25,7 +25,18 @@
 								</div>
 								<div class="form-row">
 									<label for="">Point Of Contact</label>
-									<input type="text" class="input-text add-product" name="company_point_of_contact" value="<?php echo isset($company_data['company_point_of_contact']) ? $company_data['company_point_of_contact'] : ''; ?>" id="company_point_of_contact">
+									<div class="select-dark-simple">
+										<select name="company_point_of_contact"  id="company_point_of_contact">
+											<option value=""></option>
+											<?php foreach ($users as $user) {
+												
+											?>
+												<option value="<?php echo $user->data->ID; ?>" <?php if ($user->data->ID == $company_data['company_point_of_contact']) {
+																								echo "selected";
+																							} ?>><?php echo $user->data->display_name; ?></option>
+											<?php } ?>
+										</select>
+									</div>
 								</div>
 								<div class="form-row">
 									<label for="">Product Categories</label>

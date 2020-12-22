@@ -3150,6 +3150,7 @@ function nab_edit_company_about_callback(){
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
+    $users = get_users();
     
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 

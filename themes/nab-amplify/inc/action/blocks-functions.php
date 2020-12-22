@@ -337,7 +337,20 @@ function nab_company_details_render_callback( $attributes ) {
                                 }
                                 if ( ! empty( $point_of_contact ) ) {
                                     ?>
-                                    <li id="send-private-message"><span>Point of contact:</span> <a class="btn-link" href="" data-comp-id="<?php echo $company_id; ?>"><?php echo esc_html( $point_of_contact ); ?></a></li>
+                                    <li id="send-private-message">
+                                    <span>Point of contact:</span> 
+                                    <div class="author-details-box">
+                                            <div class="author-info">
+                                                <div class="author-image">
+                                                    <a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
+                                                </div>
+                                                <div class="author-details">
+                                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a></h3>
+                                                    <span class="author-subtitle"><?php echo get_user_meta($point_of_contact, 'attendee_title', true); ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </li>
                                     <?php
                                 }
                                 if( ! empty( $company_product_categories ) && $company_product_categories[0] !== 0){

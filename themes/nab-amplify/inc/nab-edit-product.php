@@ -109,7 +109,29 @@ global $post;
 								<div class="form-col-6">
 									<div class="form-row">
 										<label for="">Add Point of Contact</label>
-										<input type="text" class="input-text point-of-contact" name="nab_product_contact" id="nab_product_contact" value="<?php echo isset($post_data->product_point_of_contact) ? $post_data->product_point_of_contact : ''; ?>">
+										<div class="select-dark-simple">
+											<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
+												<?php
+												if ( ! empty( $post_data->product_point_of_contact ) ) {
+
+													$product_user = get_user_by( 'ID', $post_data->product_point_of_contact );
+
+													if ( $product_user ) {
+														
+														$user_name		= $product_user->user_login;
+														$user_full_name	= get_user_meta( $product_user->ID, 'first_name', true ) . ' ' . get_user_meta( $product_user->ID, 'last_name', true );
+
+														if ( ! empty( trim( $user_full_name ) ) ) {
+															$user_name .= ' (' . $user_full_name . ')';					
+														}
+														?>
+														<option value="<?php echo esc_attr( $product_user->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
+														<?php
+													}
+												}
+												?>
+											</select>
+										</div>
 									</div>
 									<div class="form-row mb0">
 										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
