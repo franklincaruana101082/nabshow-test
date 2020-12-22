@@ -8,6 +8,7 @@
  * @package Amplify
  */
 
+ 
 get_header();
 
 ?>
