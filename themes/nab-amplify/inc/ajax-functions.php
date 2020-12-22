@@ -1846,8 +1846,14 @@ function nab_bp_message_request_popup()
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 
 	$company_admin_id = get_field('company_user_id', $company_id);
+	
+	$point_of_contact   = get_field( 'point_of_contact', $company_id );
 
-	$user_images = nab_amplify_get_user_images($company_admin_id[0]);
+	$user_images = nab_amplify_get_user_images($point_of_contact);
+
+	$user_job_title = get_user_meta($point_of_contact, 'attendee_title', true);
+
+	
 
 	if (!empty($company_admin_id)) {
 
