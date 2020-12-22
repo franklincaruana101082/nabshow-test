@@ -1639,19 +1639,13 @@ body .is_friend .remove:before{font-size:22px;}
 .single-company .amp-profile-main .amp-profile-inner .search-actions{margin:5px;}
 .single-company .amp-profile-main .amp-profile-inner .search-actions a{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;margin:0;padding:10px 15px;}
 
+/* company archive */
+.post-type-archive-company{background-color:#404040;}
+
 /* Dark theme popup design */
-.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-thumb {
-    background: #222;
-}
-
-.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-track {
-    background: #494949;
-}
+.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar{width:10px;height:10px;}
+.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-thumb{background:#222;}
+.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-track{background:#494949;}
 .nab-modal.theme-dark *{color:#fff;}
 .nab-modal.theme-dark .modal-content{background-color:#404040;border-color:#404040;}
 .nab-modal.theme-dark h2,

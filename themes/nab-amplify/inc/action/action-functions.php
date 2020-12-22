@@ -2947,7 +2947,7 @@ function nab_article_tags_shortcode_callback($atts)
                 <ul class="amp-tag-list">
                     <?php
 
-                    $home_url = trim(get_site_url(), '/') . '/';
+                    $home_url = rtrim(get_site_url(), '/') . '/';
 
                     foreach ($final_tags as $current_tag) {
 

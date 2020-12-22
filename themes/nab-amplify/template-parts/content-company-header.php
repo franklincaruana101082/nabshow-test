@@ -146,11 +146,28 @@ $company_admin_id = get_field('company_user_id', $company_id);
                                 nab_get_follow_button($company_id, $user_id); ?>
                                 <div class="search-actions">
                                     <div id="send-private-message" class="generic-button">
-                                        <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
+                                        <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
                                     </div>
                                 </div>
                             </div>
                         <?php
+                        } else {
+                            $current_url = home_url( add_query_arg( NULL, NULL ) );
+                            $current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+                            ?>
+                            <div class="amp-actions">                                
+                                <div class="search-actions">
+                                    <div class="generic-button">
+                                        <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="btn">Follow</a>
+                                    </div>
+                                </div>
+                                <div class="search-actions">
+                                    <div class="generic-button">
+                                        <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Company Rep</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
                         ?>
                     </div>

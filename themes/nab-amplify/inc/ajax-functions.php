@@ -1260,6 +1260,16 @@ function nab_company_product_search_filter_callback()
 		's'					=> $search_term,
 	);
 
+	if ( ! empty( $search_term ) ) {
+				
+		$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+
+		if ( $get_search_term_id ) {
+
+			$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
+		}
+	}
+
 	if ('date' !== $orderby) {
 
 		$company_prod_args['orderby'] = $orderby;
@@ -1868,9 +1878,10 @@ function nab_bp_message_request_popup()
 
 	$user_job_title = get_user_meta($point_of_contact, 'attendee_title', true);
 
-	
-	require_once get_template_directory() . '/inc/nab-message-popup.php';
-	
+	if (!empty($point_of_contact)) {
+
+		require_once get_template_directory() . '/inc/nab-message-popup.php';
+	}
 	$popup_html = ob_get_clean();
 
 	wp_send_json($popup_html, 200);

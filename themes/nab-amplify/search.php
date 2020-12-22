@@ -226,6 +226,16 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					's'					=> $search_term
 				);
 
+				if ( ! empty( $search_term ) ) {
+				
+					$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+	
+					if ( $get_search_term_id ) {
+	
+						$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
+					}
+				}
+
 				$company_prod_query = new WP_Query($company_prod_args);
 
 				if ($company_prod_query->have_posts()) {
@@ -374,14 +384,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 													</div>
 													<?php
 													if ($user_logged_in) {
-
-													?>
+														?>
 														<div id="send-private-message" class="generic-button">
-															<a href="" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
-													<?php
-														nab_get_company_message_button(get_the_ID(), 'Message Rep');
+															<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Rep</a>
+														</div>
+														<?php 
+													} else {
+														
+														$current_url = home_url( add_query_arg( NULL, NULL ) );
+														$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+														
+														?>
+														<div class="generic-button">
+															<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
+														</div>
+														<?php
 													}
-													?>
+													?>													
 												</div>
 											</div>
 										</div>
@@ -710,8 +729,18 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				's'					=> $search_term
 			);
 
-			$company_prod_query = new WP_Query($company_prod_args);
+			if ( ! empty( $search_term ) ) {
+				
+				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
 
+				if ( $get_search_term_id ) {
+
+					$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
+				}
+			}
+			
+			$company_prod_query = new WP_Query($company_prod_args);
+			
 			if ($company_prod_query->have_posts()) {
 
 				$search_found		= true;
@@ -855,12 +884,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												</div>
 
 												<?php
-
-												if ($user_logged_in) { ?>
-
+												if ($user_logged_in) {
+													?>
 													<div id="send-private-message" class="generic-button">
-														<a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_the_ID(); ?>">Message Rep</a></div>
-												<?php }
+														<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo get_the_ID(); ?>">Message Rep</a>
+													</div>
+													<?php 
+												} else {
+													
+													$current_url = home_url( add_query_arg( NULL, NULL ) );
+													$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+													
+													?>
+													<div class="generic-button">
+														<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
+													</div>
+													<?php
+												}
 												?>
 											</div>
 										</div>

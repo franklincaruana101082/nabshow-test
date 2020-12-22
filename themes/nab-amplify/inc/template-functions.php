@@ -380,6 +380,18 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 			<?php
 			$user_button = ob_get_clean();
 		}
+	} else {				
+		
+		$current_url = home_url( add_query_arg( NULL, NULL ) );
+		$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+		
+		ob_start();
+		?>
+		<div class="search-actions">
+			<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="friendship-button">Connect</a>
+		</div>
+		<?php
+		$user_button = ob_get_clean();
 	}
 
 	return $user_button;

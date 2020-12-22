@@ -335,7 +335,6 @@
 
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row{margin-bottom:10px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:20px;}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row label{margin-left:0;}
 	.add-product{padding-right:10px!important;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child,
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{margin-top:22px;}
@@ -346,7 +345,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
 	.nab-product-media-item{width:100px;height:100px;}
-	.select-dark-simple.select-multiple:after{font-size:22px;}
+	.select-dark-simple:after{font-size:22px;}
 	.nab-modal .fa-info-circle{vertical-align:middle;}
 	.nab-modal .fa-info-circle[data-bp-tooltip]:after,
 	.nab-modal .tooltip{transform:translateX(-30%);}

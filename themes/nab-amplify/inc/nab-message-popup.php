@@ -10,7 +10,6 @@
         <div class="modal-content">
             <span class="nab-modal-close fa fa-times"></span>
             <div class="modal-content-wrap">
-                <?php if(!empty($point_of_contact)){ ?>
                 <form method="post" id="connection-message-form">
                     <h3>MESSAGE <?php echo get_the_title($company_id); ?> REP</h3>
                     <div class="author-info">
@@ -29,11 +28,6 @@
 
                     <a id="submit-message-request" href="javascript:void(0)" class="btn">SEND MESSAGE</a>
                 </form>
-                <?php }else{
-                    ?>
-                    <h4>There is no any Represantive assigned for this company.</h4>
-                    <?php
-                } ?>
             </div>
         </div>
     </div>
