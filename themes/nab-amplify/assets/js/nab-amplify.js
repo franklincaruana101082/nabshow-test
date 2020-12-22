@@ -480,6 +480,7 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -488,7 +489,7 @@
             .addClass('nab-modal-active')
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
-            
+
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
