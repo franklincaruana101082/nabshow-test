@@ -1868,10 +1868,9 @@ function nab_bp_message_request_popup()
 
 	$user_job_title = get_user_meta($point_of_contact, 'attendee_title', true);
 
-	if (!empty($point_of_contact)) {
-
-		require_once get_template_directory() . '/inc/nab-message-popup.php';
-	}
+	
+	require_once get_template_directory() . '/inc/nab-message-popup.php';
+	
 	$popup_html = ob_get_clean();
 
 	wp_send_json($popup_html, 200);
