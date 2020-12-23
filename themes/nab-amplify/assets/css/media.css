@@ -347,7 +347,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
 	.nab-product-media-item{width:100px;height:100px;}
-	.select-dark-simple:after{font-size:22px;}
+	.select-dark-simple:after{border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid #fdd80f;}
 	.nab-modal .fa-info-circle{vertical-align:middle;}
 	.nab-modal .fa-info-circle[data-bp-tooltip]:after,
 	.nab-modal .tooltip{transform:translateX(-30%);}
