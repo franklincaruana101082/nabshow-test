@@ -2199,8 +2199,10 @@
   $(document).on('click', '#submit-connection-request', function () {
     const connectionMsg = $('#connection-message').val()
     if ('' === connectionMsg) {
-      $('#connection-message').addClass('error')
-      $('#connection-message-form .error').show()
+      $('#connection-message-popup').hide();
+      $('.popup-opened').addClass('message-sent');
+      $('.popup-opened').trigger('click');
+      $('.popup-opened').removeClass('popup-opened');
     } else {
       $('#connection-message').removeClass('error')
       $('#connection-message-form .error').hide()
