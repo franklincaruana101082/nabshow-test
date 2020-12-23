@@ -371,13 +371,18 @@ function nab_company_details_render_callback($attributes)
                                         <div class="amp-tag-main">
                                             <ul class="amp-tag-list">
                                                 <?php
+                                                $home_url = rtrim(get_site_url(), '/') . '/';
                                                 foreach ($company_product_categories as $comp_prod_cat) {
-                                                    $terms = get_term_by('id', $comp_prod_cat, 'company-product-category');
-                                                ?>
+                                                    
+                                                    $terms          = get_term_by('id', $comp_prod_cat, 'company-product-category');                                                    
+                                                    $tag_search_url = add_query_arg(array('s' => $terms->name), $home_url);
+                                                    ?>
                                                     <li>
-                                                        <a href="<?php echo get_search_link() . '?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a>
+                                                        <a href="<?php echo esc_url( $tag_search_url ); ?>" class="btn"><?php echo $terms->name; ?></a>
                                                     </li>
-                                                <?php } ?>
+                                                    <?php
+                                                }
+                                                ?>
                                             </ul>
                                         </div>
                                     </li>

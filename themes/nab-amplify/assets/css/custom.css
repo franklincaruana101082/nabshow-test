@@ -1763,12 +1763,13 @@ body .is_friend .remove:before{font-size:22px;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child{left:30px;right:auto;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{right:30px;left:auto;}
 .add-product{padding-right:340px!important;}
+.limited-char-field{padding-right:340px;}
 .external-link{padding-right:80px!important;}
 #addProductModal .mb0{margin-bottom:0!important;}
 #addProductModal .toggle-button .nab-action{position:unset!important;-webkit-transform:none!important;-ms-transform:none!important;transform:none!important;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{height:68px;width:230px;margin-bottom:0;font-size:24px;font-weight:bold;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{right:auto;left:30px;pointer-events:none;}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="file"]{opacity:0;width:100%;cursor:pointer;}
+#addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="file"]{opacity:0;width:100%;cursor:pointer;overflow:hidden;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .file-input{width:100%;background:#333333;border-radius:3px;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action .nab-action-row{pointer-events:none;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="checkbox"]{height:100%;}

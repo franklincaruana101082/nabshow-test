@@ -1163,6 +1163,16 @@ function nab_company_search_filter_callback()
 		$company_args['order']	= $order;
 	}
 
+	if ( ! empty( $search_term ) ) {
+				
+		$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+
+		if ( $get_search_term_id ) {
+
+			$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
+		}
+	}
+
 	$company_query = new WP_Query($company_args);
 
 	$total_pages 	= $company_query->max_num_pages;
@@ -1197,11 +1207,23 @@ function nab_company_search_filter_callback()
 			<div class="search-actions">
 				<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 			</div>
-		<?php
-
+			<?php
 			if ($user_logged_in) {
-
-				nab_get_company_message_button(get_the_ID(), 'Message Company Representative');
+				?>
+				<div id="send-private-message" class="generic-button">
+					<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
+				</div>
+				<?php 
+			} else {
+				
+				$current_url = home_url( add_query_arg( NULL, NULL ) );
+				$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+				
+				?>
+				<div class="generic-button">
+					<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
+				</div>
+				<?php
 			}
 
 			$button = ob_get_clean();

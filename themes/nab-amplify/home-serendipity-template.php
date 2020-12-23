@@ -53,7 +53,7 @@ get_header();
 					<p><strong>On the weekends you can find me <span class="yellow-color-text">people-watching the park</span>. I’ll be drinking <span class="yellow-color-text">something delicious sweet</span> and might even <span class="yellow-color-text">go listen to Jazz at bar</span> later the evening. That's where you an find me every weekend so catch me over there one day and we'll meet up.</strong></p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -64,7 +64,7 @@ get_header();
 					<p>Sara has never been known for doing things halfway.</p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -84,7 +84,7 @@ get_header();
 					</ul>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -95,7 +95,7 @@ get_header();
 					<p><strong>On the weekends you can find me <span class="yellow-color-text">people-watching the park</span>. I’ll be drinking <span class="yellow-color-text">something delicious sweet</span> and might even <span class="yellow-color-text">go listen to Jazz at bar</span> later the evening.</strong></p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -106,7 +106,7 @@ get_header();
 					<p>Sara has never been known for doing things halfway. She jumps in with two feet, whether it’s going completely blonde the first time dying her hair or taking on editing her entire wedding video. With over seven years of marketing experience.</p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -126,14 +126,14 @@ get_header();
 					</ul>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<a class="serendipity-filter-data-load-more">Load More</a>
+		<div class="serendipity-filter-data-load-more-button"><a class="serendipity-filter-data-load-more">Load More</a></div>
 	</div>
 </div>
 <?php

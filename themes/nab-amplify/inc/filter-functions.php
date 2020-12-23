@@ -1090,8 +1090,9 @@ function nab_add_bookmark_icon_in_product($html, $post_thumbnail_id)
 function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 {
 
-	$meta_search 	= $wp_query->get('_meta_search');
-	$tax_search		= $wp_query->get('_tax_search');
+	$meta_search		= $wp_query->get('_meta_search');
+	$tax_search			= $wp_query->get('_tax_search');
+	$meta_company_term	= $wp_query->get('_meta_company_term');
 
 	if ( $meta_search && ! empty( $wp_query->query_vars['search_terms'] ) ) {
 
@@ -1141,6 +1142,31 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 				$search .= " AND ({$wpdb->posts}.post_password = '') ";
 			}
 		}
+	} else if ( isset( $meta_company_term ) && ! empty( $meta_company_term ) ) {
+
+		global $wpdb;
+
+		$q = $wp_query->query_vars;
+		$n = !empty($q['exact']) ? '' : '%';
+
+		$search 	= array();
+		$meta_like	= $n . '"' . $wpdb->esc_like($meta_company_term) . '"' . $n;
+
+		foreach ((array) $q['search_terms'] as $term) {
+
+			$like		= $n . $wpdb->esc_like($term) . $n;
+			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->postmeta}.meta_key = 'product_categories' AND {$wpdb->postmeta}.meta_value LIKE %s))", $like, $like, $like, $meta_like);
+		}
+
+		if (!empty($search)) {
+
+			$search = ' AND (' . implode(' AND ', $search) . ')';
+
+			if (!is_user_logged_in()) {
+
+				$search .= " AND ({$wpdb->posts}.post_password = '') ";
+			}
+		}
 	}
 
 	return $search;
@@ -1157,8 +1183,9 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
 
-	$meta_search 	= $query_object->get('_meta_search');
-	$tax_search		= $query_object->get('_tax_search');
+	$meta_search 		= $query_object->get('_meta_search');
+	$tax_search			= $query_object->get('_tax_search');
+	$meta_company_term	= $query_object->get('_meta_company_term');
 
 	if ($meta_search && !empty($query_object->query_vars['search_terms'])) {
 
@@ -1172,6 +1199,13 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 		global $wpdb;
 
 		$clauses['join'] 		= " LEFT JOIN {$wpdb->term_relationships} ON ( {$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id )";
+		$clauses['groupby']		= " {$wpdb->posts}.ID";
+
+	} else if ( isset( $meta_company_term ) && ! empty( $meta_company_term ) ) {
+		
+		global $wpdb;
+
+		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
 	}
 

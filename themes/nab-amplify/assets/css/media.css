@@ -193,6 +193,8 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:35px;}
 	#addProductModal.nab-modal .modal-content-wrap{padding:20px;}
 	#addProductModal.nab-modal .nab-modal-close:not(.fa){position:static;transform:translateX(0);width:auto;height:auto;margin-bottom:10px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:static;text-align:right;margin:10px 0;width:100%;display:inline-block;}
+	.limited-char-field{padding-right:10px;}
 
 	/* single company product */
 	.black-bg-box{padding:30px;}
