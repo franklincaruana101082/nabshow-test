@@ -11,8 +11,8 @@
 							<div class="company-about-row">
 								<div class="form-row">
 									<label for="">About</label>
+									<textarea class="input-text limited-char-field" name="company_about" id="company_about"><?php echo isset($company_data['company_about']) ? $company_data['company_about'] : ''; ?></textarea>
 									<span class="info-msg"><span id="character-count-comp-about">2000 Characters Remaining</span></span>
-									<textarea class="input-text" name="company_about" id="company_about"><?php echo isset($company_data['company_about']) ? $company_data['company_about'] : ''; ?></textarea>
 								</div>
 							</div>
 							<div class="company-info-row">

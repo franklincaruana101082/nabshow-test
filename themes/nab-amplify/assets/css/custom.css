@@ -1763,7 +1763,7 @@ body .is_friend .remove:before{font-size:22px;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child{left:30px;right:auto;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{right:30px;left:auto;}
 .add-product{padding-right:340px!important;}
-.limited-char-field{padding-right:340px;}
+.limited-char-field{padding-right:340px!important;}
 .external-link{padding-right:80px!important;}
 #addProductModal .mb0{margin-bottom:0!important;}
 #addProductModal .toggle-button .nab-action{position:unset!important;-webkit-transform:none!important;-ms-transform:none!important;transform:none!important;}
