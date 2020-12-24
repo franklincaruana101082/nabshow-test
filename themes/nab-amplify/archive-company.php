@@ -37,7 +37,7 @@ if ( $company_query->have_posts() ) {
 			$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
 			$user_logged_in			= is_user_logged_in();
 			$current_user_id		= $user_logged_in ? get_current_user_id() : '';
-			$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+			$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 			$cnt					= 1;
 
 			while ( $company_query->have_posts() ) {
@@ -48,7 +48,7 @@ if ( $company_query->have_posts() ) {
 				$profile_picture    = get_field( 'profile_picture' );
 				$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
 				$featured_image   	= get_the_post_thumbnail_url();  
-				$profile_picture  	= !empty($featured_image) ? $featured_image : $default_company_pic;
+				$profile_picture  	= $featured_image;
 				$company_url		= get_the_permalink();
 				?>
 				<div class="search-item">
@@ -59,7 +59,11 @@ if ( $company_query->have_posts() ) {
 						<div class="search-item-info">
 							<div class="search-item-avtar">
 								<a href="<?php echo esc_url( $company_url ); ?>">
-									<img src="<?php echo esc_url( $profile_picture ); ?>">
+									<?php if ($profile_picture) { ?>
+	                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+	                                <?php } else { ?>
+	                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
+	                                <?php } ?>
 								</a>
 							</div>
 							<div class="search-item-content">

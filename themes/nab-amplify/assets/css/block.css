@@ -537,6 +537,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center;}
 
 /* company product block */
 .company-products .amp-item-wrap .amp-item-info{text-align:left;}
+.company-products .amp-item-wrap .amp-item-info h4{min-height:52px;}
 .company-products .amp-item-wrap .amp-item-info .product-company{display:block;margin:0 0 30px;color:#999999;min-height:23px;}
 .company-products .amp-item-wrap .amp-item-info .search-actions,
 .company-products .amp-item-wrap .amp-item-info .search-actions .action{-webkit-box-pack: start;-ms-flex-pack: start;justify-content: flex-start;}

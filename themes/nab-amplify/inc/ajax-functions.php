@@ -1163,6 +1163,16 @@ function nab_company_search_filter_callback()
 		$company_args['order']	= $order;
 	}
 
+	if ( ! empty( $search_term ) ) {
+				
+		$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+
+		if ( $get_search_term_id ) {
+
+			$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
+		}
+	}
+
 	$company_query = new WP_Query($company_args);
 
 	$total_pages 	= $company_query->max_num_pages;
@@ -1174,7 +1184,7 @@ function nab_company_search_filter_callback()
 		$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
 		$user_logged_in			= is_user_logged_in();
 		$current_user_id		= $user_logged_in ? get_current_user_id() : '';
-		$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+		$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 
 		while ($company_query->have_posts()) {
 
@@ -1197,11 +1207,23 @@ function nab_company_search_filter_callback()
 			<div class="search-actions">
 				<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 			</div>
-		<?php
-
+			<?php
 			if ($user_logged_in) {
-
-				nab_get_company_message_button(get_the_ID(), 'Message Company Representative');
+				?>
+				<div id="send-private-message" class="generic-button">
+					<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
+				</div>
+				<?php 
+			} else {
+				
+				$current_url = home_url( add_query_arg( NULL, NULL ) );
+				$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+				
+				?>
+				<div class="generic-button">
+					<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
+				</div>
+				<?php
 			}
 
 			$button = ob_get_clean();
@@ -1259,6 +1281,16 @@ function nab_company_product_search_filter_callback()
 		'posts_per_page' 	=> $post_limit,
 		's'					=> $search_term,
 	);
+
+	if ( ! empty( $search_term ) ) {
+				
+		$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+
+		if ( $get_search_term_id ) {
+
+			$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
+		}
+	}
 
 	if ('date' !== $orderby) {
 
@@ -1471,19 +1503,24 @@ function nab_content_search_filter_callback()
 		's'					=> $search_term,
 	);
 
+	if ( ! empty( $search_term ) ) {				
+		$content_args[ '_meta_search' ] = true;
+	}
+
 	if ('relevance' === $orderby) {
 
-		$content_args['custom_order'] = 'relevance';
+		$content_args[ 'custom_order' ] = 'relevance';
 	} else {
 
-		$content_args['orderby'] 	= $orderby;
-		$content_args['order']	= $order;
+		$content_args[ 'orderby' ] 	= $orderby;
+		$content_args[ 'order' ]		= $order;
 	}
 
 	$content_query = new WP_Query($content_args);
 
-	$total_pages 	= $content_query->max_num_pages;
-	$total_content = $content_query->found_posts;
+	$total_pages 		= $content_query->max_num_pages;
+	$total_content		= $content_query->found_posts;
+	$current_site_url	= get_site_url();
 
 	if ($content_query->have_posts()) {
 
@@ -1495,9 +1532,21 @@ function nab_content_search_filter_callback()
 
 			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 
-			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
-			$result_post[$cnt]['link'] 		= get_the_permalink();
+			$result_post[$cnt]['thumbnail'] = $thumbnail_url;			
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
+
+			if ( 'tribe_events' === get_post_type() ) {													
+													
+				$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+				$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
+				$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+
+				$result_post[$cnt]['link']		= $website_link;
+				$result_post[$cnt]['target']	= $target;
+			} else {
+
+				$result_post[$cnt]['link']	= get_the_permalink();
+			}
 
 			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
 
@@ -1845,8 +1894,6 @@ function nab_bp_message_request_popup()
 
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 
-	$company_admin_id = get_field('company_user_id', $company_id);
-	
 	$point_of_contact   = get_field( 'point_of_contact', $company_id );
 
 	$user_images = nab_amplify_get_user_images($point_of_contact);
@@ -1854,11 +1901,8 @@ function nab_bp_message_request_popup()
 	$user_job_title = get_user_meta($point_of_contact, 'attendee_title', true);
 
 	
-
-	if (!empty($company_admin_id)) {
-
-		require_once get_template_directory() . '/inc/nab-message-popup.php';
-	}
+	require_once get_template_directory() . '/inc/nab-message-popup.php';
+	
 	$popup_html = ob_get_clean();
 
 	wp_send_json($popup_html, 200);
@@ -1929,4 +1973,203 @@ function nab_bp_send_message()
 
 		wp_send_json_error($response);
 	}
+}
+
+// Ajax to show connection request popup.
+add_action("wp_ajax_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
+add_action("wp_ajax_nopriv_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
+
+function nab_edit_feature_block_popup()
+{
+	$final_result = array();
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$content_post = get_post($company_id);
+	$content = $content_post->post_content;
+	$block_data = array();
+	$block_data['company_id'] = $company_id;
+	$blocks = parse_blocks($content);
+    foreach ($blocks as $block) {
+		
+        if ('rg/feature' === $block['blockName']) {
+			
+			$block_data['bg_image'] = $block['attrs']['backgroundImage'];
+			$block_data['headline'] = $block['attrs']['featureStatusTitle'] ? $block['attrs']['featureStatusTitle'] : 'Title' ;
+			$block_data['author'] = $block['attrs']['featureAuthor'] ? $block['attrs']['featureAuthor'] : 'Posted by author';
+			$block_data['description'] = $block['attrs']['featureDisc'] ? $block['attrs']['featureDisc'] : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt';
+			$block_data['button_label'] = $block['attrs']['featureJoinBtn'] ?  $block['attrs']['featureJoinBtn'] : 'Button' ;
+			$block_data['button_link'] = $block['attrs']['featureJoinBtnLink'] ? $block['attrs']['featureJoinBtnLink'] : '#';
+         }
+    }
+
+	require_once get_template_directory() . '/inc/nab-edit-feature-block.php';
+
+
+	wp_die();
+}
+
+
+add_action("wp_ajax_nab_edit_feature_block", "nab_edit_feature_block");
+add_action("wp_ajax_nopriv_nab_edit_feature_block", "nab_edit_feature_block");
+
+function nab_edit_feature_block()
+{
+	$final_result = array();
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_admins = get_field('company_user_id',$company_id);
+	$current_logged_user = get_current_user_id();
+	$nab_featured_block_headline       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_headline', FILTER_SANITIZE_STRING));
+	$nab_featured_block_posted_by       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
+	$nab_featured_block_description       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
+	$nab_featured_block_button_label       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_label', FILTER_SANITIZE_STRING));
+	$nab_featured_block_button_link      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_link', FILTER_SANITIZE_STRING));
+
+	/*Check if current user is company admin */
+	if(get_post_type($company_id) == 'company' && !in_array($current_logged_user,$company_admins)){
+		$response['feedback'] = 'Sorry! You dont have permission!';
+		wp_send_json_error($response);
+	}
+
+	$content_post = get_post($company_id);
+	$content = $content_post->post_content;
+	$blocks = parse_blocks($content);
+
+	foreach ($blocks as $block) {
+		if ('rg/feature' === $block['blockName']) {
+
+			
+			$block['attrs']['featureStatusTitle'] = $block['attrs']['featureStatusTitle'] ? $block['attrs']['featureStatusTitle'] : 'Title' ;
+			$block['attrs']['featureAuthor'] = $block['attrs']['featureAuthor'] ? $block['attrs']['featureAuthor'] : 'Posted by author';
+			$block['attrs']['featureDisc'] = $block['attrs']['featureDisc'] ? $block['attrs']['featureDisc'] : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt';
+			$block['attrs']['featureJoinBtn'] = $block['attrs']['featureJoinBtn'] ?  $block['attrs']['featureJoinBtn'] : 'Button' ;
+			$block['attrs']['featureJoinBtnLink'] = $block['attrs']['featureJoinBtnLink'] ? $block['attrs']['featureJoinBtnLink'] : '#';
+			
+			$dependencies_loaded = 0;
+			foreach ($_FILES as $file_key => $file_details) {
+
+				if (0 === $dependencies_loaded) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = 1;
+				}
+		
+				// Let WordPress handle the upload.
+				 $attachment_id = media_handle_upload($file_key, 0);
+		
+				if (!is_wp_error($attachment_id)) {
+					// update in meta
+					
+					 $bg_image_url = wp_get_attachment_url( $attachment_id );
+					 $block['innerContent'][0] = str_replace($block['attrs']['backgroundImage'],$bg_image_url, $block['innerContent'][0]);
+					$block['innerHTML'] = str_replace($block['attrs']['backgroundImage'],$bg_image_url, $block['innerHTML']);
+					$block['attrs']['backgroundImage'] = $bg_image_url;
+					
+		
+				}
+			}
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureStatusTitle'], $nab_featured_block_headline, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureStatusTitle'], $nab_featured_block_headline, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureAuthor'], $nab_featured_block_posted_by, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureAuthor'], $nab_featured_block_posted_by, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureDisc'], $nab_featured_block_description, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureDisc'], $nab_featured_block_description, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureJoinBtn'], $nab_featured_block_button_label, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureJoinBtn'], $nab_featured_block_button_label, $block['innerHTML']);
+
+			$block['innerContent'][0] = str_replace($block['attrs']['featureJoinBtnLink'], $nab_featured_block_button_link, $block['innerContent'][0]);
+			$block['innerHTML'] = str_replace($block['attrs']['featureJoinBtnLink'], $nab_featured_block_button_link, $block['innerHTML']);
+
+			$block['attrs']['featureAuthor'] = 	$nab_featured_block_posted_by;
+
+			$block['attrs']['featureDisc'] = $nab_featured_block_description;
+
+			$block['attrs']['featureStatusTitle'] = $nab_featured_block_headline;
+
+			$block['attrs']['featureJoinBtn'] = $nab_featured_block_button_label;
+			$block['attrs']['featureJoinBtnLink'] = $nab_featured_block_button_link;
+
+			$rebuild_block = str_replace('<!-- wp:rg/feature ','',serialize_block($block));
+			$rebuild_block = str_replace('<!-- /wp:rg/feature -->','',$rebuild_block);
+			
+			
+
+			
+
+			$new_content = replace_between($content, '<!-- wp:rg/feature ', '<!-- /wp:rg/feature -->', $rebuild_block);
+
+			$company_post_data = array(
+				'ID'           => $company_id,
+				'post_content' => $new_content,
+			);
+
+			$company_post = wp_update_post($company_post_data, true);
+			if (is_wp_error($company_post)) {
+				$errors = $company_post->get_error_messages();
+				foreach ($errors as $error) {
+					$response['feedback'] = $error;
+					wp_send_json_error($response);
+				}
+			} else {
+				wp_send_json_success(array(
+					'feedback' => __('Featured Block Updated!', 'buddypress'),
+					'type'     => 'success',
+				));
+			}
+		}
+	}
+
+
+
+
+	wp_die();
+}
+
+function replace_between($str, $needle_start, $needle_end, $replacement) {
+    $pos = strpos($str, $needle_start);
+    $start = $pos === false ? 0 : $pos + strlen($needle_start);
+
+    $pos = strpos($str, $needle_end, $start);
+    $end = $start === false ? strlen($str) : $pos;
+ 
+    return substr_replace($str,$replacement,  $start, $end - $start);
+}
+
+// Ajax for get user for product point of contact
+add_action( 'wp_ajax_nab_product_point_of_contact', 'nab_product_point_of_contact_callback' );
+add_action( 'wp_ajax_nopriv_nab_product_point_of_contact', 'nab_product_point_of_contact_callback' );
+
+function nab_product_point_of_contact_callback() {
+
+	$search_key 	= filter_input( INPUT_GET, 'q', FILTER_SANITIZE_STRING );
+	$final_result	= [];
+
+	if ( isset( $search_key ) && ! empty( $search_key ) ) {
+
+		$search_key		= '*' . $search_key . '*';
+		$user_query		= new WP_User_Query( array( 'search' => $search_key ) );
+		$found_users	= $user_query->get_results();
+		
+		if ( ! empty( $found_users ) ) {
+
+			foreach( $found_users as $current_user ) {
+
+				$user_name		= $current_user->user_login;
+				$user_full_name	= get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );
+
+				if ( ! empty( trim( $user_full_name ) ) ) {
+					$user_name .= ' (' . $user_full_name . ')';					
+				}
+
+				$final_result[] = array( $current_user->ID, $user_name );
+			}
+		}
+	}
+	
+	echo wp_json_encode( $final_result );
+	wp_die();
 }

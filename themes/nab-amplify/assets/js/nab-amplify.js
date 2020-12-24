@@ -38,6 +38,19 @@
       }
     })
 
+    if (
+      typeof amplifyJS !== 'undefined' &&
+      amplifyJS.postType === 'company' &&
+      jQuery.inArray(
+        parseInt(amplifyJS.CurrentLoggedUser),
+        amplifyJS.CompanyAdminId
+      ) !== -1
+    ) {
+      jQuery('.edit-feature-block').show()
+    } else {
+      jQuery('.edit-feature-block').hide()
+    }
+
     HeaderResponsive()
 
     $(window).on('resize', function () {
@@ -189,41 +202,96 @@
         .fadeIn(200)
     })
     jQuery('#product_categories').select2()
-
-    jQuery(document).on('keyup', '#nab_product_specs', function (e) {
-      var len = jQuery(this).val().length
-      var cval = jQuery(this).val()
-
-      if (len >= 250) {
-        cval = jQuery(this)
-          .text()
-          .substring(0, 250)
-
-        jQuery('.character-count-specs').text(0)
-      } else {
-        jQuery(this).text(250 - len)
-        jQuery('.character-count-specs').text(250 - len)
-      }
-      jQuery(this).val(cval)
-    })
-
-    jQuery(document).on('keyup', '#nab_product_copy', function (e) {
-      var len = jQuery(this).val().length
-      var cval = jQuery(this).val()
-
-      if (len >= 250) {
-        cval = jQuery(this)
-          .text()
-          .substring(0, 250)
-
-        jQuery('.character-count-copy').text(0)
-      } else {
-        jQuery(this).text(250 - len)
-        jQuery('.character-count-copy').text(250 - len)
-      }
-      jQuery(this).val(cval)
-    })
+    jQuery('#company_point_of_contact').select2()
   })
+  charcount('keyup', '#company_about', '#character-count-comp-about', 2000)
+  charcount(
+    'keyup',
+    '#nab_featured_block_headline',
+    '#character-count-featured-headline',
+    200
+  )
+  charcount(
+    'keyup',
+    '#nab_featured_block_posted_by',
+    '#character-count-featured-posyby',
+    60
+  )
+  charcount(
+    'keyup',
+    '#nab_featured_block_description',
+    '#character-count-featured-desc',
+    200
+  )
+  charcount(
+    'keyup',
+    '#nab_featured_block_button_label',
+    '#character-count-featured-btnlabel',
+    60
+  )
+
+  function charcount (event, tag, counttag, limit) {
+    jQuery(document).on(event, tag, function (e) {
+      var len = jQuery(this).val().length
+      var cval = jQuery(this).val()
+      var diff = limit - len
+      if (len >= limit) {
+        cval = jQuery(this)
+          .text()
+          .substring(0, 250)
+        jQuery(counttag).html('Maximum Characters Limit exeeds!')
+      } else {
+        jQuery(counttag).html('' + diff + ' characters remianing')
+      }
+    })
+  }
+
+  function addSuccessMsg (tag, message) {
+    if (jQuery(tag).length) {
+      if(tag === '.modal-content-wrap'){
+        jQuery(tag).html('<h3>' + message + '</h3>')
+      }else{
+        jQuery(tag).html('<h4>' + message + '</h4>')
+      }
+      
+    }
+  }
+
+  function defaultCharCount (tag, charTag, limit) {
+    if (jQuery(tag).length > 0) {
+      var prod_copy_content_length = jQuery(tag)
+        .val()
+        .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+      var diff = limit - prod_copy_content_length
+      if (diff < 0) {
+        jQuery(charTag).html('Maximum Characters Limit exeeds!')
+      } else {
+        jQuery(charTag).html('' + diff + ' characters remianing')
+      }
+    }
+  }
+
+  function checkContentlength (tag, tagLabel, limit) {
+    var tag_length = jQuery(tag)
+      .val()
+      .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+
+    if (tag_length > limit) {
+      alert(
+        'The length of ' +
+          tagLabel +
+          ' is ' +
+          tag_length +
+          ' the max num of characters allowed for this content is ' +
+          limit +
+          ''
+      )
+      $('body').removeClass('is-loading')
+      return false
+    } else {
+      return true
+    }
+  }
 
   $(document).on('click', '.action-edit ', function () {
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
@@ -248,8 +316,41 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          setTimeout(function () {
+            if (jQuery('#nab_product_copy').length > 0) {
+              var prod_copy_content_length = tinyMCE
+                .get('nab_product_copy')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_copy_content_length
+              if (diff < 0) {
+                jQuery('#character-count-copy').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-copy').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+            if (jQuery('#nab_product_specs').length > 0) {
+              var prod_specs_content_length = tinyMCE
+                .get('nab_product_specs')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_specs_content_length
+              if (diff < 0) {
+                jQuery('#character-count-specs').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-specs').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+          }, 1000)
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -260,37 +361,71 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-           $('.poduct-point-of-contact').select2();
+          jQuery('#company_point_of_contact').select2()
+          setTimeout(function () {
+            if (jQuery('#nab_product_copy').length > 0) {
+              var prod_copy_content_length = tinyMCE
+                .get('nab_product_copy')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_copy_content_length
+              if (diff < 0) {
+                jQuery('#character-count-copy').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-copy').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+            if (jQuery('#nab_product_specs').length > 0) {
+              var prod_specs_content_length = tinyMCE
+                .get('nab_product_specs')
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+              var diff = 2000 - prod_specs_content_length
+              if (diff < 0) {
+                jQuery('#character-count-specs').html(
+                  'Maximum Characters Limit exeeds!'
+                )
+              } else {
+                jQuery('#character-count-specs').html(
+                  '' + diff + ' characters remianing'
+                )
+              }
+            }
+          }, 1000)
+        }
+        $('.poduct-point-of-contact').select2()
         $('.poduct-point-of-contact').select2({
           ajax: {
             url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
             dataType: 'json',
             delay: 250, // delay in ms while typing when to perform a AJAX search
             data: function (params) {
-                return {
-                  q: params.term, // search query
-                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
-                };
+              return {
+                q: params.term, // search query
+                action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+              }
             },
-            processResults: function( data ) {
-              var options = [];
-              if ( data ) {
-
+            processResults: function (data) {
+              var options = []
+              if (data) {
                 // data is the array of arrays, and each of them contains ID and the Label of the option
-                $.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
-                  options.push( { id: text[0], text: text[1]  } );
-                });
-
+                $.each(data, function (index, text) {
+                  // do not forget that "index" is just auto incremented value
+                  options.push({ id: text[0], text: text[1] })
+                })
               }
               return {
                 results: options
-              };
+              }
             },
             cache: true
           },
           minimumInputLength: 3
-        });
-        }
+        })
       }
     })
   })
@@ -355,6 +490,8 @@
   })
 
   $(document).on('click', '#nab-edit-product-submit', function () {
+    tinyMCE.triggerSave()
+
     var product_title = jQuery('#nab-edit-product-form #product_title').val()
     var product_categories = jQuery(
       '#nab-edit-product-form #product_categories'
@@ -367,7 +504,7 @@
     ).val()
     var nab_product_contact = jQuery(
       '#nab-edit-product-form #nab_product_contact'
-    ).val()    
+    ).val()
     var nab_feature_product = jQuery(
       '#nab-edit-product-form #nab_feature_product'
     ).prop('checked')
@@ -391,8 +528,36 @@
     ).prop('checked')
       ? 1
       : 0
+    var nab_product_learn_more_url = jQuery(
+      '#nab-edit-product-form #nab_product_learn_more_url'
+    ).val()
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
+    var nab_product_copyLength = tinyMCE
+      .get('nab_product_copy')
+      .getContent()
+      .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+    if (nab_product_copyLength > 2000) {
+      alert(
+        'The length of product copy content is ' +
+          nab_product_copy.length +
+          ' the max num of characters allowed for this content is 2000'
+      )
+      return false
+    }
+
+    var nab_product_specsLength = tinyMCE
+      .get('nab_product_specs')
+      .getContent()
+      .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+    if (nab_product_specsLength > 2000) {
+      alert(
+        'The length of product specs content is ' +
+          nab_product_specsLength +
+          ' the max num of characters allowed for this content is 2000'
+      )
+      return false
+    }
 
     var form_data = new FormData()
 
@@ -405,22 +570,23 @@
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
-    if( product_categories == null){
+    if (product_categories == null) {
       form_data.append('product_categories', [])
-    }else{
+    } else {
       form_data.append('product_categories', product_categories)
     }
-    
+
     form_data.append('nabNonce', amplifyJS.nabNonce)
     form_data.append('nab_product_copy', nab_product_copy)
     form_data.append('nab_product_specs', nab_product_specs)
-    form_data.append('nab_product_contact', nab_product_contact)      
+    form_data.append('nab_product_contact', nab_product_contact)
     form_data.append('nab_feature_product', nab_feature_product)
     form_data.append('nab_product_b_stock', nab_product_b_stock)
     form_data.append('nab_product_sales_item', nab_product_sales_item)
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
+    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
 
     form_data.append('remove_attachments', remove_attachment_arr)
     form_data.append('nab_company_id', nab_company_id)
@@ -440,12 +606,16 @@
         if (json.success === true) {
           $('body').removeClass('is-loading')
           if (nab_product_id !== '0') {
-            alert('Product Updated Successfully!')
+            addSuccessMsg(
+              '.add-product-content-popup',
+              'Product Updated Successfully!'
+            )
           } else {
-            alert('Product Added Successfully!')
+            addSuccessMsg(
+              '.add-product-content-popup',
+              'Product Added Successfully!'
+            )
           }
-
-          location.reload(true)
         }
       }
     })
@@ -479,6 +649,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -489,6 +660,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#company_point_of_contact').select2()
         }
       }
     })
@@ -511,6 +683,14 @@
       fd.append('twitter_profile', jQuery('#twitter_profile').val())
     }
     if (jQuery('#company_about').length) {
+      if (jQuery('#company_about').val().length > 2000) {
+        alert(
+          'The length of Company about content is ' +
+            jQuery('#company_about').val().length +
+            ' the max num of characters allowed for this content is 2000'
+        )
+        return false
+      }
       fd.append('company_about', jQuery('#company_about').val())
     }
     if (jQuery('#company_industry').length) {
@@ -572,6 +752,10 @@
       )
     }
 
+    if (jQuery('#company_youtube').length) {
+      fd.append('company_youtube', jQuery('#company_youtube').val())
+    }
+
     jQuery.ajax({
       type: 'POST',
       url: amplifyJS.ajaxurl,
@@ -582,9 +766,11 @@
         $('body').addClass('is-loading')
       },
       success: function (data) {
-        alert('Profile Updated Successfully!')
         $('body').removeClass('is-loading')
-        location.reload(true)
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Profile Updated Successfully!'
+        )
       }
     })
   })
@@ -639,7 +825,20 @@
             jQuery('.company-about-row').css('display', 'none')
             jQuery('.company-info-row').css('display', 'block')
           }
-        }, 1000)
+          if (jQuery('#company_about').length) {
+            var len = jQuery('#company_about').val().length
+            var diff = 2000 - len
+            if (len > 2000) {
+              jQuery('#character-count-comp-about').html(
+                'Maximum Characters limit exceeds'
+              )
+            } else {
+              jQuery('#character-count-comp-about').html(
+                diff + ' characters remaining'
+              )
+            }
+          }
+        }, 500)
       }
     })
   })
@@ -651,7 +850,6 @@
     jQuery('.banner-header').addClass('edit_mode_on')
     jQuery('.edit-bg-pic').show()
     jQuery('.edit-company-industry').show()
-    
   })
   $(document).on('click', '.cancel-edit-company-mode', function () {
     jQuery('.edit-profile-pic').hide()
@@ -2001,8 +2199,10 @@
   $(document).on('click', '#submit-connection-request', function () {
     const connectionMsg = $('#connection-message').val()
     if ('' === connectionMsg) {
-      $('#connection-message').addClass('error')
-      $('#connection-message-form .error').show()
+      $('#connection-message-popup').hide();
+      $('.popup-opened').addClass('message-sent');
+      $('.popup-opened').trigger('click');
+      $('.popup-opened').removeClass('popup-opened');
     } else {
       $('#connection-message').removeClass('error')
       $('#connection-message-form .error').hide()
@@ -2573,14 +2773,167 @@
         },
         success: function (data) {
           $('body').removeClass('is-loading')
-
-          $('#connection-message-popup').hide()
-
-          $('#connection-message-popup').remove()
-          alert(data.data.feedback)
+          addSuccessMsg('.modal-content-wrap', data.data.feedback)
         }
       })
     }
+  })
+
+  $(document).on('click', '.edit-feature-block', function (e) {
+    e.preventDefault()
+
+    var company_id = amplifyJS.postID
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'nab_edit_feature_block_popup',
+        company_id: company_id
+      },
+      success: function (data) {
+        if ($('#addProductModal').length > 0) {
+          $('#addProductModal').remove()
+          $('body').append(data)
+          $('#addProductModal').show()
+          $('body').addClass('feature-block-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+          defaultCharCount(
+            '#nab_featured_block_headline',
+            '#character-count-featured-headline',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_posted_by',
+            '#character-count-featured-posyby',
+            60
+          )
+          defaultCharCount(
+            '#nab_featured_block_description',
+            '#character-count-featured-desc',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_button_label',
+            '#character-count-featured-btnlabel',
+            60
+          )
+        } else {
+          $('body').append(data)
+          $('#addProductModal').show()
+          $('body').addClass('feature-block-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+          defaultCharCount(
+            '#nab_featured_block_headline',
+            '#character-count-featured-headline',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_posted_by',
+            '#character-count-featured-posyby',
+            60
+          )
+          defaultCharCount(
+            '#nab_featured_block_description',
+            '#character-count-featured-desc',
+            200
+          )
+          defaultCharCount(
+            '#nab_featured_block_button_label',
+            '#character-count-featured-btnlabel',
+            60
+          )
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '#nab-edit-featured-block-submit', function (e) {
+    e.preventDefault()
+
+    var form_data = new FormData()
+    var nab_featured_block_headline = $('#nab_featured_block_headline').val()
+    var nab_featured_block_posted_by = $('#nab_featured_block_posted_by').val()
+    var nab_featured_block_description = $(
+      '#nab_featured_block_description'
+    ).val()
+    var nab_featured_block_button_label = $(
+      '#nab_featured_block_button_label'
+    ).val()
+    var nab_featured_block_button_link = $(
+      '#nab_featured_block_button_link'
+    ).val()
+
+    if (!checkContentlength('#nab_featured_block_headline', 'Headline', 200)) {
+      return false
+    }
+    if (!checkContentlength('#nab_featured_block_posted_by', 'Posted By', 60)) {
+      return false
+    }
+    if (
+      !checkContentlength('#nab_featured_block_description', 'Description', 200)
+    ) {
+      return false
+    }
+    if (
+      !checkContentlength(
+        '#nab_featured_block_button_label',
+        'Button label',
+        60
+      )
+    ) {
+      return false
+    }
+
+    form_data.append('action', 'nab_edit_feature_block')
+    form_data.append('company_id', amplifyJS.postID)
+    form_data.append('nab_featured_block_headline', nab_featured_block_headline)
+    form_data.append(
+      'nab_featured_block_posted_by',
+      nab_featured_block_posted_by
+    )
+    form_data.append(
+      'nab_featured_block_description',
+      nab_featured_block_description
+    )
+    form_data.append(
+      'nab_featured_block_button_label',
+      nab_featured_block_button_label
+    )
+    form_data.append(
+      'nab_featured_block_button_link',
+      nab_featured_block_button_link
+    )
+
+    if (jQuery('#product_featured_image')[0].files.length > 0) {
+      $.each($('#product_featured_image')[0].files, function (key, file) {
+        form_data.append(key, file)
+      })
+    }
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      data: form_data,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
+      success: function (data) {
+        if (data.data.type == 'success') {
+          $('body').removeClass('is-loading')
+          addSuccessMsg(
+            '.add-product-content-popup',
+            'Featured Block Updated Sucessfully!'
+          )
+          
+        } else {
+          $('body').removeClass('is-loading')
+        }
+      }
+    })
   })
 })(jQuery)
 
@@ -3295,6 +3648,10 @@ function nabSearchContentAjax (loadMore, pageNumber) {
           postTitleLink.setAttribute('href', value.link)
           postTitleLink.innerText = value.title
 
+          if (value.target) {
+            postTitleLink.setAttribute('target', value.target)
+          }
+
           postTitle.appendChild(postTitleLink)
 
           searchContent.appendChild(postTitle)
@@ -3306,6 +3663,10 @@ function nabSearchContentAjax (loadMore, pageNumber) {
           viewPostLink.setAttribute('href', value.link)
           viewPostLink.setAttribute('class', 'button')
           viewPostLink.innerText = 'View'
+
+          if (value.target) {
+            viewPostLink.setAttribute('target', value.target)
+          }
 
           searchAction.appendChild(viewPostLink)
           searchContent.appendChild(searchAction)

@@ -1639,19 +1639,13 @@ body .is_friend .remove:before{font-size:22px;}
 .single-company .amp-profile-main .amp-profile-inner .search-actions{margin:5px;}
 .single-company .amp-profile-main .amp-profile-inner .search-actions a{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;margin:0;padding:10px 15px;}
 
+/* company archive */
+.post-type-archive-company{background-color:#404040;}
+
 /* Dark theme popup design */
-.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-thumb {
-    background: #222;
-}
-
-.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-track {
-    background: #494949;
-}
+.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar{width:10px;height:10px;}
+.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-thumb{background:#222;}
+.nab-modal.theme-dark .modal-content-wrap::-webkit-scrollbar-track{background:#494949;}
 .nab-modal.theme-dark *{color:#fff;}
 .nab-modal.theme-dark .modal-content{background-color:#404040;border-color:#404040;}
 .nab-modal.theme-dark h2,
@@ -1701,7 +1695,7 @@ body .is_friend .remove:before{font-size:22px;}
 
 .select-dark-simple{width:100%;position:relative;}
 .select-dark-simple .select2-container{width:100%!important}
-.select-dark-simple:after{content:"\f078";font-family:fontawesome;font-size:28px;position:absolute;right:30px;top:50%;transform:translateY(-50%);color:#fdd80f;cursor:pointer;pointer-events:none;}
+.select-dark-simple:after{content:'';width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:20px solid #fdd80f;position:absolute;right:30px;top:50%;transform:translateY(-50%);cursor:pointer;pointer-events:none;}
 .select-dark-simple .select2-container .select2-selection--multiple,
 .select-dark-simple .select2-container .select2-selection--single{background-color:#333;border-color:#333;cursor:pointer;padding-right:50px;}
 .select-dark-simple .select2-container .select2-selection--single{height:auto;}
@@ -1769,12 +1763,13 @@ body .is_friend .remove:before{font-size:22px;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child{left:30px;right:auto;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{right:30px;left:auto;}
 .add-product{padding-right:340px!important;}
+.limited-char-field{padding-right:340px!important;}
 .external-link{padding-right:80px!important;}
 #addProductModal .mb0{margin-bottom:0!important;}
 #addProductModal .toggle-button .nab-action{position:unset!important;-webkit-transform:none!important;-ms-transform:none!important;transform:none!important;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{height:68px;width:230px;margin-bottom:0;font-size:24px;font-weight:bold;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{right:auto;left:30px;pointer-events:none;}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="file"]{opacity:0;width:100%;cursor:pointer;}
+#addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="file"]{opacity:0;width:100%;cursor:pointer;overflow:hidden;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .file-input{width:100%;background:#333333;border-radius:3px;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action .nab-action-row{pointer-events:none;}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="checkbox"]{height:100%;}

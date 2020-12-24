@@ -11,19 +11,19 @@
 						<form method="post" id="nab-edit-company-profile-form" enctype="multipart/form-data">
 							<div class="form-row">
 								<label for="">Instagram</label>
-								<input type="text" class="input-text add-product" name="instagram_profile" value="<?php echo isset($company_data['instagram_profile']) ? $company_data['instagram_profile'] : ''; ?>" id="instagram_profile">
+								<input type="text" class="input-text" name="instagram_profile" value="<?php echo isset($company_data['instagram_profile']) ? $company_data['instagram_profile'] : ''; ?>" id="instagram_profile">
                             </div>
                             <div class="form-row">
 								<label for="">LinkedIn</label>
-								<input type="text" class="input-text add-product" name="linkedin_profile" value="<?php echo isset($company_data['linkedin_profile']) ? $company_data['linkedin_profile'] : ''; ?>" id="linkedin_profile">
+								<input type="text" class="input-text" name="linkedin_profile" value="<?php echo isset($company_data['linkedin_profile']) ? $company_data['linkedin_profile'] : ''; ?>" id="linkedin_profile">
                             </div>
                             <div class="form-row">
 								<label for="">Facebook</label>
-								<input type="text" class="input-text add-product" name="facebook_profile" value="<?php echo isset($company_data['facebook_profile']) ? $company_data['facebook_profile'] : ''; ?>" id="facebook_profile">
+								<input type="text" class="input-text" name="facebook_profile" value="<?php echo isset($company_data['facebook_profile']) ? $company_data['facebook_profile'] : ''; ?>" id="facebook_profile">
                             </div>
                             <div class="form-row">
 								<label for="">Twitter</label>
-								<input type="text" class="input-text add-product" name="twitter_profile" value="<?php echo isset($company_data['twitter_profile']) ? $company_data['twitter_profile'] : ''; ?>" id="twitter_profile">
+								<input type="text" class="input-text" name="twitter_profile" value="<?php echo isset($company_data['twitter_profile']) ? $company_data['twitter_profile'] : ''; ?>" id="twitter_profile">
 							</div>
 							
 							<div class="form-row">

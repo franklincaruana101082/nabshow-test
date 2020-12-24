@@ -22,6 +22,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
 
+if ( ! empty( $redirect_url ) ) {
+	
+	$queries = array();
+	parse_str( $_SERVER[ 'QUERY_STRING' ], $queries );
+	
+	if ( isset( $queries[ 'r' ] ) && is_array( $queries ) && count( $queries ) > 1 ) {
+		
+		unset( $queries[ 'r' ] );
+		$redirect_url = add_query_arg( $queries, $redirect_url );		
+	}
+}
+
 if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( 'checkout' ) === $referer_url ) {
 	$redirect_url = $_SERVER[ 'HTTP_REFERER' ];
 }
