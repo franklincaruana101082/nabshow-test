@@ -41,9 +41,10 @@ global $post;
 							</div>
 							
 							<div class="form-row">
+								<?php $existing_media_count =  count($post_data->product_media); ?>
 								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Product Image (1200x630)"></i> <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
-									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
+									<div class="file-input"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
 									</div>
 									<div class="nab-action left-action">
@@ -56,7 +57,9 @@ global $post;
 
 							</div>
 							<div class="form-row" id="product_media_wrapper">
-								<?php if (isset($post_data->product_media)) {
+								<?php 
+								
+								if (isset($post_data->product_media)) {
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
 								?>
@@ -140,7 +143,7 @@ global $post;
 							<div class="form-row">
 								<div class="toggle-wrap">
 									<span class="toggle-label">Discussion <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="https://nabshow-beta.go-vip.net/amplify/terms-of-use/">terms of use</a> and <a href="https://nabshow-qa.go-vip.net/amplify/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
+										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="<?php echo esc_url(get_site_url()); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo esc_url(get_site_url()); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
 									</i></span>
 									<label class="nab-toggle-btn">
 										<input type="checkbox" <?php if ($post_data->comment_status === 'open') {
