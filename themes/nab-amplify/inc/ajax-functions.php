@@ -1903,6 +1903,8 @@ function nab_bp_message_request_popup()
 	}else{
 		$point_of_contact   = get_field( 'point_of_contact', $company_id );
 	}
+
+	$user_fullname = nab_get_author_fullname( $point_of_contact);
 	
 
 	$user_images = nab_amplify_get_user_images($point_of_contact);
@@ -1984,13 +1986,13 @@ function nab_bp_send_message()
 	}
 }
 
-// Ajax to show connection request popup.
+// Ajax to show featured block request popup.
 add_action("wp_ajax_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
 add_action("wp_ajax_nopriv_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
 
 function nab_edit_feature_block_popup()
 {
-	$final_result = array();
+	
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$content_post = get_post($company_id);
 	$content = $content_post->post_content;

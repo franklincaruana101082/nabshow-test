@@ -144,7 +144,7 @@ get_header();
                                     <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
                                 </div>
                                 <div class="author-details">
-                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo get_the_author_meta('user_nicename', $current_user_id[0]); ?></a></h3>
+                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo nab_get_author_fullname($current_user_id[0]); ?></a></h3>
                                     <span class="author-subtitle"><?php echo get_user_meta($current_user_id[0], 'attendee_title', true); ?></span>
                                 </div>
                             </div>

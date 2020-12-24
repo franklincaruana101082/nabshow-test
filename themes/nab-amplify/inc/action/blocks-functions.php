@@ -290,6 +290,7 @@ function nab_company_details_render_callback($attributes)
     $user_id            = get_current_user_id();
     $admin_id           = get_field('company_user_id', $company_id);
     $company_product_categories = get_field('product_categories', $company_id);
+    
 
     // Get images.
     $user_images = nab_amplify_get_user_images($point_of_contact);
@@ -356,7 +357,7 @@ function nab_company_details_render_callback($attributes)
                                                     <a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
                                                 </div>
                                                 <div class="author-details">
-                                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a></h3>
+                                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><?php echo nab_get_author_fullname($point_of_contact); ?></a></h3>
                                                     <span class="author-subtitle"><?php echo get_user_meta($point_of_contact, 'attendee_title', true); ?></span>
                                                 </div>
                                             </div>
@@ -373,14 +374,14 @@ function nab_company_details_render_callback($attributes)
                                                 <?php
                                                 $home_url = rtrim(get_site_url(), '/') . '/';
                                                 foreach ($company_product_categories as $comp_prod_cat) {
-                                                    
-                                                    $terms          = get_term_by('id', $comp_prod_cat, 'company-product-category');                                                    
+
+                                                    $terms          = get_term_by('id', $comp_prod_cat, 'company-product-category');
                                                     $tag_search_url = add_query_arg(array('s' => $terms->name), $home_url);
-                                                    ?>
+                                                ?>
                                                     <li>
-                                                        <a href="<?php echo esc_url( $tag_search_url ); ?>" class="btn"><?php echo $terms->name; ?></a>
+                                                        <a href="<?php echo esc_url($tag_search_url); ?>" class="btn"><?php echo $terms->name; ?></a>
                                                     </li>
-                                                    <?php
+                                                <?php
                                                 }
                                                 ?>
                                             </ul>
@@ -430,8 +431,8 @@ function nab_company_produts_render_callback($attributes)
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
     );
-    $meta_query_args    = array( 'relation' => 'AND' );
-    $meta_query_args[ 'nab_is_product_featured' ] = array (
+    $meta_query_args    = array('relation' => 'AND');
+    $meta_query_args['nab_is_product_featured'] = array(
         'key'       => 'is_feature_product',
         'compare'   => 'EXISTS',
     );
@@ -440,11 +441,11 @@ function nab_company_produts_render_callback($attributes)
         'value' => $company_id,
         'compare' => '='
     );
-    $query_args[ 'meta_query' ] = $meta_query_args;
-    $query_args[ 'orderby' ] = array(
-    'nab_is_product_featured'   => 'DESC',
-    'date'     => $display_order,
-);
+    $query_args['meta_query'] = $meta_query_args;
+    $query_args['orderby'] = array(
+        'nab_is_product_featured'   => 'DESC',
+        'date'     => $display_order,
+    );
     $product_query = new WP_Query($query_args);
 
     $html       = '';
@@ -457,17 +458,17 @@ function nab_company_produts_render_callback($attributes)
         <div class="company-products <?php echo esc_attr($class_name); ?>">
             <div class="amp-item-main">
                 <div class="amp-item-heading">
-                    <h3>Products <span>(<?php echo esc_html( $total_post ); ?> RESULTS)</span></h3>
+                    <h3>Products <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
                     <?php
-                    if ($total_post > $posts_per_page ) {
-                        
-                        $current_site_url   = rtrim( get_site_url(), '/' );
-                        $view_all_link      = add_query_arg( array( 's' => '', 'v' => 'product' ), $current_site_url );
-                        ?>
+                    if ($total_post > $posts_per_page) {
+
+                        $current_site_url   = rtrim(get_site_url(), '/');
+                        $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url);
+                    ?>
                         <div class="amp-view-more">
-                            <a href="<?php echo esc_url( $view_all_link ); ?>" class="view-more-arrow">View All</a>
+                            <a href="<?php echo esc_url($view_all_link); ?>" class="view-more-arrow">View All</a>
                         </div>
-                        <?php
+                    <?php
                     }
                     ?>
                 </div>
