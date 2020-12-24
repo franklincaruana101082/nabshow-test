@@ -143,7 +143,7 @@ global $post;
 							<div class="form-row">
 								<div class="toggle-wrap">
 									<span class="toggle-label">Discussion <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="https://nabshow-beta.go-vip.net/amplify/terms-of-use/">terms of use</a> and <a href="https://nabshow-qa.go-vip.net/amplify/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
+										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="<?php echo esc_url(get_site_url()); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo esc_url(get_site_url()); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
 									</i></span>
 									<label class="nab-toggle-btn">
 										<input type="checkbox" <?php if ($post_data->comment_status === 'open') {
