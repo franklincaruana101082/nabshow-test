@@ -2513,14 +2513,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
             PanelBody,
             { title: 'Button Settings', initialOpen: false },
             wp.element.createElement(ToggleControl, {
-              label: 'Hide Like Button',
+              label: 'Hide Reaction',
               checked: featureLikeToggle,
               onChange: function onChange(featureLikeToggle) {
                 setAttributes({ featureLikeToggle: featureLikeToggle });
               }
             }),
             wp.element.createElement(ToggleControl, {
-              label: 'Hide Join Discussion Button',
+              label: 'Hide Button',
               checked: featureJoinToggle,
               onChange: function onChange(featureJoinToggle) {
                 setAttributes({ featureJoinToggle: featureJoinToggle });
@@ -2680,9 +2680,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
               }
             }),
             !featureJoinToggle && wp.element.createElement(
-              'a',
-              { href: featureJoinBtnLink, className: 'btn btn-link' },
-              featureJoinBtn
+              'div',
+              { className: 'button-wrap btn-link' },
+              wp.element.createElement(
+                'a',
+                { href: featureJoinBtnLink },
+                featureJoinBtn
+              )
             )
           )
         )
@@ -2786,9 +2790,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
               value: shortcode
             }),
             !featureJoinToggle && wp.element.createElement(
-              'a',
-              { href: featureJoinBtnLink, className: 'btn btn-link' },
-              featureJoinBtn
+              'div',
+              { className: 'button-wrap btn-link' },
+              wp.element.createElement(
+                'a',
+                { href: featureJoinBtnLink },
+                featureJoinBtn
+              )
             )
           )
         )

@@ -301,14 +301,14 @@
             </PanelBody>
             <PanelBody title='Button Settings' initialOpen={false}>
               <ToggleControl
-                label='Hide Like Button'
+                label='Hide Reaction'
                 checked={featureLikeToggle}
                 onChange={featureLikeToggle => {
                   setAttributes({ featureLikeToggle })
                 }}
               />
               <ToggleControl
-                label='Hide Join Discussion Button'
+                label='Hide Button'
                 checked={featureJoinToggle}
                 onChange={featureJoinToggle => {
                   setAttributes({ featureJoinToggle })
@@ -461,9 +461,11 @@
                 />
               )}
               {!featureJoinToggle && (
-                <a href={featureJoinBtnLink} className='btn btn-link'>
-                  {featureJoinBtn}
-                </a>
+                <div className="button-wrap btn-link">
+                  <a href={featureJoinBtnLink}>
+                    {featureJoinBtn}
+                  </a>
+                </div>
               )}
             </div>
           </div>
@@ -576,9 +578,11 @@
                 />
               )}
               {!featureJoinToggle && (
-                <a href={featureJoinBtnLink} className='btn btn-link'>
-                  {featureJoinBtn}
-                </a>
+                <div className="button-wrap btn-link">
+                  <a href={featureJoinBtnLink}>
+                    {featureJoinBtn}
+                  </a>
+                </div>
               )}
             </div>
           </div>
