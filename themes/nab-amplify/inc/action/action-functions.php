@@ -136,23 +136,23 @@ function product_video_text_box_html($post)
     $product_video_id    = get_post_meta($post->ID, '_product_video_thumb', true);
     $product_video_thumb = wp_get_attachment_image_src($product_video_id, 'full')[0];
 
-    ?>
+?>
     <p>Type the URL of your BrightCov Video.</p>
-    <input style="width: 100%" type="text" name="product_video_url" value="<?php echo $product_video_url ?>"/>
+    <input style="width: 100%" type="text" name="product_video_url" value="<?php echo $product_video_url ?>" />
 
     <p>Choose or Upload an Image</p>
     <p style="<?php if (!$product_video_thumb) {
-        echo 'dispaly: none';
-    }?>"><img src="<?php echo esc_url($product_video_thumb); ?>" id="product_video_thumb_img" style="max-width: 250px; cursor: pointer"/></p>
-    <input type="hidden" id="product_video_thumb" name="product_video_thumb" value="<?php echo esc_attr($product_video_id); ?>"/>
-    <input type="button" id="product_video_thumb_button" class="button" value="Choose or Upload an Image"/>
+                    echo 'dispaly: none';
+                } ?>"><img src="<?php echo esc_url($product_video_thumb); ?>" id="product_video_thumb_img" style="max-width: 250px; cursor: pointer" /></p>
+    <input type="hidden" id="product_video_thumb" name="product_video_thumb" value="<?php echo esc_attr($product_video_id); ?>" />
+    <input type="button" id="product_video_thumb_button" class="button" value="Choose or Upload an Image" />
 
     <script>
-        jQuery('#product_video_thumb_button, #product_video_thumb_img').click(function () {
+        jQuery('#product_video_thumb_button, #product_video_thumb_img').click(function() {
 
             var send_attachment_bkp = wp.media.editor.send.attachment;
 
-            wp.media.editor.send.attachment = function (props, attachment) {
+            wp.media.editor.send.attachment = function(props, attachment) {
                 jQuery('#product_video_thumb_img').attr('src', attachment.url).show();
                 jQuery('#product_video_thumb').val(attachment.id);
                 wp.media.editor.send.attachment = send_attachment_bkp;
@@ -163,7 +163,7 @@ function product_video_text_box_html($post)
             return false;
         });
     </script>
-	<?php
+<?php
 }
 
 /**
@@ -176,8 +176,9 @@ function nab_amplify_upload_images()
     $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 
     // Upload images.
-    $images_names         = array('profile_picture', 'banner_image','company_profile_picture', 'company_banner_image');
+    $images_names         = array('profile_picture', 'banner_image', 'company_profile_picture', 'company_banner_image');
     $dependencies_loaded = 0;
+
     foreach ($_FILES as $file_key => $file_details) {
 
         if (in_array($file_key, $images_names, true)) {
@@ -202,7 +203,6 @@ function nab_amplify_upload_images()
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
                 }
-                
             }
         }
     }
@@ -214,7 +214,7 @@ function nab_amplify_upload_images()
  */
 function nab_amplify_edit_product()
 {
-   
+
     $post_id      = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT);
     $post_data    = get_post($post_id);
 
@@ -226,16 +226,18 @@ function nab_amplify_edit_product()
 
     $post_data->product_copy               = get_field('product_copy', $post_id);
     $post_data->product_specs              = get_field('product_specs', $post_id);
-    $post_data->product_point_of_contact   = get_field('product_point_of_contact', $post_id);    
+    $post_data->product_point_of_contact   = get_field('product_point_of_contact', $post_id);
     $post_data->is_feature_product         = get_field('is_feature_product', $post_id);
     $post_data->is_product_b_stock         = get_field('is_product_b-stock', $post_id);
     $post_data->is_product_sales_item      = get_field('is_product_sales_item', $post_id);
     $post_data->categories                 = $taxonomy_data;
     $post_data->tags                       = $tag_data;
-	$post_data->product_media              = $product_media;
-    $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id,'full');
-    $post_data->product_thumbnail_id       = get_post_thumbnail_id( $post_id );
-
+    $post_data->product_media              = $product_media;
+    $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
+    $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
+    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
+    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
+    $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
@@ -343,7 +345,6 @@ function nab_reset_password_validation($errors, $user)
     if (!empty($_POST['password_1']) && 8 > strlen($_POST['password_1'])) {
         wc_add_notice(__('Password must be 8 characters long.', 'woocommerce'), 'error');
     }
-
 }
 
 /**
@@ -515,7 +516,8 @@ function nab_amplify_session_categories()
     );
 
     register_taxonomy(
-        'session_categories', array('sessions'),
+        'session_categories',
+        array('sessions'),
         array(
             'hierarchical'      => true,
             'labels'            => $labels,
@@ -526,7 +528,6 @@ function nab_amplify_session_categories()
             'rewrite'           => array('slug' => 'session_categories'),
         )
     );
-
 }
 
 add_action('init', 'nab_amplify_session_categories');
@@ -547,7 +548,6 @@ function nab_save_name_fields($customer_id)
         update_user_meta($customer_id, 'billing_last_name', sanitize_text_field($_POST['last_name']));
         update_user_meta($customer_id, 'last_name', sanitize_text_field($_POST['last_name']));
     }
-
 }
 
 /**
@@ -586,7 +586,6 @@ function nab_attendee_field_process()
         if (!isset($_POST['attendee_country']) || empty($_POST['attendee_country'])) {
             wc_add_notice(__('Please enter Attendee Country.'), 'error');
         }
-
     }
 
     if (!isset($_POST['attendee_partner_opt_in']) || empty($_POST['attendee_partner_opt_in'])) {
@@ -653,13 +652,11 @@ function nab_save_event_fields($order_id)
         foreach ($event_data as $key => $val) {
             update_user_meta($user_id, $key, $val);
         }
-
     }
 
     if (isset($_POST['nab_additional_email']) && !empty($_POST['nab_additional_email'])) {
         update_post_meta($order_id, 'nab_additional_email', filter_input(INPUT_POST, 'nab_additional_email'));
     }
-
 }
 
 /**
@@ -669,21 +666,21 @@ function nab_amplify_template_redirect()
 {
 
     // Redirect on first sight!
-	if ( is_singular( 'tribe_events' ) ) {
-		wp_redirect( home_url(), 301 );
-		exit;
-	}
+    if (is_singular('tribe_events')) {
+        wp_redirect(home_url(), 301);
+        exit;
+    }
 
-	global $wp;
-	$current_user_id 	= get_current_user_id();
-	$user_logged_in		= is_user_logged_in();
+    global $wp;
+    $current_user_id     = get_current_user_id();
+    $user_logged_in        = is_user_logged_in();
 
-	// Get buddypress member ID.
-	$member_id = 0;
-	if ( bp_current_component() ) {
-		global $bp;
-		$member_id = isset( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
-	}
+    // Get buddypress member ID.
+    $member_id = 0;
+    if (bp_current_component()) {
+        global $bp;
+        $member_id = isset($bp->displayed_user->id) ? $bp->displayed_user->id : 0;
+    }
 
     // Redirect Buddypress pages.
     $request               = explode('/', $wp->request);
@@ -697,19 +694,17 @@ function nab_amplify_template_redirect()
     if (!$user_logged_in && $bp_current_component) {
         /* If user is NOT logged in and try to access Buddypress page. */
         $redirect_url = add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'));
-
     } else if ($user_logged_in && $bp_current_component && !in_array($bp_current_component, $allowed_bp_components, true)) {
         /* If user is logged in and try to access Buddypress page but the component is NOT allowed. */
         $redirect_url = $my_profile_url;
-
-	} else if ( $user_logged_in && $bp_current_component
-	            && 0 !== $member_id
-	            && $current_user_id !== $member_id
-	            && 'messages' === $bp_current_component
-	) {
-		/* If user is logged in and try to access another Buddypress Member's messages section. */
-		$redirect_url = $my_profile_url;
-
+    } else if (
+        $user_logged_in && $bp_current_component
+        && 0 !== $member_id
+        && $current_user_id !== $member_id
+        && 'messages' === $bp_current_component
+    ) {
+        /* If user is logged in and try to access another Buddypress Member's messages section. */
+        $redirect_url = $my_profile_url;
     } else if ($user_logged_in && is_account_page() && in_array(end($request), array('my-connections', 'my-events', 'my-bookmarks'))) {
 
         $member_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT);
@@ -724,11 +719,9 @@ function nab_amplify_template_redirect()
                 $redirect_url = $my_profile_url;
             }
         }
-
     } else if ((is_account_page() && 'edit-address' === end($request)) || (is_account_page() && 'edit-my-profile' === end($request))) {
 
         $redirect_url = wc_get_account_endpoint_url('edit-account');
-
     }
 
     if (!empty($redirect_url)) {
@@ -789,23 +782,26 @@ function nab_amplify_add_file_types_to_uploads($file_types)
  */
 function nab_header_scripts()
 {
-    ?>
+?>
     <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
+    <script>
+        (function(w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
             });
             var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
             j.async = true;
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-K2F9KBS');</script>
+        })(window, document, 'script', 'dataLayer', 'GTM-K2F9KBS');
+    </script>
     <!-- End Google Tag Manager -->
-	<?php
+<?php
 }
 
 /**
@@ -960,7 +956,9 @@ function amplify_register_api_endpoints()
     ));
 
     register_rest_route(
-        'nab', '/unlink-products', array(
+        'nab',
+        '/unlink-products',
+        array(
             'methods'  => 'POST',
             'callback' => 'nab_amplify_unlink_products',
         )
@@ -990,7 +988,6 @@ function amplify_register_api_endpoints()
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
     ));
-
 }
 
 /**
@@ -1169,7 +1166,6 @@ function amplify_check_user_bought_product(WP_REST_Request $request)
 
                         update_user_meta($user_id, 'nab_purchased_product_2020', $purchased_product);
                     }
-
                 } else {
 
                     $purchased_product = array($product_id);
@@ -1281,7 +1277,6 @@ function amplify_apply_coupon_code_from_url()
     } else {
         amplify_add_coupon_product_to_cart($coupon_code, false);
     }
-
 }
 
 /**
@@ -1392,7 +1387,6 @@ function nab_remove_cocart_item($cart_item_key, $instance)
         $api_url  = add_query_arg('cart_key', $cart_key, home_url() . '/wp-json/cocart/v1/item/');
         $response = wp_remote_request($api_url, $args);
     }
-
 }
 
 /**
@@ -1461,7 +1455,6 @@ function nab_load_cart_action_cookie()
     WC()->session->set('coupon_discount_totals', $new_cart['coupon_discount_totals']);
     WC()->session->set('coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals']);
     WC()->session->set('removed_cart_contents', $new_cart['removed_cart_contents']);
-
 }
 
 /**
@@ -1476,7 +1469,6 @@ function nab_maybe_clear_cart_cookie()
         unset($_COOKIE['nabCartKey']);
         setcookie('nabCartKey', '', time() - 3600, '/', NAB_AMPLIFY_COOKIE_BASE_DOMAIN);
     }
-
 }
 
 /**
@@ -1522,7 +1514,6 @@ function nab_add_custom_metabox_in_product()
         'product',
         'side'
     );
-
 }
 
 /**
@@ -1537,28 +1528,28 @@ function nab_product_customer_metabox_callback($post)
     $current_year  = date('Y');
     $starting_year = 2019;
 
-    ?>
+?>
     <div class="export-list-wrapper">
         <form method="POST" name="product_customer">
             <div class="year-box">
                 <label for="product-year" style="padding-right: 10px;">Select Year</label>
                 <select id="product-year" name="product_year" class="product-year" style="padding-left: 16px;padding-right: 30px;">
-					<?php
-for ($i = $starting_year; $i <= $current_year; $i++) {
-        ?>
-                        <option value="<?php echo esc_attr($i); ?>" <?php selected($current_year, $i);?>><?php echo esc_html($i); ?></option>
-						<?php
-}
-    ?>
+                    <?php
+                    for ($i = $starting_year; $i <= $current_year; $i++) {
+                    ?>
+                        <option value="<?php echo esc_attr($i); ?>" <?php selected($current_year, $i); ?>><?php echo esc_html($i); ?></option>
+                    <?php
+                    }
+                    ?>
                 </select>
             </div>
-            <input type="hidden" name="product_id" value="<?php echo esc_attr($post->ID); ?>"/>
+            <input type="hidden" name="product_id" value="<?php echo esc_attr($post->ID); ?>" />
             <div class="submit-btn" style="text-align: center;margin-top: 10px;width: 92%;">
-                <input type="submit" name="export_csv" value="Export CSV" class="button"/>
+                <input type="submit" name="export_csv" value="Export CSV" class="button" />
             </div>
         </form>
     </div>
-	<?php
+    <?php
 }
 
 /**
@@ -1696,9 +1687,7 @@ add_action('admin_init', function () {
 
                 exit;
             }
-
         }
-
     }
 });
 
@@ -1714,8 +1703,8 @@ function amplify_get_header_logos(WP_REST_Request $request)
 
     $response = [];
 
-    if (have_rows('nab_logos', 'option')):
-        while (have_rows('nab_logos', 'option')): the_row();
+    if (have_rows('nab_logos', 'option')) :
+        while (have_rows('nab_logos', 'option')) : the_row();
             $logos          = [];
             $nab_logo_id    = get_sub_field('logos');
             $nab_logo_img   = wp_get_attachment_image_src($nab_logo_id, 'medium');
@@ -1752,14 +1741,14 @@ function nab_customer_column_data($column, $post_id)
                 $customer_name = $order_user_details->data->display_name;
 
                 $profile_url = get_edit_user_link($customer_id);
-                ?>
+    ?>
                 <a href="<?php echo esc_url($profile_url); ?>"><?php echo esc_html($customer_name); ?></a>
-				<?php
-} else {
-                ?>
+            <?php
+            } else {
+            ?>
                 <span aria-hidden="true">—</span>
-				<?php
-}
+        <?php
+            }
             break;
     }
 }
@@ -1834,20 +1823,20 @@ function nab_add_additional_filter_for_user_list($which)
         ?>
         <select name="user_filter">
             <option value="">Additional Filter</option>
-			<?php
+            <?php
 
-        $user_filter = filter_input(INPUT_GET, 'user_filter', FILTER_SANITIZE_STRING);
-        $current_v   = isset($user_filter) ? $user_filter : '';
+            $user_filter = filter_input(INPUT_GET, 'user_filter', FILTER_SANITIZE_STRING);
+            $current_v   = isset($user_filter) ? $user_filter : '';
 
-        foreach ($option_items as $key => $value) {
+            foreach ($option_items as $key => $value) {
             ?>
-                <option value="<?php echo esc_attr($key); ?>" <?php selected($current_v, $key);?>><?php echo esc_html($value); ?></option>
-				<?php
-}
-        ?>
+                <option value="<?php echo esc_attr($key); ?>" <?php selected($current_v, $key); ?>><?php echo esc_html($value); ?></option>
+            <?php
+            }
+            ?>
         </select>
-		<?php
-}
+    <?php
+    }
 }
 
 /**
@@ -1884,7 +1873,6 @@ function nab_modify_user_search_query($query)
 
                         $search_item = $search_item_array[0];
                     }
-
                 } else {
 
                     $field = 'attendee_company';
@@ -2033,7 +2021,6 @@ function nab_update_product_in_user_meta($order_id, $old_status, $new_status)
             if (!empty($purchased_product) && is_array($purchased_product)) {
 
                 $purchased_product = array_unique(array_merge($purchased_product, $order_products));
-
             } else {
 
                 $purchased_product = $order_products;
@@ -2077,139 +2064,139 @@ function nab_update_product_in_user_meta($order_id, $old_status, $new_status)
             }
         }
     }
-
 }
 
 /**
  * WC edit account additional security form field for BP member.
  */
-function nab_edit_acount_additional_form_fields() {
+function nab_edit_acount_additional_form_fields()
+{
 
-	$current_user 		= wp_get_current_user();
-	$current_user_id	= $current_user->ID;
-	$member_visibility  = get_user_meta( $current_user_id, 'nab_member_visibility', true );
-	$member_restriction = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
-	$attendee_title		= get_user_meta( $current_user_id, 'attendee_title', true );
-	$attendee_company	= get_user_meta( $current_user_id, 'attendee_company', true );
-	$attendee_location	= get_user_meta( $current_user_id, 'attendee_location', true );
-	$social_twitter		= get_user_meta( $current_user_id, 'social_twitter', true );
-	$social_linkedin	= get_user_meta( $current_user_id, 'social_linkedin', true );
-	$social_facebook	= get_user_meta( $current_user_id, 'social_facebook', true );
-	$social_instagram	= get_user_meta( $current_user_id, 'social_instagram', true );
-	$social_website		= get_user_meta( $current_user_id, 'social_website', true );
+    $current_user         = wp_get_current_user();
+    $current_user_id    = $current_user->ID;
+    $member_visibility  = get_user_meta($current_user_id, 'nab_member_visibility', true);
+    $member_restriction = get_user_meta($current_user_id, 'nab_member_restrict_connection', true);
+    $attendee_title        = get_user_meta($current_user_id, 'attendee_title', true);
+    $attendee_company    = get_user_meta($current_user_id, 'attendee_company', true);
+    $attendee_location    = get_user_meta($current_user_id, 'attendee_location', true);
+    $social_twitter        = get_user_meta($current_user_id, 'social_twitter', true);
+    $social_linkedin    = get_user_meta($current_user_id, 'social_linkedin', true);
+    $social_facebook    = get_user_meta($current_user_id, 'social_facebook', true);
+    $social_instagram    = get_user_meta($current_user_id, 'social_instagram', true);
+    $social_website        = get_user_meta($current_user_id, 'social_website', true);
 
-	$member_visibility  = ! empty( $member_visibility ) ? $member_visibility : 'yes';
-	$member_restriction = ! empty( $member_restriction ) ? $member_restriction : 'yes';
+    $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
+    $member_restriction = !empty($member_restriction) ? $member_restriction : 'yes';
 
-	?>
-	<div class="nab-profile">
-		<div class="nab-section section-nab-profile">
-			<div class="nab-profile-body flex-row">
-				<div class="nab-section section-professional-details">
-					<h3>PROFESSIONAL DETAILS</h3>
-					<div class="professional-details-form">
-						<div class="nab-form-row">
-							<label for="attendee_title">Title</label>
-							<input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr($attendee_title); ?>"/>
-						</div>
-						<div class="nab-form-row">
-							<label for="attendee_company">Company</label>
-							<input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr($attendee_company); ?>"/>
-						</div>
-						<div class="nab-form-row">
-							<label for="attendee_location">Location</label>
-							<input type="text" name="attendee_location" class="input-text" placeholder="Location" value="<?php echo esc_attr($attendee_location); ?>"/>
-						</div>
-					</div>
-				</div>
-				<div class="nab-section section-social-links">
-					<h3>SOCIAL LINKS</h3>
-					<div class="social-links-form">
-						<div class="nab-form-row">
-							<div class="social-icon">
-								<i class="fa fa-twitter"></i>
-							</div>
-							<div class="social-input">
-								<input type="text" class="input-text" name="social_twitter" placeholder="Twitter" value="<?php echo esc_attr($social_twitter); ?>">
-							</div>
-						</div>
-						<div class="nab-form-row">
-							<div class="social-icon">
-								<i class="fa fa-linkedin"></i>
-							</div>
-							<div class="social-input">
-								<input type="text" class="input-text" name="social_linkedin" placeholder="LinkedIn" value="<?php echo esc_attr($social_linkedin); ?>">
-							</div>
-						</div>
-						<div class="nab-form-row">
-							<div class="social-icon">
-								<i class="fa fa-facebook-square"></i>
-							</div>
-							<div class="social-input">
-								<input type="text" class="input-text" name="social_facebook" placeholder="Facebook" value="<?php echo esc_attr($social_facebook); ?>">
-							</div>
-						</div>
-						<div class="nab-form-row">
-							<div class="social-icon">
-								<i class="fa fa-instagram"></i>
-							</div>
-							<div class="social-input">
-								<input type="text" class="input-text" name="social_instagram" placeholder="Instagram" value="<?php echo esc_attr($social_instagram); ?>">
-							</div>
-						</div>
-						<div class="nab-form-row">
-							<div class="social-icon">
-								<i class="fa fa-link"></i>
-							</div>
-							<div class="social-input">
-								<input type="text" class="input-text" name="social_website" placeholder="Website" value="<?php echo esc_attr($social_website); ?>">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<fieldset>
-		<legend>Security Settings</legend>
-		<div class="amp-member-security">
-			<div class="amp-security-row security-column-first">
-				<h3>Profile Visibility Preferences</h3>
-				<div class="amp-radio-container">
-					<div class="amp-radio-wrp">
-						<input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked($member_visibility, 'yes');?> />
-						<span class="amp-radio"></span>
-					</div>
-					<label for="member_visible_anyone">Visible to anyone</label>
-				</div>
-				<div class="amp-radio-container">
-					<div class="amp-radio-wrp">
-						<input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked($member_visibility, 'no');?> />
-						<span class="amp-radio"></span>
-					</div>
-					<label for="member_visible_friend">Visible to approved connections only</label>
-				</div>
-			</div>
-			<div class="amp-security-row security-column-last">
-				<h3>Connection Preferences</h3>
-				<div class="amp-radio-container">
-					<div class="amp-radio-wrp">
-						<input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked($member_restriction, 'yes');?> />
-						<span class="amp-radio"></span>
-					</div>
-					<label for="member_anyone_request">Anyone can request to connect</label>
-				</div>
-				<div class="amp-radio-container">
-					<div class="amp-radio-wrp">
-						<input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked($member_restriction, 'no');?> />
-						<span class="amp-radio"></span>
-					</div>
-					<label for="member_not_available">I am not available to connect with other users</label>
-				</div>
-			</div>
-		</div>
-	</fieldset>
-	<?php
+    ?>
+    <div class="nab-profile">
+        <div class="nab-section section-nab-profile">
+            <div class="nab-profile-body flex-row">
+                <div class="nab-section section-professional-details">
+                    <h3>PROFESSIONAL DETAILS</h3>
+                    <div class="professional-details-form">
+                        <div class="nab-form-row">
+                            <label for="attendee_title">Title</label>
+                            <input type="text" name="attendee_title" class="input-text" placeholder="Title" value="<?php echo esc_attr($attendee_title); ?>" />
+                        </div>
+                        <div class="nab-form-row">
+                            <label for="attendee_company">Company</label>
+                            <input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr($attendee_company); ?>" />
+                        </div>
+                        <div class="nab-form-row">
+                            <label for="attendee_location">Location</label>
+                            <input type="text" name="attendee_location" class="input-text" placeholder="Location" value="<?php echo esc_attr($attendee_location); ?>" />
+                        </div>
+                    </div>
+                </div>
+                <div class="nab-section section-social-links">
+                    <h3>SOCIAL LINKS</h3>
+                    <div class="social-links-form">
+                        <div class="nab-form-row">
+                            <div class="social-icon">
+                                <i class="fa fa-twitter"></i>
+                            </div>
+                            <div class="social-input">
+                                <input type="text" class="input-text" name="social_twitter" placeholder="Twitter" value="<?php echo esc_attr($social_twitter); ?>">
+                            </div>
+                        </div>
+                        <div class="nab-form-row">
+                            <div class="social-icon">
+                                <i class="fa fa-linkedin"></i>
+                            </div>
+                            <div class="social-input">
+                                <input type="text" class="input-text" name="social_linkedin" placeholder="LinkedIn" value="<?php echo esc_attr($social_linkedin); ?>">
+                            </div>
+                        </div>
+                        <div class="nab-form-row">
+                            <div class="social-icon">
+                                <i class="fa fa-facebook-square"></i>
+                            </div>
+                            <div class="social-input">
+                                <input type="text" class="input-text" name="social_facebook" placeholder="Facebook" value="<?php echo esc_attr($social_facebook); ?>">
+                            </div>
+                        </div>
+                        <div class="nab-form-row">
+                            <div class="social-icon">
+                                <i class="fa fa-instagram"></i>
+                            </div>
+                            <div class="social-input">
+                                <input type="text" class="input-text" name="social_instagram" placeholder="Instagram" value="<?php echo esc_attr($social_instagram); ?>">
+                            </div>
+                        </div>
+                        <div class="nab-form-row">
+                            <div class="social-icon">
+                                <i class="fa fa-link"></i>
+                            </div>
+                            <div class="social-input">
+                                <input type="text" class="input-text" name="social_website" placeholder="Website" value="<?php echo esc_attr($social_website); ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <fieldset>
+        <legend>Security Settings</legend>
+        <div class="amp-member-security">
+            <div class="amp-security-row security-column-first">
+                <h3>Profile Visibility Preferences</h3>
+                <div class="amp-radio-container">
+                    <div class="amp-radio-wrp">
+                        <input type="radio" name="member_visibility" value="yes" id="member_visible_anyone" <?php checked($member_visibility, 'yes'); ?> />
+                        <span class="amp-radio"></span>
+                    </div>
+                    <label for="member_visible_anyone">Visible to anyone</label>
+                </div>
+                <div class="amp-radio-container">
+                    <div class="amp-radio-wrp">
+                        <input type="radio" name="member_visibility" value="no" id="member_visible_friend" <?php checked($member_visibility, 'no'); ?> />
+                        <span class="amp-radio"></span>
+                    </div>
+                    <label for="member_visible_friend">Visible to approved connections only</label>
+                </div>
+            </div>
+            <div class="amp-security-row security-column-last">
+                <h3>Connection Preferences</h3>
+                <div class="amp-radio-container">
+                    <div class="amp-radio-wrp">
+                        <input type="radio" name="member_restrict_connection" value="yes" id="member_anyone_request" <?php checked($member_restriction, 'yes'); ?> />
+                        <span class="amp-radio"></span>
+                    </div>
+                    <label for="member_anyone_request">Anyone can request to connect</label>
+                </div>
+                <div class="amp-radio-container">
+                    <div class="amp-radio-wrp">
+                        <input type="radio" name="member_restrict_connection" value="no" id="member_not_available" <?php checked($member_restriction, 'no'); ?> />
+                        <span class="amp-radio"></span>
+                    </div>
+                    <label for="member_not_available">I am not available to connect with other users</label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+<?php
 }
 
 /**
@@ -2278,64 +2265,62 @@ function nab_amplify_search_settings()
         'amplify_search_settings',
         'nab_search_settings_callback'
     );
-
 }
 
 /**
  * Search setting page fields.
  */
-function nab_search_settings_callback() {
+function nab_search_settings_callback()
+{
 
-    $display_horizontal_banner = filter_input( INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING );
+    $display_horizontal_banner = filter_input(INPUT_POST, 'display_horizontal_banner', FILTER_SANITIZE_STRING);
 
-    if ( isset( $display_horizontal_banner ) && ! empty( $display_horizontal_banner ) ) {
+    if (isset($display_horizontal_banner) && !empty($display_horizontal_banner)) {
 
         update_option('search_display_horizontal_banner', $display_horizontal_banner);
-
     } else {
 
-        $display_horizontal_banner = get_option( 'search_display_horizontal_banner', 'yes' );
+        $display_horizontal_banner = get_option('search_display_horizontal_banner', 'yes');
     }
 
 
 
-    if ( isset( $_POST[ 'search_horizontal_banner' ] ) ) {
+    if (isset($_POST['search_horizontal_banner'])) {
 
-        $search_horizontal_banner = wp_kses_post( $_POST[ 'search_horizontal_banner' ] );
+        $search_horizontal_banner = wp_kses_post($_POST['search_horizontal_banner']);
 
-        update_option( 'search_horizontal_banner', $search_horizontal_banner );
-
+        update_option('search_horizontal_banner', $search_horizontal_banner);
     }
-    ?>
-	<div class="search-settings">
-		<h2>Search Settings</h2>
-		<form class="search-settings-form" method="post">
-			<table class="form-table" role="presentation">
-				<tr>
-					<th>Display Ad:</th>
-					<td>
-						<input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'yes' );?> />
-						<label for="display_horizontal_banner_yes">Yes</label>
-						<input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked( $display_horizontal_banner, 'no' );?> />
-						<label for="display_horizontal_banner_no">No</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						<label>Ad html:</label>
-					</th>
-					<td>
-						<?php
-                        $search_horizontal_banner = get_option( 'search_horizontal_banner' );
-                        wp_editor( $search_horizontal_banner, 'search_horizontal_banner', array( 'tinymce' => false ) );
+?>
+    <div class="search-settings">
+        <h2>Search Settings</h2>
+        <form class="search-settings-form" method="post">
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th>Display Ad:</th>
+                    <td>
+                        <input id="display_horizontal_banner_yes" type="radio" value="yes" name="display_horizontal_banner" <?php checked($display_horizontal_banner, 'yes'); ?> />
+                        <label for="display_horizontal_banner_yes">Yes</label>
+                        <input id="display_horizontal_banner_no" type="radio" value="no" name="display_horizontal_banner" <?php checked($display_horizontal_banner, 'no'); ?> />
+                        <label for="display_horizontal_banner_no">No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>Ad html:</label>
+                    </th>
+                    <td>
+                        <?php
+                        $search_horizontal_banner = get_option('search_horizontal_banner');
+                        wp_editor($search_horizontal_banner, 'search_horizontal_banner', array('tinymce' => false));
                         ?>
-					</td>
-				</tr>
-			</table>
-			<?php submit_button( "Save Changes" );?>
-		</form>
-	</div>
-	<?php
+                    </td>
+                </tr>
+            </table>
+            <?php submit_button("Save Changes"); ?>
+        </form>
+    </div>
+    <?php
 }
 
 /**
@@ -2385,96 +2370,97 @@ function nab_register_company_post_type()
 /**
  * Register landing page post type.
  */
-function nab_register_landing_page_post_type() {
+function nab_register_landing_page_post_type()
+{
 
     $labels = array(
-		'name'                  => _x( 'Landing Pages', 'Post Type General Name', 'nab-amplify' ),
-		'singular_name'         => _x( 'Landing page', 'Post Type Singular Name', 'nab-amplify' ),
-		'menu_name'             => __( 'Landing Pages', 'nab-amplify' ),
-		'name_admin_bar'        => __( 'Landing Pages', 'nab-amplify' ),		
-		'parent_item_colon'     => __( 'Parent Landing Page:', 'nab-amplify' ),
-		'all_items'             => __( 'All Landing Pages', 'nab-amplify' ),
-		'add_new_item'          => __( 'Add New Landing Page', 'nab-amplify' ),
-		'add_new'               => __( 'Add New', 'nab-amplify' ),
-		'new_item'              => __( 'New Landing Page', 'nab-amplify' ),
-		'edit_item'             => __( 'Edit Landing Page', 'nab-amplify' ),
-		'update_item'           => __( 'Update Landing Page', 'nab-amplify' ),
-		'view_item'             => __( 'View Landing Page', 'nab-amplify' ),
-		'view_items'            => __( 'View Landing Pages', 'nab-amplify' ),
-		'search_items'          => __( 'Search Landing Pages', 'nab-amplify' ),
-		'not_found'             => __( 'Not found', 'nab-amplify' ),
-		'not_found_in_trash'    => __( 'Not found in Trash', 'nab-amplify' ),
-		'featured_image'        => __( 'Featured Image', 'nab-amplify' ),
-		'set_featured_image'    => __( 'Set featured image', 'nab-amplify' ),
-		'remove_featured_image' => __( 'Remove featured image', 'nab-amplify' ),
-		'use_featured_image'    => __( 'Use as featured image', 'nab-amplify' ),
-		'insert_into_item'      => __( 'Insert into Landing Page', 'nab-amplify' ),
-		'uploaded_to_this_item' => __( 'Uploaded to this item', 'nab-amplify' ),
-		'items_list'            => __( 'Items list', 'nab-amplify' ),
-		'items_list_navigation' => __( 'Items list navigation', 'nab-amplify' ),
-		'filter_items_list'     => __( 'Filter items list', 'nab-amplify' ),
-	);
-	$args = array(
-		'label'                 => __( 'Landing Pages', 'nab-amplify' ),
-		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'post-formats', 'excerpt' ),
-		'hierarchical'          => false,
-		'public'                => true,
-		'show_ui'               => true,
-		'show_in_menu'          => true,		
-		'show_in_admin_bar'     => true,
-		'show_in_nav_menus'     => true,
-		'can_export'            => true,
-		'has_archive'           => true,
-		'exclude_from_search'   => false,
-		'publicly_queryable'    => true,
+        'name'                  => _x('Landing Pages', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'         => _x('Landing page', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'             => __('Landing Pages', 'nab-amplify'),
+        'name_admin_bar'        => __('Landing Pages', 'nab-amplify'),
+        'parent_item_colon'     => __('Parent Landing Page:', 'nab-amplify'),
+        'all_items'             => __('All Landing Pages', 'nab-amplify'),
+        'add_new_item'          => __('Add New Landing Page', 'nab-amplify'),
+        'add_new'               => __('Add New', 'nab-amplify'),
+        'new_item'              => __('New Landing Page', 'nab-amplify'),
+        'edit_item'             => __('Edit Landing Page', 'nab-amplify'),
+        'update_item'           => __('Update Landing Page', 'nab-amplify'),
+        'view_item'             => __('View Landing Page', 'nab-amplify'),
+        'view_items'            => __('View Landing Pages', 'nab-amplify'),
+        'search_items'          => __('Search Landing Pages', 'nab-amplify'),
+        'not_found'             => __('Not found', 'nab-amplify'),
+        'not_found_in_trash'    => __('Not found in Trash', 'nab-amplify'),
+        'featured_image'        => __('Featured Image', 'nab-amplify'),
+        'set_featured_image'    => __('Set featured image', 'nab-amplify'),
+        'remove_featured_image' => __('Remove featured image', 'nab-amplify'),
+        'use_featured_image'    => __('Use as featured image', 'nab-amplify'),
+        'insert_into_item'      => __('Insert into Landing Page', 'nab-amplify'),
+        'uploaded_to_this_item' => __('Uploaded to this item', 'nab-amplify'),
+        'items_list'            => __('Items list', 'nab-amplify'),
+        'items_list_navigation' => __('Items list navigation', 'nab-amplify'),
+        'filter_items_list'     => __('Filter items list', 'nab-amplify'),
+    );
+    $args = array(
+        'label'                 => __('Landing Pages', 'nab-amplify'),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'post-formats', 'excerpt'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
         'capability_type'       => 'post',
         'menu_icon'             => 'dashicons-text-page',
-		'show_in_rest'          => true,
-	);
-	register_post_type( 'landing-page', $args );
+        'show_in_rest'          => true,
+    );
+    register_post_type('landing-page', $args);
 }
 
 /**
  * Set preloaded resusable block in the landing page when create new page from the backend.
  */
-function nab_set_preloaded_block_in_new_landing_page() {
+function nab_set_preloaded_block_in_new_landing_page()
+{
 
     global $pagenow;
 
-	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+    $current_post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
 
-	if ( 'post-new.php' === $pagenow && 'landing-page' === $current_post_type ) {
+    if ('post-new.php' === $pagenow && 'landing-page' === $current_post_type) {
 
-		$block_ids = array( 17727 );
+        $block_ids = array(17727);
 
-		$query_args = array(
-			'post_type' => 'wp_block',
-			'fields'    => 'ids',
-			'post__in'  => $block_ids,
-			'orderby'   => 'post__in'
-		);
+        $query_args = array(
+            'post_type' => 'wp_block',
+            'fields'    => 'ids',
+            'post__in'  => $block_ids,
+            'orderby'   => 'post__in'
+        );
 
-		$block_query = new WP_Query( $query_args );
+        $block_query = new WP_Query($query_args);
 
-		if ( $block_query->have_posts() ) {
+        if ($block_query->have_posts()) {
 
-			$block_ids = $block_query->posts;
+            $block_ids = $block_query->posts;
 
-			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+            if (is_array($block_ids) && count($block_ids) > 0) {
 
-				$block_template = array();
+                $block_template = array();
 
-				foreach ( $block_ids as $block_id ) {
-					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
-				}
+                foreach ($block_ids as $block_id) {
+                    $block_template[] = ['core/block', ['ref' => $block_id]];
+                }
 
-				$article_object				= get_post_type_object( 'landing-page' );
-				$article_object->template	= $block_template;
-			}
-
-		}
-	}
+                $article_object                = get_post_type_object('landing-page');
+                $article_object->template    = $block_template;
+            }
+        }
+    }
 }
 
 /**
@@ -2518,56 +2504,57 @@ function nab_update_compnay_user($post_id)
 /**
  * Register Articles post type
  */
-function nab_register_article_post_type() {
+function nab_register_article_post_type()
+{
 
-	$labels = array(
-		'name'                  => _x( 'Articles', 'Post Type General Name', 'nab-amplify' ),
-		'singular_name'         => _x( 'Articles', 'Post Type Singular Name', 'nab-amplify' ),
-		'menu_name'             => __( 'Articles', 'nab-amplify' ),
-		'name_admin_bar'        => __( 'Articles', 'nab-amplify' ),
-		'archives'              => __( 'Articles Archives', 'nab-amplify' ),
-		'attributes'            => __( 'Articles Attributes', 'nab-amplify' ),
-		'parent_item_colon'     => __( 'Parent Article:', 'nab-amplify' ),
-		'all_items'             => __( 'All Articles', 'nab-amplify' ),
-		'add_new_item'          => __( 'Add New Article', 'nab-amplify' ),
-		'add_new'               => __( 'Add New', 'nab-amplify' ),
-		'new_item'              => __( 'New Article', 'nab-amplify' ),
-		'edit_item'             => __( 'Edit Article', 'nab-amplify' ),
-		'update_item'           => __( 'Update Article', 'nab-amplify' ),
-		'view_item'             => __( 'View Article', 'nab-amplify' ),
-		'view_items'            => __( 'View Articles', 'nab-amplify' ),
-		'search_items'          => __( 'Search Articles', 'nab-amplify' ),
-		'not_found'             => __( 'Not found', 'nab-amplify' ),
-		'not_found_in_trash'    => __( 'Not found in Trash', 'nab-amplify' ),
-		'featured_image'        => __( 'Featured Image', 'nab-amplify' ),
-		'set_featured_image'    => __( 'Set featured image', 'nab-amplify' ),
-		'remove_featured_image' => __( 'Remove featured image', 'nab-amplify' ),
-		'use_featured_image'    => __( 'Use as featured image', 'nab-amplify' ),
-		'insert_into_item'      => __( 'Insert into Article', 'nab-amplify' ),
-		'uploaded_to_this_item' => __( 'Uploaded to this item', 'nab-amplify' ),
-		'items_list'            => __( 'Items list', 'nab-amplify' ),
-		'items_list_navigation' => __( 'Items list navigation', 'nab-amplify' ),
-		'filter_items_list'     => __( 'Filter items list', 'nab-amplify' ),
-	);
-	$args = array(
-		'label'                 => __( 'Articles', 'nab-amplify' ),
-		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats', 'excerpt' ),
-		'hierarchical'          => false,
-		'public'                => true,
-		'show_ui'               => true,
-		'show_in_menu'          => true,
-		'menu_position'         => 5,
-		'show_in_admin_bar'     => true,
-		'show_in_nav_menus'     => true,
-		'can_export'            => true,
-		'has_archive'           => true,
-		'exclude_from_search'   => false,
-		'publicly_queryable'    => true,
-		'capability_type'       => 'page',
-		'show_in_rest'          => true,
-	);
-	register_post_type( 'articles', $args );
+    $labels = array(
+        'name'                  => _x('Articles', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'         => _x('Articles', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'             => __('Articles', 'nab-amplify'),
+        'name_admin_bar'        => __('Articles', 'nab-amplify'),
+        'archives'              => __('Articles Archives', 'nab-amplify'),
+        'attributes'            => __('Articles Attributes', 'nab-amplify'),
+        'parent_item_colon'     => __('Parent Article:', 'nab-amplify'),
+        'all_items'             => __('All Articles', 'nab-amplify'),
+        'add_new_item'          => __('Add New Article', 'nab-amplify'),
+        'add_new'               => __('Add New', 'nab-amplify'),
+        'new_item'              => __('New Article', 'nab-amplify'),
+        'edit_item'             => __('Edit Article', 'nab-amplify'),
+        'update_item'           => __('Update Article', 'nab-amplify'),
+        'view_item'             => __('View Article', 'nab-amplify'),
+        'view_items'            => __('View Articles', 'nab-amplify'),
+        'search_items'          => __('Search Articles', 'nab-amplify'),
+        'not_found'             => __('Not found', 'nab-amplify'),
+        'not_found_in_trash'    => __('Not found in Trash', 'nab-amplify'),
+        'featured_image'        => __('Featured Image', 'nab-amplify'),
+        'set_featured_image'    => __('Set featured image', 'nab-amplify'),
+        'remove_featured_image' => __('Remove featured image', 'nab-amplify'),
+        'use_featured_image'    => __('Use as featured image', 'nab-amplify'),
+        'insert_into_item'      => __('Insert into Article', 'nab-amplify'),
+        'uploaded_to_this_item' => __('Uploaded to this item', 'nab-amplify'),
+        'items_list'            => __('Items list', 'nab-amplify'),
+        'items_list_navigation' => __('Items list navigation', 'nab-amplify'),
+        'filter_items_list'     => __('Filter items list', 'nab-amplify'),
+    );
+    $args = array(
+        'label'                 => __('Articles', 'nab-amplify'),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'page-attributes', 'post-formats', 'excerpt'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+        'show_in_rest'          => true,
+    );
+    register_post_type('articles', $args);
 }
 
 /**
@@ -2609,7 +2596,6 @@ function nab_register_article_content_taxonomy()
         'show_in_rest'      => true,
     );
     register_taxonomy('content-category', array('company-products', 'articles'), $args);
-
 }
 
 /**
@@ -2638,13 +2624,14 @@ function nab_add_unfiltered_html_capability_to_users($caps, $cap, $user_id)
  *
  * @return string HTML for author section.
  */
-function nab_amplify_display_author() {
+function nab_amplify_display_author()
+{
 
-	ob_start();
+    ob_start();
 
-	require_once get_template_directory() . '/inc/nab-display-author.php';
+    require_once get_template_directory() . '/inc/nab-display-author.php';
 
-	return ob_get_clean();
+    return ob_get_clean();
 }
 
 /**
@@ -2653,13 +2640,13 @@ function nab_amplify_display_author() {
 function nab_add_product()
 {
 
-	$final_result          = array();
-	$uploaded_attachments = array();
+    $final_result          = array();
+    $uploaded_attachments = array();
     $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
-    $post_categories       = explode(',',filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = strip_tags(filter_input(INPUT_POST, 'nab_product_copy', FILTER_SANITIZE_STRING));
-    $product_specs         = strip_tags(filter_input(INPUT_POST, 'nab_product_specs', FILTER_SANITIZE_STRING));
-    $product_contact       = strip_tags(filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_STRING));        
+    $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
+    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
+    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
+    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
     $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
     $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
@@ -2668,24 +2655,37 @@ function nab_add_product()
     $product_id            = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
     $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
     $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
+    $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
+    $product_media = get_field('product_media', $product_id);
 
+    //set product excerpt trim to first 200 characters
+    $product_excerpt = wp_trim_words($product_copy, 200, '...');
+    $updated_desc = update_post_meta($product_id, '_yoast_wpseo_metadesc', $product_excerpt);
+    if (is_wp_error($updated_desc)) {
+        $errors = $company_post->get_error_messages();
+        foreach ($errors as $error) {
+            $response['content'] = $error;
+            wp_send_json_error($response);
+        }
+    }
 
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
         'post_status'  => 'publish',
         'post_type'    => 'company-products',
+        'post_excerpt' => $product_excerpt
     );
 
     // set comment status
-    if($product_discussion == 1){
+    if ($product_discussion == 1) {
         $product_post_data['comment_status'] = 'open';
-    }else{
+    } else {
         $product_post_data['comment_status'] = 'closed';
     }
 
     if ($product_id !== '0') {
-// Update the post into the database
+        // Update the post into the database
         $product_post_data['ID'] = $product_id;
 
         $post_id                 = wp_update_post($product_post_data);
@@ -2693,59 +2693,60 @@ function nab_add_product()
             foreach ($remove_attachments as $remove_attach) {
                 wp_delete_attachment($remove_attach);
             }
-		}
-		/*Add existing media to loop */
-		$product_media = get_field('product_media', $post_id);
+        }
+        /*Add existing media to loop */
+        $product_media = get_field('product_media', $post_id);
         foreach ($product_media as $media) {
             if (!empty($media['product_media_file'])) {
-				$uploaded_attachments[] = $media['product_media_file']['ID'];
+                $uploaded_attachments[] = $media['product_media_file']['ID'];
             }
         }
-
     } else {
-// Insert the post into the database
+        // Insert the post into the database
         $post_id = wp_insert_post($product_post_data);
     }
 
     // assign categories and tags to post
-    if(empty($post_categories)){
-        wp_set_object_terms($post_id, NULL, 'company-product-category', false );
-    }else{
-        wp_set_object_terms($post_id, $post_categories, 'company-product-category', false );
+    if (empty($post_categories)) {
+        wp_set_object_terms($post_id, NULL, 'company-product-category', false);
+    } else {
+        wp_set_object_terms($post_id, $post_categories, 'company-product-category', false);
     }
-	
+
     wp_set_post_terms($post_id, $product_tags, 'company-product-tag', true);
 
 
 
-    apply_filters( 'comments_open', $product_discussion, $post_id );
+    apply_filters('comments_open', $product_discussion, $post_id);
 
 
     $dependencies_loaded = 0;
 
-
-
+    $existing_product_media = count($uploaded_attachments);
+    
+    $diff = 4 - $existing_product_media;
+    
     foreach ($_FILES as $file_key => $file_details) {
-
-        if (0 === $dependencies_loaded) {
-            // These files need to be included as dependencies when on the front end.
-            require_once ABSPATH . 'wp-admin/includes/image.php';
-            require_once ABSPATH . 'wp-admin/includes/file.php';
-            require_once ABSPATH . 'wp-admin/includes/media.php';
-            $dependencies_loaded = 1;
-        }
-
-        // Let WordPress handle the upload.
-        $attachment_id = media_handle_upload($file_key, 0);
-
-        if (!is_wp_error($attachment_id)) {
-            // update in meta
-            if ($file_key === 'product_featured_image') {
-                set_post_thumbnail($post_id, $attachment_id);
-            } else {
-                $uploaded_attachments[] = $attachment_id;
+        if ($file_key < $diff) {
+            if (0 === $dependencies_loaded) {
+                // These files need to be included as dependencies when on the front end.
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+                $dependencies_loaded = 1;
             }
 
+            // Let WordPress handle the upload.
+            $attachment_id = media_handle_upload($file_key, 0);
+
+            if (!is_wp_error($attachment_id)) {
+                // update in meta
+                if ($file_key === 'product_featured_image') {
+                    set_post_thumbnail($post_id, $attachment_id);
+                } else {
+                    $uploaded_attachments[] = $attachment_id;
+                }
+            }
         }
     }
     // Add product media
@@ -2778,6 +2779,10 @@ function nab_add_product()
 
     // Add product company
     update_field('field_5fc881bd20fa0', $nab_company_id, $post_id);
+
+    //add product read more URL
+    update_field('product_learn_more_url', $nab_product_learn_more_url, $post_id);
+
 
     if (is_wp_error($post_id)) {
         $final_result['success'] = false;
@@ -2820,7 +2825,6 @@ function nab_register_company_category_taxonomy()
         'rewrite'           => array('slug' => 'company-category'),
     );
     register_taxonomy('company-category', array('company', 'tribe_events', 'articles'), $args);
-
 }
 
 /**
@@ -2852,7 +2856,6 @@ function nab_register_company_tags_taxonomy()
         'rewrite'           => array('slug' => 'company-product-tag'),
     );
     register_taxonomy('company-product-tag', array('company-products'), $args);
-
 }
 
 /**
@@ -2862,55 +2865,108 @@ function nab_register_company_tags_taxonomy()
  * 
  * @return string
  */
-function nab_article_tags_shortcode_callback( $atts ) {
+function nab_article_tags_shortcode_callback($atts)
+{
 
-    $atts = shortcode_atts( array(
-		'item_id'   => get_the_ID(),		
-    ), $atts );
+    $atts = shortcode_atts(array(
+        'item_id'   => get_the_ID(),
+    ), $atts);
 
-    $article_id = $atts[ 'item_id' ];
+    $article_id = $atts['item_id'];
     $tags_html  = '';
 
-    if ( ! empty( $article_id ) ) {
+    if (!empty($article_id)) {
 
-        $community_tags         = get_field( 'community', $article_id );
-        $personas_tags          = get_field( 'personas', $article_id );
-        $content_format_tags    = get_field( 'content_format', $article_id );
+        $article_type_tag       = get_field('article_type', $article_id);
+        $community_tags         = get_field('community', $article_id);
+        $personas_tags          = get_field('personas', $article_id);
+        $content_format_tags    = get_field('content_format', $article_id);
+        $content_scope_tag      = get_field('content_scope', $article_id);
+        $content_subject_tags   = get_field('content_subject', $article_id);
+        $acquisition_sub_tags   = get_field('acquisition_sub', $article_id);
+        $distribution_sub_tags  = get_field('distribution_sub', $article_id);
+        $management_sub_tags    = get_field('management_sub', $article_id);
+        $radio_sub_tags         = get_field('radio_sub', $article_id);
+        $display_sub_tags       = get_field('display_sub', $article_id);
+        $industry_sub_tags      = get_field('industry_sub', $article_id);
+        $content_sub_tags       = get_field('content_sub', $article_id);
         $final_tags             = array();
 
-        if ( ! empty( $community_tags ) ) {
-
-            $final_tags = array_merge( $final_tags, $community_tags );
+        if (!empty($article_type_tag)) {
+            $final_tags[] = $article_type_tag;
         }
 
-        if ( ! empty( $personas_tags ) ) {
-
-            $final_tags = array_merge( $final_tags, $personas_tags );
+        if (!empty($community_tags)) {
+            $final_tags = array_merge($final_tags, $community_tags);
         }
 
-        if ( ! empty( $content_format_tags ) ) {
-
-            $final_tags = array_merge( $final_tags, $content_format_tags );
+        if (!empty($personas_tags)) {
+            $final_tags = array_merge($final_tags, $personas_tags);
         }
 
-        if ( is_array( $final_tags ) && count( $final_tags ) > 0 ) {
+        if (!empty($content_scope_tag)) {
+            $final_tags[] = $content_scope_tag;
+        }
+
+        if (!empty($content_format_tags)) {
+            $final_tags = array_merge($final_tags, $content_format_tags);
+        }
+
+        if (!empty($content_subject_tags)) {
+            $final_tags = array_merge($final_tags, $content_subject_tags);
+        }
+
+        if (!empty($acquisition_sub_tags)) {
+            $final_tags = array_merge($final_tags, $acquisition_sub_tags);
+        }
+
+        if (!empty($distribution_sub_tags)) {
+            $final_tags = array_merge($final_tags, $distribution_sub_tags);
+        }
+
+        if (!empty($management_sub_tags)) {
+            $final_tags = array_merge($final_tags, $management_sub_tags);
+        }
+
+        if (!empty($radio_sub_tags)) {
+            $final_tags = array_merge($final_tags, $radio_sub_tags);
+        }
+
+        if (!empty($display_sub_tags)) {
+            $final_tags = array_merge($final_tags, $display_sub_tags);
+        }
+
+        if (!empty($industry_sub_tags)) {
+            $final_tags = array_merge($final_tags, $industry_sub_tags);
+        }
+
+        if (!empty($content_sub_tags)) {
+            $final_tags = array_merge($final_tags, $content_sub_tags);
+        }
+
+        if (is_array($final_tags) && count($final_tags) > 0) {
 
             ob_start();
-            ?>
+    ?>
             <div class="amp-tag-main">
                 <ul class="amp-tag-list">
                     <?php
-                    foreach ( $final_tags as $current_tag ) {
-                        ?>
-                        <li><span class="btn"><?php echo esc_html( $current_tag ); ?></span></li>
-                        <?php
+
+                    $home_url = rtrim(get_site_url(), '/') . '/';
+
+                    foreach ($final_tags as $current_tag) {
+
+                        $tag_search_url = add_query_arg(array('s' => $current_tag), $home_url);
+                    ?>
+                        <li><a href="<?php echo esc_url($tag_search_url); ?>" class="btn"><?php echo esc_html($current_tag); ?></a></li>
+                    <?php
                     }
                     ?>
                 </ul>
             </div>
-            <?php
+<?php
             $tags_html = ob_get_clean();
-        }        
+        }
     }
 
     return $tags_html;
@@ -2921,71 +2977,72 @@ function nab_article_tags_shortcode_callback( $atts ) {
  *
  * @param object $wp_customize
  */
-function nab_customize_register( $wp_customize ) {
+function nab_customize_register($wp_customize)
+{
 
-	// Add section to customizer.
-	$wp_customize->add_section( 'custom_header_settings', array(
-		'title'    => __( 'Custom Header Settings', 'nabshow-ny' ),
-		'priority' => 999,
-	) );
+    // Add section to customizer.
+    $wp_customize->add_section('custom_header_settings', array(
+        'title'    => __('Custom Header Settings', 'nabshow-ny'),
+        'priority' => 999,
+    ));
 
-	// Add header logo code.
-	$wp_customize->add_setting('nab_header_logo_code');
+    // Add header logo code.
+    $wp_customize->add_setting('nab_header_logo_code');
 
-	$wp_customize->add_control(
-		new WP_Customize_Control(
-			$wp_customize,
-			'nab_header_logo_code',
-			array(
-				'label'     => 'Header Logo Code',
-				'section'   => 'custom_header_settings',
-				'settings'  => 'nab_header_logo_code',
-				'type'      => 'textarea'
-			)
-		)
-	);
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'nab_header_logo_code',
+            array(
+                'label'     => 'Header Logo Code',
+                'section'   => 'custom_header_settings',
+                'settings'  => 'nab_header_logo_code',
+                'type'      => 'textarea'
+            )
+        )
+    );
 }
 
 /**
  * Set default blocks in the new article create.
  */
-function nab_set_default_block_in_new_article() {
+function nab_set_default_block_in_new_article()
+{
 
-	global $pagenow;
+    global $pagenow;
 
-	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+    $current_post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
 
-	if ( 'post-new.php' === $pagenow && 'articles' === $current_post_type ) {
+    if ('post-new.php' === $pagenow && 'articles' === $current_post_type) {
 
-		$block_ids = array( 18031 );
+        $block_ids = array(15781);
 
-		$query_args = array(
-			'post_type' => 'wp_block',
-			'fields'    => 'ids',
-			'post__in'  => $block_ids,
-			'orderby'   => 'post__in'
-		);
+        $query_args = array(
+            'post_type' => 'wp_block',
+            'fields'    => 'ids',
+            'post__in'  => $block_ids,
+            'orderby'   => 'post__in'
+        );
 
-		$block_query = new WP_Query( $query_args );
+        $block_query = new WP_Query($query_args);
 
-		if ( $block_query->have_posts() ) {
+        if ($block_query->have_posts()) {
 
-			$block_ids = $block_query->posts;
+            $block_ids = $block_query->posts;
 
-			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+            if (is_array($block_ids) && count($block_ids) > 0) {
 
-				$block_template = array();
+                $block_template = array();
 
-				foreach ( $block_ids as $block_id ) {
-					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
-				}
+                foreach ($block_ids as $block_id) {
+                    $block_template[] = ['core/block', ['ref' => $block_id]];
+                }
 
-				$article_object				= get_post_type_object( 'articles' );
-				$article_object->template	= $block_template;
-			}
-
-		}
-	}
+                $article_object                = get_post_type_object('articles');
+                $article_object->template    = $block_template;
+            }
+        }
+    }
 }
 
 
@@ -3028,28 +3085,30 @@ function nab_register_company_product_taxonomy()
         'show_in_rest'      => true,
     );
     register_taxonomy('company-product-category', array('company-products'), $args);
-
 }
 
-function nab_edit_company_social_profiles_callback(){
+function nab_edit_company_social_profiles_callback()
+{
     $final_result = array();
     $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
     $company_data    = array();
     $company_data['ID'] = $company_id;
-    $company_data['instagram_profile'] = get_field('instagram_url',$company_id);
-    $company_data['linkedin_profile'] = get_field('linkedin_url',$company_id);
-    $company_data['facebook_profile'] = get_field('facebook_url',$company_id);
-    $company_data['twitter_profile'] = get_field('twitter_url',$company_id);
-    
+    $company_data['instagram_profile'] = get_field('instagram_url', $company_id);
+    $company_data['linkedin_profile'] = get_field('linkedin_url', $company_id);
+    $company_data['facebook_profile'] = get_field('facebook_url', $company_id);
+    $company_data['twitter_profile'] = get_field('twitter_url', $company_id);
+    $company_data['company_youtube'] = get_field('youtube_url', $company_id);
+
     require_once get_template_directory() . '/inc/nab-edit-company-social-profiles.php';
 
     $final_result['success'] = true;
     $final_result['content'] = '';
-	echo wp_json_encode($final_result);
-	wp_die();
+    echo wp_json_encode($final_result);
+    wp_die();
 }
 
-function nab_update_company_profile_callback(){
+function nab_update_company_profile_callback()
+{
 
     $final_result = array();
 
@@ -3069,8 +3128,27 @@ function nab_update_company_profile_callback(){
     $company_location_state             = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
     $company_location_zipcode             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
     $company_location_country             = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
-    $company_product_categories       = explode(',',filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING));     
-    
+    $company_product_categories       = explode(',', filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING));
+    $company_youtube       = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
+
+    //set company excerpt trim to first 200 characters
+    $company_excerpt = wp_trim_words($company_about, 200, '...');
+    $company_post_array     = array(
+
+        'ID'            => $company_id,
+        'post_excerpt'  => $company_excerpt
+
+    );
+    $company_post = wp_update_post($company_post_array);
+    $updated_desc = update_post_meta($company_id, '_yoast_wpseo_metadesc', $company_excerpt);
+    if (is_wp_error($company_post) || is_wp_error($updated_desc)) {
+        $errors = $company_post->get_error_messages();
+        foreach ($errors as $error) {
+            $response['content'] = $error;
+            wp_send_json_error($response);
+        }
+    }
+
     // Update instagram profile
     if ($instagram_profile) {
         update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
@@ -3103,7 +3181,7 @@ function nab_update_company_profile_callback(){
     // Update location 
     $field_key = 'field_5fa3e84f3fa46';
     $values = array(
-        '_street_line_1'    =>   $company_location_street_one,//THE 1st PART MATCHES YOUR FIELD NAMES, THE 2nd IS THE VALUE YOU WANT
+        '_street_line_1'    =>   $company_location_street_one, //THE 1st PART MATCHES YOUR FIELD NAMES, THE 2nd IS THE VALUE YOU WANT
         'street_line_2' =>   $company_location_street_two,
         'street_line_3' =>   $company_location_street_three,
         'city' =>   $company_location_city,
@@ -3111,7 +3189,7 @@ function nab_update_company_profile_callback(){
         'zipcode' =>   $company_location_zipcode,
         'country' =>   $company_location_country,
     );
-    update_field( $field_key, $values, $company_id );
+    update_field($field_key, $values, $company_id);
 
     // Update website
     if ($company_website) {
@@ -3124,80 +3202,103 @@ function nab_update_company_profile_callback(){
     }
 
 
-    // Update product categories
-    if(!empty($company_product_categories)) {
+    // Update company product categories
+    if (!empty($company_product_categories)) {
         update_field('product_categories', $company_product_categories, $company_id);
     }
 
-    $final_result['success'] = false;
+    // Update company youtube
+    if (!empty($company_youtube)) {
+        update_field('youtube_url', $company_youtube, $company_id);
+    }
+
+    $final_result['success'] = true;
     $final_result['content'] = '';
-    
+
     echo wp_json_encode($final_result);
     wp_die();
 }
 
-function nab_edit_company_about_callback(){
+function nab_edit_company_about_callback()
+{
     $final_result = array();
     $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
     $company_data    = array();
     $company_data['ID'] = $company_id;
-    $company_data['company_about'] = get_field('about_company',$company_id);
-    $company_data['company_industry'] = get_field('company_industary',$company_id);
-    $company_data['company_location'] = get_field('company_location',$company_id);
-    $company_data['company_website'] = get_field('company_website',$company_id);
-    $company_data['company_point_of_contact'] = get_field('point_of_contact',$company_id);
-    $company_data['product_categories'] = get_field('product_categories',$company_id);
+    $company_data['company_about'] = get_field('about_company', $company_id);
+    $company_data['company_industry'] = get_field('company_industary', $company_id);
+    $company_data['company_location'] = get_field('company_location', $company_id);
+    $company_data['company_website'] = get_field('company_website', $company_id);
+    $company_data['company_point_of_contact'] = get_field('point_of_contact', $company_id);
+    $company_data['product_categories'] = get_field('product_categories', $company_id);
+    $company_data['company_youtube'] = get_field('company_youtube', $company_id);
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
     $users = get_users();
-    
+
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
     $final_result['success'] = true;
     $final_result['content'] = '';
-	echo wp_json_encode($final_result);
-	wp_die();
+    echo wp_json_encode($final_result);
+    wp_die();
 }
 
 /**
  * Set default blocks in the new article create.
  */
- function nab_set_default_block_in_new_company() {
+function nab_set_default_block_in_new_company()
+{
 
-	global $pagenow;
+    global $pagenow;
 
-	$current_post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+    $current_post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
 
-	if ( 'post-new.php' === $pagenow && 'company' === $current_post_type ) {
+    if ('post-new.php' === $pagenow && 'company' === $current_post_type) {
 
-		$block_ids = array( 18453 );
+        $block_ids = array(1305);
 
-		$query_args = array(
-			'post_type' => 'wp_block',
-			'fields'    => 'ids',
-			'post__in'  => $block_ids,
-			'orderby'   => 'post__in'
-		);
+        $query_args = array(
+            'post_type' => 'wp_block',
+            'fields'    => 'ids',
+            'post__in'  => $block_ids,
+            'orderby'   => 'post__in'
+        );
 
-		$block_query = new WP_Query( $query_args );
+        $block_query = new WP_Query($query_args);
 
-		if ( $block_query->have_posts() ) {
+        if ($block_query->have_posts()) {
 
-			$block_ids = $block_query->posts;
+            $block_ids = $block_query->posts;
 
-			if ( is_array( $block_ids ) && count( $block_ids ) > 0 ) {
+            if (is_array($block_ids) && count($block_ids) > 0) {
 
-				$block_template = array();
+                $block_template = array();
 
-				foreach ( $block_ids as $block_id ) {
-					$block_template[] = [ 'core/block', ['ref' => $block_id ] ];
-				}
+                foreach ($block_ids as $block_id) {
+                    $block_template[] = ['core/block', ['ref' => $block_id]];
+                }
 
-				$article_object				= get_post_type_object( 'company' );
-				$article_object->template	= $block_template;
-			}
+                $article_object                = get_post_type_object('company');
+                $article_object->template    = $block_template;
+            }
+        }
+    }
+}
+function nab_get_wp_editor($content = '', $editor_id, $options)
+{
+    ob_start();
 
-		}
-	}
+    wp_editor($content, $editor_id, $options);
+
+    $temp = ob_get_clean();
+
+
+    $temp .= \_WP_Editors::enqueue_scripts();
+    $temp .= wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
+    $temp .= print_footer_scripts();
+    $temp .= \_WP_Editors::editor_js();
+    $temp = str_replace('Array', '', $temp);
+    return $temp;
 }

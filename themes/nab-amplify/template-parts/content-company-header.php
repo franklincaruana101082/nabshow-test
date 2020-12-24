@@ -18,10 +18,11 @@ $twitter_url      = get_field('twitter_url');
 $member_level     = get_field('member_level');
 $cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
 $featured_image   = get_the_post_thumbnail_url();
-$profile_picture  = !empty($featured_image) ? $featured_image : get_template_directory_uri() . '/assets/images/default-company.png';
+$profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
+$youtube_url      = get_field('youtube_url');  
 
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
@@ -56,8 +57,11 @@ $company_admin_id = get_field('company_user_id', $company_id);
                     <div class="amp-profile-content">
                         <div id="profile-avtar" class="amp-profile-image profile-avtar">
                             <label class="profile-avtar-inner" for="profile_picture_file">
-                                <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
-
+                                <?php if ($profile_picture) { ?>
+                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+                                <?php } else { ?>
+                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 30, '...'); ?></div>
+                                <?php } ?>
                                 <?php
                                 if ($user_logged_in) {
                                     $user_id = get_current_user_id();
@@ -128,6 +132,13 @@ $company_admin_id = get_field('company_user_id', $company_id);
                                     </li>
                                 <?php
                                 }
+                                if (!empty($youtube_url)) {
+                                    ?>
+                                        <li>
+                                            <a href="<?php echo esc_url($youtube_url); ?>" target="_blank"><i class="fa fa-youtube"></i></a>
+                                        </li>
+                                    <?php
+                                    }
                                 if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                                 ?>
                                     <li><span class="edit-profile-pic" style="display:none" id="edit-social-profiles" data-bp-tooltip="Edit Social Profiles"><i class="fa fa-pencil"></i></span></li>
@@ -143,11 +154,28 @@ $company_admin_id = get_field('company_user_id', $company_id);
                                 nab_get_follow_button($company_id, $user_id); ?>
                                 <div class="search-actions">
                                     <div id="send-private-message" class="generic-button">
-                                        <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
+                                        <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
                                     </div>
                                 </div>
                             </div>
                         <?php
+                        } else {
+                            $current_url = home_url( add_query_arg( NULL, NULL ) );
+                            $current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+                            ?>
+                            <div class="amp-actions">                                
+                                <div class="search-actions">
+                                    <div class="generic-button">
+                                        <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="btn">Follow</a>
+                                    </div>
+                                </div>
+                                <div class="search-actions">
+                                    <div class="generic-button">
+                                        <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Company Rep</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
                         ?>
                     </div>

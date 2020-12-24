@@ -380,6 +380,18 @@ function nab_amplify_bp_get_friendship_button( $member_id, $loop = true ) {
 			<?php
 			$user_button = ob_get_clean();
 		}
+	} else {				
+		
+		$current_url = home_url( add_query_arg( NULL, NULL ) );
+		$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+		
+		ob_start();
+		?>
+		<div class="search-actions">
+			<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="friendship-button">Connect</a>
+		</div>
+		<?php
+		$user_button = ob_get_clean();
 	}
 
 	return $user_button;
@@ -536,7 +548,7 @@ function nab_update_cocart_item( $cart_item_key, $quantity ) {
  */
 function nab_placeholder_img() {
 
-	return get_template_directory_uri() . '/assets/images/avtar.jpg';
+	return get_template_directory_uri() . '/assets/images/amplify-featured.png';
 }
 
 /**
@@ -896,6 +908,18 @@ function nab_get_bp_notification_menu() {
 	}
 }
 
+/**
+ * Default placeholder img
+ *
+ * @return string
+ */
+function nab_product_company_placeholder_img() {
+
+	return get_template_directory_uri() . '/assets/images/search-box-cover.png';
+
+}
+
+
 /* Get author full name */
 function nab_get_author_fullname($author_id)
 {
@@ -916,4 +940,4 @@ function nab_get_author_fullname($author_id)
 	}
 
 	return $full_name;
-}
+

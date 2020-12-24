@@ -17,6 +17,7 @@ if ( empty( trim( $author_full_name ) ) )  {
 		<a href="<?php echo esc_url( $author_link ); ?>"><img src="<?php echo esc_url( $author_avatar_url ) ?>" alt="author"></a>
 	</div>
 	<div class="author-details">
+		<span class="author-label">Posted by</span>
 		<h3 class="author-title"><a href="<?php echo esc_url( $author_link ); ?>"><?php echo esc_html( $author_full_name ) ?></a></h3>
 		<span class="author-subtitle"><?php echo esc_html( $author_company ) ?></span>
 	</div>

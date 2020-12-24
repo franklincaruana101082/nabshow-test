@@ -5,12 +5,13 @@
 
 get_header();
 
-global $wpdb;
-
-$sql_query = 'DELETE FROM `wp_users` WHERE ID NOT IN(7190,7202,1367,151,7204,7198,192,7221,209,7196,4,5082,214,7197,7215,7193,7200,1898,7195,7201,4308,7231,5449,7214,7219,7222,7207,7216,3596,7208,3,6100,7210,7228,7209,7230,223,5,7229,7191,7217,181,7189,147,227,149,7194,7199,4372,7206,7112,7203,7205,1,10)';
+$user_query = new WP_User_Query( array( 'role' => 'customer', 'fields' => 'ID', 'meta_key' => 'nab_purchased_product_2020', 'meta_compare' => 'NOT EXISTS' ) );
 
 
-$wpdb->query( $sql_query );
+$all_users 	= $user_query->get_results();
+echo '<pre>';
+print_r( $all_users );
+exit;
 
 get_footer();
 ?>

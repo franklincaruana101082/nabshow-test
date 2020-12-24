@@ -31,7 +31,7 @@
                 </form>
                 <?php }else{
                     ?>
-                    <h4>There is no any Represantive assigned for this company.</h4>
+                    <h3>There is no any Represantive assigned for this company.</h3>
                     <?php
                 } ?>
             </div>

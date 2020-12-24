@@ -28,13 +28,19 @@ get_header();
 		<p>Tell the Amplify community a little bit more about yourself.</p>
 		<div class="serendipity-three-col">
 			<div class="serendipity-col">
-				<a class="add-icon"><i class="fa fa-plus" aria-hidden="true"></i></a>
+				<div class="box">
+					<a class="add-icon" data-feathr-click-track="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+				</div>
 			</div>
 			<div class="serendipity-col">
-				<a class="add-icon"><i class="fa fa-plus" aria-hidden="true"></i></a>
+				<div class="box">
+					<a class="add-icon" data-feathr-click-track="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+				</div>
 			</div>
 			<div class="serendipity-col">
-				<a class="add-icon"><i class="fa fa-plus" aria-hidden="true"></i></a>
+				<div class="box">
+					<a class="add-icon" data-feathr-click-track="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -53,7 +59,7 @@ get_header();
 					<p><strong>On the weekends you can find me <span class="yellow-color-text">people-watching the park</span>. I’ll be drinking <span class="yellow-color-text">something delicious sweet</span> and might even <span class="yellow-color-text">go listen to Jazz at bar</span> later the evening. That's where you an find me every weekend so catch me over there one day and we'll meet up.</strong></p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -64,7 +70,7 @@ get_header();
 					<p>Sara has never been known for doing things halfway.</p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -84,7 +90,7 @@ get_header();
 					</ul>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -95,7 +101,7 @@ get_header();
 					<p><strong>On the weekends you can find me <span class="yellow-color-text">people-watching the park</span>. I’ll be drinking <span class="yellow-color-text">something delicious sweet</span> and might even <span class="yellow-color-text">go listen to Jazz at bar</span> later the evening.</strong></p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -106,7 +112,7 @@ get_header();
 					<p>Sara has never been known for doing things halfway. She jumps in with two feet, whether it’s going completely blonde the first time dying her hair or taking on editing her entire wedding video. With over seven years of marketing experience.</p>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -126,14 +132,109 @@ get_header();
 					</ul>
 					<div class="col-footer">
 						<ul>
-							<li>Like and share buttons</li>
+							<li><?php echo do_shortcode( '[reaction_button]' ); ?></li>
 							<li><a class="add-icon" data-tooltip="Reveal Respondent" data-feathr-click-track="true"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<a class="serendipity-filter-data-load-more">Load More</a>
+		<div class="serendipity-filter-data-load-more-button"><a class="serendipity-filter-data-load-more">Load More</a></div>
+	</div>
+</div>
+<div class="nab-modal theme-dark serendipity-home-popup nab-modal-active">
+	<div class="nab-modal-inner">
+		<div class="modal-content">
+			<div class="modal-content-wrap">
+				<span class="nab-modal-close">Close</span>
+				<div class="serendipity-main-screen" style="display:none">
+					<h2><span class="yellow-color-text">Let’s get started.</span><br/>How do you want to tell people who you are?</h2>
+					<p>You can chose any combo of these to add to your profile and give yourself a presence on serendipity</p>
+					<div class="serendipity-three-col">
+						<div class="serendipity-col">
+							<div class="box">
+								<a class="add-icon" data-feathr-click-track="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<p>Simple BIo</p>
+							</div>
+							<div class="content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+							</div>
+						</div>
+						<div class="serendipity-col">
+							<div class="box">
+								<a class="add-icon" data-feathr-click-track="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<p>Simple BIo</p>
+							</div>
+							<div class="content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+							</div>
+						</div>
+						<div class="serendipity-col">
+							<div class="box">
+								<a class="add-icon" data-feathr-click-track="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<p>Simple BIo</p>
+							</div>
+							<div class="content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="serendipity-bio-screen" style="display:none">
+					<span class="nab-modal-back">< Back</span>
+					<h2><span class="yellow-color-text">Simple Bio</span></h2>
+					<div class="form-wrapper">
+						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
+							<div class="form-row">
+								<textarea></textarea>
+								<span class="info-msg"><span id="character-count-specs">250 Character Limit</span></span>
+							</div>
+							<div class="form-row">
+								<input type="button" class="btn btn-submit" value="Add/Update">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="serendipity-fill-screen">
+					<span class="nab-modal-back">< Back</span>
+					<h2><span class="yellow-color-text">Fill in the Blank</span></h2>
+					<div class="form-wrapper">
+						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
+							<div class="fill-inputs-topics">
+								<div class="fill-inputs">
+									<div class="form-row">
+										<input type="text" class="input-text" value="">
+										<span class="info-msg"><span id="character-count-specs">25 Character Limit</span></span>
+									</div>
+									<div class="form-row">
+										<input type="text" class="input-text" value="something delicious sweet">
+										<span class="info-msg"><span id="character-count-specs">25 Character Limit</span></span>
+									</div>
+									<div class="form-row">
+										<input type="text" class="input-text" value="">
+										<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
+									</div>
+								</div>
+								<div class="fill-topics">
+									<div class="nab-custom-select">
+										<select class="topics" style="display: none;">
+											<option value="">Choose Your Topics</option>
+											<option value="DESC">Topic One</option>
+											<option value="ASC">Topic Two</option>
+											<option value="ASC">Topic Three</option>
+										</select>
+									</div>
+									<div class="topic-content">On the weekends you can find me <span>1.</span>. I’ll be drinking <span>something delicious sweet</span> and might even <span>3.</span> later the evening. That's where you an find me every weekend so catch me over there one day and we'll meet up.</div>
+								</div>
+							</div>
+							<div class="form-row">
+								<input type="button" class="btn btn-submit" value="Add/Update">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <?php

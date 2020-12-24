@@ -223,7 +223,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_type'			=> 'company-products',
 					'post_status'		=> 'publish',
 					'posts_per_page'	=> 12,
-					's'					=> $search_term
+					's'					=> $search_term,
+					'orderby'           => 'meta_value',
+					'meta_key'        => 'is_feature_product'
 				);
 
 				$company_prod_query = new WP_Query($company_prod_args);
@@ -261,7 +263,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											if (!empty($product_medias[0]['product_media_file'])) {
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 											} ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -318,6 +320,16 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					's'					=> $search_term
 				);
 
+				if ( ! empty( $search_term ) ) {
+				
+					$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+	
+					if ( $get_search_term_id ) {
+	
+						$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
+					}
+				}
+
 				$company_query = new WP_Query($company_args);
 
 				if ($company_query->have_posts()) {
@@ -335,7 +347,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
 							$user_logged_in			= is_user_logged_in();
 							$current_user_id		= $user_logged_in ? get_current_user_id() : '';
-							$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+							$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 							$cnt					= 1;
 
 							while ($company_query->have_posts()) {
@@ -345,7 +357,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$cover_image        = get_field('cover_image');
 								$profile_picture    = get_field('profile_picture');
 								$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-								$profile_picture    = !empty($profile_picture) ? $profile_picture['url'] : $default_company_pic;
+								$featured_image  	= get_the_post_thumbnail_url();
+								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
 							?>
 								<div class="search-item">
@@ -356,7 +369,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="search-item-info">
 											<div class="search-item-avtar">
 												<a href="<?php echo esc_url($company_url); ?>">
-													<img src="<?php echo esc_url($profile_picture); ?>">
+													<?php if ($profile_picture) { ?>
+					                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+					                                <?php } else { ?>
+					                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
+					                                <?php } ?>
 												</a>
 											</div>
 											<div class="search-item-content">
@@ -372,9 +389,19 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 													?>
 														<div id="send-private-message" class="generic-button">
-															<a href="" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
-													<?php
-														nab_get_company_message_button(get_the_ID(), 'Message Rep');
+															<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
+														</div>
+														<?php 
+													} else {
+														
+														$current_url = home_url( add_query_arg( NULL, NULL ) );
+														$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+														
+														?>
+														<div class="generic-button">
+															<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
+														</div>
+														<?php
 													}
 													?>
 												</div>
@@ -453,7 +480,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											if (!empty($product_medias[0]['product_media_file'])) {
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 											} ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -502,13 +529,18 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$content_args = array(
 					'post_type' 		=> $all_post_types,
+					'post_status'		=> 'publish',
 					'posts_per_page' 	=> 12,
 					's'					=> $search_term
 				);
 
-				$content_query = new WP_Query($content_args);
+				if ( ! empty( $search_term ) ) {				
+					$content_args[ '_meta_search' ] = true;
+				}
 
-				if ($content_query->have_posts()) {
+				$content_query = new WP_Query( $content_args );
+
+				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
 
@@ -529,6 +561,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 								$post_link		= get_the_permalink();
+								$website_link	= '';
+								$target			= '';
+
+								if ( 'tribe_events' === get_post_type() ) {													
+														
+									$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+									$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
+									$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';								
+								}
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -537,9 +578,29 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-content">
-												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<?php
+												if ( ! empty( $website_link ) ) {
+													?>
+													<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+													<?php
+												} else {
+													?>
+													<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+													<?php
+												}
+												?>												
 												<div class="search-actions">
-													<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+													<?php
+													if ( ! empty( $website_link ) ) {
+														?>
+														<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
+														<?php
+													} else {
+														?>
+														<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+														<?php	
+													}
+													?>													
 												</div>
 											</div>
 										</div>
@@ -664,11 +725,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			<?php
 			}
 
+			$get_search_term_id = '';
+
 			$company_prod_args = array(
 				'post_type'			=> 'company-products',
 				'post_status'		=> 'publish',
 				'posts_per_page'	=> 4,
-				's'					=> $search_term
+				's'					=> $search_term,
+				'orderby'           => 'meta_value',
+				'meta_key'        => 'is_feature_product'
 			);
 
 			$company_prod_query = new WP_Query($company_prod_args);
@@ -714,7 +779,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if (!empty($product_medias[0]['product_media_file'])) {
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -750,6 +815,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				's'					=> $search_term
 			);
 
+			if ( ! empty( $search_term ) ) {								
+
+				if ( $get_search_term_id ) {
+					
+					$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
+				}
+			}
+
 			$company_query = new WP_Query($company_args);
 
 			if ($company_query->have_posts()) {
@@ -779,7 +852,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
 						$user_logged_in			= is_user_logged_in();
 						$current_user_id		= $user_logged_in ? get_current_user_id() : '';
-						$default_company_pic	= get_template_directory_uri() . '/assets/images/default-company.png';
+						$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 						while ($company_query->have_posts()) {
 
 							$company_query->the_post();
@@ -788,7 +861,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$profile_picture    = get_field('profile_picture');
 							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
 							$featured_image   	= get_the_post_thumbnail_url();
-							$profile_picture  	= !empty($featured_image) ? $featured_image : $default_company_pic;
+							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
 						?>
 							<div class="search-item">
@@ -799,7 +872,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<div class="search-item-info">
 										<div class="search-item-avtar">
 											<a href="<?php echo esc_url($company_url); ?>">
-												<img src="<?php echo esc_url($profile_picture); ?>">
+												<?php if ($profile_picture) { ?>
+				                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+				                                <?php } else { ?>
+				                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
+				                                <?php } ?>
 											</a>
 										</div>
 										<div class="search-item-content">
@@ -816,8 +893,20 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												if ($user_logged_in) { ?>
 
 													<div id="send-private-message" class="generic-button">
-														<a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_the_ID(); ?>">Message Rep</a></div>
-												<?php }
+														<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
+													</div>
+													<?php 
+												} else {
+													
+													$current_url = home_url( add_query_arg( NULL, NULL ) );
+													$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+													
+													?>
+													<div class="generic-button">
+														<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
+													</div>
+													<?php
+												}
 												?>
 											</div>
 										</div>
@@ -882,7 +971,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if (!empty($product_medias[0]['product_media_file'])) {
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_placeholder_img();
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_producnab_product_company_placeholder_imgt_placeholder_img();
 										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
@@ -912,12 +1001,17 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			$content_args = array(
 				'post_type' 		=> $all_post_types,
 				'posts_per_page' 	=> 4,
-				's'					=> $search_term
+				'post_status'		=> 'publish',
+				's'					=> $search_term						
 			);
 
-			$content_query = new WP_Query($content_args);
+			if ( ! empty( $search_term ) ) {
+				$content_args[ '_meta_search' ] = true;
+			}
 
-			if ($content_query->have_posts()) {
+			$content_query = new WP_Query( $content_args );			
+			
+			if ( $content_query->have_posts() ) {
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
@@ -945,6 +1039,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 							$post_link		= get_the_permalink();
+							$website_link	= '';
+							$target			= '';
+
+							if ( 'tribe_events' === get_post_type() ) {													
+													
+								$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
+								$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
+								$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';								
+							}
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
@@ -953,9 +1056,32 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									</div>
 									<div class="search-item-info">
 										<div class="search-item-content">
-											<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+											<?php
+											if ( ! empty( $website_link ) ) {
+												?>
+												<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<?php
+											} else {
+												?>
+												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<?php
+											}
+											?>
+											
 											<div class="search-actions">
-												<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+												<?php
+												
+												if ( ! empty( $website_link ) ) {
+													?>
+													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
+													<?php
+												} else {
+													?>
+													<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
+													<?php
+												}
+												?>
+												
 											</div>
 										</div>
 									</div>
