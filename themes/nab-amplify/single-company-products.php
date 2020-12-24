@@ -104,9 +104,10 @@ get_header();
 
                                 }
                             }
-                        } ?>
+                         ?>
                         </div>
                         <?php
+                    }
                         $tags = get_the_terms(get_the_ID(), 'company-product-tag');
 
                         ?>
