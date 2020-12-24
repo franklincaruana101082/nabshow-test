@@ -2307,6 +2307,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
       featureJoinBtnLink: {
         type: 'string',
         default: '#'
+      },
+      featureJoinBtnTarget: {
+        type: 'Boolean',
+        default: false
       }
     },
     edit: function edit(_ref) {
@@ -2332,7 +2336,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
           featureLikeToggle = attributes.featureLikeToggle,
           featureJoinBtn = attributes.featureJoinBtn,
           featureJoinToggle = attributes.featureJoinToggle,
-          featureJoinBtnLink = attributes.featureJoinBtnLink;
+          featureJoinBtnLink = attributes.featureJoinBtnLink,
+          featureJoinBtnTarget = attributes.featureJoinBtnTarget;
 
 
       var backroundStyle = {};
@@ -2544,6 +2549,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
                 setAttributes({ featureJoinBtnLink: featureJoinBtnLink });
               }
             }),
+            wp.element.createElement(ToggleControl, {
+              label: 'Open in new Tab',
+              checked: featureJoinBtnTarget,
+              onChange: function onChange(featureJoinBtnTarget) {
+                setAttributes({ featureJoinBtnTarget: featureJoinBtnTarget });
+              }
+            }),
             wp.element.createElement(TextControl, {
               value: featureIconLink,
               type: 'url',
@@ -2684,7 +2696,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
               { className: 'button-wrap btn-link' },
               wp.element.createElement(
                 'a',
-                { href: featureJoinBtnLink },
+                { href: featureJoinBtnLink, target: featureJoinBtnTarget ? '_blank' : '_self', rel: 'noopener noreferrer' },
                 featureJoinBtn
               )
             )
@@ -2714,7 +2726,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
           featureLikeToggle = attributes.featureLikeToggle,
           featureJoinBtn = attributes.featureJoinBtn,
           featureJoinToggle = attributes.featureJoinToggle,
-          featureJoinBtnLink = attributes.featureJoinBtnLink;
+          featureJoinBtnLink = attributes.featureJoinBtnLink,
+          featureJoinBtnTarget = attributes.featureJoinBtnTarget;
 
 
       var backroundStyle = {};
@@ -2794,7 +2807,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
               { className: 'button-wrap btn-link' },
               wp.element.createElement(
                 'a',
-                { href: featureJoinBtnLink },
+                { href: featureJoinBtnLink, target: featureJoinBtnTarget ? '_blank' : '_self', rel: 'noopener noreferrer' },
                 featureJoinBtn
               )
             )

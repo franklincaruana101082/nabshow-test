@@ -108,6 +108,10 @@
       featureJoinBtnLink: {
         type: 'string',
         default: '#'
+      },
+      featureJoinBtnTarget: {
+        type: 'Boolean',
+        default: false
       }
     },
     edit: ({ attributes, setAttributes }) => {
@@ -132,7 +136,8 @@
         featureLikeToggle,
         featureJoinBtn,
         featureJoinToggle,
-        featureJoinBtnLink
+        featureJoinBtnLink,
+        featureJoinBtnTarget
       } = attributes
 
       const backroundStyle = {}
@@ -332,6 +337,13 @@
                   setAttributes({ featureJoinBtnLink })
                 }}
               />
+              <ToggleControl
+                label='Open in new Tab'
+                checked={featureJoinBtnTarget}
+                onChange={featureJoinBtnTarget => {
+                  setAttributes({ featureJoinBtnTarget })
+                }}
+              />
               <TextControl
                 value={featureIconLink}
                 type='url'
@@ -462,7 +474,7 @@
               )}
               {!featureJoinToggle && (
                 <div className="button-wrap btn-link">
-                  <a href={featureJoinBtnLink}>
+                  <a href={featureJoinBtnLink} target={featureJoinBtnTarget ? '_blank' : '_self'} rel="noopener noreferrer">
                     {featureJoinBtn}
                   </a>
                 </div>
@@ -494,7 +506,8 @@
         featureLikeToggle,
         featureJoinBtn,
         featureJoinToggle,
-        featureJoinBtnLink
+        featureJoinBtnLink,
+        featureJoinBtnTarget
       } = attributes
 
       const backroundStyle = {}
@@ -579,7 +592,7 @@
               )}
               {!featureJoinToggle && (
                 <div className="button-wrap btn-link">
-                  <a href={featureJoinBtnLink}>
+                  <a href={featureJoinBtnLink} target={featureJoinBtnTarget ? '_blank' : '_self'} rel="noopener noreferrer">
                     {featureJoinBtn}
                   </a>
                 </div>
