@@ -235,8 +235,8 @@ function nab_amplify_edit_product()
     $post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
-    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/custom-tinymce.css')));
-    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/custom-tinymce.css')));
+    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
+    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
     $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
     $terms = get_terms('company-product-category', array(
