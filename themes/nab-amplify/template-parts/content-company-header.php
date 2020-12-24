@@ -22,6 +22,7 @@ $profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
+$youtube_url      = get_field('youtube_url');  
 
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
@@ -131,6 +132,13 @@ $company_admin_id = get_field('company_user_id', $company_id);
                                     </li>
                                 <?php
                                 }
+                                if (!empty($youtube_url)) {
+                                    ?>
+                                        <li>
+                                            <a href="<?php echo esc_url($youtube_url); ?>" target="_blank"><i class="fa fa-youtube"></i></a>
+                                        </li>
+                                    <?php
+                                    }
                                 if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                                 ?>
                                     <li><span class="edit-profile-pic" style="display:none" id="edit-social-profiles" data-bp-tooltip="Edit Social Profiles"><i class="fa fa-pencil"></i></span></li>

@@ -19,28 +19,74 @@ get_header();
         $current_user_id = get_field('company_user_id', get_field('nab_selected_company_id'));
         $user_logged_in  = is_user_logged_in();
         $product_copy    = get_field('product_copy');
+        $author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
+        if (empty(trim($author_full_name))) {
+
+            $author_full_name = get_the_author();
+        }
+        $preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
     ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
             <header class="entry-header">
                 <?php
                 the_title('<h1 class="entry-title">', '</h1>');
                 ?>
+                <h4 class="entry-subtitle">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
+                <?php echo do_shortcode( '[bookmark]' ); ?>
             </header><!-- .entry-header -->
+
             <?php
-            $author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
+                // if (bp_members()) {
 
-            if (empty(trim($author_full_name))) {
+                //     bp_the_member();
 
-                $author_full_name = get_the_author();
-            }
-            $preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
+                //     $member_user_id = bp_get_member_user_id();
+                //     $user_full_name = bp_get_member_name();
+                //     if (empty(trim($user_full_name))) {
+                //         $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+                //     }
 
+                //     $company = get_user_meta($member_user_id, 'attendee_company', true);
+                //     $ctitle = get_user_meta($member_user_id, 'attendee_title', true);
+                //     $company = $ctitle ? $ctitle . ' | ' . $company : $company;
+
+                //     $user_images        = nab_amplify_get_user_images($member_user_id);
+                //     $member_profile_url = bp_get_member_permalink();
+                // }
             ?>
-            <h4 class="article-byline">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
+
+            <div class="post-action-wrap">
+                <div class="post-action-author">
+                    <?php echo do_shortcode( '[nab_display_author]' ); ?>
+                </div>
+                <div class="post-action-reaction">
+                    <?php echo do_shortcode( '[reaction_button]' ); ?>
+                </div>
+            </div>
 
             <div class="nab-preview-slider-main">
                 <div class="nab-preview-slider-inner">
                     <?php $product_medias = get_field('product_media');
+                    
+                    if (!empty($product_medias)){
+                        foreach ($product_medias as $key => $product_media) {
+                            if (!empty($product_media['product_media_file'])) {
+
+                                if ($key == 0) {
+?>
+                    <div class="nab-preview-main">
+                    <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
+                </div>
+                <?php
+                                }
+                            }
+                        }  
+                    }
+                    ?>
+
+              
+            <?php
+            
 
                     if (!empty($product_medias) &&  count($product_medias) >= 2) { ?>
 
@@ -48,13 +94,7 @@ get_header();
                             <?php
                             foreach ($product_medias as $key => $product_media) {
                                 if (!empty($product_media['product_media_file'])) {
-                                    if ($key == 0) {
-                            ?>
-                                        <div class="nab-preview-main">
-                                            <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
-                                        </div>
-                                    <?php
-                                    } ?>
+                             ?>
 
                                     <div class="nab-preview-item">
                                         <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
@@ -105,7 +145,7 @@ get_header();
                                 </div>
                                 <div class="author-details">
                                     <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo get_the_author_meta('user_nicename', $current_user_id[0]); ?></a></h3>
-                                    <span class="author-subtitle"><?php echo get_the_title(get_field('nab_selected_company_id')); ?></span>
+                                    <span class="author-subtitle"><?php echo get_user_meta($current_user_id[0], 'attendee_title', true); ?></span>
                                 </div>
                             </div>
                             <div class="author-info-content">

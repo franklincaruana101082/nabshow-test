@@ -178,6 +178,7 @@ function nab_amplify_upload_images()
     // Upload images.
     $images_names         = array('profile_picture', 'banner_image', 'company_profile_picture', 'company_banner_image');
     $dependencies_loaded = 0;
+
     foreach ($_FILES as $file_key => $file_details) {
 
         if (in_array($file_key, $images_names, true)) {
@@ -234,8 +235,8 @@ function nab_amplify_edit_product()
     $post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
-    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1'=>'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink','toolbar2'=>'')));
-    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink','toolbar2'=>'')));
+    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
+    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
     $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
     $terms = get_terms('company-product-category', array(
@@ -2655,6 +2656,7 @@ function nab_add_product()
     $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
     $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
     $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
+    $product_media = get_field('product_media', $product_id);
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -2720,27 +2722,30 @@ function nab_add_product()
 
     $dependencies_loaded = 0;
 
-
-
+    $existing_product_media = count($uploaded_attachments);
+    
+    $diff = 4 - $existing_product_media;
+    
     foreach ($_FILES as $file_key => $file_details) {
+        if ($file_key < $diff) {
+            if (0 === $dependencies_loaded) {
+                // These files need to be included as dependencies when on the front end.
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+                $dependencies_loaded = 1;
+            }
 
-        if (0 === $dependencies_loaded) {
-            // These files need to be included as dependencies when on the front end.
-            require_once ABSPATH . 'wp-admin/includes/image.php';
-            require_once ABSPATH . 'wp-admin/includes/file.php';
-            require_once ABSPATH . 'wp-admin/includes/media.php';
-            $dependencies_loaded = 1;
-        }
+            // Let WordPress handle the upload.
+            $attachment_id = media_handle_upload($file_key, 0);
 
-        // Let WordPress handle the upload.
-        $attachment_id = media_handle_upload($file_key, 0);
-
-        if (!is_wp_error($attachment_id)) {
-            // update in meta
-            if ($file_key === 'product_featured_image') {
-                set_post_thumbnail($post_id, $attachment_id);
-            } else {
-                $uploaded_attachments[] = $attachment_id;
+            if (!is_wp_error($attachment_id)) {
+                // update in meta
+                if ($file_key === 'product_featured_image') {
+                    set_post_thumbnail($post_id, $attachment_id);
+                } else {
+                    $uploaded_attachments[] = $attachment_id;
+                }
             }
         }
     }
@@ -3092,6 +3097,7 @@ function nab_edit_company_social_profiles_callback()
     $company_data['linkedin_profile'] = get_field('linkedin_url', $company_id);
     $company_data['facebook_profile'] = get_field('facebook_url', $company_id);
     $company_data['twitter_profile'] = get_field('twitter_url', $company_id);
+    $company_data['company_youtube'] = get_field('youtube_url', $company_id);
 
     require_once get_template_directory() . '/inc/nab-edit-company-social-profiles.php';
 
@@ -3203,7 +3209,7 @@ function nab_update_company_profile_callback()
 
     // Update company youtube
     if (!empty($company_youtube)) {
-        update_field('company_youtube', $company_youtube, $company_id);
+        update_field('youtube_url', $company_youtube, $company_id);
     }
 
     $final_result['success'] = true;

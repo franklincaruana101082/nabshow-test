@@ -25,6 +25,10 @@
 								<label for="">Twitter</label>
 								<input type="text" class="input-text" name="twitter_profile" value="<?php echo isset($company_data['twitter_profile']) ? $company_data['twitter_profile'] : ''; ?>" id="twitter_profile">
 							</div>
+							<div class="form-row">
+									<label for="">Youtube</label>
+									<input type="text" class="input-text" name="company_youtube" value="<?php echo isset($company_data['company_youtube']) ? $company_data['company_youtube'] : ''; ?>" id="company_youtube">
+								</div>
 							
 							<div class="form-row">
 								<input type="button" id="nab-edit-company-profile-submit" data-id="<?php echo isset($company_data['ID']) ? $company_data['ID'] : 0 ?>" class="btn btn-submit" value="<?php echo isset($company_data['ID']) ? "Update" : "Add"; ?>">

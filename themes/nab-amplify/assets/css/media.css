@@ -347,7 +347,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
 	.nab-product-media-item{width:100px;height:100px;}
-	.select-dark-simple:after{border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid #fdd80f;}
+	.select-dark-simple:after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f;}
 	.nab-modal .fa-info-circle{vertical-align:middle;}
 	.nab-modal .fa-info-circle[data-bp-tooltip]:after,
 	.nab-modal .tooltip{transform:translateX(-30%);}
@@ -357,7 +357,7 @@
 	/* single company product */
 	.black-bg-box{padding:30px;}
 	.single-product-main{padding:0 30px;}
-	.single-company-products .entry-header{padding:0 30px;}
+	.single-company-products .entry-header{padding:0 50px 0 30px;}
 	.single-company-products .related-content{padding:0 30px 0;}
 	.nab-preview-slider-main{margin-bottom:30px;}
 	.single-product-main .single-product-col.left-col{width:100%;}
@@ -370,7 +370,7 @@
 	/*events page*/
 	.tribe-events-page-template .nab-ad-block{margin:25px 0;}
 
-	.single-articles .post-action-wrap{padding-left:30px;}
+	.post-action-wrap{padding-left:30px;}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap;}
@@ -429,7 +429,7 @@
 	.comments-area .comment-list .children{padding-left:30px;}
 
 	.author-info .author-title{font-size:22px;}
-	.post-action-wrap .post-action-author{width:100%;}
+	.post-action-wrap .post-action-author{width:100%;margin-right:0;}
 	.post-action-wrap .post-action-reaction{width:100%;}
 
 	/* popup design */
@@ -462,11 +462,11 @@
 
 	/* single company product */
 	.single-product-main{padding:0 15px;}
-	.single-company-products .entry-header{padding:0 15px;}
+	.single-company-products .entry-header{padding:0 50px 0 15px;}
 	.single-company-products .related-content{padding:0 15px 0;}
 
 	.single-articles .entry-header{padding:0 50px 0 15px;}
-	.single-articles .post-action-wrap{padding-left:15px;}
+	.post-action-wrap{padding-left:15px;}
 }
 @media (max-width:480px) {
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px;}

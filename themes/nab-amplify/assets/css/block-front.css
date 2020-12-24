@@ -197,25 +197,25 @@
 .company-details-wrapper .company-about-inner,
 .company-details-wrapper .company-contact-inner{background-color:#333;padding:40px 50px;height:calc(100% - 70px);max-height:100%;position:relative;}
 .company-details-wrapper .company-about-inner{padding-bottom:80px;}
-.company-details-wrapper .company-about-inner .edit-company-about-control{right:30px;bottom:20px;}
+.company-details-wrapper .company-about-inner .edit-company-about-control{right:30px;bottom:20px;position:absolute;}
 .company-details-wrapper .company-about-outer{width:65%;padding-right:10px;}
 .company-details-wrapper .company-about-outer p{font-family:'OpenSans-Regular',Arial,sans-serif;font-size:20px;margin:0 0 20px;}
 .company-details-wrapper .company-about-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-outer{width:35%;padding-left:10px;}
 .company-details-wrapper .company-contact-outer h2{font-size:24px;}
 .company-details-wrapper .company-contact-inner{padding:40px 30px;}
-.company-details-wrapper .company-contact-outer .edit-company-about-control{right:15px;}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px;}
 .company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;font-family:'Open Sans',Arial,sans-serif;margin:0;}
 .company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;text-transform:capitalize;font-weight:100;font-size:15px;font-family:'Open Sans',Arial,sans-serif;}
 .company-details-wrapper .company-contact-inner-box ul li a{color:#fff;}
 .company-details-wrapper .company-contact-inner-box ul li a:hover{text-decoration:underline;}
+.company-details-wrapper .company-contact-inner .edit-company-about-control{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;margin-bottom:20px;}
 .company-details-wrapper ul{margin:0;padding:0;list-style-type:none;}
 .company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular',Arial,sans-serif;margin-bottom:10px;}
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans',Arial,sans-serif;font-weight:700;}
 .company-details-wrapper ul li:last-child span{display:block;}
-.company-details-wrapper .edit-company-about-control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:absolute;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.company-details-wrapper .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;margin-right:10px;}
+.company-details-wrapper .edit-company-about-control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;}
+.company-details-wrapper .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;}
 .company-details-wrapper .edit-icon:after{top:-30px;}
 .company-details-wrapper .edit-icon i{color:#000}
 .company-details-wrapper .edit-label{color:#999;}
@@ -428,4 +428,13 @@
 
 	.author-details-box .author-info{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;}
 	.author-details-box .author-info .author-details{width:100%;padding-left:0;}
+}
+
+.mce-toolbar-grp {
+    background-color: #404040 !important; /* uses !important or override .mce-panel background-color/image */
+    background-image: none !important;
+    color: #fdd80f !important;
+}
+.mce-toolbar .mce-ico{
+	color:#999999 !important;
 }

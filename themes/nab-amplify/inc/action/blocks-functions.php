@@ -327,7 +327,7 @@ function nab_company_details_render_callback($attributes)
                                 <?php
                                 if (!empty($company_location)) {
                                 ?>
-                                    <li><span>Location:</span>
+                                    <li><span class="company-location-label">Location:</span>
                                         <?php echo isset($company_location['_street_line_1']) && $company_location['_street_line_1'] != '' ? $company_location['_street_line_1'] . '<br>' : ''; ?>
                                         <?php echo isset($company_location['street_line_2']) && $company_location['street_line_2'] != '' ? $company_location['street_line_2'] . '<br>' : ''; ?>
                                         <?php echo isset($company_location['street_line_3']) && $company_location['street_line_3'] != '' ? $company_location['street_line_3'] . '<br>' : ''; ?>
@@ -429,10 +429,18 @@ function nab_company_produts_render_callback($attributes)
         'post_type'         => 'company-products',
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
-        'orderby'           => 'date',
+        'orderby'           => 'meta_value',
         'order'             => $display_order,
-        'meta_key'        => 'nab_selected_company_id',
-        'meta_value'    => $company_id
+        'meta_key'        => 'is_feature_product',
+        'meta_query' => array(
+           
+            array(
+                'key' => 'nab_selected_company_id',
+                'value' => $company_id,
+                'compare' => '='
+            ),
+    
+        )
     );
 
     $product_query = new WP_Query($query_args);
@@ -496,7 +504,7 @@ function nab_company_produts_render_callback($attributes)
                                     if (!empty($product_medias[0]['product_media_file'])) {
                                         $thumbnail_url = $product_medias[0]['product_media_file']['url'];
                                     } else {
-                                        $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_placeholder_img();
+                                        $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
                                     }
 
                                     ?>

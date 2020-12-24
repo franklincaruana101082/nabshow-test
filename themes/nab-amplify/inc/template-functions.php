@@ -913,7 +913,7 @@ function nab_get_bp_notification_menu() {
  *
  * @return string
  */
-function nab_product_placeholder_img() {
+function nab_product_company_placeholder_img() {
 
 	return get_template_directory_uri() . '/assets/images/search-box-cover.png';
 }

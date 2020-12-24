@@ -1280,6 +1280,8 @@ function nab_company_product_search_filter_callback()
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
 		's'					=> $search_term,
+		'orderby'           => 'meta_value',
+       	'meta_key'        => 'is_feature_product'
 	);
 
 	if ( ! empty( $search_term ) ) {
@@ -1313,7 +1315,7 @@ function nab_company_product_search_filter_callback()
 
 			$company_prod_query->the_post();
 
-			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
 			$company_id			= get_field('nab_selected_company_id', get_the_ID());
 			$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
 
@@ -1893,8 +1895,15 @@ function nab_bp_message_request_popup()
 	ob_start();
 
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-
-	$point_of_contact   = get_field( 'point_of_contact', $company_id );
+	$post_type = filter_input(INPUT_POST, 'post_type', FILTER_SANITIZE_STRING);
+	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+	
+	if( $post_type === 'company-products'){
+		$point_of_contact   = get_field( 'product_point_of_contact', $post_id );
+	}else{
+		$point_of_contact   = get_field( 'point_of_contact', $company_id );
+	}
+	
 
 	$user_images = nab_amplify_get_user_images($point_of_contact);
 
