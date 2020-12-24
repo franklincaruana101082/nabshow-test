@@ -32,7 +32,7 @@ get_header();
                 the_title('<h1 class="entry-title">', '</h1>');
                 ?>
                 <h4 class="entry-subtitle">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
-                <?php echo do_shortcode( '[bookmark]' ); ?>
+                <?php // echo do_shortcode( '[bookmark]' ); ?>
             </header><!-- .entry-header -->
 
             <?php
@@ -55,14 +55,14 @@ get_header();
                 // }
             ?>
 
-            <div class="post-action-wrap">
+            <!-- <div class="post-action-wrap">
                 <div class="post-action-author">
-                    <?php echo do_shortcode( '[nab_display_author]' ); ?>
+                    <?php // echo do_shortcode( '[nab_display_author]' ); ?>
                 </div>
                 <div class="post-action-reaction">
-                    <?php echo do_shortcode( '[reaction_button]' ); ?>
+                    <?php // echo do_shortcode( '[reaction_button]' ); ?>
                 </div>
-            </div>
+            </div> -->
 
             <div class="nab-preview-slider-main">
                 <div class="nab-preview-slider-inner">
@@ -144,7 +144,7 @@ get_header();
                                     <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
                                 </div>
                                 <div class="author-details">
-                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo get_the_author_meta('user_nicename', $current_user_id[0]); ?></a></h3>
+                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo nab_get_author_fullname($current_user_id[0]); ?></a></h3>
                                     <span class="author-subtitle"><?php echo get_user_meta($current_user_id[0], 'attendee_title', true); ?></span>
                                 </div>
                             </div>
