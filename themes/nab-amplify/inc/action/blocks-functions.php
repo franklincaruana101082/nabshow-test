@@ -429,20 +429,22 @@ function nab_company_produts_render_callback($attributes)
         'post_type'         => 'company-products',
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
-        'orderby'           => 'meta_value',
-        'order'             => $display_order,
-        'meta_key'        => 'is_feature_product',
-        'meta_query' => array(
-           
-            array(
-                'key' => 'nab_selected_company_id',
-                'value' => $company_id,
-                'compare' => '='
-            ),
-    
-        )
     );
-
+    $meta_query_args    = array( 'relation' => 'AND' );
+    $meta_query_args[ 'nab_is_product_featured' ] = array (
+        'key'       => 'is_feature_product',
+        'compare'   => 'EXISTS',
+    );
+    $meta_query_args[] = array(
+        'key' => 'nab_selected_company_id',
+        'value' => $company_id,
+        'compare' => '='
+    );
+    $query_args[ 'meta_query' ] = $meta_query_args;
+    $query_args[ 'orderby' ] = array(
+    'nab_is_product_featured'   => 'DESC',
+    'date'     => $display_order,
+);
     $product_query = new WP_Query($query_args);
 
     $html       = '';
