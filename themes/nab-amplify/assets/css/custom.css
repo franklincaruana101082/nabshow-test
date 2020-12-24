@@ -1695,7 +1695,7 @@ body .is_friend .remove:before{font-size:22px;}
 
 .select-dark-simple{width:100%;position:relative;}
 .select-dark-simple .select2-container{width:100%!important}
-.select-dark-simple:after{content:'';width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:18px solid #fdd80f;position:absolute;right:30px;top:50%;transform:translateY(-50%);cursor:pointer;pointer-events:none;}
+.select-dark-simple:after{content:'';width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:20px solid #fdd80f;position:absolute;right:30px;top:50%;transform:translateY(-50%);cursor:pointer;pointer-events:none;}
 .select-dark-simple .select2-container .select2-selection--multiple,
 .select-dark-simple .select2-container .select2-selection--single{background-color:#333;border-color:#333;cursor:pointer;padding-right:50px;}
 .select-dark-simple .select2-container .select2-selection--single{height:auto;}

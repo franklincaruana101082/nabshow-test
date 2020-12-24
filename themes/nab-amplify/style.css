@@ -1038,31 +1038,3 @@ textarea {
 	.add-icon.add-icon{width:40px;height:40px;}
 	.add-icon.add-icon i{font-size:17px;}
 }
-
-/* Popup */
-.serendipity-home-popup.nab-modal .modal-content{max-width:1655px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap{padding:130px 110px;position:relative;}
-.serendipity-home-popup.nab-modal .nab-modal-close:not(.fa){-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);font-weight:700;position:absolute;right:90px;top:50px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap h2{color:#fff;font-size:36px;font-family:'Open Sans',Arial,sans-serif;font-weight:bold;line-height:1.2;margin-bottom:20px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap h2 .yellow-color-text{color:#fdd80f!important;}
-.serendipity-home-popup.nab-modal .modal-content-wrap h2+p{font-size:22px;margin-bottom:50px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .serendipity-three-col .serendipity-col .box{flex-direction:column;margin-bottom: 40px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .serendipity-three-col .serendipity-col .box .add-icon{margin-bottom:70px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .serendipity-three-col .serendipity-col .box .add-icon i{color:#fdd80f;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .serendipity-three-col .serendipity-col .box p{font-size:25px;margin:0;font-weight:bold;color:#999999;font-family:'Open Sans',Arial,sans-serif;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .serendipity-three-col .serendipity-col .content p{font-size:16px;color:#999999;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .form-wrapper .form-row{position:relative;margin-bottom:35px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .form-wrapper textarea{height:297px;font-size:22px}
-.serendipity-home-popup.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:absolute;right:25px;font-size:16px;color:#999!important;bottom:25px;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg span{color:#999!important;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .form-wrapper input{height:96px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:22px;color:#999;font-weight:700;font-family:'Open Sans',sans-serif;}
-.serendipity-home-popup.nab-modal .modal-content-wrap .form-wrapper .btn-submit{height:68px;width:230px;margin-bottom:0;font-size:24px;font-weight:700;background-color:#6363df;border-color:#6363df;padding:15px 20px;border-radius:6px;}
-
-@media only screen and (max-width:1600px){
-	.serendipity-home-popup.nab-modal .nab-modal-close:not(.fa){right:30px;top:30px;}
-	.serendipity-home-popup.nab-modal .modal-content-wrap{padding:50px;}
-}
-@media only screen and (max-width:991px){
-	.serendipity-home-popup.nab-modal .nab-modal-close:not(.fa){position:static;transform:translateX(0);width:auto;height:auto;margin-bottom:10px;}
-	.serendipity-home-popup.nab-modal .modal-content-wrap{padding:20px;}
-}
