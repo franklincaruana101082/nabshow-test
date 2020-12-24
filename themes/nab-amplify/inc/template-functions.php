@@ -923,21 +923,21 @@ function nab_product_company_placeholder_img() {
 /* Get author full name */
 function nab_get_author_fullname($author_id)
 {
-	$fname = get_the_author_meta('first_name', $author_id);
-	$lname = get_the_author_meta('last_name', $author_id);
-	$username = get_the_author_meta('user_nicename', $author_id);
-	$full_name = '';
+    $fname = get_the_author_meta('first_name', $author_id);
+    $lname = get_the_author_meta('last_name', $author_id);
+    $username = get_the_author_meta('user_nicename', $author_id);
+    $full_name = '';
 
-	if (empty($fname) && $fname !== '') {
-		$full_name = $lname;
-	} elseif (empty($lname) && $lname !== '') {
-		$full_name = $fname;
-	} elseif ($fname == '' && $lname == '') {
-		$full_name = $username;
-	} else {
-		//both first name and last name are present
-		$full_name = "{$fname} {$lname}";
-	}
+    if (empty($fname) && $fname !== '') {
+        $full_name = $lname;
+    } elseif (empty($lname) && $lname !== '') {
+        $full_name = $fname;
+    } elseif ($fname == '' && $lname == '') {
+        $full_name = $username;
+    } else {
+        //both first name and last name are present
+        $full_name = "{$fname} {$lname}";
+    }
 
-	return $full_name;
-
+    return $full_name;
+}
