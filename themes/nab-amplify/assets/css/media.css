@@ -193,6 +193,8 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:35px;}
 	#addProductModal.nab-modal .modal-content-wrap{padding:20px;}
 	#addProductModal.nab-modal .nab-modal-close:not(.fa){position:static;transform:translateX(0);width:auto;height:auto;margin-bottom:10px;}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:static;text-align:right;margin:10px 0;width:100%;display:inline-block;}
+	.limited-char-field{padding-right:10px!important;}
 
 	/* single company product */
 	.black-bg-box{padding:30px;}
@@ -345,7 +347,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px;}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px;}
 	.nab-product-media-item{width:100px;height:100px;}
-	.select-dark-simple:after{font-size:22px;}
+	.select-dark-simple:after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f;}
 	.nab-modal .fa-info-circle{vertical-align:middle;}
 	.nab-modal .fa-info-circle[data-bp-tooltip]:after,
 	.nab-modal .tooltip{transform:translateX(-30%);}
@@ -355,7 +357,7 @@
 	/* single company product */
 	.black-bg-box{padding:30px;}
 	.single-product-main{padding:0 30px;}
-	.single-company-products .entry-header{padding:0 30px;}
+	.single-company-products .entry-header{padding:0 50px 0 30px;}
 	.single-company-products .related-content{padding:0 30px 0;}
 	.nab-preview-slider-main{margin-bottom:30px;}
 	.single-product-main .single-product-col.left-col{width:100%;}
@@ -427,7 +429,7 @@
 	.comments-area .comment-list .children{padding-left:30px;}
 
 	.author-info .author-title{font-size:22px;}
-	.post-action-wrap .post-action-author{width:100%;}
+	.post-action-wrap .post-action-author{width:100%;margin-right:0;}
 	.post-action-wrap .post-action-reaction{width:100%;}
 
 	/* popup design */
@@ -460,7 +462,7 @@
 
 	/* single company product */
 	.single-product-main{padding:0 15px;}
-	.single-company-products .entry-header{padding:0 15px;}
+	.single-company-products .entry-header{padding:0 50px 0 15px;}
 	.single-company-products .related-content{padding:0 15px 0;}
 
 	.single-articles .entry-header{padding:0 50px 0 15px;}

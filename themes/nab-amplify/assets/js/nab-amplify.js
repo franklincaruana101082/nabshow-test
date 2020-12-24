@@ -465,9 +465,22 @@
     }
   })
 
-  $(document).on('change', '#product_medias', function () {
-    if ($(this)[0].files) {
+  function removeFileFromFileList(index) {
+    const dt = new DataTransfer()
+    const input = document.getElementById('product_medias')
+    const { files } = input
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      if (index !== i) dt.items.add(file) // here you exclude the file. thus removing it.
+      input.files = dt.files
+    }
+  }
+  
+  $(document).on('change', '#product_medias', function (e) {
+    var global_media_count = jQuery('.nab-product-media-item').length
+    if(global_media_count < 5){
       $.each($('#product_medias')[0].files, function (key, file) {
+        
         var timestamp = Date.now()
         var unique_key = file.lastModified + '_' + timestamp
         $('#product_media_wrapper').append(
@@ -482,11 +495,20 @@
             e.target.result
           )
         }
+        var media_count = jQuery('.nab-product-media-item').length
+        if(media_count < 5){
         reader.readAsDataURL(file)
         $('.preview_product_featured_image').show()
         $('#product_media_preview_' + unique_key + '').show()
+        
+      }else{
+        $('#product_media_preview_' + unique_key + '').parent().remove()
+        
+      }
+        
       })
     }
+    
   })
 
   $(document).on('click', '#nab-edit-product-submit', function () {
@@ -2197,10 +2219,12 @@
 
   // Handle Connection Request Form Submission.
   $(document).on('click', '#submit-connection-request', function () {
-    const connectionMsg = $('#connection-message').val()
+    const connectionMsg = $('#connection-message').val();
     if ('' === connectionMsg) {
-      $('#connection-message').addClass('error')
-      $('#connection-message-form .error').show()
+      $('#connection-message-popup').hide();
+      $('.popup-opened').addClass('message-sent');
+      $('.popup-opened').trigger('click');
+      $('.popup-opened').removeClass('popup-opened');
     } else {
       $('#connection-message').removeClass('error')
       $('#connection-message-form .error').hide()
@@ -2725,7 +2749,9 @@
       type: 'POST',
       data: {
         action: 'nab_bp_message_request_popup',
-        company_id: company_id
+        company_id: company_id,
+        post_type: amplifyJS.postType,
+        post_id: amplifyJS.postID
       },
       success: function (data) {
         if ($('#connection-message-popup').length > 0) {

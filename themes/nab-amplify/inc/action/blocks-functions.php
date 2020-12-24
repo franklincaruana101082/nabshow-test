@@ -327,7 +327,7 @@ function nab_company_details_render_callback($attributes)
                                 <?php
                                 if (!empty($company_location)) {
                                 ?>
-                                    <li><span>Location:</span>
+                                    <li><span class="company-location-label">Location:</span>
                                         <?php echo isset($company_location['_street_line_1']) && $company_location['_street_line_1'] != '' ? $company_location['_street_line_1'] . '<br>' : ''; ?>
                                         <?php echo isset($company_location['street_line_2']) && $company_location['street_line_2'] != '' ? $company_location['street_line_2'] . '<br>' : ''; ?>
                                         <?php echo isset($company_location['street_line_3']) && $company_location['street_line_3'] != '' ? $company_location['street_line_3'] . '<br>' : ''; ?>
@@ -371,13 +371,18 @@ function nab_company_details_render_callback($attributes)
                                         <div class="amp-tag-main">
                                             <ul class="amp-tag-list">
                                                 <?php
+                                                $home_url = rtrim(get_site_url(), '/') . '/';
                                                 foreach ($company_product_categories as $comp_prod_cat) {
-                                                    $terms = get_term_by('id', $comp_prod_cat, 'company-product-category');
-                                                ?>
+                                                    
+                                                    $terms          = get_term_by('id', $comp_prod_cat, 'company-product-category');                                                    
+                                                    $tag_search_url = add_query_arg(array('s' => $terms->name), $home_url);
+                                                    ?>
                                                     <li>
-                                                        <a href="<?php echo get_search_link() . '?s=' . $terms->slug; ?>" class="btn"><?php echo $terms->name; ?></a>
+                                                        <a href="<?php echo esc_url( $tag_search_url ); ?>" class="btn"><?php echo $terms->name; ?></a>
                                                     </li>
-                                                <?php } ?>
+                                                    <?php
+                                                }
+                                                ?>
                                             </ul>
                                         </div>
                                     </li>
@@ -424,10 +429,18 @@ function nab_company_produts_render_callback($attributes)
         'post_type'         => 'company-products',
         'post_status'       => 'publish',
         'posts_per_page'    => $posts_per_page,
-        'orderby'           => 'date',
+        'orderby'           => 'meta_value',
         'order'             => $display_order,
-        'meta_key'        => 'nab_selected_company_id',
-        'meta_value'    => $company_id
+        'meta_key'        => 'is_feature_product',
+        'meta_query' => array(
+           
+            array(
+                'key' => 'nab_selected_company_id',
+                'value' => $company_id,
+                'compare' => '='
+            ),
+    
+        )
     );
 
     $product_query = new WP_Query($query_args);

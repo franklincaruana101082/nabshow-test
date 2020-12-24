@@ -41,9 +41,10 @@ global $post;
 							</div>
 							
 							<div class="form-row">
+								<?php $existing_media_count =  count($post_data->product_media); ?>
 								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Product Image (1200x630)"></i> <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
 								<div class="form-control">
-									<div class="file-input"><input type="file" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
+									<div class="file-input"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 
 									</div>
 									<div class="nab-action left-action">
@@ -56,7 +57,9 @@ global $post;
 
 							</div>
 							<div class="form-row" id="product_media_wrapper">
-								<?php if (isset($post_data->product_media)) {
+								<?php 
+								
+								if (isset($post_data->product_media)) {
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
 								?>

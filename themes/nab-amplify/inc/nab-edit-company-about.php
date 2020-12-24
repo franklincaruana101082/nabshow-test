@@ -11,18 +11,18 @@
 							<div class="company-about-row">
 								<div class="form-row">
 									<label for="">About</label>
+									<textarea class="input-text limited-char-field" name="company_about" id="company_about"><?php echo isset($company_data['company_about']) ? $company_data['company_about'] : ''; ?></textarea>
 									<span class="info-msg"><span id="character-count-comp-about">2000 Characters Remaining</span></span>
-									<textarea class="input-text add-product" name="company_about" id="company_about"><?php echo isset($company_data['company_about']) ? $company_data['company_about'] : ''; ?></textarea>
 								</div>
 							</div>
 							<div class="company-info-row">
 								<div class="form-row">
 									<label for="">Company Tagline</label>
-									<input type="text" class="input-text add-product" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
+									<input type="text" class="input-text" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
 								</div>
 								<div class="form-row">
 									<label for="">Website</label>
-									<input type="text" class="input-text add-product" name="company_website" value="<?php echo isset($company_data['company_website']) ? $company_data['company_website'] : ''; ?>" id="company_website">
+									<input type="text" class="input-text" name="company_website" value="<?php echo isset($company_data['company_website']) ? $company_data['company_website'] : ''; ?>" id="company_website">
 								</div>
 								<div class="form-row">
 									<label for="">Point of Contact</label>
@@ -53,10 +53,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-row">
-									<label for="">Youtube</label>
-									<input type="text" class="input-text add-product" name="company_youtube" value="<?php echo isset($company_data['company_youtube']) ? $company_data['company_youtube'] : ''; ?>" id="company_youtube">
-								</div>
+								
 							</div>
 
 							<div class="form-row">

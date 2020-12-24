@@ -19,28 +19,45 @@ get_header();
         $current_user_id = get_field('company_user_id', get_field('nab_selected_company_id'));
         $user_logged_in  = is_user_logged_in();
         $product_copy    = get_field('product_copy');
+        $author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
+        if (empty(trim($author_full_name))) {
+
+            $author_full_name = get_the_author();
+        }
+        $preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
     ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
             <header class="entry-header">
                 <?php
                 the_title('<h1 class="entry-title">', '</h1>');
                 ?>
+                <h4 class="entry-subtitle">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
+                <?php // echo do_shortcode( '[bookmark]' ); ?>
             </header><!-- .entry-header -->
-            <?php
-            $author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
-
-            if (empty(trim($author_full_name))) {
-
-                $author_full_name = get_the_author();
-            }
-            $preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
-
-            ?>
-            <h4 class="article-byline">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
 
             <div class="nab-preview-slider-main">
                 <div class="nab-preview-slider-inner">
                     <?php $product_medias = get_field('product_media');
+                    
+                    if (!empty($product_medias)){
+                        foreach ($product_medias as $key => $product_media) {
+                            if (!empty($product_media['product_media_file'])) {
+
+                                if ($key == 0) {
+?>
+                    <div class="nab-preview-main">
+                    <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
+                </div>
+                <?php
+                                }
+                            }
+                        }  
+                    }
+                    ?>
+
+              
+            <?php
+            
 
                     if (!empty($product_medias) &&  count($product_medias) >= 2) { ?>
 
@@ -48,13 +65,7 @@ get_header();
                             <?php
                             foreach ($product_medias as $key => $product_media) {
                                 if (!empty($product_media['product_media_file'])) {
-                                    if ($key == 0) {
-                            ?>
-                                        <div class="nab-preview-main">
-                                            <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
-                                        </div>
-                                    <?php
-                                    } ?>
+                             ?>
 
                                     <div class="nab-preview-item">
                                         <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
