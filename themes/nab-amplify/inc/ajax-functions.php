@@ -1315,7 +1315,7 @@ function nab_company_product_search_filter_callback()
 
 			$company_prod_query->the_post();
 
-			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_placeholder_img();
+			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
 			$company_id			= get_field('nab_selected_company_id', get_the_ID());
 			$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
 

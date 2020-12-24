@@ -53,10 +53,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-row">
-									<label for="">Youtube</label>
-									<input type="text" class="input-text" name="company_youtube" value="<?php echo isset($company_data['company_youtube']) ? $company_data['company_youtube'] : ''; ?>" id="company_youtube">
-								</div>
+								
 							</div>
 
 							<div class="form-row">

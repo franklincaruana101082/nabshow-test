@@ -92,7 +92,7 @@ global $post;
 							<div class="form-row">
 								<div class="form-col-6">
 									<div class="form-row">
-										<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter product information separated by commas. Items will display to users as a bulleted list."></i></label>
+										<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter detailed product information, including sizing, weight, etc., as appropriate."></i></label>
 										
 										<?php
 							

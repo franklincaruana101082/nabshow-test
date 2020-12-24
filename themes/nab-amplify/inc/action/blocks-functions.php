@@ -504,7 +504,7 @@ function nab_company_produts_render_callback($attributes)
                                     if (!empty($product_medias[0]['product_media_file'])) {
                                         $thumbnail_url = $product_medias[0]['product_media_file']['url'];
                                     } else {
-                                        $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_placeholder_img();
+                                        $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
                                     }
 
                                     ?>

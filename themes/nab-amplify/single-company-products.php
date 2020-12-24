@@ -32,8 +32,37 @@ get_header();
                 the_title('<h1 class="entry-title">', '</h1>');
                 ?>
                 <h4 class="entry-subtitle">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
-                <?php // echo do_shortcode( '[bookmark]' ); ?>
+                <?php echo do_shortcode( '[bookmark]' ); ?>
             </header><!-- .entry-header -->
+
+            <?php
+                // if (bp_members()) {
+
+                //     bp_the_member();
+
+                //     $member_user_id = bp_get_member_user_id();
+                //     $user_full_name = bp_get_member_name();
+                //     if (empty(trim($user_full_name))) {
+                //         $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+                //     }
+
+                //     $company = get_user_meta($member_user_id, 'attendee_company', true);
+                //     $ctitle = get_user_meta($member_user_id, 'attendee_title', true);
+                //     $company = $ctitle ? $ctitle . ' | ' . $company : $company;
+
+                //     $user_images        = nab_amplify_get_user_images($member_user_id);
+                //     $member_profile_url = bp_get_member_permalink();
+                // }
+            ?>
+
+            <div class="post-action-wrap">
+                <div class="post-action-author">
+                    <?php echo do_shortcode( '[nab_display_author]' ); ?>
+                </div>
+                <div class="post-action-reaction">
+                    <?php echo do_shortcode( '[reaction_button]' ); ?>
+                </div>
+            </div>
 
             <div class="nab-preview-slider-main">
                 <div class="nab-preview-slider-inner">
@@ -116,7 +145,7 @@ get_header();
                                 </div>
                                 <div class="author-details">
                                     <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo get_the_author_meta('user_nicename', $current_user_id[0]); ?></a></h3>
-                                    <span class="author-subtitle"><?php echo get_the_title(get_field('nab_selected_company_id')); ?></span>
+                                    <span class="author-subtitle"><?php echo get_user_meta($current_user_id[0], 'attendee_title', true); ?></span>
                                 </div>
                             </div>
                             <div class="author-info-content">

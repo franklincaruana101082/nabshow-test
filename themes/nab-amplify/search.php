@@ -228,16 +228,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'meta_key'        => 'is_feature_product'
 				);
 
-				if ( ! empty( $search_term ) ) {
-				
-					$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
-	
-					if ( $get_search_term_id ) {
-	
-						$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
-					}
-				}
-
 				$company_prod_query = new WP_Query($company_prod_args);
 
 				if ($company_prod_query->have_posts()) {
@@ -273,7 +263,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											if (!empty($product_medias[0]['product_media_file'])) {
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_placeholder_img();
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 											} ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -396,7 +386,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 													</div>
 													<?php
 													if ($user_logged_in) {
-														?>
+
+													?>
 														<div id="send-private-message" class="generic-button">
 															<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
 														</div>
@@ -412,7 +403,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 														</div>
 														<?php
 													}
-													?>													
+													?>
 												</div>
 											</div>
 										</div>
@@ -489,7 +480,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											if (!empty($product_medias[0]['product_media_file'])) {
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_placeholder_img();
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 											} ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -745,18 +736,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'meta_key'        => 'is_feature_product'
 			);
 
-			if ( ! empty( $search_term ) ) {
-				
-				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
-
-				if ( $get_search_term_id ) {
-
-					$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
-				}
-			}
-			
 			$company_prod_query = new WP_Query($company_prod_args);
-			
+
 			if ($company_prod_query->have_posts()) {
 
 				$search_found		= true;
@@ -798,7 +779,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if (!empty($product_medias[0]['product_media_file'])) {
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_placeholder_img();
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -908,8 +889,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												</div>
 
 												<?php
-												if ($user_logged_in) {
-													?>
+
+												if ($user_logged_in) { ?>
+
 													<div id="send-private-message" class="generic-button">
 														<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
 													</div>
@@ -989,7 +971,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if (!empty($product_medias[0]['product_media_file'])) {
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_placeholder_img();
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_producnab_product_company_placeholder_imgt_placeholder_img();
 										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 

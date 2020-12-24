@@ -429,3 +429,12 @@
 	.author-details-box .author-info{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;}
 	.author-details-box .author-info .author-details{width:100%;padding-left:0;}
 }
+
+.mce-toolbar-grp {
+    background-color: #404040 !important; /* uses !important or override .mce-panel background-color/image */
+    background-image: none !important;
+    color: #fdd80f !important;
+}
+.mce-toolbar .mce-ico{
+	color:#999999 !important;
+}
