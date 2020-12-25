@@ -88,25 +88,23 @@ get_header();
             <?php
             
 
-                    if (!empty($product_medias) &&  count($product_medias) >= 2) { ?>
-
+                    if (!empty($product_medias) &&  count($product_medias) >= 2) {
+                        ?>
                         <div class="nab-preview-items-main">
                             <?php
                             foreach ($product_medias as $key => $product_media) {
                                 if (!empty($product_media['product_media_file'])) {
-                             ?>
-
+                                    ?>
                                     <div class="nab-preview-item">
                                         <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
                                     </div>
-
-                        <?php
-
+                                    <?php
                                 }
                             }
-                        } ?>
+                            ?>
                         </div>
                         <?php
+                    }
                         $tags = get_the_terms(get_the_ID(), 'company-product-tag');
 
                         ?>
