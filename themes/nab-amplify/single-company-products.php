@@ -17,6 +17,7 @@ get_header();
     while (have_posts()) :
         the_post();
         $current_user_id = get_field('company_user_id', get_field('nab_selected_company_id'));
+        $company_id      = get_field('nab_selected_company_id');
         $user_logged_in  = is_user_logged_in();
         $product_copy    = get_field('product_copy');
         $author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
@@ -31,83 +32,67 @@ get_header();
                 <?php
                 the_title('<h1 class="entry-title">', '</h1>');
                 ?>
-                <h4 class="entry-subtitle">Posted by <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo esc_html($author_full_name); ?></a></h4>
-                <?php // echo do_shortcode( '[bookmark]' ); ?>
+                <?php echo do_shortcode('[bookmark]'); ?>
             </header><!-- .entry-header -->
 
-            <?php
-                // if (bp_members()) {
 
-                //     bp_the_member();
 
-                //     $member_user_id = bp_get_member_user_id();
-                //     $user_full_name = bp_get_member_name();
-                //     if (empty(trim($user_full_name))) {
-                //         $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-                //     }
-
-                //     $company = get_user_meta($member_user_id, 'attendee_company', true);
-                //     $ctitle = get_user_meta($member_user_id, 'attendee_title', true);
-                //     $company = $ctitle ? $ctitle . ' | ' . $company : $company;
-
-                //     $user_images        = nab_amplify_get_user_images($member_user_id);
-                //     $member_profile_url = bp_get_member_permalink();
-                // }
-            ?>
-
-            <!-- <div class="post-action-wrap">
+            <div class="post-action-wrap">
                 <div class="post-action-author">
-                    <?php // echo do_shortcode( '[nab_display_author]' ); ?>
+                    <?php echo do_shortcode('[nab_display_author]'); ?>
                 </div>
                 <div class="post-action-reaction">
-                    <?php // echo do_shortcode( '[reaction_button]' ); ?>
+                    <?php echo do_shortcode('[reaction_button]'); ?>
                 </div>
-            </div> -->
+            </div>
 
             <div class="nab-preview-slider-main">
                 <div class="nab-preview-slider-inner">
                     <?php $product_medias = get_field('product_media');
-                    
-                    if (!empty($product_medias)){
+
+                    if (!empty($product_medias)) {
                         foreach ($product_medias as $key => $product_media) {
                             if (!empty($product_media['product_media_file'])) {
 
                                 if ($key == 0) {
-?>
-                    <div class="nab-preview-main">
-                    <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
-                </div>
-                <?php
+                    ?>
+                                    <div class="nab-preview-main">
+                                        <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
+                                    </div>
+                    <?php
                                 }
                             }
-                        }  
+                        }
                     }
                     ?>
 
-              
-            <?php
-            
 
-                    if (!empty($product_medias) &&  count($product_medias) >= 2) {
-                        ?>
+                    <?php
+
+
+                    if (!empty($product_medias) &&  count($product_medias) >= 2) { ?>
+
                         <div class="nab-preview-items-main">
                             <?php
                             foreach ($product_medias as $key => $product_media) {
                                 if (!empty($product_media['product_media_file'])) {
-                                    ?>
+                            ?>
+
                                     <div class="nab-preview-item">
                                         <img src="<?php echo $product_media['product_media_file']['url']; ?>" alt="">
                                     </div>
-                                    <?php
+
+                            <?php
+
                                 }
                             }
                             ?>
                         </div>
-                        <?php
+                    <?php
                     }
-                        $tags = get_the_terms(get_the_ID(), 'company-product-tag');
+                    $tags = get_the_terms(get_the_ID(), 'company-product-tag');
 
-                        ?>
+                    ?>
 
 
                 </div>
@@ -164,19 +149,15 @@ get_header();
                             <?php $product_specs = get_field('product_specs');
                             if (!empty($product_specs)) {
                                 echo $product_specs;
+                                $product_read_more_url = get_field('product_learn_more_url');
+                                if (!empty($product_read_more_url)) {
+                            ?>
+                                    <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
+
+                            <?php
+                                }
                             } ?>
                         </div>
-
-                        <?php
-                        $product_read_more_url = get_field('product_learn_more_url');
-                        if (!empty($product_read_more_url)) {
-                        ?>
-                            <div class="black-bg-box product-specs-box">
-                                <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>">Learn more</a>
-                            </div>
-                        <?php
-                        } ?>
-
                         <div class="ad-wrapper">
 
                         </div>

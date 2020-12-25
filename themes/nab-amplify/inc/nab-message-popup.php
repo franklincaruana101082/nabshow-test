@@ -18,7 +18,7 @@
                             <a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
                         </div>
                         <div class="author-details">
-                            <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><?php echo get_the_author_meta('user_nicename', $point_of_contact); ?></a></h3>
+                            <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><?php echo $user_fullname; ?></a></h3>
                             <span class="author-subtitle"><?php echo isset($user_job_title) ? $user_job_title : '';?></span>
                         </div>
                     </div>

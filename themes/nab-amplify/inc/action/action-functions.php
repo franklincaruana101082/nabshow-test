@@ -3089,7 +3089,7 @@ function nab_register_company_product_taxonomy()
 
 function nab_edit_company_social_profiles_callback()
 {
-    $final_result = array();
+   
     $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
     $company_data    = array();
     $company_data['ID'] = $company_id;
@@ -3101,9 +3101,6 @@ function nab_edit_company_social_profiles_callback()
 
     require_once get_template_directory() . '/inc/nab-edit-company-social-profiles.php';
 
-    $final_result['success'] = true;
-    $final_result['content'] = '';
-    echo wp_json_encode($final_result);
     wp_die();
 }
 
@@ -3221,7 +3218,7 @@ function nab_update_company_profile_callback()
 
 function nab_edit_company_about_callback()
 {
-    $final_result = array();
+    
     $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
     $company_data    = array();
     $company_data['ID'] = $company_id;
@@ -3239,9 +3236,7 @@ function nab_edit_company_about_callback()
 
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
-    $final_result['success'] = true;
-    $final_result['content'] = '';
-    echo wp_json_encode($final_result);
+   
     wp_die();
 }
 

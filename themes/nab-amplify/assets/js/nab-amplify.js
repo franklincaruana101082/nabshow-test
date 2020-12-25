@@ -249,9 +249,9 @@
   function addSuccessMsg (tag, message) {
     if (jQuery(tag).length) {
       if(tag === '.modal-content-wrap'){
-        jQuery(tag).html('<h3>' + message + '</h3>')
+        jQuery(tag).after('<div click="woocommerce-notices-wrapper"><div class="woocommerce-message">' + message + '</div></div>')
       }else{
-        jQuery(tag).html('<h4>' + message + '</h4>')
+        jQuery(tag).after('<div click="woocommerce-notices-wrapper"><div class="woocommerce-message">' + message + '</div></div>')
       }
       
     }
@@ -2216,6 +2216,19 @@
       }
     }
   )
+ 
+  /* Event Search Filters*/
+  $(document).on('click', '#load-more-event a', function () {
+    let eventPageNumber = parseInt($(this).attr('data-page-number'));
+    nabSearchEventAjax(true, eventPageNumber);
+  })
+
+  $(document).on('click','.other-search-filter .event-type a.sort-order', function () {
+    if ( ! $(this).hasClass('active') ) {
+      $(this).addClass('active').siblings().removeClass('active');
+      nabSearchEventAjax(false, 1);
+    }
+  });
 
   // Handle Connection Request Form Submission.
   $(document).on('click', '#submit-connection-request', function () {
@@ -3607,10 +3620,128 @@ function nabSearchProductAjax (loadMore, pageNumber) {
   })
 }
 
+/** Event Search Ajax */
+function nabSearchEventAjax(loadMore, pageNumber) {
+  let postPerPage = jQuery('#load-more-product a').attr('data-post-limit') ? parseInt(jQuery('#load-more-product a').attr('data-post-limit')) : 12;
+  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let eventType = 0 < jQuery('.other-search-filter .event-type a.active').length ? jQuery('.other-search-filter .event-type a.active').attr('data-event') : 'all';
+
+  jQuery('body').addClass('is-loading')
+
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      action: 'nab_event_search_filter',
+      nabNonce: amplifyJS.nabNonce,
+      page_number: pageNumber,
+      post_limit: postPerPage,
+      search_term: searchTerm,
+      event_type: eventType
+    },
+    success: function (response) {
+      if (!loadMore) {
+        jQuery('#search-event-list').empty()
+      }
+      let eventObj = jQuery.parseJSON(response)
+
+      if ('' !== eventObj.result_post && 0 < eventObj.result_post.length) {
+        let contentListDiv = document.getElementById('search-event-list');
+
+        jQuery.each(eventObj.result_post, function (key, value) {
+          let searchItemDiv = document.createElement('div');
+          searchItemDiv.setAttribute('class', 'search-item');
+
+          let searchItemInner = document.createElement('div');
+          searchItemInner.setAttribute('class', 'search-item-inner');
+
+          let searchItemCover = document.createElement('div');
+          searchItemCover.setAttribute('class', 'search-item-cover');
+
+          let coverImg = document.createElement('img');
+          coverImg.setAttribute('src', value.thumbnail);
+          coverImg.setAttribute('alt', 'event thumbnail');
+
+          searchItemCover.appendChild(coverImg);
+          searchItemInner.appendChild(searchItemCover);
+
+          let searchItemInfo = document.createElement('div');
+          searchItemInfo.setAttribute('class', 'search-item-info');
+
+          let searchContent = document.createElement('div');
+          searchContent.setAttribute('class', 'search-item-content');
+
+          let postTitle = document.createElement('h4');
+
+          let postTitleLink = document.createElement('a');
+          postTitleLink.setAttribute('href', value.link);
+          postTitleLink.innerText = value.title;
+
+          if (value.target) {
+            postTitleLink.setAttribute('target', value.target);
+          }
+
+          postTitle.appendChild(postTitleLink);
+
+          searchContent.appendChild(postTitle);
+
+          postSubTitle = document.createElement('span');
+          postSubTitle.setAttribute('class', 'company-name');
+          postSubTitle.innerText = value.event_date;
+
+          searchContent.appendChild(postSubTitle);
+
+          let searchAction = document.createElement('div');
+          searchAction.setAttribute('class', 'search-actions');
+
+          let viewPostLink = document.createElement('a');
+          viewPostLink.setAttribute('href', value.link);
+          viewPostLink.setAttribute('class', 'button');
+          viewPostLink.innerText = 'View';
+
+          if (value.target) {
+            viewPostLink.setAttribute('target', value.target);
+          }
+
+          searchAction.appendChild(viewPostLink);
+          searchContent.appendChild(searchAction);
+
+          searchItemInfo.appendChild(searchContent);
+          searchItemInner.appendChild(searchItemInfo);
+          searchItemDiv.appendChild(searchItemInner);
+
+          contentListDiv.appendChild(searchItemDiv);
+
+          if (value.banner) {
+            jQuery('#search-event-list').append(value.banner);
+          }
+        })
+      }
+      jQuery('#load-more-event a').attr( 'data-page-number', eventObj.next_page_number);
+
+      if (eventObj.next_page_number > eventObj.total_page) {
+        jQuery('#load-more-event').hide();
+      } else {
+        jQuery('#load-more-event').show();
+      }
+
+      if (0 === eventObj.total_page) {
+        jQuery('#search-event-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+      } else {
+        jQuery('#search-event-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+      }
+
+      jQuery('.search-view-top-head .event-search-count').text(eventObj.total_event + ' Results for ');
+
+      jQuery('body').removeClass('is-loading')
+    }
+  });
+}
+
 /** Content Search Ajax */
 function nabSearchContentAjax (loadMore, pageNumber) {
-  let postPerPage = jQuery('#load-more-product a').attr('data-post-limit')
-    ? parseInt(jQuery('#load-more-product a').attr('data-post-limit'))
+  let postPerPage = jQuery('#load-more-content a').attr('data-post-limit')
+    ? parseInt(jQuery('#load-more-content a').attr('data-post-limit'))
     : 12
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
