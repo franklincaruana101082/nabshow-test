@@ -1598,6 +1598,7 @@ body .is_friend .remove::before{font-size:22px}
 .black-bg-box:last-child{margin-bottom:0}
 .black-bg-box ul{margin:0;padding:0 0 0 20px}
 .black-bg-box ul li{font-family:'OpenSans-Regular', Arial, sans-serif;font-size:18px}
+.black-bg-box ul:not(:last-child){margin-bottom:20px}
 .author-details-box .author-info{padding:0}
 .author-details-box .author-info .author-image{width:80px;height:80px}
 .author-details-box .author-info .author-details{width:calc(100% - 80px)}
@@ -1606,6 +1607,7 @@ body .is_friend .remove::before{font-size:22px}
 .black-bg-box.author-details-box .action-wrap a.button{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;margin:0;padding:10px 15px}
 .black-bg-box .btn-link{font-size:20px;color:#808080!important;text-decoration:underline;text-transform:uppercase;font-weight:700}
 .product-specs-box h2{font-size:24px;font-weight:100}
+.product-specs-box .btn{min-width:100px}
 .action-wrap div:not(:last-child){margin-bottom:15px}
 .action-wrap div .btn{margin:0;font-family:'OpenSans-Regular', Arial, sans-serif;font-size:17px;font-weight:500}
 .nab-company-claim-popup p{color:#000}
