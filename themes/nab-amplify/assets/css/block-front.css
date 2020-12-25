@@ -197,6 +197,7 @@
 .company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif;margin-bottom:10px}
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans', Arial, sans-serif;font-weight:700}
 .company-details-wrapper ul li:last-child span{display:block}
+.company-details-wrapper ul li .amp-tag-list .btn{white-space:normal;line-height:normal}
 .company-details-wrapper .edit-company-about-control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .company-details-wrapper .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000}
 .company-details-wrapper .edit-icon::after{top:-30px}

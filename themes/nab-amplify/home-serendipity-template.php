@@ -147,7 +147,7 @@ get_header();
 		<div class="modal-content">
 			<div class="modal-content-wrap">
 				<span class="nab-modal-close">Close</span>
-				<div class="serendipity-main-screen" style="display:none">
+				<div class="serendipity-main-screen" >
 					<h2><span class="yellow-color-text">Let’s get started.</span><br/>How do you want to tell people who you are?</h2>
 					<p>You can chose any combo of these to add to your profile and give yourself a presence on serendipity</p>
 					<div class="serendipity-three-col">
@@ -184,7 +184,7 @@ get_header();
 					<span class="nab-modal-back">< Back</span>
 					<h2><span class="yellow-color-text">Simple Bio</span></h2>
 					<div class="form-wrapper">
-						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
+						<form method="post" enctype="multipart/form-data">
 							<div class="form-row">
 								<textarea></textarea>
 								<span class="info-msg"><span id="character-count-specs">250 Character Limit</span></span>
@@ -195,22 +195,25 @@ get_header();
 						</form>
 					</div>
 				</div>
-				<div class="serendipity-fill-screen">
+				<div class="serendipity-fill-screen" style="display:none">
 					<span class="nab-modal-back">< Back</span>
 					<h2><span class="yellow-color-text">Fill in the Blank</span></h2>
 					<div class="form-wrapper">
-						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
+						<form method="post" enctype="multipart/form-data">
 							<div class="fill-inputs-topics">
 								<div class="fill-inputs">
 									<div class="form-row">
+										<span class="counter-number">1</span>
 										<input type="text" class="input-text" value="">
 										<span class="info-msg"><span id="character-count-specs">25 Character Limit</span></span>
 									</div>
 									<div class="form-row">
+										<span class="counter-number">2</span>
 										<input type="text" class="input-text" value="something delicious sweet">
 										<span class="info-msg"><span id="character-count-specs">25 Character Limit</span></span>
 									</div>
 									<div class="form-row">
+										<span class="counter-number">3</span>
 										<input type="text" class="input-text" value="">
 										<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
 									</div>
@@ -224,8 +227,54 @@ get_header();
 											<option value="ASC">Topic Three</option>
 										</select>
 									</div>
-									<div class="topic-content">On the weekends you can find me <span>1.</span>. I’ll be drinking <span>something delicious sweet</span> and might even <span>3.</span> later the evening. That's where you an find me every weekend so catch me over there one day and we'll meet up.</div>
+									<div class="topic-content">On the weekends you can find me <span></span>. I’ll be drinking <span>something delicious sweet</span> and might even <span></span> later the evening. That's where you an find me every weekend so catch me over there one day and we'll meet up.</div>
 								</div>
+							</div>
+							<div class="form-row">
+								<input type="button" class="btn btn-submit" value="Add/Update">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="serendipity-top-screen" style="display:none">
+					<span class="nab-modal-back">< Back</span>
+					<div class="title-dropdown">
+						<h2><span class="yellow-color-text">My Top 5</span></h2>
+						<div class="nab-custom-select">
+							<select class="topics" style="display: none;">
+								<option value="">Choose Your Topics</option>
+								<option value="DESC">Topic One</option>
+								<option value="ASC">Topic Two</option>
+								<option value="ASC">Topic Three</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-wrapper">
+						<form method="post" enctype="multipart/form-data">
+							<div class="form-row">
+								<span class="counter-number">1</span>
+								<input type="text" class="input-text" value="">
+								<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
+							</div>
+							<div class="form-row">
+								<span class="counter-number">2</span>
+								<input type="text" class="input-text" value="">
+								<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
+							</div>
+							<div class="form-row">
+								<span class="counter-number">3</span>
+								<input type="text" class="input-text" value="">
+								<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
+							</div>
+							<div class="form-row">
+								<span class="counter-number">4</span>
+								<input type="text" class="input-text" value="">
+								<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
+							</div>
+							<div class="form-row">
+								<span class="counter-number">5</span>
+								<input type="text" class="input-text" value="">
+								<span class="info-msg"><span id="character-count-specs">75 Character Limit</span></span>
 							</div>
 							<div class="form-row">
 								<input type="button" class="btn btn-submit" value="Add/Update">

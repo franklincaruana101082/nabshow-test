@@ -609,12 +609,23 @@ function nab_company_events_render_callback($attributes)
 
                         $event_query->the_post();
 
-                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-                        $event_date     = get_post_meta(get_the_ID(), '_EventStartDate', true);
-                        $event_link     = get_post_meta(get_the_ID(), '_EventURL', true);
-                        $event_link     = !empty($event_link) ? trim($event_link) : '#';
-                        $target            = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
-                    ?>
+                        $event_post_id      = get_the_ID();
+                        $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        $event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
+                        $event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);                        
+                        $event_link         = get_post_meta($event_post_id, '_EventURL', true);
+                        $event_link         = !empty($event_link) ? trim($event_link) : get_the_permalink();
+                        $target             = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
+                        $event_date         = date_format(date_create( $event_start_date ), 'l, F j' );
+
+                        if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+
+                            if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
+
+                                $event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+                            } 
+                        }
+                        ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
@@ -629,7 +640,7 @@ function nab_company_events_render_callback($attributes)
                                         if (!empty($event_date)) {
 
                                         ?>
-                                            <span class="event-date"><?php echo esc_html(date_format(date_create($event_date), 'l, F j')); ?></span>
+                                            <span class="event-date"><?php echo esc_html( $event_date ); ?></span>
                                         <?php
                                         }
                                         ?>

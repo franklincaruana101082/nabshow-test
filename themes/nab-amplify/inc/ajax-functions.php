@@ -1478,6 +1478,108 @@ function nab_product_search_filter_callback()
 	wp_die();
 }
 
+add_action( 'wp_ajax_nab_event_search_filter', 'nab_event_search_filter_callback' );
+add_action( 'wp_ajax_nopriv_nab_event_search_filter', 'nab_event_search_filter_callback' );
+
+function nab_event_search_filter_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$final_result 	= array();
+	$result_post	= array();
+
+	$page_number	= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
+	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
+	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
+	$event_type		= filter_input(INPUT_POST, 'event_type', FILTER_SANITIZE_STRING);	
+
+	$event_args		= array(
+		'post_type'			=> 'tribe_events',
+		'posts_per_page'	=> $post_limit,
+		'paged'				=> $page_number,
+		'post_status'		=> 'publish',
+		's'					=> $search_term,
+		'meta_key'			=> '_EventStartDate',
+		'orderby'			=> 'meta_value',
+		'order'				=> 'ASC'
+	);
+
+	if ( 'previous' === $event_type || 'upcoming' === $event_type ) {
+		
+		$current_date   = current_time( 'Y-m-d' );
+		$compare		= 'previous' === $event_type ? '<' : '>=';
+		
+		$event_args[ 'meta_query' ] = array(
+
+			array(
+				'key' 		=> '_EventEndDate',
+				'value'		=> $current_date,
+				'compare'	=> $compare,
+				'type'		=> 'DATE'
+			)
+		);
+	}
+
+	$event_query = new WP_Query( $event_args );
+
+	$total_pages 		= $event_query->max_num_pages;
+	$total_event		= $event_query->found_posts;
+	$current_site_url	= get_site_url();
+	
+	if ( $event_query->have_posts() ) {
+
+		$cnt = 0;
+
+		while ( $event_query->have_posts() ) {
+
+			$event_query->the_post();
+
+			$event_post_id		= get_the_ID();
+			$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+			$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+			$website_link 		= get_post_meta( get_the_ID(), '_EventURL', true );
+			$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
+			$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+			$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+							
+			if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+
+				if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
+
+					$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+				} 
+			}
+
+			$result_post[$cnt]['thumbnail'] 	= $thumbnail_url;			
+			$result_post[$cnt]['title'] 		= html_entity_decode(get_the_title());			
+			$result_post[$cnt]['link']			= $website_link;
+			$result_post[$cnt]['target']		= $target;
+			$result_post[$cnt]['event_date']	= $event_date;
+
+			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			}
+
+			$cnt++;
+		}
+	}
+	wp_reset_postdata();
+
+	$final_result['next_page_number'] 	= $page_number + 1;
+	$final_result['total_page']       	= $total_pages;
+	$final_result['total_event']		= $total_event;
+	$final_result['result_post']      	= $result_post;
+
+	echo wp_json_encode($final_result);
+
+	wp_die();
+}
+
 add_action('wp_ajax_nab_content_search_filter', 'nab_content_search_filter_callback');
 add_action('wp_ajax_nopriv_nab_content_search_filter', 'nab_content_search_filter_callback');
 

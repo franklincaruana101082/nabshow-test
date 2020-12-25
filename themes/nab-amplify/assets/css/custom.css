@@ -802,6 +802,7 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 .nab-modal .nab-modal-close:not(.fa){color:#999!important;text-decoration:underline;cursor:pointer;font-size:22px;display:block;text-align:right;max-width:-webkit-max-content;max-width:-moz-max-content;max-width:max-content;margin-left:auto}
 .nab-modal .modal-content-wrap h3{text-transform:uppercase;width:100%;text-align:center;color:#6363df;font-weight:700}
 .nab-modal .modal-content-wrap a, .nab-modal .modal-content-wrap span{color:#000!important}
+.nab-modal .woocommerce-message{margin-top:15px!important}
 .attendee-view-wrap .attendee-title-wrapper .nab-view-add-attendee{position:absolute;top:21px;right:20px}
 .attendee-view-wrap .attendee-details-message{text-align:center;padding-bottom:5px}
 .attendee-view-wrap .attendee-details-message.success{color:#008000}

@@ -5,6 +5,7 @@ global $post;
 	<div class="nab-modal-inner">
 		<div class="modal-content">
 			<div class="modal-content-wrap">
+				
 				<span class="nab-modal-close">Close</span>
 				<div class="add-product-content-popup">
 					<h2><?php echo isset($post_data->ID) ? "Update" : "Add"; ?> Product</h2>
@@ -137,7 +138,7 @@ global $post;
 								</div>
 							</div>	
 							<div class="form-row">
-										<label for="">Learn more URL</label>
+										<label for="">Learn More Button URL</label>
 										<input type="text" class="input-text learn-more-url" name="nab_product_learn_more_url" id="nab_product_learn_more_url" value="<?php echo isset($post_data->nab_product_learn_more_url) ? $post_data->nab_product_learn_more_url : ''; ?>">
 									</div>						
 							<div class="form-row">

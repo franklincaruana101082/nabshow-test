@@ -13,7 +13,7 @@ get_header();
 $search_term 		= get_search_query();
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
-$view_screen		= array('user', 'shop', 'content', 'product', 'company');
+$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event');
 $allowed_tags 		= wp_kses_allowed_html('post');
 
 $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
@@ -67,6 +67,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 					<?php
+					} else if ( 'event' === $view_type ) {
+						?>
+						<div class="event-type sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button active" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order button" data-event='previous'>Previous</a>
+							<a href="javascript:void(0);" class="sort-order button" data-event='upcoming'>Upcoming</a>
+						</div>
+						<?php
 					} else if ('product' === $view_type) {
 					?>
 						<div class="sort-company-product sort-order-btn">
@@ -141,7 +149,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					$total_users	= $members_template->total_member_count;
 					$total_page		= ceil($total_users / 12);
-		?>
+					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span><strong>PEOPLE</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
@@ -523,6 +531,98 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				wp_reset_postdata();
+			} else if ( 'event' === $view_type ) {
+				
+				$event_args		= array(
+					'post_type'			=> 'tribe_events',
+					'posts_per_page'	=> 12,
+					'post_status'		=> 'publish',
+					's'					=> $search_term,
+					'meta_key'			=> '_EventStartDate',
+					'orderby'			=> 'meta_value',
+					'order'				=> 'ASC'
+				);
+	
+				$event_query = new WP_Query( $event_args );
+	
+				if ( $event_query->have_posts() ) {
+	
+					$search_found	= true;
+					$total_event	= $event_query->found_posts;
+					?>
+					<div class="search-view-top-head">
+						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+					</div>
+					<div class="search-section search-content-section">						
+						<div class="search-section-details" id="search-event-list">
+							<?php
+							$cnt = 1;
+							while ( $event_query->have_posts() ) {
+	
+								$event_query->the_post();
+	
+								$event_post_id		= get_the_ID();
+								$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();								
+								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+								$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
+								$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
+								$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+								$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+								
+								if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+
+									if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
+
+										$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+									} 
+								}
+								
+								?>
+								<div class="search-item">
+									<div class="search-item-inner">
+										<div class="search-item-cover">
+											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
+										</div>
+										<div class="search-item-info">
+											<div class="search-item-content">
+												<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
+												<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
+												<div class="search-actions">
+													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>												
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>								
+								<?php
+
+								if ( 8 === $cnt ) {
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+								}
+								$cnt++;
+							}
+							if ( $cnt < 8 ) {
+								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+							}
+							?>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+				<p class="no-search-data" style="display: none;">Result not found.</p>
+				<?php
+				if ( $event_query->max_num_pages > 1 ) {
+					?>
+					<div class="load-more text-center" id="load-more-event">
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $event_query->max_num_pages ); ?>">Load More</a>
+					</div>
+					<?php
+				}
+				wp_reset_postdata();
+
 			} else if ('content' === $view_type) {
 
 				$all_post_types = nab_get_search_post_types();
@@ -544,7 +644,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					$total_content	= $content_query->found_posts;
 
-				?>
+					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>CONTENT</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
@@ -560,17 +660,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$content_query->the_post();
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-								$post_link		= get_the_permalink();
-								$website_link	= '';
-								$target			= '';
-
-								if ( 'tribe_events' === get_post_type() ) {													
-														
-									$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
-									$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
-									$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';								
-								}
-							?>
+								$post_link		= get_the_permalink();								
+								?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
@@ -578,29 +669,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-content">
-												<?php
-												if ( ! empty( $website_link ) ) {
-													?>
-													<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-													<?php
-												} else {
-													?>
-													<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-													<?php
-												}
-												?>												
+												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>												
 												<div class="search-actions">
-													<?php
-													if ( ! empty( $website_link ) ) {
-														?>
-														<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
-														<?php
-													} else {
-														?>
-														<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
-														<?php	
-													}
-													?>													
+													<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>												
 												</div>
 											</div>
 										</div>
@@ -619,7 +690,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					</div>
-				<?php
+					<?php
 				}
 				?>
 				<p class="no-search-data" style="display: none;">Result not found.</p>
@@ -971,7 +1042,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if (!empty($product_medias[0]['product_media_file'])) {
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_producnab_product_company_placeholder_imgt_placeholder_img();
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 										} ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
@@ -996,6 +1067,87 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			}
 			wp_reset_postdata();
 
+			$event_args		= array(
+				'post_type'			=> 'tribe_events',
+				'posts_per_page'	=> 4,
+				'post_status'		=> 'publish',
+				's'					=> $search_term,
+				'meta_key'			=> '_EventStartDate',
+				'orderby'			=> 'meta_value',
+				'order'				=> 'ASC'
+			);
+
+			$event_query = new WP_Query( $event_args );
+
+			if ( $event_query->have_posts() ) {
+
+				$search_found	= true;
+				$total_event	= $event_query->found_posts;
+				?>
+				<div class="search-section search-content-section">
+					<div class="search-section-heading">
+						<h2><strong>EVENTS</strong> <span>(<?php echo esc_html( $total_event . ' RESULTS' ); ?>)</span></h2>
+						<?php
+						if ( $total_event > 4 ) {
+
+							$event_view_more_link = add_query_arg( array('s' => $search_term, 'v' => 'event'), $current_site_url );
+							?>
+							<div class="section-view-more">
+								<a href="<?php echo esc_html($event_view_more_link); ?>" class="view-more-link">View All</a>
+							</div>
+							<?php
+						}
+						?>
+					</div>
+					<div class="search-section-details" id="search-event-list">
+						<?php
+						while ( $event_query->have_posts() ) {
+
+							$event_query->the_post();
+
+							$event_post_id		= get_the_ID();
+							$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();								
+							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
+							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);
+							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
+							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
+							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+							
+							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+
+								if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
+
+									$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+								} 
+							}
+							
+							?>
+							<div class="search-item">
+								<div class="search-item-inner">
+									<div class="search-item-cover">
+										<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
+									</div>
+									<div class="search-item-info">
+										<div class="search-item-content">
+											<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
+											<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
+											<div class="search-actions">
+												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+				</div>
+				<?php
+			}
+			wp_reset_postdata();
+
 			$all_post_types = nab_get_search_post_types();
 
 			$content_args = array(
@@ -1009,13 +1161,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$content_args[ '_meta_search' ] = true;
 			}
 
-			$content_query = new WP_Query( $content_args );			
+			$content_query = new WP_Query( $content_args );
 			
 			if ( $content_query->have_posts() ) {
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
-			?>
+				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
 						<h2><strong>CONTENT</strong> <span>(<?php echo esc_html($total_content . ' RESULTS'); ?>)</span></h2>
@@ -1038,17 +1190,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$content_query->the_post();
 
 							$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-							$post_link		= get_the_permalink();
-							$website_link	= '';
-							$target			= '';
-
-							if ( 'tribe_events' === get_post_type() ) {													
-													
-								$website_link 	= get_post_meta( get_the_ID(), '_EventURL', true );
-								$website_link	= ! empty( $website_link ) ? trim( $website_link ) : '#';
-								$target			= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';								
-							}
-						?>
+							$post_link		= get_the_permalink();							
+							?>
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
@@ -1056,32 +1199,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									</div>
 									<div class="search-item-info">
 										<div class="search-item-content">
-											<?php
-											if ( ! empty( $website_link ) ) {
-												?>
-												<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-												<?php
-											} else {
-												?>
-												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-												<?php
-											}
-											?>
-											
+											<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>											
 											<div class="search-actions">
-												<?php
-												
-												if ( ! empty( $website_link ) ) {
-													?>
-													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
-													<?php
-												} else {
-													?>
-													<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
-													<?php
-												}
-												?>
-												
+												<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>												
 											</div>
 										</div>
 									</div>

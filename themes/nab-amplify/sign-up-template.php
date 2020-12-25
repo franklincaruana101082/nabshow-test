@@ -39,6 +39,10 @@ if ( empty( $redirect_url ) ) {
 		}
 	}
 }
+if ( empty( $redirect_url ) ) {
+
+	$redirect_url = rtrim( get_site_url(), '/' ) . '/welcome/';
+}
 ?>
 
 	<main id="primary" class="site-main">
