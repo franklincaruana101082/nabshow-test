@@ -1210,7 +1210,7 @@ function nab_company_search_filter_callback()
 			<?php
 			if ($user_logged_in) {
 				?>
-				<div id="send-private-message" class="generic-button">
+				<div id="send-private-message" class="generic-button poc-msg-btn">
 					<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
 				</div>
 				<?php 

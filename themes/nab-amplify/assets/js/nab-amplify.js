@@ -2753,7 +2753,7 @@
       .toggleClass('show-icon-modal')
   })
 
-  $(document).on('click', '#send-private-message a', function (e) {
+  $(document).on('click', '#send-private-message.poc-msg-btn a', function (e) {
     e.preventDefault()
     var company_id = $(this).data('comp-id')
 
