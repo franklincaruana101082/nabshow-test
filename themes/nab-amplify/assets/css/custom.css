@@ -1427,7 +1427,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark .modal-content{background-color:#404040;border-color:#404040}
 .nab-modal.theme-dark h2, .nab-modal.theme-dark h3, .nab-modal.theme-dark h4{color:#fdd80f;text-align:left;text-transform:capitalize;margin:0 0 10px;font-weight:600}
 .nab-modal.theme-dark p{font-family:'OpenSans-Regular', Arial, sans-serif;margin:0 0 20px}
-.nab-modal.theme-dark .woocommerce-message{color:#fff}
+.nab-modal.theme-dark .woocommerce-message{color:#fdd80f}
 
 /* Dark theme popup form design */
 .nab-modal.theme-dark .form-row{margin-bottom:30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
