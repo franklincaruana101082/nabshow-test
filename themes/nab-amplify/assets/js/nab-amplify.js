@@ -2978,6 +2978,11 @@
       }
     })
   })
+  $(document).on('click', '#addProductModal .nab-modal-close', function (e) {
+    if($('body').hasClass('single-company') && $('#addProductModal .woocommerce-notices-wrapper').length > 0){
+      location.reload();
+    }
+})
 })(jQuery)
 
 // Get friend button
