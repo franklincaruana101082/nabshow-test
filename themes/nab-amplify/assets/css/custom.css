@@ -882,6 +882,12 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 /* common page bg */
 .woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}
 
+/* common message design */
+.woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-error, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
+.search .woocommerce-message, .search .woocommerce-info, .search .woocommerce-error, .search .woocommerce-noreviews, .search p.no-comments{color:#fdd80f}
+.bbp-user-page .woocommerce-message, .bbp-user-page .woocommerce-info, .bbp-user-page .woocommerce-error, .bbp-user-page .woocommerce-noreviews, .bbp-user-page p.no-comments{color:#fdd80f}
+.members .woocommerce-message, .members .woocommerce-info, .members .woocommerce-error, .members .woocommerce-noreviews, .members p.no-comments{color:#fdd80f}
+
 /* genaral heading style */
 .search-section .search-section-heading h2{color:#fdd80f;font-size:36px;margin:0 10px 0 0;line-height:1}
 .search-section .search-section-heading h2 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block}
@@ -1115,7 +1121,7 @@ body .is_friend .remove::before{font-size:22px}
 .buddypress-wrap .bp-feedback.loading .bp-icon{background-color:#6363df}
 .buddypress .buddypress-wrap .bp-messages-content{margin:0 0 40px}
 .buddypress .buddypress-wrap .bp-messages-content>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
-.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important;padding-right:20px!important}
+.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:30%!important}
 .buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:70%!important}
 .buddypress .buddypress-wrap .bp-messages-content>div .message-thread-header{width:100%}
 .buddypress .buddypress-wrap .bp-messages-content>div #bp-message-thread-list{width:100%}
@@ -1427,7 +1433,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark .modal-content{background-color:#404040;border-color:#404040}
 .nab-modal.theme-dark h2, .nab-modal.theme-dark h3, .nab-modal.theme-dark h4{color:#fdd80f;text-align:left;text-transform:capitalize;margin:0 0 10px;font-weight:600}
 .nab-modal.theme-dark p{font-family:'OpenSans-Regular', Arial, sans-serif;margin:0 0 20px}
-.nab-modal.theme-dark .woocommerce-message{color:#fff}
+.nab-modal.theme-dark .woocommerce-message{color:#fdd80f}
 
 /* Dark theme popup form design */
 .nab-modal.theme-dark .form-row{margin-bottom:30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
@@ -1548,13 +1554,13 @@ body .is_friend .remove::before{font-size:22px}
 #wp-nab_product_copy-wrap, #wp-nab_product_specs-wrap{width:100%}
 #wp-nab_product_copy-wrap iframe, #wp-nab_product_specs-wrap iframe{height:255px!important}
 .nab-modal div.mce-statusbar{display:none}
-.mceContentBody.wp-editor{background-color:#333333!important;color:#999999!important}
-.mceContentBody.wp-editor *{color:#999999!important}
+.nab-modal .mceContentBody.wp-editor{background-color:#333333!important;color:#999999!important}
+.nab-modal .mceContentBody.wp-editor *{color:#999999!important}
 .nab-modal div.mce-toolbar-grp{border:1px solid #333;outline:none;border-bottom:1px solid #666}
 .nab-modal .wp-editor-container{border:1px solid #333}
 .nab-modal .mce-toolbar .mce-btn-group .mce-btn.mce-active, .nab-modal .mce-toolbar .mce-btn-group .mce-btn:active, .nab-modal .qt-dfw.active{border-color:#ccc}
-.mce-toolbar-grp{background-color:#404040!important;background-image:none!important;color:#fdd80f!important}
-.mce-toolbar .mce-ico{color:#999999!important}
+.nab-modal .mce-toolbar-grp{background-color:#404040!important;background-image:none!important;color:#fdd80f!important}
+.nab-modal .mce-toolbar .mce-ico{color:#999999!important}
 
 /* single company products */
 .single-company-products{background-color:#404040}
