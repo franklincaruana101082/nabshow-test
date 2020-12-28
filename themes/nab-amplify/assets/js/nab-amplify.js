@@ -2757,32 +2757,38 @@
     e.preventDefault()
     var company_id = $(this).data('comp-id')
 
-    jQuery.ajax({
-      url: amplifyJS.ajaxurl,
-      type: 'POST',
-      data: {
-        action: 'nab_bp_message_request_popup',
-        company_id: company_id,
-        post_type: amplifyJS.postType,
-        post_id: amplifyJS.postID
-      },
-      success: function (data) {
-        if ($('#connection-message-popup').length > 0) {
-          $('#connection-message-popup').remove()
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('message-popup-added')
-          $('.popup-opened').removeClass('popup-opened')
-          $(this).addClass('popup-opened')
-        } else {
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('message-popup-added')
-          $('.popup-opened').removeClass('popup-opened')
-          $(this).addClass('popup-opened')
+    if(typeof company_id !== 'undefined'){
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          action: 'nab_bp_message_request_popup',
+          company_id: company_id,
+          post_type: amplifyJS.postType,
+          post_id: amplifyJS.postID
+        },
+        success: function (data) {
+          if ($('#connection-message-popup').length > 0) {
+            $('#connection-message-popup').remove()
+            $('body').append(data)
+            $('#connection-message-popup').show()
+            $('body').addClass('message-popup-added')
+            $('.popup-opened').removeClass('popup-opened')
+            $(this).addClass('popup-opened')
+          } else {
+            $('body').append(data)
+            $('#connection-message-popup').show()
+            $('body').addClass('message-popup-added')
+            $('.popup-opened').removeClass('popup-opened')
+            $(this).addClass('popup-opened')
+          }
         }
-      }
-    })
+      })
+    }else{
+      var url = $(this).attr('href')
+      location.href = url;
+      return true
+    }
   })
 
   $(document).on('click', '#submit-message-request', function (e) {
