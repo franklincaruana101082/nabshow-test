@@ -289,6 +289,8 @@
 	.buddypress-wrap #message-threads li .thread-cb{margin-bottom:10px}
 	.buddypress-wrap #message-threads li .thread-from, .buddypress-wrap #message-threads li .thread-to{-moz-flex:1 2 20%;-o-flex:1 2 20%;flex:1 2 20%;margin-bottom:0}
 	.buddypress-wrap #message-threads li .subject, .buddypress-wrap #message-threads li.selected .subject{padding-left:20px}
+	.bp-messages-content .message-title{-ms-flex-wrap:wrap;flex-wrap:wrap}
+	.bp-messages-content .message-title #actions-container{width:100%;margin-top:10px}
 
 	/* comments */
 	.comments-area{padding:30px}
@@ -354,10 +356,6 @@
 
 	/* comments */
 	.comments-area .comment-filter{width:100%}
-
-	/* my account messages */
-	.buddypress .buddypress-wrap .bp-messages-content>div .message-lists{width:100%!important;padding-right:0!important}
-	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important}
 }
 @media (max-width:567px){
 	.site-header .nab-logos ul li{padding-right:10px;margin-right:10px}
