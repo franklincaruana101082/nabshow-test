@@ -137,7 +137,7 @@ get_header();
                                     <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View company profile</a></div>
                                     <?php if ($user_logged_in) { ?>
                                         <div>
-                                            <div id="send-private-message" class="generic-button">
+                                            <div id="send-private-message" class="generic-button poc-msg-btn">
                                                 <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
                                         </div>
                                     <?php } ?>
