@@ -133,8 +133,9 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .btn-link:hover{text-decoration:underline}
 
 /* woocommerce default */
-.woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 25px}
+.woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
 .woocommerce-error{background:none;color:red;margin:0 0 25px 0}
+.close-message{color:inherit!important;position:absolute;right:10px;top:50%;transform:translate(0, -50%);cursor:pointer}
 
 /************* Default style variables *************/
 
@@ -937,7 +938,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .load-more a{background-color:transparent;border-color:transparent;color:#999!important;text-decoration:underline;font-size:18px;overflow-anchor:none}
 .load-more a:hover{background-color:transparent;border-color:transparent;color:#999}
 .load-more a:focus, .load-more a:active{background-color:transparent;border-color:transparent}
-.no-image-avtar{border-radius:50%;width:95px;height:95px;background-color:#fff;color:#000;margin:0 auto;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:12px;padding:5px}
+.no-image-avtar{border-radius:50%;width:95px;height:95px;background-color:#fff;color:#000;margin:0 auto;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:12px;padding:5px;text-align:center}
 .search-section{padding:30px 0 0}
 .search-section .search-section-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative}
 .search-section .section-view-more a{color:#666;text-decoration:underline;display:inline-block;font-size:14px}
@@ -1274,6 +1275,7 @@ body .is_friend .remove::before{font-size:22px}
 .author-info .author-label a:hover{text-decoration:underline}
 .post-action-wrap{margin:0 0 30px;padding-left:50px;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .post-action-wrap .post-action-author{margin-right:20px}
+.post-action-wrap .post-action-author .no-image-avtar{color:#000;width:100%;height:100%}
 .post-action-wrap .reaction-wrapper{padding:20px 0}
 .post-action-wrap .reaction-wrapper .reaction-inner{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end}
 
@@ -1434,6 +1436,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark h2, .nab-modal.theme-dark h3, .nab-modal.theme-dark h4{color:#fdd80f;text-align:left;text-transform:capitalize;margin:0 0 10px;font-weight:600}
 .nab-modal.theme-dark p{font-family:'OpenSans-Regular', Arial, sans-serif;margin:0 0 20px}
 .nab-modal.theme-dark .woocommerce-message{color:#fdd80f}
+.nab-modal.theme-dark .woocommerce-message .close-message{color:#fdd80f!important}
 
 /* Dark theme popup form design */
 .nab-modal.theme-dark .form-row{margin-bottom:30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
