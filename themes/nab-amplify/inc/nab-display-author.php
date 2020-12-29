@@ -19,13 +19,14 @@ if (empty(trim($author_full_name))) {
 }
 ?>
 <div class="author-info">
-	<div class="author-image">
+<div class="author-image">
 		<a href="<?php echo esc_url($author_link); ?>">
-		<?php if($author_avatar_url){ ?>
-		<img src="<?php echo esc_url($author_avatar_url) ?>" alt="author"></a>
-		<?php }else{ ?>
-			<div class="no-image-avtar"><?php echo mb_strimwidth($author_full_name, 0, 30, '...'); ?></div>
-		<?php } ?>
+			<?php if($author_avatar_url){ ?>
+			<img src="<?php echo esc_url($author_avatar_url) ?>" alt="author" />
+			<?php }else{ ?>
+				<div class="no-image-avtar"><?php echo mb_strimwidth($author_full_name, 0, 20, '...'); ?></div>
+			<?php } ?>
+		</a>
 	</div>
 	<div class="author-details">
 		<span class="author-label">Posted by</span>

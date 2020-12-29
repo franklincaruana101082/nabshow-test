@@ -235,8 +235,8 @@ function nab_amplify_edit_product()
     $post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
-    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
-    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '','content_css'=> get_template_directory_uri().'/assets/css/nab-front-tinymce.css')));
+    $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+    $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specs', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
     $terms = get_terms('company-product-category', array(
@@ -2689,11 +2689,7 @@ function nab_add_product()
         $product_post_data['ID'] = $product_id;
 
         $post_id                 = wp_update_post($product_post_data);
-        if (!empty($remove_attachments)) {
-            foreach ($remove_attachments as $remove_attach) {
-                wp_delete_attachment($remove_attach);
-            }
-        }
+        
         /*Add existing media to loop */
         $product_media = get_field('product_media', $post_id);
         foreach ($product_media as $media) {
@@ -2701,6 +2697,20 @@ function nab_add_product()
                 $uploaded_attachments[] = $media['product_media_file']['ID'];
             }
         }
+
+        if (!empty($remove_attachments)) {
+            foreach ($remove_attachments as $remove_attach) {
+                wp_delete_attachment($remove_attach);
+                if (($key = array_search($remove_attach, $uploaded_attachments)) !== false) {
+                    unset($uploaded_attachments[$key]);
+                }
+            }
+        }
+
+        
+
+
+
     } else {
         // Insert the post into the database
         $post_id = wp_insert_post($product_post_data);
@@ -2723,9 +2733,9 @@ function nab_add_product()
     $dependencies_loaded = 0;
 
     $existing_product_media = count($uploaded_attachments);
-    
+
     $diff = 4 - $existing_product_media;
-    
+
     foreach ($_FILES as $file_key => $file_details) {
         if ($file_key < $diff) {
             if (0 === $dependencies_loaded) {
@@ -3089,7 +3099,7 @@ function nab_register_company_product_taxonomy()
 
 function nab_edit_company_social_profiles_callback()
 {
-   
+
     $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
     $company_data    = array();
     $company_data['ID'] = $company_id;
@@ -3218,7 +3228,7 @@ function nab_update_company_profile_callback()
 
 function nab_edit_company_about_callback()
 {
-    
+
     $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
     $company_data    = array();
     $company_data['ID'] = $company_id;
@@ -3236,7 +3246,7 @@ function nab_edit_company_about_callback()
 
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
-   
+
     wp_die();
 }
 
