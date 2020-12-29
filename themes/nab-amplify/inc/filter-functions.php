@@ -1118,19 +1118,20 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 				$search .= " AND ({$wpdb->posts}.post_password = '') ";
 			}
 		}
-	} else if ( isset( $tax_search ) && ! empty( $tax_search ) ) {
+	} else if ( isset( $tax_search ) && ! empty( $tax_search ) && is_array( $tax_search ) ) {
 
 		global $wpdb;
 
 		$q = $wp_query->query_vars;
-		$n = !empty($q['exact']) ? '' : '%';		
+		$n = !empty($q['exact']) ? '' : '%';
 
-		$search = array();
+		$tax_search	= implode( ',', $tax_search );
+		$search		= array();
 
 		foreach ((array) $q['search_terms'] as $term) {
 
 			$like		= $n . $wpdb->esc_like($term) . $n;			
-			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->term_relationships}.term_taxonomy_id LIKE %d))", $like, $like, $like, $tax_search );
+			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->term_relationships}.term_taxonomy_id IN(%s) ))", $like, $like, $like, $tax_search );
 		}
 
 		if (!empty($search)) {
@@ -1194,7 +1195,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
 
-	} else if ( isset( $tax_search ) && ! empty( $tax_search ) ) {
+	} else if ( isset( $tax_search ) && ! empty( $tax_search ) && is_array( $tax_search ) ) {
 		
 		global $wpdb;
 

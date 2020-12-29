@@ -24,7 +24,7 @@ function amplify_front_scripts()
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'nabNonce' => wp_create_nonce('nab-ajax-nonce'),
 		'postID' => $post->ID,
-		'postType' => $post->post_type,
+		'postType' => is_search() ? '' : $post->post_type,
 		'CompanyAdminId' => get_field('company_user_id'),
 		'CurrentLoggedUser' => intval(get_current_user_id())
 	));

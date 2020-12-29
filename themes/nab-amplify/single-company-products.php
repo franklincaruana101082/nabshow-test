@@ -21,6 +21,7 @@ get_header();
         $user_logged_in  = is_user_logged_in();
         $product_copy    = get_field('product_copy');
         $author_full_name = get_the_author_meta('first_name', $current_user_id[0]) . ' ' . get_the_author_meta('last_name', $current_user_id[0]);
+        $product_point_of_contact = get_field('product_point_of_contact');
         if (empty(trim($author_full_name))) {
 
             $author_full_name = get_the_author();
@@ -107,7 +108,7 @@ get_header();
                             <div class="amp-tag-main">
                                 <ul class="amp-tag-list">
                                     <?php foreach ($tags as $tag) { ?>
-                                        <li><a href="<?php echo get_term_link($tag->term_id); ?>" class="btn"><?php echo $tag->name; ?></a></li>
+                                        <li><a href="<?php echo site_url().'/?s='.$tag->name; ?>" class="btn"><?php echo $tag->name; ?></a></li>
                                     <?php } ?>
 
                                 </ul>
@@ -117,22 +118,22 @@ get_header();
 
 
                         // Get images.
-                        $user_images = nab_amplify_get_user_images($current_user_id[0]);
+                        $user_images = nab_amplify_get_user_images($product_point_of_contact);
                         ?>
                     </div>
                     <div class="single-product-col right-col">
                         <div class="black-bg-box author-details-box">
                             <div class="author-info">
                                 <div class="author-image">
-                                    <a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
+                                    <a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
                                 </div>
                                 <div class="author-details">
-                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($current_user_id[0]); ?>"><?php echo nab_get_author_fullname($current_user_id[0]); ?></a></h3>
-                                    <span class="author-subtitle"><?php echo get_user_meta($current_user_id[0], 'attendee_title', true); ?></span>
+                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><?php echo nab_get_author_fullname($product_point_of_contact); ?></a></h3>
+                                    <span class="author-subtitle"><?php echo get_user_meta($product_point_of_contact, 'attendee_title', true); ?></span>
                                 </div>
                             </div>
                             <div class="author-info-content">
-                                <p><?php echo get_the_author_meta('description', $current_user_id[0]); ?></p>
+                                <p><?php echo get_the_author_meta('description', $product_point_of_contact); ?></p>
                                 <div class="action-wrap">
                                     <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View company profile</a></div>
                                     <?php if ($user_logged_in) { ?>

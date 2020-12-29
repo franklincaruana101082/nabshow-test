@@ -248,12 +248,47 @@
 
   function addSuccessMsg (tag, message) {
     if (jQuery(tag).length) {
-      if(tag === '.modal-content-wrap'){
-        jQuery(tag).after('<div click="woocommerce-notices-wrapper"><div class="woocommerce-message">' + message + '</div></div>')
-      }else{
-        jQuery(tag).after('<div click="woocommerce-notices-wrapper"><div class="woocommerce-message">' + message + '</div></div>')
+      if (tag === '.modal-content-wrap') {
+        if (
+          jQuery('.modal-content-wrap').find('.woocommerce-notices-wrapper')
+            .length
+        ) {
+          jQuery('.modal-content-wrap')
+            .find('.woocommerce-notices-wrapper')
+            .remove()
+          jQuery(tag).prepend(
+            '<div class="woocommerce-notices-wrapper"><div class="woocommerce-message">' +
+              message +
+              '<span class="close-message fa fa-close"></span></div></div>'
+          )
+        } else {
+          jQuery(tag).prepend(
+            '<div class="woocommerce-notices-wrapper"><div class="woocommerce-message">' +
+              message +
+              '<span class="close-message fa fa-close"></span></div></div>'
+          )
+        }
+      } else {
+        if (
+          jQuery('.modal-content-wrap').find('.woocommerce-notices-wrapper')
+            .length
+        ) {
+          jQuery('.modal-content-wrap')
+            .find('.woocommerce-notices-wrapper')
+            .remove()
+          jQuery(tag).after(
+            '<div class="woocommerce-notices-wrapper"><div class="woocommerce-message">' +
+              message +
+              '<span class="close-message fa fa-close"></span></div></div>'
+          )
+        } else {
+          jQuery(tag).after(
+            '<div class="woocommerce-notices-wrapper"><div class="woocommerce-message">' +
+              message +
+              '<span class="close-message fa fa-close"></span></div></div>'
+          )
+        }
       }
-      
     }
   }
 
@@ -292,6 +327,11 @@
       return true
     }
   }
+
+  $(document).on('click', '.close-message', function () {
+      jQuery(this).parents('.woocommerce-notices-wrapper').remove()
+      jQuery('body').addClass('nab-close-reload');
+  })
 
   $(document).on('click', '.action-edit ', function () {
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
@@ -465,7 +505,7 @@
     }
   })
 
-  function removeFileFromFileList(index) {
+  function removeFileFromFileList (index) {
     const dt = new DataTransfer()
     const input = document.getElementById('product_medias')
     const { files } = input
@@ -475,12 +515,11 @@
       input.files = dt.files
     }
   }
-  
+
   $(document).on('change', '#product_medias', function (e) {
     var global_media_count = jQuery('.nab-product-media-item').length
-    if(global_media_count < 5){
+    if (global_media_count < 5) {
       $.each($('#product_medias')[0].files, function (key, file) {
-        
         var timestamp = Date.now()
         var unique_key = file.lastModified + '_' + timestamp
         $('#product_media_wrapper').append(
@@ -496,19 +535,17 @@
           )
         }
         var media_count = jQuery('.nab-product-media-item').length
-        if(media_count < 5){
-        reader.readAsDataURL(file)
-        $('.preview_product_featured_image').show()
-        $('#product_media_preview_' + unique_key + '').show()
-        
-      }else{
-        $('#product_media_preview_' + unique_key + '').parent().remove()
-        
-      }
-        
+        if (media_count < 5) {
+          reader.readAsDataURL(file)
+          $('.preview_product_featured_image').show()
+          $('#product_media_preview_' + unique_key + '').show()
+        } else {
+          $('#product_media_preview_' + unique_key + '')
+            .parent()
+            .remove()
+        }
       })
     }
-    
   })
 
   $(document).on('click', '#nab-edit-product-submit', function () {
@@ -637,6 +674,8 @@
               '.add-product-content-popup',
               'Product Added Successfully!'
             )
+
+            jQuery('#nab-edit-product-form').trigger('reset')
           }
         }
       }
@@ -2216,28 +2255,35 @@
       }
     }
   )
- 
+
   /* Event Search Filters*/
   $(document).on('click', '#load-more-event a', function () {
-    let eventPageNumber = parseInt($(this).attr('data-page-number'));
-    nabSearchEventAjax(true, eventPageNumber);
+    let eventPageNumber = parseInt($(this).attr('data-page-number'))
+    nabSearchEventAjax(true, eventPageNumber)
   })
 
-  $(document).on('click','.other-search-filter .event-type a.sort-order', function () {
-    if ( ! $(this).hasClass('active') ) {
-      $(this).addClass('active').siblings().removeClass('active');
-      nabSearchEventAjax(false, 1);
+  $(document).on(
+    'click',
+    '.other-search-filter .event-type a.sort-order',
+    function () {
+      if (!$(this).hasClass('active')) {
+        $(this)
+          .addClass('active')
+          .siblings()
+          .removeClass('active')
+        nabSearchEventAjax(false, 1)
+      }
     }
-  });
+  )
 
   // Handle Connection Request Form Submission.
   $(document).on('click', '#submit-connection-request', function () {
-    const connectionMsg = $('#connection-message').val();
+    const connectionMsg = $('#connection-message').val()
     if ('' === connectionMsg) {
-      $('#connection-message-popup').hide();
-      $('.popup-opened').addClass('message-sent');
-      $('.popup-opened').trigger('click');
-      $('.popup-opened').removeClass('popup-opened');
+      $('#connection-message-popup').hide()
+      $('.popup-opened').addClass('message-sent')
+      $('.popup-opened').trigger('click')
+      $('.popup-opened').removeClass('popup-opened')
     } else {
       $('#connection-message').removeClass('error')
       $('#connection-message-form .error').hide()
@@ -2755,40 +2801,41 @@
 
   $(document).on('click', '#send-private-message.poc-msg-btn a', function (e) {
     e.preventDefault()
+    
     var company_id = $(this).data('comp-id')
-
+    
     if(typeof company_id !== 'undefined'){
-      jQuery.ajax({
-        url: amplifyJS.ajaxurl,
-        type: 'POST',
-        data: {
-          action: 'nab_bp_message_request_popup',
-          company_id: company_id,
-          post_type: amplifyJS.postType,
-          post_id: amplifyJS.postID
-        },
-        success: function (data) {
-          if ($('#connection-message-popup').length > 0) {
-            $('#connection-message-popup').remove()
-            $('body').append(data)
-            $('#connection-message-popup').show()
-            $('body').addClass('message-popup-added')
-            $('.popup-opened').removeClass('popup-opened')
-            $(this).addClass('popup-opened')
-          } else {
-            $('body').append(data)
-            $('#connection-message-popup').show()
-            $('body').addClass('message-popup-added')
-            $('.popup-opened').removeClass('popup-opened')
-            $(this).addClass('popup-opened')
-          }
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'nab_bp_message_request_popup',
+        company_id: company_id,
+        post_type: amplifyJS.postType,
+        post_id: amplifyJS.postID
+      },
+      success: function (data) {
+        if ($('#connection-message-popup').length > 0) {
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('message-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
+        } else {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('message-popup-added')
+          $('.popup-opened').removeClass('popup-opened')
+          $(this).addClass('popup-opened')
         }
-      })
-    }else{
-      var url = $(this).attr('href')
-      location.href = url;
-      return true
-    }    
+      }
+    })
+  }else{
+    var url = $(this).attr('href')
+    location.href = url;
+    return true
+  }
   })
 
   $(document).on('click', '#submit-message-request', function (e) {
@@ -2817,6 +2864,7 @@
         success: function (data) {
           $('body').removeClass('is-loading')
           addSuccessMsg('.modal-content-wrap', data.data.feedback)
+          jQuery('#connection-message-form').trigger('reset')
         }
       })
     }
@@ -2971,13 +3019,18 @@
             '.add-product-content-popup',
             'Featured Block Updated Sucessfully!'
           )
-          
         } else {
           $('body').removeClass('is-loading')
         }
       }
     })
   })
+  $(document).on('click', '#addProductModal .nab-modal-close', function (e) {
+      if($('body').hasClass('single-company') && $('body').hasClass('nab-close-reload') || $('#addProductModal .woocommerce-notices-wrapper').length > 0){
+        location.reload();
+      }
+  })
+  
 })(jQuery)
 
 // Get friend button
@@ -3627,10 +3680,18 @@ function nabSearchProductAjax (loadMore, pageNumber) {
 }
 
 /** Event Search Ajax */
-function nabSearchEventAjax(loadMore, pageNumber) {
-  let postPerPage = jQuery('#load-more-product a').attr('data-post-limit') ? parseInt(jQuery('#load-more-product a').attr('data-post-limit')) : 12;
-  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
-  let eventType = 0 < jQuery('.other-search-filter .event-type a.active').length ? jQuery('.other-search-filter .event-type a.active').attr('data-event') : 'all';
+function nabSearchEventAjax (loadMore, pageNumber) {
+  let postPerPage = jQuery('#load-more-product a').attr('data-post-limit')
+    ? parseInt(jQuery('#load-more-product a').attr('data-post-limit'))
+    : 12
+  let searchTerm =
+    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
+      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+      : ''
+  let eventType =
+    0 < jQuery('.other-search-filter .event-type a.active').length
+      ? jQuery('.other-search-filter .event-type a.active').attr('data-event')
+      : 'all'
 
   jQuery('body').addClass('is-loading')
 
@@ -3652,96 +3713,108 @@ function nabSearchEventAjax(loadMore, pageNumber) {
       let eventObj = jQuery.parseJSON(response)
 
       if ('' !== eventObj.result_post && 0 < eventObj.result_post.length) {
-        let contentListDiv = document.getElementById('search-event-list');
+        let contentListDiv = document.getElementById('search-event-list')
 
         jQuery.each(eventObj.result_post, function (key, value) {
-          let searchItemDiv = document.createElement('div');
-          searchItemDiv.setAttribute('class', 'search-item');
+          let searchItemDiv = document.createElement('div')
+          searchItemDiv.setAttribute('class', 'search-item')
 
-          let searchItemInner = document.createElement('div');
-          searchItemInner.setAttribute('class', 'search-item-inner');
+          let searchItemInner = document.createElement('div')
+          searchItemInner.setAttribute('class', 'search-item-inner')
 
-          let searchItemCover = document.createElement('div');
-          searchItemCover.setAttribute('class', 'search-item-cover');
+          let searchItemCover = document.createElement('div')
+          searchItemCover.setAttribute('class', 'search-item-cover')
 
-          let coverImg = document.createElement('img');
-          coverImg.setAttribute('src', value.thumbnail);
-          coverImg.setAttribute('alt', 'event thumbnail');
+          let coverImg = document.createElement('img')
+          coverImg.setAttribute('src', value.thumbnail)
+          coverImg.setAttribute('alt', 'event thumbnail')
 
-          searchItemCover.appendChild(coverImg);
-          searchItemInner.appendChild(searchItemCover);
+          searchItemCover.appendChild(coverImg)
+          searchItemInner.appendChild(searchItemCover)
 
-          let searchItemInfo = document.createElement('div');
-          searchItemInfo.setAttribute('class', 'search-item-info');
+          let searchItemInfo = document.createElement('div')
+          searchItemInfo.setAttribute('class', 'search-item-info')
 
-          let searchContent = document.createElement('div');
-          searchContent.setAttribute('class', 'search-item-content');
+          let searchContent = document.createElement('div')
+          searchContent.setAttribute('class', 'search-item-content')
 
-          let postTitle = document.createElement('h4');
+          let postTitle = document.createElement('h4')
 
-          let postTitleLink = document.createElement('a');
-          postTitleLink.setAttribute('href', value.link);
-          postTitleLink.innerText = value.title;
-
-          if (value.target) {
-            postTitleLink.setAttribute('target', value.target);
-          }
-
-          postTitle.appendChild(postTitleLink);
-
-          searchContent.appendChild(postTitle);
-
-          postSubTitle = document.createElement('span');
-          postSubTitle.setAttribute('class', 'company-name');
-          postSubTitle.innerText = value.event_date;
-
-          searchContent.appendChild(postSubTitle);
-
-          let searchAction = document.createElement('div');
-          searchAction.setAttribute('class', 'search-actions');
-
-          let viewPostLink = document.createElement('a');
-          viewPostLink.setAttribute('href', value.link);
-          viewPostLink.setAttribute('class', 'button');
-          viewPostLink.innerText = 'View';
+          let postTitleLink = document.createElement('a')
+          postTitleLink.setAttribute('href', value.link)
+          postTitleLink.innerText = value.title
 
           if (value.target) {
-            viewPostLink.setAttribute('target', value.target);
+            postTitleLink.setAttribute('target', value.target)
           }
 
-          searchAction.appendChild(viewPostLink);
-          searchContent.appendChild(searchAction);
+          postTitle.appendChild(postTitleLink)
 
-          searchItemInfo.appendChild(searchContent);
-          searchItemInner.appendChild(searchItemInfo);
-          searchItemDiv.appendChild(searchItemInner);
+          searchContent.appendChild(postTitle)
 
-          contentListDiv.appendChild(searchItemDiv);
+          postSubTitle = document.createElement('span')
+          postSubTitle.setAttribute('class', 'company-name')
+          postSubTitle.innerText = value.event_date
+
+          searchContent.appendChild(postSubTitle)
+
+          let searchAction = document.createElement('div')
+          searchAction.setAttribute('class', 'search-actions')
+
+          let viewPostLink = document.createElement('a')
+          viewPostLink.setAttribute('href', value.link)
+          viewPostLink.setAttribute('class', 'button')
+          viewPostLink.innerText = 'View'
+
+          if (value.target) {
+            viewPostLink.setAttribute('target', value.target)
+          }
+
+          searchAction.appendChild(viewPostLink)
+          searchContent.appendChild(searchAction)
+
+          searchItemInfo.appendChild(searchContent)
+          searchItemInner.appendChild(searchItemInfo)
+          searchItemDiv.appendChild(searchItemInner)
+
+          contentListDiv.appendChild(searchItemDiv)
 
           if (value.banner) {
-            jQuery('#search-event-list').append(value.banner);
+            jQuery('#search-event-list').append(value.banner)
           }
         })
       }
-      jQuery('#load-more-event a').attr( 'data-page-number', eventObj.next_page_number);
+      jQuery('#load-more-event a').attr(
+        'data-page-number',
+        eventObj.next_page_number
+      )
 
       if (eventObj.next_page_number > eventObj.total_page) {
-        jQuery('#load-more-event').hide();
+        jQuery('#load-more-event').hide()
       } else {
-        jQuery('#load-more-event').show();
+        jQuery('#load-more-event').show()
       }
 
       if (0 === eventObj.total_page) {
-        jQuery('#search-event-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+        jQuery('#search-event-list')
+          .empty()
+          .parents('.nab-search-result-wrapper')
+          .find('p.no-search-data')
+          .show()
       } else {
-        jQuery('#search-event-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+        jQuery('#search-event-list')
+          .parents('.nab-search-result-wrapper')
+          .find('p.no-search-data')
+          .hide()
       }
 
-      jQuery('.search-view-top-head .event-search-count').text(eventObj.total_event + ' Results for ');
+      jQuery('.search-view-top-head .event-search-count').text(
+        eventObj.total_event + ' Results for '
+      )
 
       jQuery('body').removeClass('is-loading')
     }
-  });
+  })
 }
 
 /** Content Search Ajax */

@@ -290,7 +290,7 @@ function nab_company_details_render_callback($attributes)
     $user_id            = get_current_user_id();
     $admin_id           = get_field('company_user_id', $company_id);
     $company_product_categories = get_field('product_categories', $company_id);
-    
+
 
     // Get images.
     $user_images = nab_amplify_get_user_images($point_of_contact);
@@ -304,25 +304,19 @@ function nab_company_details_render_callback($attributes)
                     <h2>About</h2>
                     <div class="company-about-inner">
                         <p><?php echo esc_html($about_company); ?></p>
-                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                            <div class="edit-company-about-control">
-                                <span class="edit-company-about edit-icon" data-action="company-about" id="edit-company-about" data-bp-tooltip="Edit Company Details">
-                                    <i class="fa fa-pencil"></i>
-                                </span>
-                            </div>
-                        <?php } ?>
                     </div>
                 </div>
                 <div class="company-contact-outer">
                     <h2>Contact Info</h2>
-                    <div class="company-contact-inner">
-                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                    <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
                             <div class="edit-company-about-control">
                                 <span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details">
                                     <i class="fa fa-pencil"></i>
                                 </span>
                             </div>
                         <?php } ?>
+                    <div class="company-contact-inner">
+                        
                         <div class="company-contact-inner-box">
                             <ul>
                                 <?php
@@ -611,21 +605,21 @@ function nab_company_events_render_callback($attributes)
 
                         $event_post_id      = get_the_ID();
                         $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-                        $event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
-                        $event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);                        
+                        $event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
+                        $event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
                         $event_link         = get_post_meta($event_post_id, '_EventURL', true);
                         $event_link         = !empty($event_link) ? trim($event_link) : get_the_permalink();
                         $target             = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
-                        $event_date         = date_format(date_create( $event_start_date ), 'l, F j' );
+                        $event_date         = date_format(date_create($event_start_date), 'l, F j');
 
-                        if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+                        if (!empty($event_start_date) && !empty($event_end_date)) {
 
-                            if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
+                            if (date_format(date_create($event_start_date), 'Ymd') !== date_format(date_create($event_end_date), 'Ymd')) {
 
-                                $event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
-                            } 
+                                $event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
+                            }
                         }
-                        ?>
+                    ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
@@ -640,7 +634,7 @@ function nab_company_events_render_callback($attributes)
                                         if (!empty($event_date)) {
 
                                         ?>
-                                            <span class="event-date"><?php echo esc_html( $event_date ); ?></span>
+                                            <span class="event-date"><?php echo esc_html($event_date); ?></span>
                                         <?php
                                         }
                                         ?>

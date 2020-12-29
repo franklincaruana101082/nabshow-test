@@ -4,9 +4,8 @@ global $post;
 <div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
-				
-				<span class="nab-modal-close">Close</span>
 				<div class="add-product-content-popup">
 					<h2><?php echo isset($post_data->ID) ? "Update" : "Add"; ?> Product</h2>
 					<div class="form-wrapper">
@@ -43,7 +42,7 @@ global $post;
 							
 							<div class="form-row">
 								<?php $existing_media_count =  count($post_data->product_media); ?>
-								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Product Image (1200x630)"></i> <span>Acceptable File Types: .jpeg. .jpg, .png.</span></label>
+								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x400"></i></label>
 								<div class="form-control">
 									<div class="file-input"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
 

@@ -226,15 +226,38 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					}
 				}
 			} else if ('product' === $view_type) {
-
+				
 				$company_prod_args = array(
 					'post_type'			=> 'company-products',
 					'post_status'		=> 'publish',
 					'posts_per_page'	=> 12,
-					's'					=> $search_term,
-					'orderby'           => 'meta_value',
-					'meta_key'        => 'is_feature_product'
+					's'					=> $search_term,					
 				);
+
+				if ( ! empty( $search_term ) ) {
+
+					$category_search_array = array();
+					
+					$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+	
+					if ( $get_search_term_id ) {
+	
+						$category_search_array[]	= $get_search_term_id->term_id;					
+					}
+	
+					$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
+	
+					if ( $get_search_product_tag ) {
+	
+						$category_search_array[]	= $get_search_product_tag->term_id;
+					}
+	
+					if ( count( $category_search_array ) > 0 ) {
+	
+						$company_prod_args[ '_tax_search' ] = $category_search_array;
+					}
+	
+				}
 
 				$company_prod_query = new WP_Query($company_prod_args);
 
@@ -803,9 +826,32 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_status'		=> 'publish',
 				'posts_per_page'	=> 4,
 				's'					=> $search_term,
-				'orderby'           => 'meta_value',
-				'meta_key'        => 'is_feature_product'
 			);
+
+			if ( ! empty( $search_term ) ) {
+
+				$category_search_array = array();
+				
+				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+
+				if ( $get_search_term_id ) {
+
+					$category_search_array[]	= $get_search_term_id->term_id;					
+				}
+
+				$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
+
+				if ( $get_search_product_tag ) {
+
+					$category_search_array[]	= $get_search_product_tag->term_id;
+				}
+
+				if ( count( $category_search_array ) > 0 ) {
+
+					$company_prod_args[ '_tax_search' ] = $category_search_array;
+				}
+
+			}
 
 			$company_prod_query = new WP_Query($company_prod_args);
 

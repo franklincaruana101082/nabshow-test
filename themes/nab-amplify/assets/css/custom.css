@@ -1238,7 +1238,7 @@ body .is_friend .remove::before{font-size:22px}
 
 /* connection popup */
 #connection-message-popup p{margin:0 0 20px;color:#000}
-#connection-message-popup textarea{resize:vertical;width:100%!important;color:#000}
+#connection-message-popup textarea{resize:vertical;width:100%!important;color:#000;background-color:#fff}
 #connection-message-popup textarea.error{border-color:red}
 #connection-message-popup .error{color:red}
 #connection-message-popup.nab-modal .modal-content-wrap a.btn{margin:10px 0;color:#fff!important}
@@ -1247,6 +1247,9 @@ body .is_friend .remove::before{font-size:22px}
 #connection-message-popup .woocommerce-notices-wrapper{padding:0 10px}
 #connection-message-popup .woocommerce-message{text-align:center}
 .nab-modal .author-info{max-width:max-content;margin:0 auto}
+#connection-message-popup.nab-modal.theme-dark p{color:#fff}
+#connection-message-popup.nab-modal.theme-dark h3{text-transform:uppercase;text-align:center}
+#connection-message-popup.nab-modal.theme-dark textarea{height:70px}
 
 /* single articles page */
 .single-articles{background-color:#404040}
@@ -1437,6 +1440,8 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark p{font-family:'OpenSans-Regular', Arial, sans-serif;margin:0 0 20px}
 .nab-modal.theme-dark .woocommerce-message{color:#fdd80f}
 .nab-modal.theme-dark .woocommerce-message .close-message{color:#fdd80f!important}
+.nab-modal.theme-dark .author-info .author-title a{color:#fff!important}
+.nab-modal.theme-dark .author-info .author-subtitle{color:#fff!important}
 
 /* Dark theme popup form design */
 .nab-modal.theme-dark .form-row{margin-bottom:30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
@@ -1504,7 +1509,7 @@ body .is_friend .remove::before{font-size:22px}
 
 /* Add product popup */
 #addProductModal.nab-modal .modal-content{max-width:1655px}
-#addProductModal.nab-modal .modal-content-wrap{padding:130px 110px;position:relative}
+#addProductModal.nab-modal .modal-content-wrap{padding:130px 110px}
 #addProductModal.nab-modal .nab-modal-close:not(.fa){-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);font-weight:bold;position:absolute;right:90px;top:50px}
 #addProductModal .add-product-content-popup h2{line-height:1;margin-bottom:35px;font-weight:bold}
 #addProductModal .add-product-content-popup p{font-size:22px;margin-bottom:50px}
