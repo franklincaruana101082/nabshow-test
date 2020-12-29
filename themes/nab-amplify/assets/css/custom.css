@@ -1249,7 +1249,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal .author-info{max-width:max-content;margin:0 auto}
 #connection-message-popup.nab-modal.theme-dark p{color:#fff}
 #connection-message-popup.nab-modal.theme-dark h3{text-transform:uppercase;text-align:center}
-#connection-message-popup.nab-modal.theme-dark textarea{height:100px}
+#connection-message-popup.nab-modal.theme-dark textarea{height:70px}
 
 /* single articles page */
 .single-articles{background-color:#404040}
@@ -1509,7 +1509,7 @@ body .is_friend .remove::before{font-size:22px}
 
 /* Add product popup */
 #addProductModal.nab-modal .modal-content{max-width:1655px}
-#addProductModal.nab-modal .modal-content-wrap{padding:130px 110px;position:relative}
+#addProductModal.nab-modal .modal-content-wrap{padding:130px 110px}
 #addProductModal.nab-modal .nab-modal-close:not(.fa){-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);font-weight:bold;position:absolute;right:90px;top:50px}
 #addProductModal .add-product-content-popup h2{line-height:1;margin-bottom:35px;font-weight:bold}
 #addProductModal .add-product-content-popup p{font-size:22px;margin-bottom:50px}
