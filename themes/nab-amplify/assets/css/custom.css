@@ -1248,7 +1248,8 @@ body .is_friend .remove::before{font-size:22px}
 #connection-message-popup .woocommerce-message{text-align:center}
 .nab-modal .author-info{max-width:max-content;margin:0 auto}
 #connection-message-popup.nab-modal.theme-dark p{color:#fff}
-#connection-message-popup.nab-modal.theme-dark h3{text-transform:uppercase}
+#connection-message-popup.nab-modal.theme-dark h3{text-transform:uppercase;text-align:center}
+#connection-message-popup.nab-modal.theme-dark textarea{height:100px}
 
 /* single articles page */
 .single-articles{background-color:#404040}
@@ -1439,7 +1440,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark p{font-family:'OpenSans-Regular', Arial, sans-serif;margin:0 0 20px}
 .nab-modal.theme-dark .woocommerce-message{color:#fdd80f}
 .nab-modal.theme-dark .woocommerce-message .close-message{color:#fdd80f!important}
-.nab-modal.theme-dark .author-info .author-title a{color:#fff}
+.nab-modal.theme-dark .author-info .author-title a{color:#fff!important}
 .nab-modal.theme-dark .author-info .author-subtitle{color:#fff!important}
 
 /* Dark theme popup form design */
