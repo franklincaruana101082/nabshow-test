@@ -114,16 +114,17 @@ get_header();
                                 </ul>
                             </div>
                         <?php }
-
-
-
-                        // Get images.
-                        $user_images = nab_amplify_get_user_images($product_point_of_contact);
-                        ?>
+?>
                     </div>
                     <div class="single-product-col right-col">
+                   
                         <div class="black-bg-box author-details-box">
-                            <div class="author-info">
+                        <?php
+                    
+                    if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
+                        //get images
+                        $user_images = nab_amplify_get_user_images($product_point_of_contact); ?>   
+                        <div class="author-info">
                                 <div class="author-image">
                                     <a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
                                 </div>
@@ -132,8 +133,12 @@ get_header();
                                     <span class="author-subtitle"><?php echo get_user_meta($product_point_of_contact, 'attendee_title', true); ?></span>
                                 </div>
                             </div>
+                    <?php
+                    } ?>        
                             <div class="author-info-content">
+                                <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) { ?>
                                 <p><?php echo get_the_author_meta('description', $product_point_of_contact); ?></p>
+                                <?php } ?>
                                 <div class="action-wrap">
                                     <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View company profile</a></div>
                                     <?php if ($user_logged_in) { ?>
@@ -141,7 +146,15 @@ get_header();
                                             <div id="send-private-message" class="generic-button poc-msg-btn">
                                                 <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
                                         </div>
-                                    <?php } ?>
+                                    <?php }else{
+                                         $current_url = home_url( add_query_arg( NULL, NULL ) );
+                                         $current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+                                        ?>
+                                        <div>
+                                            <div id="send-private-message" class="generic-button">
+                                                <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
+                                        </div>   
+                                        <?php } ?>
                                 </div>
                             </div>
                         </div>

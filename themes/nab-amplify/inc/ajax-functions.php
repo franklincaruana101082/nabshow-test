@@ -1439,12 +1439,18 @@ function nab_product_search_filter_callback()
 		$cnt 				= 0;
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
-
+		$product_medias = get_field('product_media', get_the_ID());
 		while ($product_query->have_posts()) {
 
 			$product_query->the_post();
 
-			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$thumbnail_url = '';
+
+			if (!empty($product_medias[0]['product_media_file'])) {
+				$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+			} else {
+				$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
+			}
 
 			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
 			$result_post[$cnt]['link'] 		= get_the_permalink();
