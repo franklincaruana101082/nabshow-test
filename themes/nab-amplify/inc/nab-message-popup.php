@@ -5,14 +5,14 @@
  */
 ?>
 
-<div id="connection-message-popup" class="nab-modal" data-comp-admin-id="<?php echo $point_of_contact; ?>">
+<div id="connection-message-popup" class="nab-modal theme-dark" data-comp-admin-id="<?php echo $point_of_contact; ?>">
     <div class="nab-modal-inner">
         <div class="modal-content">
             <span class="nab-modal-close fa fa-times"></span>
             <div class="modal-content-wrap">
                 <?php if(!empty($point_of_contact)){ ?>
                 <form method="post" id="connection-message-form">
-                    <h3>MESSAGE <?php echo get_the_title($company_id); ?> REP</h3>
+                    <h3>Message <?php echo get_the_title($company_id); ?> Rep</h3>
                     <div class="author-info">
                         <div class="author-image">
                             <a href="<?php echo bp_core_get_user_domain($point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
@@ -31,7 +31,7 @@
                 </form>
                 <?php }else{
                     ?>
-                    <h3>There is no any Represantive assigned for this company.</h3>
+                    <h3>There is no representative assigned for this company.</h3>
                     <?php
                 } ?>
             </div>
