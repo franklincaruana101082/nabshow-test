@@ -179,13 +179,12 @@
 .company-details-wrapper h3{color:#fff;font-size:20px;padding-right:40px;margin-bottom:40px}
 .company-details-wrapper .company-details-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .company-details-wrapper .company-about-inner, .company-details-wrapper .company-contact-inner{background-color:#333;padding:40px 50px;height:calc(100% - 70px);max-height:100%;position:relative}
-.company-details-wrapper .company-about-inner{padding-bottom:80px}
 .company-details-wrapper .company-about-inner .edit-company-about-control{right:30px;bottom:20px;position:absolute}
 .company-details-wrapper .company-about-outer{width:65%;padding-right:10px}
 .company-details-wrapper .company-about-outer p{font-family:'OpenSans-Regular', Arial, sans-serif;font-size:20px;margin:0 0 20px}
 .company-details-wrapper .company-about-outer h2{font-size:24px}
-.company-details-wrapper .company-contact-outer{width:35%;padding-left:10px}
-.company-details-wrapper .company-contact-outer h2{font-size:24px}
+.company-details-wrapper .company-contact-outer{width:35%;padding-left:10px;position:relative}
+.company-details-wrapper .company-contact-outer h2{font-size:24px;padding-right:50px}
 .company-details-wrapper .company-contact-inner{padding:40px 30px}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px}
 .company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;font-family:'Open Sans', Arial, sans-serif;margin:0}
@@ -198,7 +197,7 @@
 .company-details-wrapper ul li span{color:#808080;text-transform:uppercase;font-family:'Open Sans', Arial, sans-serif;font-weight:700}
 .company-details-wrapper ul li:last-child span{display:block}
 .company-details-wrapper ul li .amp-tag-list .btn{white-space:normal;line-height:normal}
-.company-details-wrapper .edit-company-about-control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}
+.company-details-wrapper .edit-company-about-control{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;position:absolute;right:0;top:-5px}
 .company-details-wrapper .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000}
 .company-details-wrapper .edit-icon::after{top:-30px}
 .company-details-wrapper .edit-icon i{color:#000}
@@ -257,7 +256,7 @@
 	.trending_activity_wrapper .related-content-2{width:33.333333333333336%}
 
 	/* company detail */
-	.company-details-wrapper .company-about-inner{padding:30px 40px 80px 40px}
+	.company-details-wrapper .company-about-inner{padding:30px 40px}
 	.company-details-wrapper .company-contact-inner{padding:30px}
 
 	/* company message box */
@@ -348,7 +347,7 @@
 	.company-details-wrapper .company-about-outer{width:100%;padding-right:0;margin-bottom:40px}
 	.company-details-wrapper .company-contact-outer{width:100%;padding-left:0}
 	.company-details-wrapper .company-about-inner, .company-details-wrapper .company-contact-inner{height:auto}
-	.company-details-wrapper .company-about-inner{padding:30px 30px 80px 30px}
+	.company-details-wrapper .company-about-inner{padding:30px}
 
 	/* company message box */
 	.company-message-box{padding:15px 0}
@@ -372,7 +371,7 @@
 
 	/* company detail */
 	.company-details-wrapper{padding:40px 0}
-	.company-details-wrapper .company-about-inner{padding:30px 30px 80px 30px}
+	.company-details-wrapper .company-about-inner{padding:30px}
 
 	/* company message box */
 	.company-message-box .company-message-title{font-size:18px}

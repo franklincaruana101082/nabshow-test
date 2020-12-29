@@ -1279,19 +1279,32 @@ function nab_company_product_search_filter_callback()
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
-		's'					=> $search_term,
-		'orderby'           => 'meta_value',
-       	'meta_key'        => 'is_feature_product'
+		's'					=> $search_term		
 	);
 
 	if ( ! empty( $search_term ) ) {
-				
+
+		$category_search_array = array();
+		
 		$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
 
 		if ( $get_search_term_id ) {
 
-			$company_prod_args[ '_tax_search' ] = $get_search_term_id->term_id;
+			$category_search_array[]	= $get_search_term_id->term_id;					
 		}
+
+		$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
+
+		if ( $get_search_product_tag ) {
+
+			$category_search_array[]	= $get_search_product_tag->term_id;
+		}
+
+		if ( count( $category_search_array ) > 0 ) {
+
+			$company_prod_args[ '_tax_search' ] = $category_search_array;
+		}
+
 	}
 
 	if ('date' !== $orderby) {
