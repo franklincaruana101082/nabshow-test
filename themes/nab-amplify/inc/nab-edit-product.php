@@ -4,9 +4,8 @@ global $post;
 <div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
-				
-				<span class="nab-modal-close">Close</span>
 				<div class="add-product-content-popup">
 					<h2><?php echo isset($post_data->ID) ? "Update" : "Add"; ?> Product</h2>
 					<div class="form-wrapper">

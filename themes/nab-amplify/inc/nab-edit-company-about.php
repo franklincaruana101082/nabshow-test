@@ -1,8 +1,8 @@
 <div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
+			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
-				<span class="nab-modal-close">Close</span>
 				<div class="add-product-content-popup">
 					<h2>Company Details</h2>
 					<p>Update your company details here.</p>
