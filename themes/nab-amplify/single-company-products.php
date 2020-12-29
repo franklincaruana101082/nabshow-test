@@ -108,7 +108,7 @@ get_header();
                             <div class="amp-tag-main">
                                 <ul class="amp-tag-list">
                                     <?php foreach ($tags as $tag) { ?>
-                                        <li><a href="<?php echo site_url().'/?s='.$tag->slug; ?>" class="btn"><?php echo $tag->name; ?></a></li>
+                                        <li><a href="<?php echo site_url().'/?s='.$tag->name; ?>" class="btn"><?php echo $tag->name; ?></a></li>
                                     <?php } ?>
 
                                 </ul>
