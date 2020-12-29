@@ -330,6 +330,7 @@
 
   $(document).on('click', '.close-message', function () {
       jQuery(this).parents('.woocommerce-notices-wrapper').remove()
+      jQuery('body').addClass('nab-close-reload');
   })
 
   $(document).on('click', '.action-edit ', function () {
@@ -3025,7 +3026,7 @@
     })
   })
   $(document).on('click', '#addProductModal .nab-modal-close', function (e) {
-      if($('body').hasClass('single-company') && $('#addProductModal .woocommerce-notices-wrapper').length > 0){
+      if($('body').hasClass('single-company') && $('body').hasClass('nab-close-reload') || $('#addProductModal .woocommerce-notices-wrapper').length > 0){
         location.reload();
       }
   })
