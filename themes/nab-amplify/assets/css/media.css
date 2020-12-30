@@ -337,6 +337,11 @@
 	/* events page */
 	.tribe-events-page-template .nab-ad-block{margin:25px 0}
 	.post-action-wrap{padding-left:30px}
+
+	/* article */
+	.single-articles .article-content{padding:30px}
+	.single-articles .related-title{padding:20px 30px}
+	.single-articles .related-content-2{padding:0 30px}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap}
@@ -424,8 +429,13 @@
 	.single-product-main{padding:0 15px}
 	.single-company-products .entry-header{padding:0 50px 0 15px}
 	.single-company-products .related-content{padding:0 15px 0}
-	.single-articles .entry-header{padding:0 50px 0 15px}
 	.post-action-wrap{padding-left:15px}
+
+	/* articles */
+	.single-articles .entry-header{padding:0 50px 0 15px}
+	.single-articles .article-content{padding:20px 15px}
+	.single-articles .related-title{padding:20px 15px}
+	.single-articles .related-content-2{padding:0 15px}
 }
 @media (max-width:480px){
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px}
