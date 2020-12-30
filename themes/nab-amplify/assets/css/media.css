@@ -438,6 +438,8 @@
 	.single-articles .related-content-2{padding:0 15px}
 }
 @media (max-width:480px){
+	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
+	.nab-profile-menu{padding-right:0;margin-right:0;margin-bottom:20px;width:100%;border-right:0;text-align:center}
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px}
 
 	/* attendee view popup */
@@ -463,8 +465,6 @@
 	.nab-modal .author-info .author-details{width:100%;padding-left:0;margin-top:10px}
 }
 @media (max-width:400px){
-	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
-	.nab-profile-menu{padding-right:0;margin-right:0;margin-bottom:20px;width:100%;border-right:0;text-align:center}
 	.site-header .nab-header-search .search-form{max-width:200px;margin:0 10px}
 }
 @media (max-width:350px){

@@ -212,6 +212,11 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .nab-logo-right-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:'OpenSans-Regular', Arial, sans-serif}
 .nab-logo-right-dropdown ul li a:hover, .nab-logo-right-dropdown li.active a{background-color:#404040}
 .nab-logo-right-inner:hover>.nab-logo-right-dropdown{display:block}
+.nab-suggetion{padding:10px 10px 10px 15px;margin-left:10px;border-left:1px solid #ccc;position:relative}
+.nab-suggetion i{color:#fdd80f;font-size:20px}
+.nab-suggetion a{display:block}
+.nab-suggetion a::after{right:0}
+.nab-suggetion img{height:20px;display:block}
 
 /* Header css */
 
