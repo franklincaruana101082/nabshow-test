@@ -77,7 +77,7 @@ if ( $user_logged_in ) {
                             <label for="banner_image_file">
                                 <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id=" " type="file" name="banner_image" style="display: none;"/>
+                            <input id="banner_image_file" type="file" name="banner_image" style="display: none;"/>
                         </div>
 					<?php } ?>
 
