@@ -152,7 +152,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span><strong>PEOPLE</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something at NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
 					<div class="search-section search-user-section">
