@@ -2900,6 +2900,7 @@ function nab_article_tags_shortcode_callback($atts)
         $display_sub_tags       = get_field('display_sub', $article_id);
         $industry_sub_tags      = get_field('industry_sub', $article_id);
         $content_sub_tags       = get_field('content_sub', $article_id);
+        $production_sub_tags    = get_field('production_sub', $article_id);
         $final_tags             = array();
 
         if (!empty($article_type_tag)) {
@@ -2908,11 +2909,7 @@ function nab_article_tags_shortcode_callback($atts)
 
         if (!empty($community_tags)) {
             $final_tags = array_merge($final_tags, $community_tags);
-        }
-
-        if (!empty($personas_tags)) {
-            $final_tags = array_merge($final_tags, $personas_tags);
-        }
+        }        
 
         if (!empty($content_scope_tag)) {
             $final_tags[] = $content_scope_tag;
@@ -2952,6 +2949,14 @@ function nab_article_tags_shortcode_callback($atts)
 
         if (!empty($content_sub_tags)) {
             $final_tags = array_merge($final_tags, $content_sub_tags);
+        }
+
+        if ( ! empty( $production_sub_tags ) ) {
+            $final_tags = array_merge( $final_tags, $production_sub_tags );
+        }
+
+        if (!empty($personas_tags)) {
+            $final_tags = array_merge($final_tags, $personas_tags);
         }
 
         if (is_array($final_tags) && count($final_tags) > 0) {
