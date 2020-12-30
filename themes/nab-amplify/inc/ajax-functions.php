@@ -1554,7 +1554,7 @@ function nab_event_search_filter_callback() {
 			$event_query->the_post();
 
 			$event_post_id		= get_the_ID();
-			$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
 			$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
 			$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
 			$website_link 		= get_post_meta( get_the_ID(), '_EventURL', true );
@@ -1871,7 +1871,7 @@ function nab_member_event_list_callback()
 
 		if ($purchased_events->have_posts()) {
 
-			$event_default_img  = nab_placeholder_img();
+			$event_default_img  = nab_product_company_placeholder_img();
 			$cnt				= 0;
 
 			while ($purchased_events->have_posts()) {
