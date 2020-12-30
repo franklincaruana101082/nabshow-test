@@ -1263,8 +1263,11 @@ body .is_friend .remove::before{font-size:22px}
 .single-articles .entry-content .wp-block-separator{margin:1.5em 0}
 .single-articles .container{width:1200px}
 .single-articles .author-info{padding:0}
+.single-articles .article-content{padding:50px}
 .single-articles .article-content .amp-tag-main .amp-tag-list li .btn{text-decoration:none!important}
 .single-articles .article-content .amp-tag-main .amp-tag-list{margin:30px -5px 20px}
+.single-articles .related-title{padding:20px 50px;color:#fdd80f;margin:0}
+.single-articles .related-content-2{padding:0 50px}
 
 /* author info */
 .author-info{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:10px 0;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
