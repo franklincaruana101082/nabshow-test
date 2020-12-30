@@ -167,8 +167,13 @@ if ( $user_logged_in ) {
                             </div>
 							<?php
 							if ( ! bp_is_my_profile() ) {
-
-								echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                ?>
+                                <div class="amp-profile-message">
+								    <?php
+                                    echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                    ?>
+                                </div>
+                                <?php
 							}
 							?>
                         </div>
