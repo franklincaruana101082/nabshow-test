@@ -32,9 +32,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					if ('shop' === $view_type) {
 					?>
 						<div class="sort-product sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='popularity'>Popularity</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 						<div class="filter-select-boxes">
 							<?php
@@ -63,8 +63,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('company' === $view_type) {
 					?>
 						<div class="sort-company sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 						</div>
 					<?php
 					} else if ( 'event' === $view_type ) {
@@ -78,15 +78,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('product' === $view_type) {
 					?>
 						<div class="sort-company-product sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 						</div>
 					<?php
 					} else if ('user' === $view_type) {
 					?>
 						<div class="sort-user sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button active" data-order='newest'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='alphabetical'>Alphabetical</a>
+							<a href="javascript:void(0);" class="sort-order button active" data-order='newest'>Newest</a>
 						</div>
 						<div class="filter-select-boxes">
 							<div class="company-search">
@@ -110,9 +110,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('content' === $view_type) {
 					?>
 						<div class="sort-content sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 					<?php
 					}
