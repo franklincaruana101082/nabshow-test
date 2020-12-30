@@ -604,7 +604,7 @@ function nab_company_events_render_callback($attributes)
                         $event_query->the_post();
 
                         $event_post_id      = get_the_ID();
-                        $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
                         $event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
                         $event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
                         $event_link         = get_post_meta($event_post_id, '_EventURL', true);
@@ -805,11 +805,12 @@ function nab_company_employees_render_callback($attributes)
                         bp_the_member();
 
                         $member_user_id = bp_get_member_user_id();
-                        $user_full_name = bp_get_member_name();
+                        
+                        $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
                         if (empty(trim($user_full_name))) {
 
-                            $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+                            $user_full_name = bp_get_member_name();
                         }
 
                         $company    = get_user_meta($member_user_id, 'attendee_company', true);

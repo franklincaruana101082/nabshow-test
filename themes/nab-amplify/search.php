@@ -586,7 +586,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$event_query->the_post();
 	
 								$event_post_id		= get_the_ID();
-								$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();								
+								$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();								
 								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
 								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
 								$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
@@ -1152,7 +1152,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_query->the_post();
 
 							$event_post_id		= get_the_ID();
-							$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();								
+							$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();								
 							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
 							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
