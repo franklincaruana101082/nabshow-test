@@ -110,18 +110,17 @@ if ( $user_logged_in ) {
 							<?php if ( $accepting_connections ) { ?>
                                 <div class="amp-profile-info">
                                     <h2><?php echo esc_html( $member_name ); ?></h2>
-									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) ) { ?>
+									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) || ! empty( $user_data['attendee_location'][0] ) ) { ?>
                                         <div class="amp-profile-disc">
 											<?php if ( ! empty( $user_data['attendee_title'][0] ) ) { ?>
                                                 <span><?php echo esc_html( $user_data['attendee_title'][0] ); ?></span>
 											<?php } ?>
-                                            <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
-                                        </div>
-									<?php } ?>
-
-									<?php if ( ! empty( $user_data['attendee_location'][0] ) ) { ?>
-                                        <div class="amp-profile-location">
-                                            <span><?php echo esc_html( $user_data['attendee_location'][0] ); ?></span>
+                                            <?php if ( ! empty( $user_data['attendee_company'][0] ) ) { ?>
+                                                <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
+                                            <?php } ?>
+                                            <?php if ( ! empty( $user_data['attendee_location'][0] ) ) { ?>
+                                                <span><?php echo esc_html( $user_data['attendee_location'][0] ); ?></span>
+                                            <?php } ?>
                                         </div>
 									<?php } ?>
                                 </div>
