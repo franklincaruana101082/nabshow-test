@@ -483,7 +483,7 @@ section.woocommerce-order-details table .product-total{width:30%}
 section.woocommerce-order-details table thead th{background:#666666;color:#fff}
 section.woocommerce-order-details{width:50%;display:inline-block;float:left}
 section.woocommerce-customer-details{width:50%;display:inline-block;float:revert;padding-left:50px}
-section.woocommerce-customer-details + section.woocommerce-customer-details{padding-left:0}
+section.woocommerce-customer-details + section.woocommerce-customer-details{padding-left:0;width:100%}
 section.woocommerce-order-details h2, section.woocommerce-customer-details h2{font-size:24px;line-height:24px;color:#fdd80f}
 .woocommerce-order{display:inline-block;width:100%}
 section.woocommerce-customer-details address{border:1px solid #e0e0e0;padding:30px 30px;/*background:#fbfbfb;*/}
@@ -743,6 +743,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .has-no-product{display:none}
 .woocommerce-checkout span.optional{display:none}
 .woocommerce-billing-fields{border-top:1px solid #404040;padding-top:50px;margin-top:60px}
+.woocommerce-checkout .entry-content>.woocommerce{margin-bottom:30px}
 
 /* Print Order CSS */
 @media print{
@@ -1282,6 +1283,7 @@ body .is_friend .remove::before{font-size:22px}
 .single-articles .article-content .amp-tag-main .amp-tag-list{margin:30px -5px 20px}
 .single-articles .related-title{padding:20px 50px;color:#fdd80f;margin:0}
 .single-articles .related-content-2{padding:0 50px}
+.single-articles .entry-content .comments-area p{text-indent:0}
 
 /* author info */
 .author-info{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:10px 0;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
