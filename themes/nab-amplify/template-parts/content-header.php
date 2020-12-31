@@ -150,7 +150,12 @@ if ( $user_logged_in ) {
                                             <li>
                                                 <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
                                             </li>
-										<?php } ?>
+                                        <?php }
+                                        if ( isset( $user_data['social_youtube'][0] ) && ! empty( $user_data['social_youtube'][0] ) ) { ?>
+                                            <li>
+                                                <a href="<?php echo esc_attr( $user_data['social_youtube'][0] ); ?>" target="_blank"><i class="fa fa-youtube"></i></a>
+                                            </li>
+										<?php } ?> 
                                     </ul>
                                 </div>
                                 <div class="amp-profile-message">

@@ -23,7 +23,8 @@ $user_fields = array(
 	'about_me_excited_1',
 	'about_me_excited_2',
 	'about_me_excited_3',
-	'about_me_knowledge',
+    'about_me_knowledge',
+    'social_youtube',
 );
 
 // Upload images.
@@ -145,6 +146,14 @@ $user_images = nab_amplify_get_user_images();
                                 </div>
                                 <div class="social-input">
                                     <input type="text" class="input-text" name="social_website" placeholder="Website" value="<?php echo esc_attr( $user_data['social_website'][0] ); ?>">
+                                </div>
+                            </div>
+                            <div class="nab-form-row">
+                                <div class="social-icon">
+                                    <i class="fa fa-youtube"></i>
+                                </div>
+                                <div class="social-input">
+                                    <input type="text" class="input-text" name="social_youtube" placeholder="Youtube" value="<?php echo esc_attr( $user_data['social_youtube'][0] ); ?>">
                                 </div>
                             </div>
                             <div class="nab-form-submit">

@@ -2084,6 +2084,7 @@ function nab_edit_acount_additional_form_fields()
     $social_facebook    = get_user_meta($current_user_id, 'social_facebook', true);
     $social_instagram    = get_user_meta($current_user_id, 'social_instagram', true);
     $social_website        = get_user_meta($current_user_id, 'social_website', true);
+    $social_youtube        = get_user_meta($current_user_id, 'social_youtube', true);
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
     $member_restriction = !empty($member_restriction) ? $member_restriction : 'yes';
@@ -2150,6 +2151,14 @@ function nab_edit_acount_additional_form_fields()
                             </div>
                             <div class="social-input">
                                 <input type="text" class="input-text" name="social_website" placeholder="Website" value="<?php echo esc_attr($social_website); ?>">
+                            </div>
+                        </div>
+                        <div class="nab-form-row">
+                            <div class="social-icon">
+                                <i class="fa fa-youtube"></i>
+                            </div>
+                            <div class="social-input">
+                                <input type="text" class="input-text" name="social_youtube" placeholder="Youtube" value="<?php echo esc_attr($social_youtube); ?>">
                             </div>
                         </div>
                     </div>
@@ -2227,6 +2236,7 @@ function nab_save_edit_account_additional_form_fields($user_id)
         'social_facebook',
         'social_instagram',
         'social_website',
+        'social_youtube',
     );
 
     foreach ($user_fields as $field) {
@@ -3311,4 +3321,20 @@ function nab_get_wp_editor($content = '', $editor_id, $options)
     $temp .= \_WP_Editors::editor_js();
     $temp = str_replace('Array', '', $temp);
     return $temp;
+}
+
+function nab_comment_form( $atts = array(), $content = '' )
+{
+    if( is_singular() && post_type_supports( get_post_type(), 'comments' ) )
+    {
+        ob_start();
+        // If comments are open or we have at least one comment, load up the comment template.
+		if ( comments_open() || get_comments_number() ) :
+			comments_template();
+		endif;
+        print(  '<style>.no-comments { display: none; }</style>' );
+        add_filter( 'comments_open', '__return_false' );
+        return ob_get_clean();
+    }
+    return '';
 }
