@@ -103,12 +103,10 @@
 				<?php dynamic_sidebar('footer-4'); ?>
 			</div>
 			<div class="col-5 subs-main">
-			<?php if (is_user_logged_in()) { ?>
-				<h4>Beta Feedback</h4>
-				<p>We’re very proud to show our "work in progress." Have suggestions for improvements? We'd love to hear them!</p>
-				<a class="btn" href="https://nab-amplify-c076.nolt.io/top" target="_blank">Suggest an Idea</a>
-			<?php } else { ?>
-				
+				<?php if (is_user_logged_in()) {
+					dynamic_sidebar('footer-loggedin');
+				} else { ?>
+
 					<!--				<h3>Subscribe</h3>-->
 					<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
 					<!--				<form class="subscribe-form">-->
@@ -117,7 +115,7 @@
 					<!--				</form>-->
 					<?php dynamic_sidebar('footer-5'); ?>
 				<?php } ?>
-				</div>
+			</div>
 		</div><!-- .site-info -->
 
 		<div class="nab-amplify-copyright">
