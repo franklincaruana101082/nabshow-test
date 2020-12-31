@@ -1258,3 +1258,15 @@ JS;
 
 	return $initArray;
 }
+
+/**
+ * Apply html entity decode function in the message thread to avoid html entity code.
+ *
+ * @param  string $message_excerpt
+ * 
+ * @return string
+ */
+function nab_filter_message_to_avoid_html_entity( $message_excerpt ) {
+
+	return html_entity_decode( $message_excerpt );
+}

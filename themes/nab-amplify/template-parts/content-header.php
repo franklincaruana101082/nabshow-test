@@ -77,7 +77,7 @@ if ( $user_logged_in ) {
                             <label for="banner_image_file">
                                 <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id=" " type="file" name="banner_image" style="display: none;"/>
+                            <input id="banner_image_file" type="file" name="banner_image" style="display: none;"/>
                         </div>
 					<?php } ?>
 
@@ -172,8 +172,13 @@ if ( $user_logged_in ) {
                             </div>
 							<?php
 							if ( ! bp_is_my_profile() ) {
-
-								echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                ?>
+                                <div class="amp-profile-message">
+								    <?php
+                                    echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                    ?>
+                                </div>
+                                <?php
 							}
 							?>
                         </div>

@@ -5,18 +5,11 @@
  * @package Amplify
  */
 
-$site_url       = get_site_url();
-$placeholder    = "Find the Content or People you're looking for...";
-$search_class   = 'search-form';
 
-if ( strpos( $site_url, 'nabshow-com-develop' ) > 0 ) {
-    
-    $placeholder    = "Find the Content, People, Companies or Products you're looking for...";
-    $search_class   .= ' long-placeholder';
-}
+$placeholder    = "Find the Content, People, Companies or Products you're looking for...";
 ?>
 
-<form role="search" method="get" class="<?php echo esc_attr( $search_class ); ?>" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+<form role="search" method="get" class="search-form long-placeholder" action="<?php echo esc_url( home_url( '/' ) ); ?>">
     <label>
         <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
         <input type="search" class="search-field"

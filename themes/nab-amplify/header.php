@@ -56,17 +56,17 @@
 						<div class="nab-profile-menu">
 							<?php
 							if ( is_user_logged_in() ) {
-								$current_user    = wp_get_current_user();
-								$user_images     = nab_amplify_get_user_images( $current_user->ID );
-								$user_thumb      = $user_images['profile_picture'];
-								$my_profile_link = bp_core_get_user_domain( $current_user->ID );
+								$current_user    	= wp_get_current_user();
+								$user_images     	= nab_amplify_get_user_images( $current_user->ID );
+								$user_thumb      	= $user_images['profile_picture'];
+								$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
 								$user_full_name		= get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );														
 								
 								if ( empty( trim( $user_full_name ) ) ) {
 
 									$user_full_name	= $current_user->display_name;
 								}
-
+								
 								?>
 								<div class="nab-profile">
 	                                <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
@@ -77,7 +77,7 @@
 	                                </a>
 									<div class="nab-profile-dropdown">
 										<ul>
-										<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'View Profile', 'nab-amplify' ); ?></a></li>
+											<li><a href="<?php echo esc_url( $my_profile_link ); ?>"><?php esc_html_e( 'View Profile', 'nab-amplify' ); ?></a></li>
 											<li><a href="<?php echo esc_url( bp_loggedin_user_domain() . bp_get_messages_slug() ); ?>"><?php esc_html_e( 'Inbox', 'nab-amplify' ); ?></a></li>
 											<li><a href="<?php echo esc_url( add_query_arg( array( 'connections' => 'friends' ), wc_get_account_endpoint_url( 'my-connections' ) ) ); ?>"><?php esc_html_e( 'Connections', 'nab-amplify' ); ?></a></li>
 											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'Access My Content', 'nab-amplify' ); ?></a></li>
@@ -137,9 +137,15 @@
 						}
 
 						$cart_page_url = wc_get_cart_url();
-
-						nab_get_bp_notification_menu();
 					?>
+					<div class="header-bottom-actions">
+						<?php nab_get_bp_notification_menu(); ?>
+						<div class="nab-suggetion">
+							<a href="https://nab-amplify-c076.nolt.io/top" target="_blank" data-bp-tooltip="Suggest an Idea">
+								<img src="<?php echo get_template_directory_uri(); ?>/assets/images/bulb.svg" alt="Suggest an Idea" />
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
