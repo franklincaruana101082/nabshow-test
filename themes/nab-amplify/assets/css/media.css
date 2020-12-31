@@ -439,7 +439,11 @@
 }
 @media (max-width:480px){
 	.site-header .nab-avatar-wrp{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
+	.site-header .nab-header-search{width:100%}
+	.site-header .nab-header-search .search-form{max-width:250px;margin:0 auto 20px}
 	.nab-profile-menu{padding-right:0;margin-right:0;margin-bottom:20px;width:100%;border-right:0;text-align:center}
+	.notification-sub-wrapper{right:auto;left:0}
+	.notification-sub-wrapper ul::before{right:auto;left:6%}
 	.single-product .post-password-form input[name="post_password"]{width:100%;margin:2px 0 10px}
 
 	/* attendee view popup */
@@ -465,7 +469,7 @@
 	.nab-modal .author-info .author-details{width:100%;padding-left:0;margin-top:10px}
 }
 @media (max-width:400px){
-	.site-header .nab-header-search .search-form{max-width:200px;margin:0 10px}
+	
 }
 @media (max-width:350px){
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px}
