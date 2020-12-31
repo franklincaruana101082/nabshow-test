@@ -101,13 +101,18 @@
 				<?php dynamic_sidebar( 'footer-4' ); ?>
 			</div>
 			<div class="col-5 subs-main">
-				<!--				<h3>Subscribe</h3>-->
-				<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
-				<!--				<form class="subscribe-form">-->
-				<!--					<input type="text" class="email" placeholder="Email Address"/>-->
-				<!--					<input type="submit" class="search-submit" value="Submit">-->
-				<!--				</form>-->
-				<?php dynamic_sidebar( 'footer-5' ); ?>
+				<?php if (is_user_logged_in()) {
+					dynamic_sidebar('footer-loggedin');
+				} else { ?>
+
+					<!--				<h3>Subscribe</h3>-->
+					<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
+					<!--				<form class="subscribe-form">-->
+					<!--					<input type="text" class="email" placeholder="Email Address"/>-->
+					<!--					<input type="submit" class="search-submit" value="Submit">-->
+					<!--				</form>-->
+					<?php dynamic_sidebar('footer-5'); ?>
+				<?php } ?>
 			</div>
 		</div><!-- .site-info -->
 		<div class="nab-amplify-copyright">
