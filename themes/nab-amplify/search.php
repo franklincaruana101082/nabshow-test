@@ -32,9 +32,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					if ('shop' === $view_type) {
 					?>
 						<div class="sort-product sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='popularity'>Popularity</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 						<div class="filter-select-boxes">
 							<?php
@@ -63,8 +63,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('company' === $view_type) {
 					?>
 						<div class="sort-company sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 					<?php
 					} else if ( 'event' === $view_type ) {
@@ -78,15 +78,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('product' === $view_type) {
 					?>
 						<div class="sort-company-product sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 					<?php
 					} else if ('user' === $view_type) {
 					?>
 						<div class="sort-user sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='alphabetical'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='newest'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='alphabetical'>Alphabetical</a>
 						</div>
 						<div class="filter-select-boxes">
 							<div class="company-search">
@@ -110,9 +110,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('content' === $view_type) {
 					?>
 						<div class="sort-content sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 					<?php
 					}
@@ -152,7 +152,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span><strong>PEOPLE</strong></h2>
-						<p class="view-top-other-info">Are you looking for a NAB Show speaker or award recipient? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
 					<div class="search-section search-user-section">
@@ -268,7 +268,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span><strong>PRODUCTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for something being showcased at NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
 						<div class="amp-item-wrap" id="company-products-list">
@@ -369,7 +369,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span><strong>COMPANIES</strong></h2>
-						<p class="view-top-other-info">Are you looking for a company exhibiting at NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
 						<div class="search-section-details" id="search-company-list">
@@ -487,7 +487,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span><strong>SHOP</strong></h2>
-						<p class="view-top-other-info">Are you looking to register for NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
 						<div class="search-section-details" id="search-product-list">
@@ -575,7 +575,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for an event or session happening at NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">						
 						<div class="search-section-details" id="search-event-list">
@@ -670,7 +670,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>CONTENT</strong></h2>
-						<p class="view-top-other-info">Are you looking for NAB Show content? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
 						<div class="search-section-details" id="search-content-list">

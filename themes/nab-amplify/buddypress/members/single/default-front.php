@@ -25,6 +25,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 	);
 }
 
+$find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( $current_site_url, '/' ) . '/' );
 ?>
 
 <div class="member-front-page">		
@@ -43,11 +44,16 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 						<strong>Connections</strong>
 						<span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
 					</h3>
-					<?php if ( $total_users > 4 ) { ?>
-						<div class="amp-view-more">
-							<a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
-						</div>
-					<?php } ?>
+					<div class="amp-view-more">
+						<?php
+						if ( $total_users > 4 ) {
+							?>
+							<a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View All</a>
+							<?php
+						}
+						?>
+						<a href="<?php echo esc_url( $find_new_connection_link ) ?>" class="view-more-arrow">Find New Connections</a>
+					</div>
 				</div>
 				<?php
 				global $members_template;
@@ -102,8 +108,11 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 				<div class="amp-item-heading">
 					<h3>
 						<strong>Connections</strong>
-						<span>0 RESULTS</span>
+						<span>(0 RESULTS)</span>
 					</h3>
+					<div class="amp-view-more">						
+						<a href="<?php echo esc_url( $find_new_connection_link ) ?>" class="view-more-arrow">Find New Connections</a>
+					</div>
 				</div>
 				<div id="message" class="info">
 					<p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
