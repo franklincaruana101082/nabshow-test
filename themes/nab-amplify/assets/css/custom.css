@@ -224,6 +224,7 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .nab-suggetion a::after{right:0}
 .nab-suggetion img{height:20px;display:block}
 .header-bottom-actions{display:flex;justify-content:space-between;align-items:center;}
+.header-bottom-actions>div:first-child{border-left:0;margin-left:0}
 .nab-header-message{margin-left:10px;padding-left:10px;border-left:1px solid #ccc}
 
 /* Header css */
