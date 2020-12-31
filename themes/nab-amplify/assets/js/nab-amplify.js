@@ -1098,10 +1098,11 @@
 
   function HeaderResponsive () {
     if (1024 >= $(window).width()) {
-      $(document).on('click', '.nab-avatar-wrp', function () {
+      $(document).on('click', '.nab-profile > a', function (e) {
+        e.preventDefault()
         $(this)
           .next('.nab-profile-dropdown')
-          .slideToggle()
+          .toggle()
       })
     }
   }
