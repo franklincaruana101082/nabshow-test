@@ -118,7 +118,6 @@
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
 	.amp-profile-main .amp-profile-social ul li a, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px}
 	.amp-profile-main .amp-profile-social ul li a i, .banner-header .edit-profile-pic i, .amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px}
-	.amp-profile-main .amp-profile-inner{min-height:500px}
 	.banner-header .profile-avtar img, .banner-header .profile-avtar .no-image-avtar{width:160px;height:160px}
 
 	/* single company product */
@@ -253,8 +252,6 @@
 	.search-result-filter .search-form{max-width:100%}
 	.search-result-filter .search-form input[type="search"]{padding:10px 70px 10px 20px;font-size:20px}
 	.search-section .search-item{width:50%}
-	.search-section .search-section-heading{-ms-flex-wrap:wrap;flex-wrap:wrap}
-	.search-section .search-section-heading .section-view-more{width:100%;text-align:right}
 	.other-search-filter .sort-order-btn .sort-order{padding:16px 18px;min-width:150px;font-size:14px}
 	.search-result-filter .search-form input[type="submit"]{width:22px;height:22px}
 	.no-search-data{font-size:20px;padding:10vw 0}
@@ -264,13 +261,10 @@
 	.member-bio-wrp .member-bio-col{width:50%}
 	.member-bio-wrp .member-bio-data p{font-size:18px}
 	.amp-profile-main .amp-profile-info h2{font-size:28px}
-	.amp-item-main .amp-item-heading{-ms-flex-wrap:wrap;flex-wrap:wrap}
-	.amp-item-main .amp-item-heading .amp-view-more{width:100%;text-align:right}
 	.amp-item-wrap .amp-item-col{width:50%}
 	.amp-item-wrap .add-new-item .add-item-icon{width:60px;height:60px;font-size:32px}
 	.amp-profile-main .amp-profile-social ul li a, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-social .edit-profile-pic{width:45px;height:45px}
 	.amp-profile-main .amp-profile-social ul li a i, .banner-header .edit-profile-pic i, .amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:20px}
-	.amp-profile-main .amp-profile-inner{min-height:400px}
 	.banner-header .profile-avtar img, .banner-header .profile-avtar .no-image-avtar{width:120px;height:120px}
 	.banner-header .profile-avtar .edit-profile-pic{top:0;right:0;width:35px;height:35px;font-size:20px}
 	.banner-header .profile-avtar .remove-profile-pic{width:35px;height:35px;font-size:20px}
@@ -399,7 +393,7 @@
 	.post-action-wrap .post-action-reaction{width:100%}
 
 	/* popup design */
-	.nab-modal .modal-content-wrap{padding:20px 15px}
+	.nab-modal .modal-content-wrap{padding:20px}
 	.nab-modal .nab-modal-close{width:25px;height:25px;font-size:14px;top:-12px;right:-12px}
 
 	/* attendee-bulk-upload popup */
