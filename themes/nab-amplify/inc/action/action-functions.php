@@ -3330,10 +3330,10 @@ function nab_comment_form( $atts = array(), $content = '' )
         ob_start();
         // If comments are open or we have at least one comment, load up the comment template.
 		if ( comments_open() || get_comments_number() ) :
-			comments_template();
+            comments_template();
+            print(  '<style>.no-comments { display: none; }</style>' );
 		endif;
-        print(  '<style>.no-comments { display: none; }</style>' );
-        add_filter( 'comments_open', '__return_false' );
+        
         return ob_get_clean();
     }
     return '';
