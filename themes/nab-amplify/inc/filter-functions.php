@@ -1291,8 +1291,8 @@ function nab_reorder_comment_form($content)
 		foreach ($blocks as $block) {
             if ('rg/related-content-2' === $block['blockName']) {
 			
-            if (strpos($content, '<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>')) {
-                $new_content = str_replace('<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $comment_template.' <h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $content);
+            if (strpos($content, 'related-title')) {
+                $new_content = str_replace('<h3 class="related-title">Related Content</h3>', $comment_template.' <h3 class="related-title">Related Content</h3>', $content);
             }else{
 				$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
 			}
