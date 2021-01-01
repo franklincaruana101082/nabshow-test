@@ -159,6 +159,8 @@ class API extends Hooks {
         
         if( isset( $parameters['user_pass'] ) ) $data['user_pass'] = str_replace( '-', '=', $this->ncrypt->decrypt( $parameters['user_pass'] ) );
         
+        add_filter( 'send_password_change_email', '__return_false' );
+        
         wp_update_user( $data );
 
         /**
