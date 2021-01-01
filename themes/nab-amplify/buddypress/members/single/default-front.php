@@ -28,6 +28,25 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( $current_site_url, '/' ) . '/' );
 ?>
 
+<nav class="woocommerce-MyAccount-navigation">
+	<ul>
+		<?php
+		foreach ( wc_get_account_menu_items() as $endpoint => $label ) :
+
+			$wc_menu_class = wc_get_account_menu_item_classes( $endpoint );
+
+			if ( $user_id === $current_user_id && 'view-profile' === $endpoint ) {
+				$wc_menu_class .= ' is-active';
+			}
+			?>
+			<li class="<?php echo esc_attr( $wc_menu_class ); ?>">
+				<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+			</li>
+			<?php
+		endforeach;
+		?>
+	</ul>
+</nav>
 <div class="member-front-page">		
 	<div class="member-connections">
 
