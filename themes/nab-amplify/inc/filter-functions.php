@@ -1275,7 +1275,7 @@ function nab_filter_message_to_avoid_html_entity($message_excerpt)
 /**
  * Reorder the comment form above related content block
  */
-
+/*
 function nab_reorder_comment_form($content)
 {
 	// if no related content block used then show default content.
@@ -1301,7 +1301,7 @@ function nab_reorder_comment_form($content)
 		}
 		
 		return $new_content;
-	}
+	}*/
 
 	return $content;
 }
