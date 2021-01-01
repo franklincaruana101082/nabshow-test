@@ -1290,8 +1290,12 @@ function nab_reorder_comment_form($content)
 
 		foreach ($blocks as $block) {
             if ('rg/related-content-2' === $block['blockName']) {
-				   
-			$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
+			
+            if (strpos($content, '<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>')) {
+                $new_content = str_replace('<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $comment_template.' <h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $content);
+            }else{
+				$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
+			}
                 
             }
 		}
