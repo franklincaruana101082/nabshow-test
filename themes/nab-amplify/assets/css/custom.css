@@ -255,7 +255,7 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .site-footer .footer-inner .socials li a i{color:#fcd70f}
 .site-footer .footer-inner .footer-location{margin:0;padding:0;list-style:none;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .site-footer .footer-inner .footer-location li{margin:2px;font-size:10px;color:#999;padding-right:5px;border-right:1px solid #999;text-transform:uppercase}
-.site-footer .footer-inner .footer-location li:last-child{margin:0 0 15px 0;padding-right:0;border-right:0}
+.site-footer .footer-inner .footer-location li:last-child{padding-right:0;border-right:0}
 .site-footer .footer-inner .footer-location li a{font-size:10px;color:#999}
 .site-footer .footer-inner h4, .site-footer .footer-inner h3{color:#fcd70f}
 .site-footer .footer-inner h4{font-size:18px;margin:0 0 10px 0}
