@@ -1050,7 +1050,7 @@ body.buddypress .site-content{padding:0}
 .amp-profile-main .amp-profile-social .edit-profile-pic{width:60px;height:60px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;border:2px solid #fdd80f;color:#000;margin:0}
 .amp-profile-main .amp-profile-social .edit-profile-pic i{color:#000;font-size:28px}
 .amp-profile-main .amp-profile-message{margin:20px 0 10px}
-.amp-profile-main .amp-profile-message a{border-radius:7px;text-transform:capitalize;font-size:16px;background-color:#6363df;border-color:#6363df;padding:12px 20px 10px;min-width:170px;color:#fff}
+.amp-profile-main .amp-profile-message a{border-radius:7px;text-transform:capitalize;font-size:16px;background-color:#6363df;border-color:#6363df;padding:12px 20px 10px;min-width:170px;color:#fff;display:inline-block}
 .bbp-user-page .entry-content{margin:0}
 .bbp-user-page .item-body{margin:0}
 .member-front-page{padding:30px 0}
