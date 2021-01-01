@@ -64,10 +64,7 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
 }
 ?>
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
-        <div class="all-members" data-id="all-members-tab">
-            <div class="back-to-profile">
-                <a href="<?php echo esc_url( $profile_url ) ?>" class="get-back-arrow">Back to Profile</a>
-            </div>
+        <div class="all-members" data-id="all-members-tab">            
             <div class="amp-item-heading">
                 <h3>
                     <strong>Connections</strong>

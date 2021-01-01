@@ -243,7 +243,8 @@ function nab_amplify_update_my_account_menu_items($items)
 	}
 
 	$items =
-		array('messages' => __('Inbox', 'nab-amplify'))
+		array('view-profile' => __('View Profile', 'nab-amplify'))
+		+ array('messages' => __('Inbox', 'nab-amplify'))
 		+ array('my-connections' => __('Connections', 'nab-amplify'))
 		+ array('my-purchases' => __('Access My Content', 'nab-amplify'))
 		+ array('orders' => __('Order History', 'nab-amplify'))
@@ -269,6 +270,9 @@ function nab_amplify_woocommerce_get_endpoint_url($url, $endpoint, $value, $perm
 	// Add Custom URL.
 	if ($endpoint === 'messages') {
 		$url = bp_loggedin_user_domain() . bp_get_messages_slug();
+	}
+	if ( 'view-profile' === $endpoint ) {
+		$url = bp_loggedin_user_domain();
 	}
 
 	return $url;
