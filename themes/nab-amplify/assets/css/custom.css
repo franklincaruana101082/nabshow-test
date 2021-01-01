@@ -515,7 +515,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-account:not(.nab-without-login-account) .entry-content>.woocommerce{margin-bottom:30px}
 .woocommerce-MyAccount-navigation ul{list-style-type:none;margin:35px 0 20px;padding:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:flex-start;-ms-flex-pack:flex-start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .woocommerce-MyAccount-navigation ul li{margin:4px}
-.woocommerce-MyAccount-navigation ul li a{background:#e5018b;color:#fff;display:inline-block;padding:15px 10px;min-width:180px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important}
+.woocommerce-MyAccount-navigation ul li a{background:#e5018b;color:#fff;display:inline-block;padding:15px 12px;min-width:160px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important}
 .woocommerce-MyAccount-navigation ul li a:hover, .woocommerce-MyAccount-navigation ul li a:focus{background:#6363df;border-color:#6363df;color:#fff}
 .woocommerce-MyAccount-navigation ul li.is-active a{background:#6363df;border-color:#6363df}
 .woocommerce-MyAccount-content h3{text-transform:capitalize;color:#fdd80f;font-weight:700}
