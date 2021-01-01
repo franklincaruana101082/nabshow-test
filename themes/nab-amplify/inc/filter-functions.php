@@ -1301,7 +1301,7 @@ function nab_reorder_comment_form($content)
 		}
 		
 		return $new_content;
-	}*/
+	}
 
 	return $content;
-}
+}*/
