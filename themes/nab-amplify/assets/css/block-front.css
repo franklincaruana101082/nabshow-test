@@ -46,8 +46,8 @@
 .upcoming-events-calendar .title{color:#fff;margin:0 0 10px;font-size:20px;line-height:normal}
 .upcoming-events-calendar .title a{color:#fff}
 .upcoming-events-calendar .title a:hover{text-decoration:underline}
-.upcoming-events-calendar .sub-title{color:#565656;margin:0 0 15px;display:block;font-size:18px;line-height:normal}
-.upcoming-events-calendar .sub-title a{color:#565656}
+.upcoming-events-calendar .sub-title{color:#999;margin:0 0 15px;display:block;font-size:18px;line-height:normal}
+.upcoming-events-calendar .sub-title a{color:#999}
 .upcoming-events-calendar .sub-title a:hover{text-decoration:underline}
 .upcoming-events-calendar .description{color:#fff;margin:0 0 15px;font-size:18px;line-height:normal;font-family:'OpenSans-Light', Arial, sans-serif}
 .upcoming-events-calendar .description:last-child{margin:0}
@@ -188,7 +188,7 @@
 .company-details-wrapper .company-contact-inner{padding:40px 30px}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px}
 .company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;font-family:'Open Sans', Arial, sans-serif;margin:0}
-.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#fff;text-transform:capitalize;font-weight:100;font-size:15px;font-family:'Open Sans', Arial, sans-serif}
+.company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#999;text-transform:capitalize;font-weight:700;font-size:16px;font-family:'Open Sans', Arial, sans-serif;padding-top:5px}
 .company-details-wrapper .company-contact-inner-box ul li a{color:#fff}
 .company-details-wrapper .company-contact-inner-box ul li a:hover{text-decoration:underline}
 .company-details-wrapper .company-contact-inner .edit-company-about-control{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;margin-bottom:20px}
