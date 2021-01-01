@@ -315,8 +315,8 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .upcoming-events-calendar .title{color:#fff;margin:0 0 10px;font-size:20px;line-height:normal}
 .upcoming-events-calendar .title a{color:#fff}
 .upcoming-events-calendar .title a:hover{text-decoration:underline}
-.upcoming-events-calendar .sub-title{color:#565656;margin:0 0 15px;display:block;font-size:18px;line-height:normal}
-.upcoming-events-calendar .sub-title a{color:#565656}
+.upcoming-events-calendar .sub-title{color:#999;margin:0 0 15px;display:block;font-size:18px;line-height:normal}
+.upcoming-events-calendar .sub-title a{color:#999}
 .upcoming-events-calendar .sub-title a:hover{text-decoration:underline}
 .upcoming-events-calendar .description{color:#fff;margin:0 0 15px;font-size:18px;line-height:normal}
 .upcoming-events-calendar .description:last-child{margin:0}
