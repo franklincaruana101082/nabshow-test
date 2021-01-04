@@ -319,9 +319,10 @@ function nab_amplify_bp_get_friendship_button($member_id, $loop = true)
 					$private_massage_link = wp_nonce_url(bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_core_get_username($member_id));
 					bp_send_message_button(array(
 						'id'         => 'private_message_' . $member_id,
-						'link_class' => 'button',
+						'link_class' => 'button nab-conn-msg member-'.$member_id,
 						'link_text'  => 'Message',
-						'link_href'  => $private_massage_link
+						'link_href'  => '#',
+						'wrapper_id' => 'private_message_' . $member_id
 					));
 					?>
 				</div>
@@ -886,10 +887,12 @@ function nab_get_bp_notification_menu()
 {
 
 	if (is_user_logged_in()) {
-	?>
+
+		$logged_user_id = bp_loggedin_user_id();
+		?>
 		<div class="nab-header-notification">
 			<?php
-			$notifications	= bp_notifications_get_notifications_for_user(bp_loggedin_user_id(), 'object');
+			$notifications	= bp_notifications_get_notifications_for_user( $logged_user_id, 'object');
 			$count			= !empty($notifications) ? count($notifications) : 0;
 			$alert_class	= (int) $count > 0 ? 'nab-pending-notifications pending-count alert' : 'nab-pending-notifications count no-alert';
 			$menu_link		= trailingslashit(bp_loggedin_user_domain() . bp_get_notifications_slug());
@@ -923,7 +926,17 @@ function nab_get_bp_notification_menu()
 				</div>
 			</div>
 		</div>
-<?php
+		<div class="nab-header-message">
+			<div class="message-wrapper">
+				<div class="message-icons-wrap">
+					<a href="<?php echo esc_url( bp_loggedin_user_domain() . 'messages/' ); ?>">
+						<i class="fa fa-envelope" aria-hidden="true"></i>
+						<span id="nab-pending-messages" class="nab-pending-messages count"><?php echo esc_html( messages_get_unread_count( $logged_user_id ) ); ?></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	<?php
 	}
 }
 

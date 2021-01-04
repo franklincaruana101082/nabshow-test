@@ -2699,7 +2699,7 @@ function nab_add_product()
         $product_post_data['ID'] = $product_id;
 
         $post_id                 = wp_update_post($product_post_data);
-        
+
         /*Add existing media to loop */
         $product_media = get_field('product_media', $post_id);
         foreach ($product_media as $media) {
@@ -2716,11 +2716,6 @@ function nab_add_product()
                 }
             }
         }
-
-        
-
-
-
     } else {
         // Insert the post into the database
         $post_id = wp_insert_post($product_post_data);
@@ -2919,7 +2914,7 @@ function nab_article_tags_shortcode_callback($atts)
 
         if (!empty($community_tags)) {
             $final_tags = array_merge($final_tags, $community_tags);
-        }        
+        }
 
         if (!empty($content_scope_tag)) {
             $final_tags[] = $content_scope_tag;
@@ -2961,8 +2956,8 @@ function nab_article_tags_shortcode_callback($atts)
             $final_tags = array_merge($final_tags, $content_sub_tags);
         }
 
-        if ( ! empty( $production_sub_tags ) ) {
-            $final_tags = array_merge( $final_tags, $production_sub_tags );
+        if (!empty($production_sub_tags)) {
+            $final_tags = array_merge($final_tags, $production_sub_tags);
         }
 
         if (!empty($personas_tags)) {
@@ -3323,17 +3318,16 @@ function nab_get_wp_editor($content = '', $editor_id, $options)
     return $temp;
 }
 
-function nab_comment_form( $atts = array(), $content = '' )
+function nab_comment_form($atts = array(), $content = '')
 {
-    if( is_singular() && post_type_supports( get_post_type(), 'comments' ) )
-    {
+    if (is_singular() && post_type_supports(get_post_type(), 'comments')) {
         ob_start();
         // If comments are open or we have at least one comment, load up the comment template.
-		if ( comments_open() || get_comments_number() ) :
+        if (comments_open() || get_comments_number()) :
             comments_template();
-            print(  '<style>.no-comments { display: none; }</style>' );
-		endif;
-        
+            print('<style>.no-comments { display: none; }</style>');
+        endif;
+
         return ob_get_clean();
     }
     return '';
