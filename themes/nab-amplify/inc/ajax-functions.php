@@ -1174,9 +1174,9 @@ function nab_company_search_filter_callback()
 		}
 	}
 
-	if (!empty($product_category)) {
-
-		$company_args['meta_query'] = array(
+	if ( ! empty( $product_category ) ) {
+		
+		$company_args[ 'meta_query' ] = array(
 
 			array(
 				'key' 		=> 'product_categories',
@@ -1323,6 +1323,18 @@ function nab_company_product_search_filter_callback()
 	if (!empty($product_category)) {
 
 		$company_prod_args['tax_query'] = array(
+
+			array(
+				'taxonomy' 	=> 'company-product-category',
+				'field'		=> 'slug',
+				'terms'		=> $product_category
+			)
+		);
+	}
+
+	if ( ! empty( $product_category ) ) {
+
+		$company_prod_args[ 'tax_query' ] = array(
 
 			array(
 				'taxonomy' 	=> 'company-product-category',
