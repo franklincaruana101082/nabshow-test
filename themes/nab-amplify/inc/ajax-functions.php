@@ -1143,11 +1143,12 @@ function nab_company_search_filter_callback()
 	$final_result 	= array();
 	$result_post	= array();
 
-	$page_number	= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
-	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
-	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
-	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
-	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
+	$page_number		= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
+	$post_limit			= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
+	$search_term		= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
+	$product_category	= filter_input(INPUT_POST, 'product_category', FILTER_SANITIZE_STRING);
+	$orderby			= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
+	$order				= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$company_args = array(
 		'post_type' 		=> 'company',
@@ -1171,6 +1172,18 @@ function nab_company_search_filter_callback()
 
 			$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
 		}
+	}
+
+	if ( ! empty( $product_category ) ) {
+		
+		$company_args[ 'meta_query' ] = array(
+
+			array(
+				'key' 		=> 'product_categories',
+				'value'		=> '"' . $product_category . '"',
+				'compare'	=> 'LIKE'
+			)
+		);
 	}
 
 	$company_query = new WP_Query($company_args);
@@ -1268,11 +1281,12 @@ function nab_company_product_search_filter_callback()
 	$final_result 	= array();
 	$result_post	= array();
 
-	$page_number	= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
-	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
-	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
-	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
-	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
+	$page_number		= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
+	$post_limit			= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
+	$search_term		= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
+	$product_category	= filter_input(INPUT_POST, 'product_category', FILTER_SANITIZE_STRING);
+	$orderby			= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
+	$order				= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$company_prod_args = array(
 		'post_type' 		=> 'company-products',
@@ -1305,6 +1319,18 @@ function nab_company_product_search_filter_callback()
 			$company_prod_args[ '_tax_search' ] = $category_search_array;
 		}
 
+	}
+
+	if ( ! empty( $product_category ) ) {
+
+		$company_prod_args[ 'tax_query' ] = array(
+
+			array(
+				'taxonomy' 	=> 'company-product-category',
+				'field'		=> 'slug',
+				'terms'		=> $product_category
+			)
+		);
 	}
 
 	if ('date' !== $orderby) {

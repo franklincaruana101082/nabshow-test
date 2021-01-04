@@ -49,7 +49,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<?php
 										foreach ($product_categories as $current_cat) {
 										?>
-											<option value="<?php echo esc_attr($current_cat->slug); ?>"><?php echo esc_html($current_cat->name); ?></option>
+											<option value="<?php echo esc_attr( $current_cat->slug ); ?>"><?php echo esc_html( $current_cat->name ); ?></option>
 										<?php
 										}
 										?>
@@ -65,6 +65,29 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						<div class="sort-company sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+							<?php
+
+							$product_categories = get_terms( array( 'taxonomy' => 'company-product-category', 'hide_empty' => false ) );
+
+							if ( is_array( $product_categories ) && ! is_wp_error( $product_categories ) && count( $product_categories ) > 0 ) {
+								?>
+								<div class="inline-filter-select-boxes">
+									<div class="nab-custom-select">
+										<select id="company-category-filter" class="company-category-filter">
+											<option value="">Product Category</option>
+											<?php
+											foreach ( $product_categories as $current_cat ) {
+												?>
+												<option value="<?php echo esc_attr( $current_cat->term_id ); ?>"><?php echo esc_html( $current_cat->name ); ?></option>
+												<?php
+											}
+											?>
+										</select>
+									</div>
+								</div>
+								<?php
+							}
+							?>
 						</div>
 					<?php
 					} else if ( 'event' === $view_type ) {
@@ -80,6 +103,29 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						<div class="sort-company-product sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+							<?php
+
+							$product_categories = get_terms( array( 'taxonomy' => 'company-product-category', 'hide_empty' => true ) );
+
+							if ( is_array( $product_categories ) && ! is_wp_error( $product_categories ) && count( $product_categories ) > 0 ) {
+								?>
+								<div class="inline-filter-select-boxes">
+									<div class="nab-custom-select">
+										<select id="company-product-category" class="company-product-category">
+											<option value="">Product Category</option>
+											<?php
+											foreach ( $product_categories as $current_cat ) {
+												?>
+												<option value="<?php echo esc_attr( $current_cat->slug ); ?>"><?php echo esc_html( $current_cat->name ); ?></option>
+												<?php
+											}
+											?>
+										</select>
+									</div>
+								</div>
+								<?php
+							}
+							?>
 						</div>
 					<?php
 					} else if ('user' === $view_type) {
