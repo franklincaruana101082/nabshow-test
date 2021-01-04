@@ -18,4 +18,7 @@
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<p class="woocommerce-info"><?php esc_html_e( 'No products were found matching your selection.', 'woocommerce' ); ?></p>
+<p class="woocommerce-info"><?php esc_html_e( 'Registration for additional events is coming soon! <a href="https://amplify.nabshow.com/">Sign up for email updates</a> to be the first to know when new events are announced, registration opens and more.', 'woocommerce' ); ?></p>
+
+
+			

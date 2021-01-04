@@ -86,8 +86,6 @@ do_action( 'woocommerce_before_main_content' );
 				do_action( 'woocommerce_no_products_found' );
 			}
 			?>
-			<h3>Registration for additional events is coming soon!</h3>
-			<p><a href="https://amplify.nabshow.com/">Sign up for email updates</a> to be the first to know when new events are announced, registration opens and more.</p>
 			<p class="small">
 			<!--<i>The full pass price is shown here. Member, group and student discounts are available for select passes. Click the pass for more details.</i><br /><br />-->
 			Looking for how to access digital content you previously purchased? Visit <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a> and click on the event you wish to access. <a href="https://amplify.nabshow.com/faqs/">View the FAQs</a> for more information.</p>
