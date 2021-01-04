@@ -1174,9 +1174,9 @@ function nab_company_search_filter_callback()
 		}
 	}
 
-	if ( ! empty( $product_category ) ) {
-		
-		$company_args[ 'meta_query' ] = array(
+	if (!empty($product_category)) {
+
+		$company_args['meta_query'] = array(
 
 			array(
 				'key' 		=> 'product_categories',
@@ -1323,18 +1323,6 @@ function nab_company_product_search_filter_callback()
 	if (!empty($product_category)) {
 
 		$company_prod_args['tax_query'] = array(
-
-			array(
-				'taxonomy' 	=> 'company-product-category',
-				'field'		=> 'slug',
-				'terms'		=> $product_category
-			)
-		);
-	}
-
-	if ( ! empty( $product_category ) ) {
-
-		$company_prod_args[ 'tax_query' ] = array(
 
 			array(
 				'taxonomy' 	=> 'company-product-category',
@@ -2058,7 +2046,7 @@ function nab_bp_message_request_popup()
 	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 	$member_id = filter_input(INPUT_POST, 'member_id', FILTER_SANITIZE_NUMBER_INT);
 	$action = 'poc';
-	$message_html = nab_get_wp_editor('', 'connection-message', array('media_buttons' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+	$message_html = nab_get_wp_editor('', 'nab-connection-message', array('media_buttons' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
 
 	if ($post_type === 'company-products') {
 		$point_of_contact   = get_field('product_point_of_contact', $post_id);

@@ -2220,9 +2220,13 @@
     }
   )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #company-product-category', function(){
-    nabSearchCompanyProductAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #company-product-category',
+    function () {
+      nabSearchCompanyProductAjax(false, 1)
+    }
+  )
 
   /* Company Search Filters*/
   $(document).on('click', '#load-more-company a', function () {
@@ -2244,9 +2248,13 @@
     }
   )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #company-category-filter', function(){
-    nabSearchCompanyAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #company-category-filter',
+    function () {
+      nabSearchCompanyAjax(false, 1)
+    }
+  )
 
   /* Content Search Filters*/
   $(document).on('click', '#load-more-content a', function () {
@@ -3288,7 +3296,7 @@ function nabSearchUserAjax (loadMore, pageNumber) {
 
 /** company search ajax */
 function nabSearchCompanyAjax (loadMore, pageNumber) {
-  let category;
+  let category
   let postPerPage = jQuery('#load-more-company a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-company a').attr('data-post-limit'))
     : 12
@@ -3299,11 +3307,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-company a.active').length
       ? jQuery('.other-search-filter .sort-company a.active').attr('data-order')
-      : 'date';
-  
-  if ( 0 < jQuery('.other-search-filter #company-category-filter').length ) {
-    category = 0 === jQuery('.other-search-filter #company-category-filter')[0].selectedIndex ? '' : jQuery('.other-search-filter #company-category-filter').val();
-  }
+      : 'date'
 
   if (0 < jQuery('.other-search-filter #company-category-filter').length) {
     category =
@@ -3434,7 +3438,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
 
 /** company product search ajax */
 function nabSearchCompanyProductAjax (loadMore, pageNumber) {
-  let category;
+  let category
   let postPerPage = jQuery('#load-more-company-product a').attr(
     'data-post-limit'
   )
@@ -3449,11 +3453,7 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
       ? jQuery('.other-search-filter .sort-company-product a.active').attr(
           'data-order'
         )
-      : 'date';
-  
-  if ( 0 < jQuery('.other-search-filter #company-product-category').length ) {
-    category = 0 === jQuery('.other-search-filter #company-product-category')[0].selectedIndex ? '' : jQuery('.other-search-filter #company-product-category').val();
-  }
+      : 'date'
 
   if (0 < jQuery('.other-search-filter #company-product-category').length) {
     category =
@@ -3474,7 +3474,7 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
       page_number: pageNumber,
       post_limit: postPerPage,
       search_term: searchTerm,
-      product_category: category, 
+      product_category: category,
       orderby: orderBy
     },
     success: function (response) {
