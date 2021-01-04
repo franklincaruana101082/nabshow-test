@@ -86,7 +86,7 @@ do_action( 'woocommerce_before_main_content' );
 				do_action( 'woocommerce_no_products_found' );
 			}
 			?>
-			<h2>Registration for upcoming events is coming soon.</h2>
+			<h3>Registration for additional events is coming soon!</h3>
 			<p><a href="https://amplify.nabshow.com/">Sign up for email updates</a> to be the first to know when new events are announced, registration opens and more.</p>
 			<p class="small">
 			<!--<i>The full pass price is shown here. Member, group and student discounts are available for select passes. Click the pass for more details.</i><br /><br />-->
