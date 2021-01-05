@@ -936,7 +936,7 @@ function nab_get_bp_notification_menu()
 				</div>
 			</div>
 		</div>
-		<?php
+	<?php
 	}
 }
 
