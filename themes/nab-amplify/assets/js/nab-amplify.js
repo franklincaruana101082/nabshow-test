@@ -2865,10 +2865,14 @@
 
   $(document).on('click', '#submit-message-request', function (e) {
     e.stopPropagation();
-    if(tinyMCE.get('connection-message')){
-      $('#connection-message').val(tinyMCE.get('connection-message').getContent())
+    var connectionMsg = '';
+    if(tinyMCE.get('nab-connection-message')){
+      $('#nab-connection-message').val(tinyMCE.get('nab-connection-message').getContent())
+      connectionMsg = $('#nab-connection-message').val()
+    }else{
+      connectionMsg = $('#connection-message').val()
     }
-    const connectionMsg = $('#connection-message').val()
+    
     
     if ('' === connectionMsg) {
       if (!$('#connection-message').hasClass('wp-editor-area')) {
