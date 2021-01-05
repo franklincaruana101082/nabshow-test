@@ -163,7 +163,7 @@ if ( $user_logged_in ) {
                                     </div>
                                     <?php
                                 }
-                                ?> 
+                                ?>                                
                                 <div class="amp-profile-message">
 									<?php
 									if ( ! bp_is_my_profile() ) {

@@ -893,8 +893,7 @@ function nab_bp_change_add_friend_button_text($button)
  * @return array
  */
 function nab_modify_member_query($sql, $query)
-{
-
+{	
 
 	if (isset($query->query_vars['type']) && in_array(strtolower($query->query_vars['type']), array('alphabetical', 'newest', 'active'), true)) {
 
@@ -919,8 +918,10 @@ function nab_modify_member_query($sql, $query)
 
 			$matched_user_ids = $wpdb->get_col($wpdb->prepare(
 				"SELECT DISTINCT ID FROM {$wpdb->users} INNER JOIN {$wpdb->usermeta} ON {$wpdb->users}.ID = {$wpdb->usermeta}.user_id
-				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s )",
+				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='attendee_company' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='attendee_title' AND {$wpdb->usermeta}.meta_value LIKE %s )",
 				$user_meta_cap,
+				$search_term,
+				$search_term,
 				$search_term,
 				$search_term,
 				$search_term,
@@ -1295,8 +1296,8 @@ function nab_reorder_comment_form($content)
 		foreach ($blocks as $block) {
             if ('rg/related-content-2' === $block['blockName']) {
 			
-            if (strpos($content, 'related-title')) {
-                $new_content = str_replace('<h3 class="related-title">Related Content</h3>', $comment_template.' <h3 class="related-title">Related Content</h3>', $content);
+            if (strpos($content, '<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>')) {
+                $new_content = str_replace('<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $comment_template.' <h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $content);
             }else{
 				$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
 			}
@@ -1309,3 +1310,17 @@ function nab_reorder_comment_form($content)
 
 	return $content;
 }*/
+add_filter( 'bp_activity_maybe_load_mentions_scripts', 'buddydev_enable_mention_autosuggestions', 10, 2 );
+ 
+function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
+    
+    if( ! $mentions_enabled ) {
+        return $load;//activity mention is  not enabled, so no need to bother
+    }
+    //modify this condition to suit yours
+    if( is_user_logged_in() && bp_is_current_component( 'mediapress' ) ) {
+        $load = true;
+    }
+    
+    return $load;
+}

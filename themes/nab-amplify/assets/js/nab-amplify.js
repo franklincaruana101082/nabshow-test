@@ -2158,6 +2158,13 @@
       }
     }
   )
+
+  $(document).on('keypress','.other-search-filter .job-title-search .input-job-title',function (e) {
+      if (13 === e.which) {
+        nabSearchUserAjax(false, 1);
+      }
+  });
+
   $(document).on(
     'click',
     '.other-search-filter .sort-user a.sort-order',
@@ -2865,14 +2872,10 @@
 
   $(document).on('click', '#submit-message-request', function (e) {
     e.stopPropagation();
-    var connectionMsg = '';
-    if(tinyMCE.get('nab-connection-message')){
-      $('#nab-connection-message').val(tinyMCE.get('nab-connection-message').getContent())
-      connectionMsg = $('#nab-connection-message').val()
-    }else{
-      connectionMsg = $('#connection-message').val()
+    if(tinyMCE.get('connection-message')){
+      $('#connection-message').val(tinyMCE.get('connection-message').getContent())
     }
-    
+    const connectionMsg = $('#connection-message').val()
     
     if ('' === connectionMsg) {
       if (!$('#connection-message').hasClass('wp-editor-area')) {
@@ -3115,7 +3118,9 @@ function nabSearchUserAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-user a.active').length
       ? jQuery('.other-search-filter .sort-user a.active').attr('data-order')
-      : 'newest'
+      : 'newest';
+  
+  let jobTitle = 0 < jQuery('.other-search-filter .job-title-search .input-job-title').length ? jQuery('.other-search-filter .job-title-search .input-job-title').val() : '';
 
   if (0 < jQuery('.other-search-filter #people-connect').length) {
     connected =
@@ -3137,6 +3142,7 @@ function nabSearchUserAjax (loadMore, pageNumber) {
       connected: connected,
       search_term: searchTerm,
       company: company,
+      job_title: jobTitle,
       orderby: orderBy
     },
     success: function (response) {
