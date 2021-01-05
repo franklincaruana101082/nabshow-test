@@ -32,9 +32,9 @@
                     <p>Enter your message below.</p>
                     <?php if($action === 'poc'){?>
                     <textarea name="connection-message" id="connection-message"></textarea>
-                    <?php }else{ 
-                        echo $message_html;
-                     } ?>
+                    <?php }else{ ?>
+                        <textarea name="nab-connection-message" id="nab-connection-message"></textarea>
+                     <?php } ?>
                     <p style="display: none;" class="error">Please enter message.</p>
 
                     <a id="submit-message-request" href="javascript:void(0)" class="btn">SEND MESSAGE</a>

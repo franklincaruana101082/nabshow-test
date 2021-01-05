@@ -1022,6 +1022,7 @@ function nab_member_search_filter_callback()
 	$connected		= filter_input(INPUT_POST, 'connected', FILTER_SANITIZE_STRING);
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$company		= filter_input(INPUT_POST, 'company', FILTER_SANITIZE_STRING);
+	$job_title		= filter_input(INPUT_POST, 'job_title', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 
 	$user_logged_in = false;
@@ -1043,11 +1044,55 @@ function nab_member_search_filter_callback()
 		$members_filter['search_terms'] = $search_term;
 	}
 
-	if (!empty($company)) {
+	$wp_user_ids 	= array();
+	$meta_result	= true;
 
-		$members_filter['meta_key'] 	= 'attendee_company';
-		$members_filter['meta_value'] = $company;
+	if ( ! empty( $company ) || ! empty( $job_title ) ) {
+
+		$user_query_args = array( 'fields' => 'ID' );
+
+		$meta_query_args = array( 'relation' => 'OR' );
+
+		if ( ! empty( $company ) ) {
+
+			$meta_query_args[] = array(
+				'key' 		=> 'attendee_company',
+				'value'		=> $company,
+				'compare'	=> 'LIKE'
+			);
+		}
+
+		if ( ! empty( $job_title ) ) {
+
+			$meta_query_args[] = array(
+				'key' 		=> 'attendee_title',
+				'value'		=> $job_title,
+				'compare'	=> 'LIKE'
+			);
+		}
+
+		if ( count( $meta_query_args ) > 2 ) {
+			
+			$meta_query_args[ 'relation' ] = 'AND';
+		}
+
+		$user_query_args[ 'meta_query' ] = $meta_query_args;
+
+		$user_query = new WP_User_Query( $user_query_args );
+
+		$wp_user_ids = $user_query->get_results();
+
+		if ( count( $wp_user_ids ) === 0 ) {
+
+			$meta_result = false;
+		}
 	}
+
+	// if (!empty($company)) {
+
+	// 	$members_filter['meta_key'] 	= 'attendee_company';
+	// 	$members_filter['meta_value']	= $company;
+	// }
 
 	if (!empty($connected) && 'yes' === $connected) {
 
@@ -1057,71 +1102,79 @@ function nab_member_search_filter_callback()
 		$friend_list_ids = friends_get_friend_user_ids($logged_user_id);
 
 		if (is_array($friend_list_ids) && count($friend_list_ids) > 0) {
-			$members_filter['exclude']	=	$friend_list_ids;
+			$members_filter['exclude']	= $friend_list_ids;
 		}
 	}
 
 	$total_users 	= 0;
 	$total_pages	= 0;
 
-	if (bp_has_members($members_filter)) {
+	if ( $meta_result ) {
+		
+		if ( count( $wp_user_ids ) > 0 ) {
 
-		global $members_template;
-
-		$total_users	= $members_template->total_member_count;
-		$total_pages	= ceil($total_users / $post_limit);
-		$cnt 			= 0;
-
-		$current_user_id = get_current_user_id();
-
-		while (bp_members()) {
-
-			bp_the_member();
-
-			$member_user_id	= bp_get_member_user_id();
-			$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
-			$user_full_name = bp_get_member_name();
-			if (empty(trim($user_full_name))) {
-				$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-			}
-
-			$company 		= get_user_meta($member_user_id, 'attendee_company', true);
-			$title 		= get_user_meta($member_user_id, 'attendee_title', true);
-			$user_images 	= nab_amplify_get_user_images($member_user_id);
-
-			$user_avatar = '<img src="' . $user_images['profile_picture'] . '" />';
-
-			$result_user[$cnt]['cover_img'] = $user_images['banner_image'];
-			$result_user[$cnt]['name'] 		= html_entity_decode($user_full_name);
-			$result_user[$cnt]['company'] 	= html_entity_decode($company);
-			$result_user[$cnt]['title'] 	= html_entity_decode($title);
-			$result_user[$cnt]['avatar']		= $user_avatar;
-			$result_user[$cnt]['link']		= bp_get_member_permalink();
-
-			$action_button = nab_amplify_bp_get_friendship_button($member_user_id);
-			$result_user[$cnt]['action_button'] = $action_button;
-
-			if ($is_friend && 'is_friend' === $is_friend) {
-				$cancel_friendship_button = nab_amplify_bp_get_cancel_friendship_button($member_user_id);
-				$result_user[$cnt]['cancel_friendship_button'] = $cancel_friendship_button;
-			}
-
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
-
-				$result_user[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
-
-				$result_user[$cnt]['banner'] = nab_get_search_result_ad();
-			}
-
-			$cnt++;
+			$members_filter[ 'include' ] = $wp_user_ids;			
 		}
-	}
 
-	$final_result['next_page_number'] = $page_number + 1;
-	$final_result['total_page']       = $total_pages;
-	$final_result['total_user']		= $total_users;
-	$final_result['result_user']      = $result_user;
+		if (bp_has_members($members_filter)) {
+
+			global $members_template;
+	
+			$total_users	= $members_template->total_member_count;
+			$total_pages	= ceil($total_users / $post_limit);
+			$cnt 			= 0;
+	
+			$current_user_id = get_current_user_id();
+	
+			while (bp_members()) {
+	
+				bp_the_member();
+	
+				$member_user_id	= bp_get_member_user_id();
+				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
+				$user_full_name = bp_get_member_name();
+				if (empty(trim($user_full_name))) {
+					$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+				}
+	
+				$company 		= get_user_meta($member_user_id, 'attendee_company', true);
+				$title 		= get_user_meta($member_user_id, 'attendee_title', true);
+				$user_images 	= nab_amplify_get_user_images($member_user_id);
+	
+				$user_avatar = '<img src="' . $user_images['profile_picture'] . '" />';
+	
+				$result_user[$cnt]['cover_img'] = $user_images['banner_image'];
+				$result_user[$cnt]['name'] 		= html_entity_decode($user_full_name);
+				$result_user[$cnt]['company'] 	= html_entity_decode($company);
+				$result_user[$cnt]['title'] 	= html_entity_decode($title);
+				$result_user[$cnt]['avatar']		= $user_avatar;
+				$result_user[$cnt]['link']		= bp_get_member_permalink();
+	
+				$action_button = nab_amplify_bp_get_friendship_button($member_user_id);
+				$result_user[$cnt]['action_button'] = $action_button;
+	
+				if ($is_friend && 'is_friend' === $is_friend) {
+					$cancel_friendship_button = nab_amplify_bp_get_cancel_friendship_button($member_user_id);
+					$result_user[$cnt]['cancel_friendship_button'] = $cancel_friendship_button;
+				}
+	
+				if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+	
+					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
+				} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+	
+					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
+				}
+	
+				$cnt++;
+			}
+		}
+	}	
+
+	$final_result['next_page_number']	= $page_number + 1;
+	$final_result['total_page']			= $total_pages;
+	$final_result['total_user']			= $total_users;
+	$final_result['result_user']		= $result_user;
 
 	echo wp_json_encode($final_result);
 
@@ -2046,7 +2099,7 @@ function nab_bp_message_request_popup()
 	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 	$member_id = filter_input(INPUT_POST, 'member_id', FILTER_SANITIZE_NUMBER_INT);
 	$action = 'poc';
-	$message_html = nab_get_wp_editor('', 'nab-connection-message', array('media_buttons' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+	$message_html = nab_get_wp_editor('', 'nab-xconnection-message', array('media_buttons' => true,'teeny' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
 
 	if ($post_type === 'company-products') {
 		$point_of_contact   = get_field('product_point_of_contact', $post_id);
