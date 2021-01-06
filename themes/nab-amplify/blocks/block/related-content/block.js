@@ -94,7 +94,8 @@
           bgMedia: '',
           title: '',
           subTitle: '',
-          buttonText: '<a href="#" class="btn">View Product</a>'
+          buttonText: '<a href="#" class="btn">View Product</a>',
+          bookmark: ''
         }
       }
 
@@ -234,7 +235,7 @@
                   />
                 </div>
               ) : null}
-              {'option-2' === data.option && (
+              {('option-2' === data.option || 'option-5' === data.option) && (
                 <RichText
                   tagName='div'
                   placeholder={__('Bookmark')}
@@ -669,6 +670,13 @@
                       </div>
                     )}
                     {('option-2' === data.option && data.bookmark) && (
+                      <RichText.Content
+                        tagName='div'
+                        value={data.bookmark}
+                        className='bookmark-wrap'
+                      />
+                    )}
+                    {('option-5' === data.option && data.bookmark) && (
                       <RichText.Content
                         tagName='div'
                         value={data.bookmark}
