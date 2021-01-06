@@ -2379,7 +2379,8 @@
             // Prevent request unless the message is sent.
             return false
           } else {
-            $(this).removeClass('message-sent')
+            $(this).removeClass('message-sent');
+            $('body').removeClass('connection-popup-added');
           }
         }
 
