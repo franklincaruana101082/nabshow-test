@@ -936,13 +936,20 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .other-search-filter .filter-select-boxes{margin:0 0 40px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .other-search-filter .filter-select-boxes .nab-custom-select{margin:10px}
 .other-search-filter .inline-filter-select-boxes{margin:10px}
-.other-search-filter .company-search{text-align:center;margin:10px;width:300px;max-width:100%}
-.other-search-filter .company-search .input-company{padding:10px;background:url(../images/search-icon.svg) no-repeat;background-size:20px;background-position:90% center;color:#fff;border:0;border-top:2px solid #fff;border-bottom:1px solid #fff;-webkit-box-shadow:none;box-shadow:none;outline:none;width:100%}
-.other-search-filter .company-search .input-company::-webkit-input-placeholder{color:#ccc}
-.other-search-filter .company-search .input-company::-moz-placeholder{color:#ccc}
-.other-search-filter .company-search .input-company:-ms-input-placeholder{color:#ccc}
-.other-search-filter .company-search .input-company::-ms-input-placeholder{color:#ccc}
-.other-search-filter .company-search .input-company::placeholder{color:#ccc}
+.other-search-filter .company-search,
+.other-search-filter .job-title-search{text-align:center;margin:10px;width:300px;max-width:100%}
+.other-search-filter .company-search .input-company,
+.other-search-filter .job-title-search .input-job-title{padding:10px;background:url(../images/search-icon.svg) no-repeat;background-size:20px;background-position:90% center;color:#fff;border:0;border-top:2px solid #fff;border-bottom:1px solid #fff;-webkit-box-shadow:none;box-shadow:none;outline:none;width:100%}
+.other-search-filter .company-search .input-company::-webkit-input-placeholder,
+.other-search-filter .job-title-search .input-job-title::-webkit-input-placeholder{color:#ccc}
+.other-search-filter .company-search .input-company::-moz-placeholder,
+.other-search-filter .job-title-search .input-job-title::-moz-placeholder{color:#ccc}
+.other-search-filter .company-search .input-company:-ms-input-placeholder,
+.other-search-filter .job-title-search .input-job-title:-ms-input-placeholder{color:#ccc}
+.other-search-filter .company-search .input-company::-ms-input-placeholder,
+.other-search-filter .job-title-search .input-job-title::-ms-input-placeholder{color:#ccc}
+.other-search-filter .company-search .input-company::placeholder,
+.other-search-filter .job-title-search .input-job-title::placeholder{color:#ccc}
 .nab-ad-wrap{padding:20px 0 0;text-align:center;width:100%}
 .nab-ad-wrap .nab-ad-inner{width:100%;max-width:80%;margin:0 auto}
 .search-view-top-head{text-align:center;margin:0 0 20px}
@@ -1071,6 +1078,7 @@ body.buddypress .site-content{padding:0}
 .amp-item-main .amp-item-heading h3 span{color:#fff;font-size:16px;font-weight:100;line-height:1;vertical-align:middle;display:inline-block}
 .amp-item-main .amp-item-heading .amp-view-more{margin-top:5px}
 .amp-item-main .amp-view-more a{color:#999;text-decoration:underline!important;display:inline-block;font-size:14px}
+.amp-item-main .amp-view-more a:not(:last-child){margin-right:5px}
 .amp-item-main .amp-item-wrap .nab-ad-wrap{padding:0;margin-bottom:30px}
 .amp-item-main .amp-item-wrap{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .member-front-page>div>.amp-item-main{padding:30px 0 0}
@@ -1654,3 +1662,7 @@ body .is_friend .remove::before{font-size:22px}
 .tooltip-wrap:hover .tooltip, .tooltip-wrap:focus .tooltip{visibility:visible;opacity:1;display:block;overflow:visible}
 .tooltip-wrap .tooltip a{text-decoration:underline}
 .company-location-label{float:left;width:100%}
+
+/* Message editor */
+#insert-media-button{background-color:#333333;color:#999999!important}
+.wp-media-buttons .add_media span.wp-media-buttons-icon{color:#999999!important}
