@@ -1078,6 +1078,7 @@ body.buddypress .site-content{padding:0}
 .amp-item-main .amp-item-heading h3 span{color:#fff;font-size:16px;font-weight:100;line-height:1;vertical-align:middle;display:inline-block}
 .amp-item-main .amp-item-heading .amp-view-more{margin-top:5px}
 .amp-item-main .amp-view-more a{color:#999;text-decoration:underline!important;display:inline-block;font-size:14px}
+.amp-item-main .amp-view-more a:not(:last-child){margin-right:5px}
 .amp-item-main .amp-item-wrap .nab-ad-wrap{padding:0;margin-bottom:30px}
 .amp-item-main .amp-item-wrap{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .member-front-page>div>.amp-item-main{padding:30px 0 0}
