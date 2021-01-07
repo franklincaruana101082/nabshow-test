@@ -2897,11 +2897,11 @@ function nab_article_tags_shortcode_callback($atts)
 
     if (!empty($article_id)) {
 
-        $article_type_tag       = get_field('article_type', $article_id);
+        //$article_type_tag       = get_field('article_type', $article_id);
         $community_tags         = get_field('community', $article_id);
-        $personas_tags          = get_field('personas', $article_id);
+        //$personas_tags          = get_field('personas', $article_id);
         $content_format_tags    = get_field('content_format', $article_id);
-        $content_scope_tag      = get_field('content_scope', $article_id);
+        //$content_scope_tag      = get_field('content_scope', $article_id);
         $content_subject_tags   = get_field('content_subject', $article_id);
         $acquisition_sub_tags   = get_field('acquisition_sub', $article_id);
         $distribution_sub_tags  = get_field('distribution_sub', $article_id);
@@ -2913,17 +2913,17 @@ function nab_article_tags_shortcode_callback($atts)
         $production_sub_tags    = get_field('production_sub', $article_id);
         $final_tags             = array();
 
-        if (!empty($article_type_tag)) {
+        /*if (!empty($article_type_tag)) {
             $final_tags[] = $article_type_tag;
-        }
+        }*/
 
         if (!empty($community_tags)) {
             $final_tags = array_merge($final_tags, $community_tags);
         }        
 
-        if (!empty($content_scope_tag)) {
+        /*if (!empty($content_scope_tag)) {
             $final_tags[] = $content_scope_tag;
-        }
+        }*/
 
         if (!empty($content_format_tags)) {
             $final_tags = array_merge($final_tags, $content_format_tags);
@@ -2933,41 +2933,41 @@ function nab_article_tags_shortcode_callback($atts)
             $final_tags = array_merge($final_tags, $content_subject_tags);
         }
 
-        if (!empty($acquisition_sub_tags)) {
+        if (!empty($acquisition_sub_tags) && in_array( 'Acquisition and Production', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $acquisition_sub_tags);
         }
 
-        if (!empty($distribution_sub_tags)) {
+        if (!empty($distribution_sub_tags) && in_array( 'Distribution and Delivery', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $distribution_sub_tags);
         }
 
-        if (!empty($management_sub_tags)) {
+        if (!empty($management_sub_tags) && in_array( 'Management and Systems', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $management_sub_tags);
         }
 
-        if (!empty($radio_sub_tags)) {
+        if (!empty($radio_sub_tags) && in_array( 'Radio', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $radio_sub_tags);
         }
 
-        if (!empty($display_sub_tags)) {
+        if (!empty($display_sub_tags) && in_array( 'Display Systems', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $display_sub_tags);
         }
 
-        if (!empty($industry_sub_tags)) {
+        if (!empty($industry_sub_tags) && in_array( 'Industry Resources', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $industry_sub_tags);
         }
 
-        if (!empty($content_sub_tags)) {
+        if (!empty($content_sub_tags) && in_array( 'Media Content', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $content_sub_tags);
         }
 
-        if ( ! empty( $production_sub_tags ) ) {
+        if ( ! empty( $production_sub_tags ) && in_array( 'Post Production', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge( $final_tags, $production_sub_tags );
         }
 
-        if (!empty($personas_tags)) {
+        /*if (!empty($personas_tags)) {
             $final_tags = array_merge($final_tags, $personas_tags);
-        }
+        }*/
 
         if (is_array($final_tags) && count($final_tags) > 0) {
 
