@@ -158,12 +158,12 @@ if ( $user_logged_in ) {
                                                 <li>
                                                     <a href="<?php echo esc_attr( $user_data['social_youtube'][0] ); ?>" target="_blank"><i class="fa fa-youtube"></i></a>
                                                 </li>
-                                            <?php } ?>
+                                            <?php } ?> 
                                         </ul>
                                     </div>
                                     <?php
                                 }
-                                ?>
+                                ?>                                
                                 <div class="amp-profile-message">
 									<?php
 									if ( ! bp_is_my_profile() ) {

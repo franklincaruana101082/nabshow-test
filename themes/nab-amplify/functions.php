@@ -205,9 +205,10 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+
 	register_sidebar(
 		array(
-			'name'          => esc_html__( 'Logged in user footer block', 'nab-amplify' ),
+			'name'          => esc_html__( 'Logged in user Footer block', 'nab-amplify' ),
 			'id'            => 'footer-loggedin',
 			'description'   => esc_html__( 'Add widgets here.', 'nab-amplify' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',

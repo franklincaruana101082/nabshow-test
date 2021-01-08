@@ -319,9 +319,10 @@ function nab_amplify_bp_get_friendship_button($member_id, $loop = true)
 					$private_massage_link = wp_nonce_url(bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_core_get_username($member_id));
 					bp_send_message_button(array(
 						'id'         => 'private_message_' . $member_id,
-						'link_class' => 'button',
+						'link_class' => 'button nab-conn-msg member-'.$member_id,
 						'link_text'  => 'Message',
-						'link_href'  => $private_massage_link
+						'link_href'  => '#',
+						'wrapper_id' => 'private_message_' . $member_id
 					));
 					?>
 				</div>
@@ -935,7 +936,7 @@ function nab_get_bp_notification_menu()
 				</div>
 			</div>
 		</div>
-		<?php
+	<?php
 	}
 }
 

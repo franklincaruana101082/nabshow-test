@@ -27,6 +27,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 
 $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( $current_site_url, '/' ) . '/' );
 ?>
+
 <nav class="woocommerce-MyAccount-navigation">
 	<ul>
 		<?php

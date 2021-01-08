@@ -400,18 +400,22 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password{text-align:center;font-size:12px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password a{color:inherit;text-decoration:underline;font-weight:bold}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row{text-align:center;margin-top:0}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button{background:#e5018b;color:#fff;height:50px;width:180px;font-size:26px;line-height:26px!important;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:0;border:none!important;outline:none}
+.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;height:50px;width:180px;font-size:26px;line-height:26px!important;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:0;border:none!important;outline:none}
 .nab-without-login-account .mo-openid-app-icons a.btn i{border:none}
 .nab-without-login-account .woocommerce .nab-signup-now{margin-top:30px;margin-bottom:50px;width:870px}
-.nab-without-login-account .woocommerce .nab-signup-now h4{margin:0;text-align:center;font-size:15px;color:#3d3d3d}
+.nab-without-login-account .woocommerce .nab-signup-now h4{margin:0;text-align:center;font-size:18px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-signup-now h4:last-child{margin:0}
 .nab-without-login-account .woocommerce .nab-signup-now a{color:inherit;text-decoration:underline}
 .nab-without-login-account{background:#b4b4b4}
-.nab-without-login-account .woocommerce form .woocommerce-form-row button{background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}
+.nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}
 .nab-without-login-account .woocommerce form label{font-weight:bold;margin-bottom:10px;display:block;font-size:15px}
 .nab-without-login-account .woocommerce form.woocommerce-ResetPassword{width:600px;margin:0 auto;max-width:100%}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:hover, .nab-without-login-account .woocommerce form .woocommerce-form-row button:hover{background:#6363df}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:focus, .nab-without-login-account .woocommerce form .woocommerce-form-row button:focus{background:#666666}
+.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):hover, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):hover{background:#6363df}
+.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):focus, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):focus{background:#666666}
+.nab-without-login-account .select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 4px;font-size:14px}
+.nab-without-login-account .select2-container--default .select2-selection--multiple{border-radius:0;border-color:#d2d3d5!important;padding-right:20px}
+.nab-without-login-account .woocommerce .form-row .select2-container{text-align:left}
+.nab-without-login-account .woocommerce .form-row .select2-container::after{content:"\f0d7";font-family:'fontawesome', serif;position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;pointer-events:none}
 .nab-without-login-account .form-row .password-input{width:100%}
 
 /* login page css */
@@ -542,7 +546,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-Address a.edit{margin-bottom:10px;display:inline-block}
 .amp-member-security{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;padding-left:20px}
 .amp-member-security .amp-security-row{width:50%;margin-bottom:10px}
-.amp-member-security h3{margin-bottom:20px;text-transform:uppercase}
+.amp-member-security h3{margin-bottom:20px}
 .amp-radio-container label{color:#fff;font-family:'OpenSans-Light', Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px)}
 .amp-radio-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:20px}
 .amp-radio-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-right:10px;position:relative;width:22px;height:22px}
@@ -550,6 +554,13 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .amp-radio-wrp input{position:absolute;opacity:0;cursor:pointer;width:100%;height:100%;top:0;left:0;z-index:2}
 .amp-radio-wrp span::after{content:"";position:absolute;display:none;top:1px;left:1px;right:1px;bottom:1px;border-radius:50%;background:#e5018b}
 .amp-radio-wrp input:checked~span::after{display:block}
+.amp-check-container label{color:#fff;font-family:'OpenSans-Light', Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px)}
+.amp-check-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:20px}
+.amp-check-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-right:10px;position:relative;width:22px;height:22px}
+.amp-check-wrp span{position:absolute;top:0;left:0;height:100%;width:100%;background-color:transparent;border:2px solid #fff}
+.amp-check-wrp input{position:absolute;opacity:0;cursor:pointer;width:100%;height:100%;top:0;left:0;z-index:2}
+.amp-check-wrp span::after{content:"";position:absolute;display:none;top:1px;left:1px;right:1px;bottom:1px;background:#e5018b}
+.amp-check-wrp input:checked~span::after{display:block}
 
 /* My Account Form */
 .woocommerce-account:not(.nab-without-login-account) .entry-title{color:#fdd80f;text-transform:uppercase}
@@ -610,6 +621,17 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .nab-profile .nab-profile-button .button{margin-bottom:10px}
 .nab-purchase-notice{margin-bottom:15px}
 .nab-purchase-notice a{text-decoration:underline}
+.woocommerce-edit-account .select2-dropdown{background-color:#666!important;border-color:#666!important}
+.woocommerce-edit-account .select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 10px}
+.woocommerce-edit-account .select-dark-simple .select2-container .select2-selection--multiple, .woocommerce-edit-account .select-dark-simple .select2-container .select2-selection--single{background-color:#666;display:inline-block;width:100%}
+.woocommerce-edit-account .select-dark-simple span{color:#333}
+.woocommerce-edit-account .select2-container .select2-selection--multiple{min-height:50px;padding:5px 40px 5px 10px}
+.woocommerce-edit-account .select2-container .select2-search--inline .select2-search__field{color:#fff}
+.woocommerce-edit-account .select2-container--default .select2-selection--multiple .select2-selection__rendered li{padding-right:3px}
+.woocommerce-edit-account .select-dark-simple::after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f;right:20px}
+.woocommerce-edit-account .select2-results__option:focus{outline:none}
+.user-interest-details-form .checkbox-item-list .checkbox-item{width:100%}
+.user-interest-details-form .checkbox-item-list .checkbox-item:last-child{margin-bottom:0}
 
 /* product details */
 .single-product div.product .woocommerce-product-gallery{width:65%;display:-webkit-box;display:-ms-flexbox;display:flex;position:relative;margin-top:50px;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
@@ -1456,6 +1478,14 @@ body .is_friend .remove::before{font-size:22px}
 .single-company .amp-profile-main .amp-profile-inner .amp-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-top:20px}
 .single-company .amp-profile-main .amp-profile-inner .search-actions{margin:5px}
 .single-company .amp-profile-main .amp-profile-inner .search-actions a{background:#6363df;border-color:#6363df;color:#fff;font-size:16px;text-transform:capitalize;margin:0;padding:10px 15px}
+.single-company .select2-container--default.select2-container--focus .select2-selection--multiple{border-color:#333!important}
+.single-company .select2-dropdown{background-color:#666!important;border-color:#666!important}
+.single-company .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{background-color:#4b4b4b!important}
+.single-company .select2-container--default .select2-results__option--selected{background-color:#4b4b4b!important}
+.single-company .select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 10px}
+.single-company .select2-container--default .select2-search--dropdown{box-shadow:none!important;outline:none}
+.single-company .select2-container--default .select2-search--dropdown .select2-search__field{background-color:#333;color:#fff;box-shadow:none}
+.single-company .select2-container--default .select2-search--dropdown .select2-search__field:focus{box-shadow:none;outline:none}
 
 /* company archive */
 .post-type-archive-company{background-color:#404040}
@@ -1504,14 +1534,6 @@ body .is_friend .remove::before{font-size:22px}
 .select-dark-simple::after{content:'';width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:18px solid #fdd80f;position:absolute;right:30px;top:50%;transform:translateY(-50%);cursor:pointer;pointer-events:none}
 .select-dark-simple .select2-container .select2-selection--multiple, .select-dark-simple .select2-container .select2-selection--single{background-color:#333;border-color:#333;cursor:pointer;padding-right:50px}
 .select-dark-simple .select2-container .select2-selection--single{height:auto}
-.select2-container--default.select2-container--focus .select2-selection--multiple{border-color:#333!important}
-.select2-dropdown{background-color:#666!important;border-color:#666!important}
-.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{background-color:#4b4b4b!important}
-.select2-container--default .select2-results__option--selected{background-color:#4b4b4b!important}
-.select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 10px}
-.select2-container--default .select2-search--dropdown{box-shadow:none!important;outline:none}
-.select2-container--default .select2-search--dropdown .select2-search__field{background-color:#333;color:#fff;box-shadow:none}
-.select2-container--default .select2-search--dropdown .select2-search__field:focus{box-shadow:none;outline:none}
 .select-dark-simple .select2-selection__arrow{display:none}
 .select-dark-simple .select2-container--default .select2-selection--single .select2-selection__rendered{height:100px;line-height:80px;padding:10px 50px 10px 10px;color:#999!important;font-size:22px;font-weight:bold}
 

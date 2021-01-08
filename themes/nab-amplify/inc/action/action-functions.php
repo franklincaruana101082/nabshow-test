@@ -548,6 +548,9 @@ function nab_save_name_fields($customer_id)
         update_user_meta($customer_id, 'billing_last_name', sanitize_text_field($_POST['last_name']));
         update_user_meta($customer_id, 'last_name', sanitize_text_field($_POST['last_name']));
     }
+    if ( isset( $_POST[ 'user_interest' ] ) && ! empty( $_POST[ 'user_interest' ] ) ) {
+        update_user_meta( $customer_id, 'user_interest', $_POST[ 'user_interest' ] );
+    }
 }
 
 /**
@@ -2072,29 +2075,98 @@ function nab_update_product_in_user_meta($order_id, $old_status, $new_status)
 function nab_edit_acount_additional_form_fields()
 {
 
-    $current_user         = wp_get_current_user();
-    $current_user_id    = $current_user->ID;
-    $member_visibility  = get_user_meta($current_user_id, 'nab_member_visibility', true);
-    $member_restriction = get_user_meta($current_user_id, 'nab_member_restrict_connection', true);
-    $attendee_title        = get_user_meta($current_user_id, 'attendee_title', true);
-    $attendee_company    = get_user_meta($current_user_id, 'attendee_company', true);
-    $attendee_location    = get_user_meta($current_user_id, 'attendee_location', true);
-    $social_twitter        = get_user_meta($current_user_id, 'social_twitter', true);
-    $social_linkedin    = get_user_meta($current_user_id, 'social_linkedin', true);
-    $social_facebook    = get_user_meta($current_user_id, 'social_facebook', true);
-    $social_instagram    = get_user_meta($current_user_id, 'social_instagram', true);
-    $social_website        = get_user_meta($current_user_id, 'social_website', true);
-    $social_youtube        = get_user_meta($current_user_id, 'social_youtube', true);
+    $current_user           = wp_get_current_user();
+    $current_user_id        = $current_user->ID;
+    $member_visibility      = get_user_meta($current_user_id, 'nab_member_visibility', true);
+    $member_restriction     = get_user_meta($current_user_id, 'nab_member_restrict_connection', true);
+    $attendee_title         = get_user_meta($current_user_id, 'attendee_title', true);
+    $attendee_company       = get_user_meta($current_user_id, 'attendee_company', true);
+    $attendee_location      = get_user_meta($current_user_id, 'attendee_location', true);
+    $social_twitter         = get_user_meta($current_user_id, 'social_twitter', true);
+    $social_linkedin        = get_user_meta($current_user_id, 'social_linkedin', true);
+    $social_facebook        = get_user_meta($current_user_id, 'social_facebook', true);
+    $social_instagram       = get_user_meta($current_user_id, 'social_instagram', true);
+    $social_website         = get_user_meta($current_user_id, 'social_website', true);
+    $social_youtube         = get_user_meta($current_user_id, 'social_youtube', true);
+    $user_interest          = get_user_meta( $current_user_id, 'user_interest', true );
+    $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true );
+    $user_industry          = get_user_meta( $current_user_id, 'user_industry', true );
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
     $member_restriction = !empty($member_restriction) ? $member_restriction : 'yes';
+    $user_interest      = ! empty( $user_interest ) ? $user_interest : array();
+    $interest_items		= array( 'Content Creation', 'Live Event Production', 'Broadcast', 'Streaming' );
+    $job_roles			= array( 'Executive', 'Management', 'Creative', 'Technical', 'Student' );
+    $user_job_role      = ! empty( $user_job_role ) ? $user_job_role : array();
+    $user_industry      = ! empty( $user_industry ) ? $user_industry : array();
+    $industries         = array(
+                            'Advertising/Marketing/PR',
+                            'Analytics & Research',
+                            'Cable/MSO',
+                            'Consulting',
+                            'Education/Training',
+                            'Enterprise',
+                            'Faith-Based Organization',
+                            'Film/TV Studio',
+                            'Finance (Banking, Service, Insurance)',
+                            'Government',
+                            'Healthcare/Medical',
+                            'IT Services',
+                            'Legal',
+                            'Manufacturer/Supplier',
+                            'Non-Profit/Union/Guild',
+                            'Performing Arts/Music/Live Entertainment',
+                            'Podcasting (new: will need a new pick code assigned)',
+                            'Production Services/Facilities (Audio & Video)',
+                            'Post-Production Services/Facilities (Audio & Video)',
+                            'Programming Network',
+                            'Radio (Broadcast)',
+                            'Rental Equipment/Rental House',
+                            'Research & Development',
+                            'Software Development',
+                            'Sports & Fitness',
+                            'Streaming Video/OTT',
+                            'Systems Integrator/Installation/VAR',
+                            'Telecom/Satellite/Utilities',
+                            'Television (Broadcast)',
+                            'Travel & Hospitality',
+                            'Venture Capitalist/Private Equity/Investment',
+                            'Venues (Entertainment/Arenas/Stadiums)',
+                            'Other'
+                        );
 
     ?>
     <div class="nab-profile">
         <div class="nab-section section-nab-profile">
             <div class="nab-profile-body flex-row">
+                <div class="nab-section section-user-interest">
+                    <h3>I'm Interested In...</h3>
+                    <div class="user-interest-details-form">
+                        <div class="checkbox-item-list">
+                            <?php
+                            foreach ( $interest_items as $item ) {
+                                
+                                $current_item = '';
+                                
+                                if ( is_array( $user_interest ) && in_array( $item, $user_interest, true ) ) {
+                                    $current_item = $item;
+                                }
+                                ?>
+                                <div class="checkbox-item amp-check-container">
+                                    <div class="amp-check-wrp">
+                                        <input type="checkbox" name="user_interest[]" value="<?php echo esc_attr( $item ); ?>" id="<?php echo esc_attr( $item ); ?>" <?php checked( $current_item, $item ); ?> />
+                                        <span class="amp-check"></span>
+                                    </div>
+                                    <label for="<?php echo esc_attr( $item ); ?>"><?php echo esc_html( $item ); ?></label>
+                                </div>                                                            
+                                <?php
+                            }
+                            ?>                            
+                        </div>                        
+                    </div>
+                </div>
                 <div class="nab-section section-professional-details">
-                    <h3>PROFESSIONAL DETAILS</h3>
+                    <h3>Professional Details</h3>
                     <div class="professional-details-form">
                         <div class="nab-form-row">
                             <label for="attendee_title">Title</label>
@@ -2108,10 +2180,50 @@ function nab_edit_acount_additional_form_fields()
                             <label for="attendee_location">Location</label>
                             <input type="text" name="attendee_location" class="input-text" placeholder="Location" value="<?php echo esc_attr($attendee_location); ?>" />
                         </div>
+                        <div class="nab-form-row user-job-role">
+                            <label for="user-job-role-select">Job Role</label>  
+                            <div class="select-dark-simple">
+                                <select name="user_job_role[]" class="user-job-role-select" id="user-job-role-select" multiple>
+                                    <?php
+                                    foreach ( $job_roles as $role ) {
+                                        
+                                        $current_item = '';
+                                        
+                                        if ( is_array( $user_job_role ) && in_array( $role, $user_job_role, true ) ) {
+                                            $current_item = $role;
+                                        }
+                                        ?>
+                                        <option value="<?php echo esc_attr( $role ); ?>" <?php selected( $current_item, $role ); ?>><?php echo esc_html( $role ); ?></option>   
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="nab-form-row user-industry">
+                            <label for="user-industry-select">Industry</label>  
+                            <div class="select-dark-simple">
+                                <select name="user_industry[]" class="user-industry-select" id="user-industry-select" multiple>
+                                    <?php
+                                    foreach ( $industries as $industry ) {
+                                        
+                                        $current_item = '';
+                                        
+                                        if ( is_array( $user_industry ) && in_array( $industry, $user_industry, true ) ) {
+                                            $current_item = $industry;
+                                        }
+                                        ?>
+                                        <option value="<?php echo esc_attr( $industry ); ?>" <?php selected( $current_item, $industry ); ?>><?php echo esc_html( $industry ); ?></option>	
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="nab-section section-social-links">
-                    <h3>SOCIAL LINKS</h3>
+                    <h3>Social Links</h3>
                     <div class="social-links-form">
                         <div class="nab-form-row">
                             <div class="social-icon">
@@ -2216,8 +2328,11 @@ function nab_edit_acount_additional_form_fields()
 function nab_save_edit_account_additional_form_fields($user_id)
 {
 
-    $member_visibility  = filter_input(INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING);
-    $member_restriction = filter_input(INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING);
+    $member_visibility  = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+    $member_restriction = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+    $user_interest      = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_job_role      = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_industry      = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2225,6 +2340,24 @@ function nab_save_edit_account_additional_form_fields($user_id)
 
     if (isset($member_restriction) && !empty($member_restriction)) {
         update_user_meta($user_id, 'nab_member_restrict_connection', $member_restriction);
+    }
+
+    if ( isset( $user_interest ) && ! empty( $user_interest ) ) {
+        update_user_meta( $user_id, 'user_interest', $user_interest );
+    } else {
+        delete_user_meta( $user_id, 'user_interest' );
+    }
+    
+    if ( isset( $user_job_role ) && ! empty( $user_job_role ) ) {
+        update_user_meta( $user_id, 'user_job_role', $user_job_role );
+    } else {
+        delete_user_meta( $user_id, 'user_job_role' );
+    }
+
+    if ( isset( $user_industry ) && ! empty( $user_industry ) ) {
+        update_user_meta( $user_id, 'user_industry', $user_industry );
+    } else {
+        delete_user_meta( $user_id, 'user_industry' );
     }
 
     $user_fields = array(
@@ -3317,11 +3450,12 @@ function nab_get_wp_editor($content = '', $editor_id, $options)
 
     $temp .= \_WP_Editors::enqueue_scripts();
     $temp .= wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
-    $temp .= print_footer_scripts();
     $temp .= \_WP_Editors::editor_js();
+    $temp .= print_footer_scripts();
     $temp = str_replace('Array', '', $temp);
     return $temp;
 }
+
 function nab_comment_form( $atts = array(), $content = '' )
 {
     if( is_singular() && post_type_supports( get_post_type(), 'comments' ) )
@@ -3329,10 +3463,10 @@ function nab_comment_form( $atts = array(), $content = '' )
         ob_start();
         // If comments are open or we have at least one comment, load up the comment template.
 		if ( comments_open() || get_comments_number() ) :
-			comments_template();
+            comments_template();
+            print(  '<style>.no-comments { display: none; }</style>' );
 		endif;
-        print(  '<style>.no-comments { display: none; }</style>' );
-        add_filter( 'comments_open', '__return_false' );
+        
         return ob_get_clean();
     }
     return '';

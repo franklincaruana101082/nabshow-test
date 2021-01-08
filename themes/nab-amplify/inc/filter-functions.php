@@ -893,8 +893,7 @@ function nab_bp_change_add_friend_button_text($button)
  * @return array
  */
 function nab_modify_member_query($sql, $query)
-{
-
+{	
 
 	if (isset($query->query_vars['type']) && in_array(strtolower($query->query_vars['type']), array('alphabetical', 'newest', 'active'), true)) {
 
@@ -919,8 +918,10 @@ function nab_modify_member_query($sql, $query)
 
 			$matched_user_ids = $wpdb->get_col($wpdb->prepare(
 				"SELECT DISTINCT ID FROM {$wpdb->users} INNER JOIN {$wpdb->usermeta} ON {$wpdb->users}.ID = {$wpdb->usermeta}.user_id
-				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s )",
+				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='attendee_company' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='attendee_title' AND {$wpdb->usermeta}.meta_value LIKE %s )",
 				$user_meta_cap,
+				$search_term,
+				$search_term,
 				$search_term,
 				$search_term,
 				$search_term,
@@ -1098,7 +1099,7 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 	$tax_search			= $wp_query->get('_tax_search');
 	$meta_company_term	= $wp_query->get('_meta_company_term');
 
-	if ( $meta_search && ! empty( $wp_query->query_vars['search_terms'] ) ) {
+	if ($meta_search && !empty($wp_query->query_vars['search_terms'])) {
 
 		global $wpdb;
 
@@ -1122,24 +1123,24 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 				$search .= " AND ({$wpdb->posts}.post_password = '') ";
 			}
 		}
-	} else if ( isset( $tax_search ) && ! empty( $tax_search ) && is_array( $tax_search ) ) {
+	} else if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
 		global $wpdb;
 
 		$q = $wp_query->query_vars;
 		$n = !empty($q['exact']) ? '' : '%';
 
-		$tax_search	= implode( ',', $tax_search );
+		$tax_search	= implode(',', $tax_search);
 		$search		= array();
 
 		foreach ((array) $q['search_terms'] as $term) {
 
-			$like		= $n . $wpdb->esc_like($term) . $n;			
-			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->term_relationships}.term_taxonomy_id IN(%s) ))", $like, $like, $like, $tax_search );
+			$like		= $n . $wpdb->esc_like($term) . $n;
+			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->term_relationships}.term_taxonomy_id IN(%s) ))", $like, $like, $like, $tax_search);
 		}
 
 		if (!empty($search)) {
-			
+
 			$search = ' AND (' . implode(' AND ', $search) . ')';
 
 			if (!is_user_logged_in()) {
@@ -1147,7 +1148,7 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 				$search .= " AND ({$wpdb->posts}.post_password = '') ";
 			}
 		}
-	} else if ( isset( $meta_company_term ) && ! empty( $meta_company_term ) ) {
+	} else if (isset($meta_company_term) && !empty($meta_company_term)) {
 
 		global $wpdb;
 
@@ -1198,16 +1199,14 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
+	} else if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
-	} else if ( isset( $tax_search ) && ! empty( $tax_search ) && is_array( $tax_search ) ) {
-		
 		global $wpdb;
 
 		$clauses['join'] 		= " LEFT JOIN {$wpdb->term_relationships} ON ( {$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
+	} else if (isset($meta_company_term) && !empty($meta_company_term)) {
 
-	} else if ( isset( $meta_company_term ) && ! empty( $meta_company_term ) ) {
-		
 		global $wpdb;
 
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
@@ -1263,6 +1262,7 @@ JS;
 	return $initArray;
 }
 
+
 /**
  * Apply html entity decode function in the message thread to avoid html entity code.
  *
@@ -1270,7 +1270,57 @@ JS;
  * 
  * @return string
  */
-function nab_filter_message_to_avoid_html_entity( $message_excerpt ) {
+function nab_filter_message_to_avoid_html_entity($message_excerpt)
+{
 
-	return html_entity_decode( $message_excerpt );
+	return html_entity_decode($message_excerpt);
+}
+
+
+/**
+ * Reorder the comment form above related content block
+ */
+/*
+function nab_reorder_comment_form($content)
+{
+	// if no related content block used then show default content.
+	$new_content = $content;
+
+	//fetch comment form template from shortcode
+	$comment_template = do_shortcode('[nab_comment_form]');
+	
+	// Check if we're inside the main loop in a single Post.
+	if (get_post_type() === 'articles') {
+		$blocks = parse_blocks($content);
+
+		foreach ($blocks as $block) {
+            if ('rg/related-content-2' === $block['blockName']) {
+			
+            if (strpos($content, '<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>')) {
+                $new_content = str_replace('<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $comment_template.' <h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $content);
+            }else{
+				$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
+			}
+                
+            }
+		}
+		
+		return $new_content;
+	}
+
+	return $content;
+}*/
+add_filter( 'bp_activity_maybe_load_mentions_scripts', 'buddydev_enable_mention_autosuggestions', 10, 2 );
+ 
+function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
+    
+    if( ! $mentions_enabled ) {
+        return $load;//activity mention is  not enabled, so no need to bother
+    }
+    //modify this condition to suit yours
+    if( is_user_logged_in() && bp_is_current_component( 'mediapress' ) ) {
+        $load = true;
+    }
+    
+    return $load;
 }
