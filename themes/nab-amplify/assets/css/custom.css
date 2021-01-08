@@ -630,6 +630,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-edit-account .select2-container--default .select2-selection--multiple .select2-selection__rendered li{padding-right:3px}
 .woocommerce-edit-account .select-dark-simple::after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f;right:20px}
 .woocommerce-edit-account .select2-results__option:focus{outline:none}
+.woocommerce-edit-account .select2-results__option{color:#fff}
 .user-interest-details-form .checkbox-item-list .checkbox-item{width:100%}
 .user-interest-details-form .checkbox-item-list .checkbox-item:last-child{margin-bottom:0}
 
