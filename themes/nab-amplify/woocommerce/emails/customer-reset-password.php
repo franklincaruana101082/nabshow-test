@@ -45,6 +45,9 @@ $reset_pwd_link = add_query_arg( array( 'key' => $reset_key, 'id' => $user_id ),
 your account. If you are having difficulties, <a href="<?php echo wp_lostpassword_url();?>">click
 here to start the reset process.</a></p>
 
+<p>Thank you contributing to the community.<br>
+NAB Amplify Team</p>
+
 <?php
 /**
  * Show user-defined additional content - this is set in each email's settings.
