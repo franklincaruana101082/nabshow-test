@@ -10,6 +10,15 @@
 
   // Ready.
   $(document).ready(function () {
+
+    $('.nab-normal-signup .sign-up-user-interest').select2({
+      placeholder: "I'm Interested In...",
+      width: "100%"
+    });
+
+    $('.section-professional-details .user-job-role-select').select2({width:"100%"});
+    $('.section-professional-details .user-industry-select').select2({width:"100%"});
+
     $(document).on('click', '.notification-wrapper', function () {
       $(this).toggleClass('hover')
     })
