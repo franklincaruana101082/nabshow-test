@@ -260,7 +260,7 @@
   function load_tinyMCE_withPlugins(tag,countTag,limit=2000){
     tinymce.init({
       selector: tag,
-      plugins: ['link', 'image'],
+      plugins: ['link', 'image', 'lists'],
       menubar: false,
       statusbar: false,
       toolbar:
