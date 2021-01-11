@@ -1,3 +1,5 @@
 body{background-color:#333;color:#999999}
 body .mce-btn button{background-color:#404040}
 .mce-toolbar-grp{background-color:#000!important;background-image:none!important}
+body a{color:#fff;text-decoration:underline}
+.mce-content-body *[data-mce-selected="inline-boundary"]{background:#6363df}
