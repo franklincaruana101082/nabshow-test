@@ -5,6 +5,12 @@
 
 get_header();
 
+global $wpdb;
+
+$meta_query = $wpdb->get_results("SELECT * FROM `wp_usermeta` WHERE `meta_key` LIKE 'attendee_location'");
+
+print_r($meta_query); exit;
+
 $user_query = new WP_User_Query( array( 'meta_key' => 'attendee_location' ) );
 
 
