@@ -79,7 +79,7 @@ if ( empty( $redirect_url ) ) {
 
 									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 										<input type="email" class="woocommerce-Input woocommerce-Input--text input-text" name="email" id="reg_email" autocomplete="email"
-										       placeholder="<?php esc_html_e( 'Email address*', 'woocommerce' ); ?>"
+										       placeholder="<?php esc_html_e( 'Email Address*', 'woocommerce' ); ?>"
 										       value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>"/><?php // @codingStandardsIgnoreLine
 										?>
 									</p>
@@ -94,6 +94,29 @@ if ( empty( $redirect_url ) ) {
 										<input type="password" class="woocommerce-Input woocommerce-Input--text input-text" name="password2" id="reg_password2"
 										       placeholder="<?php esc_html_e( 'Confirm Password*', 'woocommerce' ); ?>"
 										       autocomplete="new-password"/>
+									</p>
+
+									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+										<?php
+										$interest_items			= array( 'Content Creation', 'Live Event Production', 'Broadcast', 'Streaming' );
+										$selected_user_interest	= filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+										$selected_user_interest = isset( $selected_user_interest ) && ! empty( $selected_user_interest ) ? $selected_user_interest : array();
+										?>
+										<select name="user_interest[]" class="sign-up-user-interest" multiple>
+											<?php
+											foreach ( $interest_items as $item ) {
+												
+												$current_item = '';
+												
+												if ( is_array( $selected_user_interest ) && in_array( $item, $selected_user_interest, true ) ) {
+													$current_item = $item;
+												}
+												?>
+												<option value="<?php echo esc_attr( $item ); ?>" <?php selected( $current_item, $item ); ?>><?php echo esc_html( $item ); ?></option>	
+												<?php
+											}
+											?>											
+										</select>
 									</p>
 
 									<?php do_action( 'woocommerce_register_form' ); ?>
@@ -118,7 +141,6 @@ if ( empty( $redirect_url ) ) {
 							</div>
 						</div>
 						<div class="nab-signup-now">
-						<h4 class="text-transform-initial">Sign up for an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 
 							<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 								$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
