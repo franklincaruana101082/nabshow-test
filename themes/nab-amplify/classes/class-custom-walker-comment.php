@@ -60,7 +60,7 @@ class Custom_Walker_Comment extends Walker_Comment {
 								<time datetime="<?php comment_time( 'c' ); ?>">
 									<?php
 										/* translators: 1: Comment date, 2: Comment time. */
-										printf( __( '%1$s at %2$s' ), get_comment_date( '', $comment ), get_comment_time() );
+										printf( __( '%1$s at %2$s' ), get_comment_date( 'm/d/Y', $comment ), get_comment_time() );
 									?>
 								</time>
 							</a>
