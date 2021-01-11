@@ -258,6 +258,8 @@
   }
 
   function load_tinyMCE_withPlugins(tag,countTag,limit=2000){
+    var d = new Date();
+    var time = d.getTime();
     tinymce.init({
       selector: tag,
       plugins: ['link', 'image', 'lists'],
@@ -270,7 +272,9 @@
               editor.save(); // updates this instance's textarea
               $(editor.getElement()).trigger('change'); // for garlic to detect change
               if(countTag){
-                var len = jQuery(tag).val().length
+                var len = editor
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
                 var cval = jQuery(tag).val()
                 var diff = limit - len
                 if (len >= limit) {
@@ -285,7 +289,7 @@
           });
          
       },
-      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css',
+      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css?ver='+time,
     })
   }
 
