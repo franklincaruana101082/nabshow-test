@@ -117,6 +117,7 @@ if ( empty( $redirect_url ) ) {
 											}
 											?>											
 										</select>
+										<i class="dropdown-message">Select all that apply</i>
 									</p>
 
 									<?php do_action( 'woocommerce_register_form' ); ?>
