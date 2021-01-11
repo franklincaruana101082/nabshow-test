@@ -256,6 +256,7 @@
 	.search-result-filter .search-form input[type="submit"]{width:22px;height:22px}
 	.no-search-data{font-size:20px;padding:10vw 0}
 	.search-not-found p{font-size:16px;padding:10px}
+	.search .select2-container--default .select2-results__option{font-size:16px}
 
 	/* my account */
 	.member-bio-wrp .member-bio-col{width:50%}
@@ -336,6 +337,7 @@
 	.single-articles .article-content{padding:30px}
 	.single-articles .related-title{padding:20px 30px}
 	.single-articles .related-content-2{padding:0 30px}
+	.single-articles .select2-container--default .select2-results__option{font-size:16px}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap}
