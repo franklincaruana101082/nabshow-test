@@ -61,37 +61,38 @@ function nab_get_reaction_buttons( $post_id, $item_type = 'post_type' ) {
             }
             
             $like_button_class  = ! empty( $reaction ) && isset( $reaction_types[ $reaction ] ) ? 'btn reaction-main-like reacted' : 'btn reaction-main-like';
-            ?>
-            <div class="reaction-list-type">
-                <a href="javascript:void(0);" class="<?php echo esc_attr( $like_button_class ); ?>"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Like</a>
-                <div class="reaction-icon-modal">
-                    <ul class="reaction-item-list" data-item="<?php echo esc_attr( $post_id ); ?>" data-item-type="<?php echo esc_attr( $item_type ); ?>" data-log="<?php echo esc_attr( $user_logged_in ); ?>">
-                        <?php
-                        foreach( $reaction_types as $key => $type ) {
-    
-                            $action         = 'add';
-                            $reaction_class = 'nab-reaction-type';
-                            $reaction_img   = $base_path . $type . '.svg';
+            if ( $user_logged_in ) {
+                ?>
+                <div class="reaction-list-type">
+                    <a href="javascript:void(0);" class="<?php echo esc_attr( $like_button_class ); ?>"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Like</a>
+                    <div class="reaction-icon-modal">
+                        <ul class="reaction-item-list" data-item="<?php echo esc_attr( $post_id ); ?>" data-item-type="<?php echo esc_attr( $item_type ); ?>" data-log="<?php echo esc_attr( $user_logged_in ); ?>">
+                            <?php
+                            foreach( $reaction_types as $key => $type ) {
+        
+                                $action         = 'add';
+                                $reaction_class = 'nab-reaction-type';
+                                $reaction_img   = $base_path . $type . '.svg';
 
-                            if ( (int) $reaction === $key ) {
-                                
-                                $action         = 'remove';
-                                $reaction_class .= ' reacted';
+                                if ( (int) $reaction === $key ) {
+                                    
+                                    $action         = 'remove';
+                                    $reaction_class .= ' reacted';
+                                }
+                                ?>
+                                <li>
+                                    <a href="javascript:void(0);" class="<?php echo esc_attr( $reaction_class ); ?>" data-action="<?php echo esc_attr( $action ); ?>" data-reaction="<?php echo esc_attr( $key ); ?>">
+                                        <img width="30" src="<?php echo esc_url( $reaction_img ); ?>" alt="<?php echo esc_attr( $type ); ?>" />
+                                    </a>
+                                </li>
+                                <?php
                             }
                             ?>
-                            <li>
-                                <a href="javascript:void(0);" class="<?php echo esc_attr( $reaction_class ); ?>" data-action="<?php echo esc_attr( $action ); ?>" data-reaction="<?php echo esc_attr( $key ); ?>">
-                                    <img width="30" src="<?php echo esc_url( $reaction_img ); ?>" alt="<?php echo esc_attr( $type ); ?>" />
-                                </a>
-                            </li>
-                            <?php
-                        }
-                        ?>
-                    </ul>
+                        </ul>
+                    </div>                  
                 </div>
-            </div>
-            <?php
-
+                <?php
+            }
             nab_get_reacted_html( $post_id );
             ?>
         </div>
@@ -368,42 +369,42 @@ function nab_update_post_reaction_callback() {
             
             $current_user_id    = get_current_user_id();
             $reaction           = nab_get_user_reaction( $current_user_id, $post_id );
-        }        
 
-        if ( empty( $reaction ) && 'add' === strtolower( $action ) ) {
+            if ( empty( $reaction ) && 'add' === strtolower( $action ) ) {
 
-            //Add new reaction
-            $inserted               = nab_add_new_reaction( $current_user_id, $post_id, $reaction_id, $item_type );
-            $result[ 'success' ]    = $inserted ? true : false;
-            $result[ 'action' ]     = 'remove';
-
-        } else if ( ! empty( $reaction ) && $reaction === $reaction_id && 'remove' === strtolower( $action ) ) {
-
-            //remove reaction
-            $deleted                = nab_remove_reaction( $current_user_id, $post_id );
-            $result[ 'success' ]    = $deleted ? true : false;
-            $result[ 'action' ]     = 'add';
-
-        } else if ( ! empty( $reaction ) && $reaction !== $reaction_id && 'add' === strtolower( $action ) ) {
-
-            //update reaction            
-            $updated                = nab_update_reaction( $current_user_id, $post_id, $reaction_id );
-            $result[ 'success' ]    = $updated ? true : false;
-            $result[ 'action' ]     = 'remove';
-        }
-
-        if ( $result[ 'success' ] ) {
-
-            //total reactions            
-            $result[ 'total' ]  = nab_get_total_reactions( $post_id );
-            
-            ob_start();
-            
-            nab_get_reacted_item_list( $post_id );
-
-            $reacted_list = ob_get_clean();
-
-            $result[ 'reacted_list' ]   = $reacted_list;
+                //Add new reaction
+                $inserted               = nab_add_new_reaction( $current_user_id, $post_id, $reaction_id, $item_type );
+                $result[ 'success' ]    = $inserted ? true : false;
+                $result[ 'action' ]     = 'remove';
+    
+            } else if ( ! empty( $reaction ) && $reaction === $reaction_id && 'remove' === strtolower( $action ) ) {
+    
+                //remove reaction
+                $deleted                = nab_remove_reaction( $current_user_id, $post_id );
+                $result[ 'success' ]    = $deleted ? true : false;
+                $result[ 'action' ]     = 'add';
+    
+            } else if ( ! empty( $reaction ) && $reaction !== $reaction_id && 'add' === strtolower( $action ) ) {
+    
+                //update reaction            
+                $updated                = nab_update_reaction( $current_user_id, $post_id, $reaction_id );
+                $result[ 'success' ]    = $updated ? true : false;
+                $result[ 'action' ]     = 'remove';
+            }
+    
+            if ( $result[ 'success' ] ) {
+    
+                //total reactions            
+                $result[ 'total' ]  = nab_get_total_reactions( $post_id );
+                
+                ob_start();
+                
+                nab_get_reacted_item_list( $post_id );
+    
+                $reacted_list = ob_get_clean();
+    
+                $result[ 'reacted_list' ]   = $reacted_list;
+            }
         }
     }
 
