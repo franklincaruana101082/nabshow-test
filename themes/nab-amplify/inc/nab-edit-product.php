@@ -82,22 +82,14 @@ global $post;
 							<div class="form-row">
 								<label for="">Product Copy</label>
 								
-								
-							<?php
-							
-							echo $post_data->product_copy_html;
-							?>
+							<textarea name="nab_product_copy" id="nab_product_copy"><?php echo isset($post_data->product_copy)?$post_data->product_copy:''; ?></textarea>
 							<span class="info-msg"><span id="character-count-copy">2000 Characters Remaining</span></span>
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
 									<div class="form-row">
 										<label for="">Product Specs <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter detailed product information, including sizing, weight, etc., as appropriate."></i></label>
-										
-										<?php
-							
-							echo $post_data->product_specs_html;
-							?>
+										<textarea name="nab_product_specs" id="nab_product_specs"><?php echo isset($post_data->product_specs)?$post_data->product_specs:''; ?></textarea>
 							<span class="info-msg"><span id="character-count-specs">2000 Characters Remaining</span></span>
 									</div>
 								</div>

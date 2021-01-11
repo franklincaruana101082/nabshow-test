@@ -10,6 +10,15 @@
 
   // Ready.
   $(document).ready(function () {
+
+    $('.nab-normal-signup .sign-up-user-interest').select2({
+      placeholder: "I'm Interested In...",
+      width: "100%"
+    });
+
+    $('.section-professional-details .user-job-role-select').select2({width:"100%"});
+    $('.section-professional-details .user-industry-select').select2({width:"100%"});
+
     $(document).on('click', '.notification-wrapper', function () {
       $(this).toggleClass('hover')
     })
@@ -230,6 +239,7 @@
     '#character-count-featured-btnlabel',
     60
   )
+  
 
   function charcount (event, tag, counttag, limit) {
     jQuery(document).on(event, tag, function (e) {
@@ -244,6 +254,38 @@
       } else {
         jQuery(counttag).html('' + diff + ' characters remianing')
       }
+    })
+  }
+
+  function load_tinyMCE_withPlugins(tag,countTag,limit=2000){
+    tinymce.init({
+      selector: tag,
+      plugins: ['link', 'image'],
+      menubar: false,
+      statusbar: false,
+      toolbar:
+        'bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link unlink image',
+      setup : function(editor) {
+          editor.on("change keyup", function(e){
+              editor.save(); // updates this instance's textarea
+              $(editor.getElement()).trigger('change'); // for garlic to detect change
+              if(countTag){
+                var len = jQuery(tag).val().length
+                var cval = jQuery(tag).val()
+                var diff = limit - len
+                if (len >= limit) {
+                  cval = jQuery(tag)
+                    .text()
+                    .substring(0, 250)
+                  jQuery(countTag).html('Maximum Characters Limit exeeds!')
+                } else {
+                  jQuery(countTag).html('' + diff + ' characters remianing')
+                }
+              }
+          });
+         
+      },
+      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css',
     })
   }
 
@@ -360,6 +402,9 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          load_tinyMCE_withPlugins('#nab_product_copy','#character-count-copy')
+          load_tinyMCE_withPlugins('#nab_product_specs','#character-count-specs')
+
           setTimeout(function () {
             if (jQuery('#nab_product_copy').length > 0) {
               var prod_copy_content_length = tinyMCE
@@ -393,6 +438,18 @@
                 )
               }
             }
+            charcount(
+              'keyup',
+              '#nab_product_specs',
+              '#character-count-specs',
+              2000
+            )
+            charcount(
+              'keyup',
+              '#nab_product_copy',
+              '#character-count-copy',
+              2000
+            )
           }, 1000)
         } else {
           jQuery('#addProductModal').remove()
@@ -405,6 +462,8 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          load_tinyMCE_withPlugins('#nab_product_copy','#character-count-copy')
+          load_tinyMCE_withPlugins('#nab_product_specs','#character-count-specs')
           setTimeout(function () {
             if (jQuery('#nab_product_copy').length > 0) {
               var prod_copy_content_length = tinyMCE
@@ -438,6 +497,18 @@
                 )
               }
             }
+            charcount(
+              'keyup',
+              '#nab_product_specs',
+              '#character-count-specs',
+              2000
+            )
+            charcount(
+              'keyup',
+              '#nab_product_copy',
+              '#character-count-copy',
+              2000
+            )
           }, 1000)
         }
         $('.poduct-point-of-contact').select2()
@@ -2859,42 +2930,14 @@
             $('body').addClass('message-popup-added')
             $('.popup-opened').removeClass('popup-opened')
             $(this).addClass('popup-opened')
-            tinymce.init({
-              selector: '#nab-connection-message',
-              plugins: ['link', 'image'],
-              menubar: false,
-              statusbar: false,
-              toolbar:
-                'bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link unlink image',
-              setup : function(editor) {
-                  editor.on("change keyup", function(e){
-                      editor.save(); // updates this instance's textarea
-                      $(editor.getElement()).trigger('change'); // for garlic to detect change
-                  });
-              },
-              content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css',
-            })
+            load_tinyMCE_withPlugins('#nab-connection-message')
           } else {
             $('body').append(data)
             $('#connection-message-popup').show()
             $('body').addClass('message-popup-added')
             $('.popup-opened').removeClass('popup-opened')
             $(this).addClass('popup-opened')
-            tinymce.init({
-              selector: '#nab-connection-message',
-              plugins: ['link', 'image'],
-              menubar: false,
-              statusbar: false,
-              toolbar:
-                'bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link unlink image',
-              setup : function(editor) {
-                  editor.on("change keyup", function(e){
-                      editor.save(); // updates this instance's textarea
-                      $(editor.getElement()).trigger('change'); // for garlic to detect change
-                  });
-              },
-              content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css',
-            })
+            load_tinyMCE_withPlugins('#nab-connection-message')
           }
         }
       })
