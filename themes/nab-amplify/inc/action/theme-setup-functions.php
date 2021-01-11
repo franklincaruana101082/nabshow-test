@@ -26,7 +26,8 @@ function amplify_front_scripts()
 		'postID' => $post->ID,
 		'postType' => is_search() ? '' : $post->post_type,
 		'CompanyAdminId' => get_field('company_user_id'),
-		'CurrentLoggedUser' => intval(get_current_user_id())
+		'CurrentLoggedUser' => intval(get_current_user_id()),
+		'ThemeUri' => get_template_directory_uri()
 	));
 	wp_enqueue_script('amplify-tag-js', get_template_directory_uri() . '/js/jquery.tagsinput.js', ['jquery'], null, true);
 	wp_enqueue_media();

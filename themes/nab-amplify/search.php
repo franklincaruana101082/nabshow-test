@@ -138,6 +138,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<div class="company-search">
 								<input type="text" class="input-company" placeholder="Company" />
 							</div>
+							<div class="job-title-search">
+								<input type="text" class="input-job-title" placeholder="Job Title" />
+							</div>
 							<?php
 							if (is_user_logged_in()) {
 							?>
@@ -776,13 +779,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			}
 		} else {
 
-			$search_found = false;
+			$search_found 	= false;			
 
 			$members_filter = array(
 				'page' 		=> 1,
 				'per_page' 	=> 4,
-				'type'		=> 'newest'
-			);
+				'type'		=> 'newest',				
+			);			
 
 			if (bp_has_members($members_filter)) {
 
