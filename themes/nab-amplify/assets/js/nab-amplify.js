@@ -10,11 +10,21 @@
 
   // Ready.
   $(document).ready(function () {
+
+    $('.nab-normal-signup .sign-up-user-interest').select2({
+      placeholder: "I'm Interested In...",
+      width: "100%"
+    });
+
+    $('.section-professional-details .user-job-role-select').select2({width:"100%"});
+    $('.section-professional-details .user-industry-select').select2({width:"100%"});
+
     $(document).on('click', '.notification-wrapper', function () {
       $(this).toggleClass('hover')
     })
 
-    $(document).on('click', '.amp-item-col *, .search-item *', function () {
+    $(document).on('click', '.amp-item-col *, .search-item *', function (e) {
+      e.stopPropagation()
       const _card = $(this).parents('.amp-item-col').length
         ? $(this).parents('.amp-item-col')
         : $(this).parents('.search-item')
@@ -229,6 +239,7 @@
     '#character-count-featured-btnlabel',
     60
   )
+  
 
   function charcount (event, tag, counttag, limit) {
     jQuery(document).on(event, tag, function (e) {
@@ -243,6 +254,38 @@
       } else {
         jQuery(counttag).html('' + diff + ' characters remianing')
       }
+    })
+  }
+
+  function load_tinyMCE_withPlugins(tag,countTag,limit=2000){
+    tinymce.init({
+      selector: tag,
+      plugins: ['link', 'image'],
+      menubar: false,
+      statusbar: false,
+      toolbar:
+        'bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link unlink image',
+      setup : function(editor) {
+          editor.on("change keyup", function(e){
+              editor.save(); // updates this instance's textarea
+              $(editor.getElement()).trigger('change'); // for garlic to detect change
+              if(countTag){
+                var len = jQuery(tag).val().length
+                var cval = jQuery(tag).val()
+                var diff = limit - len
+                if (len >= limit) {
+                  cval = jQuery(tag)
+                    .text()
+                    .substring(0, 250)
+                  jQuery(countTag).html('Maximum Characters Limit exeeds!')
+                } else {
+                  jQuery(countTag).html('' + diff + ' characters remianing')
+                }
+              }
+          });
+         
+      },
+      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css',
     })
   }
 
@@ -329,8 +372,10 @@
   }
 
   $(document).on('click', '.close-message', function () {
-      jQuery(this).parents('.woocommerce-notices-wrapper').remove()
-      jQuery('body').addClass('nab-close-reload');
+    jQuery(this)
+      .parents('.woocommerce-notices-wrapper')
+      .remove()
+    jQuery('body').addClass('nab-close-reload')
   })
 
   $(document).on('click', '.action-edit ', function () {
@@ -357,6 +402,9 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          load_tinyMCE_withPlugins('#nab_product_copy','#character-count-copy')
+          load_tinyMCE_withPlugins('#nab_product_specs','#character-count-specs')
+
           setTimeout(function () {
             if (jQuery('#nab_product_copy').length > 0) {
               var prod_copy_content_length = tinyMCE
@@ -390,6 +438,18 @@
                 )
               }
             }
+            charcount(
+              'keyup',
+              '#nab_product_specs',
+              '#character-count-specs',
+              2000
+            )
+            charcount(
+              'keyup',
+              '#nab_product_copy',
+              '#character-count-copy',
+              2000
+            )
           }, 1000)
         } else {
           jQuery('#addProductModal').remove()
@@ -402,6 +462,8 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
+          load_tinyMCE_withPlugins('#nab_product_copy','#character-count-copy')
+          load_tinyMCE_withPlugins('#nab_product_specs','#character-count-specs')
           setTimeout(function () {
             if (jQuery('#nab_product_copy').length > 0) {
               var prod_copy_content_length = tinyMCE
@@ -435,6 +497,18 @@
                 )
               }
             }
+            charcount(
+              'keyup',
+              '#nab_product_specs',
+              '#character-count-specs',
+              2000
+            )
+            charcount(
+              'keyup',
+              '#nab_product_copy',
+              '#character-count-copy',
+              2000
+            )
           }, 1000)
         }
         $('.poduct-point-of-contact').select2()
@@ -2155,6 +2229,13 @@
       }
     }
   )
+
+  $(document).on('keypress','.other-search-filter .job-title-search .input-job-title',function (e) {
+      if (13 === e.which) {
+        nabSearchUserAjax(false, 1);
+      }
+  });
+
   $(document).on(
     'click',
     '.other-search-filter .sort-user a.sort-order',
@@ -2217,9 +2298,13 @@
     }
   )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #company-product-category', function(){
-    nabSearchCompanyProductAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #company-product-category',
+    function () {
+      nabSearchCompanyProductAjax(false, 1)
+    }
+  )
 
   /* Company Search Filters*/
   $(document).on('click', '#load-more-company a', function () {
@@ -2241,9 +2326,13 @@
     }
   )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #company-category-filter', function(){
-    nabSearchCompanyAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #company-category-filter',
+    function () {
+      nabSearchCompanyAjax(false, 1)
+    }
+  )
 
   /* Content Search Filters*/
   $(document).on('click', '#load-more-content a', function () {
@@ -2809,52 +2898,76 @@
       .toggleClass('show-icon-modal')
   })
 
-  $(document).on('click', '#send-private-message.poc-msg-btn a', function (e) {
-    e.preventDefault()
-    
-    var company_id = $(this).data('comp-id')
-    
-    if(typeof company_id !== 'undefined'){
-    jQuery.ajax({
-      url: amplifyJS.ajaxurl,
-      type: 'POST',
-      data: {
-        action: 'nab_bp_message_request_popup',
-        company_id: company_id,
-        post_type: amplifyJS.postType,
-        post_id: amplifyJS.postID
-      },
-      success: function (data) {
-        if ($('#connection-message-popup').length > 0) {
-          $('#connection-message-popup').remove()
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('message-popup-added')
-          $('.popup-opened').removeClass('popup-opened')
-          $(this).addClass('popup-opened')
-        } else {
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('message-popup-added')
-          $('.popup-opened').removeClass('popup-opened')
-          $(this).addClass('popup-opened')
+  $(document).on(
+    'click',
+    '#send-private-message.poc-msg-btn a, .generic-button .nab-conn-msg',
+    function (e) {
+      e.preventDefault()
+
+      var member_id = $(this)
+        .parent()
+        .attr('id')
+        .split('_')
+      member_id = member_id[2]
+
+      var company_id = $(this).data('comp-id')
+
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          action: 'nab_bp_message_request_popup',
+          company_id: company_id,
+          post_type: amplifyJS.postType,
+          post_id: amplifyJS.postID,
+          member_id: member_id
+        },
+        success: function (data) {
+          if ($('#connection-message-popup').length > 0) {
+            $('#connection-message-popup').remove()
+            $('body').append(data)
+            $('#connection-message-popup').show()
+            $('body').addClass('message-popup-added')
+            $('.popup-opened').removeClass('popup-opened')
+            $(this).addClass('popup-opened')
+            load_tinyMCE_withPlugins('#nab-connection-message')
+          } else {
+            $('body').append(data)
+            $('#connection-message-popup').show()
+            $('body').addClass('message-popup-added')
+            $('.popup-opened').removeClass('popup-opened')
+            $(this).addClass('popup-opened')
+            load_tinyMCE_withPlugins('#nab-connection-message')
+          }
         }
-      }
-    })
-  }else{
-    var url = $(this).attr('href')
-    location.href = url;
-    return true
-  }
-  })
+      })
+    }
+  )
 
   $(document).on('click', '#submit-message-request', function (e) {
-    const connectionMsg = $('#connection-message').val()
+    e.stopPropagation()
+    var connectionMsg = ''
+    if(tinyMCE.get('nab-connection-message')){
+      $('#connection-message').val(
+        tinyMCE.get('nab-connection-message').getContent()
+      )
+      connectionMsg = $("#nab-connection-message").val()
+      
+    }else{
+      connectionMsg = $("#connection-message").val()
+    }
+    
+
     if ('' === connectionMsg) {
-      $('#connection-message').addClass('error')
+      if (!$('#connection-message').hasClass('wp-editor-area')) {
+        $('#connection-message').addClass('error')
+      }
+
       $('#connection-message-form .error').show()
     } else {
-      $('#connection-message').removeClass('error')
+      if (!$('#connection-message').hasClass('wp-editor-area')) {
+        $('#connection-message').removeClass('error')
+      }
       $('#connection-message-form .error').hide()
 
       // Get member ID from card
@@ -3036,11 +3149,14 @@
     })
   })
   $(document).on('click', '#addProductModal .nab-modal-close', function (e) {
-      if($('body').hasClass('single-company') && $('body').hasClass('nab-close-reload') || $('#addProductModal .woocommerce-notices-wrapper').length > 0){
-        location.reload();
-      }
+    if (
+      ($('body').hasClass('single-company') &&
+        $('body').hasClass('nab-close-reload')) ||
+      $('#addProductModal .woocommerce-notices-wrapper').length > 0
+    ) {
+      location.reload()
+    }
   })
-  
 })(jQuery)
 
 // Get friend button
@@ -3083,7 +3199,9 @@ function nabSearchUserAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-user a.active').length
       ? jQuery('.other-search-filter .sort-user a.active').attr('data-order')
-      : 'newest'
+      : 'newest';
+  
+  let jobTitle = 0 < jQuery('.other-search-filter .job-title-search .input-job-title').length ? jQuery('.other-search-filter .job-title-search .input-job-title').val() : '';
 
   if (0 < jQuery('.other-search-filter #people-connect').length) {
     connected =
@@ -3105,6 +3223,7 @@ function nabSearchUserAjax (loadMore, pageNumber) {
       connected: connected,
       search_term: searchTerm,
       company: company,
+      job_title: jobTitle,
       orderby: orderBy
     },
     success: function (response) {
@@ -3268,7 +3387,7 @@ function nabSearchUserAjax (loadMore, pageNumber) {
 
 /** company search ajax */
 function nabSearchCompanyAjax (loadMore, pageNumber) {
-  let category;
+  let category
   let postPerPage = jQuery('#load-more-company a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-company a').attr('data-post-limit'))
     : 12
@@ -3279,10 +3398,14 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-company a.active').length
       ? jQuery('.other-search-filter .sort-company a.active').attr('data-order')
-      : 'date';
-  
-  if ( 0 < jQuery('.other-search-filter #company-category-filter').length ) {
-    category = 0 === jQuery('.other-search-filter #company-category-filter')[0].selectedIndex ? '' : jQuery('.other-search-filter #company-category-filter').val();
+      : 'date'
+
+  if (0 < jQuery('.other-search-filter #company-category-filter').length) {
+    category =
+      0 ===
+      jQuery('.other-search-filter #company-category-filter')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #company-category-filter').val()
   }
 
   jQuery('body').addClass('is-loading')
@@ -3406,7 +3529,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
 
 /** company product search ajax */
 function nabSearchCompanyProductAjax (loadMore, pageNumber) {
-  let category;
+  let category
   let postPerPage = jQuery('#load-more-company-product a').attr(
     'data-post-limit'
   )
@@ -3421,10 +3544,14 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
       ? jQuery('.other-search-filter .sort-company-product a.active').attr(
           'data-order'
         )
-      : 'date';
-  
-  if ( 0 < jQuery('.other-search-filter #company-product-category').length ) {
-    category = 0 === jQuery('.other-search-filter #company-product-category')[0].selectedIndex ? '' : jQuery('.other-search-filter #company-product-category').val();
+      : 'date'
+
+  if (0 < jQuery('.other-search-filter #company-product-category').length) {
+    category =
+      0 ===
+      jQuery('.other-search-filter #company-product-category')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #company-product-category').val()
   }
 
   jQuery('body').addClass('is-loading')
@@ -3438,7 +3565,7 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
       page_number: pageNumber,
       post_limit: postPerPage,
       search_term: searchTerm,
-      product_category: category, 
+      product_category: category,
       orderby: orderBy
     },
     success: function (response) {
