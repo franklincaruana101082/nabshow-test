@@ -19,6 +19,34 @@
     $('.section-professional-details .user-job-role-select').select2({width:"100%"});
     $('.section-professional-details .user-industry-select').select2({width:"100%"});
 
+    $('.section-professional-details .user-country-select').select2({
+      placeholder: "Select a country",
+      width: "100%"
+    });
+
+    $('.section-professional-details .user-state-select').select2({
+      placeholder: "Select a state",
+      width: "100%"
+    });
+
+    if ( 0 < $('#user-country-select').length ) {
+      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
+      var wc_states = $.parseJSON(wc_states_json);
+      $(document).on('change', '#user-country-select', function(){
+        console.log(wc_states[$(this).val()]);
+
+        var state = wc_states[$(this).val()];
+        $('.section-professional-details .user-state-select').empty();
+
+          $.each(state, function (index) {
+            var $option = $('<option></option>').prop('value', index).text(state[index])
+            $('.section-professional-details .user-state-select').append($option)
+          })
+
+          $('.section-professional-details .user-state-select').val('').change();
+      });  
+    }
+
     $(document).on('click', '.notification-wrapper', function () {
       $(this).toggleClass('hover')
     })
@@ -258,6 +286,8 @@
   }
 
   function load_tinyMCE_withPlugins(tag,countTag,limit=2000){
+    var d = new Date();
+    var time = d.getTime();
     tinymce.init({
       selector: tag,
       plugins: ['link', 'image', 'lists'],
@@ -270,7 +300,9 @@
               editor.save(); // updates this instance's textarea
               $(editor.getElement()).trigger('change'); // for garlic to detect change
               if(countTag){
-                var len = jQuery(tag).val().length
+                var len = editor
+                .getContent()
+                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
                 var cval = jQuery(tag).val()
                 var diff = limit - len
                 if (len >= limit) {
@@ -285,7 +317,7 @@
           });
          
       },
-      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css',
+      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css?ver='+time,
     })
   }
 
@@ -2208,7 +2240,7 @@
     }
   )
 
-  $('.nab-custom-select select').chosen({ width: '100%' })
+  $('.nab-custom-select select').select2({ width: '100%' });
 
   /* User Search Filters*/
   $(document).on('click', '#load-more-user a', function () {
@@ -2218,7 +2250,87 @@
 
   $(document).on('change', '.other-search-filter #people-connect', function () {
     nabSearchUserAjax(false, 1)
-  })
+  });
+
+  $(document).on('change', '.other-search-filter #search-country-select', function(){
+    
+    $(this).parents('.other-search-filter').find('#search-state-select').empty();
+    $(this).parents('.other-search-filter').find('#search-city-select').empty();
+    
+    let default_option_state = $('<option></option>').prop('value', '').text('Select a state');
+    $('.other-search-filter .search-state-select').append(default_option_state);
+
+    let default_option_city = $('<option></option>').prop('value', '').text('Select a city');
+    $('.other-search-filter .search-city-select').append(default_option_city);
+
+    let country = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
+    
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'nab_get_search_filter_state',
+        nabNonce: amplifyJS.nabNonce,
+        country: country
+      },
+      success: function (response) {        
+        let stateObj = jQuery.parseJSON(response);
+        if ( stateObj.states ) {
+          $.each(stateObj.states, function (index) {
+            let $option = $('<option></option>').prop('value', index).text(stateObj.states[index]);
+            $('.other-search-filter .search-state-select').append($option);
+          })
+          //$('.other-search-filter .search-state-select').val('').change();
+        }                
+      }
+    });
+    nabSearchUserAjax(false, 1);
+  });
+
+  $(document).on('change', '.other-search-filter #search-state-select', function(){
+    
+    $(this).parents('.other-search-filter').find('#search-city-select').empty();      
+    let default_option_city = $('<option></option>').prop('value', '').text('Select a city');
+    $('.other-search-filter .search-city-select').append(default_option_city);
+
+    nabSearchUserAjax(false, 1);
+  });
+
+  $(document).on('change', '.other-search-filter #search-city-select', function(){
+    nabSearchUserAjax(false, 1);
+  });
+
+  $('.search-city-select').select2();
+  $('.search-city-select').select2({
+    ajax: {
+      url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+      dataType: 'json',
+      delay: 250, // delay in ms while typing when to perform a AJAX search
+      data: function (params) {
+        return {
+          q: params.term, // search query
+          action: 'nab_get_search_city', // AJAX action for admin-ajax.php
+          country: 0 === $('.other-search-filter #search-country-select')[0].selectedIndex ? '' : $('.other-search-filter #search-country-select').val(),
+          state: 0 === $('.other-search-filter #search-state-select')[0].selectedIndex ? '' : $('.other-search-filter #search-state-select').val()
+        }
+      },
+      processResults: function (data) {
+        var options = []
+        if (data) {
+          // data is the array of arrays, and each of them contains ID and the Label of the option
+          $.each(data, function (index, text) {
+            // do not forget that "index" is just auto incremented value
+            options.push({ id: text, text: text })
+          })
+        }
+        return {
+          results: options
+        }
+      },
+      cache: true
+    },
+    minimumInputLength: 2
+  })  
 
   $(document).on(
     'keypress',
@@ -3183,7 +3295,10 @@ function nab_get_friend_button (_this) {
 
 /** User Search Ajax */
 function nabSearchUserAjax (loadMore, pageNumber) {
-  let connected = ''
+  let connected = '';
+  let country = '';
+  let state = '';
+  let city = '';
   let pageType = jQuery('#load-more-user a').attr('data-page-type')
   let postPerPage = jQuery('#load-more-user a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-user a').attr('data-post-limit'))
@@ -3210,6 +3325,17 @@ function nabSearchUserAjax (loadMore, pageNumber) {
         : jQuery('.other-search-filter #people-connect').val()
   }
 
+  if ( 0 < jQuery('.other-search-filter #search-country-select').length) {
+    country = 0 === jQuery('.other-search-filter #search-country-select')[0].selectedIndex ? '' : jQuery('.other-search-filter #search-country-select').val();
+  }
+  if ( 0 < jQuery('.other-search-filter #search-state-select').length) {
+    state = 0 === jQuery('.other-search-filter #search-state-select')[0].selectedIndex ? '' : jQuery('.other-search-filter #search-state-select').val();
+  }
+
+  if ( 0 < jQuery('.other-search-filter #search-city-select').length) {
+    city = 0 === jQuery('.other-search-filter #search-city-select')[0].selectedIndex ? '' : jQuery('.other-search-filter #search-city-select').val();
+  }
+
   jQuery('body').addClass('is-loading')
 
   jQuery.ajax({
@@ -3224,6 +3350,9 @@ function nabSearchUserAjax (loadMore, pageNumber) {
       search_term: searchTerm,
       company: company,
       job_title: jobTitle,
+      country: country,
+      state: state,
+      city: city,
       orderby: orderBy
     },
     success: function (response) {
