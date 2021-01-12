@@ -2091,6 +2091,9 @@ function nab_edit_acount_additional_form_fields()
     $user_interest          = get_user_meta( $current_user_id, 'user_interest', true );
     $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true );
     $user_industry          = get_user_meta( $current_user_id, 'user_industry', true );
+    $user_country           = get_user_meta( $current_user_id, 'user_country', true );
+    $user_state             = get_user_meta( $current_user_id, 'user_state', true );
+    $user_city              = get_user_meta( $current_user_id, 'user_city', true );
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
     $member_restriction = !empty($member_restriction) ? $member_restriction : 'yes';
@@ -2180,6 +2183,59 @@ function nab_edit_acount_additional_form_fields()
                             <label for="attendee_location">Location</label>
                             <input type="text" name="attendee_location" class="input-text" placeholder="Location" value="<?php echo esc_attr($attendee_location); ?>" />
                         </div>
+                        <?php                        
+                        $countries_obj  = new WC_Countries();
+                        $countries      = $countries_obj->__get( 'countries' );
+                        ?>
+                        <div class="nab-form-row user-country">
+                            <label for="user-country-select">Country</label>
+                            <?php
+                            if ( is_array( $countries ) ) {
+                                ?>
+                                <div class="select-dark-simple">
+                                    <select name="user_country" class="user-country-select" id="user-country-select">
+                                        <option value="">Select a country</option>
+                                        <?php                                    
+                                        foreach ( $countries as $abbr => $country ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $user_country ); ?>><?php echo esc_html( $country ); ?></option>
+                                            <?php
+                                        }
+                                        ?>                                    
+                                    </select>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <div class="nab-form-row user-state">
+                            <label for="user-state-select">State</label>
+                            <?php
+                            $default_country        = ! empty( $user_country ) ? $user_country : $countries_obj->get_base_country();
+                            $default_county_states  = $countries_obj->get_states( $default_country );
+
+                            if ( is_array( $default_county_states ) ) {
+                                ?>
+                                <div class="select-dark-simple">
+                                    <select name="user_state" class="user-state-select" id="user-state-select">
+                                        <option value="">Select a state</option>
+                                        <?php                                    
+                                        foreach ( $default_county_states as $abbr => $state ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $user_state ); ?>><?php echo esc_html( $state ); ?></option>
+                                            <?php
+                                        }
+                                        ?>                                    
+                                    </select>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <div class="nab-form-row">
+                            <label for="user-city">City</label>
+                            <input type="text" name="user_city" class="input-text" placeholder="City" value="<?php echo esc_attr($user_city); ?>" />
+                        </div>
                         <div class="nab-form-row user-job-role">
                             <label for="user-job-role-select">Job Role</label>  
                             <div class="select-dark-simple">
@@ -2199,7 +2255,7 @@ function nab_edit_acount_additional_form_fields()
                                     ?>
                                 </select>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="nab-form-row user-industry">
                             <label for="user-industry-select">Industry</label>  
                             <div class="select-dark-simple">
@@ -2219,7 +2275,7 @@ function nab_edit_acount_additional_form_fields()
                                     ?>
                                 </select>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
                 <div class="nab-section section-social-links">
@@ -2332,7 +2388,7 @@ function nab_save_edit_account_additional_form_fields($user_id)
     $member_restriction = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
     $user_interest      = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
     $user_job_role      = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_industry      = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_industry      = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );    
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2370,6 +2426,9 @@ function nab_save_edit_account_additional_form_fields($user_id)
         'social_instagram',
         'social_website',
         'social_youtube',
+        'user_country',
+        'user_state',
+        'user_city'
     );
 
     foreach ($user_fields as $field) {
@@ -3234,7 +3293,7 @@ function nab_register_company_product_taxonomy()
     );
     $args = array(
         'labels'            => $labels,
-        'hierarchical'      => false,
+        'hierarchical'      => true,
         'public'            => true,
         'show_ui'           => true,
         'show_admin_column' => true,
@@ -3524,7 +3583,7 @@ function nab_generate_users_export_csv_file() {
 
     if ( 'users.php' === $pagenow && 'amplify_user_export' === $user_page && ! empty( $user_role ) ) {        
 
-        $args = array( 'orderby' => 'display_name' );
+        $args = array( 'orderby' => 'login' );
 
         if ( 'all' !== $user_role ) {
 
