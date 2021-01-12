@@ -3471,3 +3471,111 @@ function nab_comment_form( $atts = array(), $content = '' )
     }
     return '';
 }
+
+/**
+ * Added user export submenu page.
+ */
+function nab_add_export_user_menu() {
+
+    add_submenu_page(
+        'users.php',
+        __('Export Users', 'nab-amplify'),
+        __('Export Users', 'nab-amplify'),
+        'manage_options',
+        'amplify_user_export',
+        'nab_export_users_callback'
+    );
+}
+
+/**
+ * Export user setting page.
+ */
+function nab_export_users_callback() {  
+    ?>
+    <div class="search-settings">
+        <h2>Export Users</h2>
+        <form class="users-export-form" method="post">
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th>User Role</th>
+                    <td>
+                        <select name="user_role">
+                            <option value="all">All</option>
+                            <?php wp_dropdown_roles(); ?>
+                        </select>
+                    </td>
+                </tr>                
+            </table>
+            <?php submit_button("Export CSV"); ?>
+        </form>
+    </div>
+    <?php
+}
+
+/**
+ * Generate Users CSV file.
+ */
+function nab_generate_users_export_csv_file() {
+
+    global $pagenow;
+
+    $user_role = filter_input( INPUT_POST, 'user_role', FILTER_SANITIZE_STRING );
+    $user_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );    
+
+    if ( 'users.php' === $pagenow && 'amplify_user_export' === $user_page && ! empty( $user_role ) ) {        
+
+        $args = array( 'orderby' => 'display_name' );
+
+        if ( 'all' !== $user_role ) {
+
+            $args[ 'role' ] = $user_role;
+        }
+
+        $user_query = new WP_User_Query( $args );
+
+        $user_results = $user_query->get_results();
+
+        if ( ! empty( $user_results ) ) {
+
+            // CSV header row fields titles
+            $csv_fields   = array();            
+            $csv_fields[] = 'First Name';
+            $csv_fields[] = 'Last Name';
+            $csv_fields[] = 'Email';
+            $csv_fields[] = 'Company';
+        
+            // Generate csv file as a direct download
+            $output_filename = 'amplify-user-list-' . date('m-d-Y') . '.csv';
+            $output_handle   = fopen('php://output', 'w');
+
+            header('Content-type: application/csv');
+            header('Content-Disposition: attachment; filename=' . $output_filename);
+
+            // Insert header row
+            fputcsv( $output_handle, $csv_fields );
+
+            foreach ( $user_results as $current_user ) {
+
+                $dynamic_fields = array();
+
+                $company    = get_user_meta( $current_user->ID, 'attendee_company', true );
+                $first_name = get_user_meta( $current_user->ID, 'first_name', true );
+                $last_name  = get_user_meta( $current_user->ID, 'last_name', true );
+
+                if ( empty( $first_name ) && empty( $last_name ) ) {
+                    
+                    $first_name = $current_user->display_name;
+                }
+
+                $dynamic_fields[] = $first_name;
+                $dynamic_fields[] = $last_name;
+                $dynamic_fields[] = $current_user->user_email;
+                $dynamic_fields[] = $company;
+
+                fputcsv($output_handle, $dynamic_fields);
+            }
+
+            exit;
+        }
+    }
+}
