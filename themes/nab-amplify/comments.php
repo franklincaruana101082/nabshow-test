@@ -28,7 +28,13 @@ if ( post_password_required() ) {
 		?>
 		<div class="comment-section-title">
 			<h2>Discussion</h2>
-			<a href="#respond" class="navigate-reply btn">Add Comment</a>
+			<?php
+			if ( is_user_logged_in() ) {
+				?>
+				<a href="#respond" class="navigate-reply btn">Add Comment</a>
+				<?php
+			}
+			?>
 		</div>
 		<div class="comment-header">
 			<h3 class="comments-title">
@@ -81,7 +87,9 @@ if ( post_password_required() ) {
 
 	endif; // Check for have_comments().
 
-	comment_form();
+	if ( is_user_logged_in() ) {
+		comment_form();
+	}
 	?>
 
 </div><!-- #comments -->
