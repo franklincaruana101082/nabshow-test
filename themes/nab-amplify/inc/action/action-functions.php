@@ -3602,6 +3602,7 @@ function nab_generate_users_export_csv_file() {
             $csv_fields[] = 'Last Name';
             $csv_fields[] = 'Email';
             $csv_fields[] = 'Company';
+            $csv_fields[] = 'Registered Date';
         
             // Generate csv file as a direct download
             $output_filename = 'amplify-user-list-' . date('m-d-Y') . '.csv';
@@ -3626,10 +3627,13 @@ function nab_generate_users_export_csv_file() {
                     $first_name = $current_user->display_name;
                 }
 
+                $registered_date = date_format( date_create( $current_user->user_registered ), 'm-d-Y H:i:s' );
+
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
                 $dynamic_fields[] = $current_user->user_email;
                 $dynamic_fields[] = $company;
+                $dynamic_fields[] = $registered_date;
 
                 fputcsv($output_handle, $dynamic_fields);
             }
