@@ -2201,7 +2201,7 @@ function nab_edit_acount_additional_form_fields()
                                             <option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $user_country ); ?>><?php echo esc_html( $country ); ?></option>
                                             <?php
                                         }
-                                        ?>                                    
+                                        ?>
                                     </select>
                                 </div>
                                 <?php
@@ -2234,7 +2234,7 @@ function nab_edit_acount_additional_form_fields()
                         </div>
                         <div class="nab-form-row">
                             <label for="user-city">City</label>
-                            <input type="text" name="user_city" class="input-text" placeholder="City" value="<?php echo esc_attr($user_city); ?>" />
+                            <input type="text" name="user_city" class="input-text" value="<?php echo esc_attr($user_city); ?>" />
                         </div>
                         <div class="nab-form-row user-job-role">
                             <label for="user-job-role-select">Job Role</label>  
