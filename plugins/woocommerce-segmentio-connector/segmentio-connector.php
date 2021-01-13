@@ -3,19 +3,19 @@
  * Plugin Name: WooCommerce Segment.com Connector
  * Plugin URI: https://woocommerce.com/products/segment-io-integration/
  * Description: Tracks WooCommerce's activity and sends it to Segment.com
- * Version: 1.9.2
+ * Version: 1.9.3
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Developer: StoreApps
  * Developer URI: https://www.storeapps.org/
- * Requires at least: 3.5
- * Tested up to: 5.3.0
+ * Requires at least: 4.9.0
+ * Tested up to: 5.5.3
  * WC requires at least: 2.5.0
- * WC tested up to: 3.8.0
+ * WC tested up to: 4.7.1
  * Text Domain: woocommerce-segmentio-connector
  * Domain Path: /languages/
  * Woo: 272216:2cb3304ba665da511f420f271e30b244
- * Copyright (c) 2014-2019 WooCommerce, StoreApps All rights reserved.
+ * Copyright (c) 2014-2020 WooCommerce, StoreApps All rights reserved.
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
