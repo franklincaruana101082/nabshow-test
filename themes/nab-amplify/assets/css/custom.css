@@ -635,6 +635,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-edit-account .select2-results__option:focus{outline:none}
 .woocommerce-edit-account .select2-results__option{color:#fff}
 .woocommerce-edit-account .select-dark-simple .select2-container--default .select2-selection--single .select2-selection__rendered{height:50px;line-height:30px;font-size:16px;color:#fff!important}
+.woocommerce-edit-account #select2-user-country-select-container .select2-selection__placeholder, .woocommerce-edit-account #select2-user-state-select-container .select2-selection__placeholder{display:none}
 .user-interest-details-form .checkbox-item-list .checkbox-item{width:100%}
 .user-interest-details-form .checkbox-item-list .checkbox-item:last-child{margin-bottom:0}
 
@@ -961,6 +962,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .other-search-filter .sort-order-btn .sort-order{margin:10px;font-size:16px;text-transform:capitalize;padding:24px 25px;background-color:#6363df;border-color:#6363df;border-radius:5px;min-width:230px}
 .other-search-filter .sort-order-btn .sort-order.active{cursor:default;background-color:transparent;border-color:#fff}
 .other-search-filter .filter-select-boxes{margin:0 0 40px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}
+.other-search-filter .filter-select-boxes .filter_box_row{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%}
 .other-search-filter .filter-select-boxes .nab-custom-select{margin:10px}
 .other-search-filter .inline-filter-select-boxes{margin:10px}
 .other-search-filter .company-search,
@@ -1030,7 +1032,8 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{background-color:#4b4b4b!important}
 .search .select2-container--default .select2-results__option--selected{background-color:#4b4b4b!important}
 .search .select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 10px}
-.search .select2-container--default .select2-search--dropdown{box-shadow:none!important;outline:none;display:none}
+.search .select2-container--default .select2-search--dropdown{box-shadow:none!important;outline:none}
+.search .select2-container--default .select2-search--dropdown input[aria-controls="select2-people-connect-results"]{display:none}
 .search .select2-container--default .select2-search--dropdown .select2-search__field{background-color:#333;color:#fff;box-shadow:none}
 .search .select2-container--default .select2-search--dropdown .select2-search__field:focus{box-shadow:none;outline:none}
 .search .select2-container--default .select2-results__option{padding:15px 20px;font-size:18px;color:#fff}
