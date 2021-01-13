@@ -865,6 +865,7 @@ function nab_company_feature_render_callback($attributes)
     $feature_button_text = get_field('feature_button_text');
     $feature_button_url = get_field('feature_button_url');
     $feature_background_image = get_field('feature_background_image');
+    $feature_bg_color = get_field('feature_bg_color');
     $feature_icon_image = get_field('feature_icon_image');
     $feature_status_color = get_field('feature_status_color');
     $feature_title_color = get_field('feature_title_color');
@@ -883,8 +884,11 @@ function nab_company_feature_render_callback($attributes)
     <div class="amp-item-wrap">
     <?php
     if ($feature_status !== '') {
+       
      ?>
-    <div class='amp-feature-block' style="<?php echo isset($feature_background_image) ? 'background-image: url(' . $feature_background_image . '); background-size: cover;' : 'background-color:'.$feature_bg_color.'background-size: cover;'; ?>">
+    <div class='amp-feature-block' style="<?php if($feature_background_image){ echo 'background-image: url(' . $feature_background_image . '); background-size: cover;'; }else{
+        echo  'background-color:'.$feature_bg_color.';background-size: cover;';
+    }?>">
         <div class='amp-feature-block-inner'>
         <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
             <span class='edit-feature-block edit-block-icon'>

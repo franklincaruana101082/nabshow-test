@@ -11,7 +11,7 @@ global $post;
 					<div class="form-wrapper">
 						<form method="post" id="nab-edit-product-form" enctype="multipart/form-data">
 							<div class="form-row">
-								<label for="">Add Featured Image</label>
+								<label for="">Add Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x400"></i></label>
 								<div class="file-input">
 									<input type="file" id="product_featured_image" class="button" name="product_featured_image">
 								</div>
@@ -20,11 +20,7 @@ global $post;
 										<i class="action-add fa fa-plus"></i>
 									</div>
 								</div>
-								<div class="nab-action right-action">
-									<div class="nab-action-row">
-										<i class="action-edit fa fa-pencil"></i>
-									</div>
-								</div>
+								
 							</div>
 							<div class="form-row preview_product_featured_image" style="<?php if ($block_data['bg_image'] == '') {
 																							echo 'display:none';
@@ -41,18 +37,13 @@ global $post;
 
 							</div>
 							<div class="form-row">
-								<label for="">Add Play Image</label>
+								<label for="">Add Play Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 70x51"></i></label>
 								<div class="file-input">
 									<input type="file" id="nab_product_play_image" class="button" name="nab_product_play_image">
 								</div>
 								<div class="nab-action left-action">
 									<div class="nab-action-row">
 										<i class="action-add fa fa-plus"></i>
-									</div>
-								</div>
-								<div class="nab-action right-action">
-									<div class="nab-action-row">
-										<i class="action-edit fa fa-pencil"></i>
 									</div>
 								</div>
 							</div>
