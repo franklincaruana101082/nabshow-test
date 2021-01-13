@@ -624,11 +624,11 @@
     ) {
       $('.preview_product_play_image .nab-product-media-item').remove()
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     } else {
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     }
     if ($(this)[0].files && $(this)[0].files[0]) {
