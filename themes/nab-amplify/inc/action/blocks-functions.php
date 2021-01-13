@@ -905,12 +905,12 @@ function nab_company_feature_render_callback($attributes)
                 <h2 class='feature-title' placeholder='Creating the World' style="<?php echo isset($feature_title_color) ? 'color:'.$feature_title_color.';':'';?>"><?php echo isset($feature_title) ? $feature_title : 'Title'; ?></h2>
                 <h4 class='feature-author' placeholder='Author' style="<?php echo isset($feature_author_color) ? 'color:'.$feature_author_color.';':'';?>"><?php echo isset($feature_author) ? $feature_author : 'Author'; ?></h4>
                 <p class='feature-disc' style="<?php echo isset($feature_desc_color) ? 'color:'.$feature_desc_color.';':'';?>"><?php echo isset($feature_desc) ? $feature_desc : 'Description'; ?></p>
-                <?php  if($feature_enable_reaction === 1){?>
+                <?php  if($feature_enable_reaction != '1'){?>
                 <div class='shortcode-wrap'>
                     <?php echo do_shortcode('[reaction_button]'); ?>
                 </div>
 <?php }
-if ($feature_enable_button === 1 && !empty($admin_id) && in_array($user_id, $admin_id)) {
+if ($feature_enable_button != '1') {
     ?>
                 <div class="button-wrap btn-link">
                     <a href="<?php echo isset($feature_button_url) ? $feature_button_url : '#'; ?>" target="<?php echo $feature_button_target === 1 ? '_blank' : ''; ?>" rel="">
@@ -924,7 +924,8 @@ if ($feature_enable_button === 1 && !empty($admin_id) && in_array($user_id, $adm
     </div>
     
 <?php
-}else{ ?>
+}else{ 
+    if ($feature_enable_button === 1 && !empty($admin_id) && in_array($user_id, $admin_id)) {   ?>
 <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
                                 <div class="add-item-wrap">
@@ -933,7 +934,8 @@ if ($feature_enable_button === 1 && !empty($admin_id) && in_array($user_id, $adm
                                 </div>
                             </div>
                         </div>
-<?php    
+<?php
+    }
 }
 ?>
 </div>
