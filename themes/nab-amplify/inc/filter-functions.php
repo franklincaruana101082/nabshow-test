@@ -1350,7 +1350,9 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
             GROUP BY comment_approved
         ",
             ARRAY_A
-        );
+		);
+		
+		print_r($totals); exit;
 
         $comment_count = array(
             'approved'            => 0,
