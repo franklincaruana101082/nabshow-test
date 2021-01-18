@@ -1338,7 +1338,7 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
 		
     if ( is_admin() && 0 === (int) $post_id ) {
 
-		//echo "in condition"; exit;
+		echo "again enter"; exit;
 
         global $wpdb;      
 
