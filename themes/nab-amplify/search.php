@@ -135,25 +135,63 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<a href="javascript:void(0);" class="sort-order button" data-order='alphabetical'>Alphabetical</a>
 						</div>
 						<div class="filter-select-boxes">
-							<div class="company-search">
-								<input type="text" class="input-company" placeholder="Company" />
+							<div class="filter_box_row">
+								<div class="company-search">
+									<input type="text" class="input-company" placeholder="Company" />
+								</div>
+								<div class="job-title-search">
+									<input type="text" class="input-job-title" placeholder="Job Title" />
+								</div>
+								<?php
+								if (is_user_logged_in()) {
+								?>
+									<div class="nab-custom-select">
+										<select id="people-connect" class="people-connect">
+											<option value="">All People</option>
+											<option value="yes">My Connections</option>
+											<option value="no">Available to Connect</option>
+										</select>
+									</div>
+								<?php
+								} ?>
 							</div>
-							<div class="job-title-search">
-								<input type="text" class="input-job-title" placeholder="Job Title" />
-							</div>
-							<?php
-							if (is_user_logged_in()) {
-							?>
+							<div class="filter_box_row">
+								<?php
+								$countries_obj  		= new WC_Countries();
+								$countries      		= $countries_obj->__get( 'countries' );
+								$default_country        = $countries_obj->get_base_country();
+	                            $default_county_states  = $countries_obj->get_states( $default_country );
+								?>
 								<div class="nab-custom-select">
-									<select id="people-connect" class="people-connect">
-										<option value="">All People</option>
-										<option value="yes">My Connections</option>
-										<option value="no">Available to Connect</option>
+									<select class="search-country-select" id="search-country-select">
+										<option value="">Select a country</option>
+										<?php                                    
+										foreach ( $countries as $abbr => $country ) {
+											?>
+											<option value="<?php echo esc_attr( $abbr ); ?>"><?php echo esc_html( $country ); ?></option>
+											<?php
+										}
+										?>                                    
 									</select>
 								</div>
-							<?php
-							}
-							?>
+								<div class="nab-custom-select">
+									<select class="search-state-select" id="search-state-select">
+										<option value="">Select a state</option>
+										<?php                                    
+										foreach ( $default_county_states as $abbr => $state ) {
+											?>
+											<option value="<?php echo esc_attr( $abbr ); ?>"><?php echo esc_html( $state ); ?></option>
+											<?php
+										}
+										?>                                    
+									</select>
+								</div>
+								<div class="nab-custom-select">
+									<select class="search-city-select" id="search-city-select">
+										<option value="">Select a city</option>
+									</select>
+								</div>
+							</div>
 						</div>
 					<?php
 					} else if ('content' === $view_type) {

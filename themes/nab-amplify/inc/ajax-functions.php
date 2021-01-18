@@ -1006,6 +1006,28 @@ function nab_add_attendee_order_details_ajax_callback()
 	wp_die();
 }
 
+add_action('wp_ajax_nab_get_search_filter_state', 'nab_get_search_filter_state_callback');
+add_action('wp_ajax_nopriv_nab_get_search_filter_state', 'nab_get_search_filter_state_callback');
+
+function nab_get_search_filter_state_callback() {
+
+	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
+
+	$final_result 	= array();	
+	$country		= filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
+	
+	$countries_obj  		= new WC_Countries();	
+	$default_country        = ! empty( $country ) ? $country : $countries_obj->get_base_country();
+	$default_county_states  = $countries_obj->get_states( $default_country );
+
+	$final_result[ 'states' ] = $default_county_states;
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+
+}
+
 add_action('wp_ajax_nab_member_search_filter', 'nab_member_search_filter_callback');
 add_action('wp_ajax_nopriv_nab_member_search_filter', 'nab_member_search_filter_callback');
 
@@ -1023,6 +1045,9 @@ function nab_member_search_filter_callback()
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$company		= filter_input(INPUT_POST, 'company', FILTER_SANITIZE_STRING);
 	$job_title		= filter_input(INPUT_POST, 'job_title', FILTER_SANITIZE_STRING);
+	$country		= filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
+	$state			= filter_input(INPUT_POST, 'state', FILTER_SANITIZE_STRING);
+	$city			= filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 
 	$user_logged_in = false;
@@ -1047,7 +1072,7 @@ function nab_member_search_filter_callback()
 	$wp_user_ids 	= array();
 	$meta_result	= true;
 
-	if ( ! empty( $company ) || ! empty( $job_title ) ) {
+	if ( ! empty( $company ) || ! empty( $job_title ) || ! empty( $country ) || ! empty( $state ) || ! empty( $city ) ) {
 
 		$user_query_args = array( 'fields' => 'ID' );
 
@@ -1068,6 +1093,30 @@ function nab_member_search_filter_callback()
 				'key' 		=> 'attendee_title',
 				'value'		=> $job_title,
 				'compare'	=> 'LIKE'
+			);
+		}
+
+		if ( ! empty( $country ) ) {
+			
+			$meta_query_args[] = array(
+				'key' 		=> 'user_country',
+				'value'		=> $country				
+			);
+		}
+
+		if ( ! empty( $state ) ) {
+			
+			$meta_query_args[] = array(
+				'key' 		=> 'user_state',
+				'value'		=> $state				
+			);
+		}
+
+		if ( ! empty( $city ) ) {
+			
+			$meta_query_args[] = array(
+				'key' 		=> 'user_city',
+				'value'		=> $city				
 			);
 		}
 
@@ -2355,6 +2404,74 @@ function replace_between($str, $needle_start, $needle_end, $replacement)
 	$end = $start === false ? strlen($str) : $pos;
 
 	return substr_replace($str, $replacement,  $start, $end - $start);
+}
+
+// Ajax for get city for search page filter
+add_action( 'wp_ajax_nab_get_search_city', 'nab_get_search_city_callback' );
+add_action( 'wp_ajax_nopriv_nab_get_search_city', 'nab_get_search_city_callback' );
+
+function nab_get_search_city_callback() {
+
+	$search_key	= filter_input( INPUT_GET, 'q', FILTER_SANITIZE_STRING );
+	$country	= filter_input( INPUT_GET, 'country', FILTER_SANITIZE_STRING );
+	$state		= filter_input( INPUT_GET, 'state', FILTER_SANITIZE_STRING );
+	
+	$final_result	= [];
+
+	if ( isset( $search_key ) && ! empty( $search_key ) ) {
+
+		$user_args	= array( 'fields' => 'ID' );
+
+		$meta_query_args = array( 'relation' => 'AND' );
+
+		$meta_query_args[] = array(
+			'key' => 'user_city',
+			'value' => $search_key,
+			'compare' => 'LIKE'								
+		);
+
+		if ( ! empty( $country ) || ! empty( $state ) ) {			
+
+			if ( ! empty( $country ) ) {
+
+				$meta_query_args[] = array(
+					'key' => 'user_country',
+					'value' => $country
+				);
+			}
+
+			if ( ! empty( $state ) ) {
+				
+				$meta_query_args[] = array(
+					'key' => 'user_state',
+					'value' => $state
+				);
+			}			
+		}
+
+		$user_args[ 'meta_query' ] = $meta_query_args;
+
+		$user_query		= new WP_User_Query( $user_args );
+		$found_users	= $user_query->get_results();
+
+		if ( ! empty( $found_users ) && is_array( $found_users ) ) {			
+
+			foreach ( $found_users as $current_user_id ) {
+
+				$user_city = get_user_meta( $current_user_id, 'user_city', true );
+				
+				
+				if ( ! empty( $user_city ) && ! in_array( $user_city, $final_result, true ) ) {
+					$final_result[] = $user_city;
+				}
+			}
+		}
+	}
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+
 }
 
 // Ajax for get user for product point of contact
