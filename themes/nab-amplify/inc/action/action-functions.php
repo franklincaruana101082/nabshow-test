@@ -3642,3 +3642,30 @@ function nab_generate_users_export_csv_file() {
         }
     }
 }
+
+/**
+ * Added page filter in the admin comments table.
+ */
+function nab_add_page_by_comment_filter() {
+    
+    global $wpdb;
+
+    $post_filter    = filter_input( INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT );    
+    $prepare_sql    = $wpdb->prepare( "SELECT DISTINCT comment_post_ID FROM {$wpdb->comments} WHERE comment_type = %s", "comment" );
+    $post_results   = $wpdb->get_col( $prepare_sql );    
+    ?>
+    <select name="p" class="filter-by-page">
+        <option value="">Select a Page</option>
+        <?php
+        if ( is_array( $post_results ) ) {
+            
+            foreach ( $post_results as $comment_post_id ) {
+                ?>
+                <option value="<?php esc_attr_e( $comment_post_id ); ?>" <?php selected( $post_filter, $comment_post_id ); ?>><?php esc_html_e( get_the_title( $comment_post_id ) ); ?></option>
+                <?php
+            }
+        }
+        ?>
+    </select>
+    <?php
+}

@@ -109,3 +109,5 @@ add_filter( 'tiny_mce_before_init', 'nabamplify_tiny_mce_before_init' );
 
 add_filter( 'bp_get_message_thread_excerpt', 'nab_filter_message_to_avoid_html_entity' );
 //add_filter('the_content', 'nab_reorder_comment_form', 1);
+//add_filter( 'comment_status_links', 'nab_filter_comment_status' );
+add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 10, 2 );
