@@ -1392,9 +1392,7 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
         $stats['moderated'] = $stats['awaiting_moderation'];
         unset( $stats['awaiting_moderation'] );
 
-		$count = (object) $stats;
-		
-		print_r($count); exit;
+		$count = (object) $stats;			
     }
 
     return $count;
