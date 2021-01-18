@@ -1336,8 +1336,8 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
  */
 function nab_update_wp_admin_comments_count( $count, $post_id ) {
 	
-	wp_cache_flush();
-	
+	echo "test"; exit;
+
     if ( is_admin() && 0 === (int) $post_id ) {
 
         global $wpdb;      
