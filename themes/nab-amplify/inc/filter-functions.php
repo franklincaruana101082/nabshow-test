@@ -1324,3 +1324,76 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
     
     return $load;
 }
+
+
+/**
+ * Update wordpress comment count.
+ *
+ * @param  array $count
+ * @param  int $post_id
+ * 
+ * @return stdClass
+ */
+function nab_update_wp_admin_comments_count( $count, $post_id ) {
+		
+    if ( is_admin() && 0 === (int) $post_id ) {		
+
+        global $wpdb;      
+
+        $where = ' WHERE comment_type = "comment"';        
+
+        $totals = (array) $wpdb->get_results(
+            "
+            SELECT comment_approved, COUNT( * ) AS total
+            FROM {$wpdb->comments}
+            {$where}
+            GROUP BY comment_approved
+        ",
+            ARRAY_A
+		);			
+
+        $comment_count = array(
+            'approved'            => 0,
+            'awaiting_moderation' => 0,
+            'spam'                => 0,
+            'trash'               => 0,
+            'post-trashed'        => 0,
+            'total_comments'      => 0,
+            'all'                 => 0,
+        );
+
+        foreach ( $totals as $row ) {
+            switch ( $row['comment_approved'] ) {
+                case 'trash':
+                    $comment_count['trash'] = $row['total'];
+                    break;
+                case 'post-trashed':
+                    $comment_count['post-trashed'] = $row['total'];
+                    break;
+                case 'spam':
+                    $comment_count['spam']            = $row['total'];
+                    $comment_count['total_comments'] += $row['total'];
+                    break;
+                case '1':
+                    $comment_count['approved']        = $row['total'];
+                    $comment_count['total_comments'] += $row['total'];
+                    $comment_count['all']            += $row['total'];
+                    break;
+                case '0':
+                    $comment_count['awaiting_moderation'] = $row['total'];
+                    $comment_count['total_comments']     += $row['total'];
+                    $comment_count['all']                += $row['total'];
+                    break;
+                default:
+                    break;
+            }
+        }
+        $stats              = array_map( 'intval', $comment_count );
+        $stats['moderated'] = $stats['awaiting_moderation'];
+        unset( $stats['awaiting_moderation'] );
+
+		$count = (object) $stats;			
+    }
+
+    return $count;
+}
