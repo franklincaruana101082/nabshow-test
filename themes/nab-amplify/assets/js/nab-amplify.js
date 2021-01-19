@@ -10,14 +10,17 @@
 
   // Ready.
   $(document).ready(function () {
-
     $('.nab-normal-signup .sign-up-user-interest').select2({
       placeholder: "I'm Interested In...",
-      width: "100%"
-    });
+      width: '100%'
+    })
 
-    $('.section-professional-details .user-job-role-select').select2({width:"100%"});
-    $('.section-professional-details .user-industry-select').select2({width:"100%"});
+    $('.section-professional-details .user-job-role-select').select2({
+      width: '100%'
+    })
+    $('.section-professional-details .user-industry-select').select2({
+      width: '100%'
+    })
 
     $('.section-professional-details .user-country-select').select2({
       placeholder: "Select a country",
@@ -28,6 +31,8 @@
       placeholder: "Select a state",
       width: "100%"
     });
+
+    $('.nab-custom-select select').select2({ width: '100%' });
 
     if ( 0 < $('#user-country-select').length ) {
       var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
@@ -267,7 +272,6 @@
     '#character-count-featured-btnlabel',
     60
   )
-  
 
   function charcount (event, tag, counttag, limit) {
     jQuery(document).on(event, tag, function (e) {
@@ -285,9 +289,9 @@
     })
   }
 
-  function load_tinyMCE_withPlugins(tag,countTag,limit=2000){
-    var d = new Date();
-    var time = d.getTime();
+  function load_tinyMCE_withPlugins (tag, countTag, limit = 2000) {
+    var d = new Date()
+    var time = d.getTime()
     tinymce.init({
       selector: tag,
       plugins: ['link', 'image', 'lists'],
@@ -295,29 +299,29 @@
       statusbar: false,
       toolbar:
         'bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link unlink image',
-      setup : function(editor) {
-          editor.on("change keyup", function(e){
-              editor.save(); // updates this instance's textarea
-              $(editor.getElement()).trigger('change'); // for garlic to detect change
-              if(countTag){
-                var len = editor
-                .getContent()
-                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
-                var cval = jQuery(tag).val()
-                var diff = limit - len
-                if (len >= limit) {
-                  cval = jQuery(tag)
-                    .text()
-                    .substring(0, 250)
-                  jQuery(countTag).html('Maximum Characters Limit exeeds!')
-                } else {
-                  jQuery(countTag).html('' + diff + ' characters remianing')
-                }
-              }
-          });
-         
+      setup: function (editor) {
+        editor.on('change keyup', function (e) {
+          editor.save() // updates this instance's textarea
+          $(editor.getElement()).trigger('change') // for garlic to detect change
+          if (countTag) {
+            var len = editor
+              .getContent()
+              .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+            var cval = jQuery(tag).val()
+            var diff = limit - len
+            if (len >= limit) {
+              cval = jQuery(tag)
+                .text()
+                .substring(0, 250)
+              jQuery(countTag).html('Maximum Characters Limit exeeds!')
+            } else {
+              jQuery(countTag).html('' + diff + ' characters remianing')
+            }
+          }
+        })
       },
-      content_css: amplifyJS.ThemeUri+'/assets/css/nab-front-tinymce.css?ver='+time,
+      content_css:
+        amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time
     })
   }
 
@@ -434,8 +438,11 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
-          load_tinyMCE_withPlugins('#nab_product_copy','#character-count-copy')
-          load_tinyMCE_withPlugins('#nab_product_specs','#character-count-specs')
+          load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
+          load_tinyMCE_withPlugins(
+            '#nab_product_specs',
+            '#character-count-specs'
+          )
 
           setTimeout(function () {
             if (jQuery('#nab_product_copy').length > 0) {
@@ -494,8 +501,11 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2()
-          load_tinyMCE_withPlugins('#nab_product_copy','#character-count-copy')
-          load_tinyMCE_withPlugins('#nab_product_specs','#character-count-specs')
+          load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
+          load_tinyMCE_withPlugins(
+            '#nab_product_specs',
+            '#character-count-specs'
+          )
           setTimeout(function () {
             if (jQuery('#nab_product_copy').length > 0) {
               var prod_copy_content_length = tinyMCE
@@ -608,6 +618,29 @@
       reader.readAsDataURL($(this)[0].files[0])
       $('.preview_product_featured_image').show()
       $('#product_featured_preview').show()
+    }
+  })
+  $(document).on('change', '#nab_product_play_image', function () {
+    if (
+      $('.preview_product_play_image .nab-product-media-item').length >= 1
+    ) {
+      $('.preview_product_play_image .nab-product-media-item').remove()
+      $('.preview_product_play_image').append(
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+      )
+    } else {
+      $('.preview_product_play_image').append(
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+      )
+    }
+    if ($(this)[0].files && $(this)[0].files[0]) {
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        $('#preview_product_play_image').attr('src', e.target.result)
+      }
+      reader.readAsDataURL($(this)[0].files[0])
+      $('.preview_product_play_image').show()
+      $('#preview_product_play_image').show()
     }
   })
 
@@ -2238,9 +2271,7 @@
         .parents('.attendee-edit-wrap')
         .removeAttr('data-pid data-oid data-uid data-orderid data-action')
     }
-  )
-
-  $('.nab-custom-select select').select2({ width: '100%' });
+  )  
 
   /* User Search Filters*/
   $(document).on('click', '#load-more-user a', function () {
@@ -2300,37 +2331,39 @@
     nabSearchUserAjax(false, 1);
   });
 
-  $('.search-city-select').select2();
-  $('.search-city-select').select2({
-    ajax: {
-      url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
-      dataType: 'json',
-      delay: 250, // delay in ms while typing when to perform a AJAX search
-      data: function (params) {
-        return {
-          q: params.term, // search query
-          action: 'nab_get_search_city', // AJAX action for admin-ajax.php
-          country: 0 === $('.other-search-filter #search-country-select')[0].selectedIndex ? '' : $('.other-search-filter #search-country-select').val(),
-          state: 0 === $('.other-search-filter #search-state-select')[0].selectedIndex ? '' : $('.other-search-filter #search-state-select').val()
-        }
+  $(document).ready(function(){
+    $('.search-city-select').select2();
+    $('.search-city-select').select2({
+      ajax: {
+        url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+        dataType: 'json',
+        delay: 250, // delay in ms while typing when to perform a AJAX search
+        data: function (params) {
+          return {
+            q: params.term, // search query
+            action: 'nab_get_search_city', // AJAX action for admin-ajax.php
+            country: 0 === $('.other-search-filter #search-country-select')[0].selectedIndex ? '' : $('.other-search-filter #search-country-select').val(),
+            state: 0 === $('.other-search-filter #search-state-select')[0].selectedIndex ? '' : $('.other-search-filter #search-state-select').val()
+          }
+        },
+        processResults: function (data) {
+          var options = []
+          if (data) {
+            // data is the array of arrays, and each of them contains ID and the Label of the option
+            $.each(data, function (index, text) {
+              // do not forget that "index" is just auto incremented value
+              options.push({ id: text, text: text })
+            })
+          }
+          return {
+            results: options
+          }
+        },
+        cache: true
       },
-      processResults: function (data) {
-        var options = []
-        if (data) {
-          // data is the array of arrays, and each of them contains ID and the Label of the option
-          $.each(data, function (index, text) {
-            // do not forget that "index" is just auto incremented value
-            options.push({ id: text, text: text })
-          })
-        }
-        return {
-          results: options
-        }
-      },
-      cache: true
-    },
-    minimumInputLength: 2
-  })  
+      minimumInputLength: 2
+    })
+  });    
 
   $(document).on(
     'keypress',
@@ -2342,11 +2375,15 @@
     }
   )
 
-  $(document).on('keypress','.other-search-filter .job-title-search .input-job-title',function (e) {
+  $(document).on(
+    'keypress',
+    '.other-search-filter .job-title-search .input-job-title',
+    function (e) {
       if (13 === e.which) {
-        nabSearchUserAjax(false, 1);
+        nabSearchUserAjax(false, 1)
       }
-  });
+    }
+  )
 
   $(document).on(
     'click',
@@ -2562,8 +2599,8 @@
             // Prevent request unless the message is sent.
             return false
           } else {
-            $(this).removeClass('message-sent');
-            $('body').removeClass('connection-popup-added');
+            $(this).removeClass('message-sent')
+            $('body').removeClass('connection-popup-added')
           }
         }
 
@@ -3059,16 +3096,14 @@
   $(document).on('click', '#submit-message-request', function (e) {
     e.stopPropagation()
     var connectionMsg = ''
-    if(tinyMCE.get('nab-connection-message')){
+    if (tinyMCE.get('nab-connection-message')) {
       $('#connection-message').val(
         tinyMCE.get('nab-connection-message').getContent()
       )
-      connectionMsg = $("#nab-connection-message").val()
-      
-    }else{
-      connectionMsg = $("#connection-message").val()
+      connectionMsg = $('#nab-connection-message').val()
+    } else {
+      connectionMsg = $('#connection-message').val()
     }
-    
 
     if ('' === connectionMsg) {
       if (!$('#connection-message').hasClass('wp-editor-area')) {
@@ -3145,6 +3180,13 @@
             '#character-count-featured-btnlabel',
             60
           )
+          jQuery('.color-picker').iris({
+            // or in the data-default-color attribute on the input
+            defaultColor: true,
+            hide: true,
+            palettes: true
+            });
+          
         } else {
           $('body').append(data)
           $('#addProductModal').show()
@@ -3171,16 +3213,39 @@
             '#character-count-featured-btnlabel',
             60
           )
+          jQuery('.color-picker').iris({
+            // or in the data-default-color attribute on the input
+            defaultColor: true,
+            hide: true,
+            palettes: true
+            });
+          
         }
       }
     })
   })
 
+  $(document).click(function (e) {
+    if (
+      !$(e.target).is(
+        '.color-picker, .iris-picker, .iris-picker-inner'
+      )
+    ) {
+      $('.color-picker').iris('hide')
+      //return false
+    }
+  })
+  $(document).on('click', '.color-picker',function (event) {
+    $('.color-picker').iris('hide')
+    $(this).iris('show')
+    //return false
+  })
   $(document).on('click', '#nab-edit-featured-block-submit', function (e) {
     e.preventDefault()
 
     var form_data = new FormData()
     var nab_featured_block_headline = $('#nab_featured_block_headline').val()
+    var nab_featured_block_title = $('#nab_featured_block_title').val()
     var nab_featured_block_posted_by = $('#nab_featured_block_posted_by').val()
     var nab_featured_block_description = $(
       '#nab_featured_block_description'
@@ -3191,7 +3256,40 @@
     var nab_featured_block_button_link = $(
       '#nab_featured_block_button_link'
     ).val()
-
+    var nab_featured_block_bgcolor = $(
+      '#nab_featured_block_bgcolor'
+    ).val()
+    var nab_featured_block_statuscolor = $(
+      '#nab_featured_block_statuscolor'
+    ).val()
+    var nab_featured_block_titlecolor = $(
+      '#nab_featured_block_titlecolor'
+    ).val()
+    var nab_featured_block_authorcolor = $(
+      '#nab_featured_block_authorcolor'
+    ).val()
+    var nab_featured_block_desccolor = $(
+      '#nab_featured_block_desccolor'
+    ).val()
+    var nab_featured_block_play_link = $(
+      '#nab_featured_block_play_link'
+    ).val()
+    var nab_feature_block_reaction = jQuery(
+      '#nab_feature_block_reaction'
+    ).prop('checked')
+      ? 1
+      : 0
+    var nab_feature_block_button = jQuery(
+        '#nab_feature_block_button'
+      ).prop('checked')
+        ? 1
+        : 0
+    var nab_feature_block_link_target = jQuery(
+          '#nab_feature_block_link_target'
+        ).prop('checked')
+          ? 1
+          : 0
+  
     if (!checkContentlength('#nab_featured_block_headline', 'Headline', 200)) {
       return false
     }
@@ -3216,6 +3314,7 @@
     form_data.append('action', 'nab_edit_feature_block')
     form_data.append('company_id', amplifyJS.postID)
     form_data.append('nab_featured_block_headline', nab_featured_block_headline)
+    form_data.append('nab_featured_block_title', nab_featured_block_title)
     form_data.append(
       'nab_featured_block_posted_by',
       nab_featured_block_posted_by
@@ -3232,10 +3331,51 @@
       'nab_featured_block_button_link',
       nab_featured_block_button_link
     )
+    form_data.append(
+      'nab_featured_block_bgcolor',
+      nab_featured_block_bgcolor
+    )
+    form_data.append(
+      'nab_featured_block_statuscolor',
+      nab_featured_block_statuscolor
+    )
+    form_data.append(
+      'nab_featured_block_titlecolor',
+      nab_featured_block_titlecolor
+    )
+    form_data.append(
+      'nab_featured_block_authorcolor',
+      nab_featured_block_authorcolor
+    )
+    form_data.append(
+      'nab_featured_block_desccolor',
+      nab_featured_block_desccolor
+    )
+    form_data.append(
+      'nab_featured_block_play_link',
+      nab_featured_block_play_link
+    )
+    form_data.append(
+      'nab_feature_block_reaction',
+      nab_feature_block_reaction
+    )
+    form_data.append(
+      'nab_feature_block_button',
+      nab_feature_block_button
+    )
+    form_data.append(
+      'nab_feature_block_link_target',
+      nab_feature_block_link_target
+    )
 
     if (jQuery('#product_featured_image')[0].files.length > 0) {
       $.each($('#product_featured_image')[0].files, function (key, file) {
-        form_data.append(key, file)
+        form_data.append('nab_feature_block_bg_image', file)
+      })
+    }
+    if (jQuery('#nab_product_play_image')[0].files.length > 0) {
+      $.each($('#nab_product_play_image')[0].files, function (key, file) {
+        form_data.append('nab_product_play_image', file)
       })
     }
     jQuery.ajax({
@@ -3314,9 +3454,12 @@ function nabSearchUserAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-user a.active').length
       ? jQuery('.other-search-filter .sort-user a.active').attr('data-order')
-      : 'newest';
-  
-  let jobTitle = 0 < jQuery('.other-search-filter .job-title-search .input-job-title').length ? jQuery('.other-search-filter .job-title-search .input-job-title').val() : '';
+      : 'newest'
+
+  let jobTitle =
+    0 < jQuery('.other-search-filter .job-title-search .input-job-title').length
+      ? jQuery('.other-search-filter .job-title-search .input-job-title').val()
+      : ''
 
   if (0 < jQuery('.other-search-filter #people-connect').length) {
     connected =
