@@ -3823,3 +3823,101 @@ function nab_add_page_by_comment_filter() {
     </select>
     <?php
 }
+
+/**
+ * Added company export submenu page.
+ */
+function nab_add_export_company_menu() {
+
+    add_submenu_page(
+        'edit.php?post_type=company',
+        __('Export Compnies', 'nab-amplify'),
+        __('Export Compnies', 'nab-amplify'),
+        'manage_options',
+        'amplify_company_export',
+        'nab_export_compnies_callback'
+    );
+}
+
+/**
+ * Export company setting page.
+ */
+function nab_export_compnies_callback() {  
+    ?>
+    <div class="search-settings">
+        <h2>Export Compnies</h2>
+        <form class="companies-export-form" method="post">
+            <input type="hidden" name="generate_company_csv" value="generate_company_csv"/>
+            <?php submit_button("Export CSV"); ?>
+        </form>
+    </div>
+    <?php
+}
+
+
+/**
+ * Generate comments CSV file.
+ */
+function nab_generate_company_export_csv_file() {
+
+    global $wpdb, $pagenow;
+
+    $submit   = filter_input( INPUT_POST, 'generate_company_csv', FILTER_SANITIZE_STRING );
+    $comment_page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+    if ( 'edit.php' === $pagenow && 'amplify_company_export' === $comment_page  && !empty($submit)) {        
+// CSV header row fields titles
+$csv_fields   = array();            
+$csv_fields[] = 'Company Name';
+$csv_fields[] = 'Claimed Status';
+$csv_fields[] = 'Admin URL';
+
+// Generate csv file as a direct download
+$output_filename = 'amplify-company-list-' . date('m-d-Y') . '.csv';
+$output_handle   = fopen('php://output', 'w');
+
+header('Content-type: application/csv');
+header('Content-Disposition: attachment; filename=' . $output_filename);
+
+$args = array( 
+    'numberposts'		=> -1, // -1 is for all
+    'post_type'		=> 'company', // or 'post', 'page'
+    'orderby' 		=> 'title', // or 'date', 'rand'
+    'order' 		=> 'ASC', // or 'DESC'
+);
+
+$company_result = get_posts( $args );
+
+// Insert header row
+fputcsv( $output_handle, $csv_fields );
+
+foreach ( $company_result as $company ) {
+
+    $company_admins = get_field('company_user_id', $company->ID);
+    $admin_add_string = get_field('admin_add_string', $company->ID);
+
+    if(!empty($company_admins)){
+        $claim_status = 'Claimed';
+    }else{
+        $claim_status = 'Unclaimed';
+    }
+
+    if($admin_add_string !=''){
+        $admin_url = get_permalink($company->ID).'?addadmin='.$admin_add_string;
+    }else{
+        $admin_url = get_permalink($company->ID);
+    }
+
+    $dynamic_fields = array();
+
+    $dynamic_fields[] = $company->post_title;
+    $dynamic_fields[] = $claim_status;
+    $dynamic_fields[] = $admin_url;
+
+    fputcsv($output_handle, $dynamic_fields);
+}
+  exit;      
+
+        
+    }
+}

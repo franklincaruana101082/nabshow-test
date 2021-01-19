@@ -210,3 +210,5 @@ add_action( 'admin_init', 'nab_generate_comments_export_csv_file' );
 
 // Action for add additional filter in the admin comments screen.
 add_action( 'restrict_manage_comments', 'nab_add_page_by_comment_filter' );
+add_action( 'admin_menu', 'nab_add_export_company_menu' );
+add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
