@@ -925,7 +925,7 @@ if ($feature_enable_button != '1') {
     
 <?php
 }else{ 
-    if ($feature_enable_button === 1 && !empty($admin_id) && in_array($user_id, $admin_id)) {   ?>
+    if (!empty($admin_id) && in_array($user_id, $admin_id)) {   ?>
 <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
                                 <div class="add-item-wrap">

@@ -3761,6 +3761,43 @@ function nab_generate_users_export_csv_file() {
 }
 
 /**
+ * 
+ * Add company admin by URL
+ */
+
+function nab_add_comapny_admin(){
+    global $wp_query; 
+    $post_type = get_post_type();
+    if( $post_type === 'company'){
+       
+        $current_post_id = $wp_query->posts[0]->ID;
+        $post_random_string = get_field('admin_add_string',$current_post_id);
+        $query_var = $wp_query->query_vars['addadmin'];
+    
+     
+        if($query_var && ($post_random_string == $query_var)){
+            if( !is_user_logged_in()){
+                $current_url = home_url(add_query_arg(NULL, NULL));
+                $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+                $url =  esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount')));
+                wp_redirect( $url, 302 );
+               
+               }else{
+                   $current_user_id = get_current_user_id();
+                   $current_admins = get_field('company_user_id',$current_post_id);
+                   $current_admins[] = $current_user_id; 
+                   update_field('company_user_id',$current_admins,$current_post_id);
+               }  
+        }
+
+       
+       
+    }
+    
+
+    
+}
+/*
  * Added page filter in the admin comments table.
  */
 function nab_add_page_by_comment_filter() {

@@ -596,6 +596,15 @@
         .remove()
     }
   })
+  var remove_featured_attachment_arr = []
+  $(document).on('click', '.nab-remove-featured-attachment', function (e) {
+    if (confirm('Are you sure want to remove?')) {
+      remove_featured_attachment_arr.push($(this).data('action'))
+      $(this)
+        .parent()
+        .remove()
+    }
+  })
 
   $(document).on('change', '#product_featured_image', function () {
     if (
@@ -626,11 +635,11 @@
     ) {
       $('.preview_product_play_image .nab-product-media-item').remove()
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     } else {
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     }
     if ($(this)[0].files && $(this)[0].files[0]) {
@@ -3378,6 +3387,7 @@
         form_data.append('nab_product_play_image', file)
       })
     }
+    form_data.append('nab_featured_block_remove_attachment', remove_featured_attachment_arr)
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       processData: false,

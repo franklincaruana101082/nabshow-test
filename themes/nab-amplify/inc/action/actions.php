@@ -202,6 +202,8 @@ add_shortcode( 'nab_comment_form','nab_comment_form');
 add_action( 'admin_menu', 'nab_add_export_user_menu' );
 add_action( 'admin_init', 'nab_generate_users_export_csv_file' );
 
+// get add admin paramter
+add_action( 'wp', 'nab_add_comapny_admin' );
 // Action for export comments csv file
 add_action( 'admin_menu', 'nab_add_export_comments_menu' );
 add_action( 'admin_init', 'nab_generate_comments_export_csv_file' );

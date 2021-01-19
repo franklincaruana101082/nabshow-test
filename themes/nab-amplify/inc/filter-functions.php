@@ -1325,6 +1325,14 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
     return $load;
 }
 
+/**
+ * Add comapny admin query parameter
+ */
+function nab_add_query_vars_filter( $vars ){
+    $vars[] = "addadmin";
+    return $vars;
+}
+add_filter( 'query_vars', 'nab_add_query_vars_filter' );
 
 /**
  * Update wordpress comment count.
