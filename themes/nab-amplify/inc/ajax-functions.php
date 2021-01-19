@@ -2306,7 +2306,7 @@ function nab_edit_feature_block()
 	$nab_feature_block_reaction      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_reaction', FILTER_SANITIZE_STRING));
 	$nab_feature_block_button      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_button', FILTER_SANITIZE_STRING));
 	$nab_feature_block_link_target      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_link_target', FILTER_SANITIZE_STRING));
-	$nab_featured_block_remove_attachment = explode(',', filter_input(INPUT_POST, 'nab_featured_block_remove_attachment', FILTER_SANITIZE_STRING));
+	
 	/*Check if current user is company admin */
 	if (get_post_type($company_id) == 'company' && !in_array($current_logged_user, $company_admins)) {
 		$response['feedback'] = 'Sorry! You dont have permission!';
@@ -2328,15 +2328,6 @@ function nab_edit_feature_block()
 	update_field('feature_enable_reaction',$nab_feature_block_reaction,$company_id);
 	update_field('feature_enable_button',$nab_feature_block_button,$company_id);
 	update_field('feature_button_target',$nab_feature_block_link_target,$company_id);
-
-	if(!empty($nab_featured_block_remove_attachment)){
-	if(in_array('play_image',$nab_featured_block_remove_attachment)){
-		update_field('feature_icon_image',0,$company_id);
-	}
-	if(in_array('bg_image',$nab_featured_block_remove_attachment)){
-		update_field('feature_background_image',0,$company_id);
-	}
-}
 
 			$dependencies_loaded = 0;
 			foreach ($_FILES as $file_key => $file_details) {

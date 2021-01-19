@@ -29,7 +29,6 @@ global $post;
 								<div class="nab-product-media-item">
 									<?php if ($block_data['bg_image'] !== '') {
 									?>
-									<button type="button" class="nab-remove-featured-attachment" data-action="bg_image"><i class="fa fa-times" aria-hidden="true"></i></button>
 										<img id="product_featured_preview" src="<?php echo $block_data['bg_image']; ?>" />
 									<?php
 									} ?>
@@ -55,7 +54,6 @@ global $post;
 								<div class="nab-product-media-item">
 									<?php if ($block_data['play_image'] !== '') {
 									?>
-									<button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button>
 										<img id="preview_product_play_image" src="<?php echo $block_data['play_image']; ?>" />
 									<?php
 									} ?>

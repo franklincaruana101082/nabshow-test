@@ -32,6 +32,8 @@
       width: "100%"
     });
 
+    $('.nab-custom-select select').select2({ width: '100%' });
+
     if ( 0 < $('#user-country-select').length ) {
       var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
       var wc_states = $.parseJSON(wc_states_json);
@@ -594,15 +596,6 @@
         .remove()
     }
   })
-  var remove_featured_attachment_arr = []
-  $(document).on('click', '.nab-remove-featured-attachment', function (e) {
-    if (confirm('Are you sure want to remove?')) {
-      remove_featured_attachment_arr.push($(this).data('action'))
-      $(this)
-        .parent()
-        .remove()
-    }
-  })
 
   $(document).on('change', '#product_featured_image', function () {
     if (
@@ -633,11 +626,11 @@
     ) {
       $('.preview_product_play_image .nab-product-media-item').remove()
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     } else {
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     }
     if ($(this)[0].files && $(this)[0].files[0]) {
@@ -2278,9 +2271,7 @@
         .parents('.attendee-edit-wrap')
         .removeAttr('data-pid data-oid data-uid data-orderid data-action')
     }
-  )
-
-  $('.nab-custom-select select').select2({ width: '100%' });
+  )  
 
   /* User Search Filters*/
   $(document).on('click', '#load-more-user a', function () {
@@ -2340,37 +2331,39 @@
     nabSearchUserAjax(false, 1);
   });
 
-  $('.search-city-select').select2();
-  $('.search-city-select').select2({
-    ajax: {
-      url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
-      dataType: 'json',
-      delay: 250, // delay in ms while typing when to perform a AJAX search
-      data: function (params) {
-        return {
-          q: params.term, // search query
-          action: 'nab_get_search_city', // AJAX action for admin-ajax.php
-          country: 0 === $('.other-search-filter #search-country-select')[0].selectedIndex ? '' : $('.other-search-filter #search-country-select').val(),
-          state: 0 === $('.other-search-filter #search-state-select')[0].selectedIndex ? '' : $('.other-search-filter #search-state-select').val()
-        }
+  $(document).ready(function(){
+    $('.search-city-select').select2();
+    $('.search-city-select').select2({
+      ajax: {
+        url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+        dataType: 'json',
+        delay: 250, // delay in ms while typing when to perform a AJAX search
+        data: function (params) {
+          return {
+            q: params.term, // search query
+            action: 'nab_get_search_city', // AJAX action for admin-ajax.php
+            country: 0 === $('.other-search-filter #search-country-select')[0].selectedIndex ? '' : $('.other-search-filter #search-country-select').val(),
+            state: 0 === $('.other-search-filter #search-state-select')[0].selectedIndex ? '' : $('.other-search-filter #search-state-select').val()
+          }
+        },
+        processResults: function (data) {
+          var options = []
+          if (data) {
+            // data is the array of arrays, and each of them contains ID and the Label of the option
+            $.each(data, function (index, text) {
+              // do not forget that "index" is just auto incremented value
+              options.push({ id: text, text: text })
+            })
+          }
+          return {
+            results: options
+          }
+        },
+        cache: true
       },
-      processResults: function (data) {
-        var options = []
-        if (data) {
-          // data is the array of arrays, and each of them contains ID and the Label of the option
-          $.each(data, function (index, text) {
-            // do not forget that "index" is just auto incremented value
-            options.push({ id: text, text: text })
-          })
-        }
-        return {
-          results: options
-        }
-      },
-      cache: true
-    },
-    minimumInputLength: 2
-  })  
+      minimumInputLength: 2
+    })
+  });    
 
   $(document).on(
     'keypress',
@@ -3385,7 +3378,6 @@
         form_data.append('nab_product_play_image', file)
       })
     }
-    form_data.append('nab_featured_block_remove_attachment', remove_featured_attachment_arr)
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       processData: false,

@@ -1335,8 +1335,8 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
  * @return stdClass
  */
 function nab_update_wp_admin_comments_count( $count, $post_id ) {
-		
-    if ( is_admin() && 0 === (int) $post_id ) {		
+    
+    if ( is_admin() && 0 === (int) $post_id ) {
 
         global $wpdb;      
 
@@ -1350,7 +1350,7 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
             GROUP BY comment_approved
         ",
             ARRAY_A
-		);			
+        );
 
         $comment_count = array(
             'approved'            => 0,
@@ -1392,7 +1392,7 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
         $stats['moderated'] = $stats['awaiting_moderation'];
         unset( $stats['awaiting_moderation'] );
 
-		$count = (object) $stats;			
+        $count = (object) $stats;
     }
 
     return $count;

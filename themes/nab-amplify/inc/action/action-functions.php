@@ -3532,6 +3532,54 @@ function nab_comment_form( $atts = array(), $content = '' )
 }
 
 /**
+ * Added comments export submenu page.
+ */
+function nab_add_export_comments_menu() {
+
+    add_submenu_page(
+        'edit-comments.php',
+        __('Export Comments', 'nab-amplify'),
+        __('Export Comments', 'nab-amplify'),
+        'manage_options',
+        'amplify_comment_export',
+        'nab_export_comments_callback'
+    );
+}
+
+/**
+ * Export commnets setting page.
+ */
+function nab_export_comments_callback() {  
+    ?>
+    <div class="search-settings">
+        <h2>Export Comments</h2>
+        <form class="comments-export-form" method="post">
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th>Select Year</th>
+                    <td>
+                        <select name="comment_year">
+                            <?php
+                            $start          = 2020;
+                            $current_year   = date('Y');
+                            for ( $i = $start; $i <= $current_year; $i++ ) {
+                                ?>
+                                <option value="<?php echo esc_attr( $i ); ?>" <?php selected( $current_year, $i ); ?>><?php echo esc_html( $i ); ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>                
+            </table>
+            <?php submit_button("Export CSV"); ?>
+        </form>
+    </div>
+    <?php
+}
+
+
+/**
  * Added user export submenu page.
  */
 function nab_add_export_user_menu() {
@@ -3569,6 +3617,75 @@ function nab_export_users_callback() {
         </form>
     </div>
     <?php
+}
+
+/**
+ * Generate comments CSV file.
+ */
+function nab_generate_comments_export_csv_file() {
+
+    global $wpdb, $pagenow;
+
+    $comment_year   = filter_input( INPUT_POST, 'comment_year', FILTER_SANITIZE_STRING );
+    $comment_page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+    if ( 'edit-comments.php' === $pagenow && 'amplify_comment_export' === $comment_page && ! empty( $comment_year ) ) {        
+
+        $prepare_sql        = $wpdb->prepare( "SELECT * FROM {$wpdb->comments} WHERE YEAR(comment_date) = %s AND comment_type = %s AND comment_approved = %s", $comment_year, 'comment', '1' );
+        $comment_results    = $wpdb->get_results( $prepare_sql );
+
+        if ( ! empty( $comment_results ) ) {
+
+            // CSV header row fields titles
+            $csv_fields   = array();            
+            $csv_fields[] = 'First Name';
+            $csv_fields[] = 'Last Name';
+            $csv_fields[] = 'Email';
+            $csv_fields[] = 'Date Time';
+            $csv_fields[] = 'Page';
+            $csv_fields[] = 'Comment Content';
+        
+            // Generate csv file as a direct download
+            $output_filename = 'amplify-comment-list-' . $comment_year . '.csv';
+            $output_handle   = fopen( 'php://output', 'w' );
+
+            header( 'Content-type: application/csv' );
+            header( 'Content-Disposition: attachment; filename=' . $output_filename );
+
+            // Insert header row
+            fputcsv( $output_handle, $csv_fields );
+
+            foreach ( $comment_results as $commnet ) {
+                
+                $dynamic_fields = array();
+                $first_name     = '';
+                $last_name      = '';
+
+                if ( ! empty( $commnet->user_id ) && 0 !== (int) $commnet->user_id ) {
+                    
+                    $first_name = get_user_meta( $commnet->user_id, 'first_name', true );
+                    $last_name  = get_user_meta( $commnet->user_id, 'last_name', true );    
+                }                
+
+                if ( empty( $first_name ) && empty( $last_name ) ) {
+                    
+                    $first_name = $commnet->comment_author;
+                }
+
+                $comment_date = date_format( date_create( $commnet->comment_date ), 'm-d-Y H:i:s' );
+
+                $dynamic_fields[] = $first_name;
+                $dynamic_fields[] = $last_name;
+                $dynamic_fields[] = $commnet->comment_author_email;
+                $dynamic_fields[] = $comment_date;
+                $dynamic_fields[] = get_the_title( $commnet->comment_post_ID );
+                $dynamic_fields[] = $commnet->comment_content;
+
+                fputcsv( $output_handle, $dynamic_fields );
+            }
+            exit;
+        }
+    }
 }
 
 /**

@@ -62,6 +62,8 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
 	$total_users = $members_template->total_member_count;
 	$total_page  = ceil( $total_users / $post_per_page );
 }
+
+$find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( get_site_url(), '/' ) . '/' );
 ?>
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
         <div class="all-members" data-id="all-members-tab">            
@@ -82,7 +84,7 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
                                 <a href="<?php echo esc_attr( $pending_friends_url ); ?>">Connection Requests</a>
                             </li>
                             <li class="bp-personal-sub-tab <?php echo 'all' === $active_page ? 'current selected' : '' ?>">
-                                <a href="<?php echo esc_attr( $all_members_url ); ?>">Find New Connections</a>
+                                <a href="<?php echo esc_url( $find_new_connection_link ); ?>">Find New Connections</a>
                             </li>
                     </nav>
                 </div>
