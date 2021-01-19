@@ -29,6 +29,7 @@ global $post;
 								<div class="nab-product-media-item">
 									<?php if ($block_data['bg_image'] !== '') {
 									?>
+									<button type="button" class="nab-remove-featured-attachment" data-action="bg_image"><i class="fa fa-times" aria-hidden="true"></i></button>
 										<img id="product_featured_preview" src="<?php echo $block_data['bg_image']; ?>" />
 									<?php
 									} ?>
@@ -54,6 +55,7 @@ global $post;
 								<div class="nab-product-media-item">
 									<?php if ($block_data['play_image'] !== '') {
 									?>
+									<button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button>
 										<img id="preview_product_play_image" src="<?php echo $block_data['play_image']; ?>" />
 									<?php
 									} ?>
@@ -121,9 +123,9 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Hide Reaction <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-										<span class="tooltip">Would you like to hide reactions?</span>
-									</i></span>
+									<span class="toggle-label">Hide Reaction 
+										<i class="fa fa-info-circle" data-bp-tooltip="Would you like to hide reactions?" aria-hidden="true"></i>
+									</span>
 									<label class="nab-toggle-btn">
 										<input type="checkbox" <?php if ($block_data['reactions'] === '1') {
 																	echo 'checked="checked"';
@@ -135,9 +137,9 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Hide Button <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-										<span class="tooltip">Would you like to hide button?</span>
-									</i></span>
+									<span class="toggle-label">Hide Button 
+										<i class="fa fa-info-circle" data-bp-tooltip="Would you like to hide button?" aria-hidden="true"></i>
+									</span>
 									<label class="nab-toggle-btn">
 										<input type="checkbox" <?php if ($block_data['button'] === '1') {
 																	echo 'checked="checked"';
@@ -149,9 +151,9 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Open in new tab <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-										<span class="tooltip">Would you like to open button link in new tab?</span>
-									</i></span>
+									<span class="toggle-label">Open in new tab 
+										<i class="fa fa-info-circle" data-bp-tooltip="Would you like to open button link in new tab?" aria-hidden="true"></i>
+									</span>
 									<label class="nab-toggle-btn">
 										<input type="checkbox" <?php if ($block_data['button_target'] === '1') {
 																	echo 'checked="checked"';
