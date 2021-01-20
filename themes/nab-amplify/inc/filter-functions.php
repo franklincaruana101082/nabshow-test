@@ -1111,7 +1111,7 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 		foreach ((array) $q['search_terms'] as $term) {
 
 			$like		= $n . $wpdb->esc_like($term) . $n;
-			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->postmeta}.meta_key IN ('article_type','community','personas','content_scope','content_format','content_subject','acquisition_sub','distribution_sub','management_sub','radio_sub','display_sub','industry_sub','content_sub') AND {$wpdb->postmeta}.meta_value LIKE %s))", $like, $like, $like, $like);
+			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR (mt1.meta_key IN ('article_type','community','personas','content_scope','content_format','content_subject','acquisition_sub','distribution_sub','management_sub','radio_sub','display_sub','industry_sub','content_sub') AND mt1.meta_value LIKE %s))", $like, $like, $like, $like);
 		}
 
 		if (!empty($search)) {
@@ -1188,18 +1188,11 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
  */
 function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
-
-	$meta_search 		= $query_object->get('_meta_search');
+	
 	$tax_search			= $query_object->get('_tax_search');
 	$meta_company_term	= $query_object->get('_meta_company_term');
 
-	if ($meta_search && !empty($query_object->query_vars['search_terms'])) {
-
-		global $wpdb;
-
-		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
-		$clauses['groupby']		= " {$wpdb->posts}.ID";
-	} else if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
+	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
 		global $wpdb;
 

@@ -2512,6 +2512,18 @@
     }
   )
 
+  $(document).on('change', '.other-search-filter .nab-custom-select #content-community', function () {
+    nabSearchContentAjax(false, 1);
+  });
+
+  $(document).on('change', '.other-search-filter .nab-custom-select #content-subject', function () {
+    nabSearchContentAjax(false, 1);
+  });
+
+  $(document).on('change', '.other-search-filter .nab-custom-select #content-type', function () {
+    nabSearchContentAjax(false, 1);
+  });
+
   /* Event Search Filters*/
   $(document).on('click', '#load-more-event a', function () {
     let eventPageNumber = parseInt($(this).attr('data-page-number'))
@@ -4250,6 +4262,7 @@ function nabSearchEventAjax (loadMore, pageNumber) {
 
 /** Content Search Ajax */
 function nabSearchContentAjax (loadMore, pageNumber) {
+  let community = '', subject = '', contentType = '';
   let postPerPage = jQuery('#load-more-content a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-content a').attr('data-post-limit'))
     : 12
@@ -4260,7 +4273,17 @@ function nabSearchContentAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-content a.active').length
       ? jQuery('.other-search-filter .sort-content a.active').attr('data-order')
-      : 'date'
+      : 'date';
+    
+  if ( 0 < jQuery('.other-search-filter #content-community').length ) {
+    community = 0 === jQuery('.other-search-filter #content-community')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-community').val();
+  }
+  if ( 0 < jQuery('.other-search-filter #content-subject').length ) {
+    subject = 0 === jQuery('.other-search-filter #content-subject')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-subject').val();
+  }
+  if ( 0 < jQuery('.other-search-filter #content-type').length ) {
+    contentType = 0 === jQuery('.other-search-filter #content-type')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-type').val();
+  }
 
   jQuery('body').addClass('is-loading')
 
@@ -4273,6 +4296,9 @@ function nabSearchContentAjax (loadMore, pageNumber) {
       page_number: pageNumber,
       post_limit: postPerPage,
       search_term: searchTerm,
+      community: community,
+      subject: subject,
+      content_type: contentType,
       orderby: orderBy
     },
     success: function (response) {
