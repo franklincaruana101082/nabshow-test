@@ -1,3 +1,6 @@
+<?php
+// Table HTML.
+?>
 <table width="100%">
     <tbody>
         <tr>
