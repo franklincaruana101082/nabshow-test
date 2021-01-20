@@ -2080,8 +2080,7 @@ function nab_edit_acount_additional_form_fields()
     $member_visibility      = get_user_meta($current_user_id, 'nab_member_visibility', true);
     $member_restriction     = get_user_meta($current_user_id, 'nab_member_restrict_connection', true);
     $attendee_title         = get_user_meta($current_user_id, 'attendee_title', true);
-    $attendee_company       = get_user_meta($current_user_id, 'attendee_company', true);
-    $attendee_location      = get_user_meta($current_user_id, 'attendee_location', true);
+    $attendee_company       = get_user_meta($current_user_id, 'attendee_company', true);    
     $social_twitter         = get_user_meta($current_user_id, 'social_twitter', true);
     $social_linkedin        = get_user_meta($current_user_id, 'social_linkedin', true);
     $social_facebook        = get_user_meta($current_user_id, 'social_facebook', true);
@@ -2178,11 +2177,7 @@ function nab_edit_acount_additional_form_fields()
                         <div class="nab-form-row">
                             <label for="attendee_company">Company</label>
                             <input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr($attendee_company); ?>" />
-                        </div>
-                        <div class="nab-form-row">
-                            <label for="attendee_location">Location</label>
-                            <input type="text" name="attendee_location" class="input-text" placeholder="Location" value="<?php echo esc_attr($attendee_location); ?>" />
-                        </div>
+                        </div>                        
                         <?php                        
                         $countries_obj  = new WC_Countries();
                         $countries      = $countries_obj->__get( 'countries' );
@@ -2418,8 +2413,7 @@ function nab_save_edit_account_additional_form_fields($user_id)
 
     $user_fields = array(
         'attendee_title',
-        'attendee_company',
-        'attendee_location',
+        'attendee_company',        
         'social_twitter',
         'social_linkedin',
         'social_facebook',
