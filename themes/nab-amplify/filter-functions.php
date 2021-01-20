@@ -243,8 +243,7 @@ function nab_amplify_update_my_account_menu_items($items)
 	}
 
 	$items =
-		array('view-profile' => __('View Profile', 'nab-amplify'))
-		+ array('messages' => __('Inbox', 'nab-amplify'))
+		array('messages' => __('Inbox', 'nab-amplify'))
 		+ array('my-connections' => __('Connections', 'nab-amplify'))
 		+ array('my-purchases' => __('Access My Content', 'nab-amplify'))
 		+ array('orders' => __('Order History', 'nab-amplify'))
@@ -270,9 +269,6 @@ function nab_amplify_woocommerce_get_endpoint_url($url, $endpoint, $value, $perm
 	// Add Custom URL.
 	if ($endpoint === 'messages') {
 		$url = bp_loggedin_user_domain() . bp_get_messages_slug();
-	}
-	if ( 'view-profile' === $endpoint ) {
-		$url = bp_loggedin_user_domain();
 	}
 
 	return $url;
@@ -893,7 +889,8 @@ function nab_bp_change_add_friend_button_text($button)
  * @return array
  */
 function nab_modify_member_query($sql, $query)
-{	
+{
+
 
 	if (isset($query->query_vars['type']) && in_array(strtolower($query->query_vars['type']), array('alphabetical', 'newest', 'active'), true)) {
 
@@ -918,10 +915,8 @@ function nab_modify_member_query($sql, $query)
 
 			$matched_user_ids = $wpdb->get_col($wpdb->prepare(
 				"SELECT DISTINCT ID FROM {$wpdb->users} INNER JOIN {$wpdb->usermeta} ON {$wpdb->users}.ID = {$wpdb->usermeta}.user_id
-				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='attendee_company' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='attendee_title' AND {$wpdb->usermeta}.meta_value LIKE %s )",
+				WHERE {$wpdb->usermeta}.meta_key = %s AND ( user_login LIKE %s OR display_name LIKE %s OR user_nicename LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='first_name' AND {$wpdb->usermeta}.meta_value LIKE %s ) OR ( {$wpdb->usermeta}.meta_key='last_name' AND {$wpdb->usermeta}.meta_value LIKE %s )",
 				$user_meta_cap,
-				$search_term,
-				$search_term,
 				$search_term,
 				$search_term,
 				$search_term,
@@ -1111,7 +1106,7 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 		foreach ((array) $q['search_terms'] as $term) {
 
 			$like		= $n . $wpdb->esc_like($term) . $n;
-			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR (mt1.meta_key IN ('article_type','community','personas','content_scope','content_format','content_subject','acquisition_sub','distribution_sub','management_sub','radio_sub','display_sub','industry_sub','content_sub') AND mt1.meta_value LIKE %s))", $like, $like, $like, $like);
+			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->postmeta}.meta_key IN ('article_type','community','personas','content_scope','content_format','content_subject','acquisition_sub','distribution_sub','management_sub','radio_sub','display_sub','industry_sub','content_sub') AND {$wpdb->postmeta}.meta_value LIKE %s))", $like, $like, $like, $like);
 		}
 
 		if (!empty($search)) {
@@ -1188,11 +1183,18 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
  */
 function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
-	
+
+	$meta_search 		= $query_object->get('_meta_search');
 	$tax_search			= $query_object->get('_tax_search');
 	$meta_company_term	= $query_object->get('_meta_company_term');
 
-	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
+	if ($meta_search && !empty($query_object->query_vars['search_terms'])) {
+
+		global $wpdb;
+
+		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
+		$clauses['groupby']		= " {$wpdb->posts}.ID";
+	} else if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
 		global $wpdb;
 
@@ -1273,7 +1275,7 @@ function nab_filter_message_to_avoid_html_entity($message_excerpt)
 /**
  * Reorder the comment form above related content block
  */
-/*
+
 function nab_reorder_comment_form($content)
 {
 	// if no related content block used then show default content.
@@ -1302,99 +1304,4 @@ function nab_reorder_comment_form($content)
 	}
 
 	return $content;
-}*/
-add_filter( 'bp_activity_maybe_load_mentions_scripts', 'buddydev_enable_mention_autosuggestions', 10, 2 );
- 
-function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
-    
-    if( ! $mentions_enabled ) {
-        return $load;//activity mention is  not enabled, so no need to bother
-    }
-    //modify this condition to suit yours
-    if( is_user_logged_in() && bp_is_current_component( 'mediapress' ) ) {
-        $load = true;
-    }
-    
-    return $load;
-}
-
-/**
- * Add comapny admin query parameter
- */
-function nab_add_query_vars_filter( $vars ){
-    $vars[] = "addadmin";
-    return $vars;
-}
-add_filter( 'query_vars', 'nab_add_query_vars_filter' );
-
-/**
- * Update wordpress comment count.
- *
- * @param  array $count
- * @param  int $post_id
- * 
- * @return stdClass
- */
-function nab_update_wp_admin_comments_count( $count, $post_id ) {
-    
-    if ( is_admin() && 0 === (int) $post_id ) {
-
-        global $wpdb;      
-
-        $where = ' WHERE comment_type = "comment"';        
-
-        $totals = (array) $wpdb->get_results(
-            "
-            SELECT comment_approved, COUNT( * ) AS total
-            FROM {$wpdb->comments}
-            {$where}
-            GROUP BY comment_approved
-        ",
-            ARRAY_A
-        );
-
-        $comment_count = array(
-            'approved'            => 0,
-            'awaiting_moderation' => 0,
-            'spam'                => 0,
-            'trash'               => 0,
-            'post-trashed'        => 0,
-            'total_comments'      => 0,
-            'all'                 => 0,
-        );
-
-        foreach ( $totals as $row ) {
-            switch ( $row['comment_approved'] ) {
-                case 'trash':
-                    $comment_count['trash'] = $row['total'];
-                    break;
-                case 'post-trashed':
-                    $comment_count['post-trashed'] = $row['total'];
-                    break;
-                case 'spam':
-                    $comment_count['spam']            = $row['total'];
-                    $comment_count['total_comments'] += $row['total'];
-                    break;
-                case '1':
-                    $comment_count['approved']        = $row['total'];
-                    $comment_count['total_comments'] += $row['total'];
-                    $comment_count['all']            += $row['total'];
-                    break;
-                case '0':
-                    $comment_count['awaiting_moderation'] = $row['total'];
-                    $comment_count['total_comments']     += $row['total'];
-                    $comment_count['all']                += $row['total'];
-                    break;
-                default:
-                    break;
-            }
-        }
-        $stats              = array_map( 'intval', $comment_count );
-        $stats['moderated'] = $stats['awaiting_moderation'];
-        unset( $stats['awaiting_moderation'] );
-
-        $count = (object) $stats;
-    }
-
-    return $count;
 }

@@ -201,6 +201,54 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
+						<div class="filter-select-boxes">
+							<?php
+							$community_field = get_field_object( 'field_5fb3f25f9ab77' );														
+
+							if ( isset( $community_field[ 'choices' ] ) && is_array( $community_field[ 'choices' ] ) ) {
+								?>
+								<div class="nab-custom-select">
+									<select id="content-community" class="content-community">
+										<option value="">Coummunity</option>
+										<?php
+										foreach ( $community_field[ 'choices' ] as $value => $label ) {
+											?>
+											<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_html( $label ); ?></option>
+											<?php
+										}
+										?>
+									</select>
+								</div>
+								<?php
+							}
+
+							$subject_field = get_field_object( 'field_5fb3f41b02c43' );														
+
+							if ( isset( $subject_field[ 'choices' ] ) && is_array( $subject_field[ 'choices' ] ) ) {
+								?>
+								<div class="nab-custom-select">
+									<select id="content-subject" class="content-subject">
+										<option value="">Subject</option>
+										<?php
+										foreach ( $subject_field[ 'choices' ] as $value => $label ) {
+											?>
+											<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_html( $label ); ?></option>
+											<?php
+										}
+										?>
+									</select>
+								</div>
+								<?php
+							}
+							?>
+							<div class="nab-custom-select">
+								<select id="content-type" class="content-type">
+									<option value="">Content Type</option>
+									<option value="articles">Articles</option>
+									<option value="other">NAB Amplify Pages</option>
+								</select>
+							</div>
+						</div>
 					<?php
 					}
 					?>
@@ -741,7 +789,20 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_type' 		=> $all_post_types,
 					'post_status'		=> 'publish',
 					'posts_per_page' 	=> 12,
-					's'					=> $search_term
+					's'					=> $search_term,
+					'meta_query'		=> array(
+						'relation'	=> 'OR',
+						array(
+							'key'		=> '_yoast_wpseo_meta-robots-noindex',
+							'value'		=> 'completely',
+							'compare'	=> 'NOT EXISTS'
+						),
+						array(
+							'key'		=> '_yoast_wpseo_meta-robots-noindex',
+							'value'		=> '1',
+							'compare'	=> '!='
+						)
+					),
 				);
 
 				if ( ! empty( $search_term ) ) {				
@@ -1287,14 +1348,27 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_type' 		=> $all_post_types,
 				'posts_per_page' 	=> 4,
 				'post_status'		=> 'publish',
-				's'					=> $search_term						
+				's'					=> $search_term,
+				'meta_query'		=> array(
+					'relation'	=> 'OR',
+					array(
+						'key'		=> '_yoast_wpseo_meta-robots-noindex',
+						'value'		=> 'completely',
+						'compare'	=> 'NOT EXISTS'
+					),
+					array(
+						'key'		=> '_yoast_wpseo_meta-robots-noindex',
+						'value'		=> '1',
+						'compare'	=> '!='
+					)
+				),
 			);
 
 			if ( ! empty( $search_term ) ) {
 				$content_args[ '_meta_search' ] = true;
 			}
 
-			$content_query = new WP_Query( $content_args );
+			$content_query = new WP_Query( $content_args );			
 			
 			if ( $content_query->have_posts() ) {
 

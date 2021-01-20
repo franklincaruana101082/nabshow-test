@@ -1742,17 +1742,29 @@ function nab_content_search_filter_callback()
 	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
+	$community		= filter_input(INPUT_POST, 'community', FILTER_SANITIZE_STRING);
+	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
+	$content_type	= filter_input(INPUT_POST, 'content_type', FILTER_SANITIZE_STRING);
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$all_post_types = nab_get_search_post_types();
+
+	if ( isset( $content_type ) && ! empty ( $content_type ) ) {
+		
+		if ( 'other' === $content_type && ( $key = array_search( 'articles', $all_post_types ) ) !== false ) {
+			unset( $all_post_types[ $key ] );
+		} else {
+			$all_post_types = $content_type;
+		}
+	}
 
 	$content_args = array(
 		'post_type' 		=> $all_post_types,
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
-		's'					=> $search_term,
-	);
+		's'					=> $search_term,		
+	);	
 
 	if (!empty($search_term)) {
 		$content_args['_meta_search'] = true;
@@ -1766,6 +1778,41 @@ function nab_content_search_filter_callback()
 		$content_args['orderby'] 	= $orderby;
 		$content_args['order']		= $order;
 	}
+
+	$meta_query_args = array( 
+		'relation' => 'AND',
+		array(
+			'relation'	=> 'OR',
+			array(
+				'key'		=> '_yoast_wpseo_meta-robots-noindex',
+				'value'		=> 'completely',
+				'compare'	=> 'NOT EXISTS'
+			),
+			array(
+				'key'		=> '_yoast_wpseo_meta-robots-noindex',
+				'value'		=> '1',
+				'compare'	=> '!='
+			)
+		),
+	);
+
+	if ( ! empty( $community ) ) {
+		$meta_query_args[] = array(
+			'key'		=> 'community',
+			'value'		=> '"' . $community . '"',
+			'compare'	=> 'LIKE'
+		);
+	}
+	
+	if ( ! empty( $subject ) ) {
+		$meta_query_args[] = array(
+			'key'		=> 'content_subject',
+			'value'		=> '"' . $subject . '"',
+			'compare'	=> 'LIKE'
+		);
+	}
+
+	$content_args[ 'meta_query' ] = $meta_query_args;
 
 	$content_query = new WP_Query($content_args);
 
@@ -2306,7 +2353,7 @@ function nab_edit_feature_block()
 	$nab_feature_block_reaction      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_reaction', FILTER_SANITIZE_STRING));
 	$nab_feature_block_button      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_button', FILTER_SANITIZE_STRING));
 	$nab_feature_block_link_target      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_link_target', FILTER_SANITIZE_STRING));
-	
+	$nab_featured_block_remove_attachment = explode(',', filter_input(INPUT_POST, 'nab_featured_block_remove_attachment', FILTER_SANITIZE_STRING));
 	/*Check if current user is company admin */
 	if (get_post_type($company_id) == 'company' && !in_array($current_logged_user, $company_admins)) {
 		$response['feedback'] = 'Sorry! You dont have permission!';
@@ -2328,6 +2375,15 @@ function nab_edit_feature_block()
 	update_field('feature_enable_reaction',$nab_feature_block_reaction,$company_id);
 	update_field('feature_enable_button',$nab_feature_block_button,$company_id);
 	update_field('feature_button_target',$nab_feature_block_link_target,$company_id);
+
+	if(!empty($nab_featured_block_remove_attachment)){
+	if(in_array('play_image',$nab_featured_block_remove_attachment)){
+		update_field('feature_icon_image',0,$company_id);
+	}
+	if(in_array('bg_image',$nab_featured_block_remove_attachment)){
+		update_field('feature_background_image',0,$company_id);
+	}
+}
 
 			$dependencies_loaded = 0;
 			foreach ($_FILES as $file_key => $file_details) {

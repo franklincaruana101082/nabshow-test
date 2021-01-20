@@ -213,10 +213,18 @@ get_header();
                                     $thumbnail_url    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
                                     $product_link     = get_the_permalink();
                                     $product_category = get_the_terms(get_the_ID(), 'company-product-category');
+                                    $product_medias     = get_field('product_media');
                                 ?>
                                     <div class="amp-item-col">
                                         <div class="amp-item-inner">
                                             <div class="amp-item-cover">
+                                            <?php $thumbnail_url = '';
+
+                                                if (!empty($product_medias[0]['product_media_file'])) {
+                                                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
+                                                } else {
+                                                    $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
+                                                } ?>
                                                 <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
                                             </div>
                                             <div class="amp-item-info">

@@ -596,6 +596,15 @@
         .remove()
     }
   })
+  var remove_featured_attachment_arr = []
+  $(document).on('click', '.nab-remove-featured-attachment', function (e) {
+    if (confirm('Are you sure want to remove?')) {
+      remove_featured_attachment_arr.push($(this).data('action'))
+      $(this)
+        .parent()
+        .remove()
+    }
+  })
 
   $(document).on('change', '#product_featured_image', function () {
     if (
@@ -626,11 +635,11 @@
     ) {
       $('.preview_product_play_image .nab-product-media-item').remove()
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     } else {
       $('.preview_product_play_image').append(
-        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
+        '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
       )
     }
     if ($(this)[0].files && $(this)[0].files[0]) {
@@ -2503,6 +2512,18 @@
     }
   )
 
+  $(document).on('change', '.other-search-filter .nab-custom-select #content-community', function () {
+    nabSearchContentAjax(false, 1);
+  });
+
+  $(document).on('change', '.other-search-filter .nab-custom-select #content-subject', function () {
+    nabSearchContentAjax(false, 1);
+  });
+
+  $(document).on('change', '.other-search-filter .nab-custom-select #content-type', function () {
+    nabSearchContentAjax(false, 1);
+  });
+
   /* Event Search Filters*/
   $(document).on('click', '#load-more-event a', function () {
     let eventPageNumber = parseInt($(this).attr('data-page-number'))
@@ -3378,6 +3399,7 @@
         form_data.append('nab_product_play_image', file)
       })
     }
+    form_data.append('nab_featured_block_remove_attachment', remove_featured_attachment_arr)
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       processData: false,
@@ -4240,6 +4262,7 @@ function nabSearchEventAjax (loadMore, pageNumber) {
 
 /** Content Search Ajax */
 function nabSearchContentAjax (loadMore, pageNumber) {
+  let community = '', subject = '', contentType = '';
   let postPerPage = jQuery('#load-more-content a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-content a').attr('data-post-limit'))
     : 12
@@ -4250,7 +4273,17 @@ function nabSearchContentAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-content a.active').length
       ? jQuery('.other-search-filter .sort-content a.active').attr('data-order')
-      : 'date'
+      : 'date';
+    
+  if ( 0 < jQuery('.other-search-filter #content-community').length ) {
+    community = 0 === jQuery('.other-search-filter #content-community')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-community').val();
+  }
+  if ( 0 < jQuery('.other-search-filter #content-subject').length ) {
+    subject = 0 === jQuery('.other-search-filter #content-subject')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-subject').val();
+  }
+  if ( 0 < jQuery('.other-search-filter #content-type').length ) {
+    contentType = 0 === jQuery('.other-search-filter #content-type')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-type').val();
+  }
 
   jQuery('body').addClass('is-loading')
 
@@ -4263,6 +4296,9 @@ function nabSearchContentAjax (loadMore, pageNumber) {
       page_number: pageNumber,
       post_limit: postPerPage,
       search_term: searchTerm,
+      community: community,
+      subject: subject,
+      content_type: contentType,
       orderby: orderBy
     },
     success: function (response) {
