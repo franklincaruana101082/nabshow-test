@@ -139,12 +139,16 @@
 						$cart_page_url = wc_get_cart_url();
 					?>
 					<div class="header-bottom-actions">
-						<?php nab_get_bp_notification_menu(); ?>						
+						<?php nab_get_bp_notification_menu();
+                        if (is_user_logged_in()) {
+                            ?>						
 						<div class="nab-suggetion">
 							<a href="https://nab-amplify-c076.nolt.io/top" target="_blank" data-bp-tooltip="Suggest an Idea">
 								<img src="<?php echo get_template_directory_uri(); ?>/assets/images/bulb.svg" alt="Suggest an Idea" />
 							</a>
 						</div>
+						<?php
+                        } ?>
 					</div>
 				</div>
 			</div>
