@@ -118,9 +118,24 @@ if ( $user_logged_in ) {
                                             <?php if ( ! empty( $user_data['attendee_company'][0] ) ) { ?>
                                                 <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
                                             <?php } ?>
-                                            <?php if ( ! empty( $user_data['user_city'][0] ) ) { ?>
-                                                <span><?php echo esc_html( $user_data['user_city'][0] ); ?></span>
-                                            <?php } ?>
+
+                                            <?php
+                                            if ( ! empty( $user_data[ 'user_city' ][0] ) ) {
+                                                
+                                                $location = array( $user_data[ 'user_city' ][0] );
+
+                                                if ( isset( $user_data[ 'user_state' ][0] ) && ! empty( $user_data[ 'user_state' ][0] ) ) {
+
+                                                    $countries_obj          = new WC_Countries();
+                                                    $default_country        = isset( $user_data[ 'user_country' ][0] ) && ! empty( $user_data[ 'user_country' ][0] ) ? $user_data[ 'user_country' ][0] : $countries_obj->get_base_country();
+                                                    $default_county_states  = $countries_obj->get_states( $default_country );
+                                                    $location[]             = isset( $default_county_states[ $user_data[ 'user_state' ][0] ] ) ? $default_county_states[ $user_data[ 'user_state' ][0] ] : $user_data[ 'user_state' ][0];
+                                                }
+                                                ?>
+                                                <span><?php echo esc_html( implode( ', ', $location ) ); ?></span>
+                                                <?php
+                                            }
+                                            ?>
                                         </div>
 									<?php } ?>
                                 </div>

@@ -123,7 +123,7 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Hide Reaction 
+									<span class="toggle-label">Enable reactions?
 										<i class="fa fa-info-circle" data-bp-tooltip="Would you like to hide reactions?" aria-hidden="true"></i>
 									</span>
 									<label class="nab-toggle-btn">
@@ -137,7 +137,7 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Hide Button 
+									<span class="toggle-label">Enable button?
 										<i class="fa fa-info-circle" data-bp-tooltip="Would you like to hide button?" aria-hidden="true"></i>
 									</span>
 									<label class="nab-toggle-btn">
@@ -151,7 +151,7 @@ global $post;
 							</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
-									<span class="toggle-label">Open in new tab 
+									<span class="toggle-label">Open button URL in new tab? 
 										<i class="fa fa-info-circle" data-bp-tooltip="Would you like to open button link in new tab?" aria-hidden="true"></i>
 									</span>
 									<label class="nab-toggle-btn">

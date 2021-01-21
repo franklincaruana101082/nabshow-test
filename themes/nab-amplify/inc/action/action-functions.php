@@ -3915,3 +3915,11 @@ foreach ( $company_result as $company ) {
         
     }
 }
+
+/** 
+ * Copyright Year shortcode use in the footer to display dynamic year.
+ */
+function nab_copyright_year_shortcode() {
+    
+    return date( 'Y' );
+}

@@ -101,23 +101,34 @@ if ( empty( $redirect_url ) ) {
 										$interest_items			= array( 'Content Creation', 'Live Event Production', 'Broadcast', 'Streaming' );
 										$selected_user_interest	= filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 										$selected_user_interest = isset( $selected_user_interest ) && ! empty( $selected_user_interest ) ? $selected_user_interest : array();
-										?>
-										<select name="user_interest[]" class="sign-up-user-interest" multiple>
-											<?php
-											foreach ( $interest_items as $item ) {
-												
-												$current_item = '';
-												
-												if ( is_array( $selected_user_interest ) && in_array( $item, $selected_user_interest, true ) ) {
-													$current_item = $item;
-												}
-												?>
-												<option value="<?php echo esc_attr( $item ); ?>" <?php selected( $current_item, $item ); ?>><?php echo esc_html( $item ); ?></option>	
-												<?php
-											}
-											?>											
-										</select>
+										?>										
 										<i class="dropdown-message">Select all that apply</i>
+										<div class="nab-section section-user-interest-signup">
+											<h3>I'm Interested In...</h3>
+											<div class="user-interest-details-form">
+												<div class="checkbox-item-list">
+													<?php
+													foreach ( $interest_items as $item ) {
+														
+														$current_item = '';
+														
+														if ( is_array( $selected_user_interest ) && in_array( $item, $selected_user_interest, true ) ) {
+															$current_item = $item;
+														}
+														?>
+														<div class="checkbox-item amp-check-container">
+															<div class="amp-check-wrp">
+																<input type="checkbox" name="user_interest[]" class="sign-up-user-interest" value="<?php echo esc_attr( $item ); ?>" id="<?php echo esc_attr( $item ); ?>" <?php checked( $current_item, $item ); ?> />
+																<span class="amp-check"></span>
+															</div>
+															<label for="<?php echo esc_attr( $item ); ?>"><?php echo esc_html( $item ); ?></label>
+														</div>                                                            
+														<?php
+													}
+													?>                            
+												</div>                        
+											</div>
+										</div>
 									</p>
 
 									<?php do_action( 'woocommerce_register_form' ); ?>

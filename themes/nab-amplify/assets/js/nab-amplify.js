@@ -9,11 +9,7 @@
   var addedAttendee = 0
 
   // Ready.
-  $(document).ready(function () {
-    $('.nab-normal-signup .sign-up-user-interest').select2({
-      placeholder: "I'm Interested In...",
-      width: '100%'
-    })
+  $(document).ready(function () {    
 
     $('.section-professional-details .user-job-role-select').select2({
       width: '100%'
