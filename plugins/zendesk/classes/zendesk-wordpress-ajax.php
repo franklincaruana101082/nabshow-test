@@ -72,7 +72,7 @@ class Zendesk_Wordpress_Ajax {
         $html[] = '<textarea name="zendesk-comment-reply" class="zendesk-comment-reply"></textarea>';
         $html[] = '<br class="clear" />';
         $html[] = '<div class="zendesk-options">';
-        $html[] = '<label><input name="zendesk-comment-public" value="1" checked="checked" type="checkbox" /> ' . __( 'Make this a public comment in the ticket', 'zendesk' ) . '</label>';
+        $html[] = '<label><input name="zendesk-comment-public" value="1" type="checkbox" /> ' . __( 'Make this a public comment in the ticket', 'zendesk' ) . '</label>';
         $html[] = '<label><input name="zendesk-post-reply" value="1" type="checkbox" /> ' . __( 'Post as a reply on this blog post', 'zendesk' ) . '</label>';
         $html[] = '</div>';
         $html[] = '<input type="hidden" name="zendesk-comment-id" value="' . $comment->comment_ID . '" />';
@@ -134,9 +134,19 @@ class Zendesk_Wordpress_Ajax {
         $post = get_post( $comment->comment_post_ID );
 
         // Fetch the incoming data
-        $message        = trim( stripslashes( $_REQUEST['message'] ) );
-        $comment_public = isset( $_REQUEST['comment_public'] ) ? true : false;
-        $post_reply     = isset( $_REQUEST['post_reply'] ) ? true : false;
+        $message = trim( stripslashes( $_REQUEST['message'] ) );
+        if (isset( $_REQUEST['comment_public'] )) {
+          $comment_public = $_REQUEST['comment_public'];
+        }
+        else {
+          $comment_public = false;
+        }
+        if (isset( $_REQUEST['post_reply'] )) {
+          $post_reply = $_REQUEST['post_reply'];
+        }
+        else {
+          $post_reply = false;
+        }
 
         // Let's format the new ticket
         $subject         = $post->post_title . ': ' . Zendesk_Wordpress_Utilities::_excerpt( strip_tags( $comment->comment_content ), 5 );
@@ -161,7 +171,7 @@ class Zendesk_Wordpress_Ajax {
             if ( ! is_wp_error( $ticket_comment ) ) {
 
               // Let's see if we need to post a comment back to WordPress.
-              if ( $post_reply ) {
+              if ( $post_reply == 'true' ) {
                 $wp_comment = array(
                   'comment_post_ID'      => $post->ID,
                   'comment_author'       => $zendesk_support->user->display_name,
