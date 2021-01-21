@@ -1,3 +1,6 @@
+<?php
+// Sidebar HTML.
+?>
     <h3 style="margin-top: 0; padding-top: 0;">About Broadstreet</h3>
     <p>
         Broadstreet is a sales-first advserving platform built for publishers

@@ -1742,17 +1742,29 @@ function nab_content_search_filter_callback()
 	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
+	$community		= filter_input(INPUT_POST, 'community', FILTER_SANITIZE_STRING);
+	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
+	$content_type	= filter_input(INPUT_POST, 'content_type', FILTER_SANITIZE_STRING);
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$all_post_types = nab_get_search_post_types();
+
+	if ( isset( $content_type ) && ! empty ( $content_type ) ) {
+		
+		if ( 'other' === $content_type && ( $key = array_search( 'articles', $all_post_types ) ) !== false ) {
+			unset( $all_post_types[ $key ] );
+		} else {
+			$all_post_types = $content_type;
+		}
+	}
 
 	$content_args = array(
 		'post_type' 		=> $all_post_types,
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
-		's'					=> $search_term,
-	);
+		's'					=> $search_term,		
+	);	
 
 	if (!empty($search_term)) {
 		$content_args['_meta_search'] = true;
@@ -1766,6 +1778,41 @@ function nab_content_search_filter_callback()
 		$content_args['orderby'] 	= $orderby;
 		$content_args['order']		= $order;
 	}
+
+	$meta_query_args = array( 
+		'relation' => 'AND',
+		array(
+			'relation'	=> 'OR',
+			array(
+				'key'		=> '_yoast_wpseo_meta-robots-noindex',
+				'value'		=> 'completely',
+				'compare'	=> 'NOT EXISTS'
+			),
+			array(
+				'key'		=> '_yoast_wpseo_meta-robots-noindex',
+				'value'		=> '1',
+				'compare'	=> '!='
+			)
+		),
+	);
+
+	if ( ! empty( $community ) ) {
+		$meta_query_args[] = array(
+			'key'		=> 'community',
+			'value'		=> '"' . $community . '"',
+			'compare'	=> 'LIKE'
+		);
+	}
+	
+	if ( ! empty( $subject ) ) {
+		$meta_query_args[] = array(
+			'key'		=> 'content_subject',
+			'value'		=> '"' . $subject . '"',
+			'compare'	=> 'LIKE'
+		);
+	}
+
+	$content_args[ 'meta_query' ] = $meta_query_args;
 
 	$content_query = new WP_Query($content_args);
 

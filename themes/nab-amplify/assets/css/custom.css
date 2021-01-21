@@ -90,7 +90,6 @@ iframe{border:none!important}
 /************* Default style variables *************/
 
 /* heading */
-h1, h2, h3, h4, h5, h6{text-transform:capitalize}
 h1{font-size:36px;font-weight:700}
 h2, .related-title{font-size:30px;font-weight:bold;margin-top:0;line-height:34px}
 h3{font-size:24px;font-weight:100;margin-top:0}
@@ -1083,11 +1082,11 @@ body.buddypress .site-content{padding:0}
 .amp-profile-main .amp-profile-inner{background:rgb(0 0 0 / 0.5);padding:30px;text-align:center;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:400px}
 .amp-profile-main .amp-profile-content{width:100%}
 .amp-profile-main .amp-profile-info{position:relative}
-.amp-profile-main .amp-profile-info .edit-icon{margin:10px 20px}
+.amp-profile-main .amp-profile-info .edit-icon{margin:10px}
 .amp-profile-main .amp-profile-info h2{color:#fff;margin:0 0 10px;font-size:36px;line-height:40px}
 .amp-profile-main .amp-profile-info span{color:#fff;font-size:18px}
 .amp-profile-main .amp-profile-disc{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 0 20px}
-.amp-profile-main .amp-profile-disc span:not(:first-child):not(.edit-icon)::before{content:'|';display:inline-block;color:#999;margin:0 5px;font-size:22px;line-height:1}
+.amp-profile-main .amp-profile-disc span:not(:last-child):not(.edit-icon)::after{content:'|';display:inline-block;color:#999;margin:0 5px;font-size:22px;line-height:1}
 .amp-profile-main .amp-profile-location{margin-bottom:20px}
 .amp-profile-main .amp-profile-social ul{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0;padding:0;list-style:none}
 .amp-profile-main .amp-profile-social ul li{margin:10px}
@@ -1512,6 +1511,7 @@ body .is_friend .remove::before{font-size:22px}
 .single-company .select2-container--default .select2-search--dropdown{box-shadow:none!important;outline:none}
 .single-company .select2-container--default .select2-search--dropdown .select2-search__field{background-color:#333;color:#fff;box-shadow:none}
 .single-company .select2-container--default .select2-search--dropdown .select2-search__field:focus{box-shadow:none;outline:none}
+.single-company .amp-profile-main .amp-profile-disc span:not(:last-child):not(.edit-icon):after{display:none}
 
 /* company archive */
 .post-type-archive-company{background-color:#404040}
