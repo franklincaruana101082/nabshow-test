@@ -22,7 +22,7 @@ $profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
-$youtube_url      = get_field('youtube_url');  
+$youtube_url      = get_field('youtube_url');
 
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
@@ -39,7 +39,7 @@ $youtube_url      = get_field('youtube_url');
                             <label for="banner_image_file">
                                 <span class="edit-bg-pic" style="display:none;" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id="banner_image_file" type="file" name="company_banner_image" style="display: none;" />
+                            <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
                         </div>
                         <div id="edit-mode-buttons">
                             <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
@@ -69,7 +69,7 @@ $youtube_url      = get_field('youtube_url');
                                 ?>
                                         <div class="profile-actions">
                                             <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
-                                            <input id="profile_picture_file" type="file" name="company_profile_picture" style="display: none;" />
+                                            <input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>
                                         </div>
                                 <?php
                                     }
@@ -163,7 +163,7 @@ $youtube_url      = get_field('youtube_url');
                             $current_url = home_url( add_query_arg( NULL, NULL ) );
                             $current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
                             ?>
-                            <div class="amp-actions">                                
+                            <div class="amp-actions">
                                 <div class="search-actions">
                                     <div class="generic-button">
                                         <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="btn">Follow</a>

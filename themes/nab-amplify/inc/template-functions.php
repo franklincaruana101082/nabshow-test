@@ -973,3 +973,36 @@ function nab_get_author_fullname($author_id)
 
 	return $full_name;
 }
+
+/**
+ * Get featured and search category limit based on company membership level.
+ *
+ * @param  int $company_id
+ * 
+ * @return array $category_limit
+ */
+function nab_get_company_member_category_limit( $company_id ) {
+
+	$category_limit = array(
+		'featured' 	=> 0,
+		'search'	=> 0,
+	);
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+		return $category_limit;
+	}
+
+	$member_level	= get_field( 'member_level', $company_id );
+
+	if ( 'standard' === strtolower( $member_level ) ) {
+		$category_limit[ 'featured' ]	= 2;
+	} else if ( 'plus' === strtolower( $member_level ) ) {
+		$category_limit[ 'featured' ] 	= 5;
+		$category_limit[ 'search' ]		= 5;
+	} else if ( 'premium' === strtolower( $member_level ) ) {
+		$category_limit[ 'featured' ] 	= 5;
+		$category_limit[ 'search' ]		= 10000;
+	}
+
+	return $category_limit;
+}

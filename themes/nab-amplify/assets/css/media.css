@@ -303,6 +303,7 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:20px}
 	.add-product{padding-right:10px!important}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child,	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{margin-top:22px}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{font-size:16px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:16px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:18px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{margin-left:5px}

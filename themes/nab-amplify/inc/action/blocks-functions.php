@@ -943,9 +943,7 @@ function nab_company_feature_render_callback($attributes)
         <?php
                 }
             } else {
-                if (defined('REST_REQUEST')) {
-                    echo '<p class="empty-featured-block">Featured data not available!</p>';
-                }
+                echo '<p class="empty-featured-block">Featured data not available!</p>';
             }
         }
         ?>

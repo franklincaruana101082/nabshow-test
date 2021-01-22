@@ -1161,7 +1161,7 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
 		foreach ((array) $q['search_terms'] as $term) {
 
 			$like		= $n . $wpdb->esc_like($term) . $n;
-			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->postmeta}.meta_key = 'product_categories' AND {$wpdb->postmeta}.meta_value LIKE %s))", $like, $like, $like, $meta_like);
+			$search[]	= $wpdb->prepare("(({$wpdb->posts}.post_title LIKE %s) OR ({$wpdb->posts}.post_excerpt LIKE %s) OR ({$wpdb->posts}.post_content LIKE %s) OR ({$wpdb->postmeta}.meta_key IN('product_categories', 'search_product_categories') AND {$wpdb->postmeta}.meta_value LIKE %s))", $like, $like, $like, $meta_like);
 		}
 
 		if (!empty($search)) {
@@ -1322,8 +1322,7 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
  * Add comapny admin query parameter
  */
 function nab_add_query_vars_filter( $vars ){
-	$vars[] = "addadmin";
-	$vars[] = "r";
+    $vars[] = "addadmin";
     return $vars;
 }
 add_filter( 'query_vars', 'nab_add_query_vars_filter' );
