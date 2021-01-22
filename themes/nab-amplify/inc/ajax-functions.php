@@ -2318,7 +2318,15 @@ function nab_edit_feature_block_popup()
 			$block_data['button'] = get_field('feature_enable_button',$company_id) ? get_field('feature_enable_button',$company_id) : '0';
 			$block_data['button_target'] = get_field('feature_button_target',$company_id) ? get_field('feature_button_target',$company_id) : '0';
 			
-			
+			if(is_array($block_data['reactions'])){
+				$block_data['reactions'] =$block_data['reactions'][0];
+			}
+			if(is_array($block_data['button'])){
+				$block_data['button'] = $block_data['button'][0];
+			}
+			if(is_array($block_data['button_target'])){
+				$block_data['button_target'] = $block_data['button_target'][0];
+			}
 		
 			
 
