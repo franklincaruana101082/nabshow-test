@@ -877,11 +877,12 @@ function nab_company_feature_render_callback($attributes)
     $feature_button_target = get_field('feature_button_target');
     $user_id            = get_current_user_id();
     $admin_id           = get_field('company_user_id', get_the_ID());
+    $member_level = get_field('member_level');
 
 
     ob_start();
     ?>
-    <div class="amp-item-wrap">
+    <div class="amp-item-wrap featured-block-wraper">
         <?php
         if ($feature_status !== '') {
 
@@ -927,7 +928,10 @@ function nab_company_feature_render_callback($attributes)
 
             <?php
         } else {
-            if (!empty($admin_id) && in_array($user_id, $admin_id)) {   ?>
+
+            if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST') ) {
+                if ($member_level!='select' && $member_level !=='Standard') {
+                    ?>
                 <div class="amp-item-col add-new-item">
                     <div class="amp-item-inner">
                         <div class="add-item-wrap">
@@ -937,6 +941,9 @@ function nab_company_feature_render_callback($attributes)
                     </div>
                 </div>
         <?php
+                }
+            } else {
+                echo '<p class="empty-featured-block">Featured data not available!</p>';
             }
         }
         ?>

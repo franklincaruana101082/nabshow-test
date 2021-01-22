@@ -1729,3 +1729,12 @@ body .is_friend .remove::before{font-size:22px}
 /* Message editor */
 #insert-media-button{background-color:#333333;color:#999999!important}
 .wp-media-buttons .add_media span.wp-media-buttons-icon{color:#999999!important}
+
+/* Add featured block */
+.featured-block-wraper {
+	margin: 30px 0px 0px 0px;
+}
+.featured-block-wraper .add-new-item{
+	width:100%;
+	max-width: 100%;
+}
