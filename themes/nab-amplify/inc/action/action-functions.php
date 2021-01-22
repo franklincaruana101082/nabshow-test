@@ -3320,24 +3320,51 @@ function nab_update_company_profile_callback()
 
     $final_result = array();
 
-    $instagram_profile            = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
-    $linkedin_profile             = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
-    $facebook_profile             = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
-    $twitter_profile              = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
-    $company_about                = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
-    $company_industry             = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
-    $company_website              = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
-    $company_point_of_contact     = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
-    $company_id                   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-    $company_location_street_one  = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
-    $company_location_street_two  = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
-    $company_location_street_three             = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
-    $company_location_city             = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
-    $company_location_state             = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
-    $company_location_zipcode             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
-    $company_location_country             = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
-    $company_product_categories       = explode(',', filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING));
-    $company_youtube       = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
+    $instagram_profile              = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
+    $linkedin_profile               = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
+    $facebook_profile               = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
+    $twitter_profile                = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
+    $company_about                  = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $company_industry               = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
+    $company_website                = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
+    $company_point_of_contact       = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
+    $company_id                     = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_location_street_one    = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
+    $company_location_street_two    = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
+    $company_location_street_three  = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
+    $company_location_city          = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
+    $company_location_state         = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
+    $company_location_zipcode       = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
+    $company_location_country       = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
+    $company_product_categories     = filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING );
+    $company_search_categories      = filter_input( INPUT_POST, 'company_search_categories', FILTER_SANITIZE_STRING );
+    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);    
+
+    $category_limit = nab_get_company_member_category_limit( $company_id );
+
+    if ( ! empty( $company_product_categories ) && 'null' !== $company_product_categories ) {
+        
+        $company_product_categories = explode( ',', $company_product_categories );
+
+        if ( 0 === (int) $category_limit[ 'featured' ] && count( $company_product_categories ) > 0 ) {
+            wp_send_json_error( 'Update Failed. You can\'t add featured product categories without membership.' );
+        } else if ( 2 === (int) $category_limit[ 'featured' ] && count( $company_product_categories ) > (int) $category_limit[ 'featured' ] ) {
+            wp_send_json_error( 'Update Failed. You can add maximum ' . $category_limit[ 'featured' ] . ' featured product categories with your current membership.' );
+        } else if ( count( $company_product_categories ) > (int) $category_limit[ 'featured' ] ) {
+            wp_send_json_error( 'Update Failed. You can\'t add more than ' . $category_limit[ 'featured' ] . ' featured product categories.' );
+        }
+    }
+
+    if ( ! empty( $company_search_categories ) && 'null' !== $company_search_categories ) {
+
+        $company_search_categories = explode( ',', $company_search_categories );
+
+        if ( 0 === (int) $category_limit[ 'search' ] && count( $company_search_categories ) > 0 ) {
+            wp_send_json_error( 'Update Failed. You can\'t add search categories with your current membership.' );
+        } else if ( count( $company_search_categories ) > (int) $category_limit[ 'search' ] ) {
+            wp_send_json_error( 'Update Failed. You can\'t add more than ' . $category_limit[ 'search' ] . ' search categories with your current membership.' );
+        }
+    }
 
     //set company excerpt trim to first 200 characters
     $company_excerpt = wp_trim_words($company_about, 200, '...');
@@ -3410,9 +3437,14 @@ function nab_update_company_profile_callback()
     }
 
 
-    // Update company product categories
-    if (!empty($company_product_categories)) {
+    // Update company product categories.
+    if ( ! empty( $company_product_categories ) && 'null' !== $company_product_categories ) {
         update_field('product_categories', $company_product_categories, $company_id);
+    }
+
+    // Update company search product categories.
+    if ( ! empty( $company_search_categories ) && 'null' !== $company_search_categories ) {
+        update_field( 'search_product_categories', $company_search_categories, $company_id );
     }
 
     // Update company youtube
@@ -3430,16 +3462,17 @@ function nab_update_company_profile_callback()
 function nab_edit_company_about_callback()
 {
 
-    $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-    $company_data    = array();
-    $company_data['ID'] = $company_id;
-    $company_data['company_about'] = get_field('about_company', $company_id);
-    $company_data['company_industry'] = get_field('company_industary', $company_id);
-    $company_data['company_location'] = get_field('company_location', $company_id);
-    $company_data['company_website'] = get_field('company_website', $company_id);
-    $company_data['company_point_of_contact'] = get_field('point_of_contact', $company_id);
-    $company_data['product_categories'] = get_field('product_categories', $company_id);
-    $company_data['company_youtube'] = get_field('company_youtube', $company_id);
+    $company_id                                 = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_data                               = array();
+    $company_data['ID']                         = $company_id;
+    $company_data['company_about']              = get_field('about_company', $company_id);
+    $company_data['company_industry']           = get_field('company_industary', $company_id);
+    $company_data['company_location']           = get_field('company_location', $company_id);
+    $company_data['company_website']            = get_field('company_website', $company_id);
+    $company_data['company_point_of_contact']   = get_field('point_of_contact', $company_id);
+    $company_data['product_categories']         = get_field('product_categories', $company_id);
+    $company_data['search_product_categories']  = get_field('search_product_categories', $company_id);
+    $company_data['company_youtube']            = get_field('company_youtube', $company_id);
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
@@ -3922,4 +3955,61 @@ foreach ( $company_result as $company ) {
 function nab_copyright_year_shortcode() {
     
     return date( 'Y' );
+}
+
+/**
+ * Added bulk company import submenu page.
+ */
+function nab_bulk_import_company_menu()
+{
+
+    add_submenu_page(
+        'edit.php?post_type=company',
+        __('Import Compnies', 'nab-amplify'),
+        __('Import Compnies', 'nab-amplify'),
+        'manage_options',
+        'amplify_company_import',
+        'nab_import_compnies_callback'
+    );
+}
+
+
+/**
+ * Import company setting page.
+ */
+function nab_import_compnies_callback()
+{
+?>
+    <div class="search-settings">
+        <h2>Import Compnies</h2>
+        <form class="companies-export-form" method="post" enctype="multipart/form-data">
+            <input type="file" name="import_csv" />
+            <?php submit_button("Import"); ?>
+        </form>
+    </div>
+<?php
+}
+
+/**
+ * Generate compnies CSV file.
+ */
+function nab_import_compnies() {
+    global $wpdb, $pagenow;
+
+    $submit   = filter_input( INPUT_POST, 'import_csv', FILTER_SANITIZE_STRING );
+    $comment_page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+    if ( 'edit.php' === $pagenow && 'amplify_company_import' === $comment_page  && !empty($_FILES)) {
+        $fileName = $_FILES["file"]["tmp_name"];
+        $file = fopen($fileName, "r");
+        
+        while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
+            print_r($column);
+        }
+    }
+
+
+    
+        
+    
 }

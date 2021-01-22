@@ -39,10 +39,13 @@
 										</select>
 									</div>
 								</div>
+								<?php
+								$category_limit = nab_get_company_member_category_limit( $company_data[ 'ID' ] );
+								?>
 								<div class="form-row">
-									<label for="">Product Categories</label>
+									<label for="">Featured Product Categories</label>
 									<div class="select-dark-simple select-multiple">
-										<select name="product_categories[]" multiple="true" id="product_categories">
+										<select name="product_categories[]" multiple="true" id="product_categories" data-limit="<?php esc_attr_e( $category_limit[ 'featured' ] ); ?>">
 											<option value=""></option>
 											<?php foreach ($terms as $term) {
 											?>
@@ -50,6 +53,27 @@
 																								echo "selected";
 																							} ?>><?php echo $term->name; ?></option>
 											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="form-row">
+									<label for="">Additional Search-Only Categories</label>
+									<div class="select-dark-simple select-multiple">
+										<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e( $category_limit[ 'search' ] ); ?>">
+											<option value=""></option>
+											<?php
+											foreach ( $terms as $current_term ) {
+												
+												$selected_term = '';
+												
+												if ( is_array( $company_data[ 'search_product_categories' ] ) && in_array( $current_term->term_id, $company_data[ 'search_product_categories' ], true ) ) {
+													$selected_term = $current_term->term_id;
+												}
+												?>
+												<option value="<?php echo esc_attr( $current_term->term_id ); ?>" <?php selected( $selected_term, $current_term->term_id ); ?>><?php echo esc_html( $current_term->name ); ?></option>
+												<?php
+											}
+											?>
 										</select>
 									</div>
 								</div>
