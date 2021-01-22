@@ -894,10 +894,35 @@ class mo_openid_login_wid extends WP_Widget {
             function HandlePopupResult(result) {
                 <?php
                 if ( is_page( 'sign-up' ) ) {
+                    global $wp_query; 
+                    $query_var = $wp_query->query_vars['r'];
+                    if($query_var){
+                        $sign_up_redirect_url = $query_var; 
+                        setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
+                    }else{
+                        $sign_up_redirect_url = rtrim( get_site_url(), '/' ) . '/welcome/'; 
+                        setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
+                    }
                     
-                    $sign_up_redirect_url = rtrim( get_site_url(), '/' ) . '/welcome/'; 
-                    setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
                 }
+                if( is_page( 'my-account' )){
+                    global $wp_query; 
+                    $query_var = $wp_query->query_vars['r'];
+                    if($query_var){
+                        $sign_up_redirect_url = $query_var; 
+                        setcookie( 'nab_social_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
+                    } 
+                }
+
+
+
+
+
+
+
+
+                
+
                 ?>
                 window.location = "<?php echo mo_openid_get_redirect_url();?>";
             }
@@ -1239,7 +1264,7 @@ function mo_openid_get_redirect_url() {
             }
     
         }
-    }
+    }    
 
     return $redirect_url;
 }
