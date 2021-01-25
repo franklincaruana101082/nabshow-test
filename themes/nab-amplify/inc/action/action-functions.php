@@ -3939,9 +3939,12 @@ foreach ( $company_result as $company ) {
     $dynamic_fields = array();
     if ($company->post_title !='') {
         $dynamic_fields[] = $company->post_title;
+    }else{
+        $dynamic_fields[] = '';
+    }
         $dynamic_fields[] = $claim_status;
         $dynamic_fields[] = $admin_url;
-    }
+    
 
     fputcsv($output_handle, $dynamic_fields);
 }
