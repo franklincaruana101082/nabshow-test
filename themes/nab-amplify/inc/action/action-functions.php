@@ -3911,6 +3911,7 @@ $args = array(
     'post_type'		=> 'company', // or 'post', 'page'
     'orderby' 		=> 'title', // or 'date', 'rand'
     'order' 		=> 'ASC', // or 'DESC'
+    'post_status'   => 'publish'
 );
 
 $company_result = get_posts( $args );
