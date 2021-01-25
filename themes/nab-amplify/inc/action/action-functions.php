@@ -3858,8 +3858,8 @@ function nab_add_export_company_menu() {
 
     add_submenu_page(
         'edit.php?post_type=company',
-        __('Export Compnies', 'nab-amplify'),
-        __('Export Compnies', 'nab-amplify'),
+        __('Export Companies', 'nab-amplify'),
+        __('Export Companies', 'nab-amplify'),
         'manage_options',
         'amplify_company_export',
         'nab_export_compnies_callback'
