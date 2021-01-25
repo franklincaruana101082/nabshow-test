@@ -3872,7 +3872,7 @@ function nab_add_export_company_menu() {
 function nab_export_compnies_callback() {  
     ?>
     <div class="search-settings">
-        <h2>Export Compnies</h2>
+        <h2>Export Companies</h2>
         <form class="companies-export-form" method="post">
             <input type="hidden" name="generate_company_csv" value="generate_company_csv"/>
             <?php submit_button("Export CSV"); ?>
