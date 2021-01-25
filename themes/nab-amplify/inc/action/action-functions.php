@@ -3936,17 +3936,17 @@ foreach ( $company_result as $company ) {
         $admin_url = get_permalink($company->ID);
     }
 
-    $dynamic_fields = array();
+   
     if ($company->post_title !='') {
+        $dynamic_fields = array();
         $dynamic_fields[] = $company->post_title;
-    }else{
-        $dynamic_fields[] = '';
-    }
         $dynamic_fields[] = $claim_status;
         $dynamic_fields[] = $admin_url;
+        fputcsv($output_handle, $dynamic_fields);
+    }
     
 
-    fputcsv($output_handle, $dynamic_fields);
+    
 }
   exit;      
 
