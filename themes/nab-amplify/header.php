@@ -107,8 +107,8 @@
 										<li class="active"><a href="<?php echo get_site_url(); ?>">NAB Amplify</a></li>
 										<li><a href="https://nabshow.com/2021/">NAB Show</a></li>
 										<li><a href="https://nabshow.com/ny2020/">NAB Show New York</a></li>
-										<li><a href="https://radio.nabshow.com/">NAB Radio Show</a></li>
-										<li><a href="https://smte.nabshow.com/">NAB Show SMTE</a></li>
+										<li><a href="https://radio.nabshow.com/">Radio Show</a></li>
+										<li><a href="https://smte.nabshow.com/">SMTE</a></li>
 									</ul>
 								</div>
 							</div>
