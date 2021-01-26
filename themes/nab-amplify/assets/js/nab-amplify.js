@@ -10,7 +10,6 @@
 
   // Ready.
   $(document).ready(function () {
-
     $('.section-professional-details .user-job-role-select').select2({
       width: '100%'
     })
@@ -19,33 +18,40 @@
     })
 
     $('.section-professional-details .user-country-select').select2({
-      placeholder: "Select a country",
-      width: "100%"
-    });
+      placeholder: 'Select a country',
+      width: '100%'
+    })
 
     $('.section-professional-details .user-state-select').select2({
-      placeholder: "Select a state",
-      width: "100%"
-    });
+      placeholder: 'Select a state',
+      width: '100%'
+    })
 
-    $('.nab-custom-select select').select2({ width: '100%' });
+    $('.nab-custom-select select').select2({ width: '100%' })
 
-    if ( 0 < $('#user-country-select').length ) {
-      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
-      var wc_states = $.parseJSON(wc_states_json);
-      $(document).on('change', '#user-country-select', function(){
-        console.log(wc_states[$(this).val()]);
+    if (0 < $('#user-country-select').length) {
+      var wc_states_json = wc_country_select_params.countries.replace(
+        /&quot;/g,
+        '"'
+      )
+      var wc_states = $.parseJSON(wc_states_json)
+      $(document).on('change', '#user-country-select', function () {
+        console.log(wc_states[$(this).val()])
 
-        var state = wc_states[$(this).val()];
-        $('.section-professional-details .user-state-select').empty();
+        var state = wc_states[$(this).val()]
+        $('.section-professional-details .user-state-select').empty()
 
-          $.each(state, function (index) {
-            var $option = $('<option></option>').prop('value', index).text(state[index])
-            $('.section-professional-details .user-state-select').append($option)
-          })
+        $.each(state, function (index) {
+          var $option = $('<option></option>')
+            .prop('value', index)
+            .text(state[index])
+          $('.section-professional-details .user-state-select').append($option)
+        })
 
-          $('.section-professional-details .user-state-select').val('').change();
-      });
+        $('.section-professional-details .user-state-select')
+          .val('')
+          .change()
+      })
     }
 
     $(document).on('click', '.notification-wrapper', function () {
@@ -115,12 +121,11 @@
     // If remove connection icon found on the page,
     // add a popup in the body in advance.
     if (0 < $('.is_friend .remove').length) {
-
       // Add a default popup.
-      nabAddPopup('unfriend-confirmation');
+      nabAddPopup('unfriend-confirmation')
 
       // Get added popup's inner div to add extra content.
-      let nabModalContentWrap = $('#unfriend-confirmation .modal-content-wrap');
+      let nabModalContentWrap = $('#unfriend-confirmation .modal-content-wrap')
 
       let confimPopupPara = document.createElement('p')
       confimPopupPara.innerHTML = 'Do you really want to remove connection?'
@@ -149,24 +154,28 @@
     })
 
     /* close popup */
-    jQuery(document).on('click', '.nab-modal-close, .nab-modal-remove', function () {
-      if (
-        $(this)
-          .parents('.nab-modal')
-          .hasClass('nab-modal-active')
-      ) {
-        $(this)
-          .parents('.nab-modal')
-          .removeClass('nab-modal-active')
-      } else {
-        $(this)
-          .parents('.nab-modal')
-          .hide()
-      }
+    jQuery(document).on(
+      'click',
+      '.nab-modal-close, .nab-modal-remove',
+      function () {
+        if (
+          $(this)
+            .parents('.nab-modal')
+            .hasClass('nab-modal-active')
+        ) {
+          $(this)
+            .parents('.nab-modal')
+            .removeClass('nab-modal-active')
+        } else {
+          $(this)
+            .parents('.nab-modal')
+            .hide()
+        }
 
-      // Remove class added when connection request popup dispalyed.
-      $('body').removeClass('connection-popup-added')
-    })
+        // Remove class added when connection request popup dispalyed.
+        $('body').removeClass('connection-popup-added')
+      }
+    )
 
     jQuery(document).on('click touchstart', function (e) {
       if ($(e.target).is('.nab-modal-inner')) {
@@ -254,14 +263,13 @@
   )
 
   // Add a popup function if not exists.
-  if( 'function' !== typeof nabAddPopup ) {
-
+  if ('function' !== typeof nabAddPopup) {
     /**
      * Add a blank popup.
      *
      * @param ID Main modal ID.
      */
-    function nabAddPopup(ID) {
+    function nabAddPopup (ID) {
       let nabModal = document.createElement('div')
       nabModal.setAttribute('class', 'nab-modal')
       nabModal.setAttribute('id', ID)
@@ -276,8 +284,8 @@
 
       let nabModalClose = document.createElement('span')
       nabModalClose.setAttribute(
-          'class',
-          'nab-modal-close fa fa-times confirmed-answer'
+        'class',
+        'nab-modal-close fa fa-times confirmed-answer'
       )
       nabModalClose.setAttribute('id', 'confirmed-no')
       nabModalContent.appendChild(nabModalClose)
@@ -286,7 +294,7 @@
       nabModalContentWrap.setAttribute('class', 'modal-content-wrap')
       nabModalContent.appendChild(nabModalContentWrap)
 
-      jQuery('body').append(nabModal);
+      jQuery('body').append(nabModal)
     }
   }
 
@@ -647,9 +655,7 @@
     }
   })
   $(document).on('change', '#nab_product_play_image', function () {
-    if (
-      $('.preview_product_play_image .nab-product-media-item').length >= 1
-    ) {
+    if ($('.preview_product_play_image .nab-product-media-item').length >= 1) {
       $('.preview_product_play_image .nab-product-media-item').remove()
       $('.preview_product_play_image').append(
         '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="play_image"><i class="fa fa-times" aria-hidden="true"></i></button><img id="preview_product_play_image" src="#" alt="your image" style="display:none;"/></div>'
@@ -892,46 +898,86 @@
     })
   })
 
-  function nabMembershipCategoryNotice( selector, message ) {
-    if ( 0 === selector.parents( '.form-row' ).find( '.company-member-level-notice' ).length ) {
-      selector.parents( '.form-row' ).append( '<p class="company-member-level-notice">' + message + '</p>' );
+  function nabMembershipCategoryNotice (selector, message) {
+    if (
+      0 ===
+      selector.parents('.form-row').find('.company-member-level-notice').length
+    ) {
+      selector
+        .parents('.form-row')
+        .append('<p class="company-member-level-notice">' + message + '</p>')
     } else {
-      selector.parents( '.form-row' ).find( '.company-member-level-notice' ).text( message );
-      selector.parents( '.form-row' ).find( '.company-member-level-notice' ).show();
+      selector
+        .parents('.form-row')
+        .find('.company-member-level-notice')
+        .text(message)
+      selector
+        .parents('.form-row')
+        .find('.company-member-level-notice')
+        .show()
     }
   }
 
   $(document).on('click', '#nab-edit-company-profile-submit', function () {
-    var featuredSelector  = $( this ).parents( 'form#nab-edit-company-profile-form' ).find( '#product_categories' );
-    var searchSelector    = $( this ).parents( 'form#nab-edit-company-profile-form' ).find( '#search_product_categories' );
-    var featuredMax       = parseInt( featuredSelector.attr( 'data-limit' ) );
-    var searchMax         = parseInt( searchSelector.attr( 'data-limit' ) );
+    var featuredSelector = $(this)
+      .parents('form#nab-edit-company-profile-form')
+      .find('#product_categories')
+    var searchSelector = $(this)
+      .parents('form#nab-edit-company-profile-form')
+      .find('#search_product_categories')
+    var featuredMax = parseInt(featuredSelector.attr('data-limit'))
+    var searchMax = parseInt(searchSelector.attr('data-limit'))
 
-    $( this ).parents( 'form#nab-edit-company-profile-form').find( '.company-member-level-notice' ).hide();
-    
-    if ( null !== featuredSelector.val() ) {      
-      if ( 0 === featuredMax ) {
-        nabMembershipCategoryNotice( featuredSelector, 'You can\'t add featured product categories without membership.' );
-        return false;
-      } else if ( 2 === featuredMax && featuredSelector.val().length > featuredMax ) {
-        nabMembershipCategoryNotice( featuredSelector, 'You can add maximum ' + featuredMax + ' featured product categories with your current membership.' );
-        return false;
-      } else if ( featuredSelector.val().length > featuredMax ) {
-        nabMembershipCategoryNotice( featuredSelector, 'You can add maximum ' + featuredMax + ' featured product categories.' );
-        return false;
+    $(this)
+      .parents('form#nab-edit-company-profile-form')
+      .find('.company-member-level-notice')
+      .hide()
+
+    if (null !== featuredSelector.val()) {
+      if (0 === featuredMax) {
+        nabMembershipCategoryNotice(
+          featuredSelector,
+          "You can't add featured product categories without membership."
+        )
+        return false
+      } else if (
+        2 === featuredMax &&
+        featuredSelector.val().length > featuredMax
+      ) {
+        nabMembershipCategoryNotice(
+          featuredSelector,
+          'You can add maximum ' +
+            featuredMax +
+            ' featured product categories with your current membership.'
+        )
+        return false
+      } else if (featuredSelector.val().length > featuredMax) {
+        nabMembershipCategoryNotice(
+          featuredSelector,
+          'You can add maximum ' + featuredMax + ' featured product categories.'
+        )
+        return false
       }
     }
 
-    if ( null !== searchSelector.val() ) {
-      if ( 0 === searchMax ) {
-        nabMembershipCategoryNotice( searchSelector, 'You can\'t add search categories with your current membership.' );
-        return false;
-      } else if ( searchSelector.val().length > searchMax ) {
-        nabMembershipCategoryNotice( searchSelector, 'You can add maximum ' + searchMax + ' search categories with your current membership.' );
-        return false;
+    if (null !== searchSelector.val()) {
+      if (0 === searchMax) {
+        nabMembershipCategoryNotice(
+          searchSelector,
+          "You can't add search categories with your current membership."
+        )
+        return false
+      } else if (searchSelector.val().length > searchMax) {
+        nabMembershipCategoryNotice(
+          searchSelector,
+          'You can add maximum ' +
+            searchMax +
+            ' search categories with your current membership.'
+        )
+        return false
       }
     }
-    
+
     var fd = new FormData()
     fd.append('action', 'nab_update_company_profile')
     fd.append('company_id', amplifyJS.postID)
@@ -1017,8 +1063,8 @@
       )
     }
 
-    if ( 0 < searchSelector.length ) {
-      fd.append( 'company_search_categories', searchSelector.val() );
+    if (0 < searchSelector.length) {
+      fd.append('company_search_categories', searchSelector.val())
     }
 
     if (jQuery('#company_youtube').length) {
@@ -1035,15 +1081,15 @@
         $('body').addClass('is-loading')
       },
       success: function (data) {
-        $('body').removeClass('is-loading');
-        if ( undefined !== data.success && ! data.success ) {
-          addSuccessMsg( '.add-product-content-popup', data.data );  
+        $('body').removeClass('is-loading')
+        if (undefined !== data.success && !data.success) {
+          addSuccessMsg('.add-product-content-popup', data.data)
         } else {
           addSuccessMsg(
             '.add-product-content-popup',
             'Profile Updated Successfully!'
           )
-        };        
+        }
       }
     })
   })
@@ -1074,8 +1120,8 @@
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
           }
-          jQuery('#product_categories').select2();
-          jQuery('#search_product_categories').select2();
+          jQuery('#product_categories').select2()
+          jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2()
         } else {
           jQuery('#addProductModal').remove()
@@ -1086,8 +1132,8 @@
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
           }
-          jQuery('#product_categories').select2();
-          jQuery('#search_product_categories').select2();
+          jQuery('#product_categories').select2()
+          jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2()
         }
 
@@ -1225,10 +1271,9 @@
 
   // Upload user images using ajax.
   $('#profile_picture_file, #banner_image_file').on('change', function (e) {
-
     // If the front cropper plugin is not active
     // Upload the image in native way.
-    if( 'undefined' === typeof Cropper ) {
+    if ('undefined' === typeof Cropper) {
       e.preventDefault()
 
       $('body').addClass('is-loading')
@@ -2361,58 +2406,87 @@
 
   $(document).on('change', '.other-search-filter #people-connect', function () {
     nabSearchUserAjax(false, 1)
-  });
+  })
 
-  $(document).on('change', '.other-search-filter #search-country-select', function(){
+  $(document).on(
+    'change',
+    '.other-search-filter #search-country-select',
+    function () {
+      $(this)
+        .parents('.other-search-filter')
+        .find('#search-state-select')
+        .empty()
+      $(this)
+        .parents('.other-search-filter')
+        .find('#search-city-select')
+        .empty()
 
-    $(this).parents('.other-search-filter').find('#search-state-select').empty();
-    $(this).parents('.other-search-filter').find('#search-city-select').empty();
+      let default_option_state = $('<option></option>')
+        .prop('value', '')
+        .text('Select a state')
+      $('.other-search-filter .search-state-select').append(
+        default_option_state
+      )
 
-    let default_option_state = $('<option></option>').prop('value', '').text('Select a state');
-    $('.other-search-filter .search-state-select').append(default_option_state);
+      let default_option_city = $('<option></option>')
+        .prop('value', '')
+        .text('Select a city')
+      $('.other-search-filter .search-city-select').append(default_option_city)
 
-    let default_option_city = $('<option></option>').prop('value', '').text('Select a city');
-    $('.other-search-filter .search-city-select').append(default_option_city);
+      let country = 0 === $(this)[0].selectedIndex ? '' : $(this).val()
 
-    let country = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-
-    jQuery.ajax({
-      url: amplifyJS.ajaxurl,
-      type: 'POST',
-      data: {
-        action: 'nab_get_search_filter_state',
-        nabNonce: amplifyJS.nabNonce,
-        country: country
-      },
-      success: function (response) {
-        let stateObj = jQuery.parseJSON(response);
-        if ( stateObj.states ) {
-          $.each(stateObj.states, function (index) {
-            let $option = $('<option></option>').prop('value', index).text(stateObj.states[index]);
-            $('.other-search-filter .search-state-select').append($option);
-          })
-          //$('.other-search-filter .search-state-select').val('').change();
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          action: 'nab_get_search_filter_state',
+          nabNonce: amplifyJS.nabNonce,
+          country: country
+        },
+        success: function (response) {
+          let stateObj = jQuery.parseJSON(response)
+          if (stateObj.states) {
+            $.each(stateObj.states, function (index) {
+              let $option = $('<option></option>')
+                .prop('value', index)
+                .text(stateObj.states[index])
+              $('.other-search-filter .search-state-select').append($option)
+            })
+            //$('.other-search-filter .search-state-select').val('').change();
+          }
         }
-      }
-    });
-    nabSearchUserAjax(false, 1);
-  });
+      })
+      nabSearchUserAjax(false, 1)
+    }
+  )
 
-  $(document).on('change', '.other-search-filter #search-state-select', function(){
+  $(document).on(
+    'change',
+    '.other-search-filter #search-state-select',
+    function () {
+      $(this)
+        .parents('.other-search-filter')
+        .find('#search-city-select')
+        .empty()
+      let default_option_city = $('<option></option>')
+        .prop('value', '')
+        .text('Select a city')
+      $('.other-search-filter .search-city-select').append(default_option_city)
 
-    $(this).parents('.other-search-filter').find('#search-city-select').empty();
-    let default_option_city = $('<option></option>').prop('value', '').text('Select a city');
-    $('.other-search-filter .search-city-select').append(default_option_city);
+      nabSearchUserAjax(false, 1)
+    }
+  )
 
-    nabSearchUserAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter #search-city-select',
+    function () {
+      nabSearchUserAjax(false, 1)
+    }
+  )
 
-  $(document).on('change', '.other-search-filter #search-city-select', function(){
-    nabSearchUserAjax(false, 1);
-  });
-
-  $(document).ready(function(){
-    $('.search-city-select').select2();
+  $(document).ready(function () {
+    $('.search-city-select').select2()
     $('.search-city-select').select2({
       ajax: {
         url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
@@ -2422,8 +2496,16 @@
           return {
             q: params.term, // search query
             action: 'nab_get_search_city', // AJAX action for admin-ajax.php
-            country: 0 === $('.other-search-filter #search-country-select')[0].selectedIndex ? '' : $('.other-search-filter #search-country-select').val(),
-            state: 0 === $('.other-search-filter #search-state-select')[0].selectedIndex ? '' : $('.other-search-filter #search-state-select').val()
+            country:
+              0 ===
+              $('.other-search-filter #search-country-select')[0].selectedIndex
+                ? ''
+                : $('.other-search-filter #search-country-select').val(),
+            state:
+              0 ===
+              $('.other-search-filter #search-state-select')[0].selectedIndex
+                ? ''
+                : $('.other-search-filter #search-state-select').val()
           }
         },
         processResults: function (data) {
@@ -2443,7 +2525,7 @@
       },
       minimumInputLength: 2
     })
-  });
+  })
 
   $(document).on(
     'keypress',
@@ -2583,17 +2665,29 @@
     }
   )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #content-community', function () {
-    nabSearchContentAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #content-community',
+    function () {
+      nabSearchContentAjax(false, 1)
+    }
+  )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #content-subject', function () {
-    nabSearchContentAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #content-subject',
+    function () {
+      nabSearchContentAjax(false, 1)
+    }
+  )
 
-  $(document).on('change', '.other-search-filter .nab-custom-select #content-type', function () {
-    nabSearchContentAjax(false, 1);
-  });
+  $(document).on(
+    'change',
+    '.other-search-filter .nab-custom-select #content-type',
+    function () {
+      nabSearchContentAjax(false, 1)
+    }
+  )
 
   /* Event Search Filters*/
   $(document).on('click', '#load-more-event a', function () {
@@ -2735,16 +2829,20 @@
     }
   )
 
-  $(document).on('click', '#unfriend-confirmation .confirmed-answer', function () {
-    if ('confirmed-yes' === $(this).attr('id')) {
-      window.location.href = $('.popup-shown').attr('href')
-    } else {
-      $('.popup-shown').removeClass('popup-shown')
-      $('#unfriend-confirmation')
-        .hide()
-        .removeClass('nab-modal-active')
+  $(document).on(
+    'click',
+    '#unfriend-confirmation .confirmed-answer',
+    function () {
+      if ('confirmed-yes' === $(this).attr('id')) {
+        window.location.href = $('.popup-shown').attr('href')
+      } else {
+        $('.popup-shown').removeClass('popup-shown')
+        $('#unfriend-confirmation')
+          .hide()
+          .removeClass('nab-modal-active')
+      }
     }
-  })
+  )
 
   // Unfriend confirmation.
   $(document).on('click', '.is_friend .remove', function (e) {
@@ -3252,11 +3350,7 @@
           $('body').addClass('feature-block-popup-added')
           $('.popup-opened').removeClass('popup-opened')
           $(this).addClass('popup-opened')
-          defaultCharCount(
-            '#nab_featured_block_headline',
-            '#character-count-featured-headline',
-            200
-          )
+
           defaultCharCount(
             '#nab_featured_block_posted_by',
             '#character-count-featured-posyby',
@@ -3272,13 +3366,6 @@
             '#character-count-featured-btnlabel',
             60
           )
-          jQuery('.color-picker').iris({
-            // or in the data-default-color attribute on the input
-            defaultColor: true,
-            hide: true,
-            palettes: true
-            });
-
         } else {
           $('body').append(data)
           $('#addProductModal').show()
@@ -3305,33 +3392,11 @@
             '#character-count-featured-btnlabel',
             60
           )
-          jQuery('.color-picker').iris({
-            // or in the data-default-color attribute on the input
-            defaultColor: true,
-            hide: true,
-            palettes: true
-            });
-
         }
       }
     })
   })
 
-  $(document).click(function (e) {
-    if (
-      !$(e.target).is(
-        '.color-picker, .iris-picker, .iris-picker-inner'
-      )
-    ) {
-      $('.color-picker').iris('hide')
-      //return false
-    }
-  })
-  $(document).on('click', '.color-picker',function (event) {
-    $('.color-picker').iris('hide')
-    $(this).iris('show')
-    //return false
-  })
   $(document).on('click', '#nab-edit-featured-block-submit', function (e) {
     e.preventDefault()
 
@@ -3348,43 +3413,7 @@
     var nab_featured_block_button_link = $(
       '#nab_featured_block_button_link'
     ).val()
-    var nab_featured_block_bgcolor = $(
-      '#nab_featured_block_bgcolor'
-    ).val()
-    var nab_featured_block_statuscolor = $(
-      '#nab_featured_block_statuscolor'
-    ).val()
-    var nab_featured_block_titlecolor = $(
-      '#nab_featured_block_titlecolor'
-    ).val()
-    var nab_featured_block_authorcolor = $(
-      '#nab_featured_block_authorcolor'
-    ).val()
-    var nab_featured_block_desccolor = $(
-      '#nab_featured_block_desccolor'
-    ).val()
-    var nab_featured_block_play_link = $(
-      '#nab_featured_block_play_link'
-    ).val()
-    var nab_feature_block_reaction = jQuery(
-      '#nab_feature_block_reaction'
-    ).prop('checked')
-      ? 1
-      : 0
-    var nab_feature_block_button = jQuery(
-        '#nab_feature_block_button'
-      ).prop('checked')
-        ? 1
-        : 0
-    var nab_feature_block_link_target = jQuery(
-          '#nab_feature_block_link_target'
-        ).prop('checked')
-          ? 1
-          : 0
-
-    if (!checkContentlength('#nab_featured_block_headline', 'Headline', 200)) {
-      return false
-    }
+   
     if (!checkContentlength('#nab_featured_block_posted_by', 'Posted By', 60)) {
       return false
     }
@@ -3423,54 +3452,16 @@
       'nab_featured_block_button_link',
       nab_featured_block_button_link
     )
-    form_data.append(
-      'nab_featured_block_bgcolor',
-      nab_featured_block_bgcolor
-    )
-    form_data.append(
-      'nab_featured_block_statuscolor',
-      nab_featured_block_statuscolor
-    )
-    form_data.append(
-      'nab_featured_block_titlecolor',
-      nab_featured_block_titlecolor
-    )
-    form_data.append(
-      'nab_featured_block_authorcolor',
-      nab_featured_block_authorcolor
-    )
-    form_data.append(
-      'nab_featured_block_desccolor',
-      nab_featured_block_desccolor
-    )
-    form_data.append(
-      'nab_featured_block_play_link',
-      nab_featured_block_play_link
-    )
-    form_data.append(
-      'nab_feature_block_reaction',
-      nab_feature_block_reaction
-    )
-    form_data.append(
-      'nab_feature_block_button',
-      nab_feature_block_button
-    )
-    form_data.append(
-      'nab_feature_block_link_target',
-      nab_feature_block_link_target
-    )
 
     if (jQuery('#product_featured_image')[0].files.length > 0) {
       $.each($('#product_featured_image')[0].files, function (key, file) {
         form_data.append('nab_feature_block_bg_image', file)
       })
     }
-    if (jQuery('#nab_product_play_image')[0].files.length > 0) {
-      $.each($('#nab_product_play_image')[0].files, function (key, file) {
-        form_data.append('nab_product_play_image', file)
-      })
-    }
-    form_data.append('nab_featured_block_remove_attachment', remove_featured_attachment_arr)
+    form_data.append(
+      'nab_featured_block_remove_attachment',
+      remove_featured_attachment_arr
+    )
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       processData: false,
@@ -3528,10 +3519,10 @@ function nab_get_friend_button (_this) {
 
 /** User Search Ajax */
 function nabSearchUserAjax (loadMore, pageNumber) {
-  let connected = '';
-  let country = '';
-  let state = '';
-  let city = '';
+  let connected = ''
+  let country = ''
+  let state = ''
+  let city = ''
   let pageType = jQuery('#load-more-user a').attr('data-page-type')
   let postPerPage = jQuery('#load-more-user a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-user a').attr('data-post-limit'))
@@ -3561,15 +3552,25 @@ function nabSearchUserAjax (loadMore, pageNumber) {
         : jQuery('.other-search-filter #people-connect').val()
   }
 
-  if ( 0 < jQuery('.other-search-filter #search-country-select').length) {
-    country = 0 === jQuery('.other-search-filter #search-country-select')[0].selectedIndex ? '' : jQuery('.other-search-filter #search-country-select').val();
+  if (0 < jQuery('.other-search-filter #search-country-select').length) {
+    country =
+      0 ===
+      jQuery('.other-search-filter #search-country-select')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #search-country-select').val()
   }
-  if ( 0 < jQuery('.other-search-filter #search-state-select').length) {
-    state = 0 === jQuery('.other-search-filter #search-state-select')[0].selectedIndex ? '' : jQuery('.other-search-filter #search-state-select').val();
+  if (0 < jQuery('.other-search-filter #search-state-select').length) {
+    state =
+      0 === jQuery('.other-search-filter #search-state-select')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #search-state-select').val()
   }
 
-  if ( 0 < jQuery('.other-search-filter #search-city-select').length) {
-    city = 0 === jQuery('.other-search-filter #search-city-select')[0].selectedIndex ? '' : jQuery('.other-search-filter #search-city-select').val();
+  if (0 < jQuery('.other-search-filter #search-city-select').length) {
+    city =
+      0 === jQuery('.other-search-filter #search-city-select')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #search-city-select').val()
   }
 
   jQuery('body').addClass('is-loading')
@@ -4333,7 +4334,9 @@ function nabSearchEventAjax (loadMore, pageNumber) {
 
 /** Content Search Ajax */
 function nabSearchContentAjax (loadMore, pageNumber) {
-  let community = '', subject = '', contentType = '';
+  let community = '',
+    subject = '',
+    contentType = ''
   let postPerPage = jQuery('#load-more-content a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-content a').attr('data-post-limit'))
     : 12
@@ -4344,16 +4347,25 @@ function nabSearchContentAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-content a.active').length
       ? jQuery('.other-search-filter .sort-content a.active').attr('data-order')
-      : 'date';
+      : 'date'
 
-  if ( 0 < jQuery('.other-search-filter #content-community').length ) {
-    community = 0 === jQuery('.other-search-filter #content-community')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-community').val();
+  if (0 < jQuery('.other-search-filter #content-community').length) {
+    community =
+      0 === jQuery('.other-search-filter #content-community')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #content-community').val()
   }
-  if ( 0 < jQuery('.other-search-filter #content-subject').length ) {
-    subject = 0 === jQuery('.other-search-filter #content-subject')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-subject').val();
+  if (0 < jQuery('.other-search-filter #content-subject').length) {
+    subject =
+      0 === jQuery('.other-search-filter #content-subject')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #content-subject').val()
   }
-  if ( 0 < jQuery('.other-search-filter #content-type').length ) {
-    contentType = 0 === jQuery('.other-search-filter #content-type')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-type').val();
+  if (0 < jQuery('.other-search-filter #content-type').length) {
+    contentType =
+      0 === jQuery('.other-search-filter #content-type')[0].selectedIndex
+        ? ''
+        : jQuery('.other-search-filter #content-type').val()
   }
 
   jQuery('body').addClass('is-loading')

@@ -2338,21 +2338,21 @@ function nab_edit_feature_block()
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$company_admins = get_field('company_user_id', $company_id);
 	$current_logged_user = get_current_user_id();
-	$nab_featured_block_headline       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_headline', FILTER_SANITIZE_STRING));
+	$nab_featured_block_headline       = 'Featured';
 	$nab_featured_block_title       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_title', FILTER_SANITIZE_STRING));
 	$nab_featured_block_posted_by       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
 	$nab_featured_block_description       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
 	$nab_featured_block_button_label       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_label', FILTER_SANITIZE_STRING));
 	$nab_featured_block_button_link      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_link', FILTER_SANITIZE_STRING));
-	$nab_featured_bg_color      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_bgcolor', FILTER_SANITIZE_STRING));
-	$nab_featured_status_color      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_statuscolor', FILTER_SANITIZE_STRING));
-	$nab_featured_title_color      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_titlecolor', FILTER_SANITIZE_STRING));
-	$nab_featured_author_color      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_authorcolor', FILTER_SANITIZE_STRING));
-	$nab_featured_desc_color      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_desccolor', FILTER_SANITIZE_STRING));
-	$nab_featured_block_play_link      = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_play_link', FILTER_SANITIZE_STRING));
-	$nab_feature_block_reaction      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_reaction', FILTER_SANITIZE_STRING));
-	$nab_feature_block_button      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_button', FILTER_SANITIZE_STRING));
-	$nab_feature_block_link_target      = strip_tags(filter_input(INPUT_POST, 'nab_feature_block_link_target', FILTER_SANITIZE_STRING));
+	$nab_featured_bg_color      = '#000000';
+	$nab_featured_status_color      = '#e5018b';
+	$nab_featured_title_color      = '#ffffff';
+	$nab_featured_author_color      = '#fdd80f';
+	$nab_featured_desc_color      = '#ffffff';
+	$nab_featured_block_play_link      = '';
+	$nab_feature_block_reaction      = 1;
+	$nab_feature_block_button      = 1;
+	$nab_feature_block_link_target      = 1;
 	$nab_featured_block_remove_attachment = explode(',', filter_input(INPUT_POST, 'nab_featured_block_remove_attachment', FILTER_SANITIZE_STRING));
 	/*Check if current user is company admin */
 	if (get_post_type($company_id) == 'company' && !in_array($current_logged_user, $company_admins)) {
