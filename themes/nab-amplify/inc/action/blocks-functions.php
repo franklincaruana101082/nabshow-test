@@ -891,6 +891,7 @@ function nab_company_feature_render_callback($attributes)
 
     ob_start();
     ?>
+    
     <div class="amp-item-wrap featured-block-wraper">
         <?php
         if ($feature_status !== '') {
@@ -952,7 +953,9 @@ function nab_company_feature_render_callback($attributes)
         <?php
                 }
             } else {
-                echo '<p class="empty-featured-block">Featured data not available!</p>';
+                if (defined('REST_REQUEST')) {
+                    echo '<p class="empty-featured-block">Featured data not available!</p>';
+                }
             }
         }
         ?>

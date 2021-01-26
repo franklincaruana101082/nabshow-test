@@ -1322,7 +1322,8 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
  * Add comapny admin query parameter
  */
 function nab_add_query_vars_filter( $vars ){
-    $vars[] = "addadmin";
+	$vars[] = "addadmin";
+	$vars[] = "r";
     return $vars;
 }
 add_filter( 'query_vars', 'nab_add_query_vars_filter' );

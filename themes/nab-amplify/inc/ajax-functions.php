@@ -1009,23 +1009,23 @@ function nab_add_attendee_order_details_ajax_callback()
 add_action('wp_ajax_nab_get_search_filter_state', 'nab_get_search_filter_state_callback');
 add_action('wp_ajax_nopriv_nab_get_search_filter_state', 'nab_get_search_filter_state_callback');
 
-function nab_get_search_filter_state_callback() {
+function nab_get_search_filter_state_callback()
+{
 
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
-	$final_result 	= array();	
+	$final_result 	= array();
 	$country		= filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
-	
-	$countries_obj  		= new WC_Countries();	
-	$default_country        = ! empty( $country ) ? $country : $countries_obj->get_base_country();
-	$default_county_states  = $countries_obj->get_states( $default_country );
 
-	$final_result[ 'states' ] = $default_county_states;
+	$countries_obj  		= new WC_Countries();
+	$default_country        = !empty($country) ? $country : $countries_obj->get_base_country();
+	$default_county_states  = $countries_obj->get_states($default_country);
 
-	echo wp_json_encode( $final_result );
+	$final_result['states'] = $default_county_states;
+
+	echo wp_json_encode($final_result);
 
 	wp_die();
-
 }
 
 add_action('wp_ajax_nab_member_search_filter', 'nab_member_search_filter_callback');
@@ -1072,13 +1072,13 @@ function nab_member_search_filter_callback()
 	$wp_user_ids 	= array();
 	$meta_result	= true;
 
-	if ( ! empty( $company ) || ! empty( $job_title ) || ! empty( $country ) || ! empty( $state ) || ! empty( $city ) ) {
+	if (!empty($company) || !empty($job_title) || !empty($country) || !empty($state) || !empty($city)) {
 
-		$user_query_args = array( 'fields' => 'ID' );
+		$user_query_args = array('fields' => 'ID');
 
-		$meta_query_args = array( 'relation' => 'OR' );
+		$meta_query_args = array('relation' => 'OR');
 
-		if ( ! empty( $company ) ) {
+		if (!empty($company)) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'attendee_company',
@@ -1087,7 +1087,7 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if ( ! empty( $job_title ) ) {
+		if (!empty($job_title)) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'attendee_title',
@@ -1096,42 +1096,42 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if ( ! empty( $country ) ) {
-			
+		if (!empty($country)) {
+
 			$meta_query_args[] = array(
 				'key' 		=> 'user_country',
-				'value'		=> $country				
+				'value'		=> $country
 			);
 		}
 
-		if ( ! empty( $state ) ) {
-			
+		if (!empty($state)) {
+
 			$meta_query_args[] = array(
 				'key' 		=> 'user_state',
-				'value'		=> $state				
+				'value'		=> $state
 			);
 		}
 
-		if ( ! empty( $city ) ) {
-			
+		if (!empty($city)) {
+
 			$meta_query_args[] = array(
 				'key' 		=> 'user_city',
-				'value'		=> $city				
+				'value'		=> $city
 			);
 		}
 
-		if ( count( $meta_query_args ) > 2 ) {
-			
-			$meta_query_args[ 'relation' ] = 'AND';
+		if (count($meta_query_args) > 2) {
+
+			$meta_query_args['relation'] = 'AND';
 		}
 
-		$user_query_args[ 'meta_query' ] = $meta_query_args;
+		$user_query_args['meta_query'] = $meta_query_args;
 
-		$user_query = new WP_User_Query( $user_query_args );
+		$user_query = new WP_User_Query($user_query_args);
 
 		$wp_user_ids = $user_query->get_results();
 
-		if ( count( $wp_user_ids ) === 0 ) {
+		if (count($wp_user_ids) === 0) {
 
 			$meta_result = false;
 		}
@@ -1158,67 +1158,67 @@ function nab_member_search_filter_callback()
 	$total_users 	= 0;
 	$total_pages	= 0;
 
-	if ( $meta_result ) {
-		
-		if ( count( $wp_user_ids ) > 0 ) {
+	if ($meta_result) {
 
-			$members_filter[ 'include' ] = $wp_user_ids;			
+		if (count($wp_user_ids) > 0) {
+
+			$members_filter['include'] = $wp_user_ids;
 		}
 
 		if (bp_has_members($members_filter)) {
 
 			global $members_template;
-	
+
 			$total_users	= $members_template->total_member_count;
 			$total_pages	= ceil($total_users / $post_limit);
 			$cnt 			= 0;
-	
+
 			$current_user_id = get_current_user_id();
-	
+
 			while (bp_members()) {
-	
+
 				bp_the_member();
-	
+
 				$member_user_id	= bp_get_member_user_id();
 				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
 				$user_full_name = bp_get_member_name();
 				if (empty(trim($user_full_name))) {
 					$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 				}
-	
+
 				$company 		= get_user_meta($member_user_id, 'attendee_company', true);
 				$title 		= get_user_meta($member_user_id, 'attendee_title', true);
 				$user_images 	= nab_amplify_get_user_images($member_user_id);
-	
+
 				$user_avatar = '<img src="' . $user_images['profile_picture'] . '" />';
-	
+
 				$result_user[$cnt]['cover_img'] = $user_images['banner_image'];
 				$result_user[$cnt]['name'] 		= html_entity_decode($user_full_name);
 				$result_user[$cnt]['company'] 	= html_entity_decode($company);
 				$result_user[$cnt]['title'] 	= html_entity_decode($title);
 				$result_user[$cnt]['avatar']		= $user_avatar;
 				$result_user[$cnt]['link']		= bp_get_member_permalink();
-	
+
 				$action_button = nab_amplify_bp_get_friendship_button($member_user_id);
 				$result_user[$cnt]['action_button'] = $action_button;
-	
+
 				if ($is_friend && 'is_friend' === $is_friend) {
 					$cancel_friendship_button = nab_amplify_bp_get_cancel_friendship_button($member_user_id);
 					$result_user[$cnt]['cancel_friendship_button'] = $cancel_friendship_button;
 				}
-	
+
 				if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
-	
+
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
 				} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
-	
+
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
 				}
-	
+
 				$cnt++;
 			}
 		}
-	}	
+	}
 
 	$final_result['next_page_number']	= $page_number + 1;
 	$final_result['total_page']			= $total_pages;
@@ -1749,10 +1749,10 @@ function nab_content_search_filter_callback()
 
 	$all_post_types = nab_get_search_post_types();
 
-	if ( isset( $content_type ) && ! empty ( $content_type ) ) {
-		
-		if ( 'other' === $content_type && ( $key = array_search( 'articles', $all_post_types ) ) !== false ) {
-			unset( $all_post_types[ $key ] );
+	if (isset($content_type) && !empty($content_type)) {
+
+		if ('other' === $content_type && ($key = array_search('articles', $all_post_types)) !== false) {
+			unset($all_post_types[$key]);
 		} else {
 			$all_post_types = $content_type;
 		}
@@ -1763,8 +1763,8 @@ function nab_content_search_filter_callback()
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
-		's'					=> $search_term,		
-	);	
+		's'					=> $search_term,
+	);
 
 	if (!empty($search_term)) {
 		$content_args['_meta_search'] = true;
@@ -1779,7 +1779,7 @@ function nab_content_search_filter_callback()
 		$content_args['order']		= $order;
 	}
 
-	$meta_query_args = array( 
+	$meta_query_args = array(
 		'relation' => 'AND',
 		array(
 			'relation'	=> 'OR',
@@ -1796,15 +1796,15 @@ function nab_content_search_filter_callback()
 		),
 	);
 
-	if ( ! empty( $community ) ) {
+	if (!empty($community)) {
 		$meta_query_args[] = array(
 			'key'		=> 'community',
 			'value'		=> '"' . $community . '"',
 			'compare'	=> 'LIKE'
 		);
 	}
-	
-	if ( ! empty( $subject ) ) {
+
+	if (!empty($subject)) {
 		$meta_query_args[] = array(
 			'key'		=> 'content_subject',
 			'value'		=> '"' . $subject . '"',
@@ -1812,7 +1812,7 @@ function nab_content_search_filter_callback()
 		);
 	}
 
-	$content_args[ 'meta_query' ] = $meta_query_args;
+	$content_args['meta_query'] = $meta_query_args;
 
 	$content_query = new WP_Query($content_args);
 
@@ -2195,7 +2195,7 @@ function nab_bp_message_request_popup()
 	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 	$member_id = filter_input(INPUT_POST, 'member_id', FILTER_SANITIZE_NUMBER_INT);
 	$action = 'poc';
-	$message_html = nab_get_wp_editor('', 'nab-xconnection-message', array('media_buttons' => true,'teeny' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+	$message_html = nab_get_wp_editor('', 'nab-xconnection-message', array('media_buttons' => true, 'teeny' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
 
 	if ($post_type === 'company-products') {
 		$point_of_contact   = get_field('product_point_of_contact', $post_id);
@@ -2302,33 +2302,25 @@ function nab_edit_feature_block_popup()
 	$block_data['company_id'] = $company_id;
 	$block_data['bg_image'] = get_field('feature_background_image', $company_id);
 	$block_data['play_image'] = get_field('feature_icon_image', $company_id);
-			$block_data['headline'] =  get_field('feature_status',$company_id) ?  get_field('feature_status',$company_id) : '';
-			$block_data['title'] =  get_field('feature_title',$company_id) ?  get_field('feature_title',$company_id) : '';
-			$block_data['author'] = get_field('feature_author',$company_id) ? get_field('feature_author',$company_id) : '';
-			$block_data['description'] = get_field('feature_desc',$company_id) ? get_field('feature_desc',$company_id) : '';
-			$block_data['button_label'] = get_field('feature_button_text',$company_id) ?  get_field('feature_button_text',$company_id) : '';
-			$block_data['button_link'] = get_field('feature_button_url',$company_id) ? get_field('feature_button_url',$company_id) : '';
-			$block_data['bg_color'] = get_field('feature_bg_color',$company_id) ? get_field('feature_bg_color',$company_id) : '';
-			$block_data['title_color'] = get_field('feature_title_color',$company_id) ? get_field('feature_title_color',$company_id) : '';
-			$block_data['status_color'] = get_field('feature_status_color',$company_id) ? get_field('feature_status_color',$company_id) : '';
-			$block_data['author_color'] = get_field('feature_author_color',$company_id) ? get_field('feature_author_color',$company_id) : '';
-			$block_data['desc_color'] = get_field('feature_description_color',$company_id) ? get_field('feature_description_color',$company_id) : '';
-			$block_data['play_link'] = get_field('feature_play_link',$company_id) ? get_field('feature_play_link',$company_id) : '';
-			$block_data['reactions'] = get_field('feature_enable_reaction',$company_id) ? get_field('feature_enable_reaction',$company_id) : '0';
-			$block_data['button'] = get_field('feature_enable_button',$company_id) ? get_field('feature_enable_button',$company_id) : '0';
-			$block_data['button_target'] = get_field('feature_button_target',$company_id) ? get_field('feature_button_target',$company_id) : '0';
-			
-			if(is_array($block_data['reactions'])){
-				$block_data['reactions'] =$block_data['reactions'][0];
-			}
-			if(is_array($block_data['button'])){
-				$block_data['button'] = $block_data['button'][0];
-			}
-			if(is_array($block_data['button_target'])){
-				$block_data['button_target'] = $block_data['button_target'][0];
-			}
-		
-			
+	$block_data['headline'] =  get_field('feature_status', $company_id) ?  get_field('feature_status', $company_id) : '';
+	$block_data['title'] =  get_field('feature_title', $company_id) ?  get_field('feature_title', $company_id) : '';
+	$block_data['author'] = get_field('feature_author', $company_id) ? get_field('feature_author', $company_id) : '';
+	$block_data['description'] = get_field('feature_desc', $company_id) ? get_field('feature_desc', $company_id) : '';
+	$block_data['button_label'] = get_field('feature_button_text', $company_id) ?  get_field('feature_button_text', $company_id) : '';
+	$block_data['button_link'] = get_field('feature_button_url', $company_id) ? get_field('feature_button_url', $company_id) : '';
+	$block_data['bg_color'] = get_field('feature_bg_color', $company_id) ? get_field('feature_bg_color', $company_id) : '';
+	$block_data['title_color'] = get_field('feature_title_color', $company_id) ? get_field('feature_title_color', $company_id) : '';
+	$block_data['status_color'] = get_field('feature_status_color', $company_id) ? get_field('feature_status_color', $company_id) : '';
+	$block_data['author_color'] = get_field('feature_author_color', $company_id) ? get_field('feature_author_color', $company_id) : '';
+	$block_data['desc_color'] = get_field('feature_description_color', $company_id) ? get_field('feature_description_color', $company_id) : '';
+	$block_data['play_link'] = get_field('feature_play_link', $company_id) ? get_field('feature_play_link', $company_id) : '';
+	$block_data['reactions'] = get_field('feature_enable_reaction', $company_id) ? get_field('feature_enable_reaction', $company_id) : '0';
+	$block_data['button'] = get_field('feature_enable_button', $company_id) ? get_field('feature_enable_button', $company_id) : '0';
+	$block_data['button_target'] = get_field('feature_button_target', $company_id) ? get_field('feature_button_target', $company_id) : '0';
+
+
+
+
 
 	require_once get_template_directory() . '/inc/nab-edit-feature-block.php';
 
@@ -2368,66 +2360,64 @@ function nab_edit_feature_block()
 		wp_send_json_error($response);
 	}
 
-	update_field('feature_status',$nab_featured_block_headline,$company_id);
-	update_field('feature_title',$nab_featured_block_title,$company_id);
-	update_field('feature_author',$nab_featured_block_posted_by,$company_id);
-	update_field('feature_desc',$nab_featured_block_description,$company_id);
-	update_field('feature_button_text',$nab_featured_block_button_label,$company_id);
-	update_field('feature_button_url',$nab_featured_block_button_link,$company_id);
-	update_field('feature_status_color',$nab_featured_status_color,$company_id);
-	update_field('feature_title_color',$nab_featured_title_color,$company_id);
-	update_field('feature_author_color',$nab_featured_author_color,$company_id);
-	update_field('feature_description_color',$nab_featured_desc_color,$company_id);
-	update_field('feature_bg_color',$nab_featured_bg_color,$company_id);
-	update_field('feature_play_link',$nab_featured_block_play_link,$company_id);
-	update_field('feature_enable_reaction',$nab_feature_block_reaction,$company_id);
-	update_field('feature_enable_button',$nab_feature_block_button,$company_id);
-	update_field('feature_button_target',$nab_feature_block_link_target,$company_id);
+	update_field('feature_status', $nab_featured_block_headline, $company_id);
+	update_field('feature_title', $nab_featured_block_title, $company_id);
+	update_field('feature_author', $nab_featured_block_posted_by, $company_id);
+	update_field('feature_desc', $nab_featured_block_description, $company_id);
+	update_field('feature_button_text', $nab_featured_block_button_label, $company_id);
+	update_field('feature_button_url', $nab_featured_block_button_link, $company_id);
+	update_field('feature_status_color', $nab_featured_status_color, $company_id);
+	update_field('feature_title_color', $nab_featured_title_color, $company_id);
+	update_field('feature_author_color', $nab_featured_author_color, $company_id);
+	update_field('feature_description_color', $nab_featured_desc_color, $company_id);
+	update_field('feature_bg_color', $nab_featured_bg_color, $company_id);
+	update_field('feature_play_link', $nab_featured_block_play_link, $company_id);
+	update_field('feature_enable_reaction', $nab_feature_block_reaction, $company_id);
+	update_field('feature_enable_button', $nab_feature_block_button, $company_id);
+	update_field('feature_button_target', $nab_feature_block_link_target, $company_id);
 
-	if(!empty($nab_featured_block_remove_attachment)){
-	if(in_array('play_image',$nab_featured_block_remove_attachment)){
-		update_field('feature_icon_image',0,$company_id);
+	if (!empty($nab_featured_block_remove_attachment)) {
+		if (in_array('play_image', $nab_featured_block_remove_attachment)) {
+			update_field('feature_icon_image', 0, $company_id);
+		}
+		if (in_array('bg_image', $nab_featured_block_remove_attachment)) {
+			update_field('feature_background_image', 0, $company_id);
+		}
 	}
-	if(in_array('bg_image',$nab_featured_block_remove_attachment)){
-		update_field('feature_background_image',0,$company_id);
-	}
-}
 
-			$dependencies_loaded = 0;
-			foreach ($_FILES as $file_key => $file_details) {
+	$dependencies_loaded = 0;
+	foreach ($_FILES as $file_key => $file_details) {
 
-				if (0 === $dependencies_loaded) {
-					// These files need to be included as dependencies when on the front end.
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-					$dependencies_loaded = 1;
-				}
+		if (0 === $dependencies_loaded) {
+			// These files need to be included as dependencies when on the front end.
+			require_once ABSPATH . 'wp-admin/includes/image.php';
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			require_once ABSPATH . 'wp-admin/includes/media.php';
+			$dependencies_loaded = 1;
+		}
 
-				// Let WordPress handle the upload.
-				$attachment_id = media_handle_upload($file_key, 0);
+		// Let WordPress handle the upload.
+		$attachment_id = media_handle_upload($file_key, 0);
 
-				if (!is_wp_error($attachment_id)) {
-					// update in meta
-					if($file_key === 'nab_product_play_image'){
-						update_field('feature_icon_image',$attachment_id,$company_id);
-					}else{
-						update_field('feature_background_image',$attachment_id,$company_id);
-					}
-					
-					
-				}
+		if (!is_wp_error($attachment_id)) {
+			// update in meta
+			if ($file_key === 'nab_product_play_image') {
+				update_field('feature_icon_image', $attachment_id, $company_id);
+			} else {
+				update_field('feature_background_image', $attachment_id, $company_id);
 			}
+		}
+	}
 
-	
-		
-		
-			wp_send_json_success(array(
-				'feedback' => __('Featured Block Updated!', 'buddypress'),
-				'type'     => 'success',
-			));
-		
-	
+
+
+
+	wp_send_json_success(array(
+		'feedback' => __('Featured Block Updated!', 'buddypress'),
+		'type'     => 'success',
+	));
+
+
 
 
 
@@ -2447,32 +2437,33 @@ function replace_between($str, $needle_start, $needle_end, $replacement)
 }
 
 // Ajax for get city for search page filter
-add_action( 'wp_ajax_nab_get_search_city', 'nab_get_search_city_callback' );
-add_action( 'wp_ajax_nopriv_nab_get_search_city', 'nab_get_search_city_callback' );
+add_action('wp_ajax_nab_get_search_city', 'nab_get_search_city_callback');
+add_action('wp_ajax_nopriv_nab_get_search_city', 'nab_get_search_city_callback');
 
-function nab_get_search_city_callback() {
+function nab_get_search_city_callback()
+{
 
-	$search_key	= filter_input( INPUT_GET, 'q', FILTER_SANITIZE_STRING );
-	$country	= filter_input( INPUT_GET, 'country', FILTER_SANITIZE_STRING );
-	$state		= filter_input( INPUT_GET, 'state', FILTER_SANITIZE_STRING );
-	
+	$search_key	= filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
+	$country	= filter_input(INPUT_GET, 'country', FILTER_SANITIZE_STRING);
+	$state		= filter_input(INPUT_GET, 'state', FILTER_SANITIZE_STRING);
+
 	$final_result	= [];
 
-	if ( isset( $search_key ) && ! empty( $search_key ) ) {
+	if (isset($search_key) && !empty($search_key)) {
 
-		$user_args	= array( 'fields' => 'ID' );
+		$user_args	= array('fields' => 'ID');
 
-		$meta_query_args = array( 'relation' => 'AND' );
+		$meta_query_args = array('relation' => 'AND');
 
 		$meta_query_args[] = array(
 			'key' => 'user_city',
 			'value' => $search_key,
-			'compare' => 'LIKE'								
+			'compare' => 'LIKE'
 		);
 
-		if ( ! empty( $country ) || ! empty( $state ) ) {			
+		if (!empty($country) || !empty($state)) {
 
-			if ( ! empty( $country ) ) {
+			if (!empty($country)) {
 
 				$meta_query_args[] = array(
 					'key' => 'user_country',
@@ -2480,38 +2471,37 @@ function nab_get_search_city_callback() {
 				);
 			}
 
-			if ( ! empty( $state ) ) {
-				
+			if (!empty($state)) {
+
 				$meta_query_args[] = array(
 					'key' => 'user_state',
 					'value' => $state
 				);
-			}			
+			}
 		}
 
-		$user_args[ 'meta_query' ] = $meta_query_args;
+		$user_args['meta_query'] = $meta_query_args;
 
-		$user_query		= new WP_User_Query( $user_args );
+		$user_query		= new WP_User_Query($user_args);
 		$found_users	= $user_query->get_results();
 
-		if ( ! empty( $found_users ) && is_array( $found_users ) ) {			
+		if (!empty($found_users) && is_array($found_users)) {
 
-			foreach ( $found_users as $current_user_id ) {
+			foreach ($found_users as $current_user_id) {
 
-				$user_city = get_user_meta( $current_user_id, 'user_city', true );
-				
-				
-				if ( ! empty( $user_city ) && ! in_array( $user_city, $final_result, true ) ) {
+				$user_city = get_user_meta($current_user_id, 'user_city', true);
+
+
+				if (!empty($user_city) && !in_array($user_city, $final_result, true)) {
 					$final_result[] = $user_city;
 				}
 			}
 		}
 	}
 
-	echo wp_json_encode( $final_result );
+	echo wp_json_encode($final_result);
 
 	wp_die();
-
 }
 
 // Ajax for get user for product point of contact
@@ -2548,4 +2538,32 @@ function nab_product_point_of_contact_callback()
 
 	echo wp_json_encode($final_result);
 	wp_die();
+}
+
+add_action('wp_ajax_upload_temp_csv', 'upload_temp_csv');
+add_action('wp_ajax_nopriv_upload_temp_csv', 'upload_temp_csv');
+
+function upload_temp_csv()
+{
+
+	$temp = get_temp_dir();
+	if (isset($_FILES[0]['name'])) {
+
+		if (0 < $_FILES[0]['error']) {
+			wp_send_json_success(array(
+				'feedback' => __('Error during file upload' . $_FILES[0]['error'], 'buddypress'),
+				'type'     => 'error',
+			));
+		} else {
+
+
+			if (move_uploaded_file($_FILES[0]['tmp_name'], $temp . '/nab_import_company.csv')) {
+				wp_send_json_success(array(
+					'feedback' => __('File successfully uploaded', 'buddypress'),
+					'type'     => 'success',
+				));
+			}
+		}
+	}
+	exit;
 }

@@ -3794,6 +3794,7 @@ function nab_generate_users_export_csv_file() {
 
 function nab_add_comapny_admin(){
     global $wp_query; 
+    
     $post_type = get_post_type();
     if( $post_type === 'company'){
        
@@ -3937,6 +3938,7 @@ foreach ( $company_result as $company ) {
     }
 
    
+     
     if ($company->post_title !='') {
         $dynamic_fields = array();
         $dynamic_fields[] = $company->post_title;
@@ -3944,9 +3946,6 @@ foreach ( $company_result as $company ) {
         $dynamic_fields[] = $admin_url;
         fputcsv($output_handle, $dynamic_fields);
     }
-    
-
-    
 }
   exit;      
 
@@ -3961,60 +3960,10 @@ function nab_copyright_year_shortcode() {
     
     return date( 'Y' );
 }
-
 /**
- * Added bulk company import submenu page.
+ * Initialize the company bulk import batch.
  */
-function nab_bulk_import_company_menu()
-{
-
-    add_submenu_page(
-        'edit.php?post_type=company',
-        __('Import Compnies', 'nab-amplify'),
-        __('Import Compnies', 'nab-amplify'),
-        'manage_options',
-        'amplify_company_import',
-        'nab_import_compnies_callback'
-    );
-}
-
-
-/**
- * Import company setting page.
- */
-function nab_import_compnies_callback()
-{
-?>
-    <div class="search-settings">
-        <h2>Import Compnies</h2>
-        <form class="companies-export-form" method="post" enctype="multipart/form-data">
-            <input type="file" name="import_csv" />
-            <?php submit_button("Import"); ?>
-        </form>
-    </div>
-<?php
-}
-
-/**
- * Generate compnies CSV file.
- */
-function nab_import_compnies() {
-    global $wpdb, $pagenow;
-
-    $submit   = filter_input( INPUT_POST, 'import_csv', FILTER_SANITIZE_STRING );
-    $comment_page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
-
-    if ( 'edit.php' === $pagenow && 'amplify_company_import' === $comment_page  && !empty($_FILES)) {
-        $fileName = $_FILES["file"]["tmp_name"];
-        $file = fopen($fileName, "r");
-        
-        while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
-            print_r($column);
-        }
-    }
-
-
-    
-        
-    
+function wp_batch_processing_init() {
+    $batch = new NAB_Company_Import_Batch();
+    WP_Batch_Processor::get_instance()->register( $batch );
 }
