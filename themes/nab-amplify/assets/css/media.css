@@ -172,6 +172,7 @@
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important}
 
 	/* add product */
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:24px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:static;transform:none}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action:last-child{margin-right:0}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{width:100%}
@@ -355,6 +356,10 @@
 	.product-list.layout-list .product-item .item-inner .details .buttom{width:100%;margin-bottom:10px}
 	.product-list.layout-list .product-item .item-inner{padding:30px 0}
 	.product-list.layout-list .product-item .item-inner .details .added_to_cart{text-align:left;padding:0 0 0 40px}
+
+	/* tooltip */
+	.tooltip-container.large-label-tooltip .field-label{width:100%}
+	.nab-modal .large-label-tooltip.fa-info-circle[data-bp-tooltip]::after, .nab-modal .large-label-tooltip .tooltip{transform:translateX(0)}
 
 	/* comments */
 	.comments-area .comment-filter{width:100%}

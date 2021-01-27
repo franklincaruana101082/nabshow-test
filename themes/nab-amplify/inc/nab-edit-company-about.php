@@ -43,7 +43,20 @@
 								$category_limit = nab_get_company_member_category_limit( $company_data[ 'ID' ] );
 								?>
 								<div class="form-row">
-									<label for="">Featured Product Categories</label>
+									<label for="" class="tooltip-container large-label-tooltip">
+										<div class="field-label">Featured Product Categories</div>
+										<div class="tooltip-wrap">
+											<i class="fa fa-info-circle" aria-hidden="true"></i>
+											<div class="tooltip">
+												<p>The number of Featured Categories allowed varies by Partner Package level:</p>
+												<ul>
+													<li>Standard: 2</li>
+													<li>Plus: 5</li>
+													<li>Premium: 5</li>
+												</ul>
+											</div>
+										</div>
+									</label>
 									<div class="select-dark-simple select-multiple">
 										<select name="product_categories[]" multiple="true" id="product_categories" data-limit="<?php esc_attr_e( $category_limit[ 'featured' ] ); ?>">
 											<option value=""></option>
@@ -57,7 +70,20 @@
 									</div>
 								</div>
 								<div class="form-row">
-									<label for="">Additional Search-Only Categories</label>
+									<label for="" class="tooltip-container large-label-tooltip">
+										<div class="field-label">Additional Search-Only Categories</div>
+										<div class="tooltip-wrap">
+											<i class="fa fa-info-circle" aria-hidden="true"></i>
+											<div class="tooltip">
+												<p>The number of Search-Only Categories allowed varies by Partner Package level:</p>
+												<ul>
+													<li>Standard: 0</li>
+													<li>Plus: 5</li>
+													<li>Premium: Unlimited</li>
+												</ul>
+											</div>
+										</div>
+									</label>
 									<div class="select-dark-simple select-multiple">
 										<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e( $category_limit[ 'search' ] ); ?>">
 											<option value=""></option>

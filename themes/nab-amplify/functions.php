@@ -349,3 +349,8 @@ require_once get_template_directory() . '/inc/company-follow.php';
  * Extend wordpress default walker comment class.
  */
 require_once get_template_directory() . '/classes/class-custom-walker-comment.php';
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+

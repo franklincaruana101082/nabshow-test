@@ -3764,7 +3764,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-company a.active').length
       ? jQuery('.other-search-filter .sort-company a.active').attr('data-order')
-      : 'date'
+      : 'meta';
 
   if (0 < jQuery('.other-search-filter #company-category-filter').length) {
     category =
