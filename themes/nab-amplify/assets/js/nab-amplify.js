@@ -234,6 +234,31 @@
     })
     jQuery('#product_categories').select2()
     jQuery('#company_point_of_contact').select2()
+
+    if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined'){
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          action: 'nab_add_company_admin_popup',
+          company_id:amplifyJS.postID
+        },
+        success: function (data) {
+          if (0 === $('#addAdminModal').length) {
+            $('body').append(data)
+            $('#addAdminModal').show()
+            $('body').addClass('connection-popup-added')
+          } else {
+            $('body').addClass('connection-popup-added')
+            $('#addAdminModal').remove()
+            $('body').append(data)
+            $('#addAdminModal').show()
+          }
+          jQuery.removeCookie('new_company_admin_popup', { path: '/' });
+        }
+      })
+     }
+
   })
 
   charcount('keyup', '#company_about', '#character-count-comp-about', 2000)

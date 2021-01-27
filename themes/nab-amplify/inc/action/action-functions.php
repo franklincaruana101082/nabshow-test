@@ -3812,9 +3812,17 @@ function nab_add_comapny_admin(){
                
                }else{
                    $current_user_id = get_current_user_id();
+                   
                    $current_admins = get_field('company_user_id',$current_post_id);
-                   $current_admins[] = $current_user_id; 
-                   update_field('company_user_id',$current_admins,$current_post_id);
+                   if(empty($current_admins)){
+                    $current_admins = [];
+                   }
+                   if (!in_array($current_user_id, $current_admins)) {
+                       $current_admins[] = $current_user_id;
+                       update_field('company_user_id', $current_admins, $current_post_id);
+                       setcookie('new_company_admin_popup', '1', time() + (86400 * 30), "/");
+                   }
+
                }  
         }
 
@@ -3934,7 +3942,9 @@ foreach ( $company_result as $company ) {
     if($admin_add_string !=''){
         $admin_url = get_permalink($company->ID).'?addadmin='.$admin_add_string;
     }else{
-        $admin_url = get_permalink($company->ID);
+        $random_string = generate_add_admin_string();
+        update_field('admin_add_string', $random_string, $company->ID);
+        $admin_url = get_permalink($company->ID).'?addadmin='.$random_string;
     }
 
    
@@ -3968,6 +3978,17 @@ function wp_batch_processing_init() {
     WP_Batch_Processor::get_instance()->register( $batch );
 }
 
+/*Generate default alphanumeric random string for company add admin URL */
+
+function generate_add_admin_string(){
+    // String of all alphanumeric character 
+    $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+  
+    // Shufle the $str_result and returns substring 
+    // of specified length 
+    return substr(str_shuffle($str_result),  
+                       0,10);  
+}
 /**
  * Update numeric member level base on acf member level field.
  *

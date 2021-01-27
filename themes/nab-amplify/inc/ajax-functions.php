@@ -1258,7 +1258,13 @@ function nab_company_search_filter_callback()
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
 		's'					=> $search_term,
-	);	
+	);
+
+	if ('date' !== $orderby) {
+
+		$company_args['orderby'] 	= $orderby;
+		$company_args['order']	= $order;
+	}
 
 	if (!empty($search_term)) {
 
@@ -1266,11 +1272,7 @@ function nab_company_search_filter_callback()
 
 		if ($get_search_term_id) {
 
-			$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-			
-			if ( 'meta' === $orderby ) {
-				$company_args['_meta_company_order']	= true;
-			}
+			$company_args['_meta_company_term'] = $get_search_term_id->term_id;
 		}
 	}
 
@@ -1284,21 +1286,6 @@ function nab_company_search_filter_callback()
 				'compare'	=> 'LIKE'
 			)
 		);
-	}
-
-	if ( ! isset( $company_args['_meta_company_order'] ) ) {
-		
-		if ( 'meta' === $orderby ) {
-
-			$company_args['meta_key']	= 'member_level_num';
-			$company_args['orderby']	= 'meta_value_num';
-			$company_args['order']		= 'DESC';
-
-		} elseif ( 'date' !== $orderby ) {
-	
-			$company_args['orderby'] 	= $orderby;
-			$company_args['order']		= $order;
-		}
 	}
 
 	$company_query = new WP_Query($company_args);
@@ -2579,4 +2566,30 @@ function upload_temp_csv()
 		}
 	}
 	exit;
+}
+
+
+// Ajax to show company admin added popup.
+add_action("wp_ajax_nab_add_company_admin_popup", "nab_add_company_admin_popup");
+add_action("wp_ajax_nopriv_nab_add_company_admin_popup", "nab_add_company_admin_popup");
+
+/**
+ * Ajax to show connection request popup.
+ */
+function nab_add_company_admin_popup()
+{	
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_title   = get_the_title($company_id);
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-company-admin-url-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
 }

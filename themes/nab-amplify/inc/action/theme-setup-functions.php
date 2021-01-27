@@ -261,6 +261,12 @@ if (class_exists('WP_Batch')) {
 				
 				$import_featured_cat = [];
 
+				$num_member_level_array = array (
+					'standard'  => 1,
+					'plus'      => 2,
+					'premium'   => 3,
+				);
+
 				foreach ($featured_cat as $cat) {
 
 					$term = term_exists($cat, 'company-product-category');
@@ -299,6 +305,11 @@ if (class_exists('WP_Batch')) {
 				);
 				$this->import_meta($field_key, $values, $import_post_id);
 				$this->import_meta('company_website', $website, $import_post_id);
+
+				if(in_array($member_level,$num_member_level_array)){
+					update_post_meta( $import_post_id, 'member_level_num', $num_member_level_array[$member_level] );
+				}
+
 				$this->import_meta('member_level', $member_level, $import_post_id);
 				$this->import_meta('company_industary', $company_Tagline, $import_post_id);
 				$this->import_meta('salesforce_id', $salesforce_ID, $import_post_id);
@@ -308,6 +319,10 @@ if (class_exists('WP_Batch')) {
 				$this->import_meta('facebook_url', $facebook_URl, $import_post_id);
 				$this->import_meta('twitter_url', $twitter_URl, $import_post_id);
 				$this->import_meta('youtube_url', $youtube_URl, $import_post_id);
+
+				$random_string = generate_add_admin_string();
+				$this->import_meta('admin_add_string', $random_string, $import_post_id);
+
 			} else {
 				$error_code = array_key_first($import_post_id->errors);
 				$error_message = $import_post_id->errors[$error_code][0];

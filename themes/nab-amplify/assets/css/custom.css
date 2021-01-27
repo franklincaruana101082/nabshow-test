@@ -1739,5 +1739,19 @@ body .is_friend .remove::before{font-size:22px}
 .wp-media-buttons .add_media span.wp-media-buttons-icon{color:#999999!important}
 
 /* Add featured block */
+.featured-block-wraper {
+	margin: 30px 0px 0px 0px;
+}
+.featured-block-wraper .add-new-item{
+	width:100%;
+	max-width: 100%;
+}
+
+/* Add admin popup */
+#addAdminModal .add-product-content-popup .form-wrapper p {
+    font-size: 16px;
+    color: #999999;
+    margin-bottom: 10px;
+}
 .featured-block-wraper{margin:30px 0px 0px 0px}
 .featured-block-wraper .add-new-item{width:100%;max-width:100%}
