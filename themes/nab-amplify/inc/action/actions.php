@@ -216,3 +216,4 @@ add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
 add_shortcode( 'nab_year', 'nab_copyright_year_shortcode' );
 
 add_action( 'acf/save_post', 'nab_update_company_member_level_meta_num', 20 );
+add_action( 'wp_batch_processing_init', 'wp_batch_processing_init', 15, 1 );
