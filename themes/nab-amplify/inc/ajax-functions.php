@@ -2581,7 +2581,7 @@ function upload_temp_csv()
 					'type'     => 'success',
 				));
 
-		
+				delete_option('batch_nab_import_companies_ajax_processed');
 
 				
 }

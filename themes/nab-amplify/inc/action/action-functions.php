@@ -3895,7 +3895,7 @@ function nab_export_compnies_callback() {
  * Generate comments CSV file.
  */
 function nab_generate_company_export_csv_file() {
-    delete_option('batch_nab_import_companies_ajax_processed');
+   
     global $wpdb, $pagenow;
 
     $submit   = filter_input( INPUT_POST, 'generate_company_csv', FILTER_SANITIZE_STRING );
