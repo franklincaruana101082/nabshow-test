@@ -3976,6 +3976,7 @@ function nab_copyright_year_shortcode() {
 function wp_batch_processing_init() {
     $batch = new NAB_Company_Import_Batch();
     WP_Batch_Processor::get_instance()->register( $batch );
+    delete_option('batch_nab_import_companies_ajax_processed');
 }
 
 /*Generate default alphanumeric random string for company add admin URL */
