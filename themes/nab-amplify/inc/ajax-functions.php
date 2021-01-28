@@ -2560,7 +2560,9 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
-	$file_to_move = $temp . '/nab_import_company.csv';
+	$time = time();
+	$file_to_move = $temp . '/nab_import_company'.$time.'.csv';
+	update_option( 'nab_import_csv','nab_import_company'.$time.'.csv',true);
 	
 	if (isset($_FILES[0]['name'])) {
 
@@ -2582,6 +2584,7 @@ function upload_temp_csv()
 				));
 
 				delete_option('batch_nab_import_companies_ajax_processed');
+				
 
 				
 }
@@ -2652,10 +2655,10 @@ if (class_exists('WP_Batch')) {
 
 			$temp = get_temp_dir();
 
-			$csv_name = get_transient( 'nab_import_csv' );
+			$csv_name = get_option( 'nab_import_csv');
 
 			// Define the CSV Path
-			$csv_path = $temp . '/nab_import_company.csv';
+			$csv_path = $temp . '/'.$csv_name;
 
 			if (file_exists($csv_path)) {
 
@@ -2743,7 +2746,8 @@ if (class_exists('WP_Batch')) {
 			$zip_Postal = $item->get_value('zip');
 			$country = $item->get_value('country');
 			$website = $item->get_value('website');
-			$member_level = strtolower( $item->get_value('member_level') );
+			$member_level_check = strtolower( $item->get_value('member_level') );
+			$member_level = $item->get_value('member_level');
 			$company_Tagline = $item->get_value('tagline');
 			$salesforce_ID = $item->get_value('salesforce');
 			$website_URl = $item->get_value('website');
@@ -2823,7 +2827,7 @@ if (class_exists('WP_Batch')) {
 				$this->import_meta($field_key, $values, $import_post_id);
 				$this->import_meta('company_website', $website, $import_post_id);
 
-				$num_member_level   = isset( $num_member_level_array[$member_level] ) ? $num_member_level_array[$member_level] : 0;
+				$num_member_level   = isset( $num_member_level_array[$member_level_check] ) ? $num_member_level_array[$member_level_check] : 0;
 				update_post_meta( $import_post_id, 'member_level_num', $num_member_level );
 				
 

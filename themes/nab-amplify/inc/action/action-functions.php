@@ -4009,5 +4009,5 @@ function nab_update_company_member_level_meta_num( $post_id ) {
         $num_member_level   = isset( $num_member_level_array[$member_level] ) ? $num_member_level_array[$member_level] : 0;
     
         update_post_meta( $post_id, 'member_level_num', $num_member_level );
-    }    
+    }
 }
