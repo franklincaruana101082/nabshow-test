@@ -64,7 +64,7 @@ class WP_Batch_Processing_Ajax_Handler {
 				WP_Batch_Processor::get_instance()->register( $batch );
 
 		// Get the batch object
-		$batch = WP_Batch_Processor::get_instance()->get_batch( $batch_id );
+		$batch = WP_Batch_Processor::get_instance()->get_batch( 'nab_import_companies_ajax' );
 
 		
 
