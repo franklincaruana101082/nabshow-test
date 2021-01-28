@@ -112,7 +112,7 @@ if (class_exists('WP_Batch')) {
 		 * Unique identifier of each batch
 		 * @var string
 		 */
-		public $id = 'nab_import_companies_ajax';
+		public $id = 'nab_import_companies';
 
 
 		/**
