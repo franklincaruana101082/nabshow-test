@@ -2560,7 +2560,9 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
+	$time = time();
 	$file_to_move = $temp . '/nab_import_company.csv';
+	
 	if (isset($_FILES[0]['name'])) {
 
 		if (0 < $_FILES[0]['error']) {
@@ -2582,6 +2584,8 @@ function upload_temp_csv()
 			}
 		}
 	}
+	$batch = new NAB_Company_Import_Batch();
+    WP_Batch_Processor::get_instance()->register( $batch );
 	exit;
 }
 

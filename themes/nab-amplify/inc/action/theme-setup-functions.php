@@ -133,7 +133,7 @@ if (class_exists('WP_Batch')) {
 
 			$temp = get_temp_dir();
 
-
+			$csv_name = get_transient( 'nab_import_csv' );
 
 			// Define the CSV Path
 			$csv_path = $temp . '/nab_import_company.csv';
