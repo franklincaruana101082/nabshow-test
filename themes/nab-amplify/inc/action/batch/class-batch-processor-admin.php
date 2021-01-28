@@ -70,7 +70,7 @@ class WP_Batch_Processor_Admin {
 		wp_localize_script( 'wp-batch-processing', 'DgBatchRunner', array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce'    => wp_create_nonce( 'wp-batch-processing' ),
-			'batch_id' => 'nab_import_companies_ajax',
+			'batch_id' => 'nab_import_companies',
 			'delay'    => apply_filters( 'wp_batch_processing_delay', 0 ), // Set delay in seconds before processing the next item. Default 0. No delay.
 			'text'     => array(
 				'processing' => __( 'Processing...', 'wp-batch-processing' ),
@@ -105,7 +105,7 @@ class WP_Batch_Processor_Admin {
 	 */
 	public function plugin_page() {
 		$action = 'batch-view';
-		$id     = 'nab_import_companies_ajax';
+		$id     = 'nab_import_companies';
 	
 		WP_BP_Helper::render( $action, array( 'id' => $id ) );
 	}
