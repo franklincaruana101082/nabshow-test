@@ -84,7 +84,10 @@
   $(document).on('click', '#batch-process-start', function (e) {
     e.preventDefault()
     if(jQuery('#nab_import_company')[0].files.length > 0){
-    process_next_item()
+    setTimeout(function(){
+      process_next_item()
+    },2000)    
+    
     }else{
       alert('Please select CSV!');
     }
