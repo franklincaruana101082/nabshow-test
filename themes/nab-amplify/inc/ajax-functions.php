@@ -1258,13 +1258,7 @@ function nab_company_search_filter_callback()
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
 		's'					=> $search_term,
-	);
-
-	if ('date' !== $orderby) {
-
-		$company_args['orderby'] 	= $orderby;
-		$company_args['order']	= $order;
-	}
+	);	
 
 	if (!empty($search_term)) {
 
@@ -1272,7 +1266,11 @@ function nab_company_search_filter_callback()
 
 		if ($get_search_term_id) {
 
-			$company_args['_meta_company_term'] = $get_search_term_id->term_id;
+			$company_args['_meta_company_term']		= $get_search_term_id->term_id;
+			
+			if ( 'meta' === $orderby ) {
+				$company_args['_meta_company_order']	= true;
+			}
 		}
 	}
 
@@ -1286,6 +1284,21 @@ function nab_company_search_filter_callback()
 				'compare'	=> 'LIKE'
 			)
 		);
+	}
+
+	if ( ! isset( $company_args['_meta_company_order'] ) ) {
+		
+		if ( 'meta' === $orderby ) {
+
+			$company_args['meta_key']	= 'member_level_num';
+			$company_args['orderby']	= 'meta_value_num';
+			$company_args['order']		= 'DESC';
+
+		} elseif ( 'date' !== $orderby ) {
+	
+			$company_args['orderby'] 	= $orderby;
+			$company_args['order']		= $order;
+		}
 	}
 
 	$company_query = new WP_Query($company_args);
@@ -2547,6 +2560,7 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
+	$file_to_move = $temp . '/nab_import_company.csv';
 	if (isset($_FILES[0]['name'])) {
 
 		if (0 < $_FILES[0]['error']) {
@@ -2555,9 +2569,12 @@ function upload_temp_csv()
 				'type'     => 'error',
 			));
 		} else {
+		
+			if(file_exists($file_to_move)){
+				unlink($file_to_move);
+			}
 
-
-			if (move_uploaded_file($_FILES[0]['tmp_name'], $temp . '/nab_import_company.csv')) {
+			if (move_uploaded_file($_FILES[0]['tmp_name'], $file_to_move)) {
 				wp_send_json_success(array(
 					'feedback' => __('File successfully uploaded', 'buddypress'),
 					'type'     => 'success',
