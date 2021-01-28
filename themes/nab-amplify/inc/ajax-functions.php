@@ -2559,7 +2559,7 @@ add_action('wp_ajax_nopriv_upload_temp_csv', 'upload_temp_csv');
 function upload_temp_csv()
 {
 
-	$temp = get_template_directory().'/inc/action/batch';
+	$temp = get_temp_dir();
 	$time = time();
 	$file_to_move = $temp . '/nab_import_company'.$time.'.csv';
 	add_option('nab_import_csv','nab_import_company'.$time.'.csv',true);
@@ -2654,7 +2654,7 @@ if (class_exists('WP_Batch')) {
 		public function setup()
 		{
 
-			$temp = get_template_directory().'/inc/action/batch';
+			$temp = get_temp_dir();
 
 			$csv_name = get_option( 'nab_import_csv');
 
