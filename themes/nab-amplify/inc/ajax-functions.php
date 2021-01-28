@@ -2560,7 +2560,7 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
-	$file_to_move = $temp . '/nab_import_company.csv';
+	$file_to_move = $temp . '/nab_import_company_'.time().'.csv';
 	if (isset($_FILES[0]['name'])) {
 
 		if (0 < $_FILES[0]['error']) {
