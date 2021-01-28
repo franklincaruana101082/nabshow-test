@@ -2773,7 +2773,7 @@ if (class_exists('WP_Batch')) {
 				return new WP_Error(302, $title . " Post Exist!");
 			}
 			if (empty($title)) {
-				return new WP_Error(302, "Title/data not provided for item number so skipped" . $item_no);
+				return new WP_Error(302, "Title/data not provided for item number so skipped item " . $item_no);
 			}
 			// Insert the post into the database
 			$import_post_id = wp_insert_post($post_data);
