@@ -2562,7 +2562,7 @@ function upload_temp_csv()
 	$temp = get_temp_dir();
 	$time = time();
 	$file_to_move = $temp . '/nab_import_company'.$time.'.csv';
-	add_option( 'nab_import_csv','nab_import_company'.$time.'.csv',true);
+	update_option( 'nab_import_csv','nab_import_company'.$time.'.csv',true);
 	
 	if (isset($_FILES[0]['name'])) {
 
