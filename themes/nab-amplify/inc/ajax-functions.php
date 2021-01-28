@@ -2877,3 +2877,17 @@ if (class_exists('WP_Batch')) {
 		}
 	}
 }
+
+// Ajax to show company admin added popup.
+add_action("wp_ajax_nab_reset_csv_processed", "nab_reset_csv_processed");
+add_action("wp_ajax_nopriv_nab_reset_csv_processed", "nab_reset_csv_processed");
+
+/**
+ * Ajax to show connection request popup.
+ */
+function nab_reset_csv_processed()
+{
+	delete_option('	batch_nab_import_companies_ajax_processed');
+	wp_send_json('success', 200);
+
+}

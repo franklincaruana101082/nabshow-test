@@ -84,7 +84,19 @@
   $(document).on('click', '#batch-process-start', function (e) {
     e.preventDefault()
     if(jQuery('#nab_import_company')[0].files.length > 0){
-      process_next_item()
+      var ajax_url = DgBatchRunner.ajax_url
+      var nonce = DgBatchRunner.nonce
+      jQuery.ajax({
+        url: ajax_url + '?action=nab_reset_csv_processed&nonce=' + nonce,
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (response){
+          process_next_item()
+        }
+      })
+      
     }else{
       alert('Please select CSV!');
     }
