@@ -156,3 +156,100 @@ add_action( 'init', 'nab_add_custom_user_role' );
 
 // Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
 add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 );
+
+// Action for export users csv file
+add_action( 'admin_menu', 'nab_add_export_user_menu' );
+add_action( 'admin_init', 'nab_generate_users_export_csv_file' );
+
+/**
+ * Generate Users CSV file.
+ */
+function nab_generate_users_export_csv_file() {
+
+    global $pagenow;
+
+    $user_role = filter_input( INPUT_POST, 'user_role', FILTER_SANITIZE_STRING );
+    $user_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );    
+
+    if ( 'users.php' === $pagenow && 'amplify_user_export' === $user_page && ! empty( $user_role ) ) {        
+
+        $args = array( 'orderby' => 'login', 'orderby' => 'ID' );
+
+        if ( 'all' !== $user_role ) {
+
+            $args[ 'role' ] = $user_role;
+        }
+
+        $user_query = new WP_User_Query( $args );
+
+        $user_results = $user_query->get_results();
+
+        if ( ! empty( $user_results ) ) {
+
+            // CSV header row fields titles
+            $csv_fields   = array();            
+            $csv_fields[] = 'ID';
+            $csv_fields[] = 'email';
+            $csv_fields[] = 'login';
+            // $csv_fields[] = 'First Name';
+            // $csv_fields[] = 'Last Name';
+            // $csv_fields[] = 'Email';
+            // $csv_fields[] = 'Company';
+            // $csv_fields[] = 'Registered Date';
+        
+            // Generate csv file as a direct download
+            $output_filename = 'amplify-user-list-' . date('m-d-Y') . '.csv';
+            $output_handle   = fopen('php://output', 'w');
+
+            header('Content-type: application/csv');
+            header('Content-Disposition: attachment; filename=' . $output_filename);
+
+            // Insert header row
+            fputcsv( $output_handle, $csv_fields );
+
+            foreach ( $user_results as $current_user ) {
+
+                $dynamic_fields = array();
+
+                // $company    = get_user_meta( $current_user->ID, 'attendee_company', true );
+                // $first_name = get_user_meta( $current_user->ID, 'first_name', true );
+                // $last_name  = get_user_meta( $current_user->ID, 'last_name', true );
+
+                // if ( empty( $first_name ) && empty( $last_name ) ) {
+                    
+                //     $first_name = $current_user->display_name;
+                // }
+
+                // $registered_date = date_format( date_create( $current_user->user_registered ), 'm-d-Y H:i:s' );
+
+                // $dynamic_fields[] = $first_name;
+                // $dynamic_fields[] = $last_name;
+                // $dynamic_fields[] = $current_user->user_email;
+                // $dynamic_fields[] = $company;
+                // $dynamic_fields[] = $registered_date;
+                $dynamic_fields[] = $current_user->ID;
+                $dynamic_fields[] = $current_user->user_email;
+                $dynamic_fields[] = $current_user->user_login;
+
+                fputcsv($output_handle, $dynamic_fields);
+            }
+
+            exit;
+        }
+    }
+}
+
+/**
+ * Added user export submenu page.
+ */
+function nab_add_export_user_menu() {
+
+    add_submenu_page(
+        'users.php',
+        __('Export Users', 'nab-amplify'),
+        __('Export Users', 'nab-amplify'),
+        'manage_options',
+        'amplify_user_export',
+        'nab_export_users_callback'
+    );
+}
