@@ -31,7 +31,7 @@ $percentage = $batch->get_percentage();
 	</div>
 	<div class="batch-process-actions">
 		<?php //if(!$batch->is_finished()): ?>
-			<button class="button-primary" id="batch-process-start">Start</button>
+			<button class="button-primary" id="batch-process-start">Import</button>
 			<button class="button" id="batch-process-stop">Stop</button>
 		<?php //endif; ?>
 	</div>
