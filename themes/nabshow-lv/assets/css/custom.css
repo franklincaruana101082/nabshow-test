@@ -503,7 +503,7 @@ nav#site-navigation{margin-top:40px;position:static}
 .dark-header.site-header .super-menu-main .super-menu-icons li{margin-bottom:0}
 .dark-header.site-header .super-menu-main .super-menu-icons li i.fa{font-size:18px}
 .dark-header.site-header #site-navigation ul.menu>li p.menu-item-description{color:#fff;font-family:"Roboto Black", sans-serif;line-height:normal;text-transform:capitalize}
-.dark-header.site-header #site-navigation ul.menu>li>a{font-size:30px;font-family:"Molot", sans-serif;padding:0 10px 5px}
+.dark-header.site-header #site-navigation ul.menu>li>a{font-size:30px;font-family:"Open Sans Bold",sans-serif;padding:0 10px 5px}
 .dark-header.site-header .header-left a{color:#00b5df;font-size:12px;font-family:'Roboto Black', sans-serif}
 .dark-header nav#site-navigation{margin-top:15px}
 .dark-header .super-menu-main .super-menu-icons li.hide{display:none}
@@ -552,8 +552,8 @@ footer .related-shows a{color:#fff;text-decoration:underline;font-size:11px;font
 
 /* Footer Stay in Loop */
 .stay-in-loop-box{background-color:#ab3e97;padding:70px 0 65px;overflow:hidden}
-.stay-in-loop-box h4{font-size:45px;font-family:"Molot", sans-serif;color:#fff;line-height:normal;word-spacing:-10px}
-.stay-in-loop-box p{font-size:16px;line-height:24px;font-family:"Roboto Regular", sans-serif;color:#fff}
+.stay-in-loop-box h4{font-size:45px;font-family:"Open Sans Bold",sans-serif;color:#fff;line-height:normal;word-spacing:-10px}
+.stay-in-loop-box p{font-size:16px;line-height:24px;font-family:"Roboto Regular",sans-serif;color:#fff}
 .stay-in-loop-box form{width:100%}
 .stay-in-loop-box form input[type="email"]{width:100%!important;border:0!important;border-bottom:2px solid #fff!important;background:transparent;height:40px;outline:none}
 .stay-in-loop-box form input[type="email"]::placeholder{color:#e398d7}
@@ -796,7 +796,7 @@ span.post-nav-title{display:block;font-size:20px;color:#000;font-family:"Roboto 
 /* custom thought gallery banner */
 .custom-head-with-title{margin-top:-40px;margin-bottom:40px;background-image:url('../images/header-image-default.jpg');background-position:center;background-repeat:no-repeat;background-size:cover}
 .custom-is-block-center{padding-top:40px;padding-bottom:20px}
-.custom-is-block-center .custom-title{color:#ffffff;margin:0 0 10px;padding:0;text-align:left;font-family:'Molot', sans-serif}
+.custom-is-block-center .custom-title{color:#ffffff;margin:0 0 10px;padding:0;text-align:left;font-family:'Open Sans Bold', sans-serif}
 
 /* thought-gallery-detail-page */
 .thought-gallery-detail-page h3.post-title{font-size:36px;color:#fff;margin-bottom:15px;font-family:"Roboto BoldItalic"}
@@ -1814,7 +1814,7 @@ section.error-404.not-found form.search-form{display:flex;justify-content:center
 .error404 .wrapper-404{padding:200px 0;background-image:url(/wp-content/themes/nabshow-lv/assets/images/404.gif);background-size:cover}
 .error404 .wrapper-404 .site-main{padding:60px 0;background-color:#000}
 .error404 .not-found{padding:0!important}
-.error404 .not-found h1{text-align:center;font-family:Molot;word-spacing:-5px}
+.error404 .not-found h1{text-align:center;font-family:'Open Sans Bold', sans-serif;}
 .error404 .not-found p{margin-bottom:1rem!important}
 
 .browse-filter.main-filter.browse-speakers-filter.without-name{display:block}
@@ -1847,7 +1847,7 @@ span.ctcc-right-side{display:inline-block}
 .nab-box-slider.sponsors .sponsor-info-box .title-type{color:#000;font-size:14px;line-height:18px;font-family:"Roboto Bold", sans-serif;margin-top:20px;margin-bottom:0;display:block}
 
 .hero-banner-inner .banner-item{padding:130px 0;margin-bottom:10px;background-size:cover;background-position:center;background-color:#000;position:relative}
-.hero-banner-inner .banner-item .title{color:#fff;margin:0;font-size:85px;font-family:Molot;font-weight:normal;line-height:80px;margin-bottom:10px;word-spacing:-10px}
+.hero-banner-inner .banner-item .title{color:#fff;margin:0;font-size:75px;font-family:"Open Sans Bold",sans-serif;font-weight:normal;line-height:80px;margin-bottom:10px;text-transform:uppercase;}
 .hero-banner-inner .banner-item .disc{color:#fff;margin:0 0 20px 0}
 .hero-banner-inner .banner-item ul.hero-buttons{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap}
 .hero-banner-inner .banner-item ul.hero-buttons li{margin:0 10px 10px 0;position:relative}
@@ -2041,8 +2041,8 @@ p.coming-soon{color:#fff}
 
 .custom-rainbow-banner-main.has-full{background-image:url(/wp-content/uploads/sites/3/2020/01/header-image-default.jpg);background-size:cover}
 .custom-rainbow-banner-main.has-full>.has-fixed{padding-top:40px;padding-bottom:20px}
-.custom-rainbow-banner-main.has-full>.has-fixed>h1{color:#ffffff;margin-bottom:10px;text-align:left;font-family:'Molot';word-spacing:-5px}
-.title.nab-title[style*="font-family:Molot"]{word-spacing:-5px}
+.custom-rainbow-banner-main.has-full>.has-fixed>h1{color:#ffffff;margin-bottom:10px;text-align:left;font-family:'Open Sans Bold', sans-serif}
+.title.nab-title[style*="font-family:'Open Sans Bold', sans-serif"]{}
 .wp-block-columns.exclusive-block-cols a:focus, .wp-block-columns.exclusive-block-cols a:active{color:#fff}
 
 /* GDPR cookie bar */
