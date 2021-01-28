@@ -253,3 +253,28 @@ function nab_add_export_user_menu() {
         'nab_export_users_callback'
     );
 }
+
+/**
+ * Export user setting page.
+ */
+function nab_export_users_callback() {  
+    ?>
+    <div class="search-settings">
+        <h2>Export Users</h2>
+        <form class="users-export-form" method="post">
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th>User Role</th>
+                    <td>
+                        <select name="user_role">
+                            <option value="all">All</option>
+                            <?php wp_dropdown_roles(); ?>
+                        </select>
+                    </td>
+                </tr>                
+            </table>
+            <?php submit_button("Export CSV"); ?>
+        </form>
+    </div>
+    <?php
+}
