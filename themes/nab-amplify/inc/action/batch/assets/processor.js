@@ -84,10 +84,6 @@
   $(document).on('click', '#batch-process-start', function (e) {
     e.preventDefault()
     if(jQuery('#nab_import_company')[0].files.length > 0){
-    setTimeout(function(){
-      process_next_item()
-    },2000)    
-    
     }else{
       alert('Please select CSV!');
     }
@@ -124,9 +120,12 @@
       },
       success: function (response) {
       if(response.data.type == 'success'){
-        $('#batch-process-start')
+        setTimeout(() => {
+          $('#batch-process-start')
         .text('Start')
         .prop('disabled', false)
+        }, 2000);
+        
       }
       },
       error: function () {
