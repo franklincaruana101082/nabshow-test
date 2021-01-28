@@ -30,7 +30,7 @@
     $.ajax({
       url: ajax_url + '?action=dg_process_next_batch_item&nonce=' + nonce,
       type: 'POST',
-      data: { batch_id: 'nab_import_companies_ajax' },
+      data: { batch_id: batch },
       cache: false,
       beforeSend: function () {
         $('#batch-process-start')
@@ -84,7 +84,7 @@
   $(document).on('click', '#batch-process-start', function (e) {
     e.preventDefault()
     if(jQuery('#nab_import_company')[0].files.length > 0){
-      process_next_item();
+      process_next_item()
     }else{
       alert('Please select CSV!');
     }
