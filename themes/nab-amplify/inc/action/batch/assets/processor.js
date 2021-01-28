@@ -84,6 +84,7 @@
   $(document).on('click', '#batch-process-start', function (e) {
     e.preventDefault()
     if(jQuery('#nab_import_company')[0].files.length > 0){
+      process_next_item();
     }else{
       alert('Please select CSV!');
     }
@@ -122,7 +123,7 @@
       if(response.data.type == 'success'){
         setTimeout(() => {
           $('#batch-process-start')
-        .text('Start')
+        .text('Import')
         .prop('disabled', false)
         }, 2000);
         
