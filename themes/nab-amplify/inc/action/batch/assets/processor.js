@@ -14,7 +14,7 @@
     $.ajax({
       url: ajax_url + '?action=dg_restart_batch&nonce=' + nonce,
       type: 'POST',
-      data: { batch_id: batch },
+      data: { batch_id: 'nab_import_companies_ajax' },
       cache: false,
       success: function (response) {
         //reload()
@@ -30,7 +30,7 @@
     $.ajax({
       url: ajax_url + '?action=dg_process_next_batch_item&nonce=' + nonce,
       type: 'POST',
-      data: { batch_id: batch },
+      data: { batch_id: 'nab_import_companies_ajax' },
       cache: false,
       beforeSend: function () {
         $('#batch-process-start')
