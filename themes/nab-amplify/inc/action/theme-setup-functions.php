@@ -224,7 +224,8 @@ if (class_exists('WP_Batch')) {
 			$zip_Postal = $item->get_value('zip');
 			$country = $item->get_value('country');
 			$website = $item->get_value('website');
-			$member_level = strtolower( $item->get_value('member_level') );
+			$member_level_check = strtolower( $item->get_value('member_level') );
+			$member_level = $item->get_value('member_level');
 			$company_Tagline = $item->get_value('tagline');
 			$salesforce_ID = $item->get_value('salesforce');
 			$website_URl = $item->get_value('website');
@@ -304,7 +305,7 @@ if (class_exists('WP_Batch')) {
 				$this->import_meta($field_key, $values, $import_post_id);
 				$this->import_meta('company_website', $website, $import_post_id);
 
-				$num_member_level   = isset( $num_member_level_array[$member_level] ) ? $num_member_level_array[$member_level] : 0;
+				$num_member_level   = isset( $num_member_level_array[$member_level_check] ) ? $num_member_level_array[$member_level_check] : 0;
 				update_post_meta( $import_post_id, 'member_level_num', $num_member_level );
 
 				$this->import_meta('member_level', $member_level, $import_post_id);
