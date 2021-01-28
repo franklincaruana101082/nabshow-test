@@ -2560,9 +2560,6 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
-	$time = time();
-	$file_to_move = $temp . '/nab_import_company.csv';
-	
 	if (isset($_FILES[0]['name'])) {
 
 		if (0 < $_FILES[0]['error']) {
@@ -2571,12 +2568,9 @@ function upload_temp_csv()
 				'type'     => 'error',
 			));
 		} else {
-		
-			if(file_exists($file_to_move)){
-				unlink($file_to_move);
-			}
 
-			if (move_uploaded_file($_FILES[0]['tmp_name'], $file_to_move)) {
+
+			if (move_uploaded_file($_FILES[0]['tmp_name'], $temp . '/nab_import_company.csv')) {
 				wp_send_json_success(array(
 					'feedback' => __('File successfully uploaded', 'buddypress'),
 					'type'     => 'success',
@@ -2584,8 +2578,6 @@ function upload_temp_csv()
 			}
 		}
 	}
-	$batch = new NAB_Company_Import_Batch();
-    WP_Batch_Processor::get_instance()->register( $batch );
 	exit;
 }
 

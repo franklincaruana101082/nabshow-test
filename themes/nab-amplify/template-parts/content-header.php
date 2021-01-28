@@ -183,23 +183,40 @@ if ( $user_logged_in ) {
 									<?php
 									if ( ! bp_is_my_profile() ) {
 
-										echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                        if ( $current_user_id !== $member_id && 'is_friend' !== $is_friend && ! nab_member_can_connect_to_anyone( $member_id ) ) {
+                                            ?>
+                                            <div id="amp-profile-restrict-message">
+                                                <p>User Not Accepting Connections</p>
+                                            </div>
+                                            <?php
+                                        } else {
+                                            echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                        }										
 									}
 									?>
                                 </div>
 							<?php } else { ?>
-                            <div id="amp-profile-restrict-message">
-                                <p>User Not Accepting Connections</p>
+                            <div class="amp-profile-info">
+                                <h2><?php echo esc_html( $member_name ); ?></h2>                                
                             </div>
 							<?php
 							if ( ! bp_is_my_profile() ) {
-                                ?>
-                                <div class="amp-profile-message">
-								    <?php
-                                    echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                
+                                if ( ! nab_member_can_connect_to_anyone( $member_id ) ) {
                                     ?>
-                                </div>
-                                <?php
+                                    <div id="amp-profile-restrict-message">
+                                        <p>User Not Accepting Connections</p>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="amp-profile-message">
+                                        <?php
+                                        echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                        ?>
+                                    </div>
+                                    <?php
+                                }                                
 							}
 							?>
                         </div>
