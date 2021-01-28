@@ -167,25 +167,24 @@ if (class_exists('WP_Batch')) {
 							'title' => $row[0],
 							'content' => $row[1],
 							'about' => $row[2],
-							'location' => $row[3],
-							'featured_cat' => $row[4],
-							'street_line_1' => $row[5],
-							'street_line_2' => $row[6],
-							'street_line_3' => $row[7],
-							'city' => $row[8],
-							'state' => $row[9],
-							'zip' => $row[10],
-							'country' => $row[11],
-							'website' => $row[12],
-							'member_level' => $row[13],
-							'tagline' => $row[14],
-							'salesforce' => $row[15],
-							'website' => $row[16],
-							'instagram' => $row[17],
-							'linkedin' => $row[18],
-							'facebook' => $row[19],
-							'twitter' => $row[20],
-							'youtube' => $row[21],
+							'featured_cat' => $row[3],
+							'street_line_1' => $row[4],
+							'street_line_2' => $row[5],
+							'street_line_3' => $row[6],
+							'city' => $row[7],
+							'state' => $row[8],
+							'zip' => $row[9],
+							'country' => $row[10],
+							'website' => $row[14],
+							'member_level' => $row[11],
+							'tagline' => $row[12],
+							'salesforce' => $row[13],
+							'website' => $row[14],
+							'instagram' => $row[15],
+							'linkedin' => $row[16],
+							'facebook' => $row[17],
+							'twitter' => $row[18],
+							'youtube' => $row[19],
 
 
 						);
@@ -216,7 +215,6 @@ if (class_exists('WP_Batch')) {
 			$title = $item->get_value('title');
 			$content = $item->get_value('content');
 			$about = $item->get_value('about');
-			$location = $item->get_value('location');
 			$featured_cat = explode(',', $item->get_value('featured_cat'));
 			$street_line_1 = $item->get_value('street_line_1');
 			$street_line_2 = $item->get_value('street_line_2');
@@ -256,9 +254,9 @@ if (class_exists('WP_Batch')) {
 			// Insert the post into the database
 			$import_post_id = wp_insert_post($post_data);
 			if (!is_wp_error($import_post_id)) {
-				
+
 				// Import the featured product categories
-				
+
 				$import_featured_cat = [];
 
 				$num_member_level_array = array (
@@ -273,8 +271,8 @@ if (class_exists('WP_Batch')) {
 
 					if ($term == 0 && $term == null) {
 						$term = wp_insert_term(
-							$cat,   // the term 
-							'company-product-category', // the taxonomy
+							$cat,   // the term
+							'company-product-category' // the taxonomy
 						);
 						if (!is_wp_error($term)) {
 							$import_featured_cat[] = $term['term_id'];
@@ -291,11 +289,11 @@ if (class_exists('WP_Batch')) {
 
 
 				$this->import_meta('about_company', $about, $import_post_id);
-				$this->import_meta('company_location', $location, $import_post_id);
+				
 
 				$field_key = 'field_5fa3e84f3fa46';
 				$values = array(
-					'_street_line_1'    =>   $street_line_1, 
+					'_street_line_1'    =>   $street_line_1,
 					'street_line_2' =>   $street_line_2,
 					'street_line_3' =>   $street_line_3,
 					'city' =>   $city,
@@ -328,7 +326,7 @@ if (class_exists('WP_Batch')) {
 				$error_message = $import_post_id->errors[$error_code][0];
 				return new WP_Error(302, $error_message);
 			}
-			
+
 	// Return true if the item processing is successful.
 			return true;
 		}
