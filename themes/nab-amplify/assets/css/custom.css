@@ -1753,5 +1753,8 @@ body .is_friend .remove::before{font-size:22px}
     color: #999999;
     margin-bottom: 10px;
 }
+#addAdminModal .add-product-content-popup h3{
+	text-transform: unset !important;
+}
 .featured-block-wraper{margin:30px 0px 0px 0px}
 .featured-block-wraper .add-new-item{width:100%;max-width:100%}
