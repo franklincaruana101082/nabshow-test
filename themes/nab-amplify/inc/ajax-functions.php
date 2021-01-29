@@ -2585,7 +2585,7 @@ function upload_temp_csv()
 				));
 
 				delete_option('batch_nab_import_companies_ajax_processed');
-				
+				clearstatcache();
 
 				
 }
@@ -2893,7 +2893,7 @@ add_action("wp_ajax_nopriv_nab_reset_csv_processed", "nab_reset_csv_processed");
  */
 function nab_reset_csv_processed()
 {
-	delete_option('	batch_nab_import_companies_ajax_processed');
+	delete_option('batch_nab_import_companies_ajax_processed');
 	wp_send_json('success', 200);
 
 }
