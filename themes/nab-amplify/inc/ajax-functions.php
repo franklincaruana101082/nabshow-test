@@ -2561,7 +2561,7 @@ function upload_temp_csv()
 
 	$temp = get_temp_dir();
 	$time = time();
-	$file_to_move = $temp . '/nab_import_csv.csv';
+	$file_to_move = $temp . 'nab_import_company'.$time.'.csv';
 	
 	set_transient( 'nab_import_csv', 'nab_import_company'.$time.'.csv', 60*60*12 );
 
@@ -2657,7 +2657,7 @@ if (class_exists('WP_Batch')) {
 
 			$temp = get_temp_dir();
 
-			$csv_name = 'nab_import_csv.csv';
+			$csv_name = get_transient('nab_import_csv');
 
 			// Define the CSV Path
 			$csv_path = $temp . '/'.$csv_name;
