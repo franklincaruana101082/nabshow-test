@@ -1258,7 +1258,7 @@ function nab_company_search_filter_callback()
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
 		's'					=> $search_term,
-	);	
+	);
 
 	if (!empty($search_term)) {
 
@@ -1267,8 +1267,8 @@ function nab_company_search_filter_callback()
 		if ($get_search_term_id) {
 
 			$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-			
-			if ( 'meta' === $orderby ) {
+
+			if ('meta' === $orderby) {
 				$company_args['_meta_company_order']	= true;
 			}
 		}
@@ -1286,16 +1286,15 @@ function nab_company_search_filter_callback()
 		);
 	}
 
-	if ( ! isset( $company_args['_meta_company_order'] ) ) {
-		
-		if ( 'meta' === $orderby ) {
+	if (!isset($company_args['_meta_company_order'])) {
+
+		if ('meta' === $orderby) {
 
 			$company_args['meta_key']	= 'member_level_num';
 			$company_args['orderby']	= 'meta_value_num';
 			$company_args['order']		= 'DESC';
+		} elseif ('date' !== $orderby) {
 
-		} elseif ( 'date' !== $orderby ) {
-	
 			$company_args['orderby'] 	= $orderby;
 			$company_args['order']		= $order;
 		}
@@ -2560,20 +2559,16 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
-	$time = time();
-	
 	
 	$upload_dir = wp_get_upload_dir()['basedir'];
 
-	wp_mkdir_p( $upload_dir . '/csv_import/' );
+	wp_mkdir_p($upload_dir . '/csv_import/');
 
-	$file_path = $upload_dir . '/csv_import/nab_import_csv.csv';
+	$file_path = $upload_dir . '/csv_import/nab_import_company.csv';
 
 	$csv_content = file_get_contents($_FILES[0]['tmp_name']);
 
-	file_put_contents( $file_path, $csv_content );
-	
-	//set_transient( 'nab_import_csv', 'nab_import_company'.$time.'.csv', 60*60*12 );
+	file_put_contents($file_path, $csv_content);
 
 	if (isset($_FILES[0]['name'])) {
 
@@ -2583,27 +2578,11 @@ function upload_temp_csv()
 				'type'     => 'error',
 			));
 		} else {
-		
-			/*if(file_exists($file_to_move)){
-				unlink($file_to_move);
-			}
 
-			if (move_uploaded_file($_FILES[0]['tmp_name'], $file_to_move)) {
-				wp_send_json_success(array(
-					'feedback' => __('File successfully uploaded', 'buddypress'),
-					'type'     => 'success',
-				));
-
-				delete_option('batch_nab_import_companies_ajax_processed');
-				clearstatcache(true, $file_to_move);
-
-				
-}*/
-
-wp_send_json_success(array(
-	'feedback' => __('File successfully uploaded', 'buddypress'),
-	'type'     => 'success',
-));
+			wp_send_json_success(array(
+				'feedback' => __('File successfully uploaded', 'buddypress'),
+				'type'     => 'success',
+			));
 		}
 	}
 	exit;
@@ -2618,7 +2597,7 @@ add_action("wp_ajax_nopriv_nab_add_company_admin_popup", "nab_add_company_admin_
  * Ajax to show connection request popup.
  */
 function nab_add_company_admin_popup()
-{	
+{
 
 
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
@@ -2644,7 +2623,7 @@ if (class_exists('WP_Batch')) {
 	class NAB_Company_Import_Batch_ajax extends WP_Batch
 	{
 
-		
+
 
 		/**
 		 * Unique identifier of each batch
@@ -2668,13 +2647,11 @@ if (class_exists('WP_Batch')) {
 		 */
 		public function setup()
 		{
-			
 
-			$temp = get_temp_dir();
 
 			$upload_dir = wp_get_upload_dir()['basedir'];
 
-			$csv_path = $upload_dir . '/csv_import/nab_import_csv.csv';
+			$csv_path = $upload_dir . '/csv_import/nab_import_company.csv';
 
 			if (file_exists($csv_path)) {
 
@@ -2762,7 +2739,7 @@ if (class_exists('WP_Batch')) {
 			$zip_Postal = $item->get_value('zip');
 			$country = $item->get_value('country');
 			$website = $item->get_value('website');
-			$member_level_check = strtolower( $item->get_value('member_level') );
+			$member_level_check = strtolower($item->get_value('member_level'));
 			$member_level = $item->get_value('member_level');
 			$company_Tagline = $item->get_value('tagline');
 			$salesforce_ID = $item->get_value('salesforce');
@@ -2798,7 +2775,7 @@ if (class_exists('WP_Batch')) {
 
 				$import_featured_cat = [];
 
-				$num_member_level_array = array (
+				$num_member_level_array = array(
 					'standard'  => 1,
 					'plus'      => 2,
 					'premium'   => 3,
@@ -2828,7 +2805,7 @@ if (class_exists('WP_Batch')) {
 
 
 				$this->import_meta('about_company', $about, $import_post_id);
-				
+
 
 				$field_key = 'field_5fa3e84f3fa46';
 				$values = array(
@@ -2843,9 +2820,9 @@ if (class_exists('WP_Batch')) {
 				$this->import_meta($field_key, $values, $import_post_id);
 				$this->import_meta('company_website', $website, $import_post_id);
 
-				$num_member_level   = isset( $num_member_level_array[$member_level_check] ) ? $num_member_level_array[$member_level_check] : 0;
-				update_post_meta( $import_post_id, 'member_level_num', $num_member_level );
-				
+				$num_member_level   = isset($num_member_level_array[$member_level_check]) ? $num_member_level_array[$member_level_check] : 0;
+				update_post_meta($import_post_id, 'member_level_num', $num_member_level);
+
 
 				$this->import_meta('member_level', $member_level, $import_post_id);
 				$this->import_meta('company_industary', $company_Tagline, $import_post_id);
@@ -2859,14 +2836,13 @@ if (class_exists('WP_Batch')) {
 
 				$random_string = generate_add_admin_string();
 				$this->import_meta('admin_add_string', $random_string, $import_post_id);
-
 			} else {
 				$error_code = array_key_first($import_post_id->errors);
 				$error_message = $import_post_id->errors[$error_code][0];
 				return new WP_Error(302, $error_message);
 			}
 
-	// Return true if the item processing is successful.
+			// Return true if the item processing is successful.
 			return true;
 		}
 
@@ -2879,7 +2855,7 @@ if (class_exists('WP_Batch')) {
 		{
 			// Do something after process is finished.
 			// You have $this->items, etc.
-			delete_transient( 'nab_import_csv' );
+			delete_transient('nab_import_csv');
 		}
 
 		/* Common function for update custom fields */
@@ -2910,5 +2886,4 @@ function nab_reset_csv_processed()
 {
 	delete_option('batch_nab_import_companies_ajax_processed');
 	wp_send_json('success', 200);
-
 }
