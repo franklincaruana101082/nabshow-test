@@ -2770,7 +2770,7 @@ if (class_exists('WP_Batch')) {
 
 			// Return WP_Error if the item processing failed (In our case we simply skip author with user id 5)
 			if ($fount_post) {
-				return new WP_Error(302, $title . " Post Exist!");
+				return new WP_Error(302, $title . " Post Exist ajax!");
 			}
 			if (empty($title)) {
 				return new WP_Error(302, "Title/data not provided for item number so skipped item " . $item_no);
