@@ -744,8 +744,20 @@
     }
   })
 
+  $(document).on('click', '#nab-edit-product-draft', function () {
+    nabProductAddUpdateAjax( 'draft' );
+  });
+
+  $(document).on('click', '#nab-edit-product-delete', function () {
+    nabProductAddUpdateAjax( 'trash' );
+  });
+
   $(document).on('click', '#nab-edit-product-submit', function () {
-    tinyMCE.triggerSave()
+    nabProductAddUpdateAjax( $(this).attr('data-status') );
+  });
+
+  function nabProductAddUpdateAjax( postStatus ) {
+    tinyMCE.triggerSave();
 
     var product_title = jQuery('#nab-edit-product-form #product_title').val()
     var product_categories = jQuery(
@@ -841,10 +853,11 @@
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
+    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
+    form_data.append('product_status', postStatus);
 
     form_data.append('remove_attachments', remove_attachment_arr)
-    form_data.append('nab_company_id', nab_company_id)
+    form_data.append('nab_company_id', nab_company_id);
 
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
@@ -856,27 +869,32 @@
         $('body').addClass('is-loading')
       },
       success: function (response) {
-        var json = $.parseJSON(response)
-
+        var json = $.parseJSON(response);
         if (json.success === true) {
-          $('body').removeClass('is-loading')
-          if (nab_product_id !== '0') {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Product Updated Successfully!'
-            )
+          $('body').removeClass('is-loading');
+          if ( 'trash' === postStatus ) {
+            $('#nab-edit-product-form .btn-submit').attr('disabled', 'disabled');
+          }
+          if ( json.publish_text ) {
+            $('#nab-edit-product-form #nab-edit-product-submit').val(json.publish_text);
+            $('#nab-edit-product-form #nab-edit-product-submit').attr('data-status', json.publish_text.toLowerCase());
+          }
+          if ( json.draft_text ) {
+            $('#nab-edit-product-form #nab-edit-product-draft').val(json.draft_text);
+          }
+          if ( nab_product_id !== '0' ) {
+            addSuccessMsg( '.add-product-content-popup', json.content );
           } else {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Product Added Successfully!'
-            )
-
+            addSuccessMsg( '.add-product-content-popup', json.content );
             jQuery('#nab-edit-product-form').trigger('reset')
+          }          
+          if ( json.post_id ) {
+            $('#nab-edit-product-form #nab_product_id').val( json.post_id );
           }
         }
       }
-    })
-  })
+    });
+  }
 
   // Upload user images using ajax.
   $('#edit-social-profiles').on('click', function (e) {

@@ -147,7 +147,23 @@ global $post;
 								</div>
 							</div>
 							<div class="form-row">
-								<input type="button" id="nab-edit-product-submit" data-id="<?php echo isset($post_data->ID) ? $post_data->ID : 0 ?>" class="btn btn-submit" value="<?php echo isset($post_data->ID) ? "Update" : "Add"; ?>">
+								<?php
+								$publish_button_text 	= 'Publish';
+								$draft_button_text		= 'Save as Draft';
+								if ( isset( $post_data->post_status ) && 'publish' === $post_data->post_status ) {
+									$publish_button_text 	= 'Update';
+									$draft_button_text		= 'Revert to Draft';
+								}
+								?>
+								<input type="button" id="nab-edit-product-submit" class="btn btn-submit" data-status="<?php echo esc_attr( strtolower( $publish_button_text ) ); ?>" value="<?php echo esc_attr( $publish_button_text ) ?>">
+								<input type="button" id="nab-edit-product-draft"  class="btn btn-submit btn-draft" data-status="draft" value="<?php echo esc_attr( $draft_button_text); ?>">
+								<?php
+								if ( isset( $post_data->post_status ) ) {
+									?>
+									<input type="button" id="nab-edit-product-delete" class="btn btn-submit btn-delete" data-status="trash" value="Delete">
+									<?php
+								}
+								?>								
 								<input type="hidden" name="nab_product_id" id="nab_product_id" value="<?php echo isset($post_data->ID) ? $post_data->ID : 0 ?>" />
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $post_data->company_id; ?>" />
 							</div>

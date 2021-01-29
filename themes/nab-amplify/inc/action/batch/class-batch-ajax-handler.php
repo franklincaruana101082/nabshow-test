@@ -63,12 +63,6 @@ class WP_Batch_Processing_Ajax_Handler {
 		$batch = new NAB_Company_Import_Batch_ajax();
 				WP_Batch_Processor::get_instance()->register( $batch );
 
-				$temp = get_temp_dir();
-
-				$csv_name = 'nab_import_csv.csv';
-
-				clearstatcache(true, $temp . '/'.$csv_name);		
-
 		// Get the batch object
 		$batch = WP_Batch_Processor::get_instance()->get_batch( 'nab_import_companies_ajax' );
 

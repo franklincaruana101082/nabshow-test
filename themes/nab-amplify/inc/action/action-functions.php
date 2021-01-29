@@ -2836,23 +2836,25 @@ function nab_amplify_display_author()
 function nab_add_product()
 {
 
-    $final_result          = array();
-    $uploaded_attachments = array();
-    $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
-    $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
-    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
-    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
-    $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
-    $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
-    $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
-    $product_discussion    = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
-    $product_tags          = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
-    $product_id            = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
-    $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
-    $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
-    $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
-    $product_media = get_field('product_media', $product_id);
+    $final_result               = array();
+    $uploaded_attachments       = array();
+    $post_title                 = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
+    $post_categories            = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
+    $product_copy               = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
+    $product_specs              = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
+    $product_contact            = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
+    $is_feature_product         = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
+    $is_product_b_stock         = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
+    $is_product_sales_item      = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
+    $product_discussion         = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
+    $product_tags               = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
+    $product_id                 = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
+    $product_status             = filter_input(INPUT_POST, 'product_status', FILTER_SANITIZE_STRING);
+    $remove_attachments         = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
+    $nab_company_id             = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
+    $nab_product_learn_more_url = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
+    $product_media              = get_field('product_media', $product_id);
+    $response_msg               = '';
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -2865,10 +2867,11 @@ function nab_add_product()
         }
     }
 
+    $product_status = 'update' === strtolower( $product_status ) ? 'publish' : $product_status;
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
-        'post_status'  => 'publish',
+        'post_status'  => $product_status,
         'post_type'    => 'company-products',
         'post_excerpt' => $product_excerpt
     );
@@ -2881,6 +2884,9 @@ function nab_add_product()
     }
 
     if ($product_id !== '0') {
+
+        $current_status = get_post_status( $product_id );
+
         // Update the post into the database
         $product_post_data['ID'] = $product_id;
 
@@ -2902,14 +2908,31 @@ function nab_add_product()
                 }
             }
         }
-
         
+        $response_msg = 'trash' === strtolower( $product_status ) ? "Product Deleted Successfully!" : "Product Updated Successfully!";
 
-
+        if ( 'draft' === $current_status && 'publish' === strtolower( $product_status ) ) {
+            $final_result['publish_text']   = "Update";
+            $final_result['draft_text']     = "Revert to Draft";
+            $response_msg                   = "Product Published Successfully!";
+        } elseif ( 'publish' === $current_status && 'draft' === strtolower( $product_status ) ) {
+            $final_result['publish_text']   = "Publish";
+            $final_result['draft_text']     = "Save as Draft";
+            $response_msg                   = "Product Reverted Publish to Draft Successfully!";
+        }
+        
 
     } else {
         // Insert the post into the database
         $post_id = wp_insert_post($product_post_data);
+        
+        if ( 'draft' === strtolower( $product_status ) ) {
+            $response_msg = "Product Save as Draft Successfully!";
+        } else {
+            $response_msg = "Product Added Successfully!";
+            $final_result['publish_text']   = "Update";
+            $final_result['draft_text']     = "Revert to Draft";
+        }
     }
 
     // assign categories and tags to post
@@ -2995,7 +3018,8 @@ function nab_add_product()
         $final_result['content'] = '';
     } else {
         $final_result['success'] = true;
-        $final_result['content'] = '';
+        $final_result['content'] = $response_msg;
+        $final_result['post_id'] = $post_id;
     }
 
     echo wp_json_encode($final_result);

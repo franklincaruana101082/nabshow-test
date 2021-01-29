@@ -308,9 +308,9 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:16px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:18px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{margin-left:5px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:18px;width:150px;height:50px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:16px;min-width:150px;height:50px;font-weight:600}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:16px;height:60px;font-weight:600}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:16px;height:150px;font-weight:600}
 	.nab-product-media-item{width:100px;height:100px}
 	.select-dark-simple::after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f}
 	.nab-modal .fa-info-circle{vertical-align:middle}
