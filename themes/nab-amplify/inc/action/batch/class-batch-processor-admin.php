@@ -44,8 +44,8 @@ class WP_Batch_Processor_Admin {
 	 * Init hook. Only run when it is on its own pages.
 	 */
 	public function setup() {
-		if ( $this->is_batch_runner_screen() || $this->is_batch_runner_ajax() ) {
-			//do_action( 'wp_batch_processing_init' );
+		if ( $this->is_batch_runner_screen() ) {
+			do_action( 'wp_batch_processing_init' );
 		}
 	}
 
