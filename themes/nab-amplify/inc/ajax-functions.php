@@ -2653,6 +2653,7 @@ if (class_exists('WP_Batch')) {
 		 */
 		public function setup()
 		{
+			clearstatcache();
 
 			$temp = get_temp_dir();
 
