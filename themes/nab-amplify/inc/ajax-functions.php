@@ -2585,7 +2585,7 @@ function upload_temp_csv()
 				));
 
 				delete_option('batch_nab_import_companies_ajax_processed');
-				clearstatcache();
+				clearstatcache(true, $file_to_move);
 
 				
 }
@@ -2653,11 +2653,13 @@ if (class_exists('WP_Batch')) {
 		 */
 		public function setup()
 		{
-			clearstatcache();
+			
 
 			$temp = get_temp_dir();
 
 			$csv_name = get_transient('nab_import_csv');
+
+			clearstatcache(true, $temp . '/'.$csv_name);
 
 			// Define the CSV Path
 			$csv_path = $temp . '/'.$csv_name;
