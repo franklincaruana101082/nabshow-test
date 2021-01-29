@@ -2561,9 +2561,19 @@ function upload_temp_csv()
 
 	$temp = get_temp_dir();
 	$time = time();
-	$file_to_move = $temp . 'nab_import_csv.csv';
 	
-	set_transient( 'nab_import_csv', 'nab_import_company'.$time.'.csv', 60*60*12 );
+	
+	$upload_dir = wp_get_upload_dir()['basedir'];
+
+	wp_mkdir_p( $upload_dir . '/csv_import/' );
+
+	$file_path = $upload_dir . '/csv_import/nab_import_csv.csv';
+
+	$csv_content = file_get_contents($_FILES[0]['tmp_name']);
+
+	file_put_contents( $file_path, $csv_content );
+	
+	//set_transient( 'nab_import_csv', 'nab_import_company'.$time.'.csv', 60*60*12 );
 
 	if (isset($_FILES[0]['name'])) {
 
@@ -2574,7 +2584,7 @@ function upload_temp_csv()
 			));
 		} else {
 		
-			if(file_exists($file_to_move)){
+			/*if(file_exists($file_to_move)){
 				unlink($file_to_move);
 			}
 
@@ -2588,7 +2598,12 @@ function upload_temp_csv()
 				clearstatcache(true, $file_to_move);
 
 				
-}
+}*/
+
+wp_send_json_success(array(
+	'feedback' => __('File successfully uploaded', 'buddypress'),
+	'type'     => 'success',
+));
 		}
 	}
 	exit;
@@ -2657,12 +2672,9 @@ if (class_exists('WP_Batch')) {
 
 			$temp = get_temp_dir();
 
-			$csv_name = 'nab_import_csv.csv';
+			$upload_dir = wp_get_upload_dir()['basedir'];
 
-			clearstatcache(true, $temp . '/'.$csv_name);
-
-			// Define the CSV Path
-			$csv_path = $temp . '/'.$csv_name;
+			$csv_path = $upload_dir . '/csv_import/nab_import_csv.csv';
 
 			if (file_exists($csv_path)) {
 
