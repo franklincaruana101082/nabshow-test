@@ -2562,8 +2562,9 @@ function upload_temp_csv()
 	$temp = get_temp_dir();
 	$time = time();
 	$file_to_move = $temp . '/nab_import_company'.$time.'.csv';
-	update_option( 'nab_import_csv','nab_import_company'.$time.'.csv',true);
 	
+	set_transient( 'nab_import_csv', 'nab_import_company'.$time.'.csv', 60*60*12 );
+
 	if (isset($_FILES[0]['name'])) {
 
 		if (0 < $_FILES[0]['error']) {
@@ -2655,7 +2656,7 @@ if (class_exists('WP_Batch')) {
 
 			$temp = get_temp_dir();
 
-			$csv_name = get_option( 'nab_import_csv');
+			$csv_name = get_transient( 'nab_import_csv' );
 
 			// Define the CSV Path
 			$csv_path = $temp . '/'.$csv_name;
@@ -2772,7 +2773,7 @@ if (class_exists('WP_Batch')) {
 				return new WP_Error(302, $title . " Post Exist!");
 			}
 			if (empty($title)) {
-				return new WP_Error(302, "Title/data not provided for item number so skipped" . $item_no);
+				return new WP_Error(302, "Title/data not provided for item number so skipped item " . $item_no);
 			}
 			// Insert the post into the database
 			$import_post_id = wp_insert_post($post_data);
@@ -2863,6 +2864,7 @@ if (class_exists('WP_Batch')) {
 		{
 			// Do something after process is finished.
 			// You have $this->items, etc.
+			delete_transient( 'nab_import_csv' );
 		}
 
 		/* Common function for update custom fields */
