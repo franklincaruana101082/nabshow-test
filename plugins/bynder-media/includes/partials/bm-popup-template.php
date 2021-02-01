@@ -22,6 +22,11 @@ $requested_by = $this->requested_by;
 		$asset_img   = $asset->thumbnails->thul;
 		$derivatives = $asset->mediaItems;
 
+		// Skip if its not an image.
+	    if ( 'image' !== $asset_type ) {
+	        continue;
+        }
+
 		// Skip if there are no derivatives.
 	    if ( 0 === count( $derivatives ) ) {
 	        continue;
