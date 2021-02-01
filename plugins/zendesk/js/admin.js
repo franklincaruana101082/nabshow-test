@@ -10,7 +10,8 @@
  */
 
 // Fire upon document ready
-jQuery(document).ready(function($) {
+jq2 = jQuery.noConflict();
+jq2(function( $ ) {
 
 	// Use this for dialog boxes
 	$('<div><div id="zendesk-dialog"><div id="zendesk-dialog-inner"><h1 id="zendesk-dialog-title">Dialog Title</h1><div id="zendesk-dialog-body"></div><div id="zendesk-dialog-footer"><a class="powered-by-zendesk" target="_blank" href="http://zendesk.com/?source=wordpress-plugin">powered by Zendesk</a></div><br class="clear" /></div></div>').appendTo('body').hide();
@@ -25,14 +26,14 @@ jQuery(document).ready(function($) {
 	});
 
 	// Cancel change view sliders.
-	$('.zendesk-change-view-cancel').click(function() {
+	$(document).on('click', '.zendesk-change-view-cancel', function() {
 		$('.zendesk-tickets-widget-views').slideUp();
 		$('.zendesk-tickets-widget-main').slideDown();
 		return false;
 	});
 
 	// Single ticket view cancel slider.
-	$('.zendesk-change-single-cancel').click(function() {
+	$(document).on('click', '.zendesk-change-single-cancel', function() {
 		$('.zendesk-tickets-widget-single').slideUp();
 		$('.zendesk-tickets-widget-main').slideDown();
 		return false;
@@ -41,8 +42,8 @@ jQuery(document).ready(function($) {
 	// Alt class for table views.
 	$(".zendesk-views-table tr:odd, .zendesk-tickets-table tr:odd").addClass("alt");
 
-	// Change a view dynamically
-	$('.zendesk-views-table a').click(function() {
+    // Change a view dynamically
+    $(document).on('click', '.zendesk-views-table a', function() {
 		var view_id = $(this).attr('data-id');
 		var clicked = this;
 
@@ -169,8 +170,8 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	// Comments to tickets
-	$('.zendesk-convert').click(function() {
+    // Comments to tickets
+    $(document).on('click', '.zendesk-convert', function() {
 		var comment_id = $(this).attr('data-id');
 		var colorbox_open = false;
 
@@ -227,8 +228,8 @@ jQuery(document).ready(function($) {
 		var form = this;
 		var comment_id = $(form).find('[name="zendesk-comment-id"]').val();
 		var message = $(form).find('[name="zendesk-comment-reply"]').val();
-		var comment_public = $(form).find('[name="zendesk-comment-public"]').attr('checked');
-		var post_reply = $(form).find('[name="zendesk-post-reply"]').attr('checked');
+		var comment_public = $(form).find('[name="zendesk-comment-public"]').prop('checked');
+		var post_reply = $(form).find('[name="zendesk-post-reply"]').prop('checked');
 
 		// Format the AJAX request
 		var params = {
@@ -271,7 +272,7 @@ jQuery(document).ready(function($) {
 		return '<div class="zendesk-admin-notice zendesk-alert"><p>' + text + '</p></div>';
 
 	}
-
+	
 });
 
 // Creates auto links ( based off: https://github.com/bryanwoods/autolink-js )

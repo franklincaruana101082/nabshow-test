@@ -1,3 +1,6 @@
+<?php
+// Table HTML.
+?>
 <table width="100%">
     <tbody>
         <tr>
@@ -18,7 +21,7 @@
         </tr>
         <tr>
             <td>Publisher Review URL</td>
-            <td><input type="text" name="bs_publisher_review" value="" /></td>            
+            <td><input type="text" name="bs_publisher_review" value="" /></td>
         </tr>
         <tr>
             <td>Twitter Username</td>
