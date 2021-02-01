@@ -64,7 +64,8 @@
                     }
                     $('#bm-main-outer #bm-tab-media').html(result.bmHTML);
                 } else if ( result.error ) {
-                    alert(result.error);
+                    $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
+                    $('#bm-main-outer #bm-tab-media').html(result.error);
                 }
             },
             error() {

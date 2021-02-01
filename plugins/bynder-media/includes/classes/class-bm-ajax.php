@@ -47,7 +47,10 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 				$bm_domain = $this->bm_get_meta( 'bm_domain' );
 
 				$url      = $bm_domain . '/api/v4/media/';
-				$args     = array( 'includeMediaItems' => 1 );
+				$args     = array(
+					'includeMediaItems' => 1,
+					'limit' => 1000,
+				);
 				$response = $this->bm_run_api( $url, 'GET', $args );
 
 				if( 200 === $response['status'] ) {
@@ -60,7 +63,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 					$return_array = array( "bmHTML" => $bm_popup );
 				} else {
-					$return_array = array( "error" => $response['code'] );
+					$return_array = array( "error" => $response['body']->error );
 				}
 
 			} else {
