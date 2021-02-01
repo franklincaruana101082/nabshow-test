@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 $bm_assets    = $this->bm_body;
 $requested_by = $this->requested_by;
 ?>
-<div class="bm-media-count-wrap">
+<!--<div class="bm-media-count-wrap">
     <span class="bm-media-count">496 media</span>
-</div>
+</div>-->
 <div class="bm-media-main">
 	<?php
 	foreach ( $bm_assets as $asset ) {
