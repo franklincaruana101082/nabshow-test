@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template part for displaying compnay header banner in the header.
+ * Template part for displaying company header banner in the header.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -56,9 +56,9 @@ $youtube_url      = get_field('youtube_url');
                 <div class="amp-profile-inner">
                     <div class="amp-profile-content">
                         <div id="profile-avtar" class="amp-profile-image profile-avtar">
-                            <label class="profile-avtar-inner" for="profile_picture_file">
+                            <label class="profile-avtar-inner" for="profile_picture_file" id="bm-profile-pic"> <!--bm-select-media-->
                                 <?php if ($profile_picture) { ?>
-                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Company Profile Picture" />
                                 <?php } else { ?>
                                     <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 30, '...'); ?></div>
                                 <?php } ?>

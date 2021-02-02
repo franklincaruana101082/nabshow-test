@@ -885,7 +885,7 @@
           if ( nab_product_id !== '0' ) {
             addSuccessMsg( '.add-product-content-popup', json.content );
           } else {
-            addSuccessMsg( '.add-product-content-popup', json.content );            
+            addSuccessMsg( '.add-product-content-popup', json.content );           
           }          
           if ( json.post_id ) {
             $('#nab-edit-product-form #nab_product_id').val( json.post_id );
