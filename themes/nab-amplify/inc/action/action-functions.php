@@ -4021,9 +4021,9 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                     )
                 );
             }
-            
+            wp_mail('nitish.kaila@multidots.com','test api', implode('||', $meta_data ));
             if ( $user_id ) {
-
+                $final_result['data'] = 'in meta condition';
                 $table_name = $wpdb->usermeta;
 
                 foreach( $meta_data as $current_meta ) {                    
