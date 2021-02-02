@@ -4023,7 +4023,7 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
             }
             
             if ( $user_id ) {
-                $final_result['data'] = get_user_meta( $user_id);
+                
                 $table_name = $wpdb->usermeta;
 
                 foreach( $meta_data as $current_meta ) {                    
@@ -4052,7 +4052,7 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
 
                     } else {
 
-                        $wpdb->insert(
+                        $ins = $wpdb->insert(
                             $table_name,
                             array(
                                 'user_id'       => $user_id,
@@ -4065,6 +4065,9 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                                 '%s'
                             )
                         );
+
+                        $final_result['data'] = $current_meta['meta_key'];
+                        $final_result['data1'] = $ins;
                     }
                 }
 
