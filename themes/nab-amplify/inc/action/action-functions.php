@@ -4066,6 +4066,8 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                                 '%s'
                             )
                         );
+
+                        $final_result['ab'] = $ins;
                     }
                 }
 
