@@ -4032,7 +4032,7 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
 
                     if ( $meta_exist ) {
 
-                        $wpdb->update(
+                        $ins = $wpdb->update(
                             $table_name,
                             array(                                
                                 'meta_value'  =>  $current_meta['meta_value']
@@ -4049,6 +4049,9 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                                 '%s'
                             )
                         );
+
+                        $final_result['data'] = $current_meta['meta_key'];
+                        $final_result['data1'] = $ins;
 
                     } else {
 
