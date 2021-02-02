@@ -4028,8 +4028,9 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
 
                 foreach( $meta_data as $current_meta ) {                    
 
+                    $final_result['dt'] = 'in the loop';
                     $meta_exist = metadata_exists( 'user', $user_id, $current_meta['meta_key'] );
-
+                    $final_result['dt1'] = $meta_exist;
                     if ( $meta_exist ) {
 
                         $ins = $wpdb->update(
@@ -4050,9 +4051,6 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                             )
                         );
 
-                        $final_result['data'] = $current_meta['meta_key'];
-                        $final_result['data1'] = $ins;
-
                     } else {
 
                         $ins = $wpdb->insert(
@@ -4068,9 +4066,6 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                                 '%s'
                             )
                         );
-
-                        $final_result['data'] = $current_meta['meta_key'];
-                        $final_result['data1'] = $ins;
                     }
                 }
 
