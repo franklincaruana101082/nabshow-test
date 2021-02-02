@@ -214,4 +214,3 @@ add_action( 'admin_menu', 'nab_add_export_company_menu' );
 add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
 
 add_shortcode( 'nab_year', 'nab_copyright_year_shortcode' );
-add_action( 'rest_api_init', 'nab_register_user_api_endpoints' );
