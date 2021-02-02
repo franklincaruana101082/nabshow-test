@@ -4061,17 +4061,15 @@ function nab_sync_user_to_live() {
         $ch = curl_init();
 
         //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL, "https://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live");
+        curl_setopt($ch,CURLOPT_URL, "http://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live");
         curl_setopt($ch,CURLOPT_POST, 1);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
         //execute post
         $result = curl_exec($ch);
 
-        //$api_result = wp_remote_post( "https://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live", http_build_query( array( 'user_data' => $final_results['user'], 'meta_data' => $final_results['meta'] ) ) );
-
         $result = json_decode( $result );
-        $msg = $result['success'] ? "Error while sync user " . $user_id : "User " . $user_id . " sync Successfully";
+        $msg = $result['success'] ? "User " . $user_id . " sync Successfully" : "Error while sync user " . $user_id;
         ?>
         <div class="updated notice">
             <p><?php echo esc_html( $msg ); ?></p>
@@ -4103,9 +4101,9 @@ function nab_register_user_api_endpoints() {
 
 function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
 
-    $user_data  = $request->get_param('user_data');
-    $meta_data  = $request->get_param('meta_data');    
-    $return      = array('success' => false);
+    $user_data      = $request->get_param('user_data');
+    $meta_data      = $request->get_param('meta_data');
+    $final_result   = array('success' => false);
 
     if ( is_array( $user_data ) && is_array( $meta_data ) ) {
 
@@ -4224,10 +4222,10 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                     }
                 }
 
-                $return['success'] = true;
+                $final_result['success']  = true;
             }
         }
     }
 
-    return new WP_REST_Response($return, 200);
+    return new WP_REST_Response($final_result, 200);
 }
