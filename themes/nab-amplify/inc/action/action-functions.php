@@ -4024,16 +4024,16 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
             
             if ( $user_id ) {
                 
-                $table_name = $wpdb->usermeta;
+                //$table_name = $wpdb->usermeta;
 
-                foreach( $meta_data as $current_meta ) {                    
+                foreach( $meta_data as $key => $value ) {                    
+                    
+                    update_user_meta( $user_id, $key, $value[0] );
+                    //$meta_exist = metadata_exists( 'user', $user_id, $current_meta['meta_key'] );
+                    
+                    /*if ( $meta_exist ) {
 
-                    $final_result['dt'] = 'in the loop';
-                    $meta_exist = metadata_exists( 'user', $user_id, $current_meta['meta_key'] );
-                    $final_result['dt1'] = $meta_exist;
-                    if ( $meta_exist ) {
-
-                        $ins = $wpdb->update(
+                        $wpdb->update(
                             $table_name,
                             array(                                
                                 'meta_value'  =>  $current_meta['meta_value']
@@ -4053,7 +4053,7 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
 
                     } else {
 
-                        $ins = $wpdb->insert(
+                        $wpdb->insert(
                             $table_name,
                             array(
                                 'user_id'       => $user_id,
@@ -4065,10 +4065,8 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                                 '%s',
                                 '%s'
                             )
-                        );
-
-                        $final_result['ab'] = $ins;
-                    }
+                        );                        
+                    }*/
                 }
 
                 $final_result['success']  = true;
