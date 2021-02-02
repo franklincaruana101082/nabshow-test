@@ -4057,18 +4057,39 @@ function nab_sync_user_to_live() {
         //url-ify the data for the POST
         $fields_string = http_build_query( array( 'user_data' => $final_results['user'], 'meta_data' => $final_results['meta'] ) );
 
-        //open connection
-        $ch = curl_init();
+        $curl = curl_init();
 
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL, "http://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live");
-        curl_setopt($ch,CURLOPT_POST, 1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $fields_string,
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: PHPSESSID=hj847uemchb3njj9ritacchpdn'
+            ),
+        ));
 
-        //execute post
-        $result = curl_exec($ch);
+        $response = curl_exec($curl);
 
-        $result = json_decode( $result );
+        curl_close($curl);
+
+        // //open connection
+        // $ch = curl_init();
+
+        // //set the url, number of POST vars, POST data
+        // curl_setopt($ch,CURLOPT_URL, "http://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live");
+        // curl_setopt($ch,CURLOPT_POST, 1);
+        // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+        // //execute post
+        // $result = curl_exec($ch);
+
+        $result = json_decode( $response );
         $msg = $result['success'] ? "User " . $user_id . " sync Successfully" : "Error while sync user " . $user_id;
         ?>
         <div class="updated notice">
