@@ -2855,7 +2855,6 @@ function nab_add_product()
     $nab_product_learn_more_url = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
     $product_media              = get_field('product_media', $product_id);
     $response_msg               = '';
-    $product_contact            = $product_contact ? $product_contact : 0;
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -4061,7 +4060,7 @@ function nab_sync_user_to_live() {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://nabshow-qa.go-vip.net/amplify/wp-json/nab/request/sync-user-to-live',
+            CURLOPT_URL => 'http://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
