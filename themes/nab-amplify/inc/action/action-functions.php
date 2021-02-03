@@ -3923,3 +3923,129 @@ function nab_copyright_year_shortcode() {
     
     return date( 'Y' );
 }
+
+function nab_register_user_api_endpoints() {
+
+    register_rest_route('nab', '/request/sync-user-to-live', array(
+        'methods'             => 'POST',
+        'callback'            => 'nab_sync_beta_user_to_live',
+        'permission_callback' => '__return_true',
+        'args'                => array(
+            'user_data'  => array(
+                'validate_callback' => function ($param) {
+                    return is_array($param);
+                },
+            ),        
+            'meta_data' => array(
+                'validate_callback' => function ($param) {
+                    return is_array($param);
+                },
+            ),
+        ),
+    ));
+}
+
+function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
+
+    $user_data      = $request->get_param('user_data');
+    $meta_data      = $request->get_param('meta_data');
+    $final_result   = array('success' => false);
+
+    if ( is_array( $user_data ) && is_array( $meta_data ) ) {
+
+        global $wpdb;
+        
+        if ( ( isset( $user_data['user_email'] ) && ! empty( $user_data['user_email'] ) ) && ( isset( $user_data['ID'] ) && ! empty( $user_data['ID'] ) ) ) {
+            
+            $user_exist = email_exists( $user_data['user_email'] );
+
+            if ( ! $user_exist ) {
+
+                $table_name = $wpdb->users;
+
+                $user_id = $wpdb->insert(
+                    $table_name,
+                    array(
+                        'user_login'            => $user_data['user_login'],
+                        'user_pass'             => $user_data['user_pass'],
+                        'user_nicename'         => $user_data['user_nicename'],
+                        'user_email'            => $user_data['user_email'],
+                        'user_url'              => $user_data['user_url'],
+                        'user_registered'       => $user_data['user_registered'],
+                        'user_activation_key'   => $user_data['user_activation_key'],
+                        'user_status'           => $user_data['user_status'],
+                        'display_name'          => $user_data['display_name'],
+                        'spam'                  => $user_data['spam'],
+                        'deleted'               => $user_data['deleted']
+                    ),
+                    array(
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%d',
+                        '%s',
+                        '%d',
+                        '%d'
+                    )
+                );
+
+                if ( ! $user_id ) {
+
+                    $user_id = $wpdb->insert_id;
+                }
+
+            } else {
+                $user_id = $user_exist;
+
+                $table_name = $wpdb->users;
+
+                $wpdb->update(
+                    $table_name,
+                    array(
+                        'user_nicename' =>  $user_data['user_nicename'],
+                        'display_name'  =>  $user_data['display_name']
+                    ),
+                    array(
+                        'ID'   => $user_id
+                    ),
+                    array(
+                        '%s',
+                        '%s'
+                    ),
+                    array(
+                        '%d'
+                    )
+                );
+            }            
+            
+            if ( $user_id ) {
+
+                $exclude_metas = array(
+                    'profile_picture',
+                    'banner_image',
+                    'nab_purchased_product_2020',
+                    'nab_customer_product_bookmark',
+                );
+
+                foreach( $meta_data as $key => $value ) {
+                    
+                    if ( ! empty( $value[0] ) && ! in_array( $key, $exclude_metas, true ) ) {
+
+                        if ( is_serialized( $value[0] ) ) {
+                            $value[0] = maybe_unserialize( $value[0] );
+                        }
+                        update_user_meta( $user_id, $key, $value[0] );
+                    }
+                }
+
+                $final_result['success']  = true;
+            }
+        }
+    }
+
+    return new WP_REST_Response($final_result, 200);
+}
