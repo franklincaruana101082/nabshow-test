@@ -136,9 +136,10 @@ if (class_exists('WP_Batch')) {
 			 $csv_name = get_option( 'nab_import_csv');
 			
 
-			 $csv_name = 'nab_import_csv.csv';
+			$csv_name = $csv_name ? $csv_name : 'nab_import_company.csv';
 
-			 clearstatcache(true, $temp . '/'.$csv_name);
+			// Define the CSV Path
+			$csv_path = $temp . '/'.$csv_name;
 
 			if (file_exists($csv_path)) {
 

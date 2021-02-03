@@ -2762,7 +2762,7 @@ if (class_exists('WP_Batch')) {
 
 			// Return WP_Error if the item processing failed (In our case we simply skip author with user id 5)
 			if ($fount_post) {
-				return new WP_Error(302, $title . " Post Exist!");
+				return new WP_Error(302, $title . " Post already exists!");
 			}
 			if (empty($title)) {
 				return new WP_Error(302, "Title/data not provided for item number so skipped item " . $item_no);
@@ -2823,7 +2823,9 @@ if (class_exists('WP_Batch')) {
 				$num_member_level   = isset($num_member_level_array[$member_level_check]) ? $num_member_level_array[$member_level_check] : 0;
 				update_post_meta($import_post_id, 'member_level_num', $num_member_level);
 
-
+				if ( ! empty( $member_level ) ) {
+					$this->import_meta( 'admin_can_add_product', 1, $import_post_id );
+				}
 				$this->import_meta('member_level', $member_level, $import_post_id);
 				$this->import_meta('company_industary', $company_Tagline, $import_post_id);
 				$this->import_meta('salesforce_id', $salesforce_ID, $import_post_id);

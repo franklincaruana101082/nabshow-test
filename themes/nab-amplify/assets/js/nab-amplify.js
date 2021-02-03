@@ -233,7 +233,10 @@
         .fadeIn(200)
     })
     jQuery('#product_categories').select2()
-    jQuery('#company_point_of_contact').select2()
+    jQuery('#company_point_of_contact').select2({
+      placeholder: "Select Point of contact",
+      allowClear:true
+    })
 
     if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined'){
       jQuery.ajax({
@@ -487,7 +490,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: "Select Point of contact",
+            allowClear:true
+          })
           load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
           load_tinyMCE_withPlugins(
             '#nab_product_specs',
@@ -550,7 +556,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: "Select Point of contact",
+            allowClear:true
+          })
           load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
           load_tinyMCE_withPlugins(
             '#nab_product_specs',
@@ -603,7 +612,10 @@
             )
           }, 1000)
         }
-        $('.poduct-point-of-contact').select2()
+        $('.poduct-point-of-contact').select2({
+          placeholder: 'Select point of contact',
+          allowClear:true
+        })
         $('.poduct-point-of-contact').select2({
           ajax: {
             url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
@@ -630,7 +642,9 @@
             },
             cache: true
           },
-          minimumInputLength: 3
+          minimumInputLength: 3,
+          placeholder: 'Select point of contact',
+          allowClear:true
         })
       }
     })
@@ -744,8 +758,20 @@
     }
   })
 
+  $(document).on('click', '#nab-edit-product-draft', function () {
+    nabProductAddUpdateAjax( 'draft' );
+  });
+
+  $(document).on('click', '#nab-edit-product-delete', function () {
+    nabProductAddUpdateAjax( 'trash' );
+  });
+
   $(document).on('click', '#nab-edit-product-submit', function () {
-    tinyMCE.triggerSave()
+    nabProductAddUpdateAjax( $(this).attr('data-status') );
+  });
+
+  function nabProductAddUpdateAjax( postStatus ) {
+    tinyMCE.triggerSave();
 
     var product_title = jQuery('#nab-edit-product-form #product_title').val()
     var product_categories = jQuery(
@@ -841,10 +867,11 @@
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
+    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
+    form_data.append('product_status', postStatus);
 
     form_data.append('remove_attachments', remove_attachment_arr)
-    form_data.append('nab_company_id', nab_company_id)
+    form_data.append('nab_company_id', nab_company_id);
 
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
@@ -856,27 +883,31 @@
         $('body').addClass('is-loading')
       },
       success: function (response) {
-        var json = $.parseJSON(response)
-
+        var json = $.parseJSON(response);
         if (json.success === true) {
-          $('body').removeClass('is-loading')
-          if (nab_product_id !== '0') {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Product Updated Successfully!'
-            )
+          $('body').removeClass('is-loading');
+          if ( 'trash' === postStatus ) {
+            $('#nab-edit-product-form .btn-submit').attr('disabled', 'disabled');
+          }
+          if ( json.publish_text ) {
+            $('#nab-edit-product-form #nab-edit-product-submit').val(json.publish_text);
+            $('#nab-edit-product-form #nab-edit-product-submit').attr('data-status', json.publish_text.toLowerCase());
+          }
+          if ( json.draft_text ) {
+            $('#nab-edit-product-form #nab-edit-product-draft').val(json.draft_text);
+          }
+          if ( nab_product_id !== '0' ) {
+            addSuccessMsg( '.add-product-content-popup', json.content );
           } else {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Product Added Successfully!'
-            )
-
-            jQuery('#nab-edit-product-form').trigger('reset')
+            addSuccessMsg( '.add-product-content-popup', json.content );           
+          }          
+          if ( json.post_id ) {
+            $('#nab-edit-product-form #nab_product_id').val( json.post_id );
           }
         }
       }
-    })
-  })
+    });
+  }
 
   // Upload user images using ajax.
   $('#edit-social-profiles').on('click', function (e) {
@@ -906,7 +937,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: "Select Point of contact",
+            allowClear:true
+          })
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -917,7 +951,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: "Select Point of contact",
+            allowClear:true
+          })
         }
       }
     })
@@ -1147,7 +1184,10 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: "Select Point of contact",
+            allowClear:true
+          })
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -1159,7 +1199,10 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: "Select Point of contact",
+            allowClear:true
+          })
         }
 
         setTimeout(() => {

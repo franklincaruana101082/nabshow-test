@@ -116,6 +116,14 @@
     var ajax_url = DgBatchRunner.ajax_url
     var nonce = DgBatchRunner.nonce
     var form_data = new FormData()
+
+    var fileExtension = ['csv'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only formats are allowed : "+fileExtension.join(', '));
+            $(this).val(null)
+            return false
+        }
+
     $.each($('#nab_import_company')[0].files, function (key, file) {
       form_data.append(key, file)
     })

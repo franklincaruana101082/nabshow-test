@@ -1404,3 +1404,9 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
 
     return $count;
 }
+
+function nab_add_sync_user_action_link( $links, $user_obj) {	
+	$link_url	= isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ? admin_url( '/users.php?u=' . $user_obj->ID . '&paged=' . $_GET['paged'] ) : admin_url( '/users.php?u=' . $user_obj->ID );
+	$links[]	= '<a href="' . $link_url .'">Sync to Live</a>';
+	return $links;
+}

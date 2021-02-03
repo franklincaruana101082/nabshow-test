@@ -2836,23 +2836,26 @@ function nab_amplify_display_author()
 function nab_add_product()
 {
 
-    $final_result          = array();
-    $uploaded_attachments = array();
-    $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
-    $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
-    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
-    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
-    $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
-    $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
-    $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
-    $product_discussion    = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
-    $product_tags          = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
-    $product_id            = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
-    $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
-    $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
-    $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
-    $product_media = get_field('product_media', $product_id);
+    $final_result               = array();
+    $uploaded_attachments       = array();
+    $post_title                 = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
+    $post_categories            = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
+    $product_copy               = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
+    $product_specs              = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
+    $product_contact            = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
+    $is_feature_product         = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
+    $is_product_b_stock         = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
+    $is_product_sales_item      = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
+    $product_discussion         = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
+    $product_tags               = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
+    $product_id                 = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
+    $product_status             = filter_input(INPUT_POST, 'product_status', FILTER_SANITIZE_STRING);
+    $remove_attachments         = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
+    $nab_company_id             = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
+    $nab_product_learn_more_url = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
+    $product_media              = get_field('product_media', $product_id);
+    $response_msg               = '';
+    $product_contact            = $product_contact ? $product_contact : 0;
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -2865,10 +2868,11 @@ function nab_add_product()
         }
     }
 
+    $product_status = 'update' === strtolower( $product_status ) ? 'publish' : $product_status;
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
-        'post_status'  => 'publish',
+        'post_status'  => $product_status,
         'post_type'    => 'company-products',
         'post_excerpt' => $product_excerpt
     );
@@ -2881,6 +2885,9 @@ function nab_add_product()
     }
 
     if ($product_id !== '0') {
+
+        $current_status = get_post_status( $product_id );
+
         // Update the post into the database
         $product_post_data['ID'] = $product_id;
 
@@ -2902,14 +2909,31 @@ function nab_add_product()
                 }
             }
         }
-
         
+        $response_msg = 'trash' === strtolower( $product_status ) ? "Product Deleted Successfully!" : "Product Updated Successfully!";
 
-
+        if ( 'draft' === $current_status && 'publish' === strtolower( $product_status ) ) {
+            $final_result['publish_text']   = "Update";
+            $final_result['draft_text']     = "Revert to Draft";
+            $response_msg                   = "Product Published Successfully!";
+        } elseif ( 'publish' === $current_status && 'draft' === strtolower( $product_status ) ) {
+            $final_result['publish_text']   = "Publish";
+            $final_result['draft_text']     = "Save as Draft";
+            $response_msg                   = "Product Reverted Publish to Draft Successfully!";
+        }
+        
 
     } else {
         // Insert the post into the database
         $post_id = wp_insert_post($product_post_data);
+        
+        if ( 'draft' === strtolower( $product_status ) ) {
+            $response_msg = "Product Save as Draft Successfully!";
+        } else {
+            $response_msg = "Product Added Successfully!";
+            $final_result['publish_text']   = "Update";
+            $final_result['draft_text']     = "Revert to Draft";
+        }
     }
 
     // assign categories and tags to post
@@ -2995,7 +3019,8 @@ function nab_add_product()
         $final_result['content'] = '';
     } else {
         $final_result['success'] = true;
-        $final_result['content'] = '';
+        $final_result['content'] = $response_msg;
+        $final_result['post_id'] = $post_id;
     }
 
     echo wp_json_encode($final_result);
@@ -3338,7 +3363,9 @@ function nab_update_company_profile_callback()
     $company_location_country       = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
     $company_product_categories     = filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING );
     $company_search_categories      = filter_input( INPUT_POST, 'company_search_categories', FILTER_SANITIZE_STRING );
-    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);    
+    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);  
+    
+    
 
     $category_limit = nab_get_company_member_category_limit( $company_id );
 
@@ -3432,8 +3459,10 @@ function nab_update_company_profile_callback()
     }
 
     // Update point of contact
-    if ($company_point_of_contact) {
+    if ($company_point_of_contact !=='') {
         update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+    }else{
+        update_field('field_5fb4f4bcbe04a', 0, $company_id);
     }
 
 
@@ -4010,4 +4039,178 @@ function nab_update_company_member_level_meta_num( $post_id ) {
     
         update_post_meta( $post_id, 'member_level_num', $num_member_level );
     }
+}
+
+function nab_sync_user_to_live() {
+
+    global $wpdb;
+
+    $user_id = filter_input( INPUT_GET, 'u', FILTER_SANITIZE_NUMBER_INT );
+
+    if ( isset( $user_id ) && ! empty( $user_id ) ) {
+
+        $final_results  = array();
+                
+        $user_query             = $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE ID = %d", $user_id );
+        $user_result            = $wpdb->get_row( $user_query, ARRAY_A);
+        $final_results['user']  = $user_result;
+        $final_results['meta']  = get_user_meta( $user_id );
+       
+        $fields_string = http_build_query( array( 'user_data' => $final_results['user'], 'meta_data' => $final_results['meta'] ) );
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://nabshow-qa.go-vip.net/amplify/wp-json/nab/request/sync-user-to-live',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $fields_string,
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: PHPSESSID=hj847uemchb3njj9ritacchpdn'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $result = json_decode( $response );
+        $msg    = isset( $result->success ) && $result->success ? "User " . $user_id . " sync successfully" : "Error while sync user " . $user_id;
+        ?>
+        <div class="updated notice">
+            <p><?php echo esc_html( $msg ); ?></p>
+        </div>
+        <?php
+    }
+}
+
+function nab_register_user_api_endpoints() {
+
+    register_rest_route('nab', '/request/sync-user-to-live', array(
+        'methods'             => 'POST',
+        'callback'            => 'nab_sync_beta_user_to_live',
+        'permission_callback' => '__return_true',
+        'args'                => array(
+            'user_data'  => array(
+                'validate_callback' => function ($param) {
+                    return is_array($param);
+                },
+            ),        
+            'meta_data' => array(
+                'validate_callback' => function ($param) {
+                    return is_array($param);
+                },
+            ),
+        ),
+    ));
+}
+
+function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
+
+    $user_data      = $request->get_param('user_data');
+    $meta_data      = $request->get_param('meta_data');
+    $final_result   = array('success' => false);
+
+    if ( is_array( $user_data ) && is_array( $meta_data ) ) {
+
+        global $wpdb;
+        
+        if ( ( isset( $user_data['user_email'] ) && ! empty( $user_data['user_email'] ) ) && ( isset( $user_data['ID'] ) && ! empty( $user_data['ID'] ) ) ) {
+            
+            $user_exist = email_exists( $user_data['user_email'] );
+
+            if ( ! $user_exist ) {
+
+                $table_name = $wpdb->users;
+
+                $user_id = $wpdb->insert(
+                    $table_name,
+                    array(
+                        'user_login'            => $user_data['user_login'],
+                        'user_pass'             => $user_data['user_pass'],
+                        'user_nicename'         => $user_data['user_nicename'],
+                        'user_email'            => $user_data['user_email'],
+                        'user_url'              => $user_data['user_url'],
+                        'user_registered'       => $user_data['user_registered'],
+                        'user_activation_key'   => $user_data['user_activation_key'],
+                        'user_status'           => $user_data['user_status'],
+                        'display_name'          => $user_data['display_name'],
+                        'spam'                  => $user_data['spam'],
+                        'deleted'               => $user_data['deleted']
+                    ),
+                    array(
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%d',
+                        '%s',
+                        '%d',
+                        '%d'
+                    )
+                );
+
+                if ( ! $user_id ) {
+
+                    $user_id = $wpdb->insert_id;
+                }
+
+            } else {
+                $user_id = $user_exist;
+
+                $table_name = $wpdb->users;
+
+                $wpdb->update(
+                    $table_name,
+                    array(
+                        'user_nicename' =>  $user_data['user_nicename'],
+                        'display_name'  =>  $user_data['display_name']
+                    ),
+                    array(
+                        'ID'   => $user_id
+                    ),
+                    array(
+                        '%s',
+                        '%s'
+                    ),
+                    array(
+                        '%d'
+                    )
+                );
+            }            
+            
+            if ( $user_id ) {
+
+                $exclude_metas = array(
+                    'profile_picture',
+                    'banner_image',
+                    'nab_purchased_product_2020',
+                    'nab_customer_product_bookmark',
+                );
+
+                foreach( $meta_data as $key => $value ) {
+                    
+                    if ( ! empty( $value[0] ) && ! in_array( $key, $exclude_metas, true ) ) {
+
+                        if ( is_serialized( $value[0] ) ) {
+                            $value[0] = maybe_unserialize( $value[0] );
+                        }
+                        update_user_meta( $user_id, $key, $value[0] );
+                    }
+                }
+
+                $final_result['success']  = true;
+            }
+        }
+    }
+
+    return new WP_REST_Response($final_result, 200);
 }
