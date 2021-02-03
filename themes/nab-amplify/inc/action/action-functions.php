@@ -4049,12 +4049,8 @@ function nab_sync_user_to_live() {
         $user_query             = $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE ID = %d", $user_id );
         $user_result            = $wpdb->get_row( $user_query, ARRAY_A);
         $final_results['user']  = $user_result;
-
-        $usermeta_query         = $wpdb->prepare( "SELECT meta_key, meta_value FROM {$wpdb->usermeta} WHERE user_id = %d", $user_id );
-        $usermeta_result        = $wpdb->get_results( $usermeta_query, ARRAY_A);
-        $final_results['meta']  = $usermeta_result;
-
-        //url-ify the data for the POST
+        $final_results['meta']  = get_user_meta( $user_id );
+       
         $fields_string = http_build_query( array( 'user_data' => $final_results['user'], 'meta_data' => $final_results['meta'] ) );
 
         $curl = curl_init();
@@ -4078,19 +4074,8 @@ function nab_sync_user_to_live() {
 
         curl_close($curl);
 
-        // //open connection
-        // $ch = curl_init();
-
-        // //set the url, number of POST vars, POST data
-        // curl_setopt($ch,CURLOPT_URL, "http://vipnabshow.md-develop.com/amplify/wp-json/nab/request/sync-user-to-live");
-        // curl_setopt($ch,CURLOPT_POST, 1);
-        // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-
-        // //execute post
-        // $result = curl_exec($ch);
-
         $result = json_decode( $response );
-        $msg = $result['success'] ? "User " . $user_id . " sync Successfully" : "Error while sync user " . $user_id;
+        $msg    = isset( $result->success ) && $result->success ? "User " . $user_id . " sync successfully" : "Error while sync user " . $user_id;
         ?>
         <div class="updated notice">
             <p><?php echo esc_html( $msg ); ?></p>
@@ -4134,7 +4119,7 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
             
             $user_exist = email_exists( $user_data['user_email'] );
 
-            if ( ! $user_exist ) {       
+            if ( ! $user_exist ) {
 
                 $table_name = $wpdb->users;
 
@@ -4189,57 +4174,31 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
                     ),
                     array(
                         '%s',
-                        '%s'            
+                        '%s'
                     ),
                     array(
                         '%d'
                     )
                 );
-            }
+            }            
             
             if ( $user_id ) {
 
-                $table_name = $wpdb->usermeta;
+                $exclude_metas = array(
+                    'profile_picture',
+                    'banner_image',
+                    'nab_purchased_product_2020',
+                    'nab_customer_product_bookmark',
+                );
 
-                foreach( $meta_data as $current_meta ) {                    
+                foreach( $meta_data as $key => $value ) {
+                    
+                    if ( ! empty( $value[0] ) && ! in_array( $key, $exclude_metas, true ) ) {
 
-                    $meta_exist = metadata_exists( 'user', $user_id, $current_meta['meta_key'] );
-
-                    if ( $meta_exist ) {
-
-                        $wpdb->update(
-                            $table_name,
-                            array(                                
-                                'meta_value'  =>  $current_meta['meta_value']
-                            ),
-                            array(
-                                'user_id'   => $user_id,
-                                'meta_key'  => $current_meta['meta_key']
-                            ),
-                            array(
-                                '%s',                                            
-                            ),
-                            array(
-                                '%d',
-                                '%s'
-                            )
-                        );
-
-                    } else {
-
-                        $wpdb->insert(
-                            $table_name,
-                            array(
-                                'user_id'       => $user_id,
-                                'meta_key'      => $current_meta['meta_key'],
-                                'meta_value'    => $current_meta['meta_value']
-                            ),
-                            array(
-                                '%d',
-                                '%s',
-                                '%s'
-                            )
-                        );
+                        if ( is_serialized( $value[0] ) ) {
+                            $value[0] = maybe_unserialize( $value[0] );
+                        }
+                        update_user_meta( $user_id, $key, $value[0] );
                     }
                 }
 

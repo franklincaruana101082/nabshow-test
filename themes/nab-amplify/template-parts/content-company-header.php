@@ -47,9 +47,6 @@ $youtube_url      = get_field('youtube_url');
                 <?php
                     }
                 } ?>
-
-
-
             </div>
 
             <div class="amp-profile-main">

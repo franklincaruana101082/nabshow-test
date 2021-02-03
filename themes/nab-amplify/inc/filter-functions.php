@@ -1406,6 +1406,7 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
 }
 
 function nab_add_sync_user_action_link( $links, $user_obj) {	
-	$links[] = '<a href="' . admin_url( '/users.php?u=' . $user_obj->ID ) .'">Sync to Live</a>';
+	$link_url	= isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ? admin_url( '/users.php?u=' . $user_obj->ID . '&paged=' . $_GET['paged'] ) : admin_url( '/users.php?u=' . $user_obj->ID );
+	$links[]	= '<a href="' . $link_url .'">Sync to Live</a>';
 	return $links;
 }
