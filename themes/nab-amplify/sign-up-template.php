@@ -96,7 +96,7 @@ if ( empty( $redirect_url ) ) {
 										       autocomplete="new-password"/>
 									</p>
 
-									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
 										<?php
 										$interest_items			= array( 'Content Creation', 'Live Event Production', 'Broadcast', 'Streaming' );
 										$selected_user_interest	= filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
@@ -129,7 +129,7 @@ if ( empty( $redirect_url ) ) {
 												</div>                        
 											</div>
 										</div>
-									</p>
+									</div>
 
 									<?php do_action( 'woocommerce_register_form' ); ?>
 
@@ -137,9 +137,39 @@ if ( empty( $redirect_url ) ) {
 										<input type="hidden" name="checkout_redirect" value="<?php echo esc_url( $redirect_url ); ?>">
 									<?php } ?>
 
+									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
+										<div class="amp-check-container check-align-top">
+											<div class="amp-check-wrp">
+												<input type="checkbox" name="press_member" class="signup-press-member" id="signup-press-member" value="1">
+												<span class="amp-check"></span>
+											</div>
+											<label for="signup-press-member" class="tooltip-container">
+												<div class="member-tooltip">
+													<div class="tooltip-label">I am a qualified member of the press.</div>
+													<div class="tooltip-wrap">
+														<i class="fa fa-info-circle" aria-hidden="true"></i>
+														<div class="tooltip">
+															Qualified members of the <a href="https://nabshow.com/2021/partner/press/">press</a> should select “Press” when registering to ensure future access to Amplify’s original content, networking and engagement opportunities, and exclusive events. To qualify, all members must agree with Amplify’s <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>. Contact information will not be shared unless press opt-in to share information.
+														</div>
+													</div>
+												</div>
+											</label>
+										</div>
+									</div>
+
+									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
+										<div class="amp-check-container check-align-top">
+											<div class="amp-check-wrp">
+												<input type="checkbox" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
+												<span class="amp-check"></span>
+											</div>
+											<label for="signup-privacy-policy">I agree to the NAB Amplify <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>.</label>
+										</div>
+									</div>
+
 									<p class="woocommerce-FormRow form-row">
 										<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-										<button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register"
+										<button disabled type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register"
 										        value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
 									</p>
 
