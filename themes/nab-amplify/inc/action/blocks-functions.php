@@ -279,6 +279,20 @@ function nab_register_amplify_dynamic_blocks()
     register_block_type('nab/company-feature', array(
         'render_callback' => 'nab_company_feature_render_callback',
     ));
+
+    register_block_type('nab/downloadable-pdfs', array(
+        'attributes'      => array(
+            'itemToFetch' => array(
+                'type'    => 'number',
+                'default' => 10,
+            ),
+            'displayOrder' => array(
+                'type'    => 'string',
+                'default' => 'DESC',
+            )
+        ),
+        'render_callback' => 'nab_company_downlodable_pdfs_callback',
+    ));
 }
 
 function nab_company_details_render_callback($attributes)
@@ -970,6 +984,134 @@ function nab_company_feature_render_callback($attributes)
 <?php
     $html = ob_get_contents();
     ob_end_clean();
+
+    return $html;
+}
+
+function nab_company_downlodable_pdfs_callback( $attributes ) {
+
+    $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
+    $display_order      = isset( $attributes['displayOrder'] ) && ! empty( $attributes['displayOrder'] ) ? $attributes['displayOrder'] : 'DESC';
+    $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+    $is_company_admin   = false;
+    $add_pdf            = false;
+    $company_id         = get_the_ID();
+    $html               = '';
+    if ( is_user_logged_in() ) {
+
+        $user_id        = get_current_user_id();
+        $admin_id       = get_field( 'company_user_id', $company_id );        
+
+        if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {
+
+            $member_level   = get_field( 'member_level', $company_id );
+            
+            if ( 'plus' === strtolower( $member_level ) || 'premium' === strtolower( $member_level ) ) {
+                $add_pdf = true;
+            }
+
+            $is_company_admin   = true;
+
+            $query_args = array(
+                'post_type'         => 'downloadable-pdfs',
+                'post_status'       => 'publish',
+                'posts_per_page'    => $posts_per_page,
+                'meta_key'          => 'nab_selected_company_id',
+                'meta_value'        => $company_id,
+                'order'             => $display_order,
+            );
+            
+            $pdf_query  = new WP_Query( $query_args );                
+            $total_post = $pdf_query->found_posts;
+        
+            if ( $pdf_query->have_posts() || ( $is_company_admin && $add_pdf ) ) {
+        
+                ob_start();
+                ?>
+                <div class="company-pdfs <?php echo esc_attr( $class_name ); ?>">
+                    <div class="amp-item-main">
+                        <div class="amp-item-heading">
+                            <?php
+                            
+                            $result_text = $total_post . ' RESULTS';
+                            
+                            if ( $is_company_admin && $add_pdf ) {
+                                $result_text .= ' / ' . nab_get_pdf_limit_by_member_level( $member_level ) . ' TOTAL';
+                            }
+                            ?>
+                            <h3>Downloadable PDFS <span>(<?php echo esc_html( $result_text ); ?>)</span></h3>                   
+                        </div>
+                        <div class="amp-item-wrap" id="downloadable-pdfs-list">
+                            <?php
+                            if ( $is_company_admin && $add_pdf ) {
+                                ?>
+                                <div class="amp-item-col add-new-item">
+                                    <div class="amp-item-inner">
+                                        <div class="add-item-wrap">
+                                            <i class="pdf-add-edit-action add-item-icon fa fa-pencil"></i>
+                                            <span class="add-item-label">Add PDF</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+        
+                            while ( $pdf_query->have_posts() ) {
+        
+                                $pdf_query->the_post();
+                                
+                                $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                                $pdf_id         = get_the_ID();
+        
+                                ?>
+                                <div class="amp-item-col">
+                                    <div class="amp-item-inner">
+                                        <div class="amp-action-remove">
+                                            <a href="javascript:void(0);" class="remove-pdf" data-id="<?php echo esc_attr( $pdf_id ); ?>" title="Remove">Remove PDF</a>
+                                        </div>
+                                        <div class="amp-item-cover">                                    
+                                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+                                        </div>
+                                        <div class="amp-item-info">
+                                            <div class="amp-item-content">
+                                                <h4>
+                                                    <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                                                </h4>
+                                                <div class="download-pdf-input">
+                                                    <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr( 'download-checkbox-' . $pdf_id ); ?>" />
+                                                    <label for="<?php echo esc_attr( 'download-checkbox-' . $pdf_id ); ?>">I would like to receive additional information from <?php echo esc_html( get_the_title( $company_id ) ); ?></label>
+                                                </div>
+                                                <div class="amp-actions">
+                                                    <div class="search-actions nab-action">
+                                                        <a href="javascript:void(0);" class="button">Download</a>
+                                                        <?php
+                                                        if ( $is_company_admin && $add_pdf ) {
+                                                            ?>
+                                                            <div class="nab-action-row">
+                                                                <i class="pdf-add-edit-action fa fa-pencil" data-id="<?php echo esc_attr( $pdf_id ); ?>"></i>
+                                                            </div>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                $html = ob_get_clean();
+            }
+        }        
+    }
+    
+    wp_reset_postdata();
 
     return $html;
 }

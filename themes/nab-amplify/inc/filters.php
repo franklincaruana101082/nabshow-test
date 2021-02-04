@@ -113,3 +113,8 @@ add_filter( 'bp_get_message_thread_excerpt', 'nab_filter_message_to_avoid_html_e
 add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 999, 2 );
 
 add_filter( 'user_row_actions', 'nab_add_sync_user_action_link', 99, 2 );
+add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
+
+function nab_stop_bp_email_notification( $retval, $class_ref) {
+    return new WP_Error( 'missing_parameter', __CLASS__, $class_ref );
+}

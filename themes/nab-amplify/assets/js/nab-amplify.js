@@ -941,6 +941,36 @@
             placeholder: "Select Point of contact",
             allowClear:true
           })
+          $('.company-admins').select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Select admins',
+            allowClear:true
+          })
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -953,6 +983,36 @@
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
             placeholder: "Select Point of contact",
+            allowClear:true
+          })
+          $('.company-admins').select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Select admins',
             allowClear:true
           })
         }
@@ -1133,6 +1193,13 @@
       fd.append('company_youtube', jQuery('#company_youtube').val())
     }
 
+    if (jQuery('#company_admins').length) {
+      fd.append(
+        'company_admins',
+        jQuery('#company_admins').val()
+      )
+    }
+
     jQuery.ajax({
       type: 'POST',
       url: amplifyJS.ajaxurl,
@@ -1188,6 +1255,36 @@
             placeholder: "Select Point of contact",
             allowClear:true
           })
+          $('.company-admins').select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Select admins',
+            allowClear:true
+          })
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -1201,6 +1298,36 @@
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
             placeholder: "Select Point of contact",
+            allowClear:true
+          })
+          $('.company-admins').select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Select admins',
             allowClear:true
           })
         }

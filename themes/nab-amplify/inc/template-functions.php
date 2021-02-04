@@ -1006,3 +1006,27 @@ function nab_get_company_member_category_limit( $company_id ) {
 
 	return $category_limit;
 }
+
+
+/**
+ * Get add pdf limit base on company member level.
+ *
+ * @param  string $member_level
+ * 
+ * @return int
+ */
+function nab_get_pdf_limit_by_member_level( $member_level ) {
+
+	if ( empty( $member_level ) ) {
+		return 0;
+	}
+
+	$member_level = strtolower( $member_level );
+
+	$member_level_pdf_limit = array(
+		'plus'		=> 3,
+		'premium'	=> 6,
+	);
+
+	return isset( $member_level_pdf_limit[$member_level] ) ? $member_level_pdf_limit[$member_level] : 0;
+}

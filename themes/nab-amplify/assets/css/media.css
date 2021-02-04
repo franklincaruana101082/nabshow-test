@@ -311,6 +311,8 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:16px;min-width:150px;height:50px;font-weight:600}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:16px;height:60px;font-weight:600}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:16px;height:150px;font-weight:600}
+	.select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-company_point_of_contact-container"], .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-nab_product_contact-container"]{padding-right:70px}
+	.select-dark-simple .select2-container .select2-selection--single .select2-selection__clear{right:30px}
 	.nab-product-media-item{width:100px;height:100px}
 	.select-dark-simple::after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f;right:20px}
 	.nab-modal .fa-info-circle{vertical-align:middle}

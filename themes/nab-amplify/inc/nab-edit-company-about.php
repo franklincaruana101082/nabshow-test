@@ -27,20 +27,20 @@
 								<div class="form-row">
 									<label for="">Point of Contact</label>
 									<div class="select-dark-simple">
-										<select name="company_point_of_contact"  id="company_point_of_contact">
+										<select name="company_point_of_contact" id="company_point_of_contact">
 											<option value=""></option>
 											<?php foreach ($users as $user) {
-												
+
 											?>
 												<option value="<?php echo $user->data->ID; ?>" <?php if ($user->data->ID == $company_data['company_point_of_contact']) {
-																								echo "selected";
-																							} ?>><?php echo $user->data->display_name; ?></option>
+																									echo "selected";
+																								} ?>><?php echo $user->data->display_name; ?></option>
 											<?php } ?>
 										</select>
 									</div>
 								</div>
 								<?php
-								$category_limit = nab_get_company_member_category_limit( $company_data[ 'ID' ] );
+								$category_limit = nab_get_company_member_category_limit($company_data['ID']);
 								?>
 								<div class="form-row">
 									<label for="" class="tooltip-container large-label-tooltip">
@@ -58,13 +58,13 @@
 										</div>
 									</label>
 									<div class="select-dark-simple select-multiple">
-										<select name="product_categories[]" multiple="true" id="product_categories" data-limit="<?php esc_attr_e( $category_limit[ 'featured' ] ); ?>">
+										<select name="product_categories[]" multiple="true" id="product_categories" data-limit="<?php esc_attr_e($category_limit['featured']); ?>">
 											<option value=""></option>
 											<?php foreach ($terms as $term) {
 											?>
 												<option value="<?php echo $term->term_id; ?>" <?php if (in_array($term->term_id, $company_data['product_categories'])) {
-																								echo "selected";
-																							} ?>><?php echo $term->name; ?></option>
+																									echo "selected";
+																								} ?>><?php echo $term->name; ?></option>
 											<?php } ?>
 										</select>
 									</div>
@@ -85,25 +85,55 @@
 										</div>
 									</label>
 									<div class="select-dark-simple select-multiple">
-										<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e( $category_limit[ 'search' ] ); ?>">
+										<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e($category_limit['search']); ?>">
 											<option value=""></option>
 											<?php
-											foreach ( $terms as $current_term ) {
-												
+											foreach ($terms as $current_term) {
+
 												$selected_term = '';
-												
-												if ( is_array( $company_data[ 'search_product_categories' ] ) && in_array( $current_term->term_id, $company_data[ 'search_product_categories' ], true ) ) {
+
+												if (is_array($company_data['search_product_categories']) && in_array($user->data->ID, $company_data['search_product_categories'], true)) {
 													$selected_term = $current_term->term_id;
 												}
-												?>
-												<option value="<?php echo esc_attr( $current_term->term_id ); ?>" <?php selected( $selected_term, $current_term->term_id ); ?>><?php echo esc_html( $current_term->name ); ?></option>
-												<?php
+											?>
+												<option value="<?php echo esc_attr($current_term->term_id); ?>" <?php selected($selected_term, $current_term->term_id); ?>><?php echo esc_html($current_term->name); ?></option>
+											<?php
 											}
 											?>
 										</select>
 									</div>
 								</div>
-								
+
+								<div class="form-row">
+									<label for="">Company Admins</label>
+									<div class="select-dark-simple">
+										<select class="company-admins" name="company_admins[]" multiple="true" id="company_admins">
+											<option value=""></option>
+											<?php 
+										
+											foreach ($users as $user) {
+													
+												
+
+												if (is_array($company_data['company_admins']) && in_array($user->data->ID, $company_data['company_admins'])) {
+													$selected_user = $user->data->ID;
+													$user_name		= $user->data->user_login;
+													$user_full_name	= get_user_meta($selected_user, 'first_name', true) . ' ' . get_user_meta($selected_user, 'last_name', true);
+													if (!empty(trim($user_full_name))) {
+														$user_name .= ' (' . $user_full_name . ')';
+													}
+											?>
+													<option value="<?php echo esc_attr($selected_user); ?>" selected><?php echo esc_html($user_name); ?></option>
+												<?php
+												}
+												
+											}
+											?>
+										</select>
+									</div>
+									<p class="company-admin-note">NOTE: Only Amplify users can be added as admins for your company listing. Invite colleagues to join the platform <a href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/" class="btn-link">here</a>. Once they have profiles on Amplify, you can then add them as an admin for your listing.</p>
+								</div>
+
 							</div>
 
 							<div class="form-row">
