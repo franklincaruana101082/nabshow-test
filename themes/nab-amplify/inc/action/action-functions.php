@@ -3998,7 +3998,7 @@ function nab_sync_beta_user_to_live( WP_REST_Request $request ) {
 
                 if ( ! $user_id ) {
 
-                    $user_id = $wpdb->insert_id;
+                    $user_id = email_exists( $user_data['user_email'] );
                 }
 
             } else {
