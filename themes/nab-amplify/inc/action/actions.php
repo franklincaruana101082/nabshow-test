@@ -156,3 +156,4 @@ add_action( 'init', 'nab_add_custom_user_role' );
 
 // Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
 add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 );
+add_action( 'rest_api_init', 'nab_register_user_api_endpoints' );

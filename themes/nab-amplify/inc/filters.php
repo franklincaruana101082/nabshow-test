@@ -99,3 +99,8 @@ add_filter( 'woocommerce_account_menu_items', 'nab_remove_edit_address_from_my_a
 add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address', 10, 1 );
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
+add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
+
+function nab_stop_bp_email_notification( $retval, $class_ref) {
+    return new WP_Error( 'missing_parameter', __CLASS__, $class_ref );
+}
