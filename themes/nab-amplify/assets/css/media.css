@@ -172,6 +172,7 @@
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important}
 
 	/* add product */
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:24px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:static;transform:none}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action:last-child{margin-right:0}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{width:100%}
@@ -303,14 +304,17 @@
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:20px}
 	.add-product{padding-right:10px!important}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child,	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{margin-top:22px}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{font-size:16px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:16px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:18px}
 	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{margin-left:5px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:18px;width:150px;height:50px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:18px;height:60px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:18px;height:150px}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:16px;min-width:150px;height:50px;font-weight:600}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:16px;height:60px;font-weight:600}
+	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:16px;height:150px;font-weight:600}
+	.select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-company_point_of_contact-container"], .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-nab_product_contact-container"]{padding-right:70px}
+	.select-dark-simple .select2-container .select2-selection--single .select2-selection__clear{right:30px}
 	.nab-product-media-item{width:100px;height:100px}
-	.select-dark-simple::after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f}
+	.select-dark-simple::after{border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fdd80f;right:20px}
 	.nab-modal .fa-info-circle{vertical-align:middle}
 	.nab-modal .fa-info-circle[data-bp-tooltip]::after, .nab-modal .tooltip{transform:translateX(-30%)}
 	.nab-modal.theme-dark .toggle-wrap .toggle-label{font-size:18px}
@@ -354,6 +358,10 @@
 	.product-list.layout-list .product-item .item-inner .details .buttom{width:100%;margin-bottom:10px}
 	.product-list.layout-list .product-item .item-inner{padding:30px 0}
 	.product-list.layout-list .product-item .item-inner .details .added_to_cart{text-align:left;padding:0 0 0 40px}
+
+	/* tooltip */
+	.tooltip-container.large-label-tooltip .field-label{width:100%}
+	.nab-modal .large-label-tooltip.fa-info-circle[data-bp-tooltip]::after, .nab-modal .large-label-tooltip .tooltip{transform:translateX(0)}
 
 	/* comments */
 	.comments-area .comment-filter{width:100%}
