@@ -967,9 +967,7 @@
               },
               cache: true
             },
-            minimumInputLength: 3,
-            placeholder: 'Select admins',
-            allowClear:true
+            minimumInputLength: 3
           })
         } else {
           jQuery('#addProductModal').remove()
@@ -1011,9 +1009,7 @@
               },
               cache: true
             },
-            minimumInputLength: 3,
-            placeholder: 'Select admins',
-            allowClear:true
+            minimumInputLength: 3
           })
         }
       }
@@ -1281,9 +1277,7 @@
               },
               cache: true
             },
-            minimumInputLength: 3,
-            placeholder: 'Select admins',
-            allowClear:true
+            minimumInputLength: 3
           })
         } else {
           jQuery('#addProductModal').remove()
@@ -1326,9 +1320,7 @@
               },
               cache: true
             },
-            minimumInputLength: 3,
-            placeholder: 'Select admins',
-            allowClear:true
+            minimumInputLength: 3
           })
         }
 
