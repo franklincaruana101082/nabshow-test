@@ -2853,6 +2853,7 @@ function nab_add_product()
     $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
     $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
     $product_media = get_field('product_media', $product_id);
+    $product_contact            = $product_contact ? $product_contact : 0;
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -3405,8 +3406,10 @@ function nab_update_company_profile_callback()
     }
 
     // Update point of contact
-    if ($company_point_of_contact) {
+    if ($company_point_of_contact !=='') {
         update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+    }else{
+        update_field('field_5fb4f4bcbe04a', 0, $company_id);
     }
 
 

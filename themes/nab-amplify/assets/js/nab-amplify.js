@@ -241,7 +241,10 @@
         .fadeIn(200)
     })
     jQuery('#product_categories').select2()
-    jQuery('#company_point_of_contact').select2()
+    jQuery('#company_point_of_contact').select2({
+      placeholder: 'Select point of contact',
+      allowClear:true
+    })
   })
   charcount('keyup', '#company_about', '#character-count-comp-about', 2000)
   charcount(
@@ -433,7 +436,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: 'Select point of contact',
+            allowClear:true
+          })
           load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
           load_tinyMCE_withPlugins(
             '#nab_product_specs',
@@ -496,7 +502,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: 'Select point of contact',
+            allowClear:true
+          })
           load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
           load_tinyMCE_withPlugins(
             '#nab_product_specs',
@@ -549,7 +558,10 @@
             )
           }, 1000)
         }
-        $('.poduct-point-of-contact').select2()
+        $('.poduct-point-of-contact').select2({
+          placeholder: 'Select point of contact',
+          allowClear:true
+        })
         $('.poduct-point-of-contact').select2({
           ajax: {
             url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
@@ -576,7 +588,9 @@
             },
             cache: true
           },
-          minimumInputLength: 3
+          minimumInputLength: 3,
+          placeholder: 'Select point of contact',
+          allowClear:true
         })
       }
     })
@@ -854,7 +868,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: 'Select point of contact',
+            allowClear:true
+          })
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -865,7 +882,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: 'Select point of contact',
+            allowClear:true
+          })
         }
       }
     })
@@ -1007,7 +1027,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: 'Select point of contact',
+            allowClear:true
+          })
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -1018,7 +1041,10 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
-          jQuery('#company_point_of_contact').select2()
+          jQuery('#company_point_of_contact').select2({
+            placeholder: 'Select point of contact',
+            allowClear:true
+          })
         }
 
         setTimeout(() => {
