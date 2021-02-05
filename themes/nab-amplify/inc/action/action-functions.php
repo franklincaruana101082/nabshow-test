@@ -3574,7 +3574,7 @@ function nab_edit_company_about_callback()
         'hide_empty' => false,
     ));
     $users = get_users();
-    print_r($company_data);
+    
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
 
