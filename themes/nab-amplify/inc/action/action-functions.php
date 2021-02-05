@@ -3544,13 +3544,6 @@ function nab_update_company_profile_callback()
             update_field('company_user_id', $company_admins, $company_id);
         }
 
-
-
-        if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
-            wp_send_json_error('Update Failed. You can\'t add search categories with your current membership.');
-        } else if (count($company_search_categories) > (int) $category_limit['search']) {
-            wp_send_json_error('Update Failed. You can\'t add more than ' . $category_limit['search'] . ' search categories with your current membership.');
-        }
     }
 
 
