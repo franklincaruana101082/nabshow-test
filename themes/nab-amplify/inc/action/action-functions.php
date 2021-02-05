@@ -3528,7 +3528,7 @@ function nab_update_company_profile_callback()
 
         $company_admins = explode(',', $company_admins);
         $get_member_level = get_field('member_level', $company_id);
-        $exisitng_admins = [];
+        
         $exisitng_admins = get_field('company_user_id', $company_id);
         if ($get_member_level === 'select' || $get_member_level === 'Standard') {
             foreach ($company_admins as $comp_admin) {
@@ -3541,7 +3541,7 @@ function nab_update_company_profile_callback()
             foreach ($company_admins as $comp_admin) {
                 $exisitng_admins[] = $comp_admin;
             }
-            update_field('company_user_id', $exisitng_admins, $company_id);
+            update_field('company_user_id', $company_admins, $company_id);
         }
 
 
