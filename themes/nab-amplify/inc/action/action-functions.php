@@ -205,6 +205,7 @@ function nab_amplify_upload_images()
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
+                    update_user_meta($user_id, 'profile_update', '1');
                 }
             }
         }
@@ -2478,6 +2479,8 @@ function nab_save_edit_account_additional_form_fields($user_id)
             update_user_meta($user_id, $field, $field_val);
         }
     }
+
+    update_user_meta($user_id, 'profile_update', '1');
 }
 
 /**
@@ -3426,7 +3429,7 @@ function nab_update_company_profile_callback()
     }
 
     if (!empty($company_search_categories) && 'null' !== $company_search_categories) {
-
+        
         $company_search_categories = explode(',', $company_search_categories);
 
         if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
@@ -3528,7 +3531,7 @@ function nab_update_company_profile_callback()
 
         $company_admins = explode(',', $company_admins);
         $get_member_level = get_field('member_level', $company_id);
-        
+        $exisitng_admins = [];
         $exisitng_admins = get_field('company_user_id', $company_id);
         if ($get_member_level === 'select' || $get_member_level === 'Standard') {
             foreach ($company_admins as $comp_admin) {
@@ -3541,15 +3544,7 @@ function nab_update_company_profile_callback()
             foreach ($company_admins as $comp_admin) {
                 $exisitng_admins[] = $comp_admin;
             }
-            update_field('company_user_id', $company_admins, $company_id);
-        }
-
-
-
-        if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
-            wp_send_json_error('Update Failed. You can\'t add search categories with your current membership.');
-        } else if (count($company_search_categories) > (int) $category_limit['search']) {
-            wp_send_json_error('Update Failed. You can\'t add more than ' . $category_limit['search'] . ' search categories with your current membership.');
+            update_field('company_user_id', $exisitng_admins, $company_id);
         }
     }
 

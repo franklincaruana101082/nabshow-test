@@ -1051,7 +1051,7 @@
     }
 
     if (null !== searchSelector.val()) {
-      if (0 === searchMax) {
+      if (0 === searchMax && 0 < searchSelector.val().length ) {
         nabMembershipCategoryNotice(
           searchSelector,
           "You can't add search categories with your current membership."
