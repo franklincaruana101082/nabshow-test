@@ -83,7 +83,7 @@ global $post;
 								<label for="">Product Copy</label>
 								
 							<textarea name="nab_product_copy" id="nab_product_copy"><?php echo isset($post_data->product_copy)?$post_data->product_copy:''; ?></textarea>
-							<span class="info-msg"><span id="character-count-copy">2000 Characters Remaining</span></span>
+							
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">

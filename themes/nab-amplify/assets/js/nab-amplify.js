@@ -502,14 +502,14 @@
             placeholder: "Select Point of contact",
             allowClear:true
           })
-          load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
+          load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
             '#nab_product_specs',
             '#character-count-specs'
           )
 
           setTimeout(function () {
-            if (jQuery('#nab_product_copy').length > 0) {
+            /*if (jQuery('#nab_product_copy').length > 0) {
               var prod_copy_content_length = tinyMCE
                 .get('nab_product_copy')
                 .getContent()
@@ -524,7 +524,7 @@
                   '' + diff + ' characters remianing'
                 )
               }
-            }
+            }*/
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -547,12 +547,7 @@
               '#character-count-specs',
               2000
             )
-            charcount(
-              'keyup',
-              '#nab_product_copy',
-              '#character-count-copy',
-              2000
-            )
+            
           }, 1000)
         } else {
           jQuery('#addProductModal').remove()
@@ -568,28 +563,13 @@
             placeholder: "Select Point of contact",
             allowClear:true
           })
-          load_tinyMCE_withPlugins('#nab_product_copy', '#character-count-copy')
+          load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
             '#nab_product_specs',
             '#character-count-specs'
           )
           setTimeout(function () {
-            if (jQuery('#nab_product_copy').length > 0) {
-              var prod_copy_content_length = tinyMCE
-                .get('nab_product_copy')
-                .getContent()
-                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
-              var diff = 2000 - prod_copy_content_length
-              if (diff < 0) {
-                jQuery('#character-count-copy').html(
-                  'Maximum Characters Limit exeeds!'
-                )
-              } else {
-                jQuery('#character-count-copy').html(
-                  '' + diff + ' characters remianing'
-                )
-              }
-            }
+            
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -612,12 +592,7 @@
               '#character-count-specs',
               2000
             )
-            charcount(
-              'keyup',
-              '#nab_product_copy',
-              '#character-count-copy',
-              2000
-            )
+            
           }, 1000)
         }
         $('.poduct-point-of-contact').select2({
@@ -822,18 +797,7 @@
     ).val()
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
-    var nab_product_copyLength = tinyMCE
-      .get('nab_product_copy')
-      .getContent()
-      .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
-    if (nab_product_copyLength > 2000) {
-      alert(
-        'The length of product copy content is ' +
-          nab_product_copy.length +
-          ' the max num of characters allowed for this content is 2000'
-      )
-      return false
-    }
+    
 
     var nab_product_specsLength = tinyMCE
       .get('nab_product_specs')
@@ -1322,7 +1286,7 @@
                     options.push({ id: text[0], text: text[1] })
                   })
                 }
-                return {
+                return {   
                   results: options
                 }
               },
