@@ -31,6 +31,9 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
     if (!is_user_logged_in() && 0 !== strcmp($password, $password2)) {
         return new WP_Error('registration-error', __('Passwords do not match.', 'woocommerce'));
     }
+    if ( ! isset( $privacy_policy ) || empty( $privacy_policy ) ) {
+        return new WP_Error('registration-error', __('Term of Service must be accepted', 'woocommerce'));
+    }
 
     return $errors;
 }
@@ -588,6 +591,9 @@ function nab_save_name_fields($customer_id)
     }
     if (isset($_POST['user_interest']) && !empty($_POST['user_interest'])) {
         update_user_meta($customer_id, 'user_interest', $_POST['user_interest']);
+    }
+    if ( isset( $_POST[ 'press_member' ] ) && ! empty( $_POST[ 'press_member' ] ) ) {
+        update_user_meta( $customer_id, 'press_member_user', $_POST[ 'press_member' ] );
     }
 }
 
@@ -3723,9 +3729,8 @@ function nab_add_export_user_menu()
 /**
  * Export user setting page.
  */
-function nab_export_users_callback()
-{
-?>
+function nab_export_users_callback() {
+    ?>
     <div class="search-settings">
         <h2>Export Users</h2>
         <form class="users-export-form" method="post">
@@ -3737,6 +3742,12 @@ function nab_export_users_callback()
                             <option value="all">All</option>
                             <?php wp_dropdown_roles(); ?>
                         </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Qualified Member Press Users</th>
+                    <td>
+                        <input type="checkbox" name="press_member_user" value="yes">
                     </td>
                 </tr>
             </table>
@@ -3824,8 +3835,9 @@ function nab_generate_users_export_csv_file()
 
     global $pagenow;
 
-    $user_role = filter_input(INPUT_POST, 'user_role', FILTER_SANITIZE_STRING);
-    $user_page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
+    $user_role          = filter_input( INPUT_POST, 'user_role', FILTER_SANITIZE_STRING );
+    $user_page          = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+    $press_member_user  = filter_input( INPUT_POST, 'press_member_user', FILTER_SANITIZE_STRING );
 
     if ('users.php' === $pagenow && 'amplify_user_export' === $user_page && !empty($user_role)) {
 
@@ -3836,40 +3848,45 @@ function nab_generate_users_export_csv_file()
             $args['role'] = $user_role;
         }
 
-        $user_query = new WP_User_Query($args);
+        if ( isset( $press_member_user ) && ! empty( $press_member_user ) ) {
+            $args[ 'meta_key' ]     = 'press_member_user';
+            $args[ 'meta_value' ]   = '1';
+        }
+
+        $user_query = new WP_User_Query( $args );
 
         $user_results = $user_query->get_results();
 
-        if (!empty($user_results)) {
+         // CSV header row fields titles
+         $csv_fields   = array();
+         $csv_fields[] = 'First Name';
+         $csv_fields[] = 'Last Name';
+         $csv_fields[] = 'Email';
+         $csv_fields[] = 'Title';
+         $csv_fields[] = 'Company';
+         $csv_fields[] = 'Registered Date';
+     
+         // Generate csv file as a direct download
+         $output_filename = 'amplify-user-list-' . date('m-d-Y') . '.csv';
+         $output_handle   = fopen('php://output', 'w');
 
-            // CSV header row fields titles
-            $csv_fields   = array();
-            $csv_fields[] = 'First Name';
-            $csv_fields[] = 'Last Name';
-            $csv_fields[] = 'Email';
-            $csv_fields[] = 'Company';
-            $csv_fields[] = 'Registered Date';
+         header('Content-type: application/csv');
+         header('Content-Disposition: attachment; filename=' . $output_filename);
 
-            // Generate csv file as a direct download
-            $output_filename = 'amplify-user-list-' . date('m-d-Y') . '.csv';
-            $output_handle   = fopen('php://output', 'w');
+         fputcsv($output_handle, $csv_fields);
 
-            header('Content-type: application/csv');
-            header('Content-Disposition: attachment; filename=' . $output_filename);
-
-            // Insert header row
-            fputcsv($output_handle, $csv_fields);
+        if ( ! empty( $user_results ) ) {            
 
             foreach ($user_results as $current_user) {
 
                 $dynamic_fields = array();
 
-                $company    = get_user_meta($current_user->ID, 'attendee_company', true);
-                $first_name = get_user_meta($current_user->ID, 'first_name', true);
-                $last_name  = get_user_meta($current_user->ID, 'last_name', true);
+                $company    = get_user_meta( $current_user->ID, 'attendee_company', true );
+                $title      = get_user_meta( $current_user->ID, 'attendee_title', true );
+                $first_name = get_user_meta( $current_user->ID, 'first_name', true );
+                $last_name  = get_user_meta( $current_user->ID, 'last_name', true );
 
                 if (empty($first_name) && empty($last_name)) {
-
                     $first_name = $current_user->display_name;
                 }
 
@@ -3878,14 +3895,14 @@ function nab_generate_users_export_csv_file()
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
                 $dynamic_fields[] = $current_user->user_email;
+                $dynamic_fields[] = $title;
                 $dynamic_fields[] = $company;
                 $dynamic_fields[] = $registered_date;
 
                 fputcsv($output_handle, $dynamic_fields);
-            }
-
-            exit;
+            }           
         }
+        exit;
     }
 }
 

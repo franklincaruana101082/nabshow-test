@@ -27,7 +27,15 @@
       width: '100%'
     })
 
-    $('.nab-custom-select select').select2({ width: '100%' })
+    $('.nab-custom-select select').select2({ width: '100%' });
+
+    $(document).on('change', '.signup-privacy-policy', function(){
+      if ( this.checked ) {
+        $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').removeAttr('disabled');
+      } else {
+        $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').attr('disabled', 'disabled');
+      }      
+    });
 
     if (0 < $('#user-country-select').length) {
       var wc_states_json = wc_country_select_params.countries.replace(
