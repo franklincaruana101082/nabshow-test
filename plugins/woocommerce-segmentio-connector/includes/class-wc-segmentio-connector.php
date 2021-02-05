@@ -4,11 +4,9 @@
  *
  * Allows tracking events on your store & sending it to Segment.com
  *
- * @class       WC_SegmentIo_Connector
  * @extends     WC_Integration
- * @version     1.1.2
- * @package     woocommerce-segmentio-connector/classes
- * @author      StoreApps
+ * @version     1.1.3
+ * @package     woocommerce-segmentio-connector/includes/
  */
 
 // Exit if accessed directly.
@@ -21,7 +19,7 @@ class WC_SegmentIo_Connector extends WC_Integration {
 	/**
 	 * @var string $version
 	 */
-	public $version = '1.9.2';
+	public $version = '1.9.3';
 
 	/**
 	 * @var string $api_key
@@ -402,7 +400,7 @@ class WC_SegmentIo_Connector extends WC_Integration {
 
 		$current_endpoint = '';
 		foreach ( $all_woocommerce_endpoints as $woocommerce_endpoint ) {
-			if ( strpos( $url['query'], $woocommerce_endpoint ) !== false ) {
+			if ( $woocommerce_endpoint && strpos( $url['query'], $woocommerce_endpoint ) !== false ) {
 				$current_endpoint = $woocommerce_endpoint;
 				break;
 			}
@@ -810,6 +808,9 @@ class WC_SegmentIo_Connector extends WC_Integration {
 				$event                  = __( 'Viewed Category Page', 'woocommerce-segmentio-connector' );
 				$properties['category'] = single_cat_title( '', false );
 				$properties['name']     = __( 'Category', 'woocommerce-segmentio-connector' );
+			} elseif ( is_home() ) {
+				$event                  = __( 'Viewed blog archive page', 'woocommerce-segmentio-connector' );
+				$properties['name']     = __( 'Blog Archive', 'woocommerce-segmentio-connector' );
 			} else {
 				$event = '';
 			}
@@ -1301,13 +1302,13 @@ class WC_SegmentIo_Connector extends WC_Integration {
 		$default_form_fields = array(
 			'api_settings_section'        => array(
 				'title'       => __( 'API settings', 'woocommerce-segmentio-connector' ),
-				'description' => __( 'Enter your API key to start tracking.', 'woocommerce-segmentio-connector' ),
+				'description' => __( 'Enter your Write/API key to start tracking.', 'woocommerce-segmentio-connector' ),
 				'type'        => 'title',
 				'default'     => '',
 			),
 			'api_key'                     => array(
-				'title'       => __( 'API key', 'woocommerce-segmentio-connector' ),
-				'description' => __( 'Log into your Segment account and go to Site Settings. Leave blank to disable tracking.', 'woocommerce-segmentio-connector' ),
+				'title'       => __( 'Write/API key', 'woocommerce-segmentio-connector' ),
+				'description' => __( 'Log into your Segment account and go to Sources. Select a source to get Write/API key. Leave blank to disable tracking.', 'woocommerce-segmentio-connector' ),
 				'type'        => 'text',
 				'default'     => '',
 			),
