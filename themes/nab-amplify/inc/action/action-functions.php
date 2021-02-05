@@ -3527,7 +3527,7 @@ function nab_update_company_profile_callback()
         update_field('youtube_url', $company_youtube, $company_id);
     }
 
-    if (!empty($company_admins) && 'null' !== $company_admins) {
+    if ('null' !== $company_admins) {
 
         $company_admins = explode(',', $company_admins);
         $get_member_level = get_field('member_level', $company_id);
@@ -3541,9 +3541,7 @@ function nab_update_company_profile_callback()
             }
             
         } else {
-            foreach ($company_admins as $comp_admin) {
-                $exisitng_admins[] = $comp_admin;
-            }
+            
             update_field('company_user_id', $company_admins, $company_id);
         }
 
