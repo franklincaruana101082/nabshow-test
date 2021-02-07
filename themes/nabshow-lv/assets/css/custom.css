@@ -922,7 +922,7 @@ ul.quote-color li.active{height:50px;margin-top:15px}
 .quote-slider.quotes-options-2 .bx-controls-direction a{top:0;margin-top:0}
 .quote-slider.quotes-options-2 .quote-item{padding:0 10px!important}
 .quote-slider.quotes-options-2 .bx-viewport{width:100%!important}
-.quote-slider.quotes-options-2 .bx-controls{margin-top:30px;padding: 0 0px 20px 40px}
+.quote-slider.quotes-options-2 .bx-controls{/*margin-top:30px;*/padding: 0 0px 20px 40px}
 
 /* Quotes slider Middle */
 .middle-quotes-home{position:relative;overflow:hidden}
