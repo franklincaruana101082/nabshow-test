@@ -459,9 +459,8 @@ span.nab-media-slider-overlay{position:absolute!important;top:0;bottom:0;left:0;
 .row>.wp-block-column{margin:0!important}
 .media-slider-home{max-width:630px;margin:0 auto}
 .attendes-img-slider .bx-wrapper{margin-bottom:27px}
-.home{background-color:#150c28!important}
 
-body{overflow-x:hidden;font-family:"Roboto Regular", sans-serif;font-size:16px;background-color:#000}
+body{overflow-x:hidden;font-family:"Roboto Regular", sans-serif;font-size:16px;background-color:#150c28}
 
 /* header css */
 
