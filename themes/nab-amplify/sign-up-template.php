@@ -102,9 +102,9 @@ if ( empty( $redirect_url ) ) {
 										$selected_user_interest	= filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 										$selected_user_interest = isset( $selected_user_interest ) && ! empty( $selected_user_interest ) ? $selected_user_interest : array();
 										?>										
-										<i class="dropdown-message">Select all that apply</i>
 										<div class="nab-section section-user-interest-signup">
 											<h3>I'm Interested In...</h3>
+											<i class="dropdown-message">Select all that apply</i>
 											<div class="user-interest-details-form">
 												<div class="checkbox-item-list">
 													<?php
@@ -130,6 +130,7 @@ if ( empty( $redirect_url ) ) {
 											</div>
 										</div>
 									</div>
+									<hr>
 
 									<?php do_action( 'woocommerce_register_form' ); ?>
 
