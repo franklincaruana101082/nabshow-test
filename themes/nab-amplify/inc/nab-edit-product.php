@@ -95,7 +95,15 @@ global $post;
 								</div>
 								<div class="form-col-6">
 									<div class="form-row">
-										<label for="">Add Point of Contact</label>										
+									<label for="" class="tooltip-container large-label-tooltip">
+											<div class="field-label">Add Point of Contact</div>
+											<div class="tooltip-wrap">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												<div class="tooltip">
+													Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your product. NOTE: You can only add one Point of Contact for each product at this time. A NAB Amplify user does not need to be a company admin to be a POC.
+												</div>
+											</div>
+										</label>									
 										<div class="select-dark-simple">
 											<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
 												<?php

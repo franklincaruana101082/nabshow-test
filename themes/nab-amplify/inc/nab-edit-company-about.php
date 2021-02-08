@@ -25,19 +25,27 @@
 									<input type="text" class="input-text" name="company_website" value="<?php echo isset($company_data['company_website']) ? $company_data['company_website'] : ''; ?>" id="company_website">
 								</div>
 								<div class="form-row">
-									<label for="">Point of Contact</label>
-									<div class="select-dark-simple">
-										<select name="company_point_of_contact" id="company_point_of_contact">
-											<option value=""></option>
-											<?php foreach ($users as $user) {
+									<label for="" class="tooltip-container large-label-tooltip">
+											<div class="field-label">Point of Contact</div>
+											<div class="tooltip-wrap">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												<div class="tooltip">
+													Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your listing. NOTE: You can only add one Point of Contact for your company at this time. A NAB Amplify user does not need to be a company admin to be a POC.
+												</div>
+											</div>
+										</label>
+										<div class="select-dark-simple">
+											<select name="company_point_of_contact" id="company_point_of_contact">
+												<option value=""></option>
+												<?php foreach ($users as $user) {
 
-											?>
-												<option value="<?php echo $user->data->ID; ?>" <?php if ($user->data->ID == $company_data['company_point_of_contact']) {
-																									echo "selected";
-																								} ?>><?php echo $user->data->display_name; ?></option>
-											<?php } ?>
-										</select>
-									</div>
+												?>
+													<option value="<?php echo $user->data->ID; ?>" <?php if ($user->data->ID == $company_data['company_point_of_contact']) {
+																										echo "selected";
+																									} ?>><?php echo $user->data->display_name; ?></option>
+												<?php } ?>
+											</select>
+										</div>
 								</div>
 								<?php
 								$category_limit = nab_get_company_member_category_limit($company_data['ID']);
@@ -105,15 +113,23 @@
 								</div>
 
 								<div class="form-row">
-									<label for="">Company Admins</label>
+									<label for="" class="tooltip-container large-label-tooltip">
+										<div class="field-label">Company Admins</div>
+										<div class="tooltip-wrap">
+											<i class="fa fa-info-circle" aria-hidden="true"></i>
+											<div class="tooltip">
+												Only NAB Amplify users can be added as admins for your company listing. Invite colleagues to join as admins by using your add admin link <a href="<?php echo get_the_permalink($company_id); ?>?addadmin=<?php echo get_field('admin_add_string', $company_id); ?>" target="_blank">here</a>. NOTE: You can add an unlimited number of admins to your company profile. A NAB Amplify user does not need to be a company Point of Contact to be an admin.
+											</div>
+										</div>
+									</label>
 									<div class="select-dark-simple">
 										<select class="company-admins" name="company_admins[]" multiple="true" id="company_admins">
 											<option value=""></option>
-											<?php 
-										
+											<?php
+
 											foreach ($users as $user) {
-													
-												
+
+
 
 												if (is_array($company_data['company_admins']) && in_array($user->data->ID, $company_data['company_admins'])) {
 													$selected_user = $user->data->ID;
@@ -124,14 +140,13 @@
 													}
 											?>
 													<option value="<?php echo esc_attr($selected_user); ?>" selected><?php echo esc_html($user_name); ?></option>
-												<?php
+											<?php
 												}
-												
 											}
 											?>
 										</select>
 									</div>
-									<p class="company-admin-note">NOTE: Only Amplify users can be added as admins for your company listing. Invite colleagues to join the platform <a href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/" class="btn-link">here</a>. Once they have profiles on Amplify, you can then add them as an admin for your listing.</p>
+
 								</div>
 
 							</div>

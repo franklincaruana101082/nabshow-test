@@ -23,6 +23,7 @@ $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
 $youtube_url      = get_field('youtube_url');
+$company_poc      = get_field('point_of_contact');
 
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
@@ -53,7 +54,7 @@ $youtube_url      = get_field('youtube_url');
                 <div class="amp-profile-inner">
                     <div class="amp-profile-content">
                         <div id="profile-avtar" class="amp-profile-image profile-avtar">
-                            <label class="profile-avtar-inner" for="profile_picture_file" id="bm-profile-pic"> <!--bm-select-media-->
+                            <label class="profile-avtar-inner" for="profile_picture_file" id="bm-profile-pic"> <!-- bm-select-media -->
                                 <?php if ($profile_picture) { ?>
                                     <img src="<?php echo esc_url($profile_picture); ?>" alt="Company Profile Picture" />
                                 <?php } else { ?>
@@ -144,8 +145,9 @@ $youtube_url      = get_field('youtube_url');
                             </ul>
                         </div>
                         <?php
-                        if ($user_logged_in) {
-                            $user_id = get_current_user_id(); ?>
+ if ($company_poc !== '' && !empty($company_poc)) {
+     if ($user_logged_in) {
+         $user_id = get_current_user_id(); ?>
                             <div class="amp-actions">
                                 <?php
                                 nab_get_follow_button($company_id, $user_id); ?>
@@ -156,24 +158,24 @@ $youtube_url      = get_field('youtube_url');
                                 </div>
                             </div>
                         <?php
-                        } else {
-                            $current_url = home_url( add_query_arg( NULL, NULL ) );
-                            $current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
-                            ?>
+     } else {
+         $current_url = home_url(add_query_arg(null, null));
+         $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
                             <div class="amp-actions">
                                 <div class="search-actions">
                                     <div class="generic-button">
-                                        <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="btn">Follow</a>
+                                        <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="btn">Follow</a>
                                     </div>
                                 </div>
                                 <div class="search-actions">
                                     <div class="generic-button">
-                                        <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Company Rep</a>
+                                        <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Company Rep</a>
                                     </div>
                                 </div>
                             </div>
                             <?php
-                        }
+     }
+ }
                         ?>
                     </div>
                 </div>
