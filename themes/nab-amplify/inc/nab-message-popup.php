@@ -38,6 +38,7 @@
                     <p style="display: none;" class="error">Please enter message.</p>
 
                     <a id="submit-message-request" href="javascript:void(0)" class="btn">SEND MESSAGE</a>
+                    <p class="message-leggal-notice">By submitting this message, I agree to receive additional information and communications from <?php echo get_the_title($company_id); ?>.</p>
                 </form>
                 <?php }else{
                     ?>

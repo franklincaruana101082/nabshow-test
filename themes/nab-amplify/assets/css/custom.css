@@ -1,4 +1,4 @@
-/****** MultiPurpose related css ******/
+ MultiPurpose related css ******/
 
 /* Block Alignment */
 .is-block-center{margin:0 auto}
@@ -1774,4 +1774,12 @@ body .is_friend .remove::before{font-size:22px}
 	font-size: 16px;
     color: #999999;
     margin-bottom: 10px;
+}
+
+/* Message legal note */
+.message-leggal-notice{
+	font-size: 13px;
+    color: #dedede;
+	font-style: italic;
+	margin-top: 10px !important;
 }
