@@ -1313,6 +1313,7 @@ function nab_company_search_filter_callback()
 		$current_user_id		= $user_logged_in ? get_current_user_id() : '';
 		$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 
+		
 		while ($company_query->have_posts()) {
 
 			$company_query->the_post();
@@ -1322,6 +1323,8 @@ function nab_company_search_filter_callback()
 			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
 			$profile_picture    = !empty($profile_picture) ? $profile_picture['url'] : $default_company_pic;
 			$company_url		= get_the_permalink();
+			$company_poc		= get_field('point_of_contact');
+			
 
 			$result_post[$cnt]['cover_img'] = $cover_image;
 			$result_post[$cnt]['link'] 		= $company_url;
@@ -1335,23 +1338,22 @@ function nab_company_search_filter_callback()
 				<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 			</div>
 			<?php
-			if ($user_logged_in) {
-			?>
+             if ($company_poc !== '' && !empty($company_poc)) {
+                 if ($user_logged_in) {
+                     ?>
 				<div id="send-private-message" class="generic-button poc-msg-btn">
 					<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
 				</div>
 			<?php
-			} else {
-
-				$current_url = home_url(add_query_arg(NULL, NULL));
-				$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-
-			?>
+                 } else {
+                     $current_url = home_url(add_query_arg(null, null));
+                     $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
 				<div class="generic-button">
 					<a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
 				</div>
 		<?php
-			}
+                 }
+             }
 
 			$button = ob_get_clean();
 
@@ -2559,7 +2561,7 @@ function upload_temp_csv()
 {
 
 	$temp = get_temp_dir();
-	
+
 	$upload_dir = wp_get_upload_dir()['basedir'];
 
 	wp_mkdir_p($upload_dir . '/csv_import/');
@@ -2823,8 +2825,8 @@ if (class_exists('WP_Batch')) {
 				$num_member_level   = isset($num_member_level_array[$member_level_check]) ? $num_member_level_array[$member_level_check] : 0;
 				update_post_meta($import_post_id, 'member_level_num', $num_member_level);
 
-				if ( ! empty( $member_level ) ) {
-					$this->import_meta( 'admin_can_add_product', 1, $import_post_id );
+				if (!empty($member_level)) {
+					$this->import_meta('admin_can_add_product', 1, $import_post_id);
 				}
 				$this->import_meta('member_level', $member_level, $import_post_id);
 				$this->import_meta('company_industary', $company_Tagline, $import_post_id);
@@ -2888,4 +2890,124 @@ function nab_reset_csv_processed()
 {
 	delete_option('batch_nab_import_companies_ajax_processed');
 	wp_send_json('success', 200);
+}
+
+add_action( 'wp_ajax_nab_edit_downloadable_company_pdf', 'nab_edit_downloadable_company_pdf_callback' );
+
+function nab_edit_downloadable_company_pdf_callback() {
+
+	require_once get_template_directory() . '/inc/nab-add-edit-downloadable-pdf.php';
+}
+
+// Ajax to show Add Address popup.
+add_action("wp_ajax_nab_amplify_add_address", "nab_amplify_add_address");
+add_action("wp_ajax_nopriv_nab_amplify_add_address", "nab_amplify_add_address");
+
+/**
+ * Ajax to show address popup.
+ */
+function nab_amplify_add_address()
+{
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+
+	$address_number = array(
+		'1' => 'one',
+		'2' => 'two',
+		'3' => 'three',
+		'4' => 'four'
+	);
+	$address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-company-religion-addresses-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+}
+
+add_action('wp_ajax_nab_amplify_submit_address', 'nab_amplify_submit_address');
+add_action('wp_ajax_nopriv_nab_amplify_submit_address', 'nab_amplify_submit_address');
+
+function nab_amplify_submit_address()
+{
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$street_line_1      = filter_input(INPUT_POST, 'street_line_1', FILTER_SANITIZE_STRING);
+	$street_line_2      = filter_input(INPUT_POST, 'street_line_2', FILTER_SANITIZE_STRING);
+	$city      = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
+	$state      = filter_input(INPUT_POST, 'state', FILTER_SANITIZE_STRING);
+	$country      = filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
+	$zip      = filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_STRING);
+
+	switch ($address_id) {
+		case "1":
+			$field_key = 'regional_address_one';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "2":
+			$field_key = 'regional_address_two';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "3":
+			$field_key = 'regional_address_three';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "4":
+			$field_key = 'regional_address_four';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		default:
+			$final_result['success'] = false;
+			$final_result['content'] = '';
+
+			echo wp_json_encode($final_result);
+			wp_die();
+	}
 }
