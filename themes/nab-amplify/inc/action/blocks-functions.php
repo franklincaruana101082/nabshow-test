@@ -293,6 +293,10 @@ function nab_register_amplify_dynamic_blocks()
         ),
         'render_callback' => 'nab_company_downlodable_pdfs_callback',
     ));
+
+    register_block_type('nab/regional-addressess', array(
+        'render_callback' => 'nab_regional_addressess_render_callback',
+    ));
 }
 
 function nab_company_details_render_callback($attributes)
@@ -422,7 +426,7 @@ function nab_company_produts_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $company_id         = $post->ID;
-    $post_status        = array( 'publish' );
+    $post_status        = array('publish');
     if (is_user_logged_in()) {
 
         $company_id         = get_the_ID();
@@ -513,12 +517,12 @@ function nab_company_produts_render_callback($attributes)
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
                                     <?php
-                                    if ( $is_company_admin && 'draft' === get_post_status( get_the_ID() ) ) {
-                                        ?>
+                                    if ($is_company_admin && 'draft' === get_post_status(get_the_ID())) {
+                                    ?>
                                         <div class="amp-draft-wrapper">
                                             <span class="company-product-draft">Draft</span>
                                         </div>
-                                        <?php
+                                    <?php
                                     }
                                     $thumbnail_url = '';
 
@@ -900,19 +904,19 @@ function nab_company_feature_render_callback($attributes)
     $admin_id           = get_field('company_user_id', get_the_ID());
     $member_level = get_field('member_level');
 
-    if(is_array($feature_enable_reaction)){
+    if (is_array($feature_enable_reaction)) {
         $feature_enable_reaction = $feature_enable_reaction[0];
     }
-    if(is_array($feature_enable_button)){
+    if (is_array($feature_enable_button)) {
         $feature_enable_button = $feature_enable_button[0];
     }
-    if(is_array($feature_button_target)){
+    if (is_array($feature_button_target)) {
         $feature_button_target = $feature_button_target[0];
     }
 
     ob_start();
     ?>
-    
+
     <div class="amp-item-wrap featured-block-wraper">
         <?php
         if ($feature_title !== '') {
@@ -960,17 +964,17 @@ function nab_company_feature_render_callback($attributes)
             <?php
         } else {
 
-            if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST') ) {
-                if ($member_level!='select' && $member_level !=='Standard') {
-                    ?>
-                <div class="amp-item-col add-new-item">
-                    <div class="amp-item-inner">
-                        <div class="add-item-wrap">
-                            <i class="edit-feature-block add-item-icon fa fa-pencil"></i>
-                            <span class="add-item-label">Add Featured Content</span>
+            if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST')) {
+                if ($member_level != 'select' && $member_level !== 'Standard') {
+            ?>
+                    <div class="amp-item-col add-new-item">
+                        <div class="amp-item-inner">
+                            <div class="add-item-wrap">
+                                <i class="edit-feature-block add-item-icon fa fa-pencil"></i>
+                                <span class="add-item-label">Add Featured Content</span>
+                            </div>
                         </div>
                     </div>
-                </div>
         <?php
                 }
             } else {
@@ -981,137 +985,230 @@ function nab_company_feature_render_callback($attributes)
         }
         ?>
     </div>
-<?php
+    <?php
     $html = ob_get_contents();
     ob_end_clean();
 
     return $html;
 }
 
-function nab_company_downlodable_pdfs_callback( $attributes ) {
+function nab_company_downlodable_pdfs_callback($attributes)
+{
 
     $posts_per_page     = isset( $attributes['itemToFetch'] ) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 10;
     $display_order      = isset( $attributes['displayOrder'] ) && ! empty( $attributes['displayOrder'] ) ? $attributes['displayOrder'] : 'DESC';
-    $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+    $class_name         = isset( $attributes['className'] ) && ! empty( $attributes['className'] ) ? 'company-pdfs ' . $attributes['className'] : 'company-pdfs';
     $is_company_admin   = false;
     $add_pdf            = false;
     $company_id         = get_the_ID();
     $html               = '';
-    if ( is_user_logged_in() ) {
+    if (is_user_logged_in()) {
 
         $user_id        = get_current_user_id();
-        $admin_id       = get_field( 'company_user_id', $company_id );        
+        $admin_id       = get_field('company_user_id', $company_id);
 
-        if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {
+        if (!empty($admin_id) && in_array($user_id, (array) $admin_id, true)) {
 
-            $member_level   = get_field( 'member_level', $company_id );
-            
-            if ( 'plus' === strtolower( $member_level ) || 'premium' === strtolower( $member_level ) ) {
+            $member_level   = get_field('member_level', $company_id);
+
+            if ('plus' === strtolower($member_level) || 'premium' === strtolower($member_level)) {
                 $add_pdf = true;
             }
 
-            $is_company_admin   = true;
+            $is_company_admin   = true;            
+        }        
+    }
 
-            $query_args = array(
-                'post_type'         => 'downloadable-pdfs',
-                'post_status'       => 'publish',
-                'posts_per_page'    => $posts_per_page,
-                'meta_key'          => 'nab_selected_company_id',
-                'meta_value'        => $company_id,
-                'order'             => $display_order,
-            );
-            
-            $pdf_query  = new WP_Query( $query_args );                
-            $total_post = $pdf_query->found_posts;
-        
-            if ( $pdf_query->have_posts() || ( $is_company_admin && $add_pdf ) ) {
-        
-                ob_start();
-                ?>
-                <div class="company-pdfs <?php echo esc_attr( $class_name ); ?>">
-                    <div class="amp-item-main">
-                        <div class="amp-item-heading">
-                            <?php
-                            
-                            $result_text = $total_post . ' RESULTS';
-                            
-                            if ( $is_company_admin && $add_pdf ) {
-                                $result_text .= ' / ' . nab_get_pdf_limit_by_member_level( $member_level ) . ' TOTAL';
-                            }
-                            ?>
-                            <h3>Downloadable PDFS <span>(<?php echo esc_html( $result_text ); ?>)</span></h3>                   
-                        </div>
-                        <div class="amp-item-wrap" id="downloadable-pdfs-list">
-                            <?php
-                            if ( $is_company_admin && $add_pdf ) {
-                                ?>
-                                <div class="amp-item-col add-new-item">
-                                    <div class="amp-item-inner">
-                                        <div class="add-item-wrap">
-                                            <i class="pdf-add-edit-action add-item-icon fa fa-pencil"></i>
-                                            <span class="add-item-label">Add PDF</span>
-                                        </div>
-                                    </div>
+    $query_args = array(
+        'post_type'         => 'downloadable-pdfs',
+        'post_status'       => 'publish',
+        'posts_per_page'    => $posts_per_page,
+        'meta_key'          => 'nab_selected_company_id',
+        'meta_value'        => $company_id,
+        'order'             => $display_order,
+    );
+    
+    $pdf_query  = new WP_Query( $query_args );                
+    $total_post = $pdf_query->found_posts;
+
+    if ( $pdf_query->have_posts() || ( $is_company_admin && $add_pdf ) ) {
+
+        ob_start();
+        ?>
+        <div class="<?php echo esc_attr( $class_name ); ?>">
+            <div class="amp-item-main">
+                <div class="amp-item-heading">
+                    <?php
+                    
+                    $result_text = $total_post . ' RESULTS';
+                    
+                    if ( $is_company_admin && $add_pdf ) {
+                        $result_text .= ' / ' . nab_get_pdf_limit_by_member_level( $member_level ) . ' TOTAL';
+                    }
+                    ?>
+                    <h3>Downloadable PDFS <span>(<?php echo esc_html( $result_text ); ?>)</span></h3>                   
+                </div>
+                <div class="amp-item-wrap" id="downloadable-pdfs-list">
+                    <?php
+                    if ( $is_company_admin && $add_pdf ) {
+                        ?>
+                        <div class="amp-item-col add-new-item">
+                            <div class="amp-item-inner">
+                                <div class="add-item-wrap">
+                                    <i class="pdf-add-edit-action add-item-icon fa fa-pencil"></i>
+                                    <span class="add-item-label">Add PDF</span>
                                 </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+
+                    while ( $pdf_query->have_posts() ) {
+
+                        $pdf_query->the_post();
+                        
+                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        $pdf_id         = get_the_ID();
+
+                        ?>
+                        <div class="amp-item-col">
+                            <div class="amp-item-inner">
                                 <?php
-                            }
-        
-                            while ( $pdf_query->have_posts() ) {
-        
-                                $pdf_query->the_post();
-                                
-                                $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-                                $pdf_id         = get_the_ID();
-        
-                                ?>
-                                <div class="amp-item-col">
-                                    <div class="amp-item-inner">
-                                        <div class="amp-action-remove">
-                                            <a href="javascript:void(0);" class="remove-pdf" data-id="<?php echo esc_attr( $pdf_id ); ?>" title="Remove">Remove PDF</a>
+                                if ( $is_company_admin && $add_pdf ) {
+                                    ?>
+                                    <div class="amp-action-remove">
+                                        <a href="javascript:void(0);" class="remove-pdf" data-id="<?php echo esc_attr( $pdf_id ); ?>" title="Remove">Remove PDF</a>
+                                    </div>
+                                    <?php
+                                }
+                                ?>                                
+                                <div class="amp-item-cover">                                    
+                                    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+                                </div>
+                                <div class="amp-item-info">
+                                    <div class="amp-item-content">
+                                        <h4>
+                                            <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
+                                        </h4>
+                                        <div class="download-pdf-input">
+                                            <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr( 'download-checkbox-' . $pdf_id ); ?>" />
+                                            <label for="<?php echo esc_attr( 'download-checkbox-' . $pdf_id ); ?>">I would like to receive additional information from <?php echo esc_html( get_the_title( $company_id ) ); ?></label>
                                         </div>
-                                        <div class="amp-item-cover">                                    
-                                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
-                                        </div>
-                                        <div class="amp-item-info">
-                                            <div class="amp-item-content">
-                                                <h4>
-                                                    <a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
-                                                </h4>
-                                                <div class="download-pdf-input">
-                                                    <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr( 'download-checkbox-' . $pdf_id ); ?>" />
-                                                    <label for="<?php echo esc_attr( 'download-checkbox-' . $pdf_id ); ?>">I would like to receive additional information from <?php echo esc_html( get_the_title( $company_id ) ); ?></label>
-                                                </div>
-                                                <div class="amp-actions">
-                                                    <div class="search-actions nab-action">
-                                                        <a href="javascript:void(0);" class="button">Download</a>
-                                                        <?php
-                                                        if ( $is_company_admin && $add_pdf ) {
-                                                            ?>
-                                                            <div class="nab-action-row">
-                                                                <i class="pdf-add-edit-action fa fa-pencil" data-id="<?php echo esc_attr( $pdf_id ); ?>"></i>
-                                                            </div>
-                                                            <?php
-                                                        }
-                                                        ?>
+                                        <div class="amp-actions">
+                                            <div class="search-actions nab-action">
+                                                <a href="javascript:void(0);" class="button">Download</a>
+                                                <?php
+                                                if ( $is_company_admin && $add_pdf ) {
+                                                    ?>
+                                                    <div class="nab-action-row">
+                                                        <i class="pdf-add-edit-action fa fa-pencil" data-id="<?php echo esc_attr( $pdf_id ); ?>"></i>
                                                     </div>
-                                                </div>
+                                                    <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            <?php
-                            }
-                            ?>
+                            </div>
                         </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
-                <?php
-                $html = ob_get_clean();
-            }
-        }        
+            </div>
+        </div>
+        <?php
+        $html = ob_get_clean();
     }
-    
+
     wp_reset_postdata();
 
     return $html;
+}
+
+function nab_regional_addressess_render_callback($attributes)
+{
+    ob_start();
+    $member_level = get_field('member_level');
+
+    if ($member_level !=='' && $member_level !=='select' && $member_level !=='Standard') {
+        ?>
+    <div class="company-products <?php echo esc_attr($class_name); ?>">
+        <div class="amp-item-main">
+            <div class="amp-item-heading">
+                <h3>Religion Addresses</h3>
+            </div>
+            <div class="amp-item-wrap" id="company-address-list">
+
+                <?php for ($i = 1; $i < 5; $i++) {
+            nab_get_religion_address($i, get_the_ID());
+        } ?>
+
+
+            </div>
+        </div>
+    </div>
+    <?php
+    }
+    $html = ob_get_clean();
+    return $html;
+}
+
+function nab_get_religion_address($address_id, $company_id)
+{
+    $html = '';
+
+    $user_id            = get_current_user_id();
+    $admin_id           = get_field('company_user_id', $company_id);
+
+    if ($address_id !== '0' && !empty($address_id)) {
+        $address_number = array(
+            '1' => 'one',
+            '2' => 'two',
+            '3' => 'three',
+            '4' => 'four'
+        );
+        $address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+        if (!empty($address_data) && $address_data['street_line_1'] !== '') {
+
+    ?>
+            <div class="amp-item-col add-new-item">
+                <div class="amp-item-inner">
+                    <div class="add-item-wrap">
+                        <?php echo isset($address_data['street_line_1']) && $address_data['street_line_1'] != '' ? $address_data['street_line_1'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['street_line_2_']) && $address_data['street_line_2_'] != '' ? $address_data['street_line_2_'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['city']) && $address_data['city'] != '' ? $address_data['city'] . ',' : ''; ?>
+                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? $address_data['state_province'] . ',' : ''; ?>
+                        <?php echo isset($address_data['zip_postal']) && $address_data['zip_postal'] != '' ? $address_data['zip_postal'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? $address_data['country'] : ''; ?>
+                       <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                        <div class="amp-actions">
+                            <div class="search-actions nab-action">
+                                <div class="nab-action-row">
+                                    <i class="action-add-address edit-block-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        <?php
+        } else {
+           
+            if (!empty($admin_id) && in_array($user_id, $admin_id)) {
+                ?>
+            <div class="amp-item-col add-new-item">
+                <div class="amp-item-inner">
+                    <div class="add-item-wrap">
+                        <i class="action-add-address add-item-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                        <span class="add-item-label">Add Address</span>
+                    </div>
+                </div>
+            </div>
+<?php
+            }    
+    }
+    }
 }

@@ -15,3 +15,4 @@ import './block/company-content/block';
 import './block/company-employees/block';
 import './block/company-feature/block';
 import './block/downloadable-pdfs/block';
+import './block/regional-addressess/block';

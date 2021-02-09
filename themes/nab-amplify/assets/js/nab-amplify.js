@@ -270,7 +270,90 @@
       })
      }
 
+     $(document).on('click', '.action-add-address ', function () {
+      const address_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
+      const company_id = amplifyJS.postID
+      const _this = $(this)
+      _this.addClass('loading')
+      jQuery.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: 'nab_amplify_add_address',
+          address_id: address_id,
+          company_id: company_id
+        },
+        success: function (data) {
+          _this.removeClass('loading')
+          if (jQuery('#addProductModal').length === 0) {
+            jQuery('body').append(data)
+            jQuery('#addProductModal')
+              .show()
+              .addClass('nab-modal-active')
+            
+          } else {
+            jQuery('#addProductModal').remove()
+            jQuery('body').append(data)
+            jQuery('#addProductModal')
+              .show()
+              .addClass('nab-modal-active')
+            if (jQuery('#nab_company_id').length > 0) {
+              jQuery('#nab_company_id').val(company_id)
+            }
+          }
+        }
+      })
+    })
+
   })
+
+  $(document).on('click', '#nab-add-address-submit', function () {
+  
+      var company_id = jQuery('#nab_company_id').val()
+      var address_id = jQuery(this).data('id')
+      var street_line_1 = jQuery('#street_line_1').val()
+      var street_line_2 = jQuery('#street_line_2').val()
+      var city = jQuery('#city').val()
+      var state = jQuery('#state').val()
+      var country = jQuery('#country').val()
+      var zip = jQuery('#zip').val()
+      var form_data = new FormData()
+
+      form_data.append('street_line_1',street_line_1)
+      form_data.append('street_line_2',street_line_2)
+      form_data.append('city',city)
+      form_data.append('state',state)
+      form_data.append('country',country)
+      form_data.append('zip',zip)
+      form_data.append('action','nab_amplify_submit_address')
+      form_data.append('company_id',company_id)
+      form_data.append('address_id',address_id)
+      
+      
+      jQuery.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: form_data,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+          $('body').addClass('is-loading')
+        },
+        success: function (data) {
+          $('body').removeClass('is-loading')
+          if (undefined !== data.success && !data.success) {
+            addSuccessMsg('.add-product-content-popup', data.data)
+          } else {
+            addSuccessMsg(
+              '.add-product-content-popup',
+              'Address Updated Successfully!'
+            )
+          }
+        }
+      })
+  });
+
+  
 
   charcount('keyup', '#company_about', '#character-count-comp-about', 2000)
   charcount(
@@ -474,6 +557,22 @@
       .remove()
     jQuery('body').addClass('nab-close-reload')
   })
+
+  $(document).on('click', '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action', function(){      
+    $('body').addClass('loading');
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_edit_downloadable_company_pdf',
+        pdf_id: undefined !== $(this).data( 'id' ) ? $(this).data( 'id' ) : '',
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function( response ) {
+        $('body').removeClass('loading');
+      }
+    });
+  });
 
   $(document).on('click', '.action-edit ', function () {
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''

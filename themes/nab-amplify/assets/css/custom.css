@@ -1770,9 +1770,8 @@ body .is_friend .remove::before{font-size:22px}
 .featured-block-wraper{margin:30px 0px 0px 0px}
 .featured-block-wraper .add-new-item{width:100%;max-width:100%}
 
-/*company admin field*/
-#nab-edit-company-profile-form .company-admin-note{
-	font-size: 16px;
-    color: #999999;
-    margin-bottom: 10px;
-}
+/* company admin field */
+#nab-edit-company-profile-form .company-admin-note{font-size:16px;color:#999999;margin-bottom:10px}
+
+/* Message legal note */
+.message-leggal-notice{font-size:13px;color:#dedede;font-style:italic;margin-top:10px!important}

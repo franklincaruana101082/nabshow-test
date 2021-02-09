@@ -276,6 +276,7 @@ a{color:#e5018b;text-decoration:none}
 .amp-feature-block .btn-link a{background:#6363df;border-color:#6363df;color:#fff}
 .amp-feature-block .btn-react a{min-width:100px;padding:8px 10px}
 .amp-feature-block .btn-react a::before{content:"\f529";font-family:'dashicons', sans-serif;font-size:16px;margin-right:10px;vertical-align:middle}
+.amp-item-wrap p.empty-featured-block{padding:30px 0px 30px 5px;background:#eeeeee}
 
 /* default blocks items */
 .btn{background:#e5018b;color:#fff;display:inline-block;padding:10px 20px;border-radius:6px;text-align:center;text-transform:capitalize;font-size:16px;line-height:1;font-weight:700;border:1px solid #e5018b;cursor:pointer;-webkit-box-shadow:none;box-shadow:none;text-decoration:none!important;min-width:150px}
@@ -611,6 +612,12 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .amp-tag-main .amp-tag-list li span.btn{cursor:default}
 .amp-tag-main .amp-tag-list li span.btn:active{box-shadow:none}
 
+/* Religion address */
+#company-address-list .add-item-wrap{padding:30px!important;font-size:18px;color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif}
+#company-address-list .amp-item-inner{padding-bottom:30px;position:relative}
+#company-address-list .add-new-item .amp-item-inner{padding-bottom:0}
+#company-address-list .amp-item-inner .edit-block-icon{position:absolute;right:20px;bottom:20px}
+
 @media (max-width:1400px) {
 	/* company detail */
 	.company-details-wrapper{padding:30px}
@@ -623,4 +630,3 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 	/* company block */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
 }
-.amp-item-wrap p.empty-featured-block{padding:30px 0px 30px 5px;background:#eeeeee}
