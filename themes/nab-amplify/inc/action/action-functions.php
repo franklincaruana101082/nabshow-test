@@ -4017,6 +4017,7 @@ function nab_generate_company_export_csv_file()
         $csv_fields[] = 'Company Name';
         $csv_fields[] = 'Claimed Status';
         $csv_fields[] = 'Admin URL';
+        $csv_fields[] = 'Salesforce ID';
 
         // Generate csv file as a direct download
         $output_filename = 'amplify-company-list-' . date('m-d-Y') . '.csv';
@@ -4057,13 +4058,14 @@ function nab_generate_company_export_csv_file()
                 $admin_url = get_permalink($company->ID) . '?addadmin=' . $random_string;
             }
 
-
+            $salesforce_id = get_field('salesforce_id', $company->ID);
 
             if ($company->post_title != '') {
                 $dynamic_fields = array();
                 $dynamic_fields[] = $company->post_title;
                 $dynamic_fields[] = $claim_status;
                 $dynamic_fields[] = $admin_url;
+                $dynamic_fields[] = $salesforce_id;
                 fputcsv($output_handle, $dynamic_fields);
             }
         }
@@ -4300,4 +4302,23 @@ function nab_sync_beta_user_to_live(WP_REST_Request $request)
     }
 
     return new WP_REST_Response($final_result, 200);
+}
+
+/**
+ * Redirect user to login page when access protected pages.
+ */
+function nab_redirect_user_to_login_page() {
+
+    global $post;
+
+    if ( isset( $post->ID ) && ! empty( $post->ID ) && ! is_user_logged_in() ) {
+
+        $content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
+
+        if ( $content_accessible ) {
+            $redirect_url =  add_query_arg( array( 'r' => get_the_permalink() ), wc_get_page_permalink( 'myaccount' ) );
+            wp_redirect( $redirect_url );
+            exit();
+        }
+    }
 }
