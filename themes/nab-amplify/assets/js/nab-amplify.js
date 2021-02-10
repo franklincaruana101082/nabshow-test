@@ -315,7 +315,7 @@
     const company_id = amplifyJS.postID
     const _this = $(this)
     _this.addClass('loading')
-    if(confirm('Are youn sure want to delete?')){
+    if(confirm('Are you sure want to delete?')){
       jQuery.ajax({
         type: 'POST',
         url: amplifyJS.ajaxurl,
