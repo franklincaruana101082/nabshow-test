@@ -39,7 +39,8 @@ class Schedule extends Hooks {
 			echo "<script src='{$url}'></script>";
 
             if( defined( 'CXSL_DEBUG' ) && CXSL_DEBUG ) {
-                @parse_str( $url );
+                @parse_str( $url, $result );
+                $url = $result;
                 cx_add_log( 'trigger', 'outgoing', $this->ncrypt->decrypt( $user_login ), cx_get_route_home( $url ) );
             }
 
