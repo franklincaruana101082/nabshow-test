@@ -18,11 +18,12 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="robots" content="noindex,follow">
+
     <title>NAB Amplify: Confirmation Page</title>
     <style>
 
         body {
-            background-color: #404040;
+            background-color: #404040!important;
             color: #fff;
             font-family: 'Open Sans', sans-serif;
             font-size: 16px;
@@ -41,13 +42,22 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
             width: 100%;
         }
 
+        .mktopagecontent{
+            position:relative;
+        }
+
+        .site-content .container{
+            width: 100%!important;
+            max-width: 100%!important;
+        }
+
         #content {
             display: table;
             height: 100%;
             padding: 50px;
             position: relative;
             width: 100%;
-            z-index: 100;
+            z-index: 9;
         }
 
         #content > * {
@@ -77,11 +87,12 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
             font-size: 600%;
             line-height: 1;
             margin: 20px 0 20px 0;
-            z-index: 100;
+            z-index: 9;
         }
 
         #content p {
             margin: 0 0 10px 0;
+            color: #fff;
         }
 
         a,
@@ -131,7 +142,7 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
 
         #transparency {
             background: rgba(0, 0, 0, 0.5);
-            z-index: 50;
+            z-index: 8;
         }
 
 
@@ -316,7 +327,7 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
 				max-width: 250px;
 				max-height: 110px;
 			}
-            
+
         }
 
 
@@ -404,93 +415,100 @@ $collective_speaking_event = get_post_meta( $post->ID, 'collective_speaking_even
 </head>
 
 <body id="bodyId">
+<?php get_header(); ?>
 
-<!-- screen -->
-<div id="screen" class="mktoContent">
+<div class="mktopagecontent">
+    <!-- screen -->
+    <div id="screen" class="mktoContent">
 
-    <!-- content -->
-    <div id="content">
+        <!-- content -->
+        <div id="content">
 
-        <div class="wrap">
-            <div class="inner">
-                <?php
-				if ( have_posts() ) :
-					
-					while ( have_posts() ) :
-						
-						the_post();
-						
-						the_content();
-								
-					endwhile; // End of the loop.
-				endif;
-                
-                $page_id    = get_the_ID();
-                $rows       = get_field( 'event_details', $page_id );
-                
-                if ( $rows ) {
+            <div class="wrap">
+                <div class="inner">
+                    <?php
+                    if ( have_posts() ) :
 
-                    ?>
-                    <div id="showcase">
+                        while ( have_posts() ) :
+
+                            the_post();
+
+                            the_content();
+
+                        endwhile; // End of the loop.
+                    endif;
+
+                    $page_id    = get_the_ID();
+                    $rows       = get_field( 'event_details', $page_id );
+
+                    if ( $rows ) {
+
+                        ?>
+                        <div id="showcase">
+                            <?php
+                            foreach( $rows as $row ) {
+
+                                $event_logo     = $row[ 'event_logo' ];
+                                $event_date     = $row[ 'event_date' ];
+                                $event_link     = $row[ 'event_link' ];
+                                $link_text      = $row[ 'event_link_text' ];
+                                $display_event  = $row[ 'event_display' ];
+
+                                if ( $display_event && $event_logo ) {
+                                    ?>
+                                    <div class="future">
+                                        <img src="<?php echo esc_url( $event_logo[ 'url' ] ); ?>" alt="event-logo">
+                                        <p>
+                                        <?php
+                                        echo esc_html( $event_date );
+
+                                        if ( ! empty( $event_link ) ) {
+                                            ?>
+                                            <br><a href="<?php echo esc_url( $event_link ); ?>"><?php echo esc_html( $link_text ); ?></a>
+                                            <?php
+                                        }
+                                        ?>
+                                        </p>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
                         <?php
-                        foreach( $rows as $row ) {
-                            
-                            $event_logo     = $row[ 'event_logo' ];
-                            $event_date     = $row[ 'event_date' ];
-                            $event_link     = $row[ 'event_link' ];
-                            $link_text      = $row[ 'event_link_text' ];
-                            $display_event  = $row[ 'event_display' ];
-
-                            if ( $display_event && $event_logo ) {
-                                ?>
-                                <div class="future">
-                                    <img src="<?php echo esc_url( $event_logo[ 'url' ] ); ?>" alt="event-logo">
-                                    <p>
-									<?php
-									echo esc_html( $event_date );
-									
-									if ( ! empty( $event_link ) ) {
-										?>
-										<br><a href="<?php echo esc_url( $event_link ); ?>"><?php echo esc_html( $link_text ); ?></a>
-										<?php
-									}
-									?>										
-									</p>
-                                </div>
-                                <?php
-                            }                            
-                        }
-                        ?>                        
-                    </div>
-                    <?php                    
-                }
-                ?>
+                    }
+                    ?>
+                </div>
             </div>
         </div>
+
+
     </div>
+    <!-- content -->
+
+    <!-- transparency -->
+    <div id="transparency">
 
 
-</div>
-<!-- content -->
+    </div>
+    <!-- transparency -->
 
-<!-- transparency -->
-<div id="transparency">
-
-
-</div>
-<!-- transparency -->
-
-<!-- background -->
-<div id="background">
-    <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/spectral.png">
-</div>
-<!-- background -->
-
+    <!-- background -->
+    <div id="background">
+        <img src="<?php echo get_stylesheet_directory_uri() ?>/assets/images/spectral.png">
+    </div>
+    <!-- background -->
+    </div>
 
 <!-- screen -->
 <script type="text/javascript" src="//munchkin.marketo.net//munchkin.js"></script>
 <script>Munchkin.init('927-ARO-980', {customName: 'NAB21OV-Confirmation', wsInfo: 'j1RR'});</script>
 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri() ?>/assets/js/stripmkttok.js"></script>
+
+<?php
+get_sidebar();
+get_footer();
+?>
 </body>
 </html>
 

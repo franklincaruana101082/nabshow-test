@@ -36,9 +36,9 @@ $categories = implode( ', ', $product_cats_names);
 <div <?php wc_product_class( 'product-item', $product ); ?>>
 	<div class="item-inner">
 		<?php
-
+		
 		// bookmark product
-		nab_get_product_bookmark_html( $current_product_id, 'user-bookmark-action' );
+		nab_get_product_bookmark_html( $current_product_id, 'user-bookmark-action' );	
 
 		$link = apply_filters( 'woocommerce_loop_product_link', get_the_permalink(), $product );
 

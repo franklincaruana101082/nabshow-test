@@ -1,4 +1,4 @@
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement, wpBlockEditor) {
   const { __ } = wpI18n
   const { registerBlockType } = wpBlocks
   const { Fragment, Component } = wpElement
@@ -11,6 +11,7 @@
     Tooltip,
     Button
   } = wpComponents
+  const { ColorPalette } = wpBlockEditor
 
   class ItemComponent extends Component {
     componentDidMount () {
@@ -56,7 +57,7 @@
 
     render () {
       const { attributes, setAttributes } = this.props
-      const { dataArray } = attributes
+      const { dataArray, headerTitle, headerTitleColor, headerLink, headerLinkColor, backgroundColor } = attributes
 
       const getImageButton = (openEvent, index) => {
         if (dataArray[index].media) {
@@ -68,7 +69,7 @@
               ></span>
               <img
                 src={dataArray[index].media}
-                alt={dataArray[index].title}
+                alt={dataArray[index].mediaAlt}
                 className='img'
               />
             </Fragment>
@@ -123,12 +124,13 @@
                 }}
               ></span>
             </div>
-            <div className='inner'>
+            <div className='inner' style={{backgroundColor:backgroundColor}}>
               <div className='left'>
                 <MediaUpload
                   onSelect={media => {
                     let arrayCopy = [...dataArray]
                     arrayCopy[index].media = media.url
+                    arrayCopy[index].mediaAlt = media.alt
                     setAttributes({ dataArray: arrayCopy })
                   }}
                   type='image'
@@ -191,32 +193,90 @@
       return (
         <Fragment>
           <InspectorControls>
-            <PanelBody title='General Settings'>
-              <PanelRow>Test</PanelRow>
+            <PanelBody title='Color Settings'>
+              <div className="inspector-field">
+                <label>Title Color</label>
+                <ColorPalette
+                    value={headerTitleColor}
+                    onChange={(headerTitleColor) =>
+                        setAttributes({headerTitleColor})
+                    }
+                />
+              </div>
+              <div className="inspector-field">
+                <label>Link Color</label>
+                <ColorPalette
+                    value={headerLinkColor}
+                    onChange={(headerLinkColor) =>
+                        setAttributes({headerLinkColor})
+                    }
+                />
+              </div>
+              <div className="inspector-field">
+                <label>Background Color</label>
+                <ColorPalette
+                    value={backgroundColor}
+                    onChange={(backgroundColor) =>
+                        setAttributes({backgroundColor})
+                    }
+                />
+              </div>
             </PanelBody>
           </InspectorControls>
           <div className='upcoming-events-calendar'>
-            {itemList}
-            <div className='item additem'>
-              <button
-                className='components-button add'
-                onClick={content => {
-                  setAttributes({
-                    dataArray: [
-                      ...dataArray,
-                      {
-                        index: dataArray.length,
-                        title: '',
-                        subTitle: '',
-                        description: '',
-                        media: ''
-                      }
-                    ]
-                  })
-                }}
-              >
-                <span className='dashicons dashicons-plus'></span> Add New Item
-              </button>
+            <div className='upcoming-events-header'>
+              <RichText
+                  tagName='h2'
+                  placeholder={__('Title')}
+                  value={headerTitle}
+                  keepPlaceholderOnFocus='true'
+                  className='header-title'
+                  style={{color:headerTitleColor}}
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    setAttributes({ headerTitle: value })
+                  }}
+                />
+                <RichText
+                  tagName='span'
+                  placeholder={__('View All')}
+                  value={headerLink}
+                  keepPlaceholderOnFocus='true'
+                  className='header-link'
+                  style={{color:headerLinkColor}}
+                  onChange={value => {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '')
+                    value = value.replace(/<br>.*}<br>/, '')
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                    setAttributes({ headerLink: value })
+                  }}
+                />
+            </div>
+            <div className='upcoming-events-body'>
+              {itemList}
+              <div className='item additem'>
+                <button
+                  className='components-button add'
+                  onClick={content => {
+                    setAttributes({
+                      dataArray: [
+                        ...dataArray,
+                        {
+                          index: dataArray.length,
+                          title: '',
+                          subTitle: '',
+                          description: '',
+                          media: ''
+                        }
+                      ]
+                    })
+                  }}
+                >
+                  <span className='dashicons dashicons-plus'></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
         </Fragment>
@@ -234,60 +294,100 @@
       dataArray: {
         type: 'array',
         default: []
+      },
+      headerTitle: {
+        type: 'string',
+        default: ''
+      },
+      headerTitleColor: {
+        type: 'string',
+        default: '#fdd80f'
+      },
+      headerLink: {
+        type: 'string',
+        default: '<a href="#" class="view-all">View All</a>'
+      },
+      headerLinkColor: {
+        type: 'string',
+        default: '#999'
+      },
+      backgroundColor: {
+        type: 'string',
+        default: '#333'
       }
     },
     edit: ItemComponent,
 
     save: props => {
-      const { attributes } = props
-      const { dataArray } = attributes
+      const { attributes  } = props
+      const { dataArray, headerTitle, headerTitleColor, headerLink, headerLinkColor, backgroundColor } = attributes
 
       return (
         <Fragment>
           <div className='upcoming-events-calendar'>
-            {dataArray.map((data, index) => (
-              <Fragment>
-                {data.title && (
-                  <div className='item'>
-                    <div className='inner'>
-                      <div className='left'>
-                        {data.media ? (
-                          <img src={data.media} alt={data.title} />
-                        ) : (
-                          <div className='no-image'>No Image</div>
-                        )}
-                      </div>
-                      <div className='right'>
-                        {data.title && (
-                          <RichText.Content
-                            tagName='h3'
-                            value={data.title}
-                            className='title'
-                          />
-                        )}
-                        {data.subTitle && (
-                          <RichText.Content
-                            tagName='strong'
-                            value={data.subTitle}
-                            className='sub-title'
-                          />
-                        )}
-                        {data.description && (
-                          <RichText.Content
-                            tagName='p'
-                            value={data.description}
-                            className='description'
-                          />
-                        )}
+            <div className='upcoming-events-header'>
+              {headerTitle && (
+                <RichText.Content
+                  tagName='h2'
+                  value={headerTitle}
+                  className='header-title'
+                  style={{color:headerTitleColor}}
+                />
+              )}
+              {headerLink && (
+                <RichText.Content
+                  tagName='span'
+                  value={headerLink}
+                  className='header-link'
+                  style={{color:headerLinkColor}}
+                />
+              )}
+            </div>
+            <div className='upcoming-events-body'>
+              {dataArray.map((data, index) => (
+                <Fragment>
+                  {data.title && (
+                    <div className='item'>
+                      <div className='inner' style={{backgroundColor:backgroundColor}}>
+                        <div className='left'>
+                          {data.media ? (
+                            <img src={data.media} alt={data.mediaAlt} />
+                          ) : (
+                            <div className='no-image'>No Image</div>
+                          )}
+                        </div>
+                        <div className='right'>
+                          {data.title && (
+                            <RichText.Content
+                              tagName='h3'
+                              value={data.title}
+                              className='title'
+                            />
+                          )}
+                          {data.subTitle && (
+                            <RichText.Content
+                              tagName='strong'
+                              value={data.subTitle}
+                              className='sub-title'
+                            />
+                          )}
+                          {data.description && (
+                            <RichText.Content
+                              tagName='p'
+                              value={data.description}
+                              className='description'
+                            />
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </Fragment>
-            ))}
+                  )}
+                </Fragment>
+              ))}
+            </div>
           </div>
         </Fragment>
       )
     }
   })
-})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element)
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element, wp.blockEditor)

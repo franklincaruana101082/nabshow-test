@@ -95,7 +95,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__block_community_curator_block__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__block_community_curator_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__block_community_curator_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__block_tabs_block__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__block_trending_activity_block__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__block_trending_activity_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__block_trending_activity_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__block_company_details_block__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__block_company_details_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__block_company_details_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__block_company_products_block__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__block_company_products_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__block_company_products_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__block_company_events_block__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__block_company_events_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__block_company_events_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__block_company_content_block__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__block_company_content_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__block_company_content_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__block_company_employees_block__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__block_company_employees_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__block_company_employees_block__);
 // import all blocks here
+
+
+
+
+
+
 
 
 
@@ -2183,516 +2201,621 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ (function(module, exports) {
 
 ;(function (wpI18n, wpBlocks, wpBlockEditor, wpComponents, wpElement) {
-    var __ = wpI18n.__;
-    var registerBlockType = wpBlocks.registerBlockType;
-    var Fragment = wpElement.Fragment;
-    var RichText = wpBlockEditor.RichText,
-        InspectorControls = wpBlockEditor.InspectorControls,
-        ColorPalette = wpBlockEditor.ColorPalette,
-        MediaUpload = wpBlockEditor.MediaUpload,
-        AlignmentToolbar = wpBlockEditor.AlignmentToolbar;
-    var PanelBody = wpComponents.PanelBody,
-        Button = wpComponents.Button,
-        ToggleControl = wpComponents.ToggleControl,
-        SelectControl = wpComponents.SelectControl;
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment;
+  var RichText = wpBlockEditor.RichText,
+      InspectorControls = wpBlockEditor.InspectorControls,
+      ColorPalette = wpBlockEditor.ColorPalette,
+      MediaUpload = wpBlockEditor.MediaUpload,
+      AlignmentToolbar = wpBlockEditor.AlignmentToolbar;
+  var PanelBody = wpComponents.PanelBody,
+      Button = wpComponents.Button,
+      ToggleControl = wpComponents.ToggleControl,
+      SelectControl = wpComponents.SelectControl,
+      TextControl = wpComponents.TextControl;
 
 
-    registerBlockType('rg/feature', {
-        // built in attributes
-        title: __('Feature'),
-        description: __('Feature Block'),
-        icon: 'editor-code',
-        category: 'nab_amplify',
-        keywords: [__('Feature'), __('Gutenberg')],
-        attributes: {
-            backgroundColor: {
-                type: 'string',
-                default: '#303030'
-            },
-            backgroundImage: {
-                type: 'string',
-                default: ''
-            },
-            backgroundSize: {
-                type: "string",
-                default: "cover"
-            },
-            backgroundRepeat: {
-                type: "boolean",
-                default: false
-            },
-            backgroundPosition: {
-                type: "string",
-                default: ""
-            },
-            featureIcon: {
-                type: "string",
-                default: ""
-            },
-            featureStatusTitle: {
-                type: 'string',
-                default: ''
-            },
-            featureStatusColor: {
-                type: 'string',
-                default: '#e5018b'
-            },
-            featureTitle: {
-                type: 'string',
-                default: ''
-            },
-            featureTitleColor: {
-                type: 'string',
-                default: '#fff'
-            },
-            featureAuthor: {
-                type: 'string',
-                default: ''
-            },
-            featureAuthorColor: {
-                type: 'string',
-                default: '#fdd80f'
-            },
-            featureDisc: {
-                type: 'string',
-                default: ''
-            },
-            featureDiscColor: {
-                type: 'string',
-                default: '#fff'
-            },
-            featureLike: {
-                type: 'string',
-                default: '<a href="#" class="btn">Like</a>'
-            },
-            featureLikeToggle: {
-                type: 'Boolean',
-                default: false
-            },
-            featureJoinBtn: {
-                type: 'string',
-                default: '<a href="#" class="btn">Join Discussion</a>'
-            },
-            featureJoinToggle: {
-                type: 'Boolean',
-                default: false
-            }
-        },
-        edit: function edit(_ref) {
-            var attributes = _ref.attributes,
-                setAttributes = _ref.setAttributes;
-            var backgroundColor = attributes.backgroundColor,
-                backgroundImage = attributes.backgroundImage,
-                backgroundSize = attributes.backgroundSize,
-                backgroundRepeat = attributes.backgroundRepeat,
-                backgroundPosition = attributes.backgroundPosition,
-                featureIcon = attributes.featureIcon,
-                featureStatusTitle = attributes.featureStatusTitle,
-                featureStatusColor = attributes.featureStatusColor,
-                featureTitle = attributes.featureTitle,
-                featureTitleColor = attributes.featureTitleColor,
-                featureAuthor = attributes.featureAuthor,
-                featureAuthorColor = attributes.featureAuthorColor,
-                featureDisc = attributes.featureDisc,
-                featureDiscColor = attributes.featureDiscColor,
-                featureLike = attributes.featureLike,
-                featureLikeToggle = attributes.featureLikeToggle,
-                featureJoinBtn = attributes.featureJoinBtn,
-                featureJoinToggle = attributes.featureJoinToggle;
+  registerBlockType('rg/feature', {
+    // built in attributes
+    title: __('Feature'),
+    description: __('Feature Block'),
+    icon: 'editor-code',
+    category: 'nab_amplify',
+    keywords: [__('Feature'), __('Gutenberg')],
+    attributes: {
+      backgroundColor: {
+        type: 'string',
+        default: '#303030'
+      },
+      backgroundImage: {
+        type: 'string',
+        default: ''
+      },
+      backgroundSize: {
+        type: 'string',
+        default: 'cover'
+      },
+      backgroundRepeat: {
+        type: 'boolean',
+        default: false
+      },
+      backgroundPosition: {
+        type: 'string',
+        default: ''
+      },
+      featureIcon: {
+        type: 'string',
+        default: ''
+      },
+      featureIconLink: {
+        type: 'url',
+        default: ''
+      },
+      featureIconLinkTarget: {
+        type: 'Boolean',
+        default: false
+      },
+      featureStatusTitle: {
+        type: 'string',
+        default: ''
+      },
+      featureStatusColor: {
+        type: 'string',
+        default: '#e5018b'
+      },
+      featureTitle: {
+        type: 'string',
+        default: ''
+      },
+      featureTitleColor: {
+        type: 'string',
+        default: '#fff'
+      },
+      featureAuthor: {
+        type: 'string',
+        default: ''
+      },
+      featureAuthorColor: {
+        type: 'string',
+        default: '#fdd80f'
+      },
+      featureDisc: {
+        type: 'string',
+        default: ''
+      },
+      featureDiscColor: {
+        type: 'string',
+        default: '#fff'
+      },
+      shortcode: {
+        type: 'string',
+        default: ''
+      },
+      featureLikeToggle: {
+        type: 'Boolean',
+        default: false
+      },
+      featureJoinBtn: {
+        type: 'string',
+        default: 'Button'
+      },
+      featureJoinToggle: {
+        type: 'Boolean',
+        default: false
+      },
+      featureJoinBtnLink: {
+        type: 'string',
+        default: '#'
+      },
+      featureJoinBtnTarget: {
+        type: 'Boolean',
+        default: false
+      }
+    },
+    edit: function edit(_ref) {
+      var attributes = _ref.attributes,
+          setAttributes = _ref.setAttributes;
+      var backgroundColor = attributes.backgroundColor,
+          backgroundImage = attributes.backgroundImage,
+          backgroundSize = attributes.backgroundSize,
+          backgroundRepeat = attributes.backgroundRepeat,
+          backgroundPosition = attributes.backgroundPosition,
+          featureIcon = attributes.featureIcon,
+          featureIconLink = attributes.featureIconLink,
+          featureIconLinkTarget = attributes.featureIconLinkTarget,
+          featureStatusTitle = attributes.featureStatusTitle,
+          featureStatusColor = attributes.featureStatusColor,
+          featureTitle = attributes.featureTitle,
+          featureTitleColor = attributes.featureTitleColor,
+          featureAuthor = attributes.featureAuthor,
+          featureAuthorColor = attributes.featureAuthorColor,
+          featureDisc = attributes.featureDisc,
+          featureDiscColor = attributes.featureDiscColor,
+          shortcode = attributes.shortcode,
+          featureLikeToggle = attributes.featureLikeToggle,
+          featureJoinBtn = attributes.featureJoinBtn,
+          featureJoinToggle = attributes.featureJoinToggle,
+          featureJoinBtnLink = attributes.featureJoinBtnLink,
+          featureJoinBtnTarget = attributes.featureJoinBtnTarget;
 
 
-            var backroundStyle = {};
-            backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
-            backgroundImage && (backroundStyle.backgroundImage = 'url(' + backgroundImage + ')');
-            backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
-            backgroundRepeat && (backroundStyle.backgroundRepeat = "no-repeat");
-            backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
+      var backroundStyle = {};
+      var linkTarget = featureIconLinkTarget ? '_blank' : '_self';
+      backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
+      backgroundImage && (backroundStyle.backgroundImage = 'url(' + backgroundImage + ')');
+      backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
+      backgroundRepeat && (backroundStyle.backgroundRepeat = 'no-repeat');
+      backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
 
-            return [wp.element.createElement(
-                InspectorControls,
+      return [wp.element.createElement(
+        InspectorControls,
+        null,
+        wp.element.createElement(
+          'div',
+          { className: 'amp-controle-settings' },
+          wp.element.createElement(
+            PanelBody,
+            { title: 'Feature Block Image' },
+            wp.element.createElement(
+              'div',
+              { className: 'inspector-field' },
+              wp.element.createElement(MediaUpload, {
+                onSelect: function onSelect(backgroundImage) {
+                  return setAttributes({
+                    backgroundImage: backgroundImage.sizes.full.url
+                  });
+                },
+                type: 'image',
+                value: backgroundImage,
+                render: function render(_ref2) {
+                  var open = _ref2.open;
+                  return wp.element.createElement(
+                    Button,
+                    {
+                      onClick: open,
+                      className: backgroundImage ? 'amp-image-button' : 'button button-large'
+                    },
+                    !backgroundImage ? __('Select Image') : wp.element.createElement('div', {
+                      style: {
+                        backgroundImage: 'url(' + backgroundImage + ')',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        height: '150px',
+                        width: '225px'
+                      }
+                    })
+                  );
+                }
+              }),
+              backgroundImage ? wp.element.createElement(
+                Fragment,
                 null,
                 wp.element.createElement(
-                    'div',
-                    { className: 'amp-controle-settings' },
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: 'Feature Block Image' },
-                        wp.element.createElement(
-                            'div',
-                            { className: 'inspector-field' },
-                            wp.element.createElement(MediaUpload, {
-                                onSelect: function onSelect(backgroundImage) {
-                                    return setAttributes({
-                                        backgroundImage: backgroundImage.sizes.full.url
-                                    });
-                                },
-                                type: 'image',
-                                value: backgroundImage,
-                                render: function render(_ref2) {
-                                    var open = _ref2.open;
-                                    return wp.element.createElement(
-                                        Button,
-                                        {
-                                            onClick: open,
-                                            className: backgroundImage ? "amp-image-button" : "button button-large"
-                                        },
-                                        !backgroundImage ? __("Select Image") : wp.element.createElement('div', {
-                                            style: {
-                                                backgroundImage: 'url(' + backgroundImage + ')',
-                                                backgroundSize: "cover",
-                                                backgroundPosition: "center",
-                                                height: "150px",
-                                                width: "225px"
-                                            }
-                                        })
-                                    );
-                                }
-                            }),
-                            backgroundImage ? wp.element.createElement(
-                                Fragment,
-                                null,
-                                wp.element.createElement(
-                                    Button,
-                                    {
-                                        className: 'button',
-                                        onClick: function onClick() {
-                                            setAttributes({ backgroundImage: "" });
-                                        }
-                                    },
-                                    __("Remove Image")
-                                ),
-                                wp.element.createElement(
-                                    'div',
-                                    { className: 'inspector-field-inner' },
-                                    wp.element.createElement(ToggleControl, {
-                                        label: __("Background Repeat "),
-                                        checked: backgroundRepeat,
-                                        onChange: function onChange(backgroundRepeat) {
-                                            setAttributes({ backgroundRepeat: backgroundRepeat });
-                                        }
-                                    }),
-                                    wp.element.createElement(SelectControl, {
-                                        label: __("background size"),
-                                        value: backgroundSize,
-                                        options: [{ label: __("auto"), value: "auto" }, { label: __("cover"), value: "cover" }, { label: __("contain"), value: "contain" }, { label: __("initial"), value: "initial" }, { label: __("inherit"), value: "inherit" }],
-                                        onChange: function onChange(value) {
-                                            setAttributes({
-                                                backgroundSize: value
-                                            });
-                                        }
-                                    }),
-                                    wp.element.createElement(SelectControl, {
-                                        label: __("Select Position"),
-                                        value: backgroundPosition,
-                                        options: [{ label: __("inherit"), value: "inherit" }, { label: __("initial"), value: "initial" }, { label: __("bottom"), value: "bottom" }, { label: __("center"), value: "center" }, { label: __("left"), value: "left" }, { label: __("right"), value: "right" }, { label: __("top"), value: "top" }, { label: __("unset"), value: "unset" }, { label: __("center center"), value: "center center" }, { label: __("left top"), value: "left top" }, { label: __("left center"), value: "left center" }, { label: __("left bottom"), value: "left bottom" }, { label: __("right top"), value: "right top" }, { label: __("right center"), value: "right center" }, { label: __("right bottom"), value: "right bottom" }, { label: __("center top"), value: "center top" }, { label: __("center bottom"), value: "center bottom" }],
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ backgroundPosition: value });
-                                        }
-                                    })
-                                )
-                            ) : wp.element.createElement(
-                                'div',
-                                { className: 'inspector-field-inner' },
-                                wp.element.createElement(
-                                    'label',
-                                    null,
-                                    'Background Color'
-                                ),
-                                wp.element.createElement(ColorPalette, {
-                                    value: backgroundColor,
-                                    onChange: function onChange(backgroundColor) {
-                                        return setAttributes({ backgroundColor: backgroundColor });
-                                    }
-                                })
-                            )
-                        )
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: 'Typography', initialOpen: false },
-                        wp.element.createElement(
-                            'div',
-                            { className: 'inspector-field' },
-                            wp.element.createElement(
-                                'label',
-                                null,
-                                'Status Color:'
-                            ),
-                            wp.element.createElement(ColorPalette, {
-                                value: featureStatusColor,
-                                onChange: function onChange(featureStatusColor) {
-                                    return setAttributes({ featureStatusColor: featureStatusColor });
-                                }
-                            })
-                        ),
-                        wp.element.createElement(
-                            'div',
-                            { className: 'inspector-field' },
-                            wp.element.createElement(
-                                'label',
-                                null,
-                                'Title Color:'
-                            ),
-                            wp.element.createElement(ColorPalette, {
-                                value: featureTitleColor,
-                                onChange: function onChange(featureTitleColor) {
-                                    return setAttributes({ featureTitleColor: featureTitleColor });
-                                }
-                            })
-                        ),
-                        wp.element.createElement(
-                            'div',
-                            { className: 'inspector-field' },
-                            wp.element.createElement(
-                                'label',
-                                null,
-                                'Author Color:'
-                            ),
-                            wp.element.createElement(ColorPalette, {
-                                value: featureAuthorColor,
-                                onChange: function onChange(featureAuthorColor) {
-                                    return setAttributes({ featureAuthorColor: featureAuthorColor });
-                                }
-                            })
-                        ),
-                        wp.element.createElement(
-                            'div',
-                            { className: 'inspector-field' },
-                            wp.element.createElement(
-                                'label',
-                                null,
-                                'Discription Color:'
-                            ),
-                            wp.element.createElement(ColorPalette, {
-                                value: featureDiscColor,
-                                onChange: function onChange(featureDiscColor) {
-                                    return setAttributes({ featureDiscColor: featureDiscColor });
-                                }
-                            })
-                        )
-                    ),
-                    wp.element.createElement(
-                        PanelBody,
-                        { title: 'Button Settings', initialOpen: false },
-                        wp.element.createElement(ToggleControl, {
-                            label: 'Hide Like Button',
-                            checked: featureLikeToggle,
-                            onChange: function onChange(featureLikeToggle) {
-                                setAttributes({ featureLikeToggle: featureLikeToggle });
-                            }
-                        }),
-                        wp.element.createElement(ToggleControl, {
-                            label: 'Hide Join Discussion Button',
-                            checked: featureJoinToggle,
-                            onChange: function onChange(featureJoinToggle) {
-                                setAttributes({ featureJoinToggle: featureJoinToggle });
-                            }
-                        })
-                    )
-                )
-            ), wp.element.createElement(
-                'div',
-                { className: 'amp-feature-block', style: backroundStyle },
+                  Button,
+                  {
+                    className: 'button',
+                    onClick: function onClick() {
+                      setAttributes({ backgroundImage: '' });
+                    }
+                  },
+                  __('Remove Image')
+                ),
                 wp.element.createElement(
-                    'div',
-                    { className: 'amp-feature-block-inner' },
-                    wp.element.createElement(
-                        'div',
-                        { className: 'feature-icon' },
-                        wp.element.createElement(MediaUpload, {
-                            onSelect: function onSelect(featureIcon) {
-                                setAttributes({ featureIcon: featureIcon ? featureIcon.sizes.full.url : '' });
-                            },
-                            type: 'image',
-                            render: function render(_ref3) {
-                                var open = _ref3.open;
-
-                                if (featureIcon) {
-                                    return wp.element.createElement(
-                                        Fragment,
-                                        null,
-                                        wp.element.createElement('span', {
-                                            onClick: open,
-                                            className: 'dashicons dashicons-edit edit-image'
-                                        }),
-                                        wp.element.createElement('img', { src: featureIcon, alt: 'icon' })
-                                    );
-                                } else {
-                                    return wp.element.createElement(
-                                        Button,
-                                        { onClick: open, className: 'button button-large' },
-                                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
-                                        ' ',
-                                        'Upload Icon'
-                                    );
-                                }
-                            }
-                        })
-                    ),
-                    wp.element.createElement(
-                        'div',
-                        { className: 'amp-feature-content' },
-                        wp.element.createElement(RichText, {
-                            tagName: 'h3',
-                            placeholder: 'Live',
-                            className: 'feature-status',
-                            value: featureStatusTitle,
-                            style: {
-                                color: featureStatusColor
-                            },
-                            onChange: function onChange(featureStatusTitle) {
-                                setAttributes({ featureStatusTitle: featureStatusTitle });
-                            }
-                        }),
-                        wp.element.createElement(RichText, {
-                            tagName: 'h2',
-                            placeholder: 'Creating the World',
-                            className: 'feature-title',
-                            value: featureTitle,
-                            style: {
-                                color: featureTitleColor
-                            },
-                            onChange: function onChange(featureTitle) {
-                                setAttributes({ featureTitle: featureTitle });
-                            }
-                        }),
-                        wp.element.createElement(RichText, {
-                            tagName: 'h4',
-                            placeholder: 'Author',
-                            className: 'feature-author',
-                            value: featureAuthor,
-                            style: {
-                                color: featureAuthorColor
-                            },
-                            onChange: function onChange(featureAuthor) {
-                                setAttributes({ featureAuthor: featureAuthor });
-                            }
-                        }),
-                        wp.element.createElement(RichText, {
-                            tagName: 'p',
-                            placeholder: 'Discription',
-                            className: 'feature-disc',
-                            value: featureDisc,
-                            style: {
-                                color: featureDiscColor
-                            },
-                            onChange: function onChange(featureDisc) {
-                                setAttributes({ featureDisc: featureDisc });
-                            }
-                        }),
-                        !featureLikeToggle && wp.element.createElement(RichText, {
-                            tagName: 'div',
-                            className: 'button-wrap btn-react',
-                            value: featureLike,
-                            onChange: function onChange(featureLike) {
-                                setAttributes({ featureLike: featureLike });
-                            }
-                        }),
-                        !featureJoinToggle && wp.element.createElement(RichText, {
-                            tagName: 'div',
-                            className: 'button-wrap btn-link',
-                            value: featureJoinBtn,
-                            onChange: function onChange(featureJoinBtn) {
-                                setAttributes({ featureJoinBtn: featureJoinBtn });
-                            }
-                        })
-                    )
+                  'div',
+                  { className: 'inspector-field-inner' },
+                  wp.element.createElement(ToggleControl, {
+                    label: __('Background Repeat '),
+                    checked: backgroundRepeat,
+                    onChange: function onChange(backgroundRepeat) {
+                      setAttributes({ backgroundRepeat: backgroundRepeat });
+                    }
+                  }),
+                  wp.element.createElement(SelectControl, {
+                    label: __('background size'),
+                    value: backgroundSize,
+                    options: [{ label: __('auto'), value: 'auto' }, { label: __('cover'), value: 'cover' }, { label: __('contain'), value: 'contain' }, { label: __('initial'), value: 'initial' }, { label: __('inherit'), value: 'inherit' }],
+                    onChange: function onChange(value) {
+                      setAttributes({
+                        backgroundSize: value
+                      });
+                    }
+                  }),
+                  wp.element.createElement(SelectControl, {
+                    label: __('Select Position'),
+                    value: backgroundPosition,
+                    options: [{ label: __('inherit'), value: 'inherit' }, { label: __('initial'), value: 'initial' }, { label: __('bottom'), value: 'bottom' }, { label: __('center'), value: 'center' }, { label: __('left'), value: 'left' }, { label: __('right'), value: 'right' }, { label: __('top'), value: 'top' }, { label: __('unset'), value: 'unset' }, {
+                      label: __('center center'),
+                      value: 'center center'
+                    }, { label: __('left top'), value: 'left top' }, { label: __('left center'), value: 'left center' }, { label: __('left bottom'), value: 'left bottom' }, { label: __('right top'), value: 'right top' }, { label: __('right center'), value: 'right center' }, { label: __('right bottom'), value: 'right bottom' }, { label: __('center top'), value: 'center top' }, { label: __('center bottom'), value: 'center bottom' }],
+                    onChange: function onChange(value) {
+                      return setAttributes({ backgroundPosition: value });
+                    }
+                  })
                 )
-            )];
-        },
-        save: function save(_ref4) {
-            var attributes = _ref4.attributes;
-            var backgroundColor = attributes.backgroundColor,
-                backgroundImage = attributes.backgroundImage,
-                backgroundSize = attributes.backgroundSize,
-                backgroundRepeat = attributes.backgroundRepeat,
-                backgroundPosition = attributes.backgroundPosition,
-                featureIcon = attributes.featureIcon,
-                featureStatusTitle = attributes.featureStatusTitle,
-                featureStatusColor = attributes.featureStatusColor,
-                featureTitle = attributes.featureTitle,
-                featureTitleColor = attributes.featureTitleColor,
-                featureAuthor = attributes.featureAuthor,
-                featureAuthorColor = attributes.featureAuthorColor,
-                featureDisc = attributes.featureDisc,
-                featureDiscColor = attributes.featureDiscColor,
-                featureLike = attributes.featureLike,
-                featureLikeToggle = attributes.featureLikeToggle,
-                featureJoinBtn = attributes.featureJoinBtn,
-                featureJoinToggle = attributes.featureJoinToggle;
-
-
-            var backroundStyle = {};
-            backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
-            backgroundImage && (backroundStyle.backgroundImage = 'url(' + backgroundImage + ')');
-            backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
-            backgroundRepeat && (backroundStyle.backgroundRepeat = "no-repeat");
-            backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
-
-            return wp.element.createElement(
+              ) : wp.element.createElement(
                 'div',
-                { className: 'amp-feature-block', style: backroundStyle },
+                { className: 'inspector-field-inner' },
                 wp.element.createElement(
-                    'div',
-                    { className: 'amp-feature-block-inner' },
-                    featureIcon && wp.element.createElement(
-                        'div',
-                        { className: 'feature-icon' },
-                        wp.element.createElement('img', { src: featureIcon, alt: 'icon' })
-                    ),
-                    wp.element.createElement(
-                        'div',
-                        { className: 'amp-feature-content' },
-                        featureStatusTitle && wp.element.createElement(RichText.Content, {
-                            tagName: 'h3',
-                            value: featureStatusTitle,
-                            style: {
-                                color: featureStatusColor
-                            },
-                            className: 'feature-status'
-                        }),
-                        featureTitle && wp.element.createElement(RichText.Content, {
-                            tagName: 'h2',
-                            value: featureTitle,
-                            style: {
-                                color: featureTitleColor
-                            },
-                            className: 'feature-title'
-                        }),
-                        featureAuthor && wp.element.createElement(RichText.Content, {
-                            tagName: 'h4',
-                            value: featureAuthor,
-                            style: {
-                                color: featureAuthorColor
-                            },
-                            className: 'feature-author'
-                        }),
-                        featureDisc && wp.element.createElement(RichText.Content, {
-                            tagName: 'p',
-                            value: featureDisc,
-                            style: {
-                                color: featureDiscColor
-                            },
-                            className: 'feature-disc'
-                        }),
-                        !featureLikeToggle && wp.element.createElement(RichText.Content, {
-                            tagName: 'div',
-                            className: 'button-wrap btn-react',
-                            value: featureLike,
-                            onChange: function onChange(featureLike) {
-                                setAttributes({ featureLike: featureLike });
-                            }
-                        }),
-                        !featureJoinToggle && wp.element.createElement(RichText.Content, {
-                            tagName: 'div',
-                            className: 'button-wrap btn-link',
-                            value: featureJoinBtn
-                        })
-                    )
-                )
-            );
-        }
-    });
+                  'label',
+                  null,
+                  'Background Color'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: backgroundColor,
+                  onChange: function onChange(backgroundColor) {
+                    return setAttributes({ backgroundColor: backgroundColor });
+                  }
+                })
+              )
+            )
+          ),
+          wp.element.createElement(
+            PanelBody,
+            { title: 'Typography', initialOpen: false },
+            wp.element.createElement(
+              'div',
+              { className: 'inspector-field' },
+              wp.element.createElement(
+                'label',
+                null,
+                'Status Color:'
+              ),
+              wp.element.createElement(ColorPalette, {
+                value: featureStatusColor,
+                onChange: function onChange(featureStatusColor) {
+                  return setAttributes({ featureStatusColor: featureStatusColor });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inspector-field' },
+              wp.element.createElement(
+                'label',
+                null,
+                'Title Color:'
+              ),
+              wp.element.createElement(ColorPalette, {
+                value: featureTitleColor,
+                onChange: function onChange(featureTitleColor) {
+                  return setAttributes({ featureTitleColor: featureTitleColor });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inspector-field' },
+              wp.element.createElement(
+                'label',
+                null,
+                'Author Color:'
+              ),
+              wp.element.createElement(ColorPalette, {
+                value: featureAuthorColor,
+                onChange: function onChange(featureAuthorColor) {
+                  return setAttributes({ featureAuthorColor: featureAuthorColor });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inspector-field' },
+              wp.element.createElement(
+                'label',
+                null,
+                'Discription Color:'
+              ),
+              wp.element.createElement(ColorPalette, {
+                value: featureDiscColor,
+                onChange: function onChange(featureDiscColor) {
+                  return setAttributes({ featureDiscColor: featureDiscColor });
+                }
+              })
+            )
+          ),
+          wp.element.createElement(
+            PanelBody,
+            { title: 'Button Settings', initialOpen: false },
+            wp.element.createElement(ToggleControl, {
+              label: 'Hide Reaction',
+              checked: featureLikeToggle,
+              onChange: function onChange(featureLikeToggle) {
+                setAttributes({ featureLikeToggle: featureLikeToggle });
+              }
+            }),
+            wp.element.createElement(ToggleControl, {
+              label: 'Hide Button',
+              checked: featureJoinToggle,
+              onChange: function onChange(featureJoinToggle) {
+                setAttributes({ featureJoinToggle: featureJoinToggle });
+              }
+            }),
+            wp.element.createElement(TextControl, {
+              value: featureJoinBtn,
+              type: 'text',
+              label: 'Button Label',
+              placeholder: '',
+              onChange: function onChange(featureJoinBtn) {
+                setAttributes({ featureJoinBtn: featureJoinBtn });
+              }
+            }),
+            wp.element.createElement(TextControl, {
+              value: featureJoinBtnLink,
+              type: 'url',
+              label: 'Button Link',
+              placeholder: 'https://google.com/',
+              onChange: function onChange(featureJoinBtnLink) {
+                setAttributes({ featureJoinBtnLink: featureJoinBtnLink });
+              }
+            }),
+            wp.element.createElement(ToggleControl, {
+              label: 'Open in new Tab',
+              checked: featureJoinBtnTarget,
+              onChange: function onChange(featureJoinBtnTarget) {
+                setAttributes({ featureJoinBtnTarget: featureJoinBtnTarget });
+              }
+            }),
+            wp.element.createElement(TextControl, {
+              value: featureIconLink,
+              type: 'url',
+              label: 'Play Button Link',
+              placeholder: 'https://google.com/',
+              onChange: function onChange(featureIconLink) {
+                setAttributes({ featureIconLink: featureIconLink });
+              }
+            }),
+            wp.element.createElement(ToggleControl, {
+              label: 'Open in new Tab',
+              checked: featureIconLinkTarget,
+              onChange: function onChange(featureIconLinkTarget) {
+                setAttributes({ featureIconLinkTarget: featureIconLinkTarget });
+              }
+            })
+          )
+        )
+      ), wp.element.createElement(
+        'div',
+        { className: 'amp-feature-block', style: backroundStyle },
+        wp.element.createElement(
+          'div',
+          { className: 'amp-feature-block-inner' },
+          wp.element.createElement(
+            'span',
+            { className: 'edit-feature-block edit-block-icon' },
+            wp.element.createElement('i', { className: 'fa fa-pencil' })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'feature-icon' },
+            wp.element.createElement(MediaUpload, {
+              onSelect: function onSelect(featureIcon) {
+                setAttributes({
+                  featureIcon: featureIcon ? featureIcon.sizes.full.url : ''
+                });
+              },
+              type: 'image',
+              render: function render(_ref3) {
+                var open = _ref3.open;
+
+                if (featureIcon) {
+                  return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement('span', {
+                      onClick: open,
+                      className: 'dashicons dashicons-edit edit-image'
+                    }),
+                    featureIconLink ? wp.element.createElement(
+                      'a',
+                      {
+                        href: featureIconLink,
+                        target: linkTarget,
+                        rel: 'noopener noreferrer'
+                      },
+                      wp.element.createElement('img', { src: featureIcon, alt: 'icon' })
+                    ) : wp.element.createElement('img', { src: featureIcon, alt: 'icon' })
+                  );
+                } else {
+                  return wp.element.createElement(
+                    Button,
+                    { onClick: open, className: 'button button-large' },
+                    wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                    ' ',
+                    'Upload Icon'
+                  );
+                }
+              }
+            })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'amp-feature-content' },
+            wp.element.createElement(RichText, {
+              tagName: 'h3',
+              placeholder: 'Live',
+              className: 'feature-status',
+              value: featureStatusTitle,
+              style: {
+                color: featureStatusColor
+              },
+              onChange: function onChange(featureStatusTitle) {
+                setAttributes({ featureStatusTitle: featureStatusTitle });
+              }
+            }),
+            wp.element.createElement(RichText, {
+              tagName: 'h2',
+              placeholder: 'Creating the World',
+              className: 'feature-title',
+              value: featureTitle,
+              style: {
+                color: featureTitleColor
+              },
+              onChange: function onChange(featureTitle) {
+                setAttributes({ featureTitle: featureTitle });
+              }
+            }),
+            wp.element.createElement(RichText, {
+              tagName: 'h4',
+              placeholder: 'Author',
+              className: 'feature-author',
+              value: featureAuthor,
+              style: {
+                color: featureAuthorColor
+              },
+              onChange: function onChange(featureAuthor) {
+                setAttributes({ featureAuthor: featureAuthor });
+              }
+            }),
+            wp.element.createElement(RichText, {
+              tagName: 'p',
+              placeholder: 'Discription',
+              className: 'feature-disc',
+              value: featureDisc,
+              style: {
+                color: featureDiscColor
+              },
+              onChange: function onChange(featureDisc) {
+                setAttributes({ featureDisc: featureDisc });
+              }
+            }),
+            !featureLikeToggle && wp.element.createElement(RichText, {
+              tagName: 'div',
+              placeholder: __('Add Reactions'),
+              className: 'shortcode-wrap',
+              value: shortcode,
+              onChange: function onChange(value) {
+                value = value.replace(/&lt;!--td.*}--><br>/, '');
+                value = value.replace(/<br>.*}<br>/, '');
+                value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                setAttributes({ shortcode: value });
+              }
+            }),
+            !featureJoinToggle && wp.element.createElement(
+              'div',
+              { className: 'button-wrap btn-link' },
+              wp.element.createElement(
+                'a',
+                { href: featureJoinBtnLink, target: featureJoinBtnTarget ? '_blank' : '_self', rel: 'noopener noreferrer' },
+                featureJoinBtn
+              )
+            )
+          )
+        )
+      )];
+    },
+    save: function save(_ref4) {
+      var attributes = _ref4.attributes;
+      var backgroundColor = attributes.backgroundColor,
+          backgroundImage = attributes.backgroundImage,
+          backgroundSize = attributes.backgroundSize,
+          backgroundRepeat = attributes.backgroundRepeat,
+          backgroundPosition = attributes.backgroundPosition,
+          featureIcon = attributes.featureIcon,
+          featureIconLink = attributes.featureIconLink,
+          featureIconLinkTarget = attributes.featureIconLinkTarget,
+          featureStatusTitle = attributes.featureStatusTitle,
+          featureStatusColor = attributes.featureStatusColor,
+          featureTitle = attributes.featureTitle,
+          featureTitleColor = attributes.featureTitleColor,
+          featureAuthor = attributes.featureAuthor,
+          featureAuthorColor = attributes.featureAuthorColor,
+          featureDisc = attributes.featureDisc,
+          featureDiscColor = attributes.featureDiscColor,
+          shortcode = attributes.shortcode,
+          featureLikeToggle = attributes.featureLikeToggle,
+          featureJoinBtn = attributes.featureJoinBtn,
+          featureJoinToggle = attributes.featureJoinToggle,
+          featureJoinBtnLink = attributes.featureJoinBtnLink,
+          featureJoinBtnTarget = attributes.featureJoinBtnTarget;
+
+
+      var backroundStyle = {};
+      var linkTarget = featureIconLinkTarget ? '_blank' : '_self';
+      backgroundColor && (backroundStyle.backgroundColor = backgroundColor);
+      backgroundImage && (backroundStyle.backgroundImage = 'url(' + backgroundImage + ')');
+      backgroundPosition && (backroundStyle.backgroundPosition = backgroundPosition);
+      backgroundRepeat && (backroundStyle.backgroundRepeat = 'no-repeat');
+      backgroundSize && (backroundStyle.backgroundSize = backgroundSize);
+
+      return wp.element.createElement(
+        'div',
+        { className: 'amp-feature-block', style: backroundStyle },
+        wp.element.createElement(
+          'div',
+          { className: 'amp-feature-block-inner' },
+          wp.element.createElement(
+            'span',
+            { className: 'edit-feature-block edit-block-icon' },
+            wp.element.createElement('i', { className: 'fa fa-pencil' })
+          ),
+          featureIcon && wp.element.createElement(
+            'div',
+            { className: 'feature-icon' },
+            featureIconLink ? wp.element.createElement(
+              'a',
+              {
+                href: featureIconLink,
+                target: linkTarget,
+                rel: 'noopener noreferrer'
+              },
+              wp.element.createElement('img', { src: featureIcon, alt: 'icon' })
+            ) : wp.element.createElement('img', { src: featureIcon, alt: 'icon' })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'amp-feature-content' },
+            featureStatusTitle && wp.element.createElement(RichText.Content, {
+              tagName: 'h3',
+              value: featureStatusTitle,
+              style: {
+                color: featureStatusColor
+              },
+              className: 'feature-status'
+            }),
+            featureTitle && wp.element.createElement(RichText.Content, {
+              tagName: 'h2',
+              value: featureTitle,
+              style: {
+                color: featureTitleColor
+              },
+              className: 'feature-title'
+            }),
+            featureAuthor && wp.element.createElement(RichText.Content, {
+              tagName: 'h4',
+              value: featureAuthor,
+              style: {
+                color: featureAuthorColor
+              },
+              className: 'feature-author'
+            }),
+            featureDisc && wp.element.createElement(RichText.Content, {
+              tagName: 'p',
+              value: featureDisc,
+              style: {
+                color: featureDiscColor
+              },
+              className: 'feature-disc'
+            }),
+            !featureLikeToggle && shortcode && wp.element.createElement(RichText.Content, {
+              tagName: 'div',
+              className: 'shortcode-wrap',
+              value: shortcode
+            }),
+            !featureJoinToggle && wp.element.createElement(
+              'div',
+              { className: 'button-wrap btn-link' },
+              wp.element.createElement(
+                'a',
+                { href: featureJoinBtnLink, target: featureJoinBtnTarget ? '_blank' : '_self', rel: 'noopener noreferrer' },
+                featureJoinBtn
+              )
+            )
+          )
+        )
+      );
+    }
+  });
 })(wp.i18n, wp.blocks, wp.blockEditor, wp.components, wp.element);
 
 /***/ }),
@@ -2931,7 +3054,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement, wpBlockEditor) {
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
   var Fragment = wpElement.Fragment,
@@ -2945,6 +3068,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       TextControl = wpComponents.TextControl,
       Tooltip = wpComponents.Tooltip,
       Button = wpComponents.Button;
+  var ColorPalette = wpBlockEditor.ColorPalette;
 
   var ItemComponent = function (_Component) {
     _inherits(ItemComponent, _Component);
@@ -3009,7 +3133,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var _props2 = this.props,
             attributes = _props2.attributes,
             setAttributes = _props2.setAttributes;
-        var dataArray = attributes.dataArray;
+        var dataArray = attributes.dataArray,
+            headerTitle = attributes.headerTitle,
+            headerTitleColor = attributes.headerTitleColor,
+            headerLink = attributes.headerLink,
+            headerLinkColor = attributes.headerLinkColor,
+            backgroundColor = attributes.backgroundColor;
 
 
         var getImageButton = function getImageButton(openEvent, index) {
@@ -3023,7 +3152,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
               }),
               wp.element.createElement('img', {
                 src: dataArray[index].media,
-                alt: dataArray[index].title,
+                alt: dataArray[index].mediaAlt,
                 className: 'img'
               })
             );
@@ -3089,7 +3218,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             ),
             wp.element.createElement(
               'div',
-              { className: 'inner' },
+              { className: 'inner', style: { backgroundColor: backgroundColor } },
               wp.element.createElement(
                 'div',
                 { className: 'left' },
@@ -3097,6 +3226,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   onSelect: function onSelect(media) {
                     var arrayCopy = [].concat(_toConsumableArray(dataArray));
                     arrayCopy[index].media = media.url;
+                    arrayCopy[index].mediaAlt = media.alt;
                     setAttributes({ dataArray: arrayCopy });
                   },
                   type: 'image',
@@ -3168,39 +3298,115 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             null,
             wp.element.createElement(
               PanelBody,
-              { title: 'General Settings' },
+              { title: 'Color Settings' },
               wp.element.createElement(
-                PanelRow,
-                null,
-                'Test'
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Title Color'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: headerTitleColor,
+                  onChange: function onChange(headerTitleColor) {
+                    return setAttributes({ headerTitleColor: headerTitleColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Link Color'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: headerLinkColor,
+                  onChange: function onChange(headerLinkColor) {
+                    return setAttributes({ headerLinkColor: headerLinkColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Background Color'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: backgroundColor,
+                  onChange: function onChange(backgroundColor) {
+                    return setAttributes({ backgroundColor: backgroundColor });
+                  }
+                })
               )
             )
           ),
           wp.element.createElement(
             'div',
             { className: 'upcoming-events-calendar' },
-            itemList,
             wp.element.createElement(
               'div',
-              { className: 'item additem' },
+              { className: 'upcoming-events-header' },
+              wp.element.createElement(RichText, {
+                tagName: 'h2',
+                placeholder: __('Title'),
+                value: headerTitle,
+                keepPlaceholderOnFocus: 'true',
+                className: 'header-title',
+                style: { color: headerTitleColor },
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  setAttributes({ headerTitle: value });
+                }
+              }),
+              wp.element.createElement(RichText, {
+                tagName: 'span',
+                placeholder: __('View All'),
+                value: headerLink,
+                keepPlaceholderOnFocus: 'true',
+                className: 'header-link',
+                style: { color: headerLinkColor },
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  setAttributes({ headerLink: value });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'upcoming-events-body' },
+              itemList,
               wp.element.createElement(
-                'button',
-                {
-                  className: 'components-button add',
-                  onClick: function onClick(content) {
-                    setAttributes({
-                      dataArray: [].concat(_toConsumableArray(dataArray), [{
-                        index: dataArray.length,
-                        title: '',
-                        subTitle: '',
-                        description: '',
-                        media: ''
-                      }])
-                    });
-                  }
-                },
-                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
-                ' Add New Item'
+                'div',
+                { className: 'item additem' },
+                wp.element.createElement(
+                  'button',
+                  {
+                    className: 'components-button add',
+                    onClick: function onClick(content) {
+                      setAttributes({
+                        dataArray: [].concat(_toConsumableArray(dataArray), [{
+                          index: dataArray.length,
+                          title: '',
+                          subTitle: '',
+                          description: '',
+                          media: ''
+                        }])
+                      });
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                  ' Add New Item'
+                )
               )
             )
           )
@@ -3221,13 +3427,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       dataArray: {
         type: 'array',
         default: []
+      },
+      headerTitle: {
+        type: 'string',
+        default: ''
+      },
+      headerTitleColor: {
+        type: 'string',
+        default: '#fdd80f'
+      },
+      headerLink: {
+        type: 'string',
+        default: '<a href="#" class="view-all">View All</a>'
+      },
+      headerLinkColor: {
+        type: 'string',
+        default: '#999'
+      },
+      backgroundColor: {
+        type: 'string',
+        default: '#333'
       }
     },
     edit: ItemComponent,
 
     save: function save(props) {
       var attributes = props.attributes;
-      var dataArray = attributes.dataArray;
+      var dataArray = attributes.dataArray,
+          headerTitle = attributes.headerTitle,
+          headerTitleColor = attributes.headerTitleColor,
+          headerLink = attributes.headerLink,
+          headerLinkColor = attributes.headerLinkColor,
+          backgroundColor = attributes.backgroundColor;
 
 
       return wp.element.createElement(
@@ -3236,53 +3467,73 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         wp.element.createElement(
           'div',
           { className: 'upcoming-events-calendar' },
-          dataArray.map(function (data, index) {
-            return wp.element.createElement(
-              Fragment,
-              null,
-              data.title && wp.element.createElement(
-                'div',
-                { className: 'item' },
-                wp.element.createElement(
+          wp.element.createElement(
+            'div',
+            { className: 'upcoming-events-header' },
+            headerTitle && wp.element.createElement(RichText.Content, {
+              tagName: 'h2',
+              value: headerTitle,
+              className: 'header-title',
+              style: { color: headerTitleColor }
+            }),
+            headerLink && wp.element.createElement(RichText.Content, {
+              tagName: 'span',
+              value: headerLink,
+              className: 'header-link',
+              style: { color: headerLinkColor }
+            })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'upcoming-events-body' },
+            dataArray.map(function (data, index) {
+              return wp.element.createElement(
+                Fragment,
+                null,
+                data.title && wp.element.createElement(
                   'div',
-                  { className: 'inner' },
+                  { className: 'item' },
                   wp.element.createElement(
                     'div',
-                    { className: 'left' },
-                    data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                    { className: 'inner', style: { backgroundColor: backgroundColor } },
+                    wp.element.createElement(
                       'div',
-                      { className: 'no-image' },
-                      'No Image'
+                      { className: 'left' },
+                      data.media ? wp.element.createElement('img', { src: data.media, alt: data.mediaAlt }) : wp.element.createElement(
+                        'div',
+                        { className: 'no-image' },
+                        'No Image'
+                      )
+                    ),
+                    wp.element.createElement(
+                      'div',
+                      { className: 'right' },
+                      data.title && wp.element.createElement(RichText.Content, {
+                        tagName: 'h3',
+                        value: data.title,
+                        className: 'title'
+                      }),
+                      data.subTitle && wp.element.createElement(RichText.Content, {
+                        tagName: 'strong',
+                        value: data.subTitle,
+                        className: 'sub-title'
+                      }),
+                      data.description && wp.element.createElement(RichText.Content, {
+                        tagName: 'p',
+                        value: data.description,
+                        className: 'description'
+                      })
                     )
-                  ),
-                  wp.element.createElement(
-                    'div',
-                    { className: 'right' },
-                    data.title && wp.element.createElement(RichText.Content, {
-                      tagName: 'h3',
-                      value: data.title,
-                      className: 'title'
-                    }),
-                    data.subTitle && wp.element.createElement(RichText.Content, {
-                      tagName: 'strong',
-                      value: data.subTitle,
-                      className: 'sub-title'
-                    }),
-                    data.description && wp.element.createElement(RichText.Content, {
-                      tagName: 'p',
-                      value: data.description,
-                      className: 'description'
-                    })
                   )
                 )
-              )
-            );
-          })
+              );
+            })
+          )
         )
       );
     }
   });
-})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element, wp.blockEditor);
 
 /***/ }),
 /* 7 */
@@ -3298,7 +3549,885 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement, wpBlockEditor) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment,
+      Component = wpElement.Component;
+  var InspectorControls = wpEditor.InspectorControls,
+      RichText = wpEditor.RichText,
+      MediaUpload = wpEditor.MediaUpload;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      ToggleControl = wpComponents.ToggleControl,
+      TextControl = wpComponents.TextControl,
+      Tooltip = wpComponents.Tooltip,
+      Button = wpComponents.Button;
+  var ColorPalette = wpBlockEditor.ColorPalette;
+
+
+  jQuery(document).on('click', '.video-icon img', function () {
+    jQuery(this).parents('.video-icon').toggleClass('showVideoLinkPopup');
+  });
+
+  jQuery(document).on('click', '.video-icon .play_link_popup .remove', function () {
+    jQuery(this).parents('.video-icon').removeClass('showVideoLinkPopup');
+  });
+
+  var ItemComponent = function (_Component) {
+    _inherits(ItemComponent, _Component);
+
+    function ItemComponent(props) {
+      _classCallCheck(this, ItemComponent);
+
+      var _this = _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).call(this, props));
+
+      _this.state = { popup: false };
+      _this.addNewItem = _this.addNewItem.bind(_this);
+      return _this;
+    }
+
+    _createClass(ItemComponent, [{
+      key: 'addNewItem',
+      value: function addNewItem(name) {
+        var dataArray = this.props.attributes.dataArray;
+        var setAttributes = this.props.setAttributes;
+
+        var attr = void 0;
+        if (name == 'option-1') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            advertising: 'Sponsored',
+            media: '',
+            mediaAlt: '',
+            title: '',
+            subTitle: '',
+            buttonText: '<a href="#" class="btn">Learn More</a>'
+          };
+        }
+        if (name == 'option-2') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            bgMedia: '',
+            media: '',
+            mediaAlt: '',
+            videoIcon: '',
+            videoIconLink: '',
+            videoIconLinkTarget: '',
+            videoLinkPopup: false,
+            title: '',
+            subTitle: '',
+            date: '',
+            shortcode: '',
+            buttonText: '<a href="#" class="btn">Watch</a>'
+          };
+        }
+
+        if (name == 'option-3') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            advertising: 'Sponsored',
+            media: '',
+            mediaAlt: '',
+            buttonText: '<a href="#" class="btn">Learn More</a>'
+          };
+        }
+
+        if (name == 'option-4') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            bgMedia: '',
+            media: '',
+            mediaAlt: '',
+            title: '',
+            subTitle: '',
+            buttonText: '<a href="#" class="btn">Message</a>'
+          };
+        }
+
+        if (name == 'option-5') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            bgMedia: '',
+            title: '',
+            subTitle: '',
+            buttonText: '<a href="#" class="btn">View Product</a>',
+            bookmark: ''
+          };
+        }
+
+        if (name == 'option-6') {
+          attr = {
+            index: dataArray.length,
+            option: name,
+            advertising: 'Sponsored',
+            media: '',
+            mediaAlt: '',
+            shortcode: '',
+            bookmark: ''
+          };
+        }
+
+        setAttributes({
+          dataArray: [].concat(_toConsumableArray(dataArray), [attr])
+        });
+        this.setState({
+          popup: false
+        });
+      }
+    }, {
+      key: 'moveItem',
+      value: function moveItem(oldIndex, newIndex) {
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes;
+        var dataArray = attributes.dataArray;
+
+
+        var copyData = [].concat(_toConsumableArray(dataArray));
+
+        copyData[oldIndex] = dataArray[newIndex];
+        copyData[newIndex] = dataArray[oldIndex];
+
+        setAttributes({
+          dataArray: copyData
+        });
+
+        this.forceUpdate();
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var _props2 = this.props,
+            attributes = _props2.attributes,
+            setAttributes = _props2.setAttributes;
+        var popup = this.state.popup;
+        var dataArray = attributes.dataArray,
+            headerTitle = attributes.headerTitle,
+            headerTitleColor = attributes.headerTitleColor,
+            backgroundColor = attributes.backgroundColor;
+
+
+        var itemList = dataArray.map(function (data, index) {
+          return wp.element.createElement(
+            'div',
+            { className: 'item ' + data.option },
+            wp.element.createElement(
+              'div',
+              { className: 'settings' },
+              wp.element.createElement(
+                'div',
+                { className: 'move-item-controls' },
+                0 < index && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Left' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-left-alt2 move-left',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index - 1);
+                    }
+                  })
+                ),
+                index + 1 < dataArray.length && wp.element.createElement(
+                  Tooltip,
+                  { text: 'Move Right' },
+                  wp.element.createElement('span', {
+                    className: 'dashicons dashicons-arrow-right-alt2 move-right',
+                    onClick: function onClick() {
+                      return _this2.moveItem(index, index + 1);
+                    }
+                  })
+                )
+              ),
+              wp.element.createElement('span', {
+                className: 'dashicons dashicons-no-alt remove',
+                onClick: function onClick() {
+                  var qewQusote = dataArray.filter(function (item) {
+                    return item.index != data.index;
+                  }).map(function (t) {
+                    if (t.index > data.index) {
+                      t.index -= 1;
+                    }
+
+                    return t;
+                  });
+
+                  setAttributes({
+                    dataArray: qewQusote
+                  });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'inner', style: { backgroundColor: backgroundColor } },
+              data.option == 'option-1' || data.option == 'option-4' ? wp.element.createElement(
+                'div',
+                { className: 'background-image' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].bgMedia = media.url;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  render: function render(_ref) {
+                    var open = _ref.open;
+
+                    if (data.bgMedia) {
+                      return wp.element.createElement(
+                        Fragment,
+                        null,
+                        wp.element.createElement('span', {
+                          onClick: open,
+                          className: 'dashicons dashicons-edit edit-image'
+                        }),
+                        wp.element.createElement('img', { src: data.bgMedia })
+                      );
+                    } else {
+                      return wp.element.createElement(
+                        Button,
+                        {
+                          onClick: open,
+                          className: 'button button-large'
+                        },
+                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                        'Upload Cover Image'
+                      );
+                    }
+                  }
+                })
+              ) : null,
+              data.option == 'option-1' || data.option == 'option-3' || data.option == 'option-6' ? wp.element.createElement(
+                'div',
+                { className: 'advertising' },
+                wp.element.createElement(RichText, {
+                  tagName: 'span',
+                  placeholder: __('Sponsored'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.advertising,
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].advertising = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                })
+              ) : null,
+              ('option-2' === data.option || 'option-5' === data.option) && wp.element.createElement(RichText, {
+                tagName: 'div',
+                placeholder: __('Bookmark'),
+                value: data.bookmark,
+                keepPlaceholderOnFocus: 'true',
+                className: 'bookmark-wrap',
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                  arrayCopy[index].bookmark = value;
+                  setAttributes({ dataArray: arrayCopy });
+                }
+              }),
+              data.option !== 'option-6' ? wp.element.createElement(
+                'div',
+                { className: 'image' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].media = media.url;
+                    arrayCopy[index].mediaAlt = media.alt;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  render: function render(_ref2) {
+                    var open = _ref2.open;
+
+                    if (data.media) {
+                      return wp.element.createElement(
+                        Fragment,
+                        null,
+                        wp.element.createElement('span', {
+                          onClick: open,
+                          className: 'dashicons dashicons-edit edit-image'
+                        }),
+                        'option-2' === data.option && wp.element.createElement('span', {
+                          className: 'dashicons dashicons-no-alt remove',
+                          onClick: function onClick() {
+                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                            arrayCopy[index].media = '';
+                            arrayCopy[index].mediaAlt = '';
+                            setAttributes({ dataArray: arrayCopy });
+                          }
+                        }),
+                        wp.element.createElement('img', { src: data.media, alt: data.alt })
+                      );
+                    } else {
+                      return wp.element.createElement(
+                        Button,
+                        { onClick: open, className: 'button button-large' },
+                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                        ' ',
+                        'Upload Image'
+                      );
+                    }
+                  }
+                })
+              ) : null,
+              data.option == 'option-2' ? wp.element.createElement(
+                'div',
+                { className: 'video-icon' },
+                wp.element.createElement(MediaUpload, {
+                  onSelect: function onSelect(media) {
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].videoIcon = media.url;
+                    setAttributes({ dataArray: arrayCopy });
+                  },
+                  type: 'image',
+                  render: function render(_ref3) {
+                    var open = _ref3.open;
+
+                    if (data.videoIcon) {
+                      return wp.element.createElement(
+                        Fragment,
+                        null,
+                        wp.element.createElement('span', {
+                          onClick: open,
+                          className: 'dashicons dashicons-edit edit-image'
+                        }),
+                        wp.element.createElement('span', {
+                          className: 'dashicons dashicons-no-alt remove',
+                          onClick: function onClick() {
+                            var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                            arrayCopy[index].videoIcon = '';
+                            setAttributes({ dataArray: arrayCopy });
+                          }
+                        }),
+                        wp.element.createElement(
+                          'div',
+                          { className: 'play_link_popup' },
+                          wp.element.createElement('span', { className: 'dashicons dashicons-no-alt remove' }),
+                          wp.element.createElement(TextControl, {
+                            value: data.videoIconLink,
+                            type: 'url',
+                            placeholder: 'https://google.com/',
+                            onChange: function onChange(value) {
+                              var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                              arrayCopy[index].videoIconLink = value;
+                              setAttributes({ dataArray: arrayCopy });
+                            }
+                          }),
+                          wp.element.createElement(ToggleControl, {
+                            label: 'Open in new Tab',
+                            checked: data.videoIconLinkTarget,
+                            onChange: function onChange(value) {
+                              var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                              arrayCopy[index].videoIconLinkTarget = value;
+                              setAttributes({ dataArray: arrayCopy });
+                            }
+                          })
+                        ),
+                        wp.element.createElement('img', { src: data.videoIcon, alt: 'Play Icon' })
+                      );
+                    } else {
+                      return wp.element.createElement(
+                        Button,
+                        {
+                          onClick: open,
+                          className: 'button button-large'
+                        },
+                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
+                        'Upload Icon'
+                      );
+                    }
+                  }
+                })
+              ) : null,
+              wp.element.createElement(
+                'div',
+                { className: 'related-content-wrap' },
+                data.option !== 'option-3' && data.option !== 'option-6' && wp.element.createElement(
+                  Fragment,
+                  null,
+                  wp.element.createElement(RichText, {
+                    tagName: 'h2',
+                    placeholder: __('Title'),
+                    value: data.title,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'title',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].title = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  }),
+                  wp.element.createElement(RichText, {
+                    tagName: 'strong',
+                    placeholder: __('Sub Title'),
+                    value: data.subTitle,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'sub-title',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].subTitle = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  })
+                ),
+                data.option == 'option-2' && wp.element.createElement(
+                  Fragment,
+                  null,
+                  wp.element.createElement(RichText, {
+                    tagName: 'span',
+                    placeholder: __('date'),
+                    value: data.date,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'date',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].date = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  })
+                ),
+                data.option == 'option-2' && wp.element.createElement(
+                  'div',
+                  { className: 'bottom-container' },
+                  wp.element.createElement(RichText, {
+                    tagName: 'div',
+                    placeholder: __('Add Reactions'),
+                    value: data.shortcode,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'shortcode-wrap',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].shortcode = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  }),
+                  wp.element.createElement(RichText, {
+                    tagName: 'div',
+                    placeholder: __('Learn More'),
+                    value: data.buttonText,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'button-wrap',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].buttonText = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  })
+                ),
+                data.option !== 'option-6' && 'option-2' !== data.option && wp.element.createElement(RichText, {
+                  tagName: 'div',
+                  placeholder: __('Learn More'),
+                  value: data.buttonText,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'button-wrap',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].buttonText = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                data.option == 'option-6' && (wp.element.createElement(
+                  'label',
+                  null,
+                  'Shortcode'
+                ), wp.element.createElement(RichText, {
+                  tagName: 'div',
+                  placeholder: __('Add Shortcode'),
+                  value: data.shortcode,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'shortcode-wrap',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].shortcode = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }))
+              )
+            )
+          );
+        });
+
+        return wp.element.createElement(
+          Fragment,
+          null,
+          wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: 'Color Settings' },
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Header Title Color'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: headerTitleColor,
+                  onChange: function onChange(headerTitleColor) {
+                    return setAttributes({ headerTitleColor: headerTitleColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Background Color'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: backgroundColor,
+                  onChange: function onChange(backgroundColor) {
+                    return setAttributes({ backgroundColor: backgroundColor });
+                  }
+                })
+              )
+            )
+          ),
+          popup && wp.element.createElement(
+            'div',
+            { className: 'internal-popup' },
+            wp.element.createElement(
+              'div',
+              { className: 'popup-inner' },
+              wp.element.createElement('span', {
+                onClick: function onClick() {
+                  _this2.setState({
+                    popup: false
+                  });
+                },
+                className: 'dashicons dashicons-no-alt remove'
+              }),
+              wp.element.createElement(
+                'h3',
+                null,
+                'Select Item Layout:'
+              ),
+              wp.element.createElement(
+                'ul',
+                null,
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-1',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-1');
+                    }
+                  },
+                  'Option 1'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-2',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-2');
+                    }
+                  },
+                  'Option 2'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-3',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-3');
+                    }
+                  },
+                  'Option 3'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-4',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-4');
+                    }
+                  },
+                  'Option 4'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-5',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-5');
+                    }
+                  },
+                  'Option 5'
+                ),
+                wp.element.createElement(
+                  'li',
+                  {
+                    className: 'option-6',
+                    onClick: function onClick() {
+                      return _this2.addNewItem('option-6');
+                    }
+                  },
+                  'Option 6'
+                )
+              )
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'related-content' },
+            wp.element.createElement(
+              'div',
+              { className: 'related-content-header' },
+              wp.element.createElement(RichText, {
+                tagName: 'h2',
+                placeholder: __('Title'),
+                value: headerTitle,
+                keepPlaceholderOnFocus: 'true',
+                className: 'header-title',
+                style: { color: headerTitleColor },
+                onChange: function onChange(value) {
+                  value = value.replace(/&lt;!--td.*}--><br>/, '');
+                  value = value.replace(/<br>.*}<br>/, '');
+                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                  setAttributes({ headerTitle: value });
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'related-content-body' },
+              itemList,
+              wp.element.createElement(
+                'div',
+                { className: 'item addNewitem' },
+                wp.element.createElement(
+                  'button',
+                  {
+                    className: 'components-button add',
+                    onClick: function onClick() {
+                      _this2.setState({
+                        popup: true
+                      });
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                  ' Add New Item'
+                )
+              )
+            )
+          )
+        );
+      }
+    }]);
+
+    return ItemComponent;
+  }(Component);
+
+  registerBlockType('rg/related-content', {
+    title: __('Related Content multi layout'),
+    description: __('Related Content multi layout'),
+    icon: 'editor-code',
+    category: 'nab_amplify',
+    keywords: [__('Related Content'), __('gutenberg')],
+    attributes: {
+      dataArray: {
+        type: 'array',
+        default: []
+      },
+      headerTitle: {
+        type: 'string',
+        default: ''
+      },
+      headerTitleColor: {
+        type: 'string',
+        default: '#fdd80f'
+      },
+      backgroundColor: {
+        type: 'string',
+        default: '#303030'
+      }
+    },
+    edit: ItemComponent,
+
+    save: function save(props) {
+      var attributes = props.attributes;
+      var dataArray = attributes.dataArray,
+          headerTitle = attributes.headerTitle,
+          headerTitleColor = attributes.headerTitleColor,
+          backgroundColor = attributes.backgroundColor;
+
+
+      return wp.element.createElement(
+        Fragment,
+        null,
+        wp.element.createElement(
+          'div',
+          { className: 'related-content' },
+          wp.element.createElement(
+            'div',
+            { className: 'related-content-header' },
+            headerTitle && wp.element.createElement(RichText.Content, {
+              tagName: 'h2',
+              value: headerTitle,
+              className: 'header-title',
+              style: { color: headerTitleColor }
+            })
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'related-content-body' },
+            dataArray.map(function (data, index) {
+              return wp.element.createElement(
+                'div',
+                { className: 'item ' + data.option },
+                wp.element.createElement(
+                  'div',
+                  { className: 'inner', style: { backgroundColor: backgroundColor } },
+                  data.bgMedia && data.option == 'option-1' || data.option == 'option-4' ? wp.element.createElement(
+                    'div',
+                    { className: 'background-image' },
+                    wp.element.createElement('img', { src: data.bgMedia })
+                  ) : null,
+                  data.option == 'option-1' || data.option == 'option-3' || data.option == 'option-6' ? wp.element.createElement(
+                    'div',
+                    { className: 'advertising' },
+                    wp.element.createElement(RichText.Content, { tagName: 'span', value: data.advertising })
+                  ) : null,
+                  data.media && wp.element.createElement(
+                    'div',
+                    { className: 'image' },
+                    wp.element.createElement('img', { src: data.media, alt: data.mediaAlt })
+                  ),
+                  'option-2' === data.option && data.bookmark && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.bookmark,
+                    className: 'bookmark-wrap'
+                  }),
+                  'option-5' === data.option && data.bookmark && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.bookmark,
+                    className: 'bookmark-wrap'
+                  }),
+                  data.videoIcon && wp.element.createElement(
+                    'div',
+                    { className: 'video-icon' },
+                    data.videoIconLink ? wp.element.createElement(
+                      'a',
+                      { href: data.videoIconLink, target: data.videoIconLinkTarget ? '_blank' : '_self', rel: 'noopener noreferrer' },
+                      wp.element.createElement('img', { src: data.videoIcon })
+                    ) : wp.element.createElement('img', { src: data.videoIcon, alt: 'Play Icon' })
+                  ),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'related-content-wrap' },
+                    data.option !== 'option-3' && data.option !== 'option-6' && wp.element.createElement(
+                      Fragment,
+                      null,
+                      data.title && wp.element.createElement(RichText.Content, {
+                        tagName: 'h2',
+                        value: data.title,
+                        className: 'title'
+                      }),
+                      data.subTitle && wp.element.createElement(RichText.Content, {
+                        tagName: 'strong',
+                        value: data.subTitle,
+                        className: 'sub-title'
+                      })
+                    ),
+                    data.date && data.option == 'option-2' && wp.element.createElement(
+                      Fragment,
+                      null,
+                      wp.element.createElement(RichText.Content, {
+                        tagName: 'span',
+                        value: data.date,
+                        className: 'date'
+                      })
+                    ),
+                    data.option == 'option-2' && wp.element.createElement(
+                      'div',
+                      { className: 'bottom-container' },
+                      data.shortcode && wp.element.createElement(RichText.Content, {
+                        tagName: 'div',
+                        value: data.shortcode,
+                        className: 'shortcode-wrap'
+                      }),
+                      wp.element.createElement(RichText.Content, {
+                        tagName: 'div',
+                        value: data.buttonText,
+                        className: 'button-wrap'
+                      })
+                    ),
+                    data.option !== 'option-6' && data.option !== 'option-2' && wp.element.createElement(RichText.Content, {
+                      tagName: 'div',
+                      value: data.buttonText,
+                      className: 'button-wrap'
+                    }),
+                    data.option == 'option-6' && wp.element.createElement(RichText.Content, {
+                      tagName: 'div',
+                      value: data.shortcode,
+                      className: 'shortcode-wrap'
+                    })
+                  )
+                )
+              );
+            })
+          )
+        )
+      );
+    }
+  });
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element, wp.blockEditor);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
   var Fragment = wpElement.Fragment,
@@ -3337,61 +4466,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           attr = {
             index: dataArray.length,
             option: name,
-            advertising: 'Advertising',
-            media: '',
-            mediaAlt: '',
             title: '',
             subTitle: '',
-            buttonText: '<a href="#" class="btn">Learn More</a>'
+            description: '',
+            buttonText: '<a href="#">Read More</a>',
+            shortcode: '',
+            bookmark: ''
           };
         }
         if (name == 'option-2') {
           attr = {
             index: dataArray.length,
             option: name,
-            bgMedia: '',
-            media: '',
-            mediaAlt: '',
-            videoIcon: '',
-            title: '',
-            subTitle: '',
-            date: '',
-            buttonText: '<a href="#" class="btn">Watch</a>'
-          };
-        }
-
-        if (name == 'option-3') {
-          attr = {
-            index: dataArray.length,
-            option: name,
-            advertising: 'Advertising',
-            media: '',
-            mediaAlt: '',
-            buttonText: '<a href="#" class="btn">Learn More</a>'
-          };
-        }
-
-        if (name == 'option-4') {
-          attr = {
-            index: dataArray.length,
-            option: name,
-            bgMedia: '',
-            media: '',
-            mediaAlt: '',
-            title: '',
-            subTitle: '',
-            buttonText: '<a href="#" class="btn">Message</a>'
-          };
-        }
-
-        if (name == 'option-5') {
-          attr = {
-            index: dataArray.length,
-            option: name,
-            bgMedia: '',
-            title: '',
-            subTitle: '',
-            buttonText: '<a href="#" class="btn">View Product</a>'
+            advertising: 'Sponsored',
+            shortcode: ''
           };
         }
 
@@ -3401,6 +4489,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         this.setState({
           popup: false
         });
+      }
+    }, {
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        //const { dataArray } = this.props.attributes
+        //if (0 === dataArray.length) {
+        //this.initList()
+        //}
+      }
+    }, {
+      key: 'initList',
+      value: function initList() {
+        // const { dataArray } = this.props.attributes
+        // const { setAttributes } = this.props
+        // setAttributes({
+        //   dataArray: [
+        //     ...dataArray,
+        //     {
+        //       index: dataArray.length,
+        //       title: '',
+        //       subTitle: '',
+        //       description: '',            
+        //       buttonText: '<a href="#">Read More</a>',
+        //       shortcode: '',
+        //       bookmark: ''
+        //     }
+        //   ]
+        // })
       }
     }, {
       key: 'moveItem',
@@ -3487,205 +4603,124 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             wp.element.createElement(
               'div',
               { className: 'inner' },
-              data.option == 'option-1' || data.option == 'option-4' ? wp.element.createElement(
-                'div',
-                { className: 'background-image' },
-                wp.element.createElement(MediaUpload, {
-                  onSelect: function onSelect(media) {
-                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].bgMedia = media.url;
-                    setAttributes({ dataArray: arrayCopy });
-                  },
-                  type: 'image',
-                  render: function render(_ref) {
-                    var open = _ref.open;
-
-                    if (data.bgMedia) {
-                      return wp.element.createElement(
-                        Fragment,
-                        null,
-                        wp.element.createElement('span', {
-                          onClick: open,
-                          className: 'dashicons dashicons-edit edit-image'
-                        }),
-                        wp.element.createElement('img', { src: data.bgMedia })
-                      );
-                    } else {
-                      return wp.element.createElement(
-                        Button,
-                        {
-                          onClick: open,
-                          className: 'button button-large'
-                        },
-                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
-                        'Upload Cover Image'
-                      );
-                    }
-                  }
-                })
-              ) : null,
-              data.option == 'option-1' || data.option == 'option-3' ? wp.element.createElement(
-                'div',
-                { className: 'advertising' },
-                wp.element.createElement(RichText, {
-                  tagName: 'span',
-                  placeholder: __('Advertising'),
-                  keepPlaceholderOnFocus: 'true',
-                  value: data.advertising,
-                  onChange: function onChange(value) {
-                    value = value.replace(/&lt;!--td.*}--><br>/, '');
-                    value = value.replace(/<br>.*}<br>/, '');
-                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].advertising = value;
-                    setAttributes({ dataArray: arrayCopy });
-                  }
-                })
-              ) : null,
-              wp.element.createElement(
-                'div',
-                { className: 'image' },
-                wp.element.createElement(MediaUpload, {
-                  onSelect: function onSelect(media) {
-                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].media = media.url;
-                    arrayCopy[index].mediaAlt = media.alt;
-                    setAttributes({ dataArray: arrayCopy });
-                  },
-                  type: 'image',
-                  render: function render(_ref2) {
-                    var open = _ref2.open;
-
-                    if (data.media) {
-                      return wp.element.createElement(
-                        Fragment,
-                        null,
-                        wp.element.createElement('span', {
-                          onClick: open,
-                          className: 'dashicons dashicons-edit edit-image'
-                        }),
-                        wp.element.createElement('img', { src: data.media, alt: data.alt })
-                      );
-                    } else {
-                      return wp.element.createElement(
-                        Button,
-                        { onClick: open, className: 'button button-large' },
-                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
-                        ' ',
-                        'Upload Image'
-                      );
-                    }
-                  }
-                })
-              ),
-              data.option == 'option-2' ? wp.element.createElement(
-                'div',
-                { className: 'video-icon' },
-                wp.element.createElement(MediaUpload, {
-                  onSelect: function onSelect(media) {
-                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].videoIcon = media.url;
-                    setAttributes({ dataArray: arrayCopy });
-                  },
-                  type: 'image',
-                  render: function render(_ref3) {
-                    var open = _ref3.open;
-
-                    if (data.videoIcon) {
-                      return wp.element.createElement(
-                        Fragment,
-                        null,
-                        wp.element.createElement('span', {
-                          onClick: open,
-                          className: 'dashicons dashicons-edit edit-image'
-                        }),
-                        wp.element.createElement('img', { src: data.videoIcon })
-                      );
-                    } else {
-                      return wp.element.createElement(
-                        Button,
-                        {
-                          onClick: open,
-                          className: 'button button-large'
-                        },
-                        wp.element.createElement('span', { className: 'dashicons dashicons-upload' }),
-                        'Upload Icon'
-                      );
-                    }
-                  }
-                })
-              ) : null,
-              wp.element.createElement(
-                'div',
-                { className: 'related-content-wrap' },
-                data.option !== 'option-3' && wp.element.createElement(
-                  Fragment,
-                  null,
-                  wp.element.createElement(RichText, {
-                    tagName: 'h2',
-                    placeholder: __('Title'),
-                    value: data.title,
-                    keepPlaceholderOnFocus: 'true',
-                    className: 'title',
-                    onChange: function onChange(value) {
-                      value = value.replace(/&lt;!--td.*}--><br>/, '');
-                      value = value.replace(/<br>.*}<br>/, '');
-                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                      arrayCopy[index].title = value;
-                      setAttributes({ dataArray: arrayCopy });
-                    }
-                  }),
-                  wp.element.createElement(RichText, {
-                    tagName: 'strong',
-                    placeholder: __('Sub Title'),
-                    value: data.subTitle,
-                    keepPlaceholderOnFocus: 'true',
-                    className: 'sub-title',
-                    onChange: function onChange(value) {
-                      value = value.replace(/&lt;!--td.*}--><br>/, '');
-                      value = value.replace(/<br>.*}<br>/, '');
-                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                      arrayCopy[index].subTitle = value;
-                      setAttributes({ dataArray: arrayCopy });
-                    }
-                  })
-                ),
-                data.option == 'option-2' && wp.element.createElement(
-                  Fragment,
-                  null,
+              'option-2' === data.option ? wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(
+                  'div',
+                  { className: 'advertising' },
                   wp.element.createElement(RichText, {
                     tagName: 'span',
-                    placeholder: __('date'),
-                    value: data.date,
+                    placeholder: __('Sponsored'),
                     keepPlaceholderOnFocus: 'true',
-                    className: 'date',
+                    value: data.advertising,
                     onChange: function onChange(value) {
                       value = value.replace(/&lt;!--td.*}--><br>/, '');
                       value = value.replace(/<br>.*}<br>/, '');
                       value = value.replace(/<br><br><br>&lt.*--><br>/, '');
                       var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                      arrayCopy[index].date = value;
+                      arrayCopy[index].advertising = value;
                       setAttributes({ dataArray: arrayCopy });
                     }
                   })
                 ),
                 wp.element.createElement(RichText, {
                   tagName: 'div',
-                  placeholder: __('Learn More'),
-                  value: data.buttonText,
+                  placeholder: __('Add Shortcode'),
+                  value: data.shortcode,
                   keepPlaceholderOnFocus: 'true',
-                  className: 'button-wrap',
+                  className: 'shortcode-wrap',
                   onChange: function onChange(value) {
                     value = value.replace(/&lt;!--td.*}--><br>/, '');
                     value = value.replace(/<br>.*}<br>/, '');
                     value = value.replace(/<br><br><br>&lt.*--><br>/, '');
                     var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                    arrayCopy[index].buttonText = value;
+                    arrayCopy[index].shortcode = value;
                     setAttributes({ dataArray: arrayCopy });
                   }
                 })
+              ) : wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(RichText, {
+                  tagName: 'div',
+                  placeholder: __('Bookmark'),
+                  value: data.bookmark,
+                  keepPlaceholderOnFocus: 'true',
+                  className: 'bookmark-wrap',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].bookmark = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'h3',
+                  placeholder: __('Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.title,
+                  className: 'title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].title = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(RichText, {
+                  tagName: 'strong',
+                  placeholder: __('Sub Title'),
+                  keepPlaceholderOnFocus: 'true',
+                  value: data.subTitle,
+                  className: 'sub-title',
+                  onChange: function onChange(value) {
+                    value = value.replace(/&lt;!--td.*}--><br>/, '');
+                    value = value.replace(/<br>.*}<br>/, '');
+                    value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                    var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                    arrayCopy[index].subTitle = value;
+                    setAttributes({ dataArray: arrayCopy });
+                  }
+                }),
+                wp.element.createElement(
+                  'div',
+                  { className: 'bottom-container' },
+                  wp.element.createElement(RichText, {
+                    tagName: 'div',
+                    placeholder: __('Add Reactions'),
+                    value: data.shortcode,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'shortcode-wrap',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].shortcode = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  }),
+                  wp.element.createElement(RichText, {
+                    tagName: 'div',
+                    placeholder: __('Read More'),
+                    value: data.buttonText,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'button-wrap',
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                      arrayCopy[index].buttonText = value;
+                      setAttributes({ dataArray: arrayCopy });
+                    }
+                  })
+                )
               )
             )
           );
@@ -3699,7 +4734,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             { className: 'internal-popup' },
             wp.element.createElement(
               'div',
-              { className: 'popup-inner' },
+              { className: 'popup-inner related-content-popup' },
               wp.element.createElement('span', {
                 onClick: function onClick() {
                   _this2.setState({
@@ -3735,370 +4770,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }
                   },
                   'Option 2'
-                ),
-                wp.element.createElement(
-                  'li',
-                  {
-                    className: 'option-3',
-                    onClick: function onClick() {
-                      return _this2.addNewItem('option-3');
-                    }
-                  },
-                  'Option 3'
-                ),
-                wp.element.createElement(
-                  'li',
-                  {
-                    className: 'option-4',
-                    onClick: function onClick() {
-                      return _this2.addNewItem('option-4');
-                    }
-                  },
-                  'Option 4'
-                ),
-                wp.element.createElement(
-                  'li',
-                  {
-                    className: 'option-5',
-                    onClick: function onClick() {
-                      return _this2.addNewItem('option-5');
-                    }
-                  },
-                  'Option 5'
                 )
               )
             )
           ),
-          wp.element.createElement(
-            'div',
-            { className: 'related-content' },
-            itemList,
-            wp.element.createElement(
-              'div',
-              { className: 'item addNewitem' },
-              wp.element.createElement(
-                'button',
-                {
-                  className: 'components-button add',
-                  onClick: function onClick() {
-                    _this2.setState({
-                      popup: true
-                    });
-                  }
-                },
-                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
-                ' Add New Item'
-              )
-            )
-          )
-        );
-      }
-    }]);
-
-    return ItemComponent;
-  }(Component);
-
-  registerBlockType('rg/related-content', {
-    title: __('Related Content multi layout'),
-    description: __('Related Content multi layout'),
-    icon: 'editor-code',
-    category: 'nab_amplify',
-    keywords: [__('Related Content'), __('gutenberg')],
-    attributes: {
-      dataArray: {
-        type: 'array',
-        default: []
-      }
-    },
-    edit: ItemComponent,
-
-    save: function save(props) {
-      var attributes = props.attributes;
-      var dataArray = attributes.dataArray;
-
-
-      return wp.element.createElement(
-        Fragment,
-        null,
-        wp.element.createElement(
-          'div',
-          { className: 'related-content' },
-          dataArray.map(function (data, index) {
-            return wp.element.createElement(
-              'div',
-              { className: 'item ' + data.option },
-              wp.element.createElement(
-                'div',
-                { className: 'inner' },
-                data.option == 'option-1' || data.option == 'option-4' ? wp.element.createElement(
-                  'div',
-                  { className: 'background-image' },
-                  wp.element.createElement('img', { src: data.bgMedia })
-                ) : null,
-                data.option == 'option-1' || data.option == 'option-3' ? wp.element.createElement(
-                  'div',
-                  { className: 'advertising' },
-                  wp.element.createElement(RichText.Content, { tagName: 'span', value: data.advertising })
-                ) : null,
-                data.media && wp.element.createElement(
-                  'div',
-                  { className: 'image' },
-                  wp.element.createElement('img', { src: data.media, alt: data.mediaAlt })
-                ),
-                data.videoIcon && wp.element.createElement(
-                  'div',
-                  { className: 'video-icon' },
-                  wp.element.createElement('img', { src: data.videoIcon, alt: data.videoIcon })
-                ),
-                wp.element.createElement(
-                  'div',
-                  { className: 'related-content-wrap' },
-                  data.option !== 'option-3' && wp.element.createElement(
-                    Fragment,
-                    null,
-                    wp.element.createElement(RichText.Content, {
-                      tagName: 'h2',
-                      value: data.title,
-                      className: 'title'
-                    }),
-                    wp.element.createElement(RichText.Content, {
-                      tagName: 'strong',
-                      value: data.subTitle,
-                      className: 'sub-title'
-                    })
-                  ),
-                  data.option == 'option-2' && wp.element.createElement(
-                    Fragment,
-                    null,
-                    wp.element.createElement(RichText.Content, {
-                      tagName: 'span',
-                      value: data.date,
-                      className: 'date'
-                    })
-                  ),
-                  wp.element.createElement(RichText.Content, {
-                    tagName: 'div',
-                    value: data.buttonText,
-                    className: 'button-wrap'
-                  })
-                )
-              )
-            );
-          })
-        )
-      );
-    }
-  });
-})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
-  var __ = wpI18n.__;
-  var registerBlockType = wpBlocks.registerBlockType;
-  var Fragment = wpElement.Fragment,
-      Component = wpElement.Component;
-  var InspectorControls = wpEditor.InspectorControls,
-      RichText = wpEditor.RichText,
-      MediaUpload = wpEditor.MediaUpload;
-  var PanelBody = wpComponents.PanelBody,
-      PanelRow = wpComponents.PanelRow,
-      ToggleControl = wpComponents.ToggleControl,
-      TextControl = wpComponents.TextControl,
-      Tooltip = wpComponents.Tooltip,
-      Button = wpComponents.Button;
-
-  var ItemComponent = function (_Component) {
-    _inherits(ItemComponent, _Component);
-
-    function ItemComponent() {
-      _classCallCheck(this, ItemComponent);
-
-      return _possibleConstructorReturn(this, (ItemComponent.__proto__ || Object.getPrototypeOf(ItemComponent)).apply(this, arguments));
-    }
-
-    _createClass(ItemComponent, [{
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var dataArray = this.props.attributes.dataArray;
-
-        if (0 === dataArray.length) {
-          this.initList();
-        }
-      }
-    }, {
-      key: 'initList',
-      value: function initList() {
-        var dataArray = this.props.attributes.dataArray;
-        var setAttributes = this.props.setAttributes;
-
-        setAttributes({
-          dataArray: [].concat(_toConsumableArray(dataArray), [{
-            index: dataArray.length,
-            title: '',
-            subTitle: '',
-            description: '',
-            select: false,
-            buttonText: '<a href="#" class="btn">Read More</a>'
-          }])
-        });
-      }
-    }, {
-      key: 'moveItem',
-      value: function moveItem(oldIndex, newIndex) {
-        var _props = this.props,
-            attributes = _props.attributes,
-            setAttributes = _props.setAttributes;
-        var dataArray = attributes.dataArray;
-
-
-        var copyData = [].concat(_toConsumableArray(dataArray));
-
-        copyData[oldIndex] = dataArray[newIndex];
-        copyData[newIndex] = dataArray[oldIndex];
-
-        setAttributes({
-          dataArray: copyData
-        });
-
-        this.forceUpdate();
-      }
-    }, {
-      key: 'render',
-      value: function render() {
-        var _this2 = this;
-
-        var _props2 = this.props,
-            attributes = _props2.attributes,
-            setAttributes = _props2.setAttributes;
-        var dataArray = attributes.dataArray;
-
-
-        var itemList = dataArray.map(function (data, index) {
-          return wp.element.createElement(
-            'div',
-            { className: 'item' },
-            wp.element.createElement(
-              'div',
-              { className: 'settings' },
-              wp.element.createElement(
-                'div',
-                { className: 'move-item-controls' },
-                0 < index && wp.element.createElement(
-                  Tooltip,
-                  { text: 'Move Left' },
-                  wp.element.createElement('span', {
-                    className: 'dashicons dashicons-arrow-left-alt2 move-left',
-                    onClick: function onClick() {
-                      return _this2.moveItem(index, index - 1);
-                    }
-                  })
-                ),
-                index + 1 < dataArray.length && wp.element.createElement(
-                  Tooltip,
-                  { text: 'Move Right' },
-                  wp.element.createElement('span', {
-                    className: 'dashicons dashicons-arrow-right-alt2 move-right',
-                    onClick: function onClick() {
-                      return _this2.moveItem(index, index + 1);
-                    }
-                  })
-                )
-              ),
-              wp.element.createElement('span', {
-                className: 'dashicons dashicons-no-alt remove',
-                onClick: function onClick() {
-                  var qewQusote = dataArray.filter(function (item) {
-                    return item.index != data.index;
-                  }).map(function (t) {
-                    if (t.index > data.index) {
-                      t.index -= 1;
-                    }
-
-                    return t;
-                  });
-
-                  setAttributes({
-                    dataArray: qewQusote
-                  });
-                }
-              })
-            ),
-            wp.element.createElement(
-              'div',
-              { className: 'inner' },
-              wp.element.createElement('span', {
-                className: 'fa fa-bookmark-o amp-bookmark ' + (data.select ? 'bookmark-fill' : ''),
-                onClick: function onClick() {
-                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                  arrayCopy[index].select = data.select ? false : true;
-                  setAttributes({ dataArray: arrayCopy });
-                }
-              }),
-              wp.element.createElement(RichText, {
-                tagName: 'h3',
-                placeholder: __('Title'),
-                keepPlaceholderOnFocus: 'true',
-                value: data.title,
-                className: 'title',
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                  arrayCopy[index].title = value;
-                  setAttributes({ dataArray: arrayCopy });
-                }
-              }),
-              wp.element.createElement(RichText, {
-                tagName: 'strong',
-                placeholder: __('Sub Title'),
-                keepPlaceholderOnFocus: 'true',
-                value: data.subTitle,
-                className: 'sub-title',
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                  arrayCopy[index].subTitle = value;
-                  setAttributes({ dataArray: arrayCopy });
-                }
-              }),
-              wp.element.createElement(RichText, {
-                tagName: 'div',
-                placeholder: __('Learn More'),
-                value: data.buttonText,
-                keepPlaceholderOnFocus: 'true',
-                className: 'button-wrap',
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  var arrayCopy = [].concat(_toConsumableArray(dataArray));
-                  arrayCopy[index].buttonText = value;
-                  setAttributes({ dataArray: arrayCopy });
-                }
-              })
-            )
-          );
-        });
-
-        return wp.element.createElement(
-          Fragment,
-          null,
           wp.element.createElement(
             'div',
             { className: 'related-content-2' },
@@ -4111,7 +4786,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 {
                   className: 'components-button add',
                   onClick: function onClick() {
-                    _this2.initList();
+                    _this2.setState({
+                      popup: true
+                    });
                   }
                 },
                 wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
@@ -4154,26 +4831,56 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           dataArray.map(function (data, index) {
             return wp.element.createElement(
               'div',
-              { className: 'item' },
+              { className: 'item ' + data.option },
               wp.element.createElement(
                 'div',
                 { className: 'inner' },
-                wp.element.createElement('span', { className: 'fa fa-bookmark-o amp-bookmark ' + (data.select ? 'bookmark-fill' : '') }),
-                data.title && wp.element.createElement(RichText.Content, {
-                  tagName: 'h3',
-                  value: data.title,
-                  className: 'title'
-                }),
-                data.subTitle && wp.element.createElement(RichText.Content, {
-                  tagName: 'strong',
-                  value: data.subTitle,
-                  className: 'sub-title'
-                }),
-                wp.element.createElement(RichText.Content, {
-                  tagName: 'div',
-                  value: data.buttonText,
-                  className: 'button-wrap'
-                })
+                'option-2' === data.option ? wp.element.createElement(
+                  Fragment,
+                  null,
+                  wp.element.createElement(
+                    'div',
+                    { className: 'advertising' },
+                    wp.element.createElement(RichText.Content, { tagName: 'span', value: data.advertising })
+                  ),
+                  data.shortcode && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.shortcode,
+                    className: 'shortcode-wrap'
+                  })
+                ) : wp.element.createElement(
+                  Fragment,
+                  null,
+                  data.bookmark && wp.element.createElement(RichText.Content, {
+                    tagName: 'div',
+                    value: data.bookmark,
+                    className: 'bookmark-wrap'
+                  }),
+                  data.title && wp.element.createElement(RichText.Content, {
+                    tagName: 'h3',
+                    value: data.title,
+                    className: 'title'
+                  }),
+                  data.subTitle && wp.element.createElement(RichText.Content, {
+                    tagName: 'strong',
+                    value: data.subTitle,
+                    className: 'sub-title'
+                  }),
+                  wp.element.createElement(
+                    'div',
+                    { className: 'bottom-container' },
+                    data.shortcode && wp.element.createElement(RichText.Content, {
+                      tagName: 'div',
+                      value: data.shortcode,
+                      className: 'shortcode-wrap'
+                    }),
+                    wp.element.createElement(RichText.Content, {
+                      tagName: 'div',
+                      value: data.buttonText,
+                      className: 'button-wrap'
+                    })
+                  )
+                )
               )
             );
           })
@@ -4197,7 +4904,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement, wpBlockEditor) {
   var __ = wpI18n.__;
   var registerBlockType = wpBlocks.registerBlockType;
   var Fragment = wpElement.Fragment,
@@ -4211,6 +4918,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       TextControl = wpComponents.TextControl,
       Tooltip = wpComponents.Tooltip,
       Button = wpComponents.Button;
+  var ColorPalette = wpBlockEditor.ColorPalette;
 
   var ItemComponent = function (_Component) {
     _inherits(ItemComponent, _Component);
@@ -4243,7 +4951,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             subTitle: '',
             description: '',
             media: '',
-            bgMedia: ''
+            bgMedia: '',
+            shortcode: '',
+            buttonText: '<a href="#" class="btn">Read More</a>'
           }])
         });
       }
@@ -4274,9 +4984,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         var _props2 = this.props,
             attributes = _props2.attributes,
-            setAttributes = _props2.setAttributes;
+            setAttributes = _props2.setAttributes,
+            clientId = _props2.clientId;
         var dataArray = attributes.dataArray;
 
+        setAttributes({ blockClientId: clientId });
 
         var getImageButton = function getImageButton(openEvent, index) {
           if (dataArray[index].media) {
@@ -4327,7 +5039,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                   Tooltip,
                   { text: 'Move Right' },
                   wp.element.createElement('span', {
-                    className: 'dashicons-arrow-down-alt2',
+                    className: 'dashicons dashicons-arrow-down-alt2',
                     onClick: function onClick() {
                       return _this2.moveItem(index, index + 1);
                     }
@@ -4406,6 +5118,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     'div',
                     { className: 'item-list-wrap' },
                     wp.element.createElement(
+                      'style',
+                      null,
+                      '#block-' + clientId + ' .grid-list .item.active .left{background:' + attributes.ThumbBgColor + '}'
+                    ),
+                    wp.element.createElement(
                       'div',
                       { className: 'left' },
                       wp.element.createElement(MediaUpload, {
@@ -4438,6 +5155,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           var arrayCopy = [].concat(_toConsumableArray(dataArray));
                           arrayCopy[index].title = value;
                           setAttributes({ dataArray: arrayCopy });
+                        },
+                        style: {
+                          color: attributes.TitleColor
                         }
                       }),
                       wp.element.createElement(RichText, {
@@ -4453,6 +5173,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           var arrayCopy = [].concat(_toConsumableArray(dataArray));
                           arrayCopy[index].subTitle = value;
                           setAttributes({ dataArray: arrayCopy });
+                        },
+                        style: {
+                          color: attributes.SubTitleColor
                         }
                       }),
                       wp.element.createElement(RichText, {
@@ -4468,6 +5191,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                           var arrayCopy = [].concat(_toConsumableArray(dataArray));
                           arrayCopy[index].description = value;
                           setAttributes({ dataArray: arrayCopy });
+                        },
+                        style: {
+                          color: attributes.DescriptionColor
+                        }
+                      }),
+                      wp.element.createElement(RichText, {
+                        tagName: 'div',
+                        placeholder: __('Add Reactions'),
+                        value: data.shortcode,
+                        keepPlaceholderOnFocus: 'true',
+                        className: 'shortcode-wrap',
+                        onChange: function onChange(value) {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '');
+                          value = value.replace(/<br>.*}<br>/, '');
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].shortcode = value;
+                          setAttributes({ dataArray: arrayCopy });
+                        }
+                      }),
+                      wp.element.createElement(RichText, {
+                        tagName: 'div',
+                        placeholder: __('Read More'),
+                        value: data.buttonText,
+                        keepPlaceholderOnFocus: 'true',
+                        className: 'button-wrap',
+                        onChange: function onChange(value) {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '');
+                          value = value.replace(/<br>.*}<br>/, '');
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                          var arrayCopy = [].concat(_toConsumableArray(dataArray));
+                          arrayCopy[index].buttonText = value;
+                          setAttributes({ dataArray: arrayCopy });
                         }
                       })
                     )
@@ -4482,22 +5238,126 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           Fragment,
           null,
           wp.element.createElement(
+            InspectorControls,
+            null,
+            wp.element.createElement(
+              PanelBody,
+              { title: 'Color Settings', initialOpen: false },
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Header Title Color:'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: attributes.HeaderTitleColor,
+                  onChange: function onChange(HeaderTitleColor) {
+                    return setAttributes({ HeaderTitleColor: HeaderTitleColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Title Color:'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: attributes.TitleColor,
+                  onChange: function onChange(TitleColor) {
+                    return setAttributes({ TitleColor: TitleColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Sub-Title Color:'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: attributes.SubTitleColor,
+                  onChange: function onChange(SubTitleColor) {
+                    return setAttributes({ SubTitleColor: SubTitleColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Description text Color:'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: attributes.DescriptionColor,
+                  onChange: function onChange(DescriptionColor) {
+                    return setAttributes({ DescriptionColor: DescriptionColor });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                'div',
+                { className: 'inspector-field' },
+                wp.element.createElement(
+                  'label',
+                  null,
+                  'Active Thumbnail Background:'
+                ),
+                wp.element.createElement(ColorPalette, {
+                  value: attributes.ThumbBgColor,
+                  onChange: function onChange(ThumbBgColor) {
+                    return setAttributes({ ThumbBgColor: ThumbBgColor });
+                  }
+                })
+              )
+            )
+          ),
+          wp.element.createElement(
             'div',
             { className: 'community-curator' },
-            itemList,
             wp.element.createElement(
               'div',
-              { className: 'item additem' },
-              wp.element.createElement(
-                'button',
-                {
-                  className: 'components-button add',
-                  onClick: function onClick() {
-                    _this2.initList();
-                  }
+              { className: 'community-curator-header' },
+              wp.element.createElement(RichText, {
+                tagName: 'h2',
+                placeholder: __('Title'),
+                keepPlaceholderOnFocus: 'true',
+                value: attributes.HeaderTitle,
+                className: 'title',
+                onChange: function onChange(value) {
+                  setAttributes({ HeaderTitle: value });
                 },
-                wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
-                ' Add New Item'
+                style: {
+                  color: attributes.HeaderTitleColor
+                }
+              })
+            ),
+            wp.element.createElement(
+              'div',
+              { className: 'community-curator-body' },
+              itemList,
+              wp.element.createElement(
+                'div',
+                { className: 'item additem' },
+                wp.element.createElement(
+                  'button',
+                  {
+                    className: 'components-button add',
+                    onClick: function onClick() {
+                      _this2.initList();
+                    }
+                  },
+                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                  ' Add New Item'
+                )
               )
             )
           )
@@ -4518,6 +5378,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       dataArray: {
         type: 'array',
         default: []
+      },
+      TitleColor: {
+        type: 'string',
+        default: '#fff'
+      },
+      SubTitleColor: {
+        type: 'string',
+        default: '#0ca5ea'
+      },
+      DescriptionColor: {
+        type: 'string',
+        default: '#fff'
+      },
+      ThumbBgColor: {
+        type: 'string',
+        default: '#0ca5ea'
+      },
+      HeaderTitle: {
+        type: 'string',
+        default: ''
+      },
+      HeaderTitleColor: {
+        type: 'string',
+        default: '#fdd80f'
+      },
+      blockClientId: {
+        type: 'string',
+        default: ''
       }
     },
     edit: ItemComponent,
@@ -4529,104 +5417,160 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
       return wp.element.createElement(
         'div',
-        { className: 'community-curator' },
+        { className: 'community-curator', id: 'block-' + attributes.blockClientId },
         wp.element.createElement(
           'div',
-          {
-            className: 'big-section',
-            style: {
-              backgroundImage: 'url(' + dataArray[0].bgMedia + ')'
-            }
-          },
-          wp.element.createElement(
-            'div',
-            { className: 'contents' },
-            dataArray[0].title && wp.element.createElement(RichText.Content, {
-              tagName: 'h3',
-              value: dataArray[0].title,
-              className: 'title'
-            }),
-            dataArray[0].subTitle && wp.element.createElement(RichText.Content, {
-              tagName: 'strong',
-              value: dataArray[0].subTitle,
-              className: 'sub-title'
-            }),
-            dataArray[0].description && wp.element.createElement(RichText.Content, {
-              tagName: 'p',
-              value: dataArray[0].description,
-              className: 'description'
-            })
-          )
+          { className: 'community-curator-header' },
+          wp.element.createElement(RichText.Content, {
+            tagName: 'h2',
+            value: attributes.HeaderTitle,
+            style: { color: attributes.HeaderTitleColor }
+          })
         ),
         wp.element.createElement(
           'div',
-          { className: 'grid-list' },
-          dataArray.map(function (data, index) {
-            return wp.element.createElement(
-              Fragment,
-              null,
-              data.title && wp.element.createElement(
-                'div',
-                { className: 'item ' + (index == 0 ? 'active' : '') },
-                wp.element.createElement(
+          { className: 'community-curator-body' },
+          wp.element.createElement(
+            'div',
+            {
+              className: 'big-section',
+              style: {
+                backgroundImage: 'url(' + dataArray[0].bgMedia + ')'
+              }
+            },
+            wp.element.createElement(
+              'div',
+              { className: 'contents' },
+              dataArray[0].title && wp.element.createElement(RichText.Content, {
+                tagName: 'h3',
+                value: dataArray[0].title,
+                className: 'title',
+                style: {
+                  color: attributes.TitleColor
+                }
+              }),
+              dataArray[0].subTitle && wp.element.createElement(RichText.Content, {
+                tagName: 'strong',
+                value: dataArray[0].subTitle,
+                className: 'sub-title',
+                style: {
+                  color: attributes.SubTitleColor
+                }
+              }),
+              dataArray[0].description && wp.element.createElement(RichText.Content, {
+                tagName: 'p',
+                value: dataArray[0].description,
+                className: 'description',
+                style: {
+                  color: attributes.DescriptionColor
+                }
+              }),
+              dataArray[0].shortcode && wp.element.createElement(RichText.Content, {
+                tagName: 'div',
+                value: dataArray[0].shortcode,
+                className: 'shortcode-wrap'
+              }),
+              dataArray[0].buttonText && wp.element.createElement(RichText.Content, {
+                tagName: 'div',
+                value: dataArray[0].buttonText,
+                className: 'button-wrap'
+              })
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { className: 'grid-list' },
+            dataArray.map(function (data, index) {
+              return wp.element.createElement(
+                Fragment,
+                null,
+                data.title && wp.element.createElement(
                   'div',
-                  { className: 'inner' },
-                  data.bgMedia ? wp.element.createElement(
-                    'div',
-                    { className: 'main-image-wrap' },
-                    wp.element.createElement('img', { className: 'main-image', src: data.bgMedia, alt: data.title, style: {
-                        display: 'none'
-                      } })
-                  ) : null,
+                  { className: 'item ' + (index == 0 ? 'active' : '') },
                   wp.element.createElement(
                     'div',
-                    { className: 'item-list-right' },
+                    { className: 'inner' },
+                    data.bgMedia ? wp.element.createElement(
+                      'div',
+                      { className: 'main-image-wrap' },
+                      wp.element.createElement('img', { className: 'main-image', src: data.bgMedia, alt: data.title, style: {
+                          display: 'none'
+                        } })
+                    ) : null,
                     wp.element.createElement(
                       'div',
-                      { className: 'item-list-main' },
+                      { className: 'item-list-right' },
                       wp.element.createElement(
                         'div',
-                        { className: 'item-list-wrap' },
+                        { className: 'item-list-main' },
                         wp.element.createElement(
                           'div',
-                          { className: 'left' },
-                          data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                          { className: 'item-list-wrap' },
+                          wp.element.createElement(
+                            'style',
+                            null,
+                            '#block-' + attributes.blockClientId + ' .grid-list .item.active .left{background:' + attributes.ThumbBgColor + '}'
+                          ),
+                          wp.element.createElement(
                             'div',
-                            { className: 'no-image' },
-                            'No Image'
+                            { className: 'left' },
+                            data.media ? wp.element.createElement('img', { src: data.media, alt: data.title }) : wp.element.createElement(
+                              'div',
+                              { className: 'no-image' },
+                              'No Image'
+                            )
+                          ),
+                          wp.element.createElement(
+                            'div',
+                            { className: 'right' },
+                            data.title && wp.element.createElement(RichText.Content, {
+                              tagName: 'h3',
+                              value: data.title,
+                              className: 'title',
+                              style: {
+                                color: attributes.TitleColor
+                              }
+                            }),
+                            data.subTitle && wp.element.createElement(RichText.Content, {
+                              tagName: 'strong',
+                              value: data.subTitle,
+                              className: 'sub-title',
+                              style: {
+                                color: attributes.SubTitleColor
+                              }
+                            }),
+                            data.description && wp.element.createElement(RichText.Content, {
+                              tagName: 'p',
+                              value: data.description,
+                              className: 'description',
+                              style: {
+                                color: attributes.DescriptionColor
+                              }
+                            }),
+                            data.shortcode && wp.element.createElement(RichText.Content, {
+                              tagName: 'div',
+                              value: data.shortcode,
+                              className: 'shortcode-wrap'
+                            }),
+                            data.buttonText && wp.element.createElement(RichText.Content, {
+                              tagName: 'div',
+                              value: data.buttonText,
+                              className: 'button-wrap'
+                            })
                           )
-                        ),
-                        wp.element.createElement(
-                          'div',
-                          { className: 'right' },
-                          data.title && wp.element.createElement(RichText.Content, {
-                            tagName: 'h3',
-                            value: data.title,
-                            className: 'title'
-                          }),
-                          data.subTitle && wp.element.createElement(RichText.Content, {
-                            tagName: 'strong',
-                            value: data.subTitle,
-                            className: 'sub-title'
-                          }),
-                          data.description && wp.element.createElement(RichText.Content, {
-                            tagName: 'p',
-                            value: data.description,
-                            className: 'description'
-                          })
                         )
                       )
                     )
                   )
                 )
-              )
-            );
-          })
+              );
+            })
+          )
         )
       );
     }
   });
-})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element, wp.blockEditor);
 
 /***/ }),
 /* 10 */
@@ -6168,6 +7112,816 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+;(function (wpBlocks, wpBlockEditor, wpComponents, wpElement, wpI18n) {
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Component = wpElement.Component,
+      Fragment = wpElement.Fragment,
+      useState = wpElement.useState;
+  var __ = wpI18n.__;
+  var RichText = wpBlockEditor.RichText,
+      InspectorControls = wpBlockEditor.InspectorControls,
+      MediaUpload = wpBlockEditor.MediaUpload,
+      AlignmentToolbar = wpBlockEditor.AlignmentToolbar,
+      InnerBlocks = wpBlockEditor.InnerBlocks;
+  var PanelBody = wpComponents.PanelBody,
+      PanelRow = wpComponents.PanelRow,
+      ServerSideRender = wpComponents.ServerSideRender,
+      CheckboxControl = wpComponents.CheckboxControl;
+
+  var trendingActivity = function (_Component) {
+    _inherits(trendingActivity, _Component);
+
+    function trendingActivity() {
+      _classCallCheck(this, trendingActivity);
+
+      var _this = _possibleConstructorReturn(this, (trendingActivity.__proto__ || Object.getPrototypeOf(trendingActivity)).apply(this, arguments));
+
+      _this.state = {
+        postTypeList: [],
+        checkedItems: []
+      };
+      return _this;
+    }
+
+    _createClass(trendingActivity, [{
+      key: 'componentWillMount',
+      value: function componentWillMount() {
+        var _this2 = this;
+
+        var postTypeKey = void 0,
+            postOptions = [],
+            excludePostTypes = ['attachment', 'wp_block', 'page', 'template', 'post'];
+
+        // Fetch all post types
+        wp.apiFetch({ path: '/wp/v2/types' }).then(function (postTypes) {
+          postTypeKey = Object.keys(postTypes).filter(function (postType) {
+            return !excludePostTypes.includes(postType);
+          });
+
+          postTypeKey.forEach(function (key) {
+            postOptions.push({
+              label: __(postTypes[key].name),
+              value: __(postTypes[key].slug)
+            });
+          });
+          _this2.setState({ postTypeList: postOptions });
+        });
+      }
+    }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate(previousProps, previousState) {}
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this3 = this;
+
+        var _props = this.props,
+            attributes = _props.attributes,
+            setAttributes = _props.setAttributes,
+            clientId = _props.clientId;
+        var checkedItems = this.props.attributes.checkedItems;
+        // multiple checkbox control for taxonomies
+
+        var MyCheckboxControl = function MyCheckboxControl(props) {
+          var _useState = useState(false),
+              _useState2 = _slicedToArray(_useState, 2),
+              isChecked = _useState2[0],
+              setChecked = _useState2[1];
+
+          return wp.element.createElement(CheckboxControl, {
+            name: 'nab_trending_post_types[]',
+            label: props.label,
+            checked: attributes.checkedItems.indexOf(props.value) > -1,
+            onChange: function onChange(isChecked) {
+              var index = void 0,
+                  temppostType = [].concat(_toConsumableArray(checkedItems));
+
+              if (isChecked) {
+                temppostType.push(props.value);
+
+                setAttributes({ checkedItems: temppostType });
+                _this3.setState({ checkedItems: temppostType });
+              } else {
+                index = temppostType.indexOf(props.value);
+                temppostType.splice(index, 1);
+                setAttributes({ checkedItems: temppostType });
+                _this3.setState({ checkedItems: temppostType });
+              }
+            },
+            value: props.value
+          });
+        };
+        return wp.element.createElement(
+          'div',
+          null,
+          wp.element.createElement(
+            Fragment,
+            null,
+            wp.element.createElement(
+              InspectorControls,
+              null,
+              wp.element.createElement(
+                PanelBody,
+                {
+                  title: __('Settings'),
+                  initialOpen: true,
+                  className: 'range-setting'
+                },
+                wp.element.createElement(
+                  PanelRow,
+                  null,
+                  0 < this.state.postTypeList.length && wp.element.createElement(
+                    'div',
+                    null,
+                    wp.element.createElement(
+                      'label',
+                      {
+                        className: 'components-base-control__label',
+                        'for': 'inspector-select-control-2'
+                      },
+                      'Select Content Type'
+                    ),
+                    wp.element.createElement(
+                      'div',
+                      { className: 'editor-post-taxonomies__hierarchical-terms-choice' },
+                      wp.element.createElement(
+                        'ul',
+                        null,
+                        Object.keys(this.state.postTypeList).map(function (key) {
+                          return wp.element.createElement(
+                            'li',
+                            null,
+                            wp.element.createElement(MyCheckboxControl, {
+                              label: _this3.state.postTypeList[key].label,
+                              value: _this3.state.postTypeList[key].value
+                            })
+                          );
+                        })
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          wp.element.createElement(
+            'div',
+            { id: 'trending_activity', className: 'nab-trending-activity' },
+            wp.element.createElement(ServerSideRender, { block: 'amplify/trendingactivity', attributes: {
+                checkedItems: attributes.checkedItems } })
+          )
+        );
+      }
+    }]);
+
+    return trendingActivity;
+  }(Component);
+
+  registerBlockType('amplify/trendingactivity', {
+    // built in attributes
+    title: 'Trending Activity',
+    description: 'Shows Latest trennding post based on most reactions achieved.',
+    icon: 'editor-code',
+    category: 'nab_amplify',
+    attributes: {
+      postTypeList: {
+        type: 'array',
+        default: []
+      },
+      checkedItems: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: trendingActivity,
+    save: function save() {
+      return null;
+    }
+  });
+})(wp.blocks, wp.blockEditor, wp.components, wp.element, wp.i18n);
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+(function (wpI18n, wpBlocks, wpElement, wpComponents) {
+    var __ = wpI18n.__;
+    var Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var ServerSideRender = wpComponents.ServerSideRender;
+
+
+    var CompanyDetailsIcon = wp.element.createElement(
+        "svg",
+        { width: "150px", height: "150px", viewBox: "181 181 150 150", "enable-background": "new 181 181 150 150" },
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M188.344,242.002c0,1.285,1.045,2.333,2.333,2.333h60.657c1.288,0,2.333-1.048,2.333-2.333v-34.995h-65.323 V242.002z M193.01,211.674h32.661v9.332h23.33v18.664H216.34v-9.332h-23.33V211.674z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M251.334,188.344h-60.657c-1.288,0-2.333,1.047-2.333,2.333v11.665h65.323v-11.665 C253.667,189.392,252.622,188.344,251.334,188.344z M197.676,197.676h-4.666v-4.666h4.666V197.676z M207.008,197.676h-4.666v-4.666 h4.666V197.676z M216.34,197.676h-4.666v-4.666h4.666V197.676z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M216.34,221.006h4.666v-4.666h-23.33v9.332h18.664V221.006z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M221.006,225.671h23.33v9.332h-23.33V225.671z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M197.676,295.66h23.33v9.332h-23.33V295.66z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M221.006,314.324h23.33v-9.332h-18.664v4.666h-4.666V314.324z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M251.334,267.665h-60.657c-1.288,0-2.333,1.047-2.333,2.333v11.664h65.323v-11.664 C253.667,268.712,252.622,267.665,251.334,267.665z M197.676,276.997h-4.666v-4.666h4.666V276.997z M207.008,276.997h-4.666v-4.666 h4.666V276.997z M216.34,276.997h-4.666v-4.666h4.666V276.997z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M188.344,321.323c0,1.285,1.045,2.333,2.333,2.333h60.657c1.288,0,2.333-1.048,2.333-2.333v-34.995h-65.323 V321.323z M193.01,290.994h32.661v9.332h23.33v18.664H216.34v-9.332h-23.33V290.994z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M305.911,296.507l-11.734,11.735c-2.42,2.419-5.632,3.749-9.05,3.749c-7.055,0-12.796-5.739-12.796-12.797 c0-3.417,1.329-6.632,3.746-9.046l11.735-11.735c2.419-2.42,5.632-3.749,9.049-3.749h1.899l3.828,2.827 c1.418,1.228,3.047,1.838,4.736,1.838c1.554,0,2.977-0.527,4.141-1.386c-3.208-4.927-8.642-7.945-14.604-7.945 c-4.663,0-9.049,1.817-12.348,5.113l-11.732,11.732c-3.301,3.299-5.116,7.686-5.116,12.351c0,9.629,7.834,17.463,17.462,17.463 c4.663,0,9.049-1.817,12.349-5.114l11.731-11.732c2.089-2.088,3.577-4.651,4.394-7.442c-1.703,0.534-3.502,0.833-5.359,0.915 C307.636,294.468,306.849,295.569,305.911,296.507L305.911,296.507z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M307.325,242.002c-9.003,0-16.331,7.325-16.331,16.331v7.804c1.512-0.412,3.072-0.66,4.666-0.746v-7.058 c0-6.432,5.232-11.665,11.665-11.665c6.432,0,11.665,5.233,11.665,11.665v13.998c0,6.432-5.233,11.664-11.665,11.664 c-2.813,0-5.534-1.02-7.657-2.869l-2.44-1.797h-0.366c-1.339,0-2.61,0.357-3.761,0.962c2.865,5.125,8.252,8.37,14.225,8.37 c9.003,0,16.33-7.325,16.33-16.33v-9.332v-4.666C323.655,249.328,316.328,242.002,307.325,242.002L307.325,242.002z" }),
+        wp.element.createElement("path", { fill: "#0F6CB6", d: "M316.657,218.673h-34.995v-6.999l-12.441,9.332l12.441,9.332v-6.999h32.662c2.572,0,4.666,2.093,4.666,4.666 v12.883c1.764,1.183,3.333,2.629,4.666,4.279v-19.495C323.656,221.813,320.516,218.673,316.657,218.673z" })
+    );
+
+    var allAttr = {};
+
+    registerBlockType('nab/company-details', {
+        title: __('Company Details'),
+        icon: { src: CompanyDetailsIcon },
+        category: 'nab_amplify',
+        keywords: [__('company'), __('details'), __('about')],
+        attributes: allAttr,
+        edit: function edit() {
+            return wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(ServerSideRender, {
+                    block: "nab/company-details"
+                })
+            );
+        },
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.components);
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+
+    var sessionSliderBlockIcon = wp.element.createElement(
+        "svg",
+        { width: "150px", height: "150px", viewBox: "0 0 150 150", "enable-background": "new 0 0 150 150" },
+        wp.element.createElement("rect", { fill: "none", width: "150", height: "150" }),
+        wp.element.createElement(
+            "g",
+            null,
+            wp.element.createElement("path", { fill: "#92c83e", d: "M0,22.5h150v90h-5.625c0-13.425-10.95-24.375-24.375-24.375c-9.825,0-18.15,5.925-22.05,14.325 c-1.875-0.75-3.9-1.2-6.075-1.2c-7.35,0-13.5,4.725-15.825,11.25H0V22.5z M62.775,45.825c-0.45,1.125-0.75,2.325-0.825,3.525 c-0.075,1.2-0.075,2.475,0.075,3.75l0.15,0.6c0.075,0.45,0.15,1.05,0.375,1.725c0.15,0.75,0.45,1.5,0.75,2.325 c0.225,0.825,0.675,1.65,1.125,2.475c0.525,0.9,1.125,1.65,1.725,2.325c0.6,0.675,1.35,1.275,2.325,1.725 c0.9,0.45,1.875,0.675,3,0.675c1.05,0,2.025-0.225,2.925-0.675c0.9-0.45,1.65-1.05,2.25-1.65c0.675-0.675,1.199-1.5,1.649-2.4 c0.525-0.9,0.9-1.725,1.2-2.475s0.525-1.5,0.675-2.325c0.226-0.825,0.3-1.35,0.375-1.65c0.075-0.3,0.075-0.525,0.075-0.675 c0.375-2.175,0.225-4.2-0.3-6.15C79.8,45,78.75,43.35,77.25,42c-1.575-1.35-3.525-2.025-5.925-2.025c-1.425,0-2.7,0.225-3.9,0.75 c-1.125,0.525-2.1,1.2-2.85,2.1C63.9,43.65,63.3,44.7,62.775,45.825L62.775,45.825z M96.375,91.125v-8.55 c0-2.476-0.75-4.95-2.175-7.35S90.825,70.8,88.425,69.3c-2.399-1.575-4.95-2.325-7.649-2.325l-9.3,6.3l-9.6-6.15 c-2.775,0-5.4,0.75-7.8,2.25c-2.325,1.5-4.2,3.45-5.55,5.775c-1.35,2.4-2.025,4.875-2.025,7.425v8.55l1.35,0.375 c0.9,0.3,2.175,0.6,3.825,1.05c1.725,0.375,3.525,0.75,5.55,1.125c1.95,0.375,4.275,0.675,6.825,0.976 c2.55,0.225,5.025,0.375,7.425,0.375c2.25,0,4.725-0.15,7.35-0.375c2.55-0.301,4.8-0.601,6.675-0.976c1.875-0.3,3.75-0.75,5.7-1.2 l3.75-0.899C95.55,91.425,96,91.275,96.375,91.125z M120,91.875c11.4,0,20.625,9.225,20.625,20.625S131.4,133.125,120,133.125 c-5.475,0-10.35-2.25-14.025-5.775c1.726-2.625,2.775-5.85,2.775-9.225c0-5.775-2.925-10.95-7.425-13.95 C104.55,96.975,111.6,91.875,120,91.875z M78.75,118.125c0-7.2,5.925-13.125,13.125-13.125S105,110.925,105,118.125 s-5.925,13.125-13.125,13.125S78.75,125.325,78.75,118.125z" })
+        )
+    );
+
+    var NabCompanyProducts = function (_Component) {
+        _inherits(NabCompanyProducts, _Component);
+
+        function NabCompanyProducts() {
+            _classCallCheck(this, NabCompanyProducts);
+
+            var _this = _possibleConstructorReturn(this, (NabCompanyProducts.__proto__ || Object.getPrototypeOf(NabCompanyProducts)).apply(this, arguments));
+
+            _this.state = {
+                termsObj: {},
+                filterTermsObj: {}
+            };
+            return _this;
+        }
+
+        _createClass(NabCompanyProducts, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                // Fetch all channels
+                wp.apiFetch({ path: '/nab/request/get-company-category' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms });
+                });
+            }
+        }, {
+            key: "filterTerms",
+            value: function filterTerms(value) {
+                var filterTerms = this.state.termsObj.filter(function (term) {
+                    return -1 < term.title.toLowerCase().indexOf(value.toLowerCase());
+                });
+                this.setState({ filterTermsObj: filterTerms });
+            }
+        }, {
+            key: "isEmpty",
+            value: function isEmpty(obj) {
+                var key = void 0;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    companyCategory = attributes.companyCategory,
+                    displayOrder = attributes.displayOrder;
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-Numberofitems " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Number of items"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 200,
+                                    onChange: function onChange(item) {
+                                        return setAttributes({ itemToFetch: parseInt(item) });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Display Order'),
+                                value: displayOrder,
+                                options: [{ label: __('Oldest to Newest'), value: 'ASC' }, { label: __('Newest to Oldest'), value: 'DESC' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ displayOrder: value });
+                                }
+                            })
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: "nab/company-products",
+                        attributes: { itemToFetch: itemToFetch, displayOrder: displayOrder }
+                    })
+                );
+            }
+        }]);
+
+        return NabCompanyProducts;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 4
+        },
+        displayOrder: {
+            type: 'string',
+            default: 'DESC'
+        }
+    };
+    registerBlockType('nab/company-products', {
+        title: __('Company Products'),
+        icon: { src: sessionSliderBlockIcon },
+        category: 'nab_amplify',
+        keywords: [__('Company'), __('Products')],
+        attributes: blockAttrs,
+        edit: NabCompanyProducts,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+    var NabCompanyEvents = function (_Component) {
+        _inherits(NabCompanyEvents, _Component);
+
+        function NabCompanyEvents() {
+            _classCallCheck(this, NabCompanyEvents);
+
+            var _this = _possibleConstructorReturn(this, (NabCompanyEvents.__proto__ || Object.getPrototypeOf(NabCompanyEvents)).apply(this, arguments));
+
+            _this.state = {
+                termsObj: {},
+                filterTermsObj: {}
+            };
+            return _this;
+        }
+
+        _createClass(NabCompanyEvents, [{
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                // Fetch all channels
+                wp.apiFetch({ path: '/nab/request/get-company-category' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms });
+                });
+            }
+        }, {
+            key: 'filterTerms',
+            value: function filterTerms(value) {
+                var filterTerms = this.state.termsObj.filter(function (term) {
+                    return -1 < term.title.toLowerCase().indexOf(value.toLowerCase());
+                });
+                this.setState({ filterTermsObj: filterTerms });
+            }
+        }, {
+            key: 'isEmpty',
+            value: function isEmpty(obj) {
+                var key = void 0;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    companyCategory = attributes.companyCategory,
+                    displayOrder = attributes.displayOrder;
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: 'range-setting' },
+                            wp.element.createElement(
+                                'div',
+                                { className: 'inspector-field inspector-field-Numberofitems ' },
+                                wp.element.createElement(
+                                    'label',
+                                    { className: 'inspector-mb-0' },
+                                    'Number of items'
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 200,
+                                    onChange: function onChange(item) {
+                                        return setAttributes({ itemToFetch: parseInt(item) });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Display Order'),
+                                value: displayOrder,
+                                options: [{ label: __('Oldest to Newest'), value: 'ASC' }, { label: __('Newest to Oldest'), value: 'DESC' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ displayOrder: value });
+                                }
+                            })
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: 'nab/company-events',
+                        attributes: { itemToFetch: itemToFetch, displayOrder: displayOrder }
+                    })
+                );
+            }
+        }]);
+
+        return NabCompanyEvents;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 4
+        },
+        displayOrder: {
+            type: 'string',
+            default: 'DESC'
+        }
+    };
+    registerBlockType('nab/company-events', {
+        title: __('Company Events'),
+        icon: 'calendar',
+        category: 'nab_amplify',
+        keywords: [__('Company'), __('Events')],
+        attributes: blockAttrs,
+        edit: NabCompanyEvents,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl,
+        TextControl = wpComponents.TextControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        CheckboxControl = wpComponents.CheckboxControl,
+        RangeControl = wpComponents.RangeControl;
+
+    var NabCompanyContent = function (_Component) {
+        _inherits(NabCompanyContent, _Component);
+
+        function NabCompanyContent() {
+            _classCallCheck(this, NabCompanyContent);
+
+            var _this = _possibleConstructorReturn(this, (NabCompanyContent.__proto__ || Object.getPrototypeOf(NabCompanyContent)).apply(this, arguments));
+
+            _this.state = {
+                termsObj: {},
+                filterTermsObj: {}
+            };
+            return _this;
+        }
+
+        _createClass(NabCompanyContent, [{
+            key: 'componentWillMount',
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                // Fetch all channels
+                wp.apiFetch({ path: '/nab/request/get-company-category' }).then(function (terms) {
+                    _this2.setState({ termsObj: terms, filterTermsObj: terms });
+                });
+            }
+        }, {
+            key: 'filterTerms',
+            value: function filterTerms(value) {
+                var filterTerms = this.state.termsObj.filter(function (term) {
+                    return -1 < term.title.toLowerCase().indexOf(value.toLowerCase());
+                });
+                this.setState({ filterTermsObj: filterTerms });
+            }
+        }, {
+            key: 'isEmpty',
+            value: function isEmpty(obj) {
+                var key = void 0;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    companyCategory = attributes.companyCategory,
+                    displayOrder = attributes.displayOrder;
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings'), initialOpen: true, className: 'range-setting' },
+                            wp.element.createElement(
+                                'div',
+                                { className: 'inspector-field inspector-field-Numberofitems ' },
+                                wp.element.createElement(
+                                    'label',
+                                    { className: 'inspector-mb-0' },
+                                    'Number of items'
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 200,
+                                    onChange: function onChange(item) {
+                                        return setAttributes({ itemToFetch: parseInt(item) });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Display Order'),
+                                value: displayOrder,
+                                options: [{ label: __('Oldest to Newest'), value: 'ASC' }, { label: __('Newest to Oldest'), value: 'DESC' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ displayOrder: value });
+                                }
+                            })
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: 'nab/company-content',
+                        attributes: { itemToFetch: itemToFetch, displayOrder: displayOrder }
+                    })
+                );
+            }
+        }]);
+
+        return NabCompanyContent;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 4
+        },
+        displayOrder: {
+            type: 'string',
+            default: 'DESC'
+        }
+    };
+    registerBlockType('nab/company-content', {
+        title: __('Company Content'),
+        icon: 'admin-page',
+        category: 'nab_amplify',
+        keywords: [__('Company'), __('Content')],
+        attributes: blockAttrs,
+        edit: NabCompanyContent,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        ServerSideRender = wpComponents.ServerSideRender,
+        RangeControl = wpComponents.RangeControl;
+
+    var NabCompanyEmployees = function (_Component) {
+        _inherits(NabCompanyEmployees, _Component);
+
+        function NabCompanyEmployees() {
+            _classCallCheck(this, NabCompanyEmployees);
+
+            return _possibleConstructorReturn(this, (NabCompanyEmployees.__proto__ || Object.getPrototypeOf(NabCompanyEmployees)).apply(this, arguments));
+        }
+
+        _createClass(NabCompanyEmployees, [{
+            key: "render",
+            value: function render() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch;
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings'), initialOpen: true, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-Numberofitems " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Number of items"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 200,
+                                    onChange: function onChange(item) {
+                                        return setAttributes({ itemToFetch: parseInt(item) });
+                                    }
+                                })
+                            )
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: "nab/company-employees",
+                        attributes: { itemToFetch: itemToFetch }
+                    })
+                );
+            }
+        }]);
+
+        return NabCompanyEmployees;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 4
+        }
+    };
+    registerBlockType('nab/company-employees', {
+        title: __('Company Employees'),
+        icon: 'admin-users',
+        category: 'nab_amplify',
+        keywords: [__('Company'), __('Employees')],
+        attributes: blockAttrs,
+        edit: NabCompanyEmployees,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
 
 /***/ })
 /******/ ]);

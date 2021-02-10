@@ -17,7 +17,9 @@
 	<div class="container">
 		<div class="footer-inner">
 			<div class="col-1">
-				<!--				<img class="logo" src="--><?php //echo wp_kses(get_template_directory_uri() . '/assets/images/nab-logo-white.png', '') ?><!--" />-->
+				<!--				<img class="logo" src="--><?php //echo wp_kses(get_template_directory_uri() . '/assets/images/nab-logo-white.png', '') 
+																?>
+				<!--" />-->
 				<!--				<ul class="socials">-->
 				<!--					<li>-->
 				<!--						<a href="#" class="social-facebook" target="_blank">-->
@@ -35,7 +37,7 @@
 				<!--						</a>-->
 				<!--					</li>-->
 				<!--				</ul>-->
-				<?php dynamic_sidebar( 'footer-1' ); ?>
+				<?php dynamic_sidebar('footer-1'); ?>
 			</div>
 			<div class="col-2">
 				<!--				<h4>Main Pages</h4>-->
@@ -56,7 +58,7 @@
 				<!--						<a href="#">Menu Item 5</a>-->
 				<!--					</li>-->
 				<!--				</ul>-->
-				<?php dynamic_sidebar( 'footer-2' ); ?>
+				<?php dynamic_sidebar('footer-2'); ?>
 			</div>
 			<div class="col-3">
 				<!--				<h4>Policy</h4>-->
@@ -77,7 +79,7 @@
 				<!--						<a href="#">Menu Item 5</a>-->
 				<!--					</li>-->
 				<!--				</ul>-->
-				<?php dynamic_sidebar( 'footer-3' ); ?>
+				<?php dynamic_sidebar('footer-3'); ?>
 			</div>
 			<div class="col-4">
 				<!--				<h4>Categories</h4>-->
@@ -98,27 +100,34 @@
 				<!--						<a href="#">Menu Item 5</a>-->
 				<!--					</li>-->
 				<!--				</ul>-->
-				<?php dynamic_sidebar( 'footer-4' ); ?>
+				<?php dynamic_sidebar('footer-4'); ?>
 			</div>
 			<div class="col-5 subs-main">
-				<!--				<h3>Subscribe</h3>-->
-				<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
-				<!--				<form class="subscribe-form">-->
-				<!--					<input type="text" class="email" placeholder="Email Address"/>-->
-				<!--					<input type="submit" class="search-submit" value="Submit">-->
-				<!--				</form>-->
-				<?php dynamic_sidebar( 'footer-5' ); ?>
+				<?php if (is_user_logged_in()) {
+					dynamic_sidebar('footer-loggedin');
+				} else { ?>
+
+					<!--				<h3>Subscribe</h3>-->
+					<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
+					<!--				<form class="subscribe-form">-->
+					<!--					<input type="text" class="email" placeholder="Email Address"/>-->
+					<!--					<input type="submit" class="search-submit" value="Submit">-->
+					<!--				</form>-->
+					<?php dynamic_sidebar('footer-5'); ?>
+				<?php } ?>
 			</div>
 		</div><!-- .site-info -->
+
 		<div class="nab-amplify-copyright">
-			<?php dynamic_sidebar( 'footer-6' ); ?>
+			<?php dynamic_sidebar('footer-6'); ?>
 		</div>
+
 	</div>
 </footer><!-- #colophon -->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 </body>
 
 </html>

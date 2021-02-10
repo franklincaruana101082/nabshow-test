@@ -1,4 +1,4 @@
-;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement) {
+;(function (wpI18n, wpBlocks, wpEditor, wpComponents, wpElement, wpBlockEditor) {
   const { __ } = wpI18n
   const { registerBlockType } = wpBlocks
   const { Fragment, Component } = wpElement
@@ -9,8 +9,10 @@
     ToggleControl,
     TextControl,
     Tooltip,
-    Button
+    Button,
   } = wpComponents
+
+  const { ColorPalette } = wpBlockEditor
 
   class ItemComponent extends Component {
     componentDidMount () {
@@ -32,7 +34,9 @@
             subTitle: '',
             description: '',
             media: '',
-            bgMedia: ''
+            bgMedia: '',
+            shortcode: '',
+            buttonText: '<a href="#" class="btn">Read More</a>'
           }
         ]
       })
@@ -55,8 +59,9 @@
     }
 
     render () {
-      const { attributes, setAttributes } = this.props
+      const { attributes, setAttributes, clientId } = this.props
       const { dataArray } = attributes
+      setAttributes({ blockClientId: clientId })
 
       const getImageButton = (openEvent, index) => {
         if (dataArray[index].media) {
@@ -98,7 +103,7 @@
                 {index + 1 < dataArray.length && (
                   <Tooltip text='Move Right'>
                     <span
-                      className='dashicons-arrow-down-alt2'
+                      className='dashicons dashicons-arrow-down-alt2'
                       onClick={() => this.moveItem(index, index + 1)}
                     ></span>
                   </Tooltip>
@@ -124,6 +129,7 @@
               ></span>
             </div>
             <div className='inner'>
+             
               <div className='main-image'>
                 <div className="main-image-wrap">
                   <MediaUpload
@@ -160,6 +166,9 @@
               <div className="item-list-right">
                 <div className="item-list-main">
                   <div className="item-list-wrap">
+                    <style>
+                      {`#block-${clientId} .grid-list .item.active .left{background:${attributes.ThumbBgColor}}`}
+                    </style>
                     <div className='left'>
                       <MediaUpload
                         onSelect={media => {
@@ -187,6 +196,9 @@
                           arrayCopy[index].title = value
                           setAttributes({ dataArray: arrayCopy })
                         }}
+                        style={{
+                          color:attributes.TitleColor
+                      }}
                       />
                       <RichText
                         tagName='strong'
@@ -202,6 +214,9 @@
                           arrayCopy[index].subTitle = value
                           setAttributes({ dataArray: arrayCopy })
                         }}
+                        style={{
+                          color:attributes.SubTitleColor
+                      }}
                       />
                       <RichText
                         tagName='p'
@@ -217,6 +232,39 @@
                           arrayCopy[index].description = value
                           setAttributes({ dataArray: arrayCopy })
                         }}
+                        style={{
+                          color:attributes.DescriptionColor
+                      }}
+                      />
+                      <RichText
+                        tagName='div'
+                        placeholder={__('Add Reactions')}
+                        value={data.shortcode}
+                        keepPlaceholderOnFocus='true'
+                        className='shortcode-wrap'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].shortcode = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
+                      />
+                      <RichText
+                        tagName='div'
+                        placeholder={__('Read More')}
+                        value={data.buttonText}
+                        keepPlaceholderOnFocus='true'
+                        className='button-wrap'
+                        onChange={value => {
+                          value = value.replace(/&lt;!--td.*}--><br>/, '')
+                          value = value.replace(/<br>.*}<br>/, '')
+                          value = value.replace(/<br><br><br>&lt.*--><br>/, '')
+                          let arrayCopy = [...dataArray]
+                          arrayCopy[index].buttonText = value
+                          setAttributes({ dataArray: arrayCopy })
+                        }}
                       />
                     </div>
                   </div>
@@ -229,22 +277,84 @@
 
       return (
         <Fragment>
-          {/* <InspectorControls>
-            <PanelBody title='General Settings'>
-              <PanelRow>Test</PanelRow>
+          <InspectorControls>
+            <PanelBody title="Color Settings" initialOpen={false}>
+              <div className="inspector-field">
+                  <label>Header Title Color:</label>
+                  <ColorPalette
+                      value={attributes.HeaderTitleColor}
+                      onChange={(HeaderTitleColor) =>
+                          setAttributes({HeaderTitleColor:HeaderTitleColor})
+                      }
+                  />
+              </div>
+              <div className="inspector-field">
+                  <label>Title Color:</label>
+                  <ColorPalette
+                      value={attributes.TitleColor}
+                      onChange={(TitleColor) =>
+                          setAttributes({TitleColor:TitleColor})
+                      }
+                  />
+              </div>
+              <div className="inspector-field">
+                  <label>Sub-Title Color:</label>
+                  <ColorPalette
+                      value={attributes.SubTitleColor}
+                      onChange={(SubTitleColor) =>
+                          setAttributes({SubTitleColor:SubTitleColor})
+                      }
+                  />
+              </div>
+              <div className="inspector-field">
+                  <label>Description text Color:</label>
+                  <ColorPalette
+                      value={attributes.DescriptionColor}
+                      onChange={(DescriptionColor) =>
+                          setAttributes({DescriptionColor:DescriptionColor})
+                      }
+                  />
+              </div>
+              <div className="inspector-field">
+                  <label>Active Thumbnail Background:</label>
+                  <ColorPalette
+                      value={attributes.ThumbBgColor}
+                      onChange={(ThumbBgColor) =>
+                          setAttributes({ThumbBgColor:ThumbBgColor})
+                      }
+                  />
+              </div>
+              
             </PanelBody>
-          </InspectorControls> */}
+          </InspectorControls>
           <div className='community-curator'>
-            {itemList}
-            <div className='item additem'>
-              <button
-                className='components-button add'
-                onClick={() => {
-                  this.initList()
+            <div className='community-curator-header'>
+              <RichText
+                  tagName='h2'
+                  placeholder={__('Title')}
+                  keepPlaceholderOnFocus='true'
+                  value={attributes.HeaderTitle}
+                  className='title'
+                  onChange={value => {
+                    setAttributes({ HeaderTitle: value })
+                  }}
+                  style={{
+                    color:attributes.HeaderTitleColor
                 }}
-              >
-                <span className='dashicons dashicons-plus'></span> Add New Item
-              </button>
+                />
+            </div>
+            <div className="community-curator-body">
+              {itemList}
+              <div className='item additem'>
+                <button
+                  className='components-button add'
+                  onClick={() => {
+                    this.initList()
+                  }}
+                >
+                  <span className='dashicons dashicons-plus'></span> Add New Item
+                </button>
+              </div>
             </div>
           </div>
         </Fragment>
@@ -262,6 +372,34 @@
       dataArray: {
         type: 'array',
         default: []
+      },
+      TitleColor:{
+        type: 'string',
+        default: '#fff'
+      },
+      SubTitleColor:{
+        type:'string',
+        default:'#0ca5ea'
+      },
+      DescriptionColor:{
+        type:'string',
+        default:'#fff'
+      },
+      ThumbBgColor:{
+        type:'string',
+        default:'#0ca5ea'
+      },
+      HeaderTitle:{
+        type:'string',
+        default:''
+      },
+      HeaderTitleColor:{
+        type:'string',
+        default:'#fdd80f'
+      },
+      blockClientId:{
+        type:'string',
+        default:''
       }
     },
     edit: ItemComponent,
@@ -271,38 +409,69 @@
       const { dataArray } = attributes
 
       return (
-        <div className='community-curator'>
-          <div
-            className='big-section'
-            style={{
-              backgroundImage: `url(${dataArray[0].bgMedia})`
-            }}
-          >
-            <div className='contents'>
-              {dataArray[0].title && (
-                <RichText.Content
-                  tagName='h3'
-                  value={dataArray[0].title}
-                  className='title'
-                />
-              )}
-              {dataArray[0].subTitle && (
-                <RichText.Content
-                  tagName='strong'
-                  value={dataArray[0].subTitle}
-                  className='sub-title'
-                />
-              )}
-              {dataArray[0].description && (
-                <RichText.Content
-                  tagName='p'
-                  value={dataArray[0].description}
-                  className='description'
-                />
-              )}
-            </div>
+        <div className='community-curator' id={'block-'+attributes.blockClientId}>
+          <div className="community-curator-header">
+            <RichText.Content
+                tagName='h2'
+                value={attributes.HeaderTitle}
+                style={{color:attributes.HeaderTitleColor}}
+              />
           </div>
-          <div className='grid-list'>
+          <div className="community-curator-body">
+            <div
+              className='big-section'
+              style={{
+                backgroundImage: `url(${dataArray[0].bgMedia})`
+              }}
+            >
+              <div className='contents'>
+                {dataArray[0].title && (
+                  <RichText.Content
+                    tagName='h3'
+                    value={dataArray[0].title}
+                    className='title'
+                    style={{
+                      color:attributes.TitleColor
+                    }}
+                  />
+                )}
+                {dataArray[0].subTitle && (
+                  <RichText.Content
+                    tagName='strong'
+                    value={dataArray[0].subTitle}
+                    className='sub-title'
+                    style={{
+                      color:attributes.SubTitleColor
+                    }}
+                  />
+                )}
+                {dataArray[0].description && (
+                  <RichText.Content
+                    tagName='p'
+                    value={dataArray[0].description}
+                    className='description'
+                    style={{
+                      color:attributes.DescriptionColor
+                    }}
+                  />
+                )}
+                {dataArray[0].shortcode &&
+                  <RichText.Content
+                    tagName='div'
+                    value={dataArray[0].shortcode}
+                    className='shortcode-wrap'
+                  />
+                }
+                {dataArray[0].buttonText && (
+                  <RichText.Content
+                    tagName='div'
+                    value={dataArray[0].buttonText}
+                    className='button-wrap'
+                  />
+                )}
+              </div>
+            </div>
+            <div className='grid-list'>
             {dataArray.map((data, index) => (
               <Fragment>
                 {data.title && (
@@ -318,6 +487,9 @@
                       <div className="item-list-right">
                         <div className="item-list-main">
                           <div className="item-list-wrap">
+                            <style>
+                            {`#block-${attributes.blockClientId} .grid-list .item.active .left{background:${attributes.ThumbBgColor}}`}
+                            </style>
                             <div className='left'>
                               {data.media ? (
                                 <img src={data.media} alt={data.title} />
@@ -331,6 +503,9 @@
                                   tagName='h3'
                                   value={data.title}
                                   className='title'
+                                  style={{
+                                    color:attributes.TitleColor
+                                  }}
                                 />
                               )}
                               {data.subTitle && (
@@ -338,6 +513,9 @@
                                   tagName='strong'
                                   value={data.subTitle}
                                   className='sub-title'
+                                  style={{
+                                    color:attributes.SubTitleColor
+                                  }}
                                 />
                               )}
                               {data.description && (
@@ -345,6 +523,23 @@
                                   tagName='p'
                                   value={data.description}
                                   className='description'
+                                  style={{
+                                    color:attributes.DescriptionColor
+                                  }}
+                                />
+                              )}
+                              {data.shortcode &&
+                                <RichText.Content
+                                  tagName='div'
+                                  value={data.shortcode}
+                                  className='shortcode-wrap'
+                                />
+                              }
+                              {data.buttonText && (
+                                <RichText.Content
+                                  tagName='div'
+                                  value={data.buttonText}
+                                  className='button-wrap'
                                 />
                               )}
                             </div>
@@ -357,8 +552,9 @@
               </Fragment>
             ))}
           </div>
+          </div>
         </div>
       )
     }
   })
-})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element)
+})(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element, wp.blockEditor)

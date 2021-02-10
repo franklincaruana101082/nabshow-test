@@ -14,18 +14,13 @@ if ( empty( $user_id ) || 0 === $user_id ) {
     
     $user_id = $current_user_id;
 }
-?>
-<div class="back-to-profile">
-    <a href="<?php echo esc_url( $profile_url ) ?>" class="get-back-arrow">Back to Profile</a>
-</div>
-<?php
 
 $member_bookmarks = get_user_meta( $user_id, 'nab_customer_product_bookmark', true );
 
 if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
     $bookmark_query_args = array(
-        'post_type'         => 'product',
+        'post_type'         => array( 'product', 'company-products', 'articles' ),
         'posts_per_page'    => 12,
         'post_status'       => 'publish',
         'post__in'          => $member_bookmarks

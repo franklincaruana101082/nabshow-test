@@ -41,12 +41,13 @@ if ( ( 0 !== $current_user_id && $current_user_id === $member_id ) /* on buddypr
 $member_id = 0 === $member_id ? $current_user_id : $member_id;
 
 // Get user meta.
-$user_data   = get_user_meta( $member_id );
-$member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
+$user_data = get_user_meta( $member_id );
 
+// Get user display name.
+$user_obj    = get_user_by( 'id', $member_id );
+$member_name = $user_obj->display_name;
 if ( empty( trim( $member_name ) ) ) {
-
-	$member_name = bp_get_member_name();
+	$member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
 }
 
 // Get images.
@@ -66,7 +67,7 @@ if ( $user_logged_in ) {
 	}
 }
 ?>
-    <div class="banner-header" style="background-image: url('<?php echo esc_url( $user_images['banner_image'] ); ?>')">
+    <div class="banner-header <?php echo 2 === $edit_mode ? 'edit_mode_on' : ''; ?>" style="background-image: url('<?php echo esc_url( $user_images['banner_image'] ); ?>')">
         <div class="banner-container">
             <div class="banner-inner">
                 <div class="bannner-actions">
@@ -74,7 +75,7 @@ if ( $user_logged_in ) {
 					<?php if ( 2 === $edit_mode ) { ?>
                         <div class="update-banner-image">
                             <label for="banner_image_file">
-                                <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image"><i class="fa fa-pencil"></i></span>
+                                <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
                             <input id="banner_image_file" type="file" name="banner_image" style="display: none;"/>
                         </div>
@@ -90,110 +91,140 @@ if ( $user_logged_in ) {
                 <div class="amp-profile-main">
                     <div class="amp-profile-inner">
                         <div class="amp-profile-content">
-                            <div id="profile-avtar" class="amp-profile-image">
-                                <label for="profile_picture_file">
+                            <div id="profile-avtar" class="amp-profile-image profile-avtar">
+                                <div class="profile-avtar-inner" id="profile-avtar-inner">
                                     <img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
-									<?php if ( 2 === $edit_mode ) { ?>
-                                        <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image"><i class="fa fa-pencil"></i></span>
-                                        <input id="profile_picture_file" type="file" name="profile_picture" style="display: none;"/>
-									<?php } else {
-										echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );
-									} ?>
-                                </label>
+			                        <?php if ( 2 === $edit_mode ) { ?>
+                                        <div class="profile-actions">
+                                            <label for="profile_picture_file">
+                                                <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
+                                            </label>
+                                            <span class="remove-profile-pic" id="profile_picture_remove" name="profile_picture_remove" data-bp-tooltip="Remove Profile Image"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                            <input id="profile_picture_file" type="file" name="profile_picture" style="display: none;"/>
+                                        </div>
+			                        <?php } else {
+				                        echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );
+			                        } ?>
+                                </div>
                             </div>
 							<?php if ( $accepting_connections ) { ?>
                                 <div class="amp-profile-info">
                                     <h2><?php echo esc_html( $member_name ); ?></h2>
-									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) ) { ?>
+									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) || ! empty( $user_data['user_city'][0] ) ) { ?>
                                         <div class="amp-profile-disc">
 											<?php if ( ! empty( $user_data['attendee_title'][0] ) ) { ?>
                                                 <span><?php echo esc_html( $user_data['attendee_title'][0] ); ?></span>
 											<?php } ?>
-                                            <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
-                                        </div>
-									<?php } ?>
+                                            <?php if ( ! empty( $user_data['attendee_company'][0] ) ) { ?>
+                                                <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
+                                            <?php } ?>
+                                            <?php
+                                            if ( ! empty( $user_data[ 'user_city' ][0] ) ) {
+                                                
+                                                $location = array( $user_data[ 'user_city' ][0] );
 
-									<?php if ( ! empty( $user_data['attendee_location'][0] ) ) { ?>
-                                        <div class="amp-profile-location">
-                                            <span><?php echo esc_html( $user_data['attendee_location'][0] ); ?></span>
+                                                if ( isset( $user_data[ 'user_state' ][0] ) && ! empty( $user_data[ 'user_state' ][0] ) ) {
+
+                                                    $countries_obj          = new WC_Countries();
+                                                    $default_country        = isset( $user_data[ 'user_country' ][0] ) && ! empty( $user_data[ 'user_country' ][0] ) ? $user_data[ 'user_country' ][0] : $countries_obj->get_base_country();
+                                                    $default_county_states  = $countries_obj->get_states( $default_country );
+                                                    $location[]             = isset( $default_county_states[ $user_data[ 'user_state' ][0] ] ) ? $default_county_states[ $user_data[ 'user_state' ][0] ] : $user_data[ 'user_state' ][0];
+                                                }
+                                                ?>
+                                                <span><?php echo esc_html( implode( ', ', $location ) ); ?></span>
+                                                <?php
+                                            }
+                                            ?>
                                         </div>
 									<?php } ?>
                                 </div>
-                                <div class="amp-profile-social">
-                                    <ul>
-										<?php if ( isset( $user_data['social_twitter'][0] ) && ! empty( $user_data['social_twitter'][0] ) ) { ?>
-                                            <li>
-                                                <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
-                                            </li>
-										<?php }
-										if ( isset( $user_data['social_linkedin'][0] ) && ! empty( $user_data['social_linkedin'][0] ) ) { ?>
-                                            <li>
-                                                <a href="<?php echo esc_attr( $user_data['social_linkedin'][0] ); ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
-                                            </li>
-										<?php }
-										if ( isset( $user_data['social_facebook'][0] ) && ! empty( $user_data['social_facebook'][0] ) ) { ?>
-                                            <li>
-                                                <a href="<?php echo esc_attr( $user_data['social_facebook'][0] ); ?>" target="_blank"><i class="fa fa-facebook"></i></a>
-                                            </li>
-										<?php }
-										if ( isset( $user_data['social_instagram'][0] ) && ! empty( $user_data['social_instagram'][0] ) ) { ?>
-                                            <li>
-                                                <a href="<?php echo esc_attr( $user_data['social_instagram'][0] ); ?>" target="_blank"><i class="fa fa-instagram"></i></a>
-                                            </li>
-										<?php }
-										if ( isset( $user_data['social_website'][0] ) && ! empty( $user_data['social_website'][0] ) ) { ?>
-                                            <li>
-                                                <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
-                                            </li>
-										<?php } ?>
-                                    </ul>
-                                </div>
+                                <?php
+                                if ( $current_user_id === $member_id || 'is_friend' === $is_friend ) {
+                                    ?>
+                                    <div class="amp-profile-social">
+                                        <ul>
+                                            <?php if ( isset( $user_data['social_twitter'][0] ) && ! empty( $user_data['social_twitter'][0] ) ) { ?>
+                                                <li>
+                                                    <a href="<?php echo esc_attr( $user_data['social_twitter'][0] ); ?>" target="_blank"><i class="fa fa-twitter"></i></a>
+                                                </li>
+                                            <?php }
+                                            if ( isset( $user_data['social_linkedin'][0] ) && ! empty( $user_data['social_linkedin'][0] ) ) { ?>
+                                                <li>
+                                                    <a href="<?php echo esc_attr( $user_data['social_linkedin'][0] ); ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                                </li>
+                                            <?php }
+                                            if ( isset( $user_data['social_facebook'][0] ) && ! empty( $user_data['social_facebook'][0] ) ) { ?>
+                                                <li>
+                                                    <a href="<?php echo esc_attr( $user_data['social_facebook'][0] ); ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                </li>
+                                            <?php }
+                                            if ( isset( $user_data['social_instagram'][0] ) && ! empty( $user_data['social_instagram'][0] ) ) { ?>
+                                                <li>
+                                                    <a href="<?php echo esc_attr( $user_data['social_instagram'][0] ); ?>" target="_blank"><i class="fa fa-instagram"></i></a>
+                                                </li>
+                                            <?php }
+                                            if ( isset( $user_data['social_website'][0] ) && ! empty( $user_data['social_website'][0] ) ) { ?>
+                                                <li>
+                                                    <a href="<?php echo esc_attr( $user_data['social_website'][0] ); ?>" target="_blank"><i class="fa fa-link"></i></a>
+                                                </li>
+                                            <?php }
+                                            if ( isset( $user_data['social_youtube'][0] ) && ! empty( $user_data['social_youtube'][0] ) ) { ?>
+                                                <li>
+                                                    <a href="<?php echo esc_attr( $user_data['social_youtube'][0] ); ?>" target="_blank"><i class="fa fa-youtube"></i></a>
+                                                </li>
+                                            <?php } ?> 
+                                        </ul>
+                                    </div>
+                                    <?php
+                                }
+                                ?>                                
                                 <div class="amp-profile-message">
 									<?php
 									if ( ! bp_is_my_profile() ) {
 
-										if ( isset( $user_data['comapny_post_id'][0] ) && ! empty( $user_data['comapny_post_id'][0] ) ) {
-
-											$is_following = bp_follow_is_following( array(
-												'leader_id'   => $member_id,
-												'follower_id' => $current_user_id,
-											) );
-
-											if ( $is_following ) {
-
-												$private_massage_link = wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_core_get_username( $member_id ) );
-
-												bp_send_message_button( array(
-														'id'         => 'private_message_' . $member_id,
-														'link_class' => 'button',
-														'link_text'  => 'Message',
-														'link_href'  => $private_massage_link
-													)
-												);
-
-											} else {
-
-												bp_follow_add_follow_button( 'leader_id=' . $member_id );
-											}
-
-
-										} else {
-
-											echo nab_amplify_bp_get_friendship_button( $member_id, false );
-										}
+										if ( $current_user_id !== $member_id && 'is_friend' !== $is_friend && ! nab_member_can_connect_to_anyone( $member_id ) ) {
+                                            ?>
+                                            <div id="amp-profile-restrict-message">
+                                                <p>User Not Accepting Connections</p>
+                                            </div>
+                                            <?php
+                                        } else {
+                                            echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                        }
 									}
 									?>
                                 </div>
 							<?php } else { ?>
-                                <div id="amp-profile-restrict-message">
-                                    <p>User Not Accepting Connections</p>
-                                </div>
-							<?php } ?>
+                            <div class="amp-profile-info">
+                                <h2><?php echo esc_html( $member_name ); ?></h2>                                
+                            </div>
+							<?php
+							if ( ! bp_is_my_profile() ) {
+                                
+                                if ( ! nab_member_can_connect_to_anyone( $member_id ) ) {
+                                    ?>
+                                    <div id="amp-profile-restrict-message">
+                                        <p>User Not Accepting Connections</p>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="amp-profile-message">
+                                        <?php
+                                        echo nab_amplify_bp_get_friendship_button( $member_id, false );
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+							}
+							?>
                         </div>
+						<?php } ?>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 <?php
 if ( ! $accepting_connections ) {

@@ -28,25 +28,23 @@ if ( post_password_required() ) {
 		?>
 		<div class="comment-section-title">
 			<h2>Discussion</h2>
+			<?php
+			if ( is_user_logged_in() ) {
+				?>
+				<a href="#respond" class="navigate-reply btn">Add Comment</a>
+				<?php
+			}
+			?>
 		</div>
 		<div class="comment-header">
 			<h3 class="comments-title">
 				<?php
-				$nab_amplify_comment_count = get_comments_number();
-				if ( '1' === $nab_amplify_comment_count ) {
-					printf(
-						/* translators: 1: title. */
-						esc_html__( 'Responses (%1$s)', 'nab-amplify' ),
-						'<span>' . wp_kses_post( get_the_title() ) . '</span>'
-					);
-				} else {
-					printf('Responses <span class="comment-count">('._nx( '%1$s', $nab_amplify_comment_count, 'comments title', 'nab-amplify' ).')</span>',
-						number_format_i18n( $nab_amplify_comment_count ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						'<span>' . wp_kses_post( get_the_title() ) . '</span>'
-					);
-				}
+				printf(
+					/* translators: 1: title. */
+					esc_html__( 'Responses ('.get_comments_number( get_the_ID() ).')', 'nab-amplify' )
+				);
 				?>
-			</h2><!-- .comments-title -->
+			</h3><!-- .comments-title -->
 			<div class="comment-filter">
 				<?php
 				global $wp;
@@ -58,7 +56,6 @@ if ( post_password_required() ) {
 						<option value="ASC" <?php if($_GET['orderby'] === 'ASC'){ echo "Selected"; }?>>Oldest</option>
 					</select>
 				</div>
-				<a href="#respond" class="navigate-reply btn">Reply</a>
 			</div>
 		</div>
 
@@ -67,9 +64,10 @@ if ( post_password_required() ) {
 		<ol class="comment-list">
 			<?php
 			$order_by = isset($_GET['orderby']) ? $_GET['orderby'] : 'DESC';
-			$comments = get_comments( array( 'order' => $order_by ) );
+			$comments = get_comments( array( 'order' => $order_by, 'post_id' => get_the_ID() ) );
 			wp_list_comments(
 				array(
+					'walker'	 => new Custom_Walker_Comment(),
 					'style'      => 'ol',
 					'short_ping' => true,
 				),$comments
@@ -89,7 +87,9 @@ if ( post_password_required() ) {
 
 	endif; // Check for have_comments().
 
-	comment_form();
+	if ( is_user_logged_in() ) {
+		comment_form();
+	}
 	?>
 
 </div><!-- #comments -->

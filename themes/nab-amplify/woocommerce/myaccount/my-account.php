@@ -34,13 +34,13 @@ if ( ! empty( $wp->query_vars ) ) {
 	}
 }
 $page_title = str_replace( '-', ' ', $page_title );
-switch ( $page_title ) {
-    case 'edit address':
-        $page_title = 'edit address';
-	    break;
-    case 'orders':
-        $page_title = 'order history';
-	    break;
+switch ( $page_title ) {	
+	case 'edit address':
+		$page_title = 'edit address';
+		break;
+	case 'orders':
+		$page_title = 'order history';
+		break;
 	case 'my purchases':
 		$page_title = 'Access My Content';
 		break;
@@ -58,13 +58,13 @@ do_action( 'woocommerce_account_navigation' ); ?>
 <div class="woocommerce-MyAccount-content">
 
 	<?php if ( 1 === $show_title ) { ?>
-    <header class="entry-header account_custom_title">
-	<?php if( 'pagename' === $page_title  ) { ?>
-        <h1 class="entry-title">Welcome to NAB Amplify<sup style="font-size: 50%;top: -1.2em;">TM</sup></h1>
-	<?php } else { ?>
-		<h1 class="entry-title"><?php esc_html_e( $page_title ); ?></h1>
-	<?php } ?>
-    </header>
+        <header class="entry-header account_custom_title">
+			<?php if ( 'pagename' === $page_title ) { ?>
+                <h1 class="entry-title">Welcome to NAB Amplify<sup style="font-size: 50%;top: -1.2em;">TM</sup></h1>
+			<?php } else { ?>
+                <h1 class="entry-title"><?php esc_html_e( $page_title ); ?></h1>
+			<?php } ?>
+        </header>
 	<?php } ?>
 
 	<?php

@@ -34,6 +34,9 @@ class WC_Bulk_Registration_User_Email extends WC_Email {
 		// Triggers for this email.
 		add_action( 'nab_bulk_user_registration', array( $this, 'trigger' ), 10, 3 );
 
+		// Send email to custom registred user.
+		add_action( 'nab_sent_user_registration_email', array( $this, 'sent_registration_email' ), 10, 3 );
+
 		// Call parent constructor.
 		parent::__construct();
 	}
@@ -58,6 +61,31 @@ class WC_Bulk_Registration_User_Email extends WC_Email {
 				$this->user_id   = $user_id;
 				$this->user_pass = $user_pass;
 			}
+		}
+
+		if ( $this->is_enabled() && $this->get_recipient() ) {
+			$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
+		}
+
+		$this->restore_locale();
+	}
+
+	/**
+	 * Send email to custom registred user.
+	 *
+	 * @param $user_id
+	 * @param $user_pass
+	 * @param $user_email
+	 */
+	public function sent_registration_email( $user_id, $user_pass, $user_email ) {
+
+		$this->setup_locale();
+
+		if ( $user_id ) {
+			
+			$this->recipient = $user_email;
+			$this->user_id   = $user_id;
+			$this->user_pass = $user_pass;
 		}
 
 		if ( $this->is_enabled() && $this->get_recipient() ) {
