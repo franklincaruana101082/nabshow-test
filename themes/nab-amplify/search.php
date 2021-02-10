@@ -526,6 +526,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$featured_image  	= get_the_post_thumbnail_url();
 								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
+								$company_poc        = get_field('point_of_contact'); 
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -551,25 +552,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 														<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 													</div>
 													<?php
-													if ($user_logged_in) {
-
-													?>
-														<div id="send-private-message" class="generic-button poc-msg-btn">
-															<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
-														</div>
-														<?php 
-													} else {
-														
-														$current_url = home_url( add_query_arg( NULL, NULL ) );
-														$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
-														
-														?>
-														<div class="generic-button">
-															<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
-														</div>
-														<?php
+													if ($company_poc !== '' && !empty($company_poc)) {
+														if ($user_logged_in) {
+															?>
+													   <div id="send-private-message" class="generic-button poc-msg-btn">
+														   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+													   </div>
+													   <?php
+														} else {
+															$current_url = home_url(add_query_arg(null, null));
+															$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+													   <div class="generic-button">
+														   <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+													   </div>
+													   <?php
+														}
 													}
-													?>
+												   ?>
 												</div>
 											</div>
 										</div>
@@ -1155,23 +1154,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 												<?php
 
-												if ($user_logged_in) { ?>
+if ($company_poc !== '' && !empty($company_poc)) {
+	if ($user_logged_in) { ?>
 
-													<div id="send-private-message" class="generic-button poc-msg-btn">
-														<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
-													</div>
-													<?php 
-												} else {
-													
-													$current_url = home_url( add_query_arg( NULL, NULL ) );
-													$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
-													
-													?>
-													<div class="generic-button">
-														<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
-													</div>
-													<?php
-												}
+												   <div id="send-private-message" class="generic-button poc-msg-btn">
+													   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												   </div>
+												   <?php
+											   } else {
+												   $current_url = home_url(add_query_arg(null, null));
+												   $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+												   <div class="generic-button">
+													   <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+												   </div>
+												   <?php
+											   }
+}
 												?>
 											</div>
 										</div>

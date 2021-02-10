@@ -2846,23 +2846,25 @@ function nab_amplify_display_author()
 function nab_add_product()
 {
 
-    $final_result          = array();
-    $uploaded_attachments = array();
-    $post_title            = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
-    $post_categories       = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
-    $product_copy          = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
-    $product_specs         = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
-    $product_contact       = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
-    $is_feature_product    = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
-    $is_product_b_stock    = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
-    $is_product_sales_item = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
-    $product_discussion    = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
-    $product_tags          = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
-    $product_id            = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
-    $remove_attachments    = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
-    $nab_company_id        = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
-    $nab_product_learn_more_url    = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
-    $product_media = get_field('product_media', $product_id);
+    $final_result               = array();
+    $uploaded_attachments       = array();
+    $post_title                 = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
+    $post_categories            = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
+    $product_copy               = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
+    $product_specs              = filter_input(INPUT_POST, 'nab_product_specs', FILTER_UNSAFE_RAW);
+    $product_contact            = filter_input(INPUT_POST, 'nab_product_contact', FILTER_SANITIZE_NUMBER_INT);
+    $is_feature_product         = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
+    $is_product_b_stock         = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
+    $is_product_sales_item      = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
+    $product_discussion         = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
+    $product_tags               = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
+    $product_id                 = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
+    $product_status             = filter_input(INPUT_POST, 'product_status', FILTER_SANITIZE_STRING);
+    $remove_attachments         = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
+    $nab_company_id             = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
+    $nab_product_learn_more_url = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
+    $product_media              = get_field('product_media', $product_id);
+    $response_msg               = '';
     $product_contact            = $product_contact ? $product_contact : 0;
 
     //set product excerpt trim to first 200 characters
@@ -2876,10 +2878,11 @@ function nab_add_product()
         }
     }
 
+    $product_status = 'update' === strtolower($product_status) ? 'publish' : $product_status;
     // Create post object
     $product_post_data = array(
         'post_title'   => wp_strip_all_tags($post_title),
-        'post_status'  => 'publish',
+        'post_status'  => $product_status,
         'post_type'    => 'company-products',
         'post_excerpt' => $product_excerpt
     );
@@ -2892,6 +2895,9 @@ function nab_add_product()
     }
 
     if ($product_id !== '0') {
+
+        $current_status = get_post_status($product_id);
+
         // Update the post into the database
         $product_post_data['ID'] = $product_id;
 
@@ -2914,13 +2920,28 @@ function nab_add_product()
             }
         }
 
-        
+        $response_msg = 'trash' === strtolower($product_status) ? "Product Deleted Successfully!" : "Product Updated Successfully!";
 
-
-
+        if ('draft' === $current_status && 'publish' === strtolower($product_status)) {
+            $final_result['publish_text']   = "Update";
+            $final_result['draft_text']     = "Revert to Draft";
+            $response_msg                   = "Product Published Successfully!";
+        } elseif ('publish' === $current_status && 'draft' === strtolower($product_status)) {
+            $final_result['publish_text']   = "Publish";
+            $final_result['draft_text']     = "Save as Draft";
+            $response_msg                   = "Product Reverted Publish to Draft Successfully!";
+        }
     } else {
         // Insert the post into the database
         $post_id = wp_insert_post($product_post_data);
+
+        if ('draft' === strtolower($product_status)) {
+            $response_msg = "Product Save as Draft Successfully!";
+        } else {
+            $response_msg = "Product Added Successfully!";
+            $final_result['publish_text']   = "Update";
+            $final_result['draft_text']     = "Revert to Draft";
+        }
     }
 
     // assign categories and tags to post
@@ -3006,7 +3027,8 @@ function nab_add_product()
         $final_result['content'] = '';
     } else {
         $final_result['success'] = true;
-        $final_result['content'] = '';
+        $final_result['content'] = $response_msg;
+        $final_result['post_id'] = $post_id;
     }
 
     echo wp_json_encode($final_result);
@@ -3331,24 +3353,51 @@ function nab_update_company_profile_callback()
 
     $final_result = array();
 
-    $instagram_profile            = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
-    $linkedin_profile             = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
-    $facebook_profile             = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
-    $twitter_profile              = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
-    $company_about                = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
-    $company_industry             = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
-    $company_website              = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
-    $company_point_of_contact     = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
-    $company_id                   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-    $company_location_street_one  = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
-    $company_location_street_two  = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
-    $company_location_street_three             = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
-    $company_location_city             = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
-    $company_location_state             = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
-    $company_location_zipcode             = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
-    $company_location_country             = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
-    $company_product_categories       = explode(',', filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING));
-    $company_youtube       = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
+    $instagram_profile              = filter_input(INPUT_POST, 'instagram_profile', FILTER_SANITIZE_STRING);
+    $linkedin_profile               = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
+    $facebook_profile               = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
+    $twitter_profile                = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
+    $company_about                  = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $company_industry               = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
+    $company_website                = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
+    $company_point_of_contact       = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
+    $company_id                     = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_location_street_one    = filter_input(INPUT_POST, 'company_location_street_one', FILTER_SANITIZE_STRING);
+    $company_location_street_two    = filter_input(INPUT_POST, 'company_location_street_two', FILTER_SANITIZE_STRING);
+    $company_location_street_three  = filter_input(INPUT_POST, 'company_location_street_three', FILTER_SANITIZE_STRING);
+    $company_location_city          = filter_input(INPUT_POST, 'company_location_city', FILTER_SANITIZE_STRING);
+    $company_location_state         = filter_input(INPUT_POST, 'company_location_state', FILTER_SANITIZE_STRING);
+    $company_location_zipcode       = filter_input(INPUT_POST, 'company_location_zip', FILTER_SANITIZE_STRING);
+    $company_location_country       = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
+    $company_product_categories     = filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING);
+    $company_search_categories      = filter_input(INPUT_POST, 'company_search_categories', FILTER_SANITIZE_STRING);
+    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);    
+
+    $category_limit = nab_get_company_member_category_limit($company_id);
+
+    if (!empty($company_product_categories) && 'null' !== $company_product_categories) {
+
+        $company_product_categories = explode(',', $company_product_categories);
+
+        if (0 === (int) $category_limit['featured'] && count($company_product_categories) > 0) {
+            wp_send_json_error('Update Failed. You can\'t add featured product categories without membership.');
+        } else if (2 === (int) $category_limit['featured'] && count($company_product_categories) > (int) $category_limit['featured']) {
+            wp_send_json_error('Update Failed. You can add maximum ' . $category_limit['featured'] . ' featured product categories with your current membership.');
+        } else if (count($company_product_categories) > (int) $category_limit['featured']) {
+            wp_send_json_error('Update Failed. You can\'t add more than ' . $category_limit['featured'] . ' featured product categories.');
+        }
+    }
+
+    if (!empty($company_search_categories) && 'null' !== $company_search_categories) {
+        
+        $company_search_categories = explode(',', $company_search_categories);
+
+        if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
+            wp_send_json_error('Update Failed. You can\'t add search categories with your current membership.');
+        } else if (count($company_search_categories) > (int) $category_limit['search']) {
+            wp_send_json_error('Update Failed. You can\'t add more than ' . $category_limit['search'] . ' search categories with your current membership.');
+        }
+    }
 
     //set company excerpt trim to first 200 characters
     $company_excerpt = wp_trim_words($company_about, 200, '...');
@@ -3423,9 +3472,14 @@ function nab_update_company_profile_callback()
     }
 
 
-    // Update company product categories
-    if (!empty($company_product_categories)) {
+    // Update company product categories.
+    if (!empty($company_product_categories) && 'null' !== $company_product_categories) {
         update_field('product_categories', $company_product_categories, $company_id);
+    }
+
+    // Update company search product categories.
+    if (!empty($company_search_categories) && 'null' !== $company_search_categories) {
+        update_field('search_product_categories', $company_search_categories, $company_id);
     }
 
     // Update company youtube
@@ -3452,6 +3506,7 @@ function nab_edit_company_about_callback()
     $company_data['company_website'] = get_field('company_website', $company_id);
     $company_data['company_point_of_contact'] = get_field('point_of_contact', $company_id);
     $company_data['product_categories'] = get_field('product_categories', $company_id);
+    $company_data['search_product_categories']  = get_field('search_product_categories', $company_id);
     $company_data['company_youtube'] = get_field('company_youtube', $company_id);
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
@@ -3858,5 +3913,195 @@ function nab_sync_user_to_live() {
             <p><?php echo esc_html( $msg ); ?></p>
         </div>
         <?php
+    }
+}
+
+/**
+ * 
+ * Add company admin by URL
+ */
+
+function nab_add_comapny_admin()
+{
+    global $wp_query;
+
+    $post_type = get_post_type();
+    if ($post_type === 'company') {
+
+        $current_post_id = $wp_query->posts[0]->ID;
+        $post_random_string = get_field('admin_add_string', $current_post_id);
+        $query_var = $wp_query->query_vars['addadmin'];
+
+
+        if ($query_var && ($post_random_string == $query_var)) {
+            if (!is_user_logged_in()) {
+                $current_url = home_url(add_query_arg(NULL, NULL));
+                $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+                $url =  esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount')));
+                wp_redirect($url, 302);
+            } else {
+                $current_user_id = get_current_user_id();
+
+                $current_admins = get_field('company_user_id', $current_post_id);
+                if (empty($current_admins)) {
+                    $current_admins = [];
+                }
+                if (!in_array($current_user_id, $current_admins)) {
+                    $current_admins[] = $current_user_id;
+                    update_field('company_user_id', $current_admins, $current_post_id);
+                    setcookie('new_company_admin_popup', '1', time() + (86400 * 30), "/");
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Initialize the company bulk import batch.
+ */
+function wp_batch_processing_init()
+{
+    $batch = new NAB_Company_Import_Batch();
+    WP_Batch_Processor::get_instance()->register($batch);
+}
+
+/*Generate default alphanumeric random string for company add admin URL */
+
+function generate_add_admin_string()
+{
+    // String of all alphanumeric character 
+    $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+    // Shufle the $str_result and returns substring 
+    // of specified length 
+    return substr(
+        str_shuffle($str_result),
+        0,
+        10
+    );
+}
+
+/**
+ * Added company export submenu page.
+ */
+function nab_add_export_company_menu()
+{
+
+    add_submenu_page(
+        'edit.php?post_type=company',
+        __('Export Companies', 'nab-amplify'),
+        __('Export Companies', 'nab-amplify'),
+        'manage_options',
+        'amplify_company_export',
+        'nab_export_compnies_callback'
+    );
+}
+
+/**
+ * Export company setting page.
+ */
+function nab_export_compnies_callback()
+{
+?>
+    <div class="search-settings">
+        <h2>Export Companies</h2>
+        <form class="companies-export-form" method="post">
+            <input type="hidden" name="generate_company_csv" value="generate_company_csv" />
+            <?php submit_button("Export CSV"); ?>
+        </form>
+    </div>
+    <?php
+}
+
+
+/**
+ * Generate comments CSV file.
+ */
+function nab_generate_company_export_csv_file()
+{
+
+    global $wpdb, $pagenow;
+
+    $submit   = filter_input(INPUT_POST, 'generate_company_csv', FILTER_SANITIZE_STRING);
+    $comment_page   = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
+
+    if ('edit.php' === $pagenow && 'amplify_company_export' === $comment_page  && !empty($submit)) {
+        // CSV header row fields titles
+        $csv_fields   = array();
+        $csv_fields[] = 'Company Name';
+        $csv_fields[] = 'Claimed Status';
+        $csv_fields[] = 'Admin URL';
+        $csv_fields[] = 'Salesforce ID';
+
+        // Generate csv file as a direct download
+        $output_filename = 'amplify-company-list-' . date('m-d-Y') . '.csv';
+        $output_handle   = fopen('php://output', 'w');
+
+        header('Content-type: application/csv');
+        header('Content-Disposition: attachment; filename=' . $output_filename);
+
+        $args = array(
+            'numberposts'        => -1, // -1 is for all
+            'post_type'        => 'company', // or 'post', 'page'
+            'orderby'         => 'title', // or 'date', 'rand'
+            'order'         => 'ASC', // or 'DESC'
+            'post_status'   => 'publish'
+        );
+
+        $company_result = get_posts($args);
+
+        // Insert header row
+        fputcsv($output_handle, $csv_fields);
+
+        foreach ($company_result as $company) {
+
+            $company_admins = get_field('company_user_id', $company->ID);
+            $admin_add_string = get_field('admin_add_string', $company->ID);
+
+            if (!empty($company_admins)) {
+                $claim_status = 'Claimed';
+            } else {
+                $claim_status = 'Unclaimed';
+            }
+
+            if ($admin_add_string != '') {
+                $admin_url = get_permalink($company->ID) . '?addadmin=' . $admin_add_string;
+            } else {
+                $random_string = generate_add_admin_string();
+                update_field('admin_add_string', $random_string, $company->ID);
+                $admin_url = get_permalink($company->ID) . '?addadmin=' . $random_string;
+            }
+
+            $salesforce_id = get_field('salesforce_id', $company->ID);
+
+            if ($company->post_title != '') {
+                $dynamic_fields = array();
+                $dynamic_fields[] = $company->post_title;
+                $dynamic_fields[] = $claim_status;
+                $dynamic_fields[] = $admin_url;
+                $dynamic_fields[] = $salesforce_id;
+                fputcsv($output_handle, $dynamic_fields);
+            }
+        }
+        exit;
+    }
+}
+
+/**
+ * Redirect user to login page when access protected pages.
+ */
+function nab_redirect_user_to_login_page() {
+
+    global $post;
+
+    if ( isset( $post->ID ) && ! empty( $post->ID ) && ! is_user_logged_in() ) {
+
+        $content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
+
+        if ( $content_accessible ) {
+            $redirect_url =  add_query_arg( array( 'r' => get_the_permalink() ), wc_get_page_permalink( 'myaccount' ) );
+            wp_redirect( $redirect_url );
+            exit();
+        }
     }
 }

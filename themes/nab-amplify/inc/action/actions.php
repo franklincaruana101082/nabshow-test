@@ -211,3 +211,11 @@ add_action( 'restrict_manage_comments', 'nab_add_page_by_comment_filter' );
 
 add_shortcode( 'nab_year', 'nab_copyright_year_shortcode' );
 add_action( 'admin_init', 'nab_sync_user_to_live' );
+add_action( 'wp_batch_processing_init', 'wp_batch_processing_init', 15, 1 );
+
+// get add admin paramter
+add_action( 'wp', 'nab_add_comapny_admin' );
+
+add_action( 'admin_menu', 'nab_add_export_company_menu' );
+add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
+add_action( 'template_redirect', 'nab_redirect_user_to_login_page' );

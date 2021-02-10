@@ -1310,6 +1310,7 @@ function nab_company_search_filter_callback()
 			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
 			$profile_picture    = !empty($profile_picture) ? $profile_picture['url'] : $default_company_pic;
 			$company_url		= get_the_permalink();
+			$company_poc		= get_field('point_of_contact');
 
 			$result_post[$cnt]['cover_img'] = $cover_image;
 			$result_post[$cnt]['link'] 		= $company_url;
@@ -1323,22 +1324,21 @@ function nab_company_search_filter_callback()
 				<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 			</div>
 			<?php
-			if ($user_logged_in) {
-			?>
-				<div id="send-private-message" class="generic-button poc-msg-btn">
-					<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
-				</div>
-			<?php
-			} else {
-
-				$current_url = home_url(add_query_arg(NULL, NULL));
-				$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-
-			?>
-				<div class="generic-button">
-					<a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
-				</div>
-		<?php
+			if ($company_poc !== '' && !empty($company_poc)) {
+				if ($user_logged_in) {
+					?>
+			   <div id="send-private-message" class="generic-button poc-msg-btn">
+				   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+			   </div>
+		   <?php
+				} else {
+					$current_url = home_url(add_query_arg(null, null));
+					$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+			   <div class="generic-button">
+				   <a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+			   </div>
+	   <?php
+				}
 			}
 
 			$button = ob_get_clean();
@@ -2555,4 +2555,340 @@ function nab_product_point_of_contact_callback()
 
 	echo wp_json_encode($final_result);
 	wp_die();
+}
+
+// Ajax to show company admin added popup.
+add_action("wp_ajax_nab_add_company_admin_popup", "nab_add_company_admin_popup");
+add_action("wp_ajax_nopriv_nab_add_company_admin_popup", "nab_add_company_admin_popup");
+
+/**
+ * Ajax to show connection request popup.
+ */
+function nab_add_company_admin_popup()
+{
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_title   = get_the_title($company_id);
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-company-admin-url-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+}
+
+add_action('wp_ajax_upload_temp_csv', 'upload_temp_csv');
+add_action('wp_ajax_nopriv_upload_temp_csv', 'upload_temp_csv');
+
+function upload_temp_csv()
+{
+
+	$temp = get_temp_dir();
+
+	$upload_dir = wp_get_upload_dir()['basedir'];
+
+	wp_mkdir_p($upload_dir . '/csv_import/');
+
+	$file_path = $upload_dir . '/csv_import/nab_import_company.csv';
+
+	$csv_content = file_get_contents($_FILES[0]['tmp_name']);
+
+	file_put_contents($file_path, $csv_content);
+
+	if (isset($_FILES[0]['name'])) {
+
+		if (0 < $_FILES[0]['error']) {
+			wp_send_json_success(array(
+				'feedback' => __('Error during file upload' . $_FILES[0]['error'], 'buddypress'),
+				'type'     => 'error',
+			));
+		} else {
+
+			wp_send_json_success(array(
+				'feedback' => __('File successfully uploaded', 'buddypress'),
+				'type'     => 'success',
+			));
+		}
+	}
+	exit;
+}
+
+if (class_exists('WP_Batch')) {
+
+	/**
+	 * Class MY_Example_Batch
+	 */
+	class NAB_Company_Import_Batch_ajax extends WP_Batch
+	{
+
+
+
+		/**
+		 * Unique identifier of each batch
+		 * @var string
+		 */
+		public $id = 'nab_import_companies_ajax';
+
+
+		/**
+		 * Describe the batch
+		 * @var string
+		 */
+		public $title = 'Import Companies';
+
+		/**
+		 * To setup the batch data use the push() method to add WP_Batch_Item instances to the queue.
+		 *
+		 * Note: If the operation of obtaining data is expensive, cache it to avoid slowdowns.
+		 *
+		 * @return void
+		 */
+		public function setup()
+		{
+
+
+			$upload_dir = wp_get_upload_dir()['basedir'];
+
+			$csv_path = $upload_dir . '/csv_import/nab_import_company.csv';
+
+			if (file_exists($csv_path)) {
+
+
+				// Add the CSV data in the processing queue
+				$rows   = array_map('str_getcsv', file($csv_path));
+
+				$input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($csv_path);
+
+				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($input_file_type);
+
+				/**  Advise the Reader that we only want to load cell data  **/
+				$reader->setReadDataOnly(true);
+
+				$reader->setReadEmptyCells(false);
+
+				$spreadsheet = $reader->load($csv_path);
+
+				$sheet_data    = $spreadsheet->getActiveSheet()->toArray();
+
+
+
+				// Loop over the data and add every row to the queue
+				foreach ($sheet_data as $key => $row) {
+					if ($key !== 0) {
+						$row_data = array(
+							'item_no' => $key,
+							'title' => $row[0],
+							'content' => $row[1],
+							'about' => $row[2],
+							'featured_cat' => $row[3],
+							'street_line_1' => $row[4],
+							'street_line_2' => $row[5],
+							'street_line_3' => $row[6],
+							'city' => $row[7],
+							'state' => $row[8],
+							'zip' => $row[9],
+							'country' => $row[10],
+							'website' => $row[14],
+							'member_level' => $row[11],
+							'tagline' => $row[12],
+							'salesforce' => $row[13],
+							'website' => $row[14],
+							'instagram' => $row[15],
+							'linkedin' => $row[16],
+							'facebook' => $row[17],
+							'twitter' => $row[18],
+							'youtube' => $row[19],
+
+
+						);
+						$unique_id  = md5($row[0]);
+						$this->push(new WP_Batch_Item($unique_id, $row_data));
+					}
+				}
+			}
+		}
+
+		/**
+		 * Handles processing of batch item. One at a time.
+		 *
+		 * In order to work it correctly you must return values as follows:
+		 *
+		 * - TRUE - If the item was processed successfully.
+		 * - WP_Error instance - If there was an error. Add message to display it in the admin area.
+		 *
+		 * @param WP_Batch_Item $item
+		 *
+		 * @return bool|\WP_Error
+		 */
+		public function process($item)
+		{
+
+			// get post data
+			$item_no = $item->get_value('item_no');
+			$title = $item->get_value('title');
+			$content = $item->get_value('content');
+			$about = $item->get_value('about');
+			$featured_cat = explode(',', $item->get_value('featured_cat'));
+			$street_line_1 = $item->get_value('street_line_1');
+			$street_line_2 = $item->get_value('street_line_2');
+			$street_line_3 = $item->get_value('street_line_3');
+			$city = $item->get_value('city');
+			$state_province = $item->get_value('state');
+			$zip_Postal = $item->get_value('zip');
+			$country = $item->get_value('country');
+			$website = $item->get_value('website');
+			$member_level_check = strtolower($item->get_value('member_level'));
+			$member_level = $item->get_value('member_level');
+			$company_Tagline = $item->get_value('tagline');
+			$salesforce_ID = $item->get_value('salesforce');
+			$website_URl = $item->get_value('website');
+			$instagram_URl = $item->get_value('instagram');
+			$linkedin_URl = $item->get_value('linkedin');
+			$facebook_URl = $item->get_value('facebook');
+			$twitter_URl = $item->get_value('twitter');
+			$youtube_URl = $item->get_value('youtube');
+
+			// Create post object
+			$post_data = array(
+				'post_title'    => $title,
+				'post_content'  => $content,
+				'post_status'   => 'publish',
+				'post_type' => 'company'
+			);
+
+			$fount_post = post_exists($title, '', '', '');
+
+			// Return WP_Error if the item processing failed (In our case we simply skip author with user id 5)
+			if ($fount_post) {
+				return new WP_Error(302, $title . " Post already exists!");
+			}
+			if (empty($title)) {
+				return new WP_Error(302, "Title/data not provided for item number so skipped item " . $item_no);
+			}
+			// Insert the post into the database
+			$import_post_id = wp_insert_post($post_data);
+			if (!is_wp_error($import_post_id)) {
+
+				// Import the featured product categories
+
+				$import_featured_cat = [];
+
+				$num_member_level_array = array(
+					'standard'  => 1,
+					'plus'      => 2,
+					'premium'   => 3,
+				);
+
+				foreach ($featured_cat as $cat) {
+
+					$term = term_exists($cat, 'company-product-category');
+
+					if ($term == 0 && $term == null) {
+						$term = wp_insert_term(
+							$cat,   // the term
+							'company-product-category' // the taxonomy
+						);
+						if (!is_wp_error($term)) {
+							$import_featured_cat[] = $term['term_id'];
+						}
+					} else {
+						$import_featured_cat[] = $term['term_id'];
+					}
+				}
+
+				if (!empty($import_featured_cat)) {
+
+					$this->import_meta('product_categories', $import_featured_cat, $import_post_id);
+				}
+
+
+				$this->import_meta('about_company', $about, $import_post_id);
+
+
+				$field_key = 'field_5fa3e84f3fa46';
+				$values = array(
+					'_street_line_1'    =>   $street_line_1,
+					'street_line_2' =>   $street_line_2,
+					'street_line_3' =>   $street_line_3,
+					'city' =>   $city,
+					'state' =>   $state_province,
+					'zipcode' =>   $zip_Postal,
+					'country' =>   $country,
+				);
+				$this->import_meta($field_key, $values, $import_post_id);
+				$this->import_meta('company_website', $website, $import_post_id);
+
+				$num_member_level   = isset($num_member_level_array[$member_level_check]) ? $num_member_level_array[$member_level_check] : 0;
+				update_post_meta($import_post_id, 'member_level_num', $num_member_level);
+
+				if (!empty($member_level)) {
+					$this->import_meta('admin_can_add_product', 1, $import_post_id);
+				}
+				$this->import_meta('member_level', $member_level, $import_post_id);
+				$this->import_meta('company_industary', $company_Tagline, $import_post_id);
+				$this->import_meta('salesforce_id', $salesforce_ID, $import_post_id);
+				$this->import_meta('company_website', $website_URl, $import_post_id);
+				$this->import_meta('instagram_url', $instagram_URl, $import_post_id);
+				$this->import_meta('linkedin_url', $linkedin_URl, $import_post_id);
+				$this->import_meta('facebook_url', $facebook_URl, $import_post_id);
+				$this->import_meta('twitter_url', $twitter_URl, $import_post_id);
+				$this->import_meta('youtube_url', $youtube_URl, $import_post_id);
+
+				$random_string = generate_add_admin_string();
+				$this->import_meta('admin_add_string', $random_string, $import_post_id);
+			} else {
+				$error_code = array_key_first($import_post_id->errors);
+				$error_message = $import_post_id->errors[$error_code][0];
+				return new WP_Error(302, $error_message);
+			}
+
+			// Return true if the item processing is successful.
+			return true;
+		}
+
+		/**
+		 * Called when specific process is finished (all items were processed).
+		 * This method can be overriden in the process class.
+		 * @return void
+		 */
+		public function finish()
+		{
+			// Do something after process is finished.
+			// You have $this->items, etc.
+			delete_transient('nab_import_csv');
+		}
+
+		/* Common function for update custom fields */
+
+		private function import_meta($key, $value, $post_id)
+		{
+			if (!empty($value)) {
+				if (update_field($key, $value, $post_id)) {
+					return true;
+				} else {
+					return new WP_Error(302, 'Error Importing meta' . $key . ' for ' . $post_id);
+				}
+			} else {
+				return new WP_Error(302, 'Meta' . $key . 'not provided for ' . $post_id);
+			}
+		}
+	}
+}
+
+// Ajax to show company admin added popup.
+add_action("wp_ajax_nab_reset_csv_processed", "nab_reset_csv_processed");
+add_action("wp_ajax_nopriv_nab_reset_csv_processed", "nab_reset_csv_processed");
+
+/**
+ * Ajax to show connection request popup.
+ */
+function nab_reset_csv_processed()
+{
+	delete_option('batch_nab_import_companies_ajax_processed');
+	wp_send_json('success', 200);
 }

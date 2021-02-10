@@ -892,6 +892,35 @@ class mo_openid_login_wid extends WP_Widget {
                 location.reload(true);
             }
             function HandlePopupResult(result) {
+                <?php
+                if ( is_page( 'sign-up' ) ) {
+                    global $wp_query; 
+                    $query_var = $wp_query->query_vars['r'];
+                    if($query_var){
+                        $sign_up_redirect_url = $query_var; 
+                        setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
+                    }
+                    
+                }
+                if( is_page( 'my-account' )){
+                    global $wp_query; 
+                    $query_var = $wp_query->query_vars['r'];
+                    if($query_var){
+                        $sign_up_redirect_url = $query_var; 
+                        setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
+                    } 
+                }
+
+
+
+
+
+
+
+
+                
+
+                ?>
                 window.location = "<?php echo mo_openid_get_redirect_url();?>";
             }
             function moOpenIdLogin(app_name,is_custom_app) {
@@ -1178,52 +1207,61 @@ function mo_openid_get_redirect_url() {
         $redirect_url .= get_option('mo_openid_auto_register_enable') ? '' : '?autoregister=false';
     }
 
-    if ( isset( $_COOKIE[ 'nab_social_redirect' ] ) && ! empty( $_COOKIE[ 'nab_social_redirect' ] ) ) {
+    if ( isset( $_COOKIE[ 'nab_social_signup_redirect' ] ) && ! empty( $_COOKIE[ 'nab_social_signup_redirect' ] ) ) {
 
-        $redirect_url = wc_get_page_permalink( 'myaccount' );
-        unset( $_COOKIE[ 'nab_social_redirect' ] );
-	    setcookie( 'nab_social_redirect', null, -1, '/');
+        $redirect_url = $_COOKIE[ 'nab_social_signup_redirect' ];
+        unset( $_COOKIE[ 'nab_social_signup_redirect' ] );
+	    setcookie( 'nab_social_signup_redirect', null, -1, '/');
 
     } else {
 
-        $custom_url_redirect = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
+        if ( isset( $_COOKIE[ 'nab_social_redirect' ] ) && ! empty( $_COOKIE[ 'nab_social_redirect' ] ) ) {
+
+            $redirect_url = wc_get_page_permalink( 'myaccount' );
+            unset( $_COOKIE[ 'nab_social_redirect' ] );
+            setcookie( 'nab_social_redirect', null, -1, '/');
     
-        if ( empty( $custom_url_redirect ) ) {
-
-            if ( isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
-                $custom_url_redirect = $_POST[ 'redirect' ];
-            } else if ( isset( $_POST[ 'checkout_redirect' ] ) && ! empty( $_POST[ 'checkout_redirect' ] ) ) {
-                $custom_url_redirect = $_POST[ 'checkout_redirect' ];
-            } else {
-                
-                if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
-                    $referer_url = $_COOKIE[ 'nab_amp_login_redirect' ];
+        } else {
+    
+            $custom_url_redirect = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
+        
+            if ( empty( $custom_url_redirect ) ) {
+    
+                if ( isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
+                    $custom_url_redirect = $_POST[ 'redirect' ];
+                } else if ( isset( $_POST[ 'checkout_redirect' ] ) && ! empty( $_POST[ 'checkout_redirect' ] ) ) {
+                    $custom_url_redirect = $_POST[ 'checkout_redirect' ];
+                } else {
                     
-                    $site_url = get_site_url();	
-                
-                    if ( false === strpos( $referer_url , $site_url ) ) {
-        
-                        $url_parse 	= wp_parse_url( $referer_url );
-                        $url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
-        
-                        if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
-                            
-                            $custom_url_redirect = wc_get_page_permalink( 'myaccount' );
-
-                            // setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
+                    if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
+                        $referer_url = $_COOKIE[ 'nab_amp_login_redirect' ];
+                        
+                        $site_url = get_site_url();	
+                    
+                        if ( false === strpos( $referer_url , $site_url ) ) {
+            
+                            $url_parse 	= wp_parse_url( $referer_url );
+                            $url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
+            
+                            if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
+                                
+                                $custom_url_redirect = wc_get_page_permalink( 'myaccount' );
+    
+                                // setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
+                            }
                         }
                     }
                 }
             }
+    
+            if ( ! empty( $custom_url_redirect ) ) {
+                
+                $redirect_url = $custom_url_redirect;
+                setcookie( 'nab_social_redirect', $redirect_url, ( time() + 3600 ), '/' );
+            }
+    
         }
-
-        if ( ! empty( $custom_url_redirect ) ) {
-            
-            $redirect_url = $custom_url_redirect;
-            setcookie( 'nab_social_redirect', $redirect_url, ( time() + 3600 ), '/' );
-        }
-
-    }
+    }    
 
     return $redirect_url;
 }

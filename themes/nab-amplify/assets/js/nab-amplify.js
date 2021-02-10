@@ -237,6 +237,30 @@
       }
     )
 
+    if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined'){
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        type: 'POST',
+        data: {
+          action: 'nab_add_company_admin_popup',
+          company_id:amplifyJS.postID
+        },
+        success: function (data) {
+          if (0 === $('#addAdminModal').length) {
+            $('body').append(data)
+            $('#addAdminModal').show()
+            $('body').addClass('connection-popup-added')
+          } else {
+            $('body').addClass('connection-popup-added')
+            $('#addAdminModal').remove()
+            $('body').append(data)
+            $('#addAdminModal').show()
+          }
+          jQuery.removeCookie('new_company_admin_popup', { path: '/' });
+        }
+      })
+     }
+
     jQuery('.nab-preview-item img').click(function () {
       var currentThumb = jQuery(this)
       $('.nab-preview-main img')
@@ -665,8 +689,20 @@
     }
   })
 
+  $(document).on('click', '#nab-edit-product-draft', function () {
+    nabProductAddUpdateAjax( 'draft' );
+  });
+
+  $(document).on('click', '#nab-edit-product-delete', function () {
+    nabProductAddUpdateAjax( 'trash' );
+  });
+
   $(document).on('click', '#nab-edit-product-submit', function () {
-    tinyMCE.triggerSave()
+    nabProductAddUpdateAjax( $(this).attr('data-status') );
+  });
+
+  function nabProductAddUpdateAjax( postStatus ) {
+    tinyMCE.triggerSave();
 
     var product_title = jQuery('#nab-edit-product-form #product_title').val()
     var product_categories = jQuery(
@@ -751,10 +787,11 @@
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
+    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
+    form_data.append('product_status', postStatus);
 
     form_data.append('remove_attachments', remove_attachment_arr)
-    form_data.append('nab_company_id', nab_company_id)
+    form_data.append('nab_company_id', nab_company_id);
 
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
@@ -766,27 +803,31 @@
         $('body').addClass('is-loading')
       },
       success: function (response) {
-        var json = $.parseJSON(response)
-
+        var json = $.parseJSON(response);
         if (json.success === true) {
-          $('body').removeClass('is-loading')
-          if (nab_product_id !== '0') {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Product Updated Successfully!'
-            )
+          $('body').removeClass('is-loading');
+          if ( 'trash' === postStatus ) {
+            $('#nab-edit-product-form .btn-submit').attr('disabled', 'disabled');
+          }
+          if ( json.publish_text ) {
+            $('#nab-edit-product-form #nab-edit-product-submit').val(json.publish_text);
+            $('#nab-edit-product-form #nab-edit-product-submit').attr('data-status', json.publish_text.toLowerCase());
+          }
+          if ( json.draft_text ) {
+            $('#nab-edit-product-form #nab-edit-product-draft').val(json.draft_text);
+          }
+          if ( nab_product_id !== '0' ) {
+            addSuccessMsg( '.add-product-content-popup', json.content );
           } else {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Product Added Successfully!'
-            )
-
-            jQuery('#nab-edit-product-form').trigger('reset')
+            addSuccessMsg( '.add-product-content-popup', json.content );           
+          }          
+          if ( json.post_id ) {
+            $('#nab-edit-product-form #nab_product_id').val( json.post_id );
           }
         }
       }
-    })
-  })
+    });
+  }
 
   // Upload user images using ajax.
   $('#edit-social-profiles').on('click', function (e) {
@@ -839,7 +880,87 @@
     })
   })
 
+  function nabMembershipCategoryNotice (selector, message) {
+    if (
+      0 ===
+      selector.parents('.form-row').find('.company-member-level-notice').length
+    ) {
+      selector
+        .parents('.form-row')
+        .append('<p class="company-member-level-notice">' + message + '</p>')
+    } else {
+      selector
+        .parents('.form-row')
+        .find('.company-member-level-notice')
+        .text(message)
+      selector
+        .parents('.form-row')
+        .find('.company-member-level-notice')
+        .show()
+    }
+  }
+
   $(document).on('click', '#nab-edit-company-profile-submit', function () {
+
+    var featuredSelector = $(this)
+      .parents('form#nab-edit-company-profile-form')
+      .find('#product_categories')
+    var searchSelector = $(this)
+      .parents('form#nab-edit-company-profile-form')
+      .find('#search_product_categories')
+    var featuredMax = parseInt(featuredSelector.attr('data-limit'))
+    var searchMax = parseInt(searchSelector.attr('data-limit'))
+
+    $(this)
+      .parents('form#nab-edit-company-profile-form')
+      .find('.company-member-level-notice')
+      .hide()
+
+    if (null !== featuredSelector.val()) {
+      if (0 === featuredMax) {
+        nabMembershipCategoryNotice(
+          featuredSelector,
+          "You can't add featured product categories without membership."
+        )
+        return false
+      } else if (
+        2 === featuredMax &&
+        featuredSelector.val().length > featuredMax
+      ) {
+        nabMembershipCategoryNotice(
+          featuredSelector,
+          'You can add maximum ' +
+            featuredMax +
+            ' featured product categories with your current membership.'
+        )
+        return false
+      } else if (featuredSelector.val().length > featuredMax) {
+        nabMembershipCategoryNotice(
+          featuredSelector,
+          'You can add maximum ' + featuredMax + ' featured product categories.'
+        )
+        return false
+      }
+    }
+
+    if (null !== searchSelector.val()) {
+      if (0 === searchMax && 0 < searchSelector.val().length ) {
+        nabMembershipCategoryNotice(
+          searchSelector,
+          "You can't add search categories with your current membership."
+        )
+        return false
+      } else if (searchSelector.val().length > searchMax) {
+        nabMembershipCategoryNotice(
+          searchSelector,
+          'You can add maximum ' +
+            searchMax +
+            ' search categories with your current membership.'
+        )
+        return false
+      }
+    }
+
     var fd = new FormData()
     fd.append('action', 'nab_update_company_profile')
     fd.append('company_id', amplifyJS.postID)
@@ -925,9 +1046,13 @@
       )
     }
 
+    if (0 < searchSelector.length) {
+      fd.append('company_search_categories', searchSelector.val())
+    }
+
     if (jQuery('#company_youtube').length) {
       fd.append('company_youtube', jQuery('#company_youtube').val())
-    }
+    }    
 
     jQuery.ajax({
       type: 'POST',
@@ -940,10 +1065,14 @@
       },
       success: function (data) {
         $('body').removeClass('is-loading')
-        addSuccessMsg(
-          '.add-product-content-popup',
-          'Profile Updated Successfully!'
-        )
+        if (undefined !== data.success && !data.success) {
+          addSuccessMsg('.add-product-content-popup', data.data)
+        } else {
+          addSuccessMsg(
+            '.add-product-content-popup',
+            'Profile Updated Successfully!'
+          )
+        }
       }
     })
   })
@@ -975,6 +1104,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
             placeholder: 'Select point of contact',
             allowClear:true
@@ -989,6 +1119,7 @@
             jQuery('#nab_company_id').val(company_id)
           }
           jQuery('#product_categories').select2()
+          jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
             placeholder: 'Select point of contact',
             allowClear:true

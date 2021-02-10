@@ -405,7 +405,7 @@ function nab_company_produts_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $company_id         = $post->ID;
-
+    $post_status        = array( 'publish' );
     if (is_user_logged_in()) {
 
         $company_id         = get_the_ID();
@@ -417,12 +417,13 @@ function nab_company_produts_render_callback($attributes)
 
             $is_company_admin   = true;
             $posts_per_page     = $posts_per_page - 1;
+            $post_status[]      = 'draft';
         }
     }
 
     $query_args = array(
         'post_type'         => 'company-products',
-        'post_status'       => 'publish',
+        'post_status'       => $post_status,
         'posts_per_page'    => $posts_per_page,
     );
     $meta_query_args    = array('relation' => 'AND');
@@ -495,7 +496,13 @@ function nab_company_produts_render_callback($attributes)
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
                                     <?php
-
+                                    if ( $is_company_admin && 'draft' === get_post_status( get_the_ID() ) ) {
+                                        ?>
+                                        <div class="amp-draft-wrapper">
+                                            <span class="company-product-draft">Draft</span>
+                                        </div>
+                                        <?php
+                                    }
                                     $thumbnail_url = '';
 
                                     if (!empty($product_medias[0]['product_media_file'])) {

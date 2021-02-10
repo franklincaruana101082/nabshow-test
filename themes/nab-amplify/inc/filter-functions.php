@@ -1395,3 +1395,13 @@ function nab_add_sync_user_action_link( $links, $user_obj) {
 	$links[]	= '<a href="' . $link_url .'">Sync to Live</a>';
 	return $links;
 }
+
+/**
+ * Add comapny admin query parameter
+ */
+function nab_add_query_vars_filter( $vars ){
+	$vars[] = "addadmin";
+	$vars[] = "r";
+    return $vars;
+}
+add_filter( 'query_vars', 'nab_add_query_vars_filter' );
