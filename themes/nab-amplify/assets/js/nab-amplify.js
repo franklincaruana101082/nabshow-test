@@ -305,6 +305,33 @@
       })
     })
 
+ 
+
+  })
+
+
+  $(document).on('click', '.action-remove-address ', function () {
+    const address_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    if(confirm('Are youn sure want to delete?')){
+      jQuery.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: 'nab_amplify_remove_address',
+          address_id: address_id,
+          company_id: company_id
+        },
+        success: function (data) {
+          if (data.success) {
+           location.reload();          
+          }
+        }
+      })
+    }
+    
   })
 
   $(document).on('click', '#nab-add-address-submit', function () {
@@ -1551,7 +1578,7 @@
         contentType: false,
         processData: false,
         success: function () {
-          location.reload()
+          if (undefined !== data.success && !data.success) {}
         }
       })
     }

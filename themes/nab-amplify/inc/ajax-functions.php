@@ -2932,6 +2932,7 @@ function nab_amplify_add_address()
 	wp_die();
 }
 
+/*Update regional addresses */
 add_action('wp_ajax_nab_amplify_submit_address', 'nab_amplify_submit_address');
 add_action('wp_ajax_nopriv_nab_amplify_submit_address', 'nab_amplify_submit_address');
 
@@ -3007,7 +3008,86 @@ function nab_amplify_submit_address()
 			$final_result['success'] = false;
 			$final_result['content'] = '';
 
-			echo wp_json_encode($final_result);
-			wp_die();
+			
 	}
+
+	echo wp_json_encode($final_result);
+	wp_die();
+}
+
+/* Remove regional addresses */
+
+add_action('wp_ajax_nab_amplify_remove_address', 'nab_amplify_remove_address');
+add_action('wp_ajax_nopriv_nab_amplify_remove_address', 'nab_amplify_remove_address');
+
+function nab_amplify_remove_address(){
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+
+	switch ($address_id) {
+		case "1":
+			$field_key = 'regional_address_one';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>  '',
+				'zip_postal' =>  '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "2":
+			$field_key = 'regional_address_two';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>   '',
+				'zip_postal' =>   '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "3":
+			$field_key = 'regional_address_three';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>   '',
+				'zip_postal' =>   '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "4":
+			$field_key = 'regional_address_four';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>   '',
+				'zip_postal' =>   '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		default:
+			$final_result['success'] = false;
+			$final_result['content'] = '';
+
+			
+	}
+
+	wp_send_json($final_result, 200);
+	wp_die();
 }

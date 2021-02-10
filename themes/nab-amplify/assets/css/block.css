@@ -630,3 +630,8 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 	/* company block */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
 }
+
+/* Regional adresses backend css*/
+#company-address-list .add-new-item{
+	display: block !important;
+}
