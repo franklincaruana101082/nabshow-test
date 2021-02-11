@@ -642,18 +642,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 								$product_link	= get_the_permalink();
-								$product_medias = get_field('product_media');
+								
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
-											<?php $thumbnail_url = '';
-
-											if (!empty($product_medias[0]['product_media_file'])) {
-												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-											} ?>
+											<?php 
+											$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+											?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										</div>
@@ -1238,18 +1234,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$product_query->the_post();
 							$product_link	= get_the_permalink();
-							$product_medias = get_field('product_media');
+							
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
-										<?php $thumbnail_url = '';
-
-										if (!empty($product_medias[0]['product_media_file'])) {
-											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										} ?>
+										<?php 
+										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img(); ?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
