@@ -209,7 +209,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								?>
 								<div class="nab-custom-select">
 									<select id="content-community" class="content-community">
-										<option value="">Coummunity</option>
+										<option value="">Community</option>
 										<?php
 										foreach ( $community_field[ 'choices' ] as $value => $label ) {
 											?>
@@ -287,7 +287,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span><strong>PEOPLE</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
 					<div class="search-section search-user-section">
@@ -403,7 +403,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span><strong>PRODUCTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
 						<div class="amp-item-wrap" id="company-products-list">
@@ -511,7 +511,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span><strong>COMPANIES</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
 						<div class="search-section-details" id="search-company-list">
@@ -628,7 +628,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span><strong>SHOP</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
 						<div class="search-section-details" id="search-product-list">
@@ -716,7 +716,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
 						<div class="search-section-details" id="search-event-list">
@@ -824,7 +824,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>CONTENT</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
 						<div class="search-section-details" id="search-content-list">
