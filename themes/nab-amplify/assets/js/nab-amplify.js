@@ -1149,7 +1149,7 @@
       .find('.company-member-level-notice')
       .hide()
 
-    if (null !== featuredSelector.val()) {
+    if ( 0 < featuredSelector.length && null !== featuredSelector.val()) {
       if (0 === featuredMax) {
         nabMembershipCategoryNotice(
           featuredSelector,
@@ -1176,7 +1176,7 @@
       }
     }
 
-    if (null !== searchSelector.val()) {
+    if ( 0 < searchSelector.length && null !== searchSelector.val()) {
       if (0 === searchMax && 0 < searchSelector.val().length ) {
         nabMembershipCategoryNotice(
           searchSelector,
