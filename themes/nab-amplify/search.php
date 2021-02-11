@@ -612,6 +612,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order' 			=> 'DESC'
 				);
 
+				$product_args['tax_query'] = array(
+					array(
+						'taxonomy' => 'product_visibility',
+						'field'    => 'slug',
+						'terms'    => array( 'exclude-from-search' ),
+						'operator' => 'NOT IN',
+					)
+				);
+
 				$product_query = new WP_Query($product_args);
 
 				if ($product_query->have_posts()) {
@@ -1189,6 +1198,15 @@ if ($company_poc !== '' && !empty($company_poc)) {
 				'meta_key'  		=> 'total_sales',
 				'orderby'   		=> 'meta_value_num',
 				'order' 			=> 'DESC'
+			);
+
+			$product_args['tax_query'] = array(
+				array(
+					'taxonomy' => 'product_visibility',
+					'field'    => 'slug',
+					'terms'    => array( 'exclude-from-search' ),
+					'operator' => 'NOT IN',
+				)
 			);
 
 			$product_query = new WP_Query($product_args);
