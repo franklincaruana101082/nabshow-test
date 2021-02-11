@@ -141,7 +141,8 @@ get_header();
                                 <?php } ?>
                                 <div class="action-wrap">
                                     <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View company profile</a></div>
-                                    <?php if ($user_logged_in) { ?>
+                                    <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) { 
+                                         if ($user_logged_in) { ?>
                                         <div>
                                             <div id="send-private-message" class="generic-button poc-msg-btn">
                                                 <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
@@ -154,7 +155,8 @@ get_header();
                                             <div id="send-private-message" class="generic-button">
                                                 <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
                                         </div>   
-                                        <?php } ?>
+                                        <?php }
+                                        } ?>
                                 </div>
                             </div>
                         </div>
@@ -220,11 +222,11 @@ get_header();
                                             <div class="amp-item-cover">
                                             <?php $thumbnail_url = '';
 
-                                                if (!empty($product_medias[0]['product_media_file'])) {
-                                                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
-                                                } else {
-                                                    $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-                                                } ?>
+											if (!empty($product_medias[0]['product_media_file'])) {
+												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+											} else {
+												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
+											} ?>
                                                 <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
                                             </div>
                                             <div class="amp-item-info">

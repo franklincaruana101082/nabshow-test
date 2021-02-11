@@ -63,7 +63,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ('company' === $view_type) {
 					?>
 						<div class="sort-company sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<?php
 
@@ -165,25 +165,25 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								<div class="nab-custom-select">
 									<select class="search-country-select" id="search-country-select">
 										<option value="">Select a country</option>
-										<?php
+										<?php                                    
 										foreach ( $countries as $abbr => $country ) {
 											?>
 											<option value="<?php echo esc_attr( $abbr ); ?>"><?php echo esc_html( $country ); ?></option>
 											<?php
 										}
-										?>
+										?>                                    
 									</select>
 								</div>
 								<div class="nab-custom-select">
 									<select class="search-state-select" id="search-state-select">
 										<option value="">Select a state</option>
-										<?php
+										<?php                                    
 										foreach ( $default_county_states as $abbr => $state ) {
 											?>
 											<option value="<?php echo esc_attr( $abbr ); ?>"><?php echo esc_html( $state ); ?></option>
 											<?php
 										}
-										?>
+										?>                                    
 									</select>
 								</div>
 								<div class="nab-custom-select">
@@ -203,7 +203,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						</div>
 						<div class="filter-select-boxes">
 							<?php
-							$community_field = get_field_object( 'field_5fb3f25f9ab77' );
+							$community_field = get_field_object( 'field_5fb3f25f9ab77' );														
 
 							if ( isset( $community_field[ 'choices' ] ) && is_array( $community_field[ 'choices' ] ) ) {
 								?>
@@ -222,7 +222,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								<?php
 							}
 
-							$subject_field = get_field_object( 'field_5fb3f41b02c43' );
+							$subject_field = get_field_object( 'field_5fb3f41b02c43' );														
 
 							if ( isset( $subject_field[ 'choices' ] ) && is_array( $subject_field[ 'choices' ] ) ) {
 								?>
@@ -361,37 +361,37 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					}
 				}
 			} else if ('product' === $view_type) {
-
+				
 				$company_prod_args = array(
 					'post_type'			=> 'company-products',
 					'post_status'		=> 'publish',
 					'posts_per_page'	=> 12,
-					's'					=> $search_term,
+					's'					=> $search_term,					
 				);
 
 				if ( ! empty( $search_term ) ) {
 
 					$category_search_array = array();
-
+					
 					$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
-
+	
 					if ( $get_search_term_id ) {
-
-						$category_search_array[]	= $get_search_term_id->term_id;
+	
+						$category_search_array[]	= $get_search_term_id->term_id;					
 					}
-
+	
 					$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
-
+	
 					if ( $get_search_product_tag ) {
-
+	
 						$category_search_array[]	= $get_search_product_tag->term_id;
 					}
-
+	
 					if ( count( $category_search_array ) > 0 ) {
-
+	
 						$company_prod_args[ '_tax_search' ] = $category_search_array;
 					}
-
+	
 				}
 
 				$company_prod_query = new WP_Query($company_prod_args);
@@ -487,20 +487,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				);
 
 				if ( ! empty( $search_term ) ) {
-
+				
 					$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
-
+	
 					if ( $get_search_term_id ) {
-
-						$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-						$company_args['_meta_company_order']	= true;
+	
+						$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
 					}
-				}
-
-				if ( ! isset( $company_args['_meta_company_order'] ) ) {
-					$company_args['meta_key']	= 'member_level_num';
-					$company_args['orderby']	= 'meta_value_num';
-					$company_args['order']		= 'DESC';
 				}
 
 				$company_query = new WP_Query($company_args);
@@ -544,7 +537,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<div class="search-item-avtar">
 												<a href="<?php echo esc_url($company_url); ?>">
 													<?php if ($profile_picture) { ?>
-					                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Company Profile Picture" />
+					                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
 					                                <?php } else { ?>
 					                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
 					                                <?php } ?>
@@ -559,23 +552,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 														<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 													</div>
 													<?php
-                                                     if ($company_poc !== '' && !empty($company_poc)) {
-                                                         if ($user_logged_in) {
-                                                             ?>
-														<div id="send-private-message" class="generic-button poc-msg-btn">
-															<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
-														</div>
-														<?php
-                                                         } else {
-                                                             $current_url = home_url(add_query_arg(null, null));
-                                                             $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
-														<div class="generic-button">
-															<a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
-														</div>
-														<?php
-                                                         }
-                                                     }
-													?>
+													if ($company_poc !== '' && !empty($company_poc)) {
+														if ($user_logged_in) {
+															?>
+													   <div id="send-private-message" class="generic-button poc-msg-btn">
+														   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+													   </div>
+													   <?php
+														} else {
+															$current_url = home_url(add_query_arg(null, null));
+															$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+													   <div class="generic-button">
+														   <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+													   </div>
+													   <?php
+														}
+													}
+												   ?>
 												</div>
 											</div>
 										</div>
@@ -619,6 +612,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order' 			=> 'DESC'
 				);
 
+				$product_args['tax_query'] = array(
+					array(
+						'taxonomy' => 'product_visibility',
+						'field'    => 'slug',
+						'terms'    => array( 'exclude-from-search' ),
+						'operator' => 'NOT IN',
+					)
+				);
+
 				$product_query = new WP_Query($product_args);
 
 				if ($product_query->have_posts()) {
@@ -642,18 +644,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 								$product_link	= get_the_permalink();
-								$product_medias = get_field('product_media');
+								
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
-											<?php $thumbnail_url = '';
-
-											if (!empty($product_medias[0]['product_media_file'])) {
-												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-											} ?>
+											<?php 
+											$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+											?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										</div>
@@ -696,7 +694,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				wp_reset_postdata();
 			} else if ( 'event' === $view_type ) {
-
+				
 				$event_args		= array(
 					'post_type'			=> 'tribe_events',
 					'posts_per_page'	=> 12,
@@ -706,11 +704,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'orderby'			=> 'meta_value',
 					'order'				=> 'ASC'
 				);
-
+	
 				$event_query = new WP_Query( $event_args );
-
+	
 				if ( $event_query->have_posts() ) {
-
+	
 					$search_found	= true;
 					$total_event	= $event_query->found_posts;
 					?>
@@ -718,31 +716,31 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
-					<div class="search-section search-content-section">
+					<div class="search-section search-content-section">						
 						<div class="search-section-details" id="search-event-list">
 							<?php
 							$cnt = 1;
 							while ( $event_query->have_posts() ) {
-
+	
 								$event_query->the_post();
-
+	
 								$event_post_id		= get_the_ID();
-								$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+								$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();								
 								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
 								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
 								$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 								$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 								$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 								$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
-
+								
 								if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
 									if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
 										$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
-									}
+									} 
 								}
-
+								
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -754,12 +752,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 												<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
 												<div class="search-actions">
-													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
+													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>												
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+								</div>								
 								<?php
 
 								if ( 8 === $cnt ) {
@@ -811,7 +809,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					),
 				);
 
-				if ( ! empty( $search_term ) ) {
+				if ( ! empty( $search_term ) ) {				
 					$content_args[ '_meta_search' ] = true;
 				}
 
@@ -837,7 +835,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$content_query->the_post();
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-								$post_link		= get_the_permalink();
+								$post_link		= get_the_permalink();								
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -846,9 +844,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										</div>
 										<div class="search-item-info">
 											<div class="search-item-content">
-												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>												
 												<div class="search-actions">
-													<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+													<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>												
 												</div>
 											</div>
 										</div>
@@ -884,13 +882,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			}
 		} else {
 
-			$search_found 	= false;
+			$search_found 	= false;			
 
 			$members_filter = array(
 				'page' 		=> 1,
 				'per_page' 	=> 4,
-				'type'		=> 'newest',
-			);
+				'type'		=> 'newest',				
+			);			
 
 			if (bp_has_members($members_filter)) {
 
@@ -985,12 +983,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			if ( ! empty( $search_term ) ) {
 
 				$category_search_array = array();
-
+				
 				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
 
 				if ( $get_search_term_id ) {
 
-					$category_search_array[]	= $get_search_term_id->term_id;
+					$category_search_array[]	= $get_search_term_id->term_id;					
 				}
 
 				$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
@@ -1083,22 +1081,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_type'			=> 'company',
 				'post_status'		=> 'publish',
 				'posts_per_page'	=> 4,
-				's'					=> $search_term,
+				's'					=> $search_term
 			);
 
-			if ( ! empty( $search_term ) ) {
+			if ( ! empty( $search_term ) ) {								
 
 				if ( $get_search_term_id ) {
-
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-					$company_args['_meta_company_order']	= true;
+					
+					$company_args[ '_meta_company_term' ] = $get_search_term_id->term_id;
 				}
-			}
-
-			if ( ! isset( $company_args['_meta_company_order'] ) ) {
-				$company_args['meta_key']	= 'member_level_num';
-				$company_args['orderby']	= 'meta_value_num';
-				$company_args['order']		= 'DESC';
 			}
 
 			$company_query = new WP_Query($company_args);
@@ -1141,7 +1132,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$featured_image   	= get_the_post_thumbnail_url();
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
-							$company_poc		= get_field('point_of_contact');
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
@@ -1152,7 +1142,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="search-item-avtar">
 											<a href="<?php echo esc_url($company_url); ?>">
 												<?php if ($profile_picture) { ?>
-				                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Company Profile Picture" />
+				                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
 				                                <?php } else { ?>
 				                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
 				                                <?php } ?>
@@ -1168,22 +1158,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												</div>
 
 												<?php
- if ($company_poc !== '' && !empty($company_poc)) {
-     if ($user_logged_in) { ?>
 
-													<div id="send-private-message" class="generic-button poc-msg-btn">
-														<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
-													</div>
-													<?php
-                                                } else {
-                                                    $current_url = home_url(add_query_arg(null, null));
-                                                    $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
-													<div class="generic-button">
-														<a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
-													</div>
-													<?php
-                                                }
- }
+if ($company_poc !== '' && !empty($company_poc)) {
+	if ($user_logged_in) { ?>
+
+												   <div id="send-private-message" class="generic-button poc-msg-btn">
+													   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												   </div>
+												   <?php
+											   } else {
+												   $current_url = home_url(add_query_arg(null, null));
+												   $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+												   <div class="generic-button">
+													   <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+												   </div>
+												   <?php
+											   }
+}
 												?>
 											</div>
 										</div>
@@ -1207,6 +1198,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'meta_key'  		=> 'total_sales',
 				'orderby'   		=> 'meta_value_num',
 				'order' 			=> 'DESC'
+			);
+
+			$product_args['tax_query'] = array(
+				array(
+					'taxonomy' => 'product_visibility',
+					'field'    => 'slug',
+					'terms'    => array( 'exclude-from-search' ),
+					'operator' => 'NOT IN',
+				)
 			);
 
 			$product_query = new WP_Query($product_args);
@@ -1238,18 +1238,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$product_query->the_post();
 							$product_link	= get_the_permalink();
-							$product_medias = get_field('product_media');
+							
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
-										<?php $thumbnail_url = '';
-
-										if (!empty($product_medias[0]['product_media_file'])) {
-											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										} ?>
+										<?php 
+										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+										?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -1312,22 +1308,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_query->the_post();
 
 							$event_post_id		= get_the_ID();
-							$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+							$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();								
 							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
 							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
-
+							
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
 								if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
 									$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
-								}
+								} 
 							}
-
+							
 							?>
 							<div class="search-item">
 								<div class="search-item-inner">
@@ -1339,7 +1335,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 											<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
 											<div class="search-actions">
-												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
+												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>												
 											</div>
 										</div>
 									</div>
@@ -1380,8 +1376,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$content_args[ '_meta_search' ] = true;
 			}
 
-			$content_query = new WP_Query( $content_args );
-
+			$content_query = new WP_Query( $content_args );			
+			
 			if ( $content_query->have_posts() ) {
 
 				$search_found	= true;
@@ -1409,7 +1405,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$content_query->the_post();
 
 							$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-							$post_link		= get_the_permalink();
+							$post_link		= get_the_permalink();							
 							?>
 							<div class="search-item">
 								<div class="search-item-inner">
@@ -1418,9 +1414,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									</div>
 									<div class="search-item-info">
 										<div class="search-item-content">
-											<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+											<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>											
 											<div class="search-actions">
-												<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
+												<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>												
 											</div>
 										</div>
 									</div>
