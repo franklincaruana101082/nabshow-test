@@ -1565,16 +1565,25 @@ function nab_product_search_filter_callback()
 		$product_args['order']	= $order;
 	}
 
+	$tax_query_args = array( 'relation' => 'AND' );
+
+	$tax_query_args[] = array(
+		'taxonomy' => 'product_visibility',
+		'field'    => 'slug',
+		'terms'    => array( 'exclude-from-search' ),
+		'operator' => 'NOT IN',		
+	);
+
 	if (!empty($category)) {
 
-		$product_args['tax_query'] = array(
-			array(
-				'taxonomy' => 'product_cat',
-				'field'    => 'slug',
-				'terms'    => $category,
-			)
+		$tax_query_args[] = array(			
+			'taxonomy' => 'product_cat',
+			'field'    => 'slug',
+			'terms'    => $category,		
 		);
 	}
+
+	$product_args['tax_query'] = $tax_query_args;
 
 	$product_query = new WP_Query($product_args);
 
