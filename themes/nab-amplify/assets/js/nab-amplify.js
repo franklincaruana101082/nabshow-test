@@ -9,7 +9,7 @@
   var addedAttendee = 0
 
   // Ready.
-  $(document).ready(function () {    
+  $(document).ready(function () {
 
     $('.section-professional-details .user-job-role-select').select2({
       width: '100%'
@@ -35,7 +35,7 @@
         $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').removeAttr('disabled');
       } else {
         $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').attr('disabled', 'disabled');
-      }      
+      }
     });
 
     if ( 0 < $('#user-country-select').length ) {
@@ -53,7 +53,7 @@
           })
 
           $('.section-professional-details .user-state-select').val('').change();
-      });  
+      });
     }
 
     $(document).on('click', '.notification-wrapper', function () {
@@ -479,7 +479,7 @@
           )
 
           setTimeout(function () {
-           
+
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -502,7 +502,7 @@
               '#character-count-specs',
               2000
             )
-            
+
           }, 1000)
         } else {
           jQuery('#addProductModal').remove()
@@ -524,7 +524,7 @@
             '#character-count-specs'
           )
           setTimeout(function () {
-            
+
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -547,7 +547,7 @@
               '#character-count-specs',
               2000
             )
-            
+
           }, 1000)
         }
         $('.poduct-point-of-contact').select2({
@@ -745,7 +745,7 @@
     ).val()
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
-    
+
 
     var nab_product_specsLength = tinyMCE
       .get('nab_product_specs')
@@ -819,8 +819,8 @@
           if ( nab_product_id !== '0' ) {
             addSuccessMsg( '.add-product-content-popup', json.content );
           } else {
-            addSuccessMsg( '.add-product-content-popup', json.content );           
-          }          
+            addSuccessMsg( '.add-product-content-popup', json.content );
+          }
           if ( json.post_id ) {
             $('#nab-edit-product-form #nab_product_id').val( json.post_id );
           }
@@ -1052,7 +1052,7 @@
 
     if (jQuery('#company_youtube').length) {
       fd.append('company_youtube', jQuery('#company_youtube').val())
-    }    
+    }
 
     jQuery.ajax({
       type: 'POST',
@@ -1260,28 +1260,32 @@
 
   // Upload user images using ajax.
   $('#profile_picture_file, #banner_image_file').on('change', function (e) {
-    e.preventDefault()
+    // If the front cropper plugin is not active
+    // Upload the image in native way.
+    if ('undefined' === typeof Cropper) {
+      e.preventDefault()
 
-    $('body').addClass('is-loading')
+      $('body').addClass('is-loading')
 
-    var fd = new FormData()
-    var file = $(this)
-    var file_name = $(this).attr('name')
-    var individual_file = file[0].files[0]
-    fd.append(file_name, individual_file)
-    fd.append('action', 'nab_amplify_upload_images')
-    fd.append('company_id', amplifyJS.postID)
+      var fd = new FormData()
+      var file = $(this)
+      var file_name = $(this).attr('name')
+      var individual_file = file[0].files[0]
+      fd.append(file_name, individual_file)
+      fd.append('action', 'nab_amplify_upload_images')
+      fd.append('company_id', amplifyJS.postID)
 
-    jQuery.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: fd,
-      contentType: false,
-      processData: false,
-      success: function () {
-        location.reload()
-      }
-    })
+      jQuery.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function () {
+          location.reload()
+        }
+      })
+    }
   })
 
   // Remove user images using ajax.
@@ -2381,7 +2385,7 @@
         .parents('.attendee-edit-wrap')
         .removeAttr('data-pid data-oid data-uid data-orderid data-action')
     }
-  )  
+  )
 
   /* User Search Filters*/
   $(document).on('click', '#load-more-user a', function () {
@@ -2394,10 +2398,10 @@
   });
 
   $(document).on('change', '.other-search-filter #search-country-select', function(){
-    
+
     $(this).parents('.other-search-filter').find('#search-state-select').empty();
     $(this).parents('.other-search-filter').find('#search-city-select').empty();
-    
+
     let default_option_state = $('<option></option>').prop('value', '').text('Select a state');
     $('.other-search-filter .search-state-select').append(default_option_state);
 
@@ -2405,7 +2409,7 @@
     $('.other-search-filter .search-city-select').append(default_option_city);
 
     let country = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-    
+
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       type: 'POST',
@@ -2414,7 +2418,7 @@
         nabNonce: amplifyJS.nabNonce,
         country: country
       },
-      success: function (response) {        
+      success: function (response) {
         let stateObj = jQuery.parseJSON(response);
         if ( stateObj.states ) {
           $.each(stateObj.states, function (index) {
@@ -2422,15 +2426,15 @@
             $('.other-search-filter .search-state-select').append($option);
           })
           //$('.other-search-filter .search-state-select').val('').change();
-        }                
+        }
       }
     });
     nabSearchUserAjax(false, 1);
   });
 
   $(document).on('change', '.other-search-filter #search-state-select', function(){
-    
-    $(this).parents('.other-search-filter').find('#search-city-select').empty();      
+
+    $(this).parents('.other-search-filter').find('#search-city-select').empty();
     let default_option_city = $('<option></option>').prop('value', '').text('Select a city');
     $('.other-search-filter .search-city-select').append(default_option_city);
 
@@ -2473,7 +2477,7 @@
       },
       minimumInputLength: 2
     })
-  });    
+  });
 
   $(document).on(
     'keypress',
@@ -3308,7 +3312,7 @@
             hide: true,
             palettes: true
             });
-          
+
         } else {
           $('body').append(data)
           $('#addProductModal').show()
@@ -3341,7 +3345,7 @@
             hide: true,
             palettes: true
             });
-          
+
         }
       }
     })
@@ -3411,7 +3415,7 @@
         ).prop('checked')
           ? 1
           : 0
-  
+
     if (!checkContentlength('#nab_featured_block_headline', 'Headline', 200)) {
       return false
     }
@@ -4374,7 +4378,7 @@ function nabSearchContentAjax (loadMore, pageNumber) {
     0 < jQuery('.other-search-filter .sort-content a.active').length
       ? jQuery('.other-search-filter .sort-content a.active').attr('data-order')
       : 'date';
-    
+
   if ( 0 < jQuery('.other-search-filter #content-community').length ) {
     community = 0 === jQuery('.other-search-filter #content-community')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-community').val();
   }
