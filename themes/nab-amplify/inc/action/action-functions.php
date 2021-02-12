@@ -4099,6 +4099,12 @@ function nab_sync_beta_user_to_live(WP_REST_Request $request)
 
             if (!$user_exist) {
 
+                $is_username_exist = username_exists( $user_data['user_login'] );
+                
+                if ( $is_username_exist ) {
+                    $user_data['user_login'] = wc_create_new_customer_username($user_data['user_email']);
+                }
+
                 $table_name = $wpdb->users;
 
                 $user_id = $wpdb->insert(
