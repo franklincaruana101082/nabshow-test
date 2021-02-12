@@ -3465,12 +3465,14 @@ function nab_update_company_profile_callback()
     }
 
     // Update point of contact
-    if ($company_point_of_contact !=='') {
-        update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
-    }else{
-        update_field('field_5fb4f4bcbe04a', 0, $company_id);
+    if ( isset( $company_point_of_contact ) ) {
+        
+        if ( $company_point_of_contact !== '') {
+            update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+        } else {
+            update_field('field_5fb4f4bcbe04a', 0, $company_id);
+        }
     }
-
 
     // Update company product categories.
     if (!empty($company_product_categories) && 'null' !== $company_product_categories) {
