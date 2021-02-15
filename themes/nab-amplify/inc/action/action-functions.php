@@ -3371,7 +3371,10 @@ function nab_update_company_profile_callback()
     $company_location_country       = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
     $company_product_categories     = filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING);
     $company_search_categories      = filter_input(INPUT_POST, 'company_search_categories', FILTER_SANITIZE_STRING);
-    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);    
+    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
+    $company_admins                = filter_input(INPUT_POST, 'company_admins', FILTER_SANITIZE_STRING);
+
+
 
     $category_limit = nab_get_company_member_category_limit($company_id);
 
@@ -3418,23 +3421,19 @@ function nab_update_company_profile_callback()
     }
 
     // Update instagram profile
-    if ($instagram_profile) {
-        update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
-    }
+    update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
+    
 
     // Update linkedin profile
-    if ($linkedin_profile) {
-        update_field('field_5fb60e12ce134', $linkedin_profile, $company_id);
-    }
+    update_field('field_5fb60e12ce134', $linkedin_profile, $company_id);
+    
     // Update linkedin profile
-    if ($facebook_profile) {
-        update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
-    }
+    update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
+    
 
     // Update linkedin 
-    if ($twitter_profile) {
-        update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
-    }
+    update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
+    
 
     // Update Company 
     if ($company_about) {
@@ -3460,9 +3459,8 @@ function nab_update_company_profile_callback()
     update_field($field_key, $values, $company_id);
 
     // Update website
-    if ($company_website) {
-        update_field('field_5fa3e87a3fa47', $company_website, $company_id);
-    }
+   update_field('field_5fa3e87a3fa47', $company_website, $company_id);
+    
 
     // Update point of contact
     if ( isset( $company_point_of_contact ) ) {
@@ -3473,6 +3471,7 @@ function nab_update_company_profile_callback()
             update_field('field_5fb4f4bcbe04a', 0, $company_id);
         }
     }
+
 
     // Update company product categories.
     if (!empty($company_product_categories) && 'null' !== $company_product_categories) {
@@ -3485,9 +3484,29 @@ function nab_update_company_profile_callback()
     }
 
     // Update company youtube
-    if (!empty($company_youtube)) {
-        update_field('youtube_url', $company_youtube, $company_id);
+    update_field('youtube_url', $company_youtube, $company_id);
+    
+
+    if ( isset( $company_admins ) && 'null' !== $company_admins ) {
+
+        $company_admins = explode(',', $company_admins);
+        $get_member_level = get_field('member_level', $company_id);
+        $exisitng_admins = [];
+        $exisitng_admins = get_field('company_user_id', $company_id);
+        if ($get_member_level === 'select' || $get_member_level === 'Standard') {
+            foreach ($company_admins as $comp_admin) {
+               if(!in_array($comp_admin,$exisitng_admins)){
+                wp_send_json_error('Update Failed. With the Standard Package you are limited to one company admin at a time. Contact your sales rep to upgrade to the Plus or Premium Package for unlimited admin accounts.');
+               }
+            }
+            
+        } else {
+            
+            update_field('company_user_id', $company_admins, $company_id);
+        }
+
     }
+
 
     $final_result['success'] = true;
     $final_result['content'] = '';
