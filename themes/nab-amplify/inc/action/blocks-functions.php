@@ -324,7 +324,16 @@ function nab_company_details_render_callback($attributes)
                 <div class="company-about-outer">
                     <h2>About</h2>
                     <div class="company-about-inner">
-                        <p><?php echo esc_html($about_company); ?></p>
+                        <?php if ($about_company) {
+                        ?>
+                            <p><?php echo esc_html($about_company); ?></p>
+                        <?php
+                        } else {
+                        ?>
+                            <p>Details coming soon.</p>
+                        <?php
+                        } ?>
+
                     </div>
                 </div>
                 <div class="company-contact-outer">
@@ -919,7 +928,7 @@ function nab_company_feature_render_callback($attributes)
 
     <div class="amp-item-wrap featured-block-wraper">
         <?php
-        if ($feature_title !== '') {
+        if (!empty($feature_title)) {
 
         ?>
             <div class='amp-feature-block' style="<?php if ($feature_background_image) {

@@ -27,15 +27,21 @@
       width: '100%'
     })
 
-    $('.nab-custom-select select').select2({ width: '100%' });
+    $('.nab-custom-select select').select2({ width: '100%' })
 
-    $(document).on('change', '.signup-privacy-policy', function(){
-      if ( this.checked ) {
-        $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').removeAttr('disabled');
+    $(document).on('change', '.signup-privacy-policy', function () {
+      if (this.checked) {
+        $(this)
+          .parents('.nab-normal-signup')
+          .find('.woocommerce-form-register__submit')
+          .removeAttr('disabled')
       } else {
-        $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').attr('disabled', 'disabled');
-      }      
-    });
+        $(this)
+          .parents('.nab-normal-signup')
+          .find('.woocommerce-form-register__submit')
+          .attr('disabled', 'disabled')
+      }
+    })
 
     if (0 < $('#user-country-select').length) {
       var wc_states_json = wc_country_select_params.countries.replace(
@@ -242,17 +248,17 @@
     })
     jQuery('#product_categories').select2()
     jQuery('#company_point_of_contact').select2({
-      placeholder: "Select Point of contact",
-      allowClear:true
+      placeholder: 'Select Point of contact',
+      allowClear: true
     })
 
-    if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined'){
+    if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined') {
       jQuery.ajax({
         url: amplifyJS.ajaxurl,
         type: 'POST',
         data: {
           action: 'nab_add_company_admin_popup',
-          company_id:amplifyJS.postID
+          company_id: amplifyJS.postID
         },
         success: function (data) {
           if (0 === $('#addAdminModal').length) {
@@ -265,13 +271,14 @@
             $('body').append(data)
             $('#addAdminModal').show()
           }
-          jQuery.removeCookie('new_company_admin_popup', { path: '/' });
+          jQuery.removeCookie('new_company_admin_popup', { path: '/' })
         }
       })
-     }
+    }
 
-     $(document).on('click', '.action-add-address ', function () {
-      const address_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
+    $(document).on('click', '.action-add-address ', function () {
+      const address_id =
+        undefined !== $(this).data('id') ? $(this).data('id') : ''
       const company_id = amplifyJS.postID
       const _this = $(this)
       _this.addClass('loading')
@@ -290,7 +297,6 @@
             jQuery('#addProductModal')
               .show()
               .addClass('nab-modal-active')
-            
           } else {
             jQuery('#addProductModal').remove()
             jQuery('body').append(data)
@@ -305,17 +311,25 @@
       })
     })
 
- 
-
+    
   })
+  function validateURL (urltext) {
+    
+    var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+    return rg.test(urltext);
+  }
 
+  function validUrlMessage(selctor){
+
+  }
 
   $(document).on('click', '.action-remove-address ', function () {
-    const address_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const address_id =
+      undefined !== $(this).data('id') ? $(this).data('id') : ''
     const company_id = amplifyJS.postID
     const _this = $(this)
     _this.addClass('loading')
-    if(confirm('Are you sure want to delete?')){
+    if (confirm('Are you sure want to delete?')) {
       jQuery.ajax({
         type: 'POST',
         url: amplifyJS.ajaxurl,
@@ -326,61 +340,56 @@
         },
         success: function (data) {
           if (data.success) {
-           location.reload();          
+            location.reload()
           }
         }
       })
     }
-    
   })
 
   $(document).on('click', '#nab-add-address-submit', function () {
-  
-      var company_id = jQuery('#nab_company_id').val()
-      var address_id = jQuery(this).data('id')
-      var street_line_1 = jQuery('#street_line_1').val()
-      var street_line_2 = jQuery('#street_line_2').val()
-      var city = jQuery('#city').val()
-      var state = jQuery('#state').val()
-      var country = jQuery('#country').val()
-      var zip = jQuery('#zip').val()
-      var form_data = new FormData()
+    var company_id = jQuery('#nab_company_id').val()
+    var address_id = jQuery(this).data('id')
+    var street_line_1 = jQuery('#street_line_1').val()
+    var street_line_2 = jQuery('#street_line_2').val()
+    var city = jQuery('#city').val()
+    var state = jQuery('#state').val()
+    var country = jQuery('#country').val()
+    var zip = jQuery('#zip').val()
+    var form_data = new FormData()
 
-      form_data.append('street_line_1',street_line_1)
-      form_data.append('street_line_2',street_line_2)
-      form_data.append('city',city)
-      form_data.append('state',state)
-      form_data.append('country',country)
-      form_data.append('zip',zip)
-      form_data.append('action','nab_amplify_submit_address')
-      form_data.append('company_id',company_id)
-      form_data.append('address_id',address_id)
-      
-      
-      jQuery.ajax({
-        type: 'POST',
-        url: amplifyJS.ajaxurl,
-        data: form_data,
-        contentType: false,
-        processData: false,
-        beforeSend: function () {
-          $('body').addClass('is-loading')
-        },
-        success: function (data) {
-          $('body').removeClass('is-loading')
-          if (undefined !== data.success && !data.success) {
-            addSuccessMsg('.add-product-content-popup', data.data)
-          } else {
-            addSuccessMsg(
-              '.add-product-content-popup',
-              'Address Updated Successfully!'
-            )
-          }
+    form_data.append('street_line_1', street_line_1)
+    form_data.append('street_line_2', street_line_2)
+    form_data.append('city', city)
+    form_data.append('state', state)
+    form_data.append('country', country)
+    form_data.append('zip', zip)
+    form_data.append('action', 'nab_amplify_submit_address')
+    form_data.append('company_id', company_id)
+    form_data.append('address_id', address_id)
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: form_data,
+      contentType: false,
+      processData: false,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
+      success: function (data) {
+        $('body').removeClass('is-loading')
+        if (undefined !== data.success && !data.success) {
+          addSuccessMsg('.add-product-content-popup', data.data)
+        } else {
+          addSuccessMsg(
+            '.add-product-content-popup',
+            'Address Updated Successfully!'
+          )
         }
-      })
-  });
-
-  
+      }
+    })
+  })
 
   charcount('keyup', '#company_about', '#character-count-comp-about', 2000)
   charcount(
@@ -585,21 +594,25 @@
     jQuery('body').addClass('nab-close-reload')
   })
 
-  $(document).on('click', '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action', function(){      
-    $('body').addClass('loading');
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_edit_downloadable_company_pdf',
-        pdf_id: undefined !== $(this).data( 'id' ) ? $(this).data( 'id' ) : '',
-        nabNonce: amplifyJS.nabNonce
-      },
-      success: function( response ) {
-        $('body').removeClass('loading');
-      }
-    });
-  });
+  $(document).on(
+    'click',
+    '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action',
+    function () {
+      $('body').addClass('loading')
+      $.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: 'nab_edit_downloadable_company_pdf',
+          pdf_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
+          nabNonce: amplifyJS.nabNonce
+        },
+        success: function (response) {
+          $('body').removeClass('loading')
+        }
+      })
+    }
+  )
 
   $(document).on('click', '.action-edit ', function () {
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
@@ -625,8 +638,8 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: "Select Point of contact",
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -673,7 +686,6 @@
               '#character-count-specs',
               2000
             )
-            
           }, 1000)
         } else {
           jQuery('#addProductModal').remove()
@@ -686,8 +698,8 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: "Select Point of contact",
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -695,7 +707,6 @@
             '#character-count-specs'
           )
           setTimeout(function () {
-            
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -718,12 +729,11 @@
               '#character-count-specs',
               2000
             )
-            
           }, 1000)
         }
         $('.poduct-point-of-contact').select2({
           placeholder: 'Select point of contact',
-          allowClear:true
+          allowClear: true
         })
         $('.poduct-point-of-contact').select2({
           ajax: {
@@ -753,7 +763,7 @@
           },
           minimumInputLength: 3,
           placeholder: 'Select point of contact',
-          allowClear:true
+          allowClear: true
         })
       }
     })
@@ -868,19 +878,19 @@
   })
 
   $(document).on('click', '#nab-edit-product-draft', function () {
-    nabProductAddUpdateAjax( 'draft' );
-  });
+    nabProductAddUpdateAjax('draft')
+  })
 
   $(document).on('click', '#nab-edit-product-delete', function () {
-    nabProductAddUpdateAjax( 'trash' );
-  });
+    nabProductAddUpdateAjax('trash')
+  })
 
   $(document).on('click', '#nab-edit-product-submit', function () {
-    nabProductAddUpdateAjax( $(this).attr('data-status') );
-  });
+    nabProductAddUpdateAjax($(this).attr('data-status'))
+  })
 
-  function nabProductAddUpdateAjax( postStatus ) {
-    tinyMCE.triggerSave();
+  function nabProductAddUpdateAjax (postStatus) {
+    tinyMCE.triggerSave()
 
     var product_title = jQuery('#nab-edit-product-form #product_title').val()
     var product_categories = jQuery(
@@ -923,7 +933,6 @@
     ).val()
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
-    
 
     var nab_product_specsLength = tinyMCE
       .get('nab_product_specs')
@@ -965,11 +974,11 @@
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
-    form_data.append('product_status', postStatus);
+    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
+    form_data.append('product_status', postStatus)
 
     form_data.append('remove_attachments', remove_attachment_arr)
-    form_data.append('nab_company_id', nab_company_id);
+    form_data.append('nab_company_id', nab_company_id)
 
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
@@ -981,30 +990,37 @@
         $('body').addClass('is-loading')
       },
       success: function (response) {
-        var json = $.parseJSON(response);
+        var json = $.parseJSON(response)
         if (json.success === true) {
-          $('body').removeClass('is-loading');
-          if ( 'trash' === postStatus ) {
-            $('#nab-edit-product-form .btn-submit').attr('disabled', 'disabled');
+          $('body').removeClass('is-loading')
+          if ('trash' === postStatus) {
+            $('#nab-edit-product-form .btn-submit').attr('disabled', 'disabled')
           }
-          if ( json.publish_text ) {
-            $('#nab-edit-product-form #nab-edit-product-submit').val(json.publish_text);
-            $('#nab-edit-product-form #nab-edit-product-submit').attr('data-status', json.publish_text.toLowerCase());
+          if (json.publish_text) {
+            $('#nab-edit-product-form #nab-edit-product-submit').val(
+              json.publish_text
+            )
+            $('#nab-edit-product-form #nab-edit-product-submit').attr(
+              'data-status',
+              json.publish_text.toLowerCase()
+            )
           }
-          if ( json.draft_text ) {
-            $('#nab-edit-product-form #nab-edit-product-draft').val(json.draft_text);
+          if (json.draft_text) {
+            $('#nab-edit-product-form #nab-edit-product-draft').val(
+              json.draft_text
+            )
           }
-          if ( nab_product_id !== '0' ) {
-            addSuccessMsg( '.add-product-content-popup', json.content );
+          if (nab_product_id !== '0') {
+            addSuccessMsg('.add-product-content-popup', json.content)
           } else {
-            addSuccessMsg( '.add-product-content-popup', json.content );           
-          }          
-          if ( json.post_id ) {
-            $('#nab-edit-product-form #nab_product_id').val( json.post_id );
+            addSuccessMsg('.add-product-content-popup', json.content)
+          }
+          if (json.post_id) {
+            $('#nab-edit-product-form #nab_product_id').val(json.post_id)
           }
         }
       }
-    });
+    })
   }
 
   // Upload user images using ajax.
@@ -1036,8 +1052,8 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: "Select Point of contact",
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1078,8 +1094,8 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: "Select Point of contact",
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1149,7 +1165,7 @@
       .find('.company-member-level-notice')
       .hide()
 
-    if (null !== featuredSelector.val()) {
+    if (0 < featuredSelector.length && null !== featuredSelector.val()) {
       if (0 === featuredMax) {
         nabMembershipCategoryNotice(
           featuredSelector,
@@ -1176,8 +1192,8 @@
       }
     }
 
-    if (null !== searchSelector.val()) {
-      if (0 === searchMax && 0 < searchSelector.val().length ) {
+    if (0 < searchSelector.length && null !== searchSelector.val()) {
+      if (0 === searchMax && 0 < searchSelector.val().length) {
         nabMembershipCategoryNotice(
           searchSelector,
           "You can't add search categories with your current membership."
@@ -1194,20 +1210,46 @@
       }
     }
 
+   
+
     var fd = new FormData()
     fd.append('action', 'nab_update_company_profile')
     fd.append('company_id', amplifyJS.postID)
     if (jQuery('#instagram_profile').length) {
-      fd.append('instagram_profile', jQuery('#instagram_profile').val())
+      if(!validateURL(jQuery('#instagram_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Instagram Profile!')
+        return false;
+      }else{
+        fd.append('instagram_profile', jQuery('#instagram_profile').val())
+      }
+      
     }
     if (jQuery('#linkedin_profile').length) {
-      fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
+      if(!validateURL(jQuery('#linkedin_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Linkedin Profile!')
+        return false;
+      }else{
+        fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
+      }
+      
     }
     if (jQuery('#facebook_profile').length) {
-      fd.append('facebook_profile', jQuery('#facebook_profile').val())
+      if(!validateURL(jQuery('#facebook_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Facebook Profile!')
+        return false;
+      }else{
+        fd.append('facebook_profile', jQuery('#facebook_profile').val())
+      }
+      
     }
     if (jQuery('#twitter_profile').length) {
-      fd.append('twitter_profile', jQuery('#twitter_profile').val())
+      if(!validateURL(jQuery('#twitter_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Twitter Profile!')
+        return false;
+      }else{
+        fd.append('twitter_profile', jQuery('#twitter_profile').val())
+      }
+      
     }
     if (jQuery('#company_about').length) {
       if (jQuery('#company_about').val().length > 2000) {
@@ -1227,7 +1269,13 @@
       fd.append('company_location', jQuery('#company_location').val())
     }
     if (jQuery('#company_website').length) {
-      fd.append('company_website', jQuery('#company_website').val())
+      if(!validateURL(jQuery('#company_website').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Company Website!')
+        return false;
+      }else{
+        fd.append('company_website', jQuery('#company_website').val())
+      }
+      
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
@@ -1284,14 +1332,17 @@
     }
 
     if (jQuery('#company_youtube').length) {
-      fd.append('company_youtube', jQuery('#company_youtube').val())
+      if(!validateURL(jQuery('#company_youtube').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Youtube Profile!')
+        return false;
+      }else{
+        fd.append('company_youtube', jQuery('#company_youtube').val())
+      }
+      
     }
 
     if (jQuery('#company_admins').length) {
-      fd.append(
-        'company_admins',
-        jQuery('#company_admins').val()
-      )
+      fd.append('company_admins', jQuery('#company_admins').val())
     }
 
     jQuery.ajax({
@@ -1346,8 +1397,8 @@
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: "Select Point of contact",
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1389,8 +1440,8 @@
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: "Select Point of contact",
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1412,7 +1463,7 @@
                     options.push({ id: text[0], text: text[1] })
                   })
                 }
-                return {   
+                return {
                   results: options
                 }
               },
@@ -1578,7 +1629,7 @@
         contentType: false,
         processData: false,
         success: function () {
-          if (undefined !== data.success && !data.success) {}
+          location.reload()
         }
       })
     }
@@ -3698,7 +3749,7 @@
     var nab_featured_block_button_link = $(
       '#nab_featured_block_button_link'
     ).val()
-   
+
     if (!checkContentlength('#nab_featured_block_posted_by', 'Posted By', 60)) {
       return false
     }
@@ -4049,7 +4100,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
   let orderBy =
     0 < jQuery('.other-search-filter .sort-company a.active').length
       ? jQuery('.other-search-filter .sort-company a.active').attr('data-order')
-      : 'meta';
+      : 'meta'
 
   if (0 < jQuery('.other-search-filter #company-category-filter').length) {
     category =
@@ -4109,8 +4160,16 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
           let avatarLink = document.createElement('a')
           avatarLink.setAttribute('href', value.link)
 
-          let companyProfile = document.createElement('img')
-          companyProfile.setAttribute('src', value.profile)
+          let companyProfile
+
+          if (undefined !== value.profile) {
+            companyProfile = document.createElement('img')
+            companyProfile.setAttribute('src', value.profile)
+          } else {
+            companyProfile = document.createElement('div')
+            companyProfile.setAttribute('class', 'no-image-avtar')
+            companyProfile.innerText = value.no_pic
+          }
 
           avatarLink.appendChild(companyProfile)
           searchItemProfile.appendChild(avatarLink)
