@@ -13,4 +13,4 @@ import './block/company-products/block';
 import './block/company-events/block';
 import './block/company-content/block';
 import './block/company-employees/block';
-
+import './block/company-feature/block';

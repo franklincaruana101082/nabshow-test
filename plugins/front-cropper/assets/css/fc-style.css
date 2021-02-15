@@ -1,0 +1,4 @@
+/* cropper popup */
+#cropper-board .modal-content a {border-radius: 4px;color: #fff!important;margin-right: 10px;cursor:pointer}
+#cropper-board.nab-modal .modal-content-wrap {text-align: center;}
+.cropper-container, #cropper-image {max-width: 100%;margin: 0 0 15px;max-height: 550px;}

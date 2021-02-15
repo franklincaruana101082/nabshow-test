@@ -276,6 +276,9 @@ function nab_register_amplify_dynamic_blocks()
         ),
         'render_callback' => 'nab_company_employees_render_callback',
     ));
+    register_block_type('nab/company-feature', array(
+        'render_callback' => 'nab_company_feature_render_callback',
+    ));
 }
 
 function nab_company_details_render_callback($attributes)
@@ -864,6 +867,117 @@ function nab_company_employees_render_callback($attributes)
             $html = ob_get_clean();
         }
     }
+
+    return $html;
+}
+
+function nab_company_feature_render_callback($attributes)
+{
+    $feature_status = get_field('feature_status');
+    $feature_title = get_field('feature_title');
+    $feature_author = get_field('feature_author');
+    $feature_desc = get_field('feature_desc');
+    $feature_button_text = get_field('feature_button_text');
+    $feature_button_url = get_field('feature_button_url');
+    $feature_background_image = get_field('feature_background_image');
+    $feature_bg_color = get_field('feature_bg_color');
+    $feature_icon_image = get_field('feature_icon_image');
+    $feature_status_color = get_field('feature_status_color');
+    $feature_title_color = get_field('feature_title_color');
+    $feature_author_color = get_field('feature_author_color');
+    $feature_desc_color = get_field('feature_description_color');
+    $feature_play_link = get_field('feature_play_link');
+    $feature_enable_reaction = get_field('feature_enable_reaction');
+    $feature_enable_button = get_field('feature_enable_button');
+    $feature_button_target = get_field('feature_button_target');
+    $user_id            = get_current_user_id();
+    $admin_id           = get_field('company_user_id', get_the_ID());
+    $member_level = get_field('member_level');
+
+    if (is_array($feature_enable_reaction)) {
+        $feature_enable_reaction = $feature_enable_reaction[0];
+    }
+    if (is_array($feature_enable_button)) {
+        $feature_enable_button = $feature_enable_button[0];
+    }
+    if (is_array($feature_button_target)) {
+        $feature_button_target = $feature_button_target[0];
+    }
+
+    ob_start();
+    ?>
+
+    <div class="amp-item-wrap featured-block-wraper">
+        <?php
+        if ( ! empty( $feature_title ) ) {
+
+        ?>
+            <div class='amp-feature-block' style="<?php if ($feature_background_image) {
+                                                        echo 'background-image: url(' . $feature_background_image . '); background-size: cover;';
+                                                    } else {
+                                                        echo  'background-color:' . $feature_bg_color . ';background-size: cover;';
+                                                    } ?>">
+                <div class='amp-feature-block-inner'>
+                    <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                        <span class='edit-feature-block edit-block-icon'>
+                            <i class='fa fa-pencil'></i>
+                        </span>
+                    <?php } ?>
+                    <?php if ($feature_icon_image) { ?>
+                        <div class='feature-icon'>
+                            <a href="<?php echo $feature_play_link; ?>" target="_self" rel="noopener noreferrer"> <img src="<?php echo $feature_icon_image; ?>" /></a>
+                        </div>
+                    <?php } ?>
+                    <div class='amp-feature-content'>
+                        <h3 class='feature-status' placeholder='Live' style="<?php echo isset($feature_status_color) ? 'color:' . $feature_status_color . ';' : ''; ?>"><?php echo isset($feature_status) ? $feature_status : 'Status'; ?></h3>
+                        <h2 class='feature-title' placeholder='Creating the World' style="<?php echo isset($feature_title_color) ? 'color:' . $feature_title_color . ';' : ''; ?>"><?php echo isset($feature_title) ? $feature_title : 'Title'; ?></h2>
+                        <h4 class='feature-author' placeholder='Author' style="<?php echo isset($feature_author_color) ? 'color:' . $feature_author_color . ';' : ''; ?>"><?php echo isset($feature_author) ? $feature_author : 'Author'; ?></h4>
+                        <p class='feature-disc' style="<?php echo isset($feature_desc_color) ? 'color:' . $feature_desc_color . ';' : ''; ?>"><?php echo isset($feature_desc) ? $feature_desc : 'Description'; ?></p>
+                        <?php if ($feature_enable_reaction === '1') { ?>
+                            <div class='shortcode-wrap'>
+                                <?php echo do_shortcode('[reaction_button]'); ?>
+                            </div>
+                        <?php }
+                        if ($feature_enable_button === '1') {
+                        ?>
+                            <div class="button-wrap btn-link">
+                                <a href="<?php echo isset($feature_button_url) ? $feature_button_url : '#'; ?>" target="<?php echo ($feature_button_target === '1') ? '_blank' : ''; ?>" rel="">
+                                    <?php echo isset($feature_button_text) ? $feature_button_text : 'Button'; ?>
+                                </a>
+                            </div>
+                        <?php
+                        } ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php
+        } else {
+
+            if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST')) {
+                if ($member_level != 'select' && $member_level !== 'Standard') {
+            ?>
+                    <div class="amp-item-col add-new-item">
+                        <div class="amp-item-inner">
+                            <div class="add-item-wrap">
+                                <i class="edit-feature-block add-item-icon fa fa-pencil"></i>
+                                <span class="add-item-label">Add Featured Content</span>
+                            </div>
+                        </div>
+                    </div>
+        <?php
+                }
+            } else {
+                if (defined('REST_REQUEST')) {
+                    echo '<p class="empty-featured-block">Featured data not available!</p>';
+                }
+            }
+        }
+        ?>
+    </div>
+    <?php
+    $html = ob_get_contents();
+    ob_end_clean();
 
     return $html;
 }
