@@ -3485,7 +3485,7 @@ function nab_update_company_profile_callback()
     }
 
     // Update company youtube
-    if (isset($$company_youtube)) {
+    if (isset($company_youtube)) {
         update_field('youtube_url', $company_youtube, $company_id);
     }
 
