@@ -1321,7 +1321,8 @@ function nab_company_search_filter_callback()
 			$cover_image        = get_field('cover_image');
 			$profile_picture    = get_field('profile_picture');
 			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-			$profile_picture    = !empty($profile_picture) ? $profile_picture['url'] : $default_company_pic;
+			$featured_image  	= has_post_thumbnail() ? get_the_post_thumbnail_url() : false;
+			$profile_picture    = $featured_image;			
 			$company_url		= get_the_permalink();
 			$company_poc		= get_field('point_of_contact');
 			
@@ -1329,7 +1330,13 @@ function nab_company_search_filter_callback()
 			$result_post[$cnt]['cover_img'] = $cover_image;
 			$result_post[$cnt]['link'] 		= $company_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
-			$result_post[$cnt]['profile'] 	= $profile_picture;
+
+			if ( $profile_picture ) {
+				$result_post[$cnt]['profile'] 	= $profile_picture;
+			} else {
+				$result_post[$cnt]['no_pic']	= html_entity_decode(mb_strimwidth(get_the_title(), 0, 20, '...'));
+			}
+			
 
 			ob_start();
 

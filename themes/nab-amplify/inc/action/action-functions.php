@@ -205,7 +205,7 @@ function nab_amplify_upload_images()
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
-                    update_user_meta($user_id, 'profile_update', '1');
+                    update_user_meta($user_id, 'profile_update_one', '1');
                 }
             }
         }
@@ -2480,7 +2480,7 @@ function nab_save_edit_account_additional_form_fields($user_id)
         }
     }
 
-    update_user_meta($user_id, 'profile_update', '1');
+    update_user_meta($user_id, 'profile_update_one', '1');
 }
 
 /**
@@ -3100,7 +3100,7 @@ function nab_register_company_category_taxonomy()
         'query_var'         => true,
         'rewrite'           => array('slug' => 'company-category'),
     );
-    register_taxonomy('company-category', array('company', 'tribe_events', 'articles'), $args);
+    register_taxonomy('company-category', array('company', 'tribe_events' ), $args);
 }
 
 /**
@@ -3505,10 +3505,13 @@ function nab_update_company_profile_callback()
     }
 
     // Update point of contact
-    if ($company_point_of_contact !== '') {
-        update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
-    } else {
-        update_field('field_5fb4f4bcbe04a', 0, $company_id);
+    if ( isset( $company_point_of_contact ) ) {
+        
+        if ( $company_point_of_contact !== '') {
+            update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+        } else {
+            update_field('field_5fb4f4bcbe04a', 0, $company_id);
+        }
     }
 
 
@@ -3527,7 +3530,7 @@ function nab_update_company_profile_callback()
         update_field('youtube_url', $company_youtube, $company_id);
     }
 
-    if ( isset( $company_admins ) && 'null' !== $company_admins) {
+    if ( isset( $company_admins ) && 'null' !== $company_admins ) {
 
         $company_admins = explode(',', $company_admins);
         $get_member_level = get_field('member_level', $company_id);
@@ -4215,6 +4218,12 @@ function nab_sync_beta_user_to_live(WP_REST_Request $request)
             $user_exist = email_exists($user_data['user_email']);
 
             if (!$user_exist) {
+
+                $is_username_exist = username_exists( $user_data['user_login'] );
+                
+                if ( $is_username_exist ) {
+                    $user_data['user_login'] = wc_create_new_customer_username($user_data['user_email']);
+                }
 
                 $table_name = $wpdb->users;
 
