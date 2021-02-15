@@ -619,6 +619,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order' 			=> 'DESC'
 				);
 
+				$product_args['tax_query'] = array(
+					array(
+						'taxonomy' => 'product_visibility',
+						'field'    => 'slug',
+						'terms'    => array( 'exclude-from-search' ),
+						'operator' => 'NOT IN',
+					)
+				);
+
 				$product_query = new WP_Query($product_args);
 
 				if ($product_query->have_posts()) {
@@ -1205,6 +1214,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'order' 			=> 'DESC'
 			);
 
+			$product_args['tax_query'] = array(
+				array(
+					'taxonomy' => 'product_visibility',
+					'field'    => 'slug',
+					'terms'    => array( 'exclude-from-search' ),
+					'operator' => 'NOT IN',
+				)
+			);
+
 			$product_query = new WP_Query($product_args);
 
 			if ($product_query->have_posts()) {
@@ -1240,7 +1258,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								<div class="search-item-inner">
 									<div class="search-item-cover">
 										<?php 
-										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img(); ?>
+										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+										?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>

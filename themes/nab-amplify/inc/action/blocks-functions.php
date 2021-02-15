@@ -928,7 +928,7 @@ function nab_company_feature_render_callback($attributes)
 
     <div class="amp-item-wrap featured-block-wraper">
         <?php
-        if (!empty($feature_title)) {
+        if ( ! empty( $feature_title ) ) {
 
         ?>
             <div class='amp-feature-block' style="<?php if ($feature_background_image) {

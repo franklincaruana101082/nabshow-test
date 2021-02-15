@@ -17,9 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     					<li class="bm-tab-active">
     						<a href="javascript:void(0)" class="bm-tab-item" data-tab="bm-tab-media">Media</a>
     					</li>
-    					<li>
+    					<!--<li>
     						<a href="javascript:void(0)" class="bm-tab-item" data-tab="bm-tab-upload">Uploads</a>
-    					</li>
+    					</li>-->
     				</ul>
     			</div>
     			<div class="bm-modal-action">
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     		<div class="bm-modal-body">
     			<div class="bm-tab-main">
     				<div id="bm-tab-media" class="bm-tab-content bm-tab-active">
-	    				
+
 	    			</div>
 	    			<div id="bm-tab-upload" class="bm-tab-content">
 	    				<div class="bm-upload-main">
