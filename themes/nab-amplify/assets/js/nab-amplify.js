@@ -1034,7 +1034,13 @@
       fd.append('company_location', jQuery('#company_location').val())
     }
     if (jQuery('#company_website').length) {
-      fd.append('company_website', jQuery('#company_website').val())
+      if(!validateURL(jQuery('#company_website').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Company Website!')
+        return false;
+      }else{
+        fd.append('company_website', jQuery('#company_website').val())
+      }
+      
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
