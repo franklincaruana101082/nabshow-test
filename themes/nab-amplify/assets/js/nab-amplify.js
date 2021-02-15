@@ -296,6 +296,12 @@
     })
   }
 
+  function validateURL (urltext) {
+    
+    var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+    return rg.test(urltext);
+  }
+
   function load_tinyMCE_withPlugins (tag, countTag, limit = 2000) {
     var d = new Date()
     var time = d.getTime()
@@ -852,16 +858,40 @@
     fd.append('action', 'nab_update_company_profile')
     fd.append('company_id', amplifyJS.postID)
     if (jQuery('#instagram_profile').length) {
-      fd.append('instagram_profile', jQuery('#instagram_profile').val())
+      if(!validateURL(jQuery('#instagram_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Instagram Profile!')
+        return false;
+      }else{
+        fd.append('instagram_profile', jQuery('#instagram_profile').val())
+      }
+      
     }
     if (jQuery('#linkedin_profile').length) {
-      fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
+      if(!validateURL(jQuery('#linkedin_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Linkedin Profile!')
+        return false;
+      }else{
+        fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
+      }
+      
     }
     if (jQuery('#facebook_profile').length) {
-      fd.append('facebook_profile', jQuery('#facebook_profile').val())
+      if(!validateURL(jQuery('#facebook_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Facebook Profile!')
+        return false;
+      }else{
+        fd.append('facebook_profile', jQuery('#facebook_profile').val())
+      }
+      
     }
     if (jQuery('#twitter_profile').length) {
-      fd.append('twitter_profile', jQuery('#twitter_profile').val())
+      if(!validateURL(jQuery('#twitter_profile').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Twitter Profile!')
+        return false;
+      }else{
+        fd.append('twitter_profile', jQuery('#twitter_profile').val())
+      }
+      
     }
     if (jQuery('#company_about').length) {
       if (jQuery('#company_about').val().length > 2000) {
@@ -881,7 +911,12 @@
       fd.append('company_location', jQuery('#company_location').val())
     }
     if (jQuery('#company_website').length) {
-      fd.append('company_website', jQuery('#company_website').val())
+      if(!validateURL(jQuery('#company_website').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Company Website!')
+        return false;
+      }else{
+        fd.append('company_website', jQuery('#company_website').val())
+      }l())
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
@@ -934,7 +969,13 @@
     }
 
     if (jQuery('#company_youtube').length) {
-      fd.append('company_youtube', jQuery('#company_youtube').val())
+      if(!validateURL(jQuery('#company_youtube').val())){
+        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Youtube Profile!')
+        return false;
+      }else{
+        fd.append('company_youtube', jQuery('#company_youtube').val())
+      }
+      
     }
 
     jQuery.ajax({

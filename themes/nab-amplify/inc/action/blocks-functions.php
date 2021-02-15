@@ -306,7 +306,15 @@ function nab_company_details_render_callback($attributes)
                 <div class="company-about-outer">
                     <h2>About</h2>
                     <div class="company-about-inner">
-                        <p><?php echo esc_html($about_company); ?></p>
+                    <?php if ($about_company) {
+                        ?>
+                            <p><?php echo esc_html($about_company); ?></p>
+                        <?php
+                        } else {
+                        ?>
+                            <p>Details coming soon.</p>
+                        <?php
+                        } ?>
                     </div>
                 </div>
                 <div class="company-contact-outer">
