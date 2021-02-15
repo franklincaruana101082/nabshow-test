@@ -36,9 +36,8 @@
                         <textarea name="nab-connection-message" id="nab-connection-message"></textarea>
                      <?php } ?>
                     <p style="display: none;" class="error">Please enter message.</p>
-
                     <a id="submit-message-request" href="javascript:void(0)" class="btn">SEND MESSAGE</a>
-                    <p class="message-leggal-notice">By submitting this message, I agree to receive additional information and communications from <?php echo get_the_title($company_id); ?>.</p>
+                    <p class="message-leggal-notice"><i class="small">By submitting this message, I agree to receive additional information and communications from <?php echo get_the_title($company_id); ?>.</i></p>
                 </form>
                 <?php }else{
                     ?>

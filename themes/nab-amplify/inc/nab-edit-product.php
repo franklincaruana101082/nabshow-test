@@ -95,7 +95,15 @@ global $post;
 								</div>
 								<div class="form-col-6">
 									<div class="form-row">
-										<label for="">Add Point of Contact</label>										
+										<label for="" class="tooltip-container large-label-tooltip">
+											<div class="field-label">Add Point of Contact</div>
+											<div class="tooltip-wrap">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												<div class="tooltip">
+													Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your product. NOTE: You can only add one Point of Contact for each product at this time. A NAB Amplify user does not need to be a company admin to be a POC.
+												</div>
+											</div>
+										</label>									
 										<div class="select-dark-simple">
 											<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
 												<?php
@@ -147,7 +155,23 @@ global $post;
 								</div>
 							</div>
 							<div class="form-row">
-								<input type="button" id="nab-edit-product-submit" data-id="<?php echo isset($post_data->ID) ? $post_data->ID : 0 ?>" class="btn btn-submit" value="<?php echo isset($post_data->ID) ? "Update" : "Add"; ?>">
+							<?php
+								$publish_button_text 	= 'Publish';
+								$draft_button_text		= 'Save as Draft';
+								if ( isset( $post_data->post_status ) && 'publish' === $post_data->post_status ) {
+									$publish_button_text 	= 'Update';
+									$draft_button_text		= 'Revert to Draft';
+								}
+								?>
+								<input type="button" id="nab-edit-product-submit" class="btn btn-submit" data-status="<?php echo esc_attr( strtolower( $publish_button_text ) ); ?>" value="<?php echo esc_attr( $publish_button_text ) ?>">
+								<input type="button" id="nab-edit-product-draft"  class="btn btn-submit btn-draft" data-status="draft" value="<?php echo esc_attr( $draft_button_text); ?>">
+								<?php
+								if ( isset( $post_data->post_status ) ) {
+									?>
+									<input type="button" id="nab-edit-product-delete" class="btn btn-submit btn-delete" data-status="trash" value="Delete">
+									<?php
+								}
+								?>
 								<input type="hidden" name="nab_product_id" id="nab_product_id" value="<?php echo isset($post_data->ID) ? $post_data->ID : 0 ?>" />
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $post_data->company_id; ?>" />
 							</div>

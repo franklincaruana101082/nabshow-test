@@ -18,8 +18,8 @@ function amplify_front_scripts()
 	global $post;
 	wp_enqueue_script('nab-bx-slider-js', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', ['jquery'], null, true);
 	wp_enqueue_script('amplify-chosen-js', get_template_directory_uri() . '/assets/js/chosen.jquery.min.js', ['jquery'], true);
-	wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
 	wp_enqueue_script('amplify-custom-js', get_template_directory_uri() . '/assets/js/nab-amplify.js', ['jquery'], '1.0.1', true);
+	wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
 	wp_localize_script('amplify-custom-js', 'amplifyJS', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'nabNonce' => wp_create_nonce('nab-ajax-nonce'),
@@ -31,29 +31,6 @@ function amplify_front_scripts()
 	));
 	wp_enqueue_script('amplify-tag-js', get_template_directory_uri() . '/js/jquery.tagsinput.js', ['jquery'], null, true);
 	wp_enqueue_media();
-
-	wp_enqueue_style( 'wp-color-picker' );
-    wp_enqueue_script(
-        'iris',
-        admin_url( 'js/iris.min.js' ),
-        array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
-        false,
-        1
-    );
-    wp_enqueue_script(
-        'wp-color-picker',
-        admin_url( 'js/color-picker.min.js' ),
-        array( 'iris' ),
-        false,
-        1
-    );
-    $colorpicker_l10n = array(
-        'clear' => __( 'Clear' ),
-        'defaultString' => __( 'Default' ),
-        'pick' => __( 'Select Color' ),
-        'current' => __( 'Current Color' ),
-    );
-    wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
 
 	//Styles enqueue.
 	wp_enqueue_style('amplify-style', get_stylesheet_uri());
@@ -82,4 +59,283 @@ if (function_exists('acf_add_options_page')) {
 		'capability' => 'edit_posts',
 		'redirect'   => false,
 	));
+}
+
+define('WP_BP_PATH', __DIR__);
+define('WP_BP_URL', get_template_directory_uri() . '/inc/action/batch/');
+
+/*Initalize company bulk import files */
+
+require_once 'batch/class-bp-helper.php';
+require_once 'batch/class-bp-singleton.php';
+
+require_once 'batch/class-batch-item.php';
+require_once 'batch/class-batch.php';
+require_once 'batch/class-batch-processor.php';
+require_once 'batch/class-batch-ajax-handler.php';
+require_once 'batch/class-batch-list-table.php';
+require_once 'batch/class-batch-processor-admin.php';
+
+/* Setup company bulk import batch process */
+
+if (class_exists('WP_Batch')) {
+
+	/**
+	 * Class MY_Example_Batch
+	 */
+	class NAB_Company_Import_Batch extends WP_Batch
+	{
+
+		/**
+		 * Unique identifier of each batch
+		 * @var string
+		 */
+		public $id = 'nab_import_companies';
+
+
+		/**
+		 * Describe the batch
+		 * @var string
+		 */
+		public $title = 'Import Companies';
+
+		/**
+		 * To setup the batch data use the push() method to add WP_Batch_Item instances to the queue.
+		 *
+		 * Note: If the operation of obtaining data is expensive, cache it to avoid slowdowns.
+		 *
+		 * @return void
+		 */
+		public function setup()
+		{
+
+			$temp = get_temp_dir();
+
+			 $csv_name = get_option( 'nab_import_csv');
+			
+
+			$csv_name = $csv_name ? $csv_name : 'nab_import_company.csv';
+
+			// Define the CSV Path
+			$csv_path = $temp . '/'.$csv_name;
+
+			if (file_exists($csv_path)) {
+
+
+				// Add the CSV data in the processing queue
+				$rows   = array_map('str_getcsv', file($csv_path));
+
+				$input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($csv_path);
+
+				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($input_file_type);
+
+				/**  Advise the Reader that we only want to load cell data  **/
+				$reader->setReadDataOnly(true);
+
+				$reader->setReadEmptyCells(false);
+
+				$spreadsheet = $reader->load($csv_path);
+
+				$sheet_data    = $spreadsheet->getActiveSheet()->toArray();
+
+
+
+				// Loop over the data and add every row to the queue
+				foreach ($sheet_data as $key => $row) {
+					if ($key !== 0) {
+						$row_data = array(
+							'item_no' => $key,
+							'title' => $row[0],
+							'content' => $row[1],
+							'about' => $row[2],
+							'featured_cat' => $row[3],
+							'street_line_1' => $row[4],
+							'street_line_2' => $row[5],
+							'street_line_3' => $row[6],
+							'city' => $row[7],
+							'state' => $row[8],
+							'zip' => $row[9],
+							'country' => $row[10],
+							'website' => $row[14],
+							'member_level' => $row[11],
+							'tagline' => $row[12],
+							'salesforce' => $row[13],
+							'website' => $row[14],
+							'instagram' => $row[15],
+							'linkedin' => $row[16],
+							'facebook' => $row[17],
+							'twitter' => $row[18],
+							'youtube' => $row[19],
+
+
+						);
+						$unique_id  = md5($row[0]);
+						$this->push(new WP_Batch_Item($unique_id, $row_data));
+					}
+				}
+			}
+		}
+
+		/**
+		 * Handles processing of batch item. One at a time.
+		 *
+		 * In order to work it correctly you must return values as follows:
+		 *
+		 * - TRUE - If the item was processed successfully.
+		 * - WP_Error instance - If there was an error. Add message to display it in the admin area.
+		 *
+		 * @param WP_Batch_Item $item
+		 *
+		 * @return bool|\WP_Error
+		 */
+		public function process($item)
+		{
+
+			// get post data
+			$item_no = $item->get_value('item_no');
+			$title = $item->get_value('title');
+			$content = $item->get_value('content');
+			$about = $item->get_value('about');
+			$featured_cat = explode(',', $item->get_value('featured_cat'));
+			$street_line_1 = $item->get_value('street_line_1');
+			$street_line_2 = $item->get_value('street_line_2');
+			$street_line_3 = $item->get_value('street_line_3');
+			$city = $item->get_value('city');
+			$state_province = $item->get_value('state');
+			$zip_Postal = $item->get_value('zip');
+			$country = $item->get_value('country');
+			$website = $item->get_value('website');
+			$member_level_check = strtolower( $item->get_value('member_level') );
+			$member_level = $item->get_value('member_level');
+			$company_Tagline = $item->get_value('tagline');
+			$salesforce_ID = $item->get_value('salesforce');
+			$website_URl = $item->get_value('website');
+			$instagram_URl = $item->get_value('instagram');
+			$linkedin_URl = $item->get_value('linkedin');
+			$facebook_URl = $item->get_value('facebook');
+			$twitter_URl = $item->get_value('twitter');
+			$youtube_URl = $item->get_value('youtube');
+
+			// Create post object
+			$post_data = array(
+				'post_title'    => $title,
+				'post_content'  => $content,
+				'post_status'   => 'publish',
+				'post_type' => 'company'
+			);
+
+			$fount_post = post_exists($title, '', '', '');
+
+			// Return WP_Error if the item processing failed (In our case we simply skip author with user id 5)
+			if ($fount_post) {
+				return new WP_Error(302, $title . " Post Exist!");
+			}
+			if (empty($title)) {
+				return new WP_Error(302, "Title not provided for item number " . $item_no);
+			}
+			// Insert the post into the database
+			$import_post_id = wp_insert_post($post_data);
+			if (!is_wp_error($import_post_id)) {
+
+				// Import the featured product categories
+
+				$import_featured_cat = [];
+
+				$num_member_level_array = array (
+					'standard'  => 1,
+					'plus'      => 2,
+					'premium'   => 3,
+				);
+
+				foreach ($featured_cat as $cat) {
+
+					$term = term_exists($cat, 'company-product-category');
+
+					if ($term == 0 && $term == null) {
+						$term = wp_insert_term(
+							$cat,   // the term
+							'company-product-category' // the taxonomy
+						);
+						if (!is_wp_error($term)) {
+							$import_featured_cat[] = $term['term_id'];
+						}
+					} else {
+						$import_featured_cat[] = $term['term_id'];
+					}
+				}
+
+				if (!empty($import_featured_cat)) {
+
+					$this->import_meta('product_categories', $import_featured_cat, $import_post_id);
+				}
+
+
+				$this->import_meta('about_company', $about, $import_post_id);
+				
+
+				$field_key = 'field_5fa3e84f3fa46';
+				$values = array(
+					'_street_line_1'    =>   $street_line_1,
+					'street_line_2' =>   $street_line_2,
+					'street_line_3' =>   $street_line_3,
+					'city' =>   $city,
+					'state' =>   $state_province,
+					'zipcode' =>   $zip_Postal,
+					'country' =>   $country,
+				);
+				$this->import_meta($field_key, $values, $import_post_id);
+				$this->import_meta('company_website', $website, $import_post_id);
+
+				$num_member_level   = isset( $num_member_level_array[$member_level_check] ) ? $num_member_level_array[$member_level_check] : 0;
+				update_post_meta( $import_post_id, 'member_level_num', $num_member_level );
+
+				$this->import_meta('member_level', $member_level, $import_post_id);
+				$this->import_meta('company_industary', $company_Tagline, $import_post_id);
+				$this->import_meta('salesforce_id', $salesforce_ID, $import_post_id);
+				$this->import_meta('company_website', $website_URl, $import_post_id);
+				$this->import_meta('instagram_url', $instagram_URl, $import_post_id);
+				$this->import_meta('linkedin_url', $linkedin_URl, $import_post_id);
+				$this->import_meta('facebook_url', $facebook_URl, $import_post_id);
+				$this->import_meta('twitter_url', $twitter_URl, $import_post_id);
+				$this->import_meta('youtube_url', $youtube_URl, $import_post_id);
+
+				$random_string = generate_add_admin_string();
+				$this->import_meta('admin_add_string', $random_string, $import_post_id);
+
+			} else {
+				$error_code = array_key_first($import_post_id->errors);
+				$error_message = $import_post_id->errors[$error_code][0];
+				return new WP_Error(302, $error_message);
+			}
+
+	// Return true if the item processing is successful.
+			return true;
+		}
+
+		/**
+		 * Called when specific process is finished (all items were processed).
+		 * This method can be overriden in the process class.
+		 * @return void
+		 */
+		public function finish()
+		{
+			// Do something after process is finished.
+			// You have $this->items, etc.
+		}
+
+		/* Common function for update custom fields */
+
+		private function import_meta($key, $value, $post_id)
+		{
+			if (!empty($value)) {
+				if (update_field($key, $value, $post_id)) {
+					return true;
+				} else {
+					return new WP_Error(302, 'Error Importing meta' . $key . ' for ' . $post_id);
+				}
+			} else {
+				return new WP_Error(302, 'Meta' . $key . 'not provided for ' . $post_id);
+			}
+		}
+	}
 }

@@ -1319,15 +1319,6 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
 }
 
 /**
- * Add comapny admin query parameter
- */
-function nab_add_query_vars_filter( $vars ){
-    $vars[] = "addadmin";
-    return $vars;
-}
-add_filter( 'query_vars', 'nab_add_query_vars_filter' );
-
-/**
  * Update wordpress comment count.
  *
  * @param  array $count
@@ -1398,3 +1389,13 @@ function nab_update_wp_admin_comments_count( $count, $post_id ) {
 
     return $count;
 }
+
+/**
+ * Add comapny admin query parameter
+ */
+function nab_add_query_vars_filter( $vars ){
+	$vars[] = "addadmin";
+	$vars[] = "r";
+    return $vars;
+}
+add_filter( 'query_vars', 'nab_add_query_vars_filter' );

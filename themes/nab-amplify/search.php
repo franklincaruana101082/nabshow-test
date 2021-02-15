@@ -209,7 +209,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								?>
 								<div class="nab-custom-select">
 									<select id="content-community" class="content-community">
-										<option value="">Coummunity</option>
+										<option value="">Community</option>
 										<?php
 										foreach ( $community_field[ 'choices' ] as $value => $label ) {
 											?>
@@ -287,7 +287,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span><strong>PEOPLE</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
 					<div class="search-section search-user-section">
@@ -403,7 +403,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span><strong>PRODUCTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
 						<div class="amp-item-wrap" id="company-products-list">
@@ -504,7 +504,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span><strong>COMPANIES</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
 						<div class="search-section-details" id="search-company-list">
@@ -526,6 +526,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$featured_image  	= get_the_post_thumbnail_url();
 								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
+								$company_poc        = get_field('point_of_contact'); 
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -551,25 +552,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 														<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
 													</div>
 													<?php
-													if ($user_logged_in) {
-
-													?>
-														<div id="send-private-message" class="generic-button poc-msg-btn">
-															<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
-														</div>
-														<?php 
-													} else {
-														
-														$current_url = home_url( add_query_arg( NULL, NULL ) );
-														$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
-														
-														?>
-														<div class="generic-button">
-															<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
-														</div>
-														<?php
+													if ($company_poc !== '' && !empty($company_poc)) {
+														if ($user_logged_in) {
+															?>
+													   <div id="send-private-message" class="generic-button poc-msg-btn">
+														   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+													   </div>
+													   <?php
+														} else {
+															$current_url = home_url(add_query_arg(null, null));
+															$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+													   <div class="generic-button">
+														   <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+													   </div>
+													   <?php
+														}
 													}
-													?>
+												   ?>
 												</div>
 											</div>
 										</div>
@@ -613,6 +612,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order' 			=> 'DESC'
 				);
 
+				$product_args['tax_query'] = array(
+					array(
+						'taxonomy' => 'product_visibility',
+						'field'    => 'slug',
+						'terms'    => array( 'exclude-from-search' ),
+						'operator' => 'NOT IN',
+					)
+				);
+
 				$product_query = new WP_Query($product_args);
 
 				if ($product_query->have_posts()) {
@@ -622,7 +630,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span><strong>SHOP</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
 						<div class="search-section-details" id="search-product-list">
@@ -636,18 +644,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 								$product_link	= get_the_permalink();
-								$product_medias = get_field('product_media');
+								
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
-											<?php $thumbnail_url = '';
-
-											if (!empty($product_medias[0]['product_media_file'])) {
-												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-											} else {
-												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-											} ?>
+											<?php 
+											$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+											?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										</div>
@@ -710,7 +714,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">						
 						<div class="search-section-details" id="search-event-list">
@@ -818,7 +822,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>CONTENT</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on the NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
 						<div class="search-section-details" id="search-content-list">
@@ -1155,23 +1159,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 												<?php
 
-												if ($user_logged_in) { ?>
+if ($company_poc !== '' && !empty($company_poc)) {
+	if ($user_logged_in) { ?>
 
-													<div id="send-private-message" class="generic-button poc-msg-btn">
-														<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr( get_the_ID() ); ?>">Message Rep</a>
-													</div>
-													<?php 
-												} else {
-													
-													$current_url = home_url( add_query_arg( NULL, NULL ) );
-													$current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
-													
-													?>
-													<div class="generic-button">
-														<a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button">Message Rep</a>
-													</div>
-													<?php
-												}
+												   <div id="send-private-message" class="generic-button poc-msg-btn">
+													   <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												   </div>
+												   <?php
+											   } else {
+												   $current_url = home_url(add_query_arg(null, null));
+												   $current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+												   <div class="generic-button">
+													   <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+												   </div>
+												   <?php
+											   }
+}
 												?>
 											</div>
 										</div>
@@ -1195,6 +1198,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'meta_key'  		=> 'total_sales',
 				'orderby'   		=> 'meta_value_num',
 				'order' 			=> 'DESC'
+			);
+
+			$product_args['tax_query'] = array(
+				array(
+					'taxonomy' => 'product_visibility',
+					'field'    => 'slug',
+					'terms'    => array( 'exclude-from-search' ),
+					'operator' => 'NOT IN',
+				)
 			);
 
 			$product_query = new WP_Query($product_args);
@@ -1226,18 +1238,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$product_query->the_post();
 							$product_link	= get_the_permalink();
-							$product_medias = get_field('product_media');
+							
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
-										<?php $thumbnail_url = '';
-
-										if (!empty($product_medias[0]['product_media_file'])) {
-											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										} ?>
+										<?php 
+										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+										?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>

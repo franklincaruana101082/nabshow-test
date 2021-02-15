@@ -276,9 +276,6 @@ function nab_register_amplify_dynamic_blocks()
         ),
         'render_callback' => 'nab_company_employees_render_callback',
     ));
-    register_block_type('nab/company-feature', array(
-        'render_callback' => 'nab_company_feature_render_callback',
-    ));
 }
 
 function nab_company_details_render_callback($attributes)
@@ -320,14 +317,14 @@ function nab_company_details_render_callback($attributes)
                 <div class="company-contact-outer">
                     <h2>Contact Info</h2>
                     <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                        <div class="edit-company-about-control">
-                            <span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details">
-                                <i class="fa fa-pencil"></i>
-                            </span>
-                        </div>
-                    <?php } ?>
+                            <div class="edit-company-about-control">
+                                <span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                            </div>
+                        <?php } ?>
                     <div class="company-contact-inner">
-
+                        
                         <div class="company-contact-inner-box">
                             <ul>
                                 <?php
@@ -416,7 +413,7 @@ function nab_company_produts_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $company_id         = $post->ID;
-
+    $post_status        = array( 'publish' );
     if (is_user_logged_in()) {
 
         $company_id         = get_the_ID();
@@ -428,12 +425,13 @@ function nab_company_produts_render_callback($attributes)
 
             $is_company_admin   = true;
             $posts_per_page     = $posts_per_page - 1;
+            $post_status[]      = 'draft';
         }
     }
 
     $query_args = array(
         'post_type'         => 'company-products',
-        'post_status'       => 'publish',
+        'post_status'       => $post_status,
         'posts_per_page'    => $posts_per_page,
     );
     $meta_query_args    = array('relation' => 'AND');
@@ -506,7 +504,13 @@ function nab_company_produts_render_callback($attributes)
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
                                     <?php
-
+                                    if ( $is_company_admin && 'draft' === get_post_status( get_the_ID() ) ) {
+                                        ?>
+                                        <div class="amp-draft-wrapper">
+                                            <span class="company-product-draft">Draft</span>
+                                        </div>
+                                        <?php
+                                    }
                                     $thumbnail_url = '';
 
                                     if (!empty($product_medias[0]['product_media_file'])) {
@@ -816,7 +820,7 @@ function nab_company_employees_render_callback($attributes)
                         bp_the_member();
 
                         $member_user_id = bp_get_member_user_id();
-
+                        
                         $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
                         if (empty(trim($user_full_name))) {
@@ -856,102 +860,10 @@ function nab_company_employees_render_callback($attributes)
                     ?>
                 </div>
             </div>
-    <?php
+<?php
             $html = ob_get_clean();
         }
     }
-
-    return $html;
-}
-
-function nab_company_feature_render_callback($attributes)
-{
-    $feature_status = get_field('feature_status');
-    $feature_title = get_field('feature_title');
-    $feature_author = get_field('feature_author');
-    $feature_desc = get_field('feature_desc');
-    $feature_button_text = get_field('feature_button_text');
-    $feature_button_url = get_field('feature_button_url');
-    $feature_background_image = get_field('feature_background_image');
-    $feature_bg_color = get_field('feature_bg_color');
-    $feature_icon_image = get_field('feature_icon_image');
-    $feature_status_color = get_field('feature_status_color');
-    $feature_title_color = get_field('feature_title_color');
-    $feature_author_color = get_field('feature_author_color');
-    $feature_desc_color = get_field('feature_description_color');
-    $feature_play_link = get_field('feature_play_link');
-    $feature_enable_reaction = get_field('feature_enable_reaction');
-    $feature_enable_button = get_field('feature_enable_button');
-    $feature_button_target = get_field('feature_button_target');
-    $user_id            = get_current_user_id();
-    $admin_id           = get_field('company_user_id', get_the_ID());
-
-
-    ob_start();
-    ?>
-    <div class="amp-item-wrap">
-        <?php
-        if ($feature_status !== '') {
-
-        ?>
-            <div class='amp-feature-block' style="<?php if ($feature_background_image) {
-                                                        echo 'background-image: url(' . $feature_background_image . '); background-size: cover;';
-                                                    } else {
-                                                        echo  'background-color:' . $feature_bg_color . ';background-size: cover;';
-                                                    } ?>">
-                <div class='amp-feature-block-inner'>
-                    <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                        <span class='edit-feature-block edit-block-icon'>
-                            <i class='fa fa-pencil'></i>
-                        </span>
-                    <?php } ?>
-                    <?php if ($feature_icon_image) { ?>
-                        <div class='feature-icon'>
-                            <a href="<?php echo $feature_play_link; ?>" target="_self" rel="noopener noreferrer"> <img src="<?php echo $feature_icon_image; ?>" /></a>
-                        </div>
-                    <?php } ?>
-                    <div class='amp-feature-content'>
-                        <h3 class='feature-status' placeholder='Live' style="<?php echo isset($feature_status_color) ? 'color:' . $feature_status_color . ';' : ''; ?>"><?php echo isset($feature_status) ? $feature_status : 'Status'; ?></h3>
-                        <h2 class='feature-title' placeholder='Creating the World' style="<?php echo isset($feature_title_color) ? 'color:' . $feature_title_color . ';' : ''; ?>"><?php echo isset($feature_title) ? $feature_title : 'Title'; ?></h2>
-                        <h4 class='feature-author' placeholder='Author' style="<?php echo isset($feature_author_color) ? 'color:' . $feature_author_color . ';' : ''; ?>"><?php echo isset($feature_author) ? $feature_author : 'Author'; ?></h4>
-                        <p class='feature-disc' style="<?php echo isset($feature_desc_color) ? 'color:' . $feature_desc_color . ';' : ''; ?>"><?php echo isset($feature_desc) ? $feature_desc : 'Description'; ?></p>
-                        <?php if ($feature_enable_reaction === '1') { ?>
-                            <div class='shortcode-wrap'>
-                                <?php echo do_shortcode('[reaction_button]'); ?>
-                            </div>
-                        <?php }
-                        if ($feature_enable_button === '1') {
-                        ?>
-                            <div class="button-wrap btn-link">
-                                <a href="<?php echo isset($feature_button_url) ? $feature_button_url : '#'; ?>" target="<?php echo ($feature_button_target === '1') ? '_blank' : ''; ?>" rel="">
-                                    <?php echo isset($feature_button_text) ? $feature_button_text : 'Button'; ?>
-                                </a>
-                            </div>
-                        <?php
-                        } ?>
-                    </div>
-                </div>
-            </div>
-
-            <?php
-        } else {
-            if (!empty($admin_id) && in_array($user_id, $admin_id)) {   ?>
-                <div class="amp-item-col add-new-item">
-                    <div class="amp-item-inner">
-                        <div class="add-item-wrap">
-                            <i class="edit-feature-block add-item-icon fa fa-pencil"></i>
-                            <span class="add-item-label">Add Featured Content</span>
-                        </div>
-                    </div>
-                </div>
-        <?php
-            }
-        }
-        ?>
-    </div>
-<?php
-    $html = ob_get_contents();
-    ob_end_clean();
 
     return $html;
 }

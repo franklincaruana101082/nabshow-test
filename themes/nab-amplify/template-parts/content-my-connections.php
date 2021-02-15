@@ -84,7 +84,7 @@ $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rt
                                 <a href="<?php echo esc_attr( $pending_friends_url ); ?>">Connection Requests</a>
                             </li>
                             <li class="bp-personal-sub-tab <?php echo 'all' === $active_page ? 'current selected' : '' ?>">
-                                <a href="<?php echo esc_url( $find_new_connection_link ); ?>">Find New Connections</a>
+								<a href="<?php echo esc_url( $find_new_connection_link ); ?>">Find New Connections</a>
                             </li>
                     </nav>
                 </div>

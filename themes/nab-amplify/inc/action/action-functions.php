@@ -31,6 +31,7 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
     if (!is_user_logged_in() && 0 !== strcmp($password, $password2)) {
         return new WP_Error('registration-error', __('Passwords do not match.', 'woocommerce'));
     }
+
     if ( ! isset( $privacy_policy ) || empty( $privacy_policy ) ) {
         return new WP_Error('registration-error', __('Term of Service must be accepted', 'woocommerce'));
     }
@@ -205,6 +206,7 @@ function nab_amplify_upload_images()
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
+                    update_user_meta($user_id, 'profile_update', '1');
                 }
             }
         }
@@ -413,7 +415,8 @@ function nab_amplify_my_connections_endpoint()
 /**
  * Register Custom Post Type.
  */
-function nab_amplify_register_post_types() {
+function nab_amplify_register_post_types()
+{
 
     $labels = array(
         'name'               => _x('Company Products', 'Post Type General Name', 'nab-amplify'),
@@ -492,45 +495,6 @@ function nab_amplify_register_post_types() {
 
     // Registering your Custom Post Type
     register_post_type('sessions', $args);
-
-    $labels = array(
-        'name'               => _x('Downloadable PDFs', 'Post Type General Name', 'nab-amplify'),
-        'singular_name'      => _x('Downloadable PDF', 'Post Type Singular Name', 'nab-amplify'),
-        'menu_name'          => __('Downloadable PDFs', 'nab-amplify'),
-        'parent_item_colon'  => __('Parent Downloadable PDFs', 'nab-amplify'),
-        'all_items'          => __('All Downloadable PDFs', 'nab-amplify'),
-        'view_item'          => __('View Downloadable PDF', 'nab-amplify'),
-        'add_new_item'       => __('Add New Downloadable PDF', 'nab-amplify'),
-        'add_new'            => __('Add New', 'nab-amplify'),
-        'edit_item'          => __('Edit Downloadable PDFs', 'nab-amplify'),
-        'update_item'        => __('Update Downloadable PDFs', 'nab-amplify'),
-        'search_items'       => __('Search Downloadable PDFs', 'nab-amplify'),
-        'not_found'          => __('Not Found', 'nab-amplify'),
-        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
-    );
-
-    $args = array(
-        'label'               => __('Downloadable PDFs', 'nab-amplify'),
-        'labels'              => $labels,
-        'hierarchical'        => false,
-        'public'              => true,
-        'show_ui'             => true,
-        'show_in_menu'        => true,
-        'show_in_nav_menus'   => true,
-        'show_in_admin_bar'   => true,
-        'can_export'          => true,
-        'has_archive'         => false,
-        'exclude_from_search' => false,
-        'publicly_queryable'  => true,
-        'menu_icon'           => 'dashicons-pdf',
-        'capability_type'     => 'post',
-        'show_in_rest'        => true,
-        'supports'            => array('title', 'editor', 'thumbnail', 'author', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
-
-    );
-
-    // Registering your Custom Post Type
-    register_post_type('downloadable-pdfs', $args);
 }
 
 // Hooking up our function to theme setup
@@ -589,8 +553,8 @@ function nab_save_name_fields($customer_id)
         update_user_meta($customer_id, 'billing_last_name', sanitize_text_field($_POST['last_name']));
         update_user_meta($customer_id, 'last_name', sanitize_text_field($_POST['last_name']));
     }
-    if (isset($_POST['user_interest']) && !empty($_POST['user_interest'])) {
-        update_user_meta($customer_id, 'user_interest', $_POST['user_interest']);
+    if ( isset( $_POST[ 'user_interest' ] ) && ! empty( $_POST[ 'user_interest' ] ) ) {
+        update_user_meta( $customer_id, 'user_interest', $_POST[ 'user_interest' ] );
     }
     if ( isset( $_POST[ 'press_member' ] ) && ! empty( $_POST[ 'press_member' ] ) ) {
         update_user_meta( $customer_id, 'press_member_user', $_POST[ 'press_member' ] );
@@ -2124,62 +2088,62 @@ function nab_edit_acount_additional_form_fields()
     $member_visibility      = get_user_meta($current_user_id, 'nab_member_visibility', true);
     $member_restriction     = get_user_meta($current_user_id, 'nab_member_restrict_connection', true);
     $attendee_title         = get_user_meta($current_user_id, 'attendee_title', true);
-    $attendee_company       = get_user_meta($current_user_id, 'attendee_company', true);
+    $attendee_company       = get_user_meta($current_user_id, 'attendee_company', true);    
     $social_twitter         = get_user_meta($current_user_id, 'social_twitter', true);
     $social_linkedin        = get_user_meta($current_user_id, 'social_linkedin', true);
     $social_facebook        = get_user_meta($current_user_id, 'social_facebook', true);
     $social_instagram       = get_user_meta($current_user_id, 'social_instagram', true);
     $social_website         = get_user_meta($current_user_id, 'social_website', true);
     $social_youtube         = get_user_meta($current_user_id, 'social_youtube', true);
-    $user_interest          = get_user_meta($current_user_id, 'user_interest', true);
-    $user_job_role          = get_user_meta($current_user_id, 'user_job_role', true);
-    $user_industry          = get_user_meta($current_user_id, 'user_industry', true);
-    $user_country           = get_user_meta($current_user_id, 'user_country', true);
-    $user_state             = get_user_meta($current_user_id, 'user_state', true);
-    $user_city              = get_user_meta($current_user_id, 'user_city', true);
+    $user_interest          = get_user_meta( $current_user_id, 'user_interest', true );
+    $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true );
+    $user_industry          = get_user_meta( $current_user_id, 'user_industry', true );
+    $user_country           = get_user_meta( $current_user_id, 'user_country', true );
+    $user_state             = get_user_meta( $current_user_id, 'user_state', true );
+    $user_city              = get_user_meta( $current_user_id, 'user_city', true );
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
     $member_restriction = !empty($member_restriction) ? $member_restriction : 'yes';
-    $user_interest      = !empty($user_interest) ? $user_interest : array();
-    $interest_items        = array('Content Creation', 'Live Event Production', 'Broadcast', 'Streaming');
-    $job_roles            = array('Executive', 'Management', 'Creative', 'Technical', 'Student');
-    $user_job_role      = !empty($user_job_role) ? $user_job_role : array();
-    $user_industry      = !empty($user_industry) ? $user_industry : array();
+    $user_interest      = ! empty( $user_interest ) ? $user_interest : array();
+    $interest_items		= array( 'Content Creation', 'Live Event Production', 'Broadcast', 'Streaming' );
+    $job_roles			= array( 'Executive', 'Management', 'Creative', 'Technical', 'Student' );
+    $user_job_role      = ! empty( $user_job_role ) ? $user_job_role : array();
+    $user_industry      = ! empty( $user_industry ) ? $user_industry : array();
     $industries         = array(
-        'Advertising/Marketing/PR',
-        'Analytics & Research',
-        'Cable/MSO',
-        'Consulting',
-        'Education/Training',
-        'Enterprise',
-        'Faith-Based Organization',
-        'Film/TV Studio',
-        'Finance (Banking, Service, Insurance)',
-        'Government',
-        'Healthcare/Medical',
-        'IT Services',
-        'Legal',
-        'Manufacturer/Supplier',
-        'Non-Profit/Union/Guild',
-        'Performing Arts/Music/Live Entertainment',
-        'Podcasting (new: will need a new pick code assigned)',
-        'Production Services/Facilities (Audio & Video)',
-        'Post-Production Services/Facilities (Audio & Video)',
-        'Programming Network',
-        'Radio (Broadcast)',
-        'Rental Equipment/Rental House',
-        'Research & Development',
-        'Software Development',
-        'Sports & Fitness',
-        'Streaming Video/OTT',
-        'Systems Integrator/Installation/VAR',
-        'Telecom/Satellite/Utilities',
-        'Television (Broadcast)',
-        'Travel & Hospitality',
-        'Venture Capitalist/Private Equity/Investment',
-        'Venues (Entertainment/Arenas/Stadiums)',
-        'Other'
-    );
+                            'Advertising/Marketing/PR',
+                            'Analytics & Research',
+                            'Cable/MSO',
+                            'Consulting',
+                            'Education/Training',
+                            'Enterprise',
+                            'Faith-Based Organization',
+                            'Film/TV Studio',
+                            'Finance (Banking, Service, Insurance)',
+                            'Government',
+                            'Healthcare/Medical',
+                            'IT Services',
+                            'Legal',
+                            'Manufacturer/Supplier',
+                            'Non-Profit/Union/Guild',
+                            'Performing Arts/Music/Live Entertainment',
+                            'Podcasting',
+                            'Production Services/Facilities (Audio & Video)',
+                            'Post-Production Services/Facilities (Audio & Video)',
+                            'Programming Network',
+                            'Radio (Broadcast)',
+                            'Rental Equipment/Rental House',
+                            'Research & Development',
+                            'Software Development',
+                            'Sports & Fitness',
+                            'Streaming Video/OTT',
+                            'Systems Integrator/Installation/VAR',
+                            'Telecom/Satellite/Utilities',
+                            'Television (Broadcast)',
+                            'Travel & Hospitality',
+                            'Venture Capitalist/Private Equity/Investment',
+                            'Venues (Entertainment/Arenas/Stadiums)',
+                            'Other'
+                        );
 
     ?>
     <div class="nab-profile">
@@ -2190,25 +2154,25 @@ function nab_edit_acount_additional_form_fields()
                     <div class="user-interest-details-form">
                         <div class="checkbox-item-list">
                             <?php
-                            foreach ($interest_items as $item) {
-
+                            foreach ( $interest_items as $item ) {
+                                
                                 $current_item = '';
-
-                                if (is_array($user_interest) && in_array($item, $user_interest, true)) {
+                                
+                                if ( is_array( $user_interest ) && in_array( $item, $user_interest, true ) ) {
                                     $current_item = $item;
                                 }
-                            ?>
+                                ?>
                                 <div class="checkbox-item amp-check-container">
                                     <div class="amp-check-wrp">
-                                        <input type="checkbox" name="user_interest[]" value="<?php echo esc_attr($item); ?>" id="<?php echo esc_attr($item); ?>" <?php checked($current_item, $item); ?> />
+                                        <input type="checkbox" name="user_interest[]" value="<?php echo esc_attr( $item ); ?>" id="<?php echo esc_attr( $item ); ?>" <?php checked( $current_item, $item ); ?> />
                                         <span class="amp-check"></span>
                                     </div>
-                                    <label for="<?php echo esc_attr($item); ?>"><?php echo esc_html($item); ?></label>
-                                </div>
-                            <?php
+                                    <label for="<?php echo esc_attr( $item ); ?>"><?php echo esc_html( $item ); ?></label>
+                                </div>                                                            
+                                <?php
                             }
-                            ?>
-                        </div>
+                            ?>                            
+                        </div>                        
                     </div>
                 </div>
                 <div class="nab-section section-professional-details">
@@ -2221,53 +2185,53 @@ function nab_edit_acount_additional_form_fields()
                         <div class="nab-form-row">
                             <label for="attendee_company">Company</label>
                             <input type="text" name="attendee_company" class="input-text" placeholder="Company" value="<?php echo esc_attr($attendee_company); ?>" />
-                        </div>
+                        </div>                        
                         <?php
                         $countries_obj  = new WC_Countries();
-                        $countries      = $countries_obj->__get('countries');
+                        $countries      = $countries_obj->__get( 'countries' );
                         ?>
                         <div class="nab-form-row user-country">
                             <label for="user-country-select">Country</label>
                             <?php
-                            if (is_array($countries)) {
-                            ?>
+                            if ( is_array( $countries ) ) {
+                                ?>
                                 <div class="select-dark-simple">
                                     <select name="user_country" class="user-country-select" id="user-country-select">
                                         <option value="">Select a country</option>
-                                        <?php
-                                        foreach ($countries as $abbr => $country) {
-                                        ?>
-                                            <option value="<?php echo esc_attr($abbr); ?>" <?php selected($abbr, $user_country); ?>><?php echo esc_html($country); ?></option>
-                                        <?php
+                                        <?php                                    
+                                        foreach ( $countries as $abbr => $country ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $user_country ); ?>><?php echo esc_html( $country ); ?></option>
+                                            <?php
                                         }
                                         ?>
                                     </select>
                                 </div>
-                            <?php
+                                <?php
                             }
                             ?>
                         </div>
                         <div class="nab-form-row user-state">
                             <label for="user-state-select">State</label>
                             <?php
-                            $default_country        = !empty($user_country) ? $user_country : $countries_obj->get_base_country();
-                            $default_county_states  = $countries_obj->get_states($default_country);
+                            $default_country        = ! empty( $user_country ) ? $user_country : $countries_obj->get_base_country();
+                            $default_county_states  = $countries_obj->get_states( $default_country );
 
-                            if (is_array($default_county_states)) {
-                            ?>
+                            if ( is_array( $default_county_states ) ) {
+                                ?>
                                 <div class="select-dark-simple">
                                     <select name="user_state" class="user-state-select" id="user-state-select">
                                         <option value="">Select a state</option>
-                                        <?php
-                                        foreach ($default_county_states as $abbr => $state) {
-                                        ?>
-                                            <option value="<?php echo esc_attr($abbr); ?>" <?php selected($abbr, $user_state); ?>><?php echo esc_html($state); ?></option>
-                                        <?php
+                                        <?php                                    
+                                        foreach ( $default_county_states as $abbr => $state ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $user_state ); ?>><?php echo esc_html( $state ); ?></option>
+                                            <?php
                                         }
-                                        ?>
+                                        ?>                                    
                                     </select>
                                 </div>
-                            <?php
+                                <?php
                             }
                             ?>
                         </div>
@@ -2276,40 +2240,40 @@ function nab_edit_acount_additional_form_fields()
                             <input type="text" name="user_city" class="input-text" value="<?php echo esc_attr($user_city); ?>" />
                         </div>
                         <div class="nab-form-row user-job-role">
-                            <label for="user-job-role-select">Job Role</label>
+                            <label for="user-job-role-select">Job Role</label>  
                             <div class="select-dark-simple">
                                 <select name="user_job_role[]" class="user-job-role-select" id="user-job-role-select" multiple>
                                     <?php
-                                    foreach ($job_roles as $role) {
-
+                                    foreach ( $job_roles as $role ) {
+                                        
                                         $current_item = '';
-
-                                        if (is_array($user_job_role) && in_array($role, $user_job_role, true)) {
+                                        
+                                        if ( is_array( $user_job_role ) && in_array( $role, $user_job_role, true ) ) {
                                             $current_item = $role;
                                         }
-                                    ?>
-                                        <option value="<?php echo esc_attr($role); ?>" <?php selected($current_item, $role); ?>><?php echo esc_html($role); ?></option>
-                                    <?php
+                                        ?>
+                                        <option value="<?php echo esc_attr( $role ); ?>" <?php selected( $current_item, $role ); ?>><?php echo esc_html( $role ); ?></option>   
+                                        <?php
                                     }
                                     ?>
                                 </select>
                             </div>
                         </div>
                         <div class="nab-form-row user-industry">
-                            <label for="user-industry-select">Industry</label>
+                            <label for="user-industry-select">Industry</label>  
                             <div class="select-dark-simple">
                                 <select name="user_industry[]" class="user-industry-select" id="user-industry-select" multiple>
                                     <?php
-                                    foreach ($industries as $industry) {
-
+                                    foreach ( $industries as $industry ) {
+                                        
                                         $current_item = '';
-
-                                        if (is_array($user_industry) && in_array($industry, $user_industry, true)) {
+                                        
+                                        if ( is_array( $user_industry ) && in_array( $industry, $user_industry, true ) ) {
                                             $current_item = $industry;
                                         }
-                                    ?>
-                                        <option value="<?php echo esc_attr($industry); ?>" <?php selected($current_item, $industry); ?>><?php echo esc_html($industry); ?></option>
-                                    <?php
+                                        ?>
+                                        <option value="<?php echo esc_attr( $industry ); ?>" <?php selected( $current_item, $industry ); ?>><?php echo esc_html( $industry ); ?></option>	
+                                        <?php
                                     }
                                     ?>
                                 </select>
@@ -2423,11 +2387,11 @@ function nab_edit_acount_additional_form_fields()
 function nab_save_edit_account_additional_form_fields($user_id)
 {
 
-    $member_visibility  = filter_input(INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING);
-    $member_restriction = filter_input(INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING);
-    $user_interest      = filter_input(INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
-    $user_job_role      = filter_input(INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
-    $user_industry      = filter_input(INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
+    $member_visibility  = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+    $member_restriction = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+    $user_interest      = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_job_role      = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_industry      = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2437,27 +2401,27 @@ function nab_save_edit_account_additional_form_fields($user_id)
         update_user_meta($user_id, 'nab_member_restrict_connection', $member_restriction);
     }
 
-    if (isset($user_interest) && !empty($user_interest)) {
-        update_user_meta($user_id, 'user_interest', $user_interest);
+    if ( isset( $user_interest ) && ! empty( $user_interest ) ) {
+        update_user_meta( $user_id, 'user_interest', $user_interest );
     } else {
-        delete_user_meta($user_id, 'user_interest');
+        delete_user_meta( $user_id, 'user_interest' );
+    }
+    
+    if ( isset( $user_job_role ) && ! empty( $user_job_role ) ) {
+        update_user_meta( $user_id, 'user_job_role', $user_job_role );
+    } else {
+        delete_user_meta( $user_id, 'user_job_role' );
     }
 
-    if (isset($user_job_role) && !empty($user_job_role)) {
-        update_user_meta($user_id, 'user_job_role', $user_job_role);
+    if ( isset( $user_industry ) && ! empty( $user_industry ) ) {
+        update_user_meta( $user_id, 'user_industry', $user_industry );
     } else {
-        delete_user_meta($user_id, 'user_job_role');
-    }
-
-    if (isset($user_industry) && !empty($user_industry)) {
-        update_user_meta($user_id, 'user_industry', $user_industry);
-    } else {
-        delete_user_meta($user_id, 'user_industry');
+        delete_user_meta( $user_id, 'user_industry' );
     }
 
     $user_fields = array(
         'attendee_title',
-        'attendee_company',
+        'attendee_company',        
         'social_twitter',
         'social_linkedin',
         'social_facebook',
@@ -2478,6 +2442,8 @@ function nab_save_edit_account_additional_form_fields($user_id)
             update_user_meta($user_id, $field, $field_val);
         }
     }
+
+    update_user_meta($user_id, 'profile_update', '1');
 }
 
 /**
@@ -2936,7 +2902,7 @@ function nab_add_product()
         $product_post_data['ID'] = $product_id;
 
         $post_id                 = wp_update_post($product_post_data);
-
+        
         /*Add existing media to loop */
         $product_media = get_field('product_media', $post_id);
         foreach ($product_media as $media) {
@@ -3097,7 +3063,7 @@ function nab_register_company_category_taxonomy()
         'query_var'         => true,
         'rewrite'           => array('slug' => 'company-category'),
     );
-    register_taxonomy('company-category', array('company', 'tribe_events', 'articles'), $args);
+    register_taxonomy('company-category', array('company', 'tribe_events'), $args);
 }
 
 /**
@@ -3172,7 +3138,7 @@ function nab_article_tags_shortcode_callback($atts)
 
         if (!empty($community_tags)) {
             $final_tags = array_merge($final_tags, $community_tags);
-        }
+        }        
 
         /*if (!empty($content_scope_tag)) {
             $final_tags[] = $content_scope_tag;
@@ -3186,36 +3152,36 @@ function nab_article_tags_shortcode_callback($atts)
             $final_tags = array_merge($final_tags, $content_subject_tags);
         }
 
-        if (!empty($acquisition_sub_tags) && in_array('Acquisition and Production', (array) $content_subject_tags, true)) {
+        if (!empty($acquisition_sub_tags) && in_array( 'Acquisition and Production', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $acquisition_sub_tags);
         }
 
-        if (!empty($distribution_sub_tags) && in_array('Distribution and Delivery', (array) $content_subject_tags, true)) {
+        if (!empty($distribution_sub_tags) && in_array( 'Distribution and Delivery', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $distribution_sub_tags);
         }
 
-        if (!empty($management_sub_tags) && in_array('Management and Systems', (array) $content_subject_tags, true)) {
+        if (!empty($management_sub_tags) && in_array( 'Management and Systems', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $management_sub_tags);
         }
 
-        if (!empty($radio_sub_tags) && in_array('Radio', (array) $content_subject_tags, true)) {
+        if (!empty($radio_sub_tags) && in_array( 'Radio', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $radio_sub_tags);
         }
 
-        if (!empty($display_sub_tags) && in_array('Display Systems', (array) $content_subject_tags, true)) {
+        if (!empty($display_sub_tags) && in_array( 'Display Systems', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $display_sub_tags);
         }
 
-        if (!empty($industry_sub_tags) && in_array('Industry Resources', (array) $content_subject_tags, true)) {
+        if (!empty($industry_sub_tags) && in_array( 'Industry Resources', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $industry_sub_tags);
         }
 
-        if (!empty($content_sub_tags) && in_array('Media Content', (array) $content_subject_tags, true)) {
+        if (!empty($content_sub_tags) && in_array( 'Media Content', (array) $content_subject_tags, true ) ) {
             $final_tags = array_merge($final_tags, $content_sub_tags);
         }
 
-        if (!empty($production_sub_tags) && in_array('Post Production', (array) $content_subject_tags, true)) {
-            $final_tags = array_merge($final_tags, $production_sub_tags);
+        if ( ! empty( $production_sub_tags ) && in_array( 'Post Production', (array) $content_subject_tags, true ) ) {
+            $final_tags = array_merge( $final_tags, $production_sub_tags );
         }
 
         /*if (!empty($personas_tags)) {
@@ -3242,7 +3208,7 @@ function nab_article_tags_shortcode_callback($atts)
                     ?>
                 </ul>
             </div>
-    <?php
+<?php
             $tags_html = ob_get_clean();
         }
     }
@@ -3354,7 +3320,7 @@ function nab_register_company_product_taxonomy()
     );
     $args = array(
         'labels'            => $labels,
-        'hierarchical'      => true,
+        'hierarchical'      => false,
         'public'            => true,
         'show_ui'           => true,
         'show_admin_column' => true,
@@ -3405,10 +3371,7 @@ function nab_update_company_profile_callback()
     $company_location_country       = filter_input(INPUT_POST, 'company_location_country', FILTER_SANITIZE_STRING);
     $company_product_categories     = filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING);
     $company_search_categories      = filter_input(INPUT_POST, 'company_search_categories', FILTER_SANITIZE_STRING);
-    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
-    $company_admins                = filter_input(INPUT_POST, 'company_admins', FILTER_SANITIZE_STRING);
-
-
+    $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);    
 
     $category_limit = nab_get_company_member_category_limit($company_id);
 
@@ -3426,7 +3389,7 @@ function nab_update_company_profile_callback()
     }
 
     if (!empty($company_search_categories) && 'null' !== $company_search_categories) {
-
+        
         $company_search_categories = explode(',', $company_search_categories);
 
         if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
@@ -3502,9 +3465,9 @@ function nab_update_company_profile_callback()
     }
 
     // Update point of contact
-    if ($company_point_of_contact !== '') {
+    if ($company_point_of_contact !=='') {
         update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
-    } else {
+    }else{
         update_field('field_5fb4f4bcbe04a', 0, $company_id);
     }
 
@@ -3524,36 +3487,6 @@ function nab_update_company_profile_callback()
         update_field('youtube_url', $company_youtube, $company_id);
     }
 
-    if (!empty($company_admins) && 'null' !== $company_admins) {
-
-        $company_admins = explode(',', $company_admins);
-        $get_member_level = get_field('member_level', $company_id);
-        $exisitng_admins = [];
-        $exisitng_admins = get_field('company_user_id', $company_id);
-        if ($get_member_level === 'select' || $get_member_level === 'Standard') {
-            foreach ($company_admins as $comp_admin) {
-               if(!in_array($comp_admin,$exisitng_admins)){
-                wp_send_json_error('Update Failed. With the Standard Package you are limited to one company admin at a time. Contact your sales rep to upgrade to the Plus or Premium Package for unlimited admin accounts.');
-               }
-            }
-            
-        } else {
-            foreach ($company_admins as $comp_admin) {
-                $exisitng_admins[] = $comp_admin;
-            }
-            update_field('company_user_id', $exisitng_admins, $company_id);
-        }
-
-
-
-        if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
-            wp_send_json_error('Update Failed. You can\'t add search categories with your current membership.');
-        } else if (count($company_search_categories) > (int) $category_limit['search']) {
-            wp_send_json_error('Update Failed. You can\'t add more than ' . $category_limit['search'] . ' search categories with your current membership.');
-        }
-    }
-
-
     $final_result['success'] = true;
     $final_result['content'] = '';
 
@@ -3564,23 +3497,22 @@ function nab_update_company_profile_callback()
 function nab_edit_company_about_callback()
 {
 
-    $company_id                                 = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-    $company_data                               = array();
-    $company_data['ID']                         = $company_id;
-    $company_data['company_about']              = get_field('about_company', $company_id);
-    $company_data['company_industry']           = get_field('company_industary', $company_id);
-    $company_data['company_location']           = get_field('company_location', $company_id);
-    $company_data['company_website']            = get_field('company_website', $company_id);
-    $company_data['company_point_of_contact']   = get_field('point_of_contact', $company_id);
-    $company_data['product_categories']         = get_field('product_categories', $company_id);
+    $company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+    $company_data    = array();
+    $company_data['ID'] = $company_id;
+    $company_data['company_about'] = get_field('about_company', $company_id);
+    $company_data['company_industry'] = get_field('company_industary', $company_id);
+    $company_data['company_location'] = get_field('company_location', $company_id);
+    $company_data['company_website'] = get_field('company_website', $company_id);
+    $company_data['company_point_of_contact'] = get_field('point_of_contact', $company_id);
+    $company_data['product_categories'] = get_field('product_categories', $company_id);
     $company_data['search_product_categories']  = get_field('search_product_categories', $company_id);
-    $company_data['company_youtube']            = get_field('company_youtube', $company_id);
-    $company_data['company_admins']            = get_field('company_user_id', $company_id);
+    $company_data['company_youtube'] = get_field('company_youtube', $company_id);
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
     $users = get_users();
-    print_r($company_data);
+
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
 
@@ -3645,16 +3577,17 @@ function nab_get_wp_editor($content = '', $editor_id, $options)
     return $temp;
 }
 
-function nab_comment_form($atts = array(), $content = '')
+function nab_comment_form( $atts = array(), $content = '' )
 {
-    if (is_singular() && post_type_supports(get_post_type(), 'comments')) {
+    if( is_singular() && post_type_supports( get_post_type(), 'comments' ) )
+    {
         ob_start();
         // If comments are open or we have at least one comment, load up the comment template.
-        if (comments_open() || get_comments_number()) :
+		if ( comments_open() || get_comments_number() ) :
             comments_template();
-            print('<style>.no-comments { display: none; }</style>');
-        endif;
-
+            print(  '<style>.no-comments { display: none; }</style>' );
+		endif;
+        
         return ob_get_clean();
     }
     return '';
@@ -3663,8 +3596,7 @@ function nab_comment_form($atts = array(), $content = '')
 /**
  * Added comments export submenu page.
  */
-function nab_add_export_comments_menu()
-{
+function nab_add_export_comments_menu() {
 
     add_submenu_page(
         'edit-comments.php',
@@ -3679,8 +3611,7 @@ function nab_add_export_comments_menu()
 /**
  * Export commnets setting page.
  */
-function nab_export_comments_callback()
-{
+function nab_export_comments_callback() {  
     ?>
     <div class="search-settings">
         <h2>Export Comments</h2>
@@ -3693,28 +3624,26 @@ function nab_export_comments_callback()
                             <?php
                             $start          = 2020;
                             $current_year   = date('Y');
-                            for ($i = $start; $i <= $current_year; $i++) {
-                            ?>
-                                <option value="<?php echo esc_attr($i); ?>" <?php selected($current_year, $i); ?>><?php echo esc_html($i); ?></option>
-                            <?php
+                            for ( $i = $start; $i <= $current_year; $i++ ) {
+                                ?>
+                                <option value="<?php echo esc_attr( $i ); ?>" <?php selected( $current_year, $i ); ?>><?php echo esc_html( $i ); ?></option>
+                                <?php
                             }
                             ?>
                         </select>
                     </td>
-                </tr>
+                </tr>                
             </table>
             <?php submit_button("Export CSV"); ?>
         </form>
     </div>
-<?php
+    <?php
 }
-
 
 /**
  * Added user export submenu page.
  */
-function nab_add_export_user_menu()
-{
+function nab_add_export_user_menu() {
 
     add_submenu_page(
         'users.php',
@@ -3729,7 +3658,7 @@ function nab_add_export_user_menu()
 /**
  * Export user setting page.
  */
-function nab_export_users_callback() {
+function nab_export_users_callback() {  
     ?>
     <div class="search-settings">
         <h2>Export Users</h2>
@@ -3754,73 +3683,72 @@ function nab_export_users_callback() {
             <?php submit_button("Export CSV"); ?>
         </form>
     </div>
-<?php
+    <?php
 }
 
 /**
  * Generate comments CSV file.
  */
-function nab_generate_comments_export_csv_file()
-{
+function nab_generate_comments_export_csv_file() {
 
     global $wpdb, $pagenow;
 
-    $comment_year   = filter_input(INPUT_POST, 'comment_year', FILTER_SANITIZE_STRING);
-    $comment_page   = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
+    $comment_year   = filter_input( INPUT_POST, 'comment_year', FILTER_SANITIZE_STRING );
+    $comment_page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
-    if ('edit-comments.php' === $pagenow && 'amplify_comment_export' === $comment_page && !empty($comment_year)) {
+    if ( 'edit-comments.php' === $pagenow && 'amplify_comment_export' === $comment_page && ! empty( $comment_year ) ) {        
 
-        $prepare_sql        = $wpdb->prepare("SELECT * FROM {$wpdb->comments} WHERE YEAR(comment_date) = %s AND comment_type = %s AND comment_approved = %s", $comment_year, 'comment', '1');
-        $comment_results    = $wpdb->get_results($prepare_sql);
+        $prepare_sql        = $wpdb->prepare( "SELECT * FROM {$wpdb->comments} WHERE YEAR(comment_date) = %s AND comment_type = %s AND comment_approved = %s", $comment_year, 'comment', '1' );
+        $comment_results    = $wpdb->get_results( $prepare_sql );
 
-        if (!empty($comment_results)) {
+        if ( ! empty( $comment_results ) ) {
 
             // CSV header row fields titles
-            $csv_fields   = array();
+            $csv_fields   = array();            
             $csv_fields[] = 'First Name';
             $csv_fields[] = 'Last Name';
             $csv_fields[] = 'Email';
             $csv_fields[] = 'Date Time';
             $csv_fields[] = 'Page';
             $csv_fields[] = 'Comment Content';
-
+        
             // Generate csv file as a direct download
             $output_filename = 'amplify-comment-list-' . $comment_year . '.csv';
-            $output_handle   = fopen('php://output', 'w');
+            $output_handle   = fopen( 'php://output', 'w' );
 
-            header('Content-type: application/csv');
-            header('Content-Disposition: attachment; filename=' . $output_filename);
+            header( 'Content-type: application/csv' );
+            header( 'Content-Disposition: attachment; filename=' . $output_filename );
 
             // Insert header row
-            fputcsv($output_handle, $csv_fields);
+            fputcsv( $output_handle, $csv_fields );
 
-            foreach ($comment_results as $commnet) {
-
+            foreach ( $comment_results as $commnet ) {
+                
                 $dynamic_fields = array();
                 $first_name     = '';
                 $last_name      = '';
 
-                if (!empty($commnet->user_id) && 0 !== (int) $commnet->user_id) {
+                if ( ! empty( $commnet->user_id ) && 0 !== (int) $commnet->user_id ) {
+                    
+                    $first_name = get_user_meta( $commnet->user_id, 'first_name', true );
+                    $last_name  = get_user_meta( $commnet->user_id, 'last_name', true );    
+                }                
 
-                    $first_name = get_user_meta($commnet->user_id, 'first_name', true);
-                    $last_name  = get_user_meta($commnet->user_id, 'last_name', true);
-                }
-
-                if (empty($first_name) && empty($last_name)) {
-
+                if ( empty( $first_name ) && empty( $last_name ) ) {
+                    
                     $first_name = $commnet->comment_author;
                 }
 
-                $comment_date = date_format(date_create($commnet->comment_date), 'm-d-Y H:i:s');
+                $comment_date = date_format( date_create( $commnet->comment_date ), 'm-d-Y H:i:s' );
 
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
                 $dynamic_fields[] = $commnet->comment_author_email;
                 $dynamic_fields[] = $comment_date;
-                $dynamic_fields[] = get_the_title($commnet->comment_post_ID);
+                $dynamic_fields[] = get_the_title( $commnet->comment_post_ID );
                 $dynamic_fields[] = $commnet->comment_content;
 
-                fputcsv($output_handle, $dynamic_fields);
+                fputcsv( $output_handle, $dynamic_fields );
             }
             exit;
         }
@@ -3830,8 +3758,7 @@ function nab_generate_comments_export_csv_file()
 /**
  * Generate Users CSV file.
  */
-function nab_generate_users_export_csv_file()
-{
+function nab_generate_users_export_csv_file() {
 
     global $pagenow;
 
@@ -3907,6 +3834,89 @@ function nab_generate_users_export_csv_file()
 }
 
 /**
+ * Added page filter in the admin comments table.
+ */
+function nab_add_page_by_comment_filter() {
+    
+    global $wpdb;
+
+    $post_filter    = filter_input( INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT );    
+    $prepare_sql    = $wpdb->prepare( "SELECT DISTINCT comment_post_ID FROM {$wpdb->comments} WHERE comment_type = %s", "comment" );
+    $post_results   = $wpdb->get_col( $prepare_sql );
+    ?>
+    <select name="p" class="filter-by-page">
+        <option value="">Select a Page</option>
+        <?php
+        if ( is_array( $post_results ) ) {
+            
+            foreach ( $post_results as $comment_post_id ) {
+                ?>
+                <option value="<?php esc_attr_e( $comment_post_id ); ?>" <?php selected( $post_filter, $comment_post_id ); ?>><?php esc_html_e( get_the_title( $comment_post_id ) ); ?></option>
+                <?php
+            }
+        }
+        ?>
+    </select>
+    <?php
+}
+
+/** 
+ * Copyright Year shortcode use in the footer to display dynamic year.
+ */
+function nab_copyright_year_shortcode() {
+    
+    return date( 'Y' );
+}
+
+function nab_sync_user_to_live() {
+
+    global $wpdb;
+
+    $user_id = filter_input( INPUT_GET, 'u', FILTER_SANITIZE_NUMBER_INT );
+
+    if ( isset( $user_id ) && ! empty( $user_id ) ) {
+
+        $final_results  = array();
+                
+        $user_query             = $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE ID = %d", $user_id );
+        $user_result            = $wpdb->get_row( $user_query, ARRAY_A);
+        $final_results['user']  = $user_result;
+        $final_results['meta']  = get_user_meta( $user_id );
+       
+        $fields_string = http_build_query( array( 'user_data' => $final_results['user'], 'meta_data' => $final_results['meta'] ) );
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://amplify.nabshow.com/wp-json/nab/request/sync-user-to-live',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $fields_string,
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: PHPSESSID=hj847uemchb3njj9ritacchpdn'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $result = json_decode( $response );
+        $msg    = isset( $result->success ) && $result->success ? "User " . $user_id . " sync successfully" : "Error while sync user " . $user_id;
+        ?>
+        <div class="updated notice">
+            <p><?php echo esc_html( $msg ); ?></p>
+        </div>
+        <?php
+    }
+}
+
+/**
  * 
  * Add company admin by URL
  */
@@ -3945,32 +3955,30 @@ function nab_add_comapny_admin()
         }
     }
 }
-/*
- * Added page filter in the admin comments table.
+
+/**
+ * Initialize the company bulk import batch.
  */
-function nab_add_page_by_comment_filter()
+function wp_batch_processing_init()
 {
+    $batch = new NAB_Company_Import_Batch();
+    WP_Batch_Processor::get_instance()->register($batch);
+}
 
-    global $wpdb;
+/*Generate default alphanumeric random string for company add admin URL */
 
-    $post_filter    = filter_input(INPUT_GET, 'p', FILTER_SANITIZE_NUMBER_INT);
-    $prepare_sql    = $wpdb->prepare("SELECT DISTINCT comment_post_ID FROM {$wpdb->comments} WHERE comment_type = %s", "comment");
-    $post_results   = $wpdb->get_col($prepare_sql);
-?>
-    <select name="p" class="filter-by-page">
-        <option value="">Select a Page</option>
-        <?php
-        if (is_array($post_results)) {
+function generate_add_admin_string()
+{
+    // String of all alphanumeric character 
+    $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
-            foreach ($post_results as $comment_post_id) {
-        ?>
-                <option value="<?php esc_attr_e($comment_post_id); ?>" <?php selected($post_filter, $comment_post_id); ?>><?php esc_html_e(get_the_title($comment_post_id)); ?></option>
-        <?php
-            }
-        }
-        ?>
-    </select>
-<?php
+    // Shufle the $str_result and returns substring 
+    // of specified length 
+    return substr(
+        str_shuffle($str_result),
+        0,
+        10
+    );
 }
 
 /**
@@ -4023,6 +4031,7 @@ function nab_generate_company_export_csv_file()
         $csv_fields[] = 'Company Name';
         $csv_fields[] = 'Claimed Status';
         $csv_fields[] = 'Admin URL';
+        $csv_fields[] = 'Salesforce ID';
 
         // Generate csv file as a direct download
         $output_filename = 'amplify-company-list-' . date('m-d-Y') . '.csv';
@@ -4063,13 +4072,14 @@ function nab_generate_company_export_csv_file()
                 $admin_url = get_permalink($company->ID) . '?addadmin=' . $random_string;
             }
 
-
+            $salesforce_id = get_field('salesforce_id', $company->ID);
 
             if ($company->post_title != '') {
                 $dynamic_fields = array();
                 $dynamic_fields[] = $company->post_title;
                 $dynamic_fields[] = $claim_status;
                 $dynamic_fields[] = $admin_url;
+                $dynamic_fields[] = $salesforce_id;
                 fputcsv($output_handle, $dynamic_fields);
             }
         }
@@ -4077,233 +4087,21 @@ function nab_generate_company_export_csv_file()
     }
 }
 
-/** 
- * Copyright Year shortcode use in the footer to display dynamic year.
- */
-function nab_copyright_year_shortcode()
-{
-
-    return date('Y');
-}
 /**
- * Initialize the company bulk import batch.
+ * Redirect user to login page when access protected pages.
  */
-function wp_batch_processing_init()
-{
-    $batch = new NAB_Company_Import_Batch();
-    WP_Batch_Processor::get_instance()->register($batch);
-}
+function nab_redirect_user_to_login_page() {
 
-/*Generate default alphanumeric random string for company add admin URL */
+    global $post;
 
-function generate_add_admin_string()
-{
-    // String of all alphanumeric character 
-    $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    if ( isset( $post->ID ) && ! empty( $post->ID ) && ! is_user_logged_in() ) {
 
-    // Shufle the $str_result and returns substring 
-    // of specified length 
-    return substr(
-        str_shuffle($str_result),
-        0,
-        10
-    );
-}
-/**
- * Update numeric member level base on acf member level field.
- *
- * @param  int $post_id 
- */
-function nab_update_company_member_level_meta_num($post_id)
-{
+        $content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
 
-    if ('company' === get_post_type($post_id)) {
-
-        $num_member_level_array = array(
-            'standard'  => 1,
-            'plus'      => 2,
-            'premium'   => 3,
-        );
-
-        $member_level       = strtolower(get_field('member_level', $post_id));
-        $num_member_level   = isset($num_member_level_array[$member_level]) ? $num_member_level_array[$member_level] : 0;
-
-        update_post_meta($post_id, 'member_level_num', $num_member_level);
-    }
-}
-
-function nab_sync_user_to_live()
-{
-
-    global $wpdb;
-
-    $user_id = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_NUMBER_INT);
-
-    if (isset($user_id) && !empty($user_id)) {
-
-        $final_results  = array();
-
-        $user_query             = $wpdb->prepare("SELECT * FROM {$wpdb->users} WHERE ID = %d", $user_id);
-        $user_result            = $wpdb->get_row($user_query, ARRAY_A);
-        $final_results['user']  = $user_result;
-        $final_results['meta']  = get_user_meta($user_id);
-
-        $fields_string = http_build_query(array('user_data' => $final_results['user'], 'meta_data' => $final_results['meta']));
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://nabshow-qa.go-vip.net/amplify/wp-json/nab/request/sync-user-to-live',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $fields_string,
-            CURLOPT_HTTPHEADER => array(
-                'Cookie: PHPSESSID=hj847uemchb3njj9ritacchpdn'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $result = json_decode($response);
-        $msg    = isset($result->success) && $result->success ? "User " . $user_id . " sync successfully" : "Error while sync user " . $user_id;
-    ?>
-        <div class="updated notice">
-            <p><?php echo esc_html($msg); ?></p>
-        </div>
-<?php
-    }
-}
-
-function nab_register_user_api_endpoints()
-{
-
-    register_rest_route('nab', '/request/sync-user-to-live', array(
-        'methods'             => 'POST',
-        'callback'            => 'nab_sync_beta_user_to_live',
-        'permission_callback' => '__return_true',
-        'args'                => array(
-            'user_data'  => array(
-                'validate_callback' => function ($param) {
-                    return is_array($param);
-                },
-            ),
-            'meta_data' => array(
-                'validate_callback' => function ($param) {
-                    return is_array($param);
-                },
-            ),
-        ),
-    ));
-}
-
-function nab_sync_beta_user_to_live(WP_REST_Request $request)
-{
-
-    $user_data      = $request->get_param('user_data');
-    $meta_data      = $request->get_param('meta_data');
-    $final_result   = array('success' => false);
-
-    if (is_array($user_data) && is_array($meta_data)) {
-
-        global $wpdb;
-
-        if ((isset($user_data['user_email']) && !empty($user_data['user_email'])) && (isset($user_data['ID']) && !empty($user_data['ID']))) {
-
-            $user_exist = email_exists($user_data['user_email']);
-
-            if (!$user_exist) {
-
-                $table_name = $wpdb->users;
-
-                $user_id = $wpdb->insert(
-                    $table_name,
-                    array(
-                        'user_login'            => $user_data['user_login'],
-                        'user_pass'             => $user_data['user_pass'],
-                        'user_nicename'         => $user_data['user_nicename'],
-                        'user_email'            => $user_data['user_email'],
-                        'user_url'              => $user_data['user_url'],
-                        'user_registered'       => $user_data['user_registered'],
-                        'user_activation_key'   => $user_data['user_activation_key'],
-                        'user_status'           => $user_data['user_status'],
-                        'display_name'          => $user_data['display_name'],
-                        'spam'                  => $user_data['spam'],
-                        'deleted'               => $user_data['deleted']
-                    ),
-                    array(
-                        '%s',
-                        '%s',
-                        '%s',
-                        '%s',
-                        '%s',
-                        '%s',
-                        '%s',
-                        '%d',
-                        '%s',
-                        '%d',
-                        '%d'
-                    )
-                );
-
-                if ( $user_id ) {
-
-                    $user_id = $wpdb->insert_id;
-                }
-            } else {
-                $user_id = $user_exist;
-
-                $table_name = $wpdb->users;
-
-                $wpdb->update(
-                    $table_name,
-                    array(
-                        'user_nicename' =>  $user_data['user_nicename'],
-                        'display_name'  =>  $user_data['display_name']
-                    ),
-                    array(
-                        'ID'   => $user_id
-                    ),
-                    array(
-                        '%s',
-                        '%s'
-                    ),
-                    array(
-                        '%d'
-                    )
-                );
-            }
-
-            if ($user_id) {
-
-                $exclude_metas = array(
-                    'profile_picture',
-                    'banner_image',
-                    'nab_purchased_product_2020',
-                    'nab_customer_product_bookmark',
-                );
-
-                foreach ($meta_data as $key => $value) {
-
-                    if (!empty($value[0]) && !in_array($key, $exclude_metas, true)) {
-
-                        if (is_serialized($value[0])) {
-                            $value[0] = maybe_unserialize($value[0]);
-                        }
-                        update_user_meta($user_id, $key, $value[0]);
-                    }
-                }
-
-                $final_result['success']  = true;
-            }
+        if ( $content_accessible ) {
+            $redirect_url =  add_query_arg( array( 'r' => get_the_permalink() ), wc_get_page_permalink( 'myaccount' ) );
+            wp_redirect( $redirect_url );
+            exit();
         }
     }
-
-    return new WP_REST_Response($final_result, 200);
 }
