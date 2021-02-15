@@ -3063,7 +3063,7 @@ function nab_register_company_category_taxonomy()
         'query_var'         => true,
         'rewrite'           => array('slug' => 'company-category'),
     );
-    register_taxonomy('company-category', array('company', 'tribe_events', 'articles'), $args);
+    register_taxonomy('company-category', array('company', 'tribe_events'), $args);
 }
 
 /**

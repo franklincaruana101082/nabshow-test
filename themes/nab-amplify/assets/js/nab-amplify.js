@@ -3852,8 +3852,16 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
           let avatarLink = document.createElement('a')
           avatarLink.setAttribute('href', value.link)
 
-          let companyProfile = document.createElement('img')
-          companyProfile.setAttribute('src', value.profile)
+          let companyProfile;
+
+          if ( undefined !== value.profile ) {
+            companyProfile = document.createElement('img');
+            companyProfile.setAttribute('src', value.profile);
+          } else {
+            companyProfile = document.createElement('div');
+            companyProfile.setAttribute('class', 'no-image-avtar');
+            companyProfile.innerText = value.no_pic;
+          }
 
           avatarLink.appendChild(companyProfile)
           searchItemProfile.appendChild(avatarLink)
