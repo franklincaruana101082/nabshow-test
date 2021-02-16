@@ -18,7 +18,7 @@ function amplify_front_scripts()
 	global $post;
 	wp_enqueue_script('nab-bx-slider-js', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', ['jquery'], null, true);
 	wp_enqueue_script('amplify-chosen-js', get_template_directory_uri() . '/assets/js/chosen.jquery.min.js', ['jquery'], true);
-	wp_enqueue_script('amplify-custom-js', get_template_directory_uri() . '/assets/js/nab-amplify.js', ['jquery'], '1.0.1', true);
+	wp_enqueue_script('amplify-custom-js', get_template_directory_uri() . '/assets/js/nab-amplify.js', ['jquery'], '1.0.2', true);
 	wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
 	wp_localize_script('amplify-custom-js', 'amplifyJS', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
@@ -47,7 +47,7 @@ function amplify_front_scripts()
 function amplify_admin_scripts()
 {
 	wp_enqueue_style('amplify-admin-style', get_template_directory_uri() . '/assets/css/admin.css');
-	
+
 }
 
 if (function_exists('acf_add_options_page')) {
@@ -112,7 +112,7 @@ if (class_exists('WP_Batch')) {
 			$temp = get_temp_dir();
 
 			 $csv_name = get_option( 'nab_import_csv');
-			
+
 
 			$csv_name = $csv_name ? $csv_name : 'nab_import_company.csv';
 
@@ -271,7 +271,7 @@ if (class_exists('WP_Batch')) {
 
 
 				$this->import_meta('about_company', $about, $import_post_id);
-				
+
 
 				$field_key = 'field_5fa3e84f3fa46';
 				$values = array(

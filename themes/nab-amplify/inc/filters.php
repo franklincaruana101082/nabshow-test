@@ -114,9 +114,5 @@ add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 999, 2 );
 add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
 
 function nab_stop_bp_email_notification( $retval, $class_ref) {
-    
-    if ( is_user_logged_in() ) {
-        update_user_meta( get_current_user_id(), 'buddypress_activity', '1');
-    }
-    return $retval;
+    return new WP_Error( 'missing_parameter', __CLASS__, $class_ref );
 }
