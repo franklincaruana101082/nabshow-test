@@ -3348,64 +3348,72 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           ),
           wp.element.createElement(
             'div',
-            { className: 'upcoming-events-calendar' },
+            { className: 'card' },
             wp.element.createElement(
               'div',
-              { className: 'upcoming-events-header' },
-              wp.element.createElement(RichText, {
-                tagName: 'h2',
-                placeholder: __('Title'),
-                value: headerTitle,
-                keepPlaceholderOnFocus: 'true',
-                className: 'header-title',
-                style: { color: headerTitleColor },
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  setAttributes({ headerTitle: value });
-                }
-              }),
-              wp.element.createElement(RichText, {
-                tagName: 'span',
-                placeholder: __('View All'),
-                value: headerLink,
-                keepPlaceholderOnFocus: 'true',
-                className: 'header-link',
-                style: { color: headerLinkColor },
-                onChange: function onChange(value) {
-                  value = value.replace(/&lt;!--td.*}--><br>/, '');
-                  value = value.replace(/<br>.*}<br>/, '');
-                  value = value.replace(/<br><br><br>&lt.*--><br>/, '');
-                  setAttributes({ headerLink: value });
-                }
-              })
-            ),
-            wp.element.createElement(
-              'div',
-              { className: 'upcoming-events-body' },
-              itemList,
+              { className: 'card__content' },
               wp.element.createElement(
                 'div',
-                { className: 'item additem' },
+                { className: 'upcoming-events-calendar' },
                 wp.element.createElement(
-                  'button',
-                  {
-                    className: 'components-button add',
-                    onClick: function onClick(content) {
-                      setAttributes({
-                        dataArray: [].concat(_toConsumableArray(dataArray), [{
-                          index: dataArray.length,
-                          title: '',
-                          subTitle: '',
-                          description: '',
-                          media: ''
-                        }])
-                      });
+                  'div',
+                  { className: 'upcoming-events-header' },
+                  wp.element.createElement(RichText, {
+                    tagName: 'h2',
+                    placeholder: __('Title'),
+                    value: headerTitle,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'header-title',
+                    style: { color: headerTitleColor },
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      setAttributes({ headerTitle: value });
                     }
-                  },
-                  wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
-                  ' Add New Item'
+                  }),
+                  wp.element.createElement(RichText, {
+                    tagName: 'span',
+                    placeholder: __('View All'),
+                    value: headerLink,
+                    keepPlaceholderOnFocus: 'true',
+                    className: 'header-link',
+                    style: { color: headerLinkColor },
+                    onChange: function onChange(value) {
+                      value = value.replace(/&lt;!--td.*}--><br>/, '');
+                      value = value.replace(/<br>.*}<br>/, '');
+                      value = value.replace(/<br><br><br>&lt.*--><br>/, '');
+                      setAttributes({ headerLink: value });
+                    }
+                  })
+                ),
+                wp.element.createElement(
+                  'div',
+                  { className: 'upcoming-events-body' },
+                  itemList,
+                  wp.element.createElement(
+                    'div',
+                    { className: 'item additem' },
+                    wp.element.createElement(
+                      'button',
+                      {
+                        className: 'components-button add',
+                        onClick: function onClick(content) {
+                          setAttributes({
+                            dataArray: [].concat(_toConsumableArray(dataArray), [{
+                              index: dataArray.length,
+                              title: '',
+                              subTitle: '',
+                              description: '',
+                              media: ''
+                            }])
+                          });
+                        }
+                      },
+                      wp.element.createElement('span', { className: 'dashicons dashicons-plus' }),
+                      ' Add New Item'
+                    )
+                  )
                 )
               )
             )

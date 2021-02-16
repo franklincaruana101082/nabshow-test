@@ -1,0 +1,131 @@
+.comments-area {
+	margin: rem(50) 0;
+}
+	.comment-section-title {
+		border-bottom: 3px solid $color__purple;
+		border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+		margin-bottom: rem(30);
+		h2 {
+			color: $color__white;
+		}
+	}
+
+	.comment-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+		.comments-title {
+			color: $color__gray-lightest;
+			font-size: rem(18);
+			white-space: nowrap;
+			margin-right: rem(20);
+		}
+		.comments-filter {
+
+		}
+
+	.comment-list {
+		list-style: none;
+	}
+
+	.comment {
+		border-top: rem(2) solid $color__gray;
+		padding: rem(40) 0 rem(30);
+		&.depth-1:first-child {
+			border-top: 0;
+			//padding-top: 0;
+		}
+	}
+		.comment-body {
+
+		}
+
+			.comment-author {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+			}
+				.comment-avtar {
+					flex: 0 1 rem(84);
+					width: rem(84);
+					img {
+						width: rem(64);
+						height: rem(64);
+						border-radius: 50%;
+					}
+				}
+				.comment-details {
+					flex: 0 1 auto;
+					width: calc(100% - 84px);
+				}
+					.comment-meta, .comment-metadata {
+						font-family: $font__secondary;
+						font-size: rem(16);
+						line-height: 1.5;
+						letter-spacing: -0.01em;
+						color: $color__gray-lightest;
+					}
+						.comment-like-btn {
+							display: none;
+						}
+					.comment-metadata {
+						margin-bottom: rem(30);
+						a {
+							font-family: $font__secondary;
+							font-size: rem(16);
+							line-height: 1.5;
+							letter-spacing: -0.01em;
+							color: $color__gray-lightest;
+							text-decoration: none;
+						}
+					}
+					.comment-awaiting-moderation {
+						display: block;
+						font-family: $font__secondary;
+						font-size: rem(16);
+						line-height: 1;
+						letter-spacing: -0.01em;
+						color: $color__gray-lightest;
+						margin-bottom: rem(30);
+					}
+					.comment-content {
+						font-family: $font__primary;
+						font-size: rem(18);
+						line-height: 1.44;
+						color: $color__gray-lightest;
+					}
+
+	.comment-respond {
+
+	}
+		.comment-reply-title {
+
+		}
+
+		.comment-form {
+			border-bottom: rem(2) solid $color__gray;
+			p, a {
+				font-family: $font__secondary;
+				font-size: rem(16);
+				line-height: 1;
+				letter-spacing: -0.01em;
+				color: $color__gray-lightest;
+			}
+		}
+			.comment-form-comment {
+				label {
+					display: inline-block;
+					margin-bottom: rem(6);
+				}
+				textarea {
+					max-width: 100%;
+				}
+			}
+			.form-submit {
+				text-align: right;
+				padding: rem(16) 0;
+				input[type='submit'] {
+					@extend .button;
+				}
+			}

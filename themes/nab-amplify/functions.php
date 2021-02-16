@@ -51,6 +51,10 @@ if ( ! function_exists( 'nab_amplify_setup' ) ) :
 		register_nav_menus(
 			array(
 				'menu-1' => esc_html__( 'Primary', 'nab-amplify' ),
+				'menu-2' => esc_html__( 'Brand', 'nab-amplify' ),
+				'footer-1' => esc_html__( 'Footer main', 'nab-amplify' ),
+				'footer-2' => esc_html__( 'Footer policy', 'nab-amplify' ),
+				'footer-3' => esc_html__( 'Footer quick', 'nab-amplify' ),
 			)
 		);
 
