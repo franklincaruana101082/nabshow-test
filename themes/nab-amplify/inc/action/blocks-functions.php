@@ -955,7 +955,7 @@ function nab_company_feature_render_callback($attributes)
         } else {
 
             if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST')) {
-                if (($member_level != 'select') && ($member_level !== 'Standard') || $member_level === '' ) {
+                if ($member_level != 'select' && $member_level != 'Standard' || $member_level != '' ) {
             ?>
                     <div class="amp-item-col add-new-item">
                         <div class="amp-item-inner">
