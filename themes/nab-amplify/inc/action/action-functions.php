@@ -3501,8 +3501,9 @@ function nab_update_company_profile_callback()
     update_field($field_key, $values, $company_id);
 
     // Update website
-   update_field('field_5fa3e87a3fa47', $company_website, $company_id);
-    
+    if (isset($company_website)) {
+        update_field('field_5fa3e87a3fa47', $company_website, $company_id);
+    }
 
     // Update point of contact
     if ( isset( $company_point_of_contact ) ) {
