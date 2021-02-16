@@ -193,9 +193,9 @@
 	.black-bg-box .author-info .author-image{width:60px;height:60px}
 
 	/* comments */
-	.comments-area .comment-author .comment-avtar{width:70px}
+	/*.comments-area .comment-author .comment-avtar{width:70px}
 	.comments-area .comment-author .comment-details{width:calc(100% - 70px)}
-	.comments-area .comment-list .children{padding-left:70px}
+	.comments-area .comment-list .children{padding-left:70px}*/
 }
 @media (max-width:767px){
 	.res-padd-30{padding:0 30px!important}
@@ -289,10 +289,10 @@
 	.bp-messages-content .message-title #actions-container{width:100%;margin-top:10px}
 
 	/* comments */
-	.comments-area{padding:30px}
+	/*.comments-area{padding:30px}
 	.comments-area .comment-filter .navigate-reply{padding:12px 10px;font-size:18px}
 	.comments-area .comment-list .children{padding-left:45px}
-	.comments-area .comment-metadata{margin:0 0 15px}
+	.comments-area .comment-metadata{margin:0 0 15px}*/
 	.single-articles .entry-header{padding:0 50px 0 30px}
 	.single-articles .entry-header h1{font-size:30px}
 	.nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{padding:8px 15px;font-size:18px}
@@ -394,10 +394,10 @@
 
 	/* comments */
 	.comments-area{padding:30px 15px}
-	.comments-area .comment-author img{margin-bottom:10px}
+	/*.comments-area .comment-author img{margin-bottom:10px}
 	.comments-area .comment-author .comment-avtar{width:100px}
 	.comments-area .comment-author .comment-details{width:100%}
-	.comments-area .comment-list .children{padding-left:30px}
+	.comments-area .comment-list .children{padding-left:30px}*/
 	.author-info .author-title{font-size:22px}
 	.post-action-wrap .post-action-author{width:100%;margin-right:0}
 	.post-action-wrap .post-action-reaction{width:100%}
