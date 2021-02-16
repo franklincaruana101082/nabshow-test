@@ -3418,18 +3418,23 @@ function nab_update_company_profile_callback()
     }
 
     // Update instagram profile
-    update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
-    
+    if (isset($instagram_profile)) {
+        update_field('field_5fb60dc5ce133', $instagram_profile, $company_id);
+    }
 
     // Update linkedin profile
-    update_field('field_5fb60e12ce134', $linkedin_profile, $company_id);
-    
+    if (isset($linkedin_profile)) {
+        update_field('field_5fb60e12ce134', $linkedin_profile, $company_id);
+    }
     // Update linkedin profile
-    update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
-    
+    if (isset($facebook_profile)) {
+        update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
+    }
 
     // Update linkedin 
-    update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
+    if (isset($twitter_profile)) {
+        update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
+    }
     
 
     // Update Company 
@@ -3456,7 +3461,9 @@ function nab_update_company_profile_callback()
     update_field($field_key, $values, $company_id);
 
     // Update website
-    update_field('field_5fa3e87a3fa47', $company_website, $company_id);
+    if (isset($company_website)) {
+        update_field('field_5fa3e87a3fa47', $company_website, $company_id);
+    }
     
 
     // Update point of contact
@@ -3478,7 +3485,10 @@ function nab_update_company_profile_callback()
     }
 
     // Update company youtube
-    update_field('youtube_url', $company_youtube, $company_id);
+   
+      if (isset($company_youtube)) {
+        update_field('youtube_url', $company_youtube, $company_id);
+    }
     
 
     $final_result['success'] = true;
