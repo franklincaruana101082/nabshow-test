@@ -912,7 +912,7 @@ function nab_company_feature_render_callback($attributes)
     $user_id            = get_current_user_id();
     $admin_id           = get_field('company_user_id', get_the_ID());
     $member_level = get_field('member_level');
-    var_dump($member_level);
+    
 
     if (is_array($feature_enable_reaction)) {
         $feature_enable_reaction = $feature_enable_reaction[0];
@@ -975,7 +975,7 @@ function nab_company_feature_render_callback($attributes)
         } else {
 
             if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST')) {
-                if ($member_level != 'select' && $member_level != 'Standard' || $member_level != '' ) {
+                if ($member_level != 'select' && $member_level != 'Standard' && $member_level != '' && $member_level !== NULL) {
             ?>
                     <div class="amp-item-col add-new-item">
                         <div class="amp-item-inner">
