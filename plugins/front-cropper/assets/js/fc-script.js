@@ -25,6 +25,7 @@
 
                 // Get added popup's inner div to add extra content.
                 let nabModalContentWrap = $('#cropper-board .modal-content-wrap');
+                let CropBg = $('#cropper-board .cropper-bg');
 
                 // Default image.
                 let cropperImage = document.createElement( 'img');
@@ -46,6 +47,29 @@
                 cropperCancel.setAttribute('href', 'javascript:void(0)');
                 cropperCancel.innerText = 'Cancel';
                 nabModalContentWrap.append(cropperCancel);
+
+                let bmAdjustCropAction = document.createElement('div');
+                bmAdjustCropAction.setAttribute('class', 'bm-adjust-crop-actions');
+                CropBg.append(bmAdjustCropAction);
+
+                let bmCropZoomAdjust = document.createElement('div');
+                bmCropZoomAdjust.setAttribute('class', 'bm-crop-adjust bm-zoom-ad');
+                bmAdjustCropAction.append(bmCropZoomAdjust);
+
+                let bmCropZoomOutAdjust = document.createElement('div');
+                bmCropZoomOutAdjust.setAttribute('class', 'bm-crop-adjust bm-zoom-out');
+                bmCropZoomAdjust.append(bmCropZoomOutAdjust);
+
+                let bmZoomIn = document.createElement('a');
+                bmZoomIn.setAttribute('class', 'bm-zoom-in fa fa-plus');
+                bmZoomIn.setAttribute('href', 'javascript:void(0)');
+                bmCropZoomAdjust.append(bmZoomIn);
+
+                let bmZoomOut = document.createElement('a');
+                bmZoomOut.setAttribute('class', 'bm-zoom-in fa fa-plus');
+                bmZoomOut.setAttribute('href', 'javascript:void(0)');
+                bmCropZoomOutAdjust.append(bmZoomOut);
+
             }
 
             // Display the selected image.
