@@ -1138,7 +1138,11 @@
       data: fd,
       contentType: false,
       processData: false,
+      beforeSend:function(){
+        $('body').addClass('is-loading');
+      },
       success: function (data) {
+        $('body').removeClass('is-loading');
         if (jQuery('#addProductModal').length === 0) {
           jQuery('body').append(data)
           jQuery('#addProductModal')
