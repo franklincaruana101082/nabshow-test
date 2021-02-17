@@ -5,14 +5,17 @@
 
 get_header();
 
-$user_query = new WP_User_Query( array( 'role' => 'customer', 'fields' => 'ID', 'meta_key' => 'nab_purchased_product_2020', 'meta_compare' => 'NOT EXISTS' ) );
+global $wpdb;
 
+$user_query = new WP_User_Query(  array('orderby' => 'login') );
 
 $all_users 	= $user_query->get_results();
-echo '<pre>';
-print_r( $all_users );
-exit;
+$cnt = 0;
 
+foreach ( $all_users as $current_user ) {
+    bp_update_user_last_activity( $current_user->ID );
+    $cnt++;
+}
+echo "Total user update = " . $cnt;
 get_footer();
 ?>
-

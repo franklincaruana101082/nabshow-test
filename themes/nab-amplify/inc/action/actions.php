@@ -13,8 +13,13 @@ add_action( 'wp_enqueue_scripts', 'amplify_front_scripts' );
 /*Action for enqueue scripts for backend side.*/
 add_action( 'enqueue_block_editor_assets', 'amplify_block_editor_assets' );
 
+// Customizer settings
+add_action( 'customize_register', 'nab_customize_register' );
+
 /*Action for enqueue scripts for backend side.*/
 add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
+
+add_shortcode( 'nab_display_author', 'nab_amplify_display_author' );
 
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
@@ -151,6 +156,9 @@ add_action( 'admin_menu', 'nab_amplify_search_settings' );
 
 add_action( 'init', 'nab_register_company_post_type' );
 
+add_action( 'init', 'nab_register_landing_page_post_type' );
+add_action( 'admin_init', 'nab_set_preloaded_block_in_new_landing_page' );
+
 add_action( 'acf/save_post', 'nab_remove_company_user_meta', 5);
 add_action( 'acf/save_post', 'nab_update_compnay_user', 20, 1 );
 
@@ -165,6 +173,50 @@ add_filter( 'map_meta_cap', 'nab_add_unfiltered_html_capability_to_users', 1, 3 
  */
 
 add_action( 'wp_ajax_nab_add_product', 'nab_add_product' );
-add_action( 'wp_ajax_nopriv_nab_add_product', 'nab_add_product' ); 
+add_action( 'wp_ajax_nopriv_nab_add_product', 'nab_add_product' );
 add_action( 'init', 'nab_register_amplify_dynamic_blocks' );
 add_action( 'init', 'nab_register_company_category_taxonomy' );
+add_action( 'init', 'nab_register_company_tags_taxonomy' );
+
+// Shortcode for display article tags base on custom article fields
+add_shortcode( 'article_tags', 'nab_article_tags_shortcode_callback' );
+
+// Action to add default blocks on new article
+add_action( 'admin_init', 'nab_set_default_block_in_new_article' );
+add_action( 'init', 'nab_register_company_product_taxonomy' );
+
+add_action( 'wp_ajax_nab_edit_company_social_profiles', 'nab_edit_company_social_profiles_callback' );
+add_action( 'wp_ajax_nopriv_nab_edit_company_social_profiles', 'nab_edit_company_social_profiles_callback' );
+
+add_action( 'wp_ajax_nab_update_company_profile', 'nab_update_company_profile_callback' );
+add_action( 'wp_ajax_nopriv_nab_update_company_profile', 'nab_update_company_profile_callback' );
+
+add_action( 'wp_ajax_nab_edit_company_about', 'nab_edit_company_about_callback' );
+add_action( 'wp_ajax_nopriv_nab_edit_company_about', 'nab_edit_company_about_callback' );
+
+// Action to add default blocks on new company
+add_action( 'admin_init', 'nab_set_default_block_in_new_company' );
+add_shortcode( 'nab_comment_form','nab_comment_form');
+
+// Action for export users csv file
+add_action( 'admin_menu', 'nab_add_export_user_menu' );
+add_action( 'admin_init', 'nab_generate_users_export_csv_file' );
+
+// get add admin paramter
+add_action( 'wp', 'nab_add_comapny_admin' );
+// Action for export comments csv file
+add_action( 'admin_menu', 'nab_add_export_comments_menu' );
+add_action( 'admin_init', 'nab_generate_comments_export_csv_file' );
+
+// Action for add additional filter in the admin comments screen.
+add_action( 'restrict_manage_comments', 'nab_add_page_by_comment_filter' );
+add_action( 'admin_menu', 'nab_add_export_company_menu' );
+add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
+add_shortcode( 'nab_year', 'nab_copyright_year_shortcode' );
+add_action( 'wp_batch_processing_init', 'wp_batch_processing_init', 15, 1 );
+add_action( 'acf/save_post', 'nab_update_company_member_level_meta_num', 20 );
+add_action( 'save_post_company', 'nab_update_company_member_level_meta_num', 10, 1 );
+
+add_action( 'admin_init', 'nab_sync_user_to_live' );
+add_action( 'rest_api_init', 'nab_register_user_api_endpoints' );
+add_action( 'template_redirect', 'nab_redirect_user_to_login_page' );

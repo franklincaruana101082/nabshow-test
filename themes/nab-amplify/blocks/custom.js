@@ -9,6 +9,7 @@
     let subTitle = $(this).parents('.inner').find(".sub-title").html();
     let description = $(this).parents('.inner').find(".description").html();
     let button = $(this).parents('.inner').find(".button-wrap").html();
+    let reaction = $(this).parents('.inner').find(".shortcode-wrap").html();
 
     $(this).parents('.item').addClass('active').siblings().removeClass('active');
     if (imageUrl != 'undefined') {
@@ -22,6 +23,13 @@
       $(this).parents('.community-curator').find(".big-section .button-wrap").html(button);
     } else {
       $(this).parents('.community-curator').find(".big-section .button-wrap").hide();
+    }
+    
+    if (undefined !== reaction) {
+      $(this).parents('.community-curator').find(".big-section .shortcode-wrap").show();
+      $(this).parents('.community-curator').find(".big-section .shortcode-wrap").html(reaction);
+    } else {
+      $(this).parents('.community-curator').find(".big-section .shortcode-wrap").hide();
     }
   })
 })(jQuery);

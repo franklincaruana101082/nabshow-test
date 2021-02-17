@@ -96,6 +96,29 @@ add_filter( 'bp_friends_multiple_friendship_accepted_notification', 'nab_change_
 
 add_filter( 'woocommerce_account_menu_items', 'nab_remove_edit_address_from_my_account', 999 );
 
+add_filter( 'single_product_archive_thumbnail_size', 'nab_single_product_archive_thumbnail_size', 10, 3 );
+
 add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address', 10, 1 );
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
+
+// Mofified search query to search in the meta
+add_filter( 'posts_search', 'nab_modified_search_query_to_include_meta_search', 10, 2 );
+add_filter( 'posts_clauses', 'nab_moified_join_groupby_for_meta_search', 10, 2 );
+add_filter( 'tiny_mce_before_init', 'nabamplify_tiny_mce_before_init' );
+
+add_filter( 'bp_get_message_thread_excerpt', 'nab_filter_message_to_avoid_html_entity' );
+//add_filter('the_content', 'nab_reorder_comment_form', 1);
+//add_filter( 'comment_status_links', 'nab_filter_comment_status' );
+add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 999, 2 );
+
+add_filter( 'user_row_actions', 'nab_add_sync_user_action_link', 99, 2 );
+add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
+
+function nab_stop_bp_email_notification( $retval, $class_ref) {
+    
+    if ( is_user_logged_in() ) {
+        update_user_meta( get_current_user_id(), 'buddypress_activity_one', '1');
+    }    
+    return $retval;
+}

@@ -5,8 +5,8 @@ License: Apache 2.0
 Donate link: http://www.zendesk.com/
 Tags: zendesk, support, customer support, help desk, helpdesk, IT, customer, admin, bug, ticket, widget, comments
 Requires at least: 2.9.2
-Tested up to: 5.5
-Stable tag: 1.8.2
+Tested up to: 5.6
+Stable tag: 1.8.4
 
 Bring the helpdesk into your blog
 
@@ -113,6 +113,13 @@ To upload the plugin through WordPress, instead of FTP:
   Nope! It's completely up to you. If you want, you can just use the plugin for single sign on with Zendesk.
 
 == Changelog ==
+
+=1.8.4=
+* Tested on Wordpress v5.6
+* Fix adding public/private note to zendesk ticket
+* Fix option to add comment to wordpress
+* Updated some deprecated codes that was not supported in PHP 7.4
+* NOTE: The current plugin was not yet tested in PHP v8.0. Another update will be released soon once the plugin was tested.
 
 = 1.8.2 =
 * Improve github actions

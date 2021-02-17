@@ -5215,7 +5215,7 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 						'utm_source'   => 'notice',
 						), self::$tecUrl . 'knowledgebase/version-compatibility/'
 				);
-				$output .= '<p>' . sprintf( esc_html__( 'The following plugins are out of date: %1$s. All add-ons contain dependencies on The Events Calendar and will not function properly unless paired with the right version. %2$sLearn More%3$s.', 'the-events-calendar' ), '<b>' . join( $out_of_date_addons, ', ' ) . '</b>', "<a href='" . esc_url( $link ) . "' target='_blank'>", '</a>' ) . '</p>';
+				$output .= '<p>' . sprintf( esc_html__( 'The following plugins are out of date: %1$s. All add-ons contain dependencies on The Events Calendar and will not function properly unless paired with the right version. %2$sLearn More%3$s.', 'the-events-calendar' ), '<b>' . join( ', ', $out_of_date_addons ) . '</b>', "<a href='" . esc_url( $link ) . "' target='_blank'>", '</a>' ) . '</p>';
 				$output .= '</div>';
 			}
 			// Make sure only to show the message if the user has the permissions necessary.

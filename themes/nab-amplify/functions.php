@@ -100,6 +100,8 @@ if ( ! function_exists( 'nab_amplify_setup' ) ) :
 				'flex-height' => true,
 			)
 		);
+
+		add_image_size( 'nab-company-product-thumb', 293, 220 , true);
 	}
 endif;
 add_action( 'after_setup_theme', 'nab_amplify_setup' );
@@ -203,6 +205,18 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Logged in user Footer block', 'nab-amplify' ),
+			'id'            => 'footer-loggedin',
+			'description'   => esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );
@@ -239,7 +253,7 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 )
 
 /* Load Gutenberg in custom post types */
 function maybe_load_gutenberg_for_post_type( $can_edit, $post ) {
-	$enable_for_post_types = [ 'page', 'articles', 'wp_block' ];
+	$enable_for_post_types = [ 'page', 'articles', 'wp_block''page', 'articles', 'wp_block', 'company', 'company-products', 'landing-page' ];
 
 	if ( in_array( $post->post_type, $enable_for_post_types, true ) ) {
 		return true;
@@ -338,3 +352,13 @@ require_once get_template_directory() . '/inc/user-reaction.php';
  * All the company follower related functions.
  */
 require_once get_template_directory() . '/inc/company-follow.php';
+
+/**
+ * Extend wordpress default walker comment class.
+ */
+require_once get_template_directory() . '/classes/class-custom-walker-comment.php';
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+

@@ -30,12 +30,6 @@ function nab_create_user_reaction_table() {
 	dbDelta( $table_sql );
 }
 
-
-/**
- * Display reaction buttons with total reacted count and reacted emojis.
- *
- * @param  int $post_id
- */
 /**
  * Display reaction buttons with total reacted count and reacted emojis.
  *
@@ -56,16 +50,23 @@ function nab_get_reaction_buttons( $post_id, $item_type = 'post_type' ) {
     <div class="reaction-wrapper">
         <div class="reaction-inner">
             <?php
-            if ( is_user_logged_in() ) {
+            
+            $user_logged_in = is_user_logged_in();
+            $reaction = '';
 
+            if ( $user_logged_in ) {
+                
                 $current_user_id    = get_current_user_id();
                 $reaction           = nab_get_user_reaction( $current_user_id, $post_id );
-                $like_button_class  = ! empty( $reaction ) && isset( $reaction_types[ $reaction ] ) ? 'btn reaction-main-like reacted' : 'btn reaction-main-like';
+            }
+            
+            $like_button_class  = ! empty( $reaction ) && isset( $reaction_types[ $reaction ] ) ? 'btn reaction-main-like reacted' : 'btn reaction-main-like';
+            if ( $user_logged_in ) {
                 ?>
                 <div class="reaction-list-type">
                     <a href="javascript:void(0);" class="<?php echo esc_attr( $like_button_class ); ?>"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Like</a>
                     <div class="reaction-icon-modal">
-                        <ul class="reaction-item-list" data-item="<?php echo esc_attr( $post_id ); ?>" data-item-type="<?php echo esc_attr( $item_type ); ?>">
+                        <ul class="reaction-item-list" data-item="<?php echo esc_attr( $post_id ); ?>" data-item-type="<?php echo esc_attr( $item_type ); ?>" data-log="<?php echo esc_attr( $user_logged_in ); ?>">
                             <?php
                             foreach( $reaction_types as $key => $type ) {
         
@@ -88,20 +89,36 @@ function nab_get_reaction_buttons( $post_id, $item_type = 'post_type' ) {
                             }
                             ?>
                         </ul>
-                    </div>
+                    </div>                  
                 </div>
                 <?php
             }
-
-            $total_reactions = nab_get_total_reactions( $post_id );
-            ?>            
-            <div class="user-reacted-item">
-                <ul class="reacted-list">
-                    <?php nab_get_reacted_item_list( $post_id ); ?>
-                </ul>
-                <span class="react-count"><?php echo esc_html( 0 < (int) $total_reactions ? $total_reactions : '' ); ?></span>
-            </div>
+            nab_get_reacted_html( $post_id );
+            ?>
         </div>
+    </div>
+    <?php
+}
+
+
+/**
+ * Display reacted item list and total reacted post count.
+ *
+ * @param  int $post_id 
+ */
+function nab_get_reacted_html( $post_id ) {
+
+    if ( empty( $post_id ) ) {
+        return;
+    }
+
+    $total_reactions = nab_get_total_reactions( $post_id );
+    ?>            
+    <div class="user-reacted-item">
+        <ul class="reacted-list">
+            <?php nab_get_reacted_item_list( $post_id ); ?>
+        </ul>
+        <span class="react-count"><?php echo esc_html( 0 < (int) $total_reactions ? $total_reactions : '' ); ?></span>
     </div>
     <?php
 }
@@ -209,8 +226,8 @@ function nab_get_total_reactions( $post_id ) {
 function nab_add_new_reaction( $user_id, $post_id, $reaction_id, $item_type = 'post_type' ) {
 
     global $wpdb;
-
-    if ( empty( $user_id ) || empty( $post_id ) || empty( $reaction_id ) ) {        
+    
+    if ( empty( $post_id ) || empty( $reaction_id ) ) {        
         
         return false;
     }
@@ -243,7 +260,7 @@ function nab_add_new_reaction( $user_id, $post_id, $reaction_id, $item_type = 'p
             '%s',
             '%s'
         )
-    );
+    );    
 
     return $inserted;
 }
@@ -259,7 +276,7 @@ function nab_add_new_reaction( $user_id, $post_id, $reaction_id, $item_type = 'p
  */
 function nab_update_reaction( $user_id, $post_id, $reaction_id ) {
 
-    global $wpdb;
+    global $wpdb;    
 
     if ( empty( $user_id ) || empty( $post_id ) || empty( $reaction_id ) ) {        
         
@@ -341,47 +358,53 @@ function nab_update_post_reaction_callback() {
     $reaction_id    = filter_input( INPUT_POST, 'rid', FILTER_SANITIZE_NUMBER_INT );
     $action         = filter_input( INPUT_POST, 'item_action', FILTER_SANITIZE_STRING );
     $item_type      = filter_input( INPUT_POST, 'item_type', FILTER_SANITIZE_STRING );
-    $result         = array( 'success' => false );
+    $result         = array( 'success' => false );    
 
-    if ( is_user_logged_in() && ( isset( $post_id ) && ! empty( $post_id ) ) && ( isset( $reaction_id ) && ! empty( $reaction_id ) ) && ( isset( $action )  && ! empty( $action ) ) ) {
+    if ( ( isset( $post_id ) && ! empty( $post_id ) ) && ( isset( $reaction_id ) && ! empty( $reaction_id ) ) && ( isset( $action )  && ! empty( $action ) ) ) {
 
-        $current_user_id    = get_current_user_id();
-        $reaction           = nab_get_user_reaction( $current_user_id, $post_id );
-
-        if ( empty( $reaction ) && 'add' === strtolower( $action ) ) {
-
-            //Add new reaction
-            $inserted               = nab_add_new_reaction( $current_user_id, $post_id, $reaction_id, $item_type );
-            $result[ 'success' ]    = $inserted ? true : false;
-            $result[ 'action' ]     = 'remove';
-
-        } else if ( ! empty( $reaction ) && $reaction === $reaction_id && 'remove' === strtolower( $action ) ) {
-
-            //remove reaction
-            $deleted                = nab_remove_reaction( $current_user_id, $post_id );
-            $result[ 'success' ]    = $deleted ? true : false;
-            $result[ 'action' ]     = 'add';
-
-        } else if ( ! empty( $reaction ) && $reaction !== $reaction_id && 'add' === strtolower( $action ) ) {
-
-            //update reaction            
-            $updated                = nab_update_reaction( $current_user_id, $post_id, $reaction_id );
-            $result[ 'success' ]    = $updated ? true : false;
-            $result[ 'action' ]     = 'remove';
-        }
-
-        if ( $result[ 'success' ] ) {
-
-            //total reactions            
-            $result[ 'total' ]  = nab_get_total_reactions( $post_id );
+        $current_user_id    = 0;
+        $reaction           = '';
+        
+        if ( is_user_logged_in() ) {
             
-            ob_start();
-            
-            nab_get_reacted_item_list( $post_id );
+            $current_user_id    = get_current_user_id();
+            $reaction           = nab_get_user_reaction( $current_user_id, $post_id );
 
-            $reacted_list = ob_get_clean();
+            if ( empty( $reaction ) && 'add' === strtolower( $action ) ) {
 
-            $result[ 'reacted_list' ]   = $reacted_list;
+                //Add new reaction
+                $inserted               = nab_add_new_reaction( $current_user_id, $post_id, $reaction_id, $item_type );
+                $result[ 'success' ]    = $inserted ? true : false;
+                $result[ 'action' ]     = 'remove';
+    
+            } else if ( ! empty( $reaction ) && $reaction === $reaction_id && 'remove' === strtolower( $action ) ) {
+    
+                //remove reaction
+                $deleted                = nab_remove_reaction( $current_user_id, $post_id );
+                $result[ 'success' ]    = $deleted ? true : false;
+                $result[ 'action' ]     = 'add';
+    
+            } else if ( ! empty( $reaction ) && $reaction !== $reaction_id && 'add' === strtolower( $action ) ) {
+    
+                //update reaction            
+                $updated                = nab_update_reaction( $current_user_id, $post_id, $reaction_id );
+                $result[ 'success' ]    = $updated ? true : false;
+                $result[ 'action' ]     = 'remove';
+            }
+    
+            if ( $result[ 'success' ] ) {
+    
+                //total reactions            
+                $result[ 'total' ]  = nab_get_total_reactions( $post_id );
+                
+                ob_start();
+                
+                nab_get_reacted_item_list( $post_id );
+    
+                $reacted_list = ob_get_clean();
+    
+                $result[ 'reacted_list' ]   = $reacted_list;
+            }
         }
     }
 
@@ -395,7 +418,7 @@ add_shortcode( 'reaction_button', 'nab_display_reaction_button_callback' );
 
 
 /**
- * Display reaction button. item_id and item_type required when place the shortcode for outside of the post.
+ * Display reaction button. item_id and item_type required when place the shortcode outside of the post or inner post.
  *
  * @param  array $atts
  * 
@@ -411,6 +434,29 @@ function nab_display_reaction_button_callback( $atts ) {
     ob_start();
 
     nab_get_reaction_buttons( $atts[ 'item_id' ], $atts[ 'item_type' ] );
+
+    return ob_get_clean();
+}
+
+//Shortcode for display reacted items with count
+add_shortcode( 'reacted_items', 'nab_display_reacted_items_callback' );
+
+/**
+ * Display reacted icons and count according to post id. item_id required when place the shortcode outside of the post or inner post.
+ *
+ * @param  array $atts
+ * 
+ * @return string
+ */
+function nab_display_reacted_items_callback( $atts ) {
+    
+    $atts = shortcode_atts( array(
+		'item_id'   => get_the_ID(),		
+    ), $atts );
+    
+    ob_start();
+
+    nab_get_reacted_html( $atts[ 'item_id' ] );
 
     return ob_get_clean();
 }

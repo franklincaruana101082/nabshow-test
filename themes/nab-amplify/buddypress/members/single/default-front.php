@@ -25,8 +25,32 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 	);
 }
 
-?>
+$find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( $current_site_url, '/' ) . '/' );
 
+if ( bp_is_my_profile() ) {
+	?>
+	<nav class="woocommerce-MyAccount-navigation">
+		<ul>
+			<?php
+			foreach ( wc_get_account_menu_items() as $endpoint => $label ) :
+
+				$wc_menu_class = wc_get_account_menu_item_classes( $endpoint );
+
+				if ( $user_id === $current_user_id && 'view-profile' === $endpoint ) {
+					$wc_menu_class .= ' is-active';
+				}
+				?>
+				<li class="<?php echo esc_attr( $wc_menu_class ); ?>">
+					<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+				</li>
+				<?php
+			endforeach;
+			?>
+		</ul>
+	</nav>
+	<?php
+}
+?>
 <div class="member-front-page">		
 	<div class="member-connections">
 
@@ -43,11 +67,16 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 						<strong>Connections</strong>
 						<span>(<?php echo esc_html( $total_users ); ?> RESULTS)</span>
 					</h3>
-					<?php if ( $total_users > 4 ) { ?>
-						<div class="amp-view-more">
-							<a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View all</a>
-						</div>
-					<?php } ?>
+					<div class="amp-view-more">
+						<?php
+						if ( $total_users > 4 ) {
+							?>
+							<a href="<?php echo esc_url( $my_friends_url ) ?>" class="view-more-arrow">View All</a>
+							<?php
+						}
+						?>
+						<a href="<?php echo esc_url( $find_new_connection_link ) ?>" class="view-more-arrow">Find New Connections</a>
+					</div>
 				</div>
 				<?php
 				global $members_template;
@@ -102,8 +131,11 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 				<div class="amp-item-heading">
 					<h3>
 						<strong>Connections</strong>
-						<span>0 RESULTS</span>
+						<span>(0 RESULTS)</span>
 					</h3>
+					<div class="amp-view-more">						
+						<a href="<?php echo esc_url( $find_new_connection_link ) ?>" class="view-more-arrow">Find New Connections</a>
+					</div>
 				</div>
 				<div id="message" class="info">
 					<p><?php _e( "No connections yet.", 'buddypress' ); ?></p>
@@ -111,82 +143,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 			</div>
 		<?php endif; ?>
 	</div>
-	<?php		
-	$product_args = array(
-		'post_type'      => 'nab-products',
-		'post_status'    => 'publish',
-		'posts_per_page' => 4,
-		'order'          => 'DESC'
-	);
-
-	$product_query = new WP_Query( $product_args );
-
-	if ( $product_query->have_posts() ) {
-
-		$search_found   = true;
-		$total_products = $product_query->found_posts;
-		?>
-		<div class="search-section search-product-section">
-			<div class="search-section-heading">
-				<h2><strong>PRODUCTS</strong> <span>(<?php echo esc_html( $total_products . ' RESULTS' ); ?>)</span></h2>
-				<?php
-				if ( $total_products > 4 ) {
-
-					$poroduct_view_more_link = add_query_arg( array( 's' => $search_term, 'v' => 'product' ), $current_site_url );
-
-					?>
-					<div class="section-view-more">
-						<a href="<?php echo esc_html( $poroduct_view_more_link ); ?>" class="view-more-link">View All</a>
-					</div>
-					<?php
-				}
-				?>
-			</div>
-			<div class="search-section-details" id="search-product-list">
-				<div class="search-item edit-mode">
-					<div class="search-item-inner">
-						<i class="fa fa-edit"></i>
-						<div class="search-item-add-text">Add Products</div>
-					</div>
-				</div>
-				<?php
-				while ( $product_query->have_posts() ) {
-
-					$product_query->the_post();
-
-					$thumbnail_url = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-					$product_link  = get_the_permalink();
-					?>
-					<div class="search-item">
-						<div class="search-item-inner">
-							<div class="search-item-cover">
-								<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="product thumbnail"/>
-								<?php nab_get_product_bookmark_html( get_the_ID(), 'user-bookmark-action' ); ?>
-							</div>
-							<div class="search-item-info">
-								<div class="search-item-content">
-									<h4><a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
-									<div class="search-actions">
-										<a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
-									</div>
-									<div class="search-item edit-mode" data-id="<?php echo  get_the_ID();  ?>">
-					<div class="search-item-inner">
-						<i class="fa fa-edit"></i>
-						<div class="search-item-add-text">Edit</div>
-					</div>
-				</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php
-				}
-				?>
-			</div>
-		</div>
-		<?php
-	}
-	wp_reset_postdata();
+	<?php
 
 	if ( ! empty( $user_id ) && 0 !== $user_id ) {
 
@@ -273,7 +230,7 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 		if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $member_bookmarks ) > 0 ) {
 
 			$bookmark_query_args = array(
-				'post_type'      => 'product',
+				'post_type'      => array( 'product', 'company-products', 'articles' ),
 				'posts_per_page' => 4,
 				'post_status'    => 'publish',
 				'post__in'       => $member_bookmarks

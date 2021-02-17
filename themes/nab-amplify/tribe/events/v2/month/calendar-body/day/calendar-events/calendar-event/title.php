@@ -16,22 +16,23 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-$event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
+$event_url   = tribe_get_event_meta( $post_id, '_EventURL', true );
+$event_title = strlen( $event->title ) > 49 ? substr( $event->title, 0, 50 ) . '...' : $event->title;
 ?>
 <h3 class="tribe-events-calendar-month__calendar-event-title tribe-common-h8 tribe-common-h--alt">
-	<a
-        href="<?php echo esc_url( $event_url ); ?>"
-        target="_blank"
-		title="<?php echo esc_attr( $event->title ); ?>"
-		rel="bookmark"
-		class="tribe-events-calendar-month__calendar-event-title-link tribe-common-anchor-thin"
-		data-js="tribe-events-tooltip"
-		data-tooltip-content="#tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
-		aria-describedby="tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
-	>
+    <a
+            href="<?php echo esc_url( $event_url ); ?>"
+            target="_blank"
+            title="<?php echo esc_attr( $event->title ); ?>"
+            rel="bookmark"
+            class="tribe-events-calendar-month__calendar-event-title-link tribe-common-anchor-thin"
+            data-js="tribe-events-tooltip"
+            data-tooltip-content="#tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
+            aria-describedby="tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
+    >
 		<?php
 		// phpcs:ignore
-		echo $event->title;
+		echo $event_title;
 		?>
-	</a>
+    </a>
 </h3>

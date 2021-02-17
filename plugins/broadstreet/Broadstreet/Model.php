@@ -115,7 +115,7 @@ class Broadstreet_Model
     {
         global $wpdb;
 
-        $table = $this->getTableName('');
+        $table = self::getTableName('');
     }
 
     public static function getTableName($table_name)
